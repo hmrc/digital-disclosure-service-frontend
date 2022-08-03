@@ -1,5 +1,5 @@
 
-# digital-disclosure-service-frontend
+# Digital Disclosure Service Frontend
 
 This is a placeholder README.md for a new repository
 
