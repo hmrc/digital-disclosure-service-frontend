@@ -14,7 +14,32 @@
  * limitations under the License.
  */
 
-package generators
+package forms
 
-trait ModelGenerators {
+import forms.behaviours.BooleanFieldBehaviours
+import play.api.data.FormError
+
+class LetterYesNoFormProviderSpec extends BooleanFieldBehaviours {
+
+  val requiredKey = "letterYesNo.error.required"
+  val invalidKey = "error.boolean"
+
+  val form = new LetterYesNoFormProvider()()
+
+  ".value" - {
+
+    val fieldName = "value"
+
+    behave like booleanField(
+      form,
+      fieldName,
+      invalidError = FormError(fieldName, invalidKey)
+    )
+
+    behave like mandatoryField(
+      form,
+      fieldName,
+      requiredError = FormError(fieldName, requiredKey)
+    )
+  }
 }

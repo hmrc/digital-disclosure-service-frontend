@@ -1,11 +1,11 @@
-service.name = digital-disclosure-service-frontend
-
+service.name = Digital Disclosure Service
 site.back = Back
 site.remove = Remove
 site.change = Change
 site.no = No
 site.yes = Yes
 site.continue = Continue
+site.saveAndContinue = Save and continue
 site.start = Start now
 site.startAgain = Start again
 site.signIn = Sign in
@@ -15,7 +15,7 @@ date.day = Day
 date.month = Month
 date.year = Year
 
-timeout.title = You’re about to be signed out
+timeout.title = You're about to be signed out
 timeout.message = For security reasons, you will be signed out of this service in
 timeout.keepAlive = Stay signed in
 timeout.signOut = Sign out
@@ -35,9 +35,10 @@ error.number = Please enter a valid number
 error.required = Please enter a value
 error.summary.title = There is a problem
 
-index.title = digital-disclosure-service-frontend
-index.heading = digital-disclosure-service-frontend
-index.guidance = Welcome to your new frontend. Please see the README file for a guide to getting started.
+index.title = Digital Disclosure Service
+index.heading = Digital Disclosure Service
+index.guidance = Use this form to tell us about undisclosed income from previous years that you need to pay tax on for the tax years between 2002/03 to 2020/21. However, if you have been sent a tax return for any tax year from 2018/19 which is still outstanding, you must complete it and not include the tax from these tax years in this disclosure. You will still have to pay any late payment and late filing penalties charged.
+index.start = Start now
 
 checkYourAnswers.title = Check Your Answers
 checkYourAnswers.heading = Check Your Answers
@@ -53,5 +54,14 @@ signedOut.title = For your security, we signed you out
 signedOut.heading = For your security, we signed you out
 signedOut.guidance = We did not save your answers.
 
-unauthorised.title = You can’t access this service with this account
-unauthorised.heading = You can’t access this service with this account
+unauthorised.title = You can't access this service with this account
+unauthorised.heading = You can't access this service with this account
+
+# ----------------------------------------------------------
+# Notification Messages
+# ----------------------------------------------------------
+letterYesNo.title = Did you receive a letter from HMRC?
+letterYesNo.heading = Did you receive a letter from HMRC?
+letterYesNo.error.required = Please select an option
+letterYesNo.checkYourAnswersLabel = letterYesNo
+letterYesNo.change.hidden = LetterYesNo

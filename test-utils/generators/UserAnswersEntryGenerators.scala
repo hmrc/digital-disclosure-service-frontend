@@ -16,11 +16,18 @@
 
 package generators
 
-import models._
-import org.scalacheck.Arbitrary
 import org.scalacheck.Arbitrary.arbitrary
+import org.scalacheck.Arbitrary
 import pages._
 import play.api.libs.json.{JsValue, Json}
 
 trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
+
+  implicit lazy val arbitraryLetterYesNoUserAnswersEntry: Arbitrary[(LetterYesNoPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[LetterYesNoPage.type]
+        value <- arbitrary[Boolean].map(Json.toJson(_))
+      } yield (page, value)
+    }
 }

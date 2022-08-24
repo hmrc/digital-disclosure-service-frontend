@@ -1,0 +1,4 @@
+GET        /receivedALetter                        controllers.notification.LetterYesNoController.onPageLoad(mode: Mode = NormalMode)
+POST       /receivedALetter                        controllers.notification.LetterYesNoController.onSubmit(mode: Mode = NormalMode)
+GET        /changeReceivedALetter                  controllers.notification.LetterYesNoController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeReceivedALetter                  controllers.notification.LetterYesNoController.onSubmit(mode: Mode = CheckMode)

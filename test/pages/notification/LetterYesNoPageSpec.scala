@@ -14,7 +14,18 @@
  * limitations under the License.
  */
 
-package generators
+package pages
 
-trait ModelGenerators {
+import pages.behaviours.PageBehaviours
+
+class LetterYesNoPageSpec extends PageBehaviours {
+
+  "LetterYesNoPage" - {
+
+    beRetrievable[Boolean](LetterYesNoPage)
+
+    beSettable[Boolean](LetterYesNoPage)
+
+    beRemovable[Boolean](LetterYesNoPage)
+  }
 }

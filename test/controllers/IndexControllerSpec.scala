@@ -20,8 +20,13 @@ import base.SpecBase
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.html.IndexView
+import repositories.SessionRepository
+import org.scalacheck.Arbitrary.arbitrary
+import models.UserAnswers
+import scala.concurrent.ExecutionContext.Implicits.global
+import generators.Generators
 
-class IndexControllerSpec extends SpecBase {
+class IndexControllerSpec extends SpecBase with Generators {
 
   "Index Controller" - {
 
@@ -39,6 +44,36 @@ class IndexControllerSpec extends SpecBase {
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual view()(request, messages(application)).toString
+      }
+    }
+
+    "must set user answers where one doesn't exist" in {
+
+      val request = FakeRequest(GET, routes.IndexController.onPageLoad.url)
+      val application = applicationBuilder(userAnswers = None).build()
+
+      running(application) {
+        route(application, request).value
+
+        val sessionRepo = application.injector.instanceOf[SessionRepository]
+        sessionRepo.get("id").map(uaOpt => uaOpt mustBe 'defined)
+      }
+    }
+
+    "must retain existing user answers where one exists" in {
+
+      for {
+        userAnswers <- arbitrary[UserAnswers]
+      } yield {
+        val request = FakeRequest(GET, routes.IndexController.onPageLoad.url)
+        val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+        running(application) {
+          route(application, request).value
+          
+          val sessionRepo = application.injector.instanceOf[SessionRepository]
+          sessionRepo.get("id").map(uaOpt => uaOpt mustBe Some(userAnswers))
+        }
       }
     }
   }
