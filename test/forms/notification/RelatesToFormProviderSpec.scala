@@ -14,18 +14,32 @@
  * limitations under the License.
  */
 
-package pages
+package forms
 
-import pages.behaviours.PageBehaviours
+import forms.behaviours.OptionFieldBehaviours
+import models.RelatesTo
+import play.api.data.FormError
 
-class LetterYesNoPageSpec extends PageBehaviours {
+class RelatesToFormProviderSpec extends OptionFieldBehaviours {
 
-  "LetterYesNoPage" - {
+  val form = new RelatesToFormProvider()()
 
-    beRetrievable[Boolean](LetterYesNoPage)
+  ".value" - {
 
-    beSettable[Boolean](LetterYesNoPage)
+    val fieldName = "value"
+    val requiredKey = "relatesTo.error.required"
 
-    beRemovable[Boolean](LetterYesNoPage)
+    behave like optionsField[RelatesTo](
+      form,
+      fieldName,
+      validValues  = RelatesTo.values,
+      invalidError = FormError(fieldName, "error.invalid")
+    )
+
+    behave like mandatoryField(
+      form,
+      fieldName,
+      requiredError = FormError(fieldName, requiredKey)
+    )
   }
 }

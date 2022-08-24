@@ -20,7 +20,10 @@ import org.scalacheck.Arbitrary
 import pages._
 
 trait PageGenerators {
+
+  implicit lazy val arbitraryrelatesToPage: Arbitrary[RelatesToPage.type] =
+    Arbitrary(RelatesToPage)
  
-  implicit lazy val arbitraryLetterYesNoPage: Arbitrary[LetterYesNoPage.type] =
-    Arbitrary(LetterYesNoPage)
+  implicit lazy val arbitraryReceivedALetterPage: Arbitrary[ReceivedALetterPage.type] =
+    Arbitrary(ReceivedALetterPage)
 }

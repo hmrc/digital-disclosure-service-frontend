@@ -60,8 +60,20 @@ unauthorised.heading = You can't access this service with this account
 # ----------------------------------------------------------
 # Notification Messages
 # ----------------------------------------------------------
-letterYesNo.title = Did you receive a letter from HMRC?
-letterYesNo.heading = Did you receive a letter from HMRC?
-letterYesNo.error.required = Please select an option
-letterYesNo.checkYourAnswersLabel = letterYesNo
-letterYesNo.change.hidden = LetterYesNo
+receivedALetter.title = Did you receive a letter from HMRC?
+receivedALetter.heading = Did you receive a letter from HMRC?
+receivedALetter.error.required = Please select an option
+receivedALetter.checkYourAnswersLabel = receivedALetter
+receivedALetter.change.hidden = ReceivedALetter
+
+relatesTo.title = Who does this disclosure relate to?
+relatesTo.heading = Who does this disclosure relate to?
+relatesTo.individual = An individual
+relatesTo.estate = An estate
+relatesTo.company = A company
+relatesTo.llp = A limited liability partnership
+relatesTo.trust = A trust
+relatesTo.checkYourAnswersLabel = Who Does this disclosure relate to?
+relatesTo.error.required = Select relatesTo
+relatesTo.change.hidden = relatesTo
+

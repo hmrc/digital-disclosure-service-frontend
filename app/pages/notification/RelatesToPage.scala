@@ -14,32 +14,14 @@
  * limitations under the License.
  */
 
-package forms
+package pages
 
-import forms.behaviours.BooleanFieldBehaviours
-import play.api.data.FormError
+import models.RelatesTo
+import play.api.libs.json.JsPath
 
-class LetterYesNoFormProviderSpec extends BooleanFieldBehaviours {
+case object RelatesToPage extends QuestionPage[RelatesTo] {
 
-  val requiredKey = "letterYesNo.error.required"
-  val invalidKey = "error.boolean"
+  override def path: JsPath = JsPath \ toString
 
-  val form = new LetterYesNoFormProvider()()
-
-  ".value" - {
-
-    val fieldName = "value"
-
-    behave like booleanField(
-      form,
-      fieldName,
-      invalidError = FormError(fieldName, invalidKey)
-    )
-
-    behave like mandatoryField(
-      form,
-      fieldName,
-      requiredError = FormError(fieldName, requiredKey)
-    )
-  }
+  override def toString: String = "relatesTo"
 }

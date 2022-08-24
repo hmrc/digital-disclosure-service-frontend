@@ -31,7 +31,7 @@
     <p class="govuk-body">@messages("index.guidance")</p>
 
     @govukButton(Button(
-      href = Some(controllers.notification.routes.LetterYesNoController.onPageLoad(NormalMode).url),
+      href = Some(controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url),
       isStartButton = true,
       content = Text(messages("index.start"))
     ))

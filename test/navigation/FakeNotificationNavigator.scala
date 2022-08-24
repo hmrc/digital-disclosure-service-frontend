@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package pages
+package navigation
 
-import play.api.libs.json.JsPath
+import play.api.mvc.Call
+import pages._
+import models.{Mode, UserAnswers}
 
-case object LetterYesNoPage extends QuestionPage[Boolean] {
+class FakeNotificationNavigator(desiredRoute: Call) extends NotificationNavigator {
 
-  override def path: JsPath = JsPath \ toString
-
-  override def toString: String = "letterYesNo"
+  override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call =
+    desiredRoute
 }

@@ -1,4 +1,9 @@
-GET        /receivedALetter                        controllers.notification.LetterYesNoController.onPageLoad(mode: Mode = NormalMode)
-POST       /receivedALetter                        controllers.notification.LetterYesNoController.onSubmit(mode: Mode = NormalMode)
-GET        /changeReceivedALetter                  controllers.notification.LetterYesNoController.onPageLoad(mode: Mode = CheckMode)
-POST       /changeReceivedALetter                  controllers.notification.LetterYesNoController.onSubmit(mode: Mode = CheckMode)
+GET        /receivedALetter                  controllers.notification.ReceivedALetterController.onPageLoad(mode: Mode = NormalMode)
+POST       /receivedALetter                  controllers.notification.ReceivedALetterController.onSubmit(mode: Mode = NormalMode)
+GET        /changeReceivedALetter            controllers.notification.ReceivedALetterController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeReceivedALetter            controllers.notification.ReceivedALetterController.onSubmit(mode: Mode = CheckMode)
+
+GET        /relatesTo                        controllers.notification.RelatesToController.onPageLoad(mode: Mode = NormalMode)
+POST       /relatesTo                        controllers.notification.RelatesToController.onSubmit(mode: Mode = NormalMode)
+GET        /changeRelatesTo                  controllers.notification.RelatesToController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeRelatesTo                  controllers.notification.RelatesToController.onSubmit(mode: Mode = CheckMode)
