@@ -3,14 +3,14 @@
 echo ""
 echo "Applying migration $className;format="snake"$"
 
-echo "Adding routes to conf/app.routes"
+echo "Adding routes to conf/$section$.routes"
 
-echo "" >> ../conf/app.routes
-echo "GET        /$className;format="decap"$                  controllers.$className$Controller.onPageLoad(mode: Mode = NormalMode)" >> ../conf/app.routes
-echo "POST       /$className;format="decap"$                  controllers.$className$Controller.onSubmit(mode: Mode = NormalMode)" >> ../conf/app.routes
+echo "" >> ../conf/$section$.routes
+echo "GET        /$className;format="decap"$                  controllers.$section$.$className$Controller.onPageLoad(mode: Mode = NormalMode)" >> ../conf/$section$.routes
+echo "POST       /$className;format="decap"$                  controllers.$section$.$className$Controller.onSubmit(mode: Mode = NormalMode)" >> ../conf/$section$.routes
 
-echo "GET        /change$className$                        controllers.$className$Controller.onPageLoad(mode: Mode = CheckMode)" >> ../conf/app.routes
-echo "POST       /change$className$                        controllers.$className$Controller.onSubmit(mode: Mode = CheckMode)" >> ../conf/app.routes
+echo "GET        /change$className$                        controllers.$section$.$className$Controller.onPageLoad(mode: Mode = CheckMode)" >> ../conf/$section$.routes
+echo "POST       /change$className$                        controllers.$section$.$className$Controller.onSubmit(mode: Mode = CheckMode)" >> ../conf/$section$.routes
 
 echo "Adding messages to conf.messages"
 echo "" >> ../conf/messages.en

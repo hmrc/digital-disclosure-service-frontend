@@ -3,7 +3,7 @@ package controllers
 import base.SpecBase
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import views.html.$className$View
+import views.html.$section$.$className$View
 
 class $className$ControllerSpec extends SpecBase {
 
@@ -14,7 +14,7 @@ class $className$ControllerSpec extends SpecBase {
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, routes.$className$Controller.onPageLoad().url)
+        val request = FakeRequest(GET, $section$.routes.$className$Controller.onPageLoad.url)
 
         val result = route(application, request).value
 
