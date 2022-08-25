@@ -14,15 +14,19 @@
  * limitations under the License.
  */
 
-package generators
+package pages
 
-import org.scalacheck.{Arbitrary, Gen}
-import models._
+import models.RelatesTo
+import pages.behaviours.PageBehaviours
 
-trait ModelGenerators {
+class RelatesToSpec extends PageBehaviours {
 
-  implicit lazy val arbitraryrelatesTo: Arbitrary[RelatesTo] =
-    Arbitrary {
-      Gen.oneOf(RelatesTo.values.toSeq)
-    }
+  "RelatesToPage" - {
+
+    beRetrievable[RelatesTo](RelatesToPage)
+
+    beSettable[RelatesTo](RelatesToPage)
+
+    beRemovable[RelatesTo](RelatesToPage)
+  }
 }

@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-package generators
+package pages
 
-import org.scalacheck.{Arbitrary, Gen}
-import models._
+import play.api.libs.json.JsPath
 
-trait ModelGenerators {
+case object ReceivedALetterPage extends QuestionPage[Boolean] {
 
-  implicit lazy val arbitraryrelatesTo: Arbitrary[RelatesTo] =
-    Arbitrary {
-      Gen.oneOf(RelatesTo.values.toSeq)
-    }
+  override def path: JsPath = JsPath \ toString
+
+  override def toString: String = "receivedALetter"
 }

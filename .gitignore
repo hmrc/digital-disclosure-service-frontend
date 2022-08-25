@@ -36,3 +36,5 @@ bin
 .metals
 .vscode
 .bloop
+.bsp
+.bsp/

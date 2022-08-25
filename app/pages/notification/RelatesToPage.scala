@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-package generators
+package pages
 
-import org.scalacheck.{Arbitrary, Gen}
-import models._
+import models.RelatesTo
+import play.api.libs.json.JsPath
 
-trait ModelGenerators {
+case object RelatesToPage extends QuestionPage[RelatesTo] {
 
-  implicit lazy val arbitraryrelatesTo: Arbitrary[RelatesTo] =
-    Arbitrary {
-      Gen.oneOf(RelatesTo.values.toSeq)
-    }
+  override def path: JsPath = JsPath \ toString
+
+  override def toString: String = "relatesTo"
 }

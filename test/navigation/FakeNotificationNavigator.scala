@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-package generators
+package navigation
 
-import org.scalacheck.{Arbitrary, Gen}
-import models._
+import play.api.mvc.Call
+import pages._
+import models.{Mode, UserAnswers}
 
-trait ModelGenerators {
+class FakeNotificationNavigator(desiredRoute: Call) extends NotificationNavigator {
 
-  implicit lazy val arbitraryrelatesTo: Arbitrary[RelatesTo] =
-    Arbitrary {
-      Gen.oneOf(RelatesTo.values.toSeq)
-    }
+  override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call =
+    desiredRoute
 }
