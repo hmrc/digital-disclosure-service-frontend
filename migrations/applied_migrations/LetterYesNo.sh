@@ -3,14 +3,14 @@
 echo ""
 echo "Applying migration ReceivedALetter"
 
-echo "Adding routes to conf/app.routes"
+echo "Adding routes to conf/$section$.routes"
 
-echo "" >> ../conf/app.routes
-echo "GET        /receivedALetter                        controllers.ReceivedALetterController.onPageLoad(mode: Mode = NormalMode)" >> ../conf/app.routes
-echo "POST       /receivedALetter                        controllers.ReceivedALetterController.onSubmit(mode: Mode = NormalMode)" >> ../conf/app.routes
+echo "" >> ../conf/$section$.routes
+echo "GET        /receivedALetter                        controllers.ReceivedALetterController.onPageLoad(mode: Mode = NormalMode)" >> ../conf/$section$.routes
+echo "POST       /receivedALetter                        controllers.ReceivedALetterController.onSubmit(mode: Mode = NormalMode)" >> ../conf/$section$.routes
 
-echo "GET        /changeReceivedALetter                  controllers.ReceivedALetterController.onPageLoad(mode: Mode = CheckMode)" >> ../conf/app.routes
-echo "POST       /changeReceivedALetter                  controllers.ReceivedALetterController.onSubmit(mode: Mode = CheckMode)" >> ../conf/app.routes
+echo "GET        /changeReceivedALetter                  controllers.ReceivedALetterController.onPageLoad(mode: Mode = CheckMode)" >> ../conf/$section$.routes
+echo "POST       /changeReceivedALetter                  controllers.ReceivedALetterController.onSubmit(mode: Mode = CheckMode)" >> ../conf/$section$.routes
 
 echo "Adding messages to conf.messages"
 echo "" >> ../conf/messages.en

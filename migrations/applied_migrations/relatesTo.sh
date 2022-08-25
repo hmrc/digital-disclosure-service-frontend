@@ -3,14 +3,14 @@
 echo ""
 echo "Applying migration relatesTo"
 
-echo "Adding routes to conf/app.routes"
+echo "Adding routes to conf/$section$.routes"
 
-echo "" >> ../conf/app.routes
-echo "GET        /relatesTo                        controllers.relatesToController.onPageLoad(mode: Mode = NormalMode)" >> ../conf/app.routes
-echo "POST       /relatesTo                        controllers.relatesToController.onSubmit(mode: Mode = NormalMode)" >> ../conf/app.routes
+echo "" >> ../conf/$section$.routes
+echo "GET        /relatesTo                        controllers.relatesToController.onPageLoad(mode: Mode = NormalMode)" >> ../conf/$section$.routes
+echo "POST       /relatesTo                        controllers.relatesToController.onSubmit(mode: Mode = NormalMode)" >> ../conf/$section$.routes
 
-echo "GET        /changerelatesTo                  controllers.relatesToController.onPageLoad(mode: Mode = CheckMode)" >> ../conf/app.routes
-echo "POST       /changerelatesTo                  controllers.relatesToController.onSubmit(mode: Mode = CheckMode)" >> ../conf/app.routes
+echo "GET        /changerelatesTo                  controllers.relatesToController.onPageLoad(mode: Mode = CheckMode)" >> ../conf/$section$.routes
+echo "POST       /changerelatesTo                  controllers.relatesToController.onSubmit(mode: Mode = CheckMode)" >> ../conf/$section$.routes
 
 echo "Adding messages to conf.messages"
 echo "" >> ../conf/messages.en
