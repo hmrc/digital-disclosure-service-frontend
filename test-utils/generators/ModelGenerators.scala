@@ -17,6 +17,7 @@
 package generators
 
 import org.scalacheck.{Arbitrary, Gen}
+import org.scalacheck.Arbitrary.arbitrary
 import models._
 
 trait ModelGenerators {
