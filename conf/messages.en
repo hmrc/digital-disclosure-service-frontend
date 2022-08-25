@@ -60,20 +60,20 @@ unauthorised.heading = You can't access this service with this account
 # ----------------------------------------------------------
 # Notification Messages
 # ----------------------------------------------------------
-receivedALetter.title = Did you receive a letter from HMRC?
-receivedALetter.heading = Did you receive a letter from HMRC?
-receivedALetter.error.required = Please select an option
-receivedALetter.checkYourAnswersLabel = receivedALetter
+receivedALetter.title = Are you making this disclosure because you have received a letter from HMRC?
+receivedALetter.heading = Are you making this disclosure because you have received a letter from HMRC?
+receivedALetter.error.required = Select yes if you are making this disclosure because you have received a letter from HMRC
+receivedALetter.checkYourAnswersLabel = Are you making this disclosure because you have received a letter from HMRC?
 receivedALetter.change.hidden = ReceivedALetter
 
-relatesTo.title = Who does this disclosure relate to?
-relatesTo.heading = Who does this disclosure relate to?
+relatesTo.title = What is the disclosure about?
+relatesTo.heading = What is the disclosure about?
 relatesTo.individual = An individual
 relatesTo.estate = An estate
 relatesTo.company = A company
 relatesTo.llp = A limited liability partnership
 relatesTo.trust = A trust
-relatesTo.checkYourAnswersLabel = Who Does this disclosure relate to?
-relatesTo.error.required = Select relatesTo
+relatesTo.checkYourAnswersLabel = What is the disclosure about?
+relatesTo.error.required = Select what your disclosure is about
 relatesTo.change.hidden = relatesTo
 
