@@ -28,6 +28,7 @@ class NotificationNavigator @Inject()() {
 
   private val normalRoutes: Page => UserAnswers => Call = {
     case ReceivedALetterPage => _ => routes.RelatesToController.onPageLoad(NormalMode)
+    case RelatesToPage => _ => routes.AreYouTheIndividualController.onPageLoad(NormalMode)
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 

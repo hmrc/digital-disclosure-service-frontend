@@ -74,7 +74,7 @@ relatesTo.company = A company
 relatesTo.llp = A limited liability partnership
 relatesTo.trust = A trust
 relatesTo.checkYourAnswersLabel = What is the disclosure about?
-relatesTo.error.required = Select what your disclosure is about
+relatesTo.error.required = Select what your disclosure is about.
 relatesTo.change.hidden = relatesTo
 
 areYouTheIndividual.title = Are you the individual this disclosure relates to?
