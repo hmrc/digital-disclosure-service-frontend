@@ -7,3 +7,8 @@ GET        /relatesTo                        controllers.notification.RelatesToC
 POST       /relatesTo                        controllers.notification.RelatesToController.onSubmit(mode: Mode = NormalMode)
 GET        /changeRelatesTo                  controllers.notification.RelatesToController.onPageLoad(mode: Mode = CheckMode)
 POST       /changeRelatesTo                  controllers.notification.RelatesToController.onSubmit(mode: Mode = CheckMode)
+
+GET        /areYouTheIndividual                        controllers.notification.AreYouTheIndividualController.onPageLoad(mode: Mode = NormalMode)
+POST       /areYouTheIndividual                        controllers.notification.AreYouTheIndividualController.onSubmit(mode: Mode = NormalMode)
+GET        /changeAreYouTheIndividual                  controllers.notification.AreYouTheIndividualController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeAreYouTheIndividual                  controllers.notification.AreYouTheIndividualController.onSubmit(mode: Mode = CheckMode)
