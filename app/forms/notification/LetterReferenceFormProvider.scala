@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-package generators
+package forms
 
-import org.scalacheck.Arbitrary
-import pages._
+import javax.inject.Inject
 
-trait PageGenerators {
+import forms.mappings.Mappings
+import play.api.data.Form
 
-  implicit lazy val arbitraryLetterReferencePage: Arbitrary[LetterReferencePage.type] =
-    Arbitrary(LetterReferencePage)
+class LetterReferenceFormProvider @Inject() extends Mappings {
 
-  implicit lazy val arbitraryrelatesToPage: Arbitrary[RelatesToPage.type] =
-    Arbitrary(RelatesToPage)
- 
-  implicit lazy val arbitraryReceivedALetterPage: Arbitrary[ReceivedALetterPage.type] =
-    Arbitrary(ReceivedALetterPage)
+  def apply(): Form[String] =
+    Form(
+      "value" -> text("letterReference.error.required")
+        .verifying(maxLength(30, "letterReference.error.length"))
+    )
 }

@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package generators
+package pages
 
-import org.scalacheck.Arbitrary
-import pages._
+import pages.behaviours.PageBehaviours
 
-trait PageGenerators {
 
-  implicit lazy val arbitraryLetterReferencePage: Arbitrary[LetterReferencePage.type] =
-    Arbitrary(LetterReferencePage)
+class LetterReferencePageSpec extends PageBehaviours {
 
-  implicit lazy val arbitraryrelatesToPage: Arbitrary[RelatesToPage.type] =
-    Arbitrary(RelatesToPage)
- 
-  implicit lazy val arbitraryReceivedALetterPage: Arbitrary[ReceivedALetterPage.type] =
-    Arbitrary(ReceivedALetterPage)
+  "LetterReferencePage" - {
+
+    beRetrievable[String](LetterReferencePage)
+
+    beSettable[String](LetterReferencePage)
+
+    beRemovable[String](LetterReferencePage)
+  }
 }

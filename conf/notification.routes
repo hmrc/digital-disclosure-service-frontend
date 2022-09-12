@@ -7,3 +7,8 @@ GET        /relatesTo                        controllers.notification.RelatesToC
 POST       /relatesTo                        controllers.notification.RelatesToController.onSubmit(mode: Mode = NormalMode)
 GET        /changeRelatesTo                  controllers.notification.RelatesToController.onPageLoad(mode: Mode = CheckMode)
 POST       /changeRelatesTo                  controllers.notification.RelatesToController.onSubmit(mode: Mode = CheckMode)
+
+GET        /hmrc-letter-reference                         controllers.notification.LetterReferenceController.onPageLoad(mode: Mode = NormalMode)
+POST       /hmrc-letter-reference                         controllers.notification.LetterReferenceController.onSubmit(mode: Mode = NormalMode)
+GET        /hmrc-letter-reference/change                  controllers.notification.LetterReferenceController.onPageLoad(mode: Mode = CheckMode)
+POST       /hmrc-letter-reference/change                  controllers.notification.LetterReferenceController.onSubmit(mode: Mode = CheckMode)

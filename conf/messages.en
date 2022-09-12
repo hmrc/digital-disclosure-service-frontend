@@ -76,3 +76,10 @@ relatesTo.trust = A trust
 relatesTo.checkYourAnswersLabel = What is the disclosure about?
 relatesTo.error.required = Select what your disclosure is about
 relatesTo.change.hidden = relatesTo
+
+letterReference.title = What is the reference number of the letter you received from HMRC?
+letterReference.heading = What is the reference number of the letter you received from HMRC?
+letterReference.checkYourAnswersLabel = What is the reference number of the letter you received from HMRC?
+letterReference.error.required = Enter letterReference
+letterReference.error.length = LetterReference must be 30 characters or less
+letterReference.change.hidden = LetterReference
