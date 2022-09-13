@@ -81,3 +81,11 @@ relatesTo.hint.trust = A trust is an arrangement that manages assets for people.
 relatesTo.checkYourAnswersLabel = What is the disclosure about?
 relatesTo.error.required = Select what your disclosure is about
 relatesTo.change.hidden = relatesTo
+
+offshoreLiabilities.title = Do you want to disclose offshore liabilities?
+offshoreLiabilities.heading = Do you want to disclose offshore liabilities?
+offshoreLiabilities.option1 = I want to disclose offshore liabilities
+offshoreLiabilities.option2 = I do not have offshore liabilities to disclose
+offshoreLiabilities.checkYourAnswersLabel = Do you want to disclose offshore liabilities?
+offshoreLiabilities.error.required = Select offshoreLiabilities
+offshoreLiabilities.change.hidden = OffshoreLiabilities

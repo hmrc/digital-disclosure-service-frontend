@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryOffshoreLiabilitiesPage: Arbitrary[OffshoreLiabilitiesPage.type] =
+    Arbitrary(OffshoreLiabilitiesPage)
+
   implicit lazy val arbitraryrelatesToPage: Arbitrary[RelatesToPage.type] =
     Arbitrary(RelatesToPage)
  

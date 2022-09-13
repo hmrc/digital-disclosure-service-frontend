@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-package generators
+package pages
 
-import org.scalacheck.{Arbitrary, Gen}
-import models._
+import models.OffshoreLiabilities
+import pages.behaviours.PageBehaviours
 
-trait ModelGenerators {
+class OffshoreLiabilitiesSpec extends PageBehaviours {
 
-  implicit lazy val arbitraryOffshoreLiabilities: Arbitrary[OffshoreLiabilities] =
-    Arbitrary {
-      Gen.oneOf(OffshoreLiabilities.values.toSeq)
-    }
+  "OffshoreLiabilitiesPage" - {
 
-  implicit lazy val arbitraryrelatesTo: Arbitrary[RelatesTo] =
-    Arbitrary {
-      Gen.oneOf(RelatesTo.values.toSeq)
-    }
+    beRetrievable[OffshoreLiabilities](OffshoreLiabilitiesPage)
+
+    beSettable[OffshoreLiabilities](OffshoreLiabilitiesPage)
+
+    beRemovable[OffshoreLiabilities](OffshoreLiabilitiesPage)
+  }
 }
