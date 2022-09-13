@@ -29,4 +29,5 @@ trait PageGenerators {
  
   implicit lazy val arbitraryReceivedALetterPage: Arbitrary[ReceivedALetterPage.type] =
     Arbitrary(ReceivedALetterPage)
+    
 }
