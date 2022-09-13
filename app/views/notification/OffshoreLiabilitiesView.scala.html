@@ -19,7 +19,11 @@
     formHelper: FormWithCSRF,
     govukErrorSummary: GovukErrorSummary,
     govukRadios: GovukRadios,
-    govukButton: GovukButton
+    govukButton: GovukButton,
+    bulletList: components.bulletList,
+    paragraph: components.paragraph,
+    heading: components.heading,
+    link: components.link
 )
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
@@ -32,10 +36,26 @@
             @govukErrorSummary(ErrorSummaryViewModel(form,  errorLinkOverrides = Map("value" -> "value_0")))
         }
 
+        @heading(Text(messages("offshoreLiabilities.heading")))
+
+        @paragraph(Text(messages("offshoreLiabilities.paragraph.first")))
+
+        @bulletList(elements = Seq(
+            Text(messages("offshoreLiabilities.bulletList.first")),
+            Text(messages("offshoreLiabilities.bulletList.second")),
+            Text(messages("offshoreLiabilities.bulletList.third")),
+            Text(messages("offshoreLiabilities.bulletList.forth"))
+
+        ))   
+
+        @paragraph(Text(messages("offshoreLiabilities.paragraph.second")))
+
+        @paragraph(HtmlContent(link(id = "guidance-link", text = messages("offshoreLiabilities.guidance.link"), newTab = true, call = Call("GET", "https://www.gov.uk/guidance/worldwide-disclosure-facility-make-a-disclosure")))),
+
         @govukRadios(
             RadiosViewModel(
                 field  = form("value"),
-                legend = LegendViewModel(messages("offshoreLiabilities.heading")).asPageHeading(),
+                legend = LegendViewModel(messages("offshoreLiabilities.heading")).withCssClass("govuk-visually-hidden"),
                 items  = OffshoreLiabilities.options
             )
         )
