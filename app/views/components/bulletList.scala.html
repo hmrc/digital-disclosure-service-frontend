@@ -1,4 +1,4 @@
-/*
+@*
  * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,23 +12,16 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *@
 
-package generators
+@this()
 
-import org.scalacheck.Arbitrary
-import pages._
+@(elements: Seq[Content], classes: String = "govuk-list govuk-list--bullet", id: Option[String] = None)
 
-trait PageGenerators {
-
-  implicit lazy val arbitraryLetterReferencePage: Arbitrary[LetterReferencePage.type] =
-    Arbitrary(LetterReferencePage)
-
-  
-  implicit lazy val arbitraryrelatesToPage: Arbitrary[RelatesToPage.type] =
-    Arbitrary(RelatesToPage)
- 
-  implicit lazy val arbitraryReceivedALetterPage: Arbitrary[ReceivedALetterPage.type] =
-    Arbitrary(ReceivedALetterPage)
-    
-}
+<ul class="@classes" @id.map{id => id="@id"}>
+    @elements.map { element =>
+        <li class="dashed-list-item">
+            @element.asHtml
+        </li>
+    }
+</ul>
