@@ -19,10 +19,11 @@ package models
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.RadioItem
+import viewmodels.govuk.HintFluency
 
 sealed trait RelatesTo
 
-object RelatesTo extends Enumerable.Implicits {
+object RelatesTo extends Enumerable.Implicits with HintFluency {
 
   case object AnIndividual extends WithName("individual") with RelatesTo
   case object AnEstate extends WithName("estate") with RelatesTo
@@ -39,7 +40,8 @@ object RelatesTo extends Enumerable.Implicits {
       RadioItem(
         content = Text(messages(s"relatesTo.${value.toString}")),
         value   = Some(value.toString),
-        id      = Some(s"value_$index")
+        id      = Some(s"value_$index"),
+        hint    = Some(HintViewModel(Text(messages(s"relatesTo.hint.${value.toString}"))))
       )
   }
 
