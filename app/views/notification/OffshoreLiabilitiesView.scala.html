@@ -38,17 +38,18 @@
 
         @heading(Text(messages("offshoreLiabilities.heading")))
 
-        @paragraph(Text(messages("offshoreLiabilities.paragraph.first")))
+        @paragraph(id = Some("first-paragraph"), content = Text(messages("offshoreLiabilities.paragraph.first"))
+        )
 
         @bulletList(elements = Seq(
             Text(messages("offshoreLiabilities.bulletList.first")),
             Text(messages("offshoreLiabilities.bulletList.second")),
             Text(messages("offshoreLiabilities.bulletList.third")),
             Text(messages("offshoreLiabilities.bulletList.forth"))
-
         ))   
 
-        @paragraph(Text(messages("offshoreLiabilities.paragraph.second")))
+        @paragraph(id = Some("second-paragraph"),content = Text(messages("offshoreLiabilities.paragraph.second"))
+        )
 
         @paragraph(HtmlContent(link(id = "guidance-link", text = messages("offshoreLiabilities.guidance.link"), newTab = true, call = Call("GET", "https://www.gov.uk/guidance/worldwide-disclosure-facility-make-a-disclosure")))),
 

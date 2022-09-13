@@ -38,8 +38,31 @@ class OffshoreLiabilitiesViewSpec extends ViewSpecBase with ViewMatchers {
       view.select("title").text() must include(messages("offshoreLiabilities.title"))
     }
 
-    "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("offshoreLiabilities.heading")
+    "have a heading component" in {
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("offshoreLiabilities.heading")
+    }
+
+    "have a first paragraph" in {
+      view.getElementById("first-paragraph").text() mustBe messages("offshoreLiabilities.paragraph.first")
+    }
+
+    "have a second paragraph" in {
+      view.getElementById("second-paragraph").text() mustBe messages("offshoreLiabilities.paragraph.second")
+    }
+
+    "have a guidance link" in {
+      view.getElementById("guidance-link").text() mustBe messages("offshoreLiabilities.guidance.link")
+    }
+
+    "have a hidden header for the RadioModelView component" in {
+      view.getElementsByClass("govuk-fieldset__legend").text() mustBe messages("offshoreLiabilities.heading")
+    }
+
+    "have all the elements in the bullet-list" in {
+      view.getElementsByClass("dashed-list-item").get(0).text() mustBe messages("offshoreLiabilities.bulletList.first")
+      view.getElementsByClass("dashed-list-item").get(1).text() mustBe messages("offshoreLiabilities.bulletList.second")
+      view.getElementsByClass("dashed-list-item").get(2).text() mustBe messages("offshoreLiabilities.bulletList.third")
+      view.getElementsByClass("dashed-list-item").get(3).text() mustBe messages("offshoreLiabilities.bulletList.forth")
     }
 
     "have I want to disclose offshore liabilities option" in {
