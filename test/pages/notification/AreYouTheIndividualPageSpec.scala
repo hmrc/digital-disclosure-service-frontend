@@ -14,24 +14,19 @@
  * limitations under the License.
  */
 
-package generators
+package pages
 
-import org.scalacheck.Arbitrary
-import pages._
+import models.AreYouTheIndividual
+import pages.behaviours.PageBehaviours
 
-trait PageGenerators {
-  
+class AreYouTheIndividualSpec extends PageBehaviours {
 
-  implicit lazy val arbitraryOnshoreLiabilitiesPage: Arbitrary[OnshoreLiabilitiesPage.type] =
-    Arbitrary(OnshoreLiabilitiesPage)
+  "AreYouTheIndividualPage" - {
 
-  implicit lazy val arbitraryAreYouTheIndividualPage: Arbitrary[AreYouTheIndividualPage.type] =
-    Arbitrary(AreYouTheIndividualPage)
+    beRetrievable[AreYouTheIndividual](AreYouTheIndividualPage)
 
-  implicit lazy val arbitraryrelatesToPage: Arbitrary[RelatesToPage.type] =
-    Arbitrary(RelatesToPage)
- 
-  implicit lazy val arbitraryReceivedALetterPage: Arbitrary[ReceivedALetterPage.type] =
-    Arbitrary(ReceivedALetterPage)
-    
+    beSettable[AreYouTheIndividual](AreYouTheIndividualPage)
+
+    beRemovable[AreYouTheIndividual](AreYouTheIndividualPage)
+  }
 }

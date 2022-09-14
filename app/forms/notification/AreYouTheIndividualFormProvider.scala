@@ -14,24 +14,18 @@
  * limitations under the License.
  */
 
-package generators
+package forms
 
-import org.scalacheck.Arbitrary
-import pages._
+import javax.inject.Inject
 
-trait PageGenerators {
-  
+import forms.mappings.Mappings
+import play.api.data.Form
+import models.AreYouTheIndividual
 
-  implicit lazy val arbitraryOnshoreLiabilitiesPage: Arbitrary[OnshoreLiabilitiesPage.type] =
-    Arbitrary(OnshoreLiabilitiesPage)
+class AreYouTheIndividualFormProvider @Inject() extends Mappings {
 
-  implicit lazy val arbitraryAreYouTheIndividualPage: Arbitrary[AreYouTheIndividualPage.type] =
-    Arbitrary(AreYouTheIndividualPage)
-
-  implicit lazy val arbitraryrelatesToPage: Arbitrary[RelatesToPage.type] =
-    Arbitrary(RelatesToPage)
- 
-  implicit lazy val arbitraryReceivedALetterPage: Arbitrary[ReceivedALetterPage.type] =
-    Arbitrary(ReceivedALetterPage)
-    
+  def apply(): Form[AreYouTheIndividual] =
+    Form(
+      "value" -> enumerable[AreYouTheIndividual]("areYouTheIndividual.error.required")
+    )
 }

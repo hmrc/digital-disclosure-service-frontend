@@ -21,6 +21,11 @@ import models._
 
 trait ModelGenerators {
 
+  implicit lazy val arbitraryAreYouTheIndividual: Arbitrary[AreYouTheIndividual] =
+    Arbitrary {
+      Gen.oneOf(AreYouTheIndividual.values.toSeq)
+    }
+
   implicit lazy val arbitraryOnshoreLiabilities: Arbitrary[OnshoreLiabilities] =
     Arbitrary {
       Gen.oneOf(OnshoreLiabilities.values.toSeq)

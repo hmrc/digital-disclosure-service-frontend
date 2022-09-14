@@ -38,6 +38,10 @@ class NotificationNavigatorSpec extends SpecBase {
       "must go from the ReceivedALetter page to the RelatesTo controller" in {
         navigator.nextPage(ReceivedALetterPage, NormalMode, UserAnswers("id")) mustBe routes.RelatesToController.onPageLoad(NormalMode)
       }
+
+      "must go from the RelatesTo page to the AreYouTheIndividual controller" in {
+        navigator.nextPage(RelatesToPage, NormalMode, UserAnswers("id")) mustBe routes.AreYouTheIndividualController.onPageLoad(NormalMode)
+      }
     }
 
     "in Check mode" - {
