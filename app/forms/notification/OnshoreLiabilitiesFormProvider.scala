@@ -14,21 +14,18 @@
  * limitations under the License.
  */
 
-package generators
+package forms
 
-import org.scalacheck.Arbitrary
-import pages._
+import javax.inject.Inject
 
-trait PageGenerators {
-  
+import forms.mappings.Mappings
+import play.api.data.Form
+import models.OnshoreLiabilities
 
-  implicit lazy val arbitraryOnshoreLiabilitiesPage: Arbitrary[OnshoreLiabilitiesPage.type] =
-    Arbitrary(OnshoreLiabilitiesPage)
+class OnshoreLiabilitiesFormProvider @Inject() extends Mappings {
 
-  implicit lazy val arbitraryrelatesToPage: Arbitrary[RelatesToPage.type] =
-    Arbitrary(RelatesToPage)
- 
-  implicit lazy val arbitraryReceivedALetterPage: Arbitrary[ReceivedALetterPage.type] =
-    Arbitrary(ReceivedALetterPage)
-    
+  def apply(): Form[OnshoreLiabilities] =
+    Form(
+      "value" -> enumerable[OnshoreLiabilities]("onshoreLiabilities.error.required")
+    )
 }

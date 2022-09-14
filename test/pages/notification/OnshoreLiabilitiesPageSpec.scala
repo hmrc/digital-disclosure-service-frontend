@@ -14,21 +14,19 @@
  * limitations under the License.
  */
 
-package generators
+package pages
 
-import org.scalacheck.Arbitrary
-import pages._
+import models.OnshoreLiabilities
+import pages.behaviours.PageBehaviours
 
-trait PageGenerators {
-  
+class OnshoreLiabilitiesSpec extends PageBehaviours {
 
-  implicit lazy val arbitraryOnshoreLiabilitiesPage: Arbitrary[OnshoreLiabilitiesPage.type] =
-    Arbitrary(OnshoreLiabilitiesPage)
+  "OnshoreLiabilitiesPage" - {
 
-  implicit lazy val arbitraryrelatesToPage: Arbitrary[RelatesToPage.type] =
-    Arbitrary(RelatesToPage)
- 
-  implicit lazy val arbitraryReceivedALetterPage: Arbitrary[ReceivedALetterPage.type] =
-    Arbitrary(ReceivedALetterPage)
-    
+    beRetrievable[OnshoreLiabilities](OnshoreLiabilitiesPage)
+
+    beSettable[OnshoreLiabilities](OnshoreLiabilitiesPage)
+
+    beRemovable[OnshoreLiabilities](OnshoreLiabilitiesPage)
+  }
 }
