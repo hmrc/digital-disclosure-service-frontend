@@ -107,3 +107,18 @@ onshoreLiabilities.checkYourAnswersLabel = Do you also want to disclose onshore 
 onshoreLiabilities.error.required = Select onshoreLiabilities
 onshoreLiabilities.change.hidden = OnshoreLiabilities
 
+
+offshoreLiabilities.title = Do you want to disclose offshore liabilities?
+offshoreLiabilities.heading = Do you want to disclose offshore liabilities?
+offshoreLiabilities.option1 = I want to disclose offshore liabilities
+offshoreLiabilities.option2 = I do not have offshore liabilities to disclose
+offshoreLiabilities.checkYourAnswersLabel = Do you want to disclose offshore liabilities?
+offshoreLiabilities.error.required = Select offshoreLiabilities
+offshoreLiabilities.change.hidden = OffshoreLiabilities
+offshoreLiabilities.paragraph.first = Offshore liabilities can be:
+offshoreLiabilities.paragraph.second = or where the funds connected to the UK liability have been transfered to a territory outside the UK.
+offshoreLiabilities.bulletList.first = any income from outside the UK
+offshoreLiabilities.bulletList.second = business activity or assets that have ever been outside the UK
+offshoreLiabilities.bulletList.third = income from savings or investments
+offshoreLiabilities.bulletList.forth = anything else that could be classed as business income, assets or investments
+offshoreLiabilities.guidance.link = Find more information about offshore liabilities (opens in new tab)

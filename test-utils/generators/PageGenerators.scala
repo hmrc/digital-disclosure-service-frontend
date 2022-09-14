@@ -20,6 +20,9 @@ import org.scalacheck.Arbitrary
 import pages._
 
 trait PageGenerators {
+
+  implicit lazy val arbitraryOffshoreLiabilitiesPage: Arbitrary[OffshoreLiabilitiesPage.type] =
+    Arbitrary(OffshoreLiabilitiesPage)
   
 
   implicit lazy val arbitraryOnshoreLiabilitiesPage: Arbitrary[OnshoreLiabilitiesPage.type] =
