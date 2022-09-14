@@ -22,3 +22,8 @@ GET        /hmrc-letter-reference                           controllers.notifica
 POST       /hmrc-letter-reference                           controllers.notification.LetterReferenceController.onSubmit(mode: Mode = NormalMode)
 GET        /hmrc-letter-reference/change                    controllers.notification.LetterReferenceController.onPageLoad(mode: Mode = CheckMode)
 POST       /hmrc-letter-reference/change                    controllers.notification.LetterReferenceController.onSubmit(mode: Mode = CheckMode)
+
+GET        /disclose-offshore-liabilities                   controllers.notification.OffshoreLiabilitiesController.onPageLoad(mode: Mode = NormalMode)
+POST       /disclose-offshore-liabilities                   controllers.notification.OffshoreLiabilitiesController.onSubmit(mode: Mode = NormalMode)
+GET        /disclose-offshore-liabilities/change            controllers.notification.OffshoreLiabilitiesController.onPageLoad(mode: Mode = CheckMode)
+POST       /disclose-offshore-liabilities/change            controllers.notification.OffshoreLiabilitiesController.onSubmit(mode: Mode = CheckMode)
