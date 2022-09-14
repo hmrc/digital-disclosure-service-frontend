@@ -14,25 +14,14 @@
  * limitations under the License.
  */
 
-package generators
+package pages
 
-import org.scalacheck.{Arbitrary, Gen}
-import models._
+import models.AreYouTheIndividual
+import play.api.libs.json.JsPath
 
-trait ModelGenerators {
+case object AreYouTheIndividualPage extends QuestionPage[AreYouTheIndividual] {
 
-  implicit lazy val arbitraryAreYouTheIndividual: Arbitrary[AreYouTheIndividual] =
-    Arbitrary {
-      Gen.oneOf(AreYouTheIndividual.values.toSeq)
-    }
+  override def path: JsPath = JsPath \ toString
 
-  implicit lazy val arbitraryOnshoreLiabilities: Arbitrary[OnshoreLiabilities] =
-    Arbitrary {
-      Gen.oneOf(OnshoreLiabilities.values.toSeq)
-    }
-
-  implicit lazy val arbitraryrelatesTo: Arbitrary[RelatesTo] =
-    Arbitrary {
-      Gen.oneOf(RelatesTo.values.toSeq)
-    }
+  override def toString: String = "areYouTheIndividual"
 }

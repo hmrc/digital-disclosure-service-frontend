@@ -25,6 +25,13 @@ trait PageGenerators {
     Arbitrary(LetterReferencePage)
 
   
+
+  implicit lazy val arbitraryOnshoreLiabilitiesPage: Arbitrary[OnshoreLiabilitiesPage.type] =
+    Arbitrary(OnshoreLiabilitiesPage)
+
+  implicit lazy val arbitraryAreYouTheIndividualPage: Arbitrary[AreYouTheIndividualPage.type] =
+    Arbitrary(AreYouTheIndividualPage)
+
   implicit lazy val arbitraryrelatesToPage: Arbitrary[RelatesToPage.type] =
     Arbitrary(RelatesToPage)
  

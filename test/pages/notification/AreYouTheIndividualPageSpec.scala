@@ -14,25 +14,19 @@
  * limitations under the License.
  */
 
-package generators
+package pages
 
-import org.scalacheck.{Arbitrary, Gen}
-import models._
+import models.AreYouTheIndividual
+import pages.behaviours.PageBehaviours
 
-trait ModelGenerators {
+class AreYouTheIndividualSpec extends PageBehaviours {
 
-  implicit lazy val arbitraryAreYouTheIndividual: Arbitrary[AreYouTheIndividual] =
-    Arbitrary {
-      Gen.oneOf(AreYouTheIndividual.values.toSeq)
-    }
+  "AreYouTheIndividualPage" - {
 
-  implicit lazy val arbitraryOnshoreLiabilities: Arbitrary[OnshoreLiabilities] =
-    Arbitrary {
-      Gen.oneOf(OnshoreLiabilities.values.toSeq)
-    }
+    beRetrievable[AreYouTheIndividual](AreYouTheIndividualPage)
 
-  implicit lazy val arbitraryrelatesTo: Arbitrary[RelatesTo] =
-    Arbitrary {
-      Gen.oneOf(RelatesTo.values.toSeq)
-    }
+    beSettable[AreYouTheIndividual](AreYouTheIndividualPage)
+
+    beRemovable[AreYouTheIndividual](AreYouTheIndividualPage)
+  }
 }
