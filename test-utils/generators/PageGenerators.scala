@@ -20,6 +20,9 @@ import org.scalacheck.Arbitrary
 import pages._
 
 trait PageGenerators {
+
+  implicit lazy val arbitraryLetterReferencePage: Arbitrary[LetterReferencePage.type] =
+    Arbitrary(LetterReferencePage)
   
 
   implicit lazy val arbitraryOnshoreLiabilitiesPage: Arbitrary[OnshoreLiabilitiesPage.type] =

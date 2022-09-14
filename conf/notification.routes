@@ -17,3 +17,8 @@ GET        /are-you-the-individual                          controllers.notifica
 POST       /are-you-the-individual                          controllers.notification.AreYouTheIndividualController.onSubmit(mode: Mode = NormalMode)
 GET        /are-you-the-individual/change                   controllers.notification.AreYouTheIndividualController.onPageLoad(mode: Mode = CheckMode)
 POST       /are-you-the-individual/change                   controllers.notification.AreYouTheIndividualController.onSubmit(mode: Mode = CheckMode)
+
+GET        /hmrc-letter-reference                           controllers.notification.LetterReferenceController.onPageLoad(mode: Mode = NormalMode)
+POST       /hmrc-letter-reference                           controllers.notification.LetterReferenceController.onSubmit(mode: Mode = NormalMode)
+GET        /hmrc-letter-reference/change                    controllers.notification.LetterReferenceController.onPageLoad(mode: Mode = CheckMode)
+POST       /hmrc-letter-reference/change                    controllers.notification.LetterReferenceController.onSubmit(mode: Mode = CheckMode)
