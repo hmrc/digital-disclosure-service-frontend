@@ -21,6 +21,11 @@ import models._
 
 trait ModelGenerators {
 
+  implicit lazy val arbitraryOnshoreLiabilities: Arbitrary[OnshoreLiabilities] =
+    Arbitrary {
+      Gen.oneOf(OnshoreLiabilities.values.toSeq)
+    }
+
   implicit lazy val arbitraryrelatesTo: Arbitrary[RelatesTo] =
     Arbitrary {
       Gen.oneOf(RelatesTo.values.toSeq)

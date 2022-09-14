@@ -14,21 +14,14 @@
  * limitations under the License.
  */
 
-package generators
+package pages
 
-import org.scalacheck.Arbitrary
-import pages._
+import models.OnshoreLiabilities
+import play.api.libs.json.JsPath
 
-trait PageGenerators {
-  
+case object OnshoreLiabilitiesPage extends QuestionPage[OnshoreLiabilities] {
 
-  implicit lazy val arbitraryOnshoreLiabilitiesPage: Arbitrary[OnshoreLiabilitiesPage.type] =
-    Arbitrary(OnshoreLiabilitiesPage)
+  override def path: JsPath = JsPath \ toString
 
-  implicit lazy val arbitraryrelatesToPage: Arbitrary[RelatesToPage.type] =
-    Arbitrary(RelatesToPage)
- 
-  implicit lazy val arbitraryReceivedALetterPage: Arbitrary[ReceivedALetterPage.type] =
-    Arbitrary(ReceivedALetterPage)
-    
+  override def toString: String = "onshoreLiabilities"
 }

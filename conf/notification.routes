@@ -7,3 +7,8 @@ GET        /what-is-this-disclosure-about                   controllers.notifica
 POST       /what-is-this-disclosure-about                   controllers.notification.RelatesToController.onSubmit(mode: Mode = NormalMode)
 GET        /what-is-this-disclosure-about/change            controllers.notification.RelatesToController.onPageLoad(mode: Mode = CheckMode)
 POST       /what-is-this-disclosure-about/change            controllers.notification.RelatesToController.onSubmit(mode: Mode = CheckMode)
+
+GET        /disclose-onshore-liabilities                    controllers.notification.OnshoreLiabilitiesController.onPageLoad(mode: Mode = NormalMode)
+POST       /disclose-onshore-liabilities                    controllers.notification.OnshoreLiabilitiesController.onSubmit(mode: Mode = NormalMode)
+GET        /disclose-onshore-liabilities/change                    controllers.notification.OnshoreLiabilitiesController.onPageLoad(mode: Mode = CheckMode)
+POST       /disclose-onshore-liabilities/change                    controllers.notification.OnshoreLiabilitiesController.onSubmit(mode: Mode = CheckMode)
