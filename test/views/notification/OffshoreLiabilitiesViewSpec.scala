@@ -50,6 +50,10 @@ class OffshoreLiabilitiesViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementById("second-paragraph").text() mustBe messages("offshoreLiabilities.paragraph.second")
     }
 
+    "have a guidance link address" in {
+      view.getElementById("guidance-link").attr("href") mustBe "https://www.gov.uk/guidance/worldwide-disclosure-facility-make-a-disclosure"
+    }
+
     "have a guidance link" in {
       view.getElementById("guidance-link").text() mustBe messages("offshoreLiabilities.guidance.link")
     }
