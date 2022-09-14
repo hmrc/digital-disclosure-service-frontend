@@ -14,20 +14,18 @@
  * limitations under the License.
  */
 
-package generators
+package forms
 
-import org.scalacheck.{Arbitrary, Gen}
-import models._
+import javax.inject.Inject
 
-trait ModelGenerators {
+import forms.mappings.Mappings
+import play.api.data.Form
+import models.OnshoreLiabilities
 
-  implicit lazy val arbitraryOnshoreLiabilities: Arbitrary[OnshoreLiabilities] =
-    Arbitrary {
-      Gen.oneOf(OnshoreLiabilities.values.toSeq)
-    }
+class OnshoreLiabilitiesFormProvider @Inject() extends Mappings {
 
-  implicit lazy val arbitraryrelatesTo: Arbitrary[RelatesTo] =
-    Arbitrary {
-      Gen.oneOf(RelatesTo.values.toSeq)
-    }
+  def apply(): Form[OnshoreLiabilities] =
+    Form(
+      "value" -> enumerable[OnshoreLiabilities]("onshoreLiabilities.error.required")
+    )
 }
