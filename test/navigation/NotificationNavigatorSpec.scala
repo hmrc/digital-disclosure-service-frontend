@@ -77,6 +77,13 @@ class NotificationNavigatorSpec extends SpecBase {
       }
     }
 
+    "must go from the OffshoreLiabilities page to the OnshoreLiabilities controller when the user selects 'I want to disclose offshore liabilities'" in {
+      UserAnswers("id").set(OffshoreLiabilitiesPage, OffshoreLiabilities.Option1) match {
+        case Success(ua) => navigator.nextPage(OffshoreLiabilitiesPage, NormalMode, ua) mustBe routes.OnshoreLiabilitiesController.onPageLoad(NormalMode)
+        case Failure(e) => throw e
+      }
+    }
+
     "in Check mode" - {
 
       "must go from a page that doesn't exist in the edit route map to CheckYourAnswers" in {
