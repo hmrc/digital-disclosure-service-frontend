@@ -21,6 +21,8 @@ import controllers.notification.routes
 import pages._
 import models._
 
+import scala.util.{Success, Failure}
+
 class NotificationNavigatorSpec extends SpecBase {
 
   val navigator = new NotificationNavigator
@@ -35,8 +37,18 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(UnknownPage, NormalMode, UserAnswers("id")) mustBe controllers.routes.IndexController.onPageLoad
       }
 
-      "must go from the ReceivedALetter page to the RelatesTo controller" in {
-        navigator.nextPage(ReceivedALetterPage, NormalMode, UserAnswers("id")) mustBe routes.RelatesToController.onPageLoad(NormalMode)
+      "must go from the ReceivedALetter page to the RelatesTo controller when the user selects No" in {
+        UserAnswers("id").set(ReceivedALetterPage, false) match { 
+          case Success(ua) => navigator.nextPage(ReceivedALetterPage, NormalMode, ua) mustBe routes.RelatesToController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the ReceivedALetter page to the LetterReference controller when the user selects Yes" in {
+        UserAnswers("id").set(ReceivedALetterPage, true) match { 
+          case Success(ua) => navigator.nextPage(ReceivedALetterPage, NormalMode, ua) mustBe routes.LetterReferenceController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
       }
 
       "must go from the RelatesTo page to the AreYouTheIndividual controller" in {
