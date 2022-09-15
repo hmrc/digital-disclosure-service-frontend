@@ -62,7 +62,7 @@ unauthorised.heading = You can't access this service with this account
 # ----------------------------------------------------------
 receivedALetter.title = Are you making this disclosure because you have received a letter from HMRC?
 receivedALetter.heading = Are you making this disclosure because you have received a letter from HMRC?
-receivedALetter.error.required = Select yes if you are making this disclosure because you have received a letter from HMRC
+receivedALetter.error.required = Select yes if you are making this disclosure because you have received a letter from HMRC.
 receivedALetter.checkYourAnswersLabel = Are you making this disclosure because you have received a letter from HMRC?
 receivedALetter.change.hidden = ReceivedALetter
 
