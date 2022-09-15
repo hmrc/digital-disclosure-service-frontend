@@ -32,6 +32,9 @@ class NotificationNavigator @Inject()() {
       case Some(false) => routes.RelatesToController.onPageLoad(NormalMode)
       case None => routes.ReceivedALetterController.onPageLoad(NormalMode)
     }
+
+    case LetterReferencePage => _ => routes.RelatesToController.onPageLoad(NormalMode)
+
     case RelatesToPage => _ => routes.AreYouTheIndividualController.onPageLoad(NormalMode)
   
     case _ => _ => controllers.routes.IndexController.onPageLoad

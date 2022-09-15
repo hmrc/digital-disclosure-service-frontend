@@ -110,7 +110,7 @@ onshoreLiabilities.change.hidden = OnshoreLiabilities
 letterReference.title = What is the reference number of the letter you received from HMRC?
 letterReference.heading = What is the reference number of the letter you received from HMRC?
 letterReference.checkYourAnswersLabel = What is the reference number of the letter you received from HMRC?
-letterReference.error.required = Enter letterReference
+letterReference.error.required = Enter the letter’s reference number.
 letterReference.error.length = LetterReference must be 30 characters or less
 letterReference.change.hidden = LetterReference
 
