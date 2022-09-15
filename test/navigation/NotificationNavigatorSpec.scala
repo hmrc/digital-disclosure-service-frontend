@@ -51,22 +51,29 @@ class NotificationNavigatorSpec extends SpecBase {
         }
       }
 
-      "must go from the AreYouTheIndividual page to the OffshoreLiabilities controller when the user selects Yes" in {
-        UserAnswers("id").set(AreYouTheIndividualPage, AreYouTheIndividual.Yes) match {
-          case Success(ua) => navigator.nextPage(AreYouTheIndividualPage, NormalMode, ua) mustBe routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
-          case Failure(e) => throw e
-        }
-      }
-
-      "must go from the AreYouTheIndividual page to the OffshoreLiabilities controller when the user selects No" in {
-        UserAnswers("id").set(AreYouTheIndividualPage, AreYouTheIndividual.No) match {
-          case Success(ua) => navigator.nextPage(AreYouTheIndividualPage, NormalMode, ua) mustBe routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
+      "must go from the LetterReferencePage page to the RelatesTo controller when the user enter any data" in {
+        UserAnswers("id").set(LetterReferencePage, "test") match {
+          case Success(ua) => navigator.nextPage(LetterReferencePage, NormalMode, ua) mustBe routes.RelatesToController.onPageLoad(NormalMode)
           case Failure(e) => throw e
         }
       }
 
       "must go from the RelatesTo page to the AreYouTheIndividual controller" in {
         navigator.nextPage(RelatesToPage, NormalMode, UserAnswers("id")) mustBe routes.AreYouTheIndividualController.onPageLoad(NormalMode)
+      }
+    }
+
+    "must go from the AreYouTheIndividual page to the OffshoreLiabilities controller when the user selects Yes" in {
+      UserAnswers("id").set(AreYouTheIndividualPage, AreYouTheIndividual.Yes) match {
+        case Success(ua) => navigator.nextPage(AreYouTheIndividualPage, NormalMode, ua) mustBe routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
+        case Failure(e) => throw e
+      }
+    }
+
+    "must go from the AreYouTheIndividual page to the OffshoreLiabilities controller when the user selects No" in {
+      UserAnswers("id").set(AreYouTheIndividualPage, AreYouTheIndividual.No) match {
+        case Success(ua) => navigator.nextPage(AreYouTheIndividualPage, NormalMode, ua) mustBe routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
+        case Failure(e) => throw e
       }
     }
 
