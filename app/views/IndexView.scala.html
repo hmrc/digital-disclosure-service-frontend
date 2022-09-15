@@ -33,6 +33,7 @@
     @govukButton(Button(
       href = Some(controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url),
       isStartButton = true,
-      content = Text(messages("index.start"))
+      content = Text(messages("index.start")),
+      attributes = Map("id" -> "start")
     ))
 }
