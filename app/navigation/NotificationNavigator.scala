@@ -27,13 +27,20 @@ import models._
 class NotificationNavigator @Inject()() {
 
   private val normalRoutes: Page => UserAnswers => Call = {
+
     case ReceivedALetterPage => ua => ua.get(ReceivedALetterPage) match { 
       case Some(true) => routes.LetterReferenceController.onPageLoad(NormalMode)
       case Some(false) => routes.RelatesToController.onPageLoad(NormalMode)
       case None => routes.ReceivedALetterController.onPageLoad(NormalMode)
     }
+
     case RelatesToPage => _ => routes.AreYouTheIndividualController.onPageLoad(NormalMode)
-  
+
+    case AreYouTheIndividualPage => ua => ua.get(AreYouTheIndividualPage) match {
+      case Some(_) => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
+      case None => routes.AreYouTheIndividualController.onPageLoad(NormalMode)
+    }
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
