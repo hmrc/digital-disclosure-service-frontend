@@ -38,10 +38,7 @@ class NotificationNavigator @Inject()() {
 
     case RelatesToPage => _ => routes.AreYouTheIndividualController.onPageLoad(NormalMode)
 
-    case AreYouTheIndividualPage => ua => ua.get(AreYouTheIndividualPage) match {
-      case Some(_) => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
-      case None => routes.AreYouTheIndividualController.onPageLoad(NormalMode)
-    }
+    case AreYouTheIndividualPage => _ => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
 
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
