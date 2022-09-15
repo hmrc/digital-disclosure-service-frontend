@@ -51,6 +51,13 @@ class NotificationNavigatorSpec extends SpecBase {
         }
       }
 
+      "must go from the LetterReferencePage page to the RelatesTo controller when the user enter any data" in {
+        UserAnswers("id").set(LetterReferencePage, "test") match { 
+          case Success(ua) => navigator.nextPage(LetterReferencePage, NormalMode, ua) mustBe routes.RelatesToController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
       "must go from the RelatesTo page to the AreYouTheIndividual controller" in {
         navigator.nextPage(RelatesToPage, NormalMode, UserAnswers("id")) mustBe routes.AreYouTheIndividualController.onPageLoad(NormalMode)
       }
