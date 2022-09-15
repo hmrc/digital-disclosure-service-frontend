@@ -6,6 +6,7 @@ site.no = No
 site.yes = Yes
 site.continue = Continue
 site.saveAndContinue = Save and continue
+site.confirmAndContinue = Confirm and continue
 site.start = Start now
 site.startAgain = Start again
 site.signIn = Sign in
@@ -129,3 +130,14 @@ offshoreLiabilities.bulletList.third = income from savings or investments
 offshoreLiabilities.bulletList.forth = anything else that could be classed as business income, assets or investments
 offshoreLiabilities.guidance.link = Find more information about offshore liabilities (opens in new tab)
 
+
+onlyOnshoreLiabilities.title = The disclosure is only about onshore liabilities
+onlyOnshoreLiabilities.heading = The disclosure is only about onshore liabilities
+onlyOnshoreLiabilities.paragraph.first = 'As you have no offshore liabilities to disclose, the disclosure is only about onshore liabilities. '
+onlyOnshoreLiabilities.paragraph.link = You have onshore liabilities if you are classed as a resident (opens in a new tab)
+onlyOnshoreLiabilities.paragraph.second = ' in the UK and:'
+onlyOnshoreLiabilities.bulletList.first = rent out property
+onlyOnshoreLiabilities.bulletList.second = have income from savings and or investments
+onlyOnshoreLiabilities.bulletList.third = have a capital gain to declare
+onlyOnshoreLiabilities.bulletList.forth = have income from self-employment, partnerships, freelance or commission-based work
+onlyOnshoreLiabilities.paragraph.third = or your income does not fall into the offshore category.

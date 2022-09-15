@@ -27,3 +27,5 @@ GET        /disclose-offshore-liabilities                   controllers.notifica
 POST       /disclose-offshore-liabilities                   controllers.notification.OffshoreLiabilitiesController.onSubmit(mode: Mode = NormalMode)
 GET        /disclose-offshore-liabilities/change            controllers.notification.OffshoreLiabilitiesController.onPageLoad(mode: Mode = CheckMode)
 POST       /disclose-offshore-liabilities/change            controllers.notification.OffshoreLiabilitiesController.onSubmit(mode: Mode = CheckMode)
+
+GET        /disclose-onshore-liabilities-only               controllers.notification.OnlyOnshoreLiabilitiesController.onPageLoad
