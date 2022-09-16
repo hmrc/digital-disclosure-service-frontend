@@ -16,24 +16,71 @@
 
 @this(
     layout: templates.Layout,
-    govukButton: GovukButton
+    govukButton: GovukButton,
+    paragraph: components.paragraph,
+    link: components.link,
+    bulletList: components.bulletList
 )
 
 @()(implicit request: Request[_], messages: Messages)
 
 @layout(
-    pageTitle    = titleNoForm(messages("index.title")),
+    pageTitle = titleNoForm(messages("index.title")),
     showBackLink = false
 ) {
 
     <h1 class="govuk-heading-xl">@messages("index.heading")</h1>
 
-    <p class="govuk-body">@messages("index.guidance")</p>
+    <p class="govuk-body" id="first-paragraph">@messages("index.guidance.paragraph.first")</p>
 
+    <p class="govuk-body" id="second-paragraph">@messages("index.guidance.paragraph.second")</p>
+
+    @paragraph(
+        id = Some("third-paragraph"), 
+        content = HtmlContent(
+            messages("index.guidance.paragraph.third") +
+            link(id = "third-paragraph-link", text = messages("index.guidance.paragraph.third.link"), newTab = true, call = Call("GET", "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure#general-information"))
+        )
+    )
+    
     @govukButton(Button(
       href = Some(controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url),
       isStartButton = true,
-      content = Text(messages("index.start")),
+      content = Text(messages("site.continue")),
       attributes = Map("id" -> "start")
     ))
+
+    <h2 class="govuk-heading-m">@messages("index.heading.second")</h2>
+
+    @paragraph(
+        id = Some("forth-paragraph"), 
+        content = HtmlContent(
+            link(id = "forth-paragraph-link", text = messages("index.guidance.paragraph.forth.link"), newTab = true, call = Call("GET", "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure")) +
+            messages("index.guidance.paragraph.forth")
+        )
+    )
+
+    @paragraph(
+        id = Some("fifth-paragraph"), 
+        content = HtmlContent(
+            messages("index.guidance.paragraph.fifth") +
+            link(id = "fifth-paragraph-link", text = messages("index.guidance.paragraph.fifth.link"), newTab = true, call = Call("GET", "https://www.gov.uk/appoint-tax-agent")) +
+            messages("index.guidance.paragraph.sixth")
+        )
+    )
+
+    <h3 class="govuk-heading-s">@messages("index.heading.third")</h3>
+
+    <p class="govuk-body" id="seventh-paragraph">@messages("index.guidance.paragraph.seventh")</p>
+
+    @bulletList(elements = Seq(
+        HtmlContent(
+            messages("index.bulletList.first") + 
+            link(id = "first-bullet-link", text = messages("index.bulletList.first.link"), newTab = true, call = Call("GET", "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure")),
+        ),
+        Text(messages("index.bulletList.second")),
+        Text(messages("index.bulletList.third")),
+        Text(messages("index.bulletList.forth"))
+    )) 
+
 }
