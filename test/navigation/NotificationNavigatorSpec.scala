@@ -76,14 +76,14 @@ class NotificationNavigatorSpec extends SpecBase {
       }
 
       "must go from the OffshoreLiabilities page to the OnshoreLiabilities controller when the user selects 'I want to disclose offshore liabilities'" in {
-        UserAnswers("id").set(OffshoreLiabilitiesPage, OffshoreLiabilities.Option1) match {
+        UserAnswers("id").set(OffshoreLiabilitiesPage, OffshoreLiabilities.IWantTo) match {
           case Success(ua) => navigator.nextPage(OffshoreLiabilitiesPage, NormalMode, ua) mustBe routes.OnshoreLiabilitiesController.onPageLoad(NormalMode)
           case Failure(e) => throw e
         }
       }
 
       "must go from the OffshoreLiabilities page to the OnshoreLiabilities controller when the user selects 'I do not have offshore liabilities to disclose'" in {
-        UserAnswers("id").set(OffshoreLiabilitiesPage, OffshoreLiabilities.Option2) match {
+        UserAnswers("id").set(OffshoreLiabilitiesPage, OffshoreLiabilities.IDoNotWantTo) match {
           case Success(ua) => navigator.nextPage(OffshoreLiabilitiesPage, NormalMode, ua) mustBe routes.OnlyOnshoreLiabilitiesController.onPageLoad
           case Failure(e) => throw e
         }

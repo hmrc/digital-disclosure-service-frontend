@@ -117,8 +117,8 @@ letterReference.change.hidden = LetterReference
 
 offshoreLiabilities.title = Do you want to disclose offshore liabilities?
 offshoreLiabilities.heading = Do you want to disclose offshore liabilities?
-offshoreLiabilities.option1 = I want to disclose offshore liabilities
-offshoreLiabilities.option2 = I do not have offshore liabilities to disclose
+offshoreLiabilities.yes = I want to disclose offshore liabilities
+offshoreLiabilities.no = I do not have offshore liabilities to disclose
 offshoreLiabilities.checkYourAnswersLabel = Do you want to disclose offshore liabilities?
 offshoreLiabilities.error.required = Select if you want to disclose offshore liabilities or not
 offshoreLiabilities.change.hidden = OffshoreLiabilities
