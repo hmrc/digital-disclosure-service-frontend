@@ -141,3 +141,10 @@ onlyOnshoreLiabilities.bulletList.second = have income from savings and or inves
 onlyOnshoreLiabilities.bulletList.third = have a capital gain to declare
 onlyOnshoreLiabilities.bulletList.forth = have income from self-employment, partnerships, freelance or commission-based work
 onlyOnshoreLiabilities.paragraph.third = or your income does not fall into the offshore category.
+
+whatIsYourFullName.title = What is your full name?
+whatIsYourFullName.heading = What is your full name?
+whatIsYourFullName.checkYourAnswersLabel = What is your full name?
+whatIsYourFullName.error.required = Enter your full name
+whatIsYourFullName.error.length = Your full name must be 50 characters or less
+whatIsYourFullName.change.hidden = WhatIsYourFullName
