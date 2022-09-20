@@ -141,3 +141,11 @@ onlyOnshoreLiabilities.bulletList.second = have income from savings and or inves
 onlyOnshoreLiabilities.bulletList.third = have a capital gain to declare
 onlyOnshoreLiabilities.bulletList.forth = have income from self-employment, partnerships, freelance or commission-based work
 onlyOnshoreLiabilities.paragraph.third = or your income does not fall into the offshore category.
+
+yourPhoneNumber.title = What is your telephone number?
+yourPhoneNumber.heading = What is your telephone number?
+yourPhoneNumber.label = If this is a UK landline or an overseas number, you must include the area or dialing code.
+yourPhoneNumber.hint = For example, 01642 123456, 07777 777777 or +33 1 2345 6788.
+yourPhoneNumber.error.required = Enter yourPhoneNumber
+yourPhoneNumber.error.length = YourPhoneNumber must be 100 characters or less
+yourPhoneNumber.change.hidden = YourPhoneNumber

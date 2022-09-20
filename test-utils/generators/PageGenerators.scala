@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryYourPhoneNumberPage: Arbitrary[YourPhoneNumberPage.type] =
+    Arbitrary(YourPhoneNumberPage)
+
   implicit lazy val arbitraryLetterReferencePage: Arbitrary[LetterReferencePage.type] =
     Arbitrary(LetterReferencePage)
 
