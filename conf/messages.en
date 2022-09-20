@@ -141,3 +141,10 @@ onlyOnshoreLiabilities.bulletList.second = have income from savings and or inves
 onlyOnshoreLiabilities.bulletList.third = have a capital gain to declare
 onlyOnshoreLiabilities.bulletList.forth = have income from self-employment, partnerships, freelance or commission-based work
 onlyOnshoreLiabilities.paragraph.third = or your income does not fall into the offshore category.
+
+doYouHaveAnEmailAddress.title = Do you have an email address that you are happy to be contacted on by HMRC?
+doYouHaveAnEmailAddress.heading = Do you have an email address that you are happy to be contacted on by HMRC?
+doYouHaveAnEmailAddress.checkYourAnswersLabel = Do you have an email address that you are happy to be contacted on by HMRC?
+doYouHaveAnEmailAddress.paragraph = HMRC will only use this email address if they need to contact you about this disclosure
+doYouHaveAnEmailAddress.error.required = Select yes if you have an email address that you are happy to be contacted on by HMRC
+doYouHaveAnEmailAddress.change.hidden = DoYouHaveAnEmailAddress
