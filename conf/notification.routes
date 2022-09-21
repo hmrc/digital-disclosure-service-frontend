@@ -29,3 +29,8 @@ GET        /disclose-offshore-liabilities/change            controllers.notifica
 POST       /disclose-offshore-liabilities/change            controllers.notification.OffshoreLiabilitiesController.onSubmit(mode: Mode = CheckMode)
 
 GET        /disclose-onshore-liabilities-only               controllers.notification.OnlyOnshoreLiabilitiesController.onPageLoad
+
+GET        /your-email-address                              controllers.notification.YourEmailAddressController.onPageLoad(mode: Mode = NormalMode)
+POST       /your-email-address                              controllers.notification.YourEmailAddressController.onSubmit(mode: Mode = NormalMode)
+GET        /your-email-address/change                       controllers.notification.YourEmailAddressController.onPageLoad(mode: Mode = CheckMode)
+POST       /your-email-address/change                       controllers.notification.YourEmailAddressController.onSubmit(mode: Mode = CheckMode)
