@@ -102,10 +102,10 @@ onshoreLiabilities.bulletList.second = have income from savings and or investmen
 onshoreLiabilities.bulletList.third = have a capital gain to declare
 onshoreLiabilities.bulletList.forth = have income from self-employment, partnerships, freelance or commission-based work
 onshoreLiabilities.paragraph.third = or your income does not fall into the offshore category.
-onshoreLiabilities.option1 = I want to disclose onshore liabilities
-onshoreLiabilities.option2 = I do not have onshore liabilities to disclose
+onshoreLiabilities.yes = I want to disclose onshore liabilities
+onshoreLiabilities.no = I do not have onshore liabilities to disclose
 onshoreLiabilities.checkYourAnswersLabel = Do you also want to disclose onshore liabilities?
-onshoreLiabilities.error.required = Select onshoreLiabilities
+onshoreLiabilities.error.required = Select if you want to disclose onshore liabilities or not
 onshoreLiabilities.change.hidden = OnshoreLiabilities
 
 letterReference.title = What is the reference number of the letter you received from HMRC?
