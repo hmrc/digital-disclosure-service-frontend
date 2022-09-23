@@ -30,6 +30,11 @@ POST       /disclose-offshore-liabilities/change            controllers.notifica
 
 GET        /disclose-onshore-liabilities-only               controllers.notification.OnlyOnshoreLiabilitiesController.onPageLoad
 
+GET        /your-telephone-number                           controllers.notification.YourPhoneNumberController.onPageLoad(mode: Mode = NormalMode)
+POST       /your-telephone-number                           controllers.notification.YourPhoneNumberController.onSubmit(mode: Mode = NormalMode)
+GET        /your-telephone-number/change                    controllers.notification.YourPhoneNumberController.onPageLoad(mode: Mode = CheckMode)
+POST       /your-telephone-number/change                    controllers.notification.YourPhoneNumberController.onSubmit(mode: Mode = CheckMode)
+
 GET        /contact-by-email                                controllers.notification.DoYouHaveAnEmailAddressController.onPageLoad(mode: Mode = NormalMode)
 POST       /contact-by-email                                controllers.notification.DoYouHaveAnEmailAddressController.onSubmit(mode: Mode = NormalMode)
 GET        /contact-by-email/change                         controllers.notification.DoYouHaveAnEmailAddressController.onPageLoad(mode: Mode = CheckMode)
