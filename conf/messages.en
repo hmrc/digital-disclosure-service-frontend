@@ -105,7 +105,7 @@ areYouTheIndividual.yes = Yes, I am the individual
 areYouTheIndividual.no = No, I am disclosing on behalf of the individual
 areYouTheIndividual.hint.no = We may ask for additional evidence that you’re authorised to act for them, such as a 64-8 form.
 areYouTheIndividual.checkYourAnswersLabel = Are you the individual this disclosure relates to?
-areYouTheIndividual.error.required = Select areYouTheIndividual
+areYouTheIndividual.error.required = Select yes if you are the individual.
 areYouTheIndividual.change.hidden = AreYouTheIndividual
 
 onshoreLiabilities.title = Do you also want to disclose onshore liabilities?
