@@ -158,6 +158,13 @@ onlyOnshoreLiabilities.bulletList.third = have a capital gain to declare
 onlyOnshoreLiabilities.bulletList.forth = have income from self-employment, partnerships, freelance or commission-based work
 onlyOnshoreLiabilities.paragraph.third = or your income does not fall into the offshore category.
 
+yourEmailAddress.title = What is your email address?
+yourEmailAddress.heading = What is your email address?
+yourEmailAddress.hint = For example, name@example.com.
+yourEmailAddress.error.required = Enter a valid email address, like name@example.com.
+yourEmailAddress.error.length = Your Email Address must be 100 characters or less.
+yourEmailAddress.change.hidden = YourEmailAddress
+
 yourPhoneNumber.title = What is your telephone number?
 yourPhoneNumber.heading = What is your telephone number?
 yourPhoneNumber.label = If this is a UK landline or an overseas number, you must include the area or dialing code.
