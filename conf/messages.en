@@ -118,10 +118,10 @@ onshoreLiabilities.bulletList.second = have income from savings and or investmen
 onshoreLiabilities.bulletList.third = have a capital gain to declare
 onshoreLiabilities.bulletList.forth = have income from self-employment, partnerships, freelance or commission-based work
 onshoreLiabilities.paragraph.third = or your income does not fall into the offshore category.
-onshoreLiabilities.option1 = I want to disclose onshore liabilities
-onshoreLiabilities.option2 = I do not have onshore liabilities to disclose
+onshoreLiabilities.yes = I want to disclose onshore liabilities
+onshoreLiabilities.no = I do not have onshore liabilities to disclose
 onshoreLiabilities.checkYourAnswersLabel = Do you also want to disclose onshore liabilities?
-onshoreLiabilities.error.required = Select onshoreLiabilities
+onshoreLiabilities.error.required = Select if you want to disclose onshore liabilities or not
 onshoreLiabilities.change.hidden = OnshoreLiabilities
 
 letterReference.title = What is the reference number of the letter you received from HMRC?
@@ -146,7 +146,6 @@ offshoreLiabilities.bulletList.third = income from savings or investments
 offshoreLiabilities.bulletList.forth = anything else that could be classed as business income, assets or investments
 offshoreLiabilities.guidance.link = Find more information about offshore liabilities (opens in new tab)
 
-
 onlyOnshoreLiabilities.title = The disclosure is only about onshore liabilities
 onlyOnshoreLiabilities.heading = The disclosure is only about onshore liabilities
 onlyOnshoreLiabilities.paragraph.first = 'As you have no offshore liabilities to disclose, the disclosure is only about onshore liabilities. '
@@ -157,6 +156,13 @@ onlyOnshoreLiabilities.bulletList.second = have income from savings and or inves
 onlyOnshoreLiabilities.bulletList.third = have a capital gain to declare
 onlyOnshoreLiabilities.bulletList.forth = have income from self-employment, partnerships, freelance or commission-based work
 onlyOnshoreLiabilities.paragraph.third = or your income does not fall into the offshore category.
+
+whatIsYourFullName.title = What is your full name?
+whatIsYourFullName.heading = What is your full name?
+whatIsYourFullName.checkYourAnswersLabel = What is your full name?
+whatIsYourFullName.error.required = Enter your full name
+whatIsYourFullName.error.length = Your full name must be 50 characters or less
+whatIsYourFullName.change.hidden = WhatIsYourFullName
 
 yourEmailAddress.title = What is your email address?
 yourEmailAddress.heading = What is your email address?

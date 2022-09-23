@@ -24,11 +24,11 @@ sealed trait OnshoreLiabilities
 
 object OnshoreLiabilities extends Enumerable.Implicits {
 
-  case object Option1 extends WithName("option1") with OnshoreLiabilities
-  case object Option2 extends WithName("option2") with OnshoreLiabilities
+  case object IWantTo extends WithName("yes") with OnshoreLiabilities
+  case object IDoNotWantTo extends WithName("no") with OnshoreLiabilities
 
   val values: Seq[OnshoreLiabilities] = Seq(
-    Option1, Option2
+    IWantTo, IDoNotWantTo
   )
 
   def options(implicit messages: Messages): Seq[RadioItem] = values.zipWithIndex.map {

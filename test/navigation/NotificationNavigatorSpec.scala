@@ -90,6 +90,20 @@ class NotificationNavigatorSpec extends SpecBase {
       }
     }
 
+    "must go from the OnshoreLiabilities page to the WhatIsYourFullName controller when the user selects Yes" in {
+      UserAnswers("id").set(OnshoreLiabilitiesPage, OnshoreLiabilities.IWantTo) match {
+        case Success(ua) => navigator.nextPage(OnshoreLiabilitiesPage, NormalMode, ua) mustBe routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+        case Failure(e) => throw e
+      }
+    }
+
+    "must go from the OnshoreLiabilities page to the WhatIsYourFullName controller when the user selects No" in {
+      UserAnswers("id").set(OnshoreLiabilitiesPage, OnshoreLiabilities.IDoNotWantTo) match {
+        case Success(ua) => navigator.nextPage(OnshoreLiabilitiesPage, NormalMode, ua) mustBe routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+        case Failure(e) => throw e
+      }
+    }
+
     "in Check mode" - {
 
       "must go from a page that doesn't exist in the edit route map to CheckYourAnswers" in {
