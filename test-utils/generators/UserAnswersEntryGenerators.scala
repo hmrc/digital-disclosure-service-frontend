@@ -29,7 +29,7 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
       for {
         page  <- arbitrary[YourPhoneNumberPage.type]
         value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
-      }
+      } yield (page, value)
     }
 
   implicit lazy val arbitraryDoYouHaveAnEmailAddressUserAnswersEntry: Arbitrary[(DoYouHaveAnEmailAddressPage.type, JsValue)] =
