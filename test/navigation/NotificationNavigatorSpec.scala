@@ -61,19 +61,32 @@ class NotificationNavigatorSpec extends SpecBase {
       "must go from the RelatesTo page to the AreYouTheIndividual controller" in {
         navigator.nextPage(RelatesToPage, NormalMode, UserAnswers("id")) mustBe routes.AreYouTheIndividualController.onPageLoad(NormalMode)
       }
-    }
-
-    "must go from the AreYouTheIndividual page to the OffshoreLiabilities controller when the user selects Yes" in {
-      UserAnswers("id").set(AreYouTheIndividualPage, AreYouTheIndividual.Yes) match {
-        case Success(ua) => navigator.nextPage(AreYouTheIndividualPage, NormalMode, ua) mustBe routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
-        case Failure(e) => throw e
+      "must go from the AreYouTheIndividual page to the OffshoreLiabilities controller when the user selects Yes" in {
+        UserAnswers("id").set(AreYouTheIndividualPage, AreYouTheIndividual.Yes) match {
+          case Success(ua) => navigator.nextPage(AreYouTheIndividualPage, NormalMode, ua) mustBe routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
       }
-    }
 
-    "must go from the AreYouTheIndividual page to the OffshoreLiabilities controller when the user selects No" in {
-      UserAnswers("id").set(AreYouTheIndividualPage, AreYouTheIndividual.No) match {
-        case Success(ua) => navigator.nextPage(AreYouTheIndividualPage, NormalMode, ua) mustBe routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
-        case Failure(e) => throw e
+      "must go from the AreYouTheIndividual page to the OffshoreLiabilities controller when the user selects No" in {
+        UserAnswers("id").set(AreYouTheIndividualPage, AreYouTheIndividual.No) match {
+          case Success(ua) => navigator.nextPage(AreYouTheIndividualPage, NormalMode, ua) mustBe routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the OffshoreLiabilities page to the OnshoreLiabilities controller when the user selects 'I want to disclose offshore liabilities'" in {
+        UserAnswers("id").set(OffshoreLiabilitiesPage, OffshoreLiabilities.IWantTo) match {
+          case Success(ua) => navigator.nextPage(OffshoreLiabilitiesPage, NormalMode, ua) mustBe routes.OnshoreLiabilitiesController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the OffshoreLiabilities page to the OnshoreLiabilities controller when the user selects 'I do not have offshore liabilities to disclose'" in {
+        UserAnswers("id").set(OffshoreLiabilitiesPage, OffshoreLiabilities.IDoNotWantTo) match {
+          case Success(ua) => navigator.nextPage(OffshoreLiabilitiesPage, NormalMode, ua) mustBe routes.OnlyOnshoreLiabilitiesController.onPageLoad
+          case Failure(e) => throw e
+        }
       }
     }
 

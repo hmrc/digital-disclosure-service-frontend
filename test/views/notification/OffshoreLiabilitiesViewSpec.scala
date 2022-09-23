@@ -71,11 +71,11 @@ class OffshoreLiabilitiesViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "have I want to disclose offshore liabilities option" in {
-      view.getElementsByClass("govuk-radios__label").first().text() mustBe messages("offshoreLiabilities.option1")
+      view.getElementsByClass("govuk-radios__label").first().text() mustBe messages("offshoreLiabilities.yes")
     }
 
     "have I do not have offshore liabilities to disclose option" in {
-      view.getElementsByClass("govuk-radios__label").last().text() mustBe messages("offshoreLiabilities.option2")
+      view.getElementsByClass("govuk-radios__label").last().text() mustBe messages("offshoreLiabilities.no")
     }
 
     "display the continue button" in {

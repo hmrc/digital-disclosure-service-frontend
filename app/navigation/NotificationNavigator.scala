@@ -45,6 +45,12 @@ class NotificationNavigator @Inject()() {
       case Some(OnshoreLiabilities.IDoNotWantTo) => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
       case None => routes.OnshoreLiabilitiesController.onPageLoad(NormalMode)
     }
+    
+    case OffshoreLiabilitiesPage => ua => ua.get(OffshoreLiabilitiesPage) match {
+      case Some(OffshoreLiabilities.IWantTo) => routes.OnshoreLiabilitiesController.onPageLoad(NormalMode)
+      case Some(OffshoreLiabilities.IDoNotWantTo) => routes.OnlyOnshoreLiabilitiesController.onPageLoad
+      case None => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
+    }
 
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
