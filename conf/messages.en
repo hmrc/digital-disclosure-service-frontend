@@ -38,8 +38,24 @@ error.summary.title = There is a problem
 
 index.title = Digital Disclosure Service
 index.heading = Digital Disclosure Service
-index.guidance = Use this form to tell us about undisclosed income from previous years that you need to pay tax on for the tax years between 2002/03 to 2020/21. However, if you have been sent a tax return for any tax year from 2018/19 which is still outstanding, you must complete it and not include the tax from these tax years in this disclosure. You will still have to pay any late payment and late filing penalties charged.
+index.guidance.paragraph.first = You can tell us about undisclosed income you need to pay tax on for any years between the tax years ending 2003 and 2021. However, if you have been sent a tax return for any year from the tax year ending 2019 which is still outstanding, you must complete it as normal – do not include the tax from these tax years in this disclosure.
+index.guidance.paragraph.second = You'''ll first need to tell ('notify') us that you'''re going to pay HMRC the tax, interest and penalties you owe ('make a disclosure'). We will then write to you with specific reference numbers which are needed for making your full disclosure by using this service again.
+index.guidance.paragraph.third = 'You will also be asked to pay the full amount due at the same time as making your disclosure. If you cannot pay the full amount, '
+index.guidance.paragraph.third.link = let us know as soon as possible and before you send in your disclosure by calling the helpline (opens in a new tab)
 index.start = Start now
+index.heading.second = Before you start
+index.guidance.paragraph.forth.link = Read the guidance on making a disclosure (opens in a new tab) 
+index.guidance.paragraph.forth = ' before using this online service. This explains how to prepare your disclosure and what to expect.'
+index.guidance.paragraph.fifth = 'You can '
+index.guidance.paragraph.fifth.link = authorise someone else to deal with HMRC for you (opens in a new tab)
+index.guidance.paragraph.sixth = ', for example an accountant, friend or relative.'
+index.heading.third = What you will need to complete your disclosure
+index.guidance.paragraph.seventh = You will need:
+index.bulletList.first = 'figures for the tax, interest and penalty due on any sources of onshore or offshore income. Find help on ' 
+index.bulletList.first.link = how to calculate these figures in the guidance on making a voluntary disclosure (opens in a new tab)
+index.bulletList.second = a disclosure reference number
+index.bulletList.third = other relevant numbers such as National Insurance number, VAT registration number and Unique Taxpayer Reference number
+index.bulletList.forth = any other reference numbers you might have received from HMRC about unpaid tax
 
 checkYourAnswers.title = Check Your Answers
 checkYourAnswers.heading = Check Your Answers
@@ -61,10 +77,10 @@ unauthorised.heading = You can't access this service with this account
 # ----------------------------------------------------------
 # Notification Messages
 # ----------------------------------------------------------
-receivedALetter.title = Are you making this disclosure because you have received a letter from HMRC?
-receivedALetter.heading = Are you making this disclosure because you have received a letter from HMRC?
+receivedALetter.title = Are you making a disclosure because you have received a letter from HMRC?
+receivedALetter.heading = Are you making a disclosure because you have received a letter from HMRC?
 receivedALetter.error.required = Select yes if you are making this disclosure because you have received a letter from HMRC.
-receivedALetter.checkYourAnswersLabel = Are you making this disclosure because you have received a letter from HMRC?
+receivedALetter.checkYourAnswersLabel = Are you making a disclosure because you have received a letter from HMRC?
 receivedALetter.change.hidden = ReceivedALetter
 
 relatesTo.title = What is the disclosure about?
@@ -89,7 +105,7 @@ areYouTheIndividual.yes = Yes, I am the individual
 areYouTheIndividual.no = No, I am disclosing on behalf of the individual
 areYouTheIndividual.hint.no = We may ask for additional evidence that you’re authorised to act for them, such as a 64-8 form.
 areYouTheIndividual.checkYourAnswersLabel = Are you the individual this disclosure relates to?
-areYouTheIndividual.error.required = Select areYouTheIndividual
+areYouTheIndividual.error.required = Select yes if you are the individual.
 areYouTheIndividual.change.hidden = AreYouTheIndividual
 
 onshoreLiabilities.title = Do you also want to disclose onshore liabilities?
@@ -117,10 +133,10 @@ letterReference.change.hidden = LetterReference
 
 offshoreLiabilities.title = Do you want to disclose offshore liabilities?
 offshoreLiabilities.heading = Do you want to disclose offshore liabilities?
-offshoreLiabilities.option1 = I want to disclose offshore liabilities
-offshoreLiabilities.option2 = I do not have offshore liabilities to disclose
+offshoreLiabilities.yes = I want to disclose offshore liabilities
+offshoreLiabilities.no = I do not have offshore liabilities to disclose
 offshoreLiabilities.checkYourAnswersLabel = Do you want to disclose offshore liabilities?
-offshoreLiabilities.error.required = Select offshoreLiabilities
+offshoreLiabilities.error.required = Select if you want to disclose offshore liabilities or not
 offshoreLiabilities.change.hidden = OffshoreLiabilities
 offshoreLiabilities.paragraph.first = Offshore liabilities can be:
 offshoreLiabilities.paragraph.second = or where the funds connected to the UK liability have been transfered to a territory outside the UK.
@@ -142,10 +158,24 @@ onlyOnshoreLiabilities.bulletList.third = have a capital gain to declare
 onlyOnshoreLiabilities.bulletList.forth = have income from self-employment, partnerships, freelance or commission-based work
 onlyOnshoreLiabilities.paragraph.third = or your income does not fall into the offshore category.
 
-
 yourEmailAddress.title = What is your email address?
 yourEmailAddress.heading = What is your email address?
 yourEmailAddress.hint = For example, name@example.com.
 yourEmailAddress.error.required = Enter a valid email address, like name@example.com.
 yourEmailAddress.error.length = Your Email Address must be 100 characters or less.
 yourEmailAddress.change.hidden = YourEmailAddress
+
+yourPhoneNumber.title = What is your telephone number?
+yourPhoneNumber.heading = What is your telephone number?
+yourPhoneNumber.label = If this is a UK landline or an overseas number, you must include the area or dialing code.
+yourPhoneNumber.hint = For example, 01642 123456, 07777 777777 or +33 1 2345 6788.
+yourPhoneNumber.error.required = Enter your telephone number.
+yourPhoneNumber.error.length = Your Phone Number must be 100 characters or less.
+yourPhoneNumber.change.hidden = YourPhoneNumber
+
+doYouHaveAnEmailAddress.title = Do you have an email address that you are happy to be contacted on by HMRC?
+doYouHaveAnEmailAddress.heading = Do you have an email address that you are happy to be contacted on by HMRC?
+doYouHaveAnEmailAddress.checkYourAnswersLabel = Do you have an email address that you are happy to be contacted on by HMRC?
+doYouHaveAnEmailAddress.paragraph = HMRC will only use this email address if they need to contact you about this disclosure
+doYouHaveAnEmailAddress.error.required = Select yes if you have an email address that you are happy to be contacted on by HMRC
+doYouHaveAnEmailAddress.change.hidden = DoYouHaveAnEmailAddress
