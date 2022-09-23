@@ -104,6 +104,13 @@ class NotificationNavigatorSpec extends SpecBase {
       }
     }
 
+    "must go from the WhatIsYourFullName page to the YourPhoneNumber controller when the user enter name" in {
+      UserAnswers("id").set(WhatIsYourFullNamePage, "test") match {
+        case Success(ua) => navigator.nextPage(WhatIsYourFullNamePage, NormalMode, ua) mustBe routes.YourPhoneNumberController.onPageLoad(NormalMode)
+        case Failure(e) => throw e
+      }
+    }
+
     "in Check mode" - {
 
       "must go from a page that doesn't exist in the edit route map to CheckYourAnswers" in {
