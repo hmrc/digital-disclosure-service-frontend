@@ -45,10 +45,11 @@
         Text(messages("onlyOnshoreLiabilities.bulletList.forth"))
     ))
 
-    @paragraph(id = Some("third-paragraph"), content = Text(messages("onlyOnshoreLiabilities.paragraph.third"))
-    )
+    @paragraph(id = Some("third-paragraph"), content = Text(messages("onlyOnshoreLiabilities.paragraph.third")))
 
     @govukButton(
-        ButtonViewModel(messages("site.confirmAndContinue")).withAttribute("id","continue")
+        ButtonViewModel(messages("site.confirmAndContinue"))
+                .withAttribute("id","continue")
+                .asLink(controllers.notification.routes.WhatIsYourFullNameController.onPageLoad(NormalMode).url)
     )
 }
