@@ -195,3 +195,10 @@ whatIsYourDateOfBirth.error.required.two = The date of birth must include {0} an
 whatIsYourDateOfBirth.error.required = The date of birth must include {0}
 whatIsYourDateOfBirth.error.invalid = Enter a real date of birth
 whatIsYourDateOfBirth.change.hidden = WhatIsYourDateOfBirth
+
+whatIsYourMainOccupation.title = What is your main occupation?
+whatIsYourMainOccupation.heading = What is your main occupation?
+whatIsYourMainOccupation.checkYourAnswersLabel = What is your main occupation?
+whatIsYourMainOccupation.error.required = Enter your main occupation
+whatIsYourMainOccupation.error.length = Your main occupation must be 100 characters or less
+whatIsYourMainOccupation.change.hidden = WhatIsYourMainOccupation
