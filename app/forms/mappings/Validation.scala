@@ -14,33 +14,10 @@
  * limitations under the License.
  */
 
-package forms
+package forms.mappings
 
-import forms.behaviours.StringFieldBehaviours
-import play.api.data.FormError
+trait Validation {
 
-class YourPhoneNumberFormProviderSpec extends StringFieldBehaviours {
+  val telephoneRegex = """^\+[0-9 ]{1,18}$|^0[0-9 ]{1,19}$"""
 
-  val requiredKey = "yourPhoneNumber.error.required"
-  val lengthKey = "yourPhoneNumber.error.length"
-  val maxLength = 20
-
-  val form = new YourPhoneNumberFormProvider()()
-
-  ".value" - {
-
-    val fieldName = "value"
-
-    behave like fieldThatBindsValidData(
-      form,
-      fieldName,
-      phoneNumber
-    )
-
-    behave like mandatoryField(
-      form,
-      fieldName,
-      requiredError = FormError(fieldName, requiredKey)
-    )
-  }
 }

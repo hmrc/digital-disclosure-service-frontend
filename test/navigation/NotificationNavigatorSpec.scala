@@ -88,26 +88,33 @@ class NotificationNavigatorSpec extends SpecBase {
           case Failure(e) => throw e
         }
       }
-    }
 
-    "must go from the OnshoreLiabilities page to the WhatIsYourFullName controller when the user selects Yes" in {
-      UserAnswers("id").set(OnshoreLiabilitiesPage, OnshoreLiabilities.IWantTo) match {
-        case Success(ua) => navigator.nextPage(OnshoreLiabilitiesPage, NormalMode, ua) mustBe routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
-        case Failure(e) => throw e
+      "must go from the OnshoreLiabilities page to the WhatIsYourFullName controller when the user selects Yes" in {
+        UserAnswers("id").set(OnshoreLiabilitiesPage, OnshoreLiabilities.IWantTo) match {
+          case Success(ua) => navigator.nextPage(OnshoreLiabilitiesPage, NormalMode, ua) mustBe routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
       }
-    }
 
-    "must go from the OnshoreLiabilities page to the WhatIsYourFullName controller when the user selects No" in {
-      UserAnswers("id").set(OnshoreLiabilitiesPage, OnshoreLiabilities.IDoNotWantTo) match {
-        case Success(ua) => navigator.nextPage(OnshoreLiabilitiesPage, NormalMode, ua) mustBe routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
-        case Failure(e) => throw e
+      "must go from the OnshoreLiabilities page to the WhatIsYourFullName controller when the user selects No" in {
+        UserAnswers("id").set(OnshoreLiabilitiesPage, OnshoreLiabilities.IDoNotWantTo) match {
+          case Success(ua) => navigator.nextPage(OnshoreLiabilitiesPage, NormalMode, ua) mustBe routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
       }
-    }
 
-    "must go from the WhatIsYourFullName page to the YourPhoneNumber controller when the user enter name" in {
-      UserAnswers("id").set(WhatIsYourFullNamePage, "test") match {
-        case Success(ua) => navigator.nextPage(WhatIsYourFullNamePage, NormalMode, ua) mustBe routes.YourPhoneNumberController.onPageLoad(NormalMode)
-        case Failure(e) => throw e
+      "must go from the WhatIsYourFullName page to the YourPhoneNumber controller when the user enter name" in {
+        UserAnswers("id").set(WhatIsYourFullNamePage, "test") match {
+          case Success(ua) => navigator.nextPage(WhatIsYourFullNamePage, NormalMode, ua) mustBe routes.YourPhoneNumberController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the YourPhoneNumber page to the YourEmailAddress controller when the user enter name" in {
+        UserAnswers("id").set(YourPhoneNumberPage, "test") match {
+          case Success(ua) => navigator.nextPage(YourPhoneNumberPage, NormalMode, ua) mustBe routes.YourEmailAddressController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
       }
     }
 

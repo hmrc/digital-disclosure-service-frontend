@@ -17,7 +17,6 @@
 package generators
 
 import java.time.{Instant, LocalDate, ZoneOffset}
-
 import org.scalacheck.Arbitrary._
 import org.scalacheck.Gen._
 import org.scalacheck.{Gen, Shrink}
@@ -117,4 +116,9 @@ trait Generators extends UserAnswersGenerator with PageGenerators with ModelGene
         Instant.ofEpochMilli(millis).atOffset(ZoneOffset.UTC).toLocalDate
     }
   }
+
+  def phoneNumber: Gen[String] = for {
+    lenght <- chooseNum(7,18)
+    number <- listOfN(lenght, chooseNum(0, 9))
+  } yield "+" + number.mkString
 }
