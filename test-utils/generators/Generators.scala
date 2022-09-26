@@ -117,8 +117,11 @@ trait Generators extends UserAnswersGenerator with PageGenerators with ModelGene
     }
   }
 
-  def phoneNumber: Gen[String] = for {
-    lenght <- chooseNum(7,18)
-    number <- listOfN(lenght, chooseNum(0, 9))
-  } yield "+" + number.mkString
+  def phoneNumber(areaCode:Boolean = false): Gen[String] = for {
+      lenght <- chooseNum(7, 18)
+      number <- listOfN(lenght, chooseNum(0, 9))
+    } yield {
+      val prefix = if (areaCode) "+" else "0"
+      prefix + number.mkString
+    }
 }

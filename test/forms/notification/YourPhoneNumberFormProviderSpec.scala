@@ -16,14 +16,13 @@
 
 package forms
 
-import forms.behaviours.StringFieldBehaviours
+import forms.behaviours.PhoneNumberBehaviours
 import play.api.data.FormError
 
-class YourPhoneNumberFormProviderSpec extends StringFieldBehaviours {
+class YourPhoneNumberFormProviderSpec extends PhoneNumberBehaviours {
 
   val requiredKey = "yourPhoneNumber.error.required"
   val lengthKey = "yourPhoneNumber.error.length"
-  val maxLength = 20
 
   val form = new YourPhoneNumberFormProvider()()
 
@@ -31,10 +30,14 @@ class YourPhoneNumberFormProviderSpec extends StringFieldBehaviours {
 
     val fieldName = "value"
 
-    behave like fieldThatBindsValidData(
+    behave like phoneNumberBindsValidData(
       form,
-      fieldName,
-      phoneNumber
+      fieldName
+    )
+
+    behave like phoneNumberWithAreaCodeBindsValidData(
+      form,
+      fieldName
     )
 
     behave like mandatoryField(
