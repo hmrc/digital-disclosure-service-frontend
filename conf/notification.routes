@@ -49,3 +49,8 @@ GET        /contact-by-email                                controllers.notifica
 POST       /contact-by-email                                controllers.notification.DoYouHaveAnEmailAddressController.onSubmit(mode: Mode = NormalMode)
 GET        /contact-by-email/change                         controllers.notification.DoYouHaveAnEmailAddressController.onPageLoad(mode: Mode = CheckMode)
 POST       /contact-by-email/change                         controllers.notification.DoYouHaveAnEmailAddressController.onSubmit(mode: Mode = CheckMode)
+
+GET        /your-date-of-birth                              controllers.notification.WhatIsYourDateOfBirthController.onPageLoad(mode: Mode = NormalMode)
+POST       /your-date-of-birth                              controllers.notification.WhatIsYourDateOfBirthController.onSubmit(mode: Mode = NormalMode)
+GET        /your-date-of-birth/change                       controllers.notification.WhatIsYourDateOfBirthController.onPageLoad(mode: Mode = CheckMode)
+POST       /your-date-of-birth/change                       controllers.notification.WhatIsYourDateOfBirthController.onSubmit(mode: Mode = CheckMode)
