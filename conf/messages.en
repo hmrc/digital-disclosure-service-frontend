@@ -194,3 +194,28 @@ whatIsYourDateOfBirth.error.required.two = The date of birth must include {0} an
 whatIsYourDateOfBirth.error.required = The date of birth must include {0}
 whatIsYourDateOfBirth.error.invalid = Enter a real date of birth
 whatIsYourDateOfBirth.change.hidden = WhatIsYourDateOfBirth
+
+whatIsYourMainOccupation.title = What is your main occupation?
+whatIsYourMainOccupation.heading = What is your main occupation?
+whatIsYourMainOccupation.checkYourAnswersLabel = What is your main occupation?
+whatIsYourMainOccupation.error.required = Enter your main occupation
+whatIsYourMainOccupation.error.length = Your main occupation must be 100 characters or less
+whatIsYourMainOccupation.change.hidden = WhatIsYourMainOccupation
+
+doYouHaveNationalInsuranceNumber.title = Do you have a National Insurance number?
+doYouHaveNationalInsuranceNumber.heading = Do you have a National Insurance number?
+doYouHaveNationalInsuranceNumber.yesIKnow = Yes, and I know my National Insurance number
+doYouHaveNationalInsuranceNumber.yesButDontKnow = Yes, but I do not know my National Insurance number
+doYouHaveNationalInsuranceNumber.no = No
+doYouHaveNationalInsuranceNumber.checkYourAnswersLabel = Do you have a National Insurance number?
+doYouHaveNationalInsuranceNumber.error.required = Select Yes, and I know my National Insurance number
+doYouHaveNationalInsuranceNumber.change.hidden = DoYouHaveNationalInsuranceNumber
+
+whatIsYourNationalInsuranceNumber.title = What is your National Insurance number?
+whatIsYourNationalInsuranceNumber.heading = What is your National Insurance number?
+whatIsYourNationalInsuranceNumber.label = This is on your payslip, P60 or tax return.
+whatIsYourNationalInsuranceNumber.hint = For example, ‘QQ123456A’.
+whatIsYourNationalInsuranceNumber.checkYourAnswersLabel = What is your National Insurance number?
+whatIsYourNationalInsuranceNumber.error.required = Enter your National Insurance number
+whatIsYourNationalInsuranceNumber.error.length = National Insurance number must be 10 characters or less
+whatIsYourNationalInsuranceNumber.change.hidden = WhatIsYourNationalInsuranceNumber
