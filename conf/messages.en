@@ -202,3 +202,12 @@ whatIsYourMainOccupation.checkYourAnswersLabel = What is your main occupation?
 whatIsYourMainOccupation.error.required = Enter your main occupation
 whatIsYourMainOccupation.error.length = Your main occupation must be 100 characters or less
 whatIsYourMainOccupation.change.hidden = WhatIsYourMainOccupation
+
+doYouHaveNationalInsuranceNumber.title = Do you have a National Insurance number?
+doYouHaveNationalInsuranceNumber.heading = Do you have a National Insurance number?
+doYouHaveNationalInsuranceNumber.yesIKnow = Yes, and I know my National Insurance number
+doYouHaveNationalInsuranceNumber.yesButDontKnow = Yes, but I do not know my National Insurance number
+doYouHaveNationalInsuranceNumber.no = No
+doYouHaveNationalInsuranceNumber.checkYourAnswersLabel = Do you have a National Insurance number?
+doYouHaveNationalInsuranceNumber.error.required = Select Yes, and I know my National Insurance number
+doYouHaveNationalInsuranceNumber.change.hidden = DoYouHaveNationalInsuranceNumber

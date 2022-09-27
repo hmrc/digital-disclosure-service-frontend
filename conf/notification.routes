@@ -59,3 +59,8 @@ GET        /your-main-occupation                            controllers.notifica
 POST       /your-main-occupation                            controllers.notification.WhatIsYourMainOccupationController.onSubmit(mode: Mode = NormalMode)
 GET        /your-main-occupation/change                     controllers.notification.WhatIsYourMainOccupationController.onPageLoad(mode: Mode = CheckMode)
 POST       /your-main-occupation/change                     controllers.notification.WhatIsYourMainOccupationController.onSubmit(mode: Mode = CheckMode)
+
+GET        /have-national-insurance-number                  controllers.notification.DoYouHaveNationalInsuranceNumberController.onPageLoad(mode: Mode = NormalMode)
+POST       /have-national-insurance-number                  controllers.notification.DoYouHaveNationalInsuranceNumberController.onSubmit(mode: Mode = NormalMode)
+GET        /have-national-insurance-number/change           controllers.notification.DoYouHaveNationalInsuranceNumberController.onPageLoad(mode: Mode = CheckMode)
+POST       /have-national-insurance-number/change           controllers.notification.DoYouHaveNationalInsuranceNumberController.onSubmit(mode: Mode = CheckMode)
