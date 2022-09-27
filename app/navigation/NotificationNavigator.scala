@@ -59,7 +59,7 @@ class NotificationNavigator @Inject()() {
     case DoYouHaveAnEmailAddressPage => ua => ua.get(DoYouHaveAnEmailAddressPage) match {
       case Some(true) => routes.YourEmailAddressController.onPageLoad(NormalMode)
       case Some(false) => routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
-      case None => routes.OnshoreLiabilitiesController.onPageLoad(NormalMode)
+      case None => routes.DoYouHaveAnEmailAddressController.onPageLoad(NormalMode)
     }
 
 
