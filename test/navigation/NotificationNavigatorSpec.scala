@@ -116,6 +116,20 @@ class NotificationNavigatorSpec extends SpecBase {
           case Failure(e) => throw e
         }
       }
+
+      "must go from the DoYouHaveAnEmailAddress page to the WhatIsYourDateOfBirth controller when the user selects No" in {
+        UserAnswers("id").set(DoYouHaveAnEmailAddressPage, false) match {
+          case Success(ua) => navigator.nextPage(DoYouHaveAnEmailAddressPage, NormalMode, ua) mustBe routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the DoYouHaveAnEmailAddress page to the YourEmailAddress controller when the user selects Yes" in {
+        UserAnswers("id").set(DoYouHaveAnEmailAddressPage, true) match {
+          case Success(ua) => navigator.nextPage(DoYouHaveAnEmailAddressPage, NormalMode, ua) mustBe routes.YourEmailAddressController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
     }
 
     "in Check mode" - {
