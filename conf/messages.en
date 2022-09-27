@@ -220,3 +220,12 @@ whatIsYourNationalInsuranceNumber.checkYourAnswersLabel = What is your National 
 whatIsYourNationalInsuranceNumber.error.required = Enter your National Insurance number
 whatIsYourNationalInsuranceNumber.error.length = National Insurance number must be 10 characters or less
 whatIsYourNationalInsuranceNumber.change.hidden = WhatIsYourNationalInsuranceNumber
+
+whatIsYourVATRegistrationNumber.title = What is your VAT registration number?
+whatIsYourVATRegistrationNumber.heading = What is your VAT registration number?
+whatIsYourVATRegistrationNumber.label = This is a 9 digit number on your VAT certificate or VAT online account.
+whatIsYourVATRegistrationNumber.hint = For example, ‘123456789’.
+whatIsYourVATRegistrationNumber.checkYourAnswersLabel = What is your VAT registration number?
+whatIsYourVATRegistrationNumber.error.required = Enter your VAT registration number
+whatIsYourVATRegistrationNumber.error.length = Your VAT registration number must be 10 characters or less
+whatIsYourVATRegistrationNumber.change.hidden = WhatIsYourVATRegistrationNumber

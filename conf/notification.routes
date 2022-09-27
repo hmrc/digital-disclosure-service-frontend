@@ -69,3 +69,8 @@ GET        /your-national-insurance-number                  controllers.notifica
 POST       /your-national-insurance-number                  controllers.notification.WhatIsYourNationalInsuranceNumberController.onSubmit(mode: Mode = NormalMode)
 GET        /your-national-insurance-number/change           controllers.notification.WhatIsYourNationalInsuranceNumberController.onPageLoad(mode: Mode = CheckMode)
 POST       /your-national-insurance-number/change           controllers.notification.WhatIsYourNationalInsuranceNumberController.onSubmit(mode: Mode = CheckMode)
+
+GET        /your-vat-registration                           controllers.notification.WhatIsYourVATRegistrationNumberController.onPageLoad(mode: Mode = NormalMode)
+POST       /your-vat-registration                           controllers.notification.WhatIsYourVATRegistrationNumberController.onSubmit(mode: Mode = NormalMode)
+GET        /your-vat-registration/change                    controllers.notification.WhatIsYourVATRegistrationNumberController.onPageLoad(mode: Mode = CheckMode)
+POST       /your-vat-registration/change                    controllers.notification.WhatIsYourVATRegistrationNumberController.onSubmit(mode: Mode = CheckMode)
