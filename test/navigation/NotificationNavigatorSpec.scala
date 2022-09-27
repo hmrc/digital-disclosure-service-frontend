@@ -112,7 +112,7 @@ class NotificationNavigatorSpec extends SpecBase {
 
       "must go from the YourPhoneNumber page to the YourEmailAddress controller when the user enter name" in {
         UserAnswers("id").set(YourPhoneNumberPage, "test") match {
-          case Success(ua) => navigator.nextPage(YourPhoneNumberPage, NormalMode, ua) mustBe routes.YourEmailAddressController.onPageLoad(NormalMode)
+          case Success(ua) => navigator.nextPage(YourPhoneNumberPage, NormalMode, ua) mustBe routes.DoYouHaveAnEmailAddressController.onPageLoad(NormalMode)
           case Failure(e) => throw e
         }
       }
