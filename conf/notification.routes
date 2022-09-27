@@ -64,3 +64,8 @@ GET        /have-national-insurance-number                  controllers.notifica
 POST       /have-national-insurance-number                  controllers.notification.DoYouHaveNationalInsuranceNumberController.onSubmit(mode: Mode = NormalMode)
 GET        /have-national-insurance-number/change           controllers.notification.DoYouHaveNationalInsuranceNumberController.onPageLoad(mode: Mode = CheckMode)
 POST       /have-national-insurance-number/change           controllers.notification.DoYouHaveNationalInsuranceNumberController.onSubmit(mode: Mode = CheckMode)
+
+GET        /your-national-insurance-number                  controllers.notification.WhatIsYourNationalInsuranceNumberController.onPageLoad(mode: Mode = NormalMode)
+POST       /your-national-insurance-number                  controllers.notification.WhatIsYourNationalInsuranceNumberController.onSubmit(mode: Mode = NormalMode)
+GET        /your-national-insurance-number/change           controllers.notification.WhatIsYourNationalInsuranceNumberController.onPageLoad(mode: Mode = CheckMode)
+POST       /your-national-insurance-number/change           controllers.notification.WhatIsYourNationalInsuranceNumberController.onSubmit(mode: Mode = CheckMode)
