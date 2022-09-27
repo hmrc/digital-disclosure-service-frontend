@@ -92,7 +92,7 @@ class YourPhoneNumberControllerSpec extends SpecBase with MockitoSugar {
           )
           .build()
 
-      val validPhoneNumber = "07777 777777"
+      val validPhoneNumber = "0777777777"
 
       running(application) {
         val request =

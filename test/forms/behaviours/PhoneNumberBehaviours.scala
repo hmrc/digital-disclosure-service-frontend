@@ -20,12 +20,12 @@ import play.api.data.Form
 
 trait PhoneNumberBehaviours extends FieldBehaviours {
 
-  def phoneNumberBindsValidData(form: Form[_],
+  def ukPhoneNumberBindsValidData(form: Form[_],
                               fieldName: String): Unit = {
 
     "bind valid phone number" in {
 
-      val validDataGenerator = phoneNumber()
+      val validDataGenerator = ukPhoneNumber()
 
       forAll(validDataGenerator -> "validDataItem") {
         dataItem: String =>
@@ -36,11 +36,22 @@ trait PhoneNumberBehaviours extends FieldBehaviours {
     }
   }
 
-  def phoneNumberWithAreaCodeBindsValidData(form: Form[_],
+  def internationalPhoneNumberBindsValidData(form: Form[_],
                                             fieldName: String): Unit = {
 
-    "bind valid data" in {
-      val validDataGenerator = phoneNumber(areaCode = true)
+    "bind international phone number" in {
+      val validDataGenerator = internationalPhoneNumber(doubleZero = true)
+
+      forAll(validDataGenerator -> "validDataItem") {
+        dataItem: String =>
+          val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
+          result.value.value mustBe dataItem
+          result.errors mustBe empty
+      }
+    }
+
+    "bind phone number with double zero prefix" in {
+      val validDataGenerator = internationalPhoneNumber()
 
       forAll(validDataGenerator -> "validDataItem") {
         dataItem: String =>

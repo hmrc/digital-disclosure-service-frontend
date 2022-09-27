@@ -22,7 +22,6 @@ import play.api.data.FormError
 class YourPhoneNumberFormProviderSpec extends PhoneNumberBehaviours {
 
   val requiredKey = "yourPhoneNumber.error.required"
-  val lengthKey = "yourPhoneNumber.error.length"
 
   val form = new YourPhoneNumberFormProvider()()
 
@@ -30,12 +29,12 @@ class YourPhoneNumberFormProviderSpec extends PhoneNumberBehaviours {
 
     val fieldName = "value"
 
-    behave like phoneNumberBindsValidData(
+    behave like ukPhoneNumberBindsValidData(
       form,
       fieldName
     )
 
-    behave like phoneNumberWithAreaCodeBindsValidData(
+    behave like internationalPhoneNumberBindsValidData(
       form,
       fieldName
     )
