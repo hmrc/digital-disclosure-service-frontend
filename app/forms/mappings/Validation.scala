@@ -14,35 +14,10 @@
  * limitations under the License.
  */
 
-package forms
+package forms.mappings
 
-import forms.behaviours.PhoneNumberBehaviours
-import play.api.data.FormError
+trait Validation {
 
-class YourPhoneNumberFormProviderSpec extends PhoneNumberBehaviours {
+  val telephoneRegex = """^\+[0-9]{1,19}$|^00[0-9]{1,18}|^0[0-9]{2,10}$"""
 
-  val requiredKey = "yourPhoneNumber.error.required"
-
-  val form = new YourPhoneNumberFormProvider()()
-
-  ".value" - {
-
-    val fieldName = "value"
-
-    behave like ukPhoneNumberBindsValidData(
-      form,
-      fieldName
-    )
-
-    behave like internationalPhoneNumberBindsValidData(
-      form,
-      fieldName
-    )
-
-    behave like mandatoryField(
-      form,
-      fieldName,
-      requiredError = FormError(fieldName, requiredKey)
-    )
-  }
 }

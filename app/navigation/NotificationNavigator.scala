@@ -54,6 +54,8 @@ class NotificationNavigator @Inject()() {
 
     case WhatIsYourFullNamePage => _ => routes.YourPhoneNumberController.onPageLoad(NormalMode)
 
+    case YourPhoneNumberPage => _ => routes.YourEmailAddressController.onPageLoad(NormalMode)
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 

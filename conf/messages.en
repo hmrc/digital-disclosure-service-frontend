@@ -175,8 +175,7 @@ yourPhoneNumber.title = What is your telephone number?
 yourPhoneNumber.heading = What is your telephone number?
 yourPhoneNumber.label = If this is a UK landline or an overseas number, you must include the area or dialing code.
 yourPhoneNumber.hint = For example, 01642 123456, 07777 777777 or +33 1 2345 6788.
-yourPhoneNumber.error.required = Enter your telephone number.
-yourPhoneNumber.error.length = Your Phone Number must be 100 characters or less.
+yourPhoneNumber.error.required = Enter a valid telephone number.
 yourPhoneNumber.change.hidden = YourPhoneNumber
 
 doYouHaveAnEmailAddress.title = Do you have an email address that you are happy to be contacted on by HMRC?

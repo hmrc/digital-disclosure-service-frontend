@@ -92,10 +92,12 @@ class YourPhoneNumberControllerSpec extends SpecBase with MockitoSugar {
           )
           .build()
 
+      val validPhoneNumber = "0777777777"
+
       running(application) {
         val request =
           FakeRequest(POST, yourPhoneNumberRoute)
-            .withFormUrlEncodedBody(("value", "answer"))
+            .withFormUrlEncodedBody(("value", validPhoneNumber))
 
         val result = route(application, request).value
 
