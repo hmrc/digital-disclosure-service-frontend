@@ -211,3 +211,12 @@ doYouHaveNationalInsuranceNumber.no = No
 doYouHaveNationalInsuranceNumber.checkYourAnswersLabel = Do you have a National Insurance number?
 doYouHaveNationalInsuranceNumber.error.required = Select Yes, and I know my National Insurance number
 doYouHaveNationalInsuranceNumber.change.hidden = DoYouHaveNationalInsuranceNumber
+
+whatIsYourNationalInsuranceNumber.title = What is your National Insurance number?
+whatIsYourNationalInsuranceNumber.heading = What is your National Insurance number?
+whatIsYourNationalInsuranceNumber.label = This is on your payslip, P60 or tax return.
+whatIsYourNationalInsuranceNumber.hint = For example, ‘QQ123456A’.
+whatIsYourNationalInsuranceNumber.checkYourAnswersLabel = What is your National Insurance number?
+whatIsYourNationalInsuranceNumber.error.required = Enter your National Insurance number
+whatIsYourNationalInsuranceNumber.error.length = National Insurance number must be 10 characters or less
+whatIsYourNationalInsuranceNumber.change.hidden = WhatIsYourNationalInsuranceNumber
