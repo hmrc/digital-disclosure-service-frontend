@@ -131,4 +131,31 @@ trait Generators extends UserAnswersGenerator with PageGenerators with ModelGene
   } yield {
     "0" + number.mkString
   }
+
+  def email(): Gen[String] = {
+    for {
+      usernameLength <- chooseNum(3, 64)
+      userName <- listOfN(usernameLength, alphaChar)
+      domainLength <- chooseNum(4, 253)
+      pointPosition <- chooseNum(2, domainLength - 1)
+      domain <- listOfN(pointPosition, alphaChar)
+      extension <- listOfN(domainLength - pointPosition, alphaChar)
+    } yield {
+      userName.mkString + "@" + domain.mkString + "." + extension.mkString
+   }
+  }
+
+  def invalidEmail(): Gen[String] = {
+    nonEmptyString
+  }
+
+  def invalidLengthEmail(): Gen[String] = {
+    val emailMaxLength = 320
+    for {
+      userName <- listOfN(emailMaxLength, alphaChar)
+      domain <- listOfN(emailMaxLength, alphaChar)
+    } yield {
+      userName.mkString + "@" + domain.mkString + ".ext"
+    }
+  }
 }

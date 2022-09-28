@@ -62,6 +62,7 @@ class NotificationNavigator @Inject()() {
       case None => routes.DoYouHaveAnEmailAddressController.onPageLoad(NormalMode)
     }
 
+    case YourEmailAddressPage => _ => routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
 
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
