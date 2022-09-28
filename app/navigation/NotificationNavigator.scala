@@ -64,6 +64,13 @@ class NotificationNavigator @Inject()() {
 
     case WhatIsYourDateOfBirthPage => _ => routes.WhatIsYourMainOccupationController.onPageLoad(NormalMode)
 
+    case DoYouHaveNationalInsuranceNumberPage => ua => ua.get(DoYouHaveNationalInsuranceNumberPage) match {
+      case Some(DoYouHaveNationalInsuranceNumber.YesIknow) => routes.WhatIsYourNationalInsuranceNumberController.onPageLoad(NormalMode)
+      case Some(DoYouHaveNationalInsuranceNumber.YesButDontKnow) => routes.WhatIsYourVATRegistrationNumberController.onPageLoad(NormalMode)
+      case Some(DoYouHaveNationalInsuranceNumber.No) => routes.WhatIsYourVATRegistrationNumberController.onPageLoad(NormalMode)
+      case None => routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(NormalMode)
+    }
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 

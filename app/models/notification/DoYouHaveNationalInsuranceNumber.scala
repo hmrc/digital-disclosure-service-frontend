@@ -24,12 +24,12 @@ sealed trait DoYouHaveNationalInsuranceNumber
 
 object DoYouHaveNationalInsuranceNumber extends Enumerable.Implicits {
 
-  case object Yesiknow extends WithName("yesIKnow") with DoYouHaveNationalInsuranceNumber
-  case object Yesbutdontknow extends WithName("yesButDontKnow") with DoYouHaveNationalInsuranceNumber
+  case object YesIknow extends WithName("yesIKnow") with DoYouHaveNationalInsuranceNumber
+  case object YesButDontKnow extends WithName("yesButDontKnow") with DoYouHaveNationalInsuranceNumber
   case object No extends WithName("no") with DoYouHaveNationalInsuranceNumber
 
   val values: Seq[DoYouHaveNationalInsuranceNumber] = Seq(
-    Yesiknow, Yesbutdontknow, No
+    YesIknow, YesButDontKnow, No
   )
 
   def options(implicit messages: Messages): Seq[RadioItem] = values.zipWithIndex.map {
