@@ -39,6 +39,7 @@
                 field = form("value"),
                 label = LabelViewModel(messages("whatIsYourMainOccupation.heading")).asPageHeading()
             )
+            .withHint(Hint(content = Text(messages("whatIsYourMainOccupation.hint"))))
             .withWidth(Full)
         )
 
