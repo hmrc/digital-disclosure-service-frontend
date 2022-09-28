@@ -197,6 +197,7 @@ whatIsYourDateOfBirth.change.hidden = WhatIsYourDateOfBirth
 
 whatIsYourMainOccupation.title = What is your main occupation?
 whatIsYourMainOccupation.heading = What is your main occupation?
+whatIsYourMainOccupation.hint = For example, plumber or dentist.
 whatIsYourMainOccupation.checkYourAnswersLabel = What is your main occupation?
 whatIsYourMainOccupation.error.required = Enter your main occupation
 whatIsYourMainOccupation.error.length = Your main occupation must be 100 characters or less
