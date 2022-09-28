@@ -21,25 +21,28 @@
     formHelper: FormWithCSRF,
     govukErrorSummary: GovukErrorSummary,
     govukInput: GovukInput,
-    govukButton: GovukButton
+    govukButton: GovukButton,
+    heading: components.heading
 )
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("whatIsYourMainOccupation.title"))) {
+@layout(pageTitle = title(form, messages("whatIsYourVATRegistrationNumber.title"))) {
 
-    @formHelper(action = controllers.notification.routes.WhatIsYourMainOccupationController.onSubmit(mode)) {
+    @formHelper(action = controllers.notification.routes.WhatIsYourVATRegistrationNumberController.onSubmit(mode)) {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
+        @heading(Text(messages("whatIsYourVATRegistrationNumber.heading")))
+
         @govukInput(
             InputViewModel(
                 field = form("value"),
-                label = LabelViewModel(messages("whatIsYourMainOccupation.heading")).asPageHeading()
+                label = LabelViewModel(messages("whatIsYourVATRegistrationNumber.label")),
             )
-            .withHint(Hint(content = Text(messages("whatIsYourMainOccupation.hint"))))
+            .withHint(Hint(content = Text(messages("whatIsYourVATRegistrationNumber.hint"))))
             .withWidth(Full)
         )
 

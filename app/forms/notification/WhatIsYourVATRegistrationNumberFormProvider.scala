@@ -16,33 +16,16 @@
 
 package forms
 
-import forms.behaviours.PhoneNumberBehaviours
-import play.api.data.FormError
+import javax.inject.Inject
 
-class YourPhoneNumberFormProviderSpec extends PhoneNumberBehaviours {
+import forms.mappings.Mappings
+import play.api.data.Form
 
-  val requiredKey = "yourPhoneNumber.error.required"
+class WhatIsYourVATRegistrationNumberFormProvider @Inject() extends Mappings {
 
-  val form = new YourPhoneNumberFormProvider()()
-
-  ".value" - {
-
-    val fieldName = "value"
-
-    behave like ukPhoneNumberBindsValidData(
-      form,
-      fieldName
+  def apply(): Form[String] =
+    Form(
+      "value" -> text("whatIsYourVATRegistrationNumber.error.required")
+        .verifying(maxLength(10, "whatIsYourVATRegistrationNumber.error.length"))
     )
-
-    behave like internationalPhoneNumberBindsValidData(
-      form,
-      fieldName
-    )
-
-    behave like mandatoryField(
-      form,
-      fieldName,
-      requiredError = FormError(fieldName, requiredKey)
-    )
-  }
 }

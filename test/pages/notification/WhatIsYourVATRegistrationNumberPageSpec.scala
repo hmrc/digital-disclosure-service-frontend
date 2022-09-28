@@ -14,35 +14,19 @@
  * limitations under the License.
  */
 
-package forms
+package pages
 
-import forms.behaviours.PhoneNumberBehaviours
-import play.api.data.FormError
+import pages.behaviours.PageBehaviours
 
-class YourPhoneNumberFormProviderSpec extends PhoneNumberBehaviours {
 
-  val requiredKey = "yourPhoneNumber.error.required"
+class WhatIsYourVATRegistrationNumberPageSpec extends PageBehaviours {
 
-  val form = new YourPhoneNumberFormProvider()()
+  "WhatIsYourVATRegistrationNumberPage" - {
 
-  ".value" - {
+    beRetrievable[String](WhatIsYourVATRegistrationNumberPage)
 
-    val fieldName = "value"
+    beSettable[String](WhatIsYourVATRegistrationNumberPage)
 
-    behave like ukPhoneNumberBindsValidData(
-      form,
-      fieldName
-    )
-
-    behave like internationalPhoneNumberBindsValidData(
-      form,
-      fieldName
-    )
-
-    behave like mandatoryField(
-      form,
-      fieldName,
-      requiredError = FormError(fieldName, requiredKey)
-    )
+    beRemovable[String](WhatIsYourVATRegistrationNumberPage)
   }
 }

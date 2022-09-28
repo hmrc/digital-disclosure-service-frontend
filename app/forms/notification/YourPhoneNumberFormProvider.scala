@@ -26,6 +26,6 @@ class YourPhoneNumberFormProvider @Inject() extends Mappings {
   def apply(): Form[String] =
     Form(
       "value" -> text("yourPhoneNumber.error.required")
-        .verifying(maxLength(100, "yourPhoneNumber.error.length"))
+        .verifying(regexpIgnoreWhiteSpaces(telephoneRegex, "yourPhoneNumber.error.required"))
     )
 }

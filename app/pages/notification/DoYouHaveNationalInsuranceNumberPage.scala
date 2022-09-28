@@ -14,35 +14,14 @@
  * limitations under the License.
  */
 
-package forms
+package pages
 
-import forms.behaviours.PhoneNumberBehaviours
-import play.api.data.FormError
+import models.DoYouHaveNationalInsuranceNumber
+import play.api.libs.json.JsPath
 
-class YourPhoneNumberFormProviderSpec extends PhoneNumberBehaviours {
+case object DoYouHaveNationalInsuranceNumberPage extends QuestionPage[DoYouHaveNationalInsuranceNumber] {
 
-  val requiredKey = "yourPhoneNumber.error.required"
+  override def path: JsPath = JsPath \ toString
 
-  val form = new YourPhoneNumberFormProvider()()
-
-  ".value" - {
-
-    val fieldName = "value"
-
-    behave like ukPhoneNumberBindsValidData(
-      form,
-      fieldName
-    )
-
-    behave like internationalPhoneNumberBindsValidData(
-      form,
-      fieldName
-    )
-
-    behave like mandatoryField(
-      form,
-      fieldName,
-      requiredError = FormError(fieldName, requiredKey)
-    )
-  }
+  override def toString: String = "doYouHaveNationalInsuranceNumber"
 }

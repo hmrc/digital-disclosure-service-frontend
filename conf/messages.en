@@ -430,22 +430,21 @@ yourPhoneNumber.title = What is your telephone number?
 yourPhoneNumber.heading = What is your telephone number?
 yourPhoneNumber.label = If this is a UK landline or an overseas number, you must include the area or dialing code.
 yourPhoneNumber.hint = For example, 01642 123456, 07777 777777 or +33 1 2345 6788.
-yourPhoneNumber.error.required = Enter your telephone number.
-yourPhoneNumber.error.length = Your Phone Number must be 100 characters or less.
+yourPhoneNumber.error.required = Enter a valid telephone number.
 yourPhoneNumber.change.hidden = YourPhoneNumber
 
 doYouHaveAnEmailAddress.title = Do you have an email address that you are happy to be contacted on by HMRC?
 doYouHaveAnEmailAddress.heading = Do you have an email address that you are happy to be contacted on by HMRC?
 doYouHaveAnEmailAddress.checkYourAnswersLabel = Do you have an email address that you are happy to be contacted on by HMRC?
 doYouHaveAnEmailAddress.paragraph = HMRC will only use this email address if they need to contact you about this disclosure
-doYouHaveAnEmailAddress.error.required = Select yes if you have an email address that you are happy to be contacted on by HMRC
+doYouHaveAnEmailAddress.error.required = Select yes if you have an email address that HMRC can contact you with.
 doYouHaveAnEmailAddress.change.hidden = DoYouHaveAnEmailAddress
 
 whatIsYourDateOfBirth.title = What is your date of birth?
 whatIsYourDateOfBirth.heading = What is your date of birth?
 whatIsYourDateOfBirth.hint = For example, 20 3 1976
 whatIsYourDateOfBirth.checkYourAnswersLabel = What is your date of birth?
-whatIsYourDateOfBirth.error.required.all = Enter the date of birth
+whatIsYourDateOfBirth.error.required.all = Enter a valid date of birth, like 20 3 1976.
 whatIsYourDateOfBirth.error.required.two = The date of birth must include {0} and {1}
 whatIsYourDateOfBirth.error.required = The date of birth must include {0}
 whatIsYourDateOfBirth.error.invalid = Enter a real date of birth
@@ -453,7 +452,35 @@ whatIsYourDateOfBirth.change.hidden = WhatIsYourDateOfBirth
 
 whatIsYourMainOccupation.title = What is your main occupation?
 whatIsYourMainOccupation.heading = What is your main occupation?
+whatIsYourMainOccupation.hint = For example, plumber or dentist.
 whatIsYourMainOccupation.checkYourAnswersLabel = What is your main occupation?
 whatIsYourMainOccupation.error.required = Enter your main occupation
 whatIsYourMainOccupation.error.length = Your main occupation must be 100 characters or less
 whatIsYourMainOccupation.change.hidden = WhatIsYourMainOccupation
+
+doYouHaveNationalInsuranceNumber.title = Do you have a National Insurance number?
+doYouHaveNationalInsuranceNumber.heading = Do you have a National Insurance number?
+doYouHaveNationalInsuranceNumber.yesIKnow = Yes, and I know my National Insurance number
+doYouHaveNationalInsuranceNumber.yesButDontKnow = Yes, but I do not know my National Insurance number
+doYouHaveNationalInsuranceNumber.no = No
+doYouHaveNationalInsuranceNumber.checkYourAnswersLabel = Do you have a National Insurance number?
+doYouHaveNationalInsuranceNumber.error.required = Select yes if you have a National Insurance number.
+doYouHaveNationalInsuranceNumber.change.hidden = DoYouHaveNationalInsuranceNumber
+
+whatIsYourNationalInsuranceNumber.title = What is your National Insurance number?
+whatIsYourNationalInsuranceNumber.heading = What is your National Insurance number?
+whatIsYourNationalInsuranceNumber.label = This is on your payslip, P60 or tax return.
+whatIsYourNationalInsuranceNumber.hint = For example, ‘QQ123456A’.
+whatIsYourNationalInsuranceNumber.checkYourAnswersLabel = What is your National Insurance number?
+whatIsYourNationalInsuranceNumber.error.required = Enter your National Insurance number
+whatIsYourNationalInsuranceNumber.error.length = National Insurance number must be 10 characters or less
+whatIsYourNationalInsuranceNumber.change.hidden = WhatIsYourNationalInsuranceNumber
+
+whatIsYourVATRegistrationNumber.title = What is your VAT registration number?
+whatIsYourVATRegistrationNumber.heading = What is your VAT registration number?
+whatIsYourVATRegistrationNumber.label = This is a 9 digit number on your VAT certificate or VAT online account.
+whatIsYourVATRegistrationNumber.hint = For example, ‘123456789’.
+whatIsYourVATRegistrationNumber.checkYourAnswersLabel = What is your VAT registration number?
+whatIsYourVATRegistrationNumber.error.required = Enter your VAT registration number
+whatIsYourVATRegistrationNumber.error.length = Your VAT registration number must be 10 characters or less
+whatIsYourVATRegistrationNumber.change.hidden = WhatIsYourVATRegistrationNumber

@@ -16,27 +16,24 @@
 
 package forms
 
-import forms.behaviours.PhoneNumberBehaviours
+import forms.behaviours.OptionFieldBehaviours
+import models.DoYouHaveNationalInsuranceNumber
 import play.api.data.FormError
 
-class YourPhoneNumberFormProviderSpec extends PhoneNumberBehaviours {
+class DoYouHaveNationalInsuranceNumberFormProviderSpec extends OptionFieldBehaviours {
 
-  val requiredKey = "yourPhoneNumber.error.required"
-
-  val form = new YourPhoneNumberFormProvider()()
+  val form = new DoYouHaveNationalInsuranceNumberFormProvider()()
 
   ".value" - {
 
     val fieldName = "value"
+    val requiredKey = "doYouHaveNationalInsuranceNumber.error.required"
 
-    behave like ukPhoneNumberBindsValidData(
+    behave like optionsField[DoYouHaveNationalInsuranceNumber](
       form,
-      fieldName
-    )
-
-    behave like internationalPhoneNumberBindsValidData(
-      form,
-      fieldName
+      fieldName,
+      validValues  = DoYouHaveNationalInsuranceNumber.values,
+      invalidError = FormError(fieldName, "error.invalid")
     )
 
     behave like mandatoryField(

@@ -88,27 +88,74 @@ class NotificationNavigatorSpec extends SpecBase {
           case Failure(e) => throw e
         }
       }
-    }
 
-    "must go from the OnshoreLiabilities page to the WhatIsYourFullName controller when the user selects Yes" in {
-      UserAnswers("id").set(OnshoreLiabilitiesPage, OnshoreLiabilities.IWantTo) match {
-        case Success(ua) => navigator.nextPage(OnshoreLiabilitiesPage, NormalMode, ua) mustBe routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
-        case Failure(e) => throw e
+      "must go from the OnshoreLiabilities page to the WhatIsYourFullName controller when the user selects Yes" in {
+        UserAnswers("id").set(OnshoreLiabilitiesPage, OnshoreLiabilities.IWantTo) match {
+          case Success(ua) => navigator.nextPage(OnshoreLiabilitiesPage, NormalMode, ua) mustBe routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
       }
-    }
 
-    "must go from the OnshoreLiabilities page to the WhatIsYourFullName controller when the user selects No" in {
-      UserAnswers("id").set(OnshoreLiabilitiesPage, OnshoreLiabilities.IDoNotWantTo) match {
-        case Success(ua) => navigator.nextPage(OnshoreLiabilitiesPage, NormalMode, ua) mustBe routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
-        case Failure(e) => throw e
+      "must go from the OnshoreLiabilities page to the WhatIsYourFullName controller when the user selects No" in {
+        UserAnswers("id").set(OnshoreLiabilitiesPage, OnshoreLiabilities.IDoNotWantTo) match {
+          case Success(ua) => navigator.nextPage(OnshoreLiabilitiesPage, NormalMode, ua) mustBe routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
       }
-    }
 
-    "must go from the WhatIsYourFullName page to the YourPhoneNumber controller when the user enter name" in {
-      UserAnswers("id").set(WhatIsYourFullNamePage, "test") match {
-        case Success(ua) => navigator.nextPage(WhatIsYourFullNamePage, NormalMode, ua) mustBe routes.YourPhoneNumberController.onPageLoad(NormalMode)
-        case Failure(e) => throw e
+      "must go from the WhatIsYourFullName page to the YourPhoneNumber controller when the user enter name" in {
+        UserAnswers("id").set(WhatIsYourFullNamePage, "test") match {
+          case Success(ua) => navigator.nextPage(WhatIsYourFullNamePage, NormalMode, ua) mustBe routes.YourPhoneNumberController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
       }
+
+      "must go from the YourPhoneNumber page to the YourEmailAddress controller when the user enter name" in {
+        UserAnswers("id").set(YourPhoneNumberPage, "test") match {
+          case Success(ua) => navigator.nextPage(YourPhoneNumberPage, NormalMode, ua) mustBe routes.DoYouHaveAnEmailAddressController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the DoYouHaveAnEmailAddress page to the WhatIsYourDateOfBirth controller when the user selects No" in {
+        UserAnswers("id").set(DoYouHaveAnEmailAddressPage, false) match {
+          case Success(ua) => navigator.nextPage(DoYouHaveAnEmailAddressPage, NormalMode, ua) mustBe routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the DoYouHaveAnEmailAddress page to the YourEmailAddress controller when the user selects Yes" in {
+        UserAnswers("id").set(DoYouHaveAnEmailAddressPage, true) match {
+          case Success(ua) => navigator.nextPage(DoYouHaveAnEmailAddressPage, NormalMode, ua) mustBe routes.YourEmailAddressController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the WhatIsYourDateOfBirth page to the WhatIsYourMainOccupation controller when the user enter date of birth" in {
+        navigator.nextPage(WhatIsYourDateOfBirthPage, NormalMode, UserAnswers("id")) mustBe routes.WhatIsYourMainOccupationController.onPageLoad(NormalMode)
+      }
+
+      "must go from the DoYouHaveNationalInsuranceNumber page to the WhatIsYourNationalInsuranceNumber controller when the user selects Yes, and I know my National Insurance number" in {
+        UserAnswers("id").set(DoYouHaveNationalInsuranceNumberPage, DoYouHaveNationalInsuranceNumber.YesIknow) match {
+          case Success(ua) => navigator.nextPage(DoYouHaveNationalInsuranceNumberPage, NormalMode, ua) mustBe routes.WhatIsYourNationalInsuranceNumberController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the DoYouHaveNationalInsuranceNumber page to the WhatIsYourVATRegistrationNumber controller when the user selects Yes, but I do not know my National Insurance number" in {
+        UserAnswers("id").set(DoYouHaveNationalInsuranceNumberPage, DoYouHaveNationalInsuranceNumber.YesButDontKnow) match {
+          case Success(ua) => navigator.nextPage(DoYouHaveNationalInsuranceNumberPage, NormalMode, ua) mustBe routes.WhatIsYourVATRegistrationNumberController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the DoYouHaveNationalInsuranceNumber page to the WhatIsYourVATRegistrationNumber controller when the user selects No" in {
+        UserAnswers("id").set(DoYouHaveNationalInsuranceNumberPage, DoYouHaveNationalInsuranceNumber.No) match {
+          case Success(ua) => navigator.nextPage(DoYouHaveNationalInsuranceNumberPage, NormalMode, ua) mustBe routes.WhatIsYourVATRegistrationNumberController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
     }
 
     "in Check mode" - {

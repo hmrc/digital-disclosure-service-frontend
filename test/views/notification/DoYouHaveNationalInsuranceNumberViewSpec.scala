@@ -17,16 +17,16 @@
 package views.notification
 
 import base.ViewSpecBase
-import forms.WhatIsYourMainOccupationFormProvider
+import forms.DoYouHaveNationalInsuranceNumberFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
-import views.html.notification.WhatIsYourMainOccupationView
+import views.html.notification.DoYouHaveNationalInsuranceNumberView
 import models.NormalMode
 
-class WhatIsYourMainOccupationViewSpec extends ViewSpecBase with ViewMatchers {
+class DoYouHaveNationalInsuranceNumberViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhatIsYourMainOccupationFormProvider()()
-  val page: WhatIsYourMainOccupationView = inject[WhatIsYourMainOccupationView]
+  val form = new DoYouHaveNationalInsuranceNumberFormProvider()()
+  val page: DoYouHaveNationalInsuranceNumberView = inject[DoYouHaveNationalInsuranceNumberView]
 
   private def createView: Html = page(form, NormalMode)(request, messages)
 
@@ -35,19 +35,23 @@ class WhatIsYourMainOccupationViewSpec extends ViewSpecBase with ViewMatchers {
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("whatIsYourMainOccupation.title"))
+      view.select("title").text() must include(messages("doYouHaveNationalInsuranceNumber.title"))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-label--xl").text() mustBe messages("whatIsYourMainOccupation.heading")
+      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("doYouHaveNationalInsuranceNumber.heading")
     }
 
-    "have a text input" in {
-      view.getElementsByClass("govuk-input").first must haveClass("govuk-!-width-full")
+    "have Yes, and I know my National Insurance number" in {
+      view.getElementsByClass("govuk-radios__label").get(0).text() mustBe messages("doYouHaveNationalInsuranceNumber.yesIKnow")
     }
 
-    "have a hint" in {
-      view.getElementsByClass("govuk-hint").text() mustBe messages("whatIsYourMainOccupation.hint")
+    "have Yes, but I do not know my National Insurance number" in {
+      view.getElementsByClass("govuk-radios__label").get(1).text() mustBe messages("doYouHaveNationalInsuranceNumber.yesButDontKnow")
+    }
+
+    "have No" in {
+      view.getElementsByClass("govuk-radios__label").get(2).text() mustBe messages("doYouHaveNationalInsuranceNumber.no")
     }
 
     "display the continue button" in {

@@ -17,16 +17,16 @@
 package views.notification
 
 import base.ViewSpecBase
-import forms.WhatIsYourMainOccupationFormProvider
+import forms.WhatIsYourVATRegistrationNumberFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
-import views.html.notification.WhatIsYourMainOccupationView
+import views.html.notification.WhatIsYourVATRegistrationNumberView
 import models.NormalMode
 
-class WhatIsYourMainOccupationViewSpec extends ViewSpecBase with ViewMatchers {
+class WhatIsYourVATRegistrationNumberViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhatIsYourMainOccupationFormProvider()()
-  val page: WhatIsYourMainOccupationView = inject[WhatIsYourMainOccupationView]
+  val form = new WhatIsYourVATRegistrationNumberFormProvider()()
+  val page: WhatIsYourVATRegistrationNumberView = inject[WhatIsYourVATRegistrationNumberView]
 
   private def createView: Html = page(form, NormalMode)(request, messages)
 
@@ -35,19 +35,19 @@ class WhatIsYourMainOccupationViewSpec extends ViewSpecBase with ViewMatchers {
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("whatIsYourMainOccupation.title"))
+      view.select("title").text() must include(messages("whatIsYourVATRegistrationNumber.title"))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-label--xl").text() mustBe messages("whatIsYourMainOccupation.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsYourVATRegistrationNumber.heading")
     }
 
-    "have a text input" in {
-      view.getElementsByClass("govuk-input").first must haveClass("govuk-!-width-full")
+    "have a label" in {
+      view.getElementsByClass("govuk-label").text() mustBe messages("whatIsYourVATRegistrationNumber.label")
     }
 
     "have a hint" in {
-      view.getElementsByClass("govuk-hint").text() mustBe messages("whatIsYourMainOccupation.hint")
+      view.getElementsByClass("govuk-hint").text() mustBe messages("whatIsYourVATRegistrationNumber.hint")
     }
 
     "display the continue button" in {

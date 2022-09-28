@@ -17,16 +17,16 @@
 package views.notification
 
 import base.ViewSpecBase
-import forms.WhatIsYourMainOccupationFormProvider
+import forms.WhatIsYourNationalInsuranceNumberFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
-import views.html.notification.WhatIsYourMainOccupationView
+import views.html.notification.WhatIsYourNationalInsuranceNumberView
 import models.NormalMode
 
-class WhatIsYourMainOccupationViewSpec extends ViewSpecBase with ViewMatchers {
+class WhatIsYourNationalInsuranceNumberViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhatIsYourMainOccupationFormProvider()()
-  val page: WhatIsYourMainOccupationView = inject[WhatIsYourMainOccupationView]
+  val form = new WhatIsYourNationalInsuranceNumberFormProvider()()
+  val page: WhatIsYourNationalInsuranceNumberView = inject[WhatIsYourNationalInsuranceNumberView]
 
   private def createView: Html = page(form, NormalMode)(request, messages)
 
@@ -35,19 +35,19 @@ class WhatIsYourMainOccupationViewSpec extends ViewSpecBase with ViewMatchers {
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("whatIsYourMainOccupation.title"))
+      view.select("title").text() must include(messages("whatIsYourNationalInsuranceNumber.title"))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-label--xl").text() mustBe messages("whatIsYourMainOccupation.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsYourNationalInsuranceNumber.heading")
     }
 
-    "have a text input" in {
-      view.getElementsByClass("govuk-input").first must haveClass("govuk-!-width-full")
+    "have a label" in {
+      view.getElementsByClass("govuk-label").text() mustBe messages("whatIsYourNationalInsuranceNumber.label")
     }
 
     "have a hint" in {
-      view.getElementsByClass("govuk-hint").text() mustBe messages("whatIsYourMainOccupation.hint")
+      view.getElementsByClass("govuk-hint").text() mustBe messages("whatIsYourNationalInsuranceNumber.hint")
     }
 
     "display the continue button" in {

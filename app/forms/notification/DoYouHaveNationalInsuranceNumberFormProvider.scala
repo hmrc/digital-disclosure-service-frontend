@@ -16,33 +16,16 @@
 
 package forms
 
-import forms.behaviours.PhoneNumberBehaviours
-import play.api.data.FormError
+import javax.inject.Inject
 
-class YourPhoneNumberFormProviderSpec extends PhoneNumberBehaviours {
+import forms.mappings.Mappings
+import play.api.data.Form
+import models.DoYouHaveNationalInsuranceNumber
 
-  val requiredKey = "yourPhoneNumber.error.required"
+class DoYouHaveNationalInsuranceNumberFormProvider @Inject() extends Mappings {
 
-  val form = new YourPhoneNumberFormProvider()()
-
-  ".value" - {
-
-    val fieldName = "value"
-
-    behave like ukPhoneNumberBindsValidData(
-      form,
-      fieldName
+  def apply(): Form[DoYouHaveNationalInsuranceNumber] =
+    Form(
+      "value" -> enumerable[DoYouHaveNationalInsuranceNumber]("doYouHaveNationalInsuranceNumber.error.required")
     )
-
-    behave like internationalPhoneNumberBindsValidData(
-      form,
-      fieldName
-    )
-
-    behave like mandatoryField(
-      form,
-      fieldName,
-      requiredError = FormError(fieldName, requiredKey)
-    )
-  }
 }

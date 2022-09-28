@@ -14,35 +14,19 @@
  * limitations under the License.
  */
 
-package forms
+package pages
 
-import forms.behaviours.PhoneNumberBehaviours
-import play.api.data.FormError
+import models.DoYouHaveNationalInsuranceNumber
+import pages.behaviours.PageBehaviours
 
-class YourPhoneNumberFormProviderSpec extends PhoneNumberBehaviours {
+class DoYouHaveNationalInsuranceNumberSpec extends PageBehaviours {
 
-  val requiredKey = "yourPhoneNumber.error.required"
+  "DoYouHaveNationalInsuranceNumberPage" - {
 
-  val form = new YourPhoneNumberFormProvider()()
+    beRetrievable[DoYouHaveNationalInsuranceNumber](DoYouHaveNationalInsuranceNumberPage)
 
-  ".value" - {
+    beSettable[DoYouHaveNationalInsuranceNumber](DoYouHaveNationalInsuranceNumberPage)
 
-    val fieldName = "value"
-
-    behave like ukPhoneNumberBindsValidData(
-      form,
-      fieldName
-    )
-
-    behave like internationalPhoneNumberBindsValidData(
-      form,
-      fieldName
-    )
-
-    behave like mandatoryField(
-      form,
-      fieldName,
-      requiredError = FormError(fieldName, requiredKey)
-    )
+    beRemovable[DoYouHaveNationalInsuranceNumber](DoYouHaveNationalInsuranceNumberPage)
   }
 }
