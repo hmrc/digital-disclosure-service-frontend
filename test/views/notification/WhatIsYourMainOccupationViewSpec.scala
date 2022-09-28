@@ -46,6 +46,10 @@ class WhatIsYourMainOccupationViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementsByClass("govuk-input").first must haveClass("govuk-!-width-full")
     }
 
+    "have a hint" in {
+      view.getElementsByClass("govuk-hint").text() mustBe messages("whatIsYourMainOccupation.hint")
+    }
+
     "display the continue button" in {
       view.getElementsByClass("govuk-button").first() must haveId ("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
