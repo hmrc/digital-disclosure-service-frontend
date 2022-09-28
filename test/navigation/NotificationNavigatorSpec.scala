@@ -135,6 +135,27 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(WhatIsYourDateOfBirthPage, NormalMode, UserAnswers("id")) mustBe routes.WhatIsYourMainOccupationController.onPageLoad(NormalMode)
       }
 
+      "must go from the DoYouHaveNationalInsuranceNumber page to the WhatIsYourNationalInsuranceNumber controller when the user selects Yes, and I know my National Insurance number" in {
+        UserAnswers("id").set(DoYouHaveNationalInsuranceNumberPage, DoYouHaveNationalInsuranceNumber.YesIknow) match {
+          case Success(ua) => navigator.nextPage(DoYouHaveNationalInsuranceNumberPage, NormalMode, ua) mustBe routes.WhatIsYourNationalInsuranceNumberController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the DoYouHaveNationalInsuranceNumber page to the WhatIsYourVATRegistrationNumber controller when the user selects Yes, but I do not know my National Insurance number" in {
+        UserAnswers("id").set(DoYouHaveNationalInsuranceNumberPage, DoYouHaveNationalInsuranceNumber.YesButDontKnow) match {
+          case Success(ua) => navigator.nextPage(DoYouHaveNationalInsuranceNumberPage, NormalMode, ua) mustBe routes.WhatIsYourVATRegistrationNumberController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the DoYouHaveNationalInsuranceNumber page to the WhatIsYourVATRegistrationNumber controller when the user selects No" in {
+        UserAnswers("id").set(DoYouHaveNationalInsuranceNumberPage, DoYouHaveNationalInsuranceNumber.No) match {
+          case Success(ua) => navigator.nextPage(DoYouHaveNationalInsuranceNumberPage, NormalMode, ua) mustBe routes.WhatIsYourVATRegistrationNumberController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
     }
 
     "in Check mode" - {

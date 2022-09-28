@@ -209,7 +209,7 @@ doYouHaveNationalInsuranceNumber.yesIKnow = Yes, and I know my National Insuranc
 doYouHaveNationalInsuranceNumber.yesButDontKnow = Yes, but I do not know my National Insurance number
 doYouHaveNationalInsuranceNumber.no = No
 doYouHaveNationalInsuranceNumber.checkYourAnswersLabel = Do you have a National Insurance number?
-doYouHaveNationalInsuranceNumber.error.required = Select Yes, and I know my National Insurance number
+doYouHaveNationalInsuranceNumber.error.required = Select yes if you have a National Insurance number.
 doYouHaveNationalInsuranceNumber.change.hidden = DoYouHaveNationalInsuranceNumber
 
 whatIsYourNationalInsuranceNumber.title = What is your National Insurance number?
