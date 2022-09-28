@@ -62,11 +62,11 @@ class WhatIsYourFullNameController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
-        value =>
+        value => 
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(WhatIsYourFullNamePage, value))
             _              <- sessionRepository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(WhatIsYourFullNamePage, mode, updatedAnswers))
+          } yield Redirect(navigator.nextPage(WhatIsYourFullNamePage, mode, updatedAnswers))  
       )
   }
 }

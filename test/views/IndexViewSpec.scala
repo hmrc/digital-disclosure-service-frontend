@@ -20,7 +20,6 @@ import base.ViewSpecBase
 import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.IndexView
-import models.NormalMode
 
 class IndexViewSpec extends ViewSpecBase with ViewMatchers {
 
