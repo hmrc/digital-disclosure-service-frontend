@@ -22,7 +22,6 @@ import pages._
 import models._
 
 import scala.util.{Success, Failure}
-import java.time.LocalDate
 
 class NotificationNavigatorSpec extends SpecBase {
 
@@ -133,10 +132,7 @@ class NotificationNavigatorSpec extends SpecBase {
       }
 
       "must go from the WhatIsYourDateOfBirth page to the WhatIsYourMainOccupation controller when the user enter date of birth" in {
-        UserAnswers("id").set(WhatIsYourDateOfBirthPage, LocalDate.of(2022, 1, 1)) match {
-          case Success(ua) => navigator.nextPage(WhatIsYourDateOfBirthPage, NormalMode, ua) mustBe routes.WhatIsYourMainOccupationController.onPageLoad(NormalMode)
-          case Failure(e) => throw e
-        }
+        navigator.nextPage(WhatIsYourDateOfBirthPage, NormalMode, UserAnswers("id")) mustBe routes.WhatIsYourMainOccupationController.onPageLoad(NormalMode)
       }
 
     }
