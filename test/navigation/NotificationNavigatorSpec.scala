@@ -110,7 +110,7 @@ class NotificationNavigatorSpec extends SpecBase {
         }
       }
 
-      "must go from the YourPhoneNumber page to the YourEmailAddress controller when the user enter name" in {
+      "must go from the YourPhoneNumber page to the YourEmailAddress controller when the user enter the phone number" in {
         UserAnswers("id").set(YourPhoneNumberPage, "test") match {
           case Success(ua) => navigator.nextPage(YourPhoneNumberPage, NormalMode, ua) mustBe routes.DoYouHaveAnEmailAddressController.onPageLoad(NormalMode)
           case Failure(e) => throw e
@@ -159,6 +159,13 @@ class NotificationNavigatorSpec extends SpecBase {
       "must go from the DoYouHaveNationalInsuranceNumber page to the WhatIsYourVATRegistrationNumber controller when the user selects No" in {
         UserAnswers("id").set(DoYouHaveNationalInsuranceNumberPage, DoYouHaveNationalInsuranceNumber.No) match {
           case Success(ua) => navigator.nextPage(DoYouHaveNationalInsuranceNumberPage, NormalMode, ua) mustBe routes.WhatIsYourVATRegistrationNumberController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the WhatIsYourMainOccupation page to the DoYouHaveNationalInsuranceNumber controller when the user enter the occupation" in {
+        UserAnswers("id").set(WhatIsYourMainOccupationPage, "test" ) match {
+          case Success(ua) => navigator.nextPage(WhatIsYourMainOccupationPage, NormalMode, ua) mustBe routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(NormalMode)
           case Failure(e) => throw e
         }
       }
