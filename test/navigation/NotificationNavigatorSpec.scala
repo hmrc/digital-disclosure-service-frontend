@@ -131,6 +131,13 @@ class NotificationNavigatorSpec extends SpecBase {
         }
       }
 
+      "must go from the YourEmailAddressPage page to the WhatIsYourDateOfBirthController controller when the user enter an email" in {
+        UserAnswers("id").set(YourEmailAddressPage, "test") match {
+          case Success(ua) => navigator.nextPage(YourEmailAddressPage, NormalMode, ua) mustBe routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
       "must go from the WhatIsYourDateOfBirth page to the WhatIsYourMainOccupation controller when the user enter date of birth" in {
         navigator.nextPage(WhatIsYourDateOfBirthPage, NormalMode, UserAnswers("id")) mustBe routes.WhatIsYourMainOccupationController.onPageLoad(NormalMode)
       }

@@ -20,8 +20,9 @@ import java.time.{Instant, LocalDate, ZoneOffset}
 import org.scalacheck.Arbitrary._
 import org.scalacheck.Gen._
 import org.scalacheck.{Gen, Shrink}
+import forms.mappings.Validation
 
-trait Generators extends UserAnswersGenerator with PageGenerators with ModelGenerators with UserAnswersEntryGenerators {
+trait Generators extends UserAnswersGenerator with PageGenerators with ModelGenerators with UserAnswersEntryGenerators with Validation {
 
   implicit val dontShrink: Shrink[String] = Shrink.shrinkAny
 
@@ -130,5 +131,37 @@ trait Generators extends UserAnswersGenerator with PageGenerators with ModelGene
     number <- listOfN(lenght, chooseNum(1, 9))
   } yield {
     "0" + number.mkString
+  }
+
+  def email(): Gen[String] = {
+    for {
+      usernameLength <- chooseNum(3, 64)
+      userName <- listOfN(usernameLength, alphaChar)
+      domainLength <- chooseNum(4, 253)
+      pointPosition <- chooseNum(2, domainLength - 1)
+      domain <- listOfN(pointPosition, alphaChar)
+      extension <- listOfN(domainLength - pointPosition, alphaChar)
+    } yield {
+      userName.mkString + "@" + domain.mkString + "." + extension.mkString
+   }
+  }
+
+  def invalidEmail(): Gen[String] = {
+    for {
+      str <- nonEmptyString
+      if !str.matches(emailRegex)
+    } yield {
+      str
+    }
+  }
+
+  def invalidLengthEmail(): Gen[String] = {
+    val emailMaxLength = 320
+    for {
+      userName <- listOfN(emailMaxLength, alphaChar)
+      domain <- listOfN(emailMaxLength, alphaChar)
+    } yield {
+      userName.mkString + "@" + domain.mkString + ".ext"
+    }
   }
 }
