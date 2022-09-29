@@ -27,17 +27,13 @@ import com.google.inject.{Inject, ImplementedBy}
 import scala.util.control.NonFatal
 import models.Error
 import models.address._
+import config.AddressLookupConfig
 
-class AddressLookupConnectorImpl @Inject()(httpClient: HttpClient)(implicit ec: ExecutionContext) extends AddressLookupConnector {
-
-  //addressLookupServiceConfig: AddressLookupConfig
-
-  private val initialiseUrl = "http://localhost:9028/api/init"
-  private val retrieveAddressUrl = "http://localhost:9028/api/confirmed"
+class AddressLookupConnectorImpl @Inject()(httpClient: HttpClient, config: AddressLookupConfig)(implicit ec: ExecutionContext) extends AddressLookupConnector {
 
   def initialise(request: AddressLookupRequest)(implicit hc: HeaderCarrier): EitherT[Future, Error, HttpResponse] = EitherT {
     httpClient
-      .POST[AddressLookupRequest, HttpResponse](initialiseUrl, request)
+      .POST[AddressLookupRequest, HttpResponse](config.startLookupUrl, request)
       .map(Right(_))
       .recover { case NonFatal(e) =>
         Left(Error(e))
@@ -47,7 +43,7 @@ class AddressLookupConnectorImpl @Inject()(httpClient: HttpClient)(implicit ec: 
   def retrieveAddress(addressId: UUID)(implicit hc: HeaderCarrier): EitherT[Future, Error, HttpResponse] =
     EitherT {
       httpClient
-        .GET[HttpResponse](s"$retrieveAddressUrl?id=$addressId")
+        .GET[HttpResponse](s"${config.retrieveAddressUrl}?id=$addressId")
         .map(Right(_))
         .recover { case NonFatal(e) =>
           Left(Error(e))

@@ -21,8 +21,9 @@ import org.scalamock.scalatest.MockFactory
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import play.api.Configuration
-import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
+import config.AddressLookupConfig
+import uk.gov.hmrc.http.HeaderCarrier
 import generators.ModelGenerators
 
 import java.util.UUID
@@ -58,8 +59,9 @@ class AddressLookupConnectorSpec
   )
 
   val servicesConfig = new ServicesConfig(config)
+  val lookupConfig = new AddressLookupConfig(servicesConfig)
 
-  val connector = new AddressLookupConnectorImpl(mockHttp)
+  val connector = new AddressLookupConnectorImpl(mockHttp, lookupConfig)
 
   "The address lookup connector" when {
 

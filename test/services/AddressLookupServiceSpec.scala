@@ -38,6 +38,10 @@ import models.address._
 import models._
 import connectors.AddressLookupConnector
 import generators.ModelGenerators
+import com.typesafe.config.ConfigFactory
+import play.api.Configuration
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
+import config.{FrontendAppConfig, AddressLookupConfig}
 
 import java.net.URL
 import java.util.UUID
@@ -54,10 +58,28 @@ class AddressLookupServiceSpec
 
   implicit val hc: HeaderCarrier = HeaderCarrier()
 
-  private val addressLookupConnector = mock[AddressLookupConnector]
-  private val addressLookupService   = new AddressLookupServiceImpl(addressLookupConnector)
-
   val addressUpdateCall: Call = Call("", "/redirect")
+
+  val config: Configuration = Configuration(
+    ConfigFactory.parseString(
+      """
+        |host = host1.com,
+        |microservice {
+        |  services {
+        |    address-lookup-frontend {
+        |      max-addresses-to-show = 15
+        |    }
+        |  }
+        |}
+        |""".stripMargin
+    )
+  )
+
+  val frontendAppConfig = new FrontendAppConfig(config)
+  val lookupConfig = new AddressLookupConfig(new ServicesConfig(config))
+
+  private val addressLookupConnector = mock[AddressLookupConnector]
+  private val addressLookupService   = new AddressLookupServiceImpl(addressLookupConnector, lookupConfig, frontendAppConfig)
 
   def mockInitiateAddressLookupResponse(request: AddressLookupRequest)(
     response: Either[Error, HttpResponse]
@@ -79,7 +101,11 @@ class AddressLookupServiceSpec
 
     "triggering a lookup for an individual" should {
 
-      val addressLookupOptions = AddressLookupOptions(continueUrl = "http://localhost:9000/redirect")
+      val selectPageConfig = SelectPageConfig(proposalListLimit = 15)
+      val addressLookupOptions = AddressLookupOptions(
+        continueUrl = s"host1.com/redirect",
+        selectPageConfig = Some(selectPageConfig)
+      )
       val addressLookupRequest = AddressLookupRequest(2, addressLookupOptions)
 
       "succeed receiving user redirect URL" in {

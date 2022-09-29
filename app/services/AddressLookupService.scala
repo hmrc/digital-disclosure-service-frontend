@@ -32,16 +32,14 @@ import play.api.mvc.Call
 import models.Error
 import models.address._
 import connectors.AddressLookupConnector
+import config.{FrontendAppConfig, AddressLookupConfig}
 import play.api.libs.json.{JsPath, JsonValidationError, Reads}
 import play.api.libs.json.Reads.minLength
 
-class AddressLookupServiceImpl @Inject()(connector: AddressLookupConnector)(implicit ec: ExecutionContext) extends AddressLookupService {
+class AddressLookupServiceImpl @Inject()(connector: AddressLookupConnector, addressConfig: AddressLookupConfig, config: FrontendAppConfig)(implicit ec: ExecutionContext) extends AddressLookupService with AddressLookupRequestHelper {
 
   def getIndividualAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier): EitherT[Future, Error, URL] =  {
-
-    val addressLookupOptions = AddressLookupOptions(continueUrl = s"http://localhost:9000${redirectUrl.url}")
-    val request = AddressLookupRequest(2, addressLookupOptions)
-
+    val request = lookupRequestForIndividual(config.host, redirectUrl.url, addressConfig.addressesShowLimit)
     initialiseAddressLookup(request)
   }
 
