@@ -455,7 +455,8 @@ whatIsYourMainOccupation.heading = What is your main occupation?
 whatIsYourMainOccupation.hint = For example, plumber or dentist.
 whatIsYourMainOccupation.checkYourAnswersLabel = What is your main occupation?
 whatIsYourMainOccupation.error.required = Enter your main occupation
-whatIsYourMainOccupation.error.length = Your main occupation must be 100 characters or less
+whatIsYourMainOccupation.error.maxLength = Your main occupation should have no more than 30 characters.
+whatIsYourMainOccupation.error.minLength = Your main occupation should have at least 4 characters
 whatIsYourMainOccupation.change.hidden = WhatIsYourMainOccupation
 
 doYouHaveNationalInsuranceNumber.title = Do you have a National Insurance number?
