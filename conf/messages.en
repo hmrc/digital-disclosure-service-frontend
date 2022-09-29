@@ -474,7 +474,7 @@ whatIsYourNationalInsuranceNumber.label = This is on your payslip, P60 or tax re
 whatIsYourNationalInsuranceNumber.hint = For example, ‘QQ123456A’.
 whatIsYourNationalInsuranceNumber.checkYourAnswersLabel = What is your National Insurance number?
 whatIsYourNationalInsuranceNumber.error.required = Enter your National Insurance number.
-whatIsYourNationalInsuranceNumber.error.length = National Insurance number must be 10 characters or less
+whatIsYourNationalInsuranceNumber.error.length = Enter a valid National Insurance number
 whatIsYourNationalInsuranceNumber.change.hidden = WhatIsYourNationalInsuranceNumber
 
 whatIsYourVATRegistrationNumber.title = What is your VAT registration number?

@@ -26,6 +26,7 @@ class WhatIsYourNationalInsuranceNumberFormProvider @Inject() extends Mappings {
   def apply(): Form[String] =
     Form(
       "value" -> text("whatIsYourNationalInsuranceNumber.error.required")
-        .verifying(maxLength(10, "whatIsYourNationalInsuranceNumber.error.length"))
+        .verifying(minLength(9, "whatIsYourNationalInsuranceNumber.error.length"))
+        .verifying(regexp(nationalInsuranceRegex, "whatIsYourNationalInsuranceNumber.error.length"))
     )
 }
