@@ -484,3 +484,12 @@ whatIsYourVATRegistrationNumber.checkYourAnswersLabel = What is your VAT registr
 whatIsYourVATRegistrationNumber.error.required = Enter your VAT registration number
 whatIsYourVATRegistrationNumber.error.length = Your VAT registration number must be 10 characters or less
 whatIsYourVATRegistrationNumber.change.hidden = WhatIsYourVATRegistrationNumber
+
+areYouRegisteredForVAT.title = Are you registered for VAT?
+areYouRegisteredForVAT.heading = Are you registered for VAT?
+areYouRegisteredForVAT.yesIKnow = Yes, and I know my VAT registration number
+areYouRegisteredForVAT.yesButDontKnow = Yes, but I do not know my VAT registration number
+areYouRegisteredForVAT.no = No
+areYouRegisteredForVAT.checkYourAnswersLabel = Are you registered for VAT?
+areYouRegisteredForVAT.error.required = Select Yes, and I know my VAT registration number
+areYouRegisteredForVAT.change.hidden = AreYouRegisteredForVAT

@@ -82,3 +82,8 @@ GET        /your-address/retrieve/change                    controllers.notifica
 
 GET        /summary                                         controllers.CheckYourAnswersController.onPageLoad()
 
+
+GET        /registered-for-vat                              controllers.notification.AreYouRegisteredForVATController.onPageLoad(mode: Mode = NormalMode)
+POST       /registered-for-vat                              controllers.notification.AreYouRegisteredForVATController.onSubmit(mode: Mode = NormalMode)
+GET        /registered-for-vat/change                       controllers.notification.AreYouRegisteredForVATController.onPageLoad(mode: Mode = CheckMode)
+POST       /registered-for-vat/change                       controllers.notification.AreYouRegisteredForVATController.onSubmit(mode: Mode = CheckMode)
