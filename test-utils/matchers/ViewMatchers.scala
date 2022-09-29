@@ -29,6 +29,7 @@ import play.twirl.api.Html
 import scala.collection.JavaConverters._
 import scala.concurrent.Future
 import scala.util.Try
+import scala.language.implicitConversions
 
 trait ViewMatchers {
 

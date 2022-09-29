@@ -17,7 +17,12 @@
 package generators
 
 import org.scalacheck.{Arbitrary, Gen}
+import org.scalacheck.Arbitrary.arbitrary
 import models._
+import models.address._
+import org.scalacheck.magnolia.Typeclass
+import org.scalacheck.magnolia.gen
+import scala.language.higherKinds
 
 trait ModelGenerators {
 
@@ -45,4 +50,41 @@ trait ModelGenerators {
     Arbitrary {
       Gen.oneOf(RelatesTo.values.toSeq)
     }
+
+  implicit lazy val arbitraryAddressLookupRequest: Typeclass[AddressLookupRequest] =
+    gen[AddressLookupRequest]
+
+  def sampleAddressLookupRequest: AddressLookupRequest = arbitrary[AddressLookupRequest].sample.getOrElse(sys.error(s"Could not generate instance"))
+  def sampleAddress: Address = genAddress.sample.getOrElse(sys.error(s"Could not generate instance"))
+
+  val strGen = (n: Int) => Gen.listOfN(n, Gen.alphaChar).map(_.mkString)
+
+  implicit lazy val genPostcode: Gen[String] = for {
+    first <- Gen.listOfN(3, Gen.alphaNumChar)
+    last  <- Gen.listOfN(3, Gen.alphaNumChar)
+  } yield s"${first.mkString("")} ${last.mkString("")}"
+
+  implicit lazy val genAddress: Gen[Address] =
+    for {
+      num      <- Gen.choose(1, 100)
+      street   <- strGen(7)
+      district <- Gen.option(strGen(5))
+      road     <- if (district.isDefined) Gen.option(strGen(5)) else Gen.const(None)
+      town     <- strGen(10)
+      postcode <- genPostcode
+      country  <- strGen(2)
+    } yield Address(
+      line1 = s"$num $street",
+      line2 = district,
+      line3 = road,
+      line4 = town,
+      postcode = postcode,
+      country = Country(country)
+    )
+
+  implicit lazy val aritraryAddress: Arbitrary[Address] =
+    Arbitrary {
+      genAddress
+    }
+
 }
