@@ -80,3 +80,5 @@ GET        /your-address/retrieve                           controllers.notifica
 GET        /your-address/lookup/change                      controllers.notification.YourAddressLookupController.lookupAddress(mode: Mode = CheckMode)
 GET        /your-address/retrieve/change                    controllers.notification.YourAddressLookupController.retrieveConfirmedAddress(mode: Mode = CheckMode, id: Option[UUID] ?= None)
 
+GET        /summary                                         controllers.CheckYourAnswersController.onPageLoad()
+
