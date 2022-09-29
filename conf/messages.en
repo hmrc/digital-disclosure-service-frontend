@@ -473,7 +473,7 @@ whatIsYourNationalInsuranceNumber.heading = What is your National Insurance numb
 whatIsYourNationalInsuranceNumber.label = This is on your payslip, P60 or tax return.
 whatIsYourNationalInsuranceNumber.hint = For example, ‘QQ123456A’.
 whatIsYourNationalInsuranceNumber.checkYourAnswersLabel = What is your National Insurance number?
-whatIsYourNationalInsuranceNumber.error.required = Enter your National Insurance number
+whatIsYourNationalInsuranceNumber.error.required = Enter your National Insurance number.
 whatIsYourNationalInsuranceNumber.error.length = National Insurance number must be 10 characters or less
 whatIsYourNationalInsuranceNumber.change.hidden = WhatIsYourNationalInsuranceNumber
 

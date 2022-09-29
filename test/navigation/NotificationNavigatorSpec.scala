@@ -170,6 +170,10 @@ class NotificationNavigatorSpec extends SpecBase {
         }
       }
 
+      "must go from the WhatIsYourNationalInsuranceNumberPage to the AreYouRegisteredForVATPage when the user enter national insurance number" in {
+        navigator.nextPage(WhatIsYourNationalInsuranceNumberPage, NormalMode, UserAnswers("id")) mustBe routes.AreYouRegisteredForVATController.onPageLoad(NormalMode)
+      }
+
     }
 
     "in Check mode" - {
