@@ -95,7 +95,7 @@ class WhatIsYourNationalInsuranceNumberControllerSpec extends SpecBase with Mock
       running(application) {
         val request =
           FakeRequest(POST, whatIsYourNationalInsuranceNumberRoute)
-            .withFormUrlEncodedBody(("value", "answer"))
+            .withFormUrlEncodedBody(("value", "AZ123456D"))
 
         val result = route(application, request).value
 

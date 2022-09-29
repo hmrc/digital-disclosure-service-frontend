@@ -14,21 +14,18 @@
  * limitations under the License.
  */
 
-package forms
+package forms.behaviours
 
-import forms.behaviours.NationalInsuranceBehaviours
+import play.api.data.{Form}
 
-class WhatIsYourNationalInsuranceNumberFormProviderSpec extends NationalInsuranceBehaviours {
+trait NationalInsuranceBehaviours extends FieldBehaviours {
 
-  val form = new WhatIsYourNationalInsuranceNumberFormProvider()()
+  def nationalInsuraceNumberBindsInvalidData(form: Form[_], fieldName: String): Unit = {
 
-  ".value" - {
-
-    val fieldName = "value"
-
-    behave like nationalInsuraceNumberBindsInvalidData(
-      form,
-      fieldName
-    )
+    "not bind invalid national insurance" in {
+      dataItem: String =>
+        val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
+        result.errors must contain only dataItem
+    }
   }
 }
