@@ -16,7 +16,6 @@
 
 package pages
 
-import models.AreYouTheIndividual
 import play.api.libs.json.JsPath
 import models.address.Address
 

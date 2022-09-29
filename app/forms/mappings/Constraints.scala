@@ -94,12 +94,12 @@ trait Constraints {
         Invalid(errorKey, maximum)
     }
 
-  protected def minLength(maximum: Int, errorKey: String): Constraint[String] =
+  protected def minLength(minimum: Int, errorKey: String): Constraint[String] =
     Constraint {
-      case str if str.length >= maximum =>
+      case str if str.length >= minimum =>
         Valid
       case _ =>
-        Invalid(errorKey, maximum)
+        Invalid(errorKey, minimum)
     }
 
   protected def maxDate(maximum: LocalDate, errorKey: String, args: Any*): Constraint[LocalDate] =
