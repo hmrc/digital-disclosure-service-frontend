@@ -87,3 +87,8 @@ GET        /registered-for-vat                              controllers.notifica
 POST       /registered-for-vat                              controllers.notification.AreYouRegisteredForVATController.onSubmit(mode: Mode = NormalMode)
 GET        /registered-for-vat/change                       controllers.notification.AreYouRegisteredForVATController.onPageLoad(mode: Mode = CheckMode)
 POST       /registered-for-vat/change                       controllers.notification.AreYouRegisteredForVATController.onSubmit(mode: Mode = CheckMode)
+
+GET        /registered-for-self-assessment                        controllers.notification.AreYouRegisteredForSelfAssessmentController.onPageLoad(mode: Mode = NormalMode)
+POST       /registered-for-self-assessment                        controllers.notification.AreYouRegisteredForSelfAssessmentController.onSubmit(mode: Mode = NormalMode)
+GET        /registered-for-self-assessment/change                  controllers.notification.AreYouRegisteredForSelfAssessmentController.onPageLoad(mode: Mode = CheckMode)
+POST       /registered-for-self-assessment/change                  controllers.notification.AreYouRegisteredForSelfAssessmentController.onSubmit(mode: Mode = CheckMode)
