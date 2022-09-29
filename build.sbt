@@ -44,7 +44,6 @@ lazy val root = (project in file("."))
       "-feature",
       "-Ypartial-unification",
       "-rootdir",
-      "-deprecation",
       baseDirectory.value.getCanonicalPath,
       "-Wconf:cat=deprecation:ws,cat=feature:ws,cat=optimizer:ws,src=target/.*:s"
     ),
