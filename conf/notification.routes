@@ -74,3 +74,11 @@ GET        /your-vat-registration                           controllers.notifica
 POST       /your-vat-registration                           controllers.notification.WhatIsYourVATRegistrationNumberController.onSubmit(mode: Mode = NormalMode)
 GET        /your-vat-registration/change                    controllers.notification.WhatIsYourVATRegistrationNumberController.onPageLoad(mode: Mode = CheckMode)
 POST       /your-vat-registration/change                    controllers.notification.WhatIsYourVATRegistrationNumberController.onSubmit(mode: Mode = CheckMode)
+
+GET        /your-address/lookup                             controllers.notification.YourAddressLookupController.lookupAddress(mode: Mode = NormalMode)
+GET        /your-address/retrieve                           controllers.notification.YourAddressLookupController.retrieveConfirmedAddress(mode: Mode = NormalMode, id: Option[UUID] ?= None)
+GET        /your-address/lookup/change                      controllers.notification.YourAddressLookupController.lookupAddress(mode: Mode = CheckMode)
+GET        /your-address/retrieve/change                    controllers.notification.YourAddressLookupController.retrieveConfirmedAddress(mode: Mode = CheckMode, id: Option[UUID] ?= None)
+
+GET        /summary                                         controllers.CheckYourAnswersController.onPageLoad()
+
