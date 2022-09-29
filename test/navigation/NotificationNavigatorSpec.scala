@@ -163,6 +163,13 @@ class NotificationNavigatorSpec extends SpecBase {
         }
       }
 
+      "must go from the WhatIsYourMainOccupation page to the WhatIsYourNationalInsuranceNumber controller when the user selects No" in {
+        UserAnswers("id").set(WhatIsYourMainOccupationPage, "test" ) match {
+          case Success(ua) => navigator.nextPage(WhatIsYourMainOccupationPage, NormalMode, ua) mustBe routes.WhatIsYourNationalInsuranceNumberController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
     }
 
     "in Check mode" - {
