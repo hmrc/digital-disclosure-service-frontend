@@ -494,3 +494,12 @@ areYouRegisteredForVAT.no = No
 areYouRegisteredForVAT.checkYourAnswersLabel = Are you registered for VAT?
 areYouRegisteredForVAT.error.required = Select Yes, and I know my VAT registration number
 areYouRegisteredForVAT.change.hidden = AreYouRegisteredForVAT
+
+areYouRegisteredForSelfAssessment.title = Are you registered for Self Assessment?
+areYouRegisteredForSelfAssessment.heading = Are you registered for Self Assessment?
+areYouRegisteredForSelfAssessment.yesIKnowMyUTR = Yes, and I know my Unique Taxpayer Reference (UTR)
+areYouRegisteredForSelfAssessment.yesIDontKnowMyUTR = Yes, but I do not know my Unique Taxpayer Reference (UTR)
+areYouRegisteredForSelfAssessment.no = No
+areYouRegisteredForSelfAssessment.checkYourAnswersLabel = Are you registered for Self Assessment?
+areYouRegisteredForSelfAssessment.error.required = Select yes if you are registered for Self Assessment.
+areYouRegisteredForSelfAssessment.change.hidden = AreYouRegisteredForSelfAssessment
