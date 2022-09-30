@@ -20,5 +20,4 @@ trait Validation {
 
   val emailRegex = """^.+[@].+[.].+$"""
   val telephoneRegex = """^\+[0-9]{1,19}$|^00[0-9]{1,18}|^0[0-9]{2,10}$"""
-
 }

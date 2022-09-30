@@ -21,6 +21,7 @@ import org.scalacheck.Arbitrary._
 import org.scalacheck.Gen._
 import org.scalacheck.{Gen, Shrink}
 import forms.mappings.Validation
+import uk.gov.hmrc.domain.Nino
 
 trait Generators extends UserAnswersGenerator with PageGenerators with ModelGenerators with UserAnswersEntryGenerators with Validation {
 
@@ -155,6 +156,12 @@ trait Generators extends UserAnswersGenerator with PageGenerators with ModelGene
       str
     }
   }
+
+  def nino(): Gen[String] = NinoGenerator.generateNino
+  
+  def invalidNino(): Gen[String] = Gen.alphaNumStr
+    .suchThat(_.trim.nonEmpty).suchThat(!Nino.isValid(_))
+  
 
   def invalidLengthEmail(): Gen[String] = {
     val emailMaxLength = 320

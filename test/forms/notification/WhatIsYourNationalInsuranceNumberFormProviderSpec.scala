@@ -16,38 +16,29 @@
 
 package forms
 
-import forms.behaviours.StringFieldBehaviours
+import forms.behaviours.NationalInsuranceBehaviours
 import play.api.data.FormError
 
-class WhatIsYourNationalInsuranceNumberFormProviderSpec extends StringFieldBehaviours {
-
-  val requiredKey = "whatIsYourNationalInsuranceNumber.error.required"
-  val lengthKey = "whatIsYourNationalInsuranceNumber.error.length"
-  val maxLength = 10
+class WhatIsYourNationalInsuranceNumberFormProviderSpec extends NationalInsuranceBehaviours {
 
   val form = new WhatIsYourNationalInsuranceNumberFormProvider()()
+
+  val requiredKey = "whatIsYourNationalInsuranceNumber.error.required"
+  val maxLength = 10
 
   ".value" - {
 
     val fieldName = "value"
 
-    behave like fieldThatBindsValidData(
+    behave like nationalInsuraceNumberBindsValidData(
       form,
-      fieldName,
-      stringsWithMaxLength(maxLength)
+      fieldName
     )
 
-    behave like fieldWithMaxLength(
+    behave like nationalInsuraceNumberBindsInvalidData(
       form,
       fieldName,
-      maxLength = maxLength,
-      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
-    )
-
-    behave like mandatoryField(
-      form,
-      fieldName,
-      requiredError = FormError(fieldName, requiredKey)
+      validError = FormError(fieldName, requiredKey, Seq())
     )
   }
 }
