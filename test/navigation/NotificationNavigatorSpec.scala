@@ -174,6 +174,27 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(WhatIsYourNationalInsuranceNumberPage, NormalMode, UserAnswers("id")) mustBe routes.AreYouRegisteredForVATController.onPageLoad(NormalMode)
       }
 
+      "must go from the AreYouRegisteredForVAT page to the WhatIsYourVATRegistrationNumber controller when the user selects Yes, and I know my VAT registration number" in {
+        UserAnswers("id").set(AreYouRegisteredForVATPage, AreYouRegisteredForVAT.YesIKnow) match {
+          case Success(ua) => navigator.nextPage(AreYouRegisteredForVATPage, NormalMode, ua) mustBe routes.WhatIsYourVATRegistrationNumberController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the AreYouRegisteredForVAT page to the AreYouRegisteredForSelfAssessmentController when the user selects Yes, but I do not know my VAT registration number" in {
+        UserAnswers("id").set(AreYouRegisteredForVATPage, AreYouRegisteredForVAT.YesButDontKnow) match {
+          case Success(ua) => navigator.nextPage(AreYouRegisteredForVATPage, NormalMode, ua) mustBe routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the AreYouRegisteredForVAT page to the AreYouRegisteredForSelfAssessmentController when the user selects No" in {
+        UserAnswers("id").set(AreYouRegisteredForVATPage, AreYouRegisteredForVAT.No) match {
+          case Success(ua) => navigator.nextPage(AreYouRegisteredForVATPage, NormalMode, ua) mustBe routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
       "must go from the WhatIsYourVATRegistrationNumberPage to the AreYouRegisteredForSelfAssessmentPage when the user enter VAT registration number" in {
         navigator.nextPage(WhatIsYourVATRegistrationNumberPage, NormalMode, UserAnswers("id")) mustBe routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(NormalMode)
       }
