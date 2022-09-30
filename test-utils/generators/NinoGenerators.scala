@@ -14,18 +14,14 @@
  * limitations under the License.
  */
 
-package forms
+package generators
 
-import javax.inject.Inject
+import uk.gov.hmrc.domain.Generator
 
-import forms.mappings.Mappings
-import play.api.data.Form
+import scala.util.Random
 
-class WhatIsYourNationalInsuranceNumberFormProvider @Inject() extends Mappings {
+object NinoGenerator {
+  private val ninoGenerator = new Generator(new Random())
 
-  def apply(): Form[String] =
-    Form(
-      "value" -> text("whatIsYourNationalInsuranceNumber.error.required")
-        .verifying(validNino("whatIsYourNationalInsuranceNumber.error.required"))
-    )
+  def generateNino: String = ninoGenerator.nextNino.nino
 }

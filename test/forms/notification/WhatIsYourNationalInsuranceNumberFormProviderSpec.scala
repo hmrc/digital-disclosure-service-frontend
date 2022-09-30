@@ -17,18 +17,28 @@
 package forms
 
 import forms.behaviours.NationalInsuranceBehaviours
+import play.api.data.FormError
 
 class WhatIsYourNationalInsuranceNumberFormProviderSpec extends NationalInsuranceBehaviours {
 
   val form = new WhatIsYourNationalInsuranceNumberFormProvider()()
 
+  val requiredKey = "whatIsYourNationalInsuranceNumber.error.required"
+  val maxLength = 10
+
   ".value" - {
 
     val fieldName = "value"
 
-    behave like nationalInsuraceNumberBindsInvalidData(
+    behave like nationalInsuraceNumberBindsValidData(
       form,
       fieldName
+    )
+
+    behave like nationalInsuraceNumberBindsInvalidData(
+      form,
+      fieldName,
+      validError = FormError(fieldName, requiredKey, Seq())
     )
   }
 }

@@ -20,6 +20,4 @@ trait Validation {
 
   val emailRegex = """^.+[@].+[.].+$"""
   val telephoneRegex = """^\+[0-9]{1,19}$|^00[0-9]{1,18}|^0[0-9]{2,10}$"""
-  val nationalInsuranceRegex = "^((?!(BG|GB|KN|NK|NT|TN|ZZ)|(D|F|I|Q|U|V)[A-Z]|[A-Z](D|F|I|O|Q|U|V))[A-Z]{2})[0-9]{6}[A-D ]?$"
-
 }
