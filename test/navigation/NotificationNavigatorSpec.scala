@@ -149,16 +149,16 @@ class NotificationNavigatorSpec extends SpecBase {
         }
       }
 
-      "must go from the DoYouHaveNationalInsuranceNumber page to the WhatIsYourVATRegistrationNumber controller when the user selects Yes, but I do not know my National Insurance number" in {
+      "must go from the DoYouHaveNationalInsuranceNumber page to the AreYouRegisteredForVATController when the user selects Yes, but I do not know my National Insurance number" in {
         UserAnswers("id").set(DoYouHaveNationalInsuranceNumberPage, DoYouHaveNationalInsuranceNumber.YesButDontKnow) match {
-          case Success(ua) => navigator.nextPage(DoYouHaveNationalInsuranceNumberPage, NormalMode, ua) mustBe routes.WhatIsYourVATRegistrationNumberController.onPageLoad(NormalMode)
+          case Success(ua) => navigator.nextPage(DoYouHaveNationalInsuranceNumberPage, NormalMode, ua) mustBe routes.AreYouRegisteredForVATController.onPageLoad(NormalMode)
           case Failure(e) => throw e
         }
       }
 
-      "must go from the DoYouHaveNationalInsuranceNumber page to the WhatIsYourVATRegistrationNumber controller when the user selects No" in {
+      "must go from the DoYouHaveNationalInsuranceNumber page to the AreYouRegisteredForVATController when the user selects No" in {
         UserAnswers("id").set(DoYouHaveNationalInsuranceNumberPage, DoYouHaveNationalInsuranceNumber.No) match {
-          case Success(ua) => navigator.nextPage(DoYouHaveNationalInsuranceNumberPage, NormalMode, ua) mustBe routes.WhatIsYourVATRegistrationNumberController.onPageLoad(NormalMode)
+          case Success(ua) => navigator.nextPage(DoYouHaveNationalInsuranceNumberPage, NormalMode, ua) mustBe routes.AreYouRegisteredForVATController.onPageLoad(NormalMode)
           case Failure(e) => throw e
         }
       }

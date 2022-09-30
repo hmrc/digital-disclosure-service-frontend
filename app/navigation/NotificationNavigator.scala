@@ -68,8 +68,8 @@ class NotificationNavigator @Inject()() {
 
     case DoYouHaveNationalInsuranceNumberPage => ua => ua.get(DoYouHaveNationalInsuranceNumberPage) match {
       case Some(DoYouHaveNationalInsuranceNumber.YesIknow) => routes.WhatIsYourNationalInsuranceNumberController.onPageLoad(NormalMode)
-      case Some(DoYouHaveNationalInsuranceNumber.YesButDontKnow) => routes.WhatIsYourVATRegistrationNumberController.onPageLoad(NormalMode)
-      case Some(DoYouHaveNationalInsuranceNumber.No) => routes.WhatIsYourVATRegistrationNumberController.onPageLoad(NormalMode)
+      case Some(DoYouHaveNationalInsuranceNumber.YesButDontKnow) => routes.AreYouRegisteredForVATController.onPageLoad(NormalMode)
+      case Some(DoYouHaveNationalInsuranceNumber.No) => routes.AreYouRegisteredForVATController.onPageLoad(NormalMode)
       case None => routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(NormalMode)
     }
 
