@@ -77,6 +77,13 @@ class NotificationNavigator @Inject()() {
 
     case WhatIsYourNationalInsuranceNumberPage => _ => routes.AreYouRegisteredForVATController.onPageLoad(NormalMode)
 
+    case AreYouRegisteredForVATPage => ua => ua.get(AreYouRegisteredForVATPage) match {
+      case Some(AreYouRegisteredForVAT.YesIKnow) => routes.WhatIsYourVATRegistrationNumberController.onPageLoad(NormalMode)
+      case Some(AreYouRegisteredForVAT.YesButDontKnow) => routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(NormalMode)
+      case Some(AreYouRegisteredForVAT.No) => routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(NormalMode)
+      case None => routes.AreYouRegisteredForVATController.onPageLoad(NormalMode)
+    }
+
     case WhatIsYourVATRegistrationNumberPage => _ => routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(NormalMode)
 
     case _ => _ => controllers.routes.IndexController.onPageLoad

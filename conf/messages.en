@@ -492,7 +492,7 @@ areYouRegisteredForVAT.yesIKnow = Yes, and I know my VAT registration number
 areYouRegisteredForVAT.yesButDontKnow = Yes, but I do not know my VAT registration number
 areYouRegisteredForVAT.no = No
 areYouRegisteredForVAT.checkYourAnswersLabel = Are you registered for VAT?
-areYouRegisteredForVAT.error.required = Select Yes, and I know my VAT registration number
+areYouRegisteredForVAT.error.required = Select yes if you are registered for VAT.
 areYouRegisteredForVAT.change.hidden = AreYouRegisteredForVAT
 
 areYouRegisteredForSelfAssessment.title = Are you registered for Self Assessment?
