@@ -27,6 +27,6 @@ class YourEmailAddressFormProvider @Inject() extends Mappings {
     Form(
       "value" -> text("yourEmailAddress.error.required")
         .verifying(maxLength(320, "yourEmailAddress.error.length"))
-        .verifying(regexp(emailRegex, "yourEmailAddress.error.required"))
+        .verifying(validEmail("yourEmailAddress.error.required"))
     )
 }

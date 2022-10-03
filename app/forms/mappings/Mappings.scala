@@ -22,7 +22,7 @@ import play.api.data.FieldMapping
 import play.api.data.Forms.of
 import models.Enumerable
 
-trait Mappings extends Formatters with Constraints with Validation {
+trait Mappings extends Formatters with Constraints {
 
   protected def text(errorKey: String = "error.required", args: Seq[String] = Seq.empty): FieldMapping[String] =
     of(stringFormatter(errorKey, args))

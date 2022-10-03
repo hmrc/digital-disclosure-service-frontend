@@ -20,10 +20,10 @@ import java.time.{Instant, LocalDate, ZoneOffset}
 import org.scalacheck.Arbitrary._
 import org.scalacheck.Gen._
 import org.scalacheck.{Gen, Shrink}
-import forms.mappings.Validation
 import uk.gov.hmrc.domain.Nino
+import uk.gov.hmrc.emailaddress.EmailAddress
 
-trait Generators extends UserAnswersGenerator with PageGenerators with ModelGenerators with UserAnswersEntryGenerators with Validation {
+trait Generators extends UserAnswersGenerator with PageGenerators with ModelGenerators with UserAnswersEntryGenerators {
 
   implicit val dontShrink: Shrink[String] = Shrink.shrinkAny
 
@@ -151,7 +151,7 @@ trait Generators extends UserAnswersGenerator with PageGenerators with ModelGene
   def invalidEmail(): Gen[String] = {
     for {
       str <- nonEmptyString
-      if !str.matches(emailRegex)
+      if !EmailAddress.isValid(str)
     } yield {
       str
     }

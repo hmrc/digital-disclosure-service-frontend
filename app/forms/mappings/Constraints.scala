@@ -18,8 +18,8 @@ package forms.mappings
 
 import java.time.LocalDate
 import uk.gov.hmrc.domain.Nino
-
 import play.api.data.validation.{Constraint, Invalid, Valid}
+import uk.gov.hmrc.emailaddress.EmailAddress
 
 trait Constraints {
 
@@ -122,6 +122,14 @@ trait Constraints {
   protected def nonEmptySet(errorKey: String): Constraint[Set[_]] =
     Constraint {
       case set if set.nonEmpty =>
+        Valid
+      case _ =>
+        Invalid(errorKey)
+    }
+
+  protected def validEmail(errorKey: String): Constraint[String] =
+    Constraint {
+      case str if EmailAddress.isValid(str.filterNot(_.isWhitespace)) =>
         Valid
       case _ =>
         Invalid(errorKey)
