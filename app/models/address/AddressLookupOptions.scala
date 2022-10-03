@@ -21,6 +21,7 @@ import play.api.libs.json.OFormat
 
 final case class AddressLookupOptions(
   continueUrl: String,
+  alphaPhase: Boolean,
   timeoutConfig: Option[TimeoutConfig] = None,
   signOutHref: Option[String] = None,
   accessibilityFooterUrl: Option[String] = None,
@@ -29,7 +30,8 @@ final case class AddressLookupOptions(
   phaseFeedbackLink: Option[String] = None,
   deskProServiceName: Option[String] = None,
   showPhaseBanner: Option[Boolean] = None,
-  ukMode: Option[Boolean] = None
+  ukMode: Option[Boolean] = None,
+  includeHMRCBranding: Option[Boolean] = None
 )
 
 object AddressLookupOptions {

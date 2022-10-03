@@ -195,6 +195,28 @@ class NotificationNavigatorSpec extends SpecBase {
         }
       }
 
+
+      "must go from the AreYouRegisteredForSelfAssessment page to the WhatIsYourUniqueTaxReference controller when the user selects Yes, and I know my UTR" in {
+        UserAnswers("id").set(AreYouRegisteredForSelfAssessmentPage, AreYouRegisteredForSelfAssessment.YesIKnowMyUTR) match {
+          case Success(ua) => navigator.nextPage(AreYouRegisteredForSelfAssessmentPage, NormalMode, ua) mustBe routes.WhatIsYourUniqueTaxReferenceController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the AreYouRegisteredForSelfAssessment page to the YourAddressLookup controller when the user selects Yes, but I do not know my UTR" in {
+        UserAnswers("id").set(AreYouRegisteredForSelfAssessmentPage, AreYouRegisteredForSelfAssessment.YesIDontKnowMyUTR) match {
+          case Success(ua) => navigator.nextPage(AreYouRegisteredForSelfAssessmentPage, NormalMode, ua) mustBe routes.YourAddressLookupController.lookupAddress(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the AreYouRegisteredForSelfAssessment page to the YourAddressLookup controller when the user selects No" in {
+        UserAnswers("id").set(AreYouRegisteredForSelfAssessmentPage, AreYouRegisteredForSelfAssessment.No) match {
+          case Success(ua) => navigator.nextPage(AreYouRegisteredForSelfAssessmentPage, NormalMode, ua) mustBe routes.YourAddressLookupController.lookupAddress(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
       "must go from the WhatIsYourVATRegistrationNumberPage to the AreYouRegisteredForSelfAssessmentPage when the user enter VAT registration number" in {
         navigator.nextPage(WhatIsYourVATRegistrationNumberPage, NormalMode, UserAnswers("id")) mustBe routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(NormalMode)
       }
