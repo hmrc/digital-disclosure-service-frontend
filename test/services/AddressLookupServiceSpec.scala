@@ -21,8 +21,6 @@ import cats.implicits.catsSyntaxOptionId
 import org.scalamock.handlers.CallHandler2
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.EitherValues
-import org.scalatest.matchers.should.Matchers
-import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.http.Status.ACCEPTED
 import play.api.libs.json.JsError
@@ -42,6 +40,10 @@ import com.typesafe.config.ConfigFactory
 import play.api.Configuration
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import config.{FrontendAppConfig, AddressLookupConfig}
+import play.api.test.{FakeRequest, Injecting}
+import play.api.i18n.{Messages, MessagesApi}
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
+import org.scalatestplus.play.PlaySpec
 
 import java.net.URL
 import java.util.UUID
@@ -49,12 +51,13 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class AddressLookupServiceSpec
-    extends AnyWordSpec
+    extends PlaySpec
+    with GuiceOneAppPerSuite
     with ScalaCheckPropertyChecks
     with EitherValues
-    with Matchers
     with MockFactory
-    with ModelGenerators {
+    with ModelGenerators 
+    with Injecting {
 
   implicit val hc: HeaderCarrier = HeaderCarrier()
 
@@ -74,6 +77,9 @@ class AddressLookupServiceSpec
         |""".stripMargin
     )
   )
+
+  protected val realMessagesApi: MessagesApi = inject[MessagesApi]
+  implicit def messages: Messages = realMessagesApi.preferred(FakeRequest())
 
   val frontendAppConfig = new FrontendAppConfig(config)
   val lookupConfig = new AddressLookupConfig(new ServicesConfig(config))
@@ -99,14 +105,27 @@ class AddressLookupServiceSpec
 
   "The address lookup service" when {
 
-    "triggering a lookup for an individual" should {
+    "triggering a lookup for an individual" must {
 
       val selectPageConfig = SelectPageConfig(proposalListLimit = 15)
       val addressLookupOptions = AddressLookupOptions(
         continueUrl = s"host1.com/redirect",
-        selectPageConfig = Some(selectPageConfig)
+        showPhaseBanner = Some(true),
+        alphaPhase = true,
+        selectPageConfig = Some(selectPageConfig),
+        includeHMRCBranding = Some(false)
       )
-      val addressLookupRequest = AddressLookupRequest(2, addressLookupOptions)
+
+      val appLevelLabels = AppLevelLabels(messages("service.name"))
+      val countryPickerLabels = CountryPickerLabels(
+        messages("yourCountryLookup.title"), 
+        messages("yourCountryLookup.heading"),
+        messages("yourCountryLookup.hint"),
+        messages("site.continue")
+      )
+      val englishLabels = LabelsByLanguage(appLevelLabels, countryPickerLabels)
+      val labels = AddressLookupLabels(englishLabels)
+      val addressLookupRequest = AddressLookupRequest(2, addressLookupOptions, labels)
 
       "succeed receiving user redirect URL" in {
         val locationUrl = new URL("http://someUrl:1234/redirect")
@@ -116,7 +135,7 @@ class AddressLookupServiceSpec
         )
 
         val response = await(addressLookupService.getIndividualAddressLookupRedirect(addressUpdateCall).value)
-        response.isLeft should be(false)
+        response.isLeft must be(false)
       }
 
       "fail having no request accepted" in {
@@ -124,7 +143,7 @@ class AddressLookupServiceSpec
           Right(HttpResponse(INTERNAL_SERVER_ERROR, Json.obj().toString()))
         )
 
-        await(addressLookupService.getIndividualAddressLookupRedirect(addressUpdateCall).value).left.value should be(
+        await(addressLookupService.getIndividualAddressLookupRedirect(addressUpdateCall).value).left.value must be(
           Error("The request was refused by the Address Lookup Service")
         )
       }
@@ -134,13 +153,13 @@ class AddressLookupServiceSpec
           Right(HttpResponse(ACCEPTED, Json.obj().toString()))
         )
 
-        await(addressLookupService.getIndividualAddressLookupRedirect(addressUpdateCall).value).left.value should be(
+        await(addressLookupService.getIndividualAddressLookupRedirect(addressUpdateCall).value).left.value must be(
           Error("The Address Lookup Service user redirect URL is missing in the header")
         )
       }
     }
 
-    "retrieving address" should {
+    "retrieving address" must {
 
       "succeed having valid address ID" in forAll { (id: UUID, address: Address) =>
         val json = Json.obj(
@@ -161,17 +180,17 @@ class AddressLookupServiceSpec
 
         mockGetAddress(id)(Right(HttpResponse(OK, json.toString())))
 
-        await(addressLookupService.retrieveUserAddress(id).value).value should be(address)
+        await(addressLookupService.retrieveUserAddress(id).value).value must be(address)
       }
 
       "fail having invalid address ID" in forAll { id: UUID =>
         mockGetAddress(id)(Right(HttpResponse(NOT_FOUND, Json.obj().toString())))
 
-        await(addressLookupService.retrieveUserAddress(id).value).isLeft should be(true)
+        await(addressLookupService.retrieveUserAddress(id).value).isLeft must be(true)
       }
     }
 
-    "an address with only one address line" should {
+    "an address with only one address line" must {
       import AddressLookupServiceImpl.addressLookupResponseReads
 
       "fail to deserialise" in {
@@ -194,7 +213,7 @@ class AddressLookupServiceSpec
 
         val path = JsPath \ "address" \ "lines"
         val err  = JsonValidationError("error.minLength", 2)
-        addressJson.validate[Address] shouldBe JsError(List((path, List(err))))
+        addressJson.validate[Address] mustBe JsError(List((path, List(err))))
       }
     }
   }

@@ -86,6 +86,13 @@ class NotificationNavigator @Inject()() {
 
     case WhatIsYourVATRegistrationNumberPage => _ => routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(NormalMode)
 
+    case AreYouRegisteredForSelfAssessmentPage => ua => ua.get(AreYouRegisteredForSelfAssessmentPage) match {
+      case Some(AreYouRegisteredForSelfAssessment.YesIKnowMyUTR) => routes.WhatIsYourUniqueTaxReferenceController.onPageLoad(NormalMode)
+      case Some(AreYouRegisteredForSelfAssessment.YesIDontKnowMyUTR) => routes.YourAddressLookupController.lookupAddress(NormalMode)
+      case Some(AreYouRegisteredForSelfAssessment.No) => routes.YourAddressLookupController.lookupAddress(NormalMode)
+      case None => routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(NormalMode)
+    }
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 

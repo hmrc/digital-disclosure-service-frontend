@@ -511,3 +511,7 @@ whatIsYourUniqueTaxReference.checkYourAnswersLabel = What is your Unique Tax Ref
 whatIsYourUniqueTaxReference.error.required = Enter Unique Tax Reference
 whatIsYourUniqueTaxReference.error.length = Unique Tax Reference must be 10 characters or less
 whatIsYourUniqueTaxReference.change.hidden = WhatIsYourUniqueTaxReference
+
+yourCountryLookup.title = What is the country of your address?
+yourCountryLookup.heading = What is the country of your address?
+yourCountryLookup.hint = For example, United Kingdom.

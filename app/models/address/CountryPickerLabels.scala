@@ -19,12 +19,13 @@ package models.address
 import play.api.libs.json.Json
 import play.api.libs.json.OFormat
 
-final case class AddressLookupRequest(
-  version: Int,
-  options: AddressLookupOptions,
-  labels: AddressLookupLabels
+final case class CountryPickerLabels(
+  title: String,
+  heading: String,
+  countryLabel: String,
+  submitLabel: String
 )
 
-object AddressLookupRequest {
-  implicit val format: OFormat[AddressLookupRequest] = Json.format[AddressLookupRequest]
+object CountryPickerLabels {
+  implicit val format: OFormat[CountryPickerLabels] = Json.format[CountryPickerLabels]
 }

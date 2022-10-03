@@ -17,18 +17,32 @@
 package services
 
 import models.address._
+import play.api.i18n.Messages
 
 trait AddressLookupRequestHelper {
 
-    def lookupRequestForIndividual(baseUrl: String, redirectUrl: String, proposalListLimit: Int): AddressLookupRequest = {
+  def lookupRequestForIndividual(baseUrl: String, redirectUrl: String, proposalListLimit: Int)(implicit messages: Messages): AddressLookupRequest = {
 
-        val selectPageConfig = SelectPageConfig(proposalListLimit = proposalListLimit)
-        val addressLookupOptions = AddressLookupOptions(
-            continueUrl = s"$baseUrl$redirectUrl",
-            selectPageConfig = Some(selectPageConfig)
-        )
+    val selectPageConfig = SelectPageConfig(proposalListLimit = proposalListLimit)
+    val addressLookupOptions = AddressLookupOptions(
+      continueUrl = s"$baseUrl$redirectUrl",
+      showPhaseBanner = Some(true),
+      alphaPhase = true,
+      selectPageConfig = Some(selectPageConfig),
+      includeHMRCBranding = Some(false)
+    )
 
-        AddressLookupRequest(2, addressLookupOptions)
-    }
-  
+    val appLevelLabels = AppLevelLabels(messages("service.name"))
+    val countryPickerLabels = CountryPickerLabels(
+      messages("yourCountryLookup.title"), 
+      messages("yourCountryLookup.heading"),
+      messages("yourCountryLookup.hint"),
+      messages("site.continue")
+    )
+    val englishLabels = LabelsByLanguage(appLevelLabels, countryPickerLabels)
+    val labels = AddressLookupLabels(englishLabels)
+
+    AddressLookupRequest(2, addressLookupOptions, labels)
+  }
+
 }

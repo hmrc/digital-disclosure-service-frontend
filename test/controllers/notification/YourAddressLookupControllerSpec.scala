@@ -27,13 +27,14 @@ import models._
 import models.address.Address
 import services.AddressLookupService
 import cats.data.EitherT
-import org.scalamock.handlers.CallHandler2
+import org.scalamock.handlers.{CallHandler2, CallHandler3}
 import org.scalamock.scalatest.MockFactory
 import java.net.URL
 import uk.gov.hmrc.http.HeaderCarrier
 import scala.concurrent.ExecutionContext.Implicits.global
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import repositories.SessionRepository
+import play.api.i18n.Messages
 
 import scala.concurrent.Future
 
@@ -49,10 +50,10 @@ class YourAddressLookupControllerSpec extends SpecBase with MockFactory with Mod
 
   def mockGetIndividualAddressLookupRedirect(redirectUrl: Call)(
     response: Either[Error, URL]
-  ): CallHandler2[Call, HeaderCarrier, EitherT[Future, Error, URL]] =
+  ): CallHandler3[Call, HeaderCarrier, Messages, EitherT[Future, Error, URL]] =
     (addressLookupService
-      .getIndividualAddressLookupRedirect(_: Call)(_: HeaderCarrier))
-      .expects(redirectUrl, *)
+      .getIndividualAddressLookupRedirect(_: Call)(_: HeaderCarrier, _: Messages))
+      .expects(redirectUrl, *, *)
       .returning(EitherT.fromEither[Future](response))
 
   def mockRetrieveUserAddress(addressId: UUID)(

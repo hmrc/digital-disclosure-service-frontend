@@ -19,12 +19,10 @@ package models.address
 import play.api.libs.json.Json
 import play.api.libs.json.OFormat
 
-final case class AddressLookupRequest(
-  version: Int,
-  options: AddressLookupOptions,
-  labels: AddressLookupLabels
+final case class AppLevelLabels(
+  navTitle: String
 )
 
-object AddressLookupRequest {
-  implicit val format: OFormat[AddressLookupRequest] = Json.format[AddressLookupRequest]
+object AppLevelLabels {
+  implicit val format: OFormat[AppLevelLabels] = Json.format[AppLevelLabels]
 }
