@@ -92,6 +92,7 @@ class NotificationNavigator @Inject()() {
       case Some(AreYouRegisteredForSelfAssessment.No) => routes.YourAddressLookupController.lookupAddress(NormalMode)
       case None => routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(NormalMode)
     }
+    case WhatIsYourUniqueTaxReferencePage => _ => routes.YourAddressLookupController.lookupAddress(NormalMode)
 
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
