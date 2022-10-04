@@ -18,7 +18,8 @@
 
         @govukDateInput(
             DateViewModel(
-                field  = form("value"),
+                form   = form,
+                id     = "value",
                 legend = LegendViewModel(messages("$className;format="decap"$.heading")).asPageHeading()
             )
             .withHint(HintViewModel(messages("$className;format="decap"$.hint")))
