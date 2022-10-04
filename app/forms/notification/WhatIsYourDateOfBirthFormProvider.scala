@@ -35,10 +35,5 @@ class WhatIsYourDateOfBirthFormProvider @Inject() extends Mappings {
         invalidMonthKey  = "whatIsYourDateOfBirth.error.invalidMonth"
       )
       .verifying(maxDate(LocalDate.now().minusDays(1), "whatIsYourDateOfBirth.error.invalidFutureDateOfBirth"))
-      //.verifying(isWithinDayRange("whatIsYourDateOfBirth.error.invalidDay"))
-      //.verifying(isWithinMonthRange("whatIsYourDateOfBirth.error.invalidMonth"))
-      //.verifying(isNotFutureYear("whatIsYourDateOfBirth.error.invalidFutureDateOfBirth"))
     )
-
-    //  protected def maxDate(maximum: LocalDate, errorKey: String, args: Any*)
 }
