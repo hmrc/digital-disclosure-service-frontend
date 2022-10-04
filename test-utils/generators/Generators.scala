@@ -157,6 +157,15 @@ trait Generators extends UserAnswersGenerator with PageGenerators with ModelGene
     }
   }
 
+  def invalidEmailDomain(): Gen[String] = {
+    for {
+      username <- alphaStr
+      domain <- alphaStr
+    } yield {
+      username + "@" + domain
+    }
+  }
+
   def nino(): Gen[String] = NinoGenerator.generateNino
   
   def invalidNino(): Gen[String] = Gen.alphaNumStr

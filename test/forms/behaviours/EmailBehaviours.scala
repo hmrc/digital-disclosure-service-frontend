@@ -43,6 +43,14 @@ trait EmailBehaviours extends FieldBehaviours {
           result.errors must contain only validError
       }
     }
+
+    "not bind email with invalid domain" in {
+      forAll(invalidEmailDomain() -> "longString") {
+        string =>
+          val result = form.bind(Map(fieldName -> string)).apply(fieldName)
+          result.errors must contain only validError
+      }
+    }
   }
 
   def maxLengthEmailBindsValidData(form: Form[_], fieldName: String, lengthError: FormError): Unit = {
