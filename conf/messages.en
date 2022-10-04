@@ -334,7 +334,7 @@ country.ZW=Zimbabwe
 # ----------------------------------------------------------
 receivedALetter.title = Are you making a disclosure because you have received a letter from HMRC?
 receivedALetter.heading = Are you making a disclosure because you have received a letter from HMRC?
-receivedALetter.error.required = Select yes if you are making this disclosure because you have received a letter from HMRC.
+receivedALetter.error.required = Select yes if you are making this disclosure because you have received a letter from HMRC
 receivedALetter.checkYourAnswersLabel = Are you making a disclosure because you have received a letter from HMRC?
 receivedALetter.change.hidden = ReceivedALetter
 
@@ -351,7 +351,7 @@ relatesTo.hint.llp = A limited liability company is a business run by 2 or more 
 relatesTo.trust = A trust
 relatesTo.hint.trust = A trust is an arrangement that manages assets for people.
 relatesTo.checkYourAnswersLabel = What is the disclosure about?
-relatesTo.error.required = Select what your disclosure is about.
+relatesTo.error.required = Select what your disclosure is about
 relatesTo.change.hidden = relatesTo
 
 areYouTheIndividual.title = Are you the individual this disclosure relates to?
@@ -360,7 +360,7 @@ areYouTheIndividual.yes = Yes, I am the individual
 areYouTheIndividual.no = No, I am disclosing on behalf of the individual
 areYouTheIndividual.hint.no = We may ask for additional evidence that you’re authorised to act for them, such as a 64-8 form.
 areYouTheIndividual.checkYourAnswersLabel = Are you the individual this disclosure relates to?
-areYouTheIndividual.error.required = Select yes if you are the individual.
+areYouTheIndividual.error.required = Select yes if you are the individual
 areYouTheIndividual.change.hidden = AreYouTheIndividual
 
 onshoreLiabilities.title = Do you also want to disclose onshore liabilities?
@@ -382,7 +382,7 @@ onshoreLiabilities.change.hidden = OnshoreLiabilities
 letterReference.title = What is the reference number of the letter you received from HMRC?
 letterReference.heading = What is the reference number of the letter you received from HMRC?
 letterReference.checkYourAnswersLabel = What is the reference number of the letter you received from HMRC?
-letterReference.error.required = Enter the letter’s reference number.
+letterReference.error.required = Enter the letter’s reference number
 letterReference.error.length = LetterReference must be 30 characters or less
 letterReference.change.hidden = LetterReference
 
@@ -422,27 +422,27 @@ whatIsYourFullName.change.hidden = WhatIsYourFullName
 yourEmailAddress.title = What is your email address?
 yourEmailAddress.heading = What is your email address?
 yourEmailAddress.hint = For example, name@example.com.
-yourEmailAddress.error.required = Enter a valid email address, like name@example.com.
-yourEmailAddress.error.length = Your Email Address must be 320 characters or less.
+yourEmailAddress.error.required = Enter a valid email address, like name@example.com
+yourEmailAddress.error.length = Your email address must be 320 characters or less
 yourEmailAddress.change.hidden = YourEmailAddress
 
 yourPhoneNumber.title = What is your telephone number?
 yourPhoneNumber.heading = What is your telephone number?
 yourPhoneNumber.label = If this is a UK landline or an overseas number, you must include the area or dialing code.
 yourPhoneNumber.hint = For example, 01642 123456, 07777 777777 or +33 1 2345 6788.
-yourPhoneNumber.error.required = Enter a valid telephone number.
+yourPhoneNumber.error.required = Enter a valid telephone number
 yourPhoneNumber.change.hidden = YourPhoneNumber
 
 doYouHaveAnEmailAddress.title = Do you have an email address that you are happy to be contacted on by HMRC?
 doYouHaveAnEmailAddress.heading = Do you have an email address that you are happy to be contacted on by HMRC?
 doYouHaveAnEmailAddress.checkYourAnswersLabel = Do you have an email address that you are happy to be contacted on by HMRC?
 doYouHaveAnEmailAddress.paragraph = HMRC will only use this email address if they need to contact you about this disclosure
-doYouHaveAnEmailAddress.error.required = Select yes if you have an email address that HMRC can contact you with.
+doYouHaveAnEmailAddress.error.required = Select yes if you have an email address that HMRC can contact you with
 doYouHaveAnEmailAddress.change.hidden = DoYouHaveAnEmailAddress
 
 whatIsYourDateOfBirth.title = What is your date of birth?
 whatIsYourDateOfBirth.heading = What is your date of birth?
-whatIsYourDateOfBirth.hint = For example, 20 3 1976
+whatIsYourDateOfBirth.hint = For example, 20 3 1976.
 whatIsYourDateOfBirth.checkYourAnswersLabel = What is your date of birth?
 whatIsYourDateOfBirth.error.required.all = Enter a valid date of birth, like 20 3 1976.
 whatIsYourDateOfBirth.error.required.two = The date of birth must include {0} and {1}
@@ -455,7 +455,7 @@ whatIsYourMainOccupation.heading = What is your main occupation?
 whatIsYourMainOccupation.hint = For example, plumber or dentist.
 whatIsYourMainOccupation.checkYourAnswersLabel = What is your main occupation?
 whatIsYourMainOccupation.error.required = Enter your main occupation
-whatIsYourMainOccupation.error.maxLength = Your main occupation should have no more than 30 characters.
+whatIsYourMainOccupation.error.maxLength = Your main occupation should have no more than 30 characters
 whatIsYourMainOccupation.error.minLength = Your main occupation should have at least 4 characters
 whatIsYourMainOccupation.change.hidden = WhatIsYourMainOccupation
 
@@ -465,7 +465,7 @@ doYouHaveNationalInsuranceNumber.yesIKnow = Yes, and I know my National Insuranc
 doYouHaveNationalInsuranceNumber.yesButDontKnow = Yes, but I do not know my National Insurance number
 doYouHaveNationalInsuranceNumber.no = No
 doYouHaveNationalInsuranceNumber.checkYourAnswersLabel = Do you have a National Insurance number?
-doYouHaveNationalInsuranceNumber.error.required = Select yes if you have a National Insurance number.
+doYouHaveNationalInsuranceNumber.error.required = Select yes if you have a National Insurance number
 doYouHaveNationalInsuranceNumber.change.hidden = DoYouHaveNationalInsuranceNumber
 
 whatIsYourNationalInsuranceNumber.title = What is your National Insurance number?
@@ -481,7 +481,7 @@ whatIsYourVATRegistrationNumber.heading = What is your VAT registration number?
 whatIsYourVATRegistrationNumber.label = This is a 9 digit number on your VAT certificate or VAT online account.
 whatIsYourVATRegistrationNumber.hint = For example, ‘123456789’.
 whatIsYourVATRegistrationNumber.checkYourAnswersLabel = What is your VAT registration number?
-whatIsYourVATRegistrationNumber.error.required = Enter your VAT registration number.
+whatIsYourVATRegistrationNumber.error.required = Enter your VAT registration number
 whatIsYourVATRegistrationNumber.error.length = Your VAT registration number must be 10 characters or less
 whatIsYourVATRegistrationNumber.change.hidden = WhatIsYourVATRegistrationNumber
 
@@ -491,7 +491,7 @@ areYouRegisteredForVAT.yesIKnow = Yes, and I know my VAT registration number
 areYouRegisteredForVAT.yesButDontKnow = Yes, but I do not know my VAT registration number
 areYouRegisteredForVAT.no = No
 areYouRegisteredForVAT.checkYourAnswersLabel = Are you registered for VAT?
-areYouRegisteredForVAT.error.required = Select yes if you are registered for VAT.
+areYouRegisteredForVAT.error.required = Select yes if you are registered for VAT
 areYouRegisteredForVAT.change.hidden = AreYouRegisteredForVAT
 
 areYouRegisteredForSelfAssessment.title = Are you registered for Self Assessment?
@@ -506,9 +506,9 @@ areYouRegisteredForSelfAssessment.change.hidden = AreYouRegisteredForSelfAssessm
 whatIsYourUniqueTaxReference.title = What is your Unique Tax Reference?
 whatIsYourUniqueTaxReference.heading = What is your Unique Tax Reference?
 whatIsYourUniqueTaxReference.body = This 10 digit number is on your tax return, statement of accounts or any other Self Assessment calculations.
-whatIsYourUniqueTaxReference.hint = For example, ‘1234567890’
+whatIsYourUniqueTaxReference.hint = For example, ‘1234567890’.
 whatIsYourUniqueTaxReference.checkYourAnswersLabel = What is your Unique Tax Reference?
-whatIsYourUniqueTaxReference.error.required = Enter a valid Unique Tax Reference, like 1234567890.
+whatIsYourUniqueTaxReference.error.required = Enter a valid Unique Tax Reference, like 1234567890
 whatIsYourUniqueTaxReference.error.length = Unique Tax Reference must be 10 characters or less
 whatIsYourUniqueTaxReference.change.hidden = WhatIsYourUniqueTaxReference
 
