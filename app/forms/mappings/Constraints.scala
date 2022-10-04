@@ -141,5 +141,38 @@ trait Constraints {
         Valid
       case _ =>
         Invalid(errorKey)
-    }  
+    }
+
+  protected def isWithinDayRange(errorKey: String): Constraint[LocalDate] =
+    Constraint {
+      case str if (
+        LocalDate.parse(str.toString()).getDayOfMonth() >= 1 || 
+        LocalDate.parse(str.toString()).getDayOfMonth() <= 31
+      ) =>
+        Valid
+      case _ =>
+        Invalid(errorKey)
+    }
+
+  protected def isWithinMonthRange(errorKey: String): Constraint[LocalDate] =
+    Constraint {
+      case str if (
+        LocalDate.parse(str.toString()).getMonthValue() >= 1 || 
+        LocalDate.parse(str.toString()).getMonthValue() <= 12
+      ) =>
+        Valid
+      case _ =>
+        Invalid(errorKey)
+    }
+
+  protected def isNotFutureYear(errorKey: String): Constraint[LocalDate] =
+    Constraint {
+      case str if (
+        LocalDate.parse(str.toString()).getYear() >= 1 || 
+        LocalDate.parse(str.toString()).getYear() <= 31
+      ) =>  
+        Valid
+      case _ =>
+        Invalid(errorKey)
+    }    
 }

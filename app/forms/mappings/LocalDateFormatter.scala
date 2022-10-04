@@ -20,6 +20,7 @@ import java.time.LocalDate
 
 import play.api.data.FormError
 import play.api.data.format.Formatter
+import play.api.Logging
 
 import scala.util.{Failure, Success, Try}
 
@@ -28,8 +29,10 @@ private[mappings] class LocalDateFormatter(
                                             allRequiredKey: String,
                                             twoRequiredKey: String,
                                             requiredKey: String,
+                                            invalidDayKey: String,
+                                            invalidMonthKey: String,
                                             args: Seq[String] = Seq.empty
-                                          ) extends Formatter[LocalDate] with Formatters {
+                                          ) extends Formatter[LocalDate] with Formatters with Logging {
 
   private val fieldKeys: List[String] = List("day", "month", "year")
 
@@ -40,6 +43,14 @@ private[mappings] class LocalDateFormatter(
       case Failure(_) =>
         Left(Seq(FormError(key, invalidKey, args)))
     }
+
+  private def validateDay(key: String, day: Int): Either[Seq[FormError], Int] = 
+    if (day >=1 && day <=31) Right(day)
+    else Left(Seq(FormError(key, invalidDayKey, args)))
+
+  private def validateMonth(key: String, month: Int): Either[Seq[FormError], Int] = 
+    if (month >=1 && month <=12) Right(month)
+    else Left(Seq(FormError(key, invalidMonthKey, args)))
 
   private def formatDate(key: String, data: Map[String, String]): Either[Seq[FormError], LocalDate] = {
 
@@ -53,9 +64,17 @@ private[mappings] class LocalDateFormatter(
     for {
       day   <- int.bind(s"$key.day", data).right
       month <- int.bind(s"$key.month", data).right
+      _     <- combineErrors(validateDay(s"$key.day", day), validateMonth(s"$key.month", month))
       year  <- int.bind(s"$key.year", data).right
       date  <- toDate(key, day, month, year).right
     } yield date
+  }
+
+  private def combineErrors(eitherA: Either[Seq[FormError], Any], eitherB: Either[Seq[FormError], Any]): Either[Seq[FormError], Any] = {
+    (eitherA, eitherB) match {
+      case (Left(errorsA), Left(errorsB)) => Left(errorsA ++ errorsB)
+      case (a, _) => a
+    }
   }
 
   override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], LocalDate] = {

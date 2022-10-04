@@ -45,6 +45,46 @@ class DateBehaviours extends FieldBehaviours {
     }
   }
 
+  def dateFieldCheckingMaxDayAndMonth(form: Form[_], key: String, validData: Gen[LocalDate], dayError: FormError, monthError: FormError): Unit = {
+
+    "check maximum day value" in {
+     
+      forAll(validData -> "valid date", intsAboveValue(31) -> "invalid day") {
+        (date, day) =>
+
+          val data = Map(
+            s"$key.day"   -> day.toString,
+            s"$key.month" -> date.getMonthValue.toString,
+            s"$key.year"  -> date.getYear.toString
+          )
+
+          val result = form.bind(data)
+
+          result.errors must contain only dayError
+      }
+    
+    }
+
+    "check maximum month value" in {
+     
+      forAll(validData -> "valid date", intsAboveValue(12) -> "invalid month") {
+        (date, month) =>
+
+          val data = Map(
+            s"$key.day"   -> date.getDayOfMonth.toString,
+            s"$key.month" -> month.toString,
+            s"$key.year"  -> date.getYear.toString
+          )
+
+          val result = form.bind(data)
+
+          result.errors must contain only monthError
+      }
+    
+    }
+
+  }
+
   def dateFieldWithMax(form: Form[_], key: String, max: LocalDate, formError: FormError): Unit = {
 
     s"fail to bind a date greater than ${max.format(DateTimeFormatter.ISO_LOCAL_DATE)}" in {
