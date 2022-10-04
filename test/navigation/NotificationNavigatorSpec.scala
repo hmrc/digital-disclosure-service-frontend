@@ -221,6 +221,10 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(WhatIsYourVATRegistrationNumberPage, NormalMode, UserAnswers("id")) mustBe routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(NormalMode)
       }
 
+      "must go from the WhatIsYourUniqueTaxReferencePage to the YourAddressLookupController when the user enter UTR reference number" in {
+        navigator.nextPage(WhatIsYourUniqueTaxReferencePage, NormalMode, UserAnswers("id")) mustBe routes.YourAddressLookupController.lookupAddress(NormalMode)
+      }
+
     }
 
     "in Check mode" - {
