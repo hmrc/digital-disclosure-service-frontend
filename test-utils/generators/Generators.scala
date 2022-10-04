@@ -129,7 +129,7 @@ trait Generators extends UserAnswersGenerator with PageGenerators with ModelGene
     }
 
   def ukPhoneNumber(): Gen[String] = for {
-    lenght <- chooseNum(8, 9)
+    lenght <- chooseNum(9, 10)
     number <- listOfN(lenght, chooseNum(1, 9))
   } yield {
     "0" + number.mkString
