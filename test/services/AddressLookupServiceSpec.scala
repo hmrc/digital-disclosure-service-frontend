@@ -123,7 +123,12 @@ class AddressLookupServiceSpec
         messages("yourCountryLookup.hint"),
         messages("site.continue")
       )
-      val englishLabels = LabelsByLanguage(appLevelLabels, countryPickerLabels)
+      val lookupPageLabels = LookupPageLabels(
+        messages("yourAddressLookup.title"), 
+        messages("yourAddressLookup.heading"),
+        messages("site.continue")
+      )
+      val englishLabels = LabelsByLanguage(appLevelLabels, countryPickerLabels, lookupPageLabels)
       val labels = AddressLookupLabels(englishLabels)
       val addressLookupRequest = AddressLookupRequest(2, addressLookupOptions, labels)
 
