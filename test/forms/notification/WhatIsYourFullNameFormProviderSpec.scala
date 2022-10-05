@@ -23,7 +23,7 @@ class WhatIsYourFullNameFormProviderSpec extends StringFieldBehaviours {
 
   val requiredKey = "whatIsYourFullName.error.required"
   val lengthKey = "whatIsYourFullName.error.length"
-  val maxLength = 50
+  val maxLength = 30
 
   val form = new WhatIsYourFullNameFormProvider()()
 
