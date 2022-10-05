@@ -521,3 +521,6 @@ yourAddressLookup.heading = What is the postcode and property name or number of 
 
 selectAddress.title = Choose your address
 selectAddress.heading = Choose your address
+
+editAddress.title = What is your address?
+editAddress.heading = What is your address?

@@ -19,14 +19,11 @@ package models.address
 import play.api.libs.json.Json
 import play.api.libs.json.OFormat
 
-final case class LabelsByLanguage(
-  appLevelLabels: AppLevelLabels,
-  countryPickerLabels: CountryPickerLabels,
-  lookupPageLabels: LookupPageLabels,
-  selectPageLabels: SelectPageLabels,
-  editPageLabels: EditPageLabels
+final case class EditPageLabels(
+  title: String,
+  heading: String
 )
 
-object LabelsByLanguage {
-  implicit val format: OFormat[LabelsByLanguage] = Json.format[LabelsByLanguage]
+object EditPageLabels {
+  implicit val format: OFormat[EditPageLabels] = Json.format[EditPageLabels]
 }
