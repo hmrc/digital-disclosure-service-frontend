@@ -39,6 +39,12 @@ class YourPhoneNumberFormProviderSpec extends PhoneNumberBehaviours {
       fieldName
     )
 
+    behave like invalidPhoneNumberBindsInvalidData(
+      form,
+      fieldName,
+      invalidFormError = FormError(fieldName, requiredKey)
+    )
+
     behave like mandatoryField(
       form,
       fieldName,
