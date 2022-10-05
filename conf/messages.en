@@ -515,3 +515,15 @@ whatIsYourUniqueTaxReference.change.hidden = WhatIsYourUniqueTaxReference
 yourCountryLookup.title = What is the country of your address?
 yourCountryLookup.heading = What is the country of your address?
 yourCountryLookup.hint = For example, United Kingdom.
+
+yourAddressLookup.title = What is the postcode and property name or number of your address?
+yourAddressLookup.heading = What is the postcode and property name or number of your address?
+
+selectAddress.title = Choose your address
+selectAddress.heading = Choose your address
+
+editAddress.title = What is your address?
+editAddress.heading = What is your address?
+
+confirmAddress.title = Is this the correct address?
+confirmAddress.heading = Is this the correct address?
