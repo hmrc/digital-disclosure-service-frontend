@@ -518,3 +518,6 @@ yourCountryLookup.hint = For example, United Kingdom.
 
 yourAddressLookup.title = What is the postcode and property name or number of your address?
 yourAddressLookup.heading = What is the postcode and property name or number of your address?
+
+selectAddress.title = Choose your address
+selectAddress.heading = Choose your address
