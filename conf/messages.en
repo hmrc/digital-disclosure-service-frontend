@@ -524,3 +524,6 @@ selectAddress.heading = Choose your address
 
 editAddress.title = What is your address?
 editAddress.heading = What is your address?
+
+confirmAddress.title = Is this the correct address?
+confirmAddress.heading = Is this the correct address?
