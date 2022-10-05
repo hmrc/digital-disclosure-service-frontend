@@ -515,3 +515,10 @@ whatIsYourUniqueTaxReference.change.hidden = WhatIsYourUniqueTaxReference
 yourCountryLookup.title = What is the country of your address?
 yourCountryLookup.heading = What is the country of your address?
 yourCountryLookup.hint = For example, United Kingdom.
+
+youHaveSentYourNotification.title = You have sent your notification
+youHaveSentYourNotification.heading = You have sent your notification
+youHaveSentYourNotification.body = Your notification reference number is
+youHaveSentYourNotification.paragraph.first = You can save a copy of your notification (opens in a new tab).
+youHaveSentYourNotification.paragraph.header = Next steps
+youHaveSentYourNotification.paragraph.second =  We will write to you shortly with a Disclosure Reference Number (DRN). As soon as you receive this, you should make the full disclosure within 90 days of the date that HMRC acknowledges your notification.
