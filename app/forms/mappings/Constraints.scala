@@ -79,12 +79,12 @@ trait Constraints {
         Invalid(errorKey, regex)
     }
 
-  protected def regexpIgnoreWhiteSpaces(regex: String, errorKey: String): Constraint[String] =
+  protected def regexpIgnoreWhiteSpaces(regex: String, errorKey: String, args: Any*): Constraint[String] =
     Constraint {
       case str if str.filterNot(_.isWhitespace).matches(regex) =>
         Valid
       case _ =>
-        Invalid(errorKey, regex)
+        Invalid(errorKey, args: _*)
     }
 
   protected def maxLength(maximum: Int, errorKey: String): Constraint[String] =

@@ -14,22 +14,16 @@
  * limitations under the License.
  */
 
-package forms
+package models.address
 
-import javax.inject.Inject
+import play.api.libs.json.Json
+import play.api.libs.json.OFormat
 
-import forms.mappings.Mappings
-import play.api.data.Form
+final case class EditPageLabels(
+  title: String,
+  heading: String
+)
 
-class YourPhoneNumberFormProvider @Inject() extends Mappings {
-
-  val telephoneRegex = """^\+[0-9]{1,19}$|^00[0-9]{1,19}|^0[0-9]{9,10}$"""
-
-  def apply(): Form[String] =
-    Form(
-      "value" -> text("yourPhoneNumber.error.required")
-        .verifying(regexpIgnoreWhiteSpaces(telephoneRegex, "yourPhoneNumber.error.required"))
-    )
+object EditPageLabels {
+  implicit val format: OFormat[EditPageLabels] = Json.format[EditPageLabels]
 }
-
-object YourPhoneNumberFormProvider extends YourPhoneNumberFormProvider

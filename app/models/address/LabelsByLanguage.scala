@@ -21,7 +21,11 @@ import play.api.libs.json.OFormat
 
 final case class LabelsByLanguage(
   appLevelLabels: AppLevelLabels,
-  countryPickerLabels: CountryPickerLabels
+  countryPickerLabels: CountryPickerLabels,
+  lookupPageLabels: LookupPageLabels,
+  selectPageLabels: SelectPageLabels,
+  editPageLabels: EditPageLabels,
+  confirmPageLabels: ConfirmPageLabels
 )
 
 object LabelsByLanguage {
