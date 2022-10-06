@@ -20,6 +20,7 @@ import java.time.LocalDate
 
 import play.api.data.FormError
 import play.api.data.format.Formatter
+import play.api.Logging
 
 import scala.util.{Failure, Success, Try}
 
@@ -28,6 +29,8 @@ private[mappings] class LocalDateFormatter(
                                             allRequiredKey: String,
                                             twoRequiredKey: String,
                                             requiredKey: String,
+                                            invalidDayKey: String,
+                                            invalidMonthKey: String,
                                             args: Seq[String] = Seq.empty
                                           ) extends Formatter[LocalDate] with Formatters {
 
@@ -41,6 +44,14 @@ private[mappings] class LocalDateFormatter(
         Left(Seq(FormError(key, invalidKey, args)))
     }
 
+  private def validateDay(key: String, day: Int): Either[Seq[FormError], Int] = 
+    if (day >=1 && day <=31) Right(day)
+    else Left(Seq(FormError(key, invalidDayKey, args)))
+
+  private def validateMonth(key: String, month: Int): Either[Seq[FormError], Int] = 
+    if (month >=1 && month <=12) Right(month)
+    else Left(Seq(FormError(key, invalidMonthKey, args)))
+
   private def formatDate(key: String, data: Map[String, String]): Either[Seq[FormError], LocalDate] = {
 
     val int = intFormatter(
@@ -51,11 +62,19 @@ private[mappings] class LocalDateFormatter(
     )
 
     for {
-      day   <- int.bind(s"$key.day", data).right
-      month <- int.bind(s"$key.month", data).right
-      year  <- int.bind(s"$key.year", data).right
+      day   <- defaultKey(key, int.bind(s"$key.day", data)).right
+      month <- defaultKey(key, int.bind(s"$key.month", data)).right
+      year  <- defaultKey(key, int.bind(s"$key.year", data)).right
+      _     <- combineErrors(validateDay(s"$key.day", day), validateMonth(s"$key.month", month)).right
       date  <- toDate(key, day, month, year).right
     } yield date
+  }
+
+  private def combineErrors(eitherA: Either[Seq[FormError], Any], eitherB: Either[Seq[FormError], Any]): Either[Seq[FormError], Any] = {
+    Seq(eitherA.swap.toOption, eitherB.swap.toOption).flatten.flatten match {
+      case Nil => eitherA
+      case errors => Left(errors)
+    }
   }
 
   override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], LocalDate] = {
@@ -72,15 +91,19 @@ private[mappings] class LocalDateFormatter(
 
     fields.count(_._2.isDefined) match {
       case 3 =>
-        formatDate(key, data).left.map {
-          _.map(_.copy(key = key, args = args))
-        }
+        formatDate(key, data)
       case 2 =>
         Left(List(FormError(key, requiredKey, missingFields ++ args)))
       case 1 =>
         Left(List(FormError(key, twoRequiredKey, missingFields ++ args)))
       case _ =>
         Left(List(FormError(key, allRequiredKey, args)))
+    }
+  }
+
+  def defaultKey[A](key: String, either: Either[Seq[FormError], A]): Either[Seq[FormError], A] = {
+    either.left.map {
+      _.map(_.copy(key = key, args = args))
     }
   }
 
