@@ -35,7 +35,7 @@ class DateMappingsSpec extends AnyFreeSpec with Matchers with ScalaCheckProperty
       allRequiredKey = "error.required.all",
       twoRequiredKey = "error.required.two",
       invalidKey     = "error.invalid",
-      invalidDayKey = "error.invalidDay",
+      invalidDayKey  = "error.invalidDay",
       invalidMonthKey = "error.invalidMonth"
     )
   )
@@ -110,7 +110,7 @@ class DateMappingsSpec extends AnyFreeSpec with Matchers with ScalaCheckProperty
         val result = form.bind(data)
 
         result.errors must contain(
-          FormError("value.day", "error.invalid", List.empty)
+          FormError("value", "error.invalid", List.empty)
         )
     }
   }
@@ -169,7 +169,7 @@ class DateMappingsSpec extends AnyFreeSpec with Matchers with ScalaCheckProperty
         val result = form.bind(data)
 
         result.errors must contain(
-          FormError("value.month", "error.invalid", List.empty)
+          FormError("value", "error.invalid", List.empty)
         )
     }
   }
@@ -177,11 +177,11 @@ class DateMappingsSpec extends AnyFreeSpec with Matchers with ScalaCheckProperty
   "must fail to bind a date with a month above the max" in {
 
     forAll(validData -> "valid data", invalidMonth -> "invalid month") {
-      (date, field) =>
+      (date, month) =>
 
         val data = Map(
           "value.day" -> date.getDayOfMonth.toString,
-          "value.month" -> field.toString,
+          "value.month" -> 13.toString,
           "value.year" -> date.getYear.toString
         )
 
@@ -321,8 +321,7 @@ class DateMappingsSpec extends AnyFreeSpec with Matchers with ScalaCheckProperty
 
         val result = form.bind(data)
 
-        result.errors must contain(FormError("value.day", "error.invalidDay", List.empty))
-        result.errors must contain(FormError("value.month", "error.invalidMonth", List.empty))
+        result.errors must contain only FormError("value", "error.invalid", List.empty)
     }
   }
 
@@ -339,8 +338,7 @@ class DateMappingsSpec extends AnyFreeSpec with Matchers with ScalaCheckProperty
 
         val result = form.bind(data)
 
-        result.errors must contain(FormError("value.day", "error.invalidDay", List.empty))
-        result.errors must contain(FormError("value.day", "error.invalidDay", List.empty))
+        result.errors must contain only FormError("value", "error.invalid", List.empty)
     }
   }
 

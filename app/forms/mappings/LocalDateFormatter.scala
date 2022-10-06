@@ -32,7 +32,7 @@ private[mappings] class LocalDateFormatter(
                                             invalidDayKey: String,
                                             invalidMonthKey: String,
                                             args: Seq[String] = Seq.empty
-                                          ) extends Formatter[LocalDate] with Formatters with Logging {
+                                          ) extends Formatter[LocalDate] with Formatters {
 
   private val fieldKeys: List[String] = List("day", "month", "year")
 
@@ -62,18 +62,18 @@ private[mappings] class LocalDateFormatter(
     )
 
     for {
-      day   <- int.bind(s"$key.day", data).right
-      month <- int.bind(s"$key.month", data).right
-      _     <- combineErrors(validateDay(s"$key.day", day), validateMonth(s"$key.month", month))
-      year  <- int.bind(s"$key.year", data).right
+      day   <- defaultKey(key, int.bind(s"$key.day", data)).right
+      month <- defaultKey(key, int.bind(s"$key.month", data)).right
+      year  <- defaultKey(key, int.bind(s"$key.year", data)).right
+      _     <- combineErrors(validateDay(s"$key.day", day), validateMonth(s"$key.month", month)).right
       date  <- toDate(key, day, month, year).right
     } yield date
   }
 
   private def combineErrors(eitherA: Either[Seq[FormError], Any], eitherB: Either[Seq[FormError], Any]): Either[Seq[FormError], Any] = {
-    (eitherA, eitherB) match {
-      case (Left(errorsA), Left(errorsB)) => Left(errorsA ++ errorsB)
-      case (a, _) => a
+    Seq(eitherA.swap.toOption, eitherB.swap.toOption).flatten.flatten match {
+      case Nil => eitherA
+      case errors => Left(errors)
     }
   }
 
@@ -91,15 +91,19 @@ private[mappings] class LocalDateFormatter(
 
     fields.count(_._2.isDefined) match {
       case 3 =>
-        formatDate(key, data).left.map {
-          _.map(_.copy(args = args))
-        }
+        formatDate(key, data)
       case 2 =>
         Left(List(FormError(key, requiredKey, missingFields ++ args)))
       case 1 =>
         Left(List(FormError(key, twoRequiredKey, missingFields ++ args)))
       case _ =>
         Left(List(FormError(key, allRequiredKey, args)))
+    }
+  }
+
+  def defaultKey[A](key: String, either: Either[Seq[FormError], A]): Either[Seq[FormError], A] = {
+    either.left.map {
+      _.map(_.copy(key = key, args = args))
     }
   }
 
