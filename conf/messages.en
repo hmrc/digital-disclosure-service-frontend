@@ -416,7 +416,7 @@ whatIsYourFullName.title = What is your full name?
 whatIsYourFullName.heading = What is your full name?
 whatIsYourFullName.checkYourAnswersLabel = What is your full name?
 whatIsYourFullName.error.required = Enter your full name
-whatIsYourFullName.error.length = Your full name must be 50 characters or less
+whatIsYourFullName.error.length = Full name must be between 1 and 30 characters
 whatIsYourFullName.change.hidden = WhatIsYourFullName
 
 yourEmailAddress.title = What is your email address?
