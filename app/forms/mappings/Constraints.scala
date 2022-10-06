@@ -20,9 +20,8 @@ import java.time.LocalDate
 import uk.gov.hmrc.domain.Nino
 import play.api.data.validation.{Constraint, Invalid, Valid}
 import uk.gov.hmrc.emailaddress.EmailAddress
-import play.api.Logging
 
-trait Constraints extends Logging {
+trait Constraints {
 
   protected def firstError[A](constraints: Constraint[A]*): Constraint[A] =
     Constraint {
