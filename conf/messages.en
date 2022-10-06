@@ -416,7 +416,7 @@ whatIsYourFullName.title = What is your full name?
 whatIsYourFullName.heading = What is your full name?
 whatIsYourFullName.checkYourAnswersLabel = What is your full name?
 whatIsYourFullName.error.required = Enter your full name
-whatIsYourFullName.error.length = Your full name must be 50 characters or less
+whatIsYourFullName.error.length = Full name must be between 1 and 30 characters
 whatIsYourFullName.change.hidden = WhatIsYourFullName
 
 yourEmailAddress.title = What is your email address?
@@ -444,7 +444,13 @@ whatIsYourDateOfBirth.title = What is your date of birth?
 whatIsYourDateOfBirth.heading = What is your date of birth?
 whatIsYourDateOfBirth.hint = For example, 20 3 1976.
 whatIsYourDateOfBirth.checkYourAnswersLabel = What is your date of birth?
-whatIsYourDateOfBirth.error.required.all = Enter a valid date of birth, like 20 3 1976.
+whatIsYourDateOfBirth.error.required.all = Enter a valid date of birth, like 20 3 1976
+whatIsYourDateOfBirth.error.required.two = Your date of birth must include a {0} and a {1}
+whatIsYourDateOfBirth.error.required = Your date of birth must include {0}
+whatIsYourDateOfBirth.error.invalid = Enter your date of birth
+whatIsYourDateOfBirth.error.invalidDay = Enter a real date of birth - a month can have up to 31 days
+whatIsYourDateOfBirth.error.invalidMonth = Enter a real date of birth - there are only 12 months in a year
+whatIsYourDateOfBirth.error.invalidFutureDateOfBirth = Date of birth must be in the past
 whatIsYourDateOfBirth.error.required.two = The date of birth must include {0} and {1}
 whatIsYourDateOfBirth.error.required = The date of birth must include {0}
 whatIsYourDateOfBirth.error.invalid = Enter a real date of birth
@@ -500,7 +506,7 @@ areYouRegisteredForSelfAssessment.yesIKnowMyUTR = Yes, and I know my Unique Taxp
 areYouRegisteredForSelfAssessment.yesIDontKnowMyUTR = Yes, but I do not know my Unique Taxpayer Reference (UTR)
 areYouRegisteredForSelfAssessment.no = No
 areYouRegisteredForSelfAssessment.checkYourAnswersLabel = Are you registered for Self Assessment?
-areYouRegisteredForSelfAssessment.error.required = Select yes if you are registered for Self Assessment.
+areYouRegisteredForSelfAssessment.error.required = Select yes if you are registered for Self Assessment
 areYouRegisteredForSelfAssessment.change.hidden = AreYouRegisteredForSelfAssessment
 
 whatIsYourUniqueTaxReference.title = What is your Unique Tax Reference?
@@ -515,6 +521,13 @@ whatIsYourUniqueTaxReference.change.hidden = WhatIsYourUniqueTaxReference
 yourCountryLookup.title = What is the country of your address?
 yourCountryLookup.heading = What is the country of your address?
 yourCountryLookup.hint = For example, United Kingdom.
+
+youHaveSentYourNotification.title = You have sent your notification
+youHaveSentYourNotification.heading = You have sent your notification
+youHaveSentYourNotification.body = Your notification reference number is
+youHaveSentYourNotification.paragraph.first = You can save a copy of your notification (opens in a new tab).
+youHaveSentYourNotification.paragraph.header = Next steps
+youHaveSentYourNotification.paragraph.second =  We will write to you shortly with a Disclosure Reference Number (DRN). As soon as you receive this, you should make the full disclosure within 90 days of the date that HMRC acknowledges your notification.
 
 yourAddressLookup.title = What is the postcode and property name or number of your address?
 yourAddressLookup.heading = What is the postcode and property name or number of your address?

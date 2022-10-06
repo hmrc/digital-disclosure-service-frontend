@@ -159,5 +159,5 @@ trait Constraints {
         Valid
       case _ =>
         Invalid(errorKey)
-    }  
+    }    
 }
