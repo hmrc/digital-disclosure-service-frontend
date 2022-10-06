@@ -16,15 +16,15 @@
 
 package forms
 
-import forms.behaviours.StringFieldBehaviours
+import forms.behaviours.VATBehaviours
 import play.api.data.FormError
 
-class WhatIsYourVATRegistrationNumberFormProviderSpec extends StringFieldBehaviours {
+class WhatIsYourVATRegistrationNumberFormProviderSpec extends VATBehaviours {
 
-  val requiredKey = "whatIsYourVATRegistrationNumber.error.required"
   val lengthKey = "whatIsYourVATRegistrationNumber.error.length"
-  val maxLength = 10
-
+  val requiredKey = "whatIsYourVATRegistrationNumber.error.required"
+  val illegalCharKey = "whatIsYourVATRegistrationNumber.error.nonNumeric"
+  
   val form = new WhatIsYourVATRegistrationNumberFormProvider()()
 
   ".value" - {
@@ -33,15 +33,19 @@ class WhatIsYourVATRegistrationNumberFormProviderSpec extends StringFieldBehavio
 
     behave like fieldThatBindsValidData(
       form,
-      fieldName,
-      stringsWithMaxLength(maxLength)
+      fieldName
     )
 
-    behave like fieldWithMaxLength(
+    behave like fieldThatInvalidLengthData(
       form,
       fieldName,
-      maxLength = maxLength,
-      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
+      lengthKey
+    )
+
+    behave like fieldThatInvalidCharData(
+      form,
+      fieldName,
+      illegalCharKey
     )
 
     behave like mandatoryField(

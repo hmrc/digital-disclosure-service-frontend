@@ -20,8 +20,9 @@ import java.time.LocalDate
 import uk.gov.hmrc.domain.Nino
 import play.api.data.validation.{Constraint, Invalid, Valid}
 import uk.gov.hmrc.emailaddress.EmailAddress
+import play.api.Logging
 
-trait Constraints {
+trait Constraints extends Logging {
 
   protected def firstError[A](constraints: Constraint[A]*): Constraint[A] =
     Constraint {
@@ -146,4 +147,18 @@ trait Constraints {
       case _ =>
         Invalid(errorKey)
     }    
+
+  protected def validVAT(length:Int, invalidCharErrorKey:String, lengthKey: String): Constraint[String] =
+    Constraint {
+      str => {
+        val value = if(str.contains("GB")) str.split("GB")(1) else str
+        val valueWithoutGB = value.filterNot(_.isWhitespace)
+        val illegalChars = valueWithoutGB.filterNot(c => c.isDigit).headOption
+        (valueWithoutGB.length == length, illegalChars) match {
+          case (_,  Some(c))    => Invalid(invalidCharErrorKey, c)
+          case (true,  None)    => Valid
+          case (false, _)       => Invalid(lengthKey, length)
+        }
+      }
+    }
 }
