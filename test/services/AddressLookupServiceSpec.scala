@@ -111,7 +111,7 @@ class AddressLookupServiceSpec
       val selectPageConfig = SelectPageConfig(proposalListLimit = 15)
       val addressLookupOptions = AddressLookupOptions(
         continueUrl = "host1.com/redirect",
-        serviceHref = routes.IndexController.onPageLoad.url,
+        serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
         showPhaseBanner = Some(true),
         alphaPhase = true,
         selectPageConfig = Some(selectPageConfig),
