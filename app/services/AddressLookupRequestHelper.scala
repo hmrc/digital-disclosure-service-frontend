@@ -27,7 +27,7 @@ trait AddressLookupRequestHelper {
     val selectPageConfig = SelectPageConfig(proposalListLimit = proposalListLimit)
     val addressLookupOptions = AddressLookupOptions(
       continueUrl = s"$baseUrl$redirectUrl",
-      serviceHref = routes.IndexController.onPageLoad.url,
+      serviceHref = s"$baseUrl${routes.IndexController.onPageLoad.url}",
       showPhaseBanner = Some(true),
       alphaPhase = true,
       selectPageConfig = Some(selectPageConfig),
