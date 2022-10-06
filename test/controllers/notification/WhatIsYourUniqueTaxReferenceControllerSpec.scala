@@ -84,6 +84,8 @@ class WhatIsYourUniqueTaxReferenceControllerSpec extends SpecBase with MockitoSu
 
       when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
 
+      val validUTR = "0123456789"
+
       val application =
         applicationBuilder(userAnswers = Some(emptyUserAnswers))
           .overrides(
@@ -95,7 +97,7 @@ class WhatIsYourUniqueTaxReferenceControllerSpec extends SpecBase with MockitoSu
       running(application) {
         val request =
           FakeRequest(POST, whatIsYourUniqueTaxReferenceRoute)
-            .withFormUrlEncodedBody(("value", "answer"))
+            .withFormUrlEncodedBody(("value", validUTR))
 
         val result = route(application, request).value
 

@@ -16,14 +16,13 @@
 
 package forms
 
-import forms.behaviours.StringFieldBehaviours
+import forms.behaviours.UTRBehaviours
 import play.api.data.FormError
 
-class WhatIsYourUniqueTaxReferenceFormProviderSpec extends StringFieldBehaviours {
+class WhatIsYourUniqueTaxReferenceFormProviderSpec extends UTRBehaviours {
 
-  val requiredKey = "whatIsYourUniqueTaxReference.error.required"
   val lengthKey = "whatIsYourUniqueTaxReference.error.length"
-  val maxLength = 10
+  val illegalCharKey = "whatIsYourUniqueTaxReference.error.invalidChar"
 
   val form = new WhatIsYourUniqueTaxReferenceFormProvider()()
 
@@ -33,21 +32,25 @@ class WhatIsYourUniqueTaxReferenceFormProviderSpec extends StringFieldBehaviours
 
     behave like fieldThatBindsValidData(
       form,
-      fieldName,
-      stringsWithMaxLength(maxLength)
+      fieldName
     )
 
-    behave like fieldWithMaxLength(
+    behave like fieldThatInvalidLengthData(
       form,
       fieldName,
-      maxLength = maxLength,
-      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
+      lengthKey
+    )
+
+    behave like fieldThatInvalidCharData(
+      form,
+      fieldName,
+      illegalCharKey
     )
 
     behave like mandatoryField(
       form,
       fieldName,
-      requiredError = FormError(fieldName, requiredKey)
+      requiredError = FormError(fieldName, lengthKey)
     )
   }
 }

@@ -508,8 +508,8 @@ whatIsYourUniqueTaxReference.heading = What is your Unique Tax Reference?
 whatIsYourUniqueTaxReference.body = This 10 digit number is on your tax return, statement of accounts or any other Self Assessment calculations.
 whatIsYourUniqueTaxReference.hint = For example, ‘1234567890’.
 whatIsYourUniqueTaxReference.checkYourAnswersLabel = What is your Unique Tax Reference?
-whatIsYourUniqueTaxReference.error.required = Enter a valid Unique Tax Reference, like 1234567890
-whatIsYourUniqueTaxReference.error.length = Unique Tax Reference must be 10 characters or less
+whatIsYourUniqueTaxReference.error.length = Enter a Unique Tax Reference in the correct format
+whatIsYourUniqueTaxReference.error.invalidChar = The Unique Tax Reference must not include {0}
 whatIsYourUniqueTaxReference.change.hidden = WhatIsYourUniqueTaxReference
 
 yourCountryLookup.title = What is the country of your address?

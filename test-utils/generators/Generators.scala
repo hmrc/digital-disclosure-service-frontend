@@ -124,11 +124,25 @@ trait Generators extends UserAnswersGenerator
     }
   }
 
+  def generateValidUTR(length:Int):Gen[String] = for {
+    digits <- listOfN(length, numChar)
+  } yield {
+    digits.mkString
+  }
+
+  def generateInvalidLengthUTR(length: Int): Gen[String] = numStr
+    .suchThat(s => s.nonEmpty && (s.length != length))
+
+  def generateIllegalCharUTR(length: Int): Gen[String] = for {
+    str <- listOfN(length, alphaChar)
+  } yield {
+    str.mkString
+  }
+
   def nino(): Gen[String] = NinoGenerator.generateNino
   
   def invalidNino(): Gen[String] = Gen.alphaNumStr
     .suchThat(_.trim.nonEmpty).suchThat(!Nino.isValid(_))
-  
 
   def invalidLengthEmail(): Gen[String] = {
     val emailMaxLength = 320
