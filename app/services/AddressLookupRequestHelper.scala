@@ -18,6 +18,7 @@ package services
 
 import models.address._
 import play.api.i18n.Messages
+import controllers.routes
 
 trait AddressLookupRequestHelper {
 
@@ -26,6 +27,7 @@ trait AddressLookupRequestHelper {
     val selectPageConfig = SelectPageConfig(proposalListLimit = proposalListLimit)
     val addressLookupOptions = AddressLookupOptions(
       continueUrl = s"$baseUrl$redirectUrl",
+      serviceHref = routes.IndexController.onPageLoad.url,
       showPhaseBanner = Some(true),
       alphaPhase = true,
       selectPageConfig = Some(selectPageConfig),

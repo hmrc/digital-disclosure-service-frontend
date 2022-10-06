@@ -44,6 +44,7 @@ import play.api.test.{FakeRequest, Injecting}
 import play.api.i18n.{Messages, MessagesApi}
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import org.scalatestplus.play.PlaySpec
+import controllers.routes
 
 import java.net.URL
 import java.util.UUID
@@ -109,7 +110,8 @@ class AddressLookupServiceSpec
 
       val selectPageConfig = SelectPageConfig(proposalListLimit = 15)
       val addressLookupOptions = AddressLookupOptions(
-        continueUrl = s"host1.com/redirect",
+        continueUrl = "host1.com/redirect",
+        serviceHref = routes.IndexController.onPageLoad.url,
         showPhaseBanner = Some(true),
         alphaPhase = true,
         selectPageConfig = Some(selectPageConfig),
