@@ -24,7 +24,7 @@ trait UTRBehaviours extends FieldBehaviours {
 
   def fieldThatBindsValidData(form: Form[_], fieldName: String): Unit = {
 
-    "bind invalid national insurance number" in {
+    "bind valid UTR" in {
 
       val validDataGenerator = generateValidUTR(maxUTRNumberLength)
 
@@ -39,12 +39,10 @@ trait UTRBehaviours extends FieldBehaviours {
 
   def fieldThatInvalidLengthData(form: Form[_], fieldName: String, keyError: String): Unit = {
 
-    "not bind utr with invalid length" in {
+    "not bind UTR with invalid length" in {
 
       val validError = FormError(fieldName, keyError, Seq(maxDigitsUKPhoneNumber))
-
-      Seq(maxUTRNumberLength)
-
+      
       val invalidDataGenerator = generateInvalidLengthUTR(maxUTRNumberLength)
 
       forAll(invalidDataGenerator -> "validDataItem") {

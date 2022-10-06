@@ -84,7 +84,8 @@ class WhatIsYourUniqueTaxReferenceControllerSpec extends SpecBase with MockitoSu
 
       when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
 
-      val validUTR = "0123456789"
+      val utrLength = 10
+      val validUTR = generateValidUTR(utrLength).sample.value
 
       val application =
         applicationBuilder(userAnswers = Some(emptyUserAnswers))
