@@ -44,6 +44,7 @@ import play.api.test.{FakeRequest, Injecting}
 import play.api.i18n.{Messages, MessagesApi}
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import org.scalatestplus.play.PlaySpec
+import controllers.routes
 
 import java.net.URL
 import java.util.UUID
@@ -109,7 +110,8 @@ class AddressLookupServiceSpec
 
       val selectPageConfig = SelectPageConfig(proposalListLimit = 15)
       val addressLookupOptions = AddressLookupOptions(
-        continueUrl = s"host1.com/redirect",
+        continueUrl = "host1.com/redirect",
+        serviceHref = routes.IndexController.onPageLoad.url,
         showPhaseBanner = Some(true),
         alphaPhase = true,
         selectPageConfig = Some(selectPageConfig),
@@ -123,7 +125,24 @@ class AddressLookupServiceSpec
         messages("yourCountryLookup.hint"),
         messages("site.continue")
       )
-      val englishLabels = LabelsByLanguage(appLevelLabels, countryPickerLabels)
+      val lookupPageLabels = LookupPageLabels(
+        messages("yourAddressLookup.title"), 
+        messages("yourAddressLookup.heading"),
+        messages("site.continue")
+      )
+      val selectPageLabels = SelectPageLabels(
+        messages("selectAddress.title"), 
+        messages("selectAddress.heading")
+      )
+      val editPageLabels = EditPageLabels(
+        messages("editAddress.title"), 
+        messages("editAddress.heading")
+      )
+      val confirmPageLabels = ConfirmPageLabels(
+        messages("confirmAddress.title"), 
+        messages("confirmAddress.heading")
+      )
+      val englishLabels = LabelsByLanguage(appLevelLabels, countryPickerLabels, lookupPageLabels, selectPageLabels, editPageLabels, confirmPageLabels)
       val labels = AddressLookupLabels(englishLabels)
       val addressLookupRequest = AddressLookupRequest(2, addressLookupOptions, labels)
 

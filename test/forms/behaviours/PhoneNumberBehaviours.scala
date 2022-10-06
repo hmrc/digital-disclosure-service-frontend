@@ -16,7 +16,7 @@
 
 package forms.behaviours
 
-import play.api.data.Form
+import play.api.data.{Form, FormError}
 
 trait PhoneNumberBehaviours extends FieldBehaviours {
 
@@ -32,6 +32,19 @@ trait PhoneNumberBehaviours extends FieldBehaviours {
           val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
           result.value.value mustBe dataItem
           result.errors mustBe empty
+      }
+    }
+  }
+
+  def invalidPhoneNumberBindsInvalidData(form: Form[_],
+                                         fieldName: String,
+                                         invalidFormError: FormError): Unit = {
+
+    "not bind invalid phone number" in {
+      forAll(invalidPhoneNumber -> "invalidDataItem") {
+        dataItem: String =>
+          val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
+          result.errors must contain(invalidFormError)
       }
     }
   }

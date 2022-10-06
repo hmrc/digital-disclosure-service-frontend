@@ -21,9 +21,13 @@ import org.scalacheck.Arbitrary._
 import org.scalacheck.Gen._
 import org.scalacheck.{Gen, Shrink}
 import uk.gov.hmrc.domain.Nino
-import uk.gov.hmrc.emailaddress.EmailAddress
 
-trait Generators extends UserAnswersGenerator with PageGenerators with ModelGenerators with UserAnswersEntryGenerators {
+trait Generators extends UserAnswersGenerator
+                    with PageGenerators
+                    with ModelGenerators
+                    with UserAnswersEntryGenerators
+                    with EmailGenerators
+                    with TelephoneNumberGenerators {
 
   implicit val dontShrink: Shrink[String] = Shrink.shrinkAny
 
@@ -117,43 +121,6 @@ trait Generators extends UserAnswersGenerator with PageGenerators with ModelGene
     Gen.choose(toMillis(min), toMillis(max)).map {
       millis =>
         Instant.ofEpochMilli(millis).atOffset(ZoneOffset.UTC).toLocalDate
-    }
-  }
-
-  def internationalPhoneNumber(doubleZero:Boolean = false): Gen[String] = for {
-      lenght <- chooseNum(7, 18)
-      number <- listOfN(lenght, chooseNum(0, 9))
-    } yield {
-      val prefix = if (doubleZero) "00" else "+"
-      prefix + number.mkString
-    }
-
-  def ukPhoneNumber(): Gen[String] = for {
-    lenght <- chooseNum(8, 9)
-    number <- listOfN(lenght, chooseNum(1, 9))
-  } yield {
-    "0" + number.mkString
-  }
-
-  def email(): Gen[String] = {
-    for {
-      usernameLength <- chooseNum(3, 64)
-      userName <- listOfN(usernameLength, alphaChar)
-      domainLength <- chooseNum(4, 253)
-      pointPosition <- chooseNum(2, domainLength - 1)
-      domain <- listOfN(pointPosition, alphaChar)
-      extension <- listOfN(domainLength - pointPosition, alphaChar)
-    } yield {
-      userName.mkString + "@" + domain.mkString + "." + extension.mkString
-   }
-  }
-
-  def invalidEmail(): Gen[String] = {
-    for {
-      str <- nonEmptyString
-      if !EmailAddress.isValid(str)
-    } yield {
-      str
     }
   }
 

@@ -79,12 +79,12 @@ trait Constraints {
         Invalid(errorKey, regex)
     }
 
-  protected def regexpIgnoreWhiteSpaces(regex: String, errorKey: String): Constraint[String] =
+  protected def regexpIgnoreWhiteSpaces(regex: String, errorKey: String, args: Any*): Constraint[String] =
     Constraint {
       case str if str.filterNot(_.isWhitespace).matches(regex) =>
         Valid
       case _ =>
-        Invalid(errorKey, regex)
+        Invalid(errorKey, args: _*)
     }
 
   protected def maxLength(maximum: Int, errorKey: String): Constraint[String] =
@@ -129,11 +129,15 @@ trait Constraints {
 
   protected def validEmail(errorKey: String): Constraint[String] =
     Constraint {
-      case str if EmailAddress.isValid(str.filterNot(_.isWhitespace)) =>
+      case str if emailValidation(str.trim) =>
         Valid
       case _ =>
         Invalid(errorKey)
     }
+
+  private def emailValidation(email:String):Boolean = {
+    EmailAddress.isValid(email) && email.split('@')(1).contains('.')
+  }
 
   protected def validNino(errorKey: String): Constraint[String] =
     Constraint {
