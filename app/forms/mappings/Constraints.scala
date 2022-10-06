@@ -17,8 +17,9 @@
 package forms.mappings
 
 import java.time.LocalDate
-
+import uk.gov.hmrc.domain.Nino
 import play.api.data.validation.{Constraint, Invalid, Valid}
+import uk.gov.hmrc.emailaddress.EmailAddress
 
 trait Constraints {
 
@@ -78,12 +79,28 @@ trait Constraints {
         Invalid(errorKey, regex)
     }
 
+  protected def regexpIgnoreWhiteSpaces(regex: String, errorKey: String, args: Any*): Constraint[String] =
+    Constraint {
+      case str if str.filterNot(_.isWhitespace).matches(regex) =>
+        Valid
+      case _ =>
+        Invalid(errorKey, args: _*)
+    }
+
   protected def maxLength(maximum: Int, errorKey: String): Constraint[String] =
     Constraint {
       case str if str.length <= maximum =>
         Valid
       case _ =>
         Invalid(errorKey, maximum)
+    }
+
+  protected def minLength(minimum: Int, errorKey: String): Constraint[String] =
+    Constraint {
+      case str if str.length >= minimum =>
+        Valid
+      case _ =>
+        Invalid(errorKey, minimum)
     }
 
   protected def maxDate(maximum: LocalDate, errorKey: String, args: Any*): Constraint[LocalDate] =
@@ -109,4 +126,24 @@ trait Constraints {
       case _ =>
         Invalid(errorKey)
     }
+
+  protected def validEmail(errorKey: String): Constraint[String] =
+    Constraint {
+      case str if emailValidation(str.trim) =>
+        Valid
+      case _ =>
+        Invalid(errorKey)
+    }
+
+  private def emailValidation(email:String):Boolean = {
+    EmailAddress.isValid(email) && email.split('@')(1).contains('.')
+  }
+
+  protected def validNino(errorKey: String): Constraint[String] =
+    Constraint {
+      case str if Nino.isValid(str) =>
+        Valid
+      case _ =>
+        Invalid(errorKey)
+    }  
 }

@@ -23,9 +23,13 @@ import play.api.data.Form
 
 class YourPhoneNumberFormProvider @Inject() extends Mappings {
 
+  val telephoneRegex = """^\+[0-9]{1,19}$|^00[0-9]{1,19}|^0[0-9]{9,10}$"""
+
   def apply(): Form[String] =
     Form(
       "value" -> text("yourPhoneNumber.error.required")
-        .verifying(maxLength(100, "yourPhoneNumber.error.length"))
+        .verifying(regexpIgnoreWhiteSpaces(telephoneRegex, "yourPhoneNumber.error.required"))
     )
 }
+
+object YourPhoneNumberFormProvider extends YourPhoneNumberFormProvider

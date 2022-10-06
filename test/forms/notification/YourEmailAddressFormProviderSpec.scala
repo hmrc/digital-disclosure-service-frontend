@@ -16,14 +16,14 @@
 
 package forms
 
-import forms.behaviours.StringFieldBehaviours
+import forms.behaviours.EmailBehaviours
 import play.api.data.FormError
 
-class YourEmailAddressFormProviderSpec extends StringFieldBehaviours {
+class YourEmailAddressFormProviderSpec extends EmailBehaviours{
 
   val requiredKey = "yourEmailAddress.error.required"
   val lengthKey = "yourEmailAddress.error.length"
-  val maxLength = 100
+  val maxLength = 320
 
   val form = new YourEmailAddressFormProvider()()
 
@@ -31,17 +31,21 @@ class YourEmailAddressFormProviderSpec extends StringFieldBehaviours {
 
     val fieldName = "value"
 
-    behave like fieldThatBindsValidData(
+    behave like validEmailBindsValidData(
       form,
-      fieldName,
-      stringsWithMaxLength(maxLength)
+      fieldName
     )
 
-    behave like fieldWithMaxLength(
+    behave like maxLengthEmailBindsValidData(
       form,
       fieldName,
-      maxLength = maxLength,
       lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
+    )
+
+    behave like emailBindsInvalidData(
+      form,
+      fieldName,
+      validError = FormError(fieldName, requiredKey, Seq())
     )
 
     behave like mandatoryField(

@@ -27,16 +27,16 @@ import uk.gov.hmrc.mongo.play.json.formats.MongoJavatimeFormats
 
 import java.time.{Clock, Instant}
 import java.util.concurrent.TimeUnit
-import javax.inject.{Inject, Singleton}
+import com.google.inject.{Inject, ImplementedBy, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class SessionRepository @Inject()(
+class SessionRepositoryImpl @Inject()(
                                    mongoComponent: MongoComponent,
                                    appConfig: FrontendAppConfig,
                                    clock: Clock
                                  )(implicit ec: ExecutionContext)
-  extends PlayMongoRepository[UserAnswers](
+  extends PlayMongoRepository[UserAnswers] (
     collectionName = "user-answers",
     mongoComponent = mongoComponent,
     domainFormat   = UserAnswers.format,
@@ -49,7 +49,7 @@ class SessionRepository @Inject()(
       )
     ),
     replaceIndexes = true
-  ) {
+  ) with SessionRepository {
 
   implicit val instantFormat: Format[Instant] = MongoJavatimeFormats.instantFormat
 
@@ -92,3 +92,11 @@ class SessionRepository @Inject()(
       .toFuture
       .map(_ => true)
 }
+
+@ImplementedBy(classOf[SessionRepositoryImpl])
+trait SessionRepository {
+  def set(answers: UserAnswers): Future[Boolean]
+  def get(id: String): Future[Option[UserAnswers]]
+  def keepAlive(id: String): Future[Boolean]
+  def clear(id: String): Future[Boolean]
+} 

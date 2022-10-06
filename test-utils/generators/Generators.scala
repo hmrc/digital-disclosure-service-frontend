@@ -17,12 +17,17 @@
 package generators
 
 import java.time.{Instant, LocalDate, ZoneOffset}
-
 import org.scalacheck.Arbitrary._
 import org.scalacheck.Gen._
 import org.scalacheck.{Gen, Shrink}
+import uk.gov.hmrc.domain.Nino
 
-trait Generators extends UserAnswersGenerator with PageGenerators with ModelGenerators with UserAnswersEntryGenerators {
+trait Generators extends UserAnswersGenerator
+                    with PageGenerators
+                    with ModelGenerators
+                    with UserAnswersEntryGenerators
+                    with EmailGenerators
+                    with TelephoneNumberGenerators {
 
   implicit val dontShrink: Shrink[String] = Shrink.shrinkAny
 
@@ -85,13 +90,14 @@ trait Generators extends UserAnswersGenerator with PageGenerators with ModelGene
     arbitrary[String] suchThat (_.nonEmpty)
 
   def stringsWithMaxLength(maxLength: Int): Gen[String] =
-    for {
-      length <- choose(1, maxLength)
-      chars <- listOfN(length, arbitrary[Char])
-    } yield chars.mkString
+    stringsWithLengthBetween(1, maxLength)
 
-  def stringsLongerThan(minLength: Int): Gen[String] = for {
-    maxLength <- (minLength * 2).max(100)
+  def stringsLongerThan(minLength: Int): Gen[String] = {
+    val maxLength = (minLength * 2).max(100)
+    stringsWithLengthBetween(minLength, maxLength)
+  }
+
+  def stringsWithLengthBetween(minLength: Int, maxLength: Int): Gen[String] = for {
     length    <- Gen.chooseNum(minLength + 1, maxLength)
     chars     <- listOfN(length, arbitrary[Char])
   } yield chars.mkString
@@ -115,6 +121,22 @@ trait Generators extends UserAnswersGenerator with PageGenerators with ModelGene
     Gen.choose(toMillis(min), toMillis(max)).map {
       millis =>
         Instant.ofEpochMilli(millis).atOffset(ZoneOffset.UTC).toLocalDate
+    }
+  }
+
+  def nino(): Gen[String] = NinoGenerator.generateNino
+  
+  def invalidNino(): Gen[String] = Gen.alphaNumStr
+    .suchThat(_.trim.nonEmpty).suchThat(!Nino.isValid(_))
+  
+
+  def invalidLengthEmail(): Gen[String] = {
+    val emailMaxLength = 320
+    for {
+      userName <- listOfN(emailMaxLength, alphaChar)
+      domain <- listOfN(emailMaxLength, alphaChar)
+    } yield {
+      userName.mkString + "@" + domain.mkString + ".ext"
     }
   }
 }

@@ -26,6 +26,7 @@ class YourEmailAddressFormProvider @Inject() extends Mappings {
   def apply(): Form[String] =
     Form(
       "value" -> text("yourEmailAddress.error.required")
-        .verifying(maxLength(100, "yourEmailAddress.error.length"))
+        .verifying(maxLength(320, "yourEmailAddress.error.length"))
+        .verifying(validEmail("yourEmailAddress.error.required"))
     )
 }

@@ -17,6 +17,7 @@
 package views.notification
 
 import base.ViewSpecBase
+import models.NormalMode
 import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.notification.OnlyOnshoreLiabilitiesView
@@ -61,6 +62,7 @@ class OnlyOnshoreLiabilitiesViewSpec extends ViewSpecBase with ViewMatchers {
     "display the continue button" in {
       view.getElementsByClass("govuk-button").first() must haveId ("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.confirmAndContinue")
+      view.getElementsByClass("govuk-button").attr("href") mustBe controllers.notification.routes.WhatIsYourFullNameController.onPageLoad(NormalMode).url
     }
 
   }

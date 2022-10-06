@@ -49,3 +49,50 @@ GET        /contact-by-email                                controllers.notifica
 POST       /contact-by-email                                controllers.notification.DoYouHaveAnEmailAddressController.onSubmit(mode: Mode = NormalMode)
 GET        /contact-by-email/change                         controllers.notification.DoYouHaveAnEmailAddressController.onPageLoad(mode: Mode = CheckMode)
 POST       /contact-by-email/change                         controllers.notification.DoYouHaveAnEmailAddressController.onSubmit(mode: Mode = CheckMode)
+
+GET        /your-date-of-birth                              controllers.notification.WhatIsYourDateOfBirthController.onPageLoad(mode: Mode = NormalMode)
+POST       /your-date-of-birth                              controllers.notification.WhatIsYourDateOfBirthController.onSubmit(mode: Mode = NormalMode)
+GET        /your-date-of-birth/change                       controllers.notification.WhatIsYourDateOfBirthController.onPageLoad(mode: Mode = CheckMode)
+POST       /your-date-of-birth/change                       controllers.notification.WhatIsYourDateOfBirthController.onSubmit(mode: Mode = CheckMode)
+
+GET        /your-main-occupation                            controllers.notification.WhatIsYourMainOccupationController.onPageLoad(mode: Mode = NormalMode)
+POST       /your-main-occupation                            controllers.notification.WhatIsYourMainOccupationController.onSubmit(mode: Mode = NormalMode)
+GET        /your-main-occupation/change                     controllers.notification.WhatIsYourMainOccupationController.onPageLoad(mode: Mode = CheckMode)
+POST       /your-main-occupation/change                     controllers.notification.WhatIsYourMainOccupationController.onSubmit(mode: Mode = CheckMode)
+
+GET        /have-national-insurance-number                  controllers.notification.DoYouHaveNationalInsuranceNumberController.onPageLoad(mode: Mode = NormalMode)
+POST       /have-national-insurance-number                  controllers.notification.DoYouHaveNationalInsuranceNumberController.onSubmit(mode: Mode = NormalMode)
+GET        /have-national-insurance-number/change           controllers.notification.DoYouHaveNationalInsuranceNumberController.onPageLoad(mode: Mode = CheckMode)
+POST       /have-national-insurance-number/change           controllers.notification.DoYouHaveNationalInsuranceNumberController.onSubmit(mode: Mode = CheckMode)
+
+GET        /your-national-insurance-number                  controllers.notification.WhatIsYourNationalInsuranceNumberController.onPageLoad(mode: Mode = NormalMode)
+POST       /your-national-insurance-number                  controllers.notification.WhatIsYourNationalInsuranceNumberController.onSubmit(mode: Mode = NormalMode)
+GET        /your-national-insurance-number/change           controllers.notification.WhatIsYourNationalInsuranceNumberController.onPageLoad(mode: Mode = CheckMode)
+POST       /your-national-insurance-number/change           controllers.notification.WhatIsYourNationalInsuranceNumberController.onSubmit(mode: Mode = CheckMode)
+
+GET        /your-vat-registration                           controllers.notification.WhatIsYourVATRegistrationNumberController.onPageLoad(mode: Mode = NormalMode)
+POST       /your-vat-registration                           controllers.notification.WhatIsYourVATRegistrationNumberController.onSubmit(mode: Mode = NormalMode)
+GET        /your-vat-registration/change                    controllers.notification.WhatIsYourVATRegistrationNumberController.onPageLoad(mode: Mode = CheckMode)
+POST       /your-vat-registration/change                    controllers.notification.WhatIsYourVATRegistrationNumberController.onSubmit(mode: Mode = CheckMode)
+
+GET        /your-address/lookup                             controllers.notification.YourAddressLookupController.lookupAddress(mode: Mode = NormalMode)
+GET        /your-address/retrieve                           controllers.notification.YourAddressLookupController.retrieveConfirmedAddress(mode: Mode = NormalMode, id: Option[UUID] ?= None)
+GET        /your-address/lookup/change                      controllers.notification.YourAddressLookupController.lookupAddress(mode: Mode = CheckMode)
+GET        /your-address/retrieve/change                    controllers.notification.YourAddressLookupController.retrieveConfirmedAddress(mode: Mode = CheckMode, id: Option[UUID] ?= None)
+
+GET        /registered-for-vat                              controllers.notification.AreYouRegisteredForVATController.onPageLoad(mode: Mode = NormalMode)
+POST       /registered-for-vat                              controllers.notification.AreYouRegisteredForVATController.onSubmit(mode: Mode = NormalMode)
+GET        /registered-for-vat/change                       controllers.notification.AreYouRegisteredForVATController.onPageLoad(mode: Mode = CheckMode)
+POST       /registered-for-vat/change                       controllers.notification.AreYouRegisteredForVATController.onSubmit(mode: Mode = CheckMode)
+
+GET        /registered-for-self-assessment                  controllers.notification.AreYouRegisteredForSelfAssessmentController.onPageLoad(mode: Mode = NormalMode)
+POST       /registered-for-self-assessment                  controllers.notification.AreYouRegisteredForSelfAssessmentController.onSubmit(mode: Mode = NormalMode)
+GET        /registered-for-self-assessment/change           controllers.notification.AreYouRegisteredForSelfAssessmentController.onPageLoad(mode: Mode = CheckMode)
+POST       /registered-for-self-assessment/change           controllers.notification.AreYouRegisteredForSelfAssessmentController.onSubmit(mode: Mode = CheckMode)
+
+GET        /your-utr                                        controllers.notification.WhatIsYourUniqueTaxReferenceController.onPageLoad(mode: Mode = NormalMode)
+POST       /your-utr                                        controllers.notification.WhatIsYourUniqueTaxReferenceController.onSubmit(mode: Mode = NormalMode)
+GET        /your-utr/change                                 controllers.notification.WhatIsYourUniqueTaxReferenceController.onPageLoad(mode: Mode = CheckMode)
+POST       /your-utr/change                                 controllers.notification.WhatIsYourUniqueTaxReferenceController.onSubmit(mode: Mode = CheckMode)
+
+GET        /submitted                                       controllers.notification.YouHaveSentYourNotificationController.onPageLoad()
