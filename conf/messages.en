@@ -549,3 +549,11 @@ whatIsTheIndividualsFullName.checkYourAnswersLabel = What is the individual'''s 
 whatIsTheIndividualsFullName.error.required = Enter the individual'''s full name
 whatIsTheIndividualsFullName.error.length = Individual'''s full name must be 30 characters or less
 whatIsTheIndividualsFullName.change.hidden = WhatIsTheIndividualsFullName
+
+whatIsTheIndividualOccupation.title = What is the individual'''s main occupation?
+whatIsTheIndividualOccupation.heading = What is the individual'''s main occupation?
+whatIsTheIndividualOccupation.hint = For example, plumber or dentist.
+whatIsTheIndividualOccupation.checkYourAnswersLabel = whatIsTheIndividualOccupation
+whatIsTheIndividualOccupation.error.required = Enter the individual'''s main occupation
+whatIsTheIndividualOccupation.error.length = Enter the individual'''s main occupation
+whatIsTheIndividualOccupation.change.hidden = WhatIsTheIndividualOccupation
