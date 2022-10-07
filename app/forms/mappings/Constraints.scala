@@ -135,6 +135,20 @@ trait Constraints {
         Invalid(errorKey)
     }
 
+  protected def validUTR(length:Int, invalidCharErrorKey:String, lengthKey: String): Constraint[String] =
+    Constraint {
+        str => {
+          val value = str.filterNot(_.isWhitespace)
+          val illegalChars = value.filterNot(c => c.isDigit).headOption
+
+          (value.length == length, illegalChars) match {
+            case (_,  Some(c))    => Invalid(invalidCharErrorKey, c)
+            case (true,  None)    => Valid
+            case (false, _)       => Invalid(lengthKey, length)
+          }
+        }
+    }
+
   private def emailValidation(email:String):Boolean = {
     EmailAddress.isValid(email) && email.split('@')(1).contains('.')
   }
