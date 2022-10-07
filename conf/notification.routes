@@ -102,6 +102,11 @@ POST       /individual-full-name                            controllers.notifica
 GET        /individual-full-name/change                     controllers.notification.WhatIsTheIndividualsFullNameController.onPageLoad(mode: Mode = CheckMode)
 POST       /individual-full-name/change                     controllers.notification.WhatIsTheIndividualsFullNameController.onSubmit(mode: Mode = CheckMode)
 
+GET        /individual-date-of-birth                        controllers.notification.WhatIsTheIndividualDateOfBirthControllerController.onPageLoad(mode: Mode = NormalMode)
+POST       /individual-date-of-birth                        controllers.notification.WhatIsTheIndividualDateOfBirthControllerController.onSubmit(mode: Mode = NormalMode)
+GET        /individual-date-of-birth/change                 controllers.notification.WhatIsTheIndividualDateOfBirthControllerController.onPageLoad(mode: Mode = CheckMode)
+POST       /individual-date-of-birth/change                 controllers.notification.WhatIsTheIndividualDateOfBirthControllerController.onSubmit(mode: Mode = CheckMode)
+
 GET        /individual-main-occupation                        controllers.notification.WhatIsTheIndividualOccupationController.onPageLoad(mode: Mode = NormalMode)
 POST       /individual-main-occupation                        controllers.notification.WhatIsTheIndividualOccupationController.onSubmit(mode: Mode = NormalMode)
 GET        /individual-main-occupation/change                controllers.notification.WhatIsTheIndividualOccupationController.onPageLoad(mode: Mode = CheckMode)
