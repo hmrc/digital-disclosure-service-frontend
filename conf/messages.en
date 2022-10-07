@@ -562,3 +562,11 @@ whatIsTheIndividualDateOfBirthController.error.invalidDay = Enter a real date of
 whatIsTheIndividualDateOfBirthController.error.invalidMonth = Enter a real date of birth - there are only 12 months in a year
 whatIsTheIndividualDateOfBirthController.error.invalidFutureDateOfBirth = Date of birth must be in the past
 whatIsTheIndividualDateOfBirthController.change.hidden = WhatIsTheIndividualDateOfBirthController
+
+whatIsTheIndividualOccupation.title = What is the individual'''s main occupation?
+whatIsTheIndividualOccupation.heading = What is the individual'''s main occupation?
+whatIsTheIndividualOccupation.hint = For example, plumber or dentist.
+whatIsTheIndividualOccupation.checkYourAnswersLabel = whatIsTheIndividualOccupation
+whatIsTheIndividualOccupation.error.required = Enter the individual'''s main occupation
+whatIsTheIndividualOccupation.error.length = Enter the individual'''s main occupation
+whatIsTheIndividualOccupation.change.hidden = WhatIsTheIndividualOccupation
