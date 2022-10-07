@@ -540,3 +540,11 @@ editAddress.heading = What is your address?
 
 confirmAddress.title = Is this the correct address?
 confirmAddress.heading = Is this the correct address?
+
+whatIsTheIndividualsFullName.title = What is the individual'''s full name?
+whatIsTheIndividualsFullName.heading = What is the individual'''s full name?
+whatIsTheIndividualsFullName.body = This should be as it'''s written on official documents such as their passport or driving license.
+whatIsTheIndividualsFullName.checkYourAnswersLabel = What is the individual'''s full name?
+whatIsTheIndividualsFullName.error.required = Enter the individual'''s full name
+whatIsTheIndividualsFullName.error.length = Individual'''s full name must be 30 characters or less
+whatIsTheIndividualsFullName.change.hidden = WhatIsTheIndividualsFullName
