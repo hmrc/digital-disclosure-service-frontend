@@ -488,7 +488,7 @@ whatIsYourVATRegistrationNumber.label = This is a 9 digit number on your VAT cer
 whatIsYourVATRegistrationNumber.hint = For example, ‘123456789’.
 whatIsYourVATRegistrationNumber.checkYourAnswersLabel = What is your VAT registration number?
 whatIsYourVATRegistrationNumber.error.required = Enter your VAT registration number
-whatIsYourVATRegistrationNumber.error.length = Your VAT registration number must be 9 digits long
+whatIsYourVATRegistrationNumber.error.length = Enter a valid VAT registration number
 whatIsYourVATRegistrationNumber.error.nonNumeric = Your VAT registration number must only include numbers
 whatIsYourVATRegistrationNumber.change.hidden = WhatIsYourVATRegistrationNumber
 
