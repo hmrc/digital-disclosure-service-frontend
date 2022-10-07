@@ -25,9 +25,21 @@ final case class LabelsByLanguage(
   lookupPageLabels: LookupPageLabels,
   selectPageLabels: SelectPageLabels,
   editPageLabels: EditPageLabels,
-  confirmPageLabels: ConfirmPageLabels
+  confirmPageLabels: ConfirmPageLabels,
+  international: InternationalLabels
 )
 
 object LabelsByLanguage {
   implicit val format: OFormat[LabelsByLanguage] = Json.format[LabelsByLanguage]
+}
+
+final case class InternationalLabels(
+  lookupPageLabels: LookupPageLabels,
+  selectPageLabels: SelectPageLabels,
+  editPageLabels: EditPageLabels,
+  confirmPageLabels: ConfirmPageLabels
+)
+
+object InternationalLabels {
+  implicit val format: OFormat[InternationalLabels] = Json.format[InternationalLabels]
 }

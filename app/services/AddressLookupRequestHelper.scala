@@ -58,7 +58,21 @@ trait AddressLookupRequestHelper {
       messages("confirmAddress.title"), 
       messages("confirmAddress.heading")
     )
-    val englishLabels = LabelsByLanguage(appLevelLabels, countryPickerLabels, lookupPageLabels, selectPageLabels, editPageLabels, confirmPageLabels)
+    val internationalLabels = InternationalLabels(
+      lookupPageLabels, 
+      selectPageLabels, 
+      editPageLabels, 
+      confirmPageLabels
+    )
+    val englishLabels = LabelsByLanguage(
+      appLevelLabels, 
+      countryPickerLabels, 
+      lookupPageLabels, 
+      selectPageLabels, 
+      editPageLabels, 
+      confirmPageLabels,
+      internationalLabels
+    )
     val labels = AddressLookupLabels(englishLabels)
 
     AddressLookupRequest(2, addressLookupOptions, labels)
