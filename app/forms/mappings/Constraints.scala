@@ -146,4 +146,18 @@ trait Constraints {
       case _ =>
         Invalid(errorKey)
     }    
+
+  protected def validVAT(length:Int, invalidCharErrorKey:String, lengthKey: String): Constraint[String] =
+    Constraint {
+      str => {
+        val value = if(str.contains("GB")) str.split("GB")(1) else str
+        val valueWithoutGB = value.filterNot(_.isWhitespace)
+        val illegalChars = valueWithoutGB.filterNot(c => c.isDigit).headOption
+        (valueWithoutGB.length == length, illegalChars) match {
+          case (_,  Some(c))    => Invalid(invalidCharErrorKey, c)
+          case (true,  None)    => Valid
+          case (false, _)       => Invalid(lengthKey, length)
+        }
+      }
+    }
 }

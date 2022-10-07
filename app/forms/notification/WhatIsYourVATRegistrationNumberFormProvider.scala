@@ -23,9 +23,16 @@ import play.api.data.Form
 
 class WhatIsYourVATRegistrationNumberFormProvider @Inject() extends Mappings {
 
+  val length = 9
+
   def apply(): Form[String] =
     Form(
       "value" -> text("whatIsYourVATRegistrationNumber.error.required")
-        .verifying(maxLength(10, "whatIsYourVATRegistrationNumber.error.length"))
+        .verifying(
+          validVAT(
+            length, 
+            invalidCharErrorKey = "whatIsYourVATRegistrationNumber.error.nonNumeric", 
+            lengthKey = "whatIsYourVATRegistrationNumber.error.length")
+        )
     )
 }

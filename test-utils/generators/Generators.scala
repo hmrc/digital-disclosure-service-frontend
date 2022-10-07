@@ -139,4 +139,19 @@ trait Generators extends UserAnswersGenerator
       userName.mkString + "@" + domain.mkString + ".ext"
     }
   }
+
+  def generateValidVAT(length:Int):Gen[String] = for {
+    digits <- listOfN(length, numChar)
+  } yield {
+    digits.mkString
+  }
+
+  def generateInvalidLengthVAT(length: Int): Gen[String] = numStr
+    .suchThat(s => s.nonEmpty && (s.length != length))
+
+  def generateIllegalCharVAT(length: Int): Gen[String] = for {
+    str <- listOfN(length, alphaChar)
+  } yield {
+    str.mkString
+  }
 }
