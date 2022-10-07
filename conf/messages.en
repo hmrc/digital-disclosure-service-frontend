@@ -547,7 +547,7 @@ whatIsTheIndividualsFullName.heading = What is the individual'''s full name?
 whatIsTheIndividualsFullName.body = This should be as it'''s written on official documents such as their passport or driving license.
 whatIsTheIndividualsFullName.checkYourAnswersLabel = What is the individual'''s full name?
 whatIsTheIndividualsFullName.error.required = Enter the individual'''s full name
-whatIsTheIndividualsFullName.error.length = Individual'''s full name must be 30 characters or less
+whatIsTheIndividualsFullName.error.length = Full name must be between 1 and 30 characters
 whatIsTheIndividualsFullName.change.hidden = WhatIsTheIndividualsFullName
 
 whatIsTheIndividualDateOfBirthController.title = What is the individual'''s date of birth?
