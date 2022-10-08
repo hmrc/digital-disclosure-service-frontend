@@ -27,11 +27,17 @@ class WhatIsYourDateOfBirthFormProvider @Inject() extends Mappings {
   def apply(): Form[LocalDate] =
     Form(
       "value" -> localDate(
+        //LDS ignore
         invalidKey       = "whatIsYourDateOfBirth.error.invalid",
+        //LDS ignore
         allRequiredKey   = "whatIsYourDateOfBirth.error.required.all",
+        //LDS ignore
         twoRequiredKey   = "whatIsYourDateOfBirth.error.required.two",
+        //LDS ignore
         requiredKey      = "whatIsYourDateOfBirth.error.required",
+        //LDS ignore
         invalidDayKey    = "whatIsYourDateOfBirth.error.invalidDay",
+        //LDS ignore
         invalidMonthKey  = "whatIsYourDateOfBirth.error.invalidMonth"
       )
       .verifying(maxDate(LocalDate.now().minusDays(1), "whatIsYourDateOfBirth.error.invalidFutureDateOfBirth"))

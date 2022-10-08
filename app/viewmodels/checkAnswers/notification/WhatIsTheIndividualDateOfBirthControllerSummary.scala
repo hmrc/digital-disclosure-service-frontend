@@ -35,6 +35,7 @@ object WhatIsTheIndividualDateOfBirthControllerSummary  {
         val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
 
         SummaryListRowViewModel(
+          //LDS ignore
           key     = "whatIsTheIndividualDateOfBirthController.checkYourAnswersLabel",
           value   = ValueViewModel(answer.format(dateFormatter)),
           actions = Seq(
