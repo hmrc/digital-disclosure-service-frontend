@@ -581,3 +581,12 @@ whatIsIndividualsNINO.hint = For example, ‘QQ123456A’.
 whatIsIndividualsNINO.checkYourAnswersLabel = What is individual'''s National Insurance number?
 whatIsIndividualsNINO.error.required = Enter a valid National Insurance number
 whatIsIndividualsNINO.change.hidden = WhatIsIndividualsNationalInsuranceNumber
+
+isTheIndividualRegisteredForVAT.title = Is the individual registered for VAT, as far you'''re aware?
+isTheIndividualRegisteredForVAT.heading = Is the individual registered for VAT, as far you'''re aware?
+isTheIndividualRegisteredForVAT.yesIknow = Yes, and I know their VAT registration number
+isTheIndividualRegisteredForVAT.yesButDontKnow = Yes, but I do not know their VAT registration number
+isTheIndividualRegisteredForVAT.no = No
+isTheIndividualRegisteredForVAT.checkYourAnswersLabel = Is the individual registered for VAT, as far you'''re aware?
+isTheIndividualRegisteredForVAT.error.required = Select Yes, and I know their VAT registration number
+isTheIndividualRegisteredForVAT.change.hidden = IsTheIndividualRegisteredForVAT
