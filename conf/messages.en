@@ -486,7 +486,7 @@ whatIsYourVATRegistrationNumber.hint = For example, ‘123456789’.
 whatIsYourVATRegistrationNumber.checkYourAnswersLabel = What is your VAT registration number?
 whatIsYourVATRegistrationNumber.error.required = Enter your VAT registration number
 whatIsYourVATRegistrationNumber.error.length = Enter a valid VAT registration number
-whatIsYourVATRegistrationNumber.error.nonNumeric = Your VAT registration number must only include numbers
+whatIsYourVATRegistrationNumber.error.nonNumeric = Enter a valid VAT registration number
 whatIsYourVATRegistrationNumber.change.hidden = WhatIsYourVATRegistrationNumber
 
 areYouRegisteredForVAT.title = Are you registered for VAT?
@@ -566,3 +566,12 @@ whatIsTheIndividualOccupation.checkYourAnswersLabel = whatIsTheIndividualOccupat
 whatIsTheIndividualOccupation.error.required = Enter the individual'''s main occupation
 whatIsTheIndividualOccupation.error.length = Enter the individual'''s main occupation
 whatIsTheIndividualOccupation.change.hidden = WhatIsTheIndividualOccupation
+
+doesTheIndividualHaveNationalInsuranceNumber.title = Does the individual have a National Insurance number?
+doesTheIndividualHaveNationalInsuranceNumber.heading = Does the individual have a National Insurance number?
+doesTheIndividualHaveNationalInsuranceNumber.yesIknow = Yes, and I know their National Insurance number
+doesTheIndividualHaveNationalInsuranceNumber.yesButDontKnow = Yes, but I do not know their National Insurance number
+doesTheIndividualHaveNationalInsuranceNumber.no = No
+doesTheIndividualHaveNationalInsuranceNumber.checkYourAnswersLabel = Does the individual have a National Insurance number?
+doesTheIndividualHaveNationalInsuranceNumber.error.required = Select Yes, and I know their National Insurance number
+doesTheIndividualHaveNationalInsuranceNumber.change.hidden = DoesTheIndividualHaveNationalInsuranceNumber
