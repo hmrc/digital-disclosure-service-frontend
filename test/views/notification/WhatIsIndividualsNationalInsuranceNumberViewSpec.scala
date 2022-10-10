@@ -35,19 +35,19 @@ class WhatIsIndividualsNationalInsuranceNumberViewSpec extends ViewSpecBase with
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("whatIsIndividualsNationalInsuranceNumber.title"))
+      view.select("title").text() must include(messages("whatIsIndividualsNINO.title"))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsIndividualsNationalInsuranceNumber.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsIndividualsNINO.heading")
     }
 
     "have a label" in {
-      view.getElementsByClass("govuk-label").text() mustBe messages("whatIsIndividualsNationalInsuranceNumber.label")
+      view.getElementsByClass("govuk-label").text() mustBe messages("whatIsIndividualsNINO.label")
     }
 
     "have a hint" in {
-      view.getElementsByClass("govuk-hint").text() mustBe messages("whatIsIndividualsNationalInsuranceNumber.hint")
+      view.getElementsByClass("govuk-hint").text() mustBe messages("whatIsIndividualsNINO.hint")
     }
 
     "display the continue button" in {

@@ -27,7 +27,7 @@
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("whatIsIndividualsNationalInsuranceNumber.title"))) {
+@layout(pageTitle = title(form, messages("whatIsIndividualsNINO.title"))) {
 
     @formHelper(action = controllers.notification.routes.WhatIsIndividualsNationalInsuranceNumberController.onSubmit(mode)) {
 
@@ -35,14 +35,14 @@
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
-        @heading(Text(messages("whatIsIndividualsNationalInsuranceNumber.heading")))
+        @heading(Text(messages("whatIsIndividualsNINO.heading")))
 
         @govukInput(
             InputViewModel(
                 field = form("value"),
-                label = LabelViewModel(messages("whatIsIndividualsNationalInsuranceNumber.label"))
+                label = LabelViewModel(messages("whatIsIndividualsNINO.label"))
             )
-            .withHint(Hint(content = Text(messages("whatIsIndividualsNationalInsuranceNumber.hint"))))
+            .withHint(Hint(content = Text(messages("whatIsIndividualsNINO.hint"))))
             .withWidth(Full)
         )
 

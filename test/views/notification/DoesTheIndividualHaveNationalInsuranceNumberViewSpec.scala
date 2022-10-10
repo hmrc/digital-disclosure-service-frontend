@@ -35,23 +35,23 @@ class DoesTheIndividualHaveNationalInsuranceNumberViewSpec extends ViewSpecBase 
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("doesTheIndividualHaveNationalInsuranceNumber.title"))
+      view.select("title").text() must include(messages("doesTheIndividualHaveNINO.title"))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("doesTheIndividualHaveNationalInsuranceNumber.heading")
+      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("doesTheIndividualHaveNINO.heading")
     }
 
     "have Yes, and I know their National Insurance number" in {
-      view.getElementsByClass("govuk-radios__label").get(0).text() mustBe messages("doesTheIndividualHaveNationalInsuranceNumber.yesIknow")
+      view.getElementsByClass("govuk-radios__label").get(0).text() mustBe messages("doesTheIndividualHaveNINO.yesIknow")
     }
 
     "have Yes, but I do not know their National Insurance number" in {
-      view.getElementsByClass("govuk-radios__label").get(1).text() mustBe messages("doesTheIndividualHaveNationalInsuranceNumber.yesButDontKnow")
+      view.getElementsByClass("govuk-radios__label").get(1).text() mustBe messages("doesTheIndividualHaveNINO.yesButDontKnow")
     }
 
     "have No" in {
-      view.getElementsByClass("govuk-radios__label").get(2).text() mustBe messages("doesTheIndividualHaveNationalInsuranceNumber.no")
+      view.getElementsByClass("govuk-radios__label").get(2).text() mustBe messages("doesTheIndividualHaveNINO.no")
     }
 
     "display the continue button" in {
