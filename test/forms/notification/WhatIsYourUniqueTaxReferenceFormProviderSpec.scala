@@ -21,8 +21,7 @@ import play.api.data.FormError
 
 class WhatIsYourUniqueTaxReferenceFormProviderSpec extends UTRBehaviours {
 
-  val lengthKey = "whatIsYourUniqueTaxReference.error.length"
-  val illegalCharKey = "whatIsYourUniqueTaxReference.error.invalidChar"
+  val errorKey = "whatIsYourUniqueTaxReference.error"
 
   val form = new WhatIsYourUniqueTaxReferenceFormProvider()()
 
@@ -38,19 +37,19 @@ class WhatIsYourUniqueTaxReferenceFormProviderSpec extends UTRBehaviours {
     behave like fieldThatInvalidLengthData(
       form,
       fieldName,
-      lengthKey
+      errorKey
     )
 
     behave like fieldThatInvalidCharData(
       form,
       fieldName,
-      illegalCharKey
+      errorKey
     )
 
     behave like mandatoryField(
       form,
       fieldName,
-      requiredError = FormError(fieldName, lengthKey)
+      requiredError = FormError(fieldName, errorKey)
     )
   }
 }

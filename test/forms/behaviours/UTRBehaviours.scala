@@ -41,32 +41,30 @@ trait UTRBehaviours extends FieldBehaviours {
 
     "not bind UTR with invalid length" in {
 
-      val validError = FormError(fieldName, keyError, Seq(maxDigitsUKPhoneNumber))
-      
+      val error = FormError(fieldName, keyError)
       val invalidDataGenerator = generateInvalidLengthUTR(maxUTRNumberLength)
 
       forAll(invalidDataGenerator -> "validDataItem") {
         dataItem: String =>
           val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
           result.value.value mustBe dataItem
-          result.errors must contain only validError
+          result.errors must contain only error
       }
     }
   }
 
-  def fieldThatInvalidCharData(form: Form[_], fieldName: String, invalidCharKey: String): Unit = {
+  def fieldThatInvalidCharData(form: Form[_], fieldName: String, keyError: String): Unit = {
 
     "not bind UTR with invalid character" in {
 
+      val error = FormError(fieldName, keyError)
       val invalidDataGenerator = generateIllegalCharUTR(maxUTRNumberLength)
 
       forAll(invalidDataGenerator -> "validDataItem") {
         dataItem: String =>
           val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
           result.value.value mustBe dataItem
-          result.errors.length mustBe 1
-          result.errors.head.messages.head mustBe invalidCharKey
-
+          result.errors must contain only error
       }
     }
   }

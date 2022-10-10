@@ -135,18 +135,14 @@ trait Constraints {
         Invalid(errorKey)
     }
 
-  protected def validUTR(length:Int, invalidCharErrorKey:String, lengthKey: String): Constraint[String] =
+  protected def validUTR(length:Int, errorKey:String): Constraint[String] =
     Constraint {
-        str => {
-          val value = str.filterNot(_.isWhitespace)
-          val illegalChars = value.filterNot(c => c.isDigit).headOption
-
-          (value.length == length, illegalChars) match {
-            case (_,  Some(c))    => Invalid(invalidCharErrorKey, c)
-            case (true,  None)    => Valid
-            case (false, _)       => Invalid(lengthKey, length)
-          }
+      s => {
+        s.filterNot(c => c.isWhitespace) match {
+          case str if str.length == length && str.forall(_.isDigit) => Valid
+          case _ => Invalid(errorKey)
         }
+      }
     }
 
   private def emailValidation(email:String):Boolean = {
@@ -159,7 +155,7 @@ trait Constraints {
         Valid
       case _ =>
         Invalid(errorKey)
-    }    
+    }
 
   protected def validVAT(length:Int, invalidCharErrorKey:String, lengthKey: String): Constraint[String] =
     Constraint {
