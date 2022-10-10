@@ -21,7 +21,7 @@ import play.api.data.FormError
 
 class WhatIsIndividualsNationalInsuranceNumberFormProviderSpec extends NationalInsuranceBehaviours {
 
-  val required = "whatIsIndividualsNationalInsuranceNumber.error.required"
+  val required = "whatIsIndividualsNINO.error.required"
   val maxLength = 10
 
   val form = new WhatIsIndividualsNationalInsuranceNumberFormProvider()()

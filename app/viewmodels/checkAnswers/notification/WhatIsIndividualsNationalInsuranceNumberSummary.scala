@@ -32,11 +32,11 @@ object WhatIsIndividualsNationalInsuranceNumberSummary  {
       answer =>
 
         SummaryListRowViewModel(
-          key     = "whatIsIndividualsNationalInsuranceNumber.checkYourAnswersLabel",
+          key     = "whatIsIndividualsNINO.checkYourAnswersLabel",
           value   = ValueViewModel(HtmlFormat.escape(answer).toString),
           actions = Seq(
             ActionItemViewModel("site.change", routes.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("whatIsIndividualsNationalInsuranceNumber.change.hidden"))
+              .withVisuallyHiddenText(messages("whatIsIndividualsNINO.change.hidden"))
           )
         )
     }

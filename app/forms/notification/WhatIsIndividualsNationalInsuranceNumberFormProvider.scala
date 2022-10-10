@@ -25,7 +25,7 @@ class WhatIsIndividualsNationalInsuranceNumberFormProvider @Inject() extends Map
 
   def apply(): Form[String] =
     Form(
-      "value" -> text("whatIsIndividualsNationalInsuranceNumber.error.required")
-        .verifying(validNino("whatIsIndividualsNationalInsuranceNumber.error.required"))
+      "value" -> text("whatIsIndividualsNINO.error.required")
+        .verifying(validNino("whatIsIndividualsNINO.error.required"))
     )
 }
