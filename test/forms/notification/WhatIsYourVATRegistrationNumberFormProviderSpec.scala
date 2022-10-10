@@ -21,9 +21,7 @@ import play.api.data.FormError
 
 class WhatIsYourVATRegistrationNumberFormProviderSpec extends VATBehaviours {
 
-  val lengthKey = "whatIsYourVATRegistrationNumber.error.length"
-  val requiredKey = "whatIsYourVATRegistrationNumber.error.required"
-  val illegalCharKey = "whatIsYourVATRegistrationNumber.error.nonNumeric"
+  val errorKey = "whatIsYourVATRegistrationNumber.error"
   
   val form = new WhatIsYourVATRegistrationNumberFormProvider()()
 
@@ -39,19 +37,19 @@ class WhatIsYourVATRegistrationNumberFormProviderSpec extends VATBehaviours {
     behave like fieldThatInvalidLengthData(
       form,
       fieldName,
-      lengthKey
+      errorKey
     )
 
     behave like fieldThatInvalidCharData(
       form,
       fieldName,
-      illegalCharKey
+      errorKey
     )
 
     behave like mandatoryField(
       form,
       fieldName,
-      requiredError = FormError(fieldName, requiredKey)
+      requiredError = FormError(fieldName, errorKey)
     )
   }
 }

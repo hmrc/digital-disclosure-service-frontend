@@ -18,7 +18,7 @@ package forms.mappings
 
 import java.time.LocalDate
 import uk.gov.hmrc.domain.Nino
-import play.api.data.validation.{Constraint, Invalid, Valid}
+import play.api.data.validation.{Constraint, Invalid, Valid, ValidationResult}
 import uk.gov.hmrc.emailaddress.EmailAddress
 
 trait Constraints {
@@ -135,17 +135,7 @@ trait Constraints {
         Invalid(errorKey)
     }
 
-  protected def validUTR(length:Int, errorKey:String): Constraint[String] =
-    Constraint {
-      s => {
-        s.filterNot(c => c.isWhitespace) match {
-          case str if str.length == length && str.forall(_.isDigit) => Valid
-          case _ => Invalid(errorKey)
-        }
-      }
-    }
-
-  private def emailValidation(email:String):Boolean = {
+  private def emailValidation(email: String): Boolean = {
     EmailAddress.isValid(email) && email.split('@')(1).contains('.')
   }
 
@@ -157,17 +147,27 @@ trait Constraints {
         Invalid(errorKey)
     }
 
-  protected def validVAT(length:Int, invalidCharErrorKey:String, lengthKey: String): Constraint[String] =
+  protected def validUTR(length: Int, errorKey: String): Constraint[String] =
     Constraint {
-      str => {
-        val value = if(str.contains("GB")) str.split("GB")(1) else str
-        val valueWithoutGB = value.filterNot(_.isWhitespace)
-        val illegalChars = valueWithoutGB.filterNot(c => c.isDigit).headOption
-        (valueWithoutGB.length == length, illegalChars) match {
-          case (_,  Some(c))    => Invalid(invalidCharErrorKey, c)
-          case (true,  None)    => Valid
-          case (false, _)       => Invalid(lengthKey, length)
-        }
+      s => {
+        val value = s.filterNot(c => c.isWhitespace)
+        validLengthAncDigits(value, length, errorKey)
+
       }
     }
+
+  protected def validVAT(length: Int, errorKey: String): Constraint[String] =
+    Constraint {
+      s => {
+        val value = if (s.contains("GB")) s.split("GB")(1) else s
+        validLengthAncDigits(value, length, errorKey)
+      }
+    }
+
+  private def validLengthAncDigits(value: String, length: Int, errorKey: String): ValidationResult = {
+    value.filterNot(c => c.isWhitespace) match {
+      case str if str.length == length && str.forall(_.isDigit) => Valid
+      case _ => Invalid(errorKey)
+    }
+  }
 }
