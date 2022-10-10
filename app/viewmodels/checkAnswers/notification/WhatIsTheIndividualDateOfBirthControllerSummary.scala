@@ -35,11 +35,11 @@ object WhatIsTheIndividualDateOfBirthControllerSummary  {
         val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
 
         SummaryListRowViewModel(
-          key     = "whatIsTheIndividualDateOfBirthController.checkYourAnswersLabel",
+          key     = "whatIsTheIndividualDateOfBirth.checkYourAnswersLabel",
           value   = ValueViewModel(answer.format(dateFormatter)),
           actions = Seq(
             ActionItemViewModel("site.change", routes.WhatIsTheIndividualDateOfBirthControllerController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("whatIsTheIndividualDateOfBirthController.change.hidden"))
+              .withVisuallyHiddenText(messages("whatIsTheIndividualDateOfBirth.change.hidden"))
           )
         )
     }

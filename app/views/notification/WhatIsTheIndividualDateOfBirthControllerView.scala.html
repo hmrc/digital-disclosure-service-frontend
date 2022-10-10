@@ -24,7 +24,7 @@
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("whatIsTheIndividualDateOfBirthController.title"))) {
+@layout(pageTitle = title(form, messages("whatIsTheIndividualDateOfBirth.title"))) {
 
     @formHelper(action = controllers.notification.routes.WhatIsTheIndividualDateOfBirthControllerController.onSubmit(mode), 'autoComplete -> "off") {
 
@@ -36,9 +36,9 @@
             DateViewModel(
                 form   = form,
                 id     = "value",
-                legend = LegendViewModel(messages("whatIsTheIndividualDateOfBirthController.heading")).asPageHeading()
+                legend = LegendViewModel(messages("whatIsTheIndividualDateOfBirth.heading")).asPageHeading()
             )
-            .withHint(HintViewModel(messages("whatIsTheIndividualDateOfBirthController.hint")))
+            .withHint(HintViewModel(messages("whatIsTheIndividualDateOfBirth.hint")))
         )
 
         @govukButton(
