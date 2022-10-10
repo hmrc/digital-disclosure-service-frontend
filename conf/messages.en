@@ -576,3 +576,11 @@ doesTheIndividualHaveNationalInsuranceNumber.no = No
 doesTheIndividualHaveNationalInsuranceNumber.checkYourAnswersLabel = Does the individual have a National Insurance number?
 doesTheIndividualHaveNationalInsuranceNumber.error.required = Select Yes, and I know their National Insurance number
 doesTheIndividualHaveNationalInsuranceNumber.change.hidden = DoesTheIndividualHaveNationalInsuranceNumber
+
+whatIsIndividualsNationalInsuranceNumber.title = What is individual'''s National Insurance number?
+whatIsIndividualsNationalInsuranceNumber.heading = What is individual'''s National Insurance number?
+whatIsIndividualsNationalInsuranceNumber.label = This is on your payslip, P60 or tax return.
+whatIsIndividualsNationalInsuranceNumber.hint = For example, ‘QQ123456A’.
+whatIsIndividualsNationalInsuranceNumber.checkYourAnswersLabel = What is individual'''s National Insurance number?
+whatIsIndividualsNationalInsuranceNumber.error.required = Enter a valid National Insurance number
+whatIsIndividualsNationalInsuranceNumber.change.hidden = WhatIsIndividualsNationalInsuranceNumber
