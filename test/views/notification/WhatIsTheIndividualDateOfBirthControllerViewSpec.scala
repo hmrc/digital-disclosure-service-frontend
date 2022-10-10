@@ -35,15 +35,15 @@ class WhatIsTheIndividualDateOfBirthControllerViewSpec extends ViewSpecBase with
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("whatIsTheIndividualDateOfBirthController.title"))
+      view.select("title").text() must include(messages("whatIsTheIndividualDateOfBirth.title"))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("whatIsTheIndividualDateOfBirthController.heading")
+      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("whatIsTheIndividualDateOfBirth.heading")
     }
 
     "contain hint" in {
-      view.getElementsByClass("govuk-hint").text() mustBe messages("whatIsTheIndividualDateOfBirthController.hint")
+      view.getElementsByClass("govuk-hint").text() mustBe messages("whatIsTheIndividualDateOfBirth.hint")
     }
 
     "contain day, month & year" in {

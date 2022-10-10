@@ -33,6 +33,6 @@ class WhatIsTheIndividualDateOfBirthControllerFormProviderSpec extends DateBehav
 
     behave like dateField(form, "value", validData)
 
-    behave like mandatoryDateField(form, "value", "whatIsTheIndividualDateOfBirthController.error.required.all")
+    behave like mandatoryDateField(form, "value", "whatIsTheIndividualDateOfBirth.error.required.all")
   }
 }
