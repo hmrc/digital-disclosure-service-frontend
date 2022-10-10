@@ -26,6 +26,6 @@ class DoesTheIndividualHaveNationalInsuranceNumberFormProvider @Inject() extends
 
   def apply(): Form[DoesTheIndividualHaveNationalInsuranceNumber] =
     Form(
-      "value" -> enumerable[DoesTheIndividualHaveNationalInsuranceNumber]("doesTheIndividualHaveNationalInsuranceNumber.error.required")
+      "value" -> enumerable[DoesTheIndividualHaveNationalInsuranceNumber]("doesTheIndividualHaveNINO.error.required")
     )
 }

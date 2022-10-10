@@ -34,16 +34,16 @@ object DoesTheIndividualHaveNationalInsuranceNumberSummary  {
 
         val value = ValueViewModel(
           HtmlContent(
-            HtmlFormat.escape(messages(s"doesTheIndividualHaveNationalInsuranceNumber.$answer"))
+            HtmlFormat.escape(messages(s"doesTheIndividualHaveNINO.$answer"))
           )
         )
 
         SummaryListRowViewModel(
-          key     = "doesTheIndividualHaveNationalInsuranceNumber.checkYourAnswersLabel",
+          key     = "doesTheIndividualHaveNINO.checkYourAnswersLabel",
           value   = value,
           actions = Seq(
             ActionItemViewModel("site.change", routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("doesTheIndividualHaveNationalInsuranceNumber.change.hidden"))
+              .withVisuallyHiddenText(messages("doesTheIndividualHaveNINO.change.hidden"))
           )
         )
     }
