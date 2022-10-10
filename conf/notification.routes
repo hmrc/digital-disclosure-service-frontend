@@ -121,3 +121,8 @@ GET        /individual-national-insurance-number                controllers.noti
 POST       /individual-national-insurance-number                controllers.notification.WhatIsIndividualsNationalInsuranceNumberController.onSubmit(mode: Mode = NormalMode)
 GET        /individual-national-insurance-number/change         controllers.notification.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(mode: Mode = CheckMode)
 POST       /individual-national-insurance-number/change         controllers.notification.WhatIsIndividualsNationalInsuranceNumberController.onSubmit(mode: Mode = CheckMode)
+
+GET        /individual-registered-for-vat                       controllers.notification.IsTheIndividualRegisteredForVATController.onPageLoad(mode: Mode = NormalMode)
+POST       /individual-registered-for-vat                       controllers.notification.IsTheIndividualRegisteredForVATController.onSubmit(mode: Mode = NormalMode)
+GET        /individual-registered-for-vat/change                controllers.notification.IsTheIndividualRegisteredForVATController.onPageLoad(mode: Mode = CheckMode)
+POST       /individual-registered-for-vat/change                controllers.notification.IsTheIndividualRegisteredForVATController.onSubmit(mode: Mode = CheckMode)

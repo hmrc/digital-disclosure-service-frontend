@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryIsTheIndividualRegisteredForVATPage: Arbitrary[IsTheIndividualRegisteredForVATPage.type] =
+    Arbitrary(IsTheIndividualRegisteredForVATPage)
+
   implicit lazy val arbitraryWhatIsIndividualsNationalInsuranceNumberPage: Arbitrary[WhatIsIndividualsNationalInsuranceNumberPage.type] =
     Arbitrary(WhatIsIndividualsNationalInsuranceNumberPage)
 
