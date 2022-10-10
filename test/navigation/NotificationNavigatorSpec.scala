@@ -229,6 +229,10 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(WhatIsTheIndividualsFullNamePage, NormalMode, UserAnswers("id")) mustBe routes.WhatIsTheIndividualDateOfBirthControllerController.onPageLoad(NormalMode)
       }
 
+      "must go from the WhatIsTheIndividualOccupationPage to the DoesTheIndividualHaveNationalInsuranceNumberController" in {
+        navigator.nextPage(WhatIsTheIndividualOccupationPage, NormalMode, UserAnswers("id")) mustBe routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(NormalMode)
+      }
+
     }
 
     "in Check mode" - {
