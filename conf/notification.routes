@@ -111,3 +111,8 @@ GET        /individual-main-occupation                      controllers.notifica
 POST       /individual-main-occupation                      controllers.notification.WhatIsTheIndividualOccupationController.onSubmit(mode: Mode = NormalMode)
 GET        /individual-main-occupation/change               controllers.notification.WhatIsTheIndividualOccupationController.onPageLoad(mode: Mode = CheckMode)
 POST       /individual-main-occupation/change               controllers.notification.WhatIsTheIndividualOccupationController.onSubmit(mode: Mode = CheckMode)
+
+GET        /individual-have-national-insurance-number           controllers.notification.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(mode: Mode = NormalMode)
+POST       /individual-have-national-insurance-number           controllers.notification.DoesTheIndividualHaveNationalInsuranceNumberController.onSubmit(mode: Mode = NormalMode)
+GET        /individual-have-national-insurance-number/change    controllers.notification.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(mode: Mode = CheckMode)
+POST       /individual-have-national-insurance-number/change    controllers.notification.DoesTheIndividualHaveNationalInsuranceNumberController.onSubmit(mode: Mode = CheckMode)
