@@ -27,18 +27,12 @@ class WhatIsTheIndividualDateOfBirthControllerFormProvider @Inject() extends Map
   def apply(): Form[LocalDate] =
     Form(
       "value" -> localDate(
-        //LDS ignore
-        invalidKey     = "whatIsTheIndividualDateOfBirthController.error.invalid",
-        //LDS ignore
-        allRequiredKey = "whatIsTheIndividualDateOfBirthController.error.required.all",
-        //LDS ignore
-        twoRequiredKey = "whatIsTheIndividualDateOfBirthController.error.required.two",
-        //LDS ignore
-        requiredKey    = "whatIsTheIndividualDateOfBirthController.error.required",
-        //LDS ignore
-        invalidDayKey    = "whatIsTheIndividualDateOfBirthController.error.invalidDay",
-        //LDS ignore
-        invalidMonthKey  = "whatIsTheIndividualDateOfBirthController.error.invalidMonth"
+        invalidKey     = "whatIsTheIndividualDateOfBirth.error.invalid",
+        allRequiredKey = "whatIsTheIndividualDateOfBirth.error.required.all",
+        twoRequiredKey = "whatIsTheIndividualDateOfBirth.error.required.two",
+        requiredKey    = "whatIsTheIndividualDateOfBirth.error.required",
+        invalidDayKey    = "whatIsTheIndividualDateOfBirth.error.invalidDay",
+        invalidMonthKey  = "whatIsTheIndividualDateOfBirth.error.invalidMonth"
       )
       .verifying(maxDate(LocalDate.now().minusDays(1), "whatIsTheIndividualDateOfBirth.error.invalidFutureDateOfBirth"))
     )
