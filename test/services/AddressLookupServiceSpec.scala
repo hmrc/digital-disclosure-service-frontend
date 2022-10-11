@@ -67,7 +67,7 @@ class AddressLookupServiceSpec
   val config: Configuration = Configuration(
     ConfigFactory.parseString(
       """
-        |host = host1.com,
+        |self.url = host1.com,
         |microservice {
         |  services {
         |    address-lookup-frontend {
