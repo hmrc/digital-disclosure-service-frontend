@@ -562,7 +562,8 @@ whatIsTheIndividualOccupation.heading = What is the individual'''s main occupati
 whatIsTheIndividualOccupation.hint = For example, plumber or dentist.
 whatIsTheIndividualOccupation.checkYourAnswersLabel = whatIsTheIndividualOccupation
 whatIsTheIndividualOccupation.error.required = Enter the individual'''s main occupation
-whatIsTheIndividualOccupation.error.length = Enter the individual'''s main occupation
+whatIsTheIndividualOccupation.error.minLength = The individual'''s main occupation should have at least 4 characters
+whatIsTheIndividualOccupation.error.maxLength = The individual'''s main occupation should have no more than 30 characters
 whatIsTheIndividualOccupation.change.hidden = WhatIsTheIndividualOccupation
 
 doesTheIndividualHaveNINO.title = Does the individual have a National Insurance number, as far as you'''re aware?

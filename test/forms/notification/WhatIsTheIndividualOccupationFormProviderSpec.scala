@@ -22,8 +22,10 @@ import play.api.data.FormError
 class WhatIsTheIndividualOccupationFormProviderSpec extends StringFieldBehaviours {
 
   val requiredKey = "whatIsTheIndividualOccupation.error.required"
-  val lengthKey = "whatIsTheIndividualOccupation.error.length"
+  val maxLengthKey = "whatIsTheIndividualOccupation.error.maxLength"
+  val minLengthKey = "whatIsTheIndividualOccupation.error.minLength"
   val maxLength = 30
+  val minLength = 4
 
   val form = new WhatIsTheIndividualOccupationFormProvider()()
 
@@ -34,14 +36,21 @@ class WhatIsTheIndividualOccupationFormProviderSpec extends StringFieldBehaviour
     behave like fieldThatBindsValidData(
       form,
       fieldName,
-      stringsWithMaxLength(maxLength)
+      stringsWithLengthBetween(minLength, maxLength)
     )
 
     behave like fieldWithMaxLength(
       form,
       fieldName,
       maxLength = maxLength,
-      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
+      lengthError = FormError(fieldName, maxLengthKey, Seq(maxLength))
+    )
+
+    behave like fieldWithMinLength(
+      form,
+      fieldName,
+      minLength = minLength,
+      lengthError = FormError(fieldName, minLengthKey, Seq(minLength))
     )
 
     behave like mandatoryField(
