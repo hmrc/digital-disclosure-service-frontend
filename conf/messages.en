@@ -565,8 +565,8 @@ whatIsTheIndividualOccupation.error.required = Enter the individual'''s main occ
 whatIsTheIndividualOccupation.error.length = Enter the individual'''s main occupation
 whatIsTheIndividualOccupation.change.hidden = WhatIsTheIndividualOccupation
 
-doesTheIndividualHaveNINO.title = Does the individual have a National Insurance number?
-doesTheIndividualHaveNINO.heading = Does the individual have a National Insurance number?
+doesTheIndividualHaveNINO.title = Does the individual have a National Insurance number, as far as you'''re aware?
+doesTheIndividualHaveNINO.heading = Does the individual have a National Insurance number, as far as you'''re aware?
 doesTheIndividualHaveNINO.yesIknow = Yes, and I know their National Insurance number
 doesTheIndividualHaveNINO.yesButDontKnow = Yes, but I do not know their National Insurance number
 doesTheIndividualHaveNINO.no = No
@@ -574,11 +574,11 @@ doesTheIndividualHaveNINO.checkYourAnswersLabel = Does the individual have a Nat
 doesTheIndividualHaveNINO.error.required = Select Yes, and I know their National Insurance number
 doesTheIndividualHaveNINO.change.hidden = DoesTheIndividualHaveNationalInsuranceNumber
 
-whatIsIndividualsNINO.title = Does the individual have a National Insurance number, as far as you'''re aware?
-whatIsIndividualsNINO.heading = Does the individual have a National Insurance number, as far as you'''re aware?
+whatIsIndividualsNINO.title = What is individual'''s National Insurance number?
+whatIsIndividualsNINO.heading = What is individual'''s National Insurance number?
 whatIsIndividualsNINO.label = This is on your payslip, P60 or tax return.
 whatIsIndividualsNINO.hint = For example, ‘QQ123456A’.
-whatIsIndividualsNINO.checkYourAnswersLabel = Does the individual have a National Insurance number, as far as you'''re aware?
+whatIsIndividualsNINO.checkYourAnswersLabel = What is individual'''s National Insurance number?
 whatIsIndividualsNINO.error.required = Enter a valid National Insurance number
 whatIsIndividualsNINO.change.hidden = WhatIsIndividualsNationalInsuranceNumber
 

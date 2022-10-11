@@ -99,6 +99,13 @@ class NotificationNavigator @Inject()() {
 
     case WhatIsTheIndividualOccupationPage => _ => routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(NormalMode)
 
+    case DoesTheIndividualHaveNationalInsuranceNumberPage => ua => ua.get(DoesTheIndividualHaveNationalInsuranceNumberPage) match {
+      case Some(DoesTheIndividualHaveNationalInsuranceNumber.YesIknow) => routes.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(NormalMode)
+      case Some(DoesTheIndividualHaveNationalInsuranceNumber.YesButDontKnow) => routes.IsTheIndividualRegisteredForVATController.onPageLoad(NormalMode)
+      case Some(DoesTheIndividualHaveNationalInsuranceNumber.No) => routes.IsTheIndividualRegisteredForVATController.onPageLoad(NormalMode)
+      case None => routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(NormalMode)
+    }
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
