@@ -599,3 +599,12 @@ isTheIndividualRegisteredForSA.no = No
 isTheIndividualRegisteredForSA.checkYourAnswersLabel = Is the individual registered for Self Assessment, as far as you are aware?
 isTheIndividualRegisteredForSA.error.required = Select Yes, and I know their Unique Taxpayer Reference (UTR)
 isTheIndividualRegisteredForSA.change.hidden = IsTheIndividualRegisteredForSelfAssessment
+
+whatIsTheIndividualsVATRegistrationNumber.title = What is the individual'''s VAT registration number?
+whatIsTheIndividualsVATRegistrationNumber.heading = What is the individual'''s VAT registration number?
+whatIsTheIndividualsVATRegistrationNumber.label = This has 9 numbers, sometimes with '''GB''' at the start. You can find it on their VAT registration certificate or VAT online account.
+whatIsTheIndividualsVATRegistrationNumber.hint = For example, '‘'123456789'’' or '''GB123456789'''.
+whatIsTheIndividualsVATRegistrationNumber.checkYourAnswersLabel = What is the individual'''s VAT registration number?
+whatIsTheIndividualsVATRegistrationNumber.error.required = Enter the individual'''s VAT Registration Number
+whatIsTheIndividualsVATRegistrationNumber.error.length = The individual'''s VAT Registration Number must be 9 characters or less
+whatIsTheIndividualsVATRegistrationNumber.change.hidden = WhatIsTheIndividualsVATRegistrationNumber
