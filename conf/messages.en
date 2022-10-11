@@ -589,7 +589,7 @@ isTheIndividualRegisteredForVAT.yesIknow = Yes, and I know their VAT registratio
 isTheIndividualRegisteredForVAT.yesButDontKnow = Yes, but I do not know their VAT registration number
 isTheIndividualRegisteredForVAT.no = No
 isTheIndividualRegisteredForVAT.checkYourAnswersLabel = Is the individual registered for VAT, as far you'''re aware?
-isTheIndividualRegisteredForVAT.error.required = Select Yes, and I know their VAT registration number
+isTheIndividualRegisteredForVAT.error.required = Select yes if the individual is registered for VAT
 isTheIndividualRegisteredForVAT.change.hidden = IsTheIndividualRegisteredForVAT
 
 isTheIndividualRegisteredForSA.title = Is the individual registered for Self Assessment, as far as you are aware?
