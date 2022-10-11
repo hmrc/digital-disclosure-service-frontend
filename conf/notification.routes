@@ -126,3 +126,8 @@ GET        /individual-registered-for-vat                       controllers.noti
 POST       /individual-registered-for-vat                       controllers.notification.IsTheIndividualRegisteredForVATController.onSubmit(mode: Mode = NormalMode)
 GET        /individual-registered-for-vat/change                controllers.notification.IsTheIndividualRegisteredForVATController.onPageLoad(mode: Mode = CheckMode)
 POST       /individual-registered-for-vat/change                controllers.notification.IsTheIndividualRegisteredForVATController.onSubmit(mode: Mode = CheckMode)
+
+GET        /individual-self-assessment                          controllers.notification.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(mode: Mode = NormalMode)
+POST       /individual-self-assessment                          controllers.notification.IsTheIndividualRegisteredForSelfAssessmentController.onSubmit(mode: Mode = NormalMode)
+GET        /individual-self-assessment/change                   controllers.notification.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(mode: Mode = CheckMode)
+POST       /individual-self-assessment/change                   controllers.notification.IsTheIndividualRegisteredForSelfAssessmentController.onSubmit(mode: Mode = CheckMode)

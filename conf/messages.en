@@ -538,7 +538,7 @@ confirmAddress.heading = Is this the correct address?
 
 whatIsTheIndividualsFullName.title = What is the individual'''s full name?
 whatIsTheIndividualsFullName.heading = What is the individual'''s full name?
-whatIsTheIndividualsFullName.body = This should be as it'''s written on official documents such as their passport or driving license.
+whatIsTheIndividualsFullName.body = This should be as it'''s written on official documents such as their passport or driving licence.
 whatIsTheIndividualsFullName.checkYourAnswersLabel = What is the individual'''s full name?
 whatIsTheIndividualsFullName.error.required = Enter the individual'''s full name
 whatIsTheIndividualsFullName.error.length = Full name must be between 1 and 30 characters
@@ -590,3 +590,12 @@ isTheIndividualRegisteredForVAT.no = No
 isTheIndividualRegisteredForVAT.checkYourAnswersLabel = Is the individual registered for VAT, as far you'''re aware?
 isTheIndividualRegisteredForVAT.error.required = Select Yes, and I know their VAT registration number
 isTheIndividualRegisteredForVAT.change.hidden = IsTheIndividualRegisteredForVAT
+
+isTheIndividualRegisteredForSA.title = Is the individual registered for Self Assessment, as far as you are aware?
+isTheIndividualRegisteredForSA.heading = Is the individual registered for Self Assessment, as far as you are aware?
+isTheIndividualRegisteredForSA.yesIknow = Yes, and I know their Unique Taxpayer Reference (UTR)
+isTheIndividualRegisteredForSA.yesButDontKnow = Yes, but I do not know their Unique Taxpayer Reference (UTR)
+isTheIndividualRegisteredForSA.no = No
+isTheIndividualRegisteredForSA.checkYourAnswersLabel = Is the individual registered for Self Assessment, as far as you are aware?
+isTheIndividualRegisteredForSA.error.required = Select Yes, and I know their Unique Taxpayer Reference (UTR)
+isTheIndividualRegisteredForSA.change.hidden = IsTheIndividualRegisteredForSelfAssessment
