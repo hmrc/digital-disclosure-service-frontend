@@ -574,11 +574,11 @@ doesTheIndividualHaveNINO.checkYourAnswersLabel = Does the individual have a Nat
 doesTheIndividualHaveNINO.error.required = Select Yes, and I know their National Insurance number
 doesTheIndividualHaveNINO.change.hidden = DoesTheIndividualHaveNationalInsuranceNumber
 
-whatIsIndividualsNINO.title = What is individual'''s National Insurance number?
-whatIsIndividualsNINO.heading = What is individual'''s National Insurance number?
+whatIsIndividualsNINO.title = Does the individual have a National Insurance number, as far as you'''re aware?
+whatIsIndividualsNINO.heading = Does the individual have a National Insurance number, as far as you'''re aware?
 whatIsIndividualsNINO.label = This is on your payslip, P60 or tax return.
 whatIsIndividualsNINO.hint = For example, ‘QQ123456A’.
-whatIsIndividualsNINO.checkYourAnswersLabel = What is individual'''s National Insurance number?
+whatIsIndividualsNINO.checkYourAnswersLabel = Does the individual have a National Insurance number, as far as you'''re aware?
 whatIsIndividualsNINO.error.required = Enter a valid National Insurance number
 whatIsIndividualsNINO.change.hidden = WhatIsIndividualsNationalInsuranceNumber
 
