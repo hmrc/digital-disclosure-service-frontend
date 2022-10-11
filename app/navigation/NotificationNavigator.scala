@@ -106,6 +106,8 @@ class NotificationNavigator @Inject()() {
       case None => routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(NormalMode)
     }
 
+    case WhatIsIndividualsNationalInsuranceNumberPage => _ => routes.IsTheIndividualRegisteredForVATController.onPageLoad(NormalMode)
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 

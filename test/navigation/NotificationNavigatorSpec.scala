@@ -232,7 +232,6 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(WhatIsTheIndividualOccupationPage, NormalMode, UserAnswers("id")) mustBe routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(NormalMode)
       }
 
-      //
       "must go from the DoesTheIndividualHaveNationalInsuranceNumberPage to the WhatIsIndividualsNationalInsuranceNumberController when the user selects Yes, and I know their NINO"in {
         UserAnswers("id").set(DoesTheIndividualHaveNationalInsuranceNumberPage, DoesTheIndividualHaveNationalInsuranceNumber.YesIknow) match {
           case Success(ua) => navigator.nextPage(DoesTheIndividualHaveNationalInsuranceNumberPage, NormalMode, ua) mustBe routes.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(NormalMode)
@@ -252,6 +251,10 @@ class NotificationNavigatorSpec extends SpecBase {
           case Success(ua) => navigator.nextPage(DoesTheIndividualHaveNationalInsuranceNumberPage, NormalMode, ua) mustBe routes.IsTheIndividualRegisteredForVATController.onPageLoad(NormalMode)
           case Failure(e) => throw e
         }
+      }
+
+      "must go from the WhatIsIndividualsNationalInsuranceNumberPage to the IsTheIndividualRegisteredForVATController" in {
+        navigator.nextPage(WhatIsIndividualsNationalInsuranceNumberPage, NormalMode, UserAnswers("id")) mustBe routes.IsTheIndividualRegisteredForVATController.onPageLoad(NormalMode)
       }
 
     }
