@@ -108,6 +108,8 @@ class NotificationNavigator @Inject()() {
 
     case WhatIsIndividualsNationalInsuranceNumberPage => _ => routes.IsTheIndividualRegisteredForVATController.onPageLoad(NormalMode)
 
+    case WhatIsTheIndividualDateOfBirthControllerPage => _ => routes.WhatIsTheIndividualOccupationController.onPageLoad(NormalMode)
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
