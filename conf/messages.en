@@ -606,8 +606,7 @@ whatIsTheIndividualsVATRegistrationNumber.heading = What is the individual'''s V
 whatIsTheIndividualsVATRegistrationNumber.label = This has 9 numbers, sometimes with '''GB''' at the start. You can find it on their VAT registration certificate or VAT online account.
 whatIsTheIndividualsVATRegistrationNumber.hint = For example, '‘'123456789'’' or '''GB123456789'''.
 whatIsTheIndividualsVATRegistrationNumber.checkYourAnswersLabel = What is the individual'''s VAT registration number?
-whatIsTheIndividualsVATRegistrationNumber.error.required = Enter the individual'''s VAT Registration Number
-whatIsTheIndividualsVATRegistrationNumber.error.length = The individual'''s VAT Registration Number must be 9 characters or less
+whatIsTheIndividualsVATRegistrationNumber.error = Enter a valid VAT registration number
 whatIsTheIndividualsVATRegistrationNumber.change.hidden = WhatIsTheIndividualsVATRegistrationNumber
 
 whatIsTheIndividualsUniqueTaxReference.title = What is the individual'''s Unique Tax Reference?
