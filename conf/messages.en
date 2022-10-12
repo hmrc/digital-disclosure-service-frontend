@@ -623,11 +623,11 @@ individualCountryLookup.title = What is the country of the individual’s addres
 individualCountryLookup.heading = What is the country of the individual’s address?
 individualCountryLookup.hint = For example, United Kingdom.
 
-individualAddressLookup.title = What is the postcode and property name or number of individual’s address?
-individualAddressLookup.heading = What is the postcode and property name or number of individual’s address?
+individualAddressLookup.title = What is the postcode and property name or number of the individual’s address?
+individualAddressLookup.heading = What is the postcode and property name or number of the individual’s address?
 
-selectIndividualAddress.title = Choose individual’s address
-selectIndividualAddress.heading = Choose individual’s address
+selectIndividualAddress.title = Choose the individual’s address
+selectIndividualAddress.heading = Choose the individual’s address
 
 editIndividualAddress.title = What is the individual’s address?
 editIndividualAddress.heading = What is the individual’s address?

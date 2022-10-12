@@ -22,6 +22,8 @@ import controllers.routes
 
 trait AddressLookupRequestHelper {
 
+  val API_VERSION = 2
+
   def lookupRequestForYourAddress(baseUrl: String, redirectUrl: String, proposalListLimit: Int)(implicit messages: Messages): AddressLookupRequest = {
 
     val selectPageConfig = SelectPageConfig(proposalListLimit = proposalListLimit)
@@ -75,7 +77,7 @@ trait AddressLookupRequestHelper {
     )
     val labels = AddressLookupLabels(englishLabels)
 
-    AddressLookupRequest(2, addressLookupOptions, labels)
+    AddressLookupRequest(API_VERSION, addressLookupOptions, labels)
   }
 
   def lookupRequestForIndividualAddress(baseUrl: String, redirectUrl: String, proposalListLimit: Int)(implicit messages: Messages): AddressLookupRequest = {
@@ -131,7 +133,7 @@ trait AddressLookupRequestHelper {
     )
     val labels = AddressLookupLabels(englishLabels)
 
-    AddressLookupRequest(2, addressLookupOptions, labels)
+    AddressLookupRequest(API_VERSION, addressLookupOptions, labels)
   }
 
 }
