@@ -572,7 +572,7 @@ doesTheIndividualHaveNINO.yesIknow = Yes, and I know their National Insurance nu
 doesTheIndividualHaveNINO.yesButDontKnow = Yes, but I do not know their National Insurance number
 doesTheIndividualHaveNINO.no = No
 doesTheIndividualHaveNINO.checkYourAnswersLabel = Does the individual have a National Insurance number?
-doesTheIndividualHaveNINO.error.required = Select Yes, and I know their National Insurance number
+doesTheIndividualHaveNINO.error.required = Select yes if the individual has a National Insurance number
 doesTheIndividualHaveNINO.change.hidden = DoesTheIndividualHaveNationalInsuranceNumber
 
 whatIsIndividualsNINO.title = What is individual'''s National Insurance number?
