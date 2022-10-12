@@ -22,7 +22,7 @@ import controllers.routes
 
 trait AddressLookupRequestHelper {
 
-  def lookupRequestForIndividual(baseUrl: String, redirectUrl: String, proposalListLimit: Int)(implicit messages: Messages): AddressLookupRequest = {
+  def lookupRequestForYourAddress(baseUrl: String, redirectUrl: String, proposalListLimit: Int)(implicit messages: Messages): AddressLookupRequest = {
 
     val selectPageConfig = SelectPageConfig(proposalListLimit = proposalListLimit)
     val addressLookupOptions = AddressLookupOptions(
@@ -57,6 +57,62 @@ trait AddressLookupRequestHelper {
     val confirmPageLabels = ConfirmPageLabels(
       messages("confirmAddress.title"), 
       messages("confirmAddress.heading")
+    )
+    val internationalLabels = InternationalLabels(
+      lookupPageLabels, 
+      selectPageLabels, 
+      editPageLabels, 
+      confirmPageLabels
+    )
+    val englishLabels = LabelsByLanguage(
+      appLevelLabels, 
+      countryPickerLabels, 
+      lookupPageLabels, 
+      selectPageLabels, 
+      editPageLabels, 
+      confirmPageLabels,
+      internationalLabels
+    )
+    val labels = AddressLookupLabels(englishLabels)
+
+    AddressLookupRequest(2, addressLookupOptions, labels)
+  }
+
+  def lookupRequestForIndividualAddress(baseUrl: String, redirectUrl: String, proposalListLimit: Int)(implicit messages: Messages): AddressLookupRequest = {
+
+    val selectPageConfig = SelectPageConfig(proposalListLimit = proposalListLimit)
+    val addressLookupOptions = AddressLookupOptions(
+      continueUrl = s"$baseUrl$redirectUrl",
+      serviceHref = s"$baseUrl${routes.IndexController.onPageLoad.url}",
+      showPhaseBanner = Some(true),
+      alphaPhase = true,
+      selectPageConfig = Some(selectPageConfig),
+      includeHMRCBranding = Some(false)
+    )
+
+    val appLevelLabels = AppLevelLabels(messages("service.name"))
+    val countryPickerLabels = CountryPickerLabels(
+      messages("individualCountryLookup.title"), 
+      messages("individualCountryLookup.heading"),
+      messages("individualCountryLookup.hint"),
+      messages("site.continue")
+    )
+    val lookupPageLabels = LookupPageLabels(
+      messages("individualAddressLookup.title"), 
+      messages("individualAddressLookup.heading"),
+      messages("site.continue")
+    )
+    val selectPageLabels = SelectPageLabels(
+      messages("selectIndividualAddress.title"), 
+      messages("selectIndividualAddress.heading")
+    )
+    val editPageLabels = EditPageLabels(
+      messages("editIndividualAddress.title"), 
+      messages("editIndividualAddress.heading")
+    )
+    val confirmPageLabels = ConfirmPageLabels(
+      messages("confirmIndividualAddress.title"), 
+      messages("confirmIndividualAddress.heading")
     )
     val internationalLabels = InternationalLabels(
       lookupPageLabels, 

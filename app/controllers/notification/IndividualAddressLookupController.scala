@@ -21,7 +21,7 @@ import controllers.actions._
 import javax.inject.Inject
 import models.Mode
 import navigation.NotificationNavigator
-import pages.YourAddressLookupPage
+import pages.IndividualAddressLookupPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -34,7 +34,7 @@ import models.Error
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class YourAddressLookupController @Inject()(
+class IndividualAddressLookupController @Inject()(
                                         override val messagesApi: MessagesApi,
                                         sessionRepository: SessionRepository,
                                         navigator: NotificationNavigator,
@@ -46,9 +46,9 @@ class YourAddressLookupController @Inject()(
                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with Logging {
 
   def lookupAddress(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async { implicit request =>
-    val continueUrl = routes.YourAddressLookupController.retrieveConfirmedAddress(mode)
+    val continueUrl = routes.IndividualAddressLookupController.retrieveConfirmedAddress(mode)
 
-    addressLookupService.getYourAddressLookupRedirect(continueUrl).fold(
+    addressLookupService.getIndividualAddressLookupRedirect(continueUrl).fold(
       {e: Error =>
         logger.error(s"Error initialising Address Lookup: $e")
         Future.failed(e.throwable.getOrElse(new Exception(e.message)))
@@ -60,7 +60,7 @@ class YourAddressLookupController @Inject()(
 
   def retrieveConfirmedAddress(mode: Mode,  id: Option[UUID] = None): Action[AnyContent] = (identify andThen getData andThen requireData).async { implicit request =>
     id match {
-      case None => Future.successful(Redirect(routes.YourAddressLookupController.lookupAddress(mode)))
+      case None => Future.successful(Redirect(routes.IndividualAddressLookupController.lookupAddress(mode)))
       case Some(addressId) => retrieveConfirmedAddressFromAddressLookupFrontend(mode, addressId)
     }
   }
@@ -72,8 +72,8 @@ class YourAddressLookupController @Inject()(
         Future.failed(e.throwable.getOrElse(new Exception(e.message)))
       },
       address => for {
-        updatedAnswers <- Future.fromTry(request.userAnswers.set(YourAddressLookupPage, address))
+        updatedAnswers <- Future.fromTry(request.userAnswers.set(IndividualAddressLookupPage, address))
         _              <- sessionRepository.set(updatedAnswers)
-      } yield Redirect(navigator.nextPage(YourAddressLookupPage, mode, updatedAnswers))
+      } yield Redirect(navigator.nextPage(IndividualAddressLookupPage, mode, updatedAnswers))
     ).flatten
 }

@@ -141,3 +141,8 @@ GET        /individual-utr                                      controllers.noti
 POST       /individual-utr                                      controllers.notification.WhatIsTheIndividualsUniqueTaxReferenceController.onSubmit(mode: Mode = NormalMode)
 GET        /individual-utr/change                               controllers.notification.WhatIsTheIndividualsUniqueTaxReferenceController.onPageLoad(mode: Mode = CheckMode)
 POST       /individual-utr/change                               controllers.notification.WhatIsTheIndividualsUniqueTaxReferenceController.onSubmit(mode: Mode = CheckMode)
+
+GET        /individual-address/lookup                           controllers.notification.IndividualAddressLookupController.lookupAddress(mode: Mode = NormalMode)
+GET        /individual-address/retrieve                         controllers.notification.IndividualAddressLookupController.retrieveConfirmedAddress(mode: Mode = NormalMode, id: Option[UUID] ?= None)
+GET        /individual-address/lookup/change                    controllers.notification.IndividualAddressLookupController.lookupAddress(mode: Mode = CheckMode)
+GET        /individual-address/retrieve/change                  controllers.notification.IndividualAddressLookupController.retrieveConfirmedAddress(mode: Mode = CheckMode, id: Option[UUID] ?= None)

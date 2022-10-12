@@ -38,12 +38,12 @@ import play.api.i18n.Messages
 
 import scala.concurrent.Future
 
-class YourAddressLookupControllerSpec extends SpecBase with MockFactory with ModelGenerators {
+class IndividualAddressLookupControllerSpec extends SpecBase with MockFactory with ModelGenerators {
 
   def addressLookupOnwardRoute = Call("GET", "http://localhost:9000/foo")
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val addressLookupRoute = notification.routes.YourAddressLookupController.lookupAddress(NormalMode).url
+  lazy val addressLookupRoute = notification.routes.IndividualAddressLookupController.lookupAddress(NormalMode).url
   lazy val mockSessionRepository = mock[SessionRepository]
 
   val addressLookupService = mock[AddressLookupService]
@@ -52,7 +52,7 @@ class YourAddressLookupControllerSpec extends SpecBase with MockFactory with Mod
     response: Either[Error, URL]
   ): CallHandler3[Call, HeaderCarrier, Messages, EitherT[Future, Error, URL]] =
     (addressLookupService
-      .getYourAddressLookupRedirect(_: Call)(_: HeaderCarrier, _: Messages))
+      .getIndividualAddressLookupRedirect(_: Call)(_: HeaderCarrier, _: Messages))
       .expects(redirectUrl, *, *)
       .returning(EitherT.fromEither[Future](response))
 
@@ -78,7 +78,7 @@ class YourAddressLookupControllerSpec extends SpecBase with MockFactory with Mod
       running(application) {
         val request = FakeRequest(GET, addressLookupRoute)
 
-        mockGetIndividualAddressLookupRedirect(notification.routes.YourAddressLookupController.retrieveConfirmedAddress(NormalMode, None))(Right(new URL("http://localhost:9000/foo")))
+        mockGetIndividualAddressLookupRedirect(notification.routes.IndividualAddressLookupController.retrieveConfirmedAddress(NormalMode, None))(Right(new URL("http://localhost:9000/foo")))
         val result = route(application, request).value
 
         status(result) mustEqual SEE_OTHER
@@ -92,7 +92,7 @@ class YourAddressLookupControllerSpec extends SpecBase with MockFactory with Mod
       running(application) {
         val request = FakeRequest(GET, addressLookupRoute)
 
-        mockGetIndividualAddressLookupRedirect(notification.routes.YourAddressLookupController.retrieveConfirmedAddress(NormalMode, None))(Left(Error("Something went wrong")))
+        mockGetIndividualAddressLookupRedirect(notification.routes.IndividualAddressLookupController.retrieveConfirmedAddress(NormalMode, None))(Left(Error("Something went wrong")))
 
         the [Exception] thrownBy status(route(application, request).value) must have message "Something went wrong"
       }
@@ -107,7 +107,7 @@ class YourAddressLookupControllerSpec extends SpecBase with MockFactory with Mod
       val application = buildApplication
 
       val uuid = UUID.randomUUID()
-      lazy val retrieveAddressRoute = notification.routes.YourAddressLookupController.retrieveConfirmedAddress(NormalMode, Some(uuid)).url
+      lazy val retrieveAddressRoute = notification.routes.IndividualAddressLookupController.retrieveConfirmedAddress(NormalMode, Some(uuid)).url
 
       running(application) {
         val request = FakeRequest(GET, retrieveAddressRoute)
@@ -125,7 +125,7 @@ class YourAddressLookupControllerSpec extends SpecBase with MockFactory with Mod
     "must redirect to the address lookup when an id isn't entered" in {
 
       val application = buildApplication
-      lazy val retrieveAddressRoute = notification.routes.YourAddressLookupController.retrieveConfirmedAddress(NormalMode).url
+      lazy val retrieveAddressRoute = notification.routes.IndividualAddressLookupController.retrieveConfirmedAddress(NormalMode).url
 
       running(application) {
         val request = FakeRequest(GET, retrieveAddressRoute)
@@ -133,7 +133,7 @@ class YourAddressLookupControllerSpec extends SpecBase with MockFactory with Mod
         val result = route(application, request).value
 
         status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual notification.routes.YourAddressLookupController.lookupAddress(NormalMode).url
+        redirectLocation(result).value mustEqual notification.routes.IndividualAddressLookupController.lookupAddress(NormalMode).url
       }
     }
 
@@ -143,7 +143,7 @@ class YourAddressLookupControllerSpec extends SpecBase with MockFactory with Mod
       running(application) {
         val request = FakeRequest(GET, addressLookupRoute)
 
-        mockGetIndividualAddressLookupRedirect(notification.routes.YourAddressLookupController.retrieveConfirmedAddress(NormalMode, None))(Left(Error("Something went wrong")))
+        mockGetIndividualAddressLookupRedirect(notification.routes.IndividualAddressLookupController.retrieveConfirmedAddress(NormalMode, None))(Left(Error("Something went wrong")))
 
         the [Exception] thrownBy status(route(application, request).value) must have message "Something went wrong"
       }
