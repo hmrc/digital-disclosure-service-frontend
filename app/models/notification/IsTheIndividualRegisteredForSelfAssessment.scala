@@ -24,12 +24,12 @@ sealed trait IsTheIndividualRegisteredForSelfAssessment
 
 object IsTheIndividualRegisteredForSelfAssessment extends Enumerable.Implicits {
 
-  case object Yesiknow extends WithName("yesIknow") with IsTheIndividualRegisteredForSelfAssessment
-  case object Yesbutdontknow extends WithName("yesButDontKnow") with IsTheIndividualRegisteredForSelfAssessment
+  case object YesIKnow extends WithName("yesIknow") with IsTheIndividualRegisteredForSelfAssessment
+  case object YesButDontKnow extends WithName("yesButDontKnow") with IsTheIndividualRegisteredForSelfAssessment
   case object No extends WithName("no") with IsTheIndividualRegisteredForSelfAssessment
 
   val values: Seq[IsTheIndividualRegisteredForSelfAssessment] = Seq(
-    Yesiknow, Yesbutdontknow, No
+    YesIKnow, YesButDontKnow, No
   )
 
   def options(implicit messages: Messages): Seq[RadioItem] = values.zipWithIndex.map {

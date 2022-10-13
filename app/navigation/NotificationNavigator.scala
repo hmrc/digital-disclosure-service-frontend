@@ -121,6 +121,15 @@ class NotificationNavigator @Inject()() {
 
     case WhatIsTheIndividualsUniqueTaxReferencePage => _ => routes.IndividualAddressLookupController.lookupAddress(NormalMode)
 
+    case IsTheIndividualRegisteredForSelfAssessmentPage => ua => ua.get(IsTheIndividualRegisteredForSelfAssessmentPage) match {
+      case Some(IsTheIndividualRegisteredForSelfAssessment.YesIKnow) => routes.WhatIsTheIndividualsUniqueTaxReferenceController.onPageLoad(NormalMode)
+      case Some(IsTheIndividualRegisteredForSelfAssessment.YesButDontKnow) => routes.IndividualAddressLookupController.lookupAddress(NormalMode)
+      case Some(IsTheIndividualRegisteredForSelfAssessment.No) => routes.IndividualAddressLookupController.lookupAddress(NormalMode)
+      case None => routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(NormalMode)
+    }
+    
+    case IndividualAddressLookupPage => _ => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+      
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 

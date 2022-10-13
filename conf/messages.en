@@ -580,12 +580,13 @@ whatIsIndividualsNINO.heading = What is individual'''s National Insurance number
 whatIsIndividualsNINO.label = This is on your payslip, P60 or tax return.
 whatIsIndividualsNINO.hint = For example, ‘QQ123456A’.
 whatIsIndividualsNINO.checkYourAnswersLabel = What is individual'''s National Insurance number?
-whatIsIndividualsNINO.error.required = Enter a valid National Insurance number
+whatIsIndividualsNINO.error.required = Enter the individual'''s National Insurance number
+whatIsIndividualsNINO.error.invalid = Enter a valid National Insurance number
 whatIsIndividualsNINO.change.hidden = WhatIsIndividualsNationalInsuranceNumber
 
 isTheIndividualRegisteredForVAT.title = Is the individual registered for VAT, as far you'''re aware?
 isTheIndividualRegisteredForVAT.heading = Is the individual registered for VAT, as far you'''re aware?
-isTheIndividualRegisteredForVAT.yesIknow = Yes, and I know their VAT registration number
+isTheIndividualRegisteredForVAT.yesIKnow = Yes, and I know their VAT registration number
 isTheIndividualRegisteredForVAT.yesButDontKnow = Yes, but I do not know their VAT registration number
 isTheIndividualRegisteredForVAT.no = No
 isTheIndividualRegisteredForVAT.checkYourAnswersLabel = Is the individual registered for VAT, as far you'''re aware?
@@ -598,7 +599,7 @@ isTheIndividualRegisteredForSA.yesIknow = Yes, and I know their Unique Taxpayer 
 isTheIndividualRegisteredForSA.yesButDontKnow = Yes, but I do not know their Unique Taxpayer Reference (UTR)
 isTheIndividualRegisteredForSA.no = No
 isTheIndividualRegisteredForSA.checkYourAnswersLabel = Is the individual registered for Self Assessment, as far as you are aware?
-isTheIndividualRegisteredForSA.error.required = Select Yes, and I know their Unique Taxpayer Reference (UTR)
+isTheIndividualRegisteredForSA.error.required = Select yes if the individual is registered for Self Assessment
 isTheIndividualRegisteredForSA.change.hidden = IsTheIndividualRegisteredForSelfAssessment
 
 whatIsTheIndividualsVATRegistrationNumber.title = What is the individual'''s VAT registration number?
@@ -606,8 +607,7 @@ whatIsTheIndividualsVATRegistrationNumber.heading = What is the individual'''s V
 whatIsTheIndividualsVATRegistrationNumber.label = This has 9 numbers, sometimes with '''GB''' at the start. You can find it on their VAT registration certificate or VAT online account.
 whatIsTheIndividualsVATRegistrationNumber.hint = For example, '‘'123456789'’' or '''GB123456789'''.
 whatIsTheIndividualsVATRegistrationNumber.checkYourAnswersLabel = What is the individual'''s VAT registration number?
-whatIsTheIndividualsVATRegistrationNumber.error.required = Enter the individual'''s VAT Registration Number
-whatIsTheIndividualsVATRegistrationNumber.error.length = The individual'''s VAT Registration Number must be 9 characters or less
+whatIsTheIndividualsVATRegistrationNumber.error = Enter a valid VAT registration number
 whatIsTheIndividualsVATRegistrationNumber.change.hidden = WhatIsTheIndividualsVATRegistrationNumber
 
 whatIsTheIndividualsUniqueTaxReference.title = What is the individual'''s Unique Tax Reference?
@@ -615,7 +615,7 @@ whatIsTheIndividualsUniqueTaxReference.heading = What is the individual'''s Uniq
 whatIsTheIndividualsUniqueTaxReference.label = This 10 digit number is on their tax return, statement of accounts or any other Self Assessment calculations. 
 whatIsTheIndividualsUniqueTaxReference.hint = For example, '‘'1234567890'’'.
 whatIsTheIndividualsUniqueTaxReference.checkYourAnswersLabel = What is the individual'''s Unique Tax Reference?
-whatIsTheIndividualsUniqueTaxReference.error.required = Enter the individual'''s National Insurance number
+whatIsTheIndividualsUniqueTaxReference.error.required = Enter the individual'''s Unique Tax Reference
 whatIsTheIndividualsUniqueTaxReference.error.invalid = Enter a Unique Tax Reference in the correct format
 whatIsTheIndividualsUniqueTaxReference.change.hidden = WhatIsTheIndividualsUniqueTaxReference
 
