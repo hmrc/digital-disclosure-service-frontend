@@ -286,6 +286,10 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(WhatIsTheIndividualsVATRegistrationNumberPage, NormalMode, UserAnswers("id")) mustBe routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(NormalMode)
       }
 
+      "must go from the WhatIsTheIndividualsUniqueTaxReferencePage to the IndividualAddressLookupController" in {
+        navigator.nextPage(WhatIsTheIndividualsUniqueTaxReferencePage, NormalMode, UserAnswers("id")) mustBe routes.IndividualAddressLookupController.lookupAddress(NormalMode)
+      }
+
     }
 
     "in Check mode" - {
