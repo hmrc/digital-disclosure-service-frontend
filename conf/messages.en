@@ -580,7 +580,8 @@ whatIsIndividualsNINO.heading = What is individual'''s National Insurance number
 whatIsIndividualsNINO.label = This is on your payslip, P60 or tax return.
 whatIsIndividualsNINO.hint = For example, ‘QQ123456A’.
 whatIsIndividualsNINO.checkYourAnswersLabel = What is individual'''s National Insurance number?
-whatIsIndividualsNINO.error.required = Enter a valid National Insurance number
+whatIsIndividualsNINO.error.required = Enter the individual'''s National Insurance number
+whatIsIndividualsNINO.error.invalid = Enter a valid National Insurance number
 whatIsIndividualsNINO.change.hidden = WhatIsIndividualsNationalInsuranceNumber
 
 isTheIndividualRegisteredForVAT.title = Is the individual registered for VAT, as far you'''re aware?
