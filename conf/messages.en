@@ -598,7 +598,7 @@ isTheIndividualRegisteredForSA.yesIknow = Yes, and I know their Unique Taxpayer 
 isTheIndividualRegisteredForSA.yesButDontKnow = Yes, but I do not know their Unique Taxpayer Reference (UTR)
 isTheIndividualRegisteredForSA.no = No
 isTheIndividualRegisteredForSA.checkYourAnswersLabel = Is the individual registered for Self Assessment, as far as you are aware?
-isTheIndividualRegisteredForSA.error.required = Select Yes, and I know their Unique Taxpayer Reference (UTR)
+isTheIndividualRegisteredForSA.error.required = Select yes if the individual is registered for Self Assessment
 isTheIndividualRegisteredForSA.change.hidden = IsTheIndividualRegisteredForSelfAssessment
 
 whatIsTheIndividualsVATRegistrationNumber.title = What is the individual'''s VAT registration number?
