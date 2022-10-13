@@ -311,6 +311,10 @@ class NotificationNavigatorSpec extends SpecBase {
         }
       }
 
+      "must go from the IndividualAddressLookupPage to the WhatIsYourFullNameController" in {
+        navigator.nextPage(IndividualAddressLookupPage, NormalMode, UserAnswers("id")) mustBe routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+      }
+
     }
 
     "in Check mode" - {

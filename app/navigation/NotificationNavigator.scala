@@ -127,7 +127,9 @@ class NotificationNavigator @Inject()() {
       case Some(IsTheIndividualRegisteredForSelfAssessment.No) => routes.IndividualAddressLookupController.lookupAddress(NormalMode)
       case None => routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(NormalMode)
     }
-
+    
+    case IndividualAddressLookupPage => _ => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+      
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
