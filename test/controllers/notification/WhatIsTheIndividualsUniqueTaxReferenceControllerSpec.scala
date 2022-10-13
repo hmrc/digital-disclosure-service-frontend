@@ -84,6 +84,9 @@ class WhatIsTheIndividualsUniqueTaxReferenceControllerSpec extends SpecBase with
 
       when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
 
+      val utrLength = 10
+      val validUTR = generateValidUTR(utrLength).sample.value
+
       val application =
         applicationBuilder(userAnswers = Some(emptyUserAnswers))
           .overrides(
@@ -95,7 +98,7 @@ class WhatIsTheIndividualsUniqueTaxReferenceControllerSpec extends SpecBase with
       running(application) {
         val request =
           FakeRequest(POST, whatIsTheIndividualsUniqueTaxReferenceRoute)
-            .withFormUrlEncodedBody(("value", "answer"))
+            .withFormUrlEncodedBody(("value", validUTR))
 
         val result = route(application, request).value
 
