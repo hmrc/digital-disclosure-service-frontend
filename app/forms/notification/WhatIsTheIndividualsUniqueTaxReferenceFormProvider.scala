@@ -23,9 +23,11 @@ import play.api.data.Form
 
 class WhatIsTheIndividualsUniqueTaxReferenceFormProvider @Inject() extends Mappings {
 
+  val length = 10
+
   def apply(): Form[String] =
     Form(
-      "value" -> text("whatIsTheIndividualsUniqueTaxReference.error.required")
-        .verifying(maxLength(10, "whatIsTheIndividualsUniqueTaxReference.error.length"))
+      "value" -> text("whatIsTheIndividualsUniqueTaxReference.error")
+        .verifying(validUTR(length, "whatIsTheIndividualsUniqueTaxReference.error"))
     )
 }
