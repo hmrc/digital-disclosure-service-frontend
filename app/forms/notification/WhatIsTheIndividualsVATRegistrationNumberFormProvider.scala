@@ -27,7 +27,7 @@ class WhatIsTheIndividualsVATRegistrationNumberFormProvider @Inject() extends Ma
 
   def apply(): Form[String] =
     Form(
-      "value" -> text("whatIsTheIndividualsVATRegistrationNumber.error")
-        .verifying(validVAT(length, "whatIsTheIndividualsVATRegistrationNumber.error"))
+      "value" -> text("whatIsTheIndividualsVATRegistrationNumber.error.required")
+        .verifying(validVAT(length, "whatIsTheIndividualsVATRegistrationNumber.error.invalid"))
     )
 }

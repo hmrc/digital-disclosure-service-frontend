@@ -43,7 +43,7 @@ class IsTheIndividualRegisteredForVATViewSpec extends ViewSpecBase with ViewMatc
     }
 
     "have Yes, and I know their VAT registration number" in {
-      view.getElementsByClass("govuk-radios__label").get(0).text() mustBe messages("isTheIndividualRegisteredForVAT.yesIknow")
+      view.getElementsByClass("govuk-radios__label").get(0).text() mustBe messages("isTheIndividualRegisteredForVAT.yesIKnow")
     }
 
     "have Yes, but I do not know their VAT registration number" in {

@@ -24,7 +24,7 @@ sealed trait IsTheIndividualRegisteredForVAT
 
 object IsTheIndividualRegisteredForVAT extends Enumerable.Implicits {
 
-  case object YesIKnow extends WithName("yesIknow") with IsTheIndividualRegisteredForVAT
+  case object YesIKnow extends WithName("yesIKnow") with IsTheIndividualRegisteredForVAT
   case object YesButDontKnow extends WithName("yesButDontKnow") with IsTheIndividualRegisteredForVAT
   case object No extends WithName("no") with IsTheIndividualRegisteredForVAT
 
