@@ -89,7 +89,7 @@ class NotificationNavigatorSpec extends SpecBase {
         }
       }
 
-      "must go to the WhatIsTheIndividualsFullName page when the user selects Yes and is an agent for an individual" in {
+      "must go from OnshoreLiabilitiesPage to the WhatIsYourFullName page when the user is the individual and want to disclose onshore liabilities" in {
         val userAnswers = for {
           uaWithOnshore <- UserAnswers("id").set(OnshoreLiabilitiesPage, OnshoreLiabilities.IWantTo)
             ua 	<- uaWithOnshore.set(AreYouTheIndividualPage, AreYouTheIndividual.Yes)
@@ -97,7 +97,7 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(OnshoreLiabilitiesPage, NormalMode, userAnswers.success.value) mustBe routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
       }
 
-      "must go to the WhatIsTheIndividualsFullName page when the user selects No and is an agent for an individual" in {
+      "must go from OnshoreLiabilitiesPage to the WhatIsTheIndividualsFullName page when the user selects No and want to disclose onshore liabilities" in {
         val userAnswers = for {
             uaWithOnshore <- UserAnswers("id").set(OnshoreLiabilitiesPage, OnshoreLiabilities.IWantTo)
             ua 	<- uaWithOnshore.set(AreYouTheIndividualPage, AreYouTheIndividual.No)
@@ -105,7 +105,7 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(OnshoreLiabilitiesPage, NormalMode, userAnswers.success.value) mustBe routes.WhatIsTheIndividualsFullNameController.onPageLoad(NormalMode) 
       }
 
-      "must go to the WhatIsYourFullName page when the user selects Yes and is the individual" in {
+      "must go from OnshoreLiabilitiesPage to the WhatIsYourFullName page when the user selects Yes and do not have onshore liabilities to disclose" in {
         val userAnswers = for {
           uaWithOnshore <- UserAnswers("id").set(OnshoreLiabilitiesPage, OnshoreLiabilities.IDoNotWantTo)
             ua 	<- uaWithOnshore.set(AreYouTheIndividualPage, AreYouTheIndividual.Yes)
@@ -113,7 +113,7 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(OnshoreLiabilitiesPage, NormalMode, userAnswers.success.value) mustBe routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
       }
 
-      "must go to the WhatIsYourFullName page when the user selects No and is the individual" in {
+      "must go from OnshoreLiabilitiesPage to the WhatIsTheIndividualsFullName page when the user selects No and do not have onshore liabilities to disclose" in {
         val userAnswers = for {
             uaWithOnshore <- UserAnswers("id").set(OnshoreLiabilitiesPage, OnshoreLiabilities.IDoNotWantTo)
             ua 	<- uaWithOnshore.set(AreYouTheIndividualPage, AreYouTheIndividual.No)
