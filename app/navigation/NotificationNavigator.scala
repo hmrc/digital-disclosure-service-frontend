@@ -40,9 +40,9 @@ class NotificationNavigator @Inject()() {
 
     case AreYouTheIndividualPage => _ => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
 
-    case OnshoreLiabilitiesPage => ua => ua.get(OnshoreLiabilitiesPage) match {
-      case Some(OnshoreLiabilities.IWantTo) => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
-      case Some(OnshoreLiabilities.IDoNotWantTo) => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+    case OnshoreLiabilitiesPage => ua => ua.get(AreYouTheIndividualPage) match {
+      case Some(AreYouTheIndividual.Yes) => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+      case Some(AreYouTheIndividual.No) => routes.WhatIsTheIndividualsFullNameController.onPageLoad(NormalMode)
       case None => routes.OnshoreLiabilitiesController.onPageLoad(NormalMode)
     }
     
@@ -129,7 +129,7 @@ class NotificationNavigator @Inject()() {
     }
     
     case IndividualAddressLookupPage => _ => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
-      
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
