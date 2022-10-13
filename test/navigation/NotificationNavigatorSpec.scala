@@ -290,6 +290,27 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(WhatIsTheIndividualsUniqueTaxReferencePage, NormalMode, UserAnswers("id")) mustBe routes.IndividualAddressLookupController.lookupAddress(NormalMode)
       }
 
+      "must go from the IsTheIndividualRegisteredForSelfAssessmentPage to the WhatIsTheIndividualsUniqueTaxReferenceController when the user selects Yes, and I know their UTR number"in {
+        UserAnswers("id").set(IsTheIndividualRegisteredForSelfAssessmentPage, IsTheIndividualRegisteredForSelfAssessment.YesIKnow) match {
+          case Success(ua) => navigator.nextPage(IsTheIndividualRegisteredForSelfAssessmentPage, NormalMode, ua) mustBe routes.WhatIsTheIndividualsUniqueTaxReferenceController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the IsTheIndividualRegisteredForSelfAssessmentPage to the IndividualAddressLookupController when the user selects Yes, but I do not know their UTR number" in {
+        UserAnswers("id").set(IsTheIndividualRegisteredForSelfAssessmentPage, IsTheIndividualRegisteredForSelfAssessment.YesButDontKnow) match {
+          case Success(ua) => navigator.nextPage(IsTheIndividualRegisteredForSelfAssessmentPage, NormalMode, ua) mustBe routes.IndividualAddressLookupController.lookupAddress(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the IsTheIndividualRegisteredForSelfAssessmentPage to the IndividualAddressLookupController when the user selects No" in {
+        UserAnswers("id").set(IsTheIndividualRegisteredForSelfAssessmentPage, IsTheIndividualRegisteredForSelfAssessment.No) match {
+          case Success(ua) => navigator.nextPage(IsTheIndividualRegisteredForSelfAssessmentPage, NormalMode, ua) mustBe routes.IndividualAddressLookupController.lookupAddress(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
     }
 
     "in Check mode" - {
