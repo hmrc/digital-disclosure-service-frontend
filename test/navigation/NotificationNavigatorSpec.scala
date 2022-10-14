@@ -135,18 +135,36 @@ class NotificationNavigatorSpec extends SpecBase {
         }
       }
 
-      "must go from the DoYouHaveAnEmailAddress page to the WhatIsYourDateOfBirth controller when the user selects No" in {
-        UserAnswers("id").set(DoYouHaveAnEmailAddressPage, false) match {
-          case Success(ua) => navigator.nextPage(DoYouHaveAnEmailAddressPage, NormalMode, ua) mustBe routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
-          case Failure(e) => throw e
-        }
+      "must go from DoYouHaveAnEmailAddressPage to the YourEmailAddressController when user select Yes and on behalf of individual" in {
+        val userAnswers = for {
+          uaWithOnshore <- UserAnswers("id").set(DoYouHaveAnEmailAddressPage, true)
+            ua 	<- uaWithOnshore.set(AreYouTheIndividualPage, AreYouTheIndividual.Yes)
+          } yield ua
+        navigator.nextPage(DoYouHaveAnEmailAddressPage, NormalMode, userAnswers.success.value) mustBe routes.YourEmailAddressController.onPageLoad(NormalMode)
       }
 
-      "must go from the DoYouHaveAnEmailAddress page to the YourEmailAddress controller when the user selects Yes" in {
-        UserAnswers("id").set(DoYouHaveAnEmailAddressPage, true) match {
-          case Success(ua) => navigator.nextPage(DoYouHaveAnEmailAddressPage, NormalMode, ua) mustBe routes.YourEmailAddressController.onPageLoad(NormalMode)
-          case Failure(e) => throw e
-        }
+      "must go from DoYouHaveAnEmailAddressPage to the WhatIsYourDateOfBirthController when user select No and on behalf of individual" in {
+        val userAnswers = for {
+          uaWithOnshore <- UserAnswers("id").set(DoYouHaveAnEmailAddressPage, false)
+            ua 	<- uaWithOnshore.set(AreYouTheIndividualPage, AreYouTheIndividual.Yes)
+          } yield ua
+        navigator.nextPage(DoYouHaveAnEmailAddressPage, NormalMode, userAnswers.success.value) mustBe routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
+      }
+
+      "must go from DoYouHaveAnEmailAddressPage to the YourEmailAddressController when user select Yes and is an individual" in {
+        val userAnswers = for {
+          uaWithOnshore <- UserAnswers("id").set(DoYouHaveAnEmailAddressPage, true)
+            ua 	<- uaWithOnshore.set(AreYouTheIndividualPage, AreYouTheIndividual.No)
+          } yield ua
+        navigator.nextPage(DoYouHaveAnEmailAddressPage, NormalMode, userAnswers.success.value) mustBe routes.YourEmailAddressController.onPageLoad(NormalMode)
+      }
+
+      "must go from DoYouHaveAnEmailAddressPage to the YourAddressLookupController when user select No and is an individual" in {
+        val userAnswers = for {
+          uaWithOnshore <- UserAnswers("id").set(DoYouHaveAnEmailAddressPage, false)
+            ua 	<- uaWithOnshore.set(AreYouTheIndividualPage, AreYouTheIndividual.No)
+          } yield ua
+        navigator.nextPage(DoYouHaveAnEmailAddressPage, NormalMode, userAnswers.success.value) mustBe routes.YourAddressLookupController.lookupAddress(NormalMode)
       }
 
       "must go from the YourEmailAddressPage page to the WhatIsYourDateOfBirthController controller when the user enter an email" in {
