@@ -584,12 +584,12 @@ whatIsIndividualsNINO.error.required = Enter the individual'''s National Insuran
 whatIsIndividualsNINO.error.invalid = Enter a valid National Insurance number
 whatIsIndividualsNINO.change.hidden = WhatIsIndividualsNationalInsuranceNumber
 
-isTheIndividualRegisteredForVAT.title = Is the individual registered for VAT, as far you'''re aware?
-isTheIndividualRegisteredForVAT.heading = Is the individual registered for VAT, as far you'''re aware?
+isTheIndividualRegisteredForVAT.title = Is the individual registered for VAT, as far as you'’'re aware?
+isTheIndividualRegisteredForVAT.heading = Is the individual registered for VAT, as far as you'’'re aware?
 isTheIndividualRegisteredForVAT.yesIKnow = Yes, and I know their VAT registration number
 isTheIndividualRegisteredForVAT.yesButDontKnow = Yes, but I do not know their VAT registration number
 isTheIndividualRegisteredForVAT.no = No
-isTheIndividualRegisteredForVAT.checkYourAnswersLabel = Is the individual registered for VAT, as far you'''re aware?
+isTheIndividualRegisteredForVAT.checkYourAnswersLabel = Is the individual registered for VAT, as far as you'’'re aware?
 isTheIndividualRegisteredForVAT.error.required = Select yes if the individual is registered for VAT
 isTheIndividualRegisteredForVAT.change.hidden = IsTheIndividualRegisteredForVAT
 

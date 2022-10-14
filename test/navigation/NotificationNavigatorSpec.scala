@@ -89,18 +89,36 @@ class NotificationNavigatorSpec extends SpecBase {
         }
       }
 
-      "must go from the OnshoreLiabilities page to the WhatIsYourFullName controller when the user selects Yes" in {
-        UserAnswers("id").set(OnshoreLiabilitiesPage, OnshoreLiabilities.IWantTo) match {
-          case Success(ua) => navigator.nextPage(OnshoreLiabilitiesPage, NormalMode, ua) mustBe routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
-          case Failure(e) => throw e
-        }
+      "must go from OnshoreLiabilitiesPage to the WhatIsYourFullName page when the user is the individual and want to disclose onshore liabilities" in {
+        val userAnswers = for {
+          uaWithOnshore <- UserAnswers("id").set(OnshoreLiabilitiesPage, OnshoreLiabilities.IWantTo)
+            ua 	<- uaWithOnshore.set(AreYouTheIndividualPage, AreYouTheIndividual.Yes)
+          } yield ua
+        navigator.nextPage(OnshoreLiabilitiesPage, NormalMode, userAnswers.success.value) mustBe routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
       }
 
-      "must go from the OnshoreLiabilities page to the WhatIsYourFullName controller when the user selects No" in {
-        UserAnswers("id").set(OnshoreLiabilitiesPage, OnshoreLiabilities.IDoNotWantTo) match {
-          case Success(ua) => navigator.nextPage(OnshoreLiabilitiesPage, NormalMode, ua) mustBe routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
-          case Failure(e) => throw e
-        }
+      "must go from OnshoreLiabilitiesPage to the WhatIsTheIndividualsFullName page when the user selects No and want to disclose onshore liabilities" in {
+        val userAnswers = for {
+            uaWithOnshore <- UserAnswers("id").set(OnshoreLiabilitiesPage, OnshoreLiabilities.IWantTo)
+            ua 	<- uaWithOnshore.set(AreYouTheIndividualPage, AreYouTheIndividual.No)
+          } yield ua
+        navigator.nextPage(OnshoreLiabilitiesPage, NormalMode, userAnswers.success.value) mustBe routes.WhatIsTheIndividualsFullNameController.onPageLoad(NormalMode) 
+      }
+
+      "must go from OnshoreLiabilitiesPage to the WhatIsYourFullName page when the user selects Yes and do not have onshore liabilities to disclose" in {
+        val userAnswers = for {
+          uaWithOnshore <- UserAnswers("id").set(OnshoreLiabilitiesPage, OnshoreLiabilities.IDoNotWantTo)
+            ua 	<- uaWithOnshore.set(AreYouTheIndividualPage, AreYouTheIndividual.Yes)
+          } yield ua
+        navigator.nextPage(OnshoreLiabilitiesPage, NormalMode, userAnswers.success.value) mustBe routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+      }
+
+      "must go from OnshoreLiabilitiesPage to the WhatIsTheIndividualsFullName page when the user selects No and do not have onshore liabilities to disclose" in {
+        val userAnswers = for {
+            uaWithOnshore <- UserAnswers("id").set(OnshoreLiabilitiesPage, OnshoreLiabilities.IDoNotWantTo)
+            ua 	<- uaWithOnshore.set(AreYouTheIndividualPage, AreYouTheIndividual.No)
+          } yield ua
+        navigator.nextPage(OnshoreLiabilitiesPage, NormalMode, userAnswers.success.value) mustBe routes.WhatIsTheIndividualsFullNameController.onPageLoad(NormalMode) 
       }
 
       "must go from the WhatIsYourFullName page to the YourPhoneNumber controller when the user enter name" in {
