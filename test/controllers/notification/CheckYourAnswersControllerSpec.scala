@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.notification
 
 import base.SpecBase
 import play.api.test.FakeRequest

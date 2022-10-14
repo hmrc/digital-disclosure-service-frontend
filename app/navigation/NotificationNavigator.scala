@@ -119,11 +119,13 @@ class NotificationNavigator @Inject()() {
 
     case WhatIsTheIndividualsVATRegistrationNumberPage => _ => routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(NormalMode)
 
+    case YourAddressLookupPage => _ => routes.CheckYourAnswersController.onPageLoad
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
   private val checkRouteMap: Page => UserAnswers => Call = {
-    case _ => _ => controllers.routes.CheckYourAnswersController.onPageLoad
+    case _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
   def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call = mode match {

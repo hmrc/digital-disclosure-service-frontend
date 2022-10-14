@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.notification
 
 import com.google.inject.Inject
 import controllers.actions.{DataRequiredAction, DataRetrievalAction, IdentifierAction}
@@ -22,7 +22,8 @@ import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import viewmodels.govuk.summarylist._
-import views.html.CheckYourAnswersView
+import views.html.notification.CheckYourAnswersView
+import viewmodels.checkAnswers._
 
 class CheckYourAnswersController @Inject()(
                                             override val messagesApi: MessagesApi,
@@ -36,10 +37,19 @@ class CheckYourAnswersController @Inject()(
   def onPageLoad(): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val list = SummaryListViewModel(
-        rows = Seq.empty
+      val ua = request.userAnswers
+
+      val backgroundList = SummaryListViewModel(
+        rows = Seq(
+          ReceivedALetterSummary.row(ua),
+          LetterReferenceSummary.row(ua),
+          RelatesToSummary.row(ua),
+          AreYouTheIndividualSummary.row(ua),
+          OffshoreLiabilitiesSummary.row(ua),
+          OnshoreLiabilitiesSummary.row(ua)
+        ).flatten
       )
 
-      Ok(view(list))
+      Ok(view(backgroundList))
   }
 }

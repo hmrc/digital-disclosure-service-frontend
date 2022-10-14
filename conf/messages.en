@@ -335,7 +335,7 @@ country.ZW=Zimbabwe
 receivedALetter.title = Are you making a disclosure because you have received a letter from HMRC?
 receivedALetter.heading = Are you making a disclosure because you have received a letter from HMRC?
 receivedALetter.error.required = Select yes if you are making this disclosure because you have received a letter from HMRC
-receivedALetter.checkYourAnswersLabel = Are you making a disclosure because you have received a letter from HMRC?
+receivedALetter.checkYourAnswersLabel = Will you be making a disclosure because you received a letter from HMRC?
 receivedALetter.change.hidden = ReceivedALetter
 
 relatesTo.title = What is the disclosure about?
@@ -350,7 +350,7 @@ relatesTo.llp = A limited liability partnership
 relatesTo.hint.llp = A limited liability company is a business run by 2 or more people.
 relatesTo.trust = A trust
 relatesTo.hint.trust = A trust is an arrangement that manages assets for people.
-relatesTo.checkYourAnswersLabel = What is the disclosure about?
+relatesTo.checkYourAnswersLabel = Who this disclosure is for?
 relatesTo.error.required = Select what your disclosure is about
 relatesTo.change.hidden = relatesTo
 
@@ -375,13 +375,14 @@ onshoreLiabilities.bulletList.forth = have income from self-employment, partners
 onshoreLiabilities.paragraph.third = or your income does not fall into the offshore category.
 onshoreLiabilities.yes = I want to disclose onshore liabilities
 onshoreLiabilities.no = I do not have onshore liabilities to disclose
-onshoreLiabilities.checkYourAnswersLabel = Do you also want to disclose onshore liabilities?
+onshoreLiabilities.checkYourAnswersLabel = Will the disclosure also be about onshore liabilities?
+onshoreLiabilities.default.checkYourAnswersLabel = Will the disclosure be about onshore liabilities?
 onshoreLiabilities.error.required = Select if you want to disclose onshore liabilities or not
 onshoreLiabilities.change.hidden = OnshoreLiabilities
 
 letterReference.title = What is the reference number of the letter you received from HMRC?
 letterReference.heading = What is the reference number of the letter you received from HMRC?
-letterReference.checkYourAnswersLabel = What is the reference number of the letter you received from HMRC?
+letterReference.checkYourAnswersLabel = Letter reference number
 letterReference.error.required = Enter the letter’s reference number
 letterReference.error.length = LetterReference must be 30 characters or less
 letterReference.change.hidden = LetterReference
@@ -390,7 +391,7 @@ offshoreLiabilities.title = Do you want to disclose offshore liabilities?
 offshoreLiabilities.heading = Do you want to disclose offshore liabilities?
 offshoreLiabilities.yes = I want to disclose offshore liabilities
 offshoreLiabilities.no = I do not have offshore liabilities to disclose
-offshoreLiabilities.checkYourAnswersLabel = Do you want to disclose offshore liabilities?
+offshoreLiabilities.checkYourAnswersLabel = Will the disclosure be about offshore liabilities?
 offshoreLiabilities.error.required = Select if you want to disclose offshore liabilities or not
 offshoreLiabilities.change.hidden = OffshoreLiabilities
 offshoreLiabilities.paragraph.first = Offshore liabilities can be:
@@ -634,3 +635,5 @@ editIndividualAddress.heading = What is the individual’s address?
 
 confirmIndividualAddress.title = Is this the correct address?
 confirmIndividualAddress.heading = Is this the correct address?
+
+notificationCYA.background = Background
