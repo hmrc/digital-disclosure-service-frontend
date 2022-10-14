@@ -40,9 +40,9 @@ class NotificationNavigator @Inject()() {
 
     case AreYouTheIndividualPage => _ => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
 
-    case OnshoreLiabilitiesPage => ua => ua.get(OnshoreLiabilitiesPage) match {
-      case Some(OnshoreLiabilities.IWantTo) => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
-      case Some(OnshoreLiabilities.IDoNotWantTo) => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+    case OnshoreLiabilitiesPage => ua => ua.get(AreYouTheIndividualPage) match {
+      case Some(AreYouTheIndividual.Yes) => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+      case Some(AreYouTheIndividual.No) => routes.WhatIsTheIndividualsFullNameController.onPageLoad(NormalMode)
       case None => routes.OnshoreLiabilitiesController.onPageLoad(NormalMode)
     }
     
@@ -56,10 +56,12 @@ class NotificationNavigator @Inject()() {
 
     case YourPhoneNumberPage => _ => routes.DoYouHaveAnEmailAddressController.onPageLoad(NormalMode)
 
-    case DoYouHaveAnEmailAddressPage => ua => ua.get(DoYouHaveAnEmailAddressPage) match {
-      case Some(true) => routes.YourEmailAddressController.onPageLoad(NormalMode)
-      case Some(false) => routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
-      case None => routes.DoYouHaveAnEmailAddressController.onPageLoad(NormalMode)
+    case DoYouHaveAnEmailAddressPage => ua => (ua.get(DoYouHaveAnEmailAddressPage), ua.get(AreYouTheIndividualPage)) match {
+      case (Some(true), Some(AreYouTheIndividual.Yes)) => routes.YourEmailAddressController.onPageLoad(NormalMode)
+      case (Some(false), Some(AreYouTheIndividual.Yes)) => routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
+      case (Some(true), Some(AreYouTheIndividual.No)) => routes.YourEmailAddressController.onPageLoad(NormalMode)
+      case (Some(false), Some(AreYouTheIndividual.No)) => routes.YourAddressLookupController.lookupAddress(NormalMode)
+      case (_, _) => routes.DoYouHaveAnEmailAddressController.onPageLoad(NormalMode)
     }
 
     case WhatIsYourDateOfBirthPage => _ => routes.WhatIsYourMainOccupationController.onPageLoad(NormalMode)
@@ -73,7 +75,11 @@ class NotificationNavigator @Inject()() {
       case None => routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(NormalMode)
     }
 
-    case YourEmailAddressPage => _ => routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
+    case YourEmailAddressPage => ua => ua.get(AreYouTheIndividualPage) match {
+      case Some(AreYouTheIndividual.Yes) => routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
+      case Some(AreYouTheIndividual.No) => routes.YourAddressLookupController.lookupAddress(NormalMode)
+      case _ => routes.YourEmailAddressController.onPageLoad(NormalMode)
+    }
 
     case WhatIsYourNationalInsuranceNumberPage => _ => routes.AreYouRegisteredForVATController.onPageLoad(NormalMode)
 
@@ -94,6 +100,8 @@ class NotificationNavigator @Inject()() {
     }
 
     case WhatIsYourUniqueTaxReferencePage => _ => routes.YourAddressLookupController.lookupAddress(NormalMode)
+
+    case YourAddressLookupPage => _ => routes.CheckYourAnswersController.onPageLoad
 
     case WhatIsTheIndividualsFullNamePage => _ => routes.WhatIsTheIndividualDateOfBirthControllerController.onPageLoad(NormalMode)
 
@@ -119,7 +127,16 @@ class NotificationNavigator @Inject()() {
 
     case WhatIsTheIndividualsVATRegistrationNumberPage => _ => routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(NormalMode)
 
-    case YourAddressLookupPage => _ => routes.CheckYourAnswersController.onPageLoad
+    case WhatIsTheIndividualsUniqueTaxReferencePage => _ => routes.IndividualAddressLookupController.lookupAddress(NormalMode)
+
+    case IsTheIndividualRegisteredForSelfAssessmentPage => ua => ua.get(IsTheIndividualRegisteredForSelfAssessmentPage) match {
+      case Some(IsTheIndividualRegisteredForSelfAssessment.YesIKnow) => routes.WhatIsTheIndividualsUniqueTaxReferenceController.onPageLoad(NormalMode)
+      case Some(IsTheIndividualRegisteredForSelfAssessment.YesButDontKnow) => routes.IndividualAddressLookupController.lookupAddress(NormalMode)
+      case Some(IsTheIndividualRegisteredForSelfAssessment.No) => routes.IndividualAddressLookupController.lookupAddress(NormalMode)
+      case None => routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(NormalMode)
+    }
+    
+    case IndividualAddressLookupPage => _ => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
 
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }

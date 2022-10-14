@@ -21,7 +21,8 @@ import play.api.data.FormError
 
 class WhatIsIndividualsNationalInsuranceNumberFormProviderSpec extends NationalInsuranceBehaviours {
 
-  val required = "whatIsIndividualsNINO.error.required"
+  val requiredKey = "whatIsIndividualsNINO.error.required"
+  val invalidKey = "whatIsIndividualsNINO.error.invalid"
   val maxLength = 10
 
   val form = new WhatIsIndividualsNationalInsuranceNumberFormProvider()()
@@ -38,7 +39,13 @@ class WhatIsIndividualsNationalInsuranceNumberFormProviderSpec extends NationalI
     behave like nationalInsuraceNumberBindsInvalidData(
       form,
       fieldName,
-      validError = FormError(fieldName, required, Seq())
+      validError = FormError(fieldName, invalidKey, Seq())
+    )
+
+    behave like mandatoryField(
+      form,
+      fieldName,
+      requiredError = FormError(fieldName, requiredKey)
     )
   }
 }
