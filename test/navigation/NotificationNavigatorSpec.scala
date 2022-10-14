@@ -167,11 +167,20 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(DoYouHaveAnEmailAddressPage, NormalMode, userAnswers.success.value) mustBe routes.YourAddressLookupController.lookupAddress(NormalMode)
       }
 
-      "must go from the YourEmailAddressPage page to the WhatIsYourDateOfBirthController controller when the user enter an email" in {
-        UserAnswers("id").set(YourEmailAddressPage, "test") match {
-          case Success(ua) => navigator.nextPage(YourEmailAddressPage, NormalMode, ua) mustBe routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
-          case Failure(e) => throw e
-        }
+      "must go from the YourEmailAddressPage page to the WhatIsYourDateOfBirthController controller when the user enter an email and is an individual" in {
+        val userAnswers = for {
+          uaWithOnshore <- UserAnswers("id").set(YourEmailAddressPage, "test")
+            ua 	<- uaWithOnshore.set(AreYouTheIndividualPage, AreYouTheIndividual.Yes)
+          } yield ua
+        navigator.nextPage(YourEmailAddressPage, NormalMode, userAnswers.success.value) mustBe routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
+      }
+
+      "must go from the YourEmailAddressPage page to the YourAddressLookupController controller when the user enter an email and on behalf of individual" in {
+        val userAnswers = for {
+          uaWithOnshore <- UserAnswers("id").set(YourEmailAddressPage, "test")
+            ua 	<- uaWithOnshore.set(AreYouTheIndividualPage, AreYouTheIndividual.No)
+          } yield ua
+        navigator.nextPage(YourEmailAddressPage, NormalMode, userAnswers.success.value) mustBe routes.YourAddressLookupController.lookupAddress(NormalMode)
       }
 
       "must go from the WhatIsYourDateOfBirth page to the WhatIsYourMainOccupation controller when the user enter date of birth" in {
