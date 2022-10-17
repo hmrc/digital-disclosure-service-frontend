@@ -24,6 +24,8 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import viewmodels.govuk.summarylist._
 import views.html.notification.CheckYourAnswersView
 import viewmodels.checkAnswers._
+import pages._
+import models._
 
 class CheckYourAnswersController @Inject()(
                                             override val messagesApi: MessagesApi,
@@ -50,6 +52,34 @@ class CheckYourAnswersController @Inject()(
         ).flatten
       )
 
-      Ok(view(backgroundList))
+      val aboutTheIndividualList = request.userAnswers.get(AreYouTheIndividualPage) match {
+        case Some(AreYouTheIndividual.No) => 
+          Some(SummaryListViewModel(
+            rows = Seq(
+              WhatIsTheIndividualsFullNameSummary.row(ua),
+              WhatIsTheIndividualDateOfBirthControllerSummary.row(ua),
+              WhatIsTheIndividualOccupationSummary.row(ua),
+              DoesTheIndividualHaveNationalInsuranceNumberSummary.row(ua),
+              ua.get(DoesTheIndividualHaveNationalInsuranceNumberPage) match {
+                case Some(DoesTheIndividualHaveNationalInsuranceNumber.YesIknow) => WhatIsIndividualsNationalInsuranceNumberSummary.row(ua)
+                case _ => None
+              },
+              IsTheIndividualRegisteredForVATSummary.row(ua),
+              ua.get(IsTheIndividualRegisteredForVATPage) match {
+                case Some(IsTheIndividualRegisteredForVAT.YesIKnow) => WhatIsTheIndividualsVATRegistrationNumberSummary.row(ua)
+                case _ => None
+              },
+              IsTheIndividualRegisteredForSelfAssessmentSummary.row(ua),
+              ua.get(IsTheIndividualRegisteredForSelfAssessmentPage) match {
+                case Some(IsTheIndividualRegisteredForSelfAssessment.YesIKnow) => WhatIsTheIndividualsUniqueTaxReferenceSummary.row(ua)
+                case _ => None
+              },
+              IndividualAddressLookupSummary.row(ua)
+          ).flatten
+        ))
+        case _ => None
+      }
+
+      Ok(view(backgroundList, aboutTheIndividualList))
   }
 }
