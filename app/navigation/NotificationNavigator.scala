@@ -61,7 +61,7 @@ class NotificationNavigator @Inject()() {
       case (Some(false), Some(AreYouTheIndividual.Yes)) => routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
       case (Some(true), Some(AreYouTheIndividual.No)) => routes.YourEmailAddressController.onPageLoad(NormalMode)
       case (Some(false), Some(AreYouTheIndividual.No)) => routes.YourAddressLookupController.lookupAddress(NormalMode)
-      case (None, _) => routes.DoYouHaveAnEmailAddressController.onPageLoad(NormalMode)
+      case (_, _) => routes.DoYouHaveAnEmailAddressController.onPageLoad(NormalMode)
     }
 
     case WhatIsYourDateOfBirthPage => _ => routes.WhatIsYourMainOccupationController.onPageLoad(NormalMode)
@@ -75,10 +75,10 @@ class NotificationNavigator @Inject()() {
       case None => routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(NormalMode)
     }
 
-    case YourEmailAddressPage => ua => (ua.get(YourEmailAddressPage), ua.get(AreYouTheIndividualPage)) match {
-      case (Some(_), Some(AreYouTheIndividual.Yes)) => routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
-      case (Some(_), Some(AreYouTheIndividual.No)) => routes.YourAddressLookupController.lookupAddress(NormalMode)
-      case (None, _) => routes.YourEmailAddressController.onPageLoad(NormalMode)
+    case YourEmailAddressPage => ua => ua.get(AreYouTheIndividualPage) match {
+      case Some(AreYouTheIndividual.Yes) => routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
+      case Some(AreYouTheIndividual.No) => routes.YourAddressLookupController.lookupAddress(NormalMode)
+      case _ => routes.YourEmailAddressController.onPageLoad(NormalMode)
     }
 
     case WhatIsYourNationalInsuranceNumberPage => _ => routes.AreYouRegisteredForVATController.onPageLoad(NormalMode)
@@ -100,6 +100,8 @@ class NotificationNavigator @Inject()() {
     }
 
     case WhatIsYourUniqueTaxReferencePage => _ => routes.YourAddressLookupController.lookupAddress(NormalMode)
+
+    case YourAddressLookupPage => _ => routes.CheckYourAnswersController.onPageLoad
 
     case WhatIsTheIndividualsFullNamePage => _ => routes.WhatIsTheIndividualDateOfBirthControllerController.onPageLoad(NormalMode)
 
@@ -140,7 +142,7 @@ class NotificationNavigator @Inject()() {
   }
 
   private val checkRouteMap: Page => UserAnswers => Call = {
-    case _ => _ => controllers.routes.CheckYourAnswersController.onPageLoad
+    case _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
   def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call = mode match {

@@ -147,4 +147,6 @@ GET        /individual-address/retrieve                         controllers.noti
 GET        /individual-address/lookup/change                    controllers.notification.IndividualAddressLookupController.lookupAddress(mode: Mode = CheckMode)
 GET        /individual-address/retrieve/change                  controllers.notification.IndividualAddressLookupController.retrieveConfirmedAddress(mode: Mode = CheckMode, id: Option[UUID] ?= None)
 
+GET         /check-your-answers                                 controllers.notification.CheckYourAnswersController.onPageLoad
+
 GET        /individual-notification-submitted                       controllers.notification.IndividualSentYourNotificationController.onPageLoad

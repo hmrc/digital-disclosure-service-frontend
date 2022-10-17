@@ -360,6 +360,10 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(IndividualAddressLookupPage, NormalMode, UserAnswers("id")) mustBe routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
       }
 
+      "must go from the Your Address Lookup page to the CheckYourAnswersController" in {
+        navigator.nextPage(YourAddressLookupPage, NormalMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
     }
 
     "in Check mode" - {
@@ -367,7 +371,7 @@ class NotificationNavigatorSpec extends SpecBase {
       "must go from a page that doesn't exist in the edit route map to CheckYourAnswers" in {
 
         case object UnknownPage extends Page
-        navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe controllers.routes.CheckYourAnswersController.onPageLoad
+        navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad
       }
     }
   }

@@ -25,26 +25,52 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
+import pages._
+import models._
 
 object OnshoreLiabilitiesSummary  {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(OnshoreLiabilitiesPage).map {
-      answer =>
+  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] = {
+    
+    val offshoreAnswer = answers.get(OffshoreLiabilitiesPage).getOrElse(OffshoreLiabilities.IWantTo)
+    val onshoreAnswer = answers.get(OnshoreLiabilitiesPage)
 
-        val value = ValueViewModel(
-          HtmlContent(
-            HtmlFormat.escape(messages(s"onshoreLiabilities.$answer"))
-          )
+    if (offshoreAnswer == OffshoreLiabilities.IDoNotWantTo) {
+      Some(createRow(
+        "onshoreLiabilities.default.checkYourAnswersLabel",
+        "onshoreLiabilities.yes",
+        routes.OffshoreLiabilitiesController.onPageLoad(CheckMode).url,
+        "offshoreLiabilities.change.hidden"
+      ))
+    } else {
+      onshoreAnswer.map {  answer => 
+        createRow(
+          "onshoreLiabilities.checkYourAnswersLabel",
+          s"onshoreLiabilities.$answer",
+          routes.OnshoreLiabilitiesController.onPageLoad(CheckMode).url,
+          "onshoreLiabilities.change.hidden"
         )
-
-        SummaryListRowViewModel(
-          key     = "onshoreLiabilities.checkYourAnswersLabel",
-          value   = value,
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.OnshoreLiabilitiesController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("onshoreLiabilities.change.hidden"))
-          )
-        )
+      }
     }
+  }
+
+  def createRow(key: String, answerKey: String, url: String, visuallyHidden: String)(implicit messages: Messages): SummaryListRow = {
+
+    val value = ValueViewModel(
+      HtmlContent(
+        HtmlFormat.escape(messages(answerKey))
+      )
+    )
+
+    SummaryListRowViewModel(
+      key     = key,
+      value   = value,
+      actions = Seq(
+        ActionItemViewModel("site.change", url)
+          .withVisuallyHiddenText(messages(visuallyHidden))
+      )
+    )
+
+  }
+
 }
