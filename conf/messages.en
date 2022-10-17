@@ -526,7 +526,6 @@ youHaveSentYourNotification.paragraph.second =  We will write to you shortly wit
 
 yourAddressLookup.title = What is the postcode and property name or number of your address?
 yourAddressLookup.heading = What is the postcode and property name or number of your address?
-yourAddressLookup.afterHeadingText = 
 
 selectAddress.title = Choose your address
 selectAddress.heading = Choose your address

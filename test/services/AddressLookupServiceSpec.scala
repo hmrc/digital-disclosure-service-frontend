@@ -129,7 +129,7 @@ class AddressLookupServiceSpec
         messages("yourAddressLookup.title"), 
         messages("yourAddressLookup.heading"),
         messages("site.continue"),
-        Some(messages("yourAddressLookup.afterHeadingText"))
+        None
       )
       val selectPageLabels = SelectPageLabels(
         messages("selectAddress.title"), 

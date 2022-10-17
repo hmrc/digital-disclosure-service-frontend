@@ -34,7 +34,7 @@ trait AddressLookupRequestHelper {
                             "yourCountryLookup.hint",
                             "yourAddressLookup.title", 
                             "yourAddressLookup.heading",
-                            "yourAddressLookup.afterHeadingText",
+                            None,
                             "selectAddress.title", 
                             "selectAddress.heading",
                             "editAddress.title", 
@@ -54,7 +54,7 @@ trait AddressLookupRequestHelper {
                             "individualCountryLookup.hint",
                             "individualAddressLookup.title", 
                             "individualAddressLookup.heading",
-                            "individualAddressLookup.afterHeadingText",
+                            Some("individualAddressLookup.afterHeadingText"),
                             "selectIndividualAddress.title", 
                             "selectIndividualAddress.heading",
                             "editIndividualAddress.title", 
@@ -72,7 +72,7 @@ trait AddressLookupRequestHelper {
                               countryLookupHint: String,
                               addressLookupTitle: String, 
                               addressLookupHeading: String,
-                              afterHeadingText: String,
+                              afterHeadingText: Option[String],
                               selectAddressTitle: String, 
                               selectAddressHeading: String,
                               editAddressTitle: String, 
@@ -102,7 +102,7 @@ trait AddressLookupRequestHelper {
       messages(addressLookupTitle), 
       messages(addressLookupHeading),
       messages("site.continue"),
-      Some(messages(afterHeadingText))
+      afterHeadingText.map(messages(_))
     )
 
     val selectPageLabels = SelectPageLabels(
