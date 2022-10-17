@@ -19,43 +19,50 @@ package viewmodels.checkAnswers
 import base.SpecBase
 import pages._
 import models._
-
+import play.twirl.api.HtmlFormat
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
+import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Key
+import viewmodels.govuk.summarylist._
 
 class OnshoreLiabilitiesSummarySpec extends SpecBase {
 
+  lazy val app = applicationBuilder(Some(emptyUserAnswers)).build()
+  implicit val mess = messages(app)
+
   "OnshoreLiabilitiesSummary.row" - {
-    "must return a row where the user selects No for offshore liabilities" - {
+    "must return a row where the user selects No for offshore liabilities" in {
       val ua = UserAnswers("id").set(OffshoreLiabilitiesPage, OffshoreLiabilities.IDoNotWantTo).success.value
-      val row = OnshoreLiabilitiesSummary.row(ua).success.value
-
-      row.key mustBe "onshoreLiabilities.default.checkYourAnswersLabel"
-      row.value mustBe ValueViewModel(HtmlContent(HtmlFormat.escape(messages("onshoreLiabilities.yes"))))
-      row.actions mustBe Seq(ActionItemViewModel("site.change", routes.OffshoreLiabilitiesController.onPageLoad(CheckMode).url).withVisuallyHiddenText(messages("offshoreLiabilities.change.hidden")))
+      OnshoreLiabilitiesSummary.row(ua).map { row =>
+        row.key mustBe Key(Text(mess("onshoreLiabilities.default.checkYourAnswersLabel")))
+        row.value mustBe ValueViewModel(HtmlContent(HtmlFormat.escape(mess("onshoreLiabilities.yes"))))
+      }
     }
 
-    "must return a row where the user selects Yes for offshore liabilities and selects Yes for onshore liabilities" - {
+    "must return a row where the user selects Yes for offshore liabilities and selects Yes for onshore liabilities" in {
       val ua = (for {
         offAnswer <- UserAnswers("id").set(OffshoreLiabilitiesPage, OffshoreLiabilities.IWantTo)
-        onAnswer <- offAnswer.set(OnshoreLiabilitiesPage, OffshoreLiabilities.IWantTo)
+        onAnswer <- offAnswer.set(OnshoreLiabilitiesPage, OnshoreLiabilities.IWantTo)
       } yield onAnswer).success.value
-      val row = OnshoreLiabilitiesSummary.row(ua).success.value
 
-      row.key mustBe "onshoreLiabilities.default.checkYourAnswersLabel"
-      row.value mustBe ValueViewModel(HtmlContent(HtmlFormat.escape(messages("onshoreLiabilities.yes"))))
-      row.actions mustBe Seq(ActionItemViewModel("site.change", routes.OffshoreLiabilitiesController.onPageLoad(CheckMode).url).withVisuallyHiddenText(messages("offshoreLiabilities.change.hidden")))
+      OnshoreLiabilitiesSummary.row(ua).map { row =>
+        row.key mustBe Key(Text(mess("onshoreLiabilities.checkYourAnswersLabel")))
+        row.value mustBe ValueViewModel(HtmlContent(HtmlFormat.escape(mess("onshoreLiabilities.yes"))))
+      }
     }
 
-    "must return a row where the user selects Yes for offshore liabilities and selects No for onshore liabilities" - {
+    "must return a row where the user selects Yes for offshore liabilities and selects No for onshore liabilities" in {
       val ua = (for {
         offAnswer <- UserAnswers("id").set(OffshoreLiabilitiesPage, OffshoreLiabilities.IWantTo)
-        onAnswer <- offAnswer.set(OnshoreLiabilitiesPage, OffshoreLiabilities.IDoNotWantTo)
+        onAnswer <- offAnswer.set(OnshoreLiabilitiesPage, OnshoreLiabilities.IDoNotWantTo)
       } yield onAnswer).success.value
-      val row = OnshoreLiabilitiesSummary.row(ua).success.value
 
-      row.key mustBe "onshoreLiabilities.default.checkYourAnswersLabel"
-      row.value mustBe ValueViewModel(HtmlContent(HtmlFormat.escape(messages("onshoreLiabilities.yes"))))
-      row.actions mustBe Seq(ActionItemViewModel("site.change", routes.OffshoreLiabilitiesController.onPageLoad(CheckMode).url).withVisuallyHiddenText(messages("offshoreLiabilities.change.hidden")))
+      OnshoreLiabilitiesSummary.row(ua).map { row => 
+        row.key mustBe Key(Text(mess("onshoreLiabilities.checkYourAnswersLabel")))
+        row.value mustBe ValueViewModel(HtmlContent(HtmlFormat.escape(mess("onshoreLiabilities.no"))))
+      }
     }
+
 
   }
   
