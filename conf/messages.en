@@ -608,7 +608,7 @@ whatIsTheIndividualsVATRegistrationNumber.heading = What is the individual'''s V
 whatIsTheIndividualsVATRegistrationNumber.label = This has 9 numbers, sometimes with '''GB''' at the start. You can find it on their VAT registration certificate or VAT online account.
 whatIsTheIndividualsVATRegistrationNumber.hint = For example, '‘'123456789'’' or '''GB123456789'''.
 whatIsTheIndividualsVATRegistrationNumber.checkYourAnswersLabel = What is the individual'''s VAT registration number?
-whatIsTheIndividualsVATRegistrationNumber.error.required = Enter the individual's VAT registration number
+whatIsTheIndividualsVATRegistrationNumber.error.required = Enter the individual'''s VAT registration number
 whatIsTheIndividualsVATRegistrationNumber.error.invalid = Enter a valid VAT registration number
 whatIsTheIndividualsVATRegistrationNumber.change.hidden = WhatIsTheIndividualsVATRegistrationNumber
 
@@ -638,3 +638,11 @@ confirmIndividualAddress.title = Is this the correct address?
 confirmIndividualAddress.heading = Is this the correct address?
 
 notificationCYA.background = Background
+
+individualSentYourNotification.title = You have sent your notification
+individualSentYourNotification.heading = You have sent your notification
+individualSentYourNotification.body = The notification reference number is
+individualSentYourNotification.paragraph.first = You can save a copy of the notification (opens in a new tab).
+individualSentYourNotification.paragraph.header = Next steps
+individualSentYourNotification.paragraph.second = We will write to you shortly with a Disclosure Reference Number (DRN). As soon as you receive this, you should make the full disclosure within 90 days of the date that HMRC acknowledges the notification.
+
