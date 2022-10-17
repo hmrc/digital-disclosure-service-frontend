@@ -128,7 +128,8 @@ class AddressLookupServiceSpec
       val lookupPageLabels = LookupPageLabels(
         messages("yourAddressLookup.title"), 
         messages("yourAddressLookup.heading"),
-        messages("site.continue")
+        messages("site.continue"),
+        Some(messages("yourAddressLookup.afterHeadingText"))
       )
       val selectPageLabels = SelectPageLabels(
         messages("selectAddress.title"), 
@@ -214,7 +215,8 @@ class AddressLookupServiceSpec
       val lookupPageLabels = LookupPageLabels(
         messages("individualAddressLookup.title"), 
         messages("individualAddressLookup.heading"),
-        messages("site.continue")
+        messages("site.continue"),
+        Some(messages("individualAddressLookup.afterHeadingText"))
       )
       val selectPageLabels = SelectPageLabels(
         messages("selectIndividualAddress.title"), 

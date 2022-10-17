@@ -526,6 +526,7 @@ youHaveSentYourNotification.paragraph.second =  We will write to you shortly wit
 
 yourAddressLookup.title = What is the postcode and property name or number of your address?
 yourAddressLookup.heading = What is the postcode and property name or number of your address?
+yourAddressLookup.afterHeadingText = 
 
 selectAddress.title = Choose your address
 selectAddress.heading = Choose your address
@@ -624,8 +625,9 @@ individualCountryLookup.title = What is the country of the individual’s addres
 individualCountryLookup.heading = What is the country of the individual’s address?
 individualCountryLookup.hint = For example, United Kingdom.
 
-individualAddressLookup.title = What is the postcode and property name or number of the individual’s address?
-individualAddressLookup.heading = What is the postcode and property name or number of the individual’s address?
+individualAddressLookup.title = What is the postcode and property name or number of your address?
+individualAddressLookup.heading = What is the postcode and property name or number of your address?
+individualAddressLookup.afterHeadingText = If you are representing an organisation on behalf of the individual, you can use your organisation'''s address.
 
 selectIndividualAddress.title = Choose the individual’s address
 selectIndividualAddress.heading = Choose the individual’s address

@@ -34,6 +34,7 @@ trait AddressLookupRequestHelper {
                             "yourCountryLookup.hint",
                             "yourAddressLookup.title", 
                             "yourAddressLookup.heading",
+                            "yourAddressLookup.afterHeadingText",
                             "selectAddress.title", 
                             "selectAddress.heading",
                             "editAddress.title", 
@@ -53,6 +54,7 @@ trait AddressLookupRequestHelper {
                             "individualCountryLookup.hint",
                             "individualAddressLookup.title", 
                             "individualAddressLookup.heading",
+                            "individualAddressLookup.afterHeadingText",
                             "selectIndividualAddress.title", 
                             "selectIndividualAddress.heading",
                             "editIndividualAddress.title", 
@@ -70,6 +72,7 @@ trait AddressLookupRequestHelper {
                               countryLookupHint: String,
                               addressLookupTitle: String, 
                               addressLookupHeading: String,
+                              afterHeadingText: String,
                               selectAddressTitle: String, 
                               selectAddressHeading: String,
                               editAddressTitle: String, 
@@ -94,11 +97,14 @@ trait AddressLookupRequestHelper {
       messages(countryLookupHint),
       messages("site.continue")
     )
+
     val lookupPageLabels = LookupPageLabels(
       messages(addressLookupTitle), 
       messages(addressLookupHeading),
-      messages("site.continue")
+      messages("site.continue"),
+      Some(messages(afterHeadingText))
     )
+
     val selectPageLabels = SelectPageLabels(
       messages(selectAddressTitle), 
       messages(selectAddressHeading)
