@@ -23,7 +23,7 @@
         link: components.link
 )
 
-@()(implicit request: Request[_], messages: Messages)
+@(url: String)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = titleNoForm(messages("onlyOnshoreLiabilities.title"))) {
 
@@ -50,6 +50,6 @@
     @govukButton(
         ButtonViewModel(messages("site.confirmAndContinue"))
                 .withAttribute("id","continue")
-                .asLink(controllers.notification.routes.WhatIsYourFullNameController.onPageLoad(NormalMode).url)
+                .asLink(url)
     )
 }
