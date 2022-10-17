@@ -35,7 +35,7 @@ class OnlyOnshoreLiabilitiesController @Inject()(
                                        view: OnlyOnshoreLiabilitiesView
                                      ) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoad(): Action[AnyContent] = (identify andThen getData andThen requireData) {
+  def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
       val url = request.userAnswers.get(AreYouTheIndividualPage) match {
         case Some(AreYouTheIndividual.Yes) => controllers.notification.routes.WhatIsYourFullNameController.onPageLoad(NormalMode).url
