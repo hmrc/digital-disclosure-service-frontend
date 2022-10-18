@@ -17,6 +17,7 @@
 package views.notification
 
 import base.ViewSpecBase
+import models.SummaryLists
 import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.notification.CheckYourAnswersView
@@ -43,10 +44,20 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
     )
   )
 
+  val testRow3 = SummaryListRowViewModel(
+    key     = "testKey3",
+    value   = ValueViewModel(HtmlContent(HtmlFormat.escape(messages("Test answer 3")))),
+    actions = Seq(
+      ActionItemViewModel("site.change", "http://test3.url")
+    )
+  )
+
   val backgroundList = SummaryListViewModel(rows = Seq(testRow1, testRow2))
+  val aboutYouList = SummaryListViewModel(rows = Seq(testRow3))
+  val list = SummaryLists(backgroundList, aboutYouList)
   val page: CheckYourAnswersView = inject[CheckYourAnswersView]
 
-  private def createView: Html = page(backgroundList)(request, messages)
+  private def createView: Html = page(list)(request, messages)
 
   "view" should {
 
@@ -61,11 +72,17 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
     }
 
     "contain background header" in {
-      view.getElementsByClass("govuk-heading-l").text() mustBe messages("notificationCYA.background")
+      view.getElementsByClass("govuk-heading-l").first().text() mustBe messages("notificationCYA.background")
+      view.getElementsByClass("govuk-heading-l").last().text() mustBe messages("notificationCYA.aboutYou")
     }
 
     "contain a background summary list" in {
       val backgroundList = view.select("#background-list").first
+      backgroundList must haveClass("govuk-summary-list")
+    }
+
+    "contain an about you summary list" in {
+      val backgroundList = view.select("#about-you-list").first
       backgroundList must haveClass("govuk-summary-list")
     }
 
