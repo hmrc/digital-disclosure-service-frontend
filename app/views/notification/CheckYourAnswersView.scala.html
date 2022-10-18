@@ -19,18 +19,15 @@
     govukSummaryList: GovukSummaryList
 )
 
-@(backgroundList: SummaryList, aboutYouList: Option[SummaryList] = None)(implicit request: Request[_], messages: Messages)
+@(list: SummaryLists)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = titleNoForm(messages("checkYourAnswers.title"))) {
 
     <h1 class="govuk-heading-xl">@messages("checkYourAnswers.heading")</h1>
 
     <h2 class="govuk-heading-l">@messages("notificationCYA.background")</h2>
+    @govukSummaryList(list.background.withAttribute("id","background-list"))
 
-    @govukSummaryList(backgroundList.withAttribute("id","background-list"))
-
-    @aboutYouList.map { list =>
-        <h2 class="govuk-heading-l">@messages("notificationCYA.aboutYou")</h2>
-        @govukSummaryList(list.withAttribute("id", "about-you-list"))
-    }
+    <h2 class="govuk-heading-l">@messages("notificationCYA.aboutYou")</h2>
+    @govukSummaryList(list.aboutYou.withAttribute("id", "about-you-list"))
 }

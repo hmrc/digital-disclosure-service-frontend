@@ -422,7 +422,7 @@ whatIsYourFullName.change.hidden = WhatIsYourFullName
 
 yourEmailAddress.title = What is your email address?
 yourEmailAddress.heading = What is your email address?
-yourEmailAddress.checkYourAnswersLabel = What is your email address?
+yourEmailAddress.checkYourAnswersLabel = Your email address
 yourEmailAddress.hint = For example, name@example.com.
 yourEmailAddress.error.required = Enter a valid email address, like name@example.com
 yourEmailAddress.error.length = Your email address must be 320 characters or less
