@@ -27,9 +27,9 @@ trait AddressLookupRequestHelper {
   def lookupRequestForYourAddress(baseUrl: String, 
                                         redirectUrl: String, 
                                         proposalListLimit: Int, 
-                                        isAgentIndividual: Boolean)(implicit messages: Messages): AddressLookupRequest = {
+                                        isAgentForIndividual: Boolean)(implicit messages: Messages): AddressLookupRequest = {
                         
-    val isIndividual = isAgentIndividual match { 
+    val isIndividual = isAgentForIndividual match { 
       case true => Some("yourAddressLookup.afterHeadingText")
       case _ => None
     }

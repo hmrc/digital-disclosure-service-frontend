@@ -49,12 +49,12 @@ class YourAddressLookupController @Inject()(
   def lookupAddress(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async { implicit request =>
     val continueUrl = routes.YourAddressLookupController.retrieveConfirmedAddress(mode)
 
-    val isAgentIndividual: Boolean = request.userAnswers.get(AreYouTheIndividualPage) match {
+    val isAgentForIndividual: Boolean = request.userAnswers.get(AreYouTheIndividualPage) match {
       case Some(AreYouTheIndividual.No) => true
       case _ => false
     } 
 
-    addressLookupService.getYourAddressLookupRedirect(continueUrl, isAgentIndividual).fold(
+    addressLookupService.getYourAddressLookupRedirect(continueUrl, isAgentForIndividual).fold(
       {e: Error =>
         logger.error(s"Error initialising Address Lookup: $e")
         Future.failed(e.throwable.getOrElse(new Exception(e.message)))
