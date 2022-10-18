@@ -26,7 +26,13 @@ trait AddressLookupRequestHelper {
 
   def lookupRequestForYourAddress(baseUrl: String, 
                                         redirectUrl: String, 
-                                        proposalListLimit: Int)(implicit messages: Messages): AddressLookupRequest = {
+                                        proposalListLimit: Int, 
+                                        isAgentIndividual: Boolean)(implicit messages: Messages): AddressLookupRequest = {
+                        
+    val isIndividual = isAgentIndividual match { 
+      case true => Some("yourAddressLookup.afterHeadingText")
+      case _ => None
+    }
 
     lookupRequestForAddress(baseUrl, redirectUrl, proposalListLimit,
                             "yourCountryLookup.title", 
@@ -34,7 +40,7 @@ trait AddressLookupRequestHelper {
                             "yourCountryLookup.hint",
                             "yourAddressLookup.title", 
                             "yourAddressLookup.heading",
-                            None,
+                            isIndividual,
                             "selectAddress.title", 
                             "selectAddress.heading",
                             "editAddress.title", 
@@ -46,7 +52,7 @@ trait AddressLookupRequestHelper {
 
   def lookupRequestForIndividualAddress(baseUrl: String, 
                                         redirectUrl: String, 
-                                        proposalListLimit: Int)(implicit messages: Messages): AddressLookupRequest = {
+                                        proposalListLimit: Int)(implicit messages: Messages): AddressLookupRequest = {                                      
 
     lookupRequestForAddress(baseUrl, redirectUrl, proposalListLimit,
                             "individualCountryLookup.title", 
@@ -54,7 +60,7 @@ trait AddressLookupRequestHelper {
                             "individualCountryLookup.hint",
                             "individualAddressLookup.title", 
                             "individualAddressLookup.heading",
-                            Some("individualAddressLookup.afterHeadingText"),
+                            None,
                             "selectIndividualAddress.title", 
                             "selectIndividualAddress.heading",
                             "editIndividualAddress.title", 

@@ -129,7 +129,7 @@ class AddressLookupServiceSpec
         messages("yourAddressLookup.title"), 
         messages("yourAddressLookup.heading"),
         messages("site.continue"),
-        None
+        Some(messages("yourAddressLookup.afterHeadingText"))
       )
       val selectPageLabels = SelectPageLabels(
         messages("selectAddress.title"), 
@@ -168,7 +168,7 @@ class AddressLookupServiceSpec
           Right(HttpResponse(ACCEPTED, Json.obj(), headers = Map(LOCATION -> Seq(locationUrl.toString))))
         )
 
-        val response = await(addressLookupService.getYourAddressLookupRedirect(addressUpdateCall).value)
+        val response = await(addressLookupService.getYourAddressLookupRedirect(addressUpdateCall, true).value)
         response.isLeft must be(false)
       }
 
@@ -177,7 +177,7 @@ class AddressLookupServiceSpec
           Right(HttpResponse(INTERNAL_SERVER_ERROR, Json.obj().toString()))
         )
 
-        await(addressLookupService.getYourAddressLookupRedirect(addressUpdateCall).value).left.value must be(
+        await(addressLookupService.getYourAddressLookupRedirect(addressUpdateCall, true).value).left.value must be(
           Error("The request was refused by the Address Lookup Service")
         )
       }
@@ -187,7 +187,7 @@ class AddressLookupServiceSpec
           Right(HttpResponse(ACCEPTED, Json.obj().toString()))
         )
 
-        await(addressLookupService.getYourAddressLookupRedirect(addressUpdateCall).value).left.value must be(
+        await(addressLookupService.getYourAddressLookupRedirect(addressUpdateCall, true).value).left.value must be(
           Error("The Address Lookup Service user redirect URL is missing in the header")
         )
       }
@@ -216,7 +216,7 @@ class AddressLookupServiceSpec
         messages("individualAddressLookup.title"), 
         messages("individualAddressLookup.heading"),
         messages("site.continue"),
-        Some(messages("individualAddressLookup.afterHeadingText"))
+        None
       )
       val selectPageLabels = SelectPageLabels(
         messages("selectIndividualAddress.title"), 
