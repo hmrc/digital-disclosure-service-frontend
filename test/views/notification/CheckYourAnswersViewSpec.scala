@@ -61,12 +61,9 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
       view.getElementsByClass("govuk-heading-xl").text() mustBe messages("checkYourAnswers.heading")
     }
 
-    "contain background header" in {
-      view.getElementById("background-header").text() mustBe messages("notificationCYA.background")
-    }
-
-    "contain about the individual header" in {
-      view.getElementById("about-the-individual-header").text() mustBe messages("notificationCYA.aboutTheIndividual")
+    "contain background, about you & about the individual heading" in {
+      view.getElementsByClass("govuk-heading-l").get(0).text() mustBe messages("notificationCYA.background")
+      view.getElementsByClass("govuk-heading-l").get(1).text() mustBe messages("notificationCYA.aboutTheIndividual")
     }
 
     "contain a background summary list" in {

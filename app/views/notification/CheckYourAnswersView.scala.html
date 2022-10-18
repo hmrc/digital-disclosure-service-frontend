@@ -25,12 +25,12 @@
 
     <h1 class="govuk-heading-xl">@messages("checkYourAnswers.heading")</h1>
 
-    <h2 class="govuk-heading-l" id="background-header">@messages("notificationCYA.background")</h1>
+    <h2 class="govuk-heading-l">@messages("notificationCYA.background")</h1>
 
     @govukSummaryList(backgroundList.withAttribute("id","background-list"))
     
     @aboutTheIndividualList.map { list =>
-        <h2 class="govuk-heading-l" id="about-the-individual-header">@messages("notificationCYA.aboutTheIndividual")</h2>
+        <h2 class="govuk-heading-l">@messages("notificationCYA.aboutTheIndividual")</h2>
         @govukSummaryList(list.withAttribute("id","about-the-individual-list"))
     }    
 }

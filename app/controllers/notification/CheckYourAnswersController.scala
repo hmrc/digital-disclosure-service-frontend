@@ -54,29 +54,22 @@ class CheckYourAnswersController @Inject()(
 
       val aboutTheIndividualList = request.userAnswers.get(AreYouTheIndividualPage) match {
         case Some(AreYouTheIndividual.No) => 
-          Some(SummaryListViewModel(
-            rows = Seq(
-              WhatIsTheIndividualsFullNameSummary.row(ua),
-              WhatIsTheIndividualDateOfBirthControllerSummary.row(ua),
-              WhatIsTheIndividualOccupationSummary.row(ua),
-              DoesTheIndividualHaveNationalInsuranceNumberSummary.row(ua),
-              ua.get(DoesTheIndividualHaveNationalInsuranceNumberPage) match {
-                case Some(DoesTheIndividualHaveNationalInsuranceNumber.YesIknow) => WhatIsIndividualsNationalInsuranceNumberSummary.row(ua)
-                case _ => None
-              },
-              IsTheIndividualRegisteredForVATSummary.row(ua),
-              ua.get(IsTheIndividualRegisteredForVATPage) match {
-                case Some(IsTheIndividualRegisteredForVAT.YesIKnow) => WhatIsTheIndividualsVATRegistrationNumberSummary.row(ua)
-                case _ => None
-              },
-              IsTheIndividualRegisteredForSelfAssessmentSummary.row(ua),
-              ua.get(IsTheIndividualRegisteredForSelfAssessmentPage) match {
-                case Some(IsTheIndividualRegisteredForSelfAssessment.YesIKnow) => WhatIsTheIndividualsUniqueTaxReferenceSummary.row(ua)
-                case _ => None
-              },
-              IndividualAddressLookupSummary.row(ua)
-          ).flatten
-        ))
+          Some(
+            SummaryListViewModel(
+              rows = Seq(
+                WhatIsTheIndividualsFullNameSummary.row(ua),
+                WhatIsTheIndividualDateOfBirthControllerSummary.row(ua),
+                WhatIsTheIndividualOccupationSummary.row(ua),
+                DoesTheIndividualHaveNationalInsuranceNumberSummary.row(ua),
+                WhatIsIndividualsNationalInsuranceNumberSummary.row(ua),
+                IsTheIndividualRegisteredForVATSummary.row(ua),
+                WhatIsTheIndividualsVATRegistrationNumberSummary.row(ua),
+                IsTheIndividualRegisteredForSelfAssessmentSummary.row(ua),
+                WhatIsTheIndividualsUniqueTaxReferenceSummary.row(ua),
+                IndividualAddressLookupSummary.row(ua)
+              ).flatten
+            )
+          )
         case _ => None
       }
 
