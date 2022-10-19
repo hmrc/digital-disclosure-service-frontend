@@ -234,134 +234,133 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
     }
 
     "must return OK and the correct view for a GET when WhatIsTheIndividualsFullNamePage is populated" in {
-      val ua = for {
+      val ua = (for {
         userAnswer <- UserAnswers("id").set(WhatIsTheIndividualsFullNamePage, arbitrary[String].sample.value)
         uaWithAreYouTheIndividualPage <- userAnswer.set(AreYouTheIndividualPage, AreYouTheIndividual.No)
-      } yield uaWithAreYouTheIndividualPage
+      } yield uaWithAreYouTheIndividualPage).success.value
         
-      rowIsDisplayedWhenPageIsPopulated(ua.success.value)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua.success.value)(messages)).flatten), 
+      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua)(messages)).flatten), 
         aboutYou = SummaryListViewModel(Seq.empty), 
-        aboutTheIndividualList = Some(SummaryListViewModel(Seq(WhatIsTheIndividualsFullNameSummary.row(ua.success.value)(messages)).flatten))
+        aboutTheIndividualList = Some(SummaryListViewModel(Seq(WhatIsTheIndividualsFullNameSummary.row(ua)(messages)).flatten))
       ))
     }
 
     "must return OK and the correct view for a GET when WhatIsTheIndividualDateOfBirthPage is populated" in {
-      val ua = for {
+      val ua = (for {
         userAnswer <- UserAnswers("id").set(WhatIsTheIndividualDateOfBirthControllerPage, arbitrary[LocalDate].sample.value)
         uaWithAreYouTheIndividualPage <- userAnswer.set(AreYouTheIndividualPage, AreYouTheIndividual.No)
-      } yield uaWithAreYouTheIndividualPage
+      } yield uaWithAreYouTheIndividualPage).success.value
         
-      rowIsDisplayedWhenPageIsPopulated(ua.success.value)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua.success.value)(messages)).flatten), 
+      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua)(messages)).flatten), 
         aboutYou = SummaryListViewModel(Seq.empty), 
-        aboutTheIndividualList = Some(SummaryListViewModel(Seq(WhatIsTheIndividualDateOfBirthControllerSummary.row(ua.success.value)(messages)).flatten))
+        aboutTheIndividualList = Some(SummaryListViewModel(Seq(WhatIsTheIndividualDateOfBirthControllerSummary.row(ua)(messages)).flatten))
       ))
     }
 
     "must return OK and the correct view for a GET when WhatIsTheIndividualOccupationPage is populated" in {
-      val ua = for {
+      val ua = (for {
         userAnswer <- UserAnswers("id").set(WhatIsTheIndividualOccupationPage, arbitrary[String].sample.value)
         uaWithAreYouTheIndividualPage <- userAnswer.set(AreYouTheIndividualPage, AreYouTheIndividual.No)
-      } yield uaWithAreYouTheIndividualPage
+      } yield uaWithAreYouTheIndividualPage).success.value
         
-      rowIsDisplayedWhenPageIsPopulated(ua.success.value)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua.success.value)(messages)).flatten), 
+      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua)(messages)).flatten), 
         aboutYou = SummaryListViewModel(Seq.empty), 
-        aboutTheIndividualList = Some(SummaryListViewModel(Seq(WhatIsTheIndividualOccupationSummary.row(ua.success.value)(messages)).flatten))
+        aboutTheIndividualList = Some(SummaryListViewModel(Seq(WhatIsTheIndividualOccupationSummary.row(ua)(messages)).flatten))
       ))
     }
 
     "must return OK and the correct view for a GET when DoesTheIndividualHaveNationalInsuranceNumberPage is populated" in {
-      val ua = for {
+      val ua = (for {
         userAnswer <- UserAnswers("id").set(DoesTheIndividualHaveNationalInsuranceNumberPage, arbitrary[DoesTheIndividualHaveNationalInsuranceNumber].sample.value)
         uaWithAreYouTheIndividualPage <- userAnswer.set(AreYouTheIndividualPage, AreYouTheIndividual.No)
-      } yield uaWithAreYouTheIndividualPage
+      } yield uaWithAreYouTheIndividualPage).success.value
         
-      rowIsDisplayedWhenPageIsPopulated(ua.success.value)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua.success.value)(messages)).flatten), 
+      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua)(messages)).flatten), 
         aboutYou = SummaryListViewModel(Seq.empty), 
-        aboutTheIndividualList = Some(SummaryListViewModel(Seq(DoesTheIndividualHaveNationalInsuranceNumberSummary.row(ua.success.value)(messages)).flatten))
+        aboutTheIndividualList = Some(SummaryListViewModel(Seq(DoesTheIndividualHaveNationalInsuranceNumberSummary.row(ua)(messages)).flatten))
       ))
     }
 
     "must return OK and the correct view for a GET when WhatIsIndividualsNationalInsuranceNumberPage is populated" in {
-      val ua = for {
+      val ua = (for {
         userAnswer <- UserAnswers("id").set(WhatIsIndividualsNationalInsuranceNumberPage, arbitrary[String].sample.value)
         uaWithAreYouTheIndividualPage <- userAnswer.set(AreYouTheIndividualPage, AreYouTheIndividual.No)
-      } yield uaWithAreYouTheIndividualPage
+      } yield uaWithAreYouTheIndividualPage).success.value
         
-      rowIsDisplayedWhenPageIsPopulated(ua.success.value)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua.success.value)(messages)).flatten), 
+      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua)(messages)).flatten), 
         aboutYou = SummaryListViewModel(Seq.empty), 
-        aboutTheIndividualList = Some(SummaryListViewModel(Seq(WhatIsIndividualsNationalInsuranceNumberSummary.row(ua.success.value)(messages)).flatten))
+        aboutTheIndividualList = Some(SummaryListViewModel(Seq(WhatIsIndividualsNationalInsuranceNumberSummary.row(ua)(messages)).flatten))
       ))
     }
 
     "must return OK and the correct view for a GET when IsTheIndividualRegisteredForVATPage is populated" in {
-      val ua = for {
+      val ua = (for {
         userAnswer <- UserAnswers("id").set(IsTheIndividualRegisteredForVATPage, arbitrary[IsTheIndividualRegisteredForVAT].sample.value)
         uaWithAreYouTheIndividualPage <- userAnswer.set(AreYouTheIndividualPage, AreYouTheIndividual.No)
-      } yield uaWithAreYouTheIndividualPage
+      } yield uaWithAreYouTheIndividualPage).success.value
         
-      rowIsDisplayedWhenPageIsPopulated(ua.success.value)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua.success.value)(messages)).flatten), 
+      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua)(messages)).flatten), 
         aboutYou = SummaryListViewModel(Seq.empty), 
-        aboutTheIndividualList = Some(SummaryListViewModel(Seq(IsTheIndividualRegisteredForVATSummary.row(ua.success.value)(messages)).flatten))
+        aboutTheIndividualList = Some(SummaryListViewModel(Seq(IsTheIndividualRegisteredForVATSummary.row(ua)(messages)).flatten))
       ))
     }
 
     "must return OK and the correct view for a GET when WhatIsTheIndividualsVATRegistrationNumberPage is populated" in {
-      val ua = for {
+      val ua = (for {
         userAnswer <- UserAnswers("id").set(WhatIsTheIndividualsVATRegistrationNumberPage, arbitrary[String].sample.value)
         uaWithAreYouTheIndividualPage <- userAnswer.set(AreYouTheIndividualPage, AreYouTheIndividual.No)
-      } yield uaWithAreYouTheIndividualPage
+      } yield uaWithAreYouTheIndividualPage).success.value
         
-      rowIsDisplayedWhenPageIsPopulated(ua.success.value)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua.success.value)(messages)).flatten), 
+      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua)(messages)).flatten), 
         aboutYou = SummaryListViewModel(Seq.empty), 
-        aboutTheIndividualList = Some(SummaryListViewModel(Seq(WhatIsTheIndividualsVATRegistrationNumberSummary.row(ua.success.value)(messages)).flatten))
+        aboutTheIndividualList = Some(SummaryListViewModel(Seq(WhatIsTheIndividualsVATRegistrationNumberSummary.row(ua)(messages)).flatten))
       ))
     }
 
     "must return OK and the correct view for a GET when IsTheIndividualRegisteredForSelfAssessmentPage is populated" in {
-      val ua = for {
+      val ua = (for {
         userAnswer <- UserAnswers("id").set(IsTheIndividualRegisteredForSelfAssessmentPage, arbitrary[IsTheIndividualRegisteredForSelfAssessment].sample.value)
         uaWithAreYouTheIndividualPage <- userAnswer.set(AreYouTheIndividualPage, AreYouTheIndividual.No)
-      } yield uaWithAreYouTheIndividualPage
+      } yield uaWithAreYouTheIndividualPage).success.value
         
-      rowIsDisplayedWhenPageIsPopulated(ua.success.value)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua.success.value)(messages)).flatten), 
+      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua)(messages)).flatten), 
         aboutYou = SummaryListViewModel(Seq.empty), 
-        aboutTheIndividualList = Some(SummaryListViewModel(Seq(IsTheIndividualRegisteredForSelfAssessmentSummary.row(ua.success.value)(messages)).flatten))
+        aboutTheIndividualList = Some(SummaryListViewModel(Seq(IsTheIndividualRegisteredForSelfAssessmentSummary.row(ua)(messages)).flatten))
       ))
     }
 
     "must return OK and the correct view for a GET when WhatIsTheIndividualsUniqueTaxReferencePage is populated" in {
-      val ua = for {
+      val ua = (for {
         userAnswer <- UserAnswers("id").set(WhatIsTheIndividualsUniqueTaxReferencePage, arbitrary[String].sample.value)
         uaWithAreYouTheIndividualPage <- userAnswer.set(AreYouTheIndividualPage, AreYouTheIndividual.No)
-      } yield uaWithAreYouTheIndividualPage
+      } yield uaWithAreYouTheIndividualPage).success.value
         
-      rowIsDisplayedWhenPageIsPopulated(ua.success.value)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua.success.value)(messages)).flatten), 
+      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua)(messages)).flatten), 
         aboutYou = SummaryListViewModel(Seq.empty), 
-        aboutTheIndividualList = Some(SummaryListViewModel(Seq(WhatIsTheIndividualsUniqueTaxReferenceSummary.row(ua.success.value)(messages)).flatten))
+        aboutTheIndividualList = Some(SummaryListViewModel(Seq(WhatIsTheIndividualsUniqueTaxReferenceSummary.row(ua)(messages)).flatten))
       ))
     }
 
     "must return OK and the correct view for a GET when IndividualAddressLookupPage is populated" in {
-      val ua = for {
+      val ua = (for {
         userAnswer <- UserAnswers("id").set(IndividualAddressLookupPage, arbitrary[Address].sample.value)
         uaWithAreYouTheIndividualPage <- userAnswer.set(AreYouTheIndividualPage, AreYouTheIndividual.No)
-      } yield uaWithAreYouTheIndividualPage
+      } yield uaWithAreYouTheIndividualPage).success.value
         
-      rowIsDisplayedWhenPageIsPopulated(ua.success.value)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua.success.value)(messages)).flatten), 
+      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua)(messages)).flatten), 
         aboutYou = SummaryListViewModel(Seq.empty), 
-        aboutTheIndividualList = Some(SummaryListViewModel(Seq(IndividualAddressLookupSummary.row(ua.success.value)(messages)).flatten))
+        aboutTheIndividualList = Some(SummaryListViewModel(Seq(IndividualAddressLookupSummary.row(ua)(messages)).flatten))
       ))
     }
-    
   }
 }
