@@ -18,6 +18,7 @@ package controllers.notification
 
 import com.google.inject.Inject
 import controllers.actions.{DataRequiredAction, DataRetrievalAction, IdentifierAction}
+import models.SummaryLists
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
@@ -52,6 +53,24 @@ class CheckYourAnswersController @Inject()(
         ).flatten
       )
 
+      val aboutYouList = SummaryListViewModel(
+        rows = Seq(
+          WhatIsYourFullNameSummary.row(ua),
+          YourPhoneNumberSummary.row(ua),
+          DoYouHaveAnEmailAddressSummary.row(ua),
+          YourEmailAddressSummary.row(ua),
+          YourAddressLookupSummary.row(ua),
+          WhatIsYourDateOfBirthSummary.row(ua),
+          WhatIsYourMainOccupationSummary.row(ua),
+          DoYouHaveNationalInsuranceNumberSummary.row(ua),
+          WhatIsYourNationalInsuranceNumberSummary.row(ua),
+          AreYouRegisteredForVATSummary.row(ua),
+          WhatIsYourVATRegistrationNumberSummary.row(ua),
+          AreYouRegisteredForSelfAssessmentSummary.row(ua),
+          WhatIsYourUniqueTaxReferenceSummary.row(ua)
+        ).flatten
+      )
+
       val aboutTheIndividualList = request.userAnswers.get(AreYouTheIndividualPage) match {
         case Some(AreYouTheIndividual.No) => 
           Some(
@@ -73,6 +92,8 @@ class CheckYourAnswersController @Inject()(
         case _ => None
       }
 
-      Ok(view(backgroundList, aboutTheIndividualList))
+      val list = SummaryLists(backgroundList, aboutYouList, aboutTheIndividualList)
+
+      Ok(view(list))
   }
 }

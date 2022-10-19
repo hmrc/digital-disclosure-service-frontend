@@ -415,13 +415,14 @@ onlyOnshoreLiabilities.paragraph.third = or your income does not fall into the o
 
 whatIsYourFullName.title = What is your full name?
 whatIsYourFullName.heading = What is your full name?
-whatIsYourFullName.checkYourAnswersLabel = What is your full name?
+whatIsYourFullName.checkYourAnswersLabel = Your full name
 whatIsYourFullName.error.required = Enter your full name
 whatIsYourFullName.error.length = Full name must be between 1 and 30 characters
 whatIsYourFullName.change.hidden = WhatIsYourFullName
 
 yourEmailAddress.title = What is your email address?
 yourEmailAddress.heading = What is your email address?
+yourEmailAddress.checkYourAnswersLabel = Your email address
 yourEmailAddress.hint = For example, name@example.com.
 yourEmailAddress.error.required = Enter a valid email address, like name@example.com
 yourEmailAddress.error.length = Your email address must be 320 characters or less
@@ -429,6 +430,7 @@ yourEmailAddress.change.hidden = YourEmailAddress
 
 yourPhoneNumber.title = What is your telephone number?
 yourPhoneNumber.heading = What is your telephone number?
+yourPhoneNumber.checkYourAnswersLabel = Your telephone number
 yourPhoneNumber.label = If this is a UK landline or an overseas number, you must include the area or dialing code.
 yourPhoneNumber.hint = For example, 01642 123456, 07777 777777 or +33 1 2345 6788.
 yourPhoneNumber.error.required = Enter a valid telephone number
@@ -444,7 +446,7 @@ doYouHaveAnEmailAddress.change.hidden = DoYouHaveAnEmailAddress
 whatIsYourDateOfBirth.title = What is your date of birth?
 whatIsYourDateOfBirth.heading = What is your date of birth?
 whatIsYourDateOfBirth.hint = For example, 20 3 1976.
-whatIsYourDateOfBirth.checkYourAnswersLabel = What is your date of birth?
+whatIsYourDateOfBirth.checkYourAnswersLabel = Your date of birth
 whatIsYourDateOfBirth.error.required.all = Enter a valid date of birth, like 20 3 1976
 whatIsYourDateOfBirth.error.required.two = Your date of birth must include a {0} and a {1}
 whatIsYourDateOfBirth.error.required = Your date of birth must include a {0}
@@ -457,7 +459,7 @@ whatIsYourDateOfBirth.change.hidden = WhatIsYourDateOfBirth
 whatIsYourMainOccupation.title = What is your main occupation?
 whatIsYourMainOccupation.heading = What is your main occupation?
 whatIsYourMainOccupation.hint = For example, plumber or dentist.
-whatIsYourMainOccupation.checkYourAnswersLabel = What is your main occupation?
+whatIsYourMainOccupation.checkYourAnswersLabel = Your main occupation
 whatIsYourMainOccupation.error.required = Enter your main occupation
 whatIsYourMainOccupation.error.maxLength = Your main occupation should have no more than 30 characters
 whatIsYourMainOccupation.error.minLength = Your main occupation should have at least 4 characters
@@ -476,7 +478,7 @@ whatIsYourNationalInsuranceNumber.title = What is your National Insurance number
 whatIsYourNationalInsuranceNumber.heading = What is your National Insurance number?
 whatIsYourNationalInsuranceNumber.label = This is on your payslip, P60 or tax return.
 whatIsYourNationalInsuranceNumber.hint = For example, ‘QQ123456A’.
-whatIsYourNationalInsuranceNumber.checkYourAnswersLabel = What is your National Insurance number?
+whatIsYourNationalInsuranceNumber.checkYourAnswersLabel = Your National Insurance number
 whatIsYourNationalInsuranceNumber.error.required = Enter a valid National Insurance number
 whatIsYourNationalInsuranceNumber.change.hidden = WhatIsYourNationalInsuranceNumber
 
@@ -484,7 +486,7 @@ whatIsYourVATRegistrationNumber.title = What is your VAT registration number?
 whatIsYourVATRegistrationNumber.heading = What is your VAT registration number?
 whatIsYourVATRegistrationNumber.label = This is a 9 digit number on your VAT certificate or VAT online account.
 whatIsYourVATRegistrationNumber.hint = For example, ‘123456789’.
-whatIsYourVATRegistrationNumber.checkYourAnswersLabel = What is your VAT registration number?
+whatIsYourVATRegistrationNumber.checkYourAnswersLabel = Your VAT registration number
 whatIsYourVATRegistrationNumber.error = Enter a valid VAT registration number
 whatIsYourVATRegistrationNumber.change.hidden = WhatIsYourVATRegistrationNumber
 
@@ -510,7 +512,7 @@ whatIsYourUniqueTaxReference.title = What is your Unique Tax Reference?
 whatIsYourUniqueTaxReference.heading = What is your Unique Tax Reference?
 whatIsYourUniqueTaxReference.body = This 10 digit number is on your tax return, statement of accounts or any other Self Assessment calculations.
 whatIsYourUniqueTaxReference.hint = For example, ‘1234567890’.
-whatIsYourUniqueTaxReference.checkYourAnswersLabel = What is your Unique Tax Reference?
+whatIsYourUniqueTaxReference.checkYourAnswersLabel = Your Unique Tax Reference
 whatIsYourUniqueTaxReference.error = Enter a Unique Tax Reference in the correct format
 whatIsYourUniqueTaxReference.change.hidden = WhatIsYourUniqueTaxReference
 
@@ -537,9 +539,12 @@ editAddress.heading = What is your address?
 confirmAddress.title = Is this the correct address?
 confirmAddress.heading = Is this the correct address?
 
+yourAddress.checkYourAnswersLabel = Your address
+yourAddress.change.hidden = YourAddress
+
 whatIsTheIndividualsFullName.title = What is the individual'’'s full name?
 whatIsTheIndividualsFullName.heading = What is the individual'’'s full name?
-whatIsTheIndividualsFullName.body = This should be as it'''s written on official documents such as their passport or driving licence.
+whatIsTheIndividualsFullName.body = This should be as it'’'s written on official documents such as their passport or driving licence.
 whatIsTheIndividualsFullName.checkYourAnswersLabel = Individual'’'s full name
 whatIsTheIndividualsFullName.error.required = Enter the individual'’'s full name
 whatIsTheIndividualsFullName.error.length = Full name must be between 1 and 30 characters
@@ -642,6 +647,7 @@ confirmIndividualAddress.title = Is this the correct address?
 confirmIndividualAddress.heading = Is this the correct address?
 
 notificationCYA.background = Background
+notificationCYA.aboutYou = About you
 
 individualSentYourNotification.title = You have sent your notification
 individualSentYourNotification.heading = You have sent your notification

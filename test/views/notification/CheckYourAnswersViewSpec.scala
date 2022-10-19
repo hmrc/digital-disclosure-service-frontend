@@ -17,6 +17,7 @@
 package views.notification
 
 import base.ViewSpecBase
+import models.SummaryLists
 import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.notification.CheckYourAnswersView
@@ -43,11 +44,21 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
     )
   )
 
+  val testRow3 = SummaryListRowViewModel(
+    key     = "testKey3",
+    value   = ValueViewModel(HtmlContent(HtmlFormat.escape(messages("Test answer 3")))),
+    actions = Seq(
+      ActionItemViewModel("site.change", "http://test3.url")
+    )
+  )
+
   val backgroundList = SummaryListViewModel(rows = Seq(testRow1, testRow2))
+  val aboutYouList = SummaryListViewModel(rows = Seq(testRow3))
   val aboutTheIndividualList = Some(SummaryListViewModel(rows = Seq(testRow1, testRow2)))
+  val list = SummaryLists(backgroundList, aboutYouList, aboutTheIndividualList)
   val page: CheckYourAnswersView = inject[CheckYourAnswersView]
 
-  private def createView: Html = page(backgroundList, aboutTheIndividualList)(request, messages)
+  private def createView: Html = page(list)(request, messages)
 
   "view" should {
 
@@ -61,13 +72,19 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
       view.getElementsByClass("govuk-heading-xl").text() mustBe messages("checkYourAnswers.heading")
     }
 
-    "contain background, about you & about the individual heading" in {
+    "contain background header" in {
       view.getElementsByClass("govuk-heading-l").get(0).text() mustBe messages("notificationCYA.background")
-      view.getElementsByClass("govuk-heading-l").get(1).text() mustBe messages("notificationCYA.aboutTheIndividual")
+      view.getElementsByClass("govuk-heading-l").get(1).text() mustBe messages("notificationCYA.aboutYou")
+      view.getElementsByClass("govuk-heading-l").get(2).text() mustBe messages("notificationCYA.aboutTheIndividual")
     }
 
     "contain a background summary list" in {
       val backgroundList = view.select("#background-list").first
+      backgroundList must haveClass("govuk-summary-list")
+    }
+
+    "contain an about you summary list" in {
+      val backgroundList = view.select("#about-you-list").first
       backgroundList must haveClass("govuk-summary-list")
     }
 
