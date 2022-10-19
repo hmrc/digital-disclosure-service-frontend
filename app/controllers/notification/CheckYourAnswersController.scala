@@ -25,6 +25,8 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import viewmodels.govuk.summarylist._
 import views.html.notification.CheckYourAnswersView
 import viewmodels.checkAnswers._
+import pages._
+import models._
 
 class CheckYourAnswersController @Inject()(
                                             override val messagesApi: MessagesApi,
@@ -69,7 +71,28 @@ class CheckYourAnswersController @Inject()(
         ).flatten
       )
 
-      val list = SummaryLists(backgroundList, aboutYouList)
+      val aboutTheIndividualList = request.userAnswers.get(AreYouTheIndividualPage) match {
+        case Some(AreYouTheIndividual.No) => 
+          Some(
+            SummaryListViewModel(
+              rows = Seq(
+                WhatIsTheIndividualsFullNameSummary.row(ua),
+                WhatIsTheIndividualDateOfBirthControllerSummary.row(ua),
+                WhatIsTheIndividualOccupationSummary.row(ua),
+                DoesTheIndividualHaveNationalInsuranceNumberSummary.row(ua),
+                WhatIsIndividualsNationalInsuranceNumberSummary.row(ua),
+                IsTheIndividualRegisteredForVATSummary.row(ua),
+                WhatIsTheIndividualsVATRegistrationNumberSummary.row(ua),
+                IsTheIndividualRegisteredForSelfAssessmentSummary.row(ua),
+                WhatIsTheIndividualsUniqueTaxReferenceSummary.row(ua),
+                IndividualAddressLookupSummary.row(ua)
+              ).flatten
+            )
+          )
+        case _ => None
+      }
+
+      val list = SummaryLists(backgroundList, aboutYouList, aboutTheIndividualList)
 
       Ok(view(list))
   }

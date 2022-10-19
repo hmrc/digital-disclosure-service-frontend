@@ -30,4 +30,9 @@
 
     <h2 class="govuk-heading-l">@messages("notificationCYA.aboutYou")</h2>
     @govukSummaryList(list.aboutYou.withAttribute("id", "about-you-list"))
+
+    @list.aboutTheIndividualList.map { list =>
+        <h2 class="govuk-heading-l">@messages("notificationCYA.aboutTheIndividual")</h2>
+        @govukSummaryList(list.withAttribute("id","about-the-individual-list"))
+    }
 }
