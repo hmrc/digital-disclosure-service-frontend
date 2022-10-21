@@ -582,8 +582,8 @@ doesTheIndividualHaveNINO.checkYourAnswersLabel = Does the individual have a Nat
 doesTheIndividualHaveNINO.error.required = Select yes if the individual has a National Insurance number
 doesTheIndividualHaveNINO.change.hidden = DoesTheIndividualHaveNationalInsuranceNumber
 
-whatIsIndividualsNINO.title = What is individual'’'s National Insurance number?
-whatIsIndividualsNINO.heading = What is individual'’'s National Insurance number?
+whatIsIndividualsNINO.title = What is the individual'’'s National Insurance number?
+whatIsIndividualsNINO.heading = What is the individual'’'s National Insurance number?
 whatIsIndividualsNINO.label = This is on your payslip, P60 or tax return.
 whatIsIndividualsNINO.hint = For example, ‘QQ123456A’.
 whatIsIndividualsNINO.checkYourAnswersLabel = Individual'’'s National Insurance number
@@ -600,8 +600,8 @@ isTheIndividualRegisteredForVAT.checkYourAnswersLabel = Is the individual regist
 isTheIndividualRegisteredForVAT.error.required = Select yes if the individual is registered for VAT
 isTheIndividualRegisteredForVAT.change.hidden = IsTheIndividualRegisteredForVAT
 
-isTheIndividualRegisteredForSA.title = Is the individual registered for Self Assessment, as far as you are aware?
-isTheIndividualRegisteredForSA.heading = Is the individual registered for Self Assessment, as far as you are aware?
+isTheIndividualRegisteredForSA.title = Is the individual registered for Self Assessment, as far as you'’'re aware?
+isTheIndividualRegisteredForSA.heading = Is the individual registered for Self Assessment, as far as you'’'re aware?
 isTheIndividualRegisteredForSA.yesIknow = Yes, and I know their Unique Taxpayer Reference (UTR)
 isTheIndividualRegisteredForSA.yesButDontKnow = Yes, but I do not know their Unique Taxpayer Reference (UTR)
 isTheIndividualRegisteredForSA.no = No
