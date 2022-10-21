@@ -657,3 +657,12 @@ individualSentYourNotification.paragraph.header = Next steps
 individualSentYourNotification.paragraph.second = We will write to you shortly with a Disclosure Reference Number (DRN). As soon as you receive this, you should make the full disclosure within 90 days of the date that HMRC acknowledges the notification.
 
 notificationCYA.aboutTheIndividual = About the individual
+
+areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.title = Are you an officer of the company that the disclosure will be about?
+areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.heading = Are you an officer of the company that the disclosure will be about?
+areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.yes = Yes, I am an officer of the company
+areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.no = No, I will be making a disclosure on behalf of an officer
+areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.hint.no = We may ask for additional evidence that you’re authorised to act for them, such as the ‘Authorising a tax agent (64-8)’ form.
+areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.checkYourAnswersLabel = Are you an officer of the company that the disclosure will be about?
+areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.error.required = Select yes, I am an officer of the company
+areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.change.hidden = AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout
