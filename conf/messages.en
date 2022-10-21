@@ -673,3 +673,10 @@ areYouRepresentingAnOrganisation.heading.hint = For example, an accountancy or s
 areYouRepresentingAnOrganisation.checkYourAnswersLabel = Are you representing an organisation?
 areYouRepresentingAnOrganisation.error.required = Select yes, if you representing an organisation
 areYouRepresentingAnOrganisation.change.hidden = AreYouRepresentingAnOrganisation
+
+whatIsTheNameOfTheOrganisationYouRepresent.title = What is the name of the organisation you represent?
+whatIsTheNameOfTheOrganisationYouRepresent.heading = What is the name of the organisation you represent?
+whatIsTheNameOfTheOrganisationYouRepresent.checkYourAnswersLabel = What is the name of the organisation you represent?
+whatIsTheNameOfTheOrganisationYouRepresent.error.required = Enter the name of the organisation you represent
+whatIsTheNameOfTheOrganisationYouRepresent.error.length = The name of the organisation you represent must be 50 characters or less
+whatIsTheNameOfTheOrganisationYouRepresent.change.hidden = WhatIsTheNameOfTheOrganisationYouRepresent
