@@ -155,3 +155,8 @@ GET        /are-you-an-officer                                  controllers.noti
 POST       /are-you-an-officer                                  controllers.notification.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onSubmit(mode: Mode = NormalMode)
 GET        /are-you-an-officer/change                           controllers.notification.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(mode: Mode = CheckMode)
 POST       /are-you-an-officer/change                           controllers.notification.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onSubmit(mode: Mode = CheckMode)
+
+GET        /representing-organisation                           controllers.notification.AreYouRepresentingAnOrganisationController.onPageLoad(mode: Mode = NormalMode)
+POST       /representing-organisation                           controllers.notification.AreYouRepresentingAnOrganisationController.onSubmit(mode: Mode = NormalMode)
+GET        /representing-organisation/change                    controllers.notification.AreYouRepresentingAnOrganisationController.onPageLoad(mode: Mode = CheckMode)
+POST       /representing-organisation/change                    controllers.notification.AreYouRepresentingAnOrganisationController.onSubmit(mode: Mode = CheckMode)

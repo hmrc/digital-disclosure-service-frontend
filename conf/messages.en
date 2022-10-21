@@ -666,3 +666,10 @@ areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.hint.no = We may ask for
 areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.checkYourAnswersLabel = Are you an officer of the company that the disclosure will be about?
 areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.error.required = Select yes, I am an officer of the company
 areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.change.hidden = AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout
+
+areYouRepresentingAnOrganisation.title = Are you representing an organisation?
+areYouRepresentingAnOrganisation.heading = Are you representing an organisation?
+areYouRepresentingAnOrganisation.heading.hint = For example, an accountancy or solicitor'’'s firm.
+areYouRepresentingAnOrganisation.checkYourAnswersLabel = Are you representing an organisation?
+areYouRepresentingAnOrganisation.error.required = Select yes, if you representing an organisation
+areYouRepresentingAnOrganisation.change.hidden = AreYouRepresentingAnOrganisation
