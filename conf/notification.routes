@@ -149,4 +149,9 @@ GET        /individual-address/retrieve/change                  controllers.noti
 
 GET         /check-your-answers                                 controllers.notification.CheckYourAnswersController.onPageLoad
 
-GET        /individual-notification-submitted                       controllers.notification.IndividualSentYourNotificationController.onPageLoad
+GET        /individual-notification-submitted                   controllers.notification.IndividualSentYourNotificationController.onPageLoad
+
+GET        /are-you-an-officer                                  controllers.notification.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(mode: Mode = NormalMode)
+POST       /are-you-an-officer                                  controllers.notification.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onSubmit(mode: Mode = NormalMode)
+GET        /are-you-an-officer/change                           controllers.notification.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(mode: Mode = CheckMode)
+POST       /are-you-an-officer/change                           controllers.notification.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onSubmit(mode: Mode = CheckMode)
