@@ -160,3 +160,8 @@ GET        /representing-organisation                           controllers.noti
 POST       /representing-organisation                           controllers.notification.AreYouRepresentingAnOrganisationController.onSubmit(mode: Mode = NormalMode)
 GET        /representing-organisation/change                    controllers.notification.AreYouRepresentingAnOrganisationController.onPageLoad(mode: Mode = CheckMode)
 POST       /representing-organisation/change                    controllers.notification.AreYouRepresentingAnOrganisationController.onSubmit(mode: Mode = CheckMode)
+
+GET        /representing-organisation-name                      controllers.notification.WhatIsTheNameOfTheOrganisationYouRepresentController.onPageLoad(mode: Mode = NormalMode)
+POST       /representing-organisation-name                      controllers.notification.WhatIsTheNameOfTheOrganisationYouRepresentController.onSubmit(mode: Mode = NormalMode)
+GET        /representing-organisation-name/change               controllers.notification.WhatIsTheNameOfTheOrganisationYouRepresentController.onPageLoad(mode: Mode = CheckMode)
+POST       /representing-organisation-name/change               controllers.notification.WhatIsTheNameOfTheOrganisationYouRepresentController.onSubmit(mode: Mode = CheckMode)

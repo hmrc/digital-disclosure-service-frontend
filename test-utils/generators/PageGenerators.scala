@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryWhatIsTheNameOfTheOrganisationYouRepresentPage: Arbitrary[WhatIsTheNameOfTheOrganisationYouRepresentPage.type] =
+    Arbitrary(WhatIsTheNameOfTheOrganisationYouRepresentPage)
+
   implicit lazy val arbitraryAreYouRepresentingAnOrganisationPage: Arbitrary[AreYouRepresentingAnOrganisationPage.type] =
     Arbitrary(AreYouRepresentingAnOrganisationPage)
 
