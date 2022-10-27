@@ -389,6 +389,20 @@ class NotificationNavigatorSpec extends SpecBase {
         }
       }
 
+      "must go from the AreYouRepresentingAnOrganisationPage to the WhatIsTheNameOfTheOrganisationYouRepresentController when the user selects Yes" in {
+        UserAnswers("id").set(AreYouRepresentingAnOrganisationPage, true) match {
+          case Success(ua) => navigator.nextPage(AreYouRepresentingAnOrganisationPage, NormalMode, ua) mustBe routes.WhatIsTheNameOfTheOrganisationYouRepresentController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the AreYouRepresentingAnOrganisationPage to the OffshoreLiabilitiesController when the user selects No" in {
+        UserAnswers("id").set(AreYouRepresentingAnOrganisationPage, false) match {
+          case Success(ua) => navigator.nextPage(AreYouRepresentingAnOrganisationPage, NormalMode, ua) mustBe routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
     }
 
     "in Check mode" - {
