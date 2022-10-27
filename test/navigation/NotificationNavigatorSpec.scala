@@ -403,6 +403,10 @@ class NotificationNavigatorSpec extends SpecBase {
         }
       }
 
+      "must go from the WhatIsTheNameOfTheOrganisationYouRepresentPage to the OffshoreLiabilitiesController when the user enter organisation name" in {
+        navigator.nextPage(WhatIsTheNameOfTheOrganisationYouRepresentPage, NormalMode, UserAnswers("id")) mustBe routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
+      }
+
     }
 
     "in Check mode" - {
