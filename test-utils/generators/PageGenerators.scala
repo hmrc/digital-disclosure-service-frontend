@@ -16,8 +16,12 @@
 
 package generators
 
+import models._
+import models.address.Address
 import org.scalacheck.Arbitrary
-import pages._
+import pages.{QuestionPage, _}
+
+import java.time.LocalDate
 
 trait PageGenerators {
 
@@ -110,5 +114,5 @@ trait PageGenerators {
  
   implicit lazy val arbitraryReceivedALetterPage: Arbitrary[ReceivedALetterPage.type] =
     Arbitrary(ReceivedALetterPage)
-    
+
 }

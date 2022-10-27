@@ -18,12 +18,12 @@ package controllers
 
 import base.SpecBase
 import forms.AreYouTheIndividualFormProvider
-import models.{NormalMode, AreYouTheIndividual, UserAnswers}
+import models._
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.AreYouTheIndividualPage
+import pages._
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -38,6 +38,7 @@ class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar {
   def onwardRoute = Call("GET", "/foo")
 
   lazy val areYouTheIndividualRoute = notification.routes.AreYouTheIndividualController.onPageLoad(NormalMode).url
+  lazy val areYouTheIndividualRouteCheckMode = notification.routes.AreYouTheIndividualController.onPageLoad(CheckMode).url
 
   val formProvider = new AreYouTheIndividualFormProvider()
   val form = formProvider()
@@ -75,6 +76,48 @@ class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar {
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(form.fill(AreYouTheIndividual.values.head), NormalMode)(request, messages(application)).toString
+      }
+    }
+
+    "must redirect to offshore liabilities screen in normal mode if The UserAnswer change from No to Yes in check mode" in {
+
+      val userAnswers = UserAnswers(userAnswersId)
+        .set(AreYouTheIndividualPage, AreYouTheIndividual.No).success.value
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+      val offshoreLiabilitiesRoute = notification.routes.OffshoreLiabilitiesController.onPageLoad(NormalMode).url
+
+      running(application) {
+        val request =
+          FakeRequest(POST, areYouTheIndividualRouteCheckMode)
+            .withFormUrlEncodedBody(("value", AreYouTheIndividual.Yes.toString))
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual offshoreLiabilitiesRoute
+      }
+    }
+
+    "must redirect to offshore liabilities screen in if The UserAnswer change from Yes to No in check mode" in {
+
+      val userAnswers = UserAnswers(userAnswersId)
+        .set(AreYouTheIndividualPage, AreYouTheIndividual.Yes).success.value
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+      val offshoreLiabilitiesRoute = notification.routes.OffshoreLiabilitiesController.onPageLoad(NormalMode).url
+
+      running(application) {
+        val request =
+          FakeRequest(POST, areYouTheIndividualRouteCheckMode)
+            .withFormUrlEncodedBody(("value", AreYouTheIndividual.No.toString))
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual offshoreLiabilitiesRoute
       }
     }
 

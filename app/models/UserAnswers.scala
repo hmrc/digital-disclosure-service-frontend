@@ -16,6 +16,7 @@
 
 package models
 
+import pages.QuestionPage
 import play.api.libs.json._
 import queries.{Gettable, Settable}
 import uk.gov.hmrc.mongo.play.json.formats.MongoJavatimeFormats
@@ -62,6 +63,12 @@ final case class UserAnswers(
         val updatedAnswers = copy (data = d)
         page.cleanup(None, updatedAnswers)
     }
+  }
+
+  def remove(pages: List[Settable[_]]) : Try[UserAnswers] = {
+    pages.foldLeft(Try(this))((oldAnswerList, page) => {
+      oldAnswerList.flatMap(_.remove(page))
+    })
   }
 }
 
