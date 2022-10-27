@@ -375,6 +375,38 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(YourAddressLookupPage, NormalMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad
       }
 
+      "must go from the AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage to the OffshoreLiabilitiesController when the user selects Yes, I am an officer of the company" in {
+        UserAnswers("id").set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.Yes) match {
+          case Success(ua) => navigator.nextPage(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, NormalMode, ua) mustBe routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage to the AreYouRepresentingAnOrganisationController when the user selects No, I will be making a disclosure on behalf of an officer" in {
+        UserAnswers("id").set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.No) match {
+          case Success(ua) => navigator.nextPage(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, NormalMode, ua) mustBe routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the AreYouRepresentingAnOrganisationPage to the WhatIsTheNameOfTheOrganisationYouRepresentController when the user selects Yes" in {
+        UserAnswers("id").set(AreYouRepresentingAnOrganisationPage, true) match {
+          case Success(ua) => navigator.nextPage(AreYouRepresentingAnOrganisationPage, NormalMode, ua) mustBe routes.WhatIsTheNameOfTheOrganisationYouRepresentController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the AreYouRepresentingAnOrganisationPage to the OffshoreLiabilitiesController when the user selects No" in {
+        UserAnswers("id").set(AreYouRepresentingAnOrganisationPage, false) match {
+          case Success(ua) => navigator.nextPage(AreYouRepresentingAnOrganisationPage, NormalMode, ua) mustBe routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the WhatIsTheNameOfTheOrganisationYouRepresentPage to the OffshoreLiabilitiesController when the user enter organisation name" in {
+        navigator.nextPage(WhatIsTheNameOfTheOrganisationYouRepresentPage, NormalMode, UserAnswers("id")) mustBe routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
+      }
+
     }
 
     "in Check mode" - {
