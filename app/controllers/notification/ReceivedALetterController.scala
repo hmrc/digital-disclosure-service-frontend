@@ -19,9 +19,9 @@ package controllers.notification
 import controllers.actions._
 import forms.ReceivedALetterFormProvider
 import javax.inject.Inject
-import models.Mode
+import models._
 import navigation.NotificationNavigator
-import pages.ReceivedALetterPage
+import pages.{ReceivedALetterPage, QuestionPage, LetterReferencePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -62,11 +62,40 @@ class ReceivedALetterController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
-        value =>
+        value => { 
+
+          var changedPages: List[QuestionPage[_]] = List()
+          var hasChanged: Boolean = true
+
+          request.userAnswers.get(ReceivedALetterPage) match {
+            case Some(false) if value == true =>
+              changedPages = removePages 
+              hasChanged = true
+            case Some(false) if value == false =>
+              changedPages = Nil 
+              hasChanged = false
+            case Some(true) if value == true =>
+              changedPages = Nil 
+              hasChanged = false 
+            case Some(true) if value == false =>
+              changedPages = removePages 
+              hasChanged = false 
+            case _ =>
+              changedPages = Nil 
+              hasChanged = false 
+          }
+
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(ReceivedALetterPage, value))
-            _              <- sessionRepository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(ReceivedALetterPage, mode, updatedAnswers))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(changedPages))
+            _              <- sessionRepository.set(clearedAnswers)
+          } yield Redirect(navigator.nextPage(ReceivedALetterPage, mode, clearedAnswers, hasChanged))
+        }
       )
   }
+    
+  val removePages: List[QuestionPage[_]] = List(
+    LetterReferencePage
+  )
+
 }

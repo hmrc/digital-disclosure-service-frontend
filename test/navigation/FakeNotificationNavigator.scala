@@ -22,6 +22,6 @@ import models.{Mode, UserAnswers}
 
 class FakeNotificationNavigator(desiredRoute: Call) extends NotificationNavigator {
 
-  override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call =
+  override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasAnswerChanged: Boolean = true): Call =
     desiredRoute
 }
