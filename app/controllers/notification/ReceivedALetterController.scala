@@ -63,37 +63,29 @@ class ReceivedALetterController @Inject()(
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
         value => { 
-
-          var changedPages: List[QuestionPage[_]] = List()
-          var hasChanged: Boolean = true
-
-          request.userAnswers.get(ReceivedALetterPage) match {
-            case Some(false) if value == true =>
-              changedPages = removePages 
-              hasChanged = true
-            case Some(false) if value == false =>
-              changedPages = Nil 
-              hasChanged = false
-            case Some(true) if value == true =>
-              changedPages = Nil 
-              hasChanged = false 
-            case Some(true) if value == false =>
-              changedPages = removePages 
-              hasChanged = false 
-            case _ =>
-              changedPages = Nil 
-              hasChanged = false 
-          }
+          
+          val pages = changedPages(request.userAnswers, value)
 
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(ReceivedALetterPage, value))
-            clearedAnswers <- Future.fromTry(updatedAnswers.remove(changedPages))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pages._1)) //changedPages
             _              <- sessionRepository.set(clearedAnswers)
-          } yield Redirect(navigator.nextPage(ReceivedALetterPage, mode, clearedAnswers, hasChanged))
+          } yield Redirect(navigator.nextPage(ReceivedALetterPage, mode, clearedAnswers, pages._2)) //hasChanged
         }
       )
   }
-    
+
+  def changedPages(userAnswers: UserAnswers, value: Boolean): (List[QuestionPage[_]], Boolean) = {
+    userAnswers.get(ReceivedALetterPage) match {
+      case Some(false) if value == true =>
+        (Nil, true)
+      case Some(true) if value == false =>
+        (removePages, false)
+      case _ =>
+        (Nil, false) 
+    }
+  }
+
   val removePages: List[QuestionPage[_]] = List(
     LetterReferencePage
   )
