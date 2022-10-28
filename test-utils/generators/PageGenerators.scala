@@ -16,12 +16,8 @@
 
 package generators
 
-import models._
-import models.address.Address
 import org.scalacheck.Arbitrary
-import pages.{QuestionPage, _}
-
-import java.time.LocalDate
+import pages._
 
 trait PageGenerators {
 
