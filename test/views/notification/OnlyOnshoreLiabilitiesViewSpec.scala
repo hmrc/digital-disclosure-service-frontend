@@ -26,7 +26,9 @@ class OnlyOnshoreLiabilitiesViewSpec extends ViewSpecBase with ViewMatchers {
 
   val page: OnlyOnshoreLiabilitiesView = inject[OnlyOnshoreLiabilitiesView]
 
-  private def createView: Html = page()(request, messages)
+  val url = controllers.notification.routes.WhatIsYourFullNameController.onPageLoad(NormalMode).url
+
+  private def createView: Html = page(url)(request, messages)
 
   "view" should {
 

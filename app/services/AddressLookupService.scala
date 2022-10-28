@@ -39,8 +39,13 @@ import play.api.i18n.Messages
 
 class AddressLookupServiceImpl @Inject()(connector: AddressLookupConnector, addressConfig: AddressLookupConfig, config: FrontendAppConfig)(implicit ec: ExecutionContext) extends AddressLookupService with AddressLookupRequestHelper {
 
+  def getYourAddressLookupRedirect(redirectUrl: Call, isAgentForIndividual: Boolean)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL] =  {
+    val request = lookupRequestForYourAddress(config.host, redirectUrl.url, addressConfig.addressesShowLimit, isAgentForIndividual)
+    initialiseAddressLookup(request)
+  }
+
   def getIndividualAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL] =  {
-    val request = lookupRequestForIndividual(config.host, redirectUrl.url, addressConfig.addressesShowLimit)
+    val request = lookupRequestForIndividualAddress(config.host, redirectUrl.url, addressConfig.addressesShowLimit)
     initialiseAddressLookup(request)
   }
 
@@ -102,6 +107,7 @@ object AddressLookupServiceImpl {
 
 @ImplementedBy(classOf[AddressLookupServiceImpl])
 trait AddressLookupService {
+  def getYourAddressLookupRedirect(redirectUrl: Call, isAgentForIndividual: Boolean)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL]
   def getIndividualAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL]
   def retrieveUserAddress(addressId: UUID)(implicit hc: HeaderCarrier): EitherT[Future, Error, Address]
 }

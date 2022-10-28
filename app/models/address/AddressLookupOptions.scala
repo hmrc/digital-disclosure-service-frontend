@@ -21,6 +21,7 @@ import play.api.libs.json.OFormat
 
 final case class AddressLookupOptions(
   continueUrl: String,
+  serviceHref: String,
   alphaPhase: Boolean,
   timeoutConfig: Option[TimeoutConfig] = None,
   signOutHref: Option[String] = None,

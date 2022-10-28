@@ -96,3 +96,72 @@ GET        /your-utr/change                                 controllers.notifica
 POST       /your-utr/change                                 controllers.notification.WhatIsYourUniqueTaxReferenceController.onSubmit(mode: Mode = CheckMode)
 
 GET        /submitted                                       controllers.notification.YouHaveSentYourNotificationController.onPageLoad()
+
+GET        /individual-full-name                            controllers.notification.WhatIsTheIndividualsFullNameController.onPageLoad(mode: Mode = NormalMode)
+POST       /individual-full-name                            controllers.notification.WhatIsTheIndividualsFullNameController.onSubmit(mode: Mode = NormalMode)
+GET        /individual-full-name/change                     controllers.notification.WhatIsTheIndividualsFullNameController.onPageLoad(mode: Mode = CheckMode)
+POST       /individual-full-name/change                     controllers.notification.WhatIsTheIndividualsFullNameController.onSubmit(mode: Mode = CheckMode)
+
+GET        /individual-date-of-birth                        controllers.notification.WhatIsTheIndividualDateOfBirthControllerController.onPageLoad(mode: Mode = NormalMode)
+POST       /individual-date-of-birth                        controllers.notification.WhatIsTheIndividualDateOfBirthControllerController.onSubmit(mode: Mode = NormalMode)
+GET        /individual-date-of-birth/change                 controllers.notification.WhatIsTheIndividualDateOfBirthControllerController.onPageLoad(mode: Mode = CheckMode)
+POST       /individual-date-of-birth/change                 controllers.notification.WhatIsTheIndividualDateOfBirthControllerController.onSubmit(mode: Mode = CheckMode)
+
+GET        /individual-main-occupation                      controllers.notification.WhatIsTheIndividualOccupationController.onPageLoad(mode: Mode = NormalMode)
+POST       /individual-main-occupation                      controllers.notification.WhatIsTheIndividualOccupationController.onSubmit(mode: Mode = NormalMode)
+GET        /individual-main-occupation/change               controllers.notification.WhatIsTheIndividualOccupationController.onPageLoad(mode: Mode = CheckMode)
+POST       /individual-main-occupation/change               controllers.notification.WhatIsTheIndividualOccupationController.onSubmit(mode: Mode = CheckMode)
+
+GET        /individual-have-national-insurance-number           controllers.notification.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(mode: Mode = NormalMode)
+POST       /individual-have-national-insurance-number           controllers.notification.DoesTheIndividualHaveNationalInsuranceNumberController.onSubmit(mode: Mode = NormalMode)
+GET        /individual-have-national-insurance-number/change    controllers.notification.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(mode: Mode = CheckMode)
+POST       /individual-have-national-insurance-number/change    controllers.notification.DoesTheIndividualHaveNationalInsuranceNumberController.onSubmit(mode: Mode = CheckMode)
+
+GET        /individual-national-insurance-number                controllers.notification.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(mode: Mode = NormalMode)
+POST       /individual-national-insurance-number                controllers.notification.WhatIsIndividualsNationalInsuranceNumberController.onSubmit(mode: Mode = NormalMode)
+GET        /individual-national-insurance-number/change         controllers.notification.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(mode: Mode = CheckMode)
+POST       /individual-national-insurance-number/change         controllers.notification.WhatIsIndividualsNationalInsuranceNumberController.onSubmit(mode: Mode = CheckMode)
+
+GET        /individual-registered-for-vat                       controllers.notification.IsTheIndividualRegisteredForVATController.onPageLoad(mode: Mode = NormalMode)
+POST       /individual-registered-for-vat                       controllers.notification.IsTheIndividualRegisteredForVATController.onSubmit(mode: Mode = NormalMode)
+GET        /individual-registered-for-vat/change                controllers.notification.IsTheIndividualRegisteredForVATController.onPageLoad(mode: Mode = CheckMode)
+POST       /individual-registered-for-vat/change                controllers.notification.IsTheIndividualRegisteredForVATController.onSubmit(mode: Mode = CheckMode)
+
+GET        /individual-self-assessment                          controllers.notification.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(mode: Mode = NormalMode)
+POST       /individual-self-assessment                          controllers.notification.IsTheIndividualRegisteredForSelfAssessmentController.onSubmit(mode: Mode = NormalMode)
+GET        /individual-self-assessment/change                   controllers.notification.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(mode: Mode = CheckMode)
+POST       /individual-self-assessment/change                   controllers.notification.IsTheIndividualRegisteredForSelfAssessmentController.onSubmit(mode: Mode = CheckMode)
+
+GET        /individual-vat-registration                         controllers.notification.WhatIsTheIndividualsVATRegistrationNumberController.onPageLoad(mode: Mode = NormalMode)
+POST       /individual-vat-registration                         controllers.notification.WhatIsTheIndividualsVATRegistrationNumberController.onSubmit(mode: Mode = NormalMode)
+GET        /individual-vat-registration/change                  controllers.notification.WhatIsTheIndividualsVATRegistrationNumberController.onPageLoad(mode: Mode = CheckMode)
+POST       /individual-vat-registration/change                  controllers.notification.WhatIsTheIndividualsVATRegistrationNumberController.onSubmit(mode: Mode = CheckMode)
+
+GET        /individual-utr                                      controllers.notification.WhatIsTheIndividualsUniqueTaxReferenceController.onPageLoad(mode: Mode = NormalMode)
+POST       /individual-utr                                      controllers.notification.WhatIsTheIndividualsUniqueTaxReferenceController.onSubmit(mode: Mode = NormalMode)
+GET        /individual-utr/change                               controllers.notification.WhatIsTheIndividualsUniqueTaxReferenceController.onPageLoad(mode: Mode = CheckMode)
+POST       /individual-utr/change                               controllers.notification.WhatIsTheIndividualsUniqueTaxReferenceController.onSubmit(mode: Mode = CheckMode)
+
+GET        /individual-address/lookup                           controllers.notification.IndividualAddressLookupController.lookupAddress(mode: Mode = NormalMode)
+GET        /individual-address/retrieve                         controllers.notification.IndividualAddressLookupController.retrieveConfirmedAddress(mode: Mode = NormalMode, id: Option[UUID] ?= None)
+GET        /individual-address/lookup/change                    controllers.notification.IndividualAddressLookupController.lookupAddress(mode: Mode = CheckMode)
+GET        /individual-address/retrieve/change                  controllers.notification.IndividualAddressLookupController.retrieveConfirmedAddress(mode: Mode = CheckMode, id: Option[UUID] ?= None)
+
+GET         /check-your-answers                                 controllers.notification.CheckYourAnswersController.onPageLoad
+
+GET        /individual-notification-submitted                   controllers.notification.IndividualSentYourNotificationController.onPageLoad
+
+GET        /are-you-an-officer                                  controllers.notification.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(mode: Mode = NormalMode)
+POST       /are-you-an-officer                                  controllers.notification.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onSubmit(mode: Mode = NormalMode)
+GET        /are-you-an-officer/change                           controllers.notification.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(mode: Mode = CheckMode)
+POST       /are-you-an-officer/change                           controllers.notification.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onSubmit(mode: Mode = CheckMode)
+
+GET        /representing-organisation                           controllers.notification.AreYouRepresentingAnOrganisationController.onPageLoad(mode: Mode = NormalMode)
+POST       /representing-organisation                           controllers.notification.AreYouRepresentingAnOrganisationController.onSubmit(mode: Mode = NormalMode)
+GET        /representing-organisation/change                    controllers.notification.AreYouRepresentingAnOrganisationController.onPageLoad(mode: Mode = CheckMode)
+POST       /representing-organisation/change                    controllers.notification.AreYouRepresentingAnOrganisationController.onSubmit(mode: Mode = CheckMode)
+
+GET        /representing-organisation-name                      controllers.notification.WhatIsTheNameOfTheOrganisationYouRepresentController.onPageLoad(mode: Mode = NormalMode)
+POST       /representing-organisation-name                      controllers.notification.WhatIsTheNameOfTheOrganisationYouRepresentController.onSubmit(mode: Mode = NormalMode)
+GET        /representing-organisation-name/change               controllers.notification.WhatIsTheNameOfTheOrganisationYouRepresentController.onPageLoad(mode: Mode = CheckMode)
+POST       /representing-organisation-name/change               controllers.notification.WhatIsTheNameOfTheOrganisationYouRepresentController.onSubmit(mode: Mode = CheckMode)

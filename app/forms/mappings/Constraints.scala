@@ -18,7 +18,7 @@ package forms.mappings
 
 import java.time.LocalDate
 import uk.gov.hmrc.domain.Nino
-import play.api.data.validation.{Constraint, Invalid, Valid}
+import play.api.data.validation.{Constraint, Invalid, Valid, ValidationResult}
 import uk.gov.hmrc.emailaddress.EmailAddress
 
 trait Constraints {
@@ -135,7 +135,7 @@ trait Constraints {
         Invalid(errorKey)
     }
 
-  private def emailValidation(email:String):Boolean = {
+  private def emailValidation(email: String): Boolean = {
     EmailAddress.isValid(email) && email.split('@')(1).contains('.')
   }
 
@@ -145,5 +145,29 @@ trait Constraints {
         Valid
       case _ =>
         Invalid(errorKey)
-    }  
+    }
+
+  protected def validUTR(length: Int, errorKey: String): Constraint[String] =
+    Constraint {
+      s => {
+        val value = s.filterNot(c => c.isWhitespace)
+        validLengthAncDigits(value, length, errorKey)
+
+      }
+    }
+
+  protected def validVAT(length: Int, errorKey: String): Constraint[String] =
+    Constraint {
+      s => {
+        val value = if (s.contains("GB")) s.split("GB")(1) else s
+        validLengthAncDigits(value, length, errorKey)
+      }
+    }
+
+  private def validLengthAncDigits(value: String, length: Int, errorKey: String): ValidationResult = {
+    value.filterNot(c => c.isWhitespace) match {
+      case str if str.length == length && str.forall(_.isDigit) => Valid
+      case _ => Invalid(errorKey)
+    }
+  }
 }

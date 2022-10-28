@@ -25,7 +25,7 @@ import uk.gov.hmrc.play.bootstrap.binders.SafeRedirectUrl
 @Singleton
 class FrontendAppConfig @Inject() (configuration: Configuration) {
 
-  lazy val host: String    = configuration.get[String]("host")
+  lazy val host: String    = configuration.get[String]("self.url")
   lazy val appName: String = configuration.get[String]("appName")
 
   private lazy val contactHost = configuration.get[String]("contact-frontend.host")

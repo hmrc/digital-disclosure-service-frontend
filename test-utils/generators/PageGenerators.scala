@@ -21,6 +21,42 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryWhatIsTheNameOfTheOrganisationYouRepresentPage: Arbitrary[WhatIsTheNameOfTheOrganisationYouRepresentPage.type] =
+    Arbitrary(WhatIsTheNameOfTheOrganisationYouRepresentPage)
+
+  implicit lazy val arbitraryAreYouRepresentingAnOrganisationPage: Arbitrary[AreYouRepresentingAnOrganisationPage.type] =
+    Arbitrary(AreYouRepresentingAnOrganisationPage)
+
+  implicit lazy val arbitraryAreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage: Arbitrary[AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage.type] =
+    Arbitrary(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage)
+
+  implicit lazy val arbitraryWhatIsTheIndividualsUniqueTaxReferencePage: Arbitrary[WhatIsTheIndividualsUniqueTaxReferencePage.type] =
+    Arbitrary(WhatIsTheIndividualsUniqueTaxReferencePage)
+
+  implicit lazy val arbitraryWhatIsTheIndividualsVATRegistrationNumberPage: Arbitrary[WhatIsTheIndividualsVATRegistrationNumberPage.type] =
+    Arbitrary(WhatIsTheIndividualsVATRegistrationNumberPage)
+
+  implicit lazy val arbitraryIsTheIndividualRegisteredForSelfAssessmentPage: Arbitrary[IsTheIndividualRegisteredForSelfAssessmentPage.type] =
+    Arbitrary(IsTheIndividualRegisteredForSelfAssessmentPage)
+
+  implicit lazy val arbitraryIsTheIndividualRegisteredForVATPage: Arbitrary[IsTheIndividualRegisteredForVATPage.type] =
+    Arbitrary(IsTheIndividualRegisteredForVATPage)
+
+  implicit lazy val arbitraryWhatIsIndividualsNationalInsuranceNumberPage: Arbitrary[WhatIsIndividualsNationalInsuranceNumberPage.type] =
+    Arbitrary(WhatIsIndividualsNationalInsuranceNumberPage)
+
+  implicit lazy val arbitraryDoesTheIndividualHaveNationalInsuranceNumberPage: Arbitrary[DoesTheIndividualHaveNationalInsuranceNumberPage.type] =
+    Arbitrary(DoesTheIndividualHaveNationalInsuranceNumberPage)
+
+  implicit lazy val arbitraryWhatIsTheIndividualOccupationPage: Arbitrary[WhatIsTheIndividualOccupationPage.type] =
+    Arbitrary(WhatIsTheIndividualOccupationPage)
+
+  implicit lazy val arbitraryWhatIsTheIndividualDateOfBirthControllerPage: Arbitrary[WhatIsTheIndividualDateOfBirthControllerPage.type] =
+    Arbitrary(WhatIsTheIndividualDateOfBirthControllerPage)
+
+  implicit lazy val arbitraryWhatIsTheIndividualsFullNamePage: Arbitrary[WhatIsTheIndividualsFullNamePage.type] =
+    Arbitrary(WhatIsTheIndividualsFullNamePage)
+
   implicit lazy val arbitraryWhatIsYourUniqueTaxReferencePage: Arbitrary[WhatIsYourUniqueTaxReferencePage.type] =
     Arbitrary(WhatIsYourUniqueTaxReferencePage)
 

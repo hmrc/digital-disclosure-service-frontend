@@ -36,13 +36,17 @@ class NotificationNavigator @Inject()() {
 
     case LetterReferencePage => _ => routes.RelatesToController.onPageLoad(NormalMode)
 
-    case RelatesToPage => _ => routes.AreYouTheIndividualController.onPageLoad(NormalMode)
+    case RelatesToPage => ua => ua.get(RelatesToPage) match {
+      case Some(RelatesTo.AnIndividual) => routes.AreYouTheIndividualController.onPageLoad(NormalMode)
+      case Some(RelatesTo.ACompany) => routes.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode)
+      case _ => routes.RelatesToController.onPageLoad(NormalMode)
+    }
 
     case AreYouTheIndividualPage => _ => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
 
-    case OnshoreLiabilitiesPage => ua => ua.get(OnshoreLiabilitiesPage) match {
-      case Some(OnshoreLiabilities.IWantTo) => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
-      case Some(OnshoreLiabilities.IDoNotWantTo) => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+    case OnshoreLiabilitiesPage => ua => ua.get(AreYouTheIndividualPage) match {
+      case Some(AreYouTheIndividual.Yes) => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+      case Some(AreYouTheIndividual.No) => routes.WhatIsTheIndividualsFullNameController.onPageLoad(NormalMode)
       case None => routes.OnshoreLiabilitiesController.onPageLoad(NormalMode)
     }
     
@@ -56,10 +60,12 @@ class NotificationNavigator @Inject()() {
 
     case YourPhoneNumberPage => _ => routes.DoYouHaveAnEmailAddressController.onPageLoad(NormalMode)
 
-    case DoYouHaveAnEmailAddressPage => ua => ua.get(DoYouHaveAnEmailAddressPage) match {
-      case Some(true) => routes.YourEmailAddressController.onPageLoad(NormalMode)
-      case Some(false) => routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
-      case None => routes.DoYouHaveAnEmailAddressController.onPageLoad(NormalMode)
+    case DoYouHaveAnEmailAddressPage => ua => (ua.get(DoYouHaveAnEmailAddressPage), ua.get(AreYouTheIndividualPage)) match {
+      case (Some(true), Some(AreYouTheIndividual.Yes)) => routes.YourEmailAddressController.onPageLoad(NormalMode)
+      case (Some(false), Some(AreYouTheIndividual.Yes)) => routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
+      case (Some(true), Some(AreYouTheIndividual.No)) => routes.YourEmailAddressController.onPageLoad(NormalMode)
+      case (Some(false), Some(AreYouTheIndividual.No)) => routes.YourAddressLookupController.lookupAddress(NormalMode)
+      case (_, _) => routes.DoYouHaveAnEmailAddressController.onPageLoad(NormalMode)
     }
 
     case WhatIsYourDateOfBirthPage => _ => routes.WhatIsYourMainOccupationController.onPageLoad(NormalMode)
@@ -73,7 +79,11 @@ class NotificationNavigator @Inject()() {
       case None => routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(NormalMode)
     }
 
-    case YourEmailAddressPage => _ => routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
+    case YourEmailAddressPage => ua => ua.get(AreYouTheIndividualPage) match {
+      case Some(AreYouTheIndividual.Yes) => routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
+      case Some(AreYouTheIndividual.No) => routes.YourAddressLookupController.lookupAddress(NormalMode)
+      case _ => routes.YourEmailAddressController.onPageLoad(NormalMode)
+    }
 
     case WhatIsYourNationalInsuranceNumberPage => _ => routes.AreYouRegisteredForVATController.onPageLoad(NormalMode)
 
@@ -92,13 +102,65 @@ class NotificationNavigator @Inject()() {
       case Some(AreYouRegisteredForSelfAssessment.No) => routes.YourAddressLookupController.lookupAddress(NormalMode)
       case None => routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(NormalMode)
     }
+
     case WhatIsYourUniqueTaxReferencePage => _ => routes.YourAddressLookupController.lookupAddress(NormalMode)
+
+    case YourAddressLookupPage => _ => routes.CheckYourAnswersController.onPageLoad
+
+    case WhatIsTheIndividualsFullNamePage => _ => routes.WhatIsTheIndividualDateOfBirthControllerController.onPageLoad(NormalMode)
+
+    case WhatIsTheIndividualOccupationPage => _ => routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(NormalMode)
+
+    case DoesTheIndividualHaveNationalInsuranceNumberPage => ua => ua.get(DoesTheIndividualHaveNationalInsuranceNumberPage) match {
+      case Some(DoesTheIndividualHaveNationalInsuranceNumber.YesIknow) => routes.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(NormalMode)
+      case Some(DoesTheIndividualHaveNationalInsuranceNumber.YesButDontKnow) => routes.IsTheIndividualRegisteredForVATController.onPageLoad(NormalMode)
+      case Some(DoesTheIndividualHaveNationalInsuranceNumber.No) => routes.IsTheIndividualRegisteredForVATController.onPageLoad(NormalMode)
+      case None => routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(NormalMode)
+    }
+
+    case WhatIsIndividualsNationalInsuranceNumberPage => _ => routes.IsTheIndividualRegisteredForVATController.onPageLoad(NormalMode)
+
+    case WhatIsTheIndividualDateOfBirthControllerPage => _ => routes.WhatIsTheIndividualOccupationController.onPageLoad(NormalMode)
+
+    case IsTheIndividualRegisteredForVATPage => ua => ua.get(IsTheIndividualRegisteredForVATPage) match {
+      case Some(IsTheIndividualRegisteredForVAT.YesIKnow) => routes.WhatIsTheIndividualsVATRegistrationNumberController.onPageLoad(NormalMode)
+      case Some(IsTheIndividualRegisteredForVAT.YesButDontKnow) => routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(NormalMode)
+      case Some(IsTheIndividualRegisteredForVAT.No) => routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(NormalMode)
+      case None => routes.IsTheIndividualRegisteredForVATController.onPageLoad(NormalMode)
+    }
+
+    case WhatIsTheIndividualsVATRegistrationNumberPage => _ => routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(NormalMode)
+
+    case WhatIsTheIndividualsUniqueTaxReferencePage => _ => routes.IndividualAddressLookupController.lookupAddress(NormalMode)
+
+    case IsTheIndividualRegisteredForSelfAssessmentPage => ua => ua.get(IsTheIndividualRegisteredForSelfAssessmentPage) match {
+      case Some(IsTheIndividualRegisteredForSelfAssessment.YesIKnow) => routes.WhatIsTheIndividualsUniqueTaxReferenceController.onPageLoad(NormalMode)
+      case Some(IsTheIndividualRegisteredForSelfAssessment.YesButDontKnow) => routes.IndividualAddressLookupController.lookupAddress(NormalMode)
+      case Some(IsTheIndividualRegisteredForSelfAssessment.No) => routes.IndividualAddressLookupController.lookupAddress(NormalMode)
+      case None => routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(NormalMode)
+    }
+    
+    case IndividualAddressLookupPage => _ => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+
+    case AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage => ua => ua.get(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage) match {
+      case Some(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.Yes) => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
+      case Some(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.No) => routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode)
+      case None => routes.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode)
+    }
+
+    case AreYouRepresentingAnOrganisationPage => ua => ua.get(AreYouRepresentingAnOrganisationPage) match {
+      case Some(true) => routes.WhatIsTheNameOfTheOrganisationYouRepresentController.onPageLoad(NormalMode)
+      case Some(false) => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
+      case None => routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode)
+    }
+
+    case WhatIsTheNameOfTheOrganisationYouRepresentPage => _ => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
 
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
   private val checkRouteMap: Page => UserAnswers => Call = {
-    case _ => _ => controllers.routes.CheckYourAnswersController.onPageLoad
+    case _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
   def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call = mode match {

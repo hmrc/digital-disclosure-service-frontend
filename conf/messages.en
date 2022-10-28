@@ -335,7 +335,7 @@ country.ZW=Zimbabwe
 receivedALetter.title = Are you making a disclosure because you have received a letter from HMRC?
 receivedALetter.heading = Are you making a disclosure because you have received a letter from HMRC?
 receivedALetter.error.required = Select yes if you are making this disclosure because you have received a letter from HMRC
-receivedALetter.checkYourAnswersLabel = Are you making a disclosure because you have received a letter from HMRC?
+receivedALetter.checkYourAnswersLabel = Will you be making a disclosure because you received a letter from HMRC?
 receivedALetter.change.hidden = ReceivedALetter
 
 relatesTo.title = What is the disclosure about?
@@ -350,7 +350,7 @@ relatesTo.llp = A limited liability partnership
 relatesTo.hint.llp = A limited liability company is a business run by 2 or more people.
 relatesTo.trust = A trust
 relatesTo.hint.trust = A trust is an arrangement that manages assets for people.
-relatesTo.checkYourAnswersLabel = What is the disclosure about?
+relatesTo.checkYourAnswersLabel = Who this disclosure is for?
 relatesTo.error.required = Select what your disclosure is about
 relatesTo.change.hidden = relatesTo
 
@@ -375,13 +375,14 @@ onshoreLiabilities.bulletList.forth = have income from self-employment, partners
 onshoreLiabilities.paragraph.third = or your income does not fall into the offshore category.
 onshoreLiabilities.yes = I want to disclose onshore liabilities
 onshoreLiabilities.no = I do not have onshore liabilities to disclose
-onshoreLiabilities.checkYourAnswersLabel = Do you also want to disclose onshore liabilities?
+onshoreLiabilities.checkYourAnswersLabel = Will the disclosure also be about onshore liabilities?
+onshoreLiabilities.default.checkYourAnswersLabel = Will the disclosure be about onshore liabilities?
 onshoreLiabilities.error.required = Select if you want to disclose onshore liabilities or not
 onshoreLiabilities.change.hidden = OnshoreLiabilities
 
 letterReference.title = What is the reference number of the letter you received from HMRC?
 letterReference.heading = What is the reference number of the letter you received from HMRC?
-letterReference.checkYourAnswersLabel = What is the reference number of the letter you received from HMRC?
+letterReference.checkYourAnswersLabel = Letter reference number
 letterReference.error.required = Enter the letter’s reference number
 letterReference.error.length = LetterReference must be 30 characters or less
 letterReference.change.hidden = LetterReference
@@ -390,7 +391,7 @@ offshoreLiabilities.title = Do you want to disclose offshore liabilities?
 offshoreLiabilities.heading = Do you want to disclose offshore liabilities?
 offshoreLiabilities.yes = I want to disclose offshore liabilities
 offshoreLiabilities.no = I do not have offshore liabilities to disclose
-offshoreLiabilities.checkYourAnswersLabel = Do you want to disclose offshore liabilities?
+offshoreLiabilities.checkYourAnswersLabel = Will the disclosure be about offshore liabilities?
 offshoreLiabilities.error.required = Select if you want to disclose offshore liabilities or not
 offshoreLiabilities.change.hidden = OffshoreLiabilities
 offshoreLiabilities.paragraph.first = Offshore liabilities can be:
@@ -414,13 +415,14 @@ onlyOnshoreLiabilities.paragraph.third = or your income does not fall into the o
 
 whatIsYourFullName.title = What is your full name?
 whatIsYourFullName.heading = What is your full name?
-whatIsYourFullName.checkYourAnswersLabel = What is your full name?
+whatIsYourFullName.checkYourAnswersLabel = Your full name
 whatIsYourFullName.error.required = Enter your full name
-whatIsYourFullName.error.length = Your full name must be 50 characters or less
+whatIsYourFullName.error.length = Full name must be between 1 and 30 characters
 whatIsYourFullName.change.hidden = WhatIsYourFullName
 
 yourEmailAddress.title = What is your email address?
 yourEmailAddress.heading = What is your email address?
+yourEmailAddress.checkYourAnswersLabel = Your email address
 yourEmailAddress.hint = For example, name@example.com.
 yourEmailAddress.error.required = Enter a valid email address, like name@example.com
 yourEmailAddress.error.length = Your email address must be 320 characters or less
@@ -428,6 +430,7 @@ yourEmailAddress.change.hidden = YourEmailAddress
 
 yourPhoneNumber.title = What is your telephone number?
 yourPhoneNumber.heading = What is your telephone number?
+yourPhoneNumber.checkYourAnswersLabel = Your telephone number
 yourPhoneNumber.label = If this is a UK landline or an overseas number, you must include the area or dialing code.
 yourPhoneNumber.hint = For example, 01642 123456, 07777 777777 or +33 1 2345 6788.
 yourPhoneNumber.error.required = Enter a valid telephone number
@@ -443,17 +446,20 @@ doYouHaveAnEmailAddress.change.hidden = DoYouHaveAnEmailAddress
 whatIsYourDateOfBirth.title = What is your date of birth?
 whatIsYourDateOfBirth.heading = What is your date of birth?
 whatIsYourDateOfBirth.hint = For example, 20 3 1976.
-whatIsYourDateOfBirth.checkYourAnswersLabel = What is your date of birth?
+whatIsYourDateOfBirth.checkYourAnswersLabel = Your date of birth
 whatIsYourDateOfBirth.error.required.all = Enter a valid date of birth, like 20 3 1976
-whatIsYourDateOfBirth.error.required.two = The date of birth must include {0} and {1}
-whatIsYourDateOfBirth.error.required = The date of birth must include {0}
-whatIsYourDateOfBirth.error.invalid = Enter a real date of birth
+whatIsYourDateOfBirth.error.required.two = Your date of birth must include a {0} and a {1}
+whatIsYourDateOfBirth.error.required = Your date of birth must include a {0}
+whatIsYourDateOfBirth.error.invalid = Enter your date of birth
+whatIsYourDateOfBirth.error.invalidDay = Enter a real date of birth - a month can have up to 31 days
+whatIsYourDateOfBirth.error.invalidMonth = Enter a real date of birth - there are only 12 months in a year
+whatIsYourDateOfBirth.error.invalidFutureDateOfBirth = Date of birth must be in the past
 whatIsYourDateOfBirth.change.hidden = WhatIsYourDateOfBirth
 
 whatIsYourMainOccupation.title = What is your main occupation?
 whatIsYourMainOccupation.heading = What is your main occupation?
 whatIsYourMainOccupation.hint = For example, plumber or dentist.
-whatIsYourMainOccupation.checkYourAnswersLabel = What is your main occupation?
+whatIsYourMainOccupation.checkYourAnswersLabel = Your main occupation
 whatIsYourMainOccupation.error.required = Enter your main occupation
 whatIsYourMainOccupation.error.maxLength = Your main occupation should have no more than 30 characters
 whatIsYourMainOccupation.error.minLength = Your main occupation should have at least 4 characters
@@ -472,7 +478,7 @@ whatIsYourNationalInsuranceNumber.title = What is your National Insurance number
 whatIsYourNationalInsuranceNumber.heading = What is your National Insurance number?
 whatIsYourNationalInsuranceNumber.label = This is on your payslip, P60 or tax return.
 whatIsYourNationalInsuranceNumber.hint = For example, ‘QQ123456A’.
-whatIsYourNationalInsuranceNumber.checkYourAnswersLabel = What is your National Insurance number?
+whatIsYourNationalInsuranceNumber.checkYourAnswersLabel = Your National Insurance number
 whatIsYourNationalInsuranceNumber.error.required = Enter a valid National Insurance number
 whatIsYourNationalInsuranceNumber.change.hidden = WhatIsYourNationalInsuranceNumber
 
@@ -480,9 +486,8 @@ whatIsYourVATRegistrationNumber.title = What is your VAT registration number?
 whatIsYourVATRegistrationNumber.heading = What is your VAT registration number?
 whatIsYourVATRegistrationNumber.label = This is a 9 digit number on your VAT certificate or VAT online account.
 whatIsYourVATRegistrationNumber.hint = For example, ‘123456789’.
-whatIsYourVATRegistrationNumber.checkYourAnswersLabel = What is your VAT registration number?
-whatIsYourVATRegistrationNumber.error.required = Enter your VAT registration number
-whatIsYourVATRegistrationNumber.error.length = Your VAT registration number must be 10 characters or less
+whatIsYourVATRegistrationNumber.checkYourAnswersLabel = Your VAT registration number
+whatIsYourVATRegistrationNumber.error = Enter a valid VAT registration number
 whatIsYourVATRegistrationNumber.change.hidden = WhatIsYourVATRegistrationNumber
 
 areYouRegisteredForVAT.title = Are you registered for VAT?
@@ -507,9 +512,8 @@ whatIsYourUniqueTaxReference.title = What is your Unique Tax Reference?
 whatIsYourUniqueTaxReference.heading = What is your Unique Tax Reference?
 whatIsYourUniqueTaxReference.body = This 10 digit number is on your tax return, statement of accounts or any other Self Assessment calculations.
 whatIsYourUniqueTaxReference.hint = For example, ‘1234567890’.
-whatIsYourUniqueTaxReference.checkYourAnswersLabel = What is your Unique Tax Reference?
-whatIsYourUniqueTaxReference.error.required = Enter a valid Unique Tax Reference, like 1234567890
-whatIsYourUniqueTaxReference.error.length = Unique Tax Reference must be 10 characters or less
+whatIsYourUniqueTaxReference.checkYourAnswersLabel = Your Unique Taxpayer Reference
+whatIsYourUniqueTaxReference.error = Enter a Unique Tax Reference in the correct format
 whatIsYourUniqueTaxReference.change.hidden = WhatIsYourUniqueTaxReference
 
 yourCountryLookup.title = What is the country of your address?
@@ -525,6 +529,7 @@ youHaveSentYourNotification.paragraph.second =  We will write to you shortly wit
 
 yourAddressLookup.title = What is the postcode and property name or number of your address?
 yourAddressLookup.heading = What is the postcode and property name or number of your address?
+yourAddressLookup.afterHeadingText = If you are representing an organisation on behalf of the individual, you can use your organisation'’'s address.
 
 selectAddress.title = Choose your address
 selectAddress.heading = Choose your address
@@ -534,3 +539,144 @@ editAddress.heading = What is your address?
 
 confirmAddress.title = Is this the correct address?
 confirmAddress.heading = Is this the correct address?
+
+yourAddress.checkYourAnswersLabel = Your address
+yourAddress.change.hidden = YourAddress
+
+whatIsTheIndividualsFullName.title = What is the individual'’'s full name?
+whatIsTheIndividualsFullName.heading = What is the individual'’'s full name?
+whatIsTheIndividualsFullName.body = This should be as it'’'s written on official documents such as their passport or driving licence.
+whatIsTheIndividualsFullName.checkYourAnswersLabel = Individual'’'s full name
+whatIsTheIndividualsFullName.error.required = Enter the individual'’'s full name
+whatIsTheIndividualsFullName.error.length = Full name must be between 1 and 30 characters
+whatIsTheIndividualsFullName.change.hidden = WhatIsTheIndividualsFullName
+
+whatIsTheIndividualDateOfBirth.title = What is the individual'’'s date of birth?
+whatIsTheIndividualDateOfBirth.heading = What is the individual'’'s date of birth?
+whatIsTheIndividualDateOfBirth.hint = For example, 20 3 1976.
+whatIsTheIndividualDateOfBirth.checkYourAnswersLabel = Individual'’'s date of birth
+whatIsTheIndividualDateOfBirth.error.required.all = Enter a valid date of birth, like 20 3 1976
+whatIsTheIndividualDateOfBirth.error.required.two = Date of birth must include a {0} and a {1}
+whatIsTheIndividualDateOfBirth.error.required = Date of birth must include a {0}
+whatIsTheIndividualDateOfBirth.error.invalid = Enter the individual'’'s date of birth
+whatIsTheIndividualDateOfBirth.error.invalidDay = Enter a real date of birth - a month can have up to 31 days
+whatIsTheIndividualDateOfBirth.error.invalidMonth = Enter a real date of birth - there are only 12 months in a year
+whatIsTheIndividualDateOfBirth.error.invalidFutureDateOfBirth = Date of birth must be in the past
+whatIsTheIndividualDateOfBirth.change.hidden = WhatIsTheIndividualDateOfBirthController
+
+whatIsTheIndividualOccupation.title = What is the individual'’'s main occupation?
+whatIsTheIndividualOccupation.heading = What is the individual'’'s main occupation?
+whatIsTheIndividualOccupation.hint = For example, plumber or dentist.
+whatIsTheIndividualOccupation.checkYourAnswersLabel = Individual'’'s main occupation
+whatIsTheIndividualOccupation.error.required = Enter the individual'’'s main occupation
+whatIsTheIndividualOccupation.error.minLength = The individual'’'s main occupation should have at least 4 characters
+whatIsTheIndividualOccupation.error.maxLength = The individual'’'s main occupation should have no more than 30 characters
+whatIsTheIndividualOccupation.change.hidden = WhatIsTheIndividualOccupation
+
+doesTheIndividualHaveNINO.title = Does the individual have a National Insurance number, as far as you'’'re aware?
+doesTheIndividualHaveNINO.heading = Does the individual have a National Insurance number, as far as you'’'re aware?
+doesTheIndividualHaveNINO.yesIknow = Yes, and I know their National Insurance number
+doesTheIndividualHaveNINO.yesButDontKnow = Yes, but I do not know their National Insurance number
+doesTheIndividualHaveNINO.no = No
+doesTheIndividualHaveNINO.checkYourAnswersLabel = Does the individual have a National Insurance number, as far as you'’'re aware?
+doesTheIndividualHaveNINO.error.required = Select yes if the individual has a National Insurance number
+doesTheIndividualHaveNINO.change.hidden = DoesTheIndividualHaveNationalInsuranceNumber
+
+whatIsIndividualsNINO.title = What is the individual'’'s National Insurance number?
+whatIsIndividualsNINO.heading = What is the individual'’'s National Insurance number?
+whatIsIndividualsNINO.label = This is on your payslip, P60 or tax return.
+whatIsIndividualsNINO.hint = For example, ‘QQ123456A’.
+whatIsIndividualsNINO.checkYourAnswersLabel = Individual'’'s National Insurance number
+whatIsIndividualsNINO.error.required = Enter the individual'’'s National Insurance number
+whatIsIndividualsNINO.error.invalid = Enter a valid National Insurance number
+whatIsIndividualsNINO.change.hidden = WhatIsIndividualsNationalInsuranceNumber
+
+isTheIndividualRegisteredForVAT.title = Is the individual registered for VAT, as far as you'’'re aware?
+isTheIndividualRegisteredForVAT.heading = Is the individual registered for VAT, as far as you'’'re aware?
+isTheIndividualRegisteredForVAT.yesIKnow = Yes, and I know their VAT registration number
+isTheIndividualRegisteredForVAT.yesButDontKnow = Yes, but I do not know their VAT registration number
+isTheIndividualRegisteredForVAT.no = No
+isTheIndividualRegisteredForVAT.checkYourAnswersLabel = Is the individual registered for VAT, as far you'’'re aware?
+isTheIndividualRegisteredForVAT.error.required = Select yes if the individual is registered for VAT
+isTheIndividualRegisteredForVAT.change.hidden = IsTheIndividualRegisteredForVAT
+
+isTheIndividualRegisteredForSA.title = Is the individual registered for Self Assessment, as far as you'’'re aware?
+isTheIndividualRegisteredForSA.heading = Is the individual registered for Self Assessment, as far as you'’'re aware?
+isTheIndividualRegisteredForSA.yesIknow = Yes, and I know their Unique Taxpayer Reference (UTR)
+isTheIndividualRegisteredForSA.yesButDontKnow = Yes, but I do not know their Unique Taxpayer Reference (UTR)
+isTheIndividualRegisteredForSA.no = No
+isTheIndividualRegisteredForSA.checkYourAnswersLabel = Is the individual registered for Self Assessment, as far as you'’'re aware?
+isTheIndividualRegisteredForSA.error.required = Select yes if the individual is registered for Self Assessment
+isTheIndividualRegisteredForSA.change.hidden = IsTheIndividualRegisteredForSelfAssessment
+
+whatIsTheIndividualsVATRegistrationNumber.title = What is the individual'’'s VAT registration number?
+whatIsTheIndividualsVATRegistrationNumber.heading = What is the individual'’'s VAT registration number?
+whatIsTheIndividualsVATRegistrationNumber.label = This has 9 numbers, sometimes with '''GB''' at the start. You can find it on their VAT registration certificate or VAT online account.
+whatIsTheIndividualsVATRegistrationNumber.hint = For example, '‘'123456789'’' or '''GB123456789'''.
+whatIsTheIndividualsVATRegistrationNumber.checkYourAnswersLabel = Individual'’'s VAT registration number
+whatIsTheIndividualsVATRegistrationNumber.error.required = Enter the individual'’'s VAT registration number
+whatIsTheIndividualsVATRegistrationNumber.error.invalid = Enter a valid VAT registration number
+whatIsTheIndividualsVATRegistrationNumber.change.hidden = WhatIsTheIndividualsVATRegistrationNumber
+
+whatIsTheIndividualsUniqueTaxReference.title = What is the individual'’'s Unique Tax Reference?
+whatIsTheIndividualsUniqueTaxReference.heading = What is the individual'’'s Unique Tax Reference?
+whatIsTheIndividualsUniqueTaxReference.label = This 10 digit number is on their tax return, statement of accounts or any other Self Assessment calculations. 
+whatIsTheIndividualsUniqueTaxReference.hint = For example, '‘'1234567890'’'.
+whatIsTheIndividualsUniqueTaxReference.checkYourAnswersLabel = Individual'’'s Unique Taxpayer Reference
+whatIsTheIndividualsUniqueTaxReference.error.required = Enter the individual'’'s Unique Tax Reference
+whatIsTheIndividualsUniqueTaxReference.error.invalid = Enter a Unique Tax Reference in the correct format
+whatIsTheIndividualsUniqueTaxReference.change.hidden = WhatIsTheIndividualsUniqueTaxReference
+
+individualCountryLookup.title = What is the country of the individual’s address?
+individualCountryLookup.heading = What is the country of the individual’s address?
+individualCountryLookup.hint = For example, United Kingdom.
+
+individualAddressLookup.title = What is the postcode and property name or number of the individual'’'s address?
+individualAddressLookup.heading = What is the postcode and property name or number of the individual'’'s address?
+
+individualAddressLookup.checkYourAnswersLabel = Individual'’'s address
+individualAddressLookup.change.hidden = Individual'’'s address
+
+selectIndividualAddress.title = Choose the individual'’'s address
+selectIndividualAddress.heading = Choose the individual'’'s address
+
+editIndividualAddress.title = What is the individual'’'s address?
+editIndividualAddress.heading = What is the individual'’'s address?
+
+confirmIndividualAddress.title = Is this the correct address?
+confirmIndividualAddress.heading = Is this the correct address?
+
+notificationCYA.background = Background
+notificationCYA.aboutYou = About you
+
+individualSentYourNotification.title = You have sent the notification
+individualSentYourNotification.heading = You have sent the notification
+individualSentYourNotification.body = The notification reference number is
+individualSentYourNotification.paragraph.first = You can save a copy of the notification (opens in a new tab).
+individualSentYourNotification.paragraph.header = Next steps
+individualSentYourNotification.paragraph.second = We will write to you shortly with a Disclosure Reference Number (DRN). As soon as you receive this, you should make the full disclosure within 90 days of the date that HMRC acknowledges the notification.
+
+notificationCYA.aboutTheIndividual = About the individual
+
+areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.title = Are you an officer of the company that the disclosure will be about?
+areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.heading = Are you an officer of the company that the disclosure will be about?
+areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.yes = Yes, I am an officer of the company
+areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.no = No, I will be making a disclosure on behalf of an officer
+areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.hint.no = We may ask for additional evidence that you’re authorised to act for them, such as the ‘Authorising a tax agent (64-8)’ form.
+areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.checkYourAnswersLabel = Are you an officer of the company that the disclosure will be about?
+areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.error.required = Select yes if you are an officer of the company
+areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.change.hidden = AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout
+
+areYouRepresentingAnOrganisation.title = Are you representing an organisation?
+areYouRepresentingAnOrganisation.heading = Are you representing an organisation?
+areYouRepresentingAnOrganisation.heading.hint = For example, an accountancy or solicitor'’'s firm.
+areYouRepresentingAnOrganisation.checkYourAnswersLabel = Are you representing an organisation?
+areYouRepresentingAnOrganisation.error.required = Select yes if you are representing an organisation
+areYouRepresentingAnOrganisation.change.hidden = AreYouRepresentingAnOrganisation
+
+whatIsTheNameOfTheOrganisationYouRepresent.title = What is the name of the organisation you represent?
+whatIsTheNameOfTheOrganisationYouRepresent.heading = What is the name of the organisation you represent?
+whatIsTheNameOfTheOrganisationYouRepresent.checkYourAnswersLabel = What is the name of the organisation you represent?
+whatIsTheNameOfTheOrganisationYouRepresent.error.required = Enter the name of the organisation you represent
+whatIsTheNameOfTheOrganisationYouRepresent.error.length = Organisation name must be between 1 and 50 characters
+whatIsTheNameOfTheOrganisationYouRepresent.change.hidden = WhatIsTheNameOfTheOrganisationYouRepresent

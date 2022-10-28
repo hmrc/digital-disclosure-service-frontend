@@ -20,6 +20,7 @@ import base.SpecBase
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.html.notification.OnlyOnshoreLiabilitiesView
+import models.NormalMode
 
 class OnlyOnshoreLiabilitiesControllerSpec extends SpecBase {
 
@@ -36,8 +37,10 @@ class OnlyOnshoreLiabilitiesControllerSpec extends SpecBase {
 
         val view = application.injector.instanceOf[OnlyOnshoreLiabilitiesView]
 
+        val url = controllers.notification.routes.WhatIsTheIndividualsFullNameController.onPageLoad(NormalMode).url
+
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view()(request, messages(application)).toString
+        contentAsString(result) mustEqual view(url)(request, messages(application)).toString
       }
     }
   }

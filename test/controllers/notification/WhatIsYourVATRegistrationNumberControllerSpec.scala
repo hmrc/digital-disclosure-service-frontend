@@ -84,6 +84,9 @@ class WhatIsYourVATRegistrationNumberControllerSpec extends SpecBase with Mockit
 
       when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
 
+      val vatLength = 9
+      val validVAT = generateValidVAT(vatLength).sample.value
+
       val application =
         applicationBuilder(userAnswers = Some(emptyUserAnswers))
           .overrides(
@@ -95,7 +98,7 @@ class WhatIsYourVATRegistrationNumberControllerSpec extends SpecBase with Mockit
       running(application) {
         val request =
           FakeRequest(POST, whatIsYourVATRegistrationNumberRoute)
-            .withFormUrlEncodedBody(("value", "answer"))
+            .withFormUrlEncodedBody(("value", validVAT))
 
         val result = route(application, request).value
 
