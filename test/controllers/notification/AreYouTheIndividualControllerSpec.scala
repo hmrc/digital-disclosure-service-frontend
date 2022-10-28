@@ -24,12 +24,12 @@ import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.{times, verify, when}
 import org.scalatestplus.mockito.MockitoSugar
 import pages._
+import pages.notification.IndividualPages
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import repositories.SessionRepository
-import services.IndividualPages
 import views.html.notification.AreYouTheIndividualView
 
 import scala.concurrent.Future

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package services
+package pages.notification
 
 import pages._
 

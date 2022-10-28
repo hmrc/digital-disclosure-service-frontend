@@ -22,11 +22,11 @@ import forms.AreYouTheIndividualFormProvider
 import javax.inject.Inject
 import models.{AreYouTheIndividual, Mode, UserAnswers}
 import navigation.NotificationNavigator
+import pages.notification.IndividualPages
 import pages.{AreYouTheIndividualPage, QuestionPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
-import services.IndividualPages
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.notification.AreYouTheIndividualView
 
