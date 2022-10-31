@@ -69,7 +69,6 @@ final case class UserAnswers(
       oldAnswerList.flatMap(_.remove(page))
     })
   }
-  
 }
 
 object UserAnswers {

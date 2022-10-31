@@ -160,6 +160,10 @@ class NotificationNavigator @Inject()() {
   }
 
   private val checkRouteMap: Page => UserAnswers => Boolean => Call = {
+    case AreYouTheIndividualPage => ua => hasAnswerChanged =>
+      if(hasAnswerChanged) normalRoutes(AreYouTheIndividualPage)(ua)
+      else routes.CheckYourAnswersController.onPageLoad
+
     case ReceivedALetterPage => ua => hasAnswerChanged =>
       if(hasAnswerChanged) routes.LetterReferenceController.onPageLoad(CheckMode)
       else routes.CheckYourAnswersController.onPageLoad
