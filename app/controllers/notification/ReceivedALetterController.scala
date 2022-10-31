@@ -22,7 +22,6 @@ import javax.inject.Inject
 import models._
 import navigation.NotificationNavigator
 import pages._
-import pages.notification.IndividualPages
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -41,7 +40,7 @@ class ReceivedALetterController @Inject()(
   formProvider: ReceivedALetterFormProvider,
   val controllerComponents: MessagesControllerComponents,
   view: ReceivedALetterView
-)(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with IndividualPages {
+)(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
 
