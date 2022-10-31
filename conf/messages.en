@@ -16,7 +16,7 @@ date.day = Day
 date.month = Month
 date.year = Year
 
-timeout.title = You're about to be signed out
+timeout.title = You’re about to be signed out
 timeout.message = For security reasons, you will be signed out of this service in
 timeout.keepAlive = Stay signed in
 timeout.signOut = Sign out
@@ -39,7 +39,7 @@ error.summary.title = There is a problem
 index.title = Digital Disclosure Service
 index.heading = Digital Disclosure Service
 index.guidance.paragraph.first = You can tell us about undisclosed income you need to pay tax on for any years between the tax years ending 2003 and 2021. However, if you have been sent a tax return for any year from the tax year ending 2019 which is still outstanding, you must complete it as normal – do not include the tax from these tax years in this disclosure.
-index.guidance.paragraph.second = You'''ll first need to tell ('notify') us that you'''re going to pay HMRC the tax, interest and penalties you owe ('make a disclosure'). We will then write to you with specific reference numbers which are needed for making your full disclosure by using this service again.
+index.guidance.paragraph.second = You’ll first need to tell (‘notify’) us that you’re going to pay HMRC the tax, interest and penalties you owe (‘make a disclosure’). We will then write to you with specific reference numbers which are needed for making your full disclosure by using this service again.
 index.guidance.paragraph.third = 'You will also be asked to pay the full amount due at the same time as making your disclosure. If you cannot pay the full amount, '
 index.guidance.paragraph.third.link = let us know as soon as possible and before you send in your disclosure by calling the helpline (opens in a new tab)
 index.start = Start now
@@ -71,8 +71,8 @@ signedOut.title = For your security, we signed you out
 signedOut.heading = For your security, we signed you out
 signedOut.guidance = We did not save your answers.
 
-unauthorised.title = You can't access this service with this account
-unauthorised.heading = You can't access this service with this account
+unauthorised.title = You can’t access this service with this account
+unauthorised.heading = You can’t access this service with this account
 
 #===================================================
 #  COUNTRIES
@@ -529,7 +529,7 @@ youHaveSentYourNotification.paragraph.second =  We will write to you shortly wit
 
 yourAddressLookup.title = What is the postcode and property name or number of your address?
 yourAddressLookup.heading = What is the postcode and property name or number of your address?
-yourAddressLookup.afterHeadingText = If you are representing an organisation on behalf of the individual, you can use your organisation'’'s address.
+yourAddressLookup.afterHeadingText = If you are representing an organisation on behalf of the individual, you can use your organisation’s address.
 
 selectAddress.title = Choose your address
 selectAddress.heading = Choose your address
@@ -543,87 +543,87 @@ confirmAddress.heading = Is this the correct address?
 yourAddress.checkYourAnswersLabel = Your address
 yourAddress.change.hidden = YourAddress
 
-whatIsTheIndividualsFullName.title = What is the individual'’'s full name?
-whatIsTheIndividualsFullName.heading = What is the individual'’'s full name?
-whatIsTheIndividualsFullName.body = This should be as it'’'s written on official documents such as their passport or driving licence.
-whatIsTheIndividualsFullName.checkYourAnswersLabel = Individual'’'s full name
-whatIsTheIndividualsFullName.error.required = Enter the individual'’'s full name
+whatIsTheIndividualsFullName.title = What is the individual’s full name?
+whatIsTheIndividualsFullName.heading = What is the individual’s full name?
+whatIsTheIndividualsFullName.body = This should be as it’s written on official documents such as their passport or driving licence.
+whatIsTheIndividualsFullName.checkYourAnswersLabel = Individual’s full name
+whatIsTheIndividualsFullName.error.required = Enter the individual’s full name
 whatIsTheIndividualsFullName.error.length = Full name must be between 1 and 30 characters
 whatIsTheIndividualsFullName.change.hidden = WhatIsTheIndividualsFullName
 
-whatIsTheIndividualDateOfBirth.title = What is the individual'’'s date of birth?
-whatIsTheIndividualDateOfBirth.heading = What is the individual'’'s date of birth?
+whatIsTheIndividualDateOfBirth.title = What is the individual’s date of birth?
+whatIsTheIndividualDateOfBirth.heading = What is the individual’s date of birth?
 whatIsTheIndividualDateOfBirth.hint = For example, 20 3 1976.
-whatIsTheIndividualDateOfBirth.checkYourAnswersLabel = Individual'’'s date of birth
+whatIsTheIndividualDateOfBirth.checkYourAnswersLabel = Individual’s date of birth
 whatIsTheIndividualDateOfBirth.error.required.all = Enter a valid date of birth, like 20 3 1976
 whatIsTheIndividualDateOfBirth.error.required.two = Date of birth must include a {0} and a {1}
 whatIsTheIndividualDateOfBirth.error.required = Date of birth must include a {0}
-whatIsTheIndividualDateOfBirth.error.invalid = Enter the individual'’'s date of birth
+whatIsTheIndividualDateOfBirth.error.invalid = Enter the individual’s date of birth
 whatIsTheIndividualDateOfBirth.error.invalidDay = Enter a real date of birth - a month can have up to 31 days
 whatIsTheIndividualDateOfBirth.error.invalidMonth = Enter a real date of birth - there are only 12 months in a year
 whatIsTheIndividualDateOfBirth.error.invalidFutureDateOfBirth = Date of birth must be in the past
 whatIsTheIndividualDateOfBirth.change.hidden = WhatIsTheIndividualDateOfBirthController
 
-whatIsTheIndividualOccupation.title = What is the individual'’'s main occupation?
-whatIsTheIndividualOccupation.heading = What is the individual'’'s main occupation?
+whatIsTheIndividualOccupation.title = What is the individual’s main occupation?
+whatIsTheIndividualOccupation.heading = What is the individual’s main occupation?
 whatIsTheIndividualOccupation.hint = For example, plumber or dentist.
-whatIsTheIndividualOccupation.checkYourAnswersLabel = Individual'’'s main occupation
-whatIsTheIndividualOccupation.error.required = Enter the individual'’'s main occupation
-whatIsTheIndividualOccupation.error.minLength = The individual'’'s main occupation should have at least 4 characters
-whatIsTheIndividualOccupation.error.maxLength = The individual'’'s main occupation should have no more than 30 characters
+whatIsTheIndividualOccupation.checkYourAnswersLabel = Individual’s main occupation
+whatIsTheIndividualOccupation.error.required = Enter the individual’s main occupation
+whatIsTheIndividualOccupation.error.minLength = The individual’s main occupation should have at least 4 characters
+whatIsTheIndividualOccupation.error.maxLength = The individual’s main occupation should have no more than 30 characters
 whatIsTheIndividualOccupation.change.hidden = WhatIsTheIndividualOccupation
 
-doesTheIndividualHaveNINO.title = Does the individual have a National Insurance number, as far as you'’'re aware?
-doesTheIndividualHaveNINO.heading = Does the individual have a National Insurance number, as far as you'’'re aware?
+doesTheIndividualHaveNINO.title = Does the individual have a National Insurance number, as far as you’re aware?
+doesTheIndividualHaveNINO.heading = Does the individual have a National Insurance number, as far as you’re aware?
 doesTheIndividualHaveNINO.yesIknow = Yes, and I know their National Insurance number
 doesTheIndividualHaveNINO.yesButDontKnow = Yes, but I do not know their National Insurance number
 doesTheIndividualHaveNINO.no = No
-doesTheIndividualHaveNINO.checkYourAnswersLabel = Does the individual have a National Insurance number, as far as you'’'re aware?
+doesTheIndividualHaveNINO.checkYourAnswersLabel = Does the individual have a National Insurance number, as far as you’re aware?
 doesTheIndividualHaveNINO.error.required = Select yes if the individual has a National Insurance number
 doesTheIndividualHaveNINO.change.hidden = DoesTheIndividualHaveNationalInsuranceNumber
 
-whatIsIndividualsNINO.title = What is the individual'’'s National Insurance number?
-whatIsIndividualsNINO.heading = What is the individual'’'s National Insurance number?
+whatIsIndividualsNINO.title = What is the individual’s National Insurance number?
+whatIsIndividualsNINO.heading = What is the individual’s National Insurance number?
 whatIsIndividualsNINO.label = This is on your payslip, P60 or tax return.
 whatIsIndividualsNINO.hint = For example, ‘QQ123456A’.
-whatIsIndividualsNINO.checkYourAnswersLabel = Individual'’'s National Insurance number
-whatIsIndividualsNINO.error.required = Enter the individual'’'s National Insurance number
+whatIsIndividualsNINO.checkYourAnswersLabel = Individual’s National Insurance number
+whatIsIndividualsNINO.error.required = Enter the individual’s National Insurance number
 whatIsIndividualsNINO.error.invalid = Enter a valid National Insurance number
 whatIsIndividualsNINO.change.hidden = WhatIsIndividualsNationalInsuranceNumber
 
-isTheIndividualRegisteredForVAT.title = Is the individual registered for VAT, as far as you'’'re aware?
-isTheIndividualRegisteredForVAT.heading = Is the individual registered for VAT, as far as you'’'re aware?
+isTheIndividualRegisteredForVAT.title = Is the individual registered for VAT, as far as you’re aware?
+isTheIndividualRegisteredForVAT.heading = Is the individual registered for VAT, as far as you’re aware?
 isTheIndividualRegisteredForVAT.yesIKnow = Yes, and I know their VAT registration number
 isTheIndividualRegisteredForVAT.yesButDontKnow = Yes, but I do not know their VAT registration number
 isTheIndividualRegisteredForVAT.no = No
-isTheIndividualRegisteredForVAT.checkYourAnswersLabel = Is the individual registered for VAT, as far you'’'re aware?
+isTheIndividualRegisteredForVAT.checkYourAnswersLabel = Is the individual registered for VAT, as far you’re aware?
 isTheIndividualRegisteredForVAT.error.required = Select yes if the individual is registered for VAT
 isTheIndividualRegisteredForVAT.change.hidden = IsTheIndividualRegisteredForVAT
 
-isTheIndividualRegisteredForSA.title = Is the individual registered for Self Assessment, as far as you'’'re aware?
-isTheIndividualRegisteredForSA.heading = Is the individual registered for Self Assessment, as far as you'’'re aware?
+isTheIndividualRegisteredForSA.title = Is the individual registered for Self Assessment, as far as you’re aware?
+isTheIndividualRegisteredForSA.heading = Is the individual registered for Self Assessment, as far as you’re aware?
 isTheIndividualRegisteredForSA.yesIknow = Yes, and I know their Unique Taxpayer Reference (UTR)
 isTheIndividualRegisteredForSA.yesButDontKnow = Yes, but I do not know their Unique Taxpayer Reference (UTR)
 isTheIndividualRegisteredForSA.no = No
-isTheIndividualRegisteredForSA.checkYourAnswersLabel = Is the individual registered for Self Assessment, as far as you'’'re aware?
+isTheIndividualRegisteredForSA.checkYourAnswersLabel = Is the individual registered for Self Assessment, as far as you’re aware?
 isTheIndividualRegisteredForSA.error.required = Select yes if the individual is registered for Self Assessment
 isTheIndividualRegisteredForSA.change.hidden = IsTheIndividualRegisteredForSelfAssessment
 
-whatIsTheIndividualsVATRegistrationNumber.title = What is the individual'’'s VAT registration number?
-whatIsTheIndividualsVATRegistrationNumber.heading = What is the individual'’'s VAT registration number?
-whatIsTheIndividualsVATRegistrationNumber.label = This has 9 numbers, sometimes with '''GB''' at the start. You can find it on their VAT registration certificate or VAT online account.
-whatIsTheIndividualsVATRegistrationNumber.hint = For example, '‘'123456789'’' or '''GB123456789'''.
-whatIsTheIndividualsVATRegistrationNumber.checkYourAnswersLabel = Individual'’'s VAT registration number
-whatIsTheIndividualsVATRegistrationNumber.error.required = Enter the individual'’'s VAT registration number
+whatIsTheIndividualsVATRegistrationNumber.title = What is the individual’s VAT registration number?
+whatIsTheIndividualsVATRegistrationNumber.heading = What is the individual’s VAT registration number?
+whatIsTheIndividualsVATRegistrationNumber.label = This has 9 numbers, sometimes with ’GB’ at the start. You can find it on their VAT registration certificate or VAT online account.
+whatIsTheIndividualsVATRegistrationNumber.hint = For example, ‘123456789’ or ’GB123456789’.
+whatIsTheIndividualsVATRegistrationNumber.checkYourAnswersLabel = Individual’s VAT registration number
+whatIsTheIndividualsVATRegistrationNumber.error.required = Enter the individual’s VAT registration number
 whatIsTheIndividualsVATRegistrationNumber.error.invalid = Enter a valid VAT registration number
 whatIsTheIndividualsVATRegistrationNumber.change.hidden = WhatIsTheIndividualsVATRegistrationNumber
 
-whatIsTheIndividualsUniqueTaxReference.title = What is the individual'’'s Unique Tax Reference?
-whatIsTheIndividualsUniqueTaxReference.heading = What is the individual'’'s Unique Tax Reference?
+whatIsTheIndividualsUniqueTaxReference.title = What is the individual’s Unique Tax Reference?
+whatIsTheIndividualsUniqueTaxReference.heading = What is the individual’s Unique Tax Reference?
 whatIsTheIndividualsUniqueTaxReference.label = This 10 digit number is on their tax return, statement of accounts or any other Self Assessment calculations. 
-whatIsTheIndividualsUniqueTaxReference.hint = For example, '‘'1234567890'’'.
-whatIsTheIndividualsUniqueTaxReference.checkYourAnswersLabel = Individual'’'s Unique Taxpayer Reference
-whatIsTheIndividualsUniqueTaxReference.error.required = Enter the individual'’'s Unique Tax Reference
+whatIsTheIndividualsUniqueTaxReference.hint = For example, ‘1234567890’.
+whatIsTheIndividualsUniqueTaxReference.checkYourAnswersLabel = Individual’s Unique Taxpayer Reference
+whatIsTheIndividualsUniqueTaxReference.error.required = Enter the individual’s Unique Tax Reference
 whatIsTheIndividualsUniqueTaxReference.error.invalid = Enter a Unique Tax Reference in the correct format
 whatIsTheIndividualsUniqueTaxReference.change.hidden = WhatIsTheIndividualsUniqueTaxReference
 
@@ -631,17 +631,17 @@ individualCountryLookup.title = What is the country of the individual’s addres
 individualCountryLookup.heading = What is the country of the individual’s address?
 individualCountryLookup.hint = For example, United Kingdom.
 
-individualAddressLookup.title = What is the postcode and property name or number of the individual'’'s address?
-individualAddressLookup.heading = What is the postcode and property name or number of the individual'’'s address?
+individualAddressLookup.title = What is the postcode and property name or number of the individual’s address?
+individualAddressLookup.heading = What is the postcode and property name or number of the individual’s address?
 
-individualAddressLookup.checkYourAnswersLabel = Individual'’'s address
-individualAddressLookup.change.hidden = Individual'’'s address
+individualAddressLookup.checkYourAnswersLabel = Individual’s address
+individualAddressLookup.change.hidden = Individual’s address
 
-selectIndividualAddress.title = Choose the individual'’'s address
-selectIndividualAddress.heading = Choose the individual'’'s address
+selectIndividualAddress.title = Choose the individual’s address
+selectIndividualAddress.heading = Choose the individual’s address
 
-editIndividualAddress.title = What is the individual'’'s address?
-editIndividualAddress.heading = What is the individual'’'s address?
+editIndividualAddress.title = What is the individual’s address?
+editIndividualAddress.heading = What is the individual’s address?
 
 confirmIndividualAddress.title = Is this the correct address?
 confirmIndividualAddress.heading = Is this the correct address?
@@ -669,7 +669,7 @@ areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.change.hidden = AreYouAn
 
 areYouRepresentingAnOrganisation.title = Are you representing an organisation?
 areYouRepresentingAnOrganisation.heading = Are you representing an organisation?
-areYouRepresentingAnOrganisation.heading.hint = For example, an accountancy or solicitor'’'s firm.
+areYouRepresentingAnOrganisation.heading.hint = For example, an accountancy or solicitor’s firm.
 areYouRepresentingAnOrganisation.checkYourAnswersLabel = Are you representing an organisation?
 areYouRepresentingAnOrganisation.error.required = Select yes if you are representing an organisation
 areYouRepresentingAnOrganisation.change.hidden = AreYouRepresentingAnOrganisation
