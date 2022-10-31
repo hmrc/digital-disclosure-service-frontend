@@ -21,7 +21,8 @@ import forms.ReceivedALetterFormProvider
 import javax.inject.Inject
 import models._
 import navigation.NotificationNavigator
-import pages.{ReceivedALetterPage, QuestionPage, LetterReferencePage}
+import pages._
+import pages.notification.IndividualPages
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -40,7 +41,7 @@ class ReceivedALetterController @Inject()(
   formProvider: ReceivedALetterFormProvider,
   val controllerComponents: MessagesControllerComponents,
   view: ReceivedALetterView
-)(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+)(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with IndividualPages {
 
   val form = formProvider()
 
@@ -64,13 +65,13 @@ class ReceivedALetterController @Inject()(
 
         value => { 
           
-          val pages = changedPages(request.userAnswers, value)
+          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
 
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(ReceivedALetterPage, value))
-            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pages._1)) //changedPages
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
             _              <- sessionRepository.set(clearedAnswers)
-          } yield Redirect(navigator.nextPage(ReceivedALetterPage, mode, clearedAnswers, pages._2)) //hasChanged
+          } yield Redirect(navigator.nextPage(ReceivedALetterPage, mode, clearedAnswers, hasValueChanged))
         }
       )
   }
@@ -85,9 +86,4 @@ class ReceivedALetterController @Inject()(
         (Nil, false) 
     }
   }
-
-  val removePages: List[QuestionPage[_]] = List(
-    LetterReferencePage
-  )
-
 }
