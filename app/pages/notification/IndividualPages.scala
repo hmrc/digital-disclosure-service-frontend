@@ -51,7 +51,7 @@ trait IndividualPages {
     IndividualAddressLookupPage
   )
 
-  val removePages: List[QuestionPage[_]] = List(
+  val removeLetterReferencePages: List[QuestionPage[_]] = List(
     LetterReferencePage
   )
 

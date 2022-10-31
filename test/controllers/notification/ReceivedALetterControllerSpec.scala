@@ -126,7 +126,7 @@ class ReceivedALetterControllerSpec extends SpecBase with MockitoSugar with Indi
       val mockSessionRepository = mock[SessionRepository]
       when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
 
-      val expectedUserAnswers = userAnswers.remove(removePages).get
+      val expectedUserAnswers = userAnswers.remove(removeLetterReferencePages).get
         .set(ReceivedALetterPage, newAnswer).get
 
       val application = applicationBuilder(userAnswers = Some(userAnswers))

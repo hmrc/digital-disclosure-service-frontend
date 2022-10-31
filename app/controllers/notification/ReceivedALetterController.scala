@@ -81,7 +81,7 @@ class ReceivedALetterController @Inject()(
       case Some(false) if value == true =>
         (Nil, true)
       case Some(true) if value == false =>
-        (removePages, false)
+        (removeLetterReferencePages, false)
       case _ =>
         (Nil, false) 
     }
