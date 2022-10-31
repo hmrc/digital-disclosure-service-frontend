@@ -50,5 +50,5 @@ trait IndividualPages {
     WhatIsTheIndividualsUniqueTaxReferencePage,
     IndividualAddressLookupPage
   )
-
+  
 }

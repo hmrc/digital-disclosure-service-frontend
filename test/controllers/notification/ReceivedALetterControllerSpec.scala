@@ -18,12 +18,12 @@ package controllers
 
 import base.SpecBase
 import forms.ReceivedALetterFormProvider
-import models.{NormalMode, UserAnswers}
+import models._
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.when
+import org.mockito.Mockito.{times, verify, when}
 import org.scalatestplus.mockito.MockitoSugar
-import pages.ReceivedALetterPage
+import pages._
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -41,6 +41,7 @@ class ReceivedALetterControllerSpec extends SpecBase with MockitoSugar {
   val form = formProvider()
 
   lazy val receivedALetterRoute = notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url
+  lazy val receivedALetterRouteCheckMode = notification.routes.ReceivedALetterController.onPageLoad(CheckMode).url
 
   "ReceivedALetter Controller" - {
 
@@ -75,6 +76,77 @@ class ReceivedALetterControllerSpec extends SpecBase with MockitoSugar {
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(form.fill(true), NormalMode)(request, messages(application)).toString
+      }
+    }
+
+    "must redirect to received a letter screen and then letter reference page (change mode) if received a letter page answer changes from No to Yes in check mode" in {
+
+      val previousAnswer = false
+      val newAnswer = true
+
+      val userAnswers = arbitraryUserData.arbitrary.sample.get
+        .set(ReceivedALetterPage, previousAnswer).success.value
+
+      val mockSessionRepository = mock[SessionRepository]
+      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
+      
+      val expectedUserAnswers = userAnswers.set(ReceivedALetterPage, newAnswer).get
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers))
+        .overrides(
+          bind[SessionRepository].toInstance(mockSessionRepository)
+        )
+        .build()
+
+      val letterReferenceRouteCheckMode = notification.routes.LetterReferenceController.onPageLoad(CheckMode).url
+
+      running(application) {
+        val request =
+          FakeRequest(POST, receivedALetterRouteCheckMode)
+            .withFormUrlEncodedBody(("value", newAnswer.toString))
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual letterReferenceRouteCheckMode
+
+        verify(mockSessionRepository, times(1)).set(expectedUserAnswers)
+      }
+    }
+
+    "must redirect to received a letter screen and clear letter reference page if received a letter page answer changes from Yes to No in check mode" in {
+
+      val previousAnswer = true
+      val newAnswer = false
+
+      val userAnswers = arbitraryUserData.arbitrary.sample.get
+        .set(ReceivedALetterPage, previousAnswer).success.value
+
+      val mockSessionRepository = mock[SessionRepository]
+      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
+
+      val expectedUserAnswers = userAnswers.remove(List(LetterReferencePage)).get
+        .set(ReceivedALetterPage, newAnswer).get
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers))
+        .overrides(
+          bind[SessionRepository].toInstance(mockSessionRepository)
+        )
+        .build()
+
+      val checkYourAnswersRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      running(application) {
+        val request =
+          FakeRequest(POST, receivedALetterRouteCheckMode)
+            .withFormUrlEncodedBody(("value", newAnswer.toString))
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual checkYourAnswersRoute
+
+        verify(mockSessionRepository, times(1)).set(expectedUserAnswers)
       }
     }
 
