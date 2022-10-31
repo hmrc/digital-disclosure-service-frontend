@@ -50,9 +50,4 @@ trait IndividualPages {
     WhatIsTheIndividualsUniqueTaxReferencePage,
     IndividualAddressLookupPage
   )
-
-  val removeLetterReferencePages: List[QuestionPage[_]] = List(
-    LetterReferencePage
-  )
-
 }

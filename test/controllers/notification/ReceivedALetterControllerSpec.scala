@@ -24,7 +24,6 @@ import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.{times, verify, when}
 import org.scalatestplus.mockito.MockitoSugar
 import pages._
-import pages.notification.IndividualPages
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -34,7 +33,7 @@ import views.html.notification.ReceivedALetterView
 
 import scala.concurrent.Future
 
-class ReceivedALetterControllerSpec extends SpecBase with MockitoSugar with IndividualPages {
+class ReceivedALetterControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
@@ -126,7 +125,7 @@ class ReceivedALetterControllerSpec extends SpecBase with MockitoSugar with Indi
       val mockSessionRepository = mock[SessionRepository]
       when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
 
-      val expectedUserAnswers = userAnswers.remove(removeLetterReferencePages).get
+      val expectedUserAnswers = userAnswers.remove(List(LetterReferencePage)).get
         .set(ReceivedALetterPage, newAnswer).get
 
       val application = applicationBuilder(userAnswers = Some(userAnswers))
