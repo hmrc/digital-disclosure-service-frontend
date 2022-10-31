@@ -168,6 +168,10 @@ class NotificationNavigator @Inject()() {
       if(hasAnswerChanged) routes.LetterReferenceController.onPageLoad(CheckMode)
       else routes.CheckYourAnswersController.onPageLoad
 
+    case DoYouHaveAnEmailAddressPage => ua => hasAnswerChanged =>
+      if(hasAnswerChanged) routes.YourEmailAddressController.onPageLoad(CheckMode)
+      else routes.CheckYourAnswersController.onPageLoad
+      
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
