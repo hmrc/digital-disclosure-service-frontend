@@ -159,14 +159,18 @@ class NotificationNavigator @Inject()() {
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
-  private val checkRouteMap: Page => UserAnswers => Call = {
-    case _ => _ => routes.CheckYourAnswersController.onPageLoad
+  private val checkRouteMap: Page => UserAnswers => Boolean => Call = {
+    case AreYouTheIndividualPage => ua => hasAnswerChanged =>
+      if(hasAnswerChanged) normalRoutes(AreYouTheIndividualPage)(ua)
+      else routes.CheckYourAnswersController.onPageLoad
+
+    case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
-  def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call = mode match {
+  def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasAnswerChanged: Boolean = true): Call = mode match {
     case NormalMode =>
       normalRoutes(page)(userAnswers)
     case CheckMode =>
-      checkRouteMap(page)(userAnswers)
+      checkRouteMap(page)(userAnswers)(hasAnswerChanged)
   }
 }
