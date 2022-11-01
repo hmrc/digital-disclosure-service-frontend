@@ -22,7 +22,7 @@ import forms.DoYouHaveNationalInsuranceNumberFormProvider
 import javax.inject.Inject
 import models.{DoYouHaveNationalInsuranceNumber, Mode, UserAnswers}
 import navigation.NotificationNavigator
-import pages.{DoYouHaveNationalInsuranceNumberPage, WhatIsYourNationalInsuranceNumberPage}
+import pages.{DoYouHaveNationalInsuranceNumberPage, QuestionPage, WhatIsYourNationalInsuranceNumberPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -64,22 +64,23 @@ class DoYouHaveNationalInsuranceNumberController @Inject()(
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
         value => {
-          val (userAnswers, hasChanged) = userChanges(request.userAnswers, value)
+          val (pagesToRemove, hasChanged) = userChanges(request.userAnswers, value)
 
           for {
-            updatedAnswers <- Future.fromTry(userAnswers.set(DoYouHaveNationalInsuranceNumberPage, value))
-            _ <- sessionRepository.set(updatedAnswers)
+            updatedAnswers <- Future.fromTry(request.userAnswers.set(DoYouHaveNationalInsuranceNumberPage, value))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToRemove))
+            _ <- sessionRepository.set(clearedAnswers)
           } yield Redirect(navigator.nextPage(DoYouHaveNationalInsuranceNumberPage, mode, updatedAnswers, hasChanged))
         }
       )
   }
 
-  def userChanges(userAnswers: UserAnswers, newAnswer: DoYouHaveNationalInsuranceNumber): (UserAnswers, Boolean) =
+  def userChanges(userAnswers: UserAnswers, newAnswer: DoYouHaveNationalInsuranceNumber): (List[QuestionPage[_]], Boolean) =
     userAnswers.get(DoYouHaveNationalInsuranceNumberPage) match {
       case Some(DoYouHaveNationalInsuranceNumber.YesIknow) if DoYouHaveNationalInsuranceNumber.YesIknow != newAnswer =>
-        (userAnswers.remove(WhatIsYourNationalInsuranceNumberPage).get, false)
+        (List(WhatIsYourNationalInsuranceNumberPage), false)
       case Some(DoYouHaveNationalInsuranceNumber.YesButDontKnow) | Some(DoYouHaveNationalInsuranceNumber.No)
-        if DoYouHaveNationalInsuranceNumber.YesIknow == newAnswer => (userAnswers, true)
-      case _ => (userAnswers, false)
+        if DoYouHaveNationalInsuranceNumber.YesIknow == newAnswer => (Nil, true)
+      case _ => (Nil, false)
     }
 }
