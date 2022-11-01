@@ -164,8 +164,12 @@ class NotificationNavigator @Inject()() {
       if(hasAnswerChanged) normalRoutes(AreYouTheIndividualPage)(ua)
       else routes.CheckYourAnswersController.onPageLoad
 
-    case ReceivedALetterPage => ua => hasAnswerChanged =>
+    case ReceivedALetterPage => _ => hasAnswerChanged =>
       if(hasAnswerChanged) routes.LetterReferenceController.onPageLoad(CheckMode)
+      else routes.CheckYourAnswersController.onPageLoad
+
+    case DoYouHaveNationalInsuranceNumberPage => _ => hasAnswerChanged =>
+      if(hasAnswerChanged) routes.WhatIsYourNationalInsuranceNumberController.onPageLoad(CheckMode)
       else routes.CheckYourAnswersController.onPageLoad
 
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad

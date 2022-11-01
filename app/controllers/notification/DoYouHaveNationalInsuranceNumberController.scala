@@ -18,10 +18,11 @@ package controllers.notification
 
 import controllers.actions._
 import forms.DoYouHaveNationalInsuranceNumberFormProvider
+
 import javax.inject.Inject
-import models.Mode
+import models.{AreYouTheIndividual, DoYouHaveNationalInsuranceNumber, Mode, UserAnswers}
 import navigation.NotificationNavigator
-import pages.DoYouHaveNationalInsuranceNumberPage
+import pages.{AreYouTheIndividualPage, DoYouHaveNationalInsuranceNumberPage, QuestionPage, WhatIsYourNationalInsuranceNumberPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -62,11 +63,22 @@ class DoYouHaveNationalInsuranceNumberController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
-        value =>
+        value => {
+          val (userAnswers, hasChanged) = userChanges(request.userAnswers, value)
+
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(DoYouHaveNationalInsuranceNumberPage, value))
-            _              <- sessionRepository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(DoYouHaveNationalInsuranceNumberPage, mode, updatedAnswers))
+            updatedAnswers <- Future.fromTry(userAnswers.set(DoYouHaveNationalInsuranceNumberPage, value))
+            _ <- sessionRepository.set(updatedAnswers)
+          } yield Redirect(navigator.nextPage(DoYouHaveNationalInsuranceNumberPage, mode, updatedAnswers, hasChanged))
+        }
       )
   }
+
+  def userChanges(answers: UserAnswers, newAnswer: DoYouHaveNationalInsuranceNumber): (UserAnswers, Boolean) =
+    answers.get(DoYouHaveNationalInsuranceNumberPage) match {
+      case Some(DoYouHaveNationalInsuranceNumber.YesIknow) if DoYouHaveNationalInsuranceNumber.YesIknow != newAnswer =>
+        (answers.remove(WhatIsYourNationalInsuranceNumberPage).get, true)
+      case Some(_) if DoYouHaveNationalInsuranceNumber.YesIknow == newAnswer => (answers, true)
+      case _ => (answers, false)
+    }
 }
