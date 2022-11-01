@@ -24,7 +24,7 @@ sealed trait IsTheIndividualRegisteredForSelfAssessment
 
 object IsTheIndividualRegisteredForSelfAssessment extends Enumerable.Implicits {
 
-  case object YesIKnow extends WithName("yesIknow") with IsTheIndividualRegisteredForSelfAssessment
+  case object YesIKnow extends WithName("yesIKnow") with IsTheIndividualRegisteredForSelfAssessment
   case object YesButDontKnow extends WithName("yesButDontKnow") with IsTheIndividualRegisteredForSelfAssessment
   case object No extends WithName("no") with IsTheIndividualRegisteredForSelfAssessment
 

@@ -73,7 +73,7 @@ class NotificationNavigator @Inject()() {
     case WhatIsYourMainOccupationPage => _ => routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(NormalMode)
 
     case DoYouHaveNationalInsuranceNumberPage => ua => ua.get(DoYouHaveNationalInsuranceNumberPage) match {
-      case Some(DoYouHaveNationalInsuranceNumber.YesIknow) => routes.WhatIsYourNationalInsuranceNumberController.onPageLoad(NormalMode)
+      case Some(DoYouHaveNationalInsuranceNumber.YesIKnow) => routes.WhatIsYourNationalInsuranceNumberController.onPageLoad(NormalMode)
       case Some(DoYouHaveNationalInsuranceNumber.YesButDontKnow) => routes.AreYouRegisteredForVATController.onPageLoad(NormalMode)
       case Some(DoYouHaveNationalInsuranceNumber.No) => routes.AreYouRegisteredForVATController.onPageLoad(NormalMode)
       case None => routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(NormalMode)
@@ -112,7 +112,7 @@ class NotificationNavigator @Inject()() {
     case WhatIsTheIndividualOccupationPage => _ => routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(NormalMode)
 
     case DoesTheIndividualHaveNationalInsuranceNumberPage => ua => ua.get(DoesTheIndividualHaveNationalInsuranceNumberPage) match {
-      case Some(DoesTheIndividualHaveNationalInsuranceNumber.YesIknow) => routes.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(NormalMode)
+      case Some(DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow) => routes.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(NormalMode)
       case Some(DoesTheIndividualHaveNationalInsuranceNumber.YesButDontKnow) => routes.IsTheIndividualRegisteredForVATController.onPageLoad(NormalMode)
       case Some(DoesTheIndividualHaveNationalInsuranceNumber.No) => routes.IsTheIndividualRegisteredForVATController.onPageLoad(NormalMode)
       case None => routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(NormalMode)
@@ -173,7 +173,7 @@ class NotificationNavigator @Inject()() {
       else routes.CheckYourAnswersController.onPageLoad
 
     case DoYouHaveNationalInsuranceNumberPage => ua => hasAnswerChanged => ua.get(DoYouHaveNationalInsuranceNumberPage) match {
-      case Some(DoYouHaveNationalInsuranceNumber.YesIknow) if hasAnswerChanged => routes.WhatIsYourNationalInsuranceNumberController.onPageLoad(CheckMode)
+      case Some(DoYouHaveNationalInsuranceNumber.YesIKnow) if hasAnswerChanged => routes.WhatIsYourNationalInsuranceNumberController.onPageLoad(CheckMode)
       case _ => routes.CheckYourAnswersController.onPageLoad
     }
 
@@ -184,6 +184,16 @@ class NotificationNavigator @Inject()() {
 
     case IsTheIndividualRegisteredForVATPage => ua => hasAnswerChanged => ua.get(IsTheIndividualRegisteredForVATPage) match {
       case Some(IsTheIndividualRegisteredForVAT.YesIKnow) if hasAnswerChanged => routes.WhatIsTheIndividualsVATRegistrationNumberController.onPageLoad(CheckMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad
+    }
+
+    case IsTheIndividualRegisteredForSelfAssessmentPage => ua => hasAnswerChanged => ua.get(IsTheIndividualRegisteredForSelfAssessmentPage) match {
+      case Some(IsTheIndividualRegisteredForSelfAssessment.YesIKnow) if hasAnswerChanged => routes.WhatIsTheIndividualsUniqueTaxReferenceController.onPageLoad(CheckMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad
+    }
+
+    case DoesTheIndividualHaveNationalInsuranceNumberPage => ua => hasAnswerChanged => ua.get(DoesTheIndividualHaveNationalInsuranceNumberPage) match {
+      case Some(DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow) if hasAnswerChanged => routes.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(CheckMode)
       case _ => routes.CheckYourAnswersController.onPageLoad
     }
 

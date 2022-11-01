@@ -105,7 +105,7 @@ class DoYouHaveNationalInsuranceNumberControllerSpec extends ControllerSpecBase 
 
     "must redirect to WhatIsYourNationalInsuranceNumber screen  in check mode if DoYouHaveNationalInsuranceNumber page answer was change from No or YesButDontKnow to YesIKnow" in {
       val previousAnswers = Seq(DoYouHaveNationalInsuranceNumber.No, DoYouHaveNationalInsuranceNumber.YesButDontKnow)
-      val newAnswer = DoYouHaveNationalInsuranceNumber.YesIknow
+      val newAnswer = DoYouHaveNationalInsuranceNumber.YesIKnow
 
       val urlToTest =  notification.routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
       val destinationRoute = notification.routes.WhatIsYourNationalInsuranceNumberController.onPageLoad(CheckMode).url
@@ -116,7 +116,7 @@ class DoYouHaveNationalInsuranceNumberControllerSpec extends ControllerSpecBase 
     }
 
     "must redirect to WhatIsYourNationalInsuranceNumber screen in check mode if the user answer was change from YesIKnow to No or YesButDontKnow" in {
-      val previousAnswer = DoYouHaveNationalInsuranceNumber.YesIknow
+      val previousAnswer = DoYouHaveNationalInsuranceNumber.YesIKnow
       val newAnswers = Seq(DoYouHaveNationalInsuranceNumber.No, DoYouHaveNationalInsuranceNumber.YesButDontKnow)
 
       val urlToTest =  notification.routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
