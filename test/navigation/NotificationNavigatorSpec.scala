@@ -436,6 +436,26 @@ class NotificationNavigatorSpec extends SpecBase {
         val userAnswers = UserAnswers("id").set(AreYouRegisteredForVATPage, AreYouRegisteredForVAT.YesIKnow).success.value
         navigator.nextPage(AreYouRegisteredForVATPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
       }
+
+      "must go from the IsTheIndividualRegisteredForVATPage to WhatIsTheIndividualsVATRegistrationNumberPage where the answer is YesIKnow and has changed" in {
+        val userAnswers = UserAnswers("id").set(IsTheIndividualRegisteredForVATPage, IsTheIndividualRegisteredForVAT.YesIKnow).success.value
+        navigator.nextPage(IsTheIndividualRegisteredForVATPage, CheckMode, userAnswers, true) mustBe routes.WhatIsTheIndividualsVATRegistrationNumberController.onPageLoad(CheckMode)
+      }
+
+      "must go from the IsTheIndividualRegisteredForVATPage to CheckYourAnswers where the answer is No and has changed" in {
+        val userAnswers = UserAnswers("id").set(IsTheIndividualRegisteredForVATPage, IsTheIndividualRegisteredForVAT.No).success.value
+        navigator.nextPage(IsTheIndividualRegisteredForVATPage, CheckMode, userAnswers, true) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must go from the IsTheIndividualRegisteredForVATPage to CheckYourAnswers where the answer is YesButDontKnow and has changed" in {
+        val userAnswers = UserAnswers("id").set(IsTheIndividualRegisteredForVATPage, IsTheIndividualRegisteredForVAT.YesButDontKnow).success.value
+        navigator.nextPage(IsTheIndividualRegisteredForVATPage, CheckMode, userAnswers, true) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must go from the IsTheIndividualRegisteredForVATPage to CheckYourAnswers where the answer is YesIKnow but has NOT changed" in {
+        val userAnswers = UserAnswers("id").set(IsTheIndividualRegisteredForVATPage, IsTheIndividualRegisteredForVAT.YesIKnow).success.value
+        navigator.nextPage(IsTheIndividualRegisteredForVATPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
     }
   }
 }
