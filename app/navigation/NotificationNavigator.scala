@@ -181,6 +181,11 @@ class NotificationNavigator @Inject()() {
       case Some(IsTheIndividualRegisteredForVAT.YesIKnow) if hasAnswerChanged => routes.WhatIsTheIndividualsVATRegistrationNumberController.onPageLoad(CheckMode)
       case _ => routes.CheckYourAnswersController.onPageLoad
     }
+
+    case IsTheIndividualRegisteredForSelfAssessmentPage => ua => hasAnswerChanged => ua.get(IsTheIndividualRegisteredForSelfAssessmentPage) match {
+      case Some(IsTheIndividualRegisteredForSelfAssessment.YesIKnow) if hasAnswerChanged => routes.WhatIsTheIndividualsUniqueTaxReferenceController.onPageLoad(CheckMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad
+    }
       
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }

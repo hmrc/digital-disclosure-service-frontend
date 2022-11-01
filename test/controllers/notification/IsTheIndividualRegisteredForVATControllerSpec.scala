@@ -18,7 +18,6 @@ package controllers
 
 import base.ControllerSpecBase
 import forms.IsTheIndividualRegisteredForVATFormProvider
-import models.{NormalMode, IsTheIndividualRegisteredForVAT, UserAnswers}
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
