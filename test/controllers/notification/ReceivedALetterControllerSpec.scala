@@ -16,13 +16,12 @@
 
 package controllers
 
-import base.SpecBase
+import base.ControllerSpecBase
 import forms.ReceivedALetterFormProvider
 import models._
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.{times, verify, when}
-import org.scalatestplus.mockito.MockitoSugar
+import org.mockito.Mockito.when
 import pages._
 import play.api.inject.bind
 import play.api.mvc.Call
@@ -33,7 +32,7 @@ import views.html.notification.ReceivedALetterView
 
 import scala.concurrent.Future
 
-class ReceivedALetterControllerSpec extends SpecBase with MockitoSugar {
+class ReceivedALetterControllerSpec extends ControllerSpecBase {
 
   def onwardRoute = Call("GET", "/foo")
 
@@ -41,8 +40,7 @@ class ReceivedALetterControllerSpec extends SpecBase with MockitoSugar {
   val form = formProvider()
 
   lazy val receivedALetterRoute = notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url
-  lazy val receivedALetterRouteCheckMode = notification.routes.ReceivedALetterController.onPageLoad(CheckMode).url
-
+  
   "ReceivedALetter Controller" - {
 
     "must return OK and the correct view for a GET" in {
@@ -84,34 +82,10 @@ class ReceivedALetterControllerSpec extends SpecBase with MockitoSugar {
       val previousAnswer = false
       val newAnswer = true
 
-      val userAnswers = arbitraryUserData.arbitrary.sample.get
-        .set(ReceivedALetterPage, previousAnswer).success.value
+      val urlToTest = notification.routes.ReceivedALetterController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.LetterReferenceController.onPageLoad(CheckMode).url
 
-      val mockSessionRepository = mock[SessionRepository]
-      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
-      
-      val expectedUserAnswers = userAnswers.set(ReceivedALetterPage, newAnswer).get
-
-      val application = applicationBuilder(userAnswers = Some(userAnswers))
-        .overrides(
-          bind[SessionRepository].toInstance(mockSessionRepository)
-        )
-        .build()
-
-      val letterReferenceRouteCheckMode = notification.routes.LetterReferenceController.onPageLoad(CheckMode).url
-
-      running(application) {
-        val request =
-          FakeRequest(POST, receivedALetterRouteCheckMode)
-            .withFormUrlEncodedBody(("value", newAnswer.toString))
-
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual letterReferenceRouteCheckMode
-
-        verify(mockSessionRepository, times(1)).set(expectedUserAnswers)
-      }
+      testChangeAnswerRouting(previousAnswer, newAnswer, ReceivedALetterPage, urlToTest, destinationRoute)
     }
 
     "must redirect to received a letter screen and clear letter reference page if received a letter page answer changes from Yes to No in check mode" in {
@@ -119,35 +93,10 @@ class ReceivedALetterControllerSpec extends SpecBase with MockitoSugar {
       val previousAnswer = true
       val newAnswer = false
 
-      val userAnswers = arbitraryUserData.arbitrary.sample.get
-        .set(ReceivedALetterPage, previousAnswer).success.value
+      val urlToTest = notification.routes.DoYouHaveAnEmailAddressController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
 
-      val mockSessionRepository = mock[SessionRepository]
-      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
-
-      val expectedUserAnswers = userAnswers.remove(List(LetterReferencePage)).get
-        .set(ReceivedALetterPage, newAnswer).get
-
-      val application = applicationBuilder(userAnswers = Some(userAnswers))
-        .overrides(
-          bind[SessionRepository].toInstance(mockSessionRepository)
-        )
-        .build()
-
-      val checkYourAnswersRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
-
-      running(application) {
-        val request =
-          FakeRequest(POST, receivedALetterRouteCheckMode)
-            .withFormUrlEncodedBody(("value", newAnswer.toString))
-
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual checkYourAnswersRoute
-
-        verify(mockSessionRepository, times(1)).set(expectedUserAnswers)
-      }
+      testChangeAnswerRouting(previousAnswer, newAnswer, ReceivedALetterPage, urlToTest, destinationRoute, List(LetterReferencePage))
     }
 
     "must redirect to the next page when valid data is submitted" in {
