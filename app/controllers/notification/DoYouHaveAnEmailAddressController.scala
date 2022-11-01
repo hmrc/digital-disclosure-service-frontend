@@ -60,7 +60,7 @@ class DoYouHaveAnEmailAddressController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),  
+          Future.successful(BadRequest(view(formWithErrors, mode))),
 
         value => {
 
@@ -82,7 +82,7 @@ class DoYouHaveAnEmailAddressController @Inject()(
       case Some(true) if value == false =>
         (List(YourEmailAddressPage), false)
       case _ =>
-        (Nil, false) 
+        (Nil, false)
     }
   }
 

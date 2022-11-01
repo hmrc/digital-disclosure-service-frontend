@@ -172,6 +172,11 @@ class NotificationNavigator @Inject()() {
       if(hasAnswerChanged) routes.YourEmailAddressController.onPageLoad(CheckMode)
       else routes.CheckYourAnswersController.onPageLoad
 
+    case DoYouHaveNationalInsuranceNumberPage => ua => hasAnswerChanged => ua.get(DoYouHaveNationalInsuranceNumberPage) match {
+      case Some(DoYouHaveNationalInsuranceNumber.YesIKnow) if hasAnswerChanged => routes.WhatIsYourNationalInsuranceNumberController.onPageLoad(CheckMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad
+    }
+
     case AreYouRegisteredForVATPage => ua => hasAnswerChanged => ua.get(AreYouRegisteredForVATPage) match {
       case Some(AreYouRegisteredForVAT.YesIKnow) if hasAnswerChanged => routes.WhatIsYourVATRegistrationNumberController.onPageLoad(CheckMode)
       case _ => routes.CheckYourAnswersController.onPageLoad
@@ -195,7 +200,7 @@ class NotificationNavigator @Inject()() {
       case Some(DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow) if hasAnswerChanged => routes.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(CheckMode)
       case _ => routes.CheckYourAnswersController.onPageLoad
     }
-      
+
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
