@@ -575,7 +575,7 @@ whatIsTheIndividualOccupation.change.hidden = WhatIsTheIndividualOccupation
 
 doesTheIndividualHaveNINO.title = Does the individual have a National Insurance number, as far as you’re aware?
 doesTheIndividualHaveNINO.heading = Does the individual have a National Insurance number, as far as you’re aware?
-doesTheIndividualHaveNINO.yesIknow = Yes, and I know their National Insurance number
+doesTheIndividualHaveNINO.yesIKnow = Yes, and I know their National Insurance number
 doesTheIndividualHaveNINO.yesButDontKnow = Yes, but I do not know their National Insurance number
 doesTheIndividualHaveNINO.no = No
 doesTheIndividualHaveNINO.checkYourAnswersLabel = Does the individual have a National Insurance number, as far as you’re aware?
@@ -602,7 +602,7 @@ isTheIndividualRegisteredForVAT.change.hidden = IsTheIndividualRegisteredForVAT
 
 isTheIndividualRegisteredForSA.title = Is the individual registered for Self Assessment, as far as you’re aware?
 isTheIndividualRegisteredForSA.heading = Is the individual registered for Self Assessment, as far as you’re aware?
-isTheIndividualRegisteredForSA.yesIknow = Yes, and I know their Unique Taxpayer Reference (UTR)
+isTheIndividualRegisteredForSA.yesIKnow = Yes, and I know their Unique Taxpayer Reference (UTR)
 isTheIndividualRegisteredForSA.yesButDontKnow = Yes, but I do not know their Unique Taxpayer Reference (UTR)
 isTheIndividualRegisteredForSA.no = No
 isTheIndividualRegisteredForSA.checkYourAnswersLabel = Is the individual registered for Self Assessment, as far as you’re aware?

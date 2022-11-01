@@ -43,7 +43,7 @@ class IsTheIndividualRegisteredForSelfAssessmentViewSpec extends ViewSpecBase wi
     }
 
     "have Yes, and I know their Unique Taxpayer Reference (UTR)" in {
-      view.getElementsByClass("govuk-radios__label").get(0).text() mustBe messages("isTheIndividualRegisteredForSA.yesIknow")
+      view.getElementsByClass("govuk-radios__label").get(0).text() mustBe messages("isTheIndividualRegisteredForSA.yesIKnow")
     }
 
     "have Yes, but I do not know their Unique Taxpayer Reference (UTR)" in {

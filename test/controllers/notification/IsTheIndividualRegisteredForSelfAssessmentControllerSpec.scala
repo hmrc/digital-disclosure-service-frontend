@@ -22,7 +22,6 @@ import models._
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
-import org.scalatestplus.mockito.MockitoSugar
 import pages._
 import play.api.inject.bind
 import play.api.mvc.Call
@@ -33,7 +32,7 @@ import views.html.notification.IsTheIndividualRegisteredForSelfAssessmentView
 
 import scala.concurrent.Future
 
-class IsTheIndividualRegisteredForSelfAssessmentControllerSpec extends ControllerSpecBase with MockitoSugar {
+class IsTheIndividualRegisteredForSelfAssessmentControllerSpec extends ControllerSpecBase {
 
   def onwardRoute = Call("GET", "/foo")
 
