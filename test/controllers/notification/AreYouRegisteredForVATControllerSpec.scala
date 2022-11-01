@@ -177,7 +177,7 @@ class AreYouRegisteredForVATControllerSpec extends ControllerSpecBase {
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForVATPage, urlToTest, destinationRoute, Nil)
     }
 
-    "must redirect to CheckYourAnswers screen and clear YourEmailAddress page if page answer changes from YesIKnow to No in check mode" in {
+    "must redirect to CheckYourAnswers screen and clear WhatIsYourVATRegistrationNumberPage if page answer changes from YesIKnow to No in check mode" in {
 
       val previousAnswer = AreYouRegisteredForVAT.YesIKnow
       val newAnswer = AreYouRegisteredForVAT.No
@@ -188,7 +188,7 @@ class AreYouRegisteredForVATControllerSpec extends ControllerSpecBase {
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForVATPage, urlToTest, destinationRoute, List(WhatIsYourVATRegistrationNumberPage))
     }
 
-    "must redirect to CheckYourAnswers screen and clear YourEmailAddress page if page answer changes from YesIKnow to YesButDontKnow in check mode" in {
+    "must redirect to CheckYourAnswers screen and clear WhatIsYourVATRegistrationNumberPage if page answer changes from YesIKnow to YesButDontKnow in check mode" in {
 
       val previousAnswer = AreYouRegisteredForVAT.YesIKnow
       val newAnswer = AreYouRegisteredForVAT.YesButDontKnow
