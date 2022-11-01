@@ -93,7 +93,7 @@ class ReceivedALetterControllerSpec extends ControllerSpecBase {
       val previousAnswer = true
       val newAnswer = false
 
-      val urlToTest = notification.routes.DoYouHaveAnEmailAddressController.onPageLoad(CheckMode).url
+      val urlToTest = notification.routes.ReceivedALetterController.onPageLoad(CheckMode).url
       val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, ReceivedALetterPage, urlToTest, destinationRoute, List(LetterReferencePage))

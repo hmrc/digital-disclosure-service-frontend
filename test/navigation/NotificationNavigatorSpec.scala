@@ -436,6 +436,26 @@ class NotificationNavigatorSpec extends SpecBase {
         val userAnswers = UserAnswers("id").set(AreYouRegisteredForVATPage, AreYouRegisteredForVAT.YesIKnow).success.value
         navigator.nextPage(AreYouRegisteredForVATPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
       }
+
+      "must go from the AreYouRegisteredForSelfAssessmentPage to WhatIsYourUniqueTaxReferenceController where the answer is YesIKnowMyUTR and has changed" in {
+        val userAnswers = UserAnswers("id").set(AreYouRegisteredForSelfAssessmentPage, AreYouRegisteredForSelfAssessment.YesIKnowMyUTR).success.value
+        navigator.nextPage(AreYouRegisteredForSelfAssessmentPage, CheckMode, userAnswers, true) mustBe routes.WhatIsYourUniqueTaxReferenceController.onPageLoad(CheckMode)
+      }
+
+      "must go from the AreYouRegisteredForSelfAssessmentPage to CheckYourAnswers where the answer is No and has changed" in {
+        val userAnswers = UserAnswers("id").set(AreYouRegisteredForSelfAssessmentPage, AreYouRegisteredForSelfAssessment.No).success.value
+        navigator.nextPage(AreYouRegisteredForSelfAssessmentPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must go from the AreYouRegisteredForSelfAssessmentPage to CheckYourAnswers where the answer is YesIDontKnowMyUTR and has changed" in {
+        val userAnswers = UserAnswers("id").set(AreYouRegisteredForSelfAssessmentPage, AreYouRegisteredForSelfAssessment.YesIDontKnowMyUTR).success.value
+        navigator.nextPage(AreYouRegisteredForSelfAssessmentPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must go from the AreYouRegisteredForSelfAssessmentPage to CheckYourAnswers where the answer is YesIKnowMyUTR but has NOT changed" in {
+        val userAnswers = UserAnswers("id").set(AreYouRegisteredForSelfAssessmentPage, AreYouRegisteredForSelfAssessment.YesIKnowMyUTR).success.value
+        navigator.nextPage(AreYouRegisteredForSelfAssessmentPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
     }
   }
 }
