@@ -28,48 +28,52 @@ import play.api.libs.json.Writes
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import scala.concurrent.Future
 import org.mockito.Mockito.{times, verify, when}
+import scala.util.Try
+import models.UserAnswers
+import org.scalacheck.Arbitrary
 
 trait ControllerSpecBase extends SpecBase with MockitoSugar with ScalaCheckPropertyChecks {
 
-    def testChangeAnswerRouting[A](
-                                    previousAnswer: A,
-                                    newAnswer:A,
-                                    page: QuestionPage[A],
-                                    urlToTest: String,
-                                    destinationRoute: String,
-                                    pageToRemove: List[QuestionPage[_]] = Nil
-                                  )(implicit writes: Writes[A]) = {
+  def testChangeAnswerRouting[A](
+                                  previousAnswer: A,
+                                  newAnswer:A,
+                                  page: QuestionPage[A],
+                                  urlToTest: String,
+                                  destinationRoute: String,
+                                  pagesToRemove: List[QuestionPage[_]] = Nil
+                                )(implicit writes: Writes[A]) = {
 
-      forAll(arbitraryUserData.arbitrary) { userAnswers =>
+    forAll(arbitraryUserData.arbitrary) { userAnswers =>
 
-        val mockSessionRepository = mock[SessionRepository]
-        when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
+      val mockSessionRepository = mock[SessionRepository]
+      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
 
-        for {
-          uaWithPageSet <- userAnswers.set(page, newAnswer)
-          expectedUa <- uaWithPageSet.remove(pageToRemove)
-        } yield {
+      val previousUa = userAnswers.set(page, previousAnswer).success.value
 
-          val application = applicationBuilder(userAnswers = Some(userAnswers))
-            .overrides(
-              bind[SessionRepository].toInstance(mockSessionRepository)
-            )
-            .build()
+      val expectedUa = (for {
+        updatedUa <-  userAnswers.set(page, newAnswer)
+        clearedUa <- updatedUa.remove(pagesToRemove)
+      } yield clearedUa).success.value
 
-          running(application) {
-            val request =
-              FakeRequest(POST, urlToTest)
-                .withFormUrlEncodedBody(("value", newAnswer.toString))
+      val application = applicationBuilder(userAnswers = Some(previousUa))
+        .overrides(
+          bind[SessionRepository].toInstance(mockSessionRepository)
+        )
+        .build()
 
-            val result = route(application, request).value
+      running(application) {
+        val request =
+          FakeRequest(POST, urlToTest)
+            .withFormUrlEncodedBody(("value", newAnswer.toString))
 
-            status(result) mustEqual SEE_OTHER
-            redirectLocation(result).value mustEqual destinationRoute
+        val result = route(application, request).value
 
-            verify(mockSessionRepository, times(1)).set(expectedUa)
-          }
-        }
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual destinationRoute
 
+        verify(mockSessionRepository, times(1)).set(expectedUa)
       }
+
     }
+  }
 }
