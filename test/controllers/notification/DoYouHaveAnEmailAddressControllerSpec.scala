@@ -85,7 +85,7 @@ class DoYouHaveAnEmailAddressControllerSpec extends ControllerSpecBase {
       val urlToTest = notification.routes.DoYouHaveAnEmailAddressController.onPageLoad(CheckMode).url
       val destinationRoute = notification.routes.YourEmailAddressController.onPageLoad(CheckMode).url
 
-      testChangeAnswerRouting(previousAnswer, newAnswer, DoYouHaveAnEmailAddressPage, urlToTest, destinationRoute)
+      testChangeAnswerRouting(previousAnswer, newAnswer, DoYouHaveAnEmailAddressPage, urlToTest, destinationRoute, Nil)
     }
 
     "must redirect to DoYouHaveAnEmailAddress screen and clear YourEmailAddress page if DoYouHaveAnEmailAddress page answer changes from Yes to No in check mode" in {

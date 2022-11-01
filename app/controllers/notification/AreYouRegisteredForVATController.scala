@@ -19,9 +19,9 @@ package controllers.notification
 import controllers.actions._
 import forms.AreYouRegisteredForVATFormProvider
 import javax.inject.Inject
-import models.Mode
+import models._
 import navigation.NotificationNavigator
-import pages.AreYouRegisteredForVATPage
+import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -62,11 +62,22 @@ class AreYouRegisteredForVATController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
-        value =>
+        value => {
+          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AreYouRegisteredForVATPage, value))
-            _              <- sessionRepository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(AreYouRegisteredForVATPage, mode, updatedAnswers))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+            _              <- sessionRepository.set(clearedAnswers)
+          } yield Redirect(navigator.nextPage(AreYouRegisteredForVATPage, mode, clearedAnswers, hasValueChanged))
+        }
       )
   }
+
+  def changedPages(existingUserAnswers: UserAnswers, value: AreYouRegisteredForVAT): (List[QuestionPage[_]], Boolean) = 
+    existingUserAnswers.get(AreYouRegisteredForVATPage) match {
+      case Some(AreYouRegisteredForVAT.YesIKnow) if value != AreYouRegisteredForVAT.YesIKnow => (List(WhatIsYourVATRegistrationNumberPage), true)
+      case Some(existingValue) if value != existingValue => (Nil, true)
+      case _ => (Nil, false)
+    }
+
 }
