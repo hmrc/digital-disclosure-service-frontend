@@ -19,9 +19,9 @@ package controllers.notification
 import controllers.actions._
 import forms.DoYouHaveAnEmailAddressFormProvider
 import javax.inject.Inject
-import models.Mode
+import models._
 import navigation.NotificationNavigator
-import pages.DoYouHaveAnEmailAddressPage
+import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -62,11 +62,28 @@ class DoYouHaveAnEmailAddressController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
-        value =>
+        value => {
+
+          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
+
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(DoYouHaveAnEmailAddressPage, value))
-            _              <- sessionRepository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(DoYouHaveAnEmailAddressPage, mode, updatedAnswers))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+            _              <- sessionRepository.set(clearedAnswers)
+          } yield Redirect(navigator.nextPage(DoYouHaveAnEmailAddressPage, mode, clearedAnswers, hasValueChanged))
+        }
       )
   }
+
+  def changedPages(userAnswers: UserAnswers, value: Boolean): (List[QuestionPage[_]], Boolean) = {
+    userAnswers.get(DoYouHaveAnEmailAddressPage) match {
+      case Some(false) if value =>
+        (Nil, true)
+      case Some(true) if !value =>
+        (List(YourEmailAddressPage), false)
+      case _ =>
+        (Nil, false)
+    }
+  }
+
 }

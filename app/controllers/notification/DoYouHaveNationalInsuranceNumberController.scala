@@ -74,11 +74,12 @@ class DoYouHaveNationalInsuranceNumberController @Inject()(
       )
   }
 
-  def userChanges(answers: UserAnswers, newAnswer: DoYouHaveNationalInsuranceNumber): (UserAnswers, Boolean) =
-    answers.get(DoYouHaveNationalInsuranceNumberPage) match {
+  def userChanges(userAnswers: UserAnswers, newAnswer: DoYouHaveNationalInsuranceNumber): (UserAnswers, Boolean) =
+    userAnswers.get(DoYouHaveNationalInsuranceNumberPage) match {
       case Some(DoYouHaveNationalInsuranceNumber.YesIknow) if DoYouHaveNationalInsuranceNumber.YesIknow != newAnswer =>
-        (answers.remove(WhatIsYourNationalInsuranceNumberPage).get, true)
-      case Some(_) if DoYouHaveNationalInsuranceNumber.YesIknow == newAnswer => (answers, true)
-      case _ => (answers, false)
+        (userAnswers.remove(WhatIsYourNationalInsuranceNumberPage).get, false)
+      case Some(DoYouHaveNationalInsuranceNumber.YesButDontKnow) | Some(DoYouHaveNationalInsuranceNumber.No)
+        if DoYouHaveNationalInsuranceNumber.YesIknow == newAnswer => (userAnswers, true)
+      case _ => (userAnswers, false)
     }
 }

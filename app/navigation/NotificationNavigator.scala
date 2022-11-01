@@ -172,6 +172,10 @@ class NotificationNavigator @Inject()() {
       if(hasAnswerChanged) routes.WhatIsYourNationalInsuranceNumberController.onPageLoad(CheckMode)
       else routes.CheckYourAnswersController.onPageLoad
 
+    case DoYouHaveAnEmailAddressPage => _ => hasAnswerChanged =>
+      if(hasAnswerChanged) routes.YourEmailAddressController.onPageLoad(CheckMode)
+      else routes.CheckYourAnswersController.onPageLoad
+
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
