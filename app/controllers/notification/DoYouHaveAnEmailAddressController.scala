@@ -77,9 +77,9 @@ class DoYouHaveAnEmailAddressController @Inject()(
 
   def changedPages(userAnswers: UserAnswers, value: Boolean): (List[QuestionPage[_]], Boolean) = {
     userAnswers.get(DoYouHaveAnEmailAddressPage) match {
-      case Some(false) if value =>
+      case Some(false) if value == true =>
         (Nil, true)
-      case Some(true) if !value =>
+      case Some(true) if value == false =>
         (List(YourEmailAddressPage), false)
       case _ =>
         (Nil, false)
