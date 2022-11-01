@@ -64,11 +64,11 @@ final case class UserAnswers(
     }
   }
 
-  def remove(pages: List[Settable[_]]) : Try[UserAnswers] = {
+  def remove(pages: List[Settable[_]]) : Try[UserAnswers] = 
     pages.foldLeft(Try(this))((oldAnswerList, page) => {
       oldAnswerList.flatMap(_.remove(page))
     })
-  }
+  
 }
 
 object UserAnswers {
