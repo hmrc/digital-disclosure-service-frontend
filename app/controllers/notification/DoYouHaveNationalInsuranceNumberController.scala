@@ -64,23 +64,22 @@ class DoYouHaveNationalInsuranceNumberController @Inject()(
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
         value => {
-          val (pagesToRemove, hasChanged) = userChanges(request.userAnswers, value)
+          val (pagesToClear, hasChanged) = changedPages(request.userAnswers, value)
 
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(DoYouHaveNationalInsuranceNumberPage, value))
-            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToRemove))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
             _ <- sessionRepository.set(clearedAnswers)
           } yield Redirect(navigator.nextPage(DoYouHaveNationalInsuranceNumberPage, mode, updatedAnswers, hasChanged))
         }
       )
   }
 
-  def userChanges(userAnswers: UserAnswers, newAnswer: DoYouHaveNationalInsuranceNumber): (List[QuestionPage[_]], Boolean) =
-    userAnswers.get(DoYouHaveNationalInsuranceNumberPage) match {
-      case Some(DoYouHaveNationalInsuranceNumber.YesIknow) if DoYouHaveNationalInsuranceNumber.YesIknow != newAnswer =>
-        (List(WhatIsYourNationalInsuranceNumberPage), false)
-      case Some(DoYouHaveNationalInsuranceNumber.YesButDontKnow) | Some(DoYouHaveNationalInsuranceNumber.No)
-        if DoYouHaveNationalInsuranceNumber.YesIknow == newAnswer => (Nil, true)
+  def changedPages(existingUserAnswers: UserAnswers, value: DoYouHaveNationalInsuranceNumber): (List[QuestionPage[_]], Boolean) =
+    existingUserAnswers.get(DoYouHaveNationalInsuranceNumberPage) match {
+      case Some(DoYouHaveNationalInsuranceNumber.YesIknow) if value != DoYouHaveNationalInsuranceNumber.YesIknow =>
+        (List(WhatIsYourNationalInsuranceNumberPage), true)
+      case Some(existingValue) if value != existingValue => (Nil, true)
       case _ => (Nil, false)
     }
 }
