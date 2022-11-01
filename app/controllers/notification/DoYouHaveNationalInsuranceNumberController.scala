@@ -20,9 +20,9 @@ import controllers.actions._
 import forms.DoYouHaveNationalInsuranceNumberFormProvider
 
 import javax.inject.Inject
-import models.{AreYouTheIndividual, DoYouHaveNationalInsuranceNumber, Mode, UserAnswers}
+import models.{DoYouHaveNationalInsuranceNumber, Mode, UserAnswers}
 import navigation.NotificationNavigator
-import pages.{AreYouTheIndividualPage, DoYouHaveNationalInsuranceNumberPage, QuestionPage, WhatIsYourNationalInsuranceNumberPage}
+import pages.{DoYouHaveNationalInsuranceNumberPage, WhatIsYourNationalInsuranceNumberPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
