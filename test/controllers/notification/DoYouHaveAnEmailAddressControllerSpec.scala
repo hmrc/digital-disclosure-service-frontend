@@ -16,13 +16,12 @@
 
 package controllers
 
-import base.SpecBase
+import base.ControllerSpecBase
 import forms.DoYouHaveAnEmailAddressFormProvider
 import models._
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.{times, verify, when}
-import org.scalatestplus.mockito.MockitoSugar
+import org.mockito.Mockito.when
 import pages._
 import play.api.inject.bind
 import play.api.mvc.Call
@@ -33,7 +32,7 @@ import views.html.notification.DoYouHaveAnEmailAddressView
 
 import scala.concurrent.Future
 
-class DoYouHaveAnEmailAddressControllerSpec extends SpecBase with MockitoSugar {
+class DoYouHaveAnEmailAddressControllerSpec extends ControllerSpecBase {
 
   def onwardRoute = Call("GET", "/foo")
 
@@ -41,7 +40,6 @@ class DoYouHaveAnEmailAddressControllerSpec extends SpecBase with MockitoSugar {
   val form = formProvider()
 
   lazy val doYouHaveAnEmailAddressRoute = notification.routes.DoYouHaveAnEmailAddressController.onPageLoad(NormalMode).url
-  lazy val doYouHaveAnEmailAddressRouteCheckMode = notification.routes.DoYouHaveAnEmailAddressController.onPageLoad(CheckMode).url
 
   "DoYouHaveAnEmailAddress Controller" - {
 
@@ -84,34 +82,10 @@ class DoYouHaveAnEmailAddressControllerSpec extends SpecBase with MockitoSugar {
       val previousAnswer = false
       val newAnswer = true
 
-      val userAnswers = arbitraryUserData.arbitrary.sample.get
-        .set(DoYouHaveAnEmailAddressPage, previousAnswer).success.value
+      val urlToTest = notification.routes.DoYouHaveAnEmailAddressController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.YourEmailAddressController.onPageLoad(CheckMode).url
 
-      val mockSessionRepository = mock[SessionRepository]
-      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
-      
-      val expectedUserAnswers = userAnswers.set(DoYouHaveAnEmailAddressPage, newAnswer).get
-
-      val application = applicationBuilder(userAnswers = Some(userAnswers))
-        .overrides(
-          bind[SessionRepository].toInstance(mockSessionRepository)
-        )
-        .build()
-
-      val yourEmailAddressRouteCheckMode = notification.routes.YourEmailAddressController.onPageLoad(CheckMode).url
-
-      running(application) {
-        val request =
-          FakeRequest(POST, doYouHaveAnEmailAddressRouteCheckMode)
-            .withFormUrlEncodedBody(("value", newAnswer.toString))
-
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual yourEmailAddressRouteCheckMode
-
-        verify(mockSessionRepository, times(1)).set(expectedUserAnswers)
-      }
+      testChangeAnswerRouting(previousAnswer, newAnswer, DoYouHaveAnEmailAddressPage, urlToTest, destinationRoute)
     }
 
     "must redirect to DoYouHaveAnEmailAddress screen and clear YourEmailAddress page if DoYouHaveAnEmailAddress page answer changes from Yes to No in check mode" in {
@@ -119,35 +93,10 @@ class DoYouHaveAnEmailAddressControllerSpec extends SpecBase with MockitoSugar {
       val previousAnswer = true
       val newAnswer = false
 
-      val userAnswers = arbitraryUserData.arbitrary.sample.get
-        .set(DoYouHaveAnEmailAddressPage, previousAnswer).success.value
+      val urlToTest = notification.routes.DoYouHaveAnEmailAddressController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
 
-      val mockSessionRepository = mock[SessionRepository]
-      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
-
-      val expectedUserAnswers = userAnswers.remove(List(YourEmailAddressPage)).get
-        .set(DoYouHaveAnEmailAddressPage, newAnswer).get
-
-      val application = applicationBuilder(userAnswers = Some(userAnswers))
-        .overrides(
-          bind[SessionRepository].toInstance(mockSessionRepository)
-        )
-        .build()
-
-      val checkYourAnswersRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
-
-      running(application) {
-        val request =
-          FakeRequest(POST, doYouHaveAnEmailAddressRouteCheckMode)
-            .withFormUrlEncodedBody(("value", newAnswer.toString))
-
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual checkYourAnswersRoute
-
-        verify(mockSessionRepository, times(1)).set(expectedUserAnswers)
-      }
+      testChangeAnswerRouting(previousAnswer, newAnswer, DoYouHaveAnEmailAddressPage, urlToTest, destinationRoute, List(YourEmailAddressPage))
     }
 
     "must redirect to the next page when valid data is submitted" in {
