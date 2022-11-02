@@ -22,9 +22,8 @@ import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.notification.OnlyOnshoreLiabilitiesView
-import pages.AreYouTheIndividualPage
-import models.AreYouTheIndividual
-import models.NormalMode
+import pages._
+import models._
 
 class OnlyOnshoreLiabilitiesController @Inject()(
                                        override val messagesApi: MessagesApi,
@@ -37,8 +36,14 @@ class OnlyOnshoreLiabilitiesController @Inject()(
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-      val url = request.userAnswers.get(AreYouTheIndividualPage) match {
-        case Some(AreYouTheIndividual.Yes) => controllers.notification.routes.WhatIsYourFullNameController.onPageLoad(NormalMode).url
+
+      val url = request.userAnswers.get(RelatesToPage) match {
+        case Some(RelatesTo.AnIndividual) => 
+          request.userAnswers.get(AreYouTheIndividualPage) match {
+            case Some(AreYouTheIndividual.Yes) => controllers.notification.routes.WhatIsYourFullNameController.onPageLoad(NormalMode).url
+            case _ => controllers.notification.routes.WhatIsTheIndividualsFullNameController.onPageLoad(NormalMode).url
+          }
+        case Some(RelatesTo.ACompany) => controllers.notification.routes.WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutController.onPageLoad(NormalMode).url
         case _ => controllers.notification.routes.WhatIsTheIndividualsFullNameController.onPageLoad(NormalMode).url
       } 
       Ok(view(url.toString))
