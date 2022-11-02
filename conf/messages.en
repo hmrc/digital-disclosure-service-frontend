@@ -404,8 +404,8 @@ offshoreLiabilities.guidance.link = Find more information about offshore liabili
 
 onlyOnshoreLiabilities.title = The disclosure is only about onshore liabilities
 onlyOnshoreLiabilities.heading = The disclosure is only about onshore liabilities
-onlyOnshoreLiabilities.paragraph.first = 'As you have no offshore liabilities to disclose, the disclosure is only about onshore liabilities. '
-onlyOnshoreLiabilities.paragraph.link = You have onshore liabilities if you are classed as a resident (opens in a new tab)
+onlyOnshoreLiabilities.paragraph.first = 'As you have no offshore liabilities to disclose, the disclosure can only be about onshore liabilities. You have onshore liabilities '
+onlyOnshoreLiabilities.paragraph.link = if you are classed as a resident (opens in a new tab)
 onlyOnshoreLiabilities.paragraph.second = ' in the UK and:'
 onlyOnshoreLiabilities.bulletList.first = rent out property
 onlyOnshoreLiabilities.bulletList.second = have income from savings and or investments
