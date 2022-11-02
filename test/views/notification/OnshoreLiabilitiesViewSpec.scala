@@ -43,19 +43,19 @@ class OnshoreLiabilitiesViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "have a first paragraph" in {
-      view.getElementById("first-paragraph").text() mustBe messages("onshoreLiabilities.paragraph.first") + messages("onshoreLiabilities.paragraph.link") + messages("onshoreLiabilities.paragraph.second")
+      view.getElementById("first-paragraph").text() mustBe messages("onshoreLiabilities.paragraph.first") + messages("onshoreLiabilities.paragraph.second") + messages("onshoreLiabilities.paragraph.third")
     }
 
     "have a guidance link" in {
       view.getElementById("guidance-link").attr("href") mustBe "https://www.gov.uk/tax-foreign-income/residence"
     }
 
-    "have a third paragraph" in {
-      view.getElementById("third-paragraph").text() mustBe messages("onshoreLiabilities.paragraph.third")
+    "have a forth paragraph" in {
+      view.getElementById("forth-paragraph").text() mustBe messages("onshoreLiabilities.paragraph.forth")
     }
 
-    "have a hidden header for the RadioModelView component" in {
-      view.getElementsByClass("govuk-fieldset__legend").text() mustBe messages("onshoreLiabilities.heading")
+    "have a header for the RadioModelView component" in {
+      view.getElementsByClass("govuk-fieldset__legend--m").text() mustBe messages("onshoreLiabilities.label")
     }
 
     "have all the elements in the bullet-list" in {
@@ -65,11 +65,11 @@ class OnshoreLiabilitiesViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementsByClass("dashed-list-item").get(3).text() mustBe messages("onshoreLiabilities.bulletList.forth")
     }
 
-    "have I want to disclose onshore liabilities option" in {
+    "have yes option" in {
       view.getElementsByClass("govuk-radios__label").first().text() mustBe messages("onshoreLiabilities.yes")
     }
 
-    "have I do not have onshore liabilities to disclose option" in {
+    "have no option" in {
       view.getElementsByClass("govuk-radios__label").last().text() mustBe messages("onshoreLiabilities.no")
     }
 
