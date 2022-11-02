@@ -19,9 +19,9 @@ package controllers.notification
 import controllers.actions._
 import forms.DoesTheIndividualHaveNationalInsuranceNumberFormProvider
 import javax.inject.Inject
-import models.Mode
+import models._
 import navigation.NotificationNavigator
-import pages.DoesTheIndividualHaveNationalInsuranceNumberPage
+import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -62,11 +62,21 @@ class DoesTheIndividualHaveNationalInsuranceNumberController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
-        value =>
+        value => {
+          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(DoesTheIndividualHaveNationalInsuranceNumberPage, value))
-            _              <- sessionRepository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(DoesTheIndividualHaveNationalInsuranceNumberPage, mode, updatedAnswers))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+            _              <- sessionRepository.set(clearedAnswers)
+          } yield Redirect(navigator.nextPage(DoesTheIndividualHaveNationalInsuranceNumberPage, mode, clearedAnswers, hasValueChanged))
+        }
       )
   }
+
+  def changedPages(existingUserAnswers: UserAnswers, value: DoesTheIndividualHaveNationalInsuranceNumber): (List[QuestionPage[_]], Boolean) = 
+    existingUserAnswers.get(DoesTheIndividualHaveNationalInsuranceNumberPage) match {
+      case Some(DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow) if value != DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow => (List(WhatIsIndividualsNationalInsuranceNumberPage), true)
+      case Some(existingValue) if value != existingValue => (Nil, true)
+      case _ => (Nil, false)
+    }
 }

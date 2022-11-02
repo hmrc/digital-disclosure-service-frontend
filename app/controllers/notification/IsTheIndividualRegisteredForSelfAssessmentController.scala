@@ -19,9 +19,9 @@ package controllers.notification
 import controllers.actions._
 import forms.IsTheIndividualRegisteredForSelfAssessmentFormProvider
 import javax.inject.Inject
-import models.Mode
+import models._
 import navigation.NotificationNavigator
-import pages.IsTheIndividualRegisteredForSelfAssessmentPage
+import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -62,11 +62,21 @@ class IsTheIndividualRegisteredForSelfAssessmentController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
-        value =>
+        value => {
+          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(IsTheIndividualRegisteredForSelfAssessmentPage, value))
-            _              <- sessionRepository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(IsTheIndividualRegisteredForSelfAssessmentPage, mode, updatedAnswers))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+            _              <- sessionRepository.set(clearedAnswers)
+          } yield Redirect(navigator.nextPage(IsTheIndividualRegisteredForSelfAssessmentPage, mode, clearedAnswers, hasValueChanged))
+        }
       )
   }
+
+  def changedPages(existingUserAnswers: UserAnswers, value: IsTheIndividualRegisteredForSelfAssessment): (List[QuestionPage[_]], Boolean) = 
+    existingUserAnswers.get(IsTheIndividualRegisteredForSelfAssessmentPage) match {
+      case Some(IsTheIndividualRegisteredForSelfAssessment.YesIKnow) if value != IsTheIndividualRegisteredForSelfAssessment.YesIKnow => (List(WhatIsTheIndividualsUniqueTaxReferencePage), true)
+      case Some(existingValue) if value != existingValue => (Nil, true)
+      case _ => (Nil, false)
+    }
 }
