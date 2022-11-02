@@ -683,3 +683,10 @@ whatIsTheNameOfTheOrganisationYouRepresent.checkYourAnswersLabel = What is the n
 whatIsTheNameOfTheOrganisationYouRepresent.error.required = Enter the name of the organisation you represent
 whatIsTheNameOfTheOrganisationYouRepresent.error.length = Organisation name must be between 1 and 50 characters
 whatIsTheNameOfTheOrganisationYouRepresent.change.hidden = WhatIsTheNameOfTheOrganisationYouRepresent
+
+whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.title = What is the name of the company the disclosure will be about?
+whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.heading = What is the name of the company the disclosure will be about?
+whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.checkYourAnswersLabel = whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout
+whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.error.required = Enter the company’s name
+whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.error.length = Company name must be between 1 and 50 characters
+whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.change.hidden = WhatIsTheNameOfTheCompanyTheDisclosureWillBeAbout

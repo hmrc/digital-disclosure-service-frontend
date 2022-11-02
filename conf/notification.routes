@@ -165,3 +165,8 @@ GET        /representing-organisation-name                      controllers.noti
 POST       /representing-organisation-name                      controllers.notification.WhatIsTheNameOfTheOrganisationYouRepresentController.onSubmit(mode: Mode = NormalMode)
 GET        /representing-organisation-name/change               controllers.notification.WhatIsTheNameOfTheOrganisationYouRepresentController.onPageLoad(mode: Mode = CheckMode)
 POST       /representing-organisation-name/change               controllers.notification.WhatIsTheNameOfTheOrganisationYouRepresentController.onSubmit(mode: Mode = CheckMode)
+
+GET        /company-name                        controllers.notification.WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutController.onPageLoad(mode: Mode = NormalMode)
+POST       /company-name                        controllers.notification.WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutController.onSubmit(mode: Mode = NormalMode)
+GET        /company-name/change                controllers.notification.WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutController.onPageLoad(mode: Mode = CheckMode)
+POST       /company-name/change                controllers.notification.WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutController.onSubmit(mode: Mode = CheckMode)
