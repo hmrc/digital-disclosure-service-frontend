@@ -42,8 +42,8 @@
             id = Some("first-paragraph"), 
             content = HtmlContent(
                 messages("onshoreLiabilities.paragraph.first") +
-                link(id = "guidance-link", text = messages("onshoreLiabilities.paragraph.link"), newTab = true, call = Call("GET", "https://www.gov.uk/tax-foreign-income/residence")) +
-                messages("onshoreLiabilities.paragraph.second")
+                link(id = "guidance-link", text = messages("onshoreLiabilities.paragraph.second"), newTab = true, call = Call("GET", "https://www.gov.uk/tax-foreign-income/residence")) +
+                messages("onshoreLiabilities.paragraph.third")
             )
         )
         
@@ -54,13 +54,12 @@
             Text(messages("onshoreLiabilities.bulletList.forth"))
         )) 
 
-        @paragraph(id = Some("third-paragraph"), content = Text(messages("onshoreLiabilities.paragraph.third"))
-        )
+        @paragraph(id = Some("forth-paragraph"), content = Text(messages("onshoreLiabilities.paragraph.forth")))
 
         @govukRadios(
             RadiosViewModel(
                 field  = form("value"),
-                legend = LegendViewModel(messages("onshoreLiabilities.heading")).withCssClass("govuk-visually-hidden"),
+                legend = LegendViewModel(messages("onshoreLiabilities.label")).withCssClass("govuk-fieldset__legend--m"),
                 items  = OnshoreLiabilities.options
             )
         )
