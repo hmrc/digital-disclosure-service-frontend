@@ -59,22 +59,27 @@ class OffshoreLiabilitiesViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementById("guidance-link").text() mustBe messages("offshoreLiabilities.guidance.link")
     }
 
-    "have a hidden header for the RadioModelView component" in {
-      view.getElementsByClass("govuk-fieldset__legend").text() mustBe messages("offshoreLiabilities.heading")
+    "have a header for the RadioModelView component" in {
+      view.getElementsByClass("govuk-fieldset__legend--m").text() mustBe messages("offshoreLiabilities.label")
     }
 
     "have all the elements in the bullet-list" in {
       view.getElementsByClass("dashed-list-item").get(0).text() mustBe messages("offshoreLiabilities.bulletList.first")
       view.getElementsByClass("dashed-list-item").get(1).text() mustBe messages("offshoreLiabilities.bulletList.second")
       view.getElementsByClass("dashed-list-item").get(2).text() mustBe messages("offshoreLiabilities.bulletList.third")
-      view.getElementsByClass("dashed-list-item").get(3).text() mustBe messages("offshoreLiabilities.bulletList.forth")
+      view.getElementsByClass("dashed-list-item").get(3).text() mustBe messages("offshoreLiabilities.bulletList.forth") + messages("offshoreLiabilities.bulletList.forth.link")
+      view.getElementsByClass("dashed-list-item").get(4).text() mustBe messages("offshoreLiabilities.bulletList.fifth")
     }
 
-    "have I want to disclose offshore liabilities option" in {
+    "have a guidance link address for forth bullet point" in {
+      view.getElementById("bullet-list-forth-link").attr("href") mustBe "https://www.legislation.gov.uk/ukpga/2017/32/schedule/18/enacted"
+    }
+
+    "have yes option" in {
       view.getElementsByClass("govuk-radios__label").first().text() mustBe messages("offshoreLiabilities.yes")
     }
 
-    "have I do not have offshore liabilities to disclose option" in {
+    "have no option" in {
       view.getElementsByClass("govuk-radios__label").last().text() mustBe messages("offshoreLiabilities.no")
     }
 
