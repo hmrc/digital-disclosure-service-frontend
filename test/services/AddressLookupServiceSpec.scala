@@ -367,6 +367,93 @@ class AddressLookupServiceSpec
       }
     }
 
+    "triggering a lookup for an company address" must {
+
+      val selectPageConfig = SelectPageConfig(proposalListLimit = 15)
+      val addressLookupOptions = AddressLookupOptions(
+        continueUrl = "host1.com/redirect",
+        serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
+        showPhaseBanner = Some(true),
+        alphaPhase = false,
+        selectPageConfig = Some(selectPageConfig),
+        includeHMRCBranding = Some(false)
+      )
+
+      val appLevelLabels = AppLevelLabels(messages("service.name"))
+      val countryPickerLabels = CountryPickerLabels(
+        messages("companyCountryLookup.title"), 
+        messages("companyCountryLookup.heading"),
+        messages("companyCountryLookup.hint"),
+        messages("site.continue")
+      )
+      val lookupPageLabels = LookupPageLabels(
+        messages("companyAddressLookup.title"), 
+        messages("companyAddressLookup.heading"),
+        messages("site.continue"),
+        None
+      )
+      val selectPageLabels = SelectPageLabels(
+        messages("selectCompanyAddress.title"), 
+        messages("selectCompanyAddress.heading")
+      )
+      val editPageLabels = EditPageLabels(
+        messages("editCompanyAddress.title"), 
+        messages("editCompanyAddress.heading")
+      )
+      val confirmPageLabels = ConfirmPageLabels(
+        messages("confirmCompanyAddress.title"), 
+        messages("confirmCompanyAddress.heading")
+      )
+      val internationalLabels = InternationalLabels(
+        lookupPageLabels, 
+        selectPageLabels, 
+        editPageLabels, 
+        confirmPageLabels
+      )
+      val englishLabels = LabelsByLanguage(
+        appLevelLabels, 
+        countryPickerLabels, 
+        lookupPageLabels, 
+        selectPageLabels, 
+        editPageLabels, 
+        confirmPageLabels,
+        internationalLabels
+      )
+      val labels = AddressLookupLabels(englishLabels)
+      val addressLookupRequest = AddressLookupRequest(2, addressLookupOptions, labels)
+
+      "succeed receiving user redirect URL" in {
+        val locationUrl = new URL("http://someUrl:1234/redirect")
+
+        mockInitiateAddressLookupResponse(addressLookupRequest)(
+          Right(HttpResponse(ACCEPTED, Json.obj(), headers = Map(LOCATION -> Seq(locationUrl.toString))))
+        )
+
+        val response = await(addressLookupService.getCompanyAddressLookupRedirect(addressUpdateCall).value)
+        response.isLeft must be(false)
+      }
+
+      "fail having no request accepted" in {
+        mockInitiateAddressLookupResponse(addressLookupRequest)(
+          Right(HttpResponse(INTERNAL_SERVER_ERROR, Json.obj().toString()))
+        )
+
+        await(addressLookupService.getCompanyAddressLookupRedirect(addressUpdateCall).value).left.value must be(
+          Error("The request was refused by the Address Lookup Service")
+        )
+      }
+
+      "fail having no location header provided" in {
+        mockInitiateAddressLookupResponse(addressLookupRequest)(
+          Right(HttpResponse(ACCEPTED, Json.obj().toString()))
+        )
+
+        await(addressLookupService.getCompanyAddressLookupRedirect(addressUpdateCall).value).left.value must be(
+          Error("The Address Lookup Service user redirect URL is missing in the header")
+        )
+      }
+    }
+
     "retrieving address" must {
 
       "succeed having valid address ID" in forAll { (id: UUID, address: Address) =>
