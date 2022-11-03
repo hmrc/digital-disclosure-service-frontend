@@ -49,6 +49,11 @@ class AddressLookupServiceImpl @Inject()(connector: AddressLookupConnector, addr
     initialiseAddressLookup(request)
   }
 
+  def getCompanyAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL] =  {
+    val request = lookupRequestForCompanyAddress(config.host, redirectUrl.url, addressConfig.addressesShowLimit)
+    initialiseAddressLookup(request)
+  }
+
   private[services] def initialiseAddressLookup(request: AddressLookupRequest)(implicit hc: HeaderCarrier): EitherT[Future, Error, URL] = {
     connector
       .initialise(request)
@@ -109,5 +114,6 @@ object AddressLookupServiceImpl {
 trait AddressLookupService {
   def getYourAddressLookupRedirect(redirectUrl: Call, isAgentForIndividual: Boolean)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL]
   def getIndividualAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL]
+  def getCompanyAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL]
   def retrieveUserAddress(addressId: UUID)(implicit hc: HeaderCarrier): EitherT[Future, Error, Address]
 }
