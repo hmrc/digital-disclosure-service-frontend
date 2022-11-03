@@ -16,14 +16,13 @@
 
 package forms
 
-import forms.behaviours.StringFieldBehaviours
+import forms.behaviours.RegistrationNumberBehaviours
 import play.api.data.FormError
 
-class WhatIsTheCompanyRegistrationNumberFormProviderSpec extends StringFieldBehaviours {
+class WhatIsTheCompanyRegistrationNumberFormProviderSpec extends RegistrationNumberBehaviours {
 
   val requiredKey = "whatIsTheCompanyRegistrationNumber.error.required"
-  val lengthKey = "whatIsTheCompanyRegistrationNumber.error.length"
-  val maxLength = 8
+  val validKey = "whatIsTheCompanyRegistrationNumber.error.valid"
 
   val form = new WhatIsTheCompanyRegistrationNumberFormProvider()()
 
@@ -33,15 +32,13 @@ class WhatIsTheCompanyRegistrationNumberFormProviderSpec extends StringFieldBeha
 
     behave like fieldThatBindsValidData(
       form,
-      fieldName,
-      stringsWithMaxLength(maxLength)
+      fieldName
     )
 
-    behave like fieldWithMaxLength(
+    behave like fieldThatBindInvalidRegistrationNumber(
       form,
       fieldName,
-      maxLength = maxLength,
-      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
+      error = FormError(fieldName, validKey, Seq())
     )
 
     behave like mandatoryField(
