@@ -100,37 +100,9 @@ class NotificationNavigatorSpec extends SpecBase {
         }
       }
 
-      "must go from OnshoreLiabilitiesPage to the WhatIsYourFullName page when the user is the individual and want to disclose onshore liabilities" in {
-        val userAnswers = for {
-          uaWithOnshore <- UserAnswers("id").set(OnshoreLiabilitiesPage, OnshoreLiabilities.IWantTo)
-            ua 	<- uaWithOnshore.set(AreYouTheIndividualPage, AreYouTheIndividual.Yes)
-          } yield ua
-        navigator.nextPage(OnshoreLiabilitiesPage, NormalMode, userAnswers.success.value) mustBe routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
-      }
+      testOnshoreLiabilitiesRouting(OnshoreLiabilitiesPage)
 
-      "must go from OnshoreLiabilitiesPage to the WhatIsTheIndividualsFullName page when the user selects No and want to disclose onshore liabilities" in {
-        val userAnswers = for {
-            uaWithOnshore <- UserAnswers("id").set(OnshoreLiabilitiesPage, OnshoreLiabilities.IWantTo)
-            ua 	<- uaWithOnshore.set(AreYouTheIndividualPage, AreYouTheIndividual.No)
-          } yield ua
-        navigator.nextPage(OnshoreLiabilitiesPage, NormalMode, userAnswers.success.value) mustBe routes.WhatIsTheIndividualsFullNameController.onPageLoad(NormalMode) 
-      }
-
-      "must go from OnshoreLiabilitiesPage to the WhatIsYourFullName page when the user selects Yes and do not have onshore liabilities to disclose" in {
-        val userAnswers = for {
-          uaWithOnshore <- UserAnswers("id").set(OnshoreLiabilitiesPage, OnshoreLiabilities.IDoNotWantTo)
-            ua 	<- uaWithOnshore.set(AreYouTheIndividualPage, AreYouTheIndividual.Yes)
-          } yield ua
-        navigator.nextPage(OnshoreLiabilitiesPage, NormalMode, userAnswers.success.value) mustBe routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
-      }
-
-      "must go from OnshoreLiabilitiesPage to the WhatIsTheIndividualsFullName page when the user selects No and do not have onshore liabilities to disclose" in {
-        val userAnswers = for {
-            uaWithOnshore <- UserAnswers("id").set(OnshoreLiabilitiesPage, OnshoreLiabilities.IDoNotWantTo)
-            ua 	<- uaWithOnshore.set(AreYouTheIndividualPage, AreYouTheIndividual.No)
-          } yield ua
-        navigator.nextPage(OnshoreLiabilitiesPage, NormalMode, userAnswers.success.value) mustBe routes.WhatIsTheIndividualsFullNameController.onPageLoad(NormalMode) 
-      }
+      testOnshoreLiabilitiesRouting(OnlyOnshoreLiabilitiesPage)
 
       "must go from the WhatIsYourFullName page to the YourPhoneNumber controller when the user enter name" in {
         UserAnswers("id").set(WhatIsYourFullNamePage, "test") match {
@@ -518,4 +490,28 @@ class NotificationNavigatorSpec extends SpecBase {
       }
     }
   }
+
+  def testOnshoreLiabilitiesRouting(page: Page) = {
+    s"must go from $page to the WhatIsYourFullName page when the user is the individual" in {
+      val userAnswers = for {
+        uaWithOnshore <- UserAnswers("id").set(RelatesToPage, RelatesTo.AnIndividual)
+        ua 	<- uaWithOnshore.set(AreYouTheIndividualPage, AreYouTheIndividual.Yes)
+      } yield ua
+      navigator.nextPage(page, NormalMode, userAnswers.success.value) mustBe routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+    }
+
+    s"must go from $page to the WhatIsTheIndividualsFullName page when the user is the individual and disclosing on behalf of the individual" in {
+      val userAnswers = for {
+        uaWithOnshore <- UserAnswers("id").set(RelatesToPage, RelatesTo.AnIndividual)
+        ua 	<- uaWithOnshore.set(AreYouTheIndividualPage, AreYouTheIndividual.No)
+      } yield ua
+      navigator.nextPage(page, NormalMode, userAnswers.success.value) mustBe routes.WhatIsTheIndividualsFullNameController.onPageLoad(NormalMode) 
+    }
+    
+    s"must go from $page to the WhatIsTheNameOfTheCompanyTheDisclosureWillBeAbout page when the user is a company" in {
+      val userAnswers = UserAnswers("id").set(RelatesToPage, RelatesTo.ACompany)
+      navigator.nextPage(page, NormalMode, userAnswers.success.value) mustBe routes.WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutController.onPageLoad(NormalMode)
+    }
+  }
+
 }
