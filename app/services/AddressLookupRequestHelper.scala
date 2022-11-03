@@ -91,7 +91,7 @@ trait AddressLookupRequestHelper {
       continueUrl = s"$baseUrl$redirectUrl",
       serviceHref = s"$baseUrl${routes.IndexController.onPageLoad.url}",
       showPhaseBanner = Some(true),
-      alphaPhase = true,
+      alphaPhase = false,
       selectPageConfig = Some(selectPageConfig),
       includeHMRCBranding = Some(false)
     )

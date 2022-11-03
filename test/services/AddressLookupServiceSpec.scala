@@ -113,7 +113,7 @@ class AddressLookupServiceSpec
         continueUrl = "host1.com/redirect",
         serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
         showPhaseBanner = Some(true),
-        alphaPhase = true,
+        alphaPhase = false,
         selectPageConfig = Some(selectPageConfig),
         includeHMRCBranding = Some(false)
       )
@@ -200,7 +200,7 @@ class AddressLookupServiceSpec
         continueUrl = "host1.com/redirect",
         serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
         showPhaseBanner = Some(true),
-        alphaPhase = true,
+        alphaPhase = false,
         selectPageConfig = Some(selectPageConfig),
         includeHMRCBranding = Some(false)
       )
@@ -287,7 +287,7 @@ class AddressLookupServiceSpec
         continueUrl = "host1.com/redirect",
         serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
         showPhaseBanner = Some(true),
-        alphaPhase = true,
+        alphaPhase = false,
         selectPageConfig = Some(selectPageConfig),
         includeHMRCBranding = Some(false)
       )
