@@ -44,11 +44,7 @@ class NotificationNavigator @Inject()() {
 
     case AreYouTheIndividualPage => _ => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
 
-    case OnshoreLiabilitiesPage => ua => ua.get(AreYouTheIndividualPage) match {
-      case Some(AreYouTheIndividual.Yes) => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
-      case Some(AreYouTheIndividual.No) => routes.WhatIsTheIndividualsFullNameController.onPageLoad(NormalMode)
-      case None => routes.OnshoreLiabilitiesController.onPageLoad(NormalMode)
-    }
+    case OnshoreLiabilitiesPage => ua => onshoreLiabilitiesRouting(ua)
     
     case OffshoreLiabilitiesPage => ua => ua.get(OffshoreLiabilitiesPage) match {
       case Some(OffshoreLiabilities.IWantTo) => routes.OnshoreLiabilitiesController.onPageLoad(NormalMode)
@@ -156,6 +152,8 @@ class NotificationNavigator @Inject()() {
 
     case WhatIsTheNameOfTheOrganisationYouRepresentPage => _ => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
 
+    case OnlyOnshoreLiabilitiesPage => ua => onshoreLiabilitiesRouting(ua) 
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
@@ -209,5 +207,17 @@ class NotificationNavigator @Inject()() {
       normalRoutes(page)(userAnswers)
     case CheckMode =>
       checkRouteMap(page)(userAnswers)(hasAnswerChanged)
+  }
+
+  def onshoreLiabilitiesRouting(userAnswers: UserAnswers): Call = {
+    val relatesToPage = userAnswers.get(RelatesToPage)
+    val areYouTheIndividualPage = userAnswers.get(AreYouTheIndividualPage)
+
+    (relatesToPage, areYouTheIndividualPage) match {
+      case (Some(RelatesTo.AnIndividual), Some(AreYouTheIndividual.Yes)) => controllers.notification.routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+      case (Some(RelatesTo.AnIndividual), _) => controllers.notification.routes.WhatIsTheIndividualsFullNameController.onPageLoad(NormalMode)
+      case (Some(RelatesTo.ACompany), _) => controllers.notification.routes.WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutController.onPageLoad(NormalMode)
+      case _ => controllers.notification.routes.RelatesToController.onPageLoad(NormalMode)
+    }
   }
 }

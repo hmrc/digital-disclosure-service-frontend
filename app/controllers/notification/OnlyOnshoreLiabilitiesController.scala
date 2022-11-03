@@ -18,6 +18,7 @@ package controllers.notification
 
 import controllers.actions._
 import javax.inject.Inject
+import navigation.NotificationNavigator
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
@@ -31,21 +32,12 @@ class OnlyOnshoreLiabilitiesController @Inject()(
                                        getData: DataRetrievalAction,
                                        requireData: DataRequiredAction,
                                        val controllerComponents: MessagesControllerComponents,
-                                       view: OnlyOnshoreLiabilitiesView
+                                       view: OnlyOnshoreLiabilitiesView,
+                                       navigator: NotificationNavigator,
                                      ) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-
-      val url = request.userAnswers.get(RelatesToPage) match {
-        case Some(RelatesTo.AnIndividual) => 
-          request.userAnswers.get(AreYouTheIndividualPage) match {
-            case Some(AreYouTheIndividual.Yes) => controllers.notification.routes.WhatIsYourFullNameController.onPageLoad(NormalMode).url
-            case _ => controllers.notification.routes.WhatIsTheIndividualsFullNameController.onPageLoad(NormalMode).url
-          }
-        case Some(RelatesTo.ACompany) => controllers.notification.routes.WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutController.onPageLoad(NormalMode).url
-        case _ => controllers.notification.routes.WhatIsTheIndividualsFullNameController.onPageLoad(NormalMode).url
-      } 
-      Ok(view(url.toString))
+      Ok(view(navigator.nextPage(OnlyOnshoreLiabilitiesPage, NormalMode, request.userAnswers).url.toString))
   }
 }

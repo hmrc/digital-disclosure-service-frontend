@@ -20,15 +20,33 @@ import base.SpecBase
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.html.notification.OnlyOnshoreLiabilitiesView
-import models.NormalMode
+import navigation.{FakeNotificationNavigator, NotificationNavigator}
+import play.api.inject.bind
+import repositories.SessionRepository
+import scala.concurrent.Future
+import org.mockito.Mockito.when
+import play.api.mvc.Call
+import org.scalatestplus.mockito.MockitoSugar
+import org.mockito.ArgumentMatchers.any
 
-class OnlyOnshoreLiabilitiesControllerSpec extends SpecBase {
+class OnlyOnshoreLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
+
+  def onwardRoute = Call("GET", "/foo")
 
   "OnlyOnshoreLiabilities Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val mockSessionRepository = mock[SessionRepository]
+
+      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
+
+      val application =
+        applicationBuilder(userAnswers = Some(emptyUserAnswers))
+          .overrides(
+            bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute)),
+            bind[SessionRepository].toInstance(mockSessionRepository)
+          ).build()
 
       running(application) {
         val request = FakeRequest(GET, notification.routes.OnlyOnshoreLiabilitiesController.onPageLoad.url)
@@ -37,10 +55,8 @@ class OnlyOnshoreLiabilitiesControllerSpec extends SpecBase {
 
         val view = application.injector.instanceOf[OnlyOnshoreLiabilitiesView]
 
-        val url = controllers.notification.routes.WhatIsTheIndividualsFullNameController.onPageLoad(NormalMode).url
-
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(url)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(onwardRoute.url)(request, messages(application)).toString
       }
     }
   }
