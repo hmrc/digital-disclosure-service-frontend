@@ -170,3 +170,8 @@ GET        /company-name                        controllers.notification.WhatIsT
 POST       /company-name                        controllers.notification.WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutController.onSubmit(mode: Mode = NormalMode)
 GET        /company-name/change                controllers.notification.WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutController.onPageLoad(mode: Mode = CheckMode)
 POST       /company-name/change                controllers.notification.WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutController.onSubmit(mode: Mode = CheckMode)
+
+GET        /company-registration                        controllers.notification.WhatIsTheCompanyRegistrationNumberController.onPageLoad(mode: Mode = NormalMode)
+POST       /company-registration                        controllers.notification.WhatIsTheCompanyRegistrationNumberController.onSubmit(mode: Mode = NormalMode)
+GET        /company-registration/change                controllers.notification.WhatIsTheCompanyRegistrationNumberController.onPageLoad(mode: Mode = CheckMode)
+POST       /company-registration/change                controllers.notification.WhatIsTheCompanyRegistrationNumberController.onSubmit(mode: Mode = CheckMode)
