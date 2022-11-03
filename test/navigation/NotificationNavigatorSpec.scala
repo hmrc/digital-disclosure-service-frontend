@@ -379,6 +379,10 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(WhatIsTheNameOfTheOrganisationYouRepresentPage, NormalMode, UserAnswers("id")) mustBe routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
       }
 
+      "must go from the WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage to the WhatIsTheCompanyRegistrationNumberController when the user enter company name" in {
+        navigator.nextPage(WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage, NormalMode, UserAnswers("id")) mustBe routes.WhatIsTheCompanyRegistrationNumberController.onPageLoad(NormalMode)
+      }
+
     }
 
     "in Check mode" - {
