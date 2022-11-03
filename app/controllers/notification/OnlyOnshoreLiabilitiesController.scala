@@ -33,7 +33,7 @@ class OnlyOnshoreLiabilitiesController @Inject()(
                                        requireData: DataRequiredAction,
                                        val controllerComponents: MessagesControllerComponents,
                                        view: OnlyOnshoreLiabilitiesView,
-                                       navigator: NotificationNavigator,
+                                       navigator: NotificationNavigator
                                      ) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
