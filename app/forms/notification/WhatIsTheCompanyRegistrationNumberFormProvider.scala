@@ -23,9 +23,13 @@ import play.api.data.Form
 
 class WhatIsTheCompanyRegistrationNumberFormProvider @Inject() extends Mappings {
 
+  val registrationNumberRegex = "[0-9]{8}|[a-zA-Z]{2}[0-9]{6}"
+
   def apply(): Form[String] =
     Form(
       "value" -> text("whatIsTheCompanyRegistrationNumber.error.required")
-        .verifying(maxLength(8, "whatIsTheCompanyRegistrationNumber.error.length"))
+        .verifying(regexpIgnoreWhiteSpaces(registrationNumberRegex, "whatIsTheCompanyRegistrationNumber.error.valid"))
     )
 }
+
+object WhatIsTheCompanyRegistrationNumberFormProvider extends WhatIsTheCompanyRegistrationNumberFormProvider

@@ -81,6 +81,7 @@ class WhatIsTheCompanyRegistrationNumberControllerSpec extends SpecBase with Moc
     "must redirect to the next page when valid data is submitted" in {
 
       val mockSessionRepository = mock[SessionRepository]
+      val validRegistrationNumber = generateNumericRegistrationNumber().sample.get
 
       when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
 
@@ -95,7 +96,7 @@ class WhatIsTheCompanyRegistrationNumberControllerSpec extends SpecBase with Moc
       running(application) {
         val request =
           FakeRequest(POST, whatIsTheCompanyRegistrationNumberRoute)
-            .withFormUrlEncodedBody(("value", "answer"))
+            .withFormUrlEncodedBody(("value", validRegistrationNumber))
 
         val result = route(application, request).value
 
