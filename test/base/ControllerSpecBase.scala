@@ -27,10 +27,6 @@ import repositories.SessionRepository
 import play.api.libs.json.Writes
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import scala.concurrent.Future
-import org.mockito.Mockito.{times, verify, when}
-import scala.util.Try
-import models.UserAnswers
-import org.scalacheck.Arbitrary
 
 trait ControllerSpecBase extends SpecBase with MockitoSugar with ScalaCheckPropertyChecks {
 
