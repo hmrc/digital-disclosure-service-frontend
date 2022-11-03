@@ -70,6 +70,26 @@ trait AddressLookupRequestHelper {
 
   }
 
+  def lookupRequestForCompanyAddress(baseUrl: String, 
+                                     redirectUrl: String, 
+                                     proposalListLimit: Int)(implicit messages: Messages): AddressLookupRequest = {                                      
+
+    lookupRequestForAddress(baseUrl, redirectUrl, proposalListLimit,
+                            "companyCountryLookup.title", 
+                            "companyCountryLookup.heading",
+                            "companyCountryLookup.hint",
+                            "companyAddressLookup.title", 
+                            "companyAddressLookup.heading",
+                            None,
+                            "selectCompanyAddress.title", 
+                            "selectCompanyAddress.heading",
+                            "editCompanyAddress.title", 
+                            "editCompanyAddress.heading",
+                            "confirmCompanyAddress.title", 
+                            "confirmCompanyAddress.heading")
+
+  }
+
   def lookupRequestForAddress(baseUrl: String, 
                               redirectUrl: String, 
                               proposalListLimit: Int,

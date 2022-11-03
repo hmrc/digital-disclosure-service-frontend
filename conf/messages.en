@@ -700,3 +700,22 @@ whatIsTheCompanyRegistrationNumber.checkYourAnswersLabel = whatIsTheCompanyRegis
 whatIsTheCompanyRegistrationNumber.error.required = Enter whatIsTheCompanyRegistrationNumber
 whatIsTheCompanyRegistrationNumber.error.length = WhatIsTheCompanyRegistrationNumber must be 8 characters or less
 whatIsTheCompanyRegistrationNumber.change.hidden = WhatIsTheCompanyRegistrationNumber
+
+companyCountryLookup.title = What is the country of the company’s address?
+companyCountryLookup.heading = What is the country of the company’s address?
+companyCountryLookup.hint = For example, United Kingdom.
+
+companyAddressLookup.title = What is the postcode and property name or number of the company’s address?
+companyAddressLookup.heading = What is the postcode and property name or number of the company’s address?
+
+companyAddressLookup.checkYourAnswersLabel = Company’s address
+companyAddressLookup.change.hidden = Company’s address
+
+selectCompanyAddress.title = Choose the company’s address
+selectCompanyAddress.heading = Choose the company’s address
+
+editCompanyAddress.title = What is the company’s address?
+editCompanyAddress.heading = What is the company’s address?
+
+confirmCompanyAddress.title = Is this the correct address?
+confirmCompanyAddress.heading = Is this the correct address?
