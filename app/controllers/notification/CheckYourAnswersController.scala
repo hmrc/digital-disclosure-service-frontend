@@ -48,6 +48,9 @@ class CheckYourAnswersController @Inject()(
           LetterReferenceSummary.row(ua),
           RelatesToSummary.row(ua),
           AreYouTheIndividualSummary.row(ua),
+          AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutSummary.row(ua),
+          AreYouRepresentingAnOrganisationSummary.row(ua),
+          WhatIsTheNameOfTheOrganisationYouRepresentSummary.row(ua),
           OffshoreLiabilitiesSummary.row(ua),
           OnshoreLiabilitiesSummary.row(ua)
         ).flatten
