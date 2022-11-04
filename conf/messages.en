@@ -688,7 +688,7 @@ whatIsTheNameOfTheOrganisationYouRepresent.change.hidden = WhatIsTheNameOfTheOrg
 
 whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.title = What is the name of the company the disclosure will be about?
 whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.heading = What is the name of the company the disclosure will be about?
-whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.checkYourAnswersLabel = whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout
+whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.checkYourAnswersLabel = Company’s name
 whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.error.required = Enter the company’s name
 whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.error.length = Company name must be between 1 and 50 characters
 whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.change.hidden = WhatIsTheNameOfTheCompanyTheDisclosureWillBeAbout
@@ -697,7 +697,7 @@ whatIsTheCompanyRegistrationNumber.title = What is the company’s registration 
 whatIsTheCompanyRegistrationNumber.heading = What is the company’s registration number?
 whatIsTheCompanyRegistrationNumber.label = You can find this on the company’s certificate of incorporation.
 whatIsTheCompanyRegistrationNumber.hint = This can be 8 numbers like 12345678, or 2 letters followed by 6 numbers like AB123456.
-whatIsTheCompanyRegistrationNumber.checkYourAnswersLabel = whatIsTheCompanyRegistrationNumber
+whatIsTheCompanyRegistrationNumber.checkYourAnswersLabel = Company registration number
 whatIsTheCompanyRegistrationNumber.error.required = Enter the company's registration number
 whatIsTheCompanyRegistrationNumber.error.valid = Enter a valid company registration number
 whatIsTheCompanyRegistrationNumber.change.hidden = WhatIsTheCompanyRegistrationNumber
@@ -720,3 +720,5 @@ editCompanyAddress.heading = What is the company’s address?
 
 confirmCompanyAddress.title = Is this the correct address?
 confirmCompanyAddress.heading = Is this the correct address?
+
+notificationCYA.aboutTheCompany = About the company
