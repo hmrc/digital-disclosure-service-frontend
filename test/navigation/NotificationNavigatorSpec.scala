@@ -198,7 +198,6 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(YourEmailAddressPage, NormalMode, userAnswers.success.value) mustBe routes.YourAddressLookupController.lookupAddress(NormalMode)
       }
 
-      // -----
       "must go from the YourEmailAddressPage page to the YourAddressLookupController controller when the user enter an email and Yes, I am an officer of the company" in {
         val userAnswers = for {
           uaWithOnshore <- UserAnswers("id").set(YourEmailAddressPage, "test")
@@ -214,8 +213,6 @@ class NotificationNavigatorSpec extends SpecBase {
         } yield ua
         navigator.nextPage(YourEmailAddressPage, NormalMode, userAnswers.success.value) mustBe routes.YourAddressLookupController.lookupAddress(NormalMode)
       }
-
-      // ----
 
       "must go from the WhatIsYourDateOfBirth page to the WhatIsYourMainOccupation controller when the user enter date of birth" in {
         navigator.nextPage(WhatIsYourDateOfBirthPage, NormalMode, UserAnswers("id")) mustBe routes.WhatIsYourMainOccupationController.onPageLoad(NormalMode)
