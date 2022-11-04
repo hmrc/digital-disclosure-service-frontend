@@ -29,7 +29,7 @@ import play.api.http.Status.ACCEPTED
 import play.api.http.Status.OK
 import java.net.URL
 import play.api.mvc.Call
-import models.Error
+import models._
 import models.address._
 import connectors.AddressLookupConnector
 import config.{FrontendAppConfig, AddressLookupConfig}
@@ -39,8 +39,8 @@ import play.api.i18n.Messages
 
 class AddressLookupServiceImpl @Inject()(connector: AddressLookupConnector, addressConfig: AddressLookupConfig, config: FrontendAppConfig)(implicit ec: ExecutionContext) extends AddressLookupService with AddressLookupRequestHelper {
 
-  def getYourAddressLookupRedirect(redirectUrl: Call, isAgentForIndividual: Boolean)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL] =  {
-    val request = lookupRequestForYourAddress(config.host, redirectUrl.url, addressConfig.addressesShowLimit, isAgentForIndividual)
+  def getYourAddressLookupRedirect(redirectUrl: Call, userAnswers: UserAnswers)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL] =  {
+    val request = lookupRequestForYourAddress(config.host, redirectUrl.url, addressConfig.addressesShowLimit, userAnswers)
     initialiseAddressLookup(request)
   }
 
@@ -112,7 +112,7 @@ object AddressLookupServiceImpl {
 
 @ImplementedBy(classOf[AddressLookupServiceImpl])
 trait AddressLookupService {
-  def getYourAddressLookupRedirect(redirectUrl: Call, isAgentForIndividual: Boolean)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL]
+  def getYourAddressLookupRedirect(redirectUrl: Call, userAnswers: UserAnswers)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL]
   def getIndividualAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL]
   def getCompanyAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL]
   def retrieveUserAddress(addressId: UUID)(implicit hc: HeaderCarrier): EitherT[Future, Error, Address]
