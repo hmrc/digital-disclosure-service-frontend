@@ -152,9 +152,11 @@ class NotificationNavigator @Inject()() {
 
     case WhatIsTheNameOfTheOrganisationYouRepresentPage => _ => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
 
-    case OnlyOnshoreLiabilitiesPage => ua => onshoreLiabilitiesRouting(ua) 
+    case OnlyOnshoreLiabilitiesPage => ua => onshoreLiabilitiesRouting(ua)
 
     case WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage => _ => routes.WhatIsTheCompanyRegistrationNumberController.onPageLoad(NormalMode)
+
+    case WhatIsTheCompanyRegistrationNumberPage => _ => routes.CompanyAddressLookupController.lookupAddress(NormalMode)
 
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }

@@ -383,6 +383,10 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage, NormalMode, UserAnswers("id")) mustBe routes.WhatIsTheCompanyRegistrationNumberController.onPageLoad(NormalMode)
       }
 
+      "must go from the WhatIsTheCompanyRegistrationNumberPage to the CompanyAddressLookupController" in {
+        navigator.nextPage(WhatIsTheCompanyRegistrationNumberPage, NormalMode, UserAnswers("id")) mustBe routes.CompanyAddressLookupController.lookupAddress(NormalMode)
+      }
+
     }
 
     "in Check mode" - {
