@@ -150,6 +150,38 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(DoYouHaveAnEmailAddressPage, NormalMode, userAnswers.success.value) mustBe routes.YourAddressLookupController.lookupAddress(NormalMode)
       }
 
+      "must go from DoYouHaveAnEmailAddressPage to the YourEmailAddressController when user select Yes, and Yes, I am an officer of the company" in {
+        val userAnswers = for {
+          uaWithOnshore <- UserAnswers("id").set(DoYouHaveAnEmailAddressPage, true)
+          ua 	<- uaWithOnshore.set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.Yes)
+        } yield ua
+        navigator.nextPage(DoYouHaveAnEmailAddressPage, NormalMode, userAnswers.success.value) mustBe routes.YourEmailAddressController.onPageLoad(NormalMode)
+      }
+
+      "must go from DoYouHaveAnEmailAddressPage to the YourEmailAddressController when user select Yes and No, I will be making a disclosure on behalf of an officer" in {
+        val userAnswers = for {
+          uaWithOnshore <- UserAnswers("id").set(DoYouHaveAnEmailAddressPage, true)
+          ua 	<- uaWithOnshore.set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.No)
+        } yield ua
+        navigator.nextPage(DoYouHaveAnEmailAddressPage, NormalMode, userAnswers.success.value) mustBe routes.YourEmailAddressController.onPageLoad(NormalMode)
+      }
+
+      "must go from DoYouHaveAnEmailAddressPage to the YourAddressLookupController when user select No and and Yes, I am an officer of the company" in {
+        val userAnswers = for {
+          uaWithOnshore <- UserAnswers("id").set(DoYouHaveAnEmailAddressPage, false)
+          ua 	<- uaWithOnshore.set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.Yes)
+        } yield ua
+        navigator.nextPage(DoYouHaveAnEmailAddressPage, NormalMode, userAnswers.success.value) mustBe routes.YourAddressLookupController.lookupAddress(NormalMode)
+      }
+
+      "must go from DoYouHaveAnEmailAddressPage to the YourAddressLookupController when user select No and and No, I will be making a disclosure on behalf of an officer" in {
+        val userAnswers = for {
+          uaWithOnshore <- UserAnswers("id").set(DoYouHaveAnEmailAddressPage, false)
+          ua 	<- uaWithOnshore.set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.No)
+        } yield ua
+        navigator.nextPage(DoYouHaveAnEmailAddressPage, NormalMode, userAnswers.success.value) mustBe routes.YourAddressLookupController.lookupAddress(NormalMode)
+      }
+
       "must go from the YourEmailAddressPage page to the WhatIsYourDateOfBirthController controller when the user enter an email and is an individual" in {
         val userAnswers = for {
           uaWithOnshore <- UserAnswers("id").set(YourEmailAddressPage, "test")
