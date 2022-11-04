@@ -92,7 +92,21 @@ class CheckYourAnswersController @Inject()(
         case _ => None
       }
 
-      val list = SummaryLists(backgroundList, aboutYouList, aboutTheIndividualList)
+      val aboutTheCompanyList = request.userAnswers.get(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage) match {
+        case Some(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.No) => 
+          Some(
+            SummaryListViewModel(
+              rows = Seq(
+                WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutSummary.row(ua),
+                WhatIsTheCompanyRegistrationNumberSummary.row(ua),
+                CompanyAddressLookupSummary.row(ua)
+              ).flatten
+            )
+          )
+        case _ => None
+      }
+
+      val list = SummaryLists(backgroundList, aboutYouList, aboutTheIndividualList, aboutTheCompanyList)
 
       Ok(view(list))
   }
