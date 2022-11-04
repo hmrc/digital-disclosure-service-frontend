@@ -19,6 +19,8 @@ package services
 import models.address._
 import play.api.i18n.Messages
 import controllers.routes
+import models._
+import pages._
 
 trait AddressLookupRequestHelper {
 
@@ -27,12 +29,7 @@ trait AddressLookupRequestHelper {
   def lookupRequestForYourAddress(baseUrl: String, 
                                         redirectUrl: String, 
                                         proposalListLimit: Int, 
-                                        isAgentForIndividual: Boolean)(implicit messages: Messages): AddressLookupRequest = {
-                        
-    val isIndividual = isAgentForIndividual match { 
-      case true => Some("yourAddressLookup.afterHeadingText")
-      case _ => None
-    }
+                                        userAnswers: UserAnswers)(implicit messages: Messages): AddressLookupRequest = {
 
     lookupRequestForAddress(baseUrl, redirectUrl, proposalListLimit,
                             "yourCountryLookup.title", 
@@ -40,7 +37,7 @@ trait AddressLookupRequestHelper {
                             "yourCountryLookup.hint",
                             "yourAddressLookup.title", 
                             "yourAddressLookup.heading",
-                            isIndividual,
+                            getAgentSpecificHeading(userAnswers),
                             "selectAddress.title", 
                             "selectAddress.heading",
                             "editAddress.title", 
@@ -161,6 +158,28 @@ trait AddressLookupRequestHelper {
     val labels = AddressLookupLabels(englishLabels)
 
     AddressLookupRequest(API_VERSION, addressLookupOptions, labels)
+  }
+
+  def getAgentSpecificHeading(ua: UserAnswers) = {
+    ua.get(RelatesToPage) match {
+      case Some(RelatesTo.AnIndividual) => getIndividualSpecificHeading(ua)
+      case Some(RelatesTo.ACompany) => getCompanySpecificHeading(ua)
+      case _ => None
+    } 
+  }
+
+  def getIndividualSpecificHeading(ua: UserAnswers): Option[String] = {
+    ua.get(AreYouTheIndividualPage) match {
+      case Some(AreYouTheIndividual.No) => Some("yourAddressLookup.individual.afterHeadingText")
+      case _ => None
+    }
+  }
+
+  def getCompanySpecificHeading(ua: UserAnswers): Option[String] = {
+    ua.get(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage) match {
+      case Some(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.No) => Some("yourAddressLookup.company.afterHeadingText")
+      case _ => None
+    }
   }
 
 }

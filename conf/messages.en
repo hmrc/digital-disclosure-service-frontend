@@ -533,7 +533,8 @@ youHaveSentYourNotification.paragraph.second =  We will write to you shortly wit
 
 yourAddressLookup.title = What is the postcode and property name or number of your address?
 yourAddressLookup.heading = What is the postcode and property name or number of your address?
-yourAddressLookup.afterHeadingText = If you are representing an organisation on behalf of the individual, you can use your organisation’s address.
+yourAddressLookup.individual.afterHeadingText = If you are representing an organisation on behalf of the individual, you can use your organisation’s address.
+yourAddressLookup.company.afterHeadingText = If you are representing an organisation on behalf of the company, you can use your organisation’s address.
 
 selectAddress.title = Choose your address
 selectAddress.heading = Choose your address

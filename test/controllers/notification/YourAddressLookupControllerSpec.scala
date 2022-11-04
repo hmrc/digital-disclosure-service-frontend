@@ -50,9 +50,9 @@ class YourAddressLookupControllerSpec extends SpecBase with MockFactory with Mod
 
   def mockGetIndividualAddressLookupRedirect(redirectUrl: Call)(
     response: Either[Error, URL]
-  ): CallHandler4[Call, Boolean, HeaderCarrier, Messages, EitherT[Future, Error, URL]] =
+  ): CallHandler4[Call, UserAnswers, HeaderCarrier, Messages, EitherT[Future, Error, URL]] =
     (addressLookupService
-      .getYourAddressLookupRedirect(_: Call, _: Boolean)(_: HeaderCarrier, _: Messages))
+      .getYourAddressLookupRedirect(_: Call, _: UserAnswers)(_: HeaderCarrier, _: Messages))
       .expects(redirectUrl, *, *, *)
       .returning(EitherT.fromEither[Future](response))
 
