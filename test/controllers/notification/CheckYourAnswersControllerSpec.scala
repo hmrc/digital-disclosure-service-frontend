@@ -114,9 +114,36 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
     "must return OK and the correct view for a GET when AreYouTheIndividualPage with yes is populated" in {
       val ua = UserAnswers("id").set(AreYouTheIndividualPage, AreYouTheIndividual.Yes).success.value
       rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
-        SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua)(messages)).flatten), 
+        SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua)(messages)).flatten),
         SummaryListViewModel(Seq.empty),
-        None 
+        None
+      ))
+    }
+
+    "must return OK and the correct view for a GET when AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage is populated" in {
+      val ua = UserAnswers("id").set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, arbitrary[AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout].sample.value).success.value
+      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
+        SummaryListViewModel(Seq(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutSummary.row(ua)(messages)).flatten),
+        SummaryListViewModel(Seq.empty),
+        None
+      ))
+    }
+
+    "must return OK and the correct view for a GET when AreYouRepresentingAnOrganisationPage is populated" in {
+      val ua = UserAnswers("id").set(AreYouRepresentingAnOrganisationPage, arbitrary[Boolean].sample.value).success.value
+      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
+        SummaryListViewModel(Seq(AreYouRepresentingAnOrganisationSummary.row(ua)(messages)).flatten),
+        SummaryListViewModel(Seq.empty),
+        None
+      ))
+    }
+
+    "must return OK and the correct view for a GET when WhatIsTheNameOfTheOrganisationYouRepresentPage is populated" in {
+      val ua = UserAnswers("id").set(WhatIsTheNameOfTheOrganisationYouRepresentPage, arbitrary[String].sample.value).success.value
+      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
+        SummaryListViewModel(Seq(WhatIsTheNameOfTheOrganisationYouRepresentSummary.row(ua)(messages)).flatten),
+        SummaryListViewModel(Seq.empty),
+        None
       ))
     }
 
