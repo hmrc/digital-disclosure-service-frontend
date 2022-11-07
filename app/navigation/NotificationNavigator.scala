@@ -201,6 +201,11 @@ class NotificationNavigator @Inject()() {
       case _ => routes.CheckYourAnswersController.onPageLoad
     }
 
+    case AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage => ua => hasAnswerChanged => ua.get(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage) match {
+      case Some(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.No) if hasAnswerChanged => routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad
+    }
+
     case AreYouRepresentingAnOrganisationPage => ua => hasAnswerChanged => ua.get(AreYouRepresentingAnOrganisationPage) match {
       case Some(true) if hasAnswerChanged => routes.WhatIsTheNameOfTheOrganisationYouRepresentController.onPageLoad(CheckMode)
       case _ => routes.CheckYourAnswersController.onPageLoad

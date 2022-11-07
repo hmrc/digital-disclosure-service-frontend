@@ -95,8 +95,8 @@ class CheckYourAnswersController @Inject()(
         case _ => None
       }
 
-      val aboutTheCompanyList = request.userAnswers.get(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage) match {
-        case Some(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.No) => 
+      val aboutTheCompanyList = request.userAnswers.get(RelatesToPage) match {
+        case Some(RelatesTo.ACompany) => 
           Some(
             SummaryListViewModel(
               rows = Seq(
