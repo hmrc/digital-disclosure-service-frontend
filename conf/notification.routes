@@ -185,3 +185,8 @@ GET        /are-you-a-designated-member                         controllers.noti
 POST       /are-you-a-designated-member                         controllers.notification.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onSubmit(mode: Mode = NormalMode)
 GET        /are-you-a-designated-member/change                  controllers.notification.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(mode: Mode = CheckMode)
 POST       /are-you-a-designated-member/change                  controllers.notification.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onSubmit(mode: Mode = CheckMode)
+
+GET        /llp-name                        controllers.notification.WhatIsTheLLPNameController.onPageLoad(mode: Mode = NormalMode)
+POST       /llp-name                        controllers.notification.WhatIsTheLLPNameController.onSubmit(mode: Mode = NormalMode)
+GET        /llp-name/change                 controllers.notification.WhatIsTheLLPNameController.onPageLoad(mode: Mode = CheckMode)
+POST       /llp-name/change                 controllers.notification.WhatIsTheLLPNameController.onSubmit(mode: Mode = CheckMode)
