@@ -544,6 +544,26 @@ class NotificationNavigatorSpec extends SpecBase {
         val userAnswers = UserAnswers("id").set(DoesTheIndividualHaveNationalInsuranceNumberPage, DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow).success.value
         navigator.nextPage(DoesTheIndividualHaveNationalInsuranceNumberPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
       }
+
+      "must go from the AreYouRepresentingAnOrganisationPage to CheckYourAnswers where the answer is Yes but has NOT changed" in {
+        val userAnswers = UserAnswers("id").set(AreYouRepresentingAnOrganisationPage, true).success.value
+        navigator.nextPage(AreYouRepresentingAnOrganisationPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must go from the AreYouRepresentingAnOrganisationPage to CheckYourAnswers where the answer is No but has NOT changed" in {
+        val userAnswers = UserAnswers("id").set(AreYouRepresentingAnOrganisationPage, false).success.value
+        navigator.nextPage(AreYouRepresentingAnOrganisationPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must go from the AreYouRepresentingAnOrganisationPage to WhatIsTheNameOfTheOrganisationYouRepresent where the answer is No and has changed" in {
+        val userAnswers = UserAnswers("id").set(AreYouRepresentingAnOrganisationPage, false).success.value
+        navigator.nextPage(AreYouRepresentingAnOrganisationPage, CheckMode, userAnswers) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must go from the AreYouRepresentingAnOrganisationPage to WhatIsTheNameOfTheOrganisationYouRepresent where the answer is Yes and has changed" in {
+        val userAnswers = UserAnswers("id").set(AreYouRepresentingAnOrganisationPage, true).success.value
+        navigator.nextPage(AreYouRepresentingAnOrganisationPage, CheckMode, userAnswers) mustBe routes.WhatIsTheNameOfTheOrganisationYouRepresentController.onPageLoad(CheckMode)
+      }
     }
   }
 

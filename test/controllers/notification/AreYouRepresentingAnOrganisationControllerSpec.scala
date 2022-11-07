@@ -16,14 +16,13 @@
 
 package controllers
 
-import base.SpecBase
+import base.ControllerSpecBase
 import forms.AreYouRepresentingAnOrganisationFormProvider
-import models.{NormalMode, UserAnswers}
+import models.{CheckMode, NormalMode, UserAnswers}
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
-import org.scalatestplus.mockito.MockitoSugar
-import pages.AreYouRepresentingAnOrganisationPage
+import pages.{AreYouRepresentingAnOrganisationPage, WhatIsTheNameOfTheOrganisationYouRepresentPage}
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -33,7 +32,7 @@ import views.html.notification.AreYouRepresentingAnOrganisationView
 
 import scala.concurrent.Future
 
-class AreYouRepresentingAnOrganisationControllerSpec extends SpecBase with MockitoSugar {
+class AreYouRepresentingAnOrganisationControllerSpec extends ControllerSpecBase {
 
   def onwardRoute = Call("GET", "/foo")
 
@@ -152,6 +151,46 @@ class AreYouRepresentingAnOrganisationControllerSpec extends SpecBase with Mocki
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual routes.JourneyRecoveryController.onPageLoad().url
       }
+    }
+
+    "must redirect to WhatIsTheNameOfTheOrganisationYouRepresent page (change mode) if page answer changes from No to Yes in check mode" in {
+      val previousAnswer = false
+      val newAnswer = true
+
+      val urlToTest = notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.WhatIsTheNameOfTheOrganisationYouRepresentController.onPageLoad(CheckMode).url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRepresentingAnOrganisationPage, urlToTest, destinationRoute, Nil)
+    }
+
+    "must redirect to CheckYourAnswers page (change mode) and clean WhatIsTheNameOfTheOrganisationYouRepresentPage if page answer changes from Yes to No in check mode" in {
+      val previousAnswer = true
+      val newAnswer = false
+
+      val urlToTest = notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRepresentingAnOrganisationPage, urlToTest, destinationRoute, List(WhatIsTheNameOfTheOrganisationYouRepresentPage))
+    }
+
+    "must redirect to CheckYourAnswers page (change mode) if page is true and doesn't change" in {
+      val previousAnswer = true
+      val newAnswer = true
+
+      val urlToTest = notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRepresentingAnOrganisationPage, urlToTest, destinationRoute, Nil)
+    }
+
+    "must redirect to CheckYourAnswers page (change mode) if page is false and doesn't change" in {
+      val previousAnswer = false
+      val newAnswer = false
+
+      val urlToTest = notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRepresentingAnOrganisationPage, urlToTest, destinationRoute, Nil)
     }
   }
 }

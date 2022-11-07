@@ -18,10 +18,12 @@ package controllers.notification
 
 import controllers.actions._
 import forms.AreYouRepresentingAnOrganisationFormProvider
+
 import javax.inject.Inject
-import models.Mode
+import models.{Mode, UserAnswers}
 import navigation.NotificationNavigator
-import pages.AreYouRepresentingAnOrganisationPage
+import pages.{AreYouRepresentingAnOrganisationPage, QuestionPage, WhatIsTheNameOfTheOrganisationYouRepresentPage}
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -40,7 +42,7 @@ class AreYouRepresentingAnOrganisationController @Inject()(
                                          formProvider: AreYouRepresentingAnOrganisationFormProvider,
                                          val controllerComponents: MessagesControllerComponents,
                                          view: AreYouRepresentingAnOrganisationView
-                                 )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+                                 )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with Logging {
 
   val form = formProvider()
 
@@ -62,11 +64,22 @@ class AreYouRepresentingAnOrganisationController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
-        value =>
+        value => {
+          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AreYouRepresentingAnOrganisationPage, value))
-            _              <- sessionRepository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(AreYouRepresentingAnOrganisationPage, mode, updatedAnswers))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+            _              <- sessionRepository.set(clearedAnswers)
+          } yield Redirect(navigator.nextPage(AreYouRepresentingAnOrganisationPage, mode, clearedAnswers, hasValueChanged))
+        }
       )
+  }
+
+  def changedPages(answers: UserAnswers, value: Boolean): (List[QuestionPage[_]], Boolean) = {
+    answers.get(AreYouRepresentingAnOrganisationPage) match {
+      case Some(false) if value => (Nil, true)
+      case Some(true) if !value => (List(WhatIsTheNameOfTheOrganisationYouRepresentPage), true)
+      case _ => (Nil, false)
+    }
   }
 }
