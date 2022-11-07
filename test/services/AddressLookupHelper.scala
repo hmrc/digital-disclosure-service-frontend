@@ -80,6 +80,7 @@ trait AddressLookupHelper {
     def yourAddressNoBodyRequest(implicit messages: Messages) = constructYourAddressRequest(None)
     def yourAddressIndividualBodyRequest(implicit messages: Messages) = constructYourAddressRequest(Some(messages("yourAddressLookup.individual.afterHeadingText")))
     def yourAddressCompanyBodyRequest(implicit messages: Messages) = constructYourAddressRequest(Some(messages("yourAddressLookup.company.afterHeadingText")))
+    def yourAddressLLPBodyRequest(implicit messages: Messages) = constructYourAddressRequest(Some(messages("yourAddressLookup.llp.afterHeadingText")))
 
     def individualLookupRequest(implicit messages: Messages) = {
       val selectPageConfig = SelectPageConfig(proposalListLimit = 15)
@@ -171,6 +172,61 @@ trait AddressLookupHelper {
       val confirmPageLabels = ConfirmPageLabels(
         messages("confirmCompanyAddress.title"), 
         messages("confirmCompanyAddress.heading")
+      )
+      val internationalLabels = InternationalLabels(
+        lookupPageLabels, 
+        selectPageLabels, 
+        editPageLabels, 
+        confirmPageLabels
+      )
+      val englishLabels = LabelsByLanguage(
+        appLevelLabels, 
+        countryPickerLabels, 
+        lookupPageLabels, 
+        selectPageLabels, 
+        editPageLabels, 
+        confirmPageLabels,
+        internationalLabels
+      )
+      val labels = AddressLookupLabels(englishLabels)
+      AddressLookupRequest(2, addressLookupOptions, labels)
+    }
+
+    def llpLookupRequest(implicit messages: Messages) = {
+      val selectPageConfig = SelectPageConfig(proposalListLimit = 15)
+      val addressLookupOptions = AddressLookupOptions(
+        continueUrl = "host1.com/redirect",
+        serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
+        showPhaseBanner = Some(true),
+        alphaPhase = false,
+        selectPageConfig = Some(selectPageConfig),
+        includeHMRCBranding = Some(false)
+      )
+
+      val appLevelLabels = AppLevelLabels(messages("service.name"))
+      val countryPickerLabels = CountryPickerLabels(
+        messages("llpCountryLookup.title"), 
+        messages("llpCountryLookup.heading"),
+        messages("llpCountryLookup.hint"),
+        messages("site.continue")
+      )
+      val lookupPageLabels = LookupPageLabels(
+        messages("llpAddressLookup.title"), 
+        messages("llpAddressLookup.heading"),
+        messages("site.continue"),
+        None
+      )
+      val selectPageLabels = SelectPageLabels(
+        messages("selectLLPAddress.title"), 
+        messages("selectLLPAddress.heading")
+      )
+      val editPageLabels = EditPageLabels(
+        messages("editLLPAddress.title"), 
+        messages("editLLPAddress.heading")
+      )
+      val confirmPageLabels = ConfirmPageLabels(
+        messages("confirmLLPAddress.title"), 
+        messages("confirmLLPAddress.heading")
       )
       val internationalLabels = InternationalLabels(
         lookupPageLabels, 

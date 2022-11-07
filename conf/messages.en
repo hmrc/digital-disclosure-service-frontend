@@ -535,6 +535,7 @@ yourAddressLookup.title = What is the postcode and property name or number of yo
 yourAddressLookup.heading = What is the postcode and property name or number of your address?
 yourAddressLookup.individual.afterHeadingText = If you are representing an organisation on behalf of the individual, you can use your organisation’s address.
 yourAddressLookup.company.afterHeadingText = If you are representing an organisation on behalf of the company, you can use your organisation’s address.
+yourAddressLookup.llp.afterHeadingText = If you are representing an organisation on behalf of the limited liability partnership, you can use your organisation’s address.
 
 selectAddress.title = Choose your address
 selectAddress.heading = Choose your address
@@ -738,3 +739,22 @@ whatIsTheLLPName.checkYourAnswersLabel = What is the limited liability partnersh
 whatIsTheLLPName.error.required = Enter whatIsTheLLPName
 whatIsTheLLPName.error.length = WhatIsTheLLPName must be 50 characters or less
 whatIsTheLLPName.change.hidden = WhatIsTheLLPName
+
+llpCountryLookup.title = What is the country of the limited liability partnership’s address?
+llpCountryLookup.heading = What is the country of the limited liability partnership’s address?
+llpCountryLookup.hint = For example, United Kingdom.
+
+llpAddressLookup.title = What is the postcode and property name or number of the limited liability partnership’s address?
+llpAddressLookup.heading = What is the postcode and property name or number of the limited liability partnership’s address?
+
+llpAddressLookup.checkYourAnswersLabel = Limited liability partnership’s address
+llpAddressLookup.change.hidden = Limited liability partnership’s address
+
+selectLLPAddress.title = Choose the limited liability partnership’s address
+selectLLPAddress.heading = Choose the limited liability partnership’s address
+
+editLLPAddress.title = What is the limited liability partnership’s address?
+editLLPAddress.heading = What is the limited liability partnership’s address?
+
+confirmLLPAddress.title = Is this the correct address?
+confirmLLPAddress.heading = Is this the correct address?

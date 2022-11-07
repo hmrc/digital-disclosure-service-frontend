@@ -87,6 +87,26 @@ trait AddressLookupRequestHelper {
 
   }
 
+  def lookupRequestForLLPAddress(baseUrl: String, 
+                                     redirectUrl: String, 
+                                     proposalListLimit: Int)(implicit messages: Messages): AddressLookupRequest = {                                      
+
+    lookupRequestForAddress(baseUrl, redirectUrl, proposalListLimit,
+                            "llpCountryLookup.title", 
+                            "llpCountryLookup.heading",
+                            "llpCountryLookup.hint",
+                            "llpAddressLookup.title", 
+                            "llpAddressLookup.heading",
+                            None,
+                            "selectLLPAddress.title", 
+                            "selectLLPAddress.heading",
+                            "editLLPAddress.title", 
+                            "editLLPAddress.heading",
+                            "confirmLLPAddress.title", 
+                            "confirmLLPAddress.heading")
+
+  }
+
   def lookupRequestForAddress(baseUrl: String, 
                               redirectUrl: String, 
                               proposalListLimit: Int,
@@ -164,6 +184,7 @@ trait AddressLookupRequestHelper {
     ua.get(RelatesToPage) match {
       case Some(RelatesTo.AnIndividual) => getIndividualSpecificHeading(ua)
       case Some(RelatesTo.ACompany) => getCompanySpecificHeading(ua)
+      case Some(RelatesTo.ALimitedLiabilityPartnership) => getLLPSpecificHeading(ua)
       case _ => None
     } 
   }
@@ -178,6 +199,13 @@ trait AddressLookupRequestHelper {
   def getCompanySpecificHeading(ua: UserAnswers): Option[String] = {
     ua.get(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage) match {
       case Some(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.No) => Some("yourAddressLookup.company.afterHeadingText")
+      case _ => None
+    }
+  }
+
+  def getLLPSpecificHeading(ua: UserAnswers): Option[String] = {
+    ua.get(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage) match {
+      case Some(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.No) => Some("yourAddressLookup.llp.afterHeadingText")
       case _ => None
     }
   }
