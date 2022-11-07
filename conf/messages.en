@@ -378,7 +378,7 @@ onshoreLiabilities.yes = Yes
 onshoreLiabilities.no = No
 onshoreLiabilities.checkYourAnswersLabel = Will the disclosure also be about onshore liabilities?
 onshoreLiabilities.default.checkYourAnswersLabel = Will the disclosure be about onshore liabilities?
-onshoreLiabilities.error.required = Select if you want to disclose onshore liabilities or not
+onshoreLiabilities.error.required = Select yes if the disclosure is about onshore liabilities
 onshoreLiabilities.change.hidden = OnshoreLiabilities
 
 letterReference.title = What is the reference number of the letter you received from HMRC?
