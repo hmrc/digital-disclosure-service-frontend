@@ -16,14 +16,13 @@
 
 package controllers
 
-import base.SpecBase
+import base.ControllerSpecBase
 import forms.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutFormProvider
-import models.{NormalMode, AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout, UserAnswers}
+import models._
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
-import org.scalatestplus.mockito.MockitoSugar
-import pages.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage
+import pages._
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -33,7 +32,7 @@ import views.html.notification.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillB
 
 import scala.concurrent.Future
 
-class AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutControllerSpec extends SpecBase with MockitoSugar {
+class AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutControllerSpec extends ControllerSpecBase {
 
   def onwardRoute = Call("GET", "/foo")
 
@@ -154,5 +153,49 @@ class AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutControllerSpec exte
         redirectLocation(result).value mustEqual routes.JourneyRecoveryController.onPageLoad().url
       }
     }
+  }
+
+  "must redirect to AreYouRepresentingAnOrganisationPage screen if page answer changes from Yes to No in check mode" in {
+
+    val previousAnswer = AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.Yes
+    val newAnswer = AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.No
+
+    val urlToTest = notification.routes.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
+    val destinationRoute = notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+
+    testChangeAnswerRouting(previousAnswer, newAnswer, AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, Nil)
+  }
+
+  "must redirect to CheckYourAnswersPage screen and clear AreYouRepresentingAnOrganisationPage & WhatIsTheNameOfTheOrganisationYouRepresentPage if page answer changes from No to Yes in check mode" in {
+
+    val previousAnswer = AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.No
+    val newAnswer = AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.Yes
+
+    val urlToTest = notification.routes.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
+    val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+    testChangeAnswerRouting(previousAnswer, newAnswer, AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, List(AreYouRepresentingAnOrganisationPage, WhatIsTheNameOfTheOrganisationYouRepresentPage))
+  }
+
+  "must redirect to CheckYourAnswersPage screen if page answer is Yes and doesn't change" in {
+
+    val previousAnswer = AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.Yes
+    val newAnswer = AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.Yes
+
+    val urlToTest = notification.routes.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
+    val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+    testChangeAnswerRouting(previousAnswer, newAnswer, AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, Nil)
+  }
+
+  "must redirect to CheckYourAnswersPage screen if page answer is No and doesn't change" in {
+
+    val previousAnswer = AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.No
+    val newAnswer = AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.No
+
+    val urlToTest = notification.routes.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
+    val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+    testChangeAnswerRouting(previousAnswer, newAnswer, AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, Nil)
   }
 }
