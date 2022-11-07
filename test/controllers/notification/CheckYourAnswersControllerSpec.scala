@@ -97,12 +97,44 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(SummaryListViewModel(Seq(LetterReferenceSummary.row(ua)(messages)).flatten), SummaryListViewModel(Seq.empty)))
     }
 
+    "must return OK and the correct view for a GET when RelatesTo (An Individual) is populated" in {
+      val uaWithRelatesTo = UserAnswers("id").set(RelatesToPage, RelatesTo.AnIndividual).success.value
+      rowIsDisplayedWhenPageIsPopulated(uaWithRelatesTo)(messages => SummaryLists(
+        SummaryListViewModel(Seq(RelatesToSummary.row(uaWithRelatesTo)(messages)).flatten), 
+        SummaryListViewModel(Seq.empty)
+      ))
+    }
+
     "must return OK and the correct view for a GET when RelatesTo (A Company) is populated" in {
       val uaWithRelatesTo = UserAnswers("id").set(RelatesToPage, RelatesTo.ACompany).success.value
       rowIsDisplayedWhenPageIsPopulated(uaWithRelatesTo)(messages => SummaryLists(
         SummaryListViewModel(Seq(RelatesToSummary.row(uaWithRelatesTo)(messages)).flatten), 
         SummaryListViewModel(Seq.empty),
         aboutTheCompanyList = Some(SummaryListViewModel(Seq.empty))
+      ))
+    }
+
+    "must return OK and the correct view for a GET when RelatesTo (An Estate) is populated" in {
+      val uaWithRelatesTo = UserAnswers("id").set(RelatesToPage, RelatesTo.AnEstate).success.value
+      rowIsDisplayedWhenPageIsPopulated(uaWithRelatesTo)(messages => SummaryLists(
+        SummaryListViewModel(Seq(RelatesToSummary.row(uaWithRelatesTo)(messages)).flatten), 
+        SummaryListViewModel(Seq.empty)
+      ))
+    }
+
+    "must return OK and the correct view for a GET when RelatesTo (A Limited Liability Partnership) is populated" in {
+      val uaWithRelatesTo = UserAnswers("id").set(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership).success.value
+      rowIsDisplayedWhenPageIsPopulated(uaWithRelatesTo)(messages => SummaryLists(
+        SummaryListViewModel(Seq(RelatesToSummary.row(uaWithRelatesTo)(messages)).flatten), 
+        SummaryListViewModel(Seq.empty)
+      ))
+    }
+
+    "must return OK and the correct view for a GET when RelatesTo (A Trust) is populated" in {
+      val uaWithRelatesTo = UserAnswers("id").set(RelatesToPage, RelatesTo.ATrust).success.value
+      rowIsDisplayedWhenPageIsPopulated(uaWithRelatesTo)(messages => SummaryLists(
+        SummaryListViewModel(Seq(RelatesToSummary.row(uaWithRelatesTo)(messages)).flatten), 
+        SummaryListViewModel(Seq.empty)
       ))
     }
 
