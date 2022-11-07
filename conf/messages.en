@@ -722,3 +722,12 @@ confirmCompanyAddress.title = Is this the correct address?
 confirmCompanyAddress.heading = Is this the correct address?
 
 notificationCYA.aboutTheCompany = About the company
+
+areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.title = Are you a designated member of the limited liability partnership that the disclosure will be about?
+areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.heading = Are you a designated member of the limited liability partnership that the disclosure will be about?
+areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.yes = Yes, I am a designated member of the limited liability partnership
+areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.no = No, I will be making a disclosure on behalf of a designated member
+areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.no.hint = We may ask for additional evidence that you’re authorised to act for them, such as the ‘Authorising a tax agent (64-8)’ form.
+areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.checkYourAnswersLabel = Are you a designated member of the limited liability partnership that the disclosure will be about?
+areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.error.required = Select areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout
+areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.change.hidden = AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout

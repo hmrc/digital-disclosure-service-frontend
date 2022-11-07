@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryAreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage: Arbitrary[AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage.type] =
+    Arbitrary(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage)
+
   implicit lazy val arbitraryWhatIsTheCompanyRegistrationNumberPage: Arbitrary[WhatIsTheCompanyRegistrationNumberPage.type] =
     Arbitrary(WhatIsTheCompanyRegistrationNumberPage)
 
