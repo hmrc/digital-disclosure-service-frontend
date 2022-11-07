@@ -97,11 +97,12 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(SummaryListViewModel(Seq(LetterReferenceSummary.row(ua)(messages)).flatten), SummaryListViewModel(Seq.empty)))
     }
 
-    "must return OK and the correct view for a GET when RelatesTo is populated" in {
-      val uaWithRelatesTo = UserAnswers("id").set(RelatesToPage, arbitrary[RelatesTo].sample.value).success.value
+    "must return OK and the correct view for a GET when RelatesTo (A Company) is populated" in {
+      val uaWithRelatesTo = UserAnswers("id").set(RelatesToPage, RelatesTo.ACompany).success.value
       rowIsDisplayedWhenPageIsPopulated(uaWithRelatesTo)(messages => SummaryLists(
         SummaryListViewModel(Seq(RelatesToSummary.row(uaWithRelatesTo)(messages)).flatten), 
-        SummaryListViewModel(Seq.empty)
+        SummaryListViewModel(Seq.empty),
+        aboutTheCompanyList = Some(SummaryListViewModel(Seq.empty))
       ))
     }
 
