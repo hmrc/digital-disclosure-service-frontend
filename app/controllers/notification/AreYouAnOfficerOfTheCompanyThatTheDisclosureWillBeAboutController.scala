@@ -19,9 +19,9 @@ package controllers.notification
 import controllers.actions._
 import forms.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutFormProvider
 import javax.inject.Inject
-import models.Mode
+import models._
 import navigation.NotificationNavigator
-import pages.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage
+import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -62,11 +62,26 @@ class AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController @Inject(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
-        value =>
+        value =>{
+
+          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
+
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, value))
-            _              <- sessionRepository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, mode, updatedAnswers))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+            _              <- sessionRepository.set(clearedAnswers)
+          } yield Redirect(navigator.nextPage(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, mode, clearedAnswers, hasValueChanged))
+        }
       )
+  }
+
+  def changedPages(userAnswers: UserAnswers, newAnswer: AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout): (List[QuestionPage[_]], Boolean) = {
+    userAnswers.get(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage) match {
+      case Some(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.Yes) if AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.Yes != newAnswer =>
+        (Nil, true)
+      case Some(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.No) if AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.No != newAnswer => 
+        (List(AreYouRepresentingAnOrganisationPage, WhatIsTheNameOfTheOrganisationYouRepresentPage), false) 
+      case _ => (Nil, false)
+    }
   }
 }
