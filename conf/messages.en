@@ -736,8 +736,8 @@ areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.change.hidden = AreY
 whatIsTheLLPName.title = What is the limited liability partnership’s name?
 whatIsTheLLPName.heading = What is the limited liability partnership’s name?
 whatIsTheLLPName.checkYourAnswersLabel = What is the limited liability partnership’s name?
-whatIsTheLLPName.error.required = Enter whatIsTheLLPName
-whatIsTheLLPName.error.length = WhatIsTheLLPName must be 50 characters or less
+whatIsTheLLPName.error.required = Enter the limited liability partnership’s name
+whatIsTheLLPName.error.length = Limited liability partnership name must be between 1 and 50 characters
 whatIsTheLLPName.change.hidden = WhatIsTheLLPName
 
 llpCountryLookup.title = What is the country of the limited liability partnership’s address?
