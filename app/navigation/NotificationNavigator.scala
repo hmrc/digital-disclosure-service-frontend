@@ -236,6 +236,7 @@ class NotificationNavigator @Inject()() {
       case (Some(RelatesTo.AnIndividual), Some(AreYouTheIndividual.Yes)) => controllers.notification.routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
       case (Some(RelatesTo.AnIndividual), _) => controllers.notification.routes.WhatIsTheIndividualsFullNameController.onPageLoad(NormalMode)
       case (Some(RelatesTo.ACompany), _) => controllers.notification.routes.WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutController.onPageLoad(NormalMode)
+      case (Some(RelatesTo.ALimitedLiabilityPartnership), _) => controllers.notification.routes.WhatIsTheLLPNameController.onPageLoad(NormalMode)
       case _ => controllers.notification.routes.RelatesToController.onPageLoad(NormalMode)
     }
   }
