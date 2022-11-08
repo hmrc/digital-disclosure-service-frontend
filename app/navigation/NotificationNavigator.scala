@@ -149,6 +149,12 @@ class NotificationNavigator @Inject()() {
       case None => routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode)
     }
 
+    case AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage => ua => ua.get(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage) match {
+      case Some(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.Yes) => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
+      case Some(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.No) => routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode)
+      case None => routes.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode)
+    }
+
     case WhatIsTheNameOfTheOrganisationYouRepresentPage => _ => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
 
     case OnlyOnshoreLiabilitiesPage => ua => onshoreLiabilitiesRouting(ua)
