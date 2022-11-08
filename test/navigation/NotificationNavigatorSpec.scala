@@ -430,7 +430,6 @@ class NotificationNavigatorSpec extends SpecBase {
         }
       }
 
-
       "must go from the AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage to the AreYouRepresentingAnOrganisationController when the user selects Yes" in {
         UserAnswers("id").set(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.No) match {
           case Success(ua) => navigator.nextPage(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, NormalMode, ua) mustBe routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode)
@@ -444,11 +443,6 @@ class NotificationNavigatorSpec extends SpecBase {
           case Failure(e) => throw e
         }
       }
-
-
-
-
-
 
       "must go from the WhatIsTheNameOfTheOrganisationYouRepresentPage to the OffshoreLiabilitiesController when the user enter organisation name" in {
         navigator.nextPage(WhatIsTheNameOfTheOrganisationYouRepresentPage, NormalMode, UserAnswers("id")) mustBe routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
