@@ -730,7 +730,7 @@ areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.yes = Yes, I am a de
 areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.no = No, I will be making a disclosure on behalf of a designated member
 areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.no.hint = We may ask for additional evidence that you’re authorised to act for them, such as the ‘Authorising a tax agent (64-8)’ form.
 areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.checkYourAnswersLabel = Are you a designated member of the limited liability partnership that the disclosure will be about?
-areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.error.required = Select areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout
+areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.error.required = Select yes if you are a designated member of the limited liability partnership
 areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.change.hidden = AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout
 
 whatIsTheLLPName.title = What is the limited liability partnership’s name?
