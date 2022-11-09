@@ -460,6 +460,14 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(WhatIsTheCompanyRegistrationNumberPage, NormalMode, UserAnswers("id")) mustBe routes.CompanyAddressLookupController.lookupAddress(NormalMode)
       }
 
+      "must go from the WhatIsTheLLPNamePage to the LLPAddressLookupController when the user enter llp name" in {
+        navigator.nextPage(WhatIsTheLLPNamePage, NormalMode, UserAnswers("id")) mustBe routes.LLPAddressLookupController.lookupAddress(NormalMode)
+      }
+
+      "must go from the LLPAddressLookupPage to the WhatIsYourFullNameController when the user enter llp name" in {
+        navigator.nextPage(LLPAddressLookupPage, NormalMode, UserAnswers("id")) mustBe routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+      }
+
     }
 
     "in Check mode" - {
