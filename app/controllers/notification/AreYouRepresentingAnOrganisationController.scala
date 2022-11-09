@@ -23,7 +23,6 @@ import javax.inject.Inject
 import models.{Mode, UserAnswers}
 import navigation.NotificationNavigator
 import pages.{AreYouRepresentingAnOrganisationPage, QuestionPage, WhatIsTheNameOfTheOrganisationYouRepresentPage}
-import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository

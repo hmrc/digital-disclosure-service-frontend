@@ -27,6 +27,7 @@ import repositories.SessionRepository
 import play.api.libs.json.Writes
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import scala.concurrent.Future
+import models.UserAnswers
 
 trait ControllerSpecBase extends SpecBase with MockitoSugar with ScalaCheckPropertyChecks {
 
@@ -39,37 +40,36 @@ trait ControllerSpecBase extends SpecBase with MockitoSugar with ScalaCheckPrope
                                   pagesToRemove: List[QuestionPage[_]] = Nil
                                 )(implicit writes: Writes[A]) = {
 
-    forAll(arbitraryUserData.arbitrary) { userAnswers =>
+    val userAnswers = UserAnswers("id")
 
-      val mockSessionRepository = mock[SessionRepository]
-      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
+    val mockSessionRepository = mock[SessionRepository]
+    when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
 
-      val previousUa = userAnswers.set(page, previousAnswer).success.value
+    val previousUa = userAnswers.set(page, previousAnswer).success.value
 
-      val expectedUa = (for {
-        updatedUa <-  userAnswers.set(page, newAnswer)
-        clearedUa <- updatedUa.remove(pagesToRemove)
-      } yield clearedUa).success.value
+    val expectedUa = (for {
+      updatedUa <-  userAnswers.set(page, newAnswer)
+      clearedUa <- updatedUa.remove(pagesToRemove)
+    } yield clearedUa).success.value
 
-      val application = applicationBuilder(userAnswers = Some(previousUa))
-        .overrides(
-          bind[SessionRepository].toInstance(mockSessionRepository)
-        )
-        .build()
+    val application = applicationBuilder(userAnswers = Some(previousUa))
+      .overrides(
+        bind[SessionRepository].toInstance(mockSessionRepository)
+      )
+      .build()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, urlToTest)
-            .withFormUrlEncodedBody(("value", newAnswer.toString))
+    running(application) {
+      val request =
+        FakeRequest(POST, urlToTest)
+          .withFormUrlEncodedBody(("value", newAnswer.toString))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual destinationRoute
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual destinationRoute
 
-        verify(mockSessionRepository, times(1)).set(expectedUa)
-      }
-
+      verify(mockSessionRepository, times(1)).set(expectedUa)
     }
+    
   }
 }
