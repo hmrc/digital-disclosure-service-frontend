@@ -184,7 +184,7 @@ class NotificationStoreConnectorSpec extends AnyFreeSpec with Matchers with Scal
     "must return a successful future when the store responds with NO_CONTENT" in {
 
       server.stubFor(
-        post(urlMatching(url))
+        put(urlMatching(url))
           .withRequestBody(equalToJson(Json.stringify(Json.toJson(testNotification))))
           .willReturn(
             aResponse()
@@ -199,7 +199,7 @@ class NotificationStoreConnectorSpec extends AnyFreeSpec with Matchers with Scal
     "must return a failed future when the store responds with anything else" in {
 
       server.stubFor(
-        post(urlMatching(url))
+        put(urlMatching(url))
           .withRequestBody(equalToJson(Json.stringify(Json.toJson(testNotification))))
           .willReturn(aResponse().withBody("body").withStatus(INTERNAL_SERVER_ERROR))
       )
@@ -211,7 +211,7 @@ class NotificationStoreConnectorSpec extends AnyFreeSpec with Matchers with Scal
     "must return a failed future when there is a connection error" in {
 
       server.stubFor(
-        post(urlMatching(url))
+        put(urlMatching(url))
           .withRequestBody(equalToJson(Json.stringify(Json.toJson(testNotification))))
           .willReturn(aResponse().withFault(Fault.RANDOM_DATA_THEN_CLOSE))
       )

@@ -77,7 +77,7 @@ class NotificationStoreConnectorImpl @Inject() (
 
   def setNotification(notification: Notification)(implicit hc: HeaderCarrier): Future[Result] = {
     httpClient
-      .post(url"${service.baseUrl}/notification")
+      .put(url"${service.baseUrl}/notification")
       .withBody(Json.toJson(notification))
       .execute
       .flatMap { response =>
