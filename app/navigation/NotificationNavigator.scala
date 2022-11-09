@@ -137,6 +137,8 @@ class NotificationNavigator @Inject()() {
     
     case IndividualAddressLookupPage => _ => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
 
+    case CompanyAddressLookupPage => _ => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+
     case AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage => ua => ua.get(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage) match {
       case Some(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.Yes) => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
       case Some(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.No) => routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode)
