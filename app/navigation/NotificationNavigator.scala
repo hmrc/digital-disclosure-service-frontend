@@ -165,6 +165,10 @@ class NotificationNavigator @Inject()() {
 
     case WhatIsTheCompanyRegistrationNumberPage => _ => routes.CompanyAddressLookupController.lookupAddress(NormalMode)
 
+    case WhatIsTheLLPNamePage => _ => routes.LLPAddressLookupController.lookupAddress(NormalMode)
+
+    case LLPAddressLookupPage => _ => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
