@@ -170,6 +170,12 @@ class NotificationNavigator @Inject()() {
 
     case LLPAddressLookupPage => _ => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
 
+    case AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage => ua => ua.get(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage) match {
+      case Some(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.Yes) => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
+      case Some(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.No) => routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode)
+      case None => routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode)
+    }
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
