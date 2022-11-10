@@ -126,7 +126,8 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       val uaWithRelatesTo = UserAnswers("id").set(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership).success.value
       rowIsDisplayedWhenPageIsPopulated(uaWithRelatesTo)(messages => SummaryLists(
         SummaryListViewModel(Seq(RelatesToSummary.row(uaWithRelatesTo)(messages)).flatten), 
-        SummaryListViewModel(Seq.empty)
+        SummaryListViewModel(Seq.empty),
+        aboutTheLLPList = Some(SummaryListViewModel(Seq.empty))
       ))
     }
 
@@ -466,6 +467,36 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         aboutYou = SummaryListViewModel(Seq.empty), 
         aboutTheIndividualList = None,
         aboutTheCompanyList = Some(SummaryListViewModel(Seq(CompanyAddressLookupSummary.row(ua)(messages)).flatten))
+      ))
+    }
+
+    "must return OK and the correct view for a GET when WhatIsTheLLPNamePage is populated" in {
+      val ua = (for {
+        userAnswer <- UserAnswers("id").set(WhatIsTheLLPNamePage, arbitrary[String].sample.value)
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership)
+      } yield uaWithRelatesToPage).success.value
+        
+      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages)).flatten), 
+        aboutYou = SummaryListViewModel(Seq.empty), 
+        aboutTheIndividualList = None,
+        aboutTheCompanyList = None,
+        aboutTheLLPList = Some(SummaryListViewModel(Seq(WhatIsTheLLPNameSummary.row(ua)(messages)).flatten))
+      ))
+    }
+
+    "must return OK and the correct view for a GET when LLPAddressLookupPage is populated" in {
+      val ua = (for {
+        userAnswer <- UserAnswers("id").set(LLPAddressLookupPage, arbitrary[Address].sample.value)
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership)
+      } yield uaWithRelatesToPage).success.value
+        
+      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages)).flatten), 
+        aboutYou = SummaryListViewModel(Seq.empty), 
+        aboutTheIndividualList = None,
+        aboutTheCompanyList = None,
+        aboutTheLLPList = Some(SummaryListViewModel(Seq(LLPAddressLookupSummary.row(ua)(messages)).flatten))
       ))
     }
 
