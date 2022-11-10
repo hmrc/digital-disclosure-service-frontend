@@ -40,6 +40,7 @@ class NotificationNavigator @Inject()() {
       case Some(RelatesTo.AnIndividual) => routes.AreYouTheIndividualController.onPageLoad(NormalMode)
       case Some(RelatesTo.ACompany) => routes.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode)
       case Some(RelatesTo.ALimitedLiabilityPartnership) => routes.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode)
+      case Some(RelatesTo.ATrust) => routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode)
       case _ => routes.RelatesToController.onPageLoad(NormalMode)
     }
 

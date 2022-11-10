@@ -200,3 +200,8 @@ GET        /are-you-a-trustee                   controllers.notification.AreYouT
 POST       /are-you-a-trustee                   controllers.notification.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onSubmit(mode: Mode = NormalMode)
 GET        /are-you-a-trustee/change            controllers.notification.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(mode: Mode = CheckMode)
 POST       /are-you-a-trustee/change            controllers.notification.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onSubmit(mode: Mode = CheckMode)
+
+GET        /trust-address/lookup                controllers.notification.TrustAddressLookupController.lookupAddress(mode: Mode = NormalMode)
+GET        /trust-address/retrieve              controllers.notification.TrustAddressLookupController.retrieveConfirmedAddress(mode: Mode = NormalMode, id: Option[UUID] ?= None)
+GET        /trust-address/lookup/change         controllers.notification.TrustAddressLookupController.lookupAddress(mode: Mode = CheckMode)
+GET        /trust-address/retrieve/change       controllers.notification.TrustAddressLookupController.retrieveConfirmedAddress(mode: Mode = CheckMode, id: Option[UUID] ?= None)

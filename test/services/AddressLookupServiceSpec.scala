@@ -198,6 +198,26 @@ class AddressLookupServiceSpec
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressNoBodyRequest)
+    }
+
+    "triggering a lookup for your address when they are not a trust" must {
+
+      val userAnswers = (for {
+        uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ATrust)
+        ua 	<- uaWithRelatesToPage.set(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.No)
+      } yield ua).success.value
+
+      testAddressLookup(userAnswers, yourAddressTrustBodyRequest)
+    }
+
+    "triggering a lookup for your address when they are a trust" must {
+
+      val userAnswers = (for {
+        uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ATrust)
+        ua 	<- uaWithRelatesToPage.set(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.Yes)
+      } yield ua).success.value
+
+      testAddressLookup(userAnswers, yourAddressNoBodyRequest)
     }  
 
     "triggering a lookup for an individual address" must {
@@ -297,6 +317,40 @@ class AddressLookupServiceSpec
         )
 
         await(addressLookupService.getLLPAddressLookupRedirect(addressUpdateCall).value).left.value must be(
+          Error("The Address Lookup Service user redirect URL is missing in the header")
+        )
+      }
+    }
+
+    "triggering a lookup for a trust address" must {
+
+      "succeed receiving user redirect URL" in {
+        val locationUrl = new URL("http://someUrl:1234/redirect")
+
+        mockInitiateAddressLookupResponse(trustLookupRequest)(
+          Right(HttpResponse(ACCEPTED, Json.obj(), headers = Map(LOCATION -> Seq(locationUrl.toString))))
+        )
+
+        val response = await(addressLookupService.getTrustAddressLookupRedirect(addressUpdateCall).value)
+        response.isLeft must be(false)
+      }
+
+      "fail having no request accepted" in {
+        mockInitiateAddressLookupResponse(trustLookupRequest)(
+          Right(HttpResponse(INTERNAL_SERVER_ERROR, Json.obj().toString()))
+        )
+
+        await(addressLookupService.getTrustAddressLookupRedirect(addressUpdateCall).value).left.value must be(
+          Error("The request was refused by the Address Lookup Service")
+        )
+      }
+
+      "fail having no location header provided" in {
+        mockInitiateAddressLookupResponse(trustLookupRequest)(
+          Right(HttpResponse(ACCEPTED, Json.obj().toString()))
+        )
+
+        await(addressLookupService.getTrustAddressLookupRedirect(addressUpdateCall).value).left.value must be(
           Error("The Address Lookup Service user redirect URL is missing in the header")
         )
       }
