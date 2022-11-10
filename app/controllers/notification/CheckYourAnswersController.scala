@@ -49,6 +49,7 @@ class CheckYourAnswersController @Inject()(
           RelatesToSummary.row(ua),
           AreYouTheIndividualSummary.row(ua),
           AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutSummary.row(ua),
+          AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutSummary.row(ua),
           AreYouRepresentingAnOrganisationSummary.row(ua),
           WhatIsTheNameOfTheOrganisationYouRepresentSummary.row(ua),
           OffshoreLiabilitiesSummary.row(ua),
