@@ -25,8 +25,17 @@ import com.google.inject.{Inject, Singleton, ImplementedBy}
 
 @Singleton
 class NotificationStoreServiceImpl @Inject()(
-  connector: NotificationStoreConnector
+  connector: NotificationStoreConnector,
+  notificationDataService: NotificationDataService
 ) {
+
+  // def getIndividualNotification(userId: String)(implicit hc: HeaderCarrier): Future[UserAnswers] = 
+  //   getAllNotifications(userId).map(
+  //     _.match {
+  //       case Nil => UserAnswers(userId)
+  //       case head :: _ => notificationDataService.notificationToUserAnswers(head)
+  //     }
+  //   )
 
   def getNotification(userId: String, notificationId: String)(implicit hc: HeaderCarrier): Future[Option[Notification]] = {
     connector.getNotification(userId, notificationId)
@@ -47,6 +56,7 @@ class NotificationStoreServiceImpl @Inject()(
 
 @ImplementedBy(classOf[NotificationStoreServiceImpl])
 trait NotificationStoreService {
+  //def getIndividualNotification(userId: String)(implicit hc: HeaderCarrier): Future[UserAnswers]
   def getNotification(userId: String, notificationId: String)(implicit hc: HeaderCarrier): Future[Option[Notification]]
   def getAllNotifications(userId: String)(implicit hc: HeaderCarrier): Future[Seq[Notification]]
   def setNotification(notification: Notification)(implicit hc: HeaderCarrier): Future[Result]

@@ -30,11 +30,13 @@ import scala.util.control.NoStackTrace
 import models.store.notification._
 import play.api.mvc.Result
 import play.api.mvc.Results.NoContent
+import java.time.Clock
 
 @Singleton
 class NotificationStoreConnectorImpl @Inject() (
                                 httpClient: HttpClientV2,
-                                configuration: Configuration
+                                configuration: Configuration,
+                                clock: Clock
                               )(implicit ec: ExecutionContext) extends NotificationStoreConnector {
 
   private val service: Service = configuration.get[Service]("microservice.services.digital-disclosure-service")

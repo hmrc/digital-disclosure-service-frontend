@@ -42,4 +42,9 @@ object OnshoreLiabilities extends Enumerable.Implicits {
 
   implicit val enumerable: Enumerable[OnshoreLiabilities] =
     Enumerable(values.map(v => v.toString -> v): _*)
+
+  implicit def booleanToOnshoreLiabilities(boolean: Boolean): OnshoreLiabilities = {
+    if (boolean) IWantTo else IDoNotWantTo
+  }
+
 }
