@@ -26,6 +26,11 @@ import scala.language.higherKinds
 
 trait ModelGenerators {
 
+  implicit lazy val arbitraryAreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout: Arbitrary[AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout] =
+    Arbitrary {
+      Gen.oneOf(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.values.toSeq)
+    }
+
   implicit lazy val arbitraryAreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout: Arbitrary[AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout] =
     Arbitrary {
       Gen.oneOf(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.values.toSeq)

@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryAreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage: Arbitrary[AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage.type] =
+    Arbitrary(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage)
+
   implicit lazy val arbitraryWhatIsTheLLPNamePage: Arbitrary[WhatIsTheLLPNamePage.type] =
     Arbitrary(WhatIsTheLLPNamePage)
 
