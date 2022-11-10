@@ -648,6 +648,11 @@ class NotificationNavigatorSpec extends SpecBase {
       val userAnswers = UserAnswers("id").set(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership)
       navigator.nextPage(page, NormalMode, userAnswers.success.value) mustBe routes.WhatIsTheLLPNameController.onPageLoad(NormalMode)
     }
+
+    s"must go from $page to the WhatIsTheTrustName page when the user is a company" in {
+      val userAnswers = UserAnswers("id").set(RelatesToPage, RelatesTo.ATrust)
+      navigator.nextPage(page, NormalMode, userAnswers.success.value) mustBe routes.WhatIsTheTrustNameController.onPageLoad(NormalMode)
+    }
   }
 
 }
