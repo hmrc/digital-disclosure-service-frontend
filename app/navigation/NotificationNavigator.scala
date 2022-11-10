@@ -176,6 +176,10 @@ class NotificationNavigator @Inject()() {
       case None => routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode)
     }
 
+    case WhatIsTheTrustNamePage => _ => routes.TrustAddressLookupController.lookupAddress(NormalMode)
+
+    case TrustAddressLookupPage => _ => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
