@@ -44,7 +44,6 @@ trait AddressLookupRequestHelper {
                             "editAddress.heading",
                             "confirmAddress.title", 
                             "confirmAddress.heading")
-
   }
 
   def lookupRequestForIndividualAddress(baseUrl: String, 
@@ -64,7 +63,6 @@ trait AddressLookupRequestHelper {
                             "editIndividualAddress.heading",
                             "confirmIndividualAddress.title", 
                             "confirmIndividualAddress.heading")
-
   }
 
   def lookupRequestForCompanyAddress(baseUrl: String, 
@@ -84,7 +82,6 @@ trait AddressLookupRequestHelper {
                             "editCompanyAddress.heading",
                             "confirmCompanyAddress.title", 
                             "confirmCompanyAddress.heading")
-
   }
 
   def lookupRequestForLLPAddress(baseUrl: String, 
@@ -104,7 +101,25 @@ trait AddressLookupRequestHelper {
                             "editLLPAddress.heading",
                             "confirmLLPAddress.title", 
                             "confirmLLPAddress.heading")
+  }
 
+  def lookupRequestForTrustAddress(baseUrl: String, 
+                                     redirectUrl: String, 
+                                     proposalListLimit: Int)(implicit messages: Messages): AddressLookupRequest = {                                      
+
+    lookupRequestForAddress(baseUrl, redirectUrl, proposalListLimit,
+                            "trustCountryLookup.title", 
+                            "trustCountryLookup.heading",
+                            "trustCountryLookup.hint",
+                            "trustAddressLookup.title", 
+                            "trustAddressLookup.heading",
+                            None,
+                            "selectTrustAddress.title", 
+                            "selectTrustAddress.heading",
+                            "editTrustAddress.title", 
+                            "editTrustAddress.heading",
+                            "confirmTrustAddress.title", 
+                            "confirmTrustAddress.heading")
   }
 
   def lookupRequestForAddress(baseUrl: String, 
@@ -185,6 +200,7 @@ trait AddressLookupRequestHelper {
       case Some(RelatesTo.AnIndividual) => getIndividualSpecificHeading(ua)
       case Some(RelatesTo.ACompany) => getCompanySpecificHeading(ua)
       case Some(RelatesTo.ALimitedLiabilityPartnership) => getLLPSpecificHeading(ua)
+      case Some(RelatesTo.ATrust) => getTrustSpecificHeading(ua)
       case _ => None
     } 
   }
@@ -206,6 +222,13 @@ trait AddressLookupRequestHelper {
   def getLLPSpecificHeading(ua: UserAnswers): Option[String] = {
     ua.get(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage) match {
       case Some(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.No) => Some("yourAddressLookup.llp.afterHeadingText")
+      case _ => None
+    }
+  }
+
+  def getTrustSpecificHeading(ua: UserAnswers): Option[String] = {
+    ua.get(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage) match {
+      case Some(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.No) => Some("yourAddressLookup.trust.afterHeadingText")
       case _ => None
     }
   }

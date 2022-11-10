@@ -536,6 +536,7 @@ yourAddressLookup.heading = What is the postcode and property name or number of 
 yourAddressLookup.individual.afterHeadingText = If you are representing an organisation on behalf of the individual, you can use your organisation’s address.
 yourAddressLookup.company.afterHeadingText = If you are representing an organisation on behalf of the company, you can use your organisation’s address.
 yourAddressLookup.llp.afterHeadingText = If you are representing an organisation on behalf of the limited liability partnership, you can use your organisation’s address.
+yourAddressLookup.trust.afterHeadingText = If you are representing an organisation on behalf of the trust, you can use your organisation’s address.
 
 selectAddress.title = Choose your address
 selectAddress.heading = Choose your address
@@ -769,3 +770,22 @@ areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.no.hint = We may ask for add
 areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.checkYourAnswersLabel = Are you trustee of the trust that the disclosure will be about?
 areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.error.required = Select yes I am the trustee of the trust
 areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.change.hidden = AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout
+
+trustCountryLookup.title = What is the country of the trust’s address?
+trustCountryLookup.heading = What is the country of the trust’s address?
+trustCountryLookup.hint = For example, United Kingdom.
+
+trustAddressLookup.title = What is the postcode and property name or number of the trust’s address?
+trustAddressLookup.heading = What is the postcode and property name or number of the trust’s address?
+
+trustAddressLookup.checkYourAnswersLabel = Trust’s address
+trustAddressLookup.change.hidden = Trust’s address
+
+selectTrustAddress.title = Choose the trust’s address
+selectTrustAddress.heading = Choose the trust’s address
+
+editTrustAddress.title = What is the trust’s address?
+editTrustAddress.heading = What is the trust’s address?
+
+confirmTrustAddress.title = Is this the correct address?
+confirmTrustAddress.heading = Is this the correct address?
