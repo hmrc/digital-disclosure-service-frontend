@@ -16,14 +16,13 @@
 
 package controllers
 
-import base.SpecBase
+import base.ControllerSpecBase
 import forms.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutFormProvider
-import models.{NormalMode, AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout, UserAnswers}
+import models.{AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout, CheckMode, NormalMode, UserAnswers}
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
-import org.scalatestplus.mockito.MockitoSugar
-import pages.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage
+import pages.{AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, AreYouRepresentingAnOrganisationPage, WhatIsTheNameOfTheOrganisationYouRepresentPage}
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -33,7 +32,7 @@ import views.html.notification.AreYouADesignatedMemberOfTheLLPThatTheDisclosureW
 
 import scala.concurrent.Future
 
-class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutControllerSpec extends SpecBase with MockitoSugar {
+class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutControllerSpec extends ControllerSpecBase {
 
   def onwardRoute = Call("GET", "/foo")
 
@@ -154,5 +153,50 @@ class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutControllerSpec 
         redirectLocation(result).value mustEqual routes.JourneyRecoveryController.onPageLoad().url
       }
     }
+
+    "must redirect to AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage screen if page answer changes from Yes to No in check mode" in {
+
+      val previousAnswer = AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.Yes
+      val newAnswer = AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.No
+
+      val urlToTest = notification.routes.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, Nil)
+    }
+
+    "must redirect to CheckYourAnswersPage screen and clear AreYouRepresentingAnOrganisationPage & WhatIsTheNameOfTheOrganisationYouRepresentPage if page answer changes from No to Yes in check mode" in {
+
+      val previousAnswer = AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.No
+      val newAnswer = AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.Yes
+
+      val urlToTest = notification.routes.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, List(AreYouRepresentingAnOrganisationPage, WhatIsTheNameOfTheOrganisationYouRepresentPage))
+    }
+
+    "must redirect to CheckYourAnswersPage screen if page answer is Yes and doesn't change" in {
+
+      val previousAnswer = AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.Yes
+      val newAnswer = AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.Yes
+
+      val urlToTest = notification.routes.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, Nil)
+    }
+
+    "must redirect to CheckYourAnswersPage screen if page answer is No and doesn't change" in {
+
+      val previousAnswer = AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.No
+      val newAnswer = AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.No
+
+      val urlToTest = notification.routes.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, Nil)
+    }
+
   }
 }

@@ -21,7 +21,7 @@ import forms.AreYouRepresentingAnOrganisationFormProvider
 import models.{CheckMode, NormalMode, UserAnswers}
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.when
+import org.mockito.Mockito.{times, verify, when}
 import pages.{AreYouRepresentingAnOrganisationPage, WhatIsTheNameOfTheOrganisationYouRepresentPage}
 import play.api.inject.bind
 import play.api.mvc.Call
@@ -161,6 +161,40 @@ class AreYouRepresentingAnOrganisationControllerSpec extends ControllerSpecBase 
       val destinationRoute = notification.routes.WhatIsTheNameOfTheOrganisationYouRepresentController.onPageLoad(CheckMode).url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRepresentingAnOrganisationPage, urlToTest, destinationRoute, Nil)
+    }
+
+    "must redirect to WhatIsTheNameOfTheOrganisationYouRepresent page (change mode) if page answer changes from No Answer to Yes in check mode" in {
+      val newAnswer = true
+
+      val urlToTest = notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.WhatIsTheNameOfTheOrganisationYouRepresentController.onPageLoad(CheckMode).url
+
+      val userAnswers = UserAnswers("id")
+
+      val mockSessionRepository = mock[SessionRepository]
+      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
+
+      val previousUa = userAnswers.remove(AreYouRepresentingAnOrganisationPage).success.value
+      val expectedUa = userAnswers.set(AreYouRepresentingAnOrganisationPage, newAnswer).success.value
+
+      val application = applicationBuilder(userAnswers = Some(previousUa))
+        .overrides(
+          bind[SessionRepository].toInstance(mockSessionRepository)
+        )
+        .build()
+
+      running(application) {
+        val request =
+          FakeRequest(POST, urlToTest)
+            .withFormUrlEncodedBody(("value", newAnswer.toString))
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual destinationRoute
+
+        verify(mockSessionRepository, times(1)).set(expectedUa)
+      }
     }
 
     "must redirect to CheckYourAnswers page (change mode) and clean WhatIsTheNameOfTheOrganisationYouRepresentPage if page answer changes from Yes to No in check mode" in {

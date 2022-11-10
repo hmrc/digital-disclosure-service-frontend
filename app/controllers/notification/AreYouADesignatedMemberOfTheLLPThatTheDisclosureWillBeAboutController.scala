@@ -18,10 +18,11 @@ package controllers.notification
 
 import controllers.actions._
 import forms.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutFormProvider
+
 import javax.inject.Inject
-import models.Mode
+import models.{AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout, Mode, UserAnswers}
 import navigation.NotificationNavigator
-import pages.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage
+import pages.{AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, AreYouRepresentingAnOrganisationPage, QuestionPage, WhatIsTheNameOfTheOrganisationYouRepresentPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -62,11 +63,26 @@ class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController @Inj
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
-        value =>
+        value => {
+
+          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
+
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, value))
-            _              <- sessionRepository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, mode, updatedAnswers))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+            _ <- sessionRepository.set(clearedAnswers)
+          } yield Redirect(navigator.nextPage(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, mode, clearedAnswers, hasValueChanged))
+        }
       )
+  }
+
+  def changedPages(userAnswers: UserAnswers, newAnswer: AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout): (List[QuestionPage[_]], Boolean) = {
+    userAnswers.get(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage) match {
+      case Some(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.Yes) if AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.Yes != newAnswer =>
+        (Nil, true)
+      case Some(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.No) if AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.No != newAnswer =>
+        (List(AreYouRepresentingAnOrganisationPage, WhatIsTheNameOfTheOrganisationYouRepresentPage), false)
+      case _ => (Nil, false)
+    }
   }
 }
