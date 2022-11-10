@@ -489,6 +489,14 @@ class NotificationNavigatorSpec extends SpecBase {
         }
       }
 
+      "must go from the WhatIsTheTrustNamePage to the TrustAddressLookupController when the user enter trust name" in {
+        navigator.nextPage(WhatIsTheTrustNamePage, NormalMode, UserAnswers("id")) mustBe routes.TrustAddressLookupController.lookupAddress(NormalMode)
+      }
+
+      "must go from the TrustAddressLookupPage to the WhatIsYourFullNameController when the user enter trust address" in {
+        navigator.nextPage(TrustAddressLookupPage, NormalMode, UserAnswers("id")) mustBe routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+      }
+
     }
 
     "in Check mode" - {
