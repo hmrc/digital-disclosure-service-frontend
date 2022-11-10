@@ -79,6 +79,13 @@ class NotificationNavigatorSpec extends SpecBase {
         }
       }
 
+      "must go from the RelatesTo page to the AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController when select a Trust" in {
+        UserAnswers("id").set(RelatesToPage, RelatesTo.ATrust) match {
+          case Success(ua) => navigator.nextPage(RelatesToPage, NormalMode, ua) mustBe routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
       "must go from the AreYouTheIndividual page to the OffshoreLiabilities controller when the user selects Yes" in {
         UserAnswers("id").set(AreYouTheIndividualPage, AreYouTheIndividual.Yes) match {
           case Success(ua) => navigator.nextPage(AreYouTheIndividualPage, NormalMode, ua) mustBe routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
