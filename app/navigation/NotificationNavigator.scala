@@ -224,6 +224,11 @@ class NotificationNavigator @Inject()() {
       case _ => routes.CheckYourAnswersController.onPageLoad
     }
 
+    case AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage => ua => hasAnswerChanged => ua.get(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage) match {
+      case Some(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.No) if hasAnswerChanged => routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad
+    }
+
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 

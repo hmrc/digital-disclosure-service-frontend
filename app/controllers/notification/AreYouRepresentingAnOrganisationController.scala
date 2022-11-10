@@ -20,7 +20,7 @@ import controllers.actions._
 import forms.AreYouRepresentingAnOrganisationFormProvider
 
 import javax.inject.Inject
-import models.{Mode, UserAnswers}
+import models.{CheckMode, Mode, UserAnswers}
 import navigation.NotificationNavigator
 import pages.{AreYouRepresentingAnOrganisationPage, QuestionPage, WhatIsTheNameOfTheOrganisationYouRepresentPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -64,7 +64,7 @@ class AreYouRepresentingAnOrganisationController @Inject()(
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
         value => {
-          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
+          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value, mode)
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AreYouRepresentingAnOrganisationPage, value))
             clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
@@ -74,10 +74,11 @@ class AreYouRepresentingAnOrganisationController @Inject()(
       )
   }
 
-  def changedPages(answers: UserAnswers, value: Boolean): (List[QuestionPage[_]], Boolean) = {
+  def changedPages(answers: UserAnswers, value: Boolean, mode: Mode): (List[QuestionPage[_]], Boolean) = {
     answers.get(AreYouRepresentingAnOrganisationPage) match {
-      case Some(false) if value => (Nil, true)
       case Some(true) if !value => (List(WhatIsTheNameOfTheOrganisationYouRepresentPage), true)
+      case Some(false) if value => (Nil, true)
+      case None if value && mode == CheckMode => (Nil, true)
       case _ => (Nil, false)
     }
   }
