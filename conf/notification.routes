@@ -195,3 +195,8 @@ GET        /llp-address/lookup                                  controllers.noti
 GET        /llp-address/retrieve                                controllers.notification.LLPAddressLookupController.retrieveConfirmedAddress(mode: Mode = NormalMode, id: Option[UUID] ?= None)
 GET        /llp-address/lookup/change                           controllers.notification.LLPAddressLookupController.lookupAddress(mode: Mode = CheckMode)
 GET        /llp-address/retrieve/change                         controllers.notification.LLPAddressLookupController.retrieveConfirmedAddress(mode: Mode = CheckMode, id: Option[UUID] ?= None)
+
+GET        /are-you-a-trustee                   controllers.notification.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(mode: Mode = NormalMode)
+POST       /are-you-a-trustee                   controllers.notification.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onSubmit(mode: Mode = NormalMode)
+GET        /are-you-a-trustee/change            controllers.notification.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(mode: Mode = CheckMode)
+POST       /are-you-a-trustee/change            controllers.notification.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onSubmit(mode: Mode = CheckMode)
