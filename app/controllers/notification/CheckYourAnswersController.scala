@@ -109,7 +109,20 @@ class CheckYourAnswersController @Inject()(
         case _ => None
       }
 
-      val list = SummaryLists(backgroundList, aboutYouList, aboutTheIndividualList, aboutTheCompanyList)
+      val aboutTheLLPList = request.userAnswers.get(RelatesToPage) match {
+        case Some(RelatesTo.ALimitedLiabilityPartnership) => 
+          Some(
+            SummaryListViewModel(
+              rows = Seq(
+                WhatIsTheLLPNameSummary.row(ua),
+                LLPAddressLookupSummary.row(ua)
+              ).flatten
+            )
+          )
+        case _ => None
+      }
+
+      val list = SummaryLists(backgroundList, aboutYouList, aboutTheIndividualList, aboutTheCompanyList, aboutTheLLPList)
 
       Ok(view(list))
   }

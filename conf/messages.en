@@ -735,7 +735,7 @@ areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.change.hidden = AreY
 
 whatIsTheLLPName.title = What is the limited liability partnership’s name?
 whatIsTheLLPName.heading = What is the limited liability partnership’s name?
-whatIsTheLLPName.checkYourAnswersLabel = What is the limited liability partnership’s name?
+whatIsTheLLPName.checkYourAnswersLabel = Limited liability partnership name
 whatIsTheLLPName.error.required = Enter the limited liability partnership’s name
 whatIsTheLLPName.error.length = Limited liability partnership name must be between 1 and 50 characters
 whatIsTheLLPName.change.hidden = WhatIsTheLLPName
@@ -758,3 +758,5 @@ editLLPAddress.heading = What is the limited liability partnership’s address?
 
 confirmLLPAddress.title = Is this the correct address?
 confirmLLPAddress.heading = Is this the correct address?
+
+notificationCYA.aboutTheLLP = About the limited liability partnership
