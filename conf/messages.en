@@ -778,7 +778,7 @@ trustCountryLookup.hint = For example, United Kingdom.
 trustAddressLookup.title = What is the postcode and property name or number of the trust’s address?
 trustAddressLookup.heading = What is the postcode and property name or number of the trust’s address?
 
-trustAddressLookup.checkYourAnswersLabel = Trust’s address
+trustAddressLookup.checkYourAnswersLabel = Trust address
 trustAddressLookup.change.hidden = Trust’s address
 
 selectTrustAddress.title = Choose the trust’s address
@@ -792,7 +792,9 @@ confirmTrustAddress.heading = Is this the correct address?
 
 whatIsTheTrustName.title = What is the trust’s name?
 whatIsTheTrustName.heading = What is the trust’s name?
-whatIsTheTrustName.checkYourAnswersLabel = What is the trust’s name?
+whatIsTheTrustName.checkYourAnswersLabel = Trust Name
 whatIsTheTrustName.error.required = Enter the trust’s name
 whatIsTheTrustName.error.length = Trust name must be between 1 and 50 characters
 whatIsTheTrustName.change.hidden = WhatIsTheTrustName
+
+notificationCYA.aboutTheTrust = About the trust

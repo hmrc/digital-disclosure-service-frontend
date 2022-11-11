@@ -57,7 +57,8 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
   val aboutTheIndividualList = Some(SummaryListViewModel(rows = Seq(testRow1, testRow2)))
   val aboutTheCompanyList = Some(SummaryListViewModel(rows = Seq(testRow1, testRow2)))
   val aboutTheLLPList = Some(SummaryListViewModel(rows = Seq(testRow1, testRow2)))
-  val list = SummaryLists(backgroundList, aboutYouList, aboutTheIndividualList, aboutTheCompanyList, aboutTheLLPList)
+  val aboutTheTrustList = Some(SummaryListViewModel(rows = Seq(testRow1, testRow2)))
+  val list = SummaryLists(backgroundList, aboutYouList, aboutTheIndividualList, aboutTheCompanyList, aboutTheLLPList, aboutTheTrustList)
   val page: CheckYourAnswersView = inject[CheckYourAnswersView]
 
   private def createView: Html = page(list)(request, messages)
@@ -80,6 +81,7 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
       view.getElementsByClass("govuk-heading-l").get(2).text() mustBe messages("notificationCYA.aboutTheIndividual")
       view.getElementsByClass("govuk-heading-l").get(3).text() mustBe messages("notificationCYA.aboutTheCompany")
       view.getElementsByClass("govuk-heading-l").get(4).text() mustBe messages("notificationCYA.aboutTheLLP")
+      view.getElementsByClass("govuk-heading-l").get(5).text() mustBe messages("notificationCYA.aboutTheTrust")
     }
 
     "contain a background summary list" in {
@@ -105,6 +107,11 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
     "contain a about the llp summary list" in {
       val aboutTheLLPList = view.select("#about-the-llp-list").first
       aboutTheLLPList must haveClass("govuk-summary-list")
+    }
+
+    "contain a about the trust summary list" in {
+      val aboutTheTrustList = view.select("#about-the-trust-list").first
+      aboutTheTrustList must haveClass("govuk-summary-list")
     }
 
   }

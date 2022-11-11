@@ -18,8 +18,9 @@ package models
 
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryList
 
-case class SummaryLists(background: SummaryList, 
-                        aboutYou: SummaryList, 
-                        aboutTheIndividualList: Option[SummaryList] = None, 
+case class SummaryLists(background: SummaryList,
+                        aboutYou: SummaryList,
+                        aboutTheIndividualList: Option[SummaryList] = None,
                         aboutTheCompanyList: Option[SummaryList] = None,
-                        aboutTheLLPList: Option[SummaryList] = None)
+                        aboutTheLLPList: Option[SummaryList] = None,
+                        aboutTheTrustList: Option[SummaryList] = None)
