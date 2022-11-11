@@ -123,7 +123,20 @@ class CheckYourAnswersController @Inject()(
         case _ => None
       }
 
-      val list = SummaryLists(backgroundList, aboutYouList, aboutTheIndividualList, aboutTheCompanyList, aboutTheLLPList)
+      val aboutTheTrust = request.userAnswers.get(RelatesToPage) match {
+        case Some(RelatesTo.ATrust) =>
+          Some(
+            SummaryListViewModel(
+              rows = Seq(
+                WhatIsTheTrustNameSummary.row(ua),
+                TrustAddressLookupSummary.row(ua)
+              ).flatten
+            )
+          )
+        case _ => None
+      }
+
+      val list = SummaryLists(backgroundList, aboutYouList, aboutTheIndividualList, aboutTheCompanyList, aboutTheLLPList, aboutTheTrust)
 
       Ok(view(list))
   }

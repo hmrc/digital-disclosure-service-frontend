@@ -134,8 +134,9 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
     "must return OK and the correct view for a GET when RelatesTo (A Trust) is populated" in {
       val uaWithRelatesTo = UserAnswers("id").set(RelatesToPage, RelatesTo.ATrust).success.value
       rowIsDisplayedWhenPageIsPopulated(uaWithRelatesTo)(messages => SummaryLists(
-        SummaryListViewModel(Seq(RelatesToSummary.row(uaWithRelatesTo)(messages)).flatten), 
-        SummaryListViewModel(Seq.empty)
+        SummaryListViewModel(Seq(RelatesToSummary.row(uaWithRelatesTo)(messages)).flatten),
+        SummaryListViewModel(Seq.empty),
+        aboutTheTrustList = Some(SummaryListViewModel(Seq.empty))
       ))
     }
 
@@ -493,10 +494,42 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         
       rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
         background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages)).flatten), 
-        aboutYou = SummaryListViewModel(Seq.empty), 
+        aboutYou = SummaryListViewModel(Seq.empty),
         aboutTheIndividualList = None,
         aboutTheCompanyList = None,
         aboutTheLLPList = Some(SummaryListViewModel(Seq(LLPAddressLookupSummary.row(ua)(messages)).flatten))
+      ))
+    }
+
+    "must return OK and the correct view for a GET when WhatIsTheTrustNamePage is populated" in {
+      val ua = (for {
+        userAnswer <- UserAnswers("id").set(WhatIsTheTrustNamePage, arbitrary[String].sample.value)
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.ATrust)
+      } yield uaWithRelatesToPage).success.value
+
+      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages)).flatten),
+        aboutYou = SummaryListViewModel(Seq.empty),
+        aboutTheIndividualList = None,
+        aboutTheCompanyList = None,
+        aboutTheLLPList = None,
+        aboutTheTrustList = Some(SummaryListViewModel(Seq(WhatIsTheTrustNameSummary.row(ua)(messages)).flatten))
+      ))
+    }
+
+    "must return OK and the correct view for a GET when TrustAddressLookupPage is populated" in {
+      val ua = (for {
+        userAnswer <- UserAnswers("id").set(TrustAddressLookupPage, arbitrary[Address].sample.value)
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.ATrust)
+      } yield uaWithRelatesToPage).success.value
+
+      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages)).flatten),
+        aboutYou = SummaryListViewModel(Seq.empty),
+        aboutTheIndividualList = None,
+        aboutTheCompanyList = None,
+        aboutTheLLPList = None,
+        aboutTheTrustList = Some(SummaryListViewModel(Seq(TrustAddressLookupSummary.row(ua)(messages)).flatten))
       ))
     }
 
