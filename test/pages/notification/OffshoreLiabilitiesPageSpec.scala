@@ -16,17 +16,17 @@
 
 package pages
 
-import models.OffshoreLiabilities
+
 import pages.behaviours.PageBehaviours
 
 class OffshoreLiabilitiesSpec extends PageBehaviours {
 
   "OffshoreLiabilitiesPage" - {
 
-    beRetrievable[OffshoreLiabilities](OffshoreLiabilitiesPage)
+    beRetrievable[Boolean](OffshoreLiabilitiesPage)
 
-    beSettable[OffshoreLiabilities](OffshoreLiabilitiesPage)
+    beSettable[Boolean](OffshoreLiabilitiesPage)
 
-    beRemovable[OffshoreLiabilities](OffshoreLiabilitiesPage)
+    beRemovable[Boolean](OffshoreLiabilitiesPage)
   }
 }

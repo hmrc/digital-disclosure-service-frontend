@@ -144,7 +144,7 @@ class AddressLookupServiceSpec
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.AnIndividual)
-        ua 	<- uaWithRelatesToPage.set(AreYouTheIndividualPage, AreYouTheIndividual.No)
+        ua 	<- uaWithRelatesToPage.set(AreYouTheIndividualPage, false)
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressIndividualBodyRequest)
@@ -154,7 +154,7 @@ class AddressLookupServiceSpec
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.AnIndividual)
-        ua 	<- uaWithRelatesToPage.set(AreYouTheIndividualPage, AreYouTheIndividual.Yes)
+        ua 	<- uaWithRelatesToPage.set(AreYouTheIndividualPage, true)
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressNoBodyRequest)
@@ -164,7 +164,7 @@ class AddressLookupServiceSpec
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ACompany)
-        ua 	<- uaWithRelatesToPage.set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.No)
+        ua 	<- uaWithRelatesToPage.set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, false)
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressCompanyBodyRequest)
@@ -174,7 +174,7 @@ class AddressLookupServiceSpec
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ACompany)
-        ua 	<- uaWithRelatesToPage.set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.Yes)
+        ua 	<- uaWithRelatesToPage.set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, true)
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressNoBodyRequest)
@@ -184,7 +184,7 @@ class AddressLookupServiceSpec
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership)
-        ua 	<- uaWithRelatesToPage.set(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.No)
+        ua 	<- uaWithRelatesToPage.set(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, false)
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressLLPBodyRequest)
@@ -194,7 +194,7 @@ class AddressLookupServiceSpec
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership)
-        ua 	<- uaWithRelatesToPage.set(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.Yes)
+        ua 	<- uaWithRelatesToPage.set(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, true)
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressNoBodyRequest)
@@ -204,7 +204,7 @@ class AddressLookupServiceSpec
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ATrust)
-        ua 	<- uaWithRelatesToPage.set(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.No)
+        ua 	<- uaWithRelatesToPage.set(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, false)
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressTrustBodyRequest)
@@ -214,7 +214,7 @@ class AddressLookupServiceSpec
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ATrust)
-        ua 	<- uaWithRelatesToPage.set(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.Yes)
+        ua 	<- uaWithRelatesToPage.set(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, true)
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressNoBodyRequest)

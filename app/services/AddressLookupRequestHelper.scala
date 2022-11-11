@@ -207,28 +207,28 @@ trait AddressLookupRequestHelper {
 
   def getIndividualSpecificHeading(ua: UserAnswers): Option[String] = {
     ua.get(AreYouTheIndividualPage) match {
-      case Some(AreYouTheIndividual.No) => Some("yourAddressLookup.individual.afterHeadingText")
+      case Some(false) => Some("yourAddressLookup.individual.afterHeadingText")
       case _ => None
     }
   }
 
   def getCompanySpecificHeading(ua: UserAnswers): Option[String] = {
     ua.get(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage) match {
-      case Some(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.No) => Some("yourAddressLookup.company.afterHeadingText")
+      case Some(false) => Some("yourAddressLookup.company.afterHeadingText")
       case _ => None
     }
   }
 
   def getLLPSpecificHeading(ua: UserAnswers): Option[String] = {
     ua.get(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage) match {
-      case Some(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.No) => Some("yourAddressLookup.llp.afterHeadingText")
+      case Some(false) => Some("yourAddressLookup.llp.afterHeadingText")
       case _ => None
     }
   }
 
   def getTrustSpecificHeading(ua: UserAnswers): Option[String] = {
     ua.get(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage) match {
-      case Some(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.No) => Some("yourAddressLookup.trust.afterHeadingText")
+      case Some(false) => Some("yourAddressLookup.trust.afterHeadingText")
       case _ => None
     }
   }

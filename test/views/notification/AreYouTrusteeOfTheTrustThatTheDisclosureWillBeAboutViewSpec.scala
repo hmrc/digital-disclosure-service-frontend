@@ -51,7 +51,7 @@ class AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutViewSpec extends ViewSp
     }
 
     "have hint text for no option" in {
-      view.select("div#value_1-item-hint").text() must include(messages("areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.no.hint"))
+      view.select("div#value-no-item-hint").text() must include(messages("areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.no.hint"))
     }
 
     "display the continue button" in {

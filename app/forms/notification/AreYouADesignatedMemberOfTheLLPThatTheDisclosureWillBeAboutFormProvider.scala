@@ -20,12 +20,11 @@ import javax.inject.Inject
 
 import forms.mappings.Mappings
 import play.api.data.Form
-import models.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout
 
 class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutFormProvider @Inject() extends Mappings {
 
-  def apply(): Form[AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout] =
+  def apply(): Form[Boolean] =
     Form(
-      "value" -> enumerable[AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout]("areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.error.required")
+      "value" -> boolean("areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.error.required")
     )
 }

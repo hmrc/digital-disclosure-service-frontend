@@ -16,11 +16,11 @@
 
 package forms
 
-import forms.behaviours.OptionFieldBehaviours
-import models.OnshoreLiabilities
+import forms.behaviours.BooleanFieldBehaviours
+
 import play.api.data.FormError
 
-class OnshoreLiabilitiesFormProviderSpec extends OptionFieldBehaviours {
+class OnshoreLiabilitiesFormProviderSpec extends BooleanFieldBehaviours {
 
   val form = new OnshoreLiabilitiesFormProvider()()
 
@@ -29,11 +29,10 @@ class OnshoreLiabilitiesFormProviderSpec extends OptionFieldBehaviours {
     val fieldName = "value"
     val requiredKey = "onshoreLiabilities.error.required"
 
-    behave like optionsField[OnshoreLiabilities](
+    behave like booleanField(
       form,
       fieldName,
-      validValues  = OnshoreLiabilities.values,
-      invalidError = FormError(fieldName, "error.invalid")
+      invalidError = FormError(fieldName, "error.boolean")
     )
 
     behave like mandatoryField(

@@ -28,7 +28,7 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
     Arbitrary {
       for {
         page  <- arbitrary[AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage.type]
-        value <- arbitrary[AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout].map(Json.toJson(_))
+        value <- arbitrary[Boolean].map(Json.toJson(_))
       } yield (page, value)
     }
 
@@ -44,7 +44,7 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
     Arbitrary {
       for {
         page  <- arbitrary[AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage.type]
-        value <- arbitrary[AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout].map(Json.toJson(_))
+        value <- arbitrary[Boolean].map(Json.toJson(_))
       } yield (page, value)
     }
 
@@ -84,7 +84,7 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
     Arbitrary {
       for {
         page  <- arbitrary[AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage.type]
-        value <- arbitrary[AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout].map(Json.toJson(_))
+        value <- arbitrary[Boolean].map(Json.toJson(_))
       } yield (page, value)
     }
 
@@ -268,7 +268,7 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
     Arbitrary {
       for {
         page  <- arbitrary[OffshoreLiabilitiesPage.type]
-        value <- arbitrary[OffshoreLiabilities].map(Json.toJson(_))
+        value <- arbitrary[Boolean].map(Json.toJson(_))
       } yield (page, value)
     }
 
@@ -276,7 +276,7 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
     Arbitrary {
       for {
         page  <- arbitrary[AreYouTheIndividualPage.type]
-        value <- arbitrary[AreYouTheIndividual].map(Json.toJson(_))
+        value <- arbitrary[Boolean].map(Json.toJson(_))
       } yield (page, value)
     }
   
@@ -284,7 +284,7 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
     Arbitrary {
       for {
         page  <- arbitrary[OnshoreLiabilitiesPage.type]
-        value <- arbitrary[OnshoreLiabilities].map(Json.toJson(_))
+        value <- arbitrary[Boolean].map(Json.toJson(_))
       } yield (page, value)
     }
 

@@ -26,21 +26,6 @@ import scala.language.higherKinds
 
 trait ModelGenerators {
 
-  implicit lazy val arbitraryAreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout: Arbitrary[AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout] =
-    Arbitrary {
-      Gen.oneOf(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.values.toSeq)
-    }
-
-  implicit lazy val arbitraryAreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout: Arbitrary[AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout] =
-    Arbitrary {
-      Gen.oneOf(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.values.toSeq)
-    }
-
-  implicit lazy val arbitraryAreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout: Arbitrary[AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout] =
-    Arbitrary {
-      Gen.oneOf(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.values.toSeq)
-    }
-
   implicit lazy val arbitraryIsTheIndividualRegisteredForSelfAssessment: Arbitrary[IsTheIndividualRegisteredForSelfAssessment] =
     Arbitrary {
       Gen.oneOf(IsTheIndividualRegisteredForSelfAssessment.values.toSeq)
@@ -69,21 +54,6 @@ trait ModelGenerators {
   implicit lazy val arbitraryDoYouHaveNationalInsuranceNumber: Arbitrary[DoYouHaveNationalInsuranceNumber] =
     Arbitrary {
       Gen.oneOf(DoYouHaveNationalInsuranceNumber.values.toSeq)
-    }
-
-  implicit lazy val arbitraryOffshoreLiabilities: Arbitrary[OffshoreLiabilities] =
-    Arbitrary {
-      Gen.oneOf(OffshoreLiabilities.values.toSeq)
-    }
-
-  implicit lazy val arbitraryAreYouTheIndividual: Arbitrary[AreYouTheIndividual] =
-    Arbitrary {
-      Gen.oneOf(AreYouTheIndividual.values.toSeq)
-    }
-
-  implicit lazy val arbitraryOnshoreLiabilities: Arbitrary[OnshoreLiabilities] =
-    Arbitrary {
-      Gen.oneOf(OnshoreLiabilities.values.toSeq)
     }
 
   implicit lazy val arbitraryrelatesTo: Arbitrary[RelatesTo] =

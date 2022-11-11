@@ -32,9 +32,11 @@ object AreYouTheIndividualSummary  {
     answers.get(AreYouTheIndividualPage).map {
       answer =>
 
+        val answerString = if (answer) "yes" else "no"
+
         val value = ValueViewModel(
           HtmlContent(
-            HtmlFormat.escape(messages(s"areYouTheIndividual.$answer"))
+            HtmlFormat.escape(messages(s"areYouTheIndividual.$answerString"))
           )
         )
 

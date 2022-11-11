@@ -32,9 +32,11 @@ object AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutSummary  {
     answers.get(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage).map {
       answer =>
 
+        val answerString = if (answer) "yes" else "no"
+
         val value = ValueViewModel(
           HtmlContent(
-            HtmlFormat.escape(messages(s"areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.$answer"))
+            HtmlFormat.escape(messages(s"areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.$answerString"))
           )
         )
 

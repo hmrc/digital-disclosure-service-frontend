@@ -20,7 +20,7 @@ import controllers.actions._
 import forms.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutFormProvider
 
 import javax.inject.Inject
-import models.{AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout, Mode, UserAnswers}
+import models.{Mode, UserAnswers}
 import navigation.NotificationNavigator
 import pages.{AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, AreYouRepresentingAnOrganisationPage, QuestionPage, WhatIsTheNameOfTheOrganisationYouRepresentPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -76,11 +76,11 @@ class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController @Inj
       )
   }
 
-  def changedPages(userAnswers: UserAnswers, newAnswer: AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout): (List[QuestionPage[_]], Boolean) = {
+  def changedPages(userAnswers: UserAnswers, newAnswer: Boolean): (List[QuestionPage[_]], Boolean) = {
     userAnswers.get(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage) match {
-      case Some(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.Yes) if AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.Yes != newAnswer =>
+      case Some(true) if newAnswer != true  =>
         (Nil, true)
-      case Some(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.No) if AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.No != newAnswer =>
+      case Some(false) if newAnswer != false =>
         (List(AreYouRepresentingAnOrganisationPage, WhatIsTheNameOfTheOrganisationYouRepresentPage), false)
       case _ => (Nil, false)
     }

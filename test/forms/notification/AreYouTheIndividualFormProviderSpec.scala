@@ -16,11 +16,10 @@
 
 package forms
 
-import forms.behaviours.OptionFieldBehaviours
-import models.AreYouTheIndividual
+import forms.behaviours.BooleanFieldBehaviours
 import play.api.data.FormError
 
-class AreYouTheIndividualFormProviderSpec extends OptionFieldBehaviours {
+class AreYouTheIndividualFormProviderSpec extends BooleanFieldBehaviours {
 
   val form = new AreYouTheIndividualFormProvider()()
 
@@ -29,11 +28,10 @@ class AreYouTheIndividualFormProviderSpec extends OptionFieldBehaviours {
     val fieldName = "value"
     val requiredKey = "areYouTheIndividual.error.required"
 
-    behave like optionsField[AreYouTheIndividual](
+    behave like booleanField(
       form,
       fieldName,
-      validValues  = AreYouTheIndividual.values,
-      invalidError = FormError(fieldName, "error.invalid")
+      invalidError = FormError(fieldName, "error.boolean")
     )
 
     behave like mandatoryField(
