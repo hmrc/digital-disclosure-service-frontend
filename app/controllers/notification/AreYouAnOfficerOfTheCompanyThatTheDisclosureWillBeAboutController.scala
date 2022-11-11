@@ -75,11 +75,11 @@ class AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController @Inject(
       )
   }
 
-  def changedPages(userAnswers: UserAnswers, newAnswer: AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout): (List[QuestionPage[_]], Boolean) = {
+  def changedPages(userAnswers: UserAnswers, newAnswer: Boolean): (List[QuestionPage[_]], Boolean) = {
     userAnswers.get(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage) match {
-      case Some(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.Yes) if AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.Yes != newAnswer =>
+      case Some(true) if true != newAnswer =>
         (Nil, true)
-      case Some(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.No) if AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.No != newAnswer => 
+      case Some(false) if false != newAnswer => 
         (List(AreYouRepresentingAnOrganisationPage, WhatIsTheNameOfTheOrganisationYouRepresentPage), false) 
       case _ => (Nil, false)
     }

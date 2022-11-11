@@ -16,17 +16,16 @@
 
 package pages
 
-import models.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout
 import pages.behaviours.PageBehaviours
 
 class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutSpec extends PageBehaviours {
 
   "AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage" - {
 
-    beRetrievable[AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout](AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage)
+    beRetrievable[Boolean](AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage)
 
-    beSettable[AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout](AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage)
+    beSettable[Boolean](AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage)
 
-    beRemovable[AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout](AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage)
+    beRemovable[Boolean](AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage)
   }
 }

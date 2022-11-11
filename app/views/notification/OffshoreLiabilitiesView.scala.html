@@ -58,10 +58,10 @@
         @paragraph(HtmlContent(link(id = "guidance-link", text = messages("offshoreLiabilities.guidance.link"), newTab = true, call = Call("GET", "https://www.gov.uk/guidance/worldwide-disclosure-facility-make-a-disclosure"))))
 
         @govukRadios(
-            RadiosViewModel(
+            RadiosViewModel.yesNoNotInline(
                 field  = form("value"),
                 legend = LegendViewModel(messages("offshoreLiabilities.label")).withCssClass("govuk-fieldset__legend--m"),
-                items  = OffshoreLiabilities.options
+                messagePrefix  = "offshoreLiabilities"
             )
         )
 

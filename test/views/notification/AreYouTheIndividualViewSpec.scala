@@ -51,7 +51,7 @@ class AreYouTheIndividualViewSpec extends ViewSpecBase with ViewMatchers {
     }
     
     "have hint text for no option" in {
-      view.select("div#value_1-item-hint").text() must include(messages("areYouTheIndividual.hint.no"))
+      view.select("div#value-no-item-hint").text() must include(messages("areYouTheIndividual.hint.no"))
     }
 
     "display the continue button" in {

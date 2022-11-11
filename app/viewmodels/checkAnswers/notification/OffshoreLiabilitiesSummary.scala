@@ -32,9 +32,11 @@ object OffshoreLiabilitiesSummary  {
     answers.get(OffshoreLiabilitiesPage).map {
       answer =>
 
+        val answerString = if (answer) "yes" else "no"
+
         val value = ValueViewModel(
           HtmlContent(
-            HtmlFormat.escape(messages(s"offshoreLiabilities.$answer"))
+            HtmlFormat.escape(messages(s"offshoreLiabilities.$answerString"))
           )
         )
 

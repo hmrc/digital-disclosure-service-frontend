@@ -16,10 +16,10 @@
 
 package pages
 
-import models.OffshoreLiabilities
+
 import play.api.libs.json.JsPath
 
-case object OffshoreLiabilitiesPage extends QuestionPage[OffshoreLiabilities] {
+case object OffshoreLiabilitiesPage extends QuestionPage[Boolean] {
 
   override def path: JsPath = JsPath \ toString
 

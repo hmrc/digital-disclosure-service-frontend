@@ -61,7 +61,7 @@ class AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutControllerSpec exte
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.values.head).success.value
+      val userAnswers = UserAnswers(userAnswersId).set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, true).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -73,7 +73,7 @@ class AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutControllerSpec exte
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.values.head), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(true), NormalMode)(request, messages(application)).toString
       }
     }
 
@@ -94,7 +94,7 @@ class AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutControllerSpec exte
       running(application) {
         val request =
           FakeRequest(POST, areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutRoute)
-            .withFormUrlEncodedBody(("value", AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.values.head.toString))
+            .withFormUrlEncodedBody(("value", true.toString))
 
         val result = route(application, request).value
 
@@ -144,7 +144,7 @@ class AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutControllerSpec exte
       running(application) {
         val request =
           FakeRequest(POST, areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutRoute)
-            .withFormUrlEncodedBody(("value", AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.values.head.toString))
+            .withFormUrlEncodedBody(("value", true.toString))
 
         val result = route(application, request).value
 
@@ -157,8 +157,8 @@ class AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutControllerSpec exte
 
   "must redirect to AreYouRepresentingAnOrganisationPage screen if page answer changes from Yes to No in check mode" in {
 
-    val previousAnswer = AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.Yes
-    val newAnswer = AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.No
+    val previousAnswer = true
+    val newAnswer = false
 
     val urlToTest = notification.routes.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
     val destinationRoute = notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
@@ -168,8 +168,8 @@ class AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutControllerSpec exte
 
   "must redirect to CheckYourAnswersPage screen and clear AreYouRepresentingAnOrganisationPage & WhatIsTheNameOfTheOrganisationYouRepresentPage if page answer changes from No to Yes in check mode" in {
 
-    val previousAnswer = AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.No
-    val newAnswer = AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.Yes
+    val previousAnswer = false
+    val newAnswer = true
 
     val urlToTest = notification.routes.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
     val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
@@ -179,8 +179,8 @@ class AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutControllerSpec exte
 
   "must redirect to CheckYourAnswersPage screen if page answer is Yes and doesn't change" in {
 
-    val previousAnswer = AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.Yes
-    val newAnswer = AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.Yes
+    val previousAnswer = true
+    val newAnswer = true
 
     val urlToTest = notification.routes.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
     val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
@@ -190,8 +190,8 @@ class AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutControllerSpec exte
 
   "must redirect to CheckYourAnswersPage screen if page answer is No and doesn't change" in {
 
-    val previousAnswer = AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.No
-    val newAnswer = AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.No
+    val previousAnswer = false
+    val newAnswer = false
 
     val urlToTest = notification.routes.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
     val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url

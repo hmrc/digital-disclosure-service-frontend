@@ -77,7 +77,7 @@ class CheckYourAnswersController @Inject()(
       )
 
       val aboutTheIndividualList = request.userAnswers.get(AreYouTheIndividualPage) match {
-        case Some(AreYouTheIndividual.No) => 
+        case Some(false) => 
           Some(
             SummaryListViewModel(
               rows = Seq(
