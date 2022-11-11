@@ -793,8 +793,8 @@ confirmTrustAddress.heading = Is this the correct address?
 whatIsTheTrustName.title = What is the trust’s name?
 whatIsTheTrustName.heading = What is the trust’s name?
 whatIsTheTrustName.checkYourAnswersLabel = Trust Name
-whatIsTheTrustName.error.required = Enter whatIsTheTrustName
-whatIsTheTrustName.error.length = WhatIsTheTrustName must be 50 characters or less
+whatIsTheTrustName.error.required = Enter the trust’s name
+whatIsTheTrustName.error.length = Trust name must be between 1 and 50 characters
 whatIsTheTrustName.change.hidden = WhatIsTheTrustName
 
 notificationCYA.aboutTheTrust = About the trust
