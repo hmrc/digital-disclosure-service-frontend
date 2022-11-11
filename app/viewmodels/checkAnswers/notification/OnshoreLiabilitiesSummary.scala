@@ -32,10 +32,10 @@ object OnshoreLiabilitiesSummary  {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] = {
     
-    val offshoreAnswer = answers.get(OffshoreLiabilitiesPage).getOrElse(OffshoreLiabilities.IWantTo)
+    val offshoreAnswer = answers.get(OffshoreLiabilitiesPage).getOrElse(true)
     val onshoreAnswer = answers.get(OnshoreLiabilitiesPage)
 
-    if (offshoreAnswer == OffshoreLiabilities.IDoNotWantTo) {
+    if (offshoreAnswer == false) {
       Some(createRow(
         "onshoreLiabilities.default.checkYourAnswersLabel",
         "onshoreLiabilities.yes",
@@ -44,9 +44,12 @@ object OnshoreLiabilitiesSummary  {
       ))
     } else {
       onshoreAnswer.map {  answer => 
+        
+        val answerString = if (answer) "yes" else "no"
+
         createRow(
           "onshoreLiabilities.checkYourAnswersLabel",
-          s"onshoreLiabilities.$answer",
+          s"onshoreLiabilities.$answerString",
           routes.OnshoreLiabilitiesController.onPageLoad(CheckMode).url,
           "onshoreLiabilities.change.hidden"
         )

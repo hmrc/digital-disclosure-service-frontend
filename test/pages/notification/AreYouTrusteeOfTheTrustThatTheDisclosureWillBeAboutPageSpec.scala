@@ -16,17 +16,17 @@
 
 package pages
 
-import models.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout
+
 import pages.behaviours.PageBehaviours
 
 class AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutSpec extends PageBehaviours {
 
   "AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage" - {
 
-    beRetrievable[AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout](AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage)
+    beRetrievable[Boolean](AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage)
 
-    beSettable[AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout](AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage)
+    beSettable[Boolean](AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage)
 
-    beRemovable[AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout](AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage)
+    beRemovable[Boolean](AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage)
   }
 }

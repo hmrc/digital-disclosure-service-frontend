@@ -20,12 +20,11 @@ import javax.inject.Inject
 
 import forms.mappings.Mappings
 import play.api.data.Form
-import models.AreYouTheIndividual
 
 class AreYouTheIndividualFormProvider @Inject() extends Mappings {
 
-  def apply(): Form[AreYouTheIndividual] =
+  def apply(): Form[Boolean] =
     Form(
-      "value" -> enumerable[AreYouTheIndividual]("areYouTheIndividual.error.required")
+      "value" -> boolean("areYouTheIndividual.error.required")
     )
 }

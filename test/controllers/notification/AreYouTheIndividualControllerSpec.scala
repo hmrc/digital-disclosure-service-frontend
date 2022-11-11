@@ -64,7 +64,7 @@ class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar with 
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(AreYouTheIndividualPage, AreYouTheIndividual.values.head).success.value
+      val userAnswers = UserAnswers(userAnswersId).set(AreYouTheIndividualPage, true).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -76,14 +76,14 @@ class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar with 
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(AreYouTheIndividual.values.head), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(true), NormalMode)(request, messages(application)).toString
       }
     }
 
     "must redirect to offshore liabilities screen and clear the About-You and About-Individual section if AreYouTheIndividual answer changes from No to Yes in check mode" in {
 
-      val previousAnswer = AreYouTheIndividual.No
-      val newAnswer = AreYouTheIndividual.Yes
+      val previousAnswer = false
+      val newAnswer = true
 
       val userAnswers = arbitraryUserData.arbitrary.sample.get
         .set(AreYouTheIndividualPage, previousAnswer).success.value
@@ -118,8 +118,8 @@ class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar with 
 
     "must redirect to offshore liabilities screen and clear the About-You section if AreYouTheIndividual answer changes from Yes to No in check mode" in {
 
-      val previousAnswer = AreYouTheIndividual.Yes
-      val newAnswer = AreYouTheIndividual.No
+      val previousAnswer = true
+      val newAnswer = false
 
       val userAnswers = arbitraryUserData.arbitrary.sample.get
         .set(AreYouTheIndividualPage, previousAnswer).success.value
@@ -169,7 +169,7 @@ class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar with 
       running(application) {
         val request =
           FakeRequest(POST, areYouTheIndividualRoute)
-            .withFormUrlEncodedBody(("value", AreYouTheIndividual.values.head.toString))
+            .withFormUrlEncodedBody(("value", true.toString))
 
         val result = route(application, request).value
 
@@ -219,7 +219,7 @@ class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar with 
       running(application) {
         val request =
           FakeRequest(POST, areYouTheIndividualRoute)
-            .withFormUrlEncodedBody(("value", AreYouTheIndividual.values.head.toString))
+            .withFormUrlEncodedBody(("value", true.toString))
 
         val result = route(application, request).value
 

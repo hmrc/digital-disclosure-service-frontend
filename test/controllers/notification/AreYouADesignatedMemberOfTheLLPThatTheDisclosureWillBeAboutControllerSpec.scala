@@ -18,11 +18,11 @@ package controllers
 
 import base.ControllerSpecBase
 import forms.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutFormProvider
-import models.{AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout, CheckMode, NormalMode, UserAnswers}
+import models.{CheckMode, NormalMode, UserAnswers}
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
-import pages.{AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, AreYouRepresentingAnOrganisationPage, WhatIsTheNameOfTheOrganisationYouRepresentPage}
+import pages.{AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, AreYouRepresentingAnOrganisationPage, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, WhatIsTheNameOfTheOrganisationYouRepresentPage}
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -61,7 +61,7 @@ class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutControllerSpec 
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.values.head).success.value
+      val userAnswers = UserAnswers(userAnswersId).set(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, true).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -73,7 +73,7 @@ class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutControllerSpec 
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.values.head), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(true), NormalMode)(request, messages(application)).toString
       }
     }
 
@@ -94,7 +94,7 @@ class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutControllerSpec 
       running(application) {
         val request =
           FakeRequest(POST, areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutRoute)
-            .withFormUrlEncodedBody(("value", AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.values.head.toString))
+            .withFormUrlEncodedBody(("value", true.toString))
 
         val result = route(application, request).value
 
@@ -144,7 +144,7 @@ class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutControllerSpec 
       running(application) {
         val request =
           FakeRequest(POST, areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutRoute)
-            .withFormUrlEncodedBody(("value", AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.values.head.toString))
+            .withFormUrlEncodedBody(("value", true.toString))
 
         val result = route(application, request).value
 
@@ -156,8 +156,8 @@ class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutControllerSpec 
 
     "must redirect to AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage screen if page answer changes from Yes to No in check mode" in {
 
-      val previousAnswer = AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.Yes
-      val newAnswer = AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.No
+      val previousAnswer = true
+      val newAnswer = false
 
       val urlToTest = notification.routes.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
       val destinationRoute = notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
@@ -167,8 +167,8 @@ class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutControllerSpec 
 
     "must redirect to CheckYourAnswersPage screen and clear AreYouRepresentingAnOrganisationPage & WhatIsTheNameOfTheOrganisationYouRepresentPage if page answer changes from No to Yes in check mode" in {
 
-      val previousAnswer = AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.No
-      val newAnswer = AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.Yes
+      val previousAnswer = false
+      val newAnswer = true
 
       val urlToTest = notification.routes.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
       val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
@@ -176,10 +176,10 @@ class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutControllerSpec 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, List(AreYouRepresentingAnOrganisationPage, WhatIsTheNameOfTheOrganisationYouRepresentPage))
     }
 
-    "must redirect to CheckYourAnswersPage screen if page answer is Yes and doesn't change" in {
+    "must redirect to CheckYourAnswersPage screen if AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage answer is Yes and doesn't change" in {
 
-      val previousAnswer = AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.Yes
-      val newAnswer = AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.Yes
+      val previousAnswer = true
+      val newAnswer = true
 
       val urlToTest = notification.routes.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
       val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
@@ -187,15 +187,59 @@ class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutControllerSpec 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, Nil)
     }
 
-    "must redirect to CheckYourAnswersPage screen if page answer is No and doesn't change" in {
+    "must redirect to CheckYourAnswersPage screen if AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage answer is No and doesn't change" in {
 
-      val previousAnswer = AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.No
-      val newAnswer = AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.No
+      val previousAnswer = false
+      val newAnswer = false
 
       val urlToTest = notification.routes.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
       val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, Nil)
+    }
+
+    "must redirect to AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage screen if page answer changes from Yes to No in check mode" in {
+
+      val previousAnswer = true
+      val newAnswer = false
+
+      val urlToTest = notification.routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, Nil)
+    }
+
+    "must redirect to CheckYourAnswersPage screen and clear AreYouRepresentingAnOrganisationPage & WhatIsTheNameOfTheOrganisationYouRepresentPage if AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage answer changes from No to Yes in check mode" in {
+
+      val previousAnswer = false
+      val newAnswer = true
+
+      val urlToTest = notification.routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, List(AreYouRepresentingAnOrganisationPage, WhatIsTheNameOfTheOrganisationYouRepresentPage))
+    }
+
+    "must redirect to CheckYourAnswersPage screen if AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage answer is Yes and doesn't change" in {
+
+      val previousAnswer = true
+      val newAnswer = true
+
+      val urlToTest = notification.routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, Nil)
+    }
+
+    "must redirect to CheckYourAnswersPage screen if AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage answer is No and doesn't change" in {
+
+      val previousAnswer = false
+      val newAnswer = false
+
+      val urlToTest = notification.routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, Nil)
     }
 
   }

@@ -50,6 +50,7 @@ class CheckYourAnswersController @Inject()(
           AreYouTheIndividualSummary.row(ua),
           AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutSummary.row(ua),
           AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutSummary.row(ua),
+          AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutSummary.row(ua),
           AreYouRepresentingAnOrganisationSummary.row(ua),
           WhatIsTheNameOfTheOrganisationYouRepresentSummary.row(ua),
           OffshoreLiabilitiesSummary.row(ua),
@@ -76,7 +77,7 @@ class CheckYourAnswersController @Inject()(
       )
 
       val aboutTheIndividualList = request.userAnswers.get(AreYouTheIndividualPage) match {
-        case Some(AreYouTheIndividual.No) => 
+        case Some(false) => 
           Some(
             SummaryListViewModel(
               rows = Seq(
@@ -123,7 +124,20 @@ class CheckYourAnswersController @Inject()(
         case _ => None
       }
 
-      val list = SummaryLists(backgroundList, aboutYouList, aboutTheIndividualList, aboutTheCompanyList, aboutTheLLPList)
+      val aboutTheTrust = request.userAnswers.get(RelatesToPage) match {
+        case Some(RelatesTo.ATrust) =>
+          Some(
+            SummaryListViewModel(
+              rows = Seq(
+                WhatIsTheTrustNameSummary.row(ua),
+                TrustAddressLookupSummary.row(ua)
+              ).flatten
+            )
+          )
+        case _ => None
+      }
+
+      val list = SummaryLists(backgroundList, aboutYouList, aboutTheIndividualList, aboutTheCompanyList, aboutTheLLPList, aboutTheTrust)
 
       Ok(view(list))
   }

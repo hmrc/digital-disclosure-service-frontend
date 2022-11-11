@@ -16,11 +16,10 @@
 
 package forms
 
-import forms.behaviours.OptionFieldBehaviours
-import models.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout
+import forms.behaviours.BooleanFieldBehaviours
 import play.api.data.FormError
 
-class AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutFormProviderSpec extends OptionFieldBehaviours {
+class AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutFormProviderSpec extends BooleanFieldBehaviours {
 
   val form = new AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutFormProvider()()
 
@@ -28,12 +27,12 @@ class AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutFormProviderSpec ex
 
     val fieldName = "value"
     val requiredKey = "areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.error.required"
+    val invalidKey = "error.boolean"
 
-    behave like optionsField[AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout](
+    behave like booleanField(
       form,
       fieldName,
-      validValues  = AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.values,
-      invalidError = FormError(fieldName, "error.invalid")
+      invalidError = FormError(fieldName, invalidKey)
     )
 
     behave like mandatoryField(

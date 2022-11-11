@@ -17,7 +17,7 @@
 package services
 
 import uk.gov.hmrc.http.HeaderCarrier
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
 import models.store.notification._
 import play.api.mvc.Result
 import connectors.NotificationStoreConnector

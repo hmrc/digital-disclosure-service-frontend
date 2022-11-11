@@ -17,11 +17,9 @@
 package services
 
 import models._
-import models.OffshoreLiabilities._
 import models.store.notification._
 import pages._
 import scala.util.Try
-import play.api.libs.json.Writes
 
 class NotificationDataService {
   
@@ -70,14 +68,4 @@ class NotificationDataService {
     pagesToUserAnswers(pagesWithValues, UserAnswers(notification.userId))
   }
 
-  def pagesToUserAnswers(pages: List[PageWithValue[_]], userAnswers: UserAnswers): Try[UserAnswers] = {
-    pages.foldLeft(Try(userAnswers)){ (tryUa, page) => tryUa.flatMap(page.addToUserAnswers(_)) }
-  }
-
-}
-
-case class PageWithValue[A](page: QuestionPage[A], value: A)(implicit writes: Writes[A]) {
-  def addToUserAnswers(userAnswers: UserAnswers): Try[UserAnswers] = {
-    userAnswers.set(page, value)
-  }
 }

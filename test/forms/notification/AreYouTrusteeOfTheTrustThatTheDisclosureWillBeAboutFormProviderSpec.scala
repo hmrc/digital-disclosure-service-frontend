@@ -16,11 +16,11 @@
 
 package forms
 
-import forms.behaviours.OptionFieldBehaviours
-import models.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout
+import forms.behaviours.BooleanFieldBehaviours
+
 import play.api.data.FormError
 
-class AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutFormProviderSpec extends OptionFieldBehaviours {
+class AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutFormProviderSpec extends BooleanFieldBehaviours {
 
   val form = new AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutFormProvider()()
 
@@ -29,11 +29,10 @@ class AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutFormProviderSpec extend
     val fieldName = "value"
     val requiredKey = "areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.error.required"
 
-    behave like optionsField[AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout](
+    behave like booleanField(
       form,
       fieldName,
-      validValues  = AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.values,
-      invalidError = FormError(fieldName, "error.invalid")
+      invalidError = FormError(fieldName, "error.boolean")
     )
 
     behave like mandatoryField(
