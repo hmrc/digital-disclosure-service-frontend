@@ -641,6 +641,16 @@ class NotificationNavigatorSpec extends SpecBase {
         val userAnswers = UserAnswers("id").set(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.Yes).success.value
         navigator.nextPage(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
       }
+
+      "must go from the AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage to CheckYourAnswers where the answer is No" in {
+        val userAnswers = UserAnswers("id").set(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.No).success.value
+        navigator.nextPage(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, CheckMode, userAnswers) mustBe routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode)
+      }
+
+      "must go from the AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage to CheckYourAnswers where the answer is Yes and has not changed" in {
+        val userAnswers = UserAnswers("id").set(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.Yes).success.value
+        navigator.nextPage(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
     }
   }
 
