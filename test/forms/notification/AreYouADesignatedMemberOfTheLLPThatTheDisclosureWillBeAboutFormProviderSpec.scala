@@ -16,11 +16,10 @@
 
 package forms
 
-import forms.behaviours.OptionFieldBehaviours
-import models.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout
+import forms.behaviours.BooleanFieldBehaviours
 import play.api.data.FormError
 
-class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutFormProviderSpec extends OptionFieldBehaviours {
+class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutFormProviderSpec extends BooleanFieldBehaviours {
 
   val form = new AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutFormProvider()()
 
@@ -28,12 +27,12 @@ class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutFormProviderSpe
 
     val fieldName = "value"
     val requiredKey = "areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.error.required"
+    val invalidKey = "error.boolean"
 
-    behave like optionsField[AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout](
+    behave like booleanField(
       form,
       fieldName,
-      validValues  = AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.values,
-      invalidError = FormError(fieldName, "error.invalid")
+      invalidError = FormError(fieldName, invalidKey)
     )
 
     behave like mandatoryField(

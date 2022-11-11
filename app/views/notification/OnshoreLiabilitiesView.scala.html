@@ -57,10 +57,10 @@
         @paragraph(id = Some("forth-paragraph"), content = Text(messages("onshoreLiabilities.paragraph.forth")))
 
         @govukRadios(
-            RadiosViewModel(
+            RadiosViewModel.yesNoNotInline(
                 field  = form("value"),
                 legend = LegendViewModel(messages("onshoreLiabilities.label")).withCssClass("govuk-fieldset__legend--m"),
-                items  = OnshoreLiabilities.options
+                messagePrefix  = "onshoreLiabilities"
             )
         )
 

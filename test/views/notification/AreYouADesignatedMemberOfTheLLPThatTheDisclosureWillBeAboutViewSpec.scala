@@ -51,7 +51,7 @@ class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutViewSpec extend
     }
 
     "have hint text for no option" in {
-      view.select("div#value_1-item-hint").text() must include(messages("areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.no.hint"))
+      view.select("div#value-no-item-hint").text() must include(messages("areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.no.hint"))
     }
 
     "display the continue button" in {

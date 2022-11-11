@@ -28,7 +28,7 @@ object radios extends RadiosFluency
 
 trait RadiosFluency {
 
-  object RadiosViewModel extends ErrorMessageAwareness with FieldsetFluency {
+  object RadiosViewModel extends ErrorMessageAwareness with FieldsetFluency with HintFluency {
 
     def apply(
                field: Field,
@@ -85,6 +85,34 @@ trait RadiosFluency {
         fieldset = fieldset,
         items    = items
       ).inline()
+    }
+
+    def yesNoNotInline(
+              field: Field,
+              legend: Legend,
+              messagePrefix: String,
+              hintForNo: Option[Hint] = None
+             )(implicit messages: Messages): Radios = {
+
+      val items = Seq(
+        RadioItem(
+          id      = Some(field.id),
+          value   = Some("true"),
+          content = Text(messages(s"$messagePrefix.yes"))
+        ),
+        RadioItem(
+          id      = Some(s"${field.id}-no"),
+          value   = Some("false"),
+          content = Text(messages(s"$messagePrefix.no")),
+          hint    = hintForNo
+        )
+      )
+
+      apply(
+        field    = field,
+        fieldset = FieldsetViewModel(legend),
+        items    = items
+      )
     }
   }
 

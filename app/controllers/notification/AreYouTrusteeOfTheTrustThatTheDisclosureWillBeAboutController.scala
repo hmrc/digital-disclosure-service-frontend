@@ -20,7 +20,7 @@ import controllers.actions._
 import forms.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutFormProvider
 
 import javax.inject.Inject
-import models.{AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout, Mode, UserAnswers}
+import models.{Mode, UserAnswers}
 import navigation.NotificationNavigator
 import pages.{AreYouRepresentingAnOrganisationPage, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, QuestionPage, WhatIsTheNameOfTheOrganisationYouRepresentPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -75,11 +75,11 @@ class AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController @Inject()(
       )
   }
 
-  def changedPages(userAnswers: UserAnswers, newAnswer: AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout): (List[QuestionPage[_]], Boolean) = {
+  def changedPages(userAnswers: UserAnswers, newAnswer: Boolean): (List[QuestionPage[_]], Boolean) = {
       userAnswers.get(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage) match {
-        case Some(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.Yes) if AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.Yes != newAnswer =>
+        case Some(true) if true != newAnswer =>
           (Nil, true)
-        case Some(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.No) if AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.No != newAnswer =>
+        case Some(false) if false != newAnswer =>
           (List(AreYouRepresentingAnOrganisationPage, WhatIsTheNameOfTheOrganisationYouRepresentPage), false)
         case _ => (Nil, false)
       }

@@ -20,7 +20,7 @@ import controllers.actions._
 import forms.AreYouTheIndividualFormProvider
 
 import javax.inject.Inject
-import models.{AreYouTheIndividual, Mode, UserAnswers}
+import models.{Mode, UserAnswers}
 import navigation.NotificationNavigator
 import pages.notification.IndividualPages
 import pages.{AreYouTheIndividualPage, QuestionPage}
@@ -77,12 +77,12 @@ class AreYouTheIndividualController @Inject()(
       )
   }
 
-  def whatHasChanged(userAnswers: UserAnswers, value: AreYouTheIndividual): List[QuestionPage[_]]=
+  def whatHasChanged(userAnswers: UserAnswers, value: Boolean): List[QuestionPage[_]]=
     userAnswers.get(AreYouTheIndividualPage) match {
-      case Some(AreYouTheIndividual.Yes) if AreYouTheIndividual.No == value =>
+      case Some(true) if false == value =>
         aboutYouPages
 
-      case Some(AreYouTheIndividual.No) if AreYouTheIndividual.Yes == value =>
+      case Some(false) if true == value =>
         aboutYouPages ::: aboutIndividualPages
       case _ => Nil
     }

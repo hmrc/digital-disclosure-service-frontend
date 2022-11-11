@@ -32,9 +32,11 @@ object AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutSummary  {
     answers.get(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage).map {
       answer =>
 
+        val answerString = if (answer) "yes" else "no"
+
         val value = ValueViewModel(
           HtmlContent(
-            HtmlFormat.escape(messages(s"areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.$answer"))
+            HtmlFormat.escape(messages(s"areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.$answerString"))
           )
         )
 

@@ -50,6 +50,7 @@ class CheckYourAnswersController @Inject()(
           AreYouTheIndividualSummary.row(ua),
           AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutSummary.row(ua),
           AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutSummary.row(ua),
+          AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutSummary.row(ua),
           AreYouRepresentingAnOrganisationSummary.row(ua),
           WhatIsTheNameOfTheOrganisationYouRepresentSummary.row(ua),
           OffshoreLiabilitiesSummary.row(ua),
@@ -76,7 +77,7 @@ class CheckYourAnswersController @Inject()(
       )
 
       val aboutTheIndividualList = request.userAnswers.get(AreYouTheIndividualPage) match {
-        case Some(AreYouTheIndividual.No) => 
+        case Some(false) => 
           Some(
             SummaryListViewModel(
               rows = Seq(

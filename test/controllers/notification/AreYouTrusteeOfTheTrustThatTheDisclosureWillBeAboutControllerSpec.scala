@@ -18,7 +18,7 @@ package controllers
 
 import base.SpecBase
 import forms.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutFormProvider
-import models.{NormalMode, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout, UserAnswers}
+import models.{NormalMode, UserAnswers}
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
@@ -62,7 +62,7 @@ class AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutControllerSpec extends 
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.values.head).success.value
+      val userAnswers = UserAnswers(userAnswersId).set(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, true).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -74,7 +74,7 @@ class AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutControllerSpec extends 
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.values.head), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(true), NormalMode)(request, messages(application)).toString
       }
     }
 
@@ -95,7 +95,7 @@ class AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutControllerSpec extends 
       running(application) {
         val request =
           FakeRequest(POST, areYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutRoute)
-            .withFormUrlEncodedBody(("value", AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.values.head.toString))
+            .withFormUrlEncodedBody(("value", true.toString))
 
         val result = route(application, request).value
 
@@ -145,7 +145,7 @@ class AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutControllerSpec extends 
       running(application) {
         val request =
           FakeRequest(POST, areYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutRoute)
-            .withFormUrlEncodedBody(("value", AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.values.head.toString))
+            .withFormUrlEncodedBody(("value", true.toString))
 
         val result = route(application, request).value
 

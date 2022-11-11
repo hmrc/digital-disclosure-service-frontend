@@ -33,10 +33,11 @@
         }
 
         @govukRadios(
-            RadiosViewModel(
+            RadiosViewModel.yesNoNotInline(
                 field  = form("value"),
                 legend = LegendViewModel(messages("areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.heading")).asPageHeading(),
-                items  = AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.options
+                messagePrefix = "areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout",
+                hintForNo  = Some(HintViewModel(Text(messages(s"areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.no.hint"))))
             )
         )
 
