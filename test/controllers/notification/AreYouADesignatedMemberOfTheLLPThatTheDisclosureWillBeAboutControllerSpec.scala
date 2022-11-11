@@ -22,7 +22,7 @@ import models.{CheckMode, NormalMode, UserAnswers}
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
-import pages.{AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, AreYouRepresentingAnOrganisationPage, WhatIsTheNameOfTheOrganisationYouRepresentPage}
+import pages.{AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, AreYouRepresentingAnOrganisationPage, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, WhatIsTheNameOfTheOrganisationYouRepresentPage}
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -176,7 +176,7 @@ class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutControllerSpec 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, List(AreYouRepresentingAnOrganisationPage, WhatIsTheNameOfTheOrganisationYouRepresentPage))
     }
 
-    "must redirect to CheckYourAnswersPage screen if page answer is Yes and doesn't change" in {
+    "must redirect to CheckYourAnswersPage screen if AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage answer is Yes and doesn't change" in {
 
       val previousAnswer = true
       val newAnswer = true
@@ -187,7 +187,7 @@ class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutControllerSpec 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, Nil)
     }
 
-    "must redirect to CheckYourAnswersPage screen if page answer is No and doesn't change" in {
+    "must redirect to CheckYourAnswersPage screen if AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage answer is No and doesn't change" in {
 
       val previousAnswer = false
       val newAnswer = false
@@ -196,6 +196,50 @@ class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutControllerSpec 
       val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, Nil)
+    }
+
+    "must redirect to AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage screen if page answer changes from Yes to No in check mode" in {
+
+      val previousAnswer = true
+      val newAnswer = false
+
+      val urlToTest = notification.routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, Nil)
+    }
+
+    "must redirect to CheckYourAnswersPage screen and clear AreYouRepresentingAnOrganisationPage & WhatIsTheNameOfTheOrganisationYouRepresentPage if AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage answer changes from No to Yes in check mode" in {
+
+      val previousAnswer = false
+      val newAnswer = true
+
+      val urlToTest = notification.routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, List(AreYouRepresentingAnOrganisationPage, WhatIsTheNameOfTheOrganisationYouRepresentPage))
+    }
+
+    "must redirect to CheckYourAnswersPage screen if AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage answer is Yes and doesn't change" in {
+
+      val previousAnswer = true
+      val newAnswer = true
+
+      val urlToTest = notification.routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, Nil)
+    }
+
+    "must redirect to CheckYourAnswersPage screen if AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage answer is No and doesn't change" in {
+
+      val previousAnswer = false
+      val newAnswer = false
+
+      val urlToTest = notification.routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, Nil)
     }
 
   }

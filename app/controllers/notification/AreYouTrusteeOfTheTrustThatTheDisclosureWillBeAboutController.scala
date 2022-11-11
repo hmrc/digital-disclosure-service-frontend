@@ -18,10 +18,11 @@ package controllers.notification
 
 import controllers.actions._
 import forms.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutFormProvider
+
 import javax.inject.Inject
-import models.Mode
+import models.{Mode, UserAnswers}
 import navigation.NotificationNavigator
-import pages.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage
+import pages.{AreYouRepresentingAnOrganisationPage, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, QuestionPage, WhatIsTheNameOfTheOrganisationYouRepresentPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -62,11 +63,25 @@ class AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
-        value =>
+        value => {
+          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
+
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, value))
-            _              <- sessionRepository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, mode, updatedAnswers))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+            _ <- sessionRepository.set(clearedAnswers)
+          } yield Redirect(navigator.nextPage(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, mode, clearedAnswers, hasValueChanged))
+        }
       )
+  }
+
+  def changedPages(userAnswers: UserAnswers, newAnswer: Boolean): (List[QuestionPage[_]], Boolean) = {
+      userAnswers.get(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage) match {
+        case Some(true) if true != newAnswer =>
+          (Nil, true)
+        case Some(false) if false != newAnswer =>
+          (List(AreYouRepresentingAnOrganisationPage, WhatIsTheNameOfTheOrganisationYouRepresentPage), false)
+        case _ => (Nil, false)
+      }
   }
 }

@@ -476,14 +476,14 @@ class NotificationNavigatorSpec extends SpecBase {
       }
 
       "must go from the AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage to the AreYouRepresentingAnOrganisationController when the user selects Yes" in {
-        UserAnswers("id").set(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.No) match {
+        UserAnswers("id").set(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, false) match {
           case Success(ua) => navigator.nextPage(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, NormalMode, ua) mustBe routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode)
           case Failure(e) => throw e
         }
       }
 
       "must go from the AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage to the OffshoreLiabilitiesController when the user selects Yes" in {
-        UserAnswers("id").set(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.Yes) match {
+        UserAnswers("id").set(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, true) match {
           case Success(ua) => navigator.nextPage(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, NormalMode, ua) mustBe routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
           case Failure(e) => throw e
         }
@@ -640,6 +640,16 @@ class NotificationNavigatorSpec extends SpecBase {
       "must go from the AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage to CheckYourAnswers where the answer is Yes and has not changed" in {
         val userAnswers = UserAnswers("id").set(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, true).success.value
         navigator.nextPage(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must go from the AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage to CheckYourAnswers where the answer is No" in {
+        val userAnswers = UserAnswers("id").set(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, false).success.value
+        navigator.nextPage(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, CheckMode, userAnswers) mustBe routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode)
+      }
+
+      "must go from the AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage to CheckYourAnswers where the answer is Yes and has not changed" in {
+        val userAnswers = UserAnswers("id").set(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, true).success.value
+        navigator.nextPage(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
       }
     }
   }
