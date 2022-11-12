@@ -19,7 +19,9 @@
     formHelper: FormWithCSRF,
     govukErrorSummary: GovukErrorSummary,
     govukRadios: GovukRadios,
-    govukButton: GovukButton
+    govukButton: GovukButton,
+    heading: components.heading,
+    paragraph: components.paragraph
 )
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
@@ -32,10 +34,14 @@
             @govukErrorSummary(ErrorSummaryViewModel(form,  errorLinkOverrides = Map("value" -> "value_0")))
         }
 
+        @heading(Text(messages("areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.heading")))
+
+        @paragraph(id = Some("body"), content = Text(messages("areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.body")))
+
         @govukRadios(
             RadiosViewModel.yesNoNotInline(
                 field  = form("value"),
-                legend = LegendViewModel(messages("areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.heading")).asPageHeading(),
+                legend = LegendViewModel(messages("areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.heading")).withCssClass("govuk-visually-hidden"),
                 messagePrefix = "areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout",
                 hintForNo  = Some(HintViewModel(Text(messages(s"areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.no.hint"))))
             )
