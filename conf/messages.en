@@ -800,6 +800,16 @@ whatIsTheTrustName.change.hidden = WhatIsTheTrustName
 
 notificationCYA.aboutTheTrust = About the trust
 
+areYouTheExecutorOfTheEstate.title = Are you the executor or administrator of the estate that the disclosure will be about?
+areYouTheExecutorOfTheEstate.heading = Are you the executor or administrator of the estate that the disclosure will be about?
+areYouTheExecutorOfTheEstate.body = An executor is a person appointed by the person who has passed away to oversee the managing of their estate. An administrator is responsible for managing the estate when there is no will, the will does not name an executor or the executor has abstained from their role.
+areYouTheExecutorOfTheEstate.checkYourAnswersLabel = Are you the executor or administrator of the estate that the disclosure will be about?
+areYouTheExecutorOfTheEstate.error.required = Select yes if you are the executor or administrator of the estate
+areYouTheExecutorOfTheEstate.change.hidden = AreYouTheExecutorOfTheEstate
+areYouTheExecutorOfTheEstate.yes = Yes, I am the executor or administrator of the estate
+areYouTheExecutorOfTheEstate.no = No, I will be making a disclosure on behalf of the executor or administrator of the estate
+areYouTheExecutorOfTheEstate.no.hint = We may ask for additional evidence that you’re authorised to act for them, such as the ‘Authorising a tax agent (64-8)’ form.
+
 whatWasTheNameOfThePersonWhoDied.title = What was the name of the person who died?
 whatWasTheNameOfThePersonWhoDied.heading = What was the name of the person who died?
 whatWasTheNameOfThePersonWhoDied.label = This should be as it's written on official documents such as their passport or driving licence.
