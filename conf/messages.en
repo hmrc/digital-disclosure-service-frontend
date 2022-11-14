@@ -817,3 +817,11 @@ whatWasTheNameOfThePersonWhoDied.checkYourAnswersLabel = What was the name of th
 whatWasTheNameOfThePersonWhoDied.error.required = Enter the person’s full name
 whatWasTheNameOfThePersonWhoDied.error.length = Person’s name must be between 1 and 50 characters
 whatWasTheNameOfThePersonWhoDied.change.hidden = WhatWasTheNameOfThePersonWhoDied
+
+whatIsThePersonOccupation.title = What is the person’s main occupation?
+whatIsThePersonOccupation.heading = What is the person’s main occupation?
+whatIsThePersonOccupation.hint = For example, plumber or dentist.
+whatIsThePersonOccupation.checkYourAnswersLabel = What is the person’s main occupation?
+whatIsThePersonOccupation.error.required = Enter the person occupation
+whatIsThePersonOccupation.error.length = The person occupation must be 30 characters or less
+whatIsThePersonOccupation.change.hidden = WhatIsThePersonOccupation
