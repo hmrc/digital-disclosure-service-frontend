@@ -16,14 +16,13 @@
 
 package controllers
 
-import base.SpecBase
+import base.ControllerSpecBase
 import forms.DoesTheIndividualHaveNationalInsuranceNumberFormProvider
-import models.{NormalMode, DoesTheIndividualHaveNationalInsuranceNumber, UserAnswers}
+import models._
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
-import org.scalatestplus.mockito.MockitoSugar
-import pages.DoesTheIndividualHaveNationalInsuranceNumberPage
+import pages._
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -33,7 +32,7 @@ import views.html.notification.DoesTheIndividualHaveNationalInsuranceNumberView
 
 import scala.concurrent.Future
 
-class DoesTheIndividualHaveNationalInsuranceNumberControllerSpec extends SpecBase with MockitoSugar {
+class DoesTheIndividualHaveNationalInsuranceNumberControllerSpec extends ControllerSpecBase {
 
   def onwardRoute = Call("GET", "/foo")
 
@@ -153,6 +152,72 @@ class DoesTheIndividualHaveNationalInsuranceNumberControllerSpec extends SpecBas
 
         redirectLocation(result).value mustEqual routes.JourneyRecoveryController.onPageLoad().url
       }
+    }
+
+    "must redirect to WhatIsIndividualsNationalInsuranceNumber page (change mode) if page answer changes from No to YesIKnow in check mode" in {
+
+      val previousAnswer = DoesTheIndividualHaveNationalInsuranceNumber.No
+      val newAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow
+
+      val urlToTest = notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(CheckMode).url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, DoesTheIndividualHaveNationalInsuranceNumberPage, urlToTest, destinationRoute, Nil)
+    }
+
+    "must redirect to WhatIsIndividualsNationalInsuranceNumber page (change mode) if page answer changes from YesButDontKnow to YesIKnow in check mode" in {
+
+      val previousAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesButDontKnow
+      val newAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow
+
+      val urlToTest = notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(CheckMode).url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, DoesTheIndividualHaveNationalInsuranceNumberPage, urlToTest, destinationRoute, Nil)
+    }
+
+    "must redirect to CheckYourAnswers screen and clear WhatIsIndividualsNationalInsuranceNumber if page answer changes from YesIKnow to No in check mode" in {
+
+      val previousAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow
+      val newAnswer = DoesTheIndividualHaveNationalInsuranceNumber.No
+
+      val urlToTest = notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, DoesTheIndividualHaveNationalInsuranceNumberPage, urlToTest, destinationRoute, List(WhatIsIndividualsNationalInsuranceNumberPage))
+    }
+
+    "must redirect to CheckYourAnswers screen and clear WhatIsIndividualsNationalInsuranceNumber if page answer changes from YesIKnow to YesButDontKnow in check mode" in {
+
+      val previousAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow
+      val newAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesButDontKnow
+
+      val urlToTest = notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, DoesTheIndividualHaveNationalInsuranceNumberPage, urlToTest, destinationRoute, List(WhatIsIndividualsNationalInsuranceNumberPage))
+    }
+
+    "must redirect to CheckYourAnswers screen if page answer is YesIKnow and doesn't change" in {
+
+      val previousAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow
+      val newAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow
+
+      val urlToTest = notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, DoesTheIndividualHaveNationalInsuranceNumberPage, urlToTest, destinationRoute, Nil)
+    }
+
+    "must redirect to CheckYourAnswers screen if page answer is No and doesn't change" in {
+
+      val previousAnswer = DoesTheIndividualHaveNationalInsuranceNumber.No
+      val newAnswer = DoesTheIndividualHaveNationalInsuranceNumber.No
+
+      val urlToTest = notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, DoesTheIndividualHaveNationalInsuranceNumberPage, urlToTest, destinationRoute, Nil)
     }
   }
 }

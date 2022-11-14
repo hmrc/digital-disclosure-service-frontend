@@ -45,7 +45,11 @@
             Text(messages("offshoreLiabilities.bulletList.first")),
             Text(messages("offshoreLiabilities.bulletList.second")),
             Text(messages("offshoreLiabilities.bulletList.third")),
-            Text(messages("offshoreLiabilities.bulletList.forth"))
+            HtmlContent(
+                messages("offshoreLiabilities.bulletList.forth") +
+                link(id = "bullet-list-forth-link", text = messages("offshoreLiabilities.bulletList.forth.link"), newTab = true, call = Call("GET", "https://www.legislation.gov.uk/ukpga/2017/32/schedule/18/enacted"))
+            ),
+            Text(messages("offshoreLiabilities.bulletList.fifth"))
         ))
 
         @paragraph(id = Some("second-paragraph"),content = Text(messages("offshoreLiabilities.paragraph.second"))
@@ -54,10 +58,10 @@
         @paragraph(HtmlContent(link(id = "guidance-link", text = messages("offshoreLiabilities.guidance.link"), newTab = true, call = Call("GET", "https://www.gov.uk/guidance/worldwide-disclosure-facility-make-a-disclosure"))))
 
         @govukRadios(
-            RadiosViewModel(
+            RadiosViewModel.yesNoNotInline(
                 field  = form("value"),
-                legend = LegendViewModel(messages("offshoreLiabilities.heading")).withCssClass("govuk-visually-hidden"),
-                items  = OffshoreLiabilities.options
+                legend = LegendViewModel(messages("offshoreLiabilities.label")).withCssClass("govuk-fieldset__legend--m"),
+                messagePrefix  = "offshoreLiabilities"
             )
         )
 

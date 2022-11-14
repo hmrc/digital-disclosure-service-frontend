@@ -16,14 +16,13 @@
 
 package controllers
 
-import base.SpecBase
+import base.ControllerSpecBase
 import forms.ReceivedALetterFormProvider
-import models.{NormalMode, UserAnswers}
+import models._
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
-import org.scalatestplus.mockito.MockitoSugar
-import pages.ReceivedALetterPage
+import pages._
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -33,7 +32,7 @@ import views.html.notification.ReceivedALetterView
 
 import scala.concurrent.Future
 
-class ReceivedALetterControllerSpec extends SpecBase with MockitoSugar {
+class ReceivedALetterControllerSpec extends ControllerSpecBase {
 
   def onwardRoute = Call("GET", "/foo")
 
@@ -41,7 +40,7 @@ class ReceivedALetterControllerSpec extends SpecBase with MockitoSugar {
   val form = formProvider()
 
   lazy val receivedALetterRoute = notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url
-
+  
   "ReceivedALetter Controller" - {
 
     "must return OK and the correct view for a GET" in {
@@ -76,6 +75,28 @@ class ReceivedALetterControllerSpec extends SpecBase with MockitoSugar {
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(form.fill(true), NormalMode)(request, messages(application)).toString
       }
+    }
+
+    "must redirect to received a letter screen and then letter reference page (change mode) if received a letter page answer changes from No to Yes in check mode" in {
+
+      val previousAnswer = false
+      val newAnswer = true
+
+      val urlToTest = notification.routes.ReceivedALetterController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.LetterReferenceController.onPageLoad(CheckMode).url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, ReceivedALetterPage, urlToTest, destinationRoute)
+    }
+
+    "must redirect to received a letter screen and clear letter reference page if received a letter page answer changes from Yes to No in check mode" in {
+
+      val previousAnswer = true
+      val newAnswer = false
+
+      val urlToTest = notification.routes.ReceivedALetterController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, ReceivedALetterPage, urlToTest, destinationRoute, List(LetterReferencePage))
     }
 
     "must redirect to the next page when valid data is submitted" in {

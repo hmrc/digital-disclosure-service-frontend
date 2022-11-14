@@ -18,12 +18,13 @@ package controllers
 
 import base.SpecBase
 import forms.AreYouTheIndividualFormProvider
-import models.{NormalMode, AreYouTheIndividual, UserAnswers}
+import models._
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.when
+import org.mockito.Mockito.{times, verify, when}
 import org.scalatestplus.mockito.MockitoSugar
-import pages.AreYouTheIndividualPage
+import pages._
+import pages.notification.IndividualPages
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -33,11 +34,12 @@ import views.html.notification.AreYouTheIndividualView
 
 import scala.concurrent.Future
 
-class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar {
+class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar with IndividualPages {
 
   def onwardRoute = Call("GET", "/foo")
 
   lazy val areYouTheIndividualRoute = notification.routes.AreYouTheIndividualController.onPageLoad(NormalMode).url
+  lazy val areYouTheIndividualRouteCheckMode = notification.routes.AreYouTheIndividualController.onPageLoad(CheckMode).url
 
   val formProvider = new AreYouTheIndividualFormProvider()
   val form = formProvider()
@@ -62,7 +64,7 @@ class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar {
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(AreYouTheIndividualPage, AreYouTheIndividual.values.head).success.value
+      val userAnswers = UserAnswers(userAnswersId).set(AreYouTheIndividualPage, true).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -74,7 +76,79 @@ class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(AreYouTheIndividual.values.head), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(true), NormalMode)(request, messages(application)).toString
+      }
+    }
+
+    "must redirect to offshore liabilities screen and clear the About-You and About-Individual section if AreYouTheIndividual answer changes from No to Yes in check mode" in {
+
+      val previousAnswer = false
+      val newAnswer = true
+
+      val userAnswers = arbitraryUserData.arbitrary.sample.get
+        .set(AreYouTheIndividualPage, previousAnswer).success.value
+
+      val mockSessionRepository = mock[SessionRepository]
+      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
+
+      val expectedUserAnswers = userAnswers.remove(aboutYouPages:::aboutIndividualPages).get
+        .set(AreYouTheIndividualPage, newAnswer).get
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers))
+        .overrides(
+          bind[SessionRepository].toInstance(mockSessionRepository)
+        )
+        .build()
+
+      val offshoreLiabilitiesRoute = notification.routes.OffshoreLiabilitiesController.onPageLoad(NormalMode).url
+
+      running(application) {
+        val request =
+          FakeRequest(POST, areYouTheIndividualRouteCheckMode)
+            .withFormUrlEncodedBody(("value", newAnswer.toString))
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual offshoreLiabilitiesRoute
+
+        verify(mockSessionRepository, times(1)).set(expectedUserAnswers)
+      }
+    }
+
+    "must redirect to offshore liabilities screen and clear the About-You section if AreYouTheIndividual answer changes from Yes to No in check mode" in {
+
+      val previousAnswer = true
+      val newAnswer = false
+
+      val userAnswers = arbitraryUserData.arbitrary.sample.get
+        .set(AreYouTheIndividualPage, previousAnswer).success.value
+
+      val mockSessionRepository = mock[SessionRepository]
+      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
+
+      val expectedUserAnswers = userAnswers.remove(aboutYouPages).get
+        .set(AreYouTheIndividualPage, newAnswer).get
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers))
+        .overrides(
+          bind[SessionRepository].toInstance(mockSessionRepository)
+        )
+        .build()
+
+      val offshoreLiabilitiesRoute = notification.routes.OffshoreLiabilitiesController.onPageLoad(NormalMode).url
+
+      running(application) {
+        val request =
+          FakeRequest(POST, areYouTheIndividualRouteCheckMode)
+            .withFormUrlEncodedBody(("value", newAnswer.toString))
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual offshoreLiabilitiesRoute
+
+        verify(mockSessionRepository, times(1)).set(expectedUserAnswers)
       }
     }
 
@@ -95,7 +169,7 @@ class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar {
       running(application) {
         val request =
           FakeRequest(POST, areYouTheIndividualRoute)
-            .withFormUrlEncodedBody(("value", AreYouTheIndividual.values.head.toString))
+            .withFormUrlEncodedBody(("value", true.toString))
 
         val result = route(application, request).value
 
@@ -145,7 +219,7 @@ class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar {
       running(application) {
         val request =
           FakeRequest(POST, areYouTheIndividualRoute)
-            .withFormUrlEncodedBody(("value", AreYouTheIndividual.values.head.toString))
+            .withFormUrlEncodedBody(("value", true.toString))
 
         val result = route(application, request).value
 

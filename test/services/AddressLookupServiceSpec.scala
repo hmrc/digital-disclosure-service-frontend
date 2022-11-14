@@ -20,7 +20,7 @@ import cats.data.EitherT
 import cats.implicits.catsSyntaxOptionId
 import org.scalamock.handlers.CallHandler2
 import org.scalamock.scalatest.MockFactory
-import org.scalatest.EitherValues
+import org.scalatest.{EitherValues, TryValues}
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.http.Status.ACCEPTED
 import play.api.libs.json.JsError
@@ -44,12 +44,11 @@ import play.api.test.{FakeRequest, Injecting}
 import play.api.i18n.{Messages, MessagesApi}
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import org.scalatestplus.play.PlaySpec
-import controllers.routes
-
 import java.net.URL
 import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import pages._
 
 class AddressLookupServiceSpec
     extends PlaySpec
@@ -58,7 +57,9 @@ class AddressLookupServiceSpec
     with EitherValues
     with MockFactory
     with ModelGenerators 
-    with Injecting {
+    with Injecting
+    with TryValues
+    with AddressLookupHelper {
 
   implicit val hc: HeaderCarrier = HeaderCarrier()
 
@@ -105,62 +106,8 @@ class AddressLookupServiceSpec
       .returning(EitherT.fromEither[Future](response))
 
   "The address lookup service" when {
-
-    "triggering a lookup for your address" must {
-
-      val selectPageConfig = SelectPageConfig(proposalListLimit = 15)
-      val addressLookupOptions = AddressLookupOptions(
-        continueUrl = "host1.com/redirect",
-        serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
-        showPhaseBanner = Some(true),
-        alphaPhase = true,
-        selectPageConfig = Some(selectPageConfig),
-        includeHMRCBranding = Some(false)
-      )
-
-      val appLevelLabels = AppLevelLabels(messages("service.name"))
-      val countryPickerLabels = CountryPickerLabels(
-        messages("yourCountryLookup.title"), 
-        messages("yourCountryLookup.heading"),
-        messages("yourCountryLookup.hint"),
-        messages("site.continue")
-      )
-      val lookupPageLabels = LookupPageLabels(
-        messages("yourAddressLookup.title"), 
-        messages("yourAddressLookup.heading"),
-        messages("site.continue"),
-        Some(messages("yourAddressLookup.afterHeadingText"))
-      )
-      val selectPageLabels = SelectPageLabels(
-        messages("selectAddress.title"), 
-        messages("selectAddress.heading")
-      )
-      val editPageLabels = EditPageLabels(
-        messages("editAddress.title"), 
-        messages("editAddress.heading")
-      )
-      val confirmPageLabels = ConfirmPageLabels(
-        messages("confirmAddress.title"), 
-        messages("confirmAddress.heading")
-      )
-      val internationalLabels = InternationalLabels(
-        lookupPageLabels, 
-        selectPageLabels, 
-        editPageLabels, 
-        confirmPageLabels
-      )
-      val englishLabels = LabelsByLanguage(
-        appLevelLabels, 
-        countryPickerLabels, 
-        lookupPageLabels, 
-        selectPageLabels, 
-        editPageLabels, 
-        confirmPageLabels,
-        internationalLabels
-      )
-      val labels = AddressLookupLabels(englishLabels)
-      val addressLookupRequest = AddressLookupRequest(2, addressLookupOptions, labels)
-
+    
+    def testAddressLookup(userAnswers: UserAnswers, addressLookupRequest: AddressLookupRequest) = {
       "succeed receiving user redirect URL" in {
         val locationUrl = new URL("http://someUrl:1234/redirect")
 
@@ -168,7 +115,7 @@ class AddressLookupServiceSpec
           Right(HttpResponse(ACCEPTED, Json.obj(), headers = Map(LOCATION -> Seq(locationUrl.toString))))
         )
 
-        val response = await(addressLookupService.getYourAddressLookupRedirect(addressUpdateCall, true).value)
+        val response = await(addressLookupService.getYourAddressLookupRedirect(addressUpdateCall, userAnswers).value)
         response.isLeft must be(false)
       }
 
@@ -177,7 +124,7 @@ class AddressLookupServiceSpec
           Right(HttpResponse(INTERNAL_SERVER_ERROR, Json.obj().toString()))
         )
 
-        await(addressLookupService.getYourAddressLookupRedirect(addressUpdateCall, true).value).left.value must be(
+        await(addressLookupService.getYourAddressLookupRedirect(addressUpdateCall, userAnswers).value).left.value must be(
           Error("The request was refused by the Address Lookup Service")
         )
       }
@@ -187,158 +134,98 @@ class AddressLookupServiceSpec
           Right(HttpResponse(ACCEPTED, Json.obj().toString()))
         )
 
-        await(addressLookupService.getYourAddressLookupRedirect(addressUpdateCall, true).value).left.value must be(
+        await(addressLookupService.getYourAddressLookupRedirect(addressUpdateCall, userAnswers).value).left.value must be(
           Error("The Address Lookup Service user redirect URL is missing in the header")
         )
       }
     }
 
+    "triggering a lookup for your address where they are not the individual" must {
+
+      val userAnswers = (for {
+        uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.AnIndividual)
+        ua 	<- uaWithRelatesToPage.set(AreYouTheIndividualPage, false)
+      } yield ua).success.value
+
+      testAddressLookup(userAnswers, yourAddressIndividualBodyRequest)
+    }
+
     "triggering a lookup for your address when no body text" must {
 
-      val selectPageConfig = SelectPageConfig(proposalListLimit = 15)
-      val addressLookupOptions = AddressLookupOptions(
-        continueUrl = "host1.com/redirect",
-        serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
-        showPhaseBanner = Some(true),
-        alphaPhase = true,
-        selectPageConfig = Some(selectPageConfig),
-        includeHMRCBranding = Some(false)
-      )
+      val userAnswers = (for {
+        uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.AnIndividual)
+        ua 	<- uaWithRelatesToPage.set(AreYouTheIndividualPage, true)
+      } yield ua).success.value
 
-      val appLevelLabels = AppLevelLabels(messages("service.name"))
-      val countryPickerLabels = CountryPickerLabels(
-        messages("yourCountryLookup.title"), 
-        messages("yourCountryLookup.heading"),
-        messages("yourCountryLookup.hint"),
-        messages("site.continue")
-      )
-      val lookupPageLabels = LookupPageLabels(
-        messages("yourAddressLookup.title"), 
-        messages("yourAddressLookup.heading"),
-        messages("site.continue"),
-        None
-      )
-      val selectPageLabels = SelectPageLabels(
-        messages("selectAddress.title"), 
-        messages("selectAddress.heading")
-      )
-      val editPageLabels = EditPageLabels(
-        messages("editAddress.title"), 
-        messages("editAddress.heading")
-      )
-      val confirmPageLabels = ConfirmPageLabels(
-        messages("confirmAddress.title"), 
-        messages("confirmAddress.heading")
-      )
-      val internationalLabels = InternationalLabels(
-        lookupPageLabels, 
-        selectPageLabels, 
-        editPageLabels, 
-        confirmPageLabels
-      )
-      val englishLabels = LabelsByLanguage(
-        appLevelLabels, 
-        countryPickerLabels, 
-        lookupPageLabels, 
-        selectPageLabels, 
-        editPageLabels, 
-        confirmPageLabels,
-        internationalLabels
-      )
-      val labels = AddressLookupLabels(englishLabels)
-      val addressLookupRequest = AddressLookupRequest(2, addressLookupOptions, labels)
+      testAddressLookup(userAnswers, yourAddressNoBodyRequest)
+    }  
 
-      "succeed receiving user redirect URL" in {
-        val locationUrl = new URL("http://someUrl:1234/redirect")
+    "triggering a lookup for your address when they are not an officer of the company" must {
 
-        mockInitiateAddressLookupResponse(addressLookupRequest)(
-          Right(HttpResponse(ACCEPTED, Json.obj(), headers = Map(LOCATION -> Seq(locationUrl.toString))))
-        )
+      val userAnswers = (for {
+        uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ACompany)
+        ua 	<- uaWithRelatesToPage.set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, false)
+      } yield ua).success.value
 
-        val response = await(addressLookupService.getYourAddressLookupRedirect(addressUpdateCall, false).value)
-        response.isLeft must be(false)
-      }
+      testAddressLookup(userAnswers, yourAddressCompanyBodyRequest)
+    }  
 
-      "fail having no request accepted" in {
-        mockInitiateAddressLookupResponse(addressLookupRequest)(
-          Right(HttpResponse(INTERNAL_SERVER_ERROR, Json.obj().toString()))
-        )
+    "triggering a lookup for your address when they are an officer of the company" must {
 
-        await(addressLookupService.getYourAddressLookupRedirect(addressUpdateCall, false).value).left.value must be(
-          Error("The request was refused by the Address Lookup Service")
-        )
-      }
+      val userAnswers = (for {
+        uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ACompany)
+        ua 	<- uaWithRelatesToPage.set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, true)
+      } yield ua).success.value
 
-      "fail having no location header provided" in {
-        mockInitiateAddressLookupResponse(addressLookupRequest)(
-          Right(HttpResponse(ACCEPTED, Json.obj().toString()))
-        )
+      testAddressLookup(userAnswers, yourAddressNoBodyRequest)
+    }
 
-        await(addressLookupService.getYourAddressLookupRedirect(addressUpdateCall, false).value).left.value must be(
-          Error("The Address Lookup Service user redirect URL is missing in the header")
-        )
-      }
+    "triggering a lookup for your address when they are not a limited liability partnership" must {
+
+      val userAnswers = (for {
+        uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership)
+        ua 	<- uaWithRelatesToPage.set(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, false)
+      } yield ua).success.value
+
+      testAddressLookup(userAnswers, yourAddressLLPBodyRequest)
+    }
+
+    "triggering a lookup for your address when they are a limited liability partnership" must {
+
+      val userAnswers = (for {
+        uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership)
+        ua 	<- uaWithRelatesToPage.set(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, true)
+      } yield ua).success.value
+
+      testAddressLookup(userAnswers, yourAddressNoBodyRequest)
+    }
+
+    "triggering a lookup for your address when they are not a trust" must {
+
+      val userAnswers = (for {
+        uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ATrust)
+        ua 	<- uaWithRelatesToPage.set(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, false)
+      } yield ua).success.value
+
+      testAddressLookup(userAnswers, yourAddressTrustBodyRequest)
+    }
+
+    "triggering a lookup for your address when they are a trust" must {
+
+      val userAnswers = (for {
+        uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ATrust)
+        ua 	<- uaWithRelatesToPage.set(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, true)
+      } yield ua).success.value
+
+      testAddressLookup(userAnswers, yourAddressNoBodyRequest)
     }  
 
     "triggering a lookup for an individual address" must {
 
-      val selectPageConfig = SelectPageConfig(proposalListLimit = 15)
-      val addressLookupOptions = AddressLookupOptions(
-        continueUrl = "host1.com/redirect",
-        serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
-        showPhaseBanner = Some(true),
-        alphaPhase = true,
-        selectPageConfig = Some(selectPageConfig),
-        includeHMRCBranding = Some(false)
-      )
-
-      val appLevelLabels = AppLevelLabels(messages("service.name"))
-      val countryPickerLabels = CountryPickerLabels(
-        messages("individualCountryLookup.title"), 
-        messages("individualCountryLookup.heading"),
-        messages("individualCountryLookup.hint"),
-        messages("site.continue")
-      )
-      val lookupPageLabels = LookupPageLabels(
-        messages("individualAddressLookup.title"), 
-        messages("individualAddressLookup.heading"),
-        messages("site.continue"),
-        None
-      )
-      val selectPageLabels = SelectPageLabels(
-        messages("selectIndividualAddress.title"), 
-        messages("selectIndividualAddress.heading")
-      )
-      val editPageLabels = EditPageLabels(
-        messages("editIndividualAddress.title"), 
-        messages("editIndividualAddress.heading")
-      )
-      val confirmPageLabels = ConfirmPageLabels(
-        messages("confirmIndividualAddress.title"), 
-        messages("confirmIndividualAddress.heading")
-      )
-      val internationalLabels = InternationalLabels(
-        lookupPageLabels, 
-        selectPageLabels, 
-        editPageLabels, 
-        confirmPageLabels
-      )
-      val englishLabels = LabelsByLanguage(
-        appLevelLabels, 
-        countryPickerLabels, 
-        lookupPageLabels, 
-        selectPageLabels, 
-        editPageLabels, 
-        confirmPageLabels,
-        internationalLabels
-      )
-      val labels = AddressLookupLabels(englishLabels)
-      val addressLookupRequest = AddressLookupRequest(2, addressLookupOptions, labels)
-
       "succeed receiving user redirect URL" in {
         val locationUrl = new URL("http://someUrl:1234/redirect")
 
-        mockInitiateAddressLookupResponse(addressLookupRequest)(
+        mockInitiateAddressLookupResponse(individualLookupRequest)(
           Right(HttpResponse(ACCEPTED, Json.obj(), headers = Map(LOCATION -> Seq(locationUrl.toString))))
         )
 
@@ -347,7 +234,7 @@ class AddressLookupServiceSpec
       }
 
       "fail having no request accepted" in {
-        mockInitiateAddressLookupResponse(addressLookupRequest)(
+        mockInitiateAddressLookupResponse(individualLookupRequest)(
           Right(HttpResponse(INTERNAL_SERVER_ERROR, Json.obj().toString()))
         )
 
@@ -357,11 +244,113 @@ class AddressLookupServiceSpec
       }
 
       "fail having no location header provided" in {
-        mockInitiateAddressLookupResponse(addressLookupRequest)(
+        mockInitiateAddressLookupResponse(individualLookupRequest)(
           Right(HttpResponse(ACCEPTED, Json.obj().toString()))
         )
 
         await(addressLookupService.getIndividualAddressLookupRedirect(addressUpdateCall).value).left.value must be(
+          Error("The Address Lookup Service user redirect URL is missing in the header")
+        )
+      }
+    }
+
+    "triggering a lookup for an company address" must {
+
+      "succeed receiving user redirect URL" in {
+        val locationUrl = new URL("http://someUrl:1234/redirect")
+
+        mockInitiateAddressLookupResponse(companyLookupRequest)(
+          Right(HttpResponse(ACCEPTED, Json.obj(), headers = Map(LOCATION -> Seq(locationUrl.toString))))
+        )
+
+        val response = await(addressLookupService.getCompanyAddressLookupRedirect(addressUpdateCall).value)
+        response.isLeft must be(false)
+      }
+
+      "fail having no request accepted" in {
+        mockInitiateAddressLookupResponse(companyLookupRequest)(
+          Right(HttpResponse(INTERNAL_SERVER_ERROR, Json.obj().toString()))
+        )
+
+        await(addressLookupService.getCompanyAddressLookupRedirect(addressUpdateCall).value).left.value must be(
+          Error("The request was refused by the Address Lookup Service")
+        )
+      }
+
+      "fail having no location header provided" in {
+        mockInitiateAddressLookupResponse(companyLookupRequest)(
+          Right(HttpResponse(ACCEPTED, Json.obj().toString()))
+        )
+
+        await(addressLookupService.getCompanyAddressLookupRedirect(addressUpdateCall).value).left.value must be(
+          Error("The Address Lookup Service user redirect URL is missing in the header")
+        )
+      }
+    }
+
+    "triggering a lookup for an llp address" must {
+
+      "succeed receiving user redirect URL" in {
+        val locationUrl = new URL("http://someUrl:1234/redirect")
+
+        mockInitiateAddressLookupResponse(llpLookupRequest)(
+          Right(HttpResponse(ACCEPTED, Json.obj(), headers = Map(LOCATION -> Seq(locationUrl.toString))))
+        )
+
+        val response = await(addressLookupService.getLLPAddressLookupRedirect(addressUpdateCall).value)
+        response.isLeft must be(false)
+      }
+
+      "fail having no request accepted" in {
+        mockInitiateAddressLookupResponse(llpLookupRequest)(
+          Right(HttpResponse(INTERNAL_SERVER_ERROR, Json.obj().toString()))
+        )
+
+        await(addressLookupService.getLLPAddressLookupRedirect(addressUpdateCall).value).left.value must be(
+          Error("The request was refused by the Address Lookup Service")
+        )
+      }
+
+      "fail having no location header provided" in {
+        mockInitiateAddressLookupResponse(llpLookupRequest)(
+          Right(HttpResponse(ACCEPTED, Json.obj().toString()))
+        )
+
+        await(addressLookupService.getLLPAddressLookupRedirect(addressUpdateCall).value).left.value must be(
+          Error("The Address Lookup Service user redirect URL is missing in the header")
+        )
+      }
+    }
+
+    "triggering a lookup for a trust address" must {
+
+      "succeed receiving user redirect URL" in {
+        val locationUrl = new URL("http://someUrl:1234/redirect")
+
+        mockInitiateAddressLookupResponse(trustLookupRequest)(
+          Right(HttpResponse(ACCEPTED, Json.obj(), headers = Map(LOCATION -> Seq(locationUrl.toString))))
+        )
+
+        val response = await(addressLookupService.getTrustAddressLookupRedirect(addressUpdateCall).value)
+        response.isLeft must be(false)
+      }
+
+      "fail having no request accepted" in {
+        mockInitiateAddressLookupResponse(trustLookupRequest)(
+          Right(HttpResponse(INTERNAL_SERVER_ERROR, Json.obj().toString()))
+        )
+
+        await(addressLookupService.getTrustAddressLookupRedirect(addressUpdateCall).value).left.value must be(
+          Error("The request was refused by the Address Lookup Service")
+        )
+      }
+
+      "fail having no location header provided" in {
+        mockInitiateAddressLookupResponse(trustLookupRequest)(
+          Right(HttpResponse(ACCEPTED, Json.obj().toString()))
+        )
+
+        await(addressLookupService.getTrustAddressLookupRedirect(addressUpdateCall).value).left.value must be(
           Error("The Address Lookup Service user redirect URL is missing in the header")
         )
       }

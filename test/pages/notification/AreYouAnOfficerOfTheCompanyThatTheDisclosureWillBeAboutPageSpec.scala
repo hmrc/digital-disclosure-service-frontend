@@ -16,17 +16,16 @@
 
 package pages
 
-import models.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout
 import pages.behaviours.PageBehaviours
 
 class AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutSpec extends PageBehaviours {
 
   "AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage" - {
 
-    beRetrievable[AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout](AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage)
+    beRetrievable[Boolean](AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage)
 
-    beSettable[AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout](AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage)
+    beSettable[Boolean](AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage)
 
-    beRemovable[AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout](AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage)
+    beRemovable[Boolean](AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage)
   }
 }

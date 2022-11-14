@@ -16,7 +16,7 @@ date.day = Day
 date.month = Month
 date.year = Year
 
-timeout.title = You're about to be signed out
+timeout.title = You’re about to be signed out
 timeout.message = For security reasons, you will be signed out of this service in
 timeout.keepAlive = Stay signed in
 timeout.signOut = Sign out
@@ -39,7 +39,7 @@ error.summary.title = There is a problem
 index.title = Digital Disclosure Service
 index.heading = Digital Disclosure Service
 index.guidance.paragraph.first = You can tell us about undisclosed income you need to pay tax on for any years between the tax years ending 2003 and 2021. However, if you have been sent a tax return for any year from the tax year ending 2019 which is still outstanding, you must complete it as normal – do not include the tax from these tax years in this disclosure.
-index.guidance.paragraph.second = You'''ll first need to tell ('notify') us that you'''re going to pay HMRC the tax, interest and penalties you owe ('make a disclosure'). We will then write to you with specific reference numbers which are needed for making your full disclosure by using this service again.
+index.guidance.paragraph.second = You’ll first need to tell (‘notify’) us that you’re going to pay HMRC the tax, interest and penalties you owe (‘make a disclosure’). We will then write to you with specific reference numbers which are needed for making your full disclosure by using this service again.
 index.guidance.paragraph.third = 'You will also be asked to pay the full amount due at the same time as making your disclosure. If you cannot pay the full amount, '
 index.guidance.paragraph.third.link = let us know as soon as possible and before you send in your disclosure by calling the helpline (opens in a new tab)
 index.start = Start now
@@ -71,8 +71,8 @@ signedOut.title = For your security, we signed you out
 signedOut.heading = For your security, we signed you out
 signedOut.guidance = We did not save your answers.
 
-unauthorised.title = You can't access this service with this account
-unauthorised.heading = You can't access this service with this account
+unauthorised.title = You can’t access this service with this account
+unauthorised.heading = You can’t access this service with this account
 
 #===================================================
 #  COUNTRIES
@@ -363,21 +363,22 @@ areYouTheIndividual.checkYourAnswersLabel = Are you the individual this disclosu
 areYouTheIndividual.error.required = Select yes if you are the individual
 areYouTheIndividual.change.hidden = AreYouTheIndividual
 
-onshoreLiabilities.title = Do you also want to disclose onshore liabilities?
-onshoreLiabilities.heading = Do you also want to disclose onshore liabilities?
+onshoreLiabilities.title = Onshore liabilities
+onshoreLiabilities.heading = Onshore liabilities
 onshoreLiabilities.paragraph.first = 'You have onshore liabilities '
-onshoreLiabilities.paragraph.second = ' in the UK and:' 
-onshoreLiabilities.paragraph.link = if you are classed as a resident (opens in a new tab)
+onshoreLiabilities.paragraph.second = 'if you are classed as a resident (opens in a new tab) '
+onshoreLiabilities.paragraph.third = in the UK and:
 onshoreLiabilities.bulletList.first = rent out property
 onshoreLiabilities.bulletList.second = have income from savings and or investments
 onshoreLiabilities.bulletList.third = have a capital gain to declare
 onshoreLiabilities.bulletList.forth = have income from self-employment, partnerships, freelance or commission-based work
-onshoreLiabilities.paragraph.third = or your income does not fall into the offshore category.
-onshoreLiabilities.yes = I want to disclose onshore liabilities
-onshoreLiabilities.no = I do not have onshore liabilities to disclose
+onshoreLiabilities.paragraph.forth = or your income does not fall into the offshore category.
+onshoreLiabilities.label = Will the disclosure also be about onshore liabilities?
+onshoreLiabilities.yes = Yes
+onshoreLiabilities.no = No
 onshoreLiabilities.checkYourAnswersLabel = Will the disclosure also be about onshore liabilities?
 onshoreLiabilities.default.checkYourAnswersLabel = Will the disclosure be about onshore liabilities?
-onshoreLiabilities.error.required = Select if you want to disclose onshore liabilities or not
+onshoreLiabilities.error.required = Select yes if the disclosure is about onshore liabilities
 onshoreLiabilities.change.hidden = OnshoreLiabilities
 
 letterReference.title = What is the reference number of the letter you received from HMRC?
@@ -387,25 +388,28 @@ letterReference.error.required = Enter the letter’s reference number
 letterReference.error.length = LetterReference must be 30 characters or less
 letterReference.change.hidden = LetterReference
 
-offshoreLiabilities.title = Do you want to disclose offshore liabilities?
-offshoreLiabilities.heading = Do you want to disclose offshore liabilities?
-offshoreLiabilities.yes = I want to disclose offshore liabilities
-offshoreLiabilities.no = I do not have offshore liabilities to disclose
+offshoreLiabilities.title = Offshore liabilities
+offshoreLiabilities.heading = Offshore liabilities
+offshoreLiabilities.label = Will the disclosure be about offshore liabilities?
+offshoreLiabilities.yes = Yes
+offshoreLiabilities.no = No
 offshoreLiabilities.checkYourAnswersLabel = Will the disclosure be about offshore liabilities?
-offshoreLiabilities.error.required = Select if you want to disclose offshore liabilities or not
+offshoreLiabilities.error.required = Select yes if the disclosure is about offshore liabilities
 offshoreLiabilities.change.hidden = OffshoreLiabilities
 offshoreLiabilities.paragraph.first = Offshore liabilities can be:
-offshoreLiabilities.paragraph.second = or where the funds connected to the UK liability have been transfered to a territory outside the UK.
+offshoreLiabilities.paragraph.second = or where the funds connected to the UK liability have been transferred to a territory outside the UK.
 offshoreLiabilities.bulletList.first = any income from outside the UK
 offshoreLiabilities.bulletList.second = business activity or assets that have ever been outside the UK
 offshoreLiabilities.bulletList.third = income from savings or investments
-offshoreLiabilities.bulletList.forth = anything else that could be classed as business income, assets or investments
+offshoreLiabilities.bulletList.forth = 'transfers or matters covered by '
+offshoreLiabilities.bulletList.forth.link = the Finance (Number 2) Act 2017
+offshoreLiabilities.bulletList.fifth = anything else that could be classed as business income, assets or investments
 offshoreLiabilities.guidance.link = Find more information about offshore liabilities (opens in new tab)
 
 onlyOnshoreLiabilities.title = The disclosure is only about onshore liabilities
 onlyOnshoreLiabilities.heading = The disclosure is only about onshore liabilities
-onlyOnshoreLiabilities.paragraph.first = 'As you have no offshore liabilities to disclose, the disclosure is only about onshore liabilities. '
-onlyOnshoreLiabilities.paragraph.link = You have onshore liabilities if you are classed as a resident (opens in a new tab)
+onlyOnshoreLiabilities.paragraph.first = 'As you have no offshore liabilities to disclose, the disclosure can only be about onshore liabilities. You have onshore liabilities '
+onlyOnshoreLiabilities.paragraph.link = if you are classed as a resident (opens in a new tab)
 onlyOnshoreLiabilities.paragraph.second = ' in the UK and:'
 onlyOnshoreLiabilities.bulletList.first = rent out property
 onlyOnshoreLiabilities.bulletList.second = have income from savings and or investments
@@ -529,7 +533,10 @@ youHaveSentYourNotification.paragraph.second =  We will write to you shortly wit
 
 yourAddressLookup.title = What is the postcode and property name or number of your address?
 yourAddressLookup.heading = What is the postcode and property name or number of your address?
-yourAddressLookup.afterHeadingText = If you are representing an organisation on behalf of the individual, you can use your organisation'’'s address.
+yourAddressLookup.individual.afterHeadingText = If you are representing an organisation on behalf of the individual, you can use your organisation’s address.
+yourAddressLookup.company.afterHeadingText = If you are representing an organisation on behalf of the company, you can use your organisation’s address.
+yourAddressLookup.llp.afterHeadingText = If you are representing an organisation on behalf of the limited liability partnership, you can use your organisation’s address.
+yourAddressLookup.trust.afterHeadingText = If you are representing an organisation on behalf of the trust, you can use your organisation’s address.
 
 selectAddress.title = Choose your address
 selectAddress.heading = Choose your address
@@ -543,87 +550,87 @@ confirmAddress.heading = Is this the correct address?
 yourAddress.checkYourAnswersLabel = Your address
 yourAddress.change.hidden = YourAddress
 
-whatIsTheIndividualsFullName.title = What is the individual'’'s full name?
-whatIsTheIndividualsFullName.heading = What is the individual'’'s full name?
-whatIsTheIndividualsFullName.body = This should be as it'’'s written on official documents such as their passport or driving licence.
-whatIsTheIndividualsFullName.checkYourAnswersLabel = Individual'’'s full name
-whatIsTheIndividualsFullName.error.required = Enter the individual'’'s full name
+whatIsTheIndividualsFullName.title = What is the individual’s full name?
+whatIsTheIndividualsFullName.heading = What is the individual’s full name?
+whatIsTheIndividualsFullName.body = This should be as it’s written on official documents such as their passport or driving licence.
+whatIsTheIndividualsFullName.checkYourAnswersLabel = Individual’s full name
+whatIsTheIndividualsFullName.error.required = Enter the individual’s full name
 whatIsTheIndividualsFullName.error.length = Full name must be between 1 and 30 characters
 whatIsTheIndividualsFullName.change.hidden = WhatIsTheIndividualsFullName
 
-whatIsTheIndividualDateOfBirth.title = What is the individual'’'s date of birth?
-whatIsTheIndividualDateOfBirth.heading = What is the individual'’'s date of birth?
+whatIsTheIndividualDateOfBirth.title = What is the individual’s date of birth?
+whatIsTheIndividualDateOfBirth.heading = What is the individual’s date of birth?
 whatIsTheIndividualDateOfBirth.hint = For example, 20 3 1976.
-whatIsTheIndividualDateOfBirth.checkYourAnswersLabel = Individual'’'s date of birth
+whatIsTheIndividualDateOfBirth.checkYourAnswersLabel = Individual’s date of birth
 whatIsTheIndividualDateOfBirth.error.required.all = Enter a valid date of birth, like 20 3 1976
 whatIsTheIndividualDateOfBirth.error.required.two = Date of birth must include a {0} and a {1}
 whatIsTheIndividualDateOfBirth.error.required = Date of birth must include a {0}
-whatIsTheIndividualDateOfBirth.error.invalid = Enter the individual'’'s date of birth
+whatIsTheIndividualDateOfBirth.error.invalid = Enter the individual’s date of birth
 whatIsTheIndividualDateOfBirth.error.invalidDay = Enter a real date of birth - a month can have up to 31 days
 whatIsTheIndividualDateOfBirth.error.invalidMonth = Enter a real date of birth - there are only 12 months in a year
 whatIsTheIndividualDateOfBirth.error.invalidFutureDateOfBirth = Date of birth must be in the past
 whatIsTheIndividualDateOfBirth.change.hidden = WhatIsTheIndividualDateOfBirthController
 
-whatIsTheIndividualOccupation.title = What is the individual'’'s main occupation?
-whatIsTheIndividualOccupation.heading = What is the individual'’'s main occupation?
+whatIsTheIndividualOccupation.title = What is the individual’s main occupation?
+whatIsTheIndividualOccupation.heading = What is the individual’s main occupation?
 whatIsTheIndividualOccupation.hint = For example, plumber or dentist.
-whatIsTheIndividualOccupation.checkYourAnswersLabel = Individual'’'s main occupation
-whatIsTheIndividualOccupation.error.required = Enter the individual'’'s main occupation
-whatIsTheIndividualOccupation.error.minLength = The individual'’'s main occupation should have at least 4 characters
-whatIsTheIndividualOccupation.error.maxLength = The individual'’'s main occupation should have no more than 30 characters
+whatIsTheIndividualOccupation.checkYourAnswersLabel = Individual’s main occupation
+whatIsTheIndividualOccupation.error.required = Enter the individual’s main occupation
+whatIsTheIndividualOccupation.error.minLength = The individual’s main occupation should have at least 4 characters
+whatIsTheIndividualOccupation.error.maxLength = The individual’s main occupation should have no more than 30 characters
 whatIsTheIndividualOccupation.change.hidden = WhatIsTheIndividualOccupation
 
-doesTheIndividualHaveNINO.title = Does the individual have a National Insurance number, as far as you'’'re aware?
-doesTheIndividualHaveNINO.heading = Does the individual have a National Insurance number, as far as you'’'re aware?
-doesTheIndividualHaveNINO.yesIknow = Yes, and I know their National Insurance number
+doesTheIndividualHaveNINO.title = Does the individual have a National Insurance number, as far as you’re aware?
+doesTheIndividualHaveNINO.heading = Does the individual have a National Insurance number, as far as you’re aware?
+doesTheIndividualHaveNINO.yesIKnow = Yes, and I know their National Insurance number
 doesTheIndividualHaveNINO.yesButDontKnow = Yes, but I do not know their National Insurance number
 doesTheIndividualHaveNINO.no = No
-doesTheIndividualHaveNINO.checkYourAnswersLabel = Does the individual have a National Insurance number, as far as you'’'re aware?
+doesTheIndividualHaveNINO.checkYourAnswersLabel = Does the individual have a National Insurance number, as far as you’re aware?
 doesTheIndividualHaveNINO.error.required = Select yes if the individual has a National Insurance number
 doesTheIndividualHaveNINO.change.hidden = DoesTheIndividualHaveNationalInsuranceNumber
 
-whatIsIndividualsNINO.title = What is the individual'’'s National Insurance number?
-whatIsIndividualsNINO.heading = What is the individual'’'s National Insurance number?
+whatIsIndividualsNINO.title = What is the individual’s National Insurance number?
+whatIsIndividualsNINO.heading = What is the individual’s National Insurance number?
 whatIsIndividualsNINO.label = This is on your payslip, P60 or tax return.
 whatIsIndividualsNINO.hint = For example, ‘QQ123456A’.
-whatIsIndividualsNINO.checkYourAnswersLabel = Individual'’'s National Insurance number
-whatIsIndividualsNINO.error.required = Enter the individual'’'s National Insurance number
+whatIsIndividualsNINO.checkYourAnswersLabel = Individual’s National Insurance number
+whatIsIndividualsNINO.error.required = Enter the individual’s National Insurance number
 whatIsIndividualsNINO.error.invalid = Enter a valid National Insurance number
 whatIsIndividualsNINO.change.hidden = WhatIsIndividualsNationalInsuranceNumber
 
-isTheIndividualRegisteredForVAT.title = Is the individual registered for VAT, as far as you'’'re aware?
-isTheIndividualRegisteredForVAT.heading = Is the individual registered for VAT, as far as you'’'re aware?
+isTheIndividualRegisteredForVAT.title = Is the individual registered for VAT, as far as you’re aware?
+isTheIndividualRegisteredForVAT.heading = Is the individual registered for VAT, as far as you’re aware?
 isTheIndividualRegisteredForVAT.yesIKnow = Yes, and I know their VAT registration number
 isTheIndividualRegisteredForVAT.yesButDontKnow = Yes, but I do not know their VAT registration number
 isTheIndividualRegisteredForVAT.no = No
-isTheIndividualRegisteredForVAT.checkYourAnswersLabel = Is the individual registered for VAT, as far you'’'re aware?
+isTheIndividualRegisteredForVAT.checkYourAnswersLabel = Is the individual registered for VAT, as far you’re aware?
 isTheIndividualRegisteredForVAT.error.required = Select yes if the individual is registered for VAT
 isTheIndividualRegisteredForVAT.change.hidden = IsTheIndividualRegisteredForVAT
 
-isTheIndividualRegisteredForSA.title = Is the individual registered for Self Assessment, as far as you'’'re aware?
-isTheIndividualRegisteredForSA.heading = Is the individual registered for Self Assessment, as far as you'’'re aware?
-isTheIndividualRegisteredForSA.yesIknow = Yes, and I know their Unique Taxpayer Reference (UTR)
+isTheIndividualRegisteredForSA.title = Is the individual registered for Self Assessment, as far as you’re aware?
+isTheIndividualRegisteredForSA.heading = Is the individual registered for Self Assessment, as far as you’re aware?
+isTheIndividualRegisteredForSA.yesIKnow = Yes, and I know their Unique Taxpayer Reference (UTR)
 isTheIndividualRegisteredForSA.yesButDontKnow = Yes, but I do not know their Unique Taxpayer Reference (UTR)
 isTheIndividualRegisteredForSA.no = No
-isTheIndividualRegisteredForSA.checkYourAnswersLabel = Is the individual registered for Self Assessment, as far as you'’'re aware?
+isTheIndividualRegisteredForSA.checkYourAnswersLabel = Is the individual registered for Self Assessment, as far as you’re aware?
 isTheIndividualRegisteredForSA.error.required = Select yes if the individual is registered for Self Assessment
 isTheIndividualRegisteredForSA.change.hidden = IsTheIndividualRegisteredForSelfAssessment
 
-whatIsTheIndividualsVATRegistrationNumber.title = What is the individual'’'s VAT registration number?
-whatIsTheIndividualsVATRegistrationNumber.heading = What is the individual'’'s VAT registration number?
-whatIsTheIndividualsVATRegistrationNumber.label = This has 9 numbers, sometimes with '''GB''' at the start. You can find it on their VAT registration certificate or VAT online account.
-whatIsTheIndividualsVATRegistrationNumber.hint = For example, '‘'123456789'’' or '''GB123456789'''.
-whatIsTheIndividualsVATRegistrationNumber.checkYourAnswersLabel = Individual'’'s VAT registration number
-whatIsTheIndividualsVATRegistrationNumber.error.required = Enter the individual'’'s VAT registration number
+whatIsTheIndividualsVATRegistrationNumber.title = What is the individual’s VAT registration number?
+whatIsTheIndividualsVATRegistrationNumber.heading = What is the individual’s VAT registration number?
+whatIsTheIndividualsVATRegistrationNumber.label = This has 9 numbers, sometimes with ’GB’ at the start. You can find it on their VAT registration certificate or VAT online account.
+whatIsTheIndividualsVATRegistrationNumber.hint = For example, ‘123456789’ or ’GB123456789’.
+whatIsTheIndividualsVATRegistrationNumber.checkYourAnswersLabel = Individual’s VAT registration number
+whatIsTheIndividualsVATRegistrationNumber.error.required = Enter the individual’s VAT registration number
 whatIsTheIndividualsVATRegistrationNumber.error.invalid = Enter a valid VAT registration number
 whatIsTheIndividualsVATRegistrationNumber.change.hidden = WhatIsTheIndividualsVATRegistrationNumber
 
-whatIsTheIndividualsUniqueTaxReference.title = What is the individual'’'s Unique Tax Reference?
-whatIsTheIndividualsUniqueTaxReference.heading = What is the individual'’'s Unique Tax Reference?
+whatIsTheIndividualsUniqueTaxReference.title = What is the individual’s Unique Tax Reference?
+whatIsTheIndividualsUniqueTaxReference.heading = What is the individual’s Unique Tax Reference?
 whatIsTheIndividualsUniqueTaxReference.label = This 10 digit number is on their tax return, statement of accounts or any other Self Assessment calculations. 
-whatIsTheIndividualsUniqueTaxReference.hint = For example, '‘'1234567890'’'.
-whatIsTheIndividualsUniqueTaxReference.checkYourAnswersLabel = Individual'’'s Unique Taxpayer Reference
-whatIsTheIndividualsUniqueTaxReference.error.required = Enter the individual'’'s Unique Tax Reference
+whatIsTheIndividualsUniqueTaxReference.hint = For example, ‘1234567890’.
+whatIsTheIndividualsUniqueTaxReference.checkYourAnswersLabel = Individual’s Unique Taxpayer Reference
+whatIsTheIndividualsUniqueTaxReference.error.required = Enter the individual’s Unique Tax Reference
 whatIsTheIndividualsUniqueTaxReference.error.invalid = Enter a Unique Tax Reference in the correct format
 whatIsTheIndividualsUniqueTaxReference.change.hidden = WhatIsTheIndividualsUniqueTaxReference
 
@@ -631,17 +638,17 @@ individualCountryLookup.title = What is the country of the individual’s addres
 individualCountryLookup.heading = What is the country of the individual’s address?
 individualCountryLookup.hint = For example, United Kingdom.
 
-individualAddressLookup.title = What is the postcode and property name or number of the individual'’'s address?
-individualAddressLookup.heading = What is the postcode and property name or number of the individual'’'s address?
+individualAddressLookup.title = What is the postcode and property name or number of the individual’s address?
+individualAddressLookup.heading = What is the postcode and property name or number of the individual’s address?
 
-individualAddressLookup.checkYourAnswersLabel = Individual'’'s address
-individualAddressLookup.change.hidden = Individual'’'s address
+individualAddressLookup.checkYourAnswersLabel = Individual’s address
+individualAddressLookup.change.hidden = Individual’s address
 
-selectIndividualAddress.title = Choose the individual'’'s address
-selectIndividualAddress.heading = Choose the individual'’'s address
+selectIndividualAddress.title = Choose the individual’s address
+selectIndividualAddress.heading = Choose the individual’s address
 
-editIndividualAddress.title = What is the individual'’'s address?
-editIndividualAddress.heading = What is the individual'’'s address?
+editIndividualAddress.title = What is the individual’s address?
+editIndividualAddress.heading = What is the individual’s address?
 
 confirmIndividualAddress.title = Is this the correct address?
 confirmIndividualAddress.heading = Is this the correct address?
@@ -663,20 +670,132 @@ areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.heading = Are you an off
 areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.yes = Yes, I am an officer of the company
 areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.no = No, I will be making a disclosure on behalf of an officer
 areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.hint.no = We may ask for additional evidence that you’re authorised to act for them, such as the ‘Authorising a tax agent (64-8)’ form.
-areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.checkYourAnswersLabel = Are you an officer of the company that the disclosure will be about?
+areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.checkYourAnswersLabel = Are you an officer of the company this disclosure relates to?
 areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.error.required = Select yes if you are an officer of the company
 areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.change.hidden = AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout
 
 areYouRepresentingAnOrganisation.title = Are you representing an organisation?
 areYouRepresentingAnOrganisation.heading = Are you representing an organisation?
-areYouRepresentingAnOrganisation.heading.hint = For example, an accountancy or solicitor'’'s firm.
+areYouRepresentingAnOrganisation.heading.hint = For example, an accountancy or solicitor’s firm.
 areYouRepresentingAnOrganisation.checkYourAnswersLabel = Are you representing an organisation?
 areYouRepresentingAnOrganisation.error.required = Select yes if you are representing an organisation
 areYouRepresentingAnOrganisation.change.hidden = AreYouRepresentingAnOrganisation
 
 whatIsTheNameOfTheOrganisationYouRepresent.title = What is the name of the organisation you represent?
 whatIsTheNameOfTheOrganisationYouRepresent.heading = What is the name of the organisation you represent?
-whatIsTheNameOfTheOrganisationYouRepresent.checkYourAnswersLabel = What is the name of the organisation you represent?
+whatIsTheNameOfTheOrganisationYouRepresent.checkYourAnswersLabel = Name of the organisation you represent
 whatIsTheNameOfTheOrganisationYouRepresent.error.required = Enter the name of the organisation you represent
 whatIsTheNameOfTheOrganisationYouRepresent.error.length = Organisation name must be between 1 and 50 characters
 whatIsTheNameOfTheOrganisationYouRepresent.change.hidden = WhatIsTheNameOfTheOrganisationYouRepresent
+
+whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.title = What is the name of the company the disclosure will be about?
+whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.heading = What is the name of the company the disclosure will be about?
+whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.checkYourAnswersLabel = Company’s name
+whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.error.required = Enter the company’s name
+whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.error.length = Company name must be between 1 and 50 characters
+whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.change.hidden = WhatIsTheNameOfTheCompanyTheDisclosureWillBeAbout
+
+whatIsTheCompanyRegistrationNumber.title = What is the company’s registration number?
+whatIsTheCompanyRegistrationNumber.heading = What is the company’s registration number?
+whatIsTheCompanyRegistrationNumber.label = You can find this on the company’s certificate of incorporation.
+whatIsTheCompanyRegistrationNumber.hint = This can be 8 numbers like 12345678, or 2 letters followed by 6 numbers like AB123456.
+whatIsTheCompanyRegistrationNumber.checkYourAnswersLabel = Company registration number
+whatIsTheCompanyRegistrationNumber.error.required = Enter the company’s registration number
+whatIsTheCompanyRegistrationNumber.error.valid = Enter a valid company registration number
+whatIsTheCompanyRegistrationNumber.change.hidden = WhatIsTheCompanyRegistrationNumber
+
+companyCountryLookup.title = What is the country of the company’s address?
+companyCountryLookup.heading = What is the country of the company’s address?
+companyCountryLookup.hint = For example, United Kingdom.
+
+companyAddressLookup.title = What is the postcode and property name or number of the company’s address?
+companyAddressLookup.heading = What is the postcode and property name or number of the company’s address?
+
+companyAddressLookup.checkYourAnswersLabel = Company’s address
+companyAddressLookup.change.hidden = Company’s address
+
+selectCompanyAddress.title = Choose the company’s address
+selectCompanyAddress.heading = Choose the company’s address
+
+editCompanyAddress.title = What is the company’s address?
+editCompanyAddress.heading = What is the company’s address?
+
+confirmCompanyAddress.title = Is this the correct address?
+confirmCompanyAddress.heading = Is this the correct address?
+
+notificationCYA.aboutTheCompany = About the company
+
+areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.title = Are you a designated member of the limited liability partnership that the disclosure will be about?
+areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.heading = Are you a designated member of the limited liability partnership that the disclosure will be about?
+areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.yes = Yes, I am a designated member of the limited liability partnership
+areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.no = No, I will be making a disclosure on behalf of a designated member
+areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.no.hint = We may ask for additional evidence that you’re authorised to act for them, such as the ‘Authorising a tax agent (64-8)’ form.
+areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.checkYourAnswersLabel = Are you a designated member of the limited liability partnership that the disclosure will be about?
+areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.error.required = Select yes if you are a designated member of the limited liability partnership
+areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.change.hidden = AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout
+
+whatIsTheLLPName.title = What is the limited liability partnership’s name?
+whatIsTheLLPName.heading = What is the limited liability partnership’s name?
+whatIsTheLLPName.checkYourAnswersLabel = Limited liability partnership name
+whatIsTheLLPName.error.required = Enter the limited liability partnership’s name
+whatIsTheLLPName.error.length = Limited liability partnership name must be between 1 and 50 characters
+whatIsTheLLPName.change.hidden = WhatIsTheLLPName
+
+llpCountryLookup.title = What is the country of the limited liability partnership’s address?
+llpCountryLookup.heading = What is the country of the limited liability partnership’s address?
+llpCountryLookup.hint = For example, United Kingdom.
+
+llpAddressLookup.title = What is the postcode and property name or number of the limited liability partnership’s address?
+llpAddressLookup.heading = What is the postcode and property name or number of the limited liability partnership’s address?
+
+llpAddressLookup.checkYourAnswersLabel = Limited liability partnership’s address
+llpAddressLookup.change.hidden = Limited liability partnership’s address
+
+selectLLPAddress.title = Choose the limited liability partnership’s address
+selectLLPAddress.heading = Choose the limited liability partnership’s address
+
+editLLPAddress.title = What is the limited liability partnership’s address?
+editLLPAddress.heading = What is the limited liability partnership’s address?
+
+confirmLLPAddress.title = Is this the correct address?
+confirmLLPAddress.heading = Is this the correct address?
+
+notificationCYA.aboutTheLLP = About the limited liability partnership
+
+areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.title = Are you trustee of the trust that the disclosure will be about?
+areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.heading = Are you trustee of the trust that the disclosure will be about?
+areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.body = A trustee is the legal owner of the assets held in a trust.
+areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.yes = Yes, I am the trustee of the trust
+areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.no = No, I am will be making a disclosure on behalf of the trustee
+areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.no.hint = We may ask for additional evidence that you’re authorised to act for them, such as the ‘Authorising a tax agent (64-8)’ form.
+areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.checkYourAnswersLabel = Are you trustee of the trust that the disclosure will be about?
+areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.error.required = Select yes if you are the trustee of the trust
+areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.change.hidden = AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout
+
+trustCountryLookup.title = What is the country of the trust’s address?
+trustCountryLookup.heading = What is the country of the trust’s address?
+trustCountryLookup.hint = For example, United Kingdom.
+
+trustAddressLookup.title = What is the postcode and property name or number of the trust’s address?
+trustAddressLookup.heading = What is the postcode and property name or number of the trust’s address?
+
+trustAddressLookup.checkYourAnswersLabel = Trust address
+trustAddressLookup.change.hidden = Trust’s address
+
+selectTrustAddress.title = Choose the trust’s address
+selectTrustAddress.heading = Choose the trust’s address
+
+editTrustAddress.title = What is the trust’s address?
+editTrustAddress.heading = What is the trust’s address?
+
+confirmTrustAddress.title = Is this the correct address?
+confirmTrustAddress.heading = Is this the correct address?
+
+whatIsTheTrustName.title = What is the trust’s name?
+whatIsTheTrustName.heading = What is the trust’s name?
+whatIsTheTrustName.checkYourAnswersLabel = Trust Name
+whatIsTheTrustName.error.required = Enter the trust’s name
+whatIsTheTrustName.error.length = Trust name must be between 1 and 50 characters
+whatIsTheTrustName.change.hidden = WhatIsTheTrustName
+
+notificationCYA.aboutTheTrust = About the trust

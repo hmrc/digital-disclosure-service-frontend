@@ -32,7 +32,7 @@ class OnshoreLiabilitiesSummarySpec extends SpecBase {
 
   "OnshoreLiabilitiesSummary.row" - {
     "must return a row where the user selects No for offshore liabilities" in {
-      val ua = UserAnswers("id").set(OffshoreLiabilitiesPage, OffshoreLiabilities.IDoNotWantTo).success.value
+      val ua = UserAnswers("id").set(OffshoreLiabilitiesPage, false).success.value
       OnshoreLiabilitiesSummary.row(ua).map { row =>
         row.key mustBe Key(Text(mess("onshoreLiabilities.default.checkYourAnswersLabel")))
         row.value mustBe ValueViewModel(HtmlContent(HtmlFormat.escape(mess("onshoreLiabilities.yes"))))
@@ -41,8 +41,8 @@ class OnshoreLiabilitiesSummarySpec extends SpecBase {
 
     "must return a row where the user selects Yes for offshore liabilities and selects Yes for onshore liabilities" in {
       val ua = (for {
-        offAnswer <- UserAnswers("id").set(OffshoreLiabilitiesPage, OffshoreLiabilities.IWantTo)
-        onAnswer <- offAnswer.set(OnshoreLiabilitiesPage, OnshoreLiabilities.IWantTo)
+        offAnswer <- UserAnswers("id").set(OffshoreLiabilitiesPage, true)
+        onAnswer <- offAnswer.set(OnshoreLiabilitiesPage, true)
       } yield onAnswer).success.value
 
       OnshoreLiabilitiesSummary.row(ua).map { row =>
@@ -53,8 +53,8 @@ class OnshoreLiabilitiesSummarySpec extends SpecBase {
 
     "must return a row where the user selects Yes for offshore liabilities and selects No for onshore liabilities" in {
       val ua = (for {
-        offAnswer <- UserAnswers("id").set(OffshoreLiabilitiesPage, OffshoreLiabilities.IWantTo)
-        onAnswer <- offAnswer.set(OnshoreLiabilitiesPage, OnshoreLiabilities.IDoNotWantTo)
+        offAnswer <- UserAnswers("id").set(OffshoreLiabilitiesPage, true)
+        onAnswer <- offAnswer.set(OnshoreLiabilitiesPage, false)
       } yield onAnswer).success.value
 
       OnshoreLiabilitiesSummary.row(ua).map { row => 

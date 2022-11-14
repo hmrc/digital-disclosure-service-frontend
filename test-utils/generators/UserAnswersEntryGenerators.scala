@@ -24,6 +24,54 @@ import play.api.libs.json.{JsValue, Json}
 
 trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
 
+  implicit lazy val arbitraryWhatIsTheTrustNameUserAnswersEntry: Arbitrary[(WhatIsTheTrustNamePage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[WhatIsTheTrustNamePage.type]
+        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryAreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutUserAnswersEntry: Arbitrary[(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage.type]
+        value <- arbitrary[Boolean].map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryWhatIsTheLLPNameUserAnswersEntry: Arbitrary[(WhatIsTheLLPNamePage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[WhatIsTheLLPNamePage.type]
+        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryAreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutUserAnswersEntry: Arbitrary[(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage.type]
+        value <- arbitrary[Boolean].map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryWhatIsTheCompanyRegistrationNumberUserAnswersEntry: Arbitrary[(WhatIsTheCompanyRegistrationNumberPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[WhatIsTheCompanyRegistrationNumberPage.type]
+        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryWhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutUserAnswersEntry: Arbitrary[(WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage.type]
+        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
+      } yield (page, value)
+    }
+
   implicit lazy val arbitraryWhatIsTheNameOfTheOrganisationYouRepresentUserAnswersEntry: Arbitrary[(WhatIsTheNameOfTheOrganisationYouRepresentPage.type, JsValue)] =
     Arbitrary {
       for {
@@ -44,7 +92,7 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
     Arbitrary {
       for {
         page  <- arbitrary[AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage.type]
-        value <- arbitrary[AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout].map(Json.toJson(_))
+        value <- arbitrary[Boolean].map(Json.toJson(_))
       } yield (page, value)
     }
 
@@ -228,7 +276,7 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
     Arbitrary {
       for {
         page  <- arbitrary[OffshoreLiabilitiesPage.type]
-        value <- arbitrary[OffshoreLiabilities].map(Json.toJson(_))
+        value <- arbitrary[Boolean].map(Json.toJson(_))
       } yield (page, value)
     }
 
@@ -236,7 +284,7 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
     Arbitrary {
       for {
         page  <- arbitrary[AreYouTheIndividualPage.type]
-        value <- arbitrary[AreYouTheIndividual].map(Json.toJson(_))
+        value <- arbitrary[Boolean].map(Json.toJson(_))
       } yield (page, value)
     }
   
@@ -244,7 +292,7 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
     Arbitrary {
       for {
         page  <- arbitrary[OnshoreLiabilitiesPage.type]
-        value <- arbitrary[OnshoreLiabilities].map(Json.toJson(_))
+        value <- arbitrary[Boolean].map(Json.toJson(_))
       } yield (page, value)
     }
 

@@ -16,14 +16,13 @@
 
 package controllers
 
-import base.SpecBase
+import base.ControllerSpecBase
 import forms.IsTheIndividualRegisteredForSelfAssessmentFormProvider
-import models.{NormalMode, IsTheIndividualRegisteredForSelfAssessment, UserAnswers}
+import models._
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
-import org.scalatestplus.mockito.MockitoSugar
-import pages.IsTheIndividualRegisteredForSelfAssessmentPage
+import pages._
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -33,7 +32,7 @@ import views.html.notification.IsTheIndividualRegisteredForSelfAssessmentView
 
 import scala.concurrent.Future
 
-class IsTheIndividualRegisteredForSelfAssessmentControllerSpec extends SpecBase with MockitoSugar {
+class IsTheIndividualRegisteredForSelfAssessmentControllerSpec extends ControllerSpecBase {
 
   def onwardRoute = Call("GET", "/foo")
 
@@ -153,6 +152,72 @@ class IsTheIndividualRegisteredForSelfAssessmentControllerSpec extends SpecBase 
 
         redirectLocation(result).value mustEqual routes.JourneyRecoveryController.onPageLoad().url
       }
+    }
+
+    "must redirect to WhatIsTheIndividualsUniqueTaxReferencePage page (change mode) if page answer changes from No to YesIKnow in check mode" in {
+
+      val previousAnswer = IsTheIndividualRegisteredForSelfAssessment.No
+      val newAnswer = IsTheIndividualRegisteredForSelfAssessment.YesIKnow
+
+      val urlToTest = notification.routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.WhatIsTheIndividualsUniqueTaxReferenceController.onPageLoad(CheckMode).url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, IsTheIndividualRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, Nil)
+    }
+
+    "must redirect to WhatIsTheIndividualsUniqueTaxReferencePage page (change mode) if page answer changes from YesButDontKnow to YesIKnow in check mode" in {
+
+      val previousAnswer = IsTheIndividualRegisteredForSelfAssessment.YesButDontKnow
+      val newAnswer = IsTheIndividualRegisteredForSelfAssessment.YesIKnow
+
+      val urlToTest = notification.routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.WhatIsTheIndividualsUniqueTaxReferenceController.onPageLoad(CheckMode).url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, IsTheIndividualRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, Nil)
+    }
+
+    "must redirect to CheckYourAnswers screen and clear WhatIsTheIndividualsUniqueTaxReferencePage if page answer changes from YesIKnow to No in check mode" in {
+
+      val previousAnswer = IsTheIndividualRegisteredForSelfAssessment.YesIKnow
+      val newAnswer = IsTheIndividualRegisteredForSelfAssessment.No
+
+      val urlToTest = notification.routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, IsTheIndividualRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, List(WhatIsTheIndividualsUniqueTaxReferencePage))
+    }
+
+    "must redirect to CheckYourAnswers screen and clear WhatIsTheIndividualsUniqueTaxReferencePagee if page answer changes from YesIKnow to YesButDontKnow in check mode" in {
+
+      val previousAnswer = IsTheIndividualRegisteredForSelfAssessment.YesIKnow
+      val newAnswer = IsTheIndividualRegisteredForSelfAssessment.YesButDontKnow
+
+      val urlToTest = notification.routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, IsTheIndividualRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, List(WhatIsTheIndividualsUniqueTaxReferencePage))
+    }
+
+    "must redirect to CheckYourAnswers screen if page answer is YesIKnow and doesn't change" in {
+
+      val previousAnswer = IsTheIndividualRegisteredForSelfAssessment.YesIKnow
+      val newAnswer = IsTheIndividualRegisteredForSelfAssessment.YesIKnow
+
+      val urlToTest = notification.routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, IsTheIndividualRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, Nil)
+    }
+
+    "must redirect to CheckYourAnswers screen if page answer is No and doesn't change" in {
+
+      val previousAnswer = IsTheIndividualRegisteredForSelfAssessment.No
+      val newAnswer = IsTheIndividualRegisteredForSelfAssessment.No
+
+      val urlToTest = notification.routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, IsTheIndividualRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, Nil)
     }
   }
 }

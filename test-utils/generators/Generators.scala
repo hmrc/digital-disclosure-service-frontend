@@ -27,7 +27,8 @@ trait Generators extends UserAnswersGenerator
                     with ModelGenerators
                     with UserAnswersEntryGenerators
                     with EmailGenerators
-                    with TelephoneNumberGenerators {
+                    with TelephoneNumberGenerators
+                    with RegistrationNumberGenerator {
 
   implicit val dontShrink: Shrink[String] = Shrink.shrinkAny
 

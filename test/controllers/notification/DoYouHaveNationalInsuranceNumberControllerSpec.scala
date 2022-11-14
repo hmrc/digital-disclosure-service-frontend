@@ -16,14 +16,13 @@
 
 package controllers
 
-import base.SpecBase
+import base.ControllerSpecBase
 import forms.DoYouHaveNationalInsuranceNumberFormProvider
-import models.{NormalMode, DoYouHaveNationalInsuranceNumber, UserAnswers}
+import models.{CheckMode, DoYouHaveNationalInsuranceNumber, NormalMode, UserAnswers}
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
-import org.scalatestplus.mockito.MockitoSugar
-import pages.DoYouHaveNationalInsuranceNumberPage
+import pages.{DoYouHaveNationalInsuranceNumberPage, WhatIsYourNationalInsuranceNumberPage}
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -33,7 +32,7 @@ import views.html.notification.DoYouHaveNationalInsuranceNumberView
 
 import scala.concurrent.Future
 
-class DoYouHaveNationalInsuranceNumberControllerSpec extends SpecBase with MockitoSugar {
+class DoYouHaveNationalInsuranceNumberControllerSpec extends ControllerSpecBase {
 
   def onwardRoute = Call("GET", "/foo")
 
@@ -102,6 +101,41 @@ class DoYouHaveNationalInsuranceNumberControllerSpec extends SpecBase with Mocki
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual onwardRoute.url
       }
+    }
+
+    "must redirect to WhatIsYourNationalInsuranceNumber screen  in check mode if DoYouHaveNationalInsuranceNumber page answer was change from No or YesButDontKnow to YesIKnow" in {
+      val previousAnswers = Seq(DoYouHaveNationalInsuranceNumber.No, DoYouHaveNationalInsuranceNumber.YesButDontKnow)
+      val newAnswer = DoYouHaveNationalInsuranceNumber.YesIKnow
+
+      val urlToTest =  notification.routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.WhatIsYourNationalInsuranceNumberController.onPageLoad(CheckMode).url
+
+      previousAnswers.foreach (
+        testChangeAnswerRouting(_, newAnswer, DoYouHaveNationalInsuranceNumberPage, urlToTest, destinationRoute)
+      )
+    }
+
+    "must redirect to WhatIsYourNationalInsuranceNumber screen in check mode if the user answer was change from YesIKnow to No or YesButDontKnow" in {
+      val previousAnswer = DoYouHaveNationalInsuranceNumber.YesIKnow
+      val newAnswers = Seq(DoYouHaveNationalInsuranceNumber.No, DoYouHaveNationalInsuranceNumber.YesButDontKnow)
+
+      val urlToTest =  notification.routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      val pageToClean = List(WhatIsYourNationalInsuranceNumberPage)
+
+      newAnswers.foreach(testChangeAnswerRouting(
+        previousAnswer, _, DoYouHaveNationalInsuranceNumberPage, urlToTest, destinationRoute, pageToClean)
+      )
+    }
+
+    "must redirect to CheckYourAnswer screen if there are no changes in the user answer" in {
+      val urlToTest =  notification.routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      DoYouHaveNationalInsuranceNumber.values.foreach( value =>
+        testChangeAnswerRouting(value, value, DoYouHaveNationalInsuranceNumberPage, urlToTest, destinationRoute)
+      )
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {

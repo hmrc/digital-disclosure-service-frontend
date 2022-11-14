@@ -16,24 +16,24 @@
 
 package controllers
 
-import base.SpecBase
+import base.ControllerSpecBase
 import forms.AreYouRegisteredForVATFormProvider
 import models.{NormalMode, AreYouRegisteredForVAT, UserAnswers}
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
-import org.scalatestplus.mockito.MockitoSugar
-import pages.AreYouRegisteredForVATPage
+import pages.{AreYouRegisteredForVATPage, WhatIsYourVATRegistrationNumberPage}
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import repositories.SessionRepository
 import views.html.notification.AreYouRegisteredForVATView
+import models._
 
 import scala.concurrent.Future
 
-class AreYouRegisteredForVATControllerSpec extends SpecBase with MockitoSugar {
+class AreYouRegisteredForVATControllerSpec extends ControllerSpecBase {
 
   def onwardRoute = Call("GET", "/foo")
 
@@ -153,6 +153,72 @@ class AreYouRegisteredForVATControllerSpec extends SpecBase with MockitoSugar {
 
         redirectLocation(result).value mustEqual routes.JourneyRecoveryController.onPageLoad().url
       }
+    }
+
+    "must redirect to WhatIsYourVATRegistrationNumber page (change mode) if page answer changes from No to YesIKnow in check mode" in {
+
+      val previousAnswer = AreYouRegisteredForVAT.No
+      val newAnswer = AreYouRegisteredForVAT.YesIKnow
+
+      val urlToTest = notification.routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.WhatIsYourVATRegistrationNumberController.onPageLoad(CheckMode).url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForVATPage, urlToTest, destinationRoute, Nil)
+    }
+
+    "must redirect to WhatIsYourVATRegistrationNumber page (change mode) if page answer changes from YesButDontKnow to YesIKnow in check mode" in {
+
+      val previousAnswer = AreYouRegisteredForVAT.YesButDontKnow
+      val newAnswer = AreYouRegisteredForVAT.YesIKnow
+
+      val urlToTest = notification.routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.WhatIsYourVATRegistrationNumberController.onPageLoad(CheckMode).url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForVATPage, urlToTest, destinationRoute, Nil)
+    }
+
+    "must redirect to CheckYourAnswers screen and clear WhatIsYourVATRegistrationNumberPage if page answer changes from YesIKnow to No in check mode" in {
+
+      val previousAnswer = AreYouRegisteredForVAT.YesIKnow
+      val newAnswer = AreYouRegisteredForVAT.No
+
+      val urlToTest = notification.routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForVATPage, urlToTest, destinationRoute, List(WhatIsYourVATRegistrationNumberPage))
+    }
+
+    "must redirect to CheckYourAnswers screen and clear WhatIsYourVATRegistrationNumberPage if page answer changes from YesIKnow to YesButDontKnow in check mode" in {
+
+      val previousAnswer = AreYouRegisteredForVAT.YesIKnow
+      val newAnswer = AreYouRegisteredForVAT.YesButDontKnow
+
+      val urlToTest = notification.routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForVATPage, urlToTest, destinationRoute, List(WhatIsYourVATRegistrationNumberPage))
+    }
+
+    "must redirect to CheckYourAnswers screen if page answer is YesIKnow and doesn't change" in {
+
+      val previousAnswer = AreYouRegisteredForVAT.YesIKnow
+      val newAnswer = AreYouRegisteredForVAT.YesIKnow
+
+      val urlToTest = notification.routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForVATPage, urlToTest, destinationRoute, Nil)
+    }
+
+    "must redirect to CheckYourAnswers screen if page answer is No and doesn't change" in {
+
+      val previousAnswer = AreYouRegisteredForVAT.No
+      val newAnswer = AreYouRegisteredForVAT.No
+
+      val urlToTest = notification.routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForVATPage, urlToTest, destinationRoute, Nil)
     }
   }
 }

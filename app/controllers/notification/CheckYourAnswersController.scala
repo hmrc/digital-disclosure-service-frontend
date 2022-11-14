@@ -48,6 +48,11 @@ class CheckYourAnswersController @Inject()(
           LetterReferenceSummary.row(ua),
           RelatesToSummary.row(ua),
           AreYouTheIndividualSummary.row(ua),
+          AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutSummary.row(ua),
+          AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutSummary.row(ua),
+          AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutSummary.row(ua),
+          AreYouRepresentingAnOrganisationSummary.row(ua),
+          WhatIsTheNameOfTheOrganisationYouRepresentSummary.row(ua),
           OffshoreLiabilitiesSummary.row(ua),
           OnshoreLiabilitiesSummary.row(ua)
         ).flatten
@@ -72,7 +77,7 @@ class CheckYourAnswersController @Inject()(
       )
 
       val aboutTheIndividualList = request.userAnswers.get(AreYouTheIndividualPage) match {
-        case Some(AreYouTheIndividual.No) => 
+        case Some(false) => 
           Some(
             SummaryListViewModel(
               rows = Seq(
@@ -92,7 +97,47 @@ class CheckYourAnswersController @Inject()(
         case _ => None
       }
 
-      val list = SummaryLists(backgroundList, aboutYouList, aboutTheIndividualList)
+      val aboutTheCompanyList = request.userAnswers.get(RelatesToPage) match {
+        case Some(RelatesTo.ACompany) => 
+          Some(
+            SummaryListViewModel(
+              rows = Seq(
+                WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutSummary.row(ua),
+                WhatIsTheCompanyRegistrationNumberSummary.row(ua),
+                CompanyAddressLookupSummary.row(ua)
+              ).flatten
+            )
+          )
+        case _ => None
+      }
+
+      val aboutTheLLPList = request.userAnswers.get(RelatesToPage) match {
+        case Some(RelatesTo.ALimitedLiabilityPartnership) => 
+          Some(
+            SummaryListViewModel(
+              rows = Seq(
+                WhatIsTheLLPNameSummary.row(ua),
+                LLPAddressLookupSummary.row(ua)
+              ).flatten
+            )
+          )
+        case _ => None
+      }
+
+      val aboutTheTrust = request.userAnswers.get(RelatesToPage) match {
+        case Some(RelatesTo.ATrust) =>
+          Some(
+            SummaryListViewModel(
+              rows = Seq(
+                WhatIsTheTrustNameSummary.row(ua),
+                TrustAddressLookupSummary.row(ua)
+              ).flatten
+            )
+          )
+        case _ => None
+      }
+
+      val list = SummaryLists(backgroundList, aboutYouList, aboutTheIndividualList, aboutTheCompanyList, aboutTheLLPList, aboutTheTrust)
 
       Ok(view(list))
   }

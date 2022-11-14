@@ -21,6 +21,24 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryWhatIsTheTrustNamePage: Arbitrary[WhatIsTheTrustNamePage.type] =
+    Arbitrary(WhatIsTheTrustNamePage)
+
+  implicit lazy val arbitraryAreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage: Arbitrary[AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage.type] =
+    Arbitrary(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage)
+
+  implicit lazy val arbitraryWhatIsTheLLPNamePage: Arbitrary[WhatIsTheLLPNamePage.type] =
+    Arbitrary(WhatIsTheLLPNamePage)
+
+  implicit lazy val arbitraryAreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage: Arbitrary[AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage.type] =
+    Arbitrary(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage)
+
+  implicit lazy val arbitraryWhatIsTheCompanyRegistrationNumberPage: Arbitrary[WhatIsTheCompanyRegistrationNumberPage.type] =
+    Arbitrary(WhatIsTheCompanyRegistrationNumberPage)
+
+  implicit lazy val arbitraryWhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage: Arbitrary[WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage.type] =
+    Arbitrary(WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage)
+
   implicit lazy val arbitraryWhatIsTheNameOfTheOrganisationYouRepresentPage: Arbitrary[WhatIsTheNameOfTheOrganisationYouRepresentPage.type] =
     Arbitrary(WhatIsTheNameOfTheOrganisationYouRepresentPage)
 
@@ -110,5 +128,5 @@ trait PageGenerators {
  
   implicit lazy val arbitraryReceivedALetterPage: Arbitrary[ReceivedALetterPage.type] =
     Arbitrary(ReceivedALetterPage)
-    
+
 }

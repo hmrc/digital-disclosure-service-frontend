@@ -165,3 +165,48 @@ GET        /representing-organisation-name                      controllers.noti
 POST       /representing-organisation-name                      controllers.notification.WhatIsTheNameOfTheOrganisationYouRepresentController.onSubmit(mode: Mode = NormalMode)
 GET        /representing-organisation-name/change               controllers.notification.WhatIsTheNameOfTheOrganisationYouRepresentController.onPageLoad(mode: Mode = CheckMode)
 POST       /representing-organisation-name/change               controllers.notification.WhatIsTheNameOfTheOrganisationYouRepresentController.onSubmit(mode: Mode = CheckMode)
+
+GET        /company-name                                        controllers.notification.WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutController.onPageLoad(mode: Mode = NormalMode)
+POST       /company-name                                        controllers.notification.WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutController.onSubmit(mode: Mode = NormalMode)
+GET        /company-name/change                                 controllers.notification.WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutController.onPageLoad(mode: Mode = CheckMode)
+POST       /company-name/change                                 controllers.notification.WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutController.onSubmit(mode: Mode = CheckMode)
+
+GET        /company-registration                                controllers.notification.WhatIsTheCompanyRegistrationNumberController.onPageLoad(mode: Mode = NormalMode)
+POST       /company-registration                                controllers.notification.WhatIsTheCompanyRegistrationNumberController.onSubmit(mode: Mode = NormalMode)
+GET        /company-registration/change                         controllers.notification.WhatIsTheCompanyRegistrationNumberController.onPageLoad(mode: Mode = CheckMode)
+POST       /company-registration/change                         controllers.notification.WhatIsTheCompanyRegistrationNumberController.onSubmit(mode: Mode = CheckMode)
+
+GET        /company-address/lookup                              controllers.notification.CompanyAddressLookupController.lookupAddress(mode: Mode = NormalMode)
+GET        /company-address/retrieve                            controllers.notification.CompanyAddressLookupController.retrieveConfirmedAddress(mode: Mode = NormalMode, id: Option[UUID] ?= None)
+GET        /company-address/lookup/change                       controllers.notification.CompanyAddressLookupController.lookupAddress(mode: Mode = CheckMode)
+GET        /company-address/retrieve/change                     controllers.notification.CompanyAddressLookupController.retrieveConfirmedAddress(mode: Mode = CheckMode, id: Option[UUID] ?= None)
+
+GET        /are-you-a-designated-member                         controllers.notification.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(mode: Mode = NormalMode)
+POST       /are-you-a-designated-member                         controllers.notification.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onSubmit(mode: Mode = NormalMode)
+GET        /are-you-a-designated-member/change                  controllers.notification.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(mode: Mode = CheckMode)
+POST       /are-you-a-designated-member/change                  controllers.notification.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onSubmit(mode: Mode = CheckMode)
+
+GET        /llp-name                                            controllers.notification.WhatIsTheLLPNameController.onPageLoad(mode: Mode = NormalMode)
+POST       /llp-name                                            controllers.notification.WhatIsTheLLPNameController.onSubmit(mode: Mode = NormalMode)
+GET        /llp-name/change                                     controllers.notification.WhatIsTheLLPNameController.onPageLoad(mode: Mode = CheckMode)
+POST       /llp-name/change                                     controllers.notification.WhatIsTheLLPNameController.onSubmit(mode: Mode = CheckMode)
+
+GET        /llp-address/lookup                                  controllers.notification.LLPAddressLookupController.lookupAddress(mode: Mode = NormalMode)
+GET        /llp-address/retrieve                                controllers.notification.LLPAddressLookupController.retrieveConfirmedAddress(mode: Mode = NormalMode, id: Option[UUID] ?= None)
+GET        /llp-address/lookup/change                           controllers.notification.LLPAddressLookupController.lookupAddress(mode: Mode = CheckMode)
+GET        /llp-address/retrieve/change                         controllers.notification.LLPAddressLookupController.retrieveConfirmedAddress(mode: Mode = CheckMode, id: Option[UUID] ?= None)
+
+GET        /are-you-a-trustee                   controllers.notification.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(mode: Mode = NormalMode)
+POST       /are-you-a-trustee                   controllers.notification.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onSubmit(mode: Mode = NormalMode)
+GET        /are-you-a-trustee/change            controllers.notification.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(mode: Mode = CheckMode)
+POST       /are-you-a-trustee/change            controllers.notification.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onSubmit(mode: Mode = CheckMode)
+
+GET        /trust-address/lookup                controllers.notification.TrustAddressLookupController.lookupAddress(mode: Mode = NormalMode)
+GET        /trust-address/retrieve              controllers.notification.TrustAddressLookupController.retrieveConfirmedAddress(mode: Mode = NormalMode, id: Option[UUID] ?= None)
+GET        /trust-address/lookup/change         controllers.notification.TrustAddressLookupController.lookupAddress(mode: Mode = CheckMode)
+GET        /trust-address/retrieve/change       controllers.notification.TrustAddressLookupController.retrieveConfirmedAddress(mode: Mode = CheckMode, id: Option[UUID] ?= None)
+
+GET        /trust-name                        controllers.notification.WhatIsTheTrustNameController.onPageLoad(mode: Mode = NormalMode)
+POST       /trust-name                        controllers.notification.WhatIsTheTrustNameController.onSubmit(mode: Mode = NormalMode)
+GET        /trust-name/change                controllers.notification.WhatIsTheTrustNameController.onPageLoad(mode: Mode = CheckMode)
+POST       /trust-name/change                controllers.notification.WhatIsTheTrustNameController.onSubmit(mode: Mode = CheckMode)

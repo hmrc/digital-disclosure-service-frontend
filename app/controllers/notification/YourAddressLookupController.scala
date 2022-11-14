@@ -31,8 +31,8 @@ import play.api.mvc.{Call, Result}
 import play.api.Logging
 import models.requests.{DataRequest}
 import models.Error
-import pages.AreYouTheIndividualPage
-import models.AreYouTheIndividual
+import pages._
+import models._
 import scala.concurrent.{ExecutionContext, Future}
 
 class YourAddressLookupController @Inject()(
@@ -47,14 +47,9 @@ class YourAddressLookupController @Inject()(
                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with Logging {
 
   def lookupAddress(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async { implicit request =>
-    val continueUrl = routes.YourAddressLookupController.retrieveConfirmedAddress(mode)
+    val continueUrl = routes.YourAddressLookupController.retrieveConfirmedAddress(mode) 
 
-    val isAgentForIndividual: Boolean = request.userAnswers.get(AreYouTheIndividualPage) match {
-      case Some(AreYouTheIndividual.No) => true
-      case _ => false
-    } 
-
-    addressLookupService.getYourAddressLookupRedirect(continueUrl, isAgentForIndividual).fold(
+    addressLookupService.getYourAddressLookupRedirect(continueUrl, request.userAnswers).fold(
       {e: Error =>
         logger.error(s"Error initialising Address Lookup: $e")
         Future.failed(e.throwable.getOrElse(new Exception(e.message)))

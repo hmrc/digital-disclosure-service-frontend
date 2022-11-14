@@ -39,20 +39,18 @@ class NotificationNavigator @Inject()() {
     case RelatesToPage => ua => ua.get(RelatesToPage) match {
       case Some(RelatesTo.AnIndividual) => routes.AreYouTheIndividualController.onPageLoad(NormalMode)
       case Some(RelatesTo.ACompany) => routes.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode)
+      case Some(RelatesTo.ALimitedLiabilityPartnership) => routes.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode)
+      case Some(RelatesTo.ATrust) => routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode)
       case _ => routes.RelatesToController.onPageLoad(NormalMode)
     }
 
     case AreYouTheIndividualPage => _ => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
 
-    case OnshoreLiabilitiesPage => ua => ua.get(AreYouTheIndividualPage) match {
-      case Some(AreYouTheIndividual.Yes) => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
-      case Some(AreYouTheIndividual.No) => routes.WhatIsTheIndividualsFullNameController.onPageLoad(NormalMode)
-      case None => routes.OnshoreLiabilitiesController.onPageLoad(NormalMode)
-    }
+    case OnshoreLiabilitiesPage => ua => onshoreLiabilitiesRouting(ua)
     
     case OffshoreLiabilitiesPage => ua => ua.get(OffshoreLiabilitiesPage) match {
-      case Some(OffshoreLiabilities.IWantTo) => routes.OnshoreLiabilitiesController.onPageLoad(NormalMode)
-      case Some(OffshoreLiabilities.IDoNotWantTo) => routes.OnlyOnshoreLiabilitiesController.onPageLoad
+      case Some(true) => routes.OnshoreLiabilitiesController.onPageLoad(NormalMode)
+      case Some(false) => routes.OnlyOnshoreLiabilitiesController.onPageLoad
       case None => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
     }
 
@@ -61,10 +59,9 @@ class NotificationNavigator @Inject()() {
     case YourPhoneNumberPage => _ => routes.DoYouHaveAnEmailAddressController.onPageLoad(NormalMode)
 
     case DoYouHaveAnEmailAddressPage => ua => (ua.get(DoYouHaveAnEmailAddressPage), ua.get(AreYouTheIndividualPage)) match {
-      case (Some(true), Some(AreYouTheIndividual.Yes)) => routes.YourEmailAddressController.onPageLoad(NormalMode)
-      case (Some(false), Some(AreYouTheIndividual.Yes)) => routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
-      case (Some(true), Some(AreYouTheIndividual.No)) => routes.YourEmailAddressController.onPageLoad(NormalMode)
-      case (Some(false), Some(AreYouTheIndividual.No)) => routes.YourAddressLookupController.lookupAddress(NormalMode)
+      case (Some(true), _) => routes.YourEmailAddressController.onPageLoad(NormalMode)
+      case (Some(false), Some(true)) => routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
+      case (Some(false), _) => routes.YourAddressLookupController.lookupAddress(NormalMode)
       case (_, _) => routes.DoYouHaveAnEmailAddressController.onPageLoad(NormalMode)
     }
 
@@ -73,16 +70,15 @@ class NotificationNavigator @Inject()() {
     case WhatIsYourMainOccupationPage => _ => routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(NormalMode)
 
     case DoYouHaveNationalInsuranceNumberPage => ua => ua.get(DoYouHaveNationalInsuranceNumberPage) match {
-      case Some(DoYouHaveNationalInsuranceNumber.YesIknow) => routes.WhatIsYourNationalInsuranceNumberController.onPageLoad(NormalMode)
+      case Some(DoYouHaveNationalInsuranceNumber.YesIKnow) => routes.WhatIsYourNationalInsuranceNumberController.onPageLoad(NormalMode)
       case Some(DoYouHaveNationalInsuranceNumber.YesButDontKnow) => routes.AreYouRegisteredForVATController.onPageLoad(NormalMode)
       case Some(DoYouHaveNationalInsuranceNumber.No) => routes.AreYouRegisteredForVATController.onPageLoad(NormalMode)
       case None => routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(NormalMode)
     }
 
     case YourEmailAddressPage => ua => ua.get(AreYouTheIndividualPage) match {
-      case Some(AreYouTheIndividual.Yes) => routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
-      case Some(AreYouTheIndividual.No) => routes.YourAddressLookupController.lookupAddress(NormalMode)
-      case _ => routes.YourEmailAddressController.onPageLoad(NormalMode)
+      case Some(true) => routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
+      case _ => routes.YourAddressLookupController.lookupAddress(NormalMode)
     }
 
     case WhatIsYourNationalInsuranceNumberPage => _ => routes.AreYouRegisteredForVATController.onPageLoad(NormalMode)
@@ -112,7 +108,7 @@ class NotificationNavigator @Inject()() {
     case WhatIsTheIndividualOccupationPage => _ => routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(NormalMode)
 
     case DoesTheIndividualHaveNationalInsuranceNumberPage => ua => ua.get(DoesTheIndividualHaveNationalInsuranceNumberPage) match {
-      case Some(DoesTheIndividualHaveNationalInsuranceNumber.YesIknow) => routes.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(NormalMode)
+      case Some(DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow) => routes.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(NormalMode)
       case Some(DoesTheIndividualHaveNationalInsuranceNumber.YesButDontKnow) => routes.IsTheIndividualRegisteredForVATController.onPageLoad(NormalMode)
       case Some(DoesTheIndividualHaveNationalInsuranceNumber.No) => routes.IsTheIndividualRegisteredForVATController.onPageLoad(NormalMode)
       case None => routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(NormalMode)
@@ -142,9 +138,11 @@ class NotificationNavigator @Inject()() {
     
     case IndividualAddressLookupPage => _ => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
 
+    case CompanyAddressLookupPage => _ => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+
     case AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage => ua => ua.get(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage) match {
-      case Some(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.Yes) => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
-      case Some(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.No) => routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode)
+      case Some(true) => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
+      case Some(false) => routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode)
       case None => routes.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode)
     }
 
@@ -154,19 +152,120 @@ class NotificationNavigator @Inject()() {
       case None => routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode)
     }
 
+    case AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage => ua => ua.get(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage) match {
+      case Some(true) => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
+      case Some(false) => routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode)
+      case None => routes.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode)
+    }
+
     case WhatIsTheNameOfTheOrganisationYouRepresentPage => _ => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
+
+    case OnlyOnshoreLiabilitiesPage => ua => onshoreLiabilitiesRouting(ua)
+
+    case WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage => _ => routes.WhatIsTheCompanyRegistrationNumberController.onPageLoad(NormalMode)
+
+    case WhatIsTheCompanyRegistrationNumberPage => _ => routes.CompanyAddressLookupController.lookupAddress(NormalMode)
+
+    case WhatIsTheLLPNamePage => _ => routes.LLPAddressLookupController.lookupAddress(NormalMode)
+
+    case LLPAddressLookupPage => _ => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+
+    case AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage => ua => ua.get(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage) match {
+      case Some(true) => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
+      case Some(false) => routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode)
+      case None => routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode)
+    }
+
+    case WhatIsTheTrustNamePage => _ => routes.TrustAddressLookupController.lookupAddress(NormalMode)
+
+    case TrustAddressLookupPage => _ => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
 
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
-  private val checkRouteMap: Page => UserAnswers => Call = {
-    case _ => _ => routes.CheckYourAnswersController.onPageLoad
+  private val checkRouteMap: Page => UserAnswers => Boolean => Call = {
+    case AreYouTheIndividualPage => ua => hasAnswerChanged =>
+      if(hasAnswerChanged) normalRoutes(AreYouTheIndividualPage)(ua)
+      else routes.CheckYourAnswersController.onPageLoad
+
+    case ReceivedALetterPage => ua => hasAnswerChanged =>
+      if(hasAnswerChanged) routes.LetterReferenceController.onPageLoad(CheckMode)
+      else routes.CheckYourAnswersController.onPageLoad
+
+    case DoYouHaveAnEmailAddressPage => ua => hasAnswerChanged =>
+      if(hasAnswerChanged) routes.YourEmailAddressController.onPageLoad(CheckMode)
+      else routes.CheckYourAnswersController.onPageLoad
+
+    case DoYouHaveNationalInsuranceNumberPage => ua => hasAnswerChanged => ua.get(DoYouHaveNationalInsuranceNumberPage) match {
+      case Some(DoYouHaveNationalInsuranceNumber.YesIKnow) if hasAnswerChanged => routes.WhatIsYourNationalInsuranceNumberController.onPageLoad(CheckMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad
+    }
+
+    case AreYouRegisteredForVATPage => ua => hasAnswerChanged => ua.get(AreYouRegisteredForVATPage) match {
+      case Some(AreYouRegisteredForVAT.YesIKnow) if hasAnswerChanged => routes.WhatIsYourVATRegistrationNumberController.onPageLoad(CheckMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad
+    }
+    
+    case AreYouRegisteredForSelfAssessmentPage => _ => hasAnswerChanged =>
+      if(hasAnswerChanged) routes.WhatIsYourUniqueTaxReferenceController.onPageLoad(CheckMode)
+      else routes.CheckYourAnswersController.onPageLoad
+
+    case IsTheIndividualRegisteredForVATPage => ua => hasAnswerChanged => ua.get(IsTheIndividualRegisteredForVATPage) match {
+      case Some(IsTheIndividualRegisteredForVAT.YesIKnow) if hasAnswerChanged => routes.WhatIsTheIndividualsVATRegistrationNumberController.onPageLoad(CheckMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad
+    }
+
+    case IsTheIndividualRegisteredForSelfAssessmentPage => ua => hasAnswerChanged => ua.get(IsTheIndividualRegisteredForSelfAssessmentPage) match {
+      case Some(IsTheIndividualRegisteredForSelfAssessment.YesIKnow) if hasAnswerChanged => routes.WhatIsTheIndividualsUniqueTaxReferenceController.onPageLoad(CheckMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad
+    }
+
+    case DoesTheIndividualHaveNationalInsuranceNumberPage => ua => hasAnswerChanged => ua.get(DoesTheIndividualHaveNationalInsuranceNumberPage) match {
+      case Some(DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow) if hasAnswerChanged => routes.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(CheckMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad
+    }
+
+    case AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage => ua => hasAnswerChanged => ua.get(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage) match {
+      case Some(false) if hasAnswerChanged => routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad
+    }
+
+    case AreYouRepresentingAnOrganisationPage => ua => hasAnswerChanged => ua.get(AreYouRepresentingAnOrganisationPage) match {
+      case Some(true) if hasAnswerChanged => routes.WhatIsTheNameOfTheOrganisationYouRepresentController.onPageLoad(CheckMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad
+    }
+
+    case AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage => ua => hasAnswerChanged => ua.get(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage) match {
+      case Some(false) if hasAnswerChanged => routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad
+    }
+
+    case AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage => ua => hasAnswerChanged => ua.get(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage) match {
+      case Some(false) if hasAnswerChanged => routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad
+    }
+
+    case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
-  def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call = mode match {
+  def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasAnswerChanged: Boolean = true): Call = mode match {
     case NormalMode =>
       normalRoutes(page)(userAnswers)
     case CheckMode =>
-      checkRouteMap(page)(userAnswers)
+      checkRouteMap(page)(userAnswers)(hasAnswerChanged)
+  }
+
+  def onshoreLiabilitiesRouting(userAnswers: UserAnswers): Call = {
+    val relatesToPage = userAnswers.get(RelatesToPage)
+    val areYouTheIndividualPage = userAnswers.get(AreYouTheIndividualPage)
+
+    (relatesToPage, areYouTheIndividualPage) match {
+      case (Some(RelatesTo.AnIndividual), Some(true)) => controllers.notification.routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+      case (Some(RelatesTo.AnIndividual), _) => controllers.notification.routes.WhatIsTheIndividualsFullNameController.onPageLoad(NormalMode)
+      case (Some(RelatesTo.ACompany), _) => controllers.notification.routes.WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutController.onPageLoad(NormalMode)
+      case (Some(RelatesTo.ALimitedLiabilityPartnership), _) => controllers.notification.routes.WhatIsTheLLPNameController.onPageLoad(NormalMode)
+      case (Some(RelatesTo.ATrust), _) => controllers.notification.routes.WhatIsTheTrustNameController.onPageLoad(NormalMode)
+      case _ => controllers.notification.routes.RelatesToController.onPageLoad(NormalMode)
+    }
   }
 }

@@ -18,10 +18,12 @@ package controllers.notification
 
 import controllers.actions._
 import forms.AreYouTheIndividualFormProvider
+
 import javax.inject.Inject
-import models.Mode
+import models.{Mode, UserAnswers}
 import navigation.NotificationNavigator
-import pages.AreYouTheIndividualPage
+import pages.notification.IndividualPages
+import pages.{AreYouTheIndividualPage, QuestionPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -32,15 +34,15 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class AreYouTheIndividualController @Inject()(
                                        override val messagesApi: MessagesApi,
+                                       identify: IdentifierAction,
                                        sessionRepository: SessionRepository,
                                        navigator: NotificationNavigator,
-                                       identify: IdentifierAction,
                                        getData: DataRetrievalAction,
                                        requireData: DataRequiredAction,
                                        formProvider: AreYouTheIndividualFormProvider,
                                        val controllerComponents: MessagesControllerComponents,
                                        view: AreYouTheIndividualView
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+                                     ) (implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with IndividualPages{
 
   val form = formProvider()
 
@@ -61,12 +63,27 @@ class AreYouTheIndividualController @Inject()(
       form.bindFromRequest().fold(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
+        value => {
+          val changedPages = whatHasChanged(request.userAnswers, value)
+          val hasChanged = changedPages.nonEmpty
 
-        value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AreYouTheIndividualPage, value))
-            _              <- sessionRepository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(AreYouTheIndividualPage, mode, updatedAnswers))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(changedPages))
+            _ <- sessionRepository.set(clearedAnswers)
+          } yield Redirect(navigator.nextPage(AreYouTheIndividualPage, mode, clearedAnswers, hasChanged))
+
+        }
       )
   }
+
+  def whatHasChanged(userAnswers: UserAnswers, value: Boolean): List[QuestionPage[_]]=
+    userAnswers.get(AreYouTheIndividualPage) match {
+      case Some(true) if false == value =>
+        aboutYouPages
+
+      case Some(false) if true == value =>
+        aboutYouPages ::: aboutIndividualPages
+      case _ => Nil
+    }
 }

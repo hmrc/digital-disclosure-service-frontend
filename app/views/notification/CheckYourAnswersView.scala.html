@@ -35,4 +35,19 @@
         <h2 class="govuk-heading-l">@messages("notificationCYA.aboutTheIndividual")</h2>
         @govukSummaryList(list.withAttribute("id","about-the-individual-list"))
     }
+
+    @list.aboutTheCompanyList.map { list =>
+        <h2 class="govuk-heading-l">@messages("notificationCYA.aboutTheCompany")</h2>
+        @govukSummaryList(list.withAttribute("id","about-the-company-list"))
+    }
+
+    @list.aboutTheLLPList.map { list =>
+        <h2 class="govuk-heading-l">@messages("notificationCYA.aboutTheLLP")</h2>
+        @govukSummaryList(list.withAttribute("id","about-the-llp-list"))
+    }
+
+    @list.aboutTheTrustList.map { list =>
+        <h2 class="govuk-heading-l">@messages("notificationCYA.aboutTheTrust")</h2>
+        @govukSummaryList(list.withAttribute("id","about-the-trust-list"))
+    }
 }

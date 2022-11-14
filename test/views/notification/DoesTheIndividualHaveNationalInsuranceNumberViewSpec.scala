@@ -43,7 +43,7 @@ class DoesTheIndividualHaveNationalInsuranceNumberViewSpec extends ViewSpecBase 
     }
 
     "have Yes, and I know their National Insurance number" in {
-      view.getElementsByClass("govuk-radios__label").get(0).text() mustBe messages("doesTheIndividualHaveNINO.yesIknow")
+      view.getElementsByClass("govuk-radios__label").get(0).text() mustBe messages("doesTheIndividualHaveNINO.yesIKnow")
     }
 
     "have Yes, but I do not know their National Insurance number" in {
