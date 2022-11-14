@@ -24,6 +24,9 @@ trait PageGenerators {
   implicit lazy val arbitraryAreYouTheExecutorOfTheEstatePage: Arbitrary[AreYouTheExecutorOfTheEstatePage.type] =
     Arbitrary(AreYouTheExecutorOfTheEstatePage)
 
+  implicit lazy val arbitraryWhatWasTheNameOfThePersonWhoDiedPage: Arbitrary[WhatWasTheNameOfThePersonWhoDiedPage.type] =
+    Arbitrary(WhatWasTheNameOfThePersonWhoDiedPage)
+
   implicit lazy val arbitraryWhatIsTheTrustNamePage: Arbitrary[WhatIsTheTrustNamePage.type] =
     Arbitrary(WhatIsTheTrustNamePage)
 

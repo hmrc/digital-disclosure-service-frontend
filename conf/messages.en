@@ -809,3 +809,11 @@ areYouTheExecutorOfTheEstate.change.hidden = AreYouTheExecutorOfTheEstate
 areYouTheExecutorOfTheEstate.yes = Yes, I am the executor or administrator of the estate
 areYouTheExecutorOfTheEstate.no = No, I will be making a disclosure on behalf of the executor or administrator of the estate
 areYouTheExecutorOfTheEstate.no.hint = We may ask for additional evidence that you’re authorised to act for them, such as the ‘Authorising a tax agent (64-8)’ form.
+
+whatWasTheNameOfThePersonWhoDied.title = What was the name of the person who died?
+whatWasTheNameOfThePersonWhoDied.heading = What was the name of the person who died?
+whatWasTheNameOfThePersonWhoDied.label = This should be as it’s written on official documents such as their passport or driving licence.
+whatWasTheNameOfThePersonWhoDied.checkYourAnswersLabel = What was the name of the person who died?
+whatWasTheNameOfThePersonWhoDied.error.required = Enter the person’s full name
+whatWasTheNameOfThePersonWhoDied.error.length = Person’s name must be between 1 and 50 characters
+whatWasTheNameOfThePersonWhoDied.change.hidden = WhatWasTheNameOfThePersonWhoDied
