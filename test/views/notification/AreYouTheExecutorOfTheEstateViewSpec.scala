@@ -17,16 +17,16 @@
 package views.notification
 
 import base.ViewSpecBase
-import forms.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutFormProvider
+import forms.AreYouTheExecutorOfTheEstateFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
-import views.html.notification.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutView
+import views.html.notification.AreYouTheExecutorOfTheEstateView
 import models.NormalMode
 
-class AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutViewSpec extends ViewSpecBase with ViewMatchers {
+class AreYouTheExecutorOfTheEstateViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutFormProvider()()
-  val page: AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutView = inject[AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutView]
+  val form = new AreYouTheExecutorOfTheEstateFormProvider()()
+  val page: AreYouTheExecutorOfTheEstateView = inject[AreYouTheExecutorOfTheEstateView]
 
   private def createView: Html = page(form, NormalMode)(request, messages)
 
@@ -35,27 +35,27 @@ class AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutViewSpec extends ViewSp
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.title"))
+      view.select("title").text() must include(messages("areYouTheExecutorOfTheEstate.title"))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("areYouTheExecutorOfTheEstate.heading")
     }
 
     "contain body text" in {
-      view.getElementById("body").text() mustBe messages("areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.body")
+      view.getElementById("body").text() mustBe messages("areYouTheExecutorOfTheEstate.body")
     }
 
     "have yes" in {
-      view.getElementsByClass("govuk-radios__label").first().text() mustBe messages("areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.yes")
+      view.getElementsByClass("govuk-radios__label").first().text() mustBe messages("areYouTheExecutorOfTheEstate.yes")
     }
 
     "have no" in {
-      view.getElementsByClass("govuk-radios__label").last().text() mustBe messages("areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.no")
+      view.getElementsByClass("govuk-radios__label").last().text() mustBe messages("areYouTheExecutorOfTheEstate.no")
     }
 
     "have hint text for no option" in {
-      view.select("div#value-no-item-hint").text() must include(messages("areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.no.hint"))
+      view.select("div#value-no-item-hint").text() must include(messages("areYouTheExecutorOfTheEstate.no.hint"))
     }
 
     "display the continue button" in {
