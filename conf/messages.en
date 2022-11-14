@@ -812,7 +812,7 @@ areYouTheExecutorOfTheEstate.no.hint = We may ask for additional evidence that y
 
 whatWasTheNameOfThePersonWhoDied.title = What was the name of the person who died?
 whatWasTheNameOfThePersonWhoDied.heading = What was the name of the person who died?
-whatWasTheNameOfThePersonWhoDied.label = This should be as it's written on official documents such as their passport or driving licence.
+whatWasTheNameOfThePersonWhoDied.label = This should be as it’s written on official documents such as their passport or driving licence.
 whatWasTheNameOfThePersonWhoDied.checkYourAnswersLabel = What was the name of the person who died?
 whatWasTheNameOfThePersonWhoDied.error.required = Enter the person’s full name
 whatWasTheNameOfThePersonWhoDied.error.length = Person’s name must be between 1 and 50 characters
