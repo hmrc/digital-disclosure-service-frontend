@@ -85,8 +85,7 @@ class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar with 
       val previousAnswer = false
       val newAnswer = true
 
-      val userAnswers = arbitraryUserData.arbitrary.sample.get
-        .set(AreYouTheIndividualPage, previousAnswer).success.value
+      val userAnswers = UserAnswers(userAnswersId).set(AreYouTheIndividualPage, previousAnswer).success.value  
 
       val mockSessionRepository = mock[SessionRepository]
       when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
@@ -121,8 +120,7 @@ class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar with 
       val previousAnswer = true
       val newAnswer = false
 
-      val userAnswers = arbitraryUserData.arbitrary.sample.get
-        .set(AreYouTheIndividualPage, previousAnswer).success.value
+      val userAnswers = UserAnswers(userAnswersId).set(AreYouTheIndividualPage, previousAnswer).success.value
 
       val mockSessionRepository = mock[SessionRepository]
       when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
