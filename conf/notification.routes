@@ -206,7 +206,12 @@ GET        /trust-address/retrieve              controllers.notification.TrustAd
 GET        /trust-address/lookup/change         controllers.notification.TrustAddressLookupController.lookupAddress(mode: Mode = CheckMode)
 GET        /trust-address/retrieve/change       controllers.notification.TrustAddressLookupController.retrieveConfirmedAddress(mode: Mode = CheckMode, id: Option[UUID] ?= None)
 
-GET        /trust-name                        controllers.notification.WhatIsTheTrustNameController.onPageLoad(mode: Mode = NormalMode)
-POST       /trust-name                        controllers.notification.WhatIsTheTrustNameController.onSubmit(mode: Mode = NormalMode)
-GET        /trust-name/change                controllers.notification.WhatIsTheTrustNameController.onPageLoad(mode: Mode = CheckMode)
-POST       /trust-name/change                controllers.notification.WhatIsTheTrustNameController.onSubmit(mode: Mode = CheckMode)
+GET        /trust-name                          controllers.notification.WhatIsTheTrustNameController.onPageLoad(mode: Mode = NormalMode)
+POST       /trust-name                          controllers.notification.WhatIsTheTrustNameController.onSubmit(mode: Mode = NormalMode)
+GET        /trust-name/change                   controllers.notification.WhatIsTheTrustNameController.onPageLoad(mode: Mode = CheckMode)
+POST       /trust-name/change                   controllers.notification.WhatIsTheTrustNameController.onSubmit(mode: Mode = CheckMode)
+
+GET        /are-you-the-executor                controllers.notification.AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutController.onPageLoad(mode: Mode = NormalMode)
+POST       /are-you-the-executor                controllers.notification.AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutController.onSubmit(mode: Mode = NormalMode)
+GET        /are-you-the-executor/change         controllers.notification.AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutController.onPageLoad(mode: Mode = CheckMode)
+POST       /are-you-the-executor/change         controllers.notification.AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutController.onSubmit(mode: Mode = CheckMode)

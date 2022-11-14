@@ -799,3 +799,13 @@ whatIsTheTrustName.error.length = Trust name must be between 1 and 50 characters
 whatIsTheTrustName.change.hidden = WhatIsTheTrustName
 
 notificationCYA.aboutTheTrust = About the trust
+
+areYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAbout.title = Are you the executor or administrator of the estate that the disclosure will be about?
+areYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAbout.heading = Are you the executor or administrator of the estate that the disclosure will be about?
+areYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAbout.body = An executor is a person appointed by the person who has passed away to oversee the managing of their estate. An administrator is responsible for managing the estate when there is no will, the will does not name an executor or the executor has abstained from their role.
+areYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAbout.checkYourAnswersLabel = Are you the executor or administrator of the estate that the disclosure will be about?
+areYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAbout.error.required = Select yes I am the executor or administrator of the estate
+areYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAbout.change.hidden = AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAbout
+areYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAbout.yes = Yes, I am the executor or administrator of the estate
+areYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAbout.no = No, I will be making a disclosure on behalf of the executor or administrator of the estate
+areYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAbout.no.hint = We may ask for additional evidence that you’re authorised to act for them, such as the ‘Authorising a tax agent (64-8)’ form.
