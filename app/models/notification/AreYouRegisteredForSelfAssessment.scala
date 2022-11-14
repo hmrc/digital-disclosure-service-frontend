@@ -19,6 +19,7 @@ package models
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.RadioItem
+import models.store.YesNoOrUnsure
 
 sealed trait AreYouRegisteredForSelfAssessment
 
@@ -43,4 +44,18 @@ object AreYouRegisteredForSelfAssessment extends Enumerable.Implicits {
 
   implicit val enumerable: Enumerable[AreYouRegisteredForSelfAssessment] =
     Enumerable(values.map(v => v.toString -> v): _*)
+
+  implicit def fromYesNoOrUnsure(yesNoOrUnsure: YesNoOrUnsure): AreYouRegisteredForSelfAssessment = 
+    yesNoOrUnsure match {
+      case YesNoOrUnsure.Yes => YesIKnowMyUTR
+      case YesNoOrUnsure.Unsure => YesIDontKnowMyUTR
+      case YesNoOrUnsure.No => No
+    }
+
+  implicit def toYesNoOrUnsure(areYouRegisteredForSelfAssessment: Option[AreYouRegisteredForSelfAssessment]): Option[YesNoOrUnsure] = 
+    areYouRegisteredForSelfAssessment.map(_ match {
+      case YesIKnowMyUTR => YesNoOrUnsure.Yes 
+      case YesIDontKnowMyUTR => YesNoOrUnsure.Unsure
+      case No => YesNoOrUnsure.No 
+    })
 }

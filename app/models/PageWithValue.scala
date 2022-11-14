@@ -16,9 +16,9 @@
 
 package models
 
-import models.requests.QuestionPage
-import models.requests.UserAnswers
+import pages.QuestionPage
 import play.api.libs.json.Writes
+import scala.util.Try
 
 final case class PageWithValue[A](page: QuestionPage[A], value: A)(implicit writes: Writes[A]) {
   def addToUserAnswers(userAnswers: UserAnswers): Try[UserAnswers] = {

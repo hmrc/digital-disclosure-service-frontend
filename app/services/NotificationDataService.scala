@@ -19,53 +19,161 @@ package services
 import models._
 import models.store.notification._
 import pages._
-import scala.util.Try
+import scala.util.{Success, Try}
+import com.google.inject.{Singleton, ImplementedBy}
 
-class NotificationDataService {
+@Singleton
+class NotificationDataServiceImpl extends NotificationDataService {
   
-  // def userAnswersToNotification(ua: UserAnswers): Notification = {
-
-  //     userId: String,
-  //     notificationId: String,
-  //     lastUpdated: Instant,
-  //     metadata: Metadata,
-  //     background: Background,
-  //     aboutYou: AboutYou,
-  //     aboutTheIndividual: Option[AboutTheIndividual] = None,
-  //     aboutTheCompany: Option[AboutTheCompany] = None,
-  //     aboutTheTrust: Option[AboutTheTrust] = None,
-  //     aboutTheLLP: Option[AboutTheLLP] = None
-
-
-  // }
-
   def notificationToUserAnswers(notification: Notification): Try[UserAnswers] = {
 
-    //  userAnswers.set(page, value)
+    val userAnswers = initialiseUserAnswers(notification)
 
+    for {
+      uaWithBackground  <- backgroundToUserAnswers(notification.background, userAnswers)
+      uaWithAboutYou    <- aboutYouToUserAnswers(notification.aboutYou, uaWithBackground)
+      updatedUa         <- aboutTheEntityToUserAnswers(notification, uaWithAboutYou)
+    } yield updatedUa
 
-      //RelatesToPage -> notification.background.disclosureEntity.entity,
-      //???  -> notification.background.disclosureEntity.areYouTheEntity,
-
-
-    val backgroundPages: List[PageWithValue[_]] = List(
-      notification.background.haveYouReceivedALetter.map(PageWithValue(ReceivedALetterPage, _)),
-      notification.background.letterReferenceNumber.map(PageWithValue(LetterReferencePage, _)),
-      notification.background.areYouRepresetingAnOrganisation.map(PageWithValue(AreYouRepresentingAnOrganisationPage, _)),
-      notification.background.organisationName.map(PageWithValue(WhatIsTheNameOfTheOrganisationYouRepresentPage, _)),
-      notification.background.offshoreLiabilities.map(bool => PageWithValue(OffshoreLiabilitiesPage, OffshoreLiabilities.booleanToOffshoreLiabilities(bool))),
-      notification.background.onshoreLiabilities.map(bool => PageWithValue(OnshoreLiabilitiesPage, OnshoreLiabilities.booleanToOnshoreLiabilities(bool))) 
-    ).flatten
-
-    val entityPages: List[PageWithValue[_]] = notification.background.disclosureEntity.map(de => de.entity match {
-      case Individual => List(Some(PageWithValue(RelatesToPage, RelatesTo.AnIndividual)), de.areYouTheEntity.map(PageWithValue(AreYouTheIndividualPage, AreYouTheIndividual.Yes)))
-      case Company => List(Some(PageWithValue(RelatesToPage, RelatesTo.ACompany)), de.areYouTheEntity.map(PageWithValue(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout.Yes)))
-      case Estate => List(Some(PageWithValue(RelatesToPage, RelatesTo.AnIndividual)), de.areYouTheEntity.map(PageWithValue(AreYouTheIndividualPage, AreYouTheIndividual.Yes)))
-      case LLP => List(Some(PageWithValue(RelatesToPage, RelatesTo.AnLLP)), de.areYouTheEntity.map(PageWithValue(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.Yes)))
-      case Trust => List(Some(PageWithValue(RelatesToPage, RelatesTo.ATrust)), de.areYouTheEntity.map(PageWithValue(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.Yes)))
-    })
-
-    pagesToUserAnswers(pagesWithValues, UserAnswers(notification.userId))
   }
 
+  def aboutTheEntityToUserAnswers(notification: Notification, userAnswers: UserAnswers): Try[UserAnswers] = {
+    notification.background.disclosureEntity.flatMap(_.entity match {
+      case Individual => notification.aboutTheIndividual.map(aboutTheIndividualToUserAnswers(_, userAnswers))
+      case Company => notification.aboutTheCompany.map(aboutTheCompanyToUserAnswers(_, userAnswers))
+      case LLP => notification.aboutTheLLP.map(aboutTheLLPToUserAnswers(_, userAnswers))
+      case Trust => notification.aboutTheTrust.map(aboutTheTrustToUserAnswers(_, userAnswers))
+      //TODO change this when Estate is developed
+      case Estate => None
+    }).getOrElse(Success(userAnswers))
+  }
+
+  def initialiseUserAnswers(notification: Notification): UserAnswers = {
+    import notification._
+    UserAnswers(id = userId, notificationId = notificationId, lastUpdated = lastUpdated)
+  }
+
+  def backgroundToUserAnswers(background: Background, userAnswers: UserAnswers): Try[UserAnswers] = {
+    import background._
+
+    val pages = List(
+      haveYouReceivedALetter.map(PageWithValue(ReceivedALetterPage, _)),
+      letterReferenceNumber.map(PageWithValue(LetterReferencePage, _)),
+      areYouRepresetingAnOrganisation.map(PageWithValue(AreYouRepresentingAnOrganisationPage, _)),
+      organisationName.map(PageWithValue(WhatIsTheNameOfTheOrganisationYouRepresentPage, _)),
+      offshoreLiabilities.map(PageWithValue(OffshoreLiabilitiesPage, _)),
+      onshoreLiabilities.map(PageWithValue(OnshoreLiabilitiesPage, _)) 
+    ).flatten
+
+    val disclosureEntityPages = background.disclosureEntity.map(de => entityPagesWithValues(de)).getOrElse(Nil)
+    
+    PageWithValue.pagesToUserAnswers(pages ++ disclosureEntityPages, userAnswers)
+  }
+
+  def entityPagesWithValues(disclosureEntity: DisclosureEntity): List[PageWithValue[_]] = {
+    disclosureEntity.entity match {
+      case Individual => entityToPageWithValue(RelatesTo.AnIndividual, AreYouTheIndividualPage, disclosureEntity.areYouTheEntity)
+      case Company => entityToPageWithValue(RelatesTo.ACompany, AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, disclosureEntity.areYouTheEntity)
+      case LLP => entityToPageWithValue(RelatesTo.ALimitedLiabilityPartnership, AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, disclosureEntity.areYouTheEntity)
+      case Trust => entityToPageWithValue(RelatesTo.ATrust, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, disclosureEntity.areYouTheEntity)
+      //TODO change this when Estate is developed
+      case Estate => entityToPageWithValue(RelatesTo.AnIndividual, AreYouTheIndividualPage, disclosureEntity.areYouTheEntity)
+    }
+  }
+
+  def entityToPageWithValue(relatesTo: RelatesTo, page: QuestionPage[Boolean], areYouTheEntity: Option[Boolean]): List[PageWithValue[_]] = {
+    List(Some(PageWithValue(RelatesToPage, relatesTo)), areYouTheEntity.map(PageWithValue(page, _))).flatten
+  }
+
+  def aboutYouToUserAnswers(aboutYou: AboutYou, userAnswers: UserAnswers): Try[UserAnswers] = {
+
+    import aboutYou._
+
+    val pages = List(
+      fullName.map(PageWithValue(WhatIsYourFullNamePage, _)),
+      telephoneNumber.map(PageWithValue(YourPhoneNumberPage, _)),
+      doYouHaveAEmailAddress.map(PageWithValue(DoYouHaveAnEmailAddressPage, _)),
+      emailAddress.map(PageWithValue(YourEmailAddressPage, _)),
+      dateOfBirth.map(PageWithValue(WhatIsYourDateOfBirthPage, _)),
+      mainOccupation.map(PageWithValue(WhatIsYourMainOccupationPage, _)),
+      doYouHaveANino.map(PageWithValue[DoYouHaveNationalInsuranceNumber](DoYouHaveNationalInsuranceNumberPage, _)),
+      nino.map(PageWithValue(WhatIsYourNationalInsuranceNumberPage, _)),
+      registeredForVAT.map(PageWithValue[AreYouRegisteredForVAT](AreYouRegisteredForVATPage, _)),
+      vatRegNumber.map(PageWithValue(WhatIsYourVATRegistrationNumberPage, _)),
+      registeredForSA.map(PageWithValue[AreYouRegisteredForSelfAssessment](AreYouRegisteredForSelfAssessmentPage, _)),
+      sautr.map(PageWithValue(WhatIsYourUniqueTaxReferencePage, _)),
+      address.map(PageWithValue(YourAddressLookupPage, _)) 
+    ).flatten
+    
+    PageWithValue.pagesToUserAnswers(pages, userAnswers)
+
+  }
+
+  def aboutTheIndividualToUserAnswers(aboutTheIndividual: AboutTheIndividual, userAnswers: UserAnswers): Try[UserAnswers] = {
+
+    import aboutTheIndividual._
+
+    val pages = List(
+      fullName.map(PageWithValue(WhatIsTheIndividualsFullNamePage, _)),
+      dateOfBirth.map(PageWithValue(WhatIsTheIndividualDateOfBirthControllerPage, _)),
+      mainOccupation.map(PageWithValue(WhatIsTheIndividualOccupationPage, _)),
+      doTheyHaveANino.map(PageWithValue[DoesTheIndividualHaveNationalInsuranceNumber](DoesTheIndividualHaveNationalInsuranceNumberPage, _)),
+      nino.map(PageWithValue(WhatIsIndividualsNationalInsuranceNumberPage, _)),
+      registeredForVAT.map(PageWithValue[IsTheIndividualRegisteredForVAT](IsTheIndividualRegisteredForVATPage, _)),
+      vatRegNumber.map(PageWithValue(WhatIsTheIndividualsVATRegistrationNumberPage, _)),
+      registeredForSA.map(PageWithValue[IsTheIndividualRegisteredForSelfAssessment](IsTheIndividualRegisteredForSelfAssessmentPage, _)),
+      sautr.map(PageWithValue(WhatIsTheIndividualsUniqueTaxReferencePage, _)),
+      address.map(PageWithValue(IndividualAddressLookupPage, _)) 
+    ).flatten
+    
+    PageWithValue.pagesToUserAnswers(pages, userAnswers)
+
+  }
+
+  def aboutTheCompanyToUserAnswers(aboutTheCompany: AboutTheCompany, userAnswers: UserAnswers): Try[UserAnswers] = {
+
+    import aboutTheCompany._
+
+    val pages = List(
+      name.map(PageWithValue(WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage, _)),
+      registrationNumber.map(PageWithValue(WhatIsTheCompanyRegistrationNumberPage, _)),
+      address.map(PageWithValue(CompanyAddressLookupPage, _)) 
+    ).flatten
+    
+    PageWithValue.pagesToUserAnswers(pages, userAnswers)
+
+  }
+
+  def aboutTheTrustToUserAnswers(aboutTheTrust: AboutTheTrust, userAnswers: UserAnswers): Try[UserAnswers] = {
+
+    import aboutTheTrust._
+
+    val pages = List(
+      name.map(PageWithValue(WhatIsTheTrustNamePage, _)),
+      address.map(PageWithValue(TrustAddressLookupPage, _)) 
+    ).flatten
+    
+    PageWithValue.pagesToUserAnswers(pages, userAnswers)
+
+  }
+
+
+  def aboutTheLLPToUserAnswers(aboutTheLLP: AboutTheLLP, userAnswers: UserAnswers): Try[UserAnswers] = {
+
+    import aboutTheLLP._
+
+    val pages = List(
+      name.map(PageWithValue(WhatIsTheLLPNamePage, _)),
+      address.map(PageWithValue(LLPAddressLookupPage, _)) 
+    ).flatten
+    
+    PageWithValue.pagesToUserAnswers(pages, userAnswers)
+
+  }
+
+}
+
+@ImplementedBy(classOf[NotificationDataServiceImpl])
+trait NotificationDataService {
+  def notificationToUserAnswers(notification: Notification): Try[UserAnswers] 
 }

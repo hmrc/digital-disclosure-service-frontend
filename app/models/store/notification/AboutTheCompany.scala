@@ -17,11 +17,12 @@
 package models.store.notification
 
 import play.api.libs.json.{Json, OFormat}
+import models.address.Address
 
 final case class AboutTheCompany (
   name: Option[String] = None,
   registrationNumber: Option[String] = None,
-  address: Option[String] = None
+  address: Option[Address] = None
 )
 
 object AboutTheCompany {

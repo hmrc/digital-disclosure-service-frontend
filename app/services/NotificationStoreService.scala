@@ -25,8 +25,7 @@ import com.google.inject.{Inject, Singleton, ImplementedBy}
 
 @Singleton
 class NotificationStoreServiceImpl @Inject()(
-  connector: NotificationStoreConnector,
-  notificationDataService: NotificationDataService
+  connector: NotificationStoreConnector
 ) {
 
   // def getIndividualNotification(userId: String)(implicit hc: HeaderCarrier): Future[UserAnswers] = 
