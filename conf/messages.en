@@ -764,6 +764,7 @@ notificationCYA.aboutTheLLP = About the limited liability partnership
 
 areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.title = Are you trustee of the trust that the disclosure will be about?
 areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.heading = Are you trustee of the trust that the disclosure will be about?
+areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.body = A trustee is the legal owner of the assets held in a trust.
 areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.yes = Yes, I am the trustee of the trust
 areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.no = No, I am will be making a disclosure on behalf of the trustee
 areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.no.hint = We may ask for additional evidence that you’re authorised to act for them, such as the ‘Authorising a tax agent (64-8)’ form.

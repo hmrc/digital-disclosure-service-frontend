@@ -39,7 +39,11 @@ class AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutViewSpec extends ViewSp
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.heading")
+    }
+
+    "contain body text" in {
+      view.getElementById("body").text() mustBe messages("areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.body")
     }
 
     "have yes" in {
