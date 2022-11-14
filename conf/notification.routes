@@ -211,7 +211,7 @@ POST       /trust-name                          controllers.notification.WhatIsT
 GET        /trust-name/change                   controllers.notification.WhatIsTheTrustNameController.onPageLoad(mode: Mode = CheckMode)
 POST       /trust-name/change                   controllers.notification.WhatIsTheTrustNameController.onSubmit(mode: Mode = CheckMode)
 
-GET        /are-you-the-executor                controllers.notification.AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutController.onPageLoad(mode: Mode = NormalMode)
-POST       /are-you-the-executor                controllers.notification.AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutController.onSubmit(mode: Mode = NormalMode)
-GET        /are-you-the-executor/change         controllers.notification.AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutController.onPageLoad(mode: Mode = CheckMode)
-POST       /are-you-the-executor/change         controllers.notification.AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutController.onSubmit(mode: Mode = CheckMode)
+GET        /are-you-the-executor                controllers.notification.AreYouTheExecutorOfTheEstateController.onPageLoad(mode: Mode = NormalMode)
+POST       /are-you-the-executor                controllers.notification.AreYouTheExecutorOfTheEstateController.onSubmit(mode: Mode = NormalMode)
+GET        /are-you-the-executor/change         controllers.notification.AreYouTheExecutorOfTheEstateController.onPageLoad(mode: Mode = CheckMode)
+POST       /are-you-the-executor/change         controllers.notification.AreYouTheExecutorOfTheEstateController.onSubmit(mode: Mode = CheckMode)

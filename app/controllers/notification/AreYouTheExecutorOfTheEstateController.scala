@@ -17,29 +17,29 @@
 package controllers.notification
 
 import controllers.actions._
-import forms.AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutFormProvider
+import forms.AreYouTheExecutorOfTheEstateFormProvider
 import javax.inject.Inject
 import models.Mode
 import navigation.NotificationNavigator
-import pages.AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutPage
+import pages.AreYouTheExecutorOfTheEstatePage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import views.html.notification.AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutView
+import views.html.notification.AreYouTheExecutorOfTheEstateView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutController @Inject()(
+class AreYouTheExecutorOfTheEstateController @Inject()(
                                          override val messagesApi: MessagesApi,
                                          sessionRepository: SessionRepository,
                                          navigator: NotificationNavigator,
                                          identify: IdentifierAction,
                                          getData: DataRetrievalAction,
                                          requireData: DataRequiredAction,
-                                         formProvider: AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutFormProvider,
+                                         formProvider: AreYouTheExecutorOfTheEstateFormProvider,
                                          val controllerComponents: MessagesControllerComponents,
-                                         view: AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutView
+                                         view: AreYouTheExecutorOfTheEstateView
                                  )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
@@ -47,7 +47,7 @@ class AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutCon
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val preparedForm = request.userAnswers.get(AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutPage) match {
+      val preparedForm = request.userAnswers.get(AreYouTheExecutorOfTheEstatePage) match {
         case None => form
         case Some(value) => form.fill(value)
       }
@@ -64,9 +64,9 @@ class AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutCon
 
         value =>
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutPage, value))
+            updatedAnswers <- Future.fromTry(request.userAnswers.set(AreYouTheExecutorOfTheEstatePage, value))
             _              <- sessionRepository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutPage, mode, updatedAnswers))
+          } yield Redirect(navigator.nextPage(AreYouTheExecutorOfTheEstatePage, mode, updatedAnswers))
       )
   }
 }

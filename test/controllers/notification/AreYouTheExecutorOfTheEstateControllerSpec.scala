@@ -17,43 +17,43 @@
 package controllers
 
 import base.SpecBase
-import forms.AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutFormProvider
+import forms.AreYouTheExecutorOfTheEstateFormProvider
 import models.{NormalMode, UserAnswers}
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutPage
+import pages.AreYouTheExecutorOfTheEstatePage
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import repositories.SessionRepository
-import views.html.notification.AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutView
+import views.html.notification.AreYouTheExecutorOfTheEstateView
 
 import scala.concurrent.Future
 
-class AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutControllerSpec extends SpecBase with MockitoSugar {
+class AreYouTheExecutorOfTheEstateControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  val formProvider = new AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutFormProvider()
+  val formProvider = new AreYouTheExecutorOfTheEstateFormProvider()
   val form = formProvider()
 
-  lazy val areYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutRoute = notification.routes.AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode).url
+  lazy val areYouTheExecutorOfTheEstateRoute = notification.routes.AreYouTheExecutorOfTheEstateController.onPageLoad(NormalMode).url
 
-  "AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAbout Controller" - {
+  "AreYouTheExecutorOfTheEstate Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, areYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutRoute)
+        val request = FakeRequest(GET, areYouTheExecutorOfTheEstateRoute)
 
         val result = route(application, request).value
 
-        val view = application.injector.instanceOf[AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutView]
+        val view = application.injector.instanceOf[AreYouTheExecutorOfTheEstateView]
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
@@ -62,14 +62,14 @@ class AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutCon
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutPage, true).success.value
+      val userAnswers = UserAnswers(userAnswersId).set(AreYouTheExecutorOfTheEstatePage, true).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, areYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutRoute)
+        val request = FakeRequest(GET, areYouTheExecutorOfTheEstateRoute)
 
-        val view = application.injector.instanceOf[AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutView]
+        val view = application.injector.instanceOf[AreYouTheExecutorOfTheEstateView]
 
         val result = route(application, request).value
 
@@ -94,7 +94,7 @@ class AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutCon
 
       running(application) {
         val request =
-          FakeRequest(POST, areYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutRoute)
+          FakeRequest(POST, areYouTheExecutorOfTheEstateRoute)
             .withFormUrlEncodedBody(("value", "true"))
 
         val result = route(application, request).value
@@ -110,12 +110,12 @@ class AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutCon
 
       running(application) {
         val request =
-          FakeRequest(POST, areYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutRoute)
+          FakeRequest(POST, areYouTheExecutorOfTheEstateRoute)
             .withFormUrlEncodedBody(("value", ""))
 
         val boundForm = form.bind(Map("value" -> ""))
 
-        val view = application.injector.instanceOf[AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutView]
+        val view = application.injector.instanceOf[AreYouTheExecutorOfTheEstateView]
 
         val result = route(application, request).value
 
@@ -129,7 +129,7 @@ class AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutCon
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val request = FakeRequest(GET, areYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutRoute)
+        val request = FakeRequest(GET, areYouTheExecutorOfTheEstateRoute)
 
         val result = route(application, request).value
 
@@ -144,7 +144,7 @@ class AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutCon
 
       running(application) {
         val request =
-          FakeRequest(POST, areYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutRoute)
+          FakeRequest(POST, areYouTheExecutorOfTheEstateRoute)
             .withFormUrlEncodedBody(("value", "true"))
 
         val result = route(application, request).value

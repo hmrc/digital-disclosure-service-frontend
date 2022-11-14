@@ -14,13 +14,17 @@
  * limitations under the License.
  */
 
-package pages
+package forms
 
-import play.api.libs.json.JsPath
+import javax.inject.Inject
 
-case object AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutPage extends QuestionPage[Boolean] {
+import forms.mappings.Mappings
+import play.api.data.Form
 
-  override def path: JsPath = JsPath \ toString
+class AreYouTheExecutorOfTheEstateFormProvider @Inject() extends Mappings {
 
-  override def toString: String = "areYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAbout"
+  def apply(): Form[Boolean] =
+    Form(
+      "value" -> boolean("areYouTheExecutorOfTheEstate.error.required")
+    )
 }

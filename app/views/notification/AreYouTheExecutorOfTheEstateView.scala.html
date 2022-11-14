@@ -26,24 +26,24 @@
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("areYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAbout.title"))) {
+@layout(pageTitle = title(form, messages("areYouTheExecutorOfTheEstate.title"))) {
 
-    @formHelper(action = controllers.notification.routes.AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.notification.routes.AreYouTheExecutorOfTheEstateController.onSubmit(mode), 'autoComplete -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
-        @heading(Text(messages("areYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAbout.heading")))
+        @heading(Text(messages("areYouTheExecutorOfTheEstate.heading")))
 
-        @paragraph(id = Some("body"), content = Text(messages("areYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAbout.body")))
+        @paragraph(id = Some("body"), content = Text(messages("areYouTheExecutorOfTheEstate.body")))
 
         @govukRadios(
             RadiosViewModel.yesNoNotInline(
                 field = form("value"),
-                legend = LegendViewModel(messages("areYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAbout.heading")).withCssClass("govuk-visually-hidden"),
-                messagePrefix = "areYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAbout",
-                hintForNo = Some(HintViewModel(Text(messages(s"areYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAbout.no.hint"))))
+                legend = LegendViewModel(messages("areYouTheExecutorOfTheEstate.heading")).withCssClass("govuk-visually-hidden"),
+                messagePrefix = "areYouTheExecutorOfTheEstate",
+                hintForNo = Some(HintViewModel(Text(messages(s"areYouTheExecutorOfTheEstate.no.hint"))))
             )
         )
 

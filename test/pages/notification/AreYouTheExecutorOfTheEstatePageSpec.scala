@@ -18,14 +18,14 @@ package pages
 
 import pages.behaviours.PageBehaviours
 
-class AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutPageSpec extends PageBehaviours {
+class AreYouTheExecutorOfTheEstatePageSpec extends PageBehaviours {
 
-  "AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutPage" - {
+  "AreYouTheExecutorOfTheEstatePage" - {
 
-    beRetrievable[Boolean](AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutPage)
+    beRetrievable[Boolean](AreYouTheExecutorOfTheEstatePage)
 
-    beSettable[Boolean](AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutPage)
+    beSettable[Boolean](AreYouTheExecutorOfTheEstatePage)
 
-    beRemovable[Boolean](AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutPage)
+    beRemovable[Boolean](AreYouTheExecutorOfTheEstatePage)
   }
 }

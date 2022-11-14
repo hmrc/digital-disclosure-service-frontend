@@ -19,12 +19,12 @@ package forms
 import forms.behaviours.BooleanFieldBehaviours
 import play.api.data.FormError
 
-class AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutFormProviderSpec extends BooleanFieldBehaviours {
+class AreYouTheExecutorOfTheEstateFormProviderSpec extends BooleanFieldBehaviours {
 
-  val requiredKey = "areYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAbout.error.required"
+  val requiredKey = "areYouTheExecutorOfTheEstate.error.required"
   val invalidKey = "error.boolean"
 
-  val form = new AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutFormProvider()()
+  val form = new AreYouTheExecutorOfTheEstateFormProvider()()
 
   ".value" - {
 

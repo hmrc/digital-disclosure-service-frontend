@@ -18,26 +18,34 @@ package viewmodels.checkAnswers
 
 import controllers.notification.routes
 import models.{CheckMode, UserAnswers}
-import pages.AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutPage
+import play.twirl.api.HtmlFormat
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
+import pages.AreYouTheExecutorOfTheEstatePage
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutSummary  {
+object AreYouTheExecutorOfTheEstateSummary  {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutPage).map {
+    answers.get(AreYouTheExecutorOfTheEstatePage).map {
       answer =>
 
-        val value = if (answer) "yes" else "no"
+        val answerString = if (answer) "yes" else "no"
+
+        val value = ValueViewModel(
+          HtmlContent(
+            HtmlFormat.escape(messages(s"areYouTheExecutorOfTheEstate.$answerString"))
+          )
+        )
 
         SummaryListRowViewModel(
-          key     = "areYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAbout.checkYourAnswersLabel",
-          value   = ValueViewModel(value),
+          key     = "areYouTheExecutorOfTheEstate.checkYourAnswersLabel",
+          value   = value,
           actions = Seq(
-            ActionItemViewModel("site.change", routes.AreYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("areYouTheExecutorOrAdministratorOfTheEstateThatTheDisclosureWillBeAbout.change.hidden"))
+            ActionItemViewModel("site.change", routes.AreYouTheExecutorOfTheEstateController.onPageLoad(CheckMode).url)
+              .withVisuallyHiddenText(messages("areYouTheExecutorOfTheEstate.change.hidden"))
           )
         )
     }
