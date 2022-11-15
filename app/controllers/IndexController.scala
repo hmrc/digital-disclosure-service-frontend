@@ -23,7 +23,6 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.IndexView
 import services.SessionService
-import models.UserAnswers
 
 class IndexController @Inject()(
                                 val controllerComponents: MessagesControllerComponents,

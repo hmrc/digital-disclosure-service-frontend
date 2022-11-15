@@ -22,22 +22,22 @@ import scala.concurrent.{ExecutionContext, Future}
 import com.google.inject.{Inject, Singleton, ImplementedBy}
 import repositories.SessionRepository
 import cats.implicits._
+import play.api.Logging
 
 @Singleton
 class SessionServiceImpl @Inject()(
-  sessionRepository: SessionRepository,
-  notificationStoreService: NotificationStoreService,
-  notificationDataService: NotificationDataService
-)(implicit ec: ExecutionContext) extends SessionService {
+  val sessionRepository: SessionRepository,
+  val notificationStoreService: NotificationStoreService,
+  val notificationDataService: NotificationDataService
+)(implicit ec: ExecutionContext) extends SessionService with Logging {
 
   def getSession(userId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] =
     sessionRepository.get(userId)
 
   def newSession(userId: String)(implicit hc: HeaderCarrier): Future[Boolean] =
     for {
-      uaOpt <- getIndividualNotificationUserAnswers(userId, UserAnswers.defaultNotificationId)
-      ua = uaOpt.getOrElse(UserAnswers(userId))
-      result <- set(ua)
+      uaOpt  <- getIndividualNotificationUserAnswers(userId, UserAnswers.defaultNotificationId)
+      result <- set(uaOpt.getOrElse(UserAnswers(userId)))
     } yield result
 
   def getIndividualNotificationUserAnswers(userId: String, notificationId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] = 
@@ -48,14 +48,15 @@ class SessionServiceImpl @Inject()(
 
   def set(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Boolean] =
     userAnswers.submissionType match {
-      case SubmissionType.Notification => 
-        for {
-          result <- sessionRepository.set(userAnswers)
-          _      <- notificationStoreService.setNotification(userAnswers)
-        } yield result
-      case SubmissionType.Disclosure => 
-        sessionRepository.set(userAnswers)
+      case SubmissionType.Notification => setNotification(userAnswers)
+      case SubmissionType.Disclosure => sessionRepository.set(userAnswers)
     }
+
+  def setNotification(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Boolean] =
+    for {
+      result <- sessionRepository.set(userAnswers)
+      _      <- notificationStoreService.setNotification(userAnswers)
+    } yield result
     
   def clear(id: String): Future[Boolean] = sessionRepository.clear(id)
 
