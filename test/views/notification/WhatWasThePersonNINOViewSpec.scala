@@ -49,6 +49,7 @@ class WhatWasThePersonNINOViewSpec extends ViewSpecBase with ViewMatchers {
     "have a hint" in {
       view.getElementsByClass("govuk-hint").text() mustBe messages("whatWasThePersonNINO.hint")
     }
+    
 
     "display the continue button" in {
       view.getElementsByClass("govuk-button").first() must haveId ("continue")
