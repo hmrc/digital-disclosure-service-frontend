@@ -847,3 +847,12 @@ didThePersonHaveNINO.no = No
 didThePersonHaveNINO.checkYourAnswersLabel = Did the person have a National Insurance number, as far as you’re aware?
 didThePersonHaveNINO.error.required = Select yes if the person had a National Insurance number
 didThePersonHaveNINO.change.hidden = DidThePersonHaveNINO
+
+whatWasThePersonNINO.title = What was the person’s National Insurance number?
+whatWasThePersonNINO.heading = What was the person’s National Insurance number?
+whatWasThePersonNINO.label = This is on your payslip, P60 or tax return
+whatWasThePersonNINO.hint = For example, ‘QQ123456A’.
+whatWasThePersonNINO.checkYourAnswersLabel = What was the person’s National Insurance number?
+whatWasThePersonNINO.error.required = Enter the person’s national insurance number
+whatWasThePersonNINO.error.length = The person’s national insurance number must be 9 characters or less
+whatWasThePersonNINO.change.hidden = WhatWasThePersonNINO
