@@ -23,6 +23,7 @@ class WhatIsThePersonOccupationFormProviderSpec extends StringFieldBehaviours {
 
   val requiredKey = "whatIsThePersonOccupation.error.required"
   val lengthKey = "whatIsThePersonOccupation.error.length"
+  val minLength = 4
   val maxLength = 30
 
   val form = new WhatIsThePersonOccupationFormProvider()()
@@ -34,7 +35,7 @@ class WhatIsThePersonOccupationFormProviderSpec extends StringFieldBehaviours {
     behave like fieldThatBindsValidData(
       form,
       fieldName,
-      stringsWithMaxLength(maxLength)
+      stringsWithLengthBetween(minLength, maxLength)
     )
 
     behave like fieldWithMaxLength(
@@ -42,6 +43,13 @@ class WhatIsThePersonOccupationFormProviderSpec extends StringFieldBehaviours {
       fieldName,
       maxLength = maxLength,
       lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
+    )
+
+    behave like fieldWithMinLength(
+      form,
+      fieldName,
+      minLength = minLength,
+      lengthError = FormError(fieldName, lengthKey, Seq(minLength))
     )
 
     behave like mandatoryField(
