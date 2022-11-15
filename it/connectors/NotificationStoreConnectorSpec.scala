@@ -36,9 +36,9 @@ class NotificationStoreConnectorSpec extends AnyFreeSpec with Matchers with Scal
   private lazy val app: Application =
     GuiceApplicationBuilder()
       .configure(
-        "microservice.services.digital-disclosure-service.port" -> server.port(),
-        "microservice.services.digital-disclosure-service.host" -> "localhost",
-        "microservice.services.digital-disclosure-service.protocol" -> "http",
+        "microservice.services.digital-disclosure-service-store.port" -> server.port(),
+        "microservice.services.digital-disclosure-service-store.host" -> "localhost",
+        "microservice.services.digital-disclosure-service-store.protocol" -> "http",
       )
       .build()
 
@@ -47,7 +47,7 @@ class NotificationStoreConnectorSpec extends AnyFreeSpec with Matchers with Scal
   "getNotification" - {
 
     val hc = HeaderCarrier()
-    val url = "/notification/userId/123/id/456"
+    val url = "/digital-disclosure-service-store/notification/user/123/id/456"
 
     val testNotification = Notification("123", "456", Instant.now(), Metadata(), Background(), AboutYou())
 
@@ -112,7 +112,7 @@ class NotificationStoreConnectorSpec extends AnyFreeSpec with Matchers with Scal
   "getAllNotifications" - {
 
     val hc = HeaderCarrier()
-    val url = "/notification/userId/123"
+    val url = "/digital-disclosure-service-store/notification/user/123"
 
     val testNotification = Notification("123", "456", Instant.now(), Metadata(), Background(), AboutYou())
 
@@ -177,7 +177,7 @@ class NotificationStoreConnectorSpec extends AnyFreeSpec with Matchers with Scal
   "setNotification" - {
 
     val hc = HeaderCarrier()
-    val url = "/notification"
+    val url = "/digital-disclosure-service-store/notification"
 
     val testNotification = Notification("123", "456", Instant.now(), Metadata(), Background(), AboutYou())
 
@@ -224,7 +224,7 @@ class NotificationStoreConnectorSpec extends AnyFreeSpec with Matchers with Scal
   "deleteNotification" - {
 
     val hc = HeaderCarrier()
-    val url = "/notification/userId/123/id/456"
+    val url = "/digital-disclosure-service-store/notification/user/123/id/456"
 
     "must return a successful future when the store responds with NO_CONTENT" in {
 

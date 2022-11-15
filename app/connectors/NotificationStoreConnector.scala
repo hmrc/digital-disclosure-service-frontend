@@ -95,7 +95,7 @@ class NotificationStoreConnectorImpl @Inject() (
 
   def deleteNotification(userId: String, notificationId: String)(implicit hc: HeaderCarrier): Future[Result] = {
     httpClient
-      .delete(url"$baseUrl/user/$userId/id/$notificationId")
+      .delete(url"$baseUrl/notification/user/$userId/id/$notificationId")
       .execute
       .flatMap { response =>
         if (response.status == NO_CONTENT) {

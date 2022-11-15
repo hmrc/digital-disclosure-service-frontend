@@ -22,16 +22,20 @@ import models.requests.{IdentifierRequest, OptionalDataRequest}
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.FakeRequest
-import repositories.SessionRepository
+import services.SessionService
+import org.mockito.ArgumentMatchers.{refEq, any}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import uk.gov.hmrc.http.HeaderCarrier
 
 class DataRetrievalActionSpec extends SpecBase with MockitoSugar {
 
-  class Harness(sessionRepository: SessionRepository) extends DataRetrievalActionImpl(sessionRepository) {
+  class Harness(sessionService: SessionService) extends DataRetrievalActionImpl(sessionService) {
     def callTransform[A](request: IdentifierRequest[A]): Future[OptionalDataRequest[A]] = transform(request)
   }
+
+  implicit val hc = HeaderCarrier()
 
   "Data Retrieval Action" - {
 
@@ -39,9 +43,9 @@ class DataRetrievalActionSpec extends SpecBase with MockitoSugar {
 
       "must set userAnswers to 'None' in the request" in {
 
-        val sessionRepository = mock[SessionRepository]
-        when(sessionRepository.get("id")) thenReturn Future(None)
-        val action = new Harness(sessionRepository)
+        val sessionService = mock[SessionService]
+        when(sessionService.getSession(refEq("id"))(any())) thenReturn Future(None)
+        val action = new Harness(sessionService)
 
         val result = action.callTransform(IdentifierRequest(FakeRequest(), "id")).futureValue
 
@@ -53,9 +57,9 @@ class DataRetrievalActionSpec extends SpecBase with MockitoSugar {
 
       "must build a userAnswers object and add it to the request" in {
 
-        val sessionRepository = mock[SessionRepository]
-        when(sessionRepository.get("id")) thenReturn Future(Some(UserAnswers("id")))
-        val action = new Harness(sessionRepository)
+        val sessionService = mock[SessionService]
+        when(sessionService.getSession(refEq("id"))(any())) thenReturn Future(Some(UserAnswers("id")))
+        val action = new Harness(sessionService)
 
         val result = action.callTransform(new IdentifierRequest(FakeRequest(), "id")).futureValue
 

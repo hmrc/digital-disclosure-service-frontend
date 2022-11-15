@@ -22,21 +22,22 @@ import models.store.notification._
 import play.api.mvc.Result
 import connectors.NotificationStoreConnector
 import com.google.inject.{Inject, Singleton, ImplementedBy}
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
 import models.UserAnswers
 
 @Singleton
 class NotificationStoreServiceImpl @Inject()(
   connector: NotificationStoreConnector,
   storeDataService: StoreDataService
-)(implicit ec: ExecutionContext) extends NotificationStoreService {
-
-  def getIndividualNotification(userId: String)(implicit hc: HeaderCarrier): Future[Option[Notification]] = 
-    getAllNotifications(userId).map(_.headOption)
+) extends NotificationStoreService {
 
   def setNotification(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Result] = {
     val notification = storeDataService.userAnswersToNotification(userAnswers)
     setNotification(notification)
+  }
+
+  def setNotification(notification: Notification)(implicit hc: HeaderCarrier): Future[Result] = {
+    connector.setNotification(notification)
   }
 
   def getNotification(userId: String, notificationId: String)(implicit hc: HeaderCarrier): Future[Option[Notification]] = {
@@ -47,10 +48,6 @@ class NotificationStoreServiceImpl @Inject()(
     connector.getAllNotifications(userId)
   }
 
-  def setNotification(notification: Notification)(implicit hc: HeaderCarrier): Future[Result] = {
-    connector.setNotification(notification)
-  }
-
   def deleteNotification(userId: String, notificationId: String)(implicit hc: HeaderCarrier): Future[Result] = {
     connector.deleteNotification(userId, notificationId)
   }
@@ -58,7 +55,6 @@ class NotificationStoreServiceImpl @Inject()(
 
 @ImplementedBy(classOf[NotificationStoreServiceImpl])
 trait NotificationStoreService {
-  def getIndividualNotification(userId: String)(implicit hc: HeaderCarrier): Future[Option[Notification]]
   def setNotification(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Result]
   def getNotification(userId: String, notificationId: String)(implicit hc: HeaderCarrier): Future[Option[Notification]]
 }

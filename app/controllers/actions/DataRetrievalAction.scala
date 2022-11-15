@@ -19,7 +19,6 @@ package controllers.actions
 import javax.inject.Inject
 import models.requests.{IdentifierRequest, OptionalDataRequest}
 import play.api.mvc.ActionTransformer
-import services.NotificationStoreService
 import uk.gov.hmrc.play.http.HeaderCarrierConverter
 import uk.gov.hmrc.http.HeaderCarrier
 import services.SessionService
