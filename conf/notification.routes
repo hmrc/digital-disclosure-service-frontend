@@ -230,3 +230,8 @@ GET        /estates-individual-date-of-birth                    controllers.noti
 POST       /estates-individual-date-of-birth                    controllers.notification.WhatWasThePersonDateOfBirthController.onSubmit(mode: Mode = NormalMode)
 GET        /estates-individual-date-of-birth/change             controllers.notification.WhatWasThePersonDateOfBirthController.onPageLoad(mode: Mode = CheckMode)
 POST       /estates-individual-date-of-birth/change             controllers.notification.WhatWasThePersonDateOfBirthController.onSubmit(mode: Mode = CheckMode)
+
+GET        /estates-have-national-insurance-number              controllers.notification.DidThePersonHaveNINOController.onPageLoad(mode: Mode = NormalMode)
+POST       /estates-have-national-insurance-number              controllers.notification.DidThePersonHaveNINOController.onSubmit(mode: Mode = NormalMode)
+GET        /estates-have-national-insurance-number/change       controllers.notification.DidThePersonHaveNINOController.onPageLoad(mode: Mode = CheckMode)
+POST       /estates-have-national-insurance-number/change       controllers.notification.DidThePersonHaveNINOController.onSubmit(mode: Mode = CheckMode)

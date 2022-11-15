@@ -838,3 +838,12 @@ whatWasThePersonDateOfBirth.error.invalidDay = Enter a real date of birth - a mo
 whatWasThePersonDateOfBirth.error.invalidMonth = Enter a real date of birth - there are only 12 months in a year
 whatWasThePersonDateOfBirth.error.invalidFutureDateOfBirth = Date of birth must be in the past
 whatWasThePersonDateOfBirth.change.hidden = WhatWasThePersonDateOfBirth
+
+didThePersonHaveNINO.title = Did the person have a National Insurance number, as far as you’re aware?
+didThePersonHaveNINO.heading = Did the person have a National Insurance number, as far as you’re aware?
+didThePersonHaveNINO.yesIKnow = Yes, and I know their National Insurance number
+didThePersonHaveNINO.yesButIDontKnow = Yes, but I do not know their National Insurance number
+didThePersonHaveNINO.no = No
+didThePersonHaveNINO.checkYourAnswersLabel = Did the person have a National Insurance number, as far as you’re aware?
+didThePersonHaveNINO.error.required = Select yes if the person had a National Insurance number
+didThePersonHaveNINO.change.hidden = DidThePersonHaveNINO
