@@ -50,7 +50,13 @@ class NotificationDataServiceImpl extends NotificationDataService {
 
   def initialiseUserAnswers(notification: Notification): UserAnswers = {
     import notification._
-    UserAnswers(id = userId, notificationId = notificationId, lastUpdated = lastUpdated)
+
+    UserAnswers(
+      id = userId, 
+      notificationId = notificationId, 
+      submissionType = SubmissionType.Notification, 
+      lastUpdated = lastUpdated
+    )
   }
 
   def backgroundToUserAnswers(background: Background, userAnswers: UserAnswers): Try[UserAnswers] = {

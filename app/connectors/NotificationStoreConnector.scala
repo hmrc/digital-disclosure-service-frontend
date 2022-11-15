@@ -31,19 +31,21 @@ import models.store.notification._
 import play.api.mvc.Result
 import play.api.mvc.Results.NoContent
 import java.time.Clock
+import play.api.Logging
 
 @Singleton
 class NotificationStoreConnectorImpl @Inject() (
                                 httpClient: HttpClientV2,
                                 configuration: Configuration,
                                 clock: Clock
-                              )(implicit ec: ExecutionContext) extends NotificationStoreConnector {
+                              )(implicit ec: ExecutionContext) extends NotificationStoreConnector with Logging {
 
-  private val service: Service = configuration.get[Service]("microservice.services.digital-disclosure-service")
+  private val service: Service = configuration.get[Service]("microservice.services.digital-disclosure-service-store")
+  private val baseUrl = s"${service.baseUrl}/digital-disclosure-service-store"
 
   def getNotification(userId: String, notificationId: String)(implicit hc: HeaderCarrier): Future[Option[Notification]] = {
     httpClient
-      .get(url"${service.baseUrl}/notification/userId/$userId/id/$notificationId")
+      .get(url"$baseUrl/notification/user/$userId/id/$notificationId")
       .execute
       .flatMap { response =>
         if (response.status == OK) {
@@ -61,7 +63,7 @@ class NotificationStoreConnectorImpl @Inject() (
 
   def getAllNotifications(userId: String)(implicit hc: HeaderCarrier): Future[Seq[Notification]] = {
     httpClient
-      .get(url"${service.baseUrl}/notification/userId/$userId")
+      .get(url"$baseUrl/notification/user/$userId")
       .execute
       .flatMap { response =>
         if (response.status == OK) {
@@ -79,7 +81,7 @@ class NotificationStoreConnectorImpl @Inject() (
 
   def setNotification(notification: Notification)(implicit hc: HeaderCarrier): Future[Result] = {
     httpClient
-      .put(url"${service.baseUrl}/notification")
+      .put(url"$baseUrl/notification")
       .withBody(Json.toJson(notification))
       .execute
       .flatMap { response =>
@@ -93,7 +95,7 @@ class NotificationStoreConnectorImpl @Inject() (
 
   def deleteNotification(userId: String, notificationId: String)(implicit hc: HeaderCarrier): Future[Result] = {
     httpClient
-      .delete(url"${service.baseUrl}/notification/userId/$userId/id/$notificationId")
+      .delete(url"$baseUrl/user/$userId/id/$notificationId")
       .execute
       .flatMap { response =>
         if (response.status == NO_CONTENT) {

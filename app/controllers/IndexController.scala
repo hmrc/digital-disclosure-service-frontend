@@ -22,7 +22,7 @@ import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.IndexView
-import repositories.SessionRepository
+import services.SessionService
 import models.UserAnswers
 
 class IndexController @Inject()(
@@ -30,13 +30,13 @@ class IndexController @Inject()(
                                 identify: IdentifierAction,
                                 getData: DataRetrievalAction,
                                 view: IndexView,
-                                sessionRepository: SessionRepository
+                                sessionService: SessionService
                                ) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData) { implicit request =>
 
     request.userAnswers match {
-      case None => sessionRepository.set(UserAnswers(request.userId))
+      case None => sessionService.newSession(request.userId)
       case _ => ()
     }
 

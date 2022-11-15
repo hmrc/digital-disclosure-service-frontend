@@ -24,7 +24,7 @@ import navigation.NotificationNavigator
 import pages.WhatIsThePersonOccupationPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import repositories.SessionRepository
+import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.notification.WhatIsThePersonOccupationView
 
@@ -32,7 +32,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class WhatIsThePersonOccupationController @Inject()(
                                         override val messagesApi: MessagesApi,
-                                        sessionRepository: SessionRepository,
+                                        sessionService: SessionService,
                                         navigator: NotificationNavigator,
                                         identify: IdentifierAction,
                                         getData: DataRetrievalAction,
@@ -65,7 +65,7 @@ class WhatIsThePersonOccupationController @Inject()(
         value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(WhatIsThePersonOccupationPage, value))
-            _              <- sessionRepository.set(updatedAnswers)
+            _              <- sessionService.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(WhatIsThePersonOccupationPage, mode, updatedAnswers))
       )
   }

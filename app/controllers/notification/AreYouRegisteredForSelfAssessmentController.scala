@@ -24,7 +24,7 @@ import navigation.NotificationNavigator
 import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import repositories.SessionRepository
+import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.notification.AreYouRegisteredForSelfAssessmentView
 
@@ -32,7 +32,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class AreYouRegisteredForSelfAssessmentController @Inject()(
                                        override val messagesApi: MessagesApi,
-                                       sessionRepository: SessionRepository,
+                                       sessionService: SessionService,
                                        navigator: NotificationNavigator,
                                        identify: IdentifierAction,
                                        getData: DataRetrievalAction,
@@ -69,7 +69,7 @@ class AreYouRegisteredForSelfAssessmentController @Inject()(
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AreYouRegisteredForSelfAssessmentPage, value))
             clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
-            _              <- sessionRepository.set(clearedAnswers)
+            _              <- sessionService.set(clearedAnswers)
           } yield Redirect(navigator.nextPage(AreYouRegisteredForSelfAssessmentPage, mode, clearedAnswers, hasValueChanged))
         }
       )

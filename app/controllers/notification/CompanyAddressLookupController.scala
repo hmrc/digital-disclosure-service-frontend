@@ -24,7 +24,7 @@ import navigation.NotificationNavigator
 import pages.CompanyAddressLookupPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import repositories.SessionRepository
+import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import services.AddressLookupService
 import play.api.mvc.{Call, Result}
@@ -36,7 +36,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class CompanyAddressLookupController @Inject()(
                                         override val messagesApi: MessagesApi,
-                                        sessionRepository: SessionRepository,
+                                        sessionService: SessionService,
                                         navigator: NotificationNavigator,
                                         identify: IdentifierAction,
                                         getData: DataRetrievalAction,
@@ -73,7 +73,7 @@ class CompanyAddressLookupController @Inject()(
       },
       address => for {
         updatedAnswers <- Future.fromTry(request.userAnswers.set(CompanyAddressLookupPage, address))
-        _              <- sessionRepository.set(updatedAnswers)
+        _              <- sessionService.set(updatedAnswers)
       } yield Redirect(navigator.nextPage(CompanyAddressLookupPage, mode, updatedAnswers))
     ).flatten
 }

@@ -22,19 +22,22 @@ import models.store.notification._
 import play.api.mvc.Result
 import connectors.NotificationStoreConnector
 import com.google.inject.{Inject, Singleton, ImplementedBy}
+import scala.concurrent.{ExecutionContext, Future}
+import models.UserAnswers
 
 @Singleton
 class NotificationStoreServiceImpl @Inject()(
-  connector: NotificationStoreConnector
-) {
+  connector: NotificationStoreConnector,
+  storeDataService: StoreDataService
+)(implicit ec: ExecutionContext) extends NotificationStoreService {
 
-  // def getIndividualNotification(userId: String)(implicit hc: HeaderCarrier): Future[UserAnswers] = 
-  //   getAllNotifications(userId).map(
-  //     _.match {
-  //       case Nil => UserAnswers(userId)
-  //       case head :: _ => notificationDataService.notificationToUserAnswers(head)
-  //     }
-  //   )
+  def getIndividualNotification(userId: String)(implicit hc: HeaderCarrier): Future[Option[Notification]] = 
+    getAllNotifications(userId).map(_.headOption)
+
+  def setNotification(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Result] = {
+    val notification = storeDataService.userAnswersToNotification(userAnswers)
+    setNotification(notification)
+  }
 
   def getNotification(userId: String, notificationId: String)(implicit hc: HeaderCarrier): Future[Option[Notification]] = {
     connector.getNotification(userId, notificationId)
@@ -55,9 +58,7 @@ class NotificationStoreServiceImpl @Inject()(
 
 @ImplementedBy(classOf[NotificationStoreServiceImpl])
 trait NotificationStoreService {
-  //def getIndividualNotification(userId: String)(implicit hc: HeaderCarrier): Future[UserAnswers]
+  def getIndividualNotification(userId: String)(implicit hc: HeaderCarrier): Future[Option[Notification]]
+  def setNotification(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Result]
   def getNotification(userId: String, notificationId: String)(implicit hc: HeaderCarrier): Future[Option[Notification]]
-  def getAllNotifications(userId: String)(implicit hc: HeaderCarrier): Future[Seq[Notification]]
-  def setNotification(notification: Notification)(implicit hc: HeaderCarrier): Future[Result]
-  def deleteNotification(userId: String, notificationId: String)(implicit hc: HeaderCarrier): Future[Result]
 }
