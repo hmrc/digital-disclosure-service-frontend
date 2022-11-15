@@ -187,6 +187,8 @@ class NotificationNavigator @Inject()() {
         case None => routes.AreYouTheExecutorOfTheEstateController.onPageLoad(NormalMode)
       }
 
+    case WhatWasTheNameOfThePersonWhoDiedPage => _ => routes.WhatWasThePersonDateOfBirthController.onPageLoad(NormalMode)
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
