@@ -14,21 +14,19 @@
  * limitations under the License.
  */
 
-package forms
+package pages
 
-import javax.inject.Inject
+import models.DidThePersonHaveNINO
+import pages.behaviours.PageBehaviours
 
-import forms.mappings.Mappings
-import play.api.data.Form
+class DidThePersonHaveNINOSpec extends PageBehaviours {
 
-class WhatWasThePersonOccupationFormProvider @Inject() extends Mappings {
+  "DidThePersonHaveNINOPage" - {
 
-  def apply(): Form[String] =
-    Form(
-      "value" -> text("whatWasThePersonOccupation.error.required")
-        .verifying(
-          minLength(4, "whatWasThePersonOccupation.error.length"),
-          maxLength(30, "whatWasThePersonOccupation.error.length")
-        )
-    )
+    beRetrievable[DidThePersonHaveNINO](DidThePersonHaveNINOPage)
+
+    beSettable[DidThePersonHaveNINO](DidThePersonHaveNINOPage)
+
+    beRemovable[DidThePersonHaveNINO](DidThePersonHaveNINOPage)
+  }
 }

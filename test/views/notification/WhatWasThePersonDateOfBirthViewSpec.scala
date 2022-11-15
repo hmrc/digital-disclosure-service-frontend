@@ -17,16 +17,16 @@
 package views.notification
 
 import base.ViewSpecBase
-import forms.WhatIsThePersonOccupationFormProvider
+import forms.WhatWasThePersonDateOfBirthFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
-import views.html.notification.WhatIsThePersonOccupationView
+import views.html.notification.WhatWasThePersonDateOfBirthView
 import models.NormalMode
 
-class WhatIsThePersonOccupationViewSpec extends ViewSpecBase with ViewMatchers {
+class WhatWasThePersonDateOfBirthViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhatIsThePersonOccupationFormProvider()()
-  val page: WhatIsThePersonOccupationView = inject[WhatIsThePersonOccupationView]
+  val form = new WhatWasThePersonDateOfBirthFormProvider()()
+  val page: WhatWasThePersonDateOfBirthView = inject[WhatWasThePersonDateOfBirthView]
 
   private def createView: Html = page(form, NormalMode)(request, messages)
 
@@ -35,19 +35,21 @@ class WhatIsThePersonOccupationViewSpec extends ViewSpecBase with ViewMatchers {
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("whatIsThePersonOccupation.title"))
+      view.select("title").text() must include(messages("whatWasThePersonDateOfBirth.title"))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-label--xl").text() mustBe messages("whatIsThePersonOccupation.heading")
+      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("whatWasThePersonDateOfBirth.heading")
     }
 
-    "have a text input" in {
-      view.getElementsByClass("govuk-input").first must haveClass("govuk-!-width-full")
+    "contain hint" in {
+      view.getElementsByClass("govuk-hint").text() mustBe messages("whatWasThePersonDateOfBirth.hint")
     }
 
-    "have a hint" in {
-      view.getElementsByClass("govuk-hint").text() mustBe messages("whatIsThePersonOccupation.hint")
+    "contain day, month & year" in {
+      view.getElementsByClass("govuk-date-input__item").get(0).text() mustBe messages("date.day")
+      view.getElementsByClass("govuk-date-input__item").get(1).text() mustBe messages("date.month")
+      view.getElementsByClass("govuk-date-input__item").get(2).text() mustBe messages("date.year")
     }
 
     "display the continue button" in {

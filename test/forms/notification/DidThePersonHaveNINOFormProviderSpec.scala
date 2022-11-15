@@ -16,32 +16,24 @@
 
 package forms
 
-import forms.behaviours.StringFieldBehaviours
+import forms.behaviours.OptionFieldBehaviours
+import models.DidThePersonHaveNINO
 import play.api.data.FormError
 
-class WhatIsThePersonOccupationFormProviderSpec extends StringFieldBehaviours {
+class DidThePersonHaveNINOFormProviderSpec extends OptionFieldBehaviours {
 
-  val requiredKey = "whatIsThePersonOccupation.error.required"
-  val lengthKey = "whatIsThePersonOccupation.error.length"
-  val maxLength = 30
-
-  val form = new WhatIsThePersonOccupationFormProvider()()
+  val form = new DidThePersonHaveNINOFormProvider()()
 
   ".value" - {
 
     val fieldName = "value"
+    val requiredKey = "didThePersonHaveNINO.error.required"
 
-    behave like fieldThatBindsValidData(
+    behave like optionsField[DidThePersonHaveNINO](
       form,
       fieldName,
-      stringsWithMaxLength(maxLength)
-    )
-
-    behave like fieldWithMaxLength(
-      form,
-      fieldName,
-      maxLength = maxLength,
-      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
+      validValues  = DidThePersonHaveNINO.values,
+      invalidError = FormError(fieldName, "error.invalid")
     )
 
     behave like mandatoryField(

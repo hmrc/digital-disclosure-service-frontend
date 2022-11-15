@@ -14,21 +14,25 @@
  * limitations under the License.
  */
 
-package forms
+package pages
 
-import javax.inject.Inject
+import java.time.LocalDate
 
-import forms.mappings.Mappings
-import play.api.data.Form
+import org.scalacheck.Arbitrary
+import pages.behaviours.PageBehaviours
 
-class WhatWasThePersonOccupationFormProvider @Inject() extends Mappings {
+class WhatWasThePersonDateOfBirthPageSpec extends PageBehaviours {
 
-  def apply(): Form[String] =
-    Form(
-      "value" -> text("whatWasThePersonOccupation.error.required")
-        .verifying(
-          minLength(4, "whatWasThePersonOccupation.error.length"),
-          maxLength(30, "whatWasThePersonOccupation.error.length")
-        )
-    )
+  "WhatWasThePersonDateOfBirthPage" - {
+
+    implicit lazy val arbitraryLocalDate: Arbitrary[LocalDate] = Arbitrary {
+      datesBetween(LocalDate.of(1900, 1, 1), LocalDate.of(2100, 1, 1))
+    }
+
+    beRetrievable[LocalDate](WhatWasThePersonDateOfBirthPage)
+
+    beSettable[LocalDate](WhatWasThePersonDateOfBirthPage)
+
+    beRemovable[LocalDate](WhatWasThePersonDateOfBirthPage)
+  }
 }

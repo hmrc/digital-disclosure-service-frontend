@@ -41,6 +41,7 @@ class NotificationNavigator @Inject()() {
       case Some(RelatesTo.ACompany) => routes.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode)
       case Some(RelatesTo.ALimitedLiabilityPartnership) => routes.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode)
       case Some(RelatesTo.ATrust) => routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode)
+      case Some(RelatesTo.AnEstate) => routes.AreYouTheExecutorOfTheEstateController.onPageLoad(NormalMode)
       case _ => routes.RelatesToController.onPageLoad(NormalMode)
     }
 
@@ -180,6 +181,16 @@ class NotificationNavigator @Inject()() {
 
     case TrustAddressLookupPage => _ => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
 
+    case AreYouTheExecutorOfTheEstatePage => ua => ua.get(AreYouTheExecutorOfTheEstatePage) match {
+        case Some(true) => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
+        case Some(false) => routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode)
+        case None => routes.AreYouTheExecutorOfTheEstateController.onPageLoad(NormalMode)
+      }
+
+    case WhatWasTheNameOfThePersonWhoDiedPage => _ => routes.WhatWasThePersonDateOfBirthController.onPageLoad(NormalMode)
+
+    case WhatWasThePersonDateOfBirthPage => _ => routes.WhatWasThePersonOccupationController.onPageLoad(NormalMode)
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
@@ -265,6 +276,7 @@ class NotificationNavigator @Inject()() {
       case (Some(RelatesTo.ACompany), _) => controllers.notification.routes.WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutController.onPageLoad(NormalMode)
       case (Some(RelatesTo.ALimitedLiabilityPartnership), _) => controllers.notification.routes.WhatIsTheLLPNameController.onPageLoad(NormalMode)
       case (Some(RelatesTo.ATrust), _) => controllers.notification.routes.WhatIsTheTrustNameController.onPageLoad(NormalMode)
+      case (Some(RelatesTo.AnEstate), _) => controllers.notification.routes.WhatWasTheNameOfThePersonWhoDiedController.onPageLoad(NormalMode)
       case _ => controllers.notification.routes.RelatesToController.onPageLoad(NormalMode)
     }
   }

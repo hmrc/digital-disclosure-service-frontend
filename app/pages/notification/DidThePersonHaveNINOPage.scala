@@ -14,21 +14,14 @@
  * limitations under the License.
  */
 
-package forms
+package pages
 
-import javax.inject.Inject
+import models.DidThePersonHaveNINO
+import play.api.libs.json.JsPath
 
-import forms.mappings.Mappings
-import play.api.data.Form
+case object DidThePersonHaveNINOPage extends QuestionPage[DidThePersonHaveNINO] {
 
-class WhatWasThePersonOccupationFormProvider @Inject() extends Mappings {
+  override def path: JsPath = JsPath \ toString
 
-  def apply(): Form[String] =
-    Form(
-      "value" -> text("whatWasThePersonOccupation.error.required")
-        .verifying(
-          minLength(4, "whatWasThePersonOccupation.error.length"),
-          maxLength(30, "whatWasThePersonOccupation.error.length")
-        )
-    )
+  override def toString: String = "didThePersonHaveNINO"
 }

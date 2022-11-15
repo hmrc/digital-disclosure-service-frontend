@@ -17,43 +17,43 @@
 package controllers
 
 import base.SpecBase
-import forms.WhatIsYourVATRegistrationNumberFormProvider
-import models.{NormalMode, UserAnswers}
+import forms.DidThePersonHaveNINOFormProvider
+import models.{NormalMode, DidThePersonHaveNINO, UserAnswers}
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.WhatIsYourVATRegistrationNumberPage
+import pages.DidThePersonHaveNINOPage
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
-import views.html.notification.WhatIsYourVATRegistrationNumberView
+import repositories.SessionRepository
+import views.html.notification.DidThePersonHaveNINOView
 
 import scala.concurrent.Future
 
-class WhatIsYourVATRegistrationNumberControllerSpec extends SpecBase with MockitoSugar {
+class DidThePersonHaveNINOControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  val formProvider = new WhatIsYourVATRegistrationNumberFormProvider()
+  lazy val didThePersonHaveNINORoute = notification.routes.DidThePersonHaveNINOController.onPageLoad(NormalMode).url
+
+  val formProvider = new DidThePersonHaveNINOFormProvider()
   val form = formProvider()
 
-  lazy val whatIsYourVATRegistrationNumberRoute = notification.routes.WhatIsYourVATRegistrationNumberController.onPageLoad(NormalMode).url
-
-  "WhatIsYourVATRegistrationNumber Controller" - {
+  "DidThePersonHaveNINO Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, whatIsYourVATRegistrationNumberRoute)
+        val request = FakeRequest(GET, didThePersonHaveNINORoute)
 
         val result = route(application, request).value
 
-        val view = application.injector.instanceOf[WhatIsYourVATRegistrationNumberView]
+        val view = application.injector.instanceOf[DidThePersonHaveNINOView]
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
@@ -62,41 +62,40 @@ class WhatIsYourVATRegistrationNumberControllerSpec extends SpecBase with Mockit
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(WhatIsYourVATRegistrationNumberPage, "answer").success.value
+      val userAnswers = UserAnswers(userAnswersId).set(DidThePersonHaveNINOPage, DidThePersonHaveNINO.values.head).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, whatIsYourVATRegistrationNumberRoute)
+        val request = FakeRequest(GET, didThePersonHaveNINORoute)
 
-        val view = application.injector.instanceOf[WhatIsYourVATRegistrationNumberView]
+        val view = application.injector.instanceOf[DidThePersonHaveNINOView]
 
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill("answer"), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(DidThePersonHaveNINO.values.head), NormalMode)(request, messages(application)).toString
       }
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      val mockSessionService = mock[SessionService]
+      val mockSessionRepository = mock[SessionRepository]
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
-
-      val validVAT = generateValidVAT().sample.value
+      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
 
       val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
+        applicationBuilder(userAnswers = Some(emptyUserAnswers))
           .overrides(
-            bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
+            bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute)),
+            bind[SessionRepository].toInstance(mockSessionRepository)
           )
           .build()
 
       running(application) {
         val request =
-          FakeRequest(POST, whatIsYourVATRegistrationNumberRoute)
-            .withFormUrlEncodedBody(("value", validVAT))
+          FakeRequest(POST, didThePersonHaveNINORoute)
+            .withFormUrlEncodedBody(("value", DidThePersonHaveNINO.values.head.toString))
 
         val result = route(application, request).value
 
@@ -111,12 +110,12 @@ class WhatIsYourVATRegistrationNumberControllerSpec extends SpecBase with Mockit
 
       running(application) {
         val request =
-          FakeRequest(POST, whatIsYourVATRegistrationNumberRoute)
-            .withFormUrlEncodedBody(("value", ""))
+          FakeRequest(POST, didThePersonHaveNINORoute)
+            .withFormUrlEncodedBody(("value", "invalid value"))
 
-        val boundForm = form.bind(Map("value" -> ""))
+        val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[WhatIsYourVATRegistrationNumberView]
+        val view = application.injector.instanceOf[DidThePersonHaveNINOView]
 
         val result = route(application, request).value
 
@@ -125,33 +124,34 @@ class WhatIsYourVATRegistrationNumberControllerSpec extends SpecBase with Mockit
       }
     }
 
-    "must redirect to Index for a GET if no existing data is found" in {
+    "must redirect to Journey Recovery for a GET if no existing data is found" in {
 
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val request = FakeRequest(GET, whatIsYourVATRegistrationNumberRoute)
+        val request = FakeRequest(GET, didThePersonHaveNINORoute)
 
         val result = route(application, request).value
 
         status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
+        redirectLocation(result).value mustEqual routes.JourneyRecoveryController.onPageLoad().url
       }
     }
 
-    "must redirect to Index for a POST if no existing data is found" in {
+    "redirect to Journey Recovery for a POST if no existing data is found" in {
 
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
         val request =
-          FakeRequest(POST, whatIsYourVATRegistrationNumberRoute)
-            .withFormUrlEncodedBody(("value", "answer"))
+          FakeRequest(POST, didThePersonHaveNINORoute)
+            .withFormUrlEncodedBody(("value", DidThePersonHaveNINO.values.head.toString))
 
         val result = route(application, request).value
 
         status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
+
+        redirectLocation(result).value mustEqual routes.JourneyRecoveryController.onPageLoad().url
       }
     }
   }

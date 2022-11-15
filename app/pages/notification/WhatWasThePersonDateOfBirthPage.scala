@@ -14,21 +14,15 @@
  * limitations under the License.
  */
 
-package forms
+package pages
 
-import javax.inject.Inject
+import java.time.LocalDate
 
-import forms.mappings.Mappings
-import play.api.data.Form
+import play.api.libs.json.JsPath
 
-class WhatWasThePersonOccupationFormProvider @Inject() extends Mappings {
+case object WhatWasThePersonDateOfBirthPage extends QuestionPage[LocalDate] {
 
-  def apply(): Form[String] =
-    Form(
-      "value" -> text("whatWasThePersonOccupation.error.required")
-        .verifying(
-          minLength(4, "whatWasThePersonOccupation.error.length"),
-          maxLength(30, "whatWasThePersonOccupation.error.length")
-        )
-    )
+  override def path: JsPath = JsPath \ toString
+
+  override def toString: String = "whatWasThePersonDateOfBirth"
 }

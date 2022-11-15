@@ -84,8 +84,7 @@ class WhatIsTheIndividualsVATRegistrationNumberControllerSpec extends SpecBase w
 
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
 
-      val vatLength = 9
-      val validVAT = generateValidVAT(vatLength).sample.value
+      val validVAT = generateValidVAT().sample.value
 
       val application =
         applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)

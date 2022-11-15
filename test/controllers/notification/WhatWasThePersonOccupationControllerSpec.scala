@@ -17,43 +17,43 @@
 package controllers
 
 import base.SpecBase
-import forms.WhatIsThePersonOccupationFormProvider
+import forms.WhatWasThePersonOccupationFormProvider
 import models.{NormalMode, UserAnswers}
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.WhatIsThePersonOccupationPage
+import pages.WhatWasThePersonOccupationPage
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
-import views.html.notification.WhatIsThePersonOccupationView
+import repositories.SessionRepository
+import views.html.notification.WhatWasThePersonOccupationView
 
 import scala.concurrent.Future
 
-class WhatIsThePersonOccupationControllerSpec extends SpecBase with MockitoSugar {
+class WhatWasThePersonOccupationControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  val formProvider = new WhatIsThePersonOccupationFormProvider()
+  val formProvider = new WhatWasThePersonOccupationFormProvider()
   val form = formProvider()
 
-  lazy val whatIsThePersonOccupationRoute = notification.routes.WhatIsThePersonOccupationController.onPageLoad(NormalMode).url
+  lazy val whatWasThePersonOccupationRoute = notification.routes.WhatWasThePersonOccupationController.onPageLoad(NormalMode).url
 
-  "WhatIsThePersonOccupation Controller" - {
+  "WhatWasThePersonOccupation Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, whatIsThePersonOccupationRoute)
+        val request = FakeRequest(GET, whatWasThePersonOccupationRoute)
 
         val result = route(application, request).value
 
-        val view = application.injector.instanceOf[WhatIsThePersonOccupationView]
+        val view = application.injector.instanceOf[WhatWasThePersonOccupationView]
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
@@ -62,14 +62,14 @@ class WhatIsThePersonOccupationControllerSpec extends SpecBase with MockitoSugar
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(WhatIsThePersonOccupationPage, "answer").success.value
+      val userAnswers = UserAnswers(userAnswersId).set(WhatWasThePersonOccupationPage, "answer").success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, whatIsThePersonOccupationRoute)
+        val request = FakeRequest(GET, whatWasThePersonOccupationRoute)
 
-        val view = application.injector.instanceOf[WhatIsThePersonOccupationView]
+        val view = application.injector.instanceOf[WhatWasThePersonOccupationView]
 
         val result = route(application, request).value
 
@@ -80,20 +80,21 @@ class WhatIsThePersonOccupationControllerSpec extends SpecBase with MockitoSugar
 
     "must redirect to the next page when valid data is submitted" in {
 
-      val mockSessionService = mock[SessionService]
+      val mockSessionRepository = mock[SessionRepository]
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
 
       val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
+        applicationBuilder(userAnswers = Some(emptyUserAnswers))
           .overrides(
-            bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
+            bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute)),
+            bind[SessionRepository].toInstance(mockSessionRepository)
           )
           .build()
 
       running(application) {
         val request =
-          FakeRequest(POST, whatIsThePersonOccupationRoute)
+          FakeRequest(POST, whatWasThePersonOccupationRoute)
             .withFormUrlEncodedBody(("value", "answer"))
 
         val result = route(application, request).value
@@ -109,12 +110,12 @@ class WhatIsThePersonOccupationControllerSpec extends SpecBase with MockitoSugar
 
       running(application) {
         val request =
-          FakeRequest(POST, whatIsThePersonOccupationRoute)
+          FakeRequest(POST, whatWasThePersonOccupationRoute)
             .withFormUrlEncodedBody(("value", ""))
 
         val boundForm = form.bind(Map("value" -> ""))
 
-        val view = application.injector.instanceOf[WhatIsThePersonOccupationView]
+        val view = application.injector.instanceOf[WhatWasThePersonOccupationView]
 
         val result = route(application, request).value
 
@@ -123,33 +124,33 @@ class WhatIsThePersonOccupationControllerSpec extends SpecBase with MockitoSugar
       }
     }
 
-    "must redirect to Index for a GET if no existing data is found" in {
+    "must redirect to Journey Recovery for a GET if no existing data is found" in {
 
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val request = FakeRequest(GET, whatIsThePersonOccupationRoute)
+        val request = FakeRequest(GET, whatWasThePersonOccupationRoute)
 
         val result = route(application, request).value
 
         status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
+        redirectLocation(result).value mustEqual routes.JourneyRecoveryController.onPageLoad().url
       }
     }
 
-    "must redirect to Index for a POST if no existing data is found" in {
+    "must redirect to Journey Recovery for a POST if no existing data is found" in {
 
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
         val request =
-          FakeRequest(POST, whatIsThePersonOccupationRoute)
+          FakeRequest(POST, whatWasThePersonOccupationRoute)
             .withFormUrlEncodedBody(("value", "answer"))
 
         val result = route(application, request).value
 
         status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
+        redirectLocation(result).value mustEqual routes.JourneyRecoveryController.onPageLoad().url
       }
     }
   }

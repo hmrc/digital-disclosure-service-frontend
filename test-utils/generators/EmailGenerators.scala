@@ -61,5 +61,14 @@ trait EmailGenerators {
       username + "@" + domain
     }
   }
+  def invalidLengthEmail(): Gen[String] = {
+    val emailMaxLength = 320
+    for {
+      userName <- listOfN(emailMaxLength, alphaChar)
+      domain <- listOfN(emailMaxLength, alphaChar)
+    } yield {
+      userName.mkString + "@" + domain.mkString + ".ext"
+    }
+  }
 
 }
