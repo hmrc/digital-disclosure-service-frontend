@@ -272,6 +272,7 @@ class NotificationNavigator @Inject()() {
       case (Some(RelatesTo.ACompany), _) => controllers.notification.routes.WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutController.onPageLoad(NormalMode)
       case (Some(RelatesTo.ALimitedLiabilityPartnership), _) => controllers.notification.routes.WhatIsTheLLPNameController.onPageLoad(NormalMode)
       case (Some(RelatesTo.ATrust), _) => controllers.notification.routes.WhatIsTheTrustNameController.onPageLoad(NormalMode)
+      case (Some(RelatesTo.AnEstate), _) => controllers.notification.routes.WhatWasTheNameOfThePersonWhoDiedController.onPageLoad(NormalMode)
       case _ => controllers.notification.routes.RelatesToController.onPageLoad(NormalMode)
     }
   }
