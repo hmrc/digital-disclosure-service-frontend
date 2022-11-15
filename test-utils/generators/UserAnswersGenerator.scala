@@ -30,7 +30,7 @@ trait UserAnswersGenerator extends TryValues {
     arbitrary[(WhatWasThePersonNINOPage.type, JsValue)] ::
     arbitrary[(DidThePersonHaveNINOPage.type, JsValue)] ::
     arbitrary[(WhatWasThePersonDateOfBirthPage.type, JsValue)] ::
-    arbitrary[(WhatIsThePersonOccupationPage.type, JsValue)] ::
+    arbitrary[(WhatWasThePersonOccupationPage.type, JsValue)] ::
     arbitrary[(AreYouTheExecutorOfTheEstatePage.type, JsValue)] ::
     arbitrary[(WhatWasTheNameOfThePersonWhoDiedPage.type, JsValue)] ::
     arbitrary[(WhatIsTheTrustNamePage.type, JsValue)] ::

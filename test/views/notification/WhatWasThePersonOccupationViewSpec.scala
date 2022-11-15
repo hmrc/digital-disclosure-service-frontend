@@ -17,16 +17,16 @@
 package views.notification
 
 import base.ViewSpecBase
-import forms.WhatIsThePersonOccupationFormProvider
+import forms.WhatWasThePersonOccupationFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
-import views.html.notification.WhatIsThePersonOccupationView
+import views.html.notification.WhatWasThePersonOccupationView
 import models.NormalMode
 
-class WhatIsThePersonOccupationViewSpec extends ViewSpecBase with ViewMatchers {
+class WhatWasThePersonOccupationViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhatIsThePersonOccupationFormProvider()()
-  val page: WhatIsThePersonOccupationView = inject[WhatIsThePersonOccupationView]
+  val form = new WhatWasThePersonOccupationFormProvider()()
+  val page: WhatWasThePersonOccupationView = inject[WhatWasThePersonOccupationView]
 
   private def createView: Html = page(form, NormalMode)(request, messages)
 
@@ -35,11 +35,11 @@ class WhatIsThePersonOccupationViewSpec extends ViewSpecBase with ViewMatchers {
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("whatIsThePersonOccupation.title"))
+      view.select("title").text() must include(messages("whatWasThePersonOccupation.title"))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-label--xl").text() mustBe messages("whatIsThePersonOccupation.heading")
+      view.getElementsByClass("govuk-label--xl").text() mustBe messages("whatWasThePersonOccupation.heading")
     }
 
     "have a text input" in {
@@ -47,7 +47,7 @@ class WhatIsThePersonOccupationViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "have a hint" in {
-      view.getElementsByClass("govuk-hint").text() mustBe messages("whatIsThePersonOccupation.hint")
+      view.getElementsByClass("govuk-hint").text() mustBe messages("whatWasThePersonOccupation.hint")
     }
 
     "display the continue button" in {

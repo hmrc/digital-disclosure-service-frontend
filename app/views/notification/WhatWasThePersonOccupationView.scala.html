@@ -26,9 +26,9 @@
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("whatIsThePersonOccupation.title"))) {
+@layout(pageTitle = title(form, messages("whatWasThePersonOccupation.title"))) {
 
-    @formHelper(action = controllers.notification.routes.WhatIsThePersonOccupationController.onSubmit(mode)) {
+    @formHelper(action = controllers.notification.routes.WhatWasThePersonOccupationController.onSubmit(mode)) {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))
@@ -37,9 +37,9 @@
         @govukInput(
             InputViewModel(
                 field = form("value"),
-                label = LabelViewModel(messages("whatIsThePersonOccupation.heading")).asPageHeading()
+                label = LabelViewModel(messages("whatWasThePersonOccupation.heading")).asPageHeading()
             )
-            .withHint(Hint(content = Text(messages("whatIsThePersonOccupation.hint"))))
+            .withHint(Hint(content = Text(messages("whatWasThePersonOccupation.hint"))))
             .withWidth(Full)
         )
 
