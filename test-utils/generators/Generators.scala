@@ -28,7 +28,8 @@ trait Generators extends UserAnswersGenerator
                     with UserAnswersEntryGenerators
                     with EmailGenerators
                     with TelephoneNumberGenerators
-                    with RegistrationNumberGenerator {
+                    with RegistrationNumberGenerator
+                    with VATGenerators {
 
   implicit val dontShrink: Shrink[String] = Shrink.shrinkAny
 
@@ -144,29 +145,4 @@ trait Generators extends UserAnswersGenerator
   
   def invalidNino(): Gen[String] = Gen.alphaNumStr
     .suchThat(_.trim.nonEmpty).suchThat(!Nino.isValid(_))
-
-  def invalidLengthEmail(): Gen[String] = {
-    val emailMaxLength = 320
-    for {
-      userName <- listOfN(emailMaxLength, alphaChar)
-      domain <- listOfN(emailMaxLength, alphaChar)
-    } yield {
-      userName.mkString + "@" + domain.mkString + ".ext"
-    }
-  }
-
-  def generateValidVAT(length:Int):Gen[String] = for {
-    digits <- listOfN(length, numChar)
-  } yield {
-    digits.mkString
-  }
-
-  def generateInvalidLengthVAT(length: Int): Gen[String] = numStr
-    .suchThat(s => s.nonEmpty && (s.length != length))
-
-  def generateIllegalCharVAT(length: Int): Gen[String] = for {
-    str <- listOfN(length, alphaChar)
-  } yield {
-    str.mkString
-  }
 }

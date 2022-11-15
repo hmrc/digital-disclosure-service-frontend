@@ -159,7 +159,7 @@ trait Constraints {
   protected def validVAT(length: Int, errorKey: String): Constraint[String] =
     Constraint {
       s => {
-        val value = if (s.contains("GB")) s.split("GB")(1) else s
+        val value = if (s.startsWith("GB")) s.split("GB")(1) else s
         validLengthAncDigits(value, length, errorKey)
       }
     }
