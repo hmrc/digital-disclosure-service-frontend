@@ -225,3 +225,8 @@ GET        /estates-individual-main-occupation                  controllers.noti
 POST       /estates-individual-main-occupation                  controllers.notification.WhatIsThePersonOccupationController.onSubmit(mode: Mode = NormalMode)
 GET        /estates-individual-main-occupation/change           controllers.notification.WhatIsThePersonOccupationController.onPageLoad(mode: Mode = CheckMode)
 POST       /estates-individual-main-occupation/change           controllers.notification.WhatIsThePersonOccupationController.onSubmit(mode: Mode = CheckMode)
+
+GET        /estates-individual-date-of-birth                    controllers.notification.WhatWasThePersonDateOfBirthController.onPageLoad(mode: Mode = NormalMode)
+POST       /estates-individual-date-of-birth                    controllers.notification.WhatWasThePersonDateOfBirthController.onSubmit(mode: Mode = NormalMode)
+GET        /estates-individual-date-of-birth/change             controllers.notification.WhatWasThePersonDateOfBirthController.onPageLoad(mode: Mode = CheckMode)
+POST       /estates-individual-date-of-birth/change             controllers.notification.WhatWasThePersonDateOfBirthController.onSubmit(mode: Mode = CheckMode)

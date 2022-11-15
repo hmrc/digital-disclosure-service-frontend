@@ -825,3 +825,16 @@ whatIsThePersonOccupation.checkYourAnswersLabel = What is the person’s main oc
 whatIsThePersonOccupation.error.required = Enter the person’s main occupation
 whatIsThePersonOccupation.error.length = The person’s main occupation must be between 4 and 30 characters
 whatIsThePersonOccupation.change.hidden = WhatIsThePersonOccupation
+
+whatWasThePersonDateOfBirth.title = What was the person’s date of birth?
+whatWasThePersonDateOfBirth.heading = What was the person’s date of birth?
+whatWasThePersonDateOfBirth.hint = For example, 20 3 1976
+whatWasThePersonDateOfBirth.checkYourAnswersLabel = What was the person’s date of birth?
+whatWasThePersonDateOfBirth.error.required.all = Enter the person’s date of birth
+whatWasThePersonDateOfBirth.error.required.two = The person’s date of birth must include {0} and {1}
+whatWasThePersonDateOfBirth.error.required = The person’s date of birth must include {0}
+whatWasThePersonDateOfBirth.error.invalid = Enter a real date of birth
+whatWasThePersonDateOfBirth.error.invalidDay = Enter a real date of birth - a month can have up to 31 days
+whatWasThePersonDateOfBirth.error.invalidMonth = Enter a real date of birth - there are only 12 months in a year
+whatWasThePersonDateOfBirth.error.invalidFutureDateOfBirth = Date of birth must be in the past
+whatWasThePersonDateOfBirth.change.hidden = WhatWasThePersonDateOfBirth
