@@ -65,7 +65,7 @@ class WhatWasThePersonNINOController @Inject()(
         value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(WhatWasThePersonNINOPage, value))
-            _              <- sessionRepository.set(updatedAnswers)
+            _              <- sessionService.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(WhatWasThePersonNINOPage, mode, updatedAnswers))
       )
   }

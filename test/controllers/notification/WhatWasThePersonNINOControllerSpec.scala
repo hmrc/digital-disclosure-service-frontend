@@ -28,13 +28,8 @@ import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-<<<<<<< HEAD:test/controllers/notification/WhatIsThePersonOccupationControllerSpec.scala
 import services.SessionService
-import views.html.notification.WhatIsThePersonOccupationView
-=======
-import repositories.SessionRepository
 import views.html.notification.WhatWasThePersonNINOView
->>>>>>> origin/develop:test/controllers/notification/WhatWasThePersonNINOControllerSpec.scala
 
 import scala.concurrent.Future
 
