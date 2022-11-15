@@ -504,6 +504,20 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(TrustAddressLookupPage, NormalMode, UserAnswers("id")) mustBe routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
       }
 
+      "must go from the AreYouTheExecutorOfTheEstatePage to the AreYouRepresentingAnOrganisationController when the user selects Yes" in {
+        UserAnswers("id").set(AreYouTheExecutorOfTheEstatePage, false) match {
+          case Success(ua) => navigator.nextPage(AreYouTheExecutorOfTheEstatePage, NormalMode, ua) mustBe routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the AreYouTheExecutorOfTheEstatePage to the OffshoreLiabilitiesController when the user selects Yes" in {
+        UserAnswers("id").set(AreYouTheExecutorOfTheEstatePage, true) match {
+          case Success(ua) => navigator.nextPage(AreYouTheExecutorOfTheEstatePage, NormalMode, ua) mustBe routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
     }
 
     "in Check mode" - {
