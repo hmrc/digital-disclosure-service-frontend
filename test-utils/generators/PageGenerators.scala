@@ -24,8 +24,8 @@ trait PageGenerators {
   implicit lazy val arbitraryWhatWasThePersonDateOfBirthPage: Arbitrary[WhatWasThePersonDateOfBirthPage.type] =
     Arbitrary(WhatWasThePersonDateOfBirthPage)
 
-  implicit lazy val arbitraryWhatIsThePersonOccupationPage: Arbitrary[WhatIsThePersonOccupationPage.type] =
-    Arbitrary(WhatIsThePersonOccupationPage)
+  implicit lazy val arbitraryWhatWasThePersonOccupationPage: Arbitrary[WhatWasThePersonOccupationPage.type] =
+    Arbitrary(WhatWasThePersonOccupationPage)
 
   implicit lazy val arbitraryAreYouTheExecutorOfTheEstatePage: Arbitrary[AreYouTheExecutorOfTheEstatePage.type] =
     Arbitrary(AreYouTheExecutorOfTheEstatePage)

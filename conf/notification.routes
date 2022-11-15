@@ -221,10 +221,10 @@ POST       /estates-individual-full-name                        controllers.noti
 GET        /estates-individual-full-name/change                 controllers.notification.WhatWasTheNameOfThePersonWhoDiedController.onPageLoad(mode: Mode = CheckMode)
 POST       /estates-individual-full-name/change                 controllers.notification.WhatWasTheNameOfThePersonWhoDiedController.onSubmit(mode: Mode = CheckMode)
 
-GET        /estates-individual-main-occupation                  controllers.notification.WhatIsThePersonOccupationController.onPageLoad(mode: Mode = NormalMode)
-POST       /estates-individual-main-occupation                  controllers.notification.WhatIsThePersonOccupationController.onSubmit(mode: Mode = NormalMode)
-GET        /estates-individual-main-occupation/change           controllers.notification.WhatIsThePersonOccupationController.onPageLoad(mode: Mode = CheckMode)
-POST       /estates-individual-main-occupation/change           controllers.notification.WhatIsThePersonOccupationController.onSubmit(mode: Mode = CheckMode)
+GET        /estates-individual-main-occupation                  controllers.notification.WhatWasThePersonOccupationController.onPageLoad(mode: Mode = NormalMode)
+POST       /estates-individual-main-occupation                  controllers.notification.WhatWasThePersonOccupationController.onSubmit(mode: Mode = NormalMode)
+GET        /estates-individual-main-occupation/change           controllers.notification.WhatWasThePersonOccupationController.onPageLoad(mode: Mode = CheckMode)
+POST       /estates-individual-main-occupation/change           controllers.notification.WhatWasThePersonOccupationController.onSubmit(mode: Mode = CheckMode)
 
 GET        /estates-individual-date-of-birth                    controllers.notification.WhatWasThePersonDateOfBirthController.onPageLoad(mode: Mode = NormalMode)
 POST       /estates-individual-date-of-birth                    controllers.notification.WhatWasThePersonDateOfBirthController.onSubmit(mode: Mode = NormalMode)

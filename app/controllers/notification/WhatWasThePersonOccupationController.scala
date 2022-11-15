@@ -17,29 +17,30 @@
 package controllers.notification
 
 import controllers.actions._
-import forms.WhatIsThePersonOccupationFormProvider
+import forms.WhatWasThePersonOccupationFormProvider
+
 import javax.inject.Inject
 import models.Mode
 import navigation.NotificationNavigator
-import pages.WhatIsThePersonOccupationPage
+import pages.WhatWasThePersonOccupationPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import views.html.notification.WhatIsThePersonOccupationView
+import views.html.notification.WhatWasThePersonOccupationView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class WhatIsThePersonOccupationController @Inject()(
+class WhatWasThePersonOccupationController @Inject()(
                                         override val messagesApi: MessagesApi,
                                         sessionRepository: SessionRepository,
                                         navigator: NotificationNavigator,
                                         identify: IdentifierAction,
                                         getData: DataRetrievalAction,
                                         requireData: DataRequiredAction,
-                                        formProvider: WhatIsThePersonOccupationFormProvider,
+                                        formProvider: WhatWasThePersonOccupationFormProvider,
                                         val controllerComponents: MessagesControllerComponents,
-                                        view: WhatIsThePersonOccupationView
+                                        view: WhatWasThePersonOccupationView
                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
@@ -47,7 +48,7 @@ class WhatIsThePersonOccupationController @Inject()(
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val preparedForm = request.userAnswers.get(WhatIsThePersonOccupationPage) match {
+      val preparedForm = request.userAnswers.get(WhatWasThePersonOccupationPage) match {
         case None => form
         case Some(value) => form.fill(value)
       }
@@ -64,9 +65,9 @@ class WhatIsThePersonOccupationController @Inject()(
 
         value =>
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(WhatIsThePersonOccupationPage, value))
+            updatedAnswers <- Future.fromTry(request.userAnswers.set(WhatWasThePersonOccupationPage, value))
             _              <- sessionRepository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(WhatIsThePersonOccupationPage, mode, updatedAnswers))
+          } yield Redirect(navigator.nextPage(WhatWasThePersonOccupationPage, mode, updatedAnswers))
       )
   }
 }

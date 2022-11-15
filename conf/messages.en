@@ -818,13 +818,13 @@ whatWasTheNameOfThePersonWhoDied.error.required = Enter the person’s full name
 whatWasTheNameOfThePersonWhoDied.error.length = Person’s name must be between 1 and 50 characters
 whatWasTheNameOfThePersonWhoDied.change.hidden = WhatWasTheNameOfThePersonWhoDied
 
-whatIsThePersonOccupation.title = What is the person’s main occupation?
-whatIsThePersonOccupation.heading = What is the person’s main occupation?
-whatIsThePersonOccupation.hint = For example, plumber or dentist.
-whatIsThePersonOccupation.checkYourAnswersLabel = What is the person’s main occupation?
-whatIsThePersonOccupation.error.required = Enter the person’s main occupation
-whatIsThePersonOccupation.error.length = The person’s main occupation must be between 4 and 30 characters
-whatIsThePersonOccupation.change.hidden = WhatIsThePersonOccupation
+whatWasThePersonOccupation.title = What was the person’s main occupation?
+whatWasThePersonOccupation.heading = What was the person’s main occupation?
+whatWasThePersonOccupation.hint = For example, plumber or dentist.
+whatWasThePersonOccupation.checkYourAnswersLabel = What was the person’s main occupation?
+whatWasThePersonOccupation.error.required = Enter the person’s main occupation
+whatWasThePersonOccupation.error.length = The person’s main occupation must be between 4 and 30 characters
+whatWasThePersonOccupation.change.hidden = WhatWasThePersonOccupation
 
 whatWasThePersonDateOfBirth.title = What was the person’s date of birth?
 whatWasThePersonDateOfBirth.heading = What was the person’s date of birth?

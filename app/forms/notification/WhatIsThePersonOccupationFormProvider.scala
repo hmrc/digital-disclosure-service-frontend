@@ -21,14 +21,14 @@ import javax.inject.Inject
 import forms.mappings.Mappings
 import play.api.data.Form
 
-class WhatIsThePersonOccupationFormProvider @Inject() extends Mappings {
+class WhatWasThePersonOccupationFormProvider @Inject() extends Mappings {
 
   def apply(): Form[String] =
     Form(
-      "value" -> text("whatIsThePersonOccupation.error.required")
+      "value" -> text("whatWasThePersonOccupation.error.required")
         .verifying(
-          minLength(4, "whatIsThePersonOccupation.error.length"),
-          maxLength(30, "whatIsThePersonOccupation.error.length")
+          minLength(4, "whatWasThePersonOccupation.error.length"),
+          maxLength(30, "whatWasThePersonOccupation.error.length")
         )
     )
 }
