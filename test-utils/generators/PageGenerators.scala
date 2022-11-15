@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryWhatWasThePersonDateOfBirthPage: Arbitrary[WhatWasThePersonDateOfBirthPage.type] =
+    Arbitrary(WhatWasThePersonDateOfBirthPage)
+
   implicit lazy val arbitraryWhatIsThePersonOccupationPage: Arbitrary[WhatIsThePersonOccupationPage.type] =
     Arbitrary(WhatIsThePersonOccupationPage)
 
