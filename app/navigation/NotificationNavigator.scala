@@ -181,6 +181,12 @@ class NotificationNavigator @Inject()() {
 
     case TrustAddressLookupPage => _ => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
 
+    case AreYouTheExecutorOfTheEstatePage => ua => ua.get(AreYouTheExecutorOfTheEstatePage) match {
+        case Some(true) => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
+        case Some(false) => routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode)
+        case None => routes.AreYouTheExecutorOfTheEstateController.onPageLoad(NormalMode)
+      }
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
