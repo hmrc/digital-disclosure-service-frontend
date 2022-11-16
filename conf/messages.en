@@ -828,7 +828,7 @@ whatWasThePersonOccupation.change.hidden = WhatWasThePersonOccupation
 
 whatWasThePersonDateOfBirth.title = What was the person’s date of birth?
 whatWasThePersonDateOfBirth.heading = What was the person’s date of birth?
-whatWasThePersonDateOfBirth.hint = For example, 20 3 1976
+whatWasThePersonDateOfBirth.hint = For example, 20 3 1976.
 whatWasThePersonDateOfBirth.checkYourAnswersLabel = What was the person’s date of birth?
 whatWasThePersonDateOfBirth.error.required.all = Enter the person’s date of birth
 whatWasThePersonDateOfBirth.error.required.two = The person’s date of birth must include {0} and {1}
@@ -853,6 +853,6 @@ whatWasThePersonNINO.heading = What was the person’s National Insurance number
 whatWasThePersonNINO.label = This is on your payslip, P60 or tax return
 whatWasThePersonNINO.hint = For example, ‘QQ123456A’.
 whatWasThePersonNINO.checkYourAnswersLabel = What was the person’s National Insurance number?
-whatWasThePersonNINO.error.required = Enter the person’s national insurance number
-whatWasThePersonNINO.error.length = The person’s national insurance number must be 9 characters or less
+whatWasThePersonNINO.error.required = Enter the person’s National insurance number
+whatWasThePersonNINO.error = Enter the person’s National insurance number
 whatWasThePersonNINO.change.hidden = WhatWasThePersonNINO
