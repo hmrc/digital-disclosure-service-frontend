@@ -16,65 +16,78 @@
 
 package controllers
 
+import java.time.{LocalDate, ZoneOffset}
+
 import base.SpecBase
-import forms.WhatIsYourVATRegistrationNumberFormProvider
+import forms.WhatWasThePersonDateOfBirthFormProvider
 import models.{NormalMode, UserAnswers}
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.WhatIsYourVATRegistrationNumberPage
+import pages.WhatWasThePersonDateOfBirthPage
 import play.api.inject.bind
-import play.api.mvc.Call
+import play.api.mvc.{AnyContentAsEmpty, AnyContentAsFormUrlEncoded, Call}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import repositories.SessionRepository
-import views.html.notification.WhatIsYourVATRegistrationNumberView
+import views.html.notification.WhatWasThePersonDateOfBirthView
 
 import scala.concurrent.Future
 
-class WhatIsYourVATRegistrationNumberControllerSpec extends SpecBase with MockitoSugar {
+class WhatWasThePersonDateOfBirthControllerSpec extends SpecBase with MockitoSugar {
+
+  val formProvider = new WhatWasThePersonDateOfBirthFormProvider()
+  private def form = formProvider()
 
   def onwardRoute = Call("GET", "/foo")
 
-  val formProvider = new WhatIsYourVATRegistrationNumberFormProvider()
-  val form = formProvider()
+  val validAnswer = LocalDate.now(ZoneOffset.UTC).minusDays(1)
 
-  lazy val whatIsYourVATRegistrationNumberRoute = notification.routes.WhatIsYourVATRegistrationNumberController.onPageLoad(NormalMode).url
+  lazy val whatWasThePersonDateOfBirthRoute = notification.routes.WhatWasThePersonDateOfBirthController.onPageLoad(NormalMode).url
 
-  "WhatIsYourVATRegistrationNumber Controller" - {
+  override val emptyUserAnswers = UserAnswers(userAnswersId)
+
+  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+    FakeRequest(GET, whatWasThePersonDateOfBirthRoute)
+
+  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+    FakeRequest(POST, whatWasThePersonDateOfBirthRoute)
+      .withFormUrlEncodedBody(
+        "value.day"   -> validAnswer.getDayOfMonth.toString,
+        "value.month" -> validAnswer.getMonthValue.toString,
+        "value.year"  -> validAnswer.getYear.toString
+      )
+
+  "WhatWasThePersonDateOfBirth Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, whatIsYourVATRegistrationNumberRoute)
+        val result = route(application, getRequest).value
 
-        val result = route(application, request).value
-
-        val view = application.injector.instanceOf[WhatIsYourVATRegistrationNumberView]
+        val view = application.injector.instanceOf[WhatWasThePersonDateOfBirthView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode)(getRequest, messages(application)).toString
       }
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(WhatIsYourVATRegistrationNumberPage, "answer").success.value
+      val userAnswers = UserAnswers(userAnswersId).set(WhatWasThePersonDateOfBirthPage, validAnswer).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, whatIsYourVATRegistrationNumberRoute)
+        val view = application.injector.instanceOf[WhatWasThePersonDateOfBirthView]
 
-        val view = application.injector.instanceOf[WhatIsYourVATRegistrationNumberView]
-
-        val result = route(application, request).value
+        val result = route(application, getRequest).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill("answer"), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(validAnswer), NormalMode)(getRequest, messages(application)).toString
       }
     }
 
@@ -83,8 +96,6 @@ class WhatIsYourVATRegistrationNumberControllerSpec extends SpecBase with Mockit
       val mockSessionRepository = mock[SessionRepository]
 
       when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
-
-      val validVAT = generateValidVAT().sample.value
 
       val application =
         applicationBuilder(userAnswers = Some(emptyUserAnswers))
@@ -95,11 +106,7 @@ class WhatIsYourVATRegistrationNumberControllerSpec extends SpecBase with Mockit
           .build()
 
       running(application) {
-        val request =
-          FakeRequest(POST, whatIsYourVATRegistrationNumberRoute)
-            .withFormUrlEncodedBody(("value", validVAT))
-
-        val result = route(application, request).value
+        val result = route(application, postRequest).value
 
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual onwardRoute.url
@@ -110,14 +117,14 @@ class WhatIsYourVATRegistrationNumberControllerSpec extends SpecBase with Mockit
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
+      val request =
+        FakeRequest(POST, whatWasThePersonDateOfBirthRoute)
+          .withFormUrlEncodedBody(("value", "invalid value"))
+
       running(application) {
-        val request =
-          FakeRequest(POST, whatIsYourVATRegistrationNumberRoute)
-            .withFormUrlEncodedBody(("value", ""))
+        val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val boundForm = form.bind(Map("value" -> ""))
-
-        val view = application.injector.instanceOf[WhatIsYourVATRegistrationNumberView]
+        val view = application.injector.instanceOf[WhatWasThePersonDateOfBirthView]
 
         val result = route(application, request).value
 
@@ -131,9 +138,7 @@ class WhatIsYourVATRegistrationNumberControllerSpec extends SpecBase with Mockit
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val request = FakeRequest(GET, whatIsYourVATRegistrationNumberRoute)
-
-        val result = route(application, request).value
+        val result = route(application, getRequest).value
 
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual routes.JourneyRecoveryController.onPageLoad().url
@@ -145,11 +150,7 @@ class WhatIsYourVATRegistrationNumberControllerSpec extends SpecBase with Mockit
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val request =
-          FakeRequest(POST, whatIsYourVATRegistrationNumberRoute)
-            .withFormUrlEncodedBody(("value", "answer"))
-
-        val result = route(application, request).value
+        val result = route(application, postRequest).value
 
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual routes.JourneyRecoveryController.onPageLoad().url

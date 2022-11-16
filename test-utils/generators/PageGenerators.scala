@@ -21,6 +21,24 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryWhatWasThePersonNINOPage: Arbitrary[WhatWasThePersonNINOPage.type] =
+    Arbitrary(WhatWasThePersonNINOPage)
+
+  implicit lazy val arbitraryDidThePersonHaveNINOPage: Arbitrary[DidThePersonHaveNINOPage.type] =
+    Arbitrary(DidThePersonHaveNINOPage)
+
+  implicit lazy val arbitraryWhatWasThePersonDateOfBirthPage: Arbitrary[WhatWasThePersonDateOfBirthPage.type] =
+    Arbitrary(WhatWasThePersonDateOfBirthPage)
+
+  implicit lazy val arbitraryWhatWasThePersonOccupationPage: Arbitrary[WhatWasThePersonOccupationPage.type] =
+    Arbitrary(WhatWasThePersonOccupationPage)
+
+  implicit lazy val arbitraryAreYouTheExecutorOfTheEstatePage: Arbitrary[AreYouTheExecutorOfTheEstatePage.type] =
+    Arbitrary(AreYouTheExecutorOfTheEstatePage)
+
+  implicit lazy val arbitraryWhatWasTheNameOfThePersonWhoDiedPage: Arbitrary[WhatWasTheNameOfThePersonWhoDiedPage.type] =
+    Arbitrary(WhatWasTheNameOfThePersonWhoDiedPage)
+
   implicit lazy val arbitraryWhatIsTheTrustNamePage: Arbitrary[WhatIsTheTrustNamePage.type] =
     Arbitrary(WhatIsTheTrustNamePage)
 
