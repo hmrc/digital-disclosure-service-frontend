@@ -94,7 +94,7 @@ class WhatWasThePersonNINOControllerSpec extends SpecBase with MockitoSugar {
       running(application) {
         val request =
           FakeRequest(POST, whatWasThePersonNINORoute)
-            .withFormUrlEncodedBody(("value", "answer"))
+            .withFormUrlEncodedBody(("value", "AZ123456D"))
 
         val result = route(application, request).value
 
