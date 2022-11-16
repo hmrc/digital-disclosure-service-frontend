@@ -828,7 +828,7 @@ whatWasThePersonOccupation.change.hidden = WhatWasThePersonOccupation
 
 whatWasThePersonDateOfBirth.title = What was the person’s date of birth?
 whatWasThePersonDateOfBirth.heading = What was the person’s date of birth?
-whatWasThePersonDateOfBirth.hint = For example, 20 3 1976
+whatWasThePersonDateOfBirth.hint = For example, 20 3 1976.
 whatWasThePersonDateOfBirth.checkYourAnswersLabel = What was the person’s date of birth?
 whatWasThePersonDateOfBirth.error.required.all = Enter the person’s date of birth
 whatWasThePersonDateOfBirth.error.required.two = The person’s date of birth must include {0} and {1}
