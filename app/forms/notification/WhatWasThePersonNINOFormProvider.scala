@@ -26,7 +26,7 @@ class WhatWasThePersonNINOFormProvider @Inject() extends Mappings {
   def apply(): Form[String] =
     Form(
       "value" -> text("whatWasThePersonNINO.error.required")
-        .verifying(maxLength(9, "whatWasThePersonNINO.error.length"))
+        .verifying(validNino("whatWasThePersonNINO.error"))
 
     )
 }
