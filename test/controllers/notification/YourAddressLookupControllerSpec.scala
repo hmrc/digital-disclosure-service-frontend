@@ -33,7 +33,7 @@ import java.net.URL
 import uk.gov.hmrc.http.HeaderCarrier
 import scala.concurrent.ExecutionContext.Implicits.global
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
-import repositories.SessionRepository
+import services.SessionService
 import play.api.i18n.Messages
 
 import scala.concurrent.Future
@@ -44,7 +44,7 @@ class YourAddressLookupControllerSpec extends SpecBase with MockFactory with Mod
   def onwardRoute = Call("GET", "/foo")
 
   lazy val addressLookupRoute = notification.routes.YourAddressLookupController.lookupAddress(NormalMode).url
-  lazy val mockSessionRepository = mock[SessionRepository]
+  lazy val mockSessionService = mock[SessionService]
 
   val addressLookupService = mock[AddressLookupService]
 
@@ -64,8 +64,13 @@ class YourAddressLookupControllerSpec extends SpecBase with MockFactory with Mod
       .expects(addressId, *)
       .returning(EitherT.fromEither[Future](response))
 
-  def buildApplication = applicationBuilder(userAnswers = Some(emptyUserAnswers)).overrides(
-    bind[SessionRepository].toInstance(mockSessionRepository),
+  def mockServiceSet(response: Future[Boolean]): CallHandler2[UserAnswers, HeaderCarrier, Future[Boolean]] = 
+    (mockSessionService
+      .set(_: UserAnswers)(_: HeaderCarrier))
+      .expects(*, *)
+      .returning(response)
+
+  def buildApplication = applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService).overrides(
     bind[AddressLookupService].toInstance(addressLookupService),
     bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
   ).build()
@@ -112,7 +117,7 @@ class YourAddressLookupControllerSpec extends SpecBase with MockFactory with Mod
       running(application) {
         val request = FakeRequest(GET, retrieveAddressRoute)
 
-        (mockSessionRepository.set _).expects(*).returning(Future.successful(true))
+        mockServiceSet(Future.successful(true))
 
         mockRetrieveUserAddress(uuid)(Right(sampleAddress))
         val result = route(application, request).value

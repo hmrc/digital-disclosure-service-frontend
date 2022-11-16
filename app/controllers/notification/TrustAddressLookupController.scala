@@ -24,7 +24,7 @@ import navigation.NotificationNavigator
 import pages.TrustAddressLookupPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import repositories.SessionRepository
+import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import services.AddressLookupService
 import play.api.mvc.{Call, Result}
@@ -36,7 +36,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class TrustAddressLookupController @Inject()(
                                         override val messagesApi: MessagesApi,
-                                        sessionRepository: SessionRepository,
+                                        sessionService: SessionService,
                                         navigator: NotificationNavigator,
                                         identify: IdentifierAction,
                                         getData: DataRetrievalAction,
@@ -73,7 +73,7 @@ class TrustAddressLookupController @Inject()(
       },
       address => for {
         updatedAnswers <- Future.fromTry(request.userAnswers.set(TrustAddressLookupPage, address))
-        _              <- sessionRepository.set(updatedAnswers)
+        _              <- sessionService.set(updatedAnswers)
       } yield Redirect(navigator.nextPage(TrustAddressLookupPage, mode, updatedAnswers))
     ).flatten
 }

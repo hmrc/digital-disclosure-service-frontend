@@ -24,7 +24,7 @@ import navigation.NotificationNavigator
 import pages.YourEmailAddressPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import repositories.SessionRepository
+import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.notification.YourEmailAddressView
 
@@ -32,7 +32,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class YourEmailAddressController @Inject()(
                                         override val messagesApi: MessagesApi,
-                                        sessionRepository: SessionRepository,
+                                        sessionService: SessionService,
                                         navigator: NotificationNavigator,
                                         identify: IdentifierAction,
                                         getData: DataRetrievalAction,
@@ -65,7 +65,7 @@ class YourEmailAddressController @Inject()(
         value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(YourEmailAddressPage, value))
-            _              <- sessionRepository.set(updatedAnswers)
+            _              <- sessionService.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(YourEmailAddressPage, mode, updatedAnswers))
       )
   }

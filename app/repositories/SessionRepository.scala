@@ -99,4 +99,4 @@ trait SessionRepository {
   def get(id: String): Future[Option[UserAnswers]]
   def keepAlive(id: String): Future[Boolean]
   def clear(id: String): Future[Boolean]
-} 
+}

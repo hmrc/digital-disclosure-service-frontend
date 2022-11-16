@@ -25,7 +25,7 @@ import navigation.NotificationNavigator
 import pages.{AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, AreYouRepresentingAnOrganisationPage, QuestionPage, WhatIsTheNameOfTheOrganisationYouRepresentPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import repositories.SessionRepository
+import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.notification.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutView
 
@@ -33,7 +33,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController @Inject()(
                                        override val messagesApi: MessagesApi,
-                                       sessionRepository: SessionRepository,
+                                       sessionService: SessionService,
                                        navigator: NotificationNavigator,
                                        identify: IdentifierAction,
                                        getData: DataRetrievalAction,
@@ -70,7 +70,7 @@ class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController @Inj
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, value))
             clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
-            _ <- sessionRepository.set(clearedAnswers)
+            _ <- sessionService.set(clearedAnswers)
           } yield Redirect(navigator.nextPage(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, mode, clearedAnswers, hasValueChanged))
         }
       )

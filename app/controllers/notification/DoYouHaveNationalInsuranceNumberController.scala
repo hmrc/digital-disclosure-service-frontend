@@ -25,7 +25,7 @@ import navigation.NotificationNavigator
 import pages.{DoYouHaveNationalInsuranceNumberPage, QuestionPage, WhatIsYourNationalInsuranceNumberPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import repositories.SessionRepository
+import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.notification.DoYouHaveNationalInsuranceNumberView
 
@@ -33,7 +33,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class DoYouHaveNationalInsuranceNumberController @Inject()(
                                        override val messagesApi: MessagesApi,
-                                       sessionRepository: SessionRepository,
+                                       sessionService: SessionService,
                                        navigator: NotificationNavigator,
                                        identify: IdentifierAction,
                                        getData: DataRetrievalAction,
@@ -69,7 +69,7 @@ class DoYouHaveNationalInsuranceNumberController @Inject()(
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(DoYouHaveNationalInsuranceNumberPage, value))
             clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
-            _ <- sessionRepository.set(clearedAnswers)
+            _ <- sessionService.set(clearedAnswers)
           } yield Redirect(navigator.nextPage(DoYouHaveNationalInsuranceNumberPage, mode, updatedAnswers, hasChanged))
         }
       )
