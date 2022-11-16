@@ -856,3 +856,12 @@ whatWasThePersonNINO.checkYourAnswersLabel = What was the person’s National In
 whatWasThePersonNINO.error.required = Enter the person’s National insurance number
 whatWasThePersonNINO.error = Enter the person’s National Insurance number in the right format
 whatWasThePersonNINO.change.hidden = WhatWasThePersonNINO
+
+wasThePersonRegisteredForVAT.title = Was the person registered for VAT, as far as you’re aware?
+wasThePersonRegisteredForVAT.heading = Was the person registered for VAT, as far as you’re aware?
+wasThePersonRegisteredForVAT.yesIKnow = Yes, and I know their VAT registration number
+wasThePersonRegisteredForVAT.yesButIDontKnow = Yes, but I do not know their VAT registration number
+wasThePersonRegisteredForVAT.no = No
+wasThePersonRegisteredForVAT.checkYourAnswersLabel = Was the person registered for VAT, as far as you’re aware?
+wasThePersonRegisteredForVAT.error.required = Select yes if the person was registered for VAT
+wasThePersonRegisteredForVAT.change.hidden = WasThePersonRegisteredForVAT
