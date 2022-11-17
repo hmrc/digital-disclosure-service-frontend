@@ -878,11 +878,20 @@ whatWasThePersonVATRegistrationNumber.error.required = Enter the person’s VAT 
 whatWasThePersonVATRegistrationNumber.error = Enter the person’s VAT registration number in the right format
 whatWasThePersonVATRegistrationNumber.change.hidden = WhatWasThePersonVATRegistrationNumber
 
-wasThePersonRegisteredForSA.title = Was the person registered for Self Assessment, as far as you are aware?
-wasThePersonRegisteredForSA.heading = Was the person registered for Self Assessment, as far as you are aware?
+wasThePersonRegisteredForSA.title = Was the person registered for Self Assessment, as far as you’re aware?
+wasThePersonRegisteredForSA.heading = Was the person registered for Self Assessment, as far as you’re aware?
 wasThePersonRegisteredForSA.yesIKnow = Yes, and I know their Unique Taxpayer Reference (UTR)
 wasThePersonRegisteredForSA.yesButIDontKnow = Yes, but I do not know their Unique Taxpayer Reference (UTR)
 wasThePersonRegisteredForSA.no = No
-wasThePersonRegisteredForSA.checkYourAnswersLabel = Was the person registered for Self Assessment, as far as you are aware?
+wasThePersonRegisteredForSA.checkYourAnswersLabel = Was the person registered for Self Assessment, as far as you’re aware?
 wasThePersonRegisteredForSA.error.required = Select yes if the person was registered for Self Assessment
 wasThePersonRegisteredForSA.change.hidden = WasThePersonRegisteredForSA
+
+wasThePersonUTR.title = What was the person’s Unique Taxpayer Reference?
+wasThePersonUTR.heading = What was the person’s Unique Taxpayer Reference?
+wasThePersonUTR.body = This 10 digit number is on their tax return, statement of accounts or any other Self Assessment calculations.
+wasThePersonUTR.hint = For example, ‘1234567890’.
+wasThePersonUTR.checkYourAnswersLabel = What was the person’s Unique Taxpayer Reference?
+wasThePersonUTR.error.required = Enter the person’s Unique Taxpayer Reference
+wasThePersonUTR.error = Enter the person’s Unique Taxpayer Reference in the right format
+wasThePersonUTR.change.hidden = WasThePersonUTR
