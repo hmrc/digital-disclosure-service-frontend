@@ -245,3 +245,8 @@ GET        /estates-individual-registered-for-vat                   controllers.
 POST       /estates-individual-registered-for-vat                   controllers.notification.WasThePersonRegisteredForVATController.onSubmit(mode: Mode = NormalMode)
 GET        /estates-individual-registered-for-vat/change            controllers.notification.WasThePersonRegisteredForVATController.onPageLoad(mode: Mode = CheckMode)
 POST       /estates-individual-registered-for-vat/change            controllers.notification.WasThePersonRegisteredForVATController.onSubmit(mode: Mode = CheckMode)
+
+GET        /estates-individual-vat-registration                     controllers.notification.WhatWasThePersonVATRegistrationNumberController.onPageLoad(mode: Mode = NormalMode)
+POST       /estates-individual-vat-registration                     controllers.notification.WhatWasThePersonVATRegistrationNumberController.onSubmit(mode: Mode = NormalMode)
+GET        /estates-individual-vat-registration/change              controllers.notification.WhatWasThePersonVATRegistrationNumberController.onPageLoad(mode: Mode = CheckMode)
+POST       /estates-individual-vat-registration/change              controllers.notification.WhatWasThePersonVATRegistrationNumberController.onSubmit(mode: Mode = CheckMode)

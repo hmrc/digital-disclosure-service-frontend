@@ -865,3 +865,12 @@ wasThePersonRegisteredForVAT.no = No
 wasThePersonRegisteredForVAT.checkYourAnswersLabel = Was the person registered for VAT, as far as you’re aware?
 wasThePersonRegisteredForVAT.error.required = Select yes if the person was registered for VAT
 wasThePersonRegisteredForVAT.change.hidden = WasThePersonRegisteredForVAT
+
+whatWasThePersonVATRegistrationNumber.title = What was the person’s VAT registration number?
+whatWasThePersonVATRegistrationNumber.heading = What was the person’s VAT registration number?
+whatWasThePersonVATRegistrationNumber.body = This has 9 numbers, sometimes with ’GB’ at the start. You can find it on their VAT registration certificate or VAT online account.
+whatWasThePersonVATRegistrationNumber.hint = For example, ‘123456789’ or ’GB123456789’.
+whatWasThePersonVATRegistrationNumber.checkYourAnswersLabel = What was the person’s VAT registration number?
+whatWasThePersonVATRegistrationNumber.error.required = Enter the person’s VAT registration number
+whatWasThePersonVATRegistrationNumber.error = Enter the person’s VAT registration number in the right format
+whatWasThePersonVATRegistrationNumber.change.hidden = WhatWasThePersonVATRegistrationNumber
