@@ -191,7 +191,15 @@ class NotificationNavigator @Inject()() {
 
     case WhatWasThePersonDateOfBirthPage => _ => routes.WhatWasThePersonOccupationController.onPageLoad(NormalMode)
 
-    case WhatWasThePersonOccupationPage => _ => routes.WhatWasThePersonNINOController.onPageLoad(NormalMode)
+    case WhatWasThePersonOccupationPage => _ => routes.DidThePersonHaveNINOController.onPageLoad(NormalMode)
+
+    case DidThePersonHaveNINOPage => ua =>
+      ua.get(DidThePersonHaveNINOPage) match {
+        case Some(DidThePersonHaveNINO.YesIKnow) => routes.WhatWasThePersonNINOController.onPageLoad(NormalMode)
+        case Some(DidThePersonHaveNINO.YesButDontKnow) => routes.WasThePersonRegisteredForVATController.onPageLoad(NormalMode)
+        case Some(DidThePersonHaveNINO.No) => routes.WasThePersonRegisteredForVATController.onPageLoad(NormalMode)
+        case None => routes.DidThePersonHaveNINOController.onPageLoad(NormalMode)
+      }
 
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
