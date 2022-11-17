@@ -878,12 +878,12 @@ whatWasThePersonVATRegistrationNumber.error.required = Enter the person’s VAT 
 whatWasThePersonVATRegistrationNumber.error = Enter the person’s VAT registration number in the right format
 whatWasThePersonVATRegistrationNumber.change.hidden = WhatWasThePersonVATRegistrationNumber
 
-wasThePersonRegisteredForSA.title = Was the person registered for Self Assessment, as far as you are aware?
-wasThePersonRegisteredForSA.heading = Was the person registered for Self Assessment, as far as you are aware?
+wasThePersonRegisteredForSA.title = Was the person registered for Self Assessment, as far as you’re aware?
+wasThePersonRegisteredForSA.heading = Was the person registered for Self Assessment, as far as you’re aware?
 wasThePersonRegisteredForSA.yesIKnow = Yes, and I know their Unique Taxpayer Reference (UTR)
 wasThePersonRegisteredForSA.yesButIDontKnow = Yes, but I do not know their Unique Taxpayer Reference (UTR)
 wasThePersonRegisteredForSA.no = No
-wasThePersonRegisteredForSA.checkYourAnswersLabel = Was the person registered for Self Assessment, as far as you are aware?
+wasThePersonRegisteredForSA.checkYourAnswersLabel = Was the person registered for Self Assessment, as far as you’re aware?
 wasThePersonRegisteredForSA.error.required = Select yes if the person was registered for Self Assessment
 wasThePersonRegisteredForSA.change.hidden = WasThePersonRegisteredForSA
 
