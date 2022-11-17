@@ -530,14 +530,14 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(WhatWasThePersonOccupationPage, NormalMode, UserAnswers("id")) mustBe routes.DidThePersonHaveNINOController.onPageLoad(NormalMode)
       }
 
-      "must go from the DidThePersonHaveNINOPage to the WhatWasThePersonNINOController when the user selects Yes, and I know their UTR number" in {
+      "must go from the DidThePersonHaveNINOPage to the WhatWasThePersonNINOController when the user selects Yes, and I know their NINO" in {
         UserAnswers("id").set(DidThePersonHaveNINOPage, DidThePersonHaveNINO.YesIKnow) match {
           case Success(ua) => navigator.nextPage(DidThePersonHaveNINOPage, NormalMode, ua) mustBe routes.WhatWasThePersonNINOController.onPageLoad(NormalMode)
           case Failure(e) => throw e
         }
       }
 
-      "must go from the DidThePersonHaveNINOPage to the WasThePersonRegisteredForVATController when the user selects Yes, but I do not know their UTR number" in {
+      "must go from the DidThePersonHaveNINOPage to the WasThePersonRegisteredForVATController when the user selects Yes, but I do not know their NINO" in {
         UserAnswers("id").set(DidThePersonHaveNINOPage, DidThePersonHaveNINO.YesButDontKnow) match {
           case Success(ua) => navigator.nextPage(DidThePersonHaveNINOPage, NormalMode, ua) mustBe routes.WasThePersonRegisteredForVATController.onPageLoad(NormalMode)
           case Failure(e) => throw e
@@ -549,6 +549,10 @@ class NotificationNavigatorSpec extends SpecBase {
           case Success(ua) => navigator.nextPage(DidThePersonHaveNINOPage, NormalMode, ua) mustBe routes.WasThePersonRegisteredForVATController.onPageLoad(NormalMode)
           case Failure(e) => throw e
         }
+      }
+
+      "must go from the WhatWasThePersonNINOPage to the WasThePersonRegisteredForVATController when the user enter a valid NINO" in {
+        navigator.nextPage(WhatWasThePersonNINOPage, NormalMode, UserAnswers("id")) mustBe routes.WasThePersonRegisteredForVATController.onPageLoad(NormalMode)
       }
     }
 

@@ -201,6 +201,8 @@ class NotificationNavigator @Inject()() {
         case None => routes.DidThePersonHaveNINOController.onPageLoad(NormalMode)
       }
 
+    case WhatWasThePersonNINOPage => _ => routes.WasThePersonRegisteredForVATController.onPageLoad(NormalMode)
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
