@@ -576,6 +576,10 @@ class NotificationNavigatorSpec extends SpecBase {
         }
       }
 
+      "must go from the WhatWasThePersonVATRegistrationNumberPage to the WasThePersonRegisteredForSAController when the user enter a valid VAT" in {
+        navigator.nextPage(WhatWasThePersonVATRegistrationNumberPage, NormalMode, UserAnswers("id")) mustBe routes.WasThePersonRegisteredForSAController.onPageLoad(NormalMode)
+      }
+
     }
 
     "in Check mode" - {
