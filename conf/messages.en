@@ -538,6 +538,7 @@ yourAddressLookup.individual.afterHeadingText = If you are representing an organ
 yourAddressLookup.company.afterHeadingText = If you are representing an organisation on behalf of the company, you can use your organisation’s address.
 yourAddressLookup.llp.afterHeadingText = If you are representing an organisation on behalf of the limited liability partnership, you can use your organisation’s address.
 yourAddressLookup.trust.afterHeadingText = If you are representing an organisation on behalf of the trust, you can use your organisation’s address.
+yourAddressLookup.estate.afterHeadingText = If you are representing an organisation on behalf of the estate, you can use your organisation’s address.
 
 selectAddress.title = Choose your address
 selectAddress.heading = Choose your address
@@ -856,7 +857,7 @@ whatWasThePersonNINO.heading = What was the person’s National Insurance number
 whatWasThePersonNINO.label = This is on your payslip, P60 or tax return
 whatWasThePersonNINO.hint = For example, ‘QQ123456A’.
 whatWasThePersonNINO.checkYourAnswersLabel = What was the person’s National Insurance number?
-whatWasThePersonNINO.error.required = Enter the person’s National insurance number
+whatWasThePersonNINO.error.required = Enter the person’s National Insurance number
 whatWasThePersonNINO.error = Enter the person’s National Insurance number in the right format
 whatWasThePersonNINO.change.hidden = WhatWasThePersonNINO
 
@@ -894,4 +895,23 @@ wasThePersonUTR.hint = For example, ‘1234567890’.
 wasThePersonUTR.checkYourAnswersLabel = What was the person’s Unique Taxpayer Reference?
 wasThePersonUTR.error.required = Enter the person’s Unique Taxpayer Reference
 wasThePersonUTR.error = Enter the person’s Unique Taxpayer Reference in the right format
-wasThePersonUTR.change.hidden = WasThePersonUTR
+wasThePersonUTR.change.hidden = 
+
+estateCountryLookup.title = What was the country of the person’s address?
+estateCountryLookup.heading = What was the country of the person’s address?
+estateCountryLookup.hint = For example, United Kingdom.
+
+estateAddressLookup.title = What was the postcode and property name or number of the person’s address?
+estateAddressLookup.heading = What was the postcode and property name or number of the person’s address?
+
+estateAddressLookup.checkYourAnswersLabel = Estate address
+estateAddressLookup.change.hidden = Estate’s address
+
+selectEstateAddress.title = Choose the person’s address
+selectEstateAddress.heading = Choose the person’s address
+
+editEstateAddress.title = What was the person’s address?
+editEstateAddress.heading = What was the person’s address?
+
+confirmEstateAddress.title = Is this the correct address?
+confirmEstateAddress.heading = Is this the correct address?

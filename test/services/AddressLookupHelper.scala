@@ -82,6 +82,7 @@ trait AddressLookupHelper {
     def yourAddressCompanyBodyRequest(implicit messages: Messages) = constructYourAddressRequest(Some(messages("yourAddressLookup.company.afterHeadingText")))
     def yourAddressLLPBodyRequest(implicit messages: Messages) = constructYourAddressRequest(Some(messages("yourAddressLookup.llp.afterHeadingText")))
     def yourAddressTrustBodyRequest(implicit messages: Messages) = constructYourAddressRequest(Some(messages("yourAddressLookup.trust.afterHeadingText")))
+    def yourAddressEstateBodyRequest(implicit messages: Messages) = constructYourAddressRequest(Some(messages("yourAddressLookup.estate.afterHeadingText")))
 
     def individualLookupRequest(implicit messages: Messages) = {
       val selectPageConfig = SelectPageConfig(proposalListLimit = 15)
@@ -283,6 +284,61 @@ trait AddressLookupHelper {
       val confirmPageLabels = ConfirmPageLabels(
         messages("confirmTrustAddress.title"), 
         messages("confirmTrustAddress.heading")
+      )
+      val internationalLabels = InternationalLabels(
+        lookupPageLabels, 
+        selectPageLabels, 
+        editPageLabels, 
+        confirmPageLabels
+      )
+      val englishLabels = LabelsByLanguage(
+        appLevelLabels, 
+        countryPickerLabels, 
+        lookupPageLabels, 
+        selectPageLabels, 
+        editPageLabels, 
+        confirmPageLabels,
+        internationalLabels
+      )
+      val labels = AddressLookupLabels(englishLabels)
+      AddressLookupRequest(2, addressLookupOptions, labels)
+    }
+
+    def estateLookupRequest(implicit messages: Messages) = {
+      val selectPageConfig = SelectPageConfig(proposalListLimit = 15)
+      val addressLookupOptions = AddressLookupOptions(
+        continueUrl = "host1.com/redirect",
+        serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
+        showPhaseBanner = Some(true),
+        alphaPhase = false,
+        selectPageConfig = Some(selectPageConfig),
+        includeHMRCBranding = Some(false)
+      )
+
+      val appLevelLabels = AppLevelLabels(messages("service.name"))
+      val countryPickerLabels = CountryPickerLabels(
+        messages("estateCountryLookup.title"), 
+        messages("estateCountryLookup.heading"),
+        messages("estateCountryLookup.hint"),
+        messages("site.continue")
+      )
+      val lookupPageLabels = LookupPageLabels(
+        messages("estateAddressLookup.title"), 
+        messages("estateAddressLookup.heading"),
+        messages("site.continue"),
+        None
+      )
+      val selectPageLabels = SelectPageLabels(
+        messages("selectEstateAddress.title"), 
+        messages("selectEstateAddress.heading")
+      )
+      val editPageLabels = EditPageLabels(
+        messages("editEstateAddress.title"), 
+        messages("editEstateAddress.heading")
+      )
+      val confirmPageLabels = ConfirmPageLabels(
+        messages("confirmEstateAddress.title"), 
+        messages("confirmEstateAddress.heading")
       )
       val internationalLabels = InternationalLabels(
         lookupPageLabels, 
