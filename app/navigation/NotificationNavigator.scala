@@ -203,6 +203,14 @@ class NotificationNavigator @Inject()() {
 
     case WhatWasThePersonNINOPage => _ => routes.WasThePersonRegisteredForVATController.onPageLoad(NormalMode)
 
+    case WasThePersonRegisteredForVATPage => ua =>
+      ua.get(WasThePersonRegisteredForVATPage) match {
+        case Some(WasThePersonRegisteredForVAT.YesIKnow) => routes.WhatWasThePersonVATRegistrationNumberController.onPageLoad(NormalMode)
+        case Some(WasThePersonRegisteredForVAT.YesButIDontKnow) => routes.WasThePersonRegisteredForSAController.onPageLoad(NormalMode)
+        case Some(WasThePersonRegisteredForVAT.No) => routes.WasThePersonRegisteredForSAController.onPageLoad(NormalMode)
+        case None => routes.WasThePersonRegisteredForVATController.onPageLoad(NormalMode)
+      }
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
