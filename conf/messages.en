@@ -618,8 +618,8 @@ isTheIndividualRegisteredForSA.change.hidden = IsTheIndividualRegisteredForSelfA
 
 whatIsTheIndividualsVATRegistrationNumber.title = What is the individual’s VAT registration number?
 whatIsTheIndividualsVATRegistrationNumber.heading = What is the individual’s VAT registration number?
-whatIsTheIndividualsVATRegistrationNumber.label = This has 9 numbers, sometimes with ’GB’ at the start. You can find it on their VAT registration certificate or VAT online account.
-whatIsTheIndividualsVATRegistrationNumber.hint = For example, ‘123456789’ or ’GB123456789’.
+whatIsTheIndividualsVATRegistrationNumber.label = This has 9 numbers, sometimes with ‘GB’ at the start. You can find it on their VAT registration certificate or VAT online account.
+whatIsTheIndividualsVATRegistrationNumber.hint = For example, ‘123456789’ or ‘GB123456789’.
 whatIsTheIndividualsVATRegistrationNumber.checkYourAnswersLabel = Individual’s VAT registration number
 whatIsTheIndividualsVATRegistrationNumber.error.required = Enter the individual’s VAT registration number
 whatIsTheIndividualsVATRegistrationNumber.error.invalid = Enter a valid VAT registration number
@@ -868,8 +868,8 @@ wasThePersonRegisteredForVAT.change.hidden = WasThePersonRegisteredForVAT
 
 whatWasThePersonVATRegistrationNumber.title = What was the person’s VAT registration number?
 whatWasThePersonVATRegistrationNumber.heading = What was the person’s VAT registration number?
-whatWasThePersonVATRegistrationNumber.body = This has 9 numbers, sometimes with ’GB’ at the start. You can find it on their VAT registration certificate or VAT online account.
-whatWasThePersonVATRegistrationNumber.hint = For example, ‘123456789’ or ’GB123456789’.
+whatWasThePersonVATRegistrationNumber.body = This has 9 numbers, sometimes with ‘GB’ at the start. You can find it on their VAT registration certificate or VAT online account.
+whatWasThePersonVATRegistrationNumber.hint = For example, ‘123456789’ or ‘GB123456789’.
 whatWasThePersonVATRegistrationNumber.checkYourAnswersLabel = What was the person’s VAT registration number?
 whatWasThePersonVATRegistrationNumber.error.required = Enter the person’s VAT registration number
 whatWasThePersonVATRegistrationNumber.error = Enter the person’s VAT registration number in the right format
