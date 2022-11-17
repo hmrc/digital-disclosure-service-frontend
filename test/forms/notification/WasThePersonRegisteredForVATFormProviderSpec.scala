@@ -16,29 +16,24 @@
 
 package forms
 
-import forms.behaviours.NationalInsuranceBehaviours
+import forms.behaviours.OptionFieldBehaviours
+import models.WasThePersonRegisteredForVAT
 import play.api.data.FormError
 
-class WhatWasThePersonNINOFormProviderSpec extends NationalInsuranceBehaviours {
+class WasThePersonRegisteredForVATFormProviderSpec extends OptionFieldBehaviours {
 
-  val requiredKey = "whatWasThePersonNINO.error.required"
-  val invalidFormatKey = "whatWasThePersonNINO.error"
-
-  val form = new WhatWasThePersonNINOFormProvider()()
+  val form = new WasThePersonRegisteredForVATFormProvider()()
 
   ".value" - {
 
     val fieldName = "value"
+    val requiredKey = "wasThePersonRegisteredForVAT.error.required"
 
-    behave like nationalInsuraceNumberBindsValidData(
-      form,
-      fieldName
-    )
-
-    behave like nationalInsuraceNumberBindsInvalidData(
+    behave like optionsField[WasThePersonRegisteredForVAT](
       form,
       fieldName,
-      validError = FormError(fieldName, invalidFormatKey, Seq())
+      validValues  = WasThePersonRegisteredForVAT.values,
+      invalidError = FormError(fieldName, "error.invalid")
     )
 
     behave like mandatoryField(

@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package forms
+package pages
 
-import javax.inject.Inject
+import models.WasThePersonRegisteredForVAT
+import pages.behaviours.PageBehaviours
 
-import forms.mappings.Mappings
-import play.api.data.Form
+class WasThePersonRegisteredForVATSpec extends PageBehaviours {
 
-class WhatWasThePersonNINOFormProvider @Inject() extends Mappings {
+  "WasThePersonRegisteredForVATPage" - {
 
-  def apply(): Form[String] =
-    Form(
-      "value" -> text("whatWasThePersonNINO.error.required")
-        .verifying(validNino("whatWasThePersonNINO.error"))
+    beRetrievable[WasThePersonRegisteredForVAT](WasThePersonRegisteredForVATPage)
 
-    )
+    beSettable[WasThePersonRegisteredForVAT](WasThePersonRegisteredForVATPage)
+
+    beRemovable[WasThePersonRegisteredForVAT](WasThePersonRegisteredForVATPage)
+  }
 }

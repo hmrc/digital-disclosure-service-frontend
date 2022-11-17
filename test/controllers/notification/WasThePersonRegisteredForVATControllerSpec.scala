@@ -17,43 +17,43 @@
 package controllers
 
 import base.SpecBase
-import forms.WhatWasThePersonNINOFormProvider
-import models.{NormalMode, UserAnswers}
+import forms.WasThePersonRegisteredForVATFormProvider
+import models.{NormalMode, WasThePersonRegisteredForVAT, UserAnswers}
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.WhatWasThePersonNINOPage
+import pages.WasThePersonRegisteredForVATPage
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
-import views.html.notification.WhatWasThePersonNINOView
+import views.html.notification.WasThePersonRegisteredForVATView
 
 import scala.concurrent.Future
 
-class WhatWasThePersonNINOControllerSpec extends SpecBase with MockitoSugar {
+class WasThePersonRegisteredForVATControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  val formProvider = new WhatWasThePersonNINOFormProvider()
+  lazy val wasThePersonRegisteredForVATRoute = notification.routes.WasThePersonRegisteredForVATController.onPageLoad(NormalMode).url
+
+  val formProvider = new WasThePersonRegisteredForVATFormProvider()
   val form = formProvider()
 
-  lazy val whatWasThePersonNINORoute = notification.routes.WhatWasThePersonNINOController.onPageLoad(NormalMode).url
-
-  "WhatWasThePersonNINO Controller" - {
+  "WasThePersonRegisteredForVAT Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, whatWasThePersonNINORoute)
+        val request = FakeRequest(GET, wasThePersonRegisteredForVATRoute)
 
         val result = route(application, request).value
 
-        val view = application.injector.instanceOf[WhatWasThePersonNINOView]
+        val view = application.injector.instanceOf[WasThePersonRegisteredForVATView]
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
@@ -62,19 +62,19 @@ class WhatWasThePersonNINOControllerSpec extends SpecBase with MockitoSugar {
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(WhatWasThePersonNINOPage, "answer").success.value
+      val userAnswers = UserAnswers(userAnswersId).set(WasThePersonRegisteredForVATPage, WasThePersonRegisteredForVAT.values.head).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, whatWasThePersonNINORoute)
+        val request = FakeRequest(GET, wasThePersonRegisteredForVATRoute)
 
-        val view = application.injector.instanceOf[WhatWasThePersonNINOView]
+        val view = application.injector.instanceOf[WasThePersonRegisteredForVATView]
 
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill("answer"), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(WasThePersonRegisteredForVAT.values.head), NormalMode)(request, messages(application)).toString
       }
     }
 
@@ -93,8 +93,8 @@ class WhatWasThePersonNINOControllerSpec extends SpecBase with MockitoSugar {
 
       running(application) {
         val request =
-          FakeRequest(POST, whatWasThePersonNINORoute)
-            .withFormUrlEncodedBody(("value", "AZ123456D"))
+          FakeRequest(POST, wasThePersonRegisteredForVATRoute)
+            .withFormUrlEncodedBody(("value", WasThePersonRegisteredForVAT.values.head.toString))
 
         val result = route(application, request).value
 
@@ -109,12 +109,12 @@ class WhatWasThePersonNINOControllerSpec extends SpecBase with MockitoSugar {
 
       running(application) {
         val request =
-          FakeRequest(POST, whatWasThePersonNINORoute)
-            .withFormUrlEncodedBody(("value", ""))
+          FakeRequest(POST, wasThePersonRegisteredForVATRoute)
+            .withFormUrlEncodedBody(("value", "invalid value"))
 
-        val boundForm = form.bind(Map("value" -> ""))
+        val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[WhatWasThePersonNINOView]
+        val view = application.injector.instanceOf[WasThePersonRegisteredForVATView]
 
         val result = route(application, request).value
 
@@ -128,7 +128,7 @@ class WhatWasThePersonNINOControllerSpec extends SpecBase with MockitoSugar {
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val request = FakeRequest(GET, whatWasThePersonNINORoute)
+        val request = FakeRequest(GET, wasThePersonRegisteredForVATRoute)
 
         val result = route(application, request).value
 
@@ -137,18 +137,19 @@ class WhatWasThePersonNINOControllerSpec extends SpecBase with MockitoSugar {
       }
     }
 
-    "must redirect to Index for a POST if no existing data is found" in {
+    "redirect to Journey Recovery for a POST if no existing data is found" in {
 
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
         val request =
-          FakeRequest(POST, whatWasThePersonNINORoute)
-            .withFormUrlEncodedBody(("value", "answer"))
+          FakeRequest(POST, wasThePersonRegisteredForVATRoute)
+            .withFormUrlEncodedBody(("value", WasThePersonRegisteredForVAT.values.head.toString))
 
         val result = route(application, request).value
 
         status(result) mustEqual SEE_OTHER
+
         redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
       }
     }

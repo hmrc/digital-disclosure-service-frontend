@@ -20,13 +20,12 @@ import javax.inject.Inject
 
 import forms.mappings.Mappings
 import play.api.data.Form
+import models.WasThePersonRegisteredForVAT
 
-class WhatWasThePersonNINOFormProvider @Inject() extends Mappings {
+class WasThePersonRegisteredForVATFormProvider @Inject() extends Mappings {
 
-  def apply(): Form[String] =
+  def apply(): Form[WasThePersonRegisteredForVAT] =
     Form(
-      "value" -> text("whatWasThePersonNINO.error.required")
-        .verifying(validNino("whatWasThePersonNINO.error"))
-
+      "value" -> enumerable[WasThePersonRegisteredForVAT]("wasThePersonRegisteredForVAT.error.required")
     )
 }
