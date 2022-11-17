@@ -255,3 +255,8 @@ GET        /estates-individual-self-assessment                      controllers.
 POST       /estates-individual-self-assessment                      controllers.notification.WasThePersonRegisteredForSAController.onSubmit(mode: Mode = NormalMode)
 GET        /estates-individual-self-assessment/change               controllers.notification.WasThePersonRegisteredForSAController.onPageLoad(mode: Mode = CheckMode)
 POST       /estates-individual-self-assessment/change               controllers.notification.WasThePersonRegisteredForSAController.onSubmit(mode: Mode = CheckMode)
+
+GET        /estates-individual-utr                                  controllers.notification.WasThePersonUTRController.onPageLoad(mode: Mode = NormalMode)
+POST       /estates-individual-utr                                  controllers.notification.WasThePersonUTRController.onSubmit(mode: Mode = NormalMode)
+GET        /estates-individual-utr/change                           controllers.notification.WasThePersonUTRController.onPageLoad(mode: Mode = CheckMode)
+POST       /estates-individual-utr/change                           controllers.notification.WasThePersonUTRController.onSubmit(mode: Mode = CheckMode)
