@@ -526,8 +526,29 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(WhatWasThePersonDateOfBirthPage, NormalMode, UserAnswers("id")) mustBe routes.WhatWasThePersonOccupationController.onPageLoad(NormalMode)
       }
 
-      "must go from the WhatWasThePersonOccupationPage to the WhatWasThePersonNINOController when the user enter a valid name" in {
-        navigator.nextPage(WhatWasThePersonOccupationPage, NormalMode, UserAnswers("id")) mustBe routes.WhatWasThePersonNINOController.onPageLoad(NormalMode)
+      "must go from the WhatWasThePersonOccupationPage to the DidThePersonHaveNINOController when the user enter a valid name" in {
+        navigator.nextPage(WhatWasThePersonOccupationPage, NormalMode, UserAnswers("id")) mustBe routes.DidThePersonHaveNINOController.onPageLoad(NormalMode)
+      }
+
+      "must go from the DidThePersonHaveNINOPage to the WhatWasThePersonNINOController when the user selects Yes, and I know their UTR number" in {
+        UserAnswers("id").set(DidThePersonHaveNINOPage, DidThePersonHaveNINO.YesIKnow) match {
+          case Success(ua) => navigator.nextPage(DidThePersonHaveNINOPage, NormalMode, ua) mustBe routes.WhatWasThePersonNINOController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the DidThePersonHaveNINOPage to the WasThePersonRegisteredForVATController when the user selects Yes, but I do not know their UTR number" in {
+        UserAnswers("id").set(DidThePersonHaveNINOPage, DidThePersonHaveNINO.YesButDontKnow) match {
+          case Success(ua) => navigator.nextPage(DidThePersonHaveNINOPage, NormalMode, ua) mustBe routes.WasThePersonRegisteredForVATController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the IsTheIndividualRegisteredForSelfAssessmentPage to the WasThePersonRegisteredForVATController when the user selects No" in {
+        UserAnswers("id").set(DidThePersonHaveNINOPage, DidThePersonHaveNINO.No) match {
+          case Success(ua) => navigator.nextPage(DidThePersonHaveNINOPage, NormalMode, ua) mustBe routes.WasThePersonRegisteredForVATController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
       }
     }
 
