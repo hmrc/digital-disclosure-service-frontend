@@ -526,6 +526,9 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(WhatWasThePersonDateOfBirthPage, NormalMode, UserAnswers("id")) mustBe routes.WhatWasThePersonOccupationController.onPageLoad(NormalMode)
       }
 
+      "must go from the WhatWasThePersonOccupationPage to the WhatWasThePersonNINOController when the user enter a valid name" in {
+        navigator.nextPage(WhatWasThePersonOccupationPage, NormalMode, UserAnswers("id")) mustBe routes.WhatWasThePersonNINOController.onPageLoad(NormalMode)
+      }
     }
 
     "in Check mode" - {
