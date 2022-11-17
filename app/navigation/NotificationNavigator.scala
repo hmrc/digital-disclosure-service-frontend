@@ -191,6 +191,8 @@ class NotificationNavigator @Inject()() {
 
     case WhatWasThePersonDateOfBirthPage => _ => routes.WhatWasThePersonOccupationController.onPageLoad(NormalMode)
 
+    case WhatWasThePersonOccupationPage => _ => routes.WhatWasThePersonNINOController.onPageLoad(NormalMode)
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
