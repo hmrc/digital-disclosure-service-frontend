@@ -240,3 +240,8 @@ GET        /estates-individual-national-insurance-number            controllers.
 POST       /estates-individual-national-insurance-number            controllers.notification.WhatWasThePersonNINOController.onSubmit(mode: Mode = NormalMode)
 GET        /estates-individual-national-insurance-number/change     controllers.notification.WhatWasThePersonNINOController.onPageLoad(mode: Mode = CheckMode)
 POST       /estates-individual-national-insurance-number/change     controllers.notification.WhatWasThePersonNINOController.onSubmit(mode: Mode = CheckMode)
+
+GET        /estates-individual-registered-for-vat                   controllers.notification.WasThePersonRegisteredForVATController.onPageLoad(mode: Mode = NormalMode)
+POST       /estates-individual-registered-for-vat                   controllers.notification.WasThePersonRegisteredForVATController.onSubmit(mode: Mode = NormalMode)
+GET        /estates-individual-registered-for-vat/change            controllers.notification.WasThePersonRegisteredForVATController.onPageLoad(mode: Mode = CheckMode)
+POST       /estates-individual-registered-for-vat/change            controllers.notification.WasThePersonRegisteredForVATController.onSubmit(mode: Mode = CheckMode)
