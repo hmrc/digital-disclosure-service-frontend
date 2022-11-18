@@ -102,7 +102,7 @@ class WasThePersonRegisteredForSAControllerSpec extends ControllerSpecBase {
       }
     }
 
-    "must redirect to WhatWasThePersonUTRC screen in check mode if DidThePersonHaveNINO page answer was change from No or YesButDontKnow to YesIKnow" in {
+    "must redirect to WhatWasThePersonUTR screen in check mode if WasThePersonRegisteredForSA page answer was change from No or YesButDontKnow to YesIKnow" in {
       val previousAnswers = Seq(WasThePersonRegisteredForSA.No, WasThePersonRegisteredForSA.YesButIDontKnow)
       val newAnswer = WasThePersonRegisteredForSA.YesIKnow
 

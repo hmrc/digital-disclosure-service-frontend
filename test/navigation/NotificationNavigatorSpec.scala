@@ -781,9 +781,8 @@ class NotificationNavigatorSpec extends SpecBase {
         val userAnswers = UserAnswers("id").set(DidThePersonHaveNINOPage, DidThePersonHaveNINO.YesIKnow).success.value
         navigator.nextPage(DidThePersonHaveNINOPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
       }
-      // ---
 
-      "must go from the WasThePersonRegisteredForSAPage to WhatIsIndividualsNationalInsuranceNumberPage where the answer is YesIKnow and has changed" in {
+      "must go from the WasThePersonRegisteredForSAPage to WhatWasThePersonUTRC page where the answer is YesIKnow and has changed" in {
         val userAnswers = UserAnswers("id").set(WasThePersonRegisteredForSAPage, WasThePersonRegisteredForSA.YesIKnow).success.value
         navigator.nextPage(WasThePersonRegisteredForSAPage, CheckMode, userAnswers, true) mustBe routes.WhatWasThePersonUTRController.onPageLoad(CheckMode)
       }
