@@ -223,6 +223,8 @@ class NotificationNavigator @Inject()() {
 
     case WhatWasThePersonUTRPage => _ => routes.EstateAddressLookupController.lookupAddress(NormalMode)
 
+    case EstateAddressLookupPage => _ => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
