@@ -213,6 +213,14 @@ class NotificationNavigator @Inject()() {
 
     case WhatWasThePersonVATRegistrationNumberPage => _ => routes.WasThePersonRegisteredForSAController.onPageLoad(NormalMode)
 
+    case WasThePersonRegisteredForSAPage => ua =>
+      ua.get(WasThePersonRegisteredForSAPage) match {
+        case Some(WasThePersonRegisteredForSA.YesIKnow) => routes.WasThePersonUTRController.onPageLoad(NormalMode)
+        case Some(WasThePersonRegisteredForSA.YesButIDontKnow) => routes.EstateAddressLookupController.lookupAddress(NormalMode)
+        case Some(WasThePersonRegisteredForSA.No) => routes.EstateAddressLookupController.lookupAddress(NormalMode)
+        case None => routes.WasThePersonRegisteredForVATController.onPageLoad(NormalMode)
+      }
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
