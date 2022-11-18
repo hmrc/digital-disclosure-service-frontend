@@ -288,6 +288,11 @@ class NotificationNavigator @Inject()() {
       case _ => routes.CheckYourAnswersController.onPageLoad
     }
 
+    case DidThePersonHaveNINOPage => ua => hasAnswerChanged => ua.get(DidThePersonHaveNINOPage) match {
+      case Some(DidThePersonHaveNINO.YesIKnow) if hasAnswerChanged => routes.WhatWasThePersonNINOController.onPageLoad(CheckMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad
+    }
+
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 

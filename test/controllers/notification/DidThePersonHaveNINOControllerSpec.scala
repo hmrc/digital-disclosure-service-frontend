@@ -16,14 +16,13 @@
 
 package controllers
 
-import base.SpecBase
+import base.ControllerSpecBase
 import forms.DidThePersonHaveNINOFormProvider
-import models.{NormalMode, DidThePersonHaveNINO, UserAnswers}
+import models.{CheckMode, DidThePersonHaveNINO, NormalMode, UserAnswers}
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
-import org.scalatestplus.mockito.MockitoSugar
-import pages.DidThePersonHaveNINOPage
+import pages.{DidThePersonHaveNINOPage, WhatWasThePersonNINOPage}
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -33,7 +32,7 @@ import views.html.notification.DidThePersonHaveNINOView
 
 import scala.concurrent.Future
 
-class DidThePersonHaveNINOControllerSpec extends SpecBase with MockitoSugar {
+class DidThePersonHaveNINOControllerSpec extends ControllerSpecBase  {
 
   def onwardRoute = Call("GET", "/foo")
 
@@ -101,6 +100,41 @@ class DidThePersonHaveNINOControllerSpec extends SpecBase with MockitoSugar {
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual onwardRoute.url
       }
+    }
+
+    "must redirect to WhatWasThePersonNINOController screen in check mode if DidThePersonHaveNINO page answer was change from No or YesButDontKnow to YesIKnow" in {
+      val previousAnswers = Seq(DidThePersonHaveNINO.No, DidThePersonHaveNINO.YesButDontKnow)
+      val newAnswer = DidThePersonHaveNINO.YesIKnow
+
+      val urlToTest = notification.routes.DidThePersonHaveNINOController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.WhatWasThePersonNINOController.onPageLoad(CheckMode).url
+
+      previousAnswers.foreach(
+        testChangeAnswerRouting(_, newAnswer, DidThePersonHaveNINOPage, urlToTest, destinationRoute)
+      )
+    }
+
+    "must redirect to CheckYourAnswers screen if the if DidThePersonHaveNINO page answer was change from YesIKnow to No or YesButDontKnow" in {
+      val previousAnswer = DidThePersonHaveNINO.YesIKnow
+      val newAnswers = Seq(DidThePersonHaveNINO.No, DidThePersonHaveNINO.YesButDontKnow)
+
+      val urlToTest = notification.routes.DidThePersonHaveNINOController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      val pageToClean = List(WhatWasThePersonNINOPage)
+
+      newAnswers.foreach(testChangeAnswerRouting(
+        previousAnswer, _, DidThePersonHaveNINOPage, urlToTest, destinationRoute, pageToClean)
+      )
+    }
+
+    "must redirect to CheckYourAnswer screen if there are no changes in the user answer" in {
+      val urlToTest = notification.routes.DidThePersonHaveNINOController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      DidThePersonHaveNINO.values.foreach(value =>
+        testChangeAnswerRouting(value, value, DidThePersonHaveNINOPage, urlToTest, destinationRoute)
+      )
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
