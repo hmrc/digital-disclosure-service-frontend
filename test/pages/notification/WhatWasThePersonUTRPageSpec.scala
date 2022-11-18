@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-package forms
+package pages
 
-import javax.inject.Inject
+import pages.behaviours.PageBehaviours
 
-import forms.mappings.Mappings
-import play.api.data.Form
 
-class WasThePersonUTRFormProvider @Inject() extends Mappings {
+class WhatWasThePersonUTRPageSpec extends PageBehaviours {
 
-  val length = 10
+  "WhatWasThePersonUTRPage" - {
 
-  def apply(): Form[String] =
-    Form(
-      "value" -> text("wasThePersonUTR.error.required")
-        .verifying(validUTR(length, "wasThePersonUTR.error"))
-    )
+    beRetrievable[String](WhatWasThePersonUTRPage)
+
+    beSettable[String](WhatWasThePersonUTRPage)
+
+    beRemovable[String](WhatWasThePersonUTRPage)
+  }
 }

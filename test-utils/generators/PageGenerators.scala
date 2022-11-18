@@ -21,8 +21,8 @@ import pages._
 
 trait PageGenerators {
 
-  implicit lazy val arbitraryWasThePersonUTRPage: Arbitrary[WasThePersonUTRPage.type] =
-    Arbitrary(WasThePersonUTRPage)
+  implicit lazy val arbitraryWhatWasThePersonUTRPage: Arbitrary[WhatWasThePersonUTRPage.type] =
+    Arbitrary(WhatWasThePersonUTRPage)
 
   implicit lazy val arbitraryWasThePersonRegisteredForSAPage: Arbitrary[WasThePersonRegisteredForSAPage.type] =
     Arbitrary(WasThePersonRegisteredForSAPage)

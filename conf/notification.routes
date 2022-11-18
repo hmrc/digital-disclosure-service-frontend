@@ -256,10 +256,10 @@ POST       /estates-individual-self-assessment                      controllers.
 GET        /estates-individual-self-assessment/change               controllers.notification.WasThePersonRegisteredForSAController.onPageLoad(mode: Mode = CheckMode)
 POST       /estates-individual-self-assessment/change               controllers.notification.WasThePersonRegisteredForSAController.onSubmit(mode: Mode = CheckMode)
 
-GET        /estates-individual-utr                                  controllers.notification.WasThePersonUTRController.onPageLoad(mode: Mode = NormalMode)
-POST       /estates-individual-utr                                  controllers.notification.WasThePersonUTRController.onSubmit(mode: Mode = NormalMode)
-GET        /estates-individual-utr/change                           controllers.notification.WasThePersonUTRController.onPageLoad(mode: Mode = CheckMode)
-POST       /estates-individual-utr/change                           controllers.notification.WasThePersonUTRController.onSubmit(mode: Mode = CheckMode)
+GET        /estates-individual-utr                                  controllers.notification.WhatWasThePersonUTRController.onPageLoad(mode: Mode = NormalMode)
+POST       /estates-individual-utr                                  controllers.notification.WhatWasThePersonUTRController.onSubmit(mode: Mode = NormalMode)
+GET        /estates-individual-utr/change                           controllers.notification.WhatWasThePersonUTRController.onPageLoad(mode: Mode = CheckMode)
+POST       /estates-individual-utr/change                           controllers.notification.WhatWasThePersonUTRController.onSubmit(mode: Mode = CheckMode)
 
 GET        /estate-address/lookup                                   controllers.notification.EstateAddressLookupController.lookupAddress(mode: Mode = NormalMode)
 GET        /estate-address/retrieve                                 controllers.notification.EstateAddressLookupController.retrieveConfirmedAddress(mode: Mode = NormalMode, id: Option[UUID] ?= None)

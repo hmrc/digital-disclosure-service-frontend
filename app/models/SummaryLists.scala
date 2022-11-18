@@ -23,4 +23,5 @@ case class SummaryLists(background: SummaryList,
                         aboutTheIndividualList: Option[SummaryList] = None,
                         aboutTheCompanyList: Option[SummaryList] = None,
                         aboutTheLLPList: Option[SummaryList] = None,
-                        aboutTheTrustList: Option[SummaryList] = None)
+                        aboutTheTrustList: Option[SummaryList] = None,
+                        aboutThePersonWhoDiedList: Option[SummaryList] = None)

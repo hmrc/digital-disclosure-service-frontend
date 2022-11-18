@@ -137,7 +137,36 @@ class CheckYourAnswersController @Inject()(
         case _ => None
       }
 
-      val list = SummaryLists(backgroundList, aboutYouList, aboutTheIndividualList, aboutTheCompanyList, aboutTheLLPList, aboutTheTrust)
+      val aboutThePersonWhoDied = request.userAnswers.get(RelatesToPage) match {
+        case Some(RelatesTo.AnEstate) =>
+          Some(
+            SummaryListViewModel(
+              rows = Seq(
+                WhatWasTheNameOfThePersonWhoDiedSummary.row(ua),
+                WhatWasThePersonDateOfBirthSummary.row(ua),
+                WhatWasThePersonOccupationSummary.row(ua),
+                DidThePersonHaveNINOSummary.row(ua),
+                WhatWasThePersonNINOSummary.row(ua),
+                WasThePersonRegisteredForVATSummary.row(ua),
+                WhatWasThePersonVATRegistrationNumberSummary.row(ua),
+                WasThePersonRegisteredForSASummary.row(ua),
+                WhatWasThePersonUTRSummary.row(ua),
+                EstateAddressLookupSummary.row(ua)
+              ).flatten
+            )
+          )
+        case _ => None
+      }
+
+      val list = SummaryLists(
+        backgroundList, 
+        aboutYouList, 
+        aboutTheIndividualList, 
+        aboutTheCompanyList, 
+        aboutTheLLPList, 
+        aboutTheTrust, 
+        aboutThePersonWhoDied
+      )
 
       Ok(view(list))
   }

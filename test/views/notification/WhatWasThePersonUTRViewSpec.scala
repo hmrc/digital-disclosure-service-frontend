@@ -17,16 +17,16 @@
 package views.notification
 
 import base.ViewSpecBase
-import forms.WasThePersonUTRFormProvider
+import forms.WhatWasThePersonUTRFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
-import views.html.notification.WasThePersonUTRView
+import views.html.notification.WhatWasThePersonUTRView
 import models.NormalMode
 
-class WasThePersonUTRViewSpec extends ViewSpecBase with ViewMatchers {
+class WhatWasThePersonUTRViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WasThePersonUTRFormProvider()()
-  val page: WasThePersonUTRView = inject[WasThePersonUTRView]
+  val form = new WhatWasThePersonUTRFormProvider()()
+  val page: WhatWasThePersonUTRView = inject[WhatWasThePersonUTRView]
 
   private def createView: Html = page(form, NormalMode)(request, messages)
 
@@ -35,19 +35,19 @@ class WasThePersonUTRViewSpec extends ViewSpecBase with ViewMatchers {
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("wasThePersonUTR.title"))
+      view.select("title").text() must include(messages("whatWasThePersonUTR.title"))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("wasThePersonUTR.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatWasThePersonUTR.heading")
     }
 
     "have a body" in {
-      view.getElementsByClass("govuk-label").text() mustBe messages("wasThePersonUTR.body")
+      view.getElementsByClass("govuk-label").text() mustBe messages("whatWasThePersonUTR.body")
     }
 
     "have a hint" in {
-      view.getElementsByClass("govuk-hint").text() mustBe messages("wasThePersonUTR.hint")
+      view.getElementsByClass("govuk-hint").text() mustBe messages("whatWasThePersonUTR.hint")
     }
 
     "display the continue button" in {
