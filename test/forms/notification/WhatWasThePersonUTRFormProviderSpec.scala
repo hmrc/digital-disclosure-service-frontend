@@ -19,12 +19,12 @@ package forms
 import forms.behaviours.UTRBehaviours
 import play.api.data.FormError
 
-class WasThePersonUTRFormProviderSpec extends UTRBehaviours {
+class WhatWasThePersonUTRFormProviderSpec extends UTRBehaviours {
 
-  val requiredErrorKey = "wasThePersonUTR.error.required"
-  val invalidErrorKey = "wasThePersonUTR.error"
+  val requiredErrorKey = "whatWasThePersonUTR.error.required"
+  val invalidErrorKey = "whatWasThePersonUTR.error"
 
-  val form = new WasThePersonUTRFormProvider()()
+  val form = new WhatWasThePersonUTRFormProvider()()
 
   ".value" - {
 

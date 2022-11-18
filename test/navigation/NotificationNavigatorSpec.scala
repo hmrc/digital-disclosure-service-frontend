@@ -580,9 +580,9 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(WhatWasThePersonVATRegistrationNumberPage, NormalMode, UserAnswers("id")) mustBe routes.WasThePersonRegisteredForSAController.onPageLoad(NormalMode)
       }
 
-      "must go from the WasThePersonRegisteredForSAPage to the WasThePersonUTRController when the user selects Yes, and I know their UTR" in {
+      "must go from the WasThePersonRegisteredForSAPage to the WhatWasThePersonUTRController when the user selects Yes, and I know their UTR" in {
         UserAnswers("id").set(WasThePersonRegisteredForSAPage, WasThePersonRegisteredForSA.YesIKnow) match {
-          case Success(ua) => navigator.nextPage(WasThePersonRegisteredForSAPage, NormalMode, ua) mustBe routes.WasThePersonUTRController.onPageLoad(NormalMode)
+          case Success(ua) => navigator.nextPage(WasThePersonRegisteredForSAPage, NormalMode, ua) mustBe routes.WhatWasThePersonUTRController.onPageLoad(NormalMode)
           case Failure(e) => throw e
         }
       }

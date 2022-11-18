@@ -27,22 +27,22 @@
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("wasThePersonUTR.title"))) {
+@layout(pageTitle = title(form, messages("whatWasThePersonUTR.title"))) {
 
-    @formHelper(action = controllers.notification.routes.WasThePersonUTRController.onSubmit(mode)) {
+    @formHelper(action = controllers.notification.routes.WhatWasThePersonUTRController.onSubmit(mode)) {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
-        @heading(Text(messages("wasThePersonUTR.heading")))
+        @heading(Text(messages("whatWasThePersonUTR.heading")))
 
         @govukInput(
             InputViewModel(
                 field = form("value"),
-                label = LabelViewModel(messages("wasThePersonUTR.body"))
+                label = LabelViewModel(messages("whatWasThePersonUTR.body"))
             )
-            .withHint(Hint(content = Text(messages("wasThePersonUTR.hint"))))
+            .withHint(Hint(content = Text(messages("whatWasThePersonUTR.hint"))))
             .withWidth(Full)
         )
 
