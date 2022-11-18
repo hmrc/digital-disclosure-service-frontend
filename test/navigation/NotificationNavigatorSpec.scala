@@ -601,8 +601,8 @@ class NotificationNavigatorSpec extends SpecBase {
         }
       }
 
-      "must go from the WasThePersonUTRPage to the EstateAddressLookupController when the user enter a valid UTR" in {
-        navigator.nextPage(WasThePersonUTRPage, NormalMode, UserAnswers("id")) mustBe routes.EstateAddressLookupController.lookupAddress(NormalMode)
+      "must go from the WhatWasThePersonUTRPage to the EstateAddressLookupController when the user enter a valid UTR" in {
+        navigator.nextPage(WhatWasThePersonUTRPage, NormalMode, UserAnswers("id")) mustBe routes.EstateAddressLookupController.lookupAddress(NormalMode)
       }
     }
 
