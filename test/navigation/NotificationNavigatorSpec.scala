@@ -600,6 +600,10 @@ class NotificationNavigatorSpec extends SpecBase {
           case Failure(e) => throw e
         }
       }
+
+      "must go from the WasThePersonUTRPage to the EstateAddressLookupController when the user enter a valid UTR" in {
+        navigator.nextPage(WasThePersonUTRPage, NormalMode, UserAnswers("id")) mustBe routes.EstateAddressLookupController.lookupAddress(NormalMode)
+      }
     }
 
     "in Check mode" - {

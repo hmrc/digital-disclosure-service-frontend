@@ -221,6 +221,8 @@ class NotificationNavigator @Inject()() {
         case None => routes.WasThePersonRegisteredForVATController.onPageLoad(NormalMode)
       }
 
+    case WasThePersonUTRPage => _ => routes.EstateAddressLookupController.lookupAddress(NormalMode)
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
