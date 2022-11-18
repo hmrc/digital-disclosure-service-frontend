@@ -580,6 +580,26 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(WhatWasThePersonVATRegistrationNumberPage, NormalMode, UserAnswers("id")) mustBe routes.WasThePersonRegisteredForSAController.onPageLoad(NormalMode)
       }
 
+      "must go from the WasThePersonRegisteredForSAPage to the WhatWasThePersonVATRegistrationNumberController when the user selects Yes, and I know their UTR" in {
+        UserAnswers("id").set(WasThePersonRegisteredForSAPage, WasThePersonRegisteredForSA.YesIKnow) match {
+          case Success(ua) => navigator.nextPage(WasThePersonRegisteredForSAPage, NormalMode, ua) mustBe routes.WasThePersonUTRController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the WasThePersonRegisteredForSAPage to the EstateAddressLookupController when the user selects Yes, but I do not know their UTR" in {
+        UserAnswers("id").set(WasThePersonRegisteredForSAPage, WasThePersonRegisteredForSA.YesButIDontKnow) match {
+          case Success(ua) => navigator.nextPage(WasThePersonRegisteredForSAPage, NormalMode, ua) mustBe routes.EstateAddressLookupController.lookupAddress(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the IsTheIndividualRegisteredForSelfAssessmentPage to the EstateAddressLookupController when the user selects No" in {
+        UserAnswers("id").set(WasThePersonRegisteredForSAPage, WasThePersonRegisteredForSA.No) match {
+          case Success(ua) => navigator.nextPage(WasThePersonRegisteredForSAPage, NormalMode, ua) mustBe routes.EstateAddressLookupController.lookupAddress(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
     }
 
     "in Check mode" - {
