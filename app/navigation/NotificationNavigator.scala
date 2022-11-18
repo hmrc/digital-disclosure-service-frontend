@@ -295,6 +295,11 @@ class NotificationNavigator @Inject()() {
       case _ => routes.CheckYourAnswersController.onPageLoad
     }
 
+    case WasThePersonRegisteredForSAPage => ua => hasAnswerChanged => ua.get(WasThePersonRegisteredForSAPage) match {
+      case Some(WasThePersonRegisteredForSA.YesIKnow) if hasAnswerChanged => routes.WhatWasThePersonUTRController.onPageLoad(CheckMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad
+    }
+
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 

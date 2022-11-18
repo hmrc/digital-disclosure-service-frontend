@@ -18,10 +18,11 @@ package controllers.notification
 
 import controllers.actions._
 import forms.WasThePersonRegisteredForSAFormProvider
+
 import javax.inject.Inject
-import models.Mode
+import models.{Mode, UserAnswers, WasThePersonRegisteredForSA}
 import navigation.NotificationNavigator
-import pages.WasThePersonRegisteredForSAPage
+import pages.{QuestionPage, WasThePersonRegisteredForSAPage, WhatWasThePersonUTRPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -62,11 +63,21 @@ class WasThePersonRegisteredForSAController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
-        value =>
+        value => {
+          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(WasThePersonRegisteredForSAPage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(WasThePersonRegisteredForSAPage, mode, updatedAnswers))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+            _ <- sessionService.set(clearedAnswers)
+          } yield Redirect(navigator.nextPage(WasThePersonRegisteredForSAPage, mode, clearedAnswers, hasValueChanged))
+        }
       )
   }
+
+  def changedPages(existingUserAnswers: UserAnswers, value: WasThePersonRegisteredForSA): (List[QuestionPage[_]], Boolean) =
+    existingUserAnswers.get(WasThePersonRegisteredForSAPage) match {
+      case Some(WasThePersonRegisteredForSA.YesIKnow) if value != WasThePersonRegisteredForSA.YesIKnow => (List(WhatWasThePersonUTRPage), true)
+      case Some(existingValue) if value != existingValue => (Nil, true)
+      case _ => (Nil, false)
+    }
 }

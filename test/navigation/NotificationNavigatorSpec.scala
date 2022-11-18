@@ -781,6 +781,26 @@ class NotificationNavigatorSpec extends SpecBase {
         val userAnswers = UserAnswers("id").set(DidThePersonHaveNINOPage, DidThePersonHaveNINO.YesIKnow).success.value
         navigator.nextPage(DidThePersonHaveNINOPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
       }
+      // ---
+
+      "must go from the WasThePersonRegisteredForSAPage to WhatIsIndividualsNationalInsuranceNumberPage where the answer is YesIKnow and has changed" in {
+        val userAnswers = UserAnswers("id").set(WasThePersonRegisteredForSAPage, WasThePersonRegisteredForSA.YesIKnow).success.value
+        navigator.nextPage(WasThePersonRegisteredForSAPage, CheckMode, userAnswers, true) mustBe routes.WhatWasThePersonUTRController.onPageLoad(CheckMode)
+      }
+      "must go from the WasThePersonRegisteredForSAPage to CheckYourAnswers where the answer is No and has changed" in {
+        val userAnswers = UserAnswers("id").set(WasThePersonRegisteredForSAPage, WasThePersonRegisteredForSA.No).success.value
+        navigator.nextPage(WasThePersonRegisteredForSAPage, CheckMode, userAnswers, true) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must go from the WasThePersonRegisteredForSAPage to CheckYourAnswers where the answer is YesButDontKnow and has changed" in {
+        val userAnswers = UserAnswers("id").set(WasThePersonRegisteredForSAPage, WasThePersonRegisteredForSA.YesButIDontKnow).success.value
+        navigator.nextPage(WasThePersonRegisteredForSAPage, CheckMode, userAnswers, true) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must go from the WasThePersonRegisteredForSAPage to CheckYourAnswers where the answer is YesIKnow but has NOT changed" in {
+        val userAnswers = UserAnswers("id").set(WasThePersonRegisteredForSAPage, WasThePersonRegisteredForSA.YesIKnow).success.value
+        navigator.nextPage(WasThePersonRegisteredForSAPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
     }
   }
 
