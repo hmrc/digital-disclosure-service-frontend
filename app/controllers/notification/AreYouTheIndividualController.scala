@@ -26,7 +26,7 @@ import pages.notification.IndividualPages
 import pages.{AreYouTheIndividualPage, QuestionPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import repositories.SessionRepository
+import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.notification.AreYouTheIndividualView
 
@@ -35,7 +35,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class AreYouTheIndividualController @Inject()(
                                        override val messagesApi: MessagesApi,
                                        identify: IdentifierAction,
-                                       sessionRepository: SessionRepository,
+                                       sessionService: SessionService,
                                        navigator: NotificationNavigator,
                                        getData: DataRetrievalAction,
                                        requireData: DataRequiredAction,
@@ -70,7 +70,7 @@ class AreYouTheIndividualController @Inject()(
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AreYouTheIndividualPage, value))
             clearedAnswers <- Future.fromTry(updatedAnswers.remove(changedPages))
-            _ <- sessionRepository.set(clearedAnswers)
+            _ <- sessionService.set(clearedAnswers)
           } yield Redirect(navigator.nextPage(AreYouTheIndividualPage, mode, clearedAnswers, hasChanged))
 
         }

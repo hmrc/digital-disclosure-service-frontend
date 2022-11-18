@@ -122,6 +122,25 @@ trait AddressLookupRequestHelper {
                             "confirmTrustAddress.heading")
   }
 
+  def lookupRequestForEstateAddress(baseUrl: String, 
+                                     redirectUrl: String, 
+                                     proposalListLimit: Int)(implicit messages: Messages): AddressLookupRequest = {                                      
+
+    lookupRequestForAddress(baseUrl, redirectUrl, proposalListLimit,
+                            "estateCountryLookup.title", 
+                            "estateCountryLookup.heading",
+                            "estateCountryLookup.hint",
+                            "estateAddressLookup.title", 
+                            "estateAddressLookup.heading",
+                            None,
+                            "selectEstateAddress.title", 
+                            "selectEstateAddress.heading",
+                            "editEstateAddress.title", 
+                            "editEstateAddress.heading",
+                            "confirmEstateAddress.title", 
+                            "confirmEstateAddress.heading")
+  }
+
   def lookupRequestForAddress(baseUrl: String, 
                               redirectUrl: String, 
                               proposalListLimit: Int,
@@ -201,6 +220,7 @@ trait AddressLookupRequestHelper {
       case Some(RelatesTo.ACompany) => getCompanySpecificHeading(ua)
       case Some(RelatesTo.ALimitedLiabilityPartnership) => getLLPSpecificHeading(ua)
       case Some(RelatesTo.ATrust) => getTrustSpecificHeading(ua)
+      case Some(RelatesTo.AnEstate) => getEstateSpecificHeading(ua)
       case _ => None
     } 
   }
@@ -229,6 +249,13 @@ trait AddressLookupRequestHelper {
   def getTrustSpecificHeading(ua: UserAnswers): Option[String] = {
     ua.get(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage) match {
       case Some(false) => Some("yourAddressLookup.trust.afterHeadingText")
+      case _ => None
+    }
+  }
+
+  def getEstateSpecificHeading(ua: UserAnswers): Option[String] = {
+    ua.get(AreYouTheExecutorOfTheEstatePage) match {
+      case Some(false) => Some("yourAddressLookup.estate.afterHeadingText")
       case _ => None
     }
   }

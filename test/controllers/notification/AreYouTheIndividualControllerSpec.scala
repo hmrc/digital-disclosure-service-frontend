@@ -20,7 +20,7 @@ import base.SpecBase
 import forms.AreYouTheIndividualFormProvider
 import models._
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
-import org.mockito.ArgumentMatchers.any
+import org.mockito.ArgumentMatchers.{refEq, any}
 import org.mockito.Mockito.{times, verify, when}
 import org.scalatestplus.mockito.MockitoSugar
 import pages._
@@ -29,7 +29,7 @@ import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import repositories.SessionRepository
+import services.SessionService
 import views.html.notification.AreYouTheIndividualView
 
 import scala.concurrent.Future
@@ -87,16 +87,13 @@ class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar with 
 
       val userAnswers = UserAnswers(userAnswersId).set(AreYouTheIndividualPage, previousAnswer).success.value  
 
-      val mockSessionRepository = mock[SessionRepository]
-      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
+      val mockSessionService = mock[SessionService]
+      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
 
       val expectedUserAnswers = userAnswers.remove(aboutYouPages:::aboutIndividualPages).get
         .set(AreYouTheIndividualPage, newAnswer).get
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers))
-        .overrides(
-          bind[SessionRepository].toInstance(mockSessionRepository)
-        )
+      val application = applicationBuilderWithSessionService(userAnswers = Some(userAnswers), mockSessionService)
         .build()
 
       val offshoreLiabilitiesRoute = notification.routes.OffshoreLiabilitiesController.onPageLoad(NormalMode).url
@@ -111,7 +108,7 @@ class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar with 
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual offshoreLiabilitiesRoute
 
-        verify(mockSessionRepository, times(1)).set(expectedUserAnswers)
+        verify(mockSessionService, times(1)).set(refEq(expectedUserAnswers))(any())
       }
     }
 
@@ -122,16 +119,13 @@ class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar with 
 
       val userAnswers = UserAnswers(userAnswersId).set(AreYouTheIndividualPage, previousAnswer).success.value
 
-      val mockSessionRepository = mock[SessionRepository]
-      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
+      val mockSessionService = mock[SessionService]
+      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
 
       val expectedUserAnswers = userAnswers.remove(aboutYouPages).get
         .set(AreYouTheIndividualPage, newAnswer).get
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers))
-        .overrides(
-          bind[SessionRepository].toInstance(mockSessionRepository)
-        )
+      val application = applicationBuilderWithSessionService(userAnswers = Some(userAnswers), mockSessionService)
         .build()
 
       val offshoreLiabilitiesRoute = notification.routes.OffshoreLiabilitiesController.onPageLoad(NormalMode).url
@@ -146,21 +140,20 @@ class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar with 
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual offshoreLiabilitiesRoute
 
-        verify(mockSessionRepository, times(1)).set(expectedUserAnswers)
+        verify(mockSessionService, times(1)).set(refEq(expectedUserAnswers))(any())
       }
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      val mockSessionRepository = mock[SessionRepository]
+      val mockSessionService = mock[SessionService]
 
-      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
 
       val application =
-        applicationBuilder(userAnswers = Some(emptyUserAnswers))
+        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
           .overrides(
-            bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute)),
-            bind[SessionRepository].toInstance(mockSessionRepository)
+            bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
           )
           .build()
 
@@ -196,7 +189,7 @@ class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar with 
       }
     }
 
-    "must redirect to Journey Recovery for a GET if no existing data is found" in {
+    "must redirect to Index for a GET if no existing data is found" in {
 
       val application = applicationBuilder(userAnswers = None).build()
 
@@ -206,7 +199,7 @@ class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar with 
         val result = route(application, request).value
 
         status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.JourneyRecoveryController.onPageLoad().url
+        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
       }
     }
 
@@ -223,7 +216,7 @@ class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar with 
 
         status(result) mustEqual SEE_OTHER
 
-        redirectLocation(result).value mustEqual routes.JourneyRecoveryController.onPageLoad().url
+        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
       }
     }
   }

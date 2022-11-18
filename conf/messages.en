@@ -458,6 +458,7 @@ whatIsYourDateOfBirth.error.invalid = Enter your date of birth
 whatIsYourDateOfBirth.error.invalidDay = Enter a real date of birth - a month can have up to 31 days
 whatIsYourDateOfBirth.error.invalidMonth = Enter a real date of birth - there are only 12 months in a year
 whatIsYourDateOfBirth.error.invalidFutureDateOfBirth = Date of birth must be in the past
+whatIsYourDateOfBirth.error.invalidPastDateOfBirth = Your date of birth must be after the year 1849
 whatIsYourDateOfBirth.change.hidden = WhatIsYourDateOfBirth
 
 whatIsYourMainOccupation.title = What is your main occupation?
@@ -537,6 +538,7 @@ yourAddressLookup.individual.afterHeadingText = If you are representing an organ
 yourAddressLookup.company.afterHeadingText = If you are representing an organisation on behalf of the company, you can use your organisation’s address.
 yourAddressLookup.llp.afterHeadingText = If you are representing an organisation on behalf of the limited liability partnership, you can use your organisation’s address.
 yourAddressLookup.trust.afterHeadingText = If you are representing an organisation on behalf of the trust, you can use your organisation’s address.
+yourAddressLookup.estate.afterHeadingText = If you are representing an organisation on behalf of the estate, you can use your organisation’s address.
 
 selectAddress.title = Choose your address
 selectAddress.heading = Choose your address
@@ -569,6 +571,7 @@ whatIsTheIndividualDateOfBirth.error.invalid = Enter the individual’s date of 
 whatIsTheIndividualDateOfBirth.error.invalidDay = Enter a real date of birth - a month can have up to 31 days
 whatIsTheIndividualDateOfBirth.error.invalidMonth = Enter a real date of birth - there are only 12 months in a year
 whatIsTheIndividualDateOfBirth.error.invalidFutureDateOfBirth = Date of birth must be in the past
+whatIsTheIndividualDateOfBirth.error.invalidPastDateOfBirth = Date of birth must be after the year 1849
 whatIsTheIndividualDateOfBirth.change.hidden = WhatIsTheIndividualDateOfBirthController
 
 whatIsTheIndividualOccupation.title = What is the individual’s main occupation?
@@ -618,8 +621,8 @@ isTheIndividualRegisteredForSA.change.hidden = IsTheIndividualRegisteredForSelfA
 
 whatIsTheIndividualsVATRegistrationNumber.title = What is the individual’s VAT registration number?
 whatIsTheIndividualsVATRegistrationNumber.heading = What is the individual’s VAT registration number?
-whatIsTheIndividualsVATRegistrationNumber.label = This has 9 numbers, sometimes with ’GB’ at the start. You can find it on their VAT registration certificate or VAT online account.
-whatIsTheIndividualsVATRegistrationNumber.hint = For example, ‘123456789’ or ’GB123456789’.
+whatIsTheIndividualsVATRegistrationNumber.label = This has 9 numbers, sometimes with ‘GB’ at the start. You can find it on their VAT registration certificate or VAT online account.
+whatIsTheIndividualsVATRegistrationNumber.hint = For example, ‘123456789’ or ‘GB123456789’.
 whatIsTheIndividualsVATRegistrationNumber.checkYourAnswersLabel = Individual’s VAT registration number
 whatIsTheIndividualsVATRegistrationNumber.error.required = Enter the individual’s VAT registration number
 whatIsTheIndividualsVATRegistrationNumber.error.invalid = Enter a valid VAT registration number
@@ -830,13 +833,14 @@ whatWasThePersonDateOfBirth.title = What was the person’s date of birth?
 whatWasThePersonDateOfBirth.heading = What was the person’s date of birth?
 whatWasThePersonDateOfBirth.hint = For example, 20 3 1976.
 whatWasThePersonDateOfBirth.checkYourAnswersLabel = What was the person’s date of birth?
-whatWasThePersonDateOfBirth.error.required.all = Enter the person’s date of birth
+whatWasThePersonDateOfBirth.error.required.all = Enter the person’s date of birth, like 20 3 1976
 whatWasThePersonDateOfBirth.error.required.two = The person’s date of birth must include {0} and {1}
 whatWasThePersonDateOfBirth.error.required = The person’s date of birth must include {0}
-whatWasThePersonDateOfBirth.error.invalid = Enter a real date of birth
+whatWasThePersonDateOfBirth.error.invalid = Enter the person’s date of birth
 whatWasThePersonDateOfBirth.error.invalidDay = Enter a real date of birth - a month can have up to 31 days
 whatWasThePersonDateOfBirth.error.invalidMonth = Enter a real date of birth - there are only 12 months in a year
 whatWasThePersonDateOfBirth.error.invalidFutureDateOfBirth = Date of birth must be in the past
+whatWasThePersonDateOfBirth.error.invalidPastDateOfBirth = The person’s date of birth must be after the year 1849
 whatWasThePersonDateOfBirth.change.hidden = WhatWasThePersonDateOfBirth
 
 didThePersonHaveNINO.title = Did the person have a National Insurance number, as far as you’re aware?
@@ -853,6 +857,61 @@ whatWasThePersonNINO.heading = What was the person’s National Insurance number
 whatWasThePersonNINO.label = This is on your payslip, P60 or tax return
 whatWasThePersonNINO.hint = For example, ‘QQ123456A’.
 whatWasThePersonNINO.checkYourAnswersLabel = What was the person’s National Insurance number?
-whatWasThePersonNINO.error.required = Enter the person’s national insurance number
-whatWasThePersonNINO.error.length = The person’s national insurance number must be 9 characters or less
+whatWasThePersonNINO.error.required = Enter the person’s National Insurance number
+whatWasThePersonNINO.error = Enter the person’s National Insurance number in the right format
 whatWasThePersonNINO.change.hidden = WhatWasThePersonNINO
+
+wasThePersonRegisteredForVAT.title = Was the person registered for VAT, as far as you’re aware?
+wasThePersonRegisteredForVAT.heading = Was the person registered for VAT, as far as you’re aware?
+wasThePersonRegisteredForVAT.yesIKnow = Yes, and I know their VAT registration number
+wasThePersonRegisteredForVAT.yesButIDontKnow = Yes, but I do not know their VAT registration number
+wasThePersonRegisteredForVAT.no = No
+wasThePersonRegisteredForVAT.checkYourAnswersLabel = Was the person registered for VAT, as far as you’re aware?
+wasThePersonRegisteredForVAT.error.required = Select yes if the person was registered for VAT
+wasThePersonRegisteredForVAT.change.hidden = WasThePersonRegisteredForVAT
+
+whatWasThePersonVATRegistrationNumber.title = What was the person’s VAT registration number?
+whatWasThePersonVATRegistrationNumber.heading = What was the person’s VAT registration number?
+whatWasThePersonVATRegistrationNumber.body = This has 9 numbers, sometimes with ‘GB’ at the start. You can find it on their VAT registration certificate or VAT online account.
+whatWasThePersonVATRegistrationNumber.hint = For example, ‘123456789’ or ‘GB123456789’.
+whatWasThePersonVATRegistrationNumber.checkYourAnswersLabel = What was the person’s VAT registration number?
+whatWasThePersonVATRegistrationNumber.error.required = Enter the person’s VAT registration number
+whatWasThePersonVATRegistrationNumber.error = Enter the person’s VAT registration number in the right format
+whatWasThePersonVATRegistrationNumber.change.hidden = WhatWasThePersonVATRegistrationNumber
+
+wasThePersonRegisteredForSA.title = Was the person registered for Self Assessment, as far as you’re aware?
+wasThePersonRegisteredForSA.heading = Was the person registered for Self Assessment, as far as you’re aware?
+wasThePersonRegisteredForSA.yesIKnow = Yes, and I know their Unique Taxpayer Reference (UTR)
+wasThePersonRegisteredForSA.yesButIDontKnow = Yes, but I do not know their Unique Taxpayer Reference (UTR)
+wasThePersonRegisteredForSA.no = No
+wasThePersonRegisteredForSA.checkYourAnswersLabel = Was the person registered for Self Assessment, as far as you’re aware?
+wasThePersonRegisteredForSA.error.required = Select yes if the person was registered for Self Assessment
+wasThePersonRegisteredForSA.change.hidden = WasThePersonRegisteredForSA
+
+wasThePersonUTR.title = What was the person’s Unique Taxpayer Reference?
+wasThePersonUTR.heading = What was the person’s Unique Taxpayer Reference?
+wasThePersonUTR.body = This 10 digit number is on their tax return, statement of accounts or any other Self Assessment calculations.
+wasThePersonUTR.hint = For example, ‘1234567890’.
+wasThePersonUTR.checkYourAnswersLabel = What was the person’s Unique Taxpayer Reference?
+wasThePersonUTR.error.required = Enter the person’s Unique Taxpayer Reference
+wasThePersonUTR.error = Enter the person’s Unique Taxpayer Reference in the right format
+wasThePersonUTR.change.hidden = 
+
+estateCountryLookup.title = What was the country of the person’s address?
+estateCountryLookup.heading = What was the country of the person’s address?
+estateCountryLookup.hint = For example, United Kingdom.
+
+estateAddressLookup.title = What was the postcode and property name or number of the person’s address?
+estateAddressLookup.heading = What was the postcode and property name or number of the person’s address?
+
+estateAddressLookup.checkYourAnswersLabel = Estate address
+estateAddressLookup.change.hidden = Estate’s address
+
+selectEstateAddress.title = Choose the person’s address
+selectEstateAddress.heading = Choose the person’s address
+
+editEstateAddress.title = What was the person’s address?
+editEstateAddress.heading = What was the person’s address?
+
+confirmEstateAddress.title = Is this the correct address?
+confirmEstateAddress.heading = Is this the correct address?

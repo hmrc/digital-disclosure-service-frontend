@@ -19,6 +19,7 @@ package models
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.RadioItem
+import models.store.YesNoOrUnsure
 
 sealed trait AreYouRegisteredForVAT
 
@@ -43,4 +44,18 @@ object AreYouRegisteredForVAT extends Enumerable.Implicits {
 
   implicit val enumerable: Enumerable[AreYouRegisteredForVAT] =
     Enumerable(values.map(v => v.toString -> v): _*)
+
+  implicit def fromYesNoOrUnsure(yesNoOrUnsure: YesNoOrUnsure): AreYouRegisteredForVAT = 
+    yesNoOrUnsure match {
+      case YesNoOrUnsure.Yes => YesIKnow
+      case YesNoOrUnsure.Unsure => YesButDontKnow
+      case YesNoOrUnsure.No => No
+    }
+
+  implicit def toYesNoOrUnsure(areYouRegisteredForVAT: Option[AreYouRegisteredForVAT]): Option[YesNoOrUnsure] = 
+    areYouRegisteredForVAT.map(_ match {
+      case YesIKnow => YesNoOrUnsure.Yes 
+      case YesButDontKnow => YesNoOrUnsure.Unsure
+      case No => YesNoOrUnsure.No 
+    })
 }

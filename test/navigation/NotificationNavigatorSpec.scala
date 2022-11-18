@@ -526,6 +526,60 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(WhatWasThePersonDateOfBirthPage, NormalMode, UserAnswers("id")) mustBe routes.WhatWasThePersonOccupationController.onPageLoad(NormalMode)
       }
 
+      "must go from the WhatWasThePersonOccupationPage to the DidThePersonHaveNINOController when the user enter a valid name" in {
+        navigator.nextPage(WhatWasThePersonOccupationPage, NormalMode, UserAnswers("id")) mustBe routes.DidThePersonHaveNINOController.onPageLoad(NormalMode)
+      }
+
+      "must go from the DidThePersonHaveNINOPage to the WhatWasThePersonNINOController when the user selects Yes, and I know their NINO" in {
+        UserAnswers("id").set(DidThePersonHaveNINOPage, DidThePersonHaveNINO.YesIKnow) match {
+          case Success(ua) => navigator.nextPage(DidThePersonHaveNINOPage, NormalMode, ua) mustBe routes.WhatWasThePersonNINOController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the DidThePersonHaveNINOPage to the WasThePersonRegisteredForVATController when the user selects Yes, but I do not know their NINO" in {
+        UserAnswers("id").set(DidThePersonHaveNINOPage, DidThePersonHaveNINO.YesButDontKnow) match {
+          case Success(ua) => navigator.nextPage(DidThePersonHaveNINOPage, NormalMode, ua) mustBe routes.WasThePersonRegisteredForVATController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the IsTheIndividualRegisteredForSelfAssessmentPage to the WasThePersonRegisteredForVATController when the user selects No" in {
+        UserAnswers("id").set(DidThePersonHaveNINOPage, DidThePersonHaveNINO.No) match {
+          case Success(ua) => navigator.nextPage(DidThePersonHaveNINOPage, NormalMode, ua) mustBe routes.WasThePersonRegisteredForVATController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the WhatWasThePersonNINOPage to the WasThePersonRegisteredForVATController when the user enter a valid NINO" in {
+        navigator.nextPage(WhatWasThePersonNINOPage, NormalMode, UserAnswers("id")) mustBe routes.WasThePersonRegisteredForVATController.onPageLoad(NormalMode)
+      }
+
+      "must go from the WasThePersonRegisteredForVATPage to the WhatWasThePersonVATRegistrationNumberController when the user selects Yes, and I know their VAT" in {
+        UserAnswers("id").set(WasThePersonRegisteredForVATPage, WasThePersonRegisteredForVAT.YesIKnow) match {
+          case Success(ua) => navigator.nextPage(WasThePersonRegisteredForVATPage, NormalMode, ua) mustBe routes.WhatWasThePersonVATRegistrationNumberController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the WasThePersonRegisteredForVATPage to the WasThePersonRegisteredForSAController when the user selects Yes, but I do not know their VAT" in {
+        UserAnswers("id").set(WasThePersonRegisteredForVATPage, WasThePersonRegisteredForVAT.YesButIDontKnow) match {
+          case Success(ua) => navigator.nextPage(WasThePersonRegisteredForVATPage, NormalMode, ua) mustBe routes.WasThePersonRegisteredForSAController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the IsTheIndividualRegisteredForSelfAssessmentPage to the WasThePersonRegisteredForSAController when the user selects No" in {
+        UserAnswers("id").set(WasThePersonRegisteredForVATPage, WasThePersonRegisteredForVAT.No) match {
+          case Success(ua) => navigator.nextPage(WasThePersonRegisteredForVATPage, NormalMode, ua) mustBe routes.WasThePersonRegisteredForSAController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the WhatWasThePersonVATRegistrationNumberPage to the WasThePersonRegisteredForSAController when the user enter a valid VAT" in {
+        navigator.nextPage(WhatWasThePersonVATRegistrationNumberPage, NormalMode, UserAnswers("id")) mustBe routes.WasThePersonRegisteredForSAController.onPageLoad(NormalMode)
+      }
+
     }
 
     "in Check mode" - {

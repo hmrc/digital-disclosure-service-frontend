@@ -16,14 +16,13 @@
 
 package base
 
-import org.mockito.ArgumentMatchers.any
+import org.mockito.ArgumentMatchers.{any, refEq}
 import org.mockito.Mockito.{times, verify, when}
 import org.scalatestplus.mockito.MockitoSugar
 import pages._
-import play.api.inject.bind
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import repositories.SessionRepository
+import services.SessionService
 import play.api.libs.json.Writes
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import scala.concurrent.Future
@@ -42,8 +41,8 @@ trait ControllerSpecBase extends SpecBase with MockitoSugar with ScalaCheckPrope
 
     val userAnswers = UserAnswers("id")
 
-    val mockSessionRepository = mock[SessionRepository]
-    when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
+    val mockSessionService = mock[SessionService]
+    when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
 
     val previousUa = userAnswers.set(page, previousAnswer).success.value
 
@@ -52,11 +51,7 @@ trait ControllerSpecBase extends SpecBase with MockitoSugar with ScalaCheckPrope
       clearedUa <- updatedUa.remove(pagesToRemove)
     } yield clearedUa).success.value
 
-    val application = applicationBuilder(userAnswers = Some(previousUa))
-      .overrides(
-        bind[SessionRepository].toInstance(mockSessionRepository)
-      )
-      .build()
+    val application = applicationBuilderWithSessionService(userAnswers = Some(previousUa), mockSessionService).build()
 
     running(application) {
       val request =
@@ -68,7 +63,7 @@ trait ControllerSpecBase extends SpecBase with MockitoSugar with ScalaCheckPrope
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual destinationRoute
 
-      verify(mockSessionRepository, times(1)).set(expectedUa)
+      verify(mockSessionService, times(1)).set(refEq(expectedUa))(any())
     }
     
   }

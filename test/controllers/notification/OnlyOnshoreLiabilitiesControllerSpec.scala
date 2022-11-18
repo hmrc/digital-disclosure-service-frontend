@@ -22,7 +22,7 @@ import play.api.test.Helpers._
 import views.html.notification.OnlyOnshoreLiabilitiesView
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import play.api.inject.bind
-import repositories.SessionRepository
+import services.SessionService
 import scala.concurrent.Future
 import org.mockito.Mockito.when
 import play.api.mvc.Call
@@ -37,15 +37,14 @@ class OnlyOnshoreLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
 
     "must return OK and the correct view for a GET" in {
 
-      val mockSessionRepository = mock[SessionRepository]
+      val mockSessionService = mock[SessionService]
 
-      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
 
       val application =
-        applicationBuilder(userAnswers = Some(emptyUserAnswers))
+        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
           .overrides(
-            bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute)),
-            bind[SessionRepository].toInstance(mockSessionRepository)
+            bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
           ).build()
 
       running(application) {

@@ -16,9 +16,9 @@
 
 package forms
 
-import java.time.LocalDate
-
+import java.time.{LocalDate, Month}
 import forms.mappings.Mappings
+
 import javax.inject.Inject
 import play.api.data.Form
 
@@ -34,6 +34,7 @@ class WhatIsYourDateOfBirthFormProvider @Inject() extends Mappings {
         invalidDayKey    = "whatIsYourDateOfBirth.error.invalidDay",
         invalidMonthKey  = "whatIsYourDateOfBirth.error.invalidMonth"
       )
-      .verifying(maxDate(LocalDate.now().minusDays(1), "whatIsYourDateOfBirth.error.invalidFutureDateOfBirth"))
+        .verifying(minDate(LocalDate.of(1850, Month.JANUARY, 1), "whatIsYourDateOfBirth.error.invalidPastDateOfBirth"))
+        .verifying(maxDate(LocalDate.now().minusDays(1), "whatIsYourDateOfBirth.error.invalidFutureDateOfBirth"))
     )
 }

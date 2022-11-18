@@ -22,17 +22,20 @@ import org.scalamock.scalatest.MockFactory
 import models.store.notification._
 import org.scalatest.concurrent.ScalaFutures
 import scala.concurrent.Future
-import org.scalamock.handlers.{CallHandler2, CallHandler3}
+import org.scalamock.handlers.{CallHandler1, CallHandler2, CallHandler3}
 import uk.gov.hmrc.http.HeaderCarrier
 import connectors.NotificationStoreConnector
 import play.api.mvc.Result
 import java.time.Instant
+import models.UserAnswers
+import play.api.mvc.Results.Ok
 
 class NotificationStoreServiceSpec extends AnyWordSpec with Matchers 
     with MockFactory with ScalaFutures {
 
   private val connector = mock[NotificationStoreConnector]
-  val sut = new NotificationStoreServiceImpl(connector)
+  private val service = mock[StoreDataService]
+  val sut = new NotificationStoreServiceImpl(connector, service)
   implicit val hc = HeaderCarrier()
 
   def mockGetNotification(userId: String, notificationId: String)(
@@ -67,12 +70,31 @@ class NotificationStoreServiceSpec extends AnyWordSpec with Matchers
       .expects(userId, notificationId, *)
       .returning(response)
 
+  def mockUserAnswersToNotification(userAnswers: UserAnswers)(
+    response: Notification
+  ): CallHandler1[UserAnswers, Notification] =
+    (service
+      .userAnswersToNotification(_: UserAnswers))
+      .expects(userAnswers)
+      .returning(response)
+
   val testNotification = Notification("123", "456", Instant.now(), Metadata(), Background(), AboutYou())
 
   "getNotification" should {
     "return the same value as returned by the connector" in {
       mockGetNotification("123", "456")(Future.successful(Some(testNotification)))
       sut.getNotification("123", "456").futureValue shouldEqual Some(testNotification)
+    }
+  }
+
+  "setNotification" should {
+    "pass the userAnswers to the dataService and return the converted value to the connector" in {
+      val userAnswers = UserAnswers("id")
+      val convertedNotification = Notification("id", "notificationId", Instant.now(), Metadata(), Background(), AboutYou())
+      mockUserAnswersToNotification(userAnswers)(convertedNotification)
+      mockSetNotification(convertedNotification)(Future.successful(Ok("Done")))
+
+      sut.setNotification(userAnswers).futureValue shouldEqual Ok("Done")
     }
   }
 

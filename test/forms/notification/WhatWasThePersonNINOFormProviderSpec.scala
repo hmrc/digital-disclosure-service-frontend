@@ -16,14 +16,13 @@
 
 package forms
 
-import forms.behaviours.StringFieldBehaviours
+import forms.behaviours.NationalInsuranceBehaviours
 import play.api.data.FormError
 
-class WhatWasThePersonNINOFormProviderSpec extends StringFieldBehaviours {
+class WhatWasThePersonNINOFormProviderSpec extends NationalInsuranceBehaviours {
 
   val requiredKey = "whatWasThePersonNINO.error.required"
-  val lengthKey = "whatWasThePersonNINO.error.length"
-  val maxLength = 9
+  val invalidFormatKey = "whatWasThePersonNINO.error"
 
   val form = new WhatWasThePersonNINOFormProvider()()
 
@@ -31,17 +30,15 @@ class WhatWasThePersonNINOFormProviderSpec extends StringFieldBehaviours {
 
     val fieldName = "value"
 
-    behave like fieldThatBindsValidData(
+    behave like nationalInsuraceNumberBindsValidData(
       form,
-      fieldName,
-      stringsWithMaxLength(maxLength)
+      fieldName
     )
 
-    behave like fieldWithMaxLength(
+    behave like nationalInsuraceNumberBindsInvalidData(
       form,
       fieldName,
-      maxLength = maxLength,
-      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
+      validError = FormError(fieldName, invalidFormatKey, Seq())
     )
 
     behave like mandatoryField(

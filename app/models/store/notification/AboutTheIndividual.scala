@@ -16,21 +16,23 @@
 
 package models.store.notification
 
-import java.util.Date
+import java.time.LocalDate
 import play.api.libs.json.{Json, OFormat}
 import models.store.YesNoOrUnsure
+import models.address.Address
+
 
 final case class AboutTheIndividual (
   fullName: Option[String] = None,
-  dateOfBirth: Option[Date] = None,
+  dateOfBirth: Option[LocalDate] = None,
   mainOccupation: Option[String] = None,
-  doYouHaveANino: Option[YesNoOrUnsure] = None,
+  doTheyHaveANino: Option[YesNoOrUnsure] = None,
   nino: Option[String] = None,
   registeredForVAT: Option[YesNoOrUnsure] = None,
   vatRegNumber: Option[String] = None,
   registeredForSA: Option[YesNoOrUnsure] = None,
   sautr: Option[String] = None,
-  address: Option[String] = None
+  address: Option[Address] = None
 )
 
 object AboutTheIndividual {
