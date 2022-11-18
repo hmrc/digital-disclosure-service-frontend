@@ -49,7 +49,8 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         val aboutYouList = SummaryListViewModel(Seq.empty)
         val aboutTheIndividualList = None
         val aboutTheCompanyList = None
-        val list = SummaryLists(backgroundList, aboutYouList, aboutTheIndividualList, aboutTheCompanyList)
+        val aboutThePersonWhoDiedList = None
+        val list = SummaryLists(backgroundList, aboutYouList, aboutTheIndividualList, aboutTheCompanyList, aboutThePersonWhoDiedList)
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(list)(request, messages(application)).toString
@@ -118,7 +119,8 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       val uaWithRelatesTo = UserAnswers("id").set(RelatesToPage, RelatesTo.AnEstate).success.value
       rowIsDisplayedWhenPageIsPopulated(uaWithRelatesTo)(messages => SummaryLists(
         SummaryListViewModel(Seq(RelatesToSummary.row(uaWithRelatesTo)(messages)).flatten), 
-        SummaryListViewModel(Seq.empty)
+        SummaryListViewModel(Seq.empty),
+        aboutThePersonWhoDiedList = Some(SummaryListViewModel(Seq.empty))
       ))
     }
 
@@ -530,6 +532,176 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         aboutTheCompanyList = None,
         aboutTheLLPList = None,
         aboutTheTrustList = Some(SummaryListViewModel(Seq(TrustAddressLookupSummary.row(ua)(messages)).flatten))
+      ))
+    }
+
+    "must return OK and the correct view for a GET when WhatWasTheNameOfThePersonWhoDiedPage is populated" in {
+      val ua = (for {
+        userAnswer <- UserAnswers("id").set(WhatWasTheNameOfThePersonWhoDiedPage, arbitrary[String].sample.value)
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnEstate)
+      } yield uaWithRelatesToPage).success.value
+
+      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages)).flatten),
+        aboutYou = SummaryListViewModel(Seq.empty),
+        aboutTheIndividualList = None,
+        aboutTheCompanyList = None,
+        aboutTheLLPList = None,
+        aboutTheTrustList = None,
+        aboutThePersonWhoDiedList = Some(SummaryListViewModel(Seq(WhatWasTheNameOfThePersonWhoDiedSummary.row(ua)(messages)).flatten))
+      ))
+    }
+
+    "must return OK and the correct view for a GET when WhatWasThePersonDateOfBirthPage is populated" in {
+      val ua = (for {
+        userAnswer <- UserAnswers("id").set(WhatWasThePersonDateOfBirthPage, arbitrary[LocalDate].sample.value)
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnEstate)
+      } yield uaWithRelatesToPage).success.value
+
+      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages)).flatten),
+        aboutYou = SummaryListViewModel(Seq.empty),
+        aboutTheIndividualList = None,
+        aboutTheCompanyList = None,
+        aboutTheLLPList = None,
+        aboutTheTrustList = None,
+        aboutThePersonWhoDiedList = Some(SummaryListViewModel(Seq(WhatWasThePersonDateOfBirthSummary.row(ua)(messages)).flatten))
+      ))
+    }
+
+    "must return OK and the correct view for a GET when WhatWasThePersonOccupationPage is populated" in {
+      val ua = (for {
+        userAnswer <- UserAnswers("id").set(WhatWasThePersonOccupationPage, arbitrary[String].sample.value)
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnEstate)
+      } yield uaWithRelatesToPage).success.value
+
+      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages)).flatten),
+        aboutYou = SummaryListViewModel(Seq.empty),
+        aboutTheIndividualList = None,
+        aboutTheCompanyList = None,
+        aboutTheLLPList = None,
+        aboutTheTrustList = None,
+        aboutThePersonWhoDiedList = Some(SummaryListViewModel(Seq(WhatWasThePersonOccupationSummary.row(ua)(messages)).flatten))
+      ))
+    }
+
+    "must return OK and the correct view for a GET when DidThePersonHaveNINOPage is populated" in {
+      val ua = (for {
+        userAnswer <- UserAnswers("id").set(DidThePersonHaveNINOPage, arbitrary[DidThePersonHaveNINO].sample.value)
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnEstate)
+      } yield uaWithRelatesToPage).success.value
+
+      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages)).flatten),
+        aboutYou = SummaryListViewModel(Seq.empty),
+        aboutTheIndividualList = None,
+        aboutTheCompanyList = None,
+        aboutTheLLPList = None,
+        aboutTheTrustList = None,
+        aboutThePersonWhoDiedList = Some(SummaryListViewModel(Seq(DidThePersonHaveNINOSummary.row(ua)(messages)).flatten))
+      ))
+    }
+
+    "must return OK and the correct view for a GET when WhatWasThePersonNINOPage is populated" in {
+      val ua = (for {
+        userAnswer <- UserAnswers("id").set(WhatWasThePersonNINOPage, arbitrary[String].sample.value)
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnEstate)
+      } yield uaWithRelatesToPage).success.value
+
+      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages)).flatten),
+        aboutYou = SummaryListViewModel(Seq.empty),
+        aboutTheIndividualList = None,
+        aboutTheCompanyList = None,
+        aboutTheLLPList = None,
+        aboutTheTrustList = None,
+        aboutThePersonWhoDiedList = Some(SummaryListViewModel(Seq(WhatWasThePersonNINOSummary.row(ua)(messages)).flatten))
+      ))
+    }
+
+    "must return OK and the correct view for a GET when WasThePersonRegisteredForVATPage is populated" in {
+      val ua = (for {
+        userAnswer <- UserAnswers("id").set(WasThePersonRegisteredForVATPage, arbitrary[WasThePersonRegisteredForVAT].sample.value)
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnEstate)
+      } yield uaWithRelatesToPage).success.value
+
+      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages)).flatten),
+        aboutYou = SummaryListViewModel(Seq.empty),
+        aboutTheIndividualList = None,
+        aboutTheCompanyList = None,
+        aboutTheLLPList = None,
+        aboutTheTrustList = None,
+        aboutThePersonWhoDiedList = Some(SummaryListViewModel(Seq(WasThePersonRegisteredForVATSummary.row(ua)(messages)).flatten))
+      ))
+    }
+
+    "must return OK and the correct view for a GET when WhatWasThePersonVATRegistrationNumberPage is populated" in {
+      val ua = (for {
+        userAnswer <- UserAnswers("id").set(WhatWasThePersonVATRegistrationNumberPage, arbitrary[String].sample.value)
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnEstate)
+      } yield uaWithRelatesToPage).success.value
+
+      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages)).flatten),
+        aboutYou = SummaryListViewModel(Seq.empty),
+        aboutTheIndividualList = None,
+        aboutTheCompanyList = None,
+        aboutTheLLPList = None,
+        aboutTheTrustList = None,
+        aboutThePersonWhoDiedList = Some(SummaryListViewModel(Seq(WhatWasThePersonVATRegistrationNumberSummary.row(ua)(messages)).flatten))
+      ))
+    }
+
+    "must return OK and the correct view for a GET when WasThePersonRegisteredForSAPage is populated" in {
+      val ua = (for {
+        userAnswer <- UserAnswers("id").set(WasThePersonRegisteredForSAPage, arbitrary[WasThePersonRegisteredForSA].sample.value)
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnEstate)
+      } yield uaWithRelatesToPage).success.value
+
+      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages)).flatten),
+        aboutYou = SummaryListViewModel(Seq.empty),
+        aboutTheIndividualList = None,
+        aboutTheCompanyList = None,
+        aboutTheLLPList = None,
+        aboutTheTrustList = None,
+        aboutThePersonWhoDiedList = Some(SummaryListViewModel(Seq(WasThePersonRegisteredForSASummary.row(ua)(messages)).flatten))
+      ))
+    }
+
+    "must return OK and the correct view for a GET when WhatWasThePersonUTRPage is populated" in {
+      val ua = (for {
+        userAnswer <- UserAnswers("id").set(WhatWasThePersonUTRPage, arbitrary[String].sample.value)
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnEstate)
+      } yield uaWithRelatesToPage).success.value
+
+      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages)).flatten),
+        aboutYou = SummaryListViewModel(Seq.empty),
+        aboutTheIndividualList = None,
+        aboutTheCompanyList = None,
+        aboutTheLLPList = None,
+        aboutTheTrustList = None,
+        aboutThePersonWhoDiedList = Some(SummaryListViewModel(Seq(WhatWasThePersonUTRSummary.row(ua)(messages)).flatten))
+      ))
+    }
+
+    "must return OK and the correct view for a GET when EstateAddressLookupPage is populated" in {
+      val ua = (for {
+        userAnswer <- UserAnswers("id").set(EstateAddressLookupPage, arbitrary[Address].sample.value)
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnEstate)
+      } yield uaWithRelatesToPage).success.value
+
+      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages)).flatten),
+        aboutYou = SummaryListViewModel(Seq.empty),
+        aboutTheIndividualList = None,
+        aboutTheCompanyList = None,
+        aboutTheLLPList = None,
+        aboutTheTrustList = None,
+        aboutThePersonWhoDiedList = Some(SummaryListViewModel(Seq(EstateAddressLookupSummary.row(ua)(messages)).flatten))
       ))
     }
 

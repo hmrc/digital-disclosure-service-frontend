@@ -17,29 +17,29 @@
 package controllers.notification
 
 import controllers.actions._
-import forms.WasThePersonUTRFormProvider
+import forms.WhatWasThePersonUTRFormProvider
 import javax.inject.Inject
 import models.Mode
 import navigation.NotificationNavigator
-import pages.WasThePersonUTRPage
+import pages.WhatWasThePersonUTRPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import views.html.notification.WasThePersonUTRView
+import views.html.notification.WhatWasThePersonUTRView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class WasThePersonUTRController @Inject()(
+class WhatWasThePersonUTRController @Inject()(
                                         override val messagesApi: MessagesApi,
                                         sessionService: SessionService,
                                         navigator: NotificationNavigator,
                                         identify: IdentifierAction,
                                         getData: DataRetrievalAction,
                                         requireData: DataRequiredAction,
-                                        formProvider: WasThePersonUTRFormProvider,
+                                        formProvider: WhatWasThePersonUTRFormProvider,
                                         val controllerComponents: MessagesControllerComponents,
-                                        view: WasThePersonUTRView
+                                        view: WhatWasThePersonUTRView
                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
@@ -47,7 +47,7 @@ class WasThePersonUTRController @Inject()(
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val preparedForm = request.userAnswers.get(WasThePersonUTRPage) match {
+      val preparedForm = request.userAnswers.get(WhatWasThePersonUTRPage) match {
         case None => form
         case Some(value) => form.fill(value)
       }
@@ -64,9 +64,9 @@ class WasThePersonUTRController @Inject()(
 
         value =>
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(WasThePersonUTRPage, value))
+            updatedAnswers <- Future.fromTry(request.userAnswers.set(WhatWasThePersonUTRPage, value))
             _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(WasThePersonUTRPage, mode, updatedAnswers))
+          } yield Redirect(navigator.nextPage(WhatWasThePersonUTRPage, mode, updatedAnswers))
       )
   }
 }
