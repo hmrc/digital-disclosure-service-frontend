@@ -218,6 +218,26 @@ class AddressLookupServiceSpec
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressNoBodyRequest)
+    }
+
+    "triggering a lookup for your address when they are not an estate" must {
+
+      val userAnswers = (for {
+        uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.AnEstate)
+        ua 	<- uaWithRelatesToPage.set(AreYouTheExecutorOfTheEstatePage, false)
+      } yield ua).success.value
+
+      testAddressLookup(userAnswers, yourAddressEstateBodyRequest)
+    }
+
+    "triggering a lookup for your address when they are an estate" must {
+
+      val userAnswers = (for {
+        uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.AnEstate)
+        ua 	<- uaWithRelatesToPage.set(AreYouTheExecutorOfTheEstatePage, true)
+      } yield ua).success.value
+
+      testAddressLookup(userAnswers, yourAddressNoBodyRequest)
     }  
 
     "triggering a lookup for an individual address" must {
@@ -351,6 +371,40 @@ class AddressLookupServiceSpec
         )
 
         await(addressLookupService.getTrustAddressLookupRedirect(addressUpdateCall).value).left.value must be(
+          Error("The Address Lookup Service user redirect URL is missing in the header")
+        )
+      }
+    }
+
+    "triggering a lookup for an estate address" must {
+
+      "succeed receiving user redirect URL" in {
+        val locationUrl = new URL("http://someUrl:1234/redirect")
+
+        mockInitiateAddressLookupResponse(estateLookupRequest)(
+          Right(HttpResponse(ACCEPTED, Json.obj(), headers = Map(LOCATION -> Seq(locationUrl.toString))))
+        )
+
+        val response = await(addressLookupService.getEstateAddressLookupRedirect(addressUpdateCall).value)
+        response.isLeft must be(false)
+      }
+
+      "fail having no request accepted" in {
+        mockInitiateAddressLookupResponse(estateLookupRequest)(
+          Right(HttpResponse(INTERNAL_SERVER_ERROR, Json.obj().toString()))
+        )
+
+        await(addressLookupService.getEstateAddressLookupRedirect(addressUpdateCall).value).left.value must be(
+          Error("The request was refused by the Address Lookup Service")
+        )
+      }
+
+      "fail having no location header provided" in {
+        mockInitiateAddressLookupResponse(estateLookupRequest)(
+          Right(HttpResponse(ACCEPTED, Json.obj().toString()))
+        )
+
+        await(addressLookupService.getEstateAddressLookupRedirect(addressUpdateCall).value).left.value must be(
           Error("The Address Lookup Service user redirect URL is missing in the header")
         )
       }
