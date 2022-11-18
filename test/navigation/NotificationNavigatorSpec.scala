@@ -762,6 +762,25 @@ class NotificationNavigatorSpec extends SpecBase {
         val userAnswers = UserAnswers("id").set(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, true).success.value
         navigator.nextPage(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
       }
+
+      "must go from the DidThePersonHaveNINOPage to WhatIsIndividualsNationalInsuranceNumberPage where the answer is YesIKnow and has changed" in {
+        val userAnswers = UserAnswers("id").set(DidThePersonHaveNINOPage, DidThePersonHaveNINO.YesIKnow).success.value
+        navigator.nextPage(DidThePersonHaveNINOPage, CheckMode, userAnswers, true) mustBe routes.WhatWasThePersonNINOController.onPageLoad(CheckMode)
+      }
+      "must go from the DidThePersonHaveNINOPage to CheckYourAnswers where the answer is No and has changed" in {
+        val userAnswers = UserAnswers("id").set(DidThePersonHaveNINOPage, DidThePersonHaveNINO.No).success.value
+        navigator.nextPage(DidThePersonHaveNINOPage, CheckMode, userAnswers, true) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must go from the DidThePersonHaveNINOPage to CheckYourAnswers where the answer is YesButDontKnow and has changed" in {
+        val userAnswers = UserAnswers("id").set(DidThePersonHaveNINOPage, DidThePersonHaveNINO.YesButDontKnow).success.value
+        navigator.nextPage(DidThePersonHaveNINOPage, CheckMode, userAnswers, true) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must go from the DidThePersonHaveNINOPage to CheckYourAnswers where the answer is YesIKnow but has NOT changed" in {
+        val userAnswers = UserAnswers("id").set(DidThePersonHaveNINOPage, DidThePersonHaveNINO.YesIKnow).success.value
+        navigator.nextPage(DidThePersonHaveNINOPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
     }
   }
 
