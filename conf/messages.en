@@ -837,9 +837,9 @@ whatWasThePersonDateOfBirth.error.required.all = Enter the person’s date of bi
 whatWasThePersonDateOfBirth.error.required.two = The person’s date of birth must include {0} and {1}
 whatWasThePersonDateOfBirth.error.required = The person’s date of birth must include {0}
 whatWasThePersonDateOfBirth.error.invalid = Enter the person’s date of birth
-whatWasThePersonDateOfBirth.error.invalidDay = Enter a real date of birth - a month can have up to 31 days
-whatWasThePersonDateOfBirth.error.invalidMonth = Enter a real date of birth - there are only 12 months in a year
-whatWasThePersonDateOfBirth.error.invalidFutureDateOfBirth = Date of birth must be in the past
+whatWasThePersonDateOfBirth.error.invalidDay = Enter the person’s real date of birth - a month can have up to 31 days
+whatWasThePersonDateOfBirth.error.invalidMonth = Enter the person’s real date of birth - there are only 12 months in a year
+whatWasThePersonDateOfBirth.error.invalidFutureDateOfBirth = The person’s date of birth must be in the past
 whatWasThePersonDateOfBirth.error.invalidPastDateOfBirth = The person’s date of birth must be after the year 1849
 whatWasThePersonDateOfBirth.change.hidden = WhatWasThePersonDateOfBirth
 
