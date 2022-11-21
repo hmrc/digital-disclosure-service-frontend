@@ -19,9 +19,9 @@ package controllers.notification
 import controllers.actions._
 import forms.AreYouTheExecutorOfTheEstateFormProvider
 import javax.inject.Inject
-import models.Mode
+import models._
 import navigation.NotificationNavigator
-import pages.AreYouTheExecutorOfTheEstatePage
+import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -62,11 +62,25 @@ class AreYouTheExecutorOfTheEstateController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
-        value =>
+        value => {
+          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)   
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AreYouTheExecutorOfTheEstatePage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(AreYouTheExecutorOfTheEstatePage, mode, updatedAnswers))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+            _              <- sessionService.set(clearedAnswers)
+          } yield Redirect(navigator.nextPage(AreYouTheExecutorOfTheEstatePage, mode, clearedAnswers, hasValueChanged))
+        }
       )
+  }
+
+  def changedPages(userAnswers: UserAnswers, value: Boolean): (List[QuestionPage[_]], Boolean) = {
+    userAnswers.get(AreYouTheExecutorOfTheEstatePage) match {
+      case Some(false) if value == true =>
+        (List(AreYouRepresentingAnOrganisationPage, WhatIsTheNameOfTheOrganisationYouRepresentPage), false)
+      case Some(true) if value == false =>
+        (Nil, true)
+      case _ =>
+        (Nil, false) 
+    }
   }
 }

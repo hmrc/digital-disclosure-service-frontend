@@ -16,14 +16,13 @@
 
 package controllers
 
-import base.SpecBase
+import base.ControllerSpecBase
 import forms.AreYouTheExecutorOfTheEstateFormProvider
-import models.{NormalMode, UserAnswers}
+import models._
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
-import org.scalatestplus.mockito.MockitoSugar
-import pages.AreYouTheExecutorOfTheEstatePage
+import pages._
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -33,7 +32,7 @@ import views.html.notification.AreYouTheExecutorOfTheEstateView
 
 import scala.concurrent.Future
 
-class AreYouTheExecutorOfTheEstateControllerSpec extends SpecBase with MockitoSugar {
+class AreYouTheExecutorOfTheEstateControllerSpec extends ControllerSpecBase {
 
   def onwardRoute = Call("GET", "/foo")
 
@@ -151,6 +150,48 @@ class AreYouTheExecutorOfTheEstateControllerSpec extends SpecBase with MockitoSu
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
       }
+    }
+
+    "must redirect to AreYouRepresentingAnOrganisation screen (change mode) if AreYouTheExecutorOfTheEstate page answer changes from Yes to No" in {
+
+      val previousAnswer = true
+      val newAnswer = false
+
+      val urlToTest = notification.routes.AreYouTheExecutorOfTheEstateController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouTheExecutorOfTheEstatePage, urlToTest, destinationRoute)
+    }
+
+    "must redirect to CheckYourAnswers page if AreYouTheExecutorOfTheEstate page answer changes from No to Yes in check mode" in {
+
+      val previousAnswer = false
+      val newAnswer = true
+
+      val urlToTest = notification.routes.AreYouTheExecutorOfTheEstateController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouTheExecutorOfTheEstatePage, urlToTest, destinationRoute, List(AreYouRepresentingAnOrganisationPage, WhatIsTheNameOfTheOrganisationYouRepresentPage))
+    }
+
+    "must redirect to CheckYourAnswers page (change mode) if page is true and doesn't change" in {
+      val previousAnswer = true
+      val newAnswer = true
+
+      val urlToTest = notification.routes.AreYouTheExecutorOfTheEstateController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouTheExecutorOfTheEstatePage, urlToTest, destinationRoute, Nil)
+    }
+
+    "must redirect to CheckYourAnswers page (change mode) if page is false and doesn't change" in {
+      val previousAnswer = false
+      val newAnswer = false
+
+      val urlToTest = notification.routes.AreYouTheExecutorOfTheEstateController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouTheExecutorOfTheEstatePage, urlToTest, destinationRoute, Nil)
     }
   }
 }
