@@ -169,6 +169,15 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       ))
     }
 
+    "must return OK and the correct view for a GET when AreYouTheExecutorOfTheEstatePage is populated" in {
+      val ua = UserAnswers("id").set(AreYouTheExecutorOfTheEstatePage, arbitrary[Boolean].sample.value).success.value
+      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
+        SummaryListViewModel(Seq(AreYouTheExecutorOfTheEstateSummary.row(ua)(messages)).flatten),
+        SummaryListViewModel(Seq.empty),
+        None
+      ))
+    }
+
     "must return OK and the correct view for a GET when AreYouRepresentingAnOrganisationPage is populated" in {
       val ua = UserAnswers("id").set(AreYouRepresentingAnOrganisationPage, arbitrary[Boolean].sample.value).success.value
       rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(

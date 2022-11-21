@@ -305,6 +305,10 @@ class NotificationNavigator @Inject()() {
       case _ => routes.CheckYourAnswersController.onPageLoad
     }
 
+     case AreYouTheExecutorOfTheEstatePage => ua => hasAnswerChanged =>
+      if(hasAnswerChanged) routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode)
+      else routes.CheckYourAnswersController.onPageLoad
+
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
