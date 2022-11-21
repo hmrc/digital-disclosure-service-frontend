@@ -767,6 +767,7 @@ class NotificationNavigatorSpec extends SpecBase {
         val userAnswers = UserAnswers("id").set(DidThePersonHaveNINOPage, DidThePersonHaveNINO.YesIKnow).success.value
         navigator.nextPage(DidThePersonHaveNINOPage, CheckMode, userAnswers, true) mustBe routes.WhatWasThePersonNINOController.onPageLoad(CheckMode)
       }
+
       "must go from the DidThePersonHaveNINOPage to CheckYourAnswers where the answer is No and has changed" in {
         val userAnswers = UserAnswers("id").set(DidThePersonHaveNINOPage, DidThePersonHaveNINO.No).success.value
         navigator.nextPage(DidThePersonHaveNINOPage, CheckMode, userAnswers, true) mustBe routes.CheckYourAnswersController.onPageLoad
@@ -799,6 +800,25 @@ class NotificationNavigatorSpec extends SpecBase {
       "must go from the WasThePersonRegisteredForSAPage to CheckYourAnswers where the answer is YesIKnow but has NOT changed" in {
         val userAnswers = UserAnswers("id").set(WasThePersonRegisteredForSAPage, WasThePersonRegisteredForSA.YesIKnow).success.value
         navigator.nextPage(WasThePersonRegisteredForSAPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+      
+      "must go from the WasThePersonRegisteredForVATPage to WhatWasThePersonVATRegistrationNumber page where the answer is YesIKnow and has changed" in {
+        val userAnswers = UserAnswers("id").set(WasThePersonRegisteredForVATPage, WasThePersonRegisteredForVAT.YesIKnow).success.value
+        navigator.nextPage(WasThePersonRegisteredForVATPage, CheckMode, userAnswers, true) mustBe routes.WhatWasThePersonVATRegistrationNumberController.onPageLoad(CheckMode)
+      }
+      "must go from the WasThePersonRegisteredForVATPage to CheckYourAnswers where the answer is No and has changed" in {
+        val userAnswers = UserAnswers("id").set(WasThePersonRegisteredForVATPage, WasThePersonRegisteredForVAT.No).success.value
+        navigator.nextPage(WasThePersonRegisteredForVATPage, CheckMode, userAnswers, true) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must go from the WasThePersonRegisteredForVATPage to CheckYourAnswers where the answer is YesButDontKnow and has changed" in {
+        val userAnswers = UserAnswers("id").set(WasThePersonRegisteredForVATPage, WasThePersonRegisteredForVAT.YesButIDontKnow).success.value
+        navigator.nextPage(WasThePersonRegisteredForVATPage, CheckMode, userAnswers, true) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must go from the WasThePersonRegisteredForVATPage to CheckYourAnswers where the answer is YesIKnow but has NOT changed" in {
+        val userAnswers = UserAnswers("id").set(WasThePersonRegisteredForVATPage, WasThePersonRegisteredForVAT.YesIKnow).success.value
+        navigator.nextPage(WasThePersonRegisteredForVATPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
       }
     }
   }
