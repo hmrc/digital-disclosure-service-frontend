@@ -20,9 +20,9 @@ import controllers.actions._
 import forms.DidThePersonHaveNINOFormProvider
 
 import javax.inject.Inject
-import models.{DidThePersonHaveNINO, Mode, UserAnswers}
+import models._
+import pages._
 import navigation.NotificationNavigator
-import pages.{DidThePersonHaveNINOPage, QuestionPage, WhatWasThePersonNINOPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -68,14 +68,13 @@ class DidThePersonHaveNINOController @Inject()(
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(DidThePersonHaveNINOPage, value))
             clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
-            _ <- sessionService.set(clearedAnswers)
+            _              <- sessionService.set(clearedAnswers)
           } yield Redirect(navigator.nextPage(DidThePersonHaveNINOPage, mode, clearedAnswers, hasValueChanged))
         }
       )
   }
 
-  def changedPages(existingUserAnswers: UserAnswers, value: DidThePersonHaveNINO): (List[QuestionPage[_]], Boolean) =
-    existingUserAnswers.get(DidThePersonHaveNINOPage) match {
+  def changedPages(existingUserAnswers: UserAnswers, value: DidThePersonHaveNINO): (List[QuestionPage[_]], Boolean) = existingUserAnswers.get(DidThePersonHaveNINOPage) match {
       case Some(DidThePersonHaveNINO.YesIKnow) if value != DidThePersonHaveNINO.YesIKnow => (List(WhatWasThePersonNINOPage), true)
       case Some(existingValue) if value != existingValue => (Nil, true)
       case _ => (Nil, false)
