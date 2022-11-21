@@ -16,14 +16,13 @@
 
 package controllers
 
-import base.SpecBase
+import base.ControllerSpecBase
 import forms.WasThePersonRegisteredForSAFormProvider
-import models.{NormalMode, WasThePersonRegisteredForSA, UserAnswers}
+import models.{CheckMode, NormalMode, UserAnswers, WasThePersonRegisteredForSA}
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
-import org.scalatestplus.mockito.MockitoSugar
-import pages.WasThePersonRegisteredForSAPage
+import pages.{WasThePersonRegisteredForSAPage, WhatWasThePersonUTRPage}
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -33,7 +32,7 @@ import views.html.notification.WasThePersonRegisteredForSAView
 
 import scala.concurrent.Future
 
-class WasThePersonRegisteredForSAControllerSpec extends SpecBase with MockitoSugar {
+class WasThePersonRegisteredForSAControllerSpec extends ControllerSpecBase {
 
   def onwardRoute = Call("GET", "/foo")
 
@@ -101,6 +100,41 @@ class WasThePersonRegisteredForSAControllerSpec extends SpecBase with MockitoSug
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual onwardRoute.url
       }
+    }
+
+    "must redirect to WhatWasThePersonUTR screen in check mode if WasThePersonRegisteredForSA page answer was change from No or YesButDontKnow to YesIKnow" in {
+      val previousAnswers = Seq(WasThePersonRegisteredForSA.No, WasThePersonRegisteredForSA.YesButIDontKnow)
+      val newAnswer = WasThePersonRegisteredForSA.YesIKnow
+
+      val urlToTest = notification.routes.WasThePersonRegisteredForSAController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.WhatWasThePersonUTRController.onPageLoad(CheckMode).url
+
+      previousAnswers.foreach(
+        testChangeAnswerRouting(_, newAnswer, WasThePersonRegisteredForSAPage, urlToTest, destinationRoute)
+      )
+    }
+
+    "must redirect to CheckYourAnswers screen if the if WasThePersonRegisteredForSA page answer was change from YesIKnow to No or YesButDontKnow" in {
+      val previousAnswer = WasThePersonRegisteredForSA.YesIKnow
+      val newAnswers = Seq(WasThePersonRegisteredForSA.No, WasThePersonRegisteredForSA.YesButIDontKnow)
+
+      val urlToTest = notification.routes.WasThePersonRegisteredForSAController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      val pageToClean = List(WhatWasThePersonUTRPage)
+
+      newAnswers.foreach(testChangeAnswerRouting(
+        previousAnswer, _, WasThePersonRegisteredForSAPage, urlToTest, destinationRoute, pageToClean)
+      )
+    }
+
+    "must redirect to CheckYourAnswer screen if there are no changes in the user answer" in {
+      val urlToTest = notification.routes.WasThePersonRegisteredForSAController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      WasThePersonRegisteredForSA.values.foreach(value =>
+        testChangeAnswerRouting(value, value, WasThePersonRegisteredForSAPage, urlToTest, destinationRoute)
+      )
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
