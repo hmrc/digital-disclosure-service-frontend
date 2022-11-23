@@ -90,7 +90,7 @@ class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar with 
       val mockSessionService = mock[SessionService]
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
 
-      val expectedUserAnswers = userAnswers.remove(aboutYouPages:::aboutIndividualPages).get
+      val expectedUserAnswers = userAnswers.remove(aboutYouPages:::aboutIndividualPages:::areYouTheOrganisationPages).get
         .set(AreYouTheIndividualPage, newAnswer).get
 
       val application = applicationBuilderWithSessionService(userAnswers = Some(userAnswers), mockSessionService)
@@ -112,7 +112,7 @@ class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar with 
       }
     }
 
-    "must redirect to offshore liabilities screen and clear the About-You section if AreYouTheIndividual answer changes from Yes to No in check mode" in {
+    "must redirect to AreYouRepresentingAnOrganisation page and clear the About-You section if AreYouTheIndividual answer changes from Yes to No in check mode" in {
 
       val previousAnswer = true
       val newAnswer = false
@@ -128,7 +128,7 @@ class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar with 
       val application = applicationBuilderWithSessionService(userAnswers = Some(userAnswers), mockSessionService)
         .build()
 
-      val offshoreLiabilitiesRoute = notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode).url
+      val areYouRepresentingAnOrganisationRoute = notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode).url
 
       running(application) {
         val request =
@@ -138,7 +138,7 @@ class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar with 
         val result = route(application, request).value
 
         status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual offshoreLiabilitiesRoute
+        redirectLocation(result).value mustEqual areYouRepresentingAnOrganisationRoute
 
         verify(mockSessionService, times(1)).set(refEq(expectedUserAnswers))(any())
       }

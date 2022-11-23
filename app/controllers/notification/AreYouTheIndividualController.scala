@@ -83,7 +83,7 @@ class AreYouTheIndividualController @Inject()(
         aboutYouPages
 
       case Some(false) if true == value =>
-        aboutYouPages ::: aboutIndividualPages
+        aboutYouPages ::: aboutIndividualPages ::: areYouTheOrganisationPages
       case _ => Nil
     }
 }
