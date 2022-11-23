@@ -100,5 +100,4 @@ trait SectionPages {
                                               aboutPersonWhoDiedPages :::
                                               areYouTheOrganisationPages :::
                                               areYouTheEntityPages
-  
 }

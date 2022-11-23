@@ -398,6 +398,5 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
 
       testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, pageToBeClear)
     }
-
   }
 }

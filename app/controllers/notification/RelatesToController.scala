@@ -78,11 +78,11 @@ class RelatesToController @Inject()(
   }
 
   def whatHasChanged(userAnswers: UserAnswers, value: RelatesTo): List[QuestionPage[_]] =
-    userAnswers.get(RelatesToPage) match {
-      case None => Nil
-      case Some(relatesTo) if(value == relatesTo) => Nil
-      case Some(_) if(value == RelatesTo.AnIndividual) => allEntityPages ::: aboutYouPages
-      case Some(RelatesTo.AnIndividual) => allEntityPages ::: aboutYouPages
-      case Some(relatesTo) => allEntityPages
-    }
+  userAnswers.get(RelatesToPage) match {
+    case None => Nil
+    case Some(relatesTo) if(value == relatesTo) => Nil
+    case Some(_) if(value == RelatesTo.AnIndividual) => allEntityPages ::: aboutYouPages
+    case Some(RelatesTo.AnIndividual) => allEntityPages ::: aboutYouPages
+    case Some(relatesTo) => allEntityPages
+  }
 }

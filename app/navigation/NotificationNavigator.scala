@@ -312,6 +312,7 @@ class NotificationNavigator @Inject()() {
     case RelatesToPage => ua => hasAnswerChanged => 
       if(hasAnswerChanged) nextPage(RelatesToPage, NormalMode, ua)
       else routes.CheckYourAnswersController.onPageLoad
+    
        
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
