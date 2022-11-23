@@ -19,9 +19,10 @@ package controllers.notification
 import controllers.actions._
 import forms.RelatesToFormProvider
 import javax.inject.Inject
-import models.Mode
+import models._
 import navigation.NotificationNavigator
-import pages.RelatesToPage
+import pages._
+import pages.notification.SectionPages
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -40,7 +41,7 @@ class RelatesToController @Inject()(
   formProvider: RelatesToFormProvider,
   val controllerComponents: MessagesControllerComponents,
   view: RelatesToView
-)(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+)(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with SectionPages {
 
   val form = formProvider()
 
@@ -62,11 +63,26 @@ class RelatesToController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
-        value =>
+        value => {
+
+          val changedPages = whatHasChanged(request.userAnswers, value)
+          val hasChanged = changedPages.nonEmpty
+
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(RelatesToPage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(RelatesToPage, mode, updatedAnswers))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(changedPages))
+            _              <- sessionService.set(clearedAnswers)
+          } yield Redirect(navigator.nextPage(RelatesToPage, mode, clearedAnswers, hasChanged))
+        }
       )
   }
+
+  def whatHasChanged(userAnswers: UserAnswers, value: RelatesTo): List[QuestionPage[_]] =
+    userAnswers.get(RelatesToPage) match {
+      case None => Nil
+      case Some(relatesTo) if(value == relatesTo) => Nil
+      case Some(_) if(value == RelatesTo.AnIndividual) => allEntityPages ::: aboutYouPages
+      case Some(RelatesTo.AnIndividual) => allEntityPages ::: aboutYouPages
+      case Some(relatesTo) => allEntityPages
+    }
 }

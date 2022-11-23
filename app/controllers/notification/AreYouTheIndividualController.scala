@@ -22,7 +22,7 @@ import forms.AreYouTheIndividualFormProvider
 import javax.inject.Inject
 import models.{Mode, UserAnswers}
 import navigation.NotificationNavigator
-import pages.notification.IndividualPages
+import pages.notification.SectionPages
 import pages.{AreYouTheIndividualPage, QuestionPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -42,7 +42,7 @@ class AreYouTheIndividualController @Inject()(
                                        formProvider: AreYouTheIndividualFormProvider,
                                        val controllerComponents: MessagesControllerComponents,
                                        view: AreYouTheIndividualView
-                                     ) (implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with IndividualPages{
+                                     ) (implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with SectionPages{
 
   val form = formProvider()
 

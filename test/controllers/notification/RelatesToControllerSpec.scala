@@ -16,14 +16,14 @@
 
 package controllers
 
-import base.SpecBase
+import base.ControllerSpecBase
 import forms.RelatesToFormProvider
-import models.{NormalMode, RelatesTo, UserAnswers}
+import models._
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
-import org.scalatestplus.mockito.MockitoSugar
-import pages.RelatesToPage
+import pages._
+import pages.notification.SectionPages
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -33,7 +33,7 @@ import views.html.notification.RelatesToView
 
 import scala.concurrent.Future
 
-class RelatesToControllerSpec extends SpecBase with MockitoSugar {
+class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
 
   def onwardRoute = Call("GET", "/foo")
 
@@ -153,5 +153,251 @@ class RelatesToControllerSpec extends SpecBase with MockitoSugar {
         redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
       }
     }
+
+    "must redirect to CheckYourAnswers screen if page answer is An Individual and doesn't change" in {
+
+      val previousAnswer = RelatesTo.AnIndividual
+      val newAnswer = RelatesTo.AnIndividual
+
+      val urlToTest = notification.routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, Nil)
+    }
+
+    "must redirect to CheckYourAnswers screen if page answer is A Company and doesn't change" in {
+
+      val previousAnswer = RelatesTo.ACompany
+      val newAnswer = RelatesTo.ACompany
+
+      val urlToTest = notification.routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, Nil)
+    }
+
+    "must redirect to CheckYourAnswers screen if page answer is AnEstate and doesn't change" in {
+
+      val previousAnswer = RelatesTo.AnEstate
+      val newAnswer = RelatesTo.AnEstate
+
+      val urlToTest = notification.routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, Nil)
+    }
+    "must redirect to CheckYourAnswers screen if page answer is ALimitedLiabilityPartnership and doesn't change" in {
+
+      val previousAnswer = RelatesTo.ALimitedLiabilityPartnership
+      val newAnswer = RelatesTo.ALimitedLiabilityPartnership
+
+      val urlToTest = notification.routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, Nil)
+    }
+    "must redirect to CheckYourAnswers screen if page answer is ATrust and doesn't change" in {
+
+      val previousAnswer = RelatesTo.ATrust
+      val newAnswer = RelatesTo.ATrust
+
+      val urlToTest = notification.routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, Nil)
+    }
+
+    "must redirect to RelatesToPage page (change mode) and then AreYouTheIndividualPage with normal mode if page answer changes from RelatesTo.ACompany to RelatesTo.AnIndividual in check mode" in {
+      val previousAnswer = RelatesTo.ACompany
+      val newAnswer = RelatesTo.AnIndividual
+
+      val urlToTest = notification.routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.AreYouTheIndividualController.onPageLoad(NormalMode).url
+
+      val pageToBeClear = allEntityPages ::: aboutYouPages
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, pageToBeClear)
+    }
+
+    "must redirect to RelatesToPage page (change mode) and then AreYouTheIndividualPage with normal mode if page answer changes from RelatesTo.AnEstate to RelatesTo.AnIndividual in check mode" in {
+      val previousAnswer = RelatesTo.AnEstate
+      val newAnswer = RelatesTo.AnIndividual
+
+      val urlToTest = notification.routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.AreYouTheIndividualController.onPageLoad(NormalMode).url
+
+      val pageToBeClear = allEntityPages ::: aboutYouPages
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, pageToBeClear)
+    }
+
+    "must redirect to RelatesToPage page (change mode) and then AreYouTheIndividualPage with normal mode if page answer changes from RelatesTo.ALimitedLiabilityPartnership to RelatesTo.AnIndividual in check mode" in {
+      val previousAnswer = RelatesTo.ALimitedLiabilityPartnership
+      val newAnswer = RelatesTo.AnIndividual
+
+      val urlToTest = notification.routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.AreYouTheIndividualController.onPageLoad(NormalMode).url
+
+      val pageToBeClear = allEntityPages ::: aboutYouPages
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, pageToBeClear)
+    }
+
+    "must redirect to RelatesToPage page (change mode) and then AreYouTheIndividualPage with normal mode if page answer changes from RelatesTo.ATrust to RelatesTo.AnIndividual in check mode" in {
+      val previousAnswer = RelatesTo.ATrust
+      val newAnswer = RelatesTo.AnIndividual
+
+      val urlToTest = notification.routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.AreYouTheIndividualController.onPageLoad(NormalMode).url
+
+      val pageToBeClear = allEntityPages ::: aboutYouPages
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, pageToBeClear)
+    }
+
+    "must redirect to RelatesToPage page (change mode) and then AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage with normal mode if page answer changes from RelatesTo.ATrust to RelatesTo.ACompany in check mode" in {
+      val previousAnswer = RelatesTo.ATrust
+      val newAnswer = RelatesTo.ACompany
+
+      val urlToTest = notification.routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode).url
+
+      val pageToBeClear = allEntityPages
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, pageToBeClear)
+    }
+
+    "must redirect to RelatesToPage page (change mode) and then AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage with normal mode if page answer changes from RelatesTo.ATrust to RelatesTo.ALimitedLiabilityPartnership in check mode" in {
+      val previousAnswer = RelatesTo.ATrust
+      val newAnswer = RelatesTo.ALimitedLiabilityPartnership
+
+      val urlToTest = notification.routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode).url
+
+      val pageToBeClear = allEntityPages
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, pageToBeClear)
+    }
+
+    "must redirect to RelatesToPage page (change mode) and then AreYouTheExecutorOfTheEstatePage with normal mode if page answer changes from RelatesTo.ATrust to RelatesTo.AnEstate in check mode" in {
+      val previousAnswer = RelatesTo.ATrust
+      val newAnswer = RelatesTo.AnEstate
+
+      val urlToTest = notification.routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.AreYouTheExecutorOfTheEstateController.onPageLoad(NormalMode).url
+
+      val pageToBeClear = allEntityPages
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, pageToBeClear)
+    }
+
+    "must redirect to RelatesToPage page (change mode) and then AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage with normal mode if page answer changes from RelatesTo.AnEstate to RelatesTo.ACompany in check mode" in {
+      val previousAnswer = RelatesTo.AnEstate
+      val newAnswer = RelatesTo.ACompany
+
+      val urlToTest = notification.routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode).url
+
+      val pageToBeClear = allEntityPages
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, pageToBeClear)
+    }
+
+    "must redirect to RelatesToPage page (change mode) and then AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage with normal mode if page answer changes from RelatesTo.AnEstate to RelatesTo.ALimitedLiabilityPartnership in check mode" in {
+      val previousAnswer = RelatesTo.AnEstate
+      val newAnswer = RelatesTo.ALimitedLiabilityPartnership
+
+      val urlToTest = notification.routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode).url
+
+      val pageToBeClear = allEntityPages
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, pageToBeClear)
+    }
+
+    "must redirect to RelatesToPage page (change mode) and then AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage with normal mode if page answer changes from RelatesTo.AnEstate to RelatesTo.ATrust in check mode" in {
+      val previousAnswer = RelatesTo.AnEstate
+      val newAnswer = RelatesTo.ATrust
+
+      val urlToTest = notification.routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode).url
+
+      val pageToBeClear = allEntityPages
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, pageToBeClear)
+    }
+
+    "must redirect to RelatesToPage page (change mode) and then AreYouTheExecutorOfTheEstatePage with normal mode if page answer changes from RelatesTo.ACompany to RelatesTo.AnEstate in check mode" in {
+      val previousAnswer = RelatesTo.ACompany
+      val newAnswer = RelatesTo.AnEstate
+
+      val urlToTest = notification.routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.AreYouTheExecutorOfTheEstateController.onPageLoad(NormalMode).url
+
+      val pageToBeClear = allEntityPages
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, pageToBeClear)
+    }
+
+    "must redirect to RelatesToPage page (change mode) and then AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage with normal mode if page answer changes from RelatesTo.ACompany to RelatesTo.ALimitedLiabilityPartnership in check mode" in {
+      val previousAnswer = RelatesTo.ACompany
+      val newAnswer = RelatesTo.ALimitedLiabilityPartnership
+
+      val urlToTest = notification.routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode).url
+
+      val pageToBeClear = allEntityPages
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, pageToBeClear)
+    }
+
+    "must redirect to RelatesToPage page (change mode) and then AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage with normal mode if page answer changes from RelatesTo.ACompany to RelatesTo.ATrust in check mode" in {
+      val previousAnswer = RelatesTo.ACompany
+      val newAnswer = RelatesTo.ATrust
+
+      val urlToTest = notification.routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode).url
+
+      val pageToBeClear = allEntityPages
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, pageToBeClear)
+    }
+
+    "must redirect to RelatesToPage page (change mode) and then AreYouTheExecutorOfTheEstatePage with normal mode if page answer changes from RelatesTo.ALimitedLiabilityPartnership to RelatesTo.AnEstate in check mode" in {
+      val previousAnswer = RelatesTo.ALimitedLiabilityPartnership
+      val newAnswer = RelatesTo.AnEstate
+
+      val urlToTest = notification.routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.AreYouTheExecutorOfTheEstateController.onPageLoad(NormalMode).url
+
+      val pageToBeClear = allEntityPages
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, pageToBeClear)
+    }
+
+    "must redirect to RelatesToPage page (change mode) and then AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage with normal mode if page answer changes from RelatesTo.ALimitedLiabilityPartnership to RelatesTo.ACompany in check mode" in {
+      val previousAnswer = RelatesTo.ALimitedLiabilityPartnership
+      val newAnswer = RelatesTo.ACompany
+
+      val urlToTest = notification.routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode).url
+
+      val pageToBeClear = allEntityPages
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, pageToBeClear)
+    }
+
+    "must redirect to RelatesToPage page (change mode) and then AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage with normal mode if page answer changes from RelatesTo.ALimitedLiabilityPartnership to RelatesTo.ATrust in check mode" in {
+      val previousAnswer = RelatesTo.ALimitedLiabilityPartnership
+      val newAnswer = RelatesTo.ATrust
+
+      val urlToTest = notification.routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode).url
+
+      val pageToBeClear = allEntityPages
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, pageToBeClear)
+    }
+
   }
 }
