@@ -128,7 +128,7 @@ class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar with 
       val application = applicationBuilderWithSessionService(userAnswers = Some(userAnswers), mockSessionService)
         .build()
 
-      val offshoreLiabilitiesRoute = notification.routes.OffshoreLiabilitiesController.onPageLoad(NormalMode).url
+      val offshoreLiabilitiesRoute = notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode).url
 
       running(application) {
         val request =

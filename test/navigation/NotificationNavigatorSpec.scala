@@ -100,9 +100,9 @@ class NotificationNavigatorSpec extends SpecBase {
         }
       }
 
-      "must go from the AreYouTheIndividual page to the OffshoreLiabilities controller when the user selects No" in {
+      "must go from the AreYouTheIndividual page to the AreYouRepresentingAnOrganisationController controller when the user selects No" in {
         UserAnswers("id").set(AreYouTheIndividualPage, false) match {
-          case Success(ua) => navigator.nextPage(AreYouTheIndividualPage, NormalMode, ua) mustBe routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
+          case Success(ua) => navigator.nextPage(AreYouTheIndividualPage, NormalMode, ua) mustBe routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode)
           case Failure(e) => throw e
         }
       }
