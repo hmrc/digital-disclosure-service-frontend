@@ -39,8 +39,17 @@ class LetterReferenceViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-label--xl").text() mustBe messages("letterReference.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("letterReference.heading")
     }
+
+    "contain body" in {
+      view.getElementsByClass("govuk-label").text() mustBe messages("letterReference.body")
+    }
+
+    "contain hint" in {
+      view.getElementsByClass("govuk-hint").text() mustBe messages("letterReference.hint")
+    }
+
 
     "have a text input" in {
       view.getElementsByClass("govuk-input").first must haveClass("govuk-!-width-full")

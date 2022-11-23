@@ -21,7 +21,8 @@
     formHelper: FormWithCSRF,
     govukErrorSummary: GovukErrorSummary,
     govukInput: GovukInput,
-    govukButton: GovukButton
+    govukButton: GovukButton,
+    heading: components.heading
 )
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
@@ -34,11 +35,14 @@
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
+        @heading(Text(messages("letterReference.heading")))
+
         @govukInput(
             InputViewModel(
                 field = form("value"),
-                label = LabelViewModel(messages("letterReference.heading")).asPageHeading()
+                label = LabelViewModel(messages("letterReference.body"))
             )
+            .withHint(Hint(content = Text(messages("letterReference.hint"))))
             .withWidth(Full)
         )
 
