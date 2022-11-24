@@ -381,8 +381,10 @@ onshoreLiabilities.default.checkYourAnswersLabel = Will the disclosure be about 
 onshoreLiabilities.error.required = Select yes if the disclosure is about onshore liabilities
 onshoreLiabilities.change.hidden = OnshoreLiabilities
 
-letterReference.title = What is the reference number of the letter you received from HMRC?
-letterReference.heading = What is the reference number of the letter you received from HMRC?
+letterReference.title = What is the case reference number provided on the letter you received from HMRC?
+letterReference.heading = What is the case reference number provided on the letter you received from HMRC?
+letterReference.body = This can be found towards the top of the letter underneath the date. It begins with ‘CFSS’ or ‘CFS’ followed by 7 numbers.
+letterReference.hint = For example, CFSS-1234567 or CFS-1234567.
 letterReference.checkYourAnswersLabel = Letter reference number
 letterReference.error.required = Enter the letter’s reference number
 letterReference.error.length = LetterReference must be 30 characters or less
