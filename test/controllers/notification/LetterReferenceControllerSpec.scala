@@ -91,10 +91,11 @@ class LetterReferenceControllerSpec extends SpecBase with MockitoSugar {
           )
           .build()
 
+      val validReferenceNumber = generateValidCaseReference().sample.value
       running(application) {
         val request =
           FakeRequest(POST, letterReferenceRoute)
-            .withFormUrlEncodedBody(("value", "answer"))
+            .withFormUrlEncodedBody(("value", validReferenceNumber))
 
         val result = route(application, request).value
 

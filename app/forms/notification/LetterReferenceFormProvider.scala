@@ -23,9 +23,11 @@ import play.api.data.Form
 
 class LetterReferenceFormProvider @Inject() extends Mappings {
 
+  val formatRegex: String = "CFS[S]?[-]?[0-9]{7}$"
+
   def apply(): Form[String] =
     Form(
       "value" -> text("letterReference.error.required")
-        .verifying(maxLength(30, "letterReference.error.length"))
+        .verifying(regexp(formatRegex, "letterReference.error.format"))
     )
 }

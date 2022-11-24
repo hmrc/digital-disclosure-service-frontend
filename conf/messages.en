@@ -386,8 +386,9 @@ letterReference.heading = What is the case reference number provided on the lett
 letterReference.body = This can be found towards the top of the letter underneath the date. It begins with ‘CFSS’ or ‘CFS’ followed by 7 numbers.
 letterReference.hint = For example, CFSS-1234567 or CFS-1234567.
 letterReference.checkYourAnswersLabel = Letter reference number
-letterReference.error.required = Enter the letter’s reference number
+letterReference.error.required = Enter the case reference
 letterReference.error.length = LetterReference must be 30 characters or less
+letterReference.error.format = Enter the case reference in the right format
 letterReference.change.hidden = LetterReference
 
 offshoreLiabilities.title = Offshore liabilities

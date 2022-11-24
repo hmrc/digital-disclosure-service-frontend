@@ -29,7 +29,8 @@ trait Generators extends UserAnswersGenerator
                     with EmailGenerators
                     with TelephoneNumberGenerators
                     with RegistrationNumberGenerator
-                    with VATGenerators {
+                    with VATGenerators
+                    with CaseReferenceGenerators {
 
   implicit val dontShrink: Shrink[String] = Shrink.shrinkAny
 
@@ -131,6 +132,7 @@ trait Generators extends UserAnswersGenerator
   } yield {
     digits.mkString
   }
+
 
   def generateInvalidLengthUTR(length: Int): Gen[String] = numStr
     .suchThat(s => s.nonEmpty && (s.length != length))
