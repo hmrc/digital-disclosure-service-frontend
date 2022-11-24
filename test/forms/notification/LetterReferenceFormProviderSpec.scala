@@ -16,13 +16,13 @@
 
 package forms
 
-import forms.behaviours.StringFieldBehaviours
+import forms.behaviours.CaseReferenceBehaviours
 import play.api.data.FormError
 
-class LetterReferenceFormProviderSpec extends StringFieldBehaviours {
+class LetterReferenceFormProviderSpec extends CaseReferenceBehaviours {
 
   val requiredKey = "letterReference.error.required"
-  val lengthKey = "letterReference.error.length"
+  val formatErrorKey = "letterReference.error.format"
   val maxLength = 30
 
   val form = new LetterReferenceFormProvider()()
@@ -31,17 +31,15 @@ class LetterReferenceFormProviderSpec extends StringFieldBehaviours {
 
     val fieldName = "value"
 
-    behave like fieldThatBindsValidData(
+    behave like fieldThatBindsValidCaseReference(
       form,
-      fieldName,
-      stringsWithMaxLength(maxLength)
+      fieldName
     )
 
-    behave like fieldWithMaxLength(
+    behave like fieldWithInvalidCaseReference(
       form,
       fieldName,
-      maxLength = maxLength,
-      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
+      formatErrorKey
     )
 
     behave like mandatoryField(

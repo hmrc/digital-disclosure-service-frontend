@@ -384,8 +384,9 @@ onshoreLiabilities.change.hidden = OnshoreLiabilities
 letterReference.title = What is the reference number of the letter you received from HMRC?
 letterReference.heading = What is the reference number of the letter you received from HMRC?
 letterReference.checkYourAnswersLabel = Letter reference number
-letterReference.error.required = Enter the letter’s reference number
+letterReference.error.required = Enter the case reference
 letterReference.error.length = LetterReference must be 30 characters or less
+letterReference.error.format = Enter the case reference in the right format
 letterReference.change.hidden = LetterReference
 
 offshoreLiabilities.title = Offshore liabilities
