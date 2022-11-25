@@ -84,16 +84,15 @@ class NotificationDataServiceSpec extends AnyWordSpec with Matchers with TryValu
       sut.entityPagesWithValues(disclosureEntity) shouldEqual expectedResult
     }
 
-    //TODO change this when Estate is developed
     "return the pagesWithValues for an Estate who has answered if they are an executor" in {
       val disclosureEntity = DisclosureEntity(Estate, Some(true))
-      val expectedResult = List(PageWithValue(RelatesToPage, RelatesTo.AnIndividual), PageWithValue(AreYouTheIndividualPage, true))
+      val expectedResult = List(PageWithValue(RelatesToPage, RelatesTo.AnEstate), PageWithValue(AreYouTheExecutorOfTheEstatePage, true))
       sut.entityPagesWithValues(disclosureEntity) shouldEqual expectedResult
     }
 
     "return the pagesWithValues for an Estate who has not answered if they are an executor" in {
       val disclosureEntity = DisclosureEntity(Estate, None)
-      val expectedResult = List(PageWithValue(RelatesToPage, RelatesTo.AnIndividual))
+      val expectedResult = List(PageWithValue(RelatesToPage, RelatesTo.AnEstate))
       sut.entityPagesWithValues(disclosureEntity) shouldEqual expectedResult
     }
 
@@ -427,6 +426,54 @@ class NotificationDataServiceSpec extends AnyWordSpec with Matchers with TryValu
       updatedUserAnswers.get(WhatIsTheLLPNamePage) shouldEqual Some("Some name")
     }
 
+  }
+
+
+  "aboutTheEstateToUserAnswers" should {
+
+    val address = Address("line 1", Some("line 2"), Some("line 3"), "line 4", "postcode", Country("GBR"))
+    val localDate = LocalDate.now()
+
+    "return no PageWithValues for an empty AboutYou" in {
+      val aboutTheEstate = AboutTheEstate()
+      val updatedUserAnswers = sut.aboutTheEstateToUserAnswers(aboutTheEstate, emptyUA).success.value
+      updatedUserAnswers.get(WhatWasTheNameOfThePersonWhoDiedPage)        shouldEqual None
+      updatedUserAnswers.get(WhatWasThePersonDateOfBirthPage)             shouldEqual None
+      updatedUserAnswers.get(WhatWasThePersonOccupationPage)              shouldEqual None
+      updatedUserAnswers.get(DidThePersonHaveNINOPage)                    shouldEqual None
+      updatedUserAnswers.get(WhatWasThePersonNINOPage)                    shouldEqual None
+      updatedUserAnswers.get(WasThePersonRegisteredForVATPage)            shouldEqual None
+      updatedUserAnswers.get(WhatWasThePersonVATRegistrationNumberPage)   shouldEqual None
+      updatedUserAnswers.get(WasThePersonRegisteredForSAPage)             shouldEqual None
+      updatedUserAnswers.get(WhatWasThePersonUTRPage)                     shouldEqual None
+      updatedUserAnswers.get(EstateAddressLookupPage)                     shouldEqual None
+    }
+
+    "return a PageWithValue for all that are set" in {
+      val aboutTheEstate = AboutTheEstate(
+        fullName = Some("Some name"),
+        dateOfBirth = Some(localDate),
+        mainOccupation = Some("Occupation"),
+        doTheyHaveANino = Some(YesNoOrUnsure.Yes),
+        nino = Some("Some NINO"),
+        registeredForVAT = Some(YesNoOrUnsure.Unsure),
+        vatRegNumber = Some("Some Reg"),
+        registeredForSA = Some(YesNoOrUnsure.No),
+        sautr = Some("UTR"),
+        address = Some(address)
+      )
+      val updatedUserAnswers = sut.aboutTheEstateToUserAnswers(aboutTheEstate, emptyUA).success.value
+      updatedUserAnswers.get(WhatWasTheNameOfThePersonWhoDiedPage)        shouldEqual Some("Some name")
+      updatedUserAnswers.get(WhatWasThePersonDateOfBirthPage)             shouldEqual Some(localDate)
+      updatedUserAnswers.get(WhatWasThePersonOccupationPage)              shouldEqual Some("Occupation")
+      updatedUserAnswers.get(DidThePersonHaveNINOPage)                    shouldEqual Some(DidThePersonHaveNINO.YesIKnow)
+      updatedUserAnswers.get(WhatWasThePersonNINOPage)                    shouldEqual Some("Some NINO")
+      updatedUserAnswers.get(WasThePersonRegisteredForVATPage)            shouldEqual Some(WasThePersonRegisteredForVAT.YesButIDontKnow)
+      updatedUserAnswers.get(WhatWasThePersonVATRegistrationNumberPage)   shouldEqual Some("Some Reg")
+      updatedUserAnswers.get(WasThePersonRegisteredForSAPage)             shouldEqual Some(WasThePersonRegisteredForSA.No)
+      updatedUserAnswers.get(WhatWasThePersonUTRPage)                     shouldEqual Some("UTR")
+      updatedUserAnswers.get(EstateAddressLookupPage)                     shouldEqual Some(address)
+    }
   }
 
 }

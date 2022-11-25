@@ -43,8 +43,7 @@ class NotificationDataServiceImpl extends NotificationDataService {
       case Company => notification.aboutTheCompany.map(aboutTheCompanyToUserAnswers(_, userAnswers))
       case LLP => notification.aboutTheLLP.map(aboutTheLLPToUserAnswers(_, userAnswers))
       case Trust => notification.aboutTheTrust.map(aboutTheTrustToUserAnswers(_, userAnswers))
-      //TODO change this when Estate is developed
-      case Estate => None
+      case Estate => notification.aboutTheEstate.map(aboutTheEstateToUserAnswers(_, userAnswers))
     }).getOrElse(Success(userAnswers))
   }
 
@@ -82,8 +81,7 @@ class NotificationDataServiceImpl extends NotificationDataService {
       case Company => entityToPageWithValue(RelatesTo.ACompany, AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, disclosureEntity.areYouTheEntity)
       case LLP => entityToPageWithValue(RelatesTo.ALimitedLiabilityPartnership, AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, disclosureEntity.areYouTheEntity)
       case Trust => entityToPageWithValue(RelatesTo.ATrust, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, disclosureEntity.areYouTheEntity)
-      //TODO change this when Estate is developed
-      case Estate => entityToPageWithValue(RelatesTo.AnIndividual, AreYouTheIndividualPage, disclosureEntity.areYouTheEntity)
+      case Estate => entityToPageWithValue(RelatesTo.AnEstate, AreYouTheExecutorOfTheEstatePage, disclosureEntity.areYouTheEntity)
     }
   }
 
@@ -130,6 +128,27 @@ class NotificationDataServiceImpl extends NotificationDataService {
       registeredForSA.map(PageWithValue[IsTheIndividualRegisteredForSelfAssessment](IsTheIndividualRegisteredForSelfAssessmentPage, _)),
       sautr.map(PageWithValue(WhatIsTheIndividualsUniqueTaxReferencePage, _)),
       address.map(PageWithValue(IndividualAddressLookupPage, _)) 
+    ).flatten
+    
+    PageWithValue.pagesToUserAnswers(pages, userAnswers)
+
+  }
+
+  def aboutTheEstateToUserAnswers(aboutTheEstate: AboutTheEstate, userAnswers: UserAnswers): Try[UserAnswers] = {
+
+    import aboutTheEstate._
+
+    val pages = List(
+      fullName.map(PageWithValue(WhatWasTheNameOfThePersonWhoDiedPage, _)),
+      dateOfBirth.map(PageWithValue(WhatWasThePersonDateOfBirthPage, _)),
+      mainOccupation.map(PageWithValue(WhatWasThePersonOccupationPage, _)),
+      doTheyHaveANino.map(PageWithValue[DidThePersonHaveNINO](DidThePersonHaveNINOPage, _)),
+      nino.map(PageWithValue(WhatWasThePersonNINOPage, _)),
+      registeredForVAT.map(PageWithValue[WasThePersonRegisteredForVAT](WasThePersonRegisteredForVATPage, _)),
+      vatRegNumber.map(PageWithValue(WhatWasThePersonVATRegistrationNumberPage, _)),
+      registeredForSA.map(PageWithValue[WasThePersonRegisteredForSA](WasThePersonRegisteredForSAPage, _)),
+      sautr.map(PageWithValue(WhatWasThePersonUTRPage, _)),
+      address.map(PageWithValue(EstateAddressLookupPage, _)) 
     ).flatten
     
     PageWithValue.pagesToUserAnswers(pages, userAnswers)

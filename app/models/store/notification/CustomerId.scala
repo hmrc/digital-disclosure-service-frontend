@@ -16,14 +16,31 @@
 
 package models.store.notification
 
-import java.time.LocalDateTime
 import play.api.libs.json.{Json, OFormat}
 
-final case class Metadata (
-  reference: Option[String] = None,
-  submissionTime: Option[LocalDateTime] = None
-)
+sealed trait CustomerId {
+  def id: String
+}
 
-object Metadata {
-  implicit val format: OFormat[Metadata] = Json.format[Metadata]
+final case class NINO(id: String) extends CustomerId
+object NINO {
+  implicit val format: OFormat[NINO] = Json.format[NINO]
+}
+
+final case class CAUTR(id: String) extends CustomerId
+object CAUTR {
+  implicit val format: OFormat[CAUTR] = Json.format[CAUTR]
+}
+final case class SAUTR(id: String) extends CustomerId
+object SAUTR {
+  implicit val format: OFormat[SAUTR] = Json.format[SAUTR]
+}
+
+final case class ARN(id: String) extends CustomerId
+object ARN {
+  implicit val format: OFormat[ARN] = Json.format[ARN]
+}
+
+object CustomerId {
+  implicit val format: OFormat[CustomerId] = Json.format[CustomerId]
 }

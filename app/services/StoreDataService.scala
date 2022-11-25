@@ -40,7 +40,7 @@ class StoreDataServiceImpl extends StoreDataService {
       case Some(RelatesTo.ACompany) => notification.copy(aboutTheCompany = Some(userAnswersToAboutTheCompany(userAnswers)))
       case Some(RelatesTo.ATrust) => notification.copy(aboutTheTrust = Some(userAnswersToAboutTheTrust(userAnswers)))
       case Some(RelatesTo.ALimitedLiabilityPartnership) => notification.copy(aboutTheLLP = Some(userAnswersToAboutTheLLP(userAnswers)))
-      //TODO change this when Estate is developed
+      case Some(RelatesTo.AnEstate) => notification.copy(aboutTheEstate = Some(userAnswersToAboutTheEstate(userAnswers)))
       case _ => notification
     }
 
@@ -63,8 +63,7 @@ class StoreDataServiceImpl extends StoreDataService {
       case RelatesTo.ACompany => DisclosureEntity(Company, userAnswers.get(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage))
       case RelatesTo.ALimitedLiabilityPartnership => DisclosureEntity(LLP, userAnswers.get(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage))
       case RelatesTo.ATrust => DisclosureEntity(Trust, userAnswers.get(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage))      
-      //TODO change this when Estate is developed
-      case RelatesTo.AnEstate => DisclosureEntity(Estate, None)
+      case RelatesTo.AnEstate => DisclosureEntity(Estate, userAnswers.get(AreYouTheExecutorOfTheEstatePage))
     })
   }
 
@@ -97,6 +96,20 @@ class StoreDataServiceImpl extends StoreDataService {
       registeredForSA = userAnswers.get(IsTheIndividualRegisteredForSelfAssessmentPage),
       sautr = userAnswers.get(WhatIsTheIndividualsUniqueTaxReferencePage),
       address = userAnswers.get(IndividualAddressLookupPage)
+    )
+
+  def userAnswersToAboutTheEstate(userAnswers: UserAnswers): AboutTheEstate = 
+    AboutTheEstate(
+      fullName = userAnswers.get(WhatWasTheNameOfThePersonWhoDiedPage),
+      dateOfBirth = userAnswers.get(WhatWasThePersonDateOfBirthPage),
+      mainOccupation = userAnswers.get(WhatWasThePersonOccupationPage),
+      doTheyHaveANino = userAnswers.get(DidThePersonHaveNINOPage),
+      nino = userAnswers.get(WhatWasThePersonNINOPage),
+      registeredForVAT = userAnswers.get(WasThePersonRegisteredForVATPage),
+      vatRegNumber = userAnswers.get(WhatWasThePersonVATRegistrationNumberPage),
+      registeredForSA = userAnswers.get(WasThePersonRegisteredForSAPage),
+      sautr = userAnswers.get(WhatWasThePersonUTRPage),
+      address = userAnswers.get(EstateAddressLookupPage)
     )
 
   def userAnswersToAboutTheCompany(userAnswers: UserAnswers): AboutTheCompany = 
