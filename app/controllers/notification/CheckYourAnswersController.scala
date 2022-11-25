@@ -27,15 +27,21 @@ import views.html.notification.CheckYourAnswersView
 import viewmodels.checkAnswers._
 import pages._
 import models._
+import services.NotificationSubmissionService
+import scala.concurrent.ExecutionContext
+import navigation.NotificationNavigator
+import pages.CheckYourAnswersPage
 
 class CheckYourAnswersController @Inject()(
                                             override val messagesApi: MessagesApi,
                                             identify: IdentifierAction,
                                             getData: DataRetrievalAction,
                                             requireData: DataRequiredAction,
+                                            navigator: NotificationNavigator,
                                             val controllerComponents: MessagesControllerComponents,
-                                            view: CheckYourAnswersView
-                                          ) extends FrontendBaseController with I18nSupport {
+                                            view: CheckYourAnswersView,
+                                            notificationSubmissionService: NotificationSubmissionService
+                                          )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad(): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
@@ -171,4 +177,12 @@ class CheckYourAnswersController @Inject()(
 
       Ok(view(list))
   }
+
+  def onSubmit(): Action[AnyContent] = (identify andThen getData andThen requireData).async {
+    implicit request => 
+      for {
+        _ <- notificationSubmissionService.submitNotification(request.userAnswers)
+      } yield Redirect(navigator.nextPage(CheckYourAnswersPage, NormalMode, request.userAnswers))
+  }
+
 }

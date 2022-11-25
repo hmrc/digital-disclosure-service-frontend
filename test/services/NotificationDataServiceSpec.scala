@@ -24,7 +24,7 @@ import models._
 import models.address._
 import models.store._
 import org.scalatest.TryValues
-import java.time.{LocalDate, Instant}
+import java.time.{LocalDate, Instant, LocalDateTime}
 
 class NotificationDataServiceSpec extends AnyWordSpec with Matchers with TryValues {
 
@@ -185,7 +185,7 @@ class NotificationDataServiceSpec extends AnyWordSpec with Matchers with TryValu
       updatedUserAnswers.get(AreYouTheIndividualPage)                         shouldEqual Some(true)
     }
 
-    "return a PageWithValue for all that are set" in {
+    "return a PageWithValue where offshore is false" in {
       val background = Background(
         haveYouReceivedALetter = Some(false),
         letterReferenceNumber = Some("456"),
@@ -201,7 +201,28 @@ class NotificationDataServiceSpec extends AnyWordSpec with Matchers with TryValu
       updatedUserAnswers.get(AreYouRepresentingAnOrganisationPage)            shouldEqual Some(true)
       updatedUserAnswers.get(WhatIsTheNameOfTheOrganisationYouRepresentPage)  shouldEqual Some("Some other name")
       updatedUserAnswers.get(OffshoreLiabilitiesPage)                         shouldEqual Some(false)
-      updatedUserAnswers.get(OnshoreLiabilitiesPage)                          shouldEqual Some(true)
+      updatedUserAnswers.get(OnshoreLiabilitiesPage)                          shouldEqual None
+      updatedUserAnswers.get(RelatesToPage)                                   shouldEqual Some(RelatesTo.AnIndividual)
+      updatedUserAnswers.get(AreYouTheIndividualPage)                         shouldEqual Some(false)
+    }
+
+    "return a PageWithValue for all that are set" in {
+      val background = Background(
+        haveYouReceivedALetter = Some(false),
+        letterReferenceNumber = Some("456"),
+        areYouRepresetingAnOrganisation = Some(true),
+        organisationName = Some("Some other name"),
+        offshoreLiabilities = Some(true),
+        onshoreLiabilities = Some(false),
+        disclosureEntity = Some(DisclosureEntity(Individual, Some(false)))
+      )
+      val updatedUserAnswers = sut.backgroundToUserAnswers(background, emptyUA).success.value
+      updatedUserAnswers.get(ReceivedALetterPage)                             shouldEqual Some(false)
+      updatedUserAnswers.get(LetterReferencePage)                             shouldEqual Some("456")
+      updatedUserAnswers.get(AreYouRepresentingAnOrganisationPage)            shouldEqual Some(true)
+      updatedUserAnswers.get(WhatIsTheNameOfTheOrganisationYouRepresentPage)  shouldEqual Some("Some other name")
+      updatedUserAnswers.get(OffshoreLiabilitiesPage)                         shouldEqual Some(true)
+      updatedUserAnswers.get(OnshoreLiabilitiesPage)                          shouldEqual Some(false)
       updatedUserAnswers.get(RelatesToPage)                                   shouldEqual Some(RelatesTo.AnIndividual)
       updatedUserAnswers.get(AreYouTheIndividualPage)                         shouldEqual Some(false)
     }
@@ -211,8 +232,9 @@ class NotificationDataServiceSpec extends AnyWordSpec with Matchers with TryValu
   "initialiseUserAnswers" should {
     "retrieve the userId, notificationId and lastUpdated from the notification" in {
       val instant = Instant.now()
-      val expectedResult = UserAnswers(id = "This user Id", notificationId = "Some notification Id", lastUpdated = instant)
-      val notification = Notification("This user Id", "Some notification Id", instant, Metadata(), Background(), AboutYou())
+      val metadata = Metadata(reference = Some("123"), submissionTime = Some(LocalDateTime.now))
+      val expectedResult = UserAnswers(id = "This user Id", notificationId = "Some notification Id", lastUpdated = instant, metadata = metadata)
+      val notification = Notification("This user Id", "Some notification Id", instant, metadata, Background(), AboutYou())
       sut.initialiseUserAnswers(notification) shouldEqual expectedResult
     }
   }

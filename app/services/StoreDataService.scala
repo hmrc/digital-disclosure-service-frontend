@@ -30,32 +30,45 @@ class StoreDataServiceImpl extends StoreDataService {
       userId = userAnswers.id,
       notificationId = userAnswers.notificationId,
       lastUpdated = userAnswers.lastUpdated,
-      metadata = Metadata(),
+      metadata = userAnswers.metadata,
       background = userAnswersToBackground(userAnswers),
       aboutYou = userAnswersToAboutYou(userAnswers)
     )
 
-    userAnswers.get(RelatesToPage) match {
-      case Some(RelatesTo.AnIndividual) => notification.copy(aboutTheIndividual = Some(userAnswersToAboutTheIndividual(userAnswers)))
-      case Some(RelatesTo.ACompany) => notification.copy(aboutTheCompany = Some(userAnswersToAboutTheCompany(userAnswers)))
-      case Some(RelatesTo.ATrust) => notification.copy(aboutTheTrust = Some(userAnswersToAboutTheTrust(userAnswers)))
-      case Some(RelatesTo.ALimitedLiabilityPartnership) => notification.copy(aboutTheLLP = Some(userAnswersToAboutTheLLP(userAnswers)))
-      case Some(RelatesTo.AnEstate) => notification.copy(aboutTheEstate = Some(userAnswersToAboutTheEstate(userAnswers)))
+    val relatesToPage = userAnswers.get(RelatesToPage)
+    val areYouTheIndividualPage = userAnswers.get(AreYouTheIndividualPage)
+
+    (relatesToPage, areYouTheIndividualPage) match {
+      case (Some(RelatesTo.AnIndividual), Some(false)) => notification.copy(aboutTheIndividual = Some(userAnswersToAboutTheIndividual(userAnswers)))
+      case (Some(RelatesTo.ACompany), _) => notification.copy(aboutTheCompany = Some(userAnswersToAboutTheCompany(userAnswers)))
+      case (Some(RelatesTo.ATrust), _) => notification.copy(aboutTheTrust = Some(userAnswersToAboutTheTrust(userAnswers)))
+      case (Some(RelatesTo.ALimitedLiabilityPartnership), _) => notification.copy(aboutTheLLP = Some(userAnswersToAboutTheLLP(userAnswers)))
+      case (Some(RelatesTo.AnEstate), _) => notification.copy(aboutTheEstate = Some(userAnswersToAboutTheEstate(userAnswers)))
       case _ => notification
     }
 
   }
 
-  def userAnswersToBackground(userAnswers: UserAnswers): Background = 
+  def userAnswersToBackground(userAnswers: UserAnswers): Background = {
+
+    val (offshore, onshore) = userAnswersToLiabilities(userAnswers: UserAnswers)
+
     Background(
       haveYouReceivedALetter = userAnswers.get(ReceivedALetterPage),
       letterReferenceNumber = userAnswers.get(LetterReferencePage),
       disclosureEntity = userAnswerToDisclosureEntity(userAnswers),
       areYouRepresetingAnOrganisation = userAnswers.get(AreYouRepresentingAnOrganisationPage),
       organisationName = userAnswers.get(WhatIsTheNameOfTheOrganisationYouRepresentPage),
-      offshoreLiabilities = userAnswers.get(OffshoreLiabilitiesPage),
-      onshoreLiabilities = userAnswers.get(OnshoreLiabilitiesPage) 
+      offshoreLiabilities = offshore,
+      onshoreLiabilities = onshore
     )
+  }
+
+  def userAnswersToLiabilities(userAnswers: UserAnswers): (Option[Boolean], Option[Boolean]) = 
+    userAnswers.get(OffshoreLiabilitiesPage) match {
+      case Some(false) => (Some(false), Some(true))
+      case offshore => (offshore, userAnswers.get(OnshoreLiabilitiesPage))
+    }
 
   def userAnswerToDisclosureEntity(userAnswers: UserAnswers): Option[DisclosureEntity] = {
     userAnswers.get(RelatesToPage).map(_ match {

@@ -38,12 +38,13 @@ class NotificationDataServiceImpl extends NotificationDataService {
   }
 
   def aboutTheEntityToUserAnswers(notification: Notification, userAnswers: UserAnswers): Try[UserAnswers] = {
-    notification.background.disclosureEntity.flatMap(_.entity match {
-      case Individual => notification.aboutTheIndividual.map(aboutTheIndividualToUserAnswers(_, userAnswers))
-      case Company => notification.aboutTheCompany.map(aboutTheCompanyToUserAnswers(_, userAnswers))
-      case LLP => notification.aboutTheLLP.map(aboutTheLLPToUserAnswers(_, userAnswers))
-      case Trust => notification.aboutTheTrust.map(aboutTheTrustToUserAnswers(_, userAnswers))
-      case Estate => notification.aboutTheEstate.map(aboutTheEstateToUserAnswers(_, userAnswers))
+    notification.background.disclosureEntity.flatMap(de => (de.entity, de.areYouTheEntity) match {
+      case (Individual, Some(false)) => notification.aboutTheIndividual.map(aboutTheIndividualToUserAnswers(_, userAnswers))
+      case (Company, _) => notification.aboutTheCompany.map(aboutTheCompanyToUserAnswers(_, userAnswers))
+      case (LLP, _) => notification.aboutTheLLP.map(aboutTheLLPToUserAnswers(_, userAnswers))
+      case (Trust, _) => notification.aboutTheTrust.map(aboutTheTrustToUserAnswers(_, userAnswers))
+      case (Estate, _) => notification.aboutTheEstate.map(aboutTheEstateToUserAnswers(_, userAnswers))
+      case _ => Some(Success(userAnswers))
     }).getOrElse(Success(userAnswers))
   }
 
@@ -54,7 +55,8 @@ class NotificationDataServiceImpl extends NotificationDataService {
       id = userId, 
       notificationId = notificationId, 
       submissionType = SubmissionType.Notification, 
-      lastUpdated = lastUpdated
+      lastUpdated = lastUpdated,
+      metadata = notification.metadata
     )
   }
 
@@ -65,14 +67,25 @@ class NotificationDataServiceImpl extends NotificationDataService {
       haveYouReceivedALetter.map(PageWithValue(ReceivedALetterPage, _)),
       letterReferenceNumber.map(PageWithValue(LetterReferencePage, _)),
       areYouRepresetingAnOrganisation.map(PageWithValue(AreYouRepresentingAnOrganisationPage, _)),
-      organisationName.map(PageWithValue(WhatIsTheNameOfTheOrganisationYouRepresentPage, _)),
-      offshoreLiabilities.map(PageWithValue(OffshoreLiabilitiesPage, _)),
-      onshoreLiabilities.map(PageWithValue(OnshoreLiabilitiesPage, _)) 
+      organisationName.map(PageWithValue(WhatIsTheNameOfTheOrganisationYouRepresentPage, _))
     ).flatten
 
     val disclosureEntityPages = background.disclosureEntity.map(de => entityPagesWithValues(de)).getOrElse(Nil)
+    val liabilitiesPages = liabilitiesPagesWithValues(background)
     
-    PageWithValue.pagesToUserAnswers(pages ++ disclosureEntityPages, userAnswers)
+    PageWithValue.pagesToUserAnswers(pages ++ disclosureEntityPages ++ liabilitiesPages, userAnswers)
+  }
+
+  def liabilitiesPagesWithValues(background: Background): List[PageWithValue[Boolean]] = {
+    background.offshoreLiabilities match {
+      case Some(false) => 
+        List(PageWithValue(OffshoreLiabilitiesPage, false))
+      case offshore => 
+        List(
+          offshore.map(PageWithValue(OffshoreLiabilitiesPage, _)),
+          background.onshoreLiabilities.map(PageWithValue(OnshoreLiabilitiesPage, _)) 
+        ).flatten
+    }
   }
 
   def entityPagesWithValues(disclosureEntity: DisclosureEntity): List[PageWithValue[_]] = {

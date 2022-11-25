@@ -230,6 +230,8 @@ class NotificationNavigator @Inject()() {
 
     case EstateAddressLookupPage => _ => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
 
+    case CheckYourAnswersPage => _ => routes.YouHaveSentYourNotificationController.onPageLoad
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
