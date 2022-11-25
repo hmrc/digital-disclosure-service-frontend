@@ -103,6 +103,18 @@ class StoreDataServiceSpec extends AnyWordSpec with Matchers with TryValues {
       sut.userAnswerToDisclosureEntity(userAnswers) shouldEqual Some(DisclosureEntity(LLP, None))
     }
 
+    "populate DisclosureEntity for a Estate when are you the entity is populated" in {
+      val pages = List(PageWithValue(RelatesToPage, RelatesTo.AnEstate), PageWithValue(AreYouTheExecutorOfTheEstatePage, true))
+      val userAnswers = PageWithValue.pagesToUserAnswers(pages, emptyUA).success.value
+      sut.userAnswerToDisclosureEntity(userAnswers) shouldEqual Some(DisclosureEntity(Estate, Some(true)))
+    }
+
+    "populate DisclosureEntity for a Estate when are you the entity is NOT populated" in {
+      val pages = List(PageWithValue(RelatesToPage, RelatesTo.AnEstate))
+      val userAnswers = PageWithValue.pagesToUserAnswers(pages, emptyUA).success.value
+      sut.userAnswerToDisclosureEntity(userAnswers) shouldEqual Some(DisclosureEntity(Estate, None))
+    }
+
   }
 
   "userAnswersToBackground" should {
@@ -216,6 +228,44 @@ class StoreDataServiceSpec extends AnyWordSpec with Matchers with TryValues {
         address = Some(address)
       )
       sut.userAnswersToAboutTheIndividual(userAnswers) shouldEqual expected
+    }
+
+  }
+
+  "userAnswersToAboutTheEstate" should {
+
+    "populate AboutTheEstate with nothing if nothing is set" in {
+      sut.userAnswersToAboutTheEstate(emptyUA) shouldEqual AboutTheEstate()
+    }
+
+    "populate AboutTheIndividual with everything that is set" in {
+      val localDate = LocalDate.now()
+      val pages = List(
+        PageWithValue(WhatWasTheNameOfThePersonWhoDiedPage, "Full name"),
+        PageWithValue(WhatWasThePersonDateOfBirthPage, localDate),
+        PageWithValue(WhatWasThePersonOccupationPage, "Occupation"), 
+        PageWithValue(DidThePersonHaveNINOPage, DidThePersonHaveNINO.YesIKnow), 
+        PageWithValue(WhatWasThePersonNINOPage, "NINO"),
+        PageWithValue(WasThePersonRegisteredForVATPage, WasThePersonRegisteredForVAT.YesIKnow),
+        PageWithValue(WhatWasThePersonVATRegistrationNumberPage, "Reg number"),
+        PageWithValue(WasThePersonRegisteredForSAPage, WasThePersonRegisteredForSA.YesIKnow),
+        PageWithValue(WhatWasThePersonUTRPage, "UTR"),
+        PageWithValue(EstateAddressLookupPage, address)
+      )
+      val userAnswers = PageWithValue.pagesToUserAnswers(pages, emptyUA).success.value
+      val expected = AboutTheEstate(
+        fullName = Some("Full name"),
+        dateOfBirth = Some(localDate),
+        mainOccupation = Some("Occupation"),
+        doTheyHaveANino = Some(YesNoOrUnsure.Yes),
+        nino = Some("NINO"),
+        registeredForVAT = Some(YesNoOrUnsure.Yes),
+        vatRegNumber = Some("Reg number"),
+        registeredForSA = Some(YesNoOrUnsure.Yes),
+        sautr = Some("UTR"),
+        address = Some(address)
+      )
+      sut.userAnswersToAboutTheEstate(userAnswers) shouldEqual expected
     }
 
   }
