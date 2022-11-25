@@ -11,7 +11,7 @@ object AppDependencies {
     "uk.gov.hmrc"       %% "play-frontend-hmrc"             % "3.31.0-play-28",
     "uk.gov.hmrc"       %% "play-conditional-form-mapping"  % "1.11.0-play-28",
     "uk.gov.hmrc"       %% "play-language"                  % "5.3.0-play-28",
-    "uk.gov.hmrc.mongo" %% "hmrc-mongo-play-28"             % "0.73.0",
+    "uk.gov.hmrc.mongo" %% "hmrc-mongo-play-28"             % "0.74.0",
     "org.typelevel"     %% "cats-core"                      % "2.8.0"
   )
 
@@ -27,7 +27,7 @@ object AppDependencies {
     "org.mockito"             %% "mockito-scala"           % "1.16.42",
     "org.scalacheck"          %% "scalacheck"              % "1.15.4",
     "com.github.chocpanda"    %% "scalacheck-magnolia"     % "0.5.1",
-    "uk.gov.hmrc.mongo"       %% "hmrc-mongo-test-play-28" % "0.73.0",
+    "uk.gov.hmrc.mongo"       %% "hmrc-mongo-test-play-28" % "0.74.0",
     "com.vladsch.flexmark"    %  "flexmark-all"            % "0.62.2",
     "com.github.tomakehurst"  %  "wiremock-standalone"        % "2.27.2"
   ).map(_ % "test, it")
