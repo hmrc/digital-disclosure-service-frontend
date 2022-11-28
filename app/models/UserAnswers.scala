@@ -19,7 +19,7 @@ package models
 import play.api.libs.json._
 import queries.{Gettable, Settable}
 import uk.gov.hmrc.mongo.play.json.formats.MongoJavatimeFormats
-
+import models.store.notification._
 import java.time.Instant
 import scala.util.{Failure, Success, Try}
 
@@ -28,7 +28,8 @@ final case class UserAnswers(
                               notificationId: String = UserAnswers.defaultNotificationId,
                               submissionType: SubmissionType = SubmissionType.Notification,
                               data: JsObject = Json.obj(),
-                              lastUpdated: Instant = Instant.now
+                              lastUpdated: Instant = Instant.now,
+                              metadata: Metadata = Metadata()
                             ) {
 
   def get[A](page: Gettable[A])(implicit rds: Reads[A]): Option[A] =
@@ -86,7 +87,8 @@ object UserAnswers {
       (__ \ "notificationId").read[String] and
       (__ \ "submissionType").read[SubmissionType] and
       (__ \ "data").read[JsObject] and
-      (__ \ "lastUpdated").read(MongoJavatimeFormats.instantFormat)
+      (__ \ "lastUpdated").read(MongoJavatimeFormats.instantFormat) and
+      (__ \ "metadata").read[Metadata]
     ) (UserAnswers.apply _)
   }
 
@@ -99,7 +101,8 @@ object UserAnswers {
       (__ \ "notificationId").write[String] and
       (__ \ "submissionType").write[SubmissionType] and
       (__ \ "data").write[JsObject] and
-      (__ \ "lastUpdated").write(MongoJavatimeFormats.instantFormat)
+      (__ \ "lastUpdated").write(MongoJavatimeFormats.instantFormat) and
+      (__ \ "metadata").write[Metadata] 
     ) (unlift(UserAnswers.unapply))
   }
 

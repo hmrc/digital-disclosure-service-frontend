@@ -24,17 +24,18 @@ import models._
 import models.address._
 import models.store._
 import org.scalatest.TryValues
-import java.time.{LocalDate, Instant}
+import java.time.{LocalDate, Instant, LocalDateTime}
 
 class StoreDataServiceSpec extends AnyWordSpec with Matchers with TryValues {
 
   val sut = new StoreDataServiceImpl
 
+  val metadata = Metadata(reference = Some("123"), submissionTime = Some(LocalDateTime.now))
   val instant = Instant.now()
-  val testNotification = Notification("userId", "notificationId", instant, Metadata(), Background(), AboutYou())
+  val testNotification = Notification("userId", "notificationId", instant, metadata, Background(), AboutYou())
   val address = Address("line 1", Some("line 2"), Some("line 3"), "line 4", "postcode", Country("GBR"))
   val emptyUA = UserAnswers("id")
-  val userAnswers = UserAnswers("userId", "notificationId", lastUpdated = instant)
+  val userAnswers = UserAnswers("userId", "notificationId", lastUpdated = instant, metadata = metadata)
 
   "userAnswersToNotification" should {
     val result = sut.userAnswersToNotification(userAnswers)
@@ -338,12 +339,23 @@ class StoreDataServiceSpec extends AnyWordSpec with Matchers with TryValues {
 
   "userAnswersToNotification" should {
 
-    "populate AboutTheIndividual when RelatesTo is set to AnIndividual" in {
+    "populate AboutTheIndividual when RelatesTo is set to AnIndividual and AreYouTheIndividual is set to false" in {
       val pages = List(
-        PageWithValue(RelatesToPage, RelatesTo.AnIndividual)
+        PageWithValue(RelatesToPage, RelatesTo.AnIndividual),
+        PageWithValue(AreYouTheIndividualPage, false)
       )
       val ua = PageWithValue.pagesToUserAnswers(pages, userAnswers).success.value
-      val expected = testNotification.copy(background = Background(disclosureEntity = Some(DisclosureEntity(Individual, None))), aboutTheIndividual = Some(AboutTheIndividual()))
+      val expected = testNotification.copy(background = Background(disclosureEntity = Some(DisclosureEntity(Individual, Some(false)))), aboutTheIndividual = Some(AboutTheIndividual()))
+      sut.userAnswersToNotification(ua) shouldEqual expected
+    }
+
+    " dont populate AboutTheIndividual when RelatesTo is set to AnIndividual and AreYouTheIndividual is set to true" in {
+      val pages = List(
+        PageWithValue(RelatesToPage, RelatesTo.AnIndividual),
+        PageWithValue(AreYouTheIndividualPage, true)
+      )
+      val ua = PageWithValue.pagesToUserAnswers(pages, userAnswers).success.value
+      val expected = testNotification.copy(background = Background(disclosureEntity = Some(DisclosureEntity(Individual, Some(true)))), aboutTheIndividual = None)
       sut.userAnswersToNotification(ua) shouldEqual expected
     }
 

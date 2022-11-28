@@ -16,43 +16,52 @@
 
 @this(
     layout: templates.Layout,
-    govukSummaryList: GovukSummaryList
+    govukSummaryList: GovukSummaryList,
+    govukButton: GovukButton,
+    formHelper: FormWithCSRF
 )
 
 @(list: SummaryLists)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = titleNoForm(messages("checkYourAnswers.title"))) {
 
-    <h1 class="govuk-heading-xl">@messages("checkYourAnswers.heading")</h1>
+    @formHelper(action = controllers.notification.routes.CheckYourAnswersController.onSubmit) {
 
-    <h2 class="govuk-heading-l">@messages("notificationCYA.background")</h2>
-    @govukSummaryList(list.background.withAttribute("id","background-list"))
+        <h1 class="govuk-heading-xl">@messages("checkYourAnswers.heading")</h1>
 
-    <h2 class="govuk-heading-l">@messages("notificationCYA.aboutYou")</h2>
-    @govukSummaryList(list.aboutYou.withAttribute("id", "about-you-list"))
+        <h2 class="govuk-heading-l">@messages("notificationCYA.background")</h2>
+        @govukSummaryList(list.background.withAttribute("id","background-list"))
 
-    @list.aboutTheIndividualList.map { list =>
-        <h2 class="govuk-heading-l">@messages("notificationCYA.aboutTheIndividual")</h2>
-        @govukSummaryList(list.withAttribute("id","about-the-individual-list"))
-    }
+        <h2 class="govuk-heading-l">@messages("notificationCYA.aboutYou")</h2>
+        @govukSummaryList(list.aboutYou.withAttribute("id", "about-you-list"))
 
-    @list.aboutTheCompanyList.map { list =>
-        <h2 class="govuk-heading-l">@messages("notificationCYA.aboutTheCompany")</h2>
-        @govukSummaryList(list.withAttribute("id","about-the-company-list"))
-    }
+        @list.aboutTheIndividualList.map { list =>
+            <h2 class="govuk-heading-l">@messages("notificationCYA.aboutTheIndividual")</h2>
+            @govukSummaryList(list.withAttribute("id","about-the-individual-list"))
+        }
 
-    @list.aboutTheLLPList.map { list =>
-        <h2 class="govuk-heading-l">@messages("notificationCYA.aboutTheLLP")</h2>
-        @govukSummaryList(list.withAttribute("id","about-the-llp-list"))
-    }
+        @list.aboutTheCompanyList.map { list =>
+            <h2 class="govuk-heading-l">@messages("notificationCYA.aboutTheCompany")</h2>
+            @govukSummaryList(list.withAttribute("id","about-the-company-list"))
+        }
 
-    @list.aboutTheTrustList.map { list =>
-        <h2 class="govuk-heading-l">@messages("notificationCYA.aboutTheTrust")</h2>
-        @govukSummaryList(list.withAttribute("id","about-the-trust-list"))
-    }
+        @list.aboutTheLLPList.map { list =>
+            <h2 class="govuk-heading-l">@messages("notificationCYA.aboutTheLLP")</h2>
+            @govukSummaryList(list.withAttribute("id","about-the-llp-list"))
+        }
 
-    @list.aboutThePersonWhoDiedList.map { list =>
-        <h2 class="govuk-heading-l">@messages("notificationCYA.aboutThePersonWhoDied")</h2>
-        @govukSummaryList(list.withAttribute("id","about-the-person-who-died-list"))
+        @list.aboutTheTrustList.map { list =>
+            <h2 class="govuk-heading-l">@messages("notificationCYA.aboutTheTrust")</h2>
+            @govukSummaryList(list.withAttribute("id","about-the-trust-list"))
+        }
+
+        @list.aboutThePersonWhoDiedList.map { list =>
+            <h2 class="govuk-heading-l">@messages("notificationCYA.aboutThePersonWhoDied")</h2>
+            @govukSummaryList(list.withAttribute("id","about-the-person-who-died-list"))
+        }
+
+        @govukButton(
+            ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
+        )
     }
 }
