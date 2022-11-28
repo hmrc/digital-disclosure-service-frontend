@@ -121,6 +121,23 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
       aboutTheTrustList must haveClass("govuk-summary-list")
     }
 
+    "contain submit section header" in {
+      view.getElementsByClass("govuk-heading-l").get(7).text() mustBe messages("notificationCYA.send.heading")
+    }
+
+    "have a first submit section paragraph" in {
+      view.getElementById("first-paragraph").text() mustBe messages("notificationCYA.body1")
+    }
+
+    "have a second submit section paragraph" in {
+      view.getElementById("second-paragraph").text() mustBe s"${messages("notificationCYA.body2")} ${messages("notificationCYA.link")}"
+    }
+
+    "display the send button" in {
+      view.getElementsByClass("govuk-button").first() must haveId ("send-button")
+      view.getElementsByClass("govuk-button").text() mustBe messages("notificationCYA.send.button")
+    }
+
   }
 
 }
