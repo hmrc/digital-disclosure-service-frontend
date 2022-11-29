@@ -22,13 +22,21 @@
         heading: components.heading
 )
 
-@()(implicit request: Request[_], messages: Messages)
+@(isCaseReferenceNumberAvailable: (Boolean, String))(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = titleNoForm(messages("youHaveSentYourNotification.title"))) {
 
     @govukPanel(Panel( 
         title = messages("youHaveSentYourNotification.heading"), 
-        content = HtmlContent(messages("youHaveSentYourNotification.body"))
+
+        content = if(!isCaseReferenceNumberAvailable._1) {
+            HtmlContent(messages("youHaveSentYourNotification.body.whenCaseReferenceNumberNotAvailable"))
+        } else {
+            HtmlContent(
+                messages("youHaveSentYourNotification.body.whenCaseReferenceNumberAvailable") +
+                messages(isCaseReferenceNumberAvailable._2)
+            )
+        }
     ))
 
     @paragraph(
@@ -43,6 +51,10 @@
 
     @paragraph(
         id = Some("second-paragraph"), 
-        content = Text(messages("youHaveSentYourNotification.paragraph.second"))
+        content = if(!isCaseReferenceNumberAvailable._1) {
+            Text(messages("youHaveSentYourNotification.paragraph.second.whenCaseReferenceNumberNotAvailable"))
+        } else {
+            Text(messages("youHaveSentYourNotification.paragraph.second.whenCaseReferenceNumberAvailable"))
+        }
     )
 }

@@ -22,6 +22,7 @@ import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.notification.YouHaveSentYourNotificationView
+import pages._
 
 class YouHaveSentYourNotificationController @Inject()(
                                        override val messagesApi: MessagesApi,
@@ -34,6 +35,12 @@ class YouHaveSentYourNotificationController @Inject()(
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-      Ok(view())
+
+      val isCaseReferenceNumberAvailable = request.userAnswers.get(LetterReferencePage) match {
+        case Some(value) => (true, value)
+        case None => (false, "")
+      }
+
+      Ok(view(isCaseReferenceNumberAvailable))
   }
 }

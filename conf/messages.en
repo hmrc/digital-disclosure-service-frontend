@@ -530,10 +530,12 @@ yourCountryLookup.hint = For example, United Kingdom.
 
 youHaveSentYourNotification.title = You have sent your notification
 youHaveSentYourNotification.heading = You have sent your notification
-youHaveSentYourNotification.body = Your notification reference number is
+youHaveSentYourNotification.body.whenCaseReferenceNumberNotAvailable = Your notification reference number is
+youHaveSentYourNotification.body.whenCaseReferenceNumberAvailable = Your case reference is
 youHaveSentYourNotification.paragraph.first = You can save a copy of your notification (opens in a new tab).
 youHaveSentYourNotification.paragraph.header = Next steps
-youHaveSentYourNotification.paragraph.second =  We will write to you shortly with a Disclosure Reference Number (DRN). As soon as you receive this, you should make the full disclosure within 90 days of the date that HMRC acknowledges your notification.
+youHaveSentYourNotification.paragraph.second.whenCaseReferenceNumberNotAvailable = We will write to you shortly with a case reference. As soon as you receive this, you should make the full disclosure within 90 days of the date that HMRC acknowledges your notification.
+youHaveSentYourNotification.paragraph.second.whenCaseReferenceNumberAvailable = We will write to you shortly to acknowledge your notification. You should then make a full disclosure within 90 days of the date that HMRC acknowledges your notification.
 
 yourAddressLookup.title = What is the postcode and property name or number of your address?
 yourAddressLookup.heading = What is the postcode and property name or number of your address?
