@@ -38,7 +38,7 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
     }
 
     "contain green box body text for entity" in {
-      view.getElementsByClass("govuk-panel__body").text() mustBe messages("youHaveSentYourNotification.body.caseRef.entity") + "CFSS-1234567"
+      view.getElementsByClass("govuk-panel__body").text() mustBe messages("youHaveSentYourNotification.body.caseRef.entity") + " CFSS-1234567"
     }
 
     "have a first paragraph for entity" in {
@@ -67,7 +67,7 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
     }
 
     "contain green box body text for agent" in {
-      view.getElementsByClass("govuk-panel__body").text() mustBe messages("youHaveSentYourNotification.body.caseRef.agent") + "CFSS-1234567"
+      view.getElementsByClass("govuk-panel__body").text() mustBe messages("youHaveSentYourNotification.body.caseRef.agent") + " CFSS-1234567"
     }
 
     "have a first paragraph for agent" in {
@@ -80,6 +80,28 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
 
     "have a second paragraph for agent" in {
       view.getElementById("second-paragraph").text() mustBe messages("youHaveSentYourNotification.paragraph.second.caseRef")
+    }
+  }
+
+  "view" should {
+    def createView: Html = page(false, "CFSS-1234567" ,true)(request, messages)
+    val view = createView
+
+    "contain green box body text for entity with generated reference number" in {
+      view.getElementsByClass("govuk-panel__body").text() mustBe messages("youHaveSentYourNotification.body.generatedRef.entity")
+    }
+
+    "have a second paragraph for entity with generated reference number" in {
+      view.getElementById("second-paragraph").text() mustBe messages("youHaveSentYourNotification.paragraph.second.generatedRef")
+    }
+  }
+
+  "view" should {
+    def createView: Html = page(false, "CFSS-1234567" ,false)(request, messages)
+    val view = createView
+
+    "contain green box body text for agent with generated reference number" in {
+      view.getElementsByClass("govuk-panel__body").text() mustBe messages("youHaveSentYourNotification.body.generatedRef.agent")
     }
   }
 }
