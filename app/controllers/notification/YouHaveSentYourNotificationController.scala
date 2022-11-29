@@ -51,5 +51,4 @@ class YouHaveSentYourNotificationController @Inject()(
       case RelatesTo.AnEstate => userAnswers.get(AreYouTheExecutorOfTheEstatePage)
     }).getOrElse(true)
   }
-
 }
