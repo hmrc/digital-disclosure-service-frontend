@@ -23,6 +23,7 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.notification.YouHaveSentYourNotificationView
 import pages._
+import models.{UserAnswers, RelatesTo}
 
 class YouHaveSentYourNotificationController @Inject()(
                                        override val messagesApi: MessagesApi,
@@ -33,14 +34,22 @@ class YouHaveSentYourNotificationController @Inject()(
                                        view: YouHaveSentYourNotificationView
                                      ) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
+  def onPageLoad(reference: String): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
+      val caseReferenceExists = request.userAnswers.get(LetterReferencePage).isDefined
+      val isTheEntity = isTheUserTheEntity(request.userAnswers)
 
-      val isCaseReferenceNumberAvailable = request.userAnswers.get(LetterReferencePage) match {
-        case Some(value) => (true, value)
-        case None => (false, "")
-      }
-
-      Ok(view(isCaseReferenceNumberAvailable))
+      Ok(view(caseReferenceExists, reference, isTheEntity))
   }
+
+  def isTheUserTheEntity(userAnswers: UserAnswers): Boolean = {
+    userAnswers.get(RelatesToPage).flatMap(_ match {
+      case RelatesTo.AnIndividual => userAnswers.get(AreYouTheIndividualPage)
+      case RelatesTo.ACompany => userAnswers.get(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage)
+      case RelatesTo.ALimitedLiabilityPartnership => userAnswers.get(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage)
+      case RelatesTo.ATrust => userAnswers.get(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage)  
+      case RelatesTo.AnEstate => userAnswers.get(AreYouTheExecutorOfTheEstatePage)
+    }).getOrElse(true)
+  }
+
 }
