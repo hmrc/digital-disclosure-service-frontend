@@ -23,7 +23,6 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.IndexView
 import services.SessionService
-import models.UserAnswers
 
 class IndexController @Inject()(
                                 val controllerComponents: MessagesControllerComponents,
@@ -36,8 +35,7 @@ class IndexController @Inject()(
   def onPageLoad: Action[AnyContent] = (identify andThen getData) { implicit request =>
 
     request.userAnswers match {
-      case Some(ua) if ua.metadata.submissionTime.isDefined => sessionService.set(UserAnswers(request.userId))
-      case Some(ua) => ()
+      case Some(_) => ()
       case None => sessionService.newSession(request.userId)
     }
 
