@@ -22,27 +22,35 @@
         heading: components.heading
 )
 
-@()(implicit request: Request[_], messages: Messages)
+@(isCaseReferenceAvailable: Boolean, referenceNumber: String, isTheEntity: Boolean)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = titleNoForm(messages("youHaveSentYourNotification.title"))) {
+@layout(pageTitle = titleNoForm(isTheEntity match {
+                                    case true => messages("youHaveSentYourNotification.title.entity") 
+                                    case false => messages("youHaveSentYourNotification.title.agent")
+                                })) {
 
     @govukPanel(Panel( 
-        title = messages("youHaveSentYourNotification.heading"), 
-        content = HtmlContent(messages("youHaveSentYourNotification.body"))
+        title = isTheEntity match {
+            case true => messages("youHaveSentYourNotification.heading.entity") 
+            case false => messages("youHaveSentYourNotification.heading.agent")
+        },
+
+        content = (isCaseReferenceAvailable, isTheEntity) match {
+            case (true, true) => HtmlContent(messages("youHaveSentYourNotification.body.caseRef.entity") +"<br>"+ referenceNumber)
+            case (true, false) => HtmlContent(messages("youHaveSentYourNotification.body.caseRef.agent") +"<br>"+ referenceNumber)
+            case (false, true) => Text(messages("youHaveSentYourNotification.body.generatedRef.entity"))
+            case (false, false) => Text(messages("youHaveSentYourNotification.body.generatedRef.agent"))
+        }
     ))
 
-    @paragraph(
-        id = Some("first-paragraph"), 
-        content = Text(messages("youHaveSentYourNotification.paragraph.first"))
-    )
+    @paragraph(id = Some("first-paragraph"), content = Text(messages("youHaveSentYourNotification.paragraph.first")))
 
-    @heading(
-        Text(messages("youHaveSentYourNotification.paragraph.header")),
-        classes = "govuk-heading-m"
-    )
+    @heading(Text(messages("youHaveSentYourNotification.paragraph.header")), classes = "govuk-heading-m")
 
-    @paragraph(
-        id = Some("second-paragraph"), 
-        content = Text(messages("youHaveSentYourNotification.paragraph.second"))
+    @paragraph(id = Some("second-paragraph"), 
+        content = isCaseReferenceAvailable match {
+            case true => Text(messages("youHaveSentYourNotification.paragraph.second.caseRef"))
+            case false => Text(messages("youHaveSentYourNotification.paragraph.second.generatedRef"))
+        }
     )
 }

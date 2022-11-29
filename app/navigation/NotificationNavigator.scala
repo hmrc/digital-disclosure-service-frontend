@@ -230,8 +230,6 @@ class NotificationNavigator @Inject()() {
 
     case EstateAddressLookupPage => _ => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
 
-    case CheckYourAnswersPage => _ => routes.YouHaveSentYourNotificationController.onPageLoad
-
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
@@ -330,6 +328,8 @@ class NotificationNavigator @Inject()() {
     case CheckMode =>
       checkRouteMap(page)(userAnswers)(hasAnswerChanged)
   }
+
+  def submitPage(userAnswers: UserAnswers, reference: String): Call = routes.YouHaveSentYourNotificationController.onPageLoad(reference)
 
   def onshoreLiabilitiesRouting(userAnswers: UserAnswers): Call = {
     val relatesToPage = userAnswers.get(RelatesToPage)

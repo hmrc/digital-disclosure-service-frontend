@@ -25,36 +25,83 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
 
   val page: YouHaveSentYourNotificationView = inject[YouHaveSentYourNotificationView]
 
-  private def createView: Html = page()(request, messages)
-
   "view" should {
-
+    def createView: Html = page(true, "CFSS-1234567" ,true)(request, messages)
     val view = createView
 
-    "have title" in {
-      view.select("title").text() must include(messages("youHaveSentYourNotification.title"))
+    "have title for entity" in {
+      view.select("title").text() must include(messages("youHaveSentYourNotification.title.entity"))
     }
 
-    "contain green box heading" in {
-      view.getElementsByClass("govuk-panel__title").text() mustBe messages("youHaveSentYourNotification.heading")
+    "contain green box heading for entity" in {
+      view.getElementsByClass("govuk-panel__title").text() mustBe messages("youHaveSentYourNotification.heading.entity")
     }
 
-    "contain green box body text" in {
-      view.getElementsByClass("govuk-panel__body").text() mustBe messages("youHaveSentYourNotification.body")
+    "contain green box body text for entity" in {
+      view.getElementsByClass("govuk-panel__body").text() mustBe messages("youHaveSentYourNotification.body.caseRef.entity") + " CFSS-1234567"
     }
 
-    "have a first paragraph" in {
+    "have a first paragraph for entity" in {
       view.getElementById("first-paragraph").text() mustBe messages("youHaveSentYourNotification.paragraph.first")
     }
 
-    "contain second heading" in {
+    "contain second heading for entity" in {
       view.getElementsByClass("govuk-heading-m").text() mustBe messages("youHaveSentYourNotification.paragraph.header")
     }
 
-    "have a second paragraph" in {
-      view.getElementById("second-paragraph").text() mustBe messages("youHaveSentYourNotification.paragraph.second")
+    "have a second paragraph for entity" in {
+      view.getElementById("second-paragraph").text() mustBe messages("youHaveSentYourNotification.paragraph.second.caseRef")
     }
-
   }
 
+  "view" should {
+    def createView: Html = page(true, "CFSS-1234567" ,false)(request, messages)
+    val view = createView
+
+    "have title for agent" in {
+      view.select("title").text() must include(messages("youHaveSentYourNotification.title.agent"))
+    }
+
+    "contain green box heading for agent" in {
+      view.getElementsByClass("govuk-panel__title").text() mustBe messages("youHaveSentYourNotification.heading.agent")
+    }
+
+    "contain green box body text for agent" in {
+      view.getElementsByClass("govuk-panel__body").text() mustBe messages("youHaveSentYourNotification.body.caseRef.agent") + " CFSS-1234567"
+    }
+
+    "have a first paragraph for agent" in {
+      view.getElementById("first-paragraph").text() mustBe messages("youHaveSentYourNotification.paragraph.first")
+    }
+
+    "contain second heading for agent" in {
+      view.getElementsByClass("govuk-heading-m").text() mustBe messages("youHaveSentYourNotification.paragraph.header")
+    }
+
+    "have a second paragraph for agent" in {
+      view.getElementById("second-paragraph").text() mustBe messages("youHaveSentYourNotification.paragraph.second.caseRef")
+    }
+  }
+
+  "view" should {
+    def createView: Html = page(false, "CFSS-1234567" ,true)(request, messages)
+    val view = createView
+
+    "contain green box body text for entity with generated reference number" in {
+      view.getElementsByClass("govuk-panel__body").text() mustBe messages("youHaveSentYourNotification.body.generatedRef.entity")
+    }
+
+    "have a second paragraph for entity with generated reference number" in {
+      view.getElementById("second-paragraph").text() mustBe messages("youHaveSentYourNotification.paragraph.second.generatedRef")
+    }
+  }
+
+  "view" should {
+    def createView: Html = page(false, "CFSS-1234567" ,false)(request, messages)
+    val view = createView
+
+    "contain green box body text for agent with generated reference number" in {
+      view.getElementsByClass("govuk-panel__body").text() mustBe messages("youHaveSentYourNotification.body.generatedRef.agent")
+    }
+  }
 }
