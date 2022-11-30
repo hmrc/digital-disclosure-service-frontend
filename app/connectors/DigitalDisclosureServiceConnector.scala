@@ -28,7 +28,6 @@ import scala.concurrent.{ExecutionContext, Future}
 import scala.util.control.NoStackTrace
 import models.store.notification._
 import java.time.Clock
-import play.api.Logging
 import models.submission.SubmissionResponse
 import uk.gov.hmrc.http.HttpResponse
 
@@ -37,7 +36,7 @@ class DigitalDisclosureServiceConnectorImpl @Inject() (
                                 httpClient: HttpClientV2,
                                 configuration: Configuration,
                                 clock: Clock
-                              )(implicit ec: ExecutionContext) extends DigitalDisclosureServiceConnector with Logging {
+                              )(implicit ec: ExecutionContext) extends DigitalDisclosureServiceConnector with ConnectorErrorHandler {
 
   private val service: Service = configuration.get[Service]("microservice.services.digital-disclosure-service")
   private val baseUrl = s"${service.baseUrl}/digital-disclosure-service"
@@ -50,7 +49,7 @@ class DigitalDisclosureServiceConnectorImpl @Inject() (
       .flatMap { response =>
         response.status match {
           case ACCEPTED => handleResponse[SubmissionResponse.Success](response).map(_.id)
-          case _ => Future.failed(DigitalDisclosureServiceConnector.UnexpectedResponseException(response.status, response.body))
+          case _ => handleError(DigitalDisclosureServiceConnector.UnexpectedResponseException(response.status, response.body))
         }
       }
   }
@@ -58,7 +57,7 @@ class DigitalDisclosureServiceConnectorImpl @Inject() (
   def handleResponse[A](response: HttpResponse)(implicit reads: Reads[A]): Future[A] = {
     response.json.validate[A] match {
       case JsSuccess(a, _) => Future.successful(a)
-      case JsError(_) => Future.failed(NotificationStoreConnector.UnexpectedResponseException(response.status, response.body))
+      case JsError(_) => handleError(NotificationStoreConnector.UnexpectedResponseException(response.status, response.body))
     }
   }
 
