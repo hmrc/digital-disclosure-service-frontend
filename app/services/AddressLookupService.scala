@@ -40,32 +40,32 @@ import play.api.i18n.Messages
 class AddressLookupServiceImpl @Inject()(connector: AddressLookupConnector, addressConfig: AddressLookupConfig, config: FrontendAppConfig)(implicit ec: ExecutionContext) extends AddressLookupService with AddressLookupRequestHelper {
 
   def getYourAddressLookupRedirect(redirectUrl: Call, userAnswers: UserAnswers)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL] =  {
-    val request = lookupRequestForYourAddress(config.host, redirectUrl.url, addressConfig.addressesShowLimit, userAnswers)
+    val request = lookupRequestForYourAddress(config.host, redirectUrl.url, addressConfig.addressesShowLimit, userAnswers, config.languageTranslationEnabled)
     initialiseAddressLookup(request)
   }
 
   def getIndividualAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL] =  {
-    val request = lookupRequestForIndividualAddress(config.host, redirectUrl.url, addressConfig.addressesShowLimit)
+    val request = lookupRequestForIndividualAddress(config.host, redirectUrl.url, addressConfig.addressesShowLimit, config.languageTranslationEnabled)
     initialiseAddressLookup(request)
   }
 
   def getCompanyAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL] =  {
-    val request = lookupRequestForCompanyAddress(config.host, redirectUrl.url, addressConfig.addressesShowLimit)
+    val request = lookupRequestForCompanyAddress(config.host, redirectUrl.url, addressConfig.addressesShowLimit, config.languageTranslationEnabled)
     initialiseAddressLookup(request)
   }
 
   def getLLPAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL] =  {
-    val request = lookupRequestForLLPAddress(config.host, redirectUrl.url, addressConfig.addressesShowLimit)
+    val request = lookupRequestForLLPAddress(config.host, redirectUrl.url, addressConfig.addressesShowLimit, config.languageTranslationEnabled)
     initialiseAddressLookup(request)
   }
 
   def getTrustAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL] =  {
-    val request = lookupRequestForTrustAddress(config.host, redirectUrl.url, addressConfig.addressesShowLimit)
+    val request = lookupRequestForTrustAddress(config.host, redirectUrl.url, addressConfig.addressesShowLimit, config.languageTranslationEnabled)
     initialiseAddressLookup(request)
   }
 
   def getEstateAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL] =  {
-    val request = lookupRequestForEstateAddress(config.host, redirectUrl.url, addressConfig.addressesShowLimit)
+    val request = lookupRequestForEstateAddress(config.host, redirectUrl.url, addressConfig.addressesShowLimit, config.languageTranslationEnabled)
     initialiseAddressLookup(request)
   }
 

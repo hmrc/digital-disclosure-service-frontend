@@ -29,6 +29,7 @@ trait AddressLookupHelper {
         serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
         showPhaseBanner = Some(true),
         alphaPhase = false,
+        disableTranslations = true,
         selectPageConfig = Some(selectPageConfig),
         includeHMRCBranding = Some(false)
       )
@@ -91,6 +92,7 @@ trait AddressLookupHelper {
         serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
         showPhaseBanner = Some(true),
         alphaPhase = false,
+        disableTranslations = true,
         selectPageConfig = Some(selectPageConfig),
         includeHMRCBranding = Some(false)
       )
@@ -146,6 +148,7 @@ trait AddressLookupHelper {
         serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
         showPhaseBanner = Some(true),
         alphaPhase = false,
+        disableTranslations = true,
         selectPageConfig = Some(selectPageConfig),
         includeHMRCBranding = Some(false)
       )
@@ -201,6 +204,7 @@ trait AddressLookupHelper {
         serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
         showPhaseBanner = Some(true),
         alphaPhase = false,
+        disableTranslations = true,
         selectPageConfig = Some(selectPageConfig),
         includeHMRCBranding = Some(false)
       )
@@ -256,6 +260,7 @@ trait AddressLookupHelper {
         serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
         showPhaseBanner = Some(true),
         alphaPhase = false,
+        disableTranslations = true,
         selectPageConfig = Some(selectPageConfig),
         includeHMRCBranding = Some(false)
       )
@@ -311,6 +316,7 @@ trait AddressLookupHelper {
         serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
         showPhaseBanner = Some(true),
         alphaPhase = false,
+        disableTranslations = true,
         selectPageConfig = Some(selectPageConfig),
         includeHMRCBranding = Some(false)
       )

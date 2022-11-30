@@ -23,6 +23,7 @@ final case class AddressLookupOptions(
   continueUrl: String,
   serviceHref: String,
   alphaPhase: Boolean,
+  disableTranslations: Boolean,
   timeoutConfig: Option[TimeoutConfig] = None,
   signOutHref: Option[String] = None,
   accessibilityFooterUrl: Option[String] = None,
