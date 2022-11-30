@@ -43,7 +43,7 @@ class AuthenticatedIdentifierAction @Inject()(
 
     implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
 
-    authorised(ConfidenceLevel.L250 or Agent).retrieve(Retrievals.internalId) {
+    authorised(Agent or ConfidenceLevel.L250).retrieve(Retrievals.internalId) {
       _.map {
         internalId => block(IdentifierRequest(request, internalId))
       }.getOrElse(throw new UnauthorizedException("Unable to retrieve internal Id"))
