@@ -31,14 +31,13 @@ import models.store.notification._
 import play.api.mvc.Result
 import play.api.mvc.Results.NoContent
 import java.time.Clock
-import play.api.Logging
 
 @Singleton
 class NotificationStoreConnectorImpl @Inject() (
                                 httpClient: HttpClientV2,
                                 configuration: Configuration,
                                 clock: Clock
-                              )(implicit ec: ExecutionContext) extends NotificationStoreConnector with Logging {
+                              )(implicit ec: ExecutionContext) extends NotificationStoreConnector with ConnectorErrorHandler {
 
   private val service: Service = configuration.get[Service]("microservice.services.digital-disclosure-service-store")
   private val baseUrl = s"${service.baseUrl}/digital-disclosure-service-store"
@@ -56,7 +55,7 @@ class NotificationStoreConnectorImpl @Inject() (
         } else if (response.status == NOT_FOUND) {
           Future.successful(None)
         } else {
-          Future.failed(NotificationStoreConnector.UnexpectedResponseException(response.status, response.body))
+          handleError(NotificationStoreConnector.UnexpectedResponseException(response.status, response.body))
         }
       }
   }
@@ -74,7 +73,7 @@ class NotificationStoreConnectorImpl @Inject() (
         } else if (response.status == NOT_FOUND) {
           Future.successful(Nil)
         } else {
-          Future.failed(NotificationStoreConnector.UnexpectedResponseException(response.status, response.body))
+          handleError(NotificationStoreConnector.UnexpectedResponseException(response.status, response.body))
         }
       }
   }
@@ -88,7 +87,7 @@ class NotificationStoreConnectorImpl @Inject() (
         if (response.status == NO_CONTENT) {
           Future.successful(NoContent)
         } else {
-          Future.failed(NotificationStoreConnector.UnexpectedResponseException(response.status, response.body))
+          handleError(NotificationStoreConnector.UnexpectedResponseException(response.status, response.body))
         }
       }
   }
@@ -101,7 +100,7 @@ class NotificationStoreConnectorImpl @Inject() (
         if (response.status == NO_CONTENT) {
           Future.successful(NoContent)
         } else {
-          Future.failed(NotificationStoreConnector.UnexpectedResponseException(response.status, response.body))
+          handleError(NotificationStoreConnector.UnexpectedResponseException(response.status, response.body))
         }
       }
   }
