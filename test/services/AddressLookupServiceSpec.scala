@@ -69,6 +69,7 @@ class AddressLookupServiceSpec
     ConfigFactory.parseString(
       """
         |self.url = host1.com,
+        |features.welsh-translation = false
         |microservice {
         |  services {
         |    address-lookup-frontend {
