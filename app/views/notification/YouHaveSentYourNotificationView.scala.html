@@ -19,7 +19,8 @@
         govukButton: GovukButton,
         govukPanel: GovukPanel,
         paragraph: components.paragraph,
-        heading: components.heading
+        heading: components.heading,
+        downloadLink: components.downloadLink
 )
 
 @(isCaseReferenceAvailable: Boolean, referenceNumber: String, isTheEntity: Boolean)(implicit request: Request[_], messages: Messages)
@@ -38,12 +39,16 @@
         content = (isCaseReferenceAvailable, isTheEntity) match {
             case (true, true) => HtmlContent(messages("youHaveSentYourNotification.body.caseRef.entity") +"<br>"+ referenceNumber)
             case (true, false) => HtmlContent(messages("youHaveSentYourNotification.body.caseRef.agent") +"<br>"+ referenceNumber)
-            case (false, true) => Text(messages("youHaveSentYourNotification.body.generatedRef.entity"))
-            case (false, false) => Text(messages("youHaveSentYourNotification.body.generatedRef.agent"))
+            case (false, true) => HtmlContent(messages("youHaveSentYourNotification.body.generatedRef.entity") +"<br>"+ referenceNumber)
+            case (false, false) => HtmlContent(messages("youHaveSentYourNotification.body.generatedRef.agent") +"<br>"+ referenceNumber)
         }
     ))
 
-    @paragraph(id = Some("first-paragraph"), content = Text(messages("youHaveSentYourNotification.paragraph.first")))
+    @paragraph(id = Some("first-paragraph"), 
+        content = HtmlContent(
+            messages("youHaveSentYourNotification.paragraph.first") + 
+            downloadLink(id = "pdf-download", text = messages("youHaveSentYourNotification.paragraph.link"), fileName = "notification.pdf", call = controllers.notification.routes.PdfGenerationController.generate)
+    ))
 
     @heading(Text(messages("youHaveSentYourNotification.paragraph.header")), classes = "govuk-heading-m")
 

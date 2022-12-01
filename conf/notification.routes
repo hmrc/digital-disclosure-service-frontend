@@ -266,3 +266,5 @@ GET        /estate-address/lookup                                   controllers.
 GET        /estate-address/retrieve                                 controllers.notification.EstateAddressLookupController.retrieveConfirmedAddress(mode: Mode = NormalMode, id: Option[UUID] ?= None)
 GET        /estate-address/lookup/change                            controllers.notification.EstateAddressLookupController.lookupAddress(mode: Mode = CheckMode)
 GET        /estate-address/retrieve/change                          controllers.notification.EstateAddressLookupController.retrieveConfirmedAddress(mode: Mode = CheckMode, id: Option[UUID] ?= None)
+
+GET        /pdf                                                     controllers.notification.PdfGenerationController.generate

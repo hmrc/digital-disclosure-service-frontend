@@ -23,10 +23,8 @@ import views.html.IndexView
 import repositories.SessionRepository
 import org.scalacheck.Arbitrary.arbitrary
 import models.UserAnswers
-import models.store.notification.Metadata
 import scala.concurrent.ExecutionContext.Implicits.global
 import generators.Generators
-import java.time.LocalDateTime
 
 class IndexControllerSpec extends SpecBase with Generators {
 
@@ -78,20 +76,6 @@ class IndexControllerSpec extends SpecBase with Generators {
         }
       }
     }
-
-    "must clear the session and start a new one where an existing draft exists but has been submitted" in {
-
-      val userAnswers = UserAnswers("id", metadata = Metadata(submissionTime = Some(LocalDateTime.now)))
-      val expectedUserAnswers = UserAnswers("id")
-      val request = FakeRequest(GET, routes.IndexController.onPageLoad.url)
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
-
-      running(application) {
-        route(application, request).value
-        
-        val sessionRepo = application.injector.instanceOf[SessionRepository]
-        sessionRepo.get("id").map(uaOpt => uaOpt mustBe Some(expectedUserAnswers))
-      }
-    }
+    
   }
 }

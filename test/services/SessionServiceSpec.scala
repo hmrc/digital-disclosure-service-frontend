@@ -25,7 +25,7 @@ import scala.concurrent.Future
 import org.scalamock.handlers.{CallHandler1, CallHandler2, CallHandler3}
 import uk.gov.hmrc.http.HeaderCarrier
 import play.api.mvc.Result
-import java.time.Instant
+import java.time.{LocalDateTime, Instant}
 import models.{UserAnswers, SubmissionType}
 import play.api.mvc.Results.Ok
 import repositories.SessionRepository
@@ -38,8 +38,11 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
   implicit val hc = HeaderCarrier()
     
   val testNotification = Notification("123", "Individual", Instant.now(), Metadata(), Background(), AboutYou())
+  val testSubmittedNotification = Notification("123", "Individual", Instant.now(), Metadata(submissionTime = Some(LocalDateTime.now)), Background(), AboutYou())
 
   val userAnswers = UserAnswers("123", "Individual", SubmissionType.Notification, lastUpdated = Instant.now())
+  val submittedUserAnswers = UserAnswers("123", "Individual", SubmissionType.Notification, lastUpdated = Instant.now(), metadata = Metadata(submissionTime = Some(LocalDateTime.now)))
+  val emptyUserAnswers = UserAnswers("123")
 
   "getSession" should {
     "return the same value as returned by the connector" in new Test {
@@ -88,6 +91,15 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
       mockNotificationToUserAnswers(testNotification)(Success(userAnswers))
       (repo.set(_: UserAnswers)).expects(userAnswers).returning(Future.successful(true))
       (storeService.setNotification(_: UserAnswers)(_: HeaderCarrier)).expects(userAnswers, *).returning(Future.successful(Ok))
+
+      sut.newSession("123").futureValue shouldEqual true
+    }
+
+    "check the store and where it finds something which has been submitted, default and set that default in the session and store" in new Test {
+      mockGetNotification("123", UserAnswers.defaultNotificationId)(Future.successful(Some(testSubmittedNotification)))
+      mockNotificationToUserAnswers(testSubmittedNotification)(Success(submittedUserAnswers))
+      (repo.set(_: UserAnswers)).expects(*).returning(Future.successful(true))
+      (storeService.setNotification(_: UserAnswers)(_: HeaderCarrier)).expects(*, *).returning(Future.successful(Ok))
 
       sut.newSession("123").futureValue shouldEqual true
     }

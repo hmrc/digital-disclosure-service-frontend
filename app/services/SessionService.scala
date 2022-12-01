@@ -37,8 +37,15 @@ class SessionServiceImpl @Inject()(
   def newSession(userId: String)(implicit hc: HeaderCarrier): Future[Boolean] =
     for {
       uaOpt  <- getIndividualNotificationUserAnswers(userId, UserAnswers.defaultNotificationId)
-      result <- set(uaOpt.getOrElse(UserAnswers(userId)))
+      ua     = extractOrDefaultUserAnswers(userId, uaOpt)
+      result <- set(ua)
     } yield result
+
+  def extractOrDefaultUserAnswers(userId: String, uaOpt: Option[UserAnswers]) =
+    uaOpt match {
+      case Some(ua) if ua.metadata.submissionTime.isEmpty => ua
+      case _ => UserAnswers(userId)
+    }
 
   def getIndividualNotificationUserAnswers(userId: String, notificationId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] = 
     for {

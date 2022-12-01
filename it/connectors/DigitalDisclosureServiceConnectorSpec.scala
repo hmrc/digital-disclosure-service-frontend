@@ -30,6 +30,7 @@ import java.time.Instant
 import play.api.http.Status._
 import models.store.notification._
 import models.submission.SubmissionResponse
+import akka.util.ByteString
 
 class DigitalDisclosureServiceConnectorSpec extends AnyFreeSpec with Matchers with ScalaFutures with IntegrationPatience with WireMockHelper {
 
@@ -87,6 +88,43 @@ class DigitalDisclosureServiceConnectorSpec extends AnyFreeSpec with Matchers wi
       )
 
       connector.submitNotification(testNotification)(hc).failed.futureValue
+    }
+
+  }
+
+  "generateNotificationPDF" - {
+
+    val hc = HeaderCarrier()
+    val url = "/digital-disclosure-service/notification/pdf"
+
+    val testNotification = Notification("123", "456", Instant.now(), Metadata(), Background(), AboutYou())
+
+    val testBodyString = "Some body"
+    val testBody = ByteString("Some body".getBytes)
+
+    "must return an ID when the store responds with ACCEPTED" in {
+
+      server.stubFor(
+        post(urlMatching(url))
+          .withRequestBody(equalToJson(Json.stringify(Json.toJson(testNotification))))
+          .willReturn(
+            aResponse()
+              .withStatus(OK)
+              .withBody(testBodyString))
+      )
+
+      connector.generateNotificationPDF(testNotification)(hc).futureValue mustEqual testBody
+    }
+
+    "must return a failed future when there is a connection error" in {
+
+      server.stubFor(
+        post(urlMatching(url))
+          .withRequestBody(equalToJson(Json.stringify(Json.toJson(testNotification))))
+          .willReturn(aResponse().withFault(Fault.RANDOM_DATA_THEN_CLOSE))
+      )
+
+      connector.generateNotificationPDF(testNotification)(hc).failed.futureValue
     }
 
   }

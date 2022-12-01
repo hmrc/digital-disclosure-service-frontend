@@ -30,10 +30,13 @@ import models.store.notification._
 import java.time.Clock
 import models.submission.SubmissionResponse
 import uk.gov.hmrc.http.HttpResponse
+import akka.util.ByteString
+import play.api.libs.ws.WSClient
 
 @Singleton
 class DigitalDisclosureServiceConnectorImpl @Inject() (
                                 httpClient: HttpClientV2,
+                                ws: WSClient,
                                 configuration: Configuration,
                                 clock: Clock
                               )(implicit ec: ExecutionContext) extends DigitalDisclosureServiceConnector with ConnectorErrorHandler {
@@ -54,6 +57,18 @@ class DigitalDisclosureServiceConnectorImpl @Inject() (
       }
   }
 
+  def generateNotificationPDF(notification: Notification)(implicit hc: HeaderCarrier): Future[ByteString] = {
+    ws
+      .url(s"$baseUrl/notification/pdf")
+      .post(Json.toJson(notification)) 
+      .flatMap { response =>
+        response.status match {
+          case OK => Future.successful(response.bodyAsBytes)
+          case _ => Future.failed(DigitalDisclosureServiceConnector.UnexpectedResponseException(response.status, response.body))
+        }
+      }
+  }
+
   def handleResponse[A](response: HttpResponse)(implicit reads: Reads[A]): Future[A] = {
     response.json.validate[A] match {
       case JsSuccess(a, _) => Future.successful(a)
@@ -66,6 +81,7 @@ class DigitalDisclosureServiceConnectorImpl @Inject() (
 @ImplementedBy(classOf[DigitalDisclosureServiceConnectorImpl])
 trait DigitalDisclosureServiceConnector {
   def submitNotification(notification: Notification)(implicit hc: HeaderCarrier): Future[String]
+  def generateNotificationPDF(notification: Notification)(implicit hc: HeaderCarrier): Future[ByteString]
 }
 
 object DigitalDisclosureServiceConnector {
