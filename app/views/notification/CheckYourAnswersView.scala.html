@@ -63,7 +63,7 @@
         <h2 class="govuk-heading-l">@messages("notificationCYA.send.heading")</h2>
 
         <p class="govuk-body" id="first-paragraph">@messages("notificationCYA.body1")</p>
-        <p class="govuk-body" id="second-paragraph">@messages("notificationCYA.body2") <a href="javascript:window.print()" class="govuk-body">@messages("notificationCYA.link")</a></p>
+        <p class="govuk-body" id="second-paragraph">@messages("notificationCYA.body2") <a href="@controllers.notification.routes.PdfGenerationController.generate" class="govuk-body" download="notification.pdf">@messages("notificationCYA.link")</a></p>
 
         @govukButton(
             ButtonViewModel(messages("notificationCYA.send.button")).withAttribute("id","send-button")
