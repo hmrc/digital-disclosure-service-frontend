@@ -869,7 +869,7 @@ didThePersonHaveNINO.change.hidden = Did the person have a National Insurance nu
 
 whatWasThePersonNINO.title = What was the person’s National Insurance number?
 whatWasThePersonNINO.heading = What was the person’s National Insurance number?
-whatWasThePersonNINO.label = This is on your payslip, P60 or tax return
+whatWasThePersonNINO.label = This is on their payslip, P60 or tax return
 whatWasThePersonNINO.hint = For example, ‘QQ123456A’.
 whatWasThePersonNINO.checkYourAnswersLabel = What was the person’s National Insurance number?
 whatWasThePersonNINO.error.required = Enter the Person’s National Insurance number
