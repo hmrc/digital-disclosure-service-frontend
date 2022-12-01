@@ -492,8 +492,8 @@ whatIsYourNationalInsuranceNumber.change.hidden = Your National Insurance number
 
 whatIsYourVATRegistrationNumber.title = What is your VAT registration number?
 whatIsYourVATRegistrationNumber.heading = What is your VAT registration number?
-whatIsYourVATRegistrationNumber.label = This is a 9 digit number on your VAT certificate or VAT online account.
-whatIsYourVATRegistrationNumber.hint = For example, ‘123456789’.
+whatIsYourVATRegistrationNumber.label = This has 9 numbers, sometimes with ‘GB‘ at the start. You can find it on your VAT registration certificate or VAT online account.
+whatIsYourVATRegistrationNumber.hint = For example, ‘123456789‘ or ‘GB123456789‘.
 whatIsYourVATRegistrationNumber.checkYourAnswersLabel = Your VAT registration number
 whatIsYourVATRegistrationNumber.error = Enter a valid VAT registration number
 whatIsYourVATRegistrationNumber.change.hidden = Your VAT registration number
