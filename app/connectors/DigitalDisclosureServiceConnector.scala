@@ -32,8 +32,6 @@ import play.api.Logging
 import models.submission.SubmissionResponse
 import uk.gov.hmrc.http.HttpResponse
 import akka.util.ByteString
-import java.nio.file.Files
-import java.io.File
 import play.api.libs.ws.WSClient
 
 @Singleton
@@ -66,13 +64,7 @@ class DigitalDisclosureServiceConnectorImpl @Inject() (
       .post(Json.toJson(notification)) 
       .flatMap { response =>
         response.status match {
-          case OK => {
-            val tempFile: File = new File("test.pdf")
-            logger.info(s"body: ${response.body.getBytes()}")
-            Files.write(tempFile.toPath, response.bodyAsBytes.toArray)
-
-            Future.successful(response.bodyAsBytes)
-          }
+          case OK => Future.successful(response.bodyAsBytes)
           case _ => Future.failed(DigitalDisclosureServiceConnector.UnexpectedResponseException(response.status, response.body))
         }
       }
