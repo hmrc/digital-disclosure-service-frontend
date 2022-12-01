@@ -181,8 +181,8 @@ class CheckYourAnswersController @Inject()(
   def onSubmit(): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request => 
       for {
-        _ <- notificationSubmissionService.submitNotification(request.userAnswers)
-      } yield Redirect(navigator.nextPage(CheckYourAnswersPage, NormalMode, request.userAnswers))
+        reference <- notificationSubmissionService.submitNotification(request.userAnswers)
+      } yield Redirect(navigator.submitPage(request.userAnswers, reference))
   }
 
 }

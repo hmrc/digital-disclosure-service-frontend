@@ -95,7 +95,7 @@ POST       /your-utr                                        controllers.notifica
 GET        /your-utr/change                                 controllers.notification.WhatIsYourUniqueTaxReferenceController.onPageLoad(mode: Mode = CheckMode)
 POST       /your-utr/change                                 controllers.notification.WhatIsYourUniqueTaxReferenceController.onSubmit(mode: Mode = CheckMode)
 
-GET        /submitted                                       controllers.notification.YouHaveSentYourNotificationController.onPageLoad()
+GET        /submitted/:reference                            controllers.notification.YouHaveSentYourNotificationController.onPageLoad(reference)
 
 GET        /individual-full-name                            controllers.notification.WhatIsTheIndividualsFullNameController.onPageLoad(mode: Mode = NormalMode)
 POST       /individual-full-name                            controllers.notification.WhatIsTheIndividualsFullNameController.onSubmit(mode: Mode = NormalMode)

@@ -492,8 +492,8 @@ whatIsYourNationalInsuranceNumber.change.hidden = Your National Insurance number
 
 whatIsYourVATRegistrationNumber.title = What is your VAT registration number?
 whatIsYourVATRegistrationNumber.heading = What is your VAT registration number?
-whatIsYourVATRegistrationNumber.label = This is a 9 digit number on your VAT certificate or VAT online account.
-whatIsYourVATRegistrationNumber.hint = For example, ‘123456789’.
+whatIsYourVATRegistrationNumber.label = This has 9 numbers, sometimes with ‘GB‘ at the start. You can find it on your VAT registration certificate or VAT online account.
+whatIsYourVATRegistrationNumber.hint = For example, ‘123456789‘ or ‘GB123456789‘.
 whatIsYourVATRegistrationNumber.checkYourAnswersLabel = Your VAT registration number
 whatIsYourVATRegistrationNumber.error = Enter a valid VAT registration number
 whatIsYourVATRegistrationNumber.change.hidden = Your VAT registration number
@@ -528,12 +528,18 @@ yourCountryLookup.title = What is the country of your address?
 yourCountryLookup.heading = What is the country of your address?
 yourCountryLookup.hint = For example, United Kingdom.
 
-youHaveSentYourNotification.title = You have sent your notification
-youHaveSentYourNotification.heading = You have sent your notification
-youHaveSentYourNotification.body = Your notification reference number is
-youHaveSentYourNotification.paragraph.first = You can save a copy of your notification (opens in a new tab).
+youHaveSentYourNotification.title.entity = You have sent your notification
+youHaveSentYourNotification.title.agent = You have sent the notification
+youHaveSentYourNotification.heading.entity = You have sent your notification
+youHaveSentYourNotification.heading.agent = You have sent the notification
+youHaveSentYourNotification.body.generatedRef.entity = Your notification reference number is
+youHaveSentYourNotification.body.generatedRef.agent = The notification reference number is
+youHaveSentYourNotification.body.caseRef.entity = Your case reference is
+youHaveSentYourNotification.body.caseRef.agent = The case reference is
+youHaveSentYourNotification.paragraph.first = You can save a copy of your notification (opens in a new tab). 
 youHaveSentYourNotification.paragraph.header = Next steps
-youHaveSentYourNotification.paragraph.second =  We will write to you shortly with a Disclosure Reference Number (DRN). As soon as you receive this, you should make the full disclosure within 90 days of the date that HMRC acknowledges your notification.
+youHaveSentYourNotification.paragraph.second.generatedRef = We will write to you shortly with a case reference. As soon as you receive this, you should make the full disclosure within 90 days of the date that HMRC acknowledges your notification.
+youHaveSentYourNotification.paragraph.second.caseRef = We will write to you shortly to acknowledge your notification. You should then make a full disclosure within 90 days of the date that HMRC acknowledges your notification.
 
 yourAddressLookup.title = What is the postcode and property name or number of your address?
 yourAddressLookup.heading = What is the postcode and property name or number of your address?
@@ -863,10 +869,10 @@ didThePersonHaveNINO.change.hidden = Did the person have a National Insurance nu
 
 whatWasThePersonNINO.title = What was the person’s National Insurance number?
 whatWasThePersonNINO.heading = What was the person’s National Insurance number?
-whatWasThePersonNINO.label = This is on your payslip, P60 or tax return
+whatWasThePersonNINO.label = This is on their payslip, P60 or tax return
 whatWasThePersonNINO.hint = For example, ‘QQ123456A’.
 whatWasThePersonNINO.checkYourAnswersLabel = What was the person’s National Insurance number?
-whatWasThePersonNINO.error.required = Person’s National Insurance number
+whatWasThePersonNINO.error.required = Enter the Person’s National Insurance number
 whatWasThePersonNINO.error = Enter the person’s National Insurance number in the right format
 whatWasThePersonNINO.change.hidden = What was the person’s National Insurance number?
 

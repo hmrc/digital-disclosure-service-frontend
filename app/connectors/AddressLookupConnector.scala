@@ -29,14 +29,16 @@ import models.Error
 import models.address._
 import config.AddressLookupConfig
 
-class AddressLookupConnectorImpl @Inject()(httpClient: HttpClient, config: AddressLookupConfig)(implicit ec: ExecutionContext) extends AddressLookupConnector {
+class AddressLookupConnectorImpl @Inject()(httpClient: HttpClient, config: AddressLookupConfig)(implicit ec: ExecutionContext)
+  extends AddressLookupConnector
+    with ConnectorErrorHandler {
 
   def initialise(request: AddressLookupRequest)(implicit hc: HeaderCarrier): EitherT[Future, Error, HttpResponse] = EitherT {
     httpClient
       .POST[AddressLookupRequest, HttpResponse](config.startLookupUrl, request)
       .map(Right(_))
       .recover { case NonFatal(e) =>
-        Left(Error(e))
+        Left(handleError(Error(e)))
       }
   }
 
@@ -46,7 +48,7 @@ class AddressLookupConnectorImpl @Inject()(httpClient: HttpClient, config: Addre
         .GET[HttpResponse](s"${config.retrieveAddressUrl}?id=$addressId")
         .map(Right(_))
         .recover { case NonFatal(e) =>
-          Left(Error(e))
+          Left(handleError(Error(e)))
         }
     }
 

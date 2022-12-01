@@ -29,9 +29,10 @@ trait AddressLookupRequestHelper {
   def lookupRequestForYourAddress(baseUrl: String, 
                                         redirectUrl: String, 
                                         proposalListLimit: Int, 
-                                        userAnswers: UserAnswers)(implicit messages: Messages): AddressLookupRequest = {
+                                        userAnswers: UserAnswers,
+                                        languageTranslationEnabled: Boolean)(implicit messages: Messages): AddressLookupRequest = {
 
-    lookupRequestForAddress(baseUrl, redirectUrl, proposalListLimit,
+    lookupRequestForAddress(baseUrl, redirectUrl, proposalListLimit, languageTranslationEnabled,
                             "yourCountryLookup.title", 
                             "yourCountryLookup.heading",
                             "yourCountryLookup.hint",
@@ -48,9 +49,10 @@ trait AddressLookupRequestHelper {
 
   def lookupRequestForIndividualAddress(baseUrl: String, 
                                         redirectUrl: String, 
-                                        proposalListLimit: Int)(implicit messages: Messages): AddressLookupRequest = {                                      
+                                        proposalListLimit: Int,
+                                        languageTranslationEnabled: Boolean)(implicit messages: Messages): AddressLookupRequest = {                                      
 
-    lookupRequestForAddress(baseUrl, redirectUrl, proposalListLimit,
+    lookupRequestForAddress(baseUrl, redirectUrl, proposalListLimit, languageTranslationEnabled,
                             "individualCountryLookup.title", 
                             "individualCountryLookup.heading",
                             "individualCountryLookup.hint",
@@ -67,9 +69,10 @@ trait AddressLookupRequestHelper {
 
   def lookupRequestForCompanyAddress(baseUrl: String, 
                                      redirectUrl: String, 
-                                     proposalListLimit: Int)(implicit messages: Messages): AddressLookupRequest = {                                      
+                                     proposalListLimit: Int,
+                                     languageTranslationEnabled: Boolean)(implicit messages: Messages): AddressLookupRequest = {                                      
 
-    lookupRequestForAddress(baseUrl, redirectUrl, proposalListLimit,
+    lookupRequestForAddress(baseUrl, redirectUrl, proposalListLimit, languageTranslationEnabled,
                             "companyCountryLookup.title", 
                             "companyCountryLookup.heading",
                             "companyCountryLookup.hint",
@@ -86,9 +89,10 @@ trait AddressLookupRequestHelper {
 
   def lookupRequestForLLPAddress(baseUrl: String, 
                                      redirectUrl: String, 
-                                     proposalListLimit: Int)(implicit messages: Messages): AddressLookupRequest = {                                      
+                                     proposalListLimit: Int,
+                                     languageTranslationEnabled: Boolean)(implicit messages: Messages): AddressLookupRequest = {                                      
 
-    lookupRequestForAddress(baseUrl, redirectUrl, proposalListLimit,
+    lookupRequestForAddress(baseUrl, redirectUrl, proposalListLimit, languageTranslationEnabled,
                             "llpCountryLookup.title", 
                             "llpCountryLookup.heading",
                             "llpCountryLookup.hint",
@@ -105,9 +109,10 @@ trait AddressLookupRequestHelper {
 
   def lookupRequestForTrustAddress(baseUrl: String, 
                                      redirectUrl: String, 
-                                     proposalListLimit: Int)(implicit messages: Messages): AddressLookupRequest = {                                      
+                                     proposalListLimit: Int,
+                                     languageTranslationEnabled: Boolean)(implicit messages: Messages): AddressLookupRequest = {                                      
 
-    lookupRequestForAddress(baseUrl, redirectUrl, proposalListLimit,
+    lookupRequestForAddress(baseUrl, redirectUrl, proposalListLimit, languageTranslationEnabled,
                             "trustCountryLookup.title", 
                             "trustCountryLookup.heading",
                             "trustCountryLookup.hint",
@@ -124,9 +129,10 @@ trait AddressLookupRequestHelper {
 
   def lookupRequestForEstateAddress(baseUrl: String, 
                                      redirectUrl: String, 
-                                     proposalListLimit: Int)(implicit messages: Messages): AddressLookupRequest = {                                      
+                                     proposalListLimit: Int,
+                                     languageTranslationEnabled: Boolean)(implicit messages: Messages): AddressLookupRequest = {                                      
 
-    lookupRequestForAddress(baseUrl, redirectUrl, proposalListLimit,
+    lookupRequestForAddress(baseUrl, redirectUrl, proposalListLimit, languageTranslationEnabled,
                             "estateCountryLookup.title", 
                             "estateCountryLookup.heading",
                             "estateCountryLookup.hint",
@@ -144,6 +150,7 @@ trait AddressLookupRequestHelper {
   def lookupRequestForAddress(baseUrl: String, 
                               redirectUrl: String, 
                               proposalListLimit: Int,
+                              languageTranslationEnabled: Boolean,
                               countryLookupTitle: String, 
                               countryLookupHeading: String,
                               countryLookupHint: String,
@@ -163,6 +170,7 @@ trait AddressLookupRequestHelper {
       serviceHref = s"$baseUrl${routes.IndexController.onPageLoad.url}",
       showPhaseBanner = Some(true),
       alphaPhase = false,
+      disableTranslations = !languageTranslationEnabled,
       selectPageConfig = Some(selectPageConfig),
       includeHMRCBranding = Some(false)
     )

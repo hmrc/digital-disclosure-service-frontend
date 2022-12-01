@@ -30,14 +30,16 @@ class YouHaveSentYourNotificationControllerSpec extends SpecBase {
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, notification.routes.YouHaveSentYourNotificationController.onPageLoad.url)
+        val reference = "CFSS-1234567"
+
+        val request = FakeRequest(GET, notification.routes.YouHaveSentYourNotificationController.onPageLoad(reference).url)
 
         val result = route(application, request).value
 
         val view = application.injector.instanceOf[YouHaveSentYourNotificationView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view()(request, messages(application)).toString
+        contentAsString(result) mustEqual view(false, reference, true)(request, messages(application)).toString
       }
     }
   }
