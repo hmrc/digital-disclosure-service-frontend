@@ -18,7 +18,8 @@
     layout: templates.Layout,
     govukSummaryList: GovukSummaryList,
     govukButton: GovukButton,
-    formHelper: FormWithCSRF
+    formHelper: FormWithCSRF,
+    downloadLink: components.downloadLink
 )
 
 @(list: SummaryLists)(implicit request: Request[_], messages: Messages)
@@ -63,7 +64,8 @@
         <h2 class="govuk-heading-l">@messages("notificationCYA.send.heading")</h2>
 
         <p class="govuk-body" id="first-paragraph">@messages("notificationCYA.body1")</p>
-        <p class="govuk-body" id="second-paragraph">@messages("notificationCYA.body2") <a href="@controllers.notification.routes.PdfGenerationController.generate" class="govuk-body" download="notification.pdf">@messages("notificationCYA.link")</a></p>
+        <p class="govuk-body" id="second-paragraph">@messages("notificationCYA.body2") @downloadLink(id = "pdf-download", text = messages("youHaveSentYourNotification.paragraph.link"), fileName = "notification.pdf", call = controllers.notification.routes.PdfGenerationController.generate)
+        </p>
 
         @govukButton(
             ButtonViewModel(messages("notificationCYA.send.button")).withAttribute("id","send-button")

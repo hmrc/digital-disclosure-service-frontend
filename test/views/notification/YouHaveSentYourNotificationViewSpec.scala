@@ -42,7 +42,7 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
     }
 
     "have a first paragraph for entity" in {
-      view.getElementById("first-paragraph").text() mustBe messages("youHaveSentYourNotification.paragraph.first")
+      view.getElementById("first-paragraph").text() mustBe messages("youHaveSentYourNotification.paragraph.first") + messages("youHaveSentYourNotification.paragraph.link")
     }
 
     "contain second heading for entity" in {
@@ -71,7 +71,7 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
     }
 
     "have a first paragraph for agent" in {
-      view.getElementById("first-paragraph").text() mustBe messages("youHaveSentYourNotification.paragraph.first")
+      view.getElementById("first-paragraph").text() mustBe messages("youHaveSentYourNotification.paragraph.first") + messages("youHaveSentYourNotification.paragraph.link")
     }
 
     "contain second heading for agent" in {
@@ -88,7 +88,7 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
     val view = createView
 
     "contain green box body text for entity with generated reference number" in {
-      view.getElementsByClass("govuk-panel__body").text() mustBe messages("youHaveSentYourNotification.body.generatedRef.entity")
+      view.getElementsByClass("govuk-panel__body").text() mustBe messages("youHaveSentYourNotification.body.generatedRef.entity") + " CFSS-1234567"
     }
 
     "have a second paragraph for entity with generated reference number" in {
@@ -101,7 +101,7 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
     val view = createView
 
     "contain green box body text for agent with generated reference number" in {
-      view.getElementsByClass("govuk-panel__body").text() mustBe messages("youHaveSentYourNotification.body.generatedRef.agent")
+      view.getElementsByClass("govuk-panel__body").text() mustBe messages("youHaveSentYourNotification.body.generatedRef.agent") + " CFSS-1234567"
     }
   }
 }
