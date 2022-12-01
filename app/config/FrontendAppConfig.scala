@@ -53,5 +53,16 @@ class FrontendAppConfig @Inject() (configuration: Configuration) {
   lazy val countdown: Int = configuration.get[Int]("timeout-dialog.countdown")
 
   lazy val cacheTtl: Int = configuration.get[Int]("mongodb.timeToLiveInSeconds")
+
+  lazy val identityVerificationURL: String = {
+    val identityVerificationFrontendBaseUrl: String = configuration.get[String]("identity-verification-frontend.url")
+    val upliftUri: String = configuration.get[String]("identity-verification-frontend.uplift-uri")
+    val origin: String = configuration.get[String]("identity-verification-frontend.origin")
+    val confidenceLevel: Int = configuration.get[Int]("identity-verification-frontend.target-confidence-level")
+    val successUrl: String = host + controllers.routes.IndexController.onPageLoad.url
+    val failureUrl: String = host + controllers.routes.UnauthorisedController.onPageLoad.url
+
+    s"$identityVerificationFrontendBaseUrl$upliftUri?origin=$origin&confidenceLevel=$confidenceLevel&completionURL=$successUrl&failureURL=$failureUrl"
+  }
   
 }
