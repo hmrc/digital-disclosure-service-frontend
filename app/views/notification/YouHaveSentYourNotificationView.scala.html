@@ -47,7 +47,15 @@
     @paragraph(id = Some("first-paragraph"), 
         content = HtmlContent(
             messages("youHaveSentYourNotification.paragraph.first") + 
-            downloadLink(id = "pdf-download", text = messages("youHaveSentYourNotification.paragraph.link"), fileName = "notification.pdf", call = controllers.notification.routes.PdfGenerationController.generate)
+            downloadLink(
+                id = "pdf-download", 
+                text = isTheEntity match {
+                    case true => messages("youHaveSentYourNotification.paragraph.link.entity") 
+                    case false => messages("youHaveSentYourNotification.paragraph.link.agent")
+                },
+                fileName = "notification.pdf", 
+                call = controllers.notification.routes.PdfGenerationController.generate
+            )
     ))
 
     @heading(Text(messages("youHaveSentYourNotification.paragraph.header")), classes = "govuk-heading-m")
