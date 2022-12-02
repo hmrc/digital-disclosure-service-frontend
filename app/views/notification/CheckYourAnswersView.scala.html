@@ -64,7 +64,7 @@
         <h2 class="govuk-heading-l">@messages("notificationCYA.send.heading")</h2>
 
         <p class="govuk-body" id="first-paragraph">@messages("notificationCYA.body1")</p>
-        <p class="govuk-body" id="second-paragraph">@messages("notificationCYA.body2") @downloadLink(id = "pdf-download", text = messages("youHaveSentYourNotification.paragraph.link"), fileName = "notification.pdf", call = controllers.notification.routes.PdfGenerationController.generate)
+        <p class="govuk-body" id="second-paragraph">@messages("notificationCYA.body2") @downloadLink(id = "pdf-download", text = messages("notificationCYA.link"), fileName = "notification.pdf", call = controllers.notification.routes.PdfGenerationController.generate)
         </p>
 
         @govukButton(
