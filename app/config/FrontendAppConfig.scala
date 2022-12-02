@@ -44,6 +44,9 @@ class FrontendAppConfig @Inject() (configuration: Configuration) {
   lazy val languageTranslationEnabled: Boolean =
     configuration.get[Boolean]("features.welsh-translation")
 
+  lazy val fullDisclosureJourneyEnabled: Boolean =
+    configuration.get[Boolean]("features.full-disclosure-journey")
+
   def languageMap: Map[String, Lang] = Map(
     "en" -> Lang("en"),
     "cy" -> Lang("cy")
