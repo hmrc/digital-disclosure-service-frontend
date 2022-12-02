@@ -421,7 +421,7 @@ class AddressLookupServiceSpec
               address.line1.some.toList,
               address.line2.toList,
               address.line3.toList,
-              address.line4.some.toList
+              address.line4.toList
             ).flatten.seq,
             "postcode" -> address.postcode,
             "country"  -> Json.obj(
@@ -451,20 +451,17 @@ class AddressLookupServiceSpec
                                        |    "address":
                                        |    {
                                        |        "lines":
-                                       |        [
-                                       |            "Buckingham Palace"
-                                       |        ],
+                                       |        [],
                                        |        "country":
                                        |        {
                                        |            "code": "GB",
                                        |            "name": "United Kingdom"
-                                       |        },
-                                       |        "postcode": "SW1A 1AA"
+                                       |        }
                                        |    }
                                        |}""".stripMargin)
 
         val path = JsPath \ "address" \ "lines"
-        val err  = JsonValidationError("error.minLength", 2)
+        val err  = JsonValidationError("error.minLength", 1)
         addressJson.validate[Address] mustBe JsError(List((path, List(err))))
       }
     }

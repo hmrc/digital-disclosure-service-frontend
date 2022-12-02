@@ -33,7 +33,7 @@ class StoreDataServiceSpec extends AnyWordSpec with Matchers with TryValues {
   val metadata = Metadata(reference = Some("123"), submissionTime = Some(LocalDateTime.now))
   val instant = Instant.now()
   val testNotification = Notification("userId", "notificationId", instant, metadata, Background(), AboutYou())
-  val address = Address("line 1", Some("line 2"), Some("line 3"), "line 4", "postcode", Country("GBR"))
+  val address = Address("line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GBR"))
   val emptyUA = UserAnswers("id")
   val userAnswers = UserAnswers("userId", "notificationId", lastUpdated = instant, metadata = metadata)
 

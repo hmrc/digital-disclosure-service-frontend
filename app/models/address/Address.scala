@@ -23,8 +23,8 @@ final case class Address(
   line1: String,
   line2: Option[String],
   line3: Option[String],
-  line4: String,
-  postcode: String,
+  line4: Option[String],
+  postcode: Option[String],
   country: Country
 )
 
@@ -38,8 +38,8 @@ object Address {
           Some(a.line1),
           a.line2,
           a.line3,
-          Some(a.line4),
-          Some(a.postcode),
+          a.line4,
+          a.postcode,
           messages.translate(s"country.${a.country.code}", Seq.empty)
         )
 

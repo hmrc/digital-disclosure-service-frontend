@@ -95,8 +95,8 @@ trait ModelGenerators {
       street   <- strGen(7)
       district <- Gen.option(strGen(5))
       road     <- if (district.isDefined) Gen.option(strGen(5)) else Gen.const(None)
-      town     <- strGen(10)
-      postcode <- genPostcode
+      town     <- Gen.option(strGen(10))
+      postcode <- Gen.option(genPostcode)
       country  <- strGen(2)
     } yield Address(
       line1 = s"$num $street",
