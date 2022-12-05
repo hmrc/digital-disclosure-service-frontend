@@ -431,7 +431,6 @@ class AddressLookupServiceSpec
         )
 
         mockGetAddress(id)(Right(HttpResponse(OK, json.toString())))
-
         await(addressLookupService.retrieveUserAddress(id).value).value must be(address)
       }
 
