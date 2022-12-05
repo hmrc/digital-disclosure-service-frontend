@@ -48,8 +48,7 @@ class FrontendAppConfig @Inject() (configuration: Configuration) {
     configuration.get[Boolean]("features.full-disclosure-journey")
 
   def languageMap: Map[String, Lang] = Map(
-    "en" -> Lang("en"),
-    "cy" -> Lang("cy")
+    "en" -> Lang("en")
   )
 
   lazy val timeout: Int   = configuration.get[Int]("timeout-dialog.timeout")
