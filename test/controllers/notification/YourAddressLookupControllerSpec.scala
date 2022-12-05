@@ -40,7 +40,7 @@ import scala.concurrent.Future
 
 class YourAddressLookupControllerSpec extends SpecBase with MockFactory with ModelGenerators {
 
-  def addressLookupOnwardRoute = Call("GET", "http://localhost:9000/foo")
+  def addressLookupOnwardRoute = Call("GET", "http://localhost:15003/foo")
   def onwardRoute = Call("GET", "/foo")
 
   lazy val addressLookupRoute = notification.routes.YourAddressLookupController.lookupAddress(NormalMode).url
@@ -83,7 +83,7 @@ class YourAddressLookupControllerSpec extends SpecBase with MockFactory with Mod
       running(application) {
         val request = FakeRequest(GET, addressLookupRoute)
 
-        mockGetIndividualAddressLookupRedirect(notification.routes.YourAddressLookupController.retrieveConfirmedAddress(NormalMode, None))(Right(new URL("http://localhost:9000/foo")))
+        mockGetIndividualAddressLookupRedirect(notification.routes.YourAddressLookupController.retrieveConfirmedAddress(NormalMode, None))(Right(new URL("http://localhost:15003/foo")))
         val result = route(application, request).value
 
         status(result) mustEqual SEE_OTHER
