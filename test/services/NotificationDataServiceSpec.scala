@@ -241,7 +241,7 @@ class NotificationDataServiceSpec extends AnyWordSpec with Matchers with TryValu
 
   "aboutYouToUserAnswers" should {
 
-    val address = Address("line 1", Some("line 2"), Some("line 3"), "line 4", "postcode", Country("GBR"))
+    val address = Address("line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GBR"))
     val localDate = LocalDate.now()
 
     "return no PageWithValues for an empty AboutYou" in {
@@ -297,7 +297,7 @@ class NotificationDataServiceSpec extends AnyWordSpec with Matchers with TryValu
 
   "aboutTheIndividualToUserAnswers" should {
 
-    val address = Address("line 1", Some("line 2"), Some("line 3"), "line 4", "postcode", Country("GBR"))
+    val address = Address("line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GBR"))
     val localDate = LocalDate.now()
 
     "return no PageWithValues for an empty AboutYou" in {
@@ -344,7 +344,7 @@ class NotificationDataServiceSpec extends AnyWordSpec with Matchers with TryValu
 
   "aboutTheCompanyToUserAnswers" should {
 
-    val address = Address("line 1", Some("line 2"), Some("line 3"), "line 4", "postcode", Country("GBR"))
+    val address = Address("line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GBR"))
 
     "return no PageWithValues for an empty AboutYou" in {
       val aboutTheCompany = AboutTheCompany()
@@ -370,7 +370,7 @@ class NotificationDataServiceSpec extends AnyWordSpec with Matchers with TryValu
 
   "aboutTheTrustToUserAnswers" should {
 
-    val address = Address("line 1", Some("line 2"), Some("line 3"), "line 4", "postcode", Country("GBR"))
+    val address = Address("line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GBR"))
 
     "return no PageWithValues for an empty AboutYou" in {
       val aboutTheTrust = AboutTheTrust()
@@ -393,7 +393,7 @@ class NotificationDataServiceSpec extends AnyWordSpec with Matchers with TryValu
 
   "aboutTheLLPToUserAnswers" should {
 
-    val address = Address("line 1", Some("line 2"), Some("line 3"), "line 4", "postcode", Country("GBR"))
+    val address = Address("line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GBR"))
 
     "return no PageWithValues for an empty AboutYou" in {
       val aboutTheLLP = AboutTheLLP()
@@ -453,7 +453,7 @@ class NotificationDataServiceSpec extends AnyWordSpec with Matchers with TryValu
 
   "aboutTheEstateToUserAnswers" should {
 
-    val address = Address("line 1", Some("line 2"), Some("line 3"), "line 4", "postcode", Country("GBR"))
+    val address = Address("line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GBR"))
     val localDate = LocalDate.now()
 
     "return no PageWithValues for an empty AboutYou" in {
