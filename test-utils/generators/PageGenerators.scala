@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryMakeANotificationOrDisclosurePage: Arbitrary[MakeANotificationOrDisclosurePage.type] =
+    Arbitrary(MakeANotificationOrDisclosurePage)
+
   implicit lazy val arbitraryWhatWasThePersonUTRPage: Arbitrary[WhatWasThePersonUTRPage.type] =
     Arbitrary(WhatWasThePersonUTRPage)
 
