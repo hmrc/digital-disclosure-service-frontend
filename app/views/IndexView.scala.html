@@ -35,52 +35,62 @@
 
     <p class="govuk-body" id="second-paragraph">@messages("index.guidance.paragraph.second")</p>
 
+    <p class="govuk-body" id="third-paragraph">@messages("index.guidance.paragraph.third")</p>
+
+    @bulletList(elements = Seq(
+        HtmlContent(
+            link(id = "first-bullet-link", text = messages("index.bulletList.first.link"), newTab = true, call = Call("GET", "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure#general-information")),
+        ),
+        Text(messages("index.bulletList.second"))
+    ))
+
+    <p class="govuk-body" id="forth-paragraph">@messages("index.guidance.paragraph.forth")</p>
+    
+    <h2 class="govuk-heading-m">@messages("index.heading.second")</h2>
+
     @paragraph(
-        id = Some("third-paragraph"), 
+        id = Some("fifth-paragraph"), 
         content = HtmlContent(
-            messages("index.guidance.paragraph.third") +
-            link(id = "third-paragraph-link", text = messages("index.guidance.paragraph.third.link"), newTab = true, call = Call("GET", "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure#general-information"))
+            link(id = "forth-paragraph-link", text = messages("index.guidance.paragraph.forth.link"), newTab = true, call = Call("GET", "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure")) +
+            messages("index.guidance.paragraph.fifth")
         )
     )
-    
+
+    @paragraph(
+        id = Some("sixth-paragraph"), 
+        content = HtmlContent(
+            messages("index.guidance.paragraph.sixth") +
+            link(id = "sixth-paragraph-link", text = messages("index.guidance.paragraph.sixth.link"), newTab = true, call = Call("GET", "https://www.gov.uk/guidance/admitting-tax-fraud-the-contractual-disclosure-facility-cdf"))
+        )
+    )
+
+    @paragraph(
+        id = Some("seventh-paragraph"), 
+        content = HtmlContent(
+            messages("index.guidance.paragraph.seventh") +
+            link(id = "seventh-paragraph-link", text = messages("index.guidance.paragraph.seventh.link"), newTab = true, call = Call("GET", "https://www.gov.uk/appoint-tax-agent")) +
+            messages("index.guidance.paragraph.eighth")
+        )
+    )
+
+    <h3 class="govuk-heading-s">@messages("index.heading.third")</h3>
+
+    <p class="govuk-body" id="nineth-paragraph">@messages("index.guidance.paragraph.nineth")</p>
+
+    @bulletList(elements = Seq(
+        HtmlContent(
+            messages("index.bulletList.third") + 
+            link(id = "bullet-link", text = messages("index.bulletList.third.link"), newTab = true, call = Call("GET", "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure")),
+        ),
+        Text(messages("index.bulletList.forth")),
+        Text(messages("index.bulletList.fifth"))
+    ))
+
     @govukButton(Button(
       href = Some(controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url),
       isStartButton = true,
       content = Text(messages("site.continue")),
       attributes = Map("id" -> "start")
     ))
-
-    <h2 class="govuk-heading-m">@messages("index.heading.second")</h2>
-
-    @paragraph(
-        id = Some("forth-paragraph"), 
-        content = HtmlContent(
-            link(id = "forth-paragraph-link", text = messages("index.guidance.paragraph.forth.link"), newTab = true, call = Call("GET", "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure")) +
-            messages("index.guidance.paragraph.forth")
-        )
-    )
-
-    @paragraph(
-        id = Some("fifth-paragraph"), 
-        content = HtmlContent(
-            messages("index.guidance.paragraph.fifth") +
-            link(id = "fifth-paragraph-link", text = messages("index.guidance.paragraph.fifth.link"), newTab = true, call = Call("GET", "https://www.gov.uk/appoint-tax-agent")) +
-            messages("index.guidance.paragraph.sixth")
-        )
-    )
-
-    <h3 class="govuk-heading-s">@messages("index.heading.third")</h3>
-
-    <p class="govuk-body" id="seventh-paragraph">@messages("index.guidance.paragraph.seventh")</p>
-
-    @bulletList(elements = Seq(
-        HtmlContent(
-            messages("index.bulletList.first") + 
-            link(id = "first-bullet-link", text = messages("index.bulletList.first.link"), newTab = true, call = Call("GET", "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure")),
-        ),
-        Text(messages("index.bulletList.second")),
-        Text(messages("index.bulletList.third")),
-        Text(messages("index.bulletList.forth"))
-    )) 
 
 }
