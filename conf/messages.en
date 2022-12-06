@@ -671,8 +671,8 @@ notificationCYA.send.heading = Send the notification
 notificationCYA.send.button = Send notification
 notificationCYA.body1 = Check that the information you have provided is complete and correct before sending this notification to HMRC.
 notificationCYA.body2 = You can 
-notificationCYA.link.entity = save a copy of your notification.
-notificationCYA.link.agent = save a copy of the notification.
+notificationCYA.link.entity = save a copy of your notification
+notificationCYA.link.agent = save a copy of the notification
 
 notificationCYA.background = Background
 notificationCYA.aboutYou = About you
