@@ -26,6 +26,11 @@ import scala.language.higherKinds
 
 trait ModelGenerators {
 
+  implicit lazy val arbitraryHowWouldYouPreferToBeContacted: Arbitrary[HowWouldYouPreferToBeContacted] =
+    Arbitrary {
+      Gen.oneOf(HowWouldYouPreferToBeContacted.values)
+    }
+
   implicit lazy val arbitraryWasThePersonRegisteredForSA: Arbitrary[WasThePersonRegisteredForSA] =
     Arbitrary {
       Gen.oneOf(WasThePersonRegisteredForSA.values.toSeq)

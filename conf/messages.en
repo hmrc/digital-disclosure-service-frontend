@@ -927,3 +927,13 @@ confirmEstateAddress.title = Is this the correct address?
 confirmEstateAddress.heading = Is this the correct address?
 
 notificationCYA.aboutThePersonWhoDied = About the person who died
+
+howWouldYouPreferToBeContacted.title = How would you prefer to be contacted by HMRC?
+howWouldYouPreferToBeContacted.heading = How would you prefer to be contacted by HMRC?
+howWouldYouPreferToBeContacted.body = We will only contact you to discuss this disclosure, if needed.
+howWouldYouPreferToBeContacted.hint = Select all that apply.
+howWouldYouPreferToBeContacted.email = Email
+howWouldYouPreferToBeContacted.telephone = Telephone
+howWouldYouPreferToBeContacted.checkYourAnswersLabel = How would you prefer to be contacted by HMRC?
+howWouldYouPreferToBeContacted.error.required = Select how you want to be contacted
+howWouldYouPreferToBeContacted.change.hidden = HowWouldYouPreferToBeContacted
