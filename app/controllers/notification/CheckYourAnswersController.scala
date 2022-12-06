@@ -26,7 +26,7 @@ import viewmodels.govuk.summarylist._
 import views.html.notification.CheckYourAnswersView
 import viewmodels.checkAnswers._
 import pages._
-import models._
+import models.{UserAnswers, RelatesTo}
 import services.NotificationSubmissionService
 import scala.concurrent.ExecutionContext
 import navigation.NotificationNavigator
@@ -174,8 +174,10 @@ class CheckYourAnswersController @Inject()(
         aboutTheTrust, 
         aboutThePersonWhoDied
       )
+      
+      val isTheEntity = isTheUserTheEntity(request.userAnswers)
 
-      Ok(view(list))
+      Ok(view(list, isTheEntity))
   }
 
   def onSubmit(): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -183,6 +185,16 @@ class CheckYourAnswersController @Inject()(
       for {
         reference <- notificationSubmissionService.submitNotification(request.userAnswers)
       } yield Redirect(navigator.submitPage(request.userAnswers, reference))
+  }
+
+  def isTheUserTheEntity(userAnswers: UserAnswers): Boolean = {
+    userAnswers.get(RelatesToPage).flatMap(_ match {
+      case RelatesTo.AnIndividual => userAnswers.get(AreYouTheIndividualPage)
+      case RelatesTo.ACompany => userAnswers.get(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage)
+      case RelatesTo.ALimitedLiabilityPartnership => userAnswers.get(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage)
+      case RelatesTo.ATrust => userAnswers.get(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage)  
+      case RelatesTo.AnEstate => userAnswers.get(AreYouTheExecutorOfTheEstatePage)
+    }).getOrElse(true)
   }
 
 }
