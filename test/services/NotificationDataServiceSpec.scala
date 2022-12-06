@@ -249,7 +249,6 @@ class NotificationDataServiceSpec extends AnyWordSpec with Matchers with TryValu
       val updatedUserAnswers = sut.aboutYouToUserAnswers(aboutYou, emptyUA).success.value
       updatedUserAnswers.get(WhatIsYourFullNamePage)                  shouldEqual None
       updatedUserAnswers.get(YourPhoneNumberPage)                     shouldEqual None
-      updatedUserAnswers.get(DoYouHaveAnEmailAddressPage)             shouldEqual None
       updatedUserAnswers.get(YourEmailAddressPage)                    shouldEqual None
       updatedUserAnswers.get(WhatIsYourDateOfBirthPage)               shouldEqual None
       updatedUserAnswers.get(WhatIsYourMainOccupationPage)            shouldEqual None
@@ -266,7 +265,6 @@ class NotificationDataServiceSpec extends AnyWordSpec with Matchers with TryValu
       val aboutYou = AboutYou(
         fullName = Some("Some name"),
         telephoneNumber = Some("1234"),
-        doYouHaveAEmailAddress = Some(true),
         emailAddress = Some("Some email"),
         dateOfBirth = Some(localDate),
         mainOccupation = Some("Occupation"),
@@ -281,7 +279,6 @@ class NotificationDataServiceSpec extends AnyWordSpec with Matchers with TryValu
       val updatedUserAnswers = sut.aboutYouToUserAnswers(aboutYou, emptyUA).success.value
       updatedUserAnswers.get(WhatIsYourFullNamePage)                  shouldEqual Some("Some name")
       updatedUserAnswers.get(YourPhoneNumberPage)                     shouldEqual Some("1234")
-      updatedUserAnswers.get(DoYouHaveAnEmailAddressPage)             shouldEqual Some(true)
       updatedUserAnswers.get(YourEmailAddressPage)                    shouldEqual Some("Some email")
       updatedUserAnswers.get(WhatIsYourDateOfBirthPage)               shouldEqual Some(localDate)
       updatedUserAnswers.get(WhatIsYourMainOccupationPage)            shouldEqual Some("Occupation")

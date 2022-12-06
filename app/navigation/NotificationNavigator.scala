@@ -62,15 +62,6 @@ class NotificationNavigator @Inject()() {
 
     case WhatIsYourFullNamePage => _ => routes.YourPhoneNumberController.onPageLoad(NormalMode)
 
-    case YourPhoneNumberPage => _ => routes.DoYouHaveAnEmailAddressController.onPageLoad(NormalMode)
-
-    case DoYouHaveAnEmailAddressPage => ua => (ua.get(DoYouHaveAnEmailAddressPage), ua.get(AreYouTheIndividualPage)) match {
-      case (Some(true), _) => routes.YourEmailAddressController.onPageLoad(NormalMode)
-      case (Some(false), Some(true)) => routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
-      case (Some(false), _) => routes.YourAddressLookupController.lookupAddress(NormalMode)
-      case (_, _) => routes.DoYouHaveAnEmailAddressController.onPageLoad(NormalMode)
-    }
-
     case WhatIsYourDateOfBirthPage => _ => routes.WhatIsYourMainOccupationController.onPageLoad(NormalMode)
 
     case WhatIsYourMainOccupationPage => _ => routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(NormalMode)
@@ -240,10 +231,6 @@ class NotificationNavigator @Inject()() {
 
     case ReceivedALetterPage => ua => hasAnswerChanged =>
       if(hasAnswerChanged) routes.LetterReferenceController.onPageLoad(CheckMode)
-      else routes.CheckYourAnswersController.onPageLoad
-
-    case DoYouHaveAnEmailAddressPage => ua => hasAnswerChanged =>
-      if(hasAnswerChanged) routes.YourEmailAddressController.onPageLoad(CheckMode)
       else routes.CheckYourAnswersController.onPageLoad
 
     case DoYouHaveNationalInsuranceNumberPage => ua => hasAnswerChanged => ua.get(DoYouHaveNationalInsuranceNumberPage) match {

@@ -25,7 +25,6 @@ trait SectionPages {
     OffshoreLiabilitiesPage,
     WhatIsYourFullNamePage,
     YourPhoneNumberPage,
-    DoYouHaveAnEmailAddressPage,
     YourEmailAddressPage,
     YourAddressLookupPage,
     WhatIsYourDateOfBirthPage,

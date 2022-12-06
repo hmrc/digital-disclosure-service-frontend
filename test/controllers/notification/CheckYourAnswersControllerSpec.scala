@@ -214,14 +214,6 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       ))
     }
 
-    "must return OK and the correct view for a GET when DoYouHaveAnEmailAddressPage is populated" in {
-      val ua = UserAnswers("id").set(DoYouHaveAnEmailAddressPage, arbitrary[Boolean].sample.value).success.value
-      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq.empty),
-        aboutYou = SummaryListViewModel(Seq(DoYouHaveAnEmailAddressSummary.row(ua)(messages)).flatten)
-      ))
-    }
-
     "must return OK and the correct view for a GET when YourEmailAddressPage is populated" in {
       val ua = UserAnswers("id").set(YourEmailAddressPage, arbitrary[String].sample.value).success.value
       rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(

@@ -30,7 +30,6 @@ import models._
 import services.NotificationSubmissionService
 import scala.concurrent.ExecutionContext
 import navigation.NotificationNavigator
-import pages.CheckYourAnswersPage
 
 class CheckYourAnswersController @Inject()(
                                             override val messagesApi: MessagesApi,
@@ -69,7 +68,6 @@ class CheckYourAnswersController @Inject()(
         rows = Seq(
           WhatIsYourFullNameSummary.row(ua),
           YourPhoneNumberSummary.row(ua),
-          DoYouHaveAnEmailAddressSummary.row(ua),
           YourEmailAddressSummary.row(ua),
           YourAddressLookupSummary.row(ua),
           WhatIsYourDateOfBirthSummary.row(ua),

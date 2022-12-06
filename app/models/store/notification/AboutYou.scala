@@ -24,7 +24,6 @@ import models.address.Address
 final case class AboutYou (
   fullName: Option[String] = None,
   telephoneNumber: Option[String] = None,
-  doYouHaveAEmailAddress: Option[Boolean] = None,
   emailAddress: Option[String] = None,
   dateOfBirth: Option[LocalDate] = None,
   mainOccupation: Option[String] = None,

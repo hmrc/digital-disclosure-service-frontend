@@ -84,7 +84,6 @@ class StoreDataServiceImpl extends StoreDataService {
     AboutYou(
       fullName = userAnswers.get(WhatIsYourFullNamePage),
       telephoneNumber = userAnswers.get(YourPhoneNumberPage),
-      doYouHaveAEmailAddress = userAnswers.get(DoYouHaveAnEmailAddressPage),
       emailAddress = userAnswers.get(YourEmailAddressPage),
       dateOfBirth = userAnswers.get(WhatIsYourDateOfBirthPage),
       mainOccupation = userAnswers.get(WhatIsYourMainOccupationPage),

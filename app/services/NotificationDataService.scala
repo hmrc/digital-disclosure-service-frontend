@@ -109,7 +109,6 @@ class NotificationDataServiceImpl extends NotificationDataService {
     val pages = List(
       fullName.map(PageWithValue(WhatIsYourFullNamePage, _)),
       telephoneNumber.map(PageWithValue(YourPhoneNumberPage, _)),
-      doYouHaveAEmailAddress.map(PageWithValue(DoYouHaveAnEmailAddressPage, _)),
       emailAddress.map(PageWithValue(YourEmailAddressPage, _)),
       dateOfBirth.map(PageWithValue(WhatIsYourDateOfBirthPage, _)),
       mainOccupation.map(PageWithValue(WhatIsYourMainOccupationPage, _)),

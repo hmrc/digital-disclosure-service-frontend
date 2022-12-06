@@ -443,13 +443,6 @@ yourPhoneNumber.hint = For example, 01642 123456, 07777 777777 or +33 1 2345 678
 yourPhoneNumber.error.required = Enter a valid telephone number
 yourPhoneNumber.change.hidden = Your telephone number
 
-doYouHaveAnEmailAddress.title = Do you have an email address that you are happy to be contacted on by HMRC?
-doYouHaveAnEmailAddress.heading = Do you have an email address that you are happy to be contacted on by HMRC?
-doYouHaveAnEmailAddress.checkYourAnswersLabel = Do you have an email address that you are happy to be contacted on by HMRC?
-doYouHaveAnEmailAddress.paragraph = HMRC will only use this email address if they need to contact you about this disclosure
-doYouHaveAnEmailAddress.error.required = Select yes if you have an email address that HMRC can contact you with
-doYouHaveAnEmailAddress.change.hidden = Do you have an email address that you are happy to be contacted on by HMRC?
-
 whatIsYourDateOfBirth.title = What is your date of birth?
 whatIsYourDateOfBirth.heading = What is your date of birth?
 whatIsYourDateOfBirth.hint = For example, 20 3 1976.
