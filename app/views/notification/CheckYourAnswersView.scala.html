@@ -22,7 +22,7 @@
     downloadLink: components.downloadLink
 )
 
-@(list: SummaryLists)(implicit request: Request[_], messages: Messages)
+@(list: SummaryLists, isTheEntity: Boolean)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = titleNoForm(messages("checkYourAnswers.title"))) {
 
@@ -64,7 +64,16 @@
         <h2 class="govuk-heading-l">@messages("notificationCYA.send.heading")</h2>
 
         <p class="govuk-body" id="first-paragraph">@messages("notificationCYA.body1")</p>
-        <p class="govuk-body" id="second-paragraph">@messages("notificationCYA.body2") @downloadLink(id = "pdf-download", text = messages("notificationCYA.link"), fileName = "notification.pdf", call = controllers.notification.routes.PdfGenerationController.generate)
+        <p class="govuk-body" id="second-paragraph">
+            @messages("notificationCYA.body2") 
+            @downloadLink(
+                id = "pdf-download", 
+                text = isTheEntity match {
+                    case true => messages("notificationCYA.link.entity") 
+                    case false => messages("notificationCYA.link.agent")
+                }, 
+                fileName = "notification.pdf", 
+                call = controllers.notification.routes.PdfGenerationController.generate)
         </p>
 
         @govukButton(
