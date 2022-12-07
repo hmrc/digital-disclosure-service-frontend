@@ -608,6 +608,13 @@ class NotificationNavigatorSpec extends SpecBase {
       "must go from the WhatWasThePersonUTRPage to the EstateAddressLookupController when the user enter a valid UTR" in {
         navigator.nextPage(WhatWasThePersonUTRPage, NormalMode, UserAnswers("id")) mustBe routes.EstateAddressLookupController.lookupAddress(NormalMode)
       }
+
+      "must go from the MakeANotificationOrDisclosure page to the ReceivedALetter controller when select an MakeANotification" in {
+        UserAnswers("id").set(MakeANotificationOrDisclosurePage, MakeANotificationOrDisclosure.MakeANotification) match {
+          case Success(ua) => navigator.nextPage(MakeANotificationOrDisclosurePage, NormalMode, ua) mustBe routes.ReceivedALetterController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
     }
 
     "in Check mode" - {
