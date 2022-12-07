@@ -17,7 +17,6 @@
 package navigation
 
 import javax.inject.{Inject, Singleton}
-
 import play.api.mvc.Call
 import controllers.notification.routes
 import pages._
@@ -72,6 +71,13 @@ class NotificationNavigator @Inject()() {
       case Some(DoYouHaveNationalInsuranceNumber.No) => routes.AreYouRegisteredForVATController.onPageLoad(NormalMode)
       case None => routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(NormalMode)
     }
+
+    case HowWouldYouPreferToBeContactedPage => ua =>
+      ua.get(HowWouldYouPreferToBeContactedPage) match {
+        case Some(value) if value.contains(HowWouldYouPreferToBeContacted.Email) => routes.YourEmailAddressController.onPageLoad(NormalMode)
+        case Some(_) => routes.YourPhoneNumberController.onPageLoad(NormalMode)
+        case Some(Seq()) | None => routes.HowWouldYouPreferToBeContactedController.onPageLoad(NormalMode)
+      }
 
     case YourEmailAddressPage => ua => ua.get(AreYouTheIndividualPage) match {
       case Some(true) => routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)

@@ -537,6 +537,29 @@ class NotificationNavigatorSpec extends SpecBase {
       "must go from the WhatWasThePersonUTRPage to the EstateAddressLookupController when the user enter a valid UTR" in {
         navigator.nextPage(WhatWasThePersonUTRPage, NormalMode, UserAnswers("id")) mustBe routes.EstateAddressLookupController.lookupAddress(NormalMode)
       }
+
+
+      "must go from the HowWouldYouPreferToBeContactedPage to the YourEmailAddressController when the user selects only Email as preferred method" in {
+        UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, Set(HowWouldYouPreferToBeContacted.Email)) match {
+          case Success(ua) => navigator.nextPage(HowWouldYouPreferToBeContactedPage, NormalMode, ua) mustBe routes.YourEmailAddressController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the HowWouldYouPreferToBeContactedPage to the YourPhoneNumberController when the user selects only Telephone as preferred method" in {
+        UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, Set(HowWouldYouPreferToBeContacted.Telephone)) match {
+          case Success(ua) => navigator.nextPage(HowWouldYouPreferToBeContactedPage, NormalMode, ua) mustBe routes.YourPhoneNumberController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the HowWouldYouPreferToBeContactedPage to the YourEmailAddressController when the user selects Email and Telephone as preferred method" in {
+        UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, Set(HowWouldYouPreferToBeContacted.Email, HowWouldYouPreferToBeContacted.Telephone)) match {
+          case Success(ua) => navigator.nextPage(HowWouldYouPreferToBeContactedPage, NormalMode, ua) mustBe routes.YourEmailAddressController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
     }
 
     "in Check mode" - {
