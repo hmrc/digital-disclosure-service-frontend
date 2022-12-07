@@ -935,3 +935,17 @@ confirmEstateAddress.title = Is this the correct address?
 confirmEstateAddress.heading = Is this the correct address?
 
 notificationCYA.aboutThePersonWhoDied = About the person who died
+
+makeANotificationOrDisclosure.title = What do you want to do?
+makeANotificationOrDisclosure.header = Using this service
+makeANotificationOrDisclosure.paragraph.first = If you need to pay tax you owe from previous years (by making a ‘disclosure’), you need to make HMRC aware of this first.
+makeANotificationOrDisclosure.paragraph.second = To do this, you can either:
+makeANotificationOrDisclosure.bulletList.first = call the HMRC helpline (opens in new tab)
+makeANotificationOrDisclosure.bulletList.second = use this service to make a ‘notification’, providing a few basic details
+makeANotificationOrDisclosure.paragraph.third = You can also use this service to make a disclosure.
+makeANotificationOrDisclosure.label = What do you want to do?
+makeANotificationOrDisclosure.yes = Make a notification
+makeANotificationOrDisclosure.no = Make a disclosure
+makeANotificationOrDisclosure.checkYourAnswersLabel = What do you want to do?
+makeANotificationOrDisclosure.error.required = Select Make a notification
+makeANotificationOrDisclosure.change.hidden = MakeANotificationOrDisclosure

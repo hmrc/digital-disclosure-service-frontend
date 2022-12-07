@@ -1,0 +1,66 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@this(
+    layout: templates.Layout,
+    formHelper: FormWithCSRF,
+    govukErrorSummary: GovukErrorSummary,
+    govukRadios: GovukRadios,
+    govukButton: GovukButton,
+    heading: components.heading,
+    paragraph: components.paragraph,
+    bulletList: components.bulletList,
+    link: components.link
+)
+
+@(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
+
+@layout(pageTitle = title(form, messages("makeANotificationOrDisclosure.title"))) {
+
+    @formHelper(action = controllers.routes.MakeANotificationOrDisclosureController.onSubmit(mode), 'autoComplete -> "off") {
+
+        @if(form.errors.nonEmpty) {
+            @govukErrorSummary(ErrorSummaryViewModel(form,  errorLinkOverrides = Map("value" -> "value_0")))
+        }
+
+        @heading(Text(messages("makeANotificationOrDisclosure.header")))
+
+        @paragraph(id = Some("first-paragraph"), content = Text(messages("makeANotificationOrDisclosure.paragraph.first")))
+
+        @paragraph(id = Some("second-paragraph"), content = Text(messages("makeANotificationOrDisclosure.paragraph.second")))
+
+        @bulletList(elements = Seq(
+            HtmlContent(
+                link(id = "bullet-first-link", text = messages("makeANotificationOrDisclosure.bulletList.first"), newTab = true, call = Call("GET", "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure#general-information"))
+            ),
+            Text(messages("makeANotificationOrDisclosure.bulletList.second"))
+        ))
+
+        @paragraph(id = Some("third-paragraph"), content = Text(messages("makeANotificationOrDisclosure.paragraph.third")))
+
+        @govukRadios(
+            RadiosViewModel(
+                field  = form("value"),
+                legend = LegendViewModel(messages("makeANotificationOrDisclosure.label")).withCssClass("govuk-fieldset__legend--m"),
+                items  = MakeANotificationOrDisclosure.options
+            )
+        )
+
+        @govukButton(
+            ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
+        )
+    }
+}

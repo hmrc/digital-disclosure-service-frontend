@@ -30,7 +30,6 @@ import models.{UserAnswers, RelatesTo}
 import services.NotificationSubmissionService
 import scala.concurrent.ExecutionContext
 import navigation.NotificationNavigator
-import pages.CheckYourAnswersPage
 
 class CheckYourAnswersController @Inject()(
                                             override val messagesApi: MessagesApi,
