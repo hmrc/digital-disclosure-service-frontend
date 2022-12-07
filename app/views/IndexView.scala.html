@@ -22,7 +22,7 @@
     bulletList: components.bulletList
 )
 
-@()(implicit request: Request[_], messages: Messages)
+@(isFullDisclosureJourneyEnabled: Boolean)(implicit request: Request[_], messages: Messages)
 
 @layout(
     pageTitle = titleNoForm(messages("index.title")),
@@ -86,8 +86,11 @@
         Text(messages("index.bulletList.fifth"))
     ))
 
-    @govukButton(Button(
-      href = Some(controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url),
+    @govukButton(Button(  
+      href = isFullDisclosureJourneyEnabled match {
+        case true => Some(controllers.routes.MakeANotificationOrDisclosureController.onPageLoad(NormalMode).url)
+        case false => Some(controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url)
+      },
       isStartButton = true,
       content = Text(messages("site.continue")),
       attributes = Map("id" -> "start")
