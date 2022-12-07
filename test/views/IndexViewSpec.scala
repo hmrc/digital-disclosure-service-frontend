@@ -101,8 +101,8 @@ class IndexViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementsByClass("govuk-heading-s").text() mustBe messages("index.heading.third")
     }
 
-    "have a nineth paragraph" in {
-      view.getElementById("nineth-paragraph").text() mustBe messages("index.guidance.paragraph.nineth")
+    "have a ninth paragraph" in {
+      view.getElementById("ninth-paragraph").text() mustBe messages("index.guidance.paragraph.ninth")
     }
 
     "have the elements in the bullet-list" in {
