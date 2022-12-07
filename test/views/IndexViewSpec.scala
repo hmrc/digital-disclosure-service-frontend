@@ -20,14 +20,15 @@ import base.ViewSpecBase
 import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.IndexView
+import models.NormalMode
 
 class IndexViewSpec extends ViewSpecBase with ViewMatchers {
 
   val page: IndexView = inject[IndexView]
 
-  private def createView: Html = page()(request, messages)
-
   "view" should {
+
+    def createView: Html = page(true)(request, messages)
 
     val view = createView
 
@@ -39,9 +40,10 @@ class IndexViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementsByClass("govuk-heading-xl").text() mustBe messages("index.heading")
     }
 
-    "display the start now button" in {
+    "display the start now button when full disclosure journey enabled is true" in {
       view.getElementsByClass("govuk-button").first() must haveId ("start")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.continue")
+      view.getElementById("start").attr("href") mustBe controllers.routes.MakeANotificationOrDisclosureController.onPageLoad(NormalMode).url
     }
 
     "have a first paragraph" in {
@@ -115,6 +117,17 @@ class IndexViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementById("bullet-link").attr("href") mustBe "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure"
     }
 
+  }
+
+  "view" should {
+
+    def createView: Html = page(false)(request, messages)
+
+    val view = createView
+
+    "display the start now button when full disclosure journey enabled is false" in {
+      view.getElementById("start").attr("href") mustBe controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url
+    }
   }
 
 }

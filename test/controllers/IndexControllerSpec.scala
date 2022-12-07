@@ -43,7 +43,7 @@ class IndexControllerSpec extends SpecBase with Generators {
 
         status(result) mustEqual OK
 
-        contentAsString(result) mustEqual view()(request, messages(application)).toString
+        contentAsString(result) mustEqual view(true)(request, messages(application)).toString
       }
     }
 

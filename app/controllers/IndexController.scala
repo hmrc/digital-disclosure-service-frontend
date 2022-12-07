@@ -23,13 +23,15 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.IndexView
 import services.SessionService
+import config.FrontendAppConfig
 
 class IndexController @Inject()(
                                 val controllerComponents: MessagesControllerComponents,
                                 identify: IdentifierAction,
                                 getData: DataRetrievalAction,
                                 view: IndexView,
-                                sessionService: SessionService
+                                sessionService: SessionService,
+                                appConfig: FrontendAppConfig
                                ) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData) { implicit request =>
@@ -39,7 +41,9 @@ class IndexController @Inject()(
       case None => sessionService.newSession(request.userId)
     }
 
-    Ok(view())
+    val isFullDisclosureJourneyEnabled = appConfig.fullDisclosureJourneyEnabled
+    
+    Ok(view(isFullDisclosureJourneyEnabled))
   }
   
 }
