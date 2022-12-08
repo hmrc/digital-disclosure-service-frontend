@@ -62,9 +62,9 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
   val list = SummaryLists(backgroundList, aboutYouList, aboutTheIndividualList, aboutTheCompanyList, aboutTheLLPList, aboutTheTrustList, aboutThePersonWhoDiedList)
   val page: CheckYourAnswersView = inject[CheckYourAnswersView]
 
-  private def createView: Html = page(list)(request, messages)
-
   "view" should {
+
+    def createView: Html = page(list, true)(request, messages)
 
     val view = createView
 
@@ -129,13 +129,25 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
       view.getElementById("first-paragraph").text() mustBe messages("notificationCYA.body1")
     }
 
-    "have a second submit section paragraph" in {
-      view.getElementById("second-paragraph").text() mustBe s"${messages("notificationCYA.body2")} ${messages("notificationCYA.link")}"
+    "have a second submit section paragraph when an entity" in {
+      view.getElementById("second-paragraph").text() mustBe s"${messages("notificationCYA.body2")} ${messages("notificationCYA.link.entity")}"
     }
 
     "display the send button" in {
       view.getElementsByClass("govuk-button").first() must haveId ("send-button")
       view.getElementsByClass("govuk-button").text() mustBe messages("notificationCYA.send.button")
+    }
+
+  }
+
+  "view" should {
+
+    def createView: Html = page(list, false)(request, messages)
+
+    val view = createView
+
+    "have a second submit section paragraph when an agent" in {
+      view.getElementById("second-paragraph").text() mustBe s"${messages("notificationCYA.body2")} ${messages("notificationCYA.link.agent")}"
     }
 
   }

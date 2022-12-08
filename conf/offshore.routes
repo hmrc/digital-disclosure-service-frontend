@@ -1,0 +1,5 @@
+
+GET        /reason-for-disclosure                        controllers.offshore.WhyAreYouMakingThisDisclosureController.onPageLoad(mode: Mode = NormalMode)
+POST       /reason-for-disclosure                        controllers.offshore.WhyAreYouMakingThisDisclosureController.onSubmit(mode: Mode = NormalMode)
+GET        /reason-for-disclosure/change                 controllers.offshore.WhyAreYouMakingThisDisclosureController.onPageLoad(mode: Mode = CheckMode)
+POST       /reason-for-disclosure/change                 controllers.offshore.WhyAreYouMakingThisDisclosureController.onSubmit(mode: Mode = CheckMode)

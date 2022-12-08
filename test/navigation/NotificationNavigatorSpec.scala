@@ -538,28 +538,37 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(WhatWasThePersonUTRPage, NormalMode, UserAnswers("id")) mustBe routes.EstateAddressLookupController.lookupAddress(NormalMode)
       }
 
+<<<<<<< Updated upstream
+      "must go from the MakeANotificationOrDisclosure page to the ReceivedALetter controller when select an MakeANotification" in {
+        UserAnswers("id").set(MakeANotificationOrDisclosurePage, MakeANotificationOrDisclosure.MakeANotification) match {
+          case Success(ua) => navigator.nextPage(MakeANotificationOrDisclosurePage, NormalMode, ua) mustBe routes.ReceivedALetterController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+=======
 
       "must go from the HowWouldYouPreferToBeContactedPage to the YourEmailAddressController when the user selects only Email as preferred method" in {
-        UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, Set(HowWouldYouPreferToBeContacted.Email)) match {
+        UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, Seq.empty) match {
           case Success(ua) => navigator.nextPage(HowWouldYouPreferToBeContactedPage, NormalMode, ua) mustBe routes.YourEmailAddressController.onPageLoad(NormalMode)
           case Failure(e) => throw e
         }
       }
+//
+//      "must go from the HowWouldYouPreferToBeContactedPage to the YourPhoneNumberController when the user selects only Telephone as preferred method" in {
+//        UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, Set(HowWouldYouPreferToBeContacted.Telephone)) match {
+//          case Success(ua) => navigator.nextPage(HowWouldYouPreferToBeContactedPage, NormalMode, ua) mustBe routes.YourPhoneNumberController.onPageLoad(NormalMode)
+//          case Failure(e) => throw e
+//        }
+//      }
+//
+//      "must go from the HowWouldYouPreferToBeContactedPage to the YourEmailAddressController when the user selects Email and Telephone as preferred method" in {
+//        UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, Set(HowWouldYouPreferToBeContacted.Email, HowWouldYouPreferToBeContacted.Telephone)) match {
+//          case Success(ua) => navigator.nextPage(HowWouldYouPreferToBeContactedPage, NormalMode, ua) mustBe routes.YourEmailAddressController.onPageLoad(NormalMode)
+//          case Failure(e) => throw e
+//        }
+//      }
 
-      "must go from the HowWouldYouPreferToBeContactedPage to the YourPhoneNumberController when the user selects only Telephone as preferred method" in {
-        UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, Set(HowWouldYouPreferToBeContacted.Telephone)) match {
-          case Success(ua) => navigator.nextPage(HowWouldYouPreferToBeContactedPage, NormalMode, ua) mustBe routes.YourPhoneNumberController.onPageLoad(NormalMode)
-          case Failure(e) => throw e
-        }
-      }
-
-      "must go from the HowWouldYouPreferToBeContactedPage to the YourEmailAddressController when the user selects Email and Telephone as preferred method" in {
-        UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, Set(HowWouldYouPreferToBeContacted.Email, HowWouldYouPreferToBeContacted.Telephone)) match {
-          case Success(ua) => navigator.nextPage(HowWouldYouPreferToBeContactedPage, NormalMode, ua) mustBe routes.YourEmailAddressController.onPageLoad(NormalMode)
-          case Failure(e) => throw e
-        }
-      }
-
+>>>>>>> Stashed changes
     }
 
     "in Check mode" - {

@@ -21,6 +21,12 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryWhyAreYouMakingThisDisclosurePage: Arbitrary[WhyAreYouMakingThisDisclosurePage.type] =
+    Arbitrary(WhyAreYouMakingThisDisclosurePage)
+
+  implicit lazy val arbitraryMakeANotificationOrDisclosurePage: Arbitrary[MakeANotificationOrDisclosurePage.type] =
+    Arbitrary(MakeANotificationOrDisclosurePage)
+
   implicit lazy val arbitraryHowWouldYouPreferToBeContactedPage: Arbitrary[HowWouldYouPreferToBeContactedPage.type] =
     Arbitrary(HowWouldYouPreferToBeContactedPage)
 

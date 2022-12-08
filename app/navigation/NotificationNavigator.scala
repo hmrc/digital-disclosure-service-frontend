@@ -227,6 +227,11 @@ class NotificationNavigator @Inject()() {
 
     case EstateAddressLookupPage => _ => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
 
+    case MakeANotificationOrDisclosurePage => ua => ua.get(MakeANotificationOrDisclosurePage) match {
+      case Some(MakeANotificationOrDisclosure.MakeANotification) => routes.ReceivedALetterController.onPageLoad(NormalMode)
+      case _ => controllers.routes.MakeANotificationOrDisclosureController.onPageLoad(NormalMode)
+    }
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
