@@ -22,6 +22,8 @@ import play.api.i18n.Lang
 import play.api.mvc.RequestHeader
 import uk.gov.hmrc.play.bootstrap.binders.SafeRedirectUrl
 
+import scala.concurrent.duration.{DurationInt, FiniteDuration}
+
 @Singleton
 class FrontendAppConfig @Inject() (configuration: Configuration) {
 
@@ -66,5 +68,10 @@ class FrontendAppConfig @Inject() (configuration: Configuration) {
 
     s"$identityVerificationFrontendBaseUrl$upliftUri?origin=$origin&confidenceLevel=$confidenceLevel&completionURL=$successUrl&failureURL=$failureUrl"
   }
+
+  lazy val retryIntervals: Seq[FiniteDuration] = configuration
+    .get[Seq[Int]]("retry-intervals")
+    .map(_.milliseconds)
+    .toList
   
 }
