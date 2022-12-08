@@ -16,17 +16,20 @@
 
 package connectors
 
-import config.Service
+import akka.actor.ActorSystem
+import config.{FrontendAppConfig, Service}
 import play.api.Configuration
 import play.api.http.Status._
-import play.api.libs.json.{Json, JsSuccess, JsError, Reads}
+import play.api.libs.json.{JsError, JsSuccess, Json, Reads}
 import uk.gov.hmrc.http.HttpReads.Implicits.readRaw
 import uk.gov.hmrc.http.client.HttpClientV2
 import uk.gov.hmrc.http.{HeaderCarrier, StringContextOps}
-import com.google.inject.{Inject, Singleton, ImplementedBy}
+import com.google.inject.{ImplementedBy, Inject, Singleton}
+
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.control.NoStackTrace
 import models.store.notification._
+
 import java.time.Clock
 import models.submission.SubmissionResponse
 import uk.gov.hmrc.http.HttpResponse
@@ -35,27 +38,29 @@ import play.api.libs.ws.WSClient
 
 @Singleton
 class DigitalDisclosureServiceConnectorImpl @Inject() (
+                                val actorSystem: ActorSystem,
                                 httpClient: HttpClientV2,
                                 ws: WSClient,
                                 configuration: Configuration,
                                 clock: Clock
-                              )(implicit ec: ExecutionContext) extends DigitalDisclosureServiceConnector with ConnectorErrorHandler {
+                              )(implicit val ec: ExecutionContext, frontendAppConfig:FrontendAppConfig) extends DigitalDisclosureServiceConnector with ConnectorErrorHandler with Retries {
 
   private val service: Service = configuration.get[Service]("microservice.services.digital-disclosure-service")
   private val baseUrl = s"${service.baseUrl}/digital-disclosure-service"
 
-  def submitNotification(notification: Notification)(implicit hc: HeaderCarrier): Future[String] = {
-    httpClient
-      .post(url"$baseUrl/notification/submit")
-      .withBody(Json.toJson(notification))
-      .execute
-      .flatMap { response =>
-        response.status match {
-          case ACCEPTED => handleResponse[SubmissionResponse.Success](response).map(_.id)
-          case _ => handleError(DigitalDisclosureServiceConnector.UnexpectedResponseException(response.status, response.body))
+  def submitNotification(notification: Notification)(implicit hc: HeaderCarrier): Future[String] =
+    retry {
+      httpClient
+        .post(url"$baseUrl/notification/submit")
+        .withBody(Json.toJson(notification))
+        .execute
+        .flatMap { response =>
+          response.status match {
+            case ACCEPTED => handleResponse[SubmissionResponse.Success](response).map(_.id)
+            case _ => handleError(DigitalDisclosureServiceConnector.UnexpectedResponseException(response.status, response.body))
+          }
         }
-      }
-  }
+    }
 
   def generateNotificationPDF(notification: Notification)(implicit hc: HeaderCarrier): Future[ByteString] = {
     ws
