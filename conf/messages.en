@@ -939,7 +939,7 @@ confirmEstateAddress.heading = Is this the correct address?
 
 notificationCYA.aboutThePersonWhoDied = About the person who died
 
-makeANotificationOrDisclosure.title = What do you want to do?
+makeANotificationOrDisclosure.title = Using this service
 makeANotificationOrDisclosure.header = Using this service
 makeANotificationOrDisclosure.paragraph.first = If you need to pay tax you owe from previous years (by making a ‘disclosure’), you need to make HMRC aware of this first.
 makeANotificationOrDisclosure.paragraph.second = To do this, you can either:
