@@ -50,12 +50,25 @@ class TaskListViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-label--xl").text() mustBe messages("taskList.heading")
+      view.getElementsByClass("govuk-heading-l").text() mustBe messages("taskList.heading")
     }
 
-    "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
-      view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
+    "have a first paragraph" in {
+      view.getElementById("first-paragraph").text() mustBe messages("taskList.paragraph.first")
+    }
+
+    "have a second paragraph" in {
+      view.getElementById("second-paragraph").text() mustBe messages("taskList.paragraph.second")
+    }
+
+    "have a third paragraph" in {
+      view.getElementById("third-paragraph").text() mustBe messages("taskList.paragraph.third")
+    }
+
+    "contain list of section" in {
+      view.getElementsByClass("app-task-list__section").get(0).text() mustBe "1. " + messages("taskList.heading.first")
+      view.getElementsByClass("app-task-list__section").get(1).text() mustBe "2. " + messages("taskList.heading.second")
+      view.getElementsByClass("app-task-list__section").get(2).text() mustBe "3. " + messages("taskList.heading.third")
     }
 
   }

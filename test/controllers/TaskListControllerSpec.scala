@@ -17,104 +17,36 @@
 package controllers
 
 import base.SpecBase
-import navigation.{FakeNotificationNavigator, NotificationNavigator}
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import play.api.inject.bind
-import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
 import views.html.TaskListView
-import viewmodels.TaskListViewModel
-
-import scala.concurrent.Future
+import viewmodels.{TaskListRow, TaskListViewModel}
+import play.api.i18n.Messages
 
 class TaskListControllerSpec extends SpecBase with MockitoSugar {
 
-  def onwardRoute = Call("GET", "/foo")
-
-  lazy val taskListRoute = routes.TaskListController.onPageLoad.url
-
-  val personalDetailsTask = Seq.empty 
-  val liabilitiesInformation = Seq.empty
-  val additionalInformation = Seq.empty
-  val list = TaskListViewModel(personalDetailsTask, liabilitiesInformation, additionalInformation)
-
   "TaskList Controller" - {
 
-    "must return OK and the correct view for a GET" in {
+    "must return OK and the correct view for a GET when userAnswers is empty" in {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, taskListRoute)
+        val request = FakeRequest(GET, routes.TaskListController.onPageLoad.url)
 
         val result = route(application, request).value
 
         val view = application.injector.instanceOf[TaskListView]
+
+        implicit val mess = messages(application)
+
+        val personalDetailsTask = Seq(buildCaseReferenceRow()(mess))
+        val liabilitiesInformation = Seq.empty
+        val additionalInformation = Seq(buildTheReasonForComingForwardNowRow()(mess))
+        val list = TaskListViewModel(personalDetailsTask, liabilitiesInformation, additionalInformation)
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(list)(request, messages(application)).toString
-      }
-    }
-
-    "must populate the view correctly on a GET when the question has previously been answered" in {
-
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
-
-      running(application) {
-        val request = FakeRequest(GET, taskListRoute)
-
-        val view = application.injector.instanceOf[TaskListView]
-
-        val result = route(application, request).value
-
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(list)(request, messages(application)).toString
-      }
-    }
-
-    "must redirect to the next page when valid data is submitted" in {
-
-      val mockSessionService = mock[SessionService]
-
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
-
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
-          )
-          .build()
-
-      running(application) {
-        val request =
-          FakeRequest(POST, taskListRoute)
-            .withFormUrlEncodedBody(("value", "answer"))
-
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
-    }
-
-    "must return a Bad Request and errors when invalid data is submitted" in {
-
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
-
-      running(application) {
-        val request =
-          FakeRequest(POST, taskListRoute)
-            .withFormUrlEncodedBody(("value", ""))
-
-        val view = application.injector.instanceOf[TaskListView]
-
-        val result = route(application, request).value
-
-        status(result) mustEqual BAD_REQUEST
         contentAsString(result) mustEqual view(list)(request, messages(application)).toString
       }
     }
@@ -124,7 +56,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val request = FakeRequest(GET, taskListRoute)
+        val request = FakeRequest(GET, routes.TaskListController.onPageLoad.url)
 
         val result = route(application, request).value
 
@@ -132,21 +64,25 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
       }
     }
+  }
 
-    "must redirect to Index for a POST if no existing data is found" in {
+  private def buildCaseReferenceRow()(implicit messages: Messages): TaskListRow = {
+    TaskListRow(
+      id = "personal-detail-task-list", 
+      operation = messages("taskList.op.add"),
+      sectionTitle = messages("taskList.sectionTitle.first"), 
+      status = messages("taskList.status.notStarted"), 
+      link = routes.TaskListController.onPageLoad
+    )
+  }
 
-      val application = applicationBuilder(userAnswers = None).build()
-
-      running(application) {
-        val request =
-          FakeRequest(POST, taskListRoute)
-            .withFormUrlEncodedBody(("value", "answer"))
-
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
-    }
+  private def buildTheReasonForComingForwardNowRow()(implicit messages: Messages): TaskListRow = {
+    TaskListRow(
+      id = "reason-for-coming-forward-now-liabilitie-task-list", 
+      operation = messages("taskList.op.add"),
+      sectionTitle = messages("taskList.sectionTitle.forth"), 
+      status = messages("taskList.status.notStarted"), 
+      link = routes.TaskListController.onPageLoad
+    )
   }
 }

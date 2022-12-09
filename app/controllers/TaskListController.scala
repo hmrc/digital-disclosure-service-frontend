@@ -49,17 +49,7 @@ class TaskListController @Inject()(
 
       val personalDetailsTasks = Seq(buildCaseReferenceRow)
 
-      val liabilitiesInformation = {
-        val offshore = ua.get(OffshoreLiabilitiesPage) 
-        val onshore = ua.get(OnshoreLiabilitiesPage)
-
-        (offshore, onshore) match {
-          case (None, None) => Seq.empty
-          case (Some(true), Some(true)) => Seq(buildOnshoreLiabilitieDetailRow, buildOffshoreLiabilitieDetailRow(ua))
-          case (Some(true), Some(false)) => Seq(buildOffshoreLiabilitieDetailRow(ua))
-          case (Some(false), _) => Seq(buildOnshoreLiabilitieDetailRow)
-        }
-      }
+      val liabilitiesInformation = buildOffshoreOnshoreRow(ua)
 
       val additionalInformation = Seq(buildTheReasonForComingForwardNowRow)
 
@@ -104,11 +94,23 @@ class TaskListController @Inject()(
 
   private def buildTheReasonForComingForwardNowRow()(implicit messages: Messages): TaskListRow = {
     TaskListRow(
-      id = "offshore-liabilitie-task-list", 
+      id = "reason-for-coming-forward-now-liabilitie-task-list", 
       operation = messages("taskList.op.add"),
       sectionTitle = messages("taskList.sectionTitle.forth"), 
       status = messages("taskList.status.notStarted"), 
       link = routes.TaskListController.onPageLoad
     )
+  }
+
+  private def buildOffshoreOnshoreRow(userAnswers: UserAnswers)(implicit messages: Messages): Seq[TaskListRow] = {
+    val offshore = userAnswers.get(OffshoreLiabilitiesPage) 
+    val onshore = userAnswers.get(OnshoreLiabilitiesPage)
+
+    (offshore, onshore) match {
+      case (None, None) => Seq.empty
+      case (Some(true), Some(true)) => Seq(buildOnshoreLiabilitieDetailRow, buildOffshoreLiabilitieDetailRow(userAnswers))
+      case (Some(true), Some(false)) => Seq(buildOffshoreLiabilitieDetailRow(userAnswers))
+      case (Some(false), _) => Seq(buildOnshoreLiabilitieDetailRow)
+    }
   }
 }
