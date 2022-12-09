@@ -22,8 +22,9 @@ GET         /account/signed-out                          controllers.auth.Signed
 
 GET         /unauthorised                                controllers.UnauthorisedController.onPageLoad
 
-GET        /using-this-service                           controllers.MakeANotificationOrDisclosureController.onPageLoad(mode: Mode = NormalMode)
-POST       /using-this-service                           controllers.MakeANotificationOrDisclosureController.onSubmit(mode: Mode = NormalMode)
-GET        /using-this-service/change                    controllers.MakeANotificationOrDisclosureController.onPageLoad(mode: Mode = CheckMode)
-POST       /using-this-service/change                    controllers.MakeANotificationOrDisclosureController.onSubmit(mode: Mode = CheckMode)
+GET         /using-this-service                          controllers.MakeANotificationOrDisclosureController.onPageLoad(mode: Mode = NormalMode)
+POST        /using-this-service                          controllers.MakeANotificationOrDisclosureController.onSubmit(mode: Mode = NormalMode)
+GET         /using-this-service/change                   controllers.MakeANotificationOrDisclosureController.onPageLoad(mode: Mode = CheckMode)
+POST        /using-this-service/change                   controllers.MakeANotificationOrDisclosureController.onSubmit(mode: Mode = CheckMode)
 
+GET         /disclosure-list-of-tasks                    controllers.TaskListController.onPageLoad

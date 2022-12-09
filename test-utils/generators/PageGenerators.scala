@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryTaskListPage: Arbitrary[TaskListPage.type] =
+    Arbitrary(TaskListPage)
+
   implicit lazy val arbitraryWhyAreYouMakingThisDisclosurePage: Arbitrary[WhyAreYouMakingThisDisclosurePage.type] =
     Arbitrary(WhyAreYouMakingThisDisclosurePage)
 
