@@ -35,13 +35,30 @@ class TaskListViewSpec extends ViewSpecBase with ViewMatchers {
     link = routes.TaskListController.onPageLoad
   )
 
-  val personalDetailsTask = Seq(testRow1) 
-  val liabilitiesInformation = Seq(testRow1)
-  val additionalInformation = Seq(testRow1)
-  val list = TaskListViewModel(personalDetailsTask, liabilitiesInformation, additionalInformation)
-  private def createView: Html = page(list)(request, messages)
+  val testRow2 = TaskListRow(
+    id = "task-list", 
+    operation = "Add",
+    sectionTitle = "Section Title", 
+    status = "Not Started", 
+    link = routes.TaskListController.onPageLoad
+  )
+
+  val testRow3 = TaskListRow(
+    id = "task-list", 
+    operation = "Add",
+    sectionTitle = "Section Title", 
+    status = "Not Started", 
+    link = routes.TaskListController.onPageLoad
+  )
 
   "view" should {
+
+    val personalDetailsTask = Seq(testRow1) 
+    val liabilitiesInformation = Seq(testRow2)
+    val additionalInformation = Seq(testRow3)
+    val list = TaskListViewModel(personalDetailsTask, liabilitiesInformation, additionalInformation)
+    
+    def createView: Html = page(list)(request, messages)
 
     val view = createView
 
@@ -69,6 +86,24 @@ class TaskListViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementsByClass("app-task-list__section").get(0).text() mustBe "1. " + messages("taskList.heading.first")
       view.getElementsByClass("app-task-list__section").get(1).text() mustBe "2. " + messages("taskList.heading.second")
       view.getElementsByClass("app-task-list__section").get(2).text() mustBe "3. " + messages("taskList.heading.third")
+    }
+
+  }
+
+  "view" should {
+
+    val personalDetailsTask = Seq(testRow1) 
+    val liabilitiesInformation = Seq.empty
+    val additionalInformation = Seq(testRow3)
+    val list = TaskListViewModel(personalDetailsTask, liabilitiesInformation, additionalInformation)
+    
+    def createView: Html = page(list)(request, messages)
+
+    val view = createView
+
+    "contain list of section when liabilities list is empty" in {
+      view.getElementsByClass("app-task-list__section").get(0).text() mustBe "1. " + messages("taskList.heading.first")
+      view.getElementsByClass("app-task-list__section").get(1).text() mustBe "2. " + messages("taskList.heading.third")
     }
 
   }
