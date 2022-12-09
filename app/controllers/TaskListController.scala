@@ -47,18 +47,21 @@ class TaskListController @Inject()(
 
       val ua = request.userAnswers
 
-      val personalDetailsTasks = Seq(
-        buildCaseReferenceRow
-      )
+      val personalDetailsTasks = Seq(buildCaseReferenceRow)
 
-      val liabilitiesInformation = Seq(
-        buildOnshoreLiabilitieDetailRow,
-        buildOffshoreLiabilitieDetailRow(ua)
-      )
+      val liabilitiesInformation = {
+        val offshore = ua.get(OffshoreLiabilitiesPage) 
+        val onshore = ua.get(OnshoreLiabilitiesPage)
 
-      val additionalInformation = Seq(
-        buildTheReasonForComingForwardNowRow
-      )
+        (offshore, onshore) match {
+          case (None, None) => Seq.empty
+          case (Some(true), Some(true)) => Seq(buildOnshoreLiabilitieDetailRow, buildOffshoreLiabilitieDetailRow(ua))
+          case (Some(true), Some(false)) => Seq(buildOffshoreLiabilitieDetailRow(ua))
+          case (Some(false), _) => Seq(buildOnshoreLiabilitieDetailRow)
+        }
+      }
+
+      val additionalInformation = Seq(buildTheReasonForComingForwardNowRow)
 
       val list = TaskListViewModel(
         personalDetailsTasks,

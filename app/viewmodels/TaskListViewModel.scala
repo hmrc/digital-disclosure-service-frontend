@@ -23,4 +23,9 @@ final case class TaskListViewModel (
     liabilitiesInformation: Seq[TaskListRow], 
     additionalInformation: Seq[TaskListRow])
 
-final case class TaskListRow (id: String, operation: String, sectionTitle: String, status: String, link: Call)
+final case class TaskListRow (
+    id: String, 
+    operation: String, 
+    sectionTitle: String, 
+    status: String, 
+    link: Call)
