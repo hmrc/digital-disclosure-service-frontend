@@ -21,7 +21,6 @@ import akka.pattern.after
 import play.api.Logging
 import config.FrontendAppConfig
 import uk.gov.hmrc.http.GatewayTimeoutException
-import uk.gov.hmrc.http.UpstreamErrorResponse.Upstream5xxResponse
 
 import scala.concurrent.duration._
 import scala.concurrent.{ExecutionContext, Future}

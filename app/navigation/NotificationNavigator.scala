@@ -59,7 +59,7 @@ class NotificationNavigator @Inject()() {
       case None => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
     }
 
-    case WhatIsYourFullNamePage => _ => routes.YourPhoneNumberController.onPageLoad(NormalMode)
+    case WhatIsYourFullNamePage => _ => routes.HowWouldYouPreferToBeContactedController.onPageLoad(NormalMode)
 
     case WhatIsYourDateOfBirthPage => _ => routes.WhatIsYourMainOccupationController.onPageLoad(NormalMode)
 
@@ -76,12 +76,19 @@ class NotificationNavigator @Inject()() {
       ua.get(HowWouldYouPreferToBeContactedPage) match {
         case Some(value) if value.contains(HowWouldYouPreferToBeContacted.Email) => routes.YourEmailAddressController.onPageLoad(NormalMode)
         case Some(_) => routes.YourPhoneNumberController.onPageLoad(NormalMode)
-        case Some(Seq()) | None => routes.HowWouldYouPreferToBeContactedController.onPageLoad(NormalMode)
+        case _ => routes.HowWouldYouPreferToBeContactedController.onPageLoad(NormalMode)
       }
 
-    case YourEmailAddressPage => ua => ua.get(AreYouTheIndividualPage) match {
-      case Some(true) => routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
+    case YourEmailAddressPage => ua => (ua.get(AreYouTheIndividualPage), ua.get(HowWouldYouPreferToBeContactedPage)) match {
+      case (_, Some(howWouldYouPreferToBeContacted)) if howWouldYouPreferToBeContacted.contains(HowWouldYouPreferToBeContacted.Telephone)
+        => routes.YourPhoneNumberController.onPageLoad(NormalMode)
+      case (Some(true), _) => routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
       case _ => routes.YourAddressLookupController.lookupAddress(NormalMode)
+    }
+
+    case YourPhoneNumberPage => ua => ua.get(AreYouTheIndividualPage) match {
+      case Some(true) => routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
+      case _ => routes.YourAddressLookupController.lookupAddress (NormalMode)
     }
 
     case WhatIsYourNationalInsuranceNumberPage => _ => routes.AreYouRegisteredForVATController.onPageLoad(NormalMode)
