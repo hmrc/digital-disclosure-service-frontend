@@ -18,7 +18,7 @@ package controllers
 
 import controllers.actions._
 import javax.inject.Inject
-import models.{Mode, NormalMode, UserAnswers}
+import models._
 import navigation.NotificationNavigator
 import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -88,7 +88,11 @@ class TaskListController @Inject()(
       operation = messages("taskList.op.add"),
       sectionTitle = messages("taskList.sectionTitle.third"), 
       status = messages("taskList.status.notStarted"), 
-      link = offshore.routes.WhyAreYouMakingThisDisclosureController.onPageLoad(NormalMode)
+      link = if(isTheUserTheEntity(userAnswers)) {
+        offshore.routes.WhyAreYouMakingThisDisclosureController.onPageLoad(NormalMode)
+      } else {
+        routes.TaskListController.onPageLoad
+      }
     )
   }
 
@@ -112,5 +116,11 @@ class TaskListController @Inject()(
       case (Some(true), Some(false)) => Seq(buildOffshoreLiabilitieDetailRow(userAnswers))
       case (Some(false), _) => Seq(buildOnshoreLiabilitieDetailRow)
     }
+  }
+
+  def isTheUserTheEntity(userAnswers: UserAnswers): Boolean = {
+    userAnswers.get(RelatesToPage).flatMap(_ match {
+      case RelatesTo.AnIndividual => userAnswers.get(AreYouTheIndividualPage)
+    }).getOrElse(true)
   }
 }
