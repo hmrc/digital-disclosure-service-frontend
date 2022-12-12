@@ -969,6 +969,6 @@ howWouldYouPreferToBeContacted.body = We will only contact you to discuss this d
 howWouldYouPreferToBeContacted.hint = Select all that apply.
 howWouldYouPreferToBeContacted.email = Email
 howWouldYouPreferToBeContacted.telephone = Telephone
-howWouldYouPreferToBeContacted.checkYourAnswersLabel = How would you prefer to be contacted by HMRC?
+howWouldYouPreferToBeContacted.checkYourAnswersLabel = Your contact preference
 howWouldYouPreferToBeContacted.error.required = Select how you want to be contacted
 howWouldYouPreferToBeContacted.change.hidden = HowWouldYouPreferToBeContacted
