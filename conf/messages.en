@@ -967,7 +967,7 @@ whyAreYouMakingThisDisclosure.checkbox7 = I have deliberately submitted an inacc
 whyAreYouMakingThisDisclosure.checkbox8 = I have deliberately withheld information by failing to submit a return.
 whyAreYouMakingThisDisclosure.tasklist.link = Return to the list of tasks
 whyAreYouMakingThisDisclosure.checkYourAnswersLabel = Why are you making this disclosure?
-whyAreYouMakingThisDisclosure.error.required = Select whyAreYouMakingThisDisclosure
+whyAreYouMakingThisDisclosure.error.required = Select the reason for making this disclosure
 whyAreYouMakingThisDisclosure.change.hidden = WhyAreYouMakingThisDisclosure
 
 taskList.title = List of tasks
