@@ -90,22 +90,4 @@ class TaskListViewSpec extends ViewSpecBase with ViewMatchers {
 
   }
 
-  "view" should {
-
-    val personalDetailsTask = Seq(testRow1) 
-    val liabilitiesInformation = Seq.empty
-    val additionalInformation = Seq(testRow3)
-    val list = TaskListViewModel(personalDetailsTask, liabilitiesInformation, additionalInformation)
-    
-    def createView: Html = page(list)(request, messages)
-
-    val view = createView
-
-    "contain list of section when liabilities list is empty" in {
-      view.getElementsByClass("app-task-list__section").get(0).text() mustBe "1. " + messages("taskList.heading.first")
-      view.getElementsByClass("app-task-list__section").get(1).text() mustBe "2. " + messages("taskList.heading.third")
-    }
-
-  }
-
 }
