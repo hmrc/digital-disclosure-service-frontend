@@ -615,6 +615,13 @@ class NotificationNavigatorSpec extends SpecBase {
           case Failure(e) => throw e
         }
       }
+
+      "must go from the MakeANotificationOrDisclosure page to the TaskList controller when select an MakeADisclosure" in {
+        UserAnswers("id").set(MakeANotificationOrDisclosurePage, MakeANotificationOrDisclosure.MakeADisclosure) match {
+          case Success(ua) => navigator.nextPage(MakeANotificationOrDisclosurePage, NormalMode, ua) mustBe controllers.routes.TaskListController.onPageLoad
+          case Failure(e) => throw e
+        }
+      }
     }
 
     "in Check mode" - {

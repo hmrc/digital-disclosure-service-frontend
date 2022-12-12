@@ -67,7 +67,7 @@ class WhyAreYouMakingThisDisclosureViewSpec extends ViewSpecBase with ViewMatche
     }
 
     "have a task list link" in {
-      view.getElementById("task-list-link").attr("href") mustBe "#"
+      view.getElementById("task-list-link").attr("href") mustBe controllers.routes.TaskListController.onPageLoad.url
     }
 
   }
