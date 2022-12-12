@@ -62,7 +62,7 @@
                     id = "task-list-link", 
                     text = messages("whyAreYouMakingThisDisclosure.tasklist.link"), 
                     newTab = false, 
-                    call = Call("GET", "#")
+                    call = Call("GET", controllers.routes.TaskListController.onPageLoad.url)
                 )
             )
     )
