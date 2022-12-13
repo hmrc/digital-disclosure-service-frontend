@@ -26,9 +26,10 @@ import viewmodels.govuk.summarylist._
 import views.html.notification.CheckYourAnswersView
 import viewmodels.checkAnswers._
 import pages._
-import models.{UserAnswers, RelatesTo}
+import models.{RelatesTo, UserAnswers}
 import services.NotificationSubmissionService
-import scala.concurrent.ExecutionContext
+
+import scala.concurrent.{ExecutionContext, Future}
 import navigation.NotificationNavigator
 
 class CheckYourAnswersController @Inject()(
@@ -180,10 +181,15 @@ class CheckYourAnswersController @Inject()(
   }
 
   def onSubmit(): Action[AnyContent] = (identify andThen getData andThen requireData).async {
-    implicit request => 
-      for {
-        reference <- notificationSubmissionService.submitNotification(request.userAnswers)
-      } yield Redirect(navigator.submitPage(request.userAnswers, reference))
+    implicit request =>
+      val userAnswers = request.userAnswers
+
+      userAnswers.metadata.submissionTime match {
+        case Some(_) => Future.successful(Redirect(navigator.submitPage(request.userAnswers, userAnswers.metadata.reference.get)))
+        case None => for {
+            reference <- notificationSubmissionService.submitNotification (request.userAnswers)
+          } yield Redirect (navigator.submitPage (request.userAnswers, reference) )
+      }
   }
 
   def isTheUserTheEntity(userAnswers: UserAnswers): Boolean = {
