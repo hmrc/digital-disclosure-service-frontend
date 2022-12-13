@@ -38,12 +38,8 @@
 
         <ol class="app-task-list">
             @task("1.", messages("taskList.heading.first"), list.personalDetailsTask)
-            @if(list.liabilitiesInformation.isEmpty){
-                @task("2.", messages("taskList.heading.third"), list.additionalInformation)
-            }else{
-                @task("2.", messages("taskList.heading.second"), list.liabilitiesInformation)
-                @task("3.", messages("taskList.heading.third"), list.additionalInformation)
-            }
+            @task("2.", messages("taskList.heading.second"), list.liabilitiesInformation)
+            @task("3.", messages("taskList.heading.third"), list.additionalInformation)
         </ol>
     }
 }

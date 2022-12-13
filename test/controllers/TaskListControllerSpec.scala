@@ -43,8 +43,8 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
 
         implicit val mess = messages(application)
 
-        val personalDetailsTask = Seq(buildCaseReferenceRow()(mess))
-        val liabilitiesInformation = Seq.empty
+        val personalDetailsTask = Seq(buildYourPersonalDetailsRow()(mess))
+        val liabilitiesInformation = buildLiabilitiesInformationRow(UserAnswers("id"))(mess)
         val additionalInformation = Seq(buildTheReasonForComingForwardNowRow()(mess))
         val list = TaskListViewModel(personalDetailsTask, liabilitiesInformation, additionalInformation)
 
@@ -79,8 +79,8 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
 
         implicit val mess = messages(application)
 
-        val personalDetailsTask = Seq(buildCaseReferenceRow()(mess))
-        val liabilitiesInformation = buildOffshoreOnshoreRow(ua)(mess)
+        val personalDetailsTask = Seq(buildYourPersonalDetailsRow()(mess))
+        val liabilitiesInformation = buildLiabilitiesInformationRow(ua)(mess)
         val additionalInformation = Seq(buildTheReasonForComingForwardNowRow()(mess))
         val list = TaskListViewModel(personalDetailsTask, liabilitiesInformation, additionalInformation)
 
@@ -119,7 +119,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
     }
   }
 
-  private def buildCaseReferenceRow()(implicit messages: Messages): TaskListRow = {
+  private def buildYourPersonalDetailsRow()(implicit messages: Messages): TaskListRow = {
     TaskListRow(
       id = "personal-detail-task-list", 
       operation = messages("taskList.op.add"),
@@ -129,11 +129,11 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
     )
   }
 
-  private def buildTheReasonForComingForwardNowRow()(implicit messages: Messages): TaskListRow = {
+  private def buildCaseReferenceRow()(implicit messages: Messages): TaskListRow = {
     TaskListRow(
-      id = "reason-for-coming-forward-now-liabilitie-task-list", 
+      id = "case-reference-task-list", 
       operation = messages("taskList.op.add"),
-      sectionTitle = messages("taskList.sectionTitle.forth"), 
+      sectionTitle = messages("taskList.sectionTitle.second"), 
       status = messages("taskList.status.notStarted"), 
       link = routes.TaskListController.onPageLoad
     )
@@ -143,7 +143,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
     TaskListRow(
       id = "onshore-liabilitie-task-list", 
       operation = messages("taskList.op.add"),
-      sectionTitle = messages("taskList.sectionTitle.second"), 
+      sectionTitle = messages("taskList.sectionTitle.third"), 
       status = messages("taskList.status.notStarted"), 
       link = routes.TaskListController.onPageLoad
     )
@@ -153,21 +153,42 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
     TaskListRow(
       id = "offshore-liabilitie-task-list", 
       operation = messages("taskList.op.add"),
-      sectionTitle = messages("taskList.sectionTitle.third"), 
+      sectionTitle = messages("taskList.sectionTitle.forth"), 
       status = messages("taskList.status.notStarted"), 
       link = offshore.routes.WhyAreYouMakingThisDisclosureController.onPageLoad(NormalMode)
     )
   }
 
-  private def buildOffshoreOnshoreRow(userAnswers: UserAnswers)(implicit messages: Messages): Seq[TaskListRow] = {
+  private def buildOtherLiabilityIssueRow()(implicit messages: Messages): TaskListRow = {
+    TaskListRow(
+      id = "other-liability-issue-task-list", 
+      operation = messages("taskList.op.add"),
+      sectionTitle = messages("taskList.sectionTitle.fifth"), 
+      status = messages("taskList.status.notStarted"), 
+      link = routes.TaskListController.onPageLoad
+    )
+  }
+
+  private def buildTheReasonForComingForwardNowRow()(implicit messages: Messages): TaskListRow = {
+    TaskListRow(
+      id = "reason-for-coming-forward-now-liabilitie-task-list", 
+      operation = messages("taskList.op.add"),
+      sectionTitle = messages("taskList.sectionTitle.sixth"), 
+      status = messages("taskList.status.notStarted"), 
+      link = routes.TaskListController.onPageLoad
+    )
+  }
+
+  private def buildLiabilitiesInformationRow(userAnswers: UserAnswers)(implicit messages: Messages): Seq[TaskListRow] = {
     val offshore = userAnswers.get(OffshoreLiabilitiesPage) 
     val onshore = userAnswers.get(OnshoreLiabilitiesPage)
 
     (offshore, onshore) match {
-      case (Some(true), Some(true)) => Seq(buildOnshoreLiabilitieDetailRow, buildOffshoreLiabilitieDetailRow(userAnswers))
-      case (Some(true), Some(false)) => Seq(buildOffshoreLiabilitieDetailRow(userAnswers))
-      case (Some(false), _) => Seq(buildOnshoreLiabilitieDetailRow)
-      case (None, None) => Seq.empty
+      case (None, None) => Seq(buildCaseReferenceRow, buildOtherLiabilityIssueRow)
+      case (Some(true), None) => Seq(buildCaseReferenceRow, buildOtherLiabilityIssueRow)
+      case (Some(true), Some(true)) => Seq(buildCaseReferenceRow, buildOnshoreLiabilitieDetailRow, buildOffshoreLiabilitieDetailRow(userAnswers), buildOtherLiabilityIssueRow)
+      case (Some(true), Some(false)) => Seq(buildCaseReferenceRow, buildOffshoreLiabilitieDetailRow(userAnswers), buildOtherLiabilityIssueRow)
+      case (Some(false), _) => Seq(buildCaseReferenceRow, buildOnshoreLiabilitieDetailRow, buildOtherLiabilityIssueRow)
     }
   }
 }
