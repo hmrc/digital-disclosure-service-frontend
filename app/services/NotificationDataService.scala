@@ -102,6 +102,14 @@ class NotificationDataServiceImpl extends NotificationDataService {
     List(Some(PageWithValue(RelatesToPage, relatesTo)), areYouTheEntity.map(PageWithValue(page, _))).flatten
   }
 
+  def contactPreferencePageWithValues(contactPreferences: ContactPreferences): List[PageWithValue[Set[HowWouldYouPreferToBeContacted]]] = {
+    contactPreferences.preferences.map { pref:Preference => pref match {
+        case Email => PageWithValue(HowWouldYouPreferToBeContactedPage, pref)
+        case Telephone => PageWithValue(HowWouldYouPreferToBeContactedPage, Telephone)
+      }
+    }.toList
+  }
+
   def aboutYouToUserAnswers(aboutYou: AboutYou, userAnswers: UserAnswers): Try[UserAnswers] = {
 
     import aboutYou._
@@ -112,6 +120,7 @@ class NotificationDataServiceImpl extends NotificationDataService {
       emailAddress.map(PageWithValue(YourEmailAddressPage, _)),
       dateOfBirth.map(PageWithValue(WhatIsYourDateOfBirthPage, _)),
       mainOccupation.map(PageWithValue(WhatIsYourMainOccupationPage, _)),
+      contactPreference.map(contactPreferencePageWithValues).getOrElse(Nil),
       doYouHaveANino.map(PageWithValue[DoYouHaveNationalInsuranceNumber](DoYouHaveNationalInsuranceNumberPage, _)),
       nino.map(PageWithValue(WhatIsYourNationalInsuranceNumberPage, _)),
       registeredForVAT.map(PageWithValue[AreYouRegisteredForVAT](AreYouRegisteredForVATPage, _)),

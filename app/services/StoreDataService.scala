@@ -19,7 +19,9 @@ package services
 import models._
 import models.store.notification._
 import pages._
-import com.google.inject.{Singleton, ImplementedBy}
+import com.google.inject.{ImplementedBy, Singleton}
+
+import scala.collection.immutable.Set
 
 @Singleton
 class StoreDataServiceImpl extends StoreDataService {
@@ -87,6 +89,14 @@ class StoreDataServiceImpl extends StoreDataService {
       emailAddress = userAnswers.get(YourEmailAddressPage),
       dateOfBirth = userAnswers.get(WhatIsYourDateOfBirthPage),
       mainOccupation = userAnswers.get(WhatIsYourMainOccupationPage),
+      contactPreference = userAnswers.get(HowWouldYouPreferToBeContactedPage) match {
+        case Some(preference) => val contactPreference: Set[Preference] = preference.map{
+          case HowWouldYouPreferToBeContacted.Email => Email
+          case HowWouldYouPreferToBeContacted.Telephone => Telephone
+        }
+        Some(ContactPreferences(contactPreference))
+        case _ => None
+      },
       doYouHaveANino = userAnswers.get(DoYouHaveNationalInsuranceNumberPage),
       nino = userAnswers.get(WhatIsYourNationalInsuranceNumberPage),
       registeredForVAT = userAnswers.get(AreYouRegisteredForVATPage),
