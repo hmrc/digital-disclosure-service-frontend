@@ -102,32 +102,33 @@ class NotificationDataServiceImpl extends NotificationDataService {
     List(Some(PageWithValue(RelatesToPage, relatesTo)), areYouTheEntity.map(PageWithValue(page, _))).flatten
   }
 
-  def contactPreferencePageWithValues(contactPreferences: ContactPreferences): List[PageWithValue[Set[HowWouldYouPreferToBeContacted]]] = {
-    contactPreferences.preferences.map { pref:Preference => pref match {
-        case Email => PageWithValue(HowWouldYouPreferToBeContactedPage, pref)
-        case Telephone => PageWithValue(HowWouldYouPreferToBeContactedPage, Telephone)
-      }
-    }.toList
+  def contactPreferencePageWithValues(contactPreferences: ContactPreferences): PageWithValue[_] = {
+    val values: Set[HowWouldYouPreferToBeContacted] = contactPreferences.preferences.map {
+      case Email => HowWouldYouPreferToBeContacted.Email
+      case Telephone => HowWouldYouPreferToBeContacted.Telephone
+    }
+
+    PageWithValue(HowWouldYouPreferToBeContactedPage, values)
   }
 
   def aboutYouToUserAnswers(aboutYou: AboutYou, userAnswers: UserAnswers): Try[UserAnswers] = {
 
     import aboutYou._
 
-    val pages = List(
+    val pages:List[PageWithValue[_]] = List(
       fullName.map(PageWithValue(WhatIsYourFullNamePage, _)),
       telephoneNumber.map(PageWithValue(YourPhoneNumberPage, _)),
       emailAddress.map(PageWithValue(YourEmailAddressPage, _)),
       dateOfBirth.map(PageWithValue(WhatIsYourDateOfBirthPage, _)),
       mainOccupation.map(PageWithValue(WhatIsYourMainOccupationPage, _)),
-      contactPreference.map(contactPreferencePageWithValues).getOrElse(Nil),
+      contactPreference.map(contactPreferencePageWithValues),
       doYouHaveANino.map(PageWithValue[DoYouHaveNationalInsuranceNumber](DoYouHaveNationalInsuranceNumberPage, _)),
       nino.map(PageWithValue(WhatIsYourNationalInsuranceNumberPage, _)),
       registeredForVAT.map(PageWithValue[AreYouRegisteredForVAT](AreYouRegisteredForVATPage, _)),
       vatRegNumber.map(PageWithValue(WhatIsYourVATRegistrationNumberPage, _)),
       registeredForSA.map(PageWithValue[AreYouRegisteredForSelfAssessment](AreYouRegisteredForSelfAssessmentPage, _)),
       sautr.map(PageWithValue(WhatIsYourUniqueTaxReferencePage, _)),
-      address.map(PageWithValue(YourAddressLookupPage, _)) 
+      address.map(PageWithValue(YourAddressLookupPage, _))
     ).flatten
     
     PageWithValue.pagesToUserAnswers(pages, userAnswers)

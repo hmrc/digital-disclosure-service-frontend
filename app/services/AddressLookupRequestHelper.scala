@@ -168,6 +168,7 @@ trait AddressLookupRequestHelper {
     val addressLookupOptions = AddressLookupOptions(
       continueUrl = s"$baseUrl$redirectUrl",
       serviceHref = s"$baseUrl${routes.IndexController.onPageLoad.url}",
+      signOutHref = Some(s"$baseUrl${controllers.auth.routes.AuthController.signOut.url}"),
       showPhaseBanner = Some(true),
       alphaPhase = false,
       disableTranslations = !languageTranslationEnabled,

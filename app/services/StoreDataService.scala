@@ -19,9 +19,7 @@ package services
 import models._
 import models.store.notification._
 import pages._
-import com.google.inject.{ImplementedBy, Singleton}
-
-import scala.collection.immutable.Set
+import com.google.inject.{Singleton, ImplementedBy}
 
 @Singleton
 class StoreDataServiceImpl extends StoreDataService {
