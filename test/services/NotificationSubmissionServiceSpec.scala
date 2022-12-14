@@ -19,7 +19,7 @@ package services
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import java.time.{Instant, LocalDateTime}
-import org.mockito.Mockito.when
+import org.mockito.Mockito.{verify, when}
 import org.scalatestplus.mockito.MockitoSugar
 import org.scalatest.TryValues
 import org.scalatest.concurrent.ScalaFutures
@@ -34,29 +34,9 @@ import pages.LetterReferencePage
 class NotificationSubmissionServiceSpec extends AnyWordSpec with ScalaFutures
     with TryValues with Matchers with MockitoSugar  {
 
-  val connector: DigitalDisclosureServiceConnector = mock[DigitalDisclosureServiceConnector]
-  val storeDataService: StoreDataService = mock[StoreDataService]
-  val sessionService: SessionService = mock[SessionService]
-
-  val reference = "123456"
-  object FakeReferenceService extends ReferenceService {
-    def generateReference: String = reference
-  }
-
-  val time = LocalDateTime.now
-  object FakeTimeService extends TimeService {
-    def now: LocalDateTime = time
-  } 
-
-  val sut = new NotificationSubmissionServiceImpl(connector, storeDataService, FakeReferenceService, sessionService, FakeTimeService)
-
-  val emptyUA = UserAnswers("id")
-  val testNotification = Notification("123", "456", Instant.now(), Metadata(), Background(), AboutYou())
-  implicit val hc = HeaderCarrier()
-
   "submitNotification" should {
 
-    "call the reference generator if a letter reference isn't populated" in {
+    "call the reference generator if a letter reference isn't populated" in new Test {
 
       val metadata = Metadata(reference = Some("123456"), submissionTime = Some(time))
       val updatedUserAnswers = emptyUA.copy(metadata = metadata)
@@ -66,9 +46,10 @@ class NotificationSubmissionServiceSpec extends AnyWordSpec with ScalaFutures
       when(sessionService.set(updatedUserAnswers)(hc)) thenReturn Future.successful(true)
       
       sut.submitNotification(emptyUA).futureValue shouldEqual "123456"
+      verify(auditService).auditSubmission(testNotification)(hc)
     }
 
-    "use the letter reference for the ref if a letter reference isn populated" in {
+    "use the letter reference for the ref if a letter reference is populated" in new Test {
 
       val initialUserAnswers = emptyUA.set(LetterReferencePage, "ABCDE").success.value
       val metadata = Metadata(reference = Some("ABCDE"), submissionTime = Some(time))
@@ -79,6 +60,30 @@ class NotificationSubmissionServiceSpec extends AnyWordSpec with ScalaFutures
       when(sessionService.set(updatedUserAnswers)(hc)) thenReturn Future.successful(true)
       
       sut.submitNotification(initialUserAnswers).futureValue shouldEqual "ABCDE"
+      verify(auditService).auditSubmission(testNotification)(hc)
+    }
+
+    trait Test {
+      val connector: DigitalDisclosureServiceConnector = mock[DigitalDisclosureServiceConnector]
+      val storeDataService: StoreDataService = mock[StoreDataService]
+      val sessionService: SessionService = mock[SessionService]
+      val auditService: AuditService = mock[AuditService]
+
+      val reference = "123456"
+      object FakeReferenceService extends ReferenceService {
+        def generateReference: String = reference
+      }
+
+      val time = LocalDateTime.now
+      object FakeTimeService extends TimeService {
+        def now: LocalDateTime = time
+      } 
+
+      val sut = new NotificationSubmissionServiceImpl(connector, storeDataService, FakeReferenceService, sessionService, FakeTimeService, auditService)
+
+      val emptyUA = UserAnswers("id")
+      val testNotification = Notification("123", "456", Instant.now(), Metadata(), Background(), AboutYou())
+      implicit val hc = HeaderCarrier()
     }
 
 
