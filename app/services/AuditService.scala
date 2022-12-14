@@ -24,7 +24,7 @@ import scala.concurrent.ExecutionContext
 
 @Singleton
 class AuditServiceImpl @Inject()(
-  connector: AuditConnector,
+  connector: AuditConnector
 )(implicit ec: ExecutionContext) extends AuditService {
 
   val AUDIT_TYPE = "NotificationSubmission"
