@@ -989,4 +989,4 @@ howWouldYouPreferToBeContacted.email = Email
 howWouldYouPreferToBeContacted.telephone = Telephone
 howWouldYouPreferToBeContacted.checkYourAnswersLabel = Your contact preference
 howWouldYouPreferToBeContacted.error.required = Select how you want to be contacted
-howWouldYouPreferToBeContacted.change.hidden = HowWouldYouPreferToBeContacted
+howWouldYouPreferToBeContacted.change.hidden = Your contact preference
