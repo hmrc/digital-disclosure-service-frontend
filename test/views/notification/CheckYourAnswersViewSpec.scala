@@ -78,12 +78,12 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
 
     "contain background header" in {
       view.getElementsByClass("govuk-heading-l").get(0).text() mustBe messages("notificationCYA.background")
-      view.getElementsByClass("govuk-heading-l").get(1).text() mustBe messages("notificationCYA.aboutYou")
-      view.getElementsByClass("govuk-heading-l").get(2).text() mustBe messages("notificationCYA.aboutTheIndividual")
-      view.getElementsByClass("govuk-heading-l").get(3).text() mustBe messages("notificationCYA.aboutTheCompany")
-      view.getElementsByClass("govuk-heading-l").get(4).text() mustBe messages("notificationCYA.aboutTheLLP")
-      view.getElementsByClass("govuk-heading-l").get(5).text() mustBe messages("notificationCYA.aboutTheTrust")
-      view.getElementsByClass("govuk-heading-l").get(6).text() mustBe messages("notificationCYA.aboutThePersonWhoDied")
+      view.getElementsByClass("govuk-heading-l").get(1).text() mustBe messages("notificationCYA.aboutTheIndividual")
+      view.getElementsByClass("govuk-heading-l").get(2).text() mustBe messages("notificationCYA.aboutTheCompany")
+      view.getElementsByClass("govuk-heading-l").get(3).text() mustBe messages("notificationCYA.aboutTheLLP")
+      view.getElementsByClass("govuk-heading-l").get(4).text() mustBe messages("notificationCYA.aboutTheTrust")
+      view.getElementsByClass("govuk-heading-l").get(5).text() mustBe messages("notificationCYA.aboutThePersonWhoDied")
+      view.getElementsByClass("govuk-heading-l").get(6).text() mustBe messages("notificationCYA.aboutYou")
     }
 
     "contain a background summary list" in {
@@ -130,7 +130,7 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
     }
 
     "have a second submit section paragraph when an entity" in {
-      view.getElementById("second-paragraph").text() mustBe s"${messages("notificationCYA.body2")} ${messages("notificationCYA.link.entity")}"
+      view.getElementById("second-paragraph").text() mustBe s"${messages("notificationCYA.body2")} ${messages("notificationCYA.link.entity")}${messages("site.dot")}"
     }
 
     "display the send button" in {
@@ -147,7 +147,7 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
     val view = createView
 
     "have a second submit section paragraph when an agent" in {
-      view.getElementById("second-paragraph").text() mustBe s"${messages("notificationCYA.body2")} ${messages("notificationCYA.link.agent")}"
+      view.getElementById("second-paragraph").text() mustBe s"${messages("notificationCYA.body2")} ${messages("notificationCYA.link.agent")}${messages("site.dot")}"
     }
 
   }

@@ -22,6 +22,7 @@ import pages.EstateAddressLookupPage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
@@ -33,7 +34,7 @@ object EstateAddressLookupSummary  {
 
         SummaryListRowViewModel(
           key     = "estateAddressLookup.checkYourAnswersLabel",
-          value   = ValueViewModel(HtmlFormat.escape(answer.getAddressLines.mkString(",")).toString),
+          value   = ValueViewModel(HtmlContent(answer.getAddressLines.mkString("<br>"))),
           actions = Seq(
             ActionItemViewModel("site.change", routes.EstateAddressLookupController.lookupAddress(CheckMode).url)
               .withVisuallyHiddenText(messages("estateAddressLookup.change.hidden"))

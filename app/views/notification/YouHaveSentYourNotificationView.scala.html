@@ -55,7 +55,8 @@
                 },
                 fileName = "notification.pdf", 
                 call = controllers.notification.routes.PdfGenerationController.generate
-            )
+            ) + 
+            messages("site.dot")
     ))
 
     @heading(Text(messages("youHaveSentYourNotification.paragraph.header")), classes = "govuk-heading-m")
