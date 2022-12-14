@@ -27,6 +27,7 @@ trait AddressLookupHelper {
       val addressLookupOptions = AddressLookupOptions(
         continueUrl = "host1.com/redirect",
         serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
+        signOutHref = Some(s"host1.com${controllers.auth.routes.AuthController.signOut.url}"),
         showPhaseBanner = Some(true),
         alphaPhase = false,
         disableTranslations = true,
@@ -90,6 +91,7 @@ trait AddressLookupHelper {
       val addressLookupOptions = AddressLookupOptions(
         continueUrl = "host1.com/redirect",
         serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
+        signOutHref = Some(s"host1.com${controllers.auth.routes.AuthController.signOut.url}"),
         showPhaseBanner = Some(true),
         alphaPhase = false,
         disableTranslations = true,
@@ -146,6 +148,7 @@ trait AddressLookupHelper {
       val addressLookupOptions = AddressLookupOptions(
         continueUrl = "host1.com/redirect",
         serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
+        signOutHref = Some(s"host1.com${controllers.auth.routes.AuthController.signOut.url}"),
         showPhaseBanner = Some(true),
         alphaPhase = false,
         disableTranslations = true,
@@ -202,6 +205,7 @@ trait AddressLookupHelper {
       val addressLookupOptions = AddressLookupOptions(
         continueUrl = "host1.com/redirect",
         serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
+        signOutHref = Some(s"host1.com${controllers.auth.routes.AuthController.signOut.url}"),
         showPhaseBanner = Some(true),
         alphaPhase = false,
         disableTranslations = true,
@@ -258,6 +262,7 @@ trait AddressLookupHelper {
       val addressLookupOptions = AddressLookupOptions(
         continueUrl = "host1.com/redirect",
         serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
+        signOutHref = Some(s"host1.com${controllers.auth.routes.AuthController.signOut.url}"),
         showPhaseBanner = Some(true),
         alphaPhase = false,
         disableTranslations = true,
@@ -314,6 +319,7 @@ trait AddressLookupHelper {
       val addressLookupOptions = AddressLookupOptions(
         continueUrl = "host1.com/redirect",
         serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
+        signOutHref = Some(s"host1.com${controllers.auth.routes.AuthController.signOut.url}"),
         showPhaseBanner = Some(true),
         alphaPhase = false,
         disableTranslations = true,

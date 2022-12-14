@@ -543,6 +543,13 @@ class NotificationNavigatorSpec extends SpecBase {
         }
       }
 
+      "must go from the MakeANotificationOrDisclosure page to the TaskList controller when select an MakeADisclosure" in {
+        UserAnswers("id").set(MakeANotificationOrDisclosurePage, MakeANotificationOrDisclosure.MakeADisclosure) match {
+          case Success(ua) => navigator.nextPage(MakeANotificationOrDisclosurePage, NormalMode, ua) mustBe controllers.routes.TaskListController.onPageLoad
+          case Failure(e) => throw e
+        }
+      }
+
       "must go from the HowWouldYouPreferToBeContactedPage to the YourEmailAddressController when the user selects only Email as preferred method" in {
         val answer: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Email)
         val ua = UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, answer).success.value

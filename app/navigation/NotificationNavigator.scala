@@ -236,7 +236,8 @@ class NotificationNavigator @Inject()() {
 
     case MakeANotificationOrDisclosurePage => ua => ua.get(MakeANotificationOrDisclosurePage) match {
       case Some(MakeANotificationOrDisclosure.MakeANotification) => routes.ReceivedALetterController.onPageLoad(NormalMode)
-      case _ => controllers.routes.MakeANotificationOrDisclosureController.onPageLoad(NormalMode)
+      case Some(MakeANotificationOrDisclosure.MakeADisclosure) => controllers.routes.TaskListController.onPageLoad
+      case None => controllers.routes.MakeANotificationOrDisclosureController.onPageLoad(NormalMode)
     }
 
     case _ => _ => controllers.routes.IndexController.onPageLoad

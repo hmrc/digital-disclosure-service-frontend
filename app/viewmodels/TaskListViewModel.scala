@@ -14,20 +14,18 @@
  * limitations under the License.
  */
 
-package forms
+package viewmodels
 
-import javax.inject.Inject
+import play.api.mvc.Call
 
-import forms.mappings.Mappings
-import play.api.data.Form
+final case class TaskListViewModel (
+    personalDetailsTask: Seq[TaskListRow], 
+    liabilitiesInformation: Seq[TaskListRow], 
+    additionalInformation: Seq[TaskListRow])
 
-class LetterReferenceFormProvider @Inject() extends Mappings {
-
-  val formatRegex: String = "CFS[S]?[\\s]?[-]?[0-9]{7}$"
-
-  def apply(): Form[String] =
-    Form(
-      "value" -> text("letterReference.error.required")
-        .verifying(regexp(formatRegex, "letterReference.error.format"))
-    )
-}
+final case class TaskListRow (
+    id: String, 
+    operation: String, 
+    sectionTitle: String, 
+    status: String, 
+    link: Call)

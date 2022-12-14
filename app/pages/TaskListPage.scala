@@ -14,20 +14,10 @@
  * limitations under the License.
  */
 
-package forms
+package pages
 
-import javax.inject.Inject
+case object TaskListPage extends Page {
 
-import forms.mappings.Mappings
-import play.api.data.Form
+  override def toString: String = "taskList"
 
-class LetterReferenceFormProvider @Inject() extends Mappings {
-
-  val formatRegex: String = "CFS[S]?[\\s]?[-]?[0-9]{7}$"
-
-  def apply(): Form[String] =
-    Form(
-      "value" -> text("letterReference.error.required")
-        .verifying(regexp(formatRegex, "letterReference.error.format"))
-    )
 }

@@ -28,7 +28,7 @@
 @layout(pageTitle = titleNoForm(isTheEntity match {
                                     case true => messages("youHaveSentYourNotification.title.entity") 
                                     case false => messages("youHaveSentYourNotification.title.agent")
-                                })) {
+                                }), showBackLink = false) {
 
     @govukPanel(Panel( 
         title = isTheEntity match {
