@@ -33,9 +33,6 @@
         <h2 class="govuk-heading-l">@messages("notificationCYA.background")</h2>
         @govukSummaryList(list.background.withAttribute("id","background-list"))
 
-        <h2 class="govuk-heading-l">@messages("notificationCYA.aboutYou")</h2>
-        @govukSummaryList(list.aboutYou.withAttribute("id", "about-you-list"))
-
         @list.aboutTheIndividualList.map { list =>
             <h2 class="govuk-heading-l">@messages("notificationCYA.aboutTheIndividual")</h2>
             @govukSummaryList(list.withAttribute("id","about-the-individual-list"))
@@ -61,6 +58,9 @@
             @govukSummaryList(list.withAttribute("id","about-the-person-who-died-list"))
         }
 
+        <h2 class="govuk-heading-l">@messages("notificationCYA.aboutYou")</h2>
+        @govukSummaryList(list.aboutYou.withAttribute("id", "about-you-list"))
+
         <h2 class="govuk-heading-l">@messages("notificationCYA.send.heading")</h2>
 
         <p class="govuk-body" id="first-paragraph">@messages("notificationCYA.body1")</p>
@@ -69,11 +69,11 @@
             @downloadLink(
                 id = "pdf-download", 
                 text = isTheEntity match {
-                    case true => messages("notificationCYA.link.entity") 
+                    case true => messages("notificationCYA.link.entity")
                     case false => messages("notificationCYA.link.agent")
                 }, 
                 fileName = "notification.pdf", 
-                call = controllers.notification.routes.PdfGenerationController.generate)
+                call = controllers.notification.routes.PdfGenerationController.generate)@messages("site.dot")
         </p>
 
         @govukButton(
