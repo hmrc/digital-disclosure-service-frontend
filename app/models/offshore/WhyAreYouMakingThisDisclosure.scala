@@ -25,36 +25,44 @@ sealed trait WhyAreYouMakingThisDisclosure
 
 object WhyAreYouMakingThisDisclosure extends Enumerable.Implicits {
 
-  case object Checkbox1 extends WithName("checkbox1") with WhyAreYouMakingThisDisclosure
-  case object Checkbox2 extends WithName("checkbox2") with WhyAreYouMakingThisDisclosure
-  case object Checkbox3 extends WithName("checkbox3") with WhyAreYouMakingThisDisclosure
-  case object Checkbox4 extends WithName("checkbox4") with WhyAreYouMakingThisDisclosure
-  case object Checkbox5 extends WithName("checkbox5") with WhyAreYouMakingThisDisclosure
-  case object Checkbox6 extends WithName("checkbox6") with WhyAreYouMakingThisDisclosure
-  case object Checkbox7 extends WithName("checkbox7") with WhyAreYouMakingThisDisclosure
-  case object Checkbox8 extends WithName("checkbox8") with WhyAreYouMakingThisDisclosure
+  case object DidNotNotifyHasExcuse extends WithName("didNotNotifyHasExcuse") with WhyAreYouMakingThisDisclosure
+  case object InaccurateReturnWithCare extends WithName("inaccurateReturnWithCare") with WhyAreYouMakingThisDisclosure
+  case object NotFileHasExcuse extends WithName("notFileHasExcuse") with WhyAreYouMakingThisDisclosure
+  case object InaccurateReturnNoCare extends WithName("inaccurateReturnNoCare") with WhyAreYouMakingThisDisclosure
+  case object DidNotNotifyNoExcuse extends WithName("didNotNotifyNoExcuse") with WhyAreYouMakingThisDisclosure
+  case object DeliberatelyDidNotNotify extends WithName("deliberatelyDidNotNotify") with WhyAreYouMakingThisDisclosure
+  case object DeliberateInaccurateReturn extends WithName("deliberateInaccurateReturn") with WhyAreYouMakingThisDisclosure
+  case object DeliberatelyDidNotFile extends WithName("deliberatelyDidNotFile") with WhyAreYouMakingThisDisclosure
 
   val values: Seq[WhyAreYouMakingThisDisclosure] = Seq(
-    Checkbox1,
-    Checkbox2,
-    Checkbox3,
-    Checkbox4,
-    Checkbox5,
-    Checkbox6,
-    Checkbox7,
-    Checkbox8
+    DidNotNotifyHasExcuse,
+    InaccurateReturnWithCare,
+    NotFileHasExcuse,
+    InaccurateReturnNoCare,
+    DidNotNotifyNoExcuse,
+    DeliberatelyDidNotNotify,
+    DeliberateInaccurateReturn,
+    DeliberatelyDidNotFile
   )
 
-  def checkboxItems(implicit messages: Messages): Seq[CheckboxItem] =
+  def checkboxItems(areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit messages: Messages): Seq[CheckboxItem] =
     values.zipWithIndex.map {
       case (value, index) =>
         CheckboxItemViewModel(
-          content = Text(messages(s"whyAreYouMakingThisDisclosure.${value.toString}")),
+          content = Text(messages(constructMessageKey(value, areTheyTheIndividual, entity))),
           fieldId = "value",
           index   = index,
           value   = value.toString
         )
     }
+  
+  def constructMessageKey(value: WhyAreYouMakingThisDisclosure, areTheyTheIndividual: Boolean, entity: RelatesTo) = {
+    if (areTheyTheIndividual) {
+      s"whyAreYouMakingThisDisclosure.you.${value.toString}"
+    } else {
+      s"whyAreYouMakingThisDisclosure.${entity.toString}.${value.toString}"
+    }
+  }
 
   implicit val enumerable: Enumerable[WhyAreYouMakingThisDisclosure] =
     Enumerable(values.map(v => v.toString -> v): _*)

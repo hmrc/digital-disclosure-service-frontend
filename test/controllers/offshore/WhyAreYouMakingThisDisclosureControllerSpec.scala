@@ -18,12 +18,12 @@ package controllers
 
 import base.SpecBase
 import forms.WhyAreYouMakingThisDisclosureFormProvider
-import models.{NormalMode, WhyAreYouMakingThisDisclosure, UserAnswers}
+import models.{NormalMode, WhyAreYouMakingThisDisclosure, UserAnswers, RelatesTo}
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.WhyAreYouMakingThisDisclosurePage
+import pages._
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -46,47 +46,67 @@ class WhyAreYouMakingThisDisclosureControllerSpec extends SpecBase with MockitoS
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val userAnswers = (for {
+        userAnswer <- UserAnswers("id").set(AreYouTheIndividualPage, true)
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
+      } yield uaWithRelatesToPage).success.value
 
-      running(application) {
-        val request = FakeRequest(GET, whyAreYouMakingThisDisclosureRoute)
-
-        val result = route(application, request).value
-
-        val view = application.injector.instanceOf[WhyAreYouMakingThisDisclosureView]
-
-        status(result) mustEqual OK
-
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
-      }
-    }
-
-    "must populate the view correctly on a GET when the question has previously been answered" in {
-
-      val userAnswers = UserAnswers(userAnswersId).set(WhyAreYouMakingThisDisclosurePage, WhyAreYouMakingThisDisclosure.values.toSet).success.value
+      val areTheyTheIndividual = isTheUserTheIndividual(userAnswers)
+      val entity = userAnswers.get(RelatesToPage).get
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
         val request = FakeRequest(GET, whyAreYouMakingThisDisclosureRoute)
 
+        val result = route(application, request).value
+
         val view = application.injector.instanceOf[WhyAreYouMakingThisDisclosureView]
+
+        status(result) mustEqual OK
+
+        contentAsString(result) mustEqual view(form, NormalMode, areTheyTheIndividual, entity)(request, messages(application)).toString
+      }
+    }
+
+    "must populate the view correctly on a GET when the question has previously been answered" in {
+
+      val userAnswers = (for {
+        userAnswer <- UserAnswers("id").set(AreYouTheIndividualPage, true)
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
+        uaWithWhyAreYouMakingThisDisclosurePage <- uaWithRelatesToPage.set(WhyAreYouMakingThisDisclosurePage, WhyAreYouMakingThisDisclosure.values.toSet)
+      } yield uaWithWhyAreYouMakingThisDisclosurePage).success.value
+
+      val areTheyTheIndividual = isTheUserTheIndividual(userAnswers)
+      val entity = userAnswers.get(RelatesToPage).get
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+      running(application) {
+        val request = FakeRequest(GET, whyAreYouMakingThisDisclosureRoute)
 
         val result = route(application, request).value
 
+        val view = application.injector.instanceOf[WhyAreYouMakingThisDisclosureView]
+
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(WhyAreYouMakingThisDisclosure.values.toSet), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(WhyAreYouMakingThisDisclosure.values.toSet), NormalMode, areTheyTheIndividual, entity)(request, messages(application)).toString
       }
     }
 
     "must redirect to the next page when valid data is submitted" in {
+
+      val userAnswers = (for {
+        userAnswer <- UserAnswers("id").set(AreYouTheIndividualPage, true)
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
+      } yield uaWithRelatesToPage).success.value
 
       val mockSessionService = mock[SessionService]
 
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
 
       val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
+        applicationBuilderWithSessionService(userAnswers = Some(userAnswers), mockSessionService)
           .overrides(
             bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
           )
@@ -106,7 +126,15 @@ class WhyAreYouMakingThisDisclosureControllerSpec extends SpecBase with MockitoS
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val userAnswers = (for {
+        userAnswer <- UserAnswers("id").set(AreYouTheIndividualPage, true)
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
+      } yield uaWithRelatesToPage).success.value
+
+      val areTheyTheIndividual = isTheUserTheIndividual(userAnswers)
+      val entity = userAnswers.get(RelatesToPage).get
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
         val request =
@@ -120,7 +148,7 @@ class WhyAreYouMakingThisDisclosureControllerSpec extends SpecBase with MockitoS
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(request, messages(application)).toString
       }
     }
 
@@ -152,6 +180,13 @@ class WhyAreYouMakingThisDisclosureControllerSpec extends SpecBase with MockitoS
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
       }
+    }
+  }
+
+  def isTheUserTheIndividual(userAnswers: UserAnswers): Boolean = {
+    userAnswers.get(AreYouTheIndividualPage) match {
+      case Some(true) => true
+      case _ => false
     }
   }
 }
