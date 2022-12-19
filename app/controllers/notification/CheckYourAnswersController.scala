@@ -69,8 +69,8 @@ class CheckYourAnswersController @Inject()(
         rows = Seq(
           WhatIsYourFullNameSummary.row(ua),
           HowWouldYouPreferToBeContactedSummary.row(ua),
-          YourPhoneNumberSummary.row(ua),
           YourEmailAddressSummary.row(ua),
+          YourPhoneNumberSummary.row(ua),
           YourAddressLookupSummary.row(ua),
           WhatIsYourDateOfBirthSummary.row(ua),
           WhatIsYourMainOccupationSummary.row(ua),
