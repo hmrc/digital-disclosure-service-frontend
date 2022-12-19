@@ -18,10 +18,13 @@ package controllers.notification
 
 import controllers.actions._
 import forms.HowWouldYouPreferToBeContactedFormProvider
+import models.HowWouldYouPreferToBeContacted.{Email, Telephone}
+
 import javax.inject.Inject
-import models.Mode
+import models.{HowWouldYouPreferToBeContacted, Mode, UserAnswers}
 import navigation.NotificationNavigator
-import pages.HowWouldYouPreferToBeContactedPage
+import pages.{HowWouldYouPreferToBeContactedPage, QuestionPage, YourEmailAddressPage, YourPhoneNumberPage}
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -62,11 +65,28 @@ class HowWouldYouPreferToBeContactedController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
-        value =>
+        value => {
+          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(HowWouldYouPreferToBeContactedPage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(HowWouldYouPreferToBeContactedPage, mode, updatedAnswers))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+            _              <- sessionService.set(clearedAnswers)
+          } yield Redirect(navigator.nextPage(HowWouldYouPreferToBeContactedPage, mode, clearedAnswers, hasValueChanged))
+        }
       )
+  }
+
+  def changedPages(existingUserAnswers: UserAnswers, value: Set[HowWouldYouPreferToBeContacted]): (List[QuestionPage[_]], Boolean) = {
+    existingUserAnswers.get(HowWouldYouPreferToBeContactedPage) match {
+      case Some(preferences) if preferences != value =>
+        val pages = preferences.flatMap {
+            case Email if !value.contains(Email) => Some(YourEmailAddressPage)
+            case Telephone if !value.contains(Telephone) => Some(YourPhoneNumberPage)
+            case _ => None
+          }.toList
+        (pages, true)
+      case _ => (Nil, false)
+    }
+
   }
 }

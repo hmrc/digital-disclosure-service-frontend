@@ -780,6 +780,30 @@ class NotificationNavigatorSpec extends SpecBase {
         val userAnswers = UserAnswers("id").set(WasThePersonRegisteredForVATPage, WasThePersonRegisteredForVAT.YesIKnow).success.value
         navigator.nextPage(WasThePersonRegisteredForVATPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
       }
+
+      "must go from the HowWouldYouPreferToBeContactedPage to CheckYourAnswers when the answer contact preference has not changed" in {
+        val answer: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Email)
+        val userAnswers = UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, answer).success.value
+        navigator.nextPage(HowWouldYouPreferToBeContactedPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must go from the HowWouldYouPreferToBeContactedPage to YourEmailAddress page when the contact preference answer has changed and Email is selected and it's not already set" in {
+        val answer: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Email)
+        val userAnswers = UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, answer).success.value
+        navigator.nextPage(HowWouldYouPreferToBeContactedPage, CheckMode, userAnswers) mustBe routes.YourEmailAddressController.onPageLoad(CheckMode)
+      }
+
+      "must go from the HowWouldYouPreferToBeContactedPage to YourPhone page when the contact preference answer has changed, Telephone is selected and it's not already set" in {
+        val answer: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Telephone)
+        val userAnswers = UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, answer).success.value
+        navigator.nextPage(HowWouldYouPreferToBeContactedPage, CheckMode, userAnswers) mustBe routes.YourPhoneNumberController.onPageLoad(CheckMode)
+      }
+
+      "must go from the YourEmailAddressPage to YourPhone page when the contact preference answers contains the Telephone and it's not already set" in {
+        val answer: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Telephone)
+        val userAnswers = UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, answer).success.value
+        navigator.nextPage(YourEmailAddressPage, CheckMode, userAnswers) mustBe routes.YourPhoneNumberController.onPageLoad(CheckMode)
+      }
     }
   }
 

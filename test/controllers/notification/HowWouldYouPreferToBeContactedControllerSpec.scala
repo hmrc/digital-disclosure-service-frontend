@@ -18,7 +18,7 @@ package controllers
 
 import base.SpecBase
 import forms.HowWouldYouPreferToBeContactedFormProvider
-import models.{NormalMode, HowWouldYouPreferToBeContacted, UserAnswers}
+import models.{CheckMode, HowWouldYouPreferToBeContacted, NormalMode, UserAnswers}
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
@@ -151,6 +151,68 @@ class HowWouldYouPreferToBeContactedControllerSpec extends SpecBase with Mockito
 
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
+      }
+    }
+
+    "must redirect to YourEmailAddressPage screen in check mode if Email change to selected" in {
+      val previousPreferences: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Telephone)
+      val previousAnswers = UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, previousPreferences).success.value
+      val newAnswer = HowWouldYouPreferToBeContacted.Email
+
+      val urlToTest = notification.routes.HowWouldYouPreferToBeContactedController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.YourEmailAddressController.onPageLoad(CheckMode).url
+      val application = applicationBuilder(userAnswers = Some(previousAnswers)).build()
+
+      running(application) {
+        val request =
+          FakeRequest(POST, urlToTest)
+            .withFormUrlEncodedBody(("value[0]", newAnswer.toString))
+
+        val result = route(application, request).value
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual destinationRoute
+      }
+    }
+
+    "must redirect to YourPhoneNumber screen in check mode if Telephone change to selected" in {
+      val previousPreferences: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Email)
+      val previousAnswers = UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, previousPreferences).success.value
+      val newAnswer = HowWouldYouPreferToBeContacted.Telephone
+
+      val urlToTest = notification.routes.HowWouldYouPreferToBeContactedController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.YourPhoneNumberController.onPageLoad(CheckMode).url
+      val application = applicationBuilder(userAnswers = Some(previousAnswers)).build()
+
+      running(application) {
+        val request =
+          FakeRequest(POST, urlToTest)
+            .withFormUrlEncodedBody(("value[0]", newAnswer.toString))
+
+        val result = route(application, request).value
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual destinationRoute
+      }
+    }
+
+    "must redirect to CheckYourAnswer screen if there are no changes in the user answer" in {
+      val previousPreferences: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Email, HowWouldYouPreferToBeContacted.Telephone)
+      val previousAnswers = UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, previousPreferences).success.value
+
+      val newAnswerEmail: HowWouldYouPreferToBeContacted = HowWouldYouPreferToBeContacted.Email
+      val newAnswerTelephone: HowWouldYouPreferToBeContacted = HowWouldYouPreferToBeContacted.Telephone
+
+      val urlToTest = notification.routes.HowWouldYouPreferToBeContactedController.onPageLoad(CheckMode).url
+      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val application = applicationBuilder(userAnswers = Some(previousAnswers)).build()
+
+      running(application) {
+        val request =
+          FakeRequest(POST, urlToTest)
+            .withFormUrlEncodedBody(("value[0]", newAnswerEmail.toString), ("value[1]", newAnswerTelephone.toString))
+
+        val result = route(application, request).value
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual destinationRoute
       }
     }
   }

@@ -323,8 +323,18 @@ class NotificationNavigator @Inject()() {
     case RelatesToPage => ua => hasAnswerChanged => 
       if(hasAnswerChanged) nextPage(RelatesToPage, NormalMode, ua)
       else routes.CheckYourAnswersController.onPageLoad
-    
-       
+
+    case HowWouldYouPreferToBeContactedPage => ua => hasAnswerChanged => (ua.get(HowWouldYouPreferToBeContactedPage), ua.get(YourEmailAddressPage), ua.get(YourPhoneNumberPage)) match {
+      case (Some(preferences), None, _)  if hasAnswerChanged && preferences.contains(HowWouldYouPreferToBeContacted.Email) => routes.YourEmailAddressController.onPageLoad(CheckMode)
+      case (Some(preferences), _, None)  if hasAnswerChanged && preferences.contains(HowWouldYouPreferToBeContacted.Telephone) => routes.YourPhoneNumberController.onPageLoad(CheckMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad
+    }
+
+    case YourEmailAddressPage => ua => _ => (ua.get(HowWouldYouPreferToBeContactedPage), ua.get(YourPhoneNumberPage)) match {
+      case (Some(preferences), None) if preferences.contains(HowWouldYouPreferToBeContacted.Telephone) => routes.YourPhoneNumberController.onPageLoad(CheckMode)
+      case (_, _) => routes.CheckYourAnswersController.onPageLoad
+    }
+
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
