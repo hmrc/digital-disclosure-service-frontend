@@ -979,7 +979,7 @@ whyAreYouMakingThisDisclosure.you.deliberatelyDidNotFile = I have deliberately w
 whyAreYouMakingThisDisclosure.individual.didNotNotifyHasExcuse = The individual did not notify HMRC about a tax liability but this was not deliberate and there is a reasonable excuse.
 whyAreYouMakingThisDisclosure.individual.inaccurateReturnWithCare = The individual submitted an inaccurate return despite taking reasonable care.
 whyAreYouMakingThisDisclosure.individual.notFileHasExcuse = The individual did not file a return but has a reasonable excuse.
-whyAreYouMakingThisDisclosure.individual.inaccurateReturnNoCare = The individual submitted an inaccurate return because it did not take reasonable care.
+whyAreYouMakingThisDisclosure.individual.inaccurateReturnNoCare = The individual submitted an inaccurate return because they did not take reasonable care.
 whyAreYouMakingThisDisclosure.individual.didNotNotifyNoExcuse = The individual did not notify HMRC of a tax liability but this was not deliberate and there is not a reasonable excuse.
 whyAreYouMakingThisDisclosure.individual.deliberatelyDidNotNotify = The individual deliberately failed to notify HMRC of a tax liability.
 whyAreYouMakingThisDisclosure.individual.deliberateInaccurateReturn = The individual deliberately submitted an inaccurate tax return.
@@ -1014,7 +1014,7 @@ whyAreYouMakingThisDisclosure.trust.deliberatelyDidNotFile = The trust deliberat
 
 whyAreYouMakingThisDisclosure.estate.didNotNotifyHasExcuse = The person who died did not notify HMRC about a tax liability but this was not deliberate and there is a reasonable excuse.
 whyAreYouMakingThisDisclosure.estate.inaccurateReturnWithCare = The person who died submitted an inaccurate return despite taking reasonable care.
-whyAreYouMakingThisDisclosure.estate.notFileHasExcuse = The person who died did not file a return but has a reasonable excuse.
+whyAreYouMakingThisDisclosure.estate.notFileHasExcuse = The person who died did not file a return but had a reasonable excuse.
 whyAreYouMakingThisDisclosure.estate.inaccurateReturnNoCare = The person who died submitted an inaccurate return because they did not take reasonable care.
 whyAreYouMakingThisDisclosure.estate.didNotNotifyNoExcuse = The person who died did not notify HMRC of a tax liability but this was not deliberate and there is not a reasonable excuse.
 whyAreYouMakingThisDisclosure.estate.deliberatelyDidNotNotify = The person who died deliberately failed to notify HMRC of a tax liability.
