@@ -20,7 +20,7 @@ import base.ViewSpecBase
 import forms.$className$FormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
-import views.html.notification.$className$View
+import views.html.$section$.$className$View
 import models.NormalMode
 
 class $className$ViewSpec extends ViewSpecBase with ViewMatchers {
