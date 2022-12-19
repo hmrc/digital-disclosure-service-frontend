@@ -42,7 +42,7 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
     }
 
     "have a first paragraph for entity" in {
-      view.getElementById("first-paragraph").text() mustBe messages("youHaveSentYourNotification.paragraph.first") + messages("youHaveSentYourNotification.paragraph.link.entity")
+      view.getElementById("first-paragraph").text() mustBe messages("youHaveSentYourNotification.paragraph.first") + messages("youHaveSentYourNotification.paragraph.link.entity") + messages("site.dot")
     }
 
     "contain second heading for entity" in {
@@ -71,7 +71,7 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
     }
 
     "have a first paragraph for agent" in {
-      view.getElementById("first-paragraph").text() mustBe messages("youHaveSentYourNotification.paragraph.first") + messages("youHaveSentYourNotification.paragraph.link.agent")
+      view.getElementById("first-paragraph").text() mustBe messages("youHaveSentYourNotification.paragraph.first") + messages("youHaveSentYourNotification.paragraph.link.agent") + messages("site.dot")
     }
 
     "contain second heading for agent" in {

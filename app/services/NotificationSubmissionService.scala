@@ -31,7 +31,8 @@ class NotificationSubmissionServiceImpl @Inject()(
   storeDataService: StoreDataService,
   referenceService: ReferenceService,
   sessionService: SessionService,
-  timeService: TimeService
+  timeService: TimeService,
+  auditService: AuditService
 ) extends NotificationSubmissionService {
 
   def submitNotification(userAnswers: UserAnswers)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[String] = {
@@ -44,6 +45,7 @@ class NotificationSubmissionServiceImpl @Inject()(
 
     for {
       _ <- connector.submitNotification(notification)
+      _ = auditService.auditSubmission(notification)
       _ <- sessionService.set(updatedUserAnswers)
     } yield reference
 

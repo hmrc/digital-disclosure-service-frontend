@@ -30,11 +30,10 @@ class FrontendAppConfig @Inject() (configuration: Configuration) {
   lazy val host: String    = configuration.get[String]("self.url")
   lazy val appName: String = configuration.get[String]("appName")
 
-  private lazy val contactHost = configuration.get[String]("contact-frontend.host")
   private lazy val contactFormServiceIdentifier = "digital-disclosure-service-frontend"
 
   def feedbackUrl(implicit request: RequestHeader): String =
-    s"$contactHost/contact/beta-feedback?service=$contactFormServiceIdentifier&backUrl=${SafeRedirectUrl(host + request.uri).encodedUrl}"
+    s"/contact/beta-feedback?service=$contactFormServiceIdentifier&backUrl=${SafeRedirectUrl(host + request.uri).encodedUrl}"
 
   lazy val loginUrl: String         = configuration.get[String]("urls.login")
   lazy val loginContinueUrl: String = configuration.get[String]("urls.loginContinue")

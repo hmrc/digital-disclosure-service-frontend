@@ -21,7 +21,9 @@
     formHelper: FormWithCSRF,
     govukErrorSummary: GovukErrorSummary,
     govukInput: GovukInput,
-    govukButton: GovukButton
+    govukButton: GovukButton,
+    paragraph: components.paragraph,
+    heading: components.heading
 )
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
@@ -34,10 +36,14 @@
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
+        @heading(Text(messages("whatIsYourFullName.heading")))
+
+        @paragraph(id = Some("body"), content = Text(messages("whatIsYourFullName.body")))
+
         @govukInput(
             InputViewModel(
                 field = form("value"),
-                label = LabelViewModel(messages("whatIsYourFullName.heading")).asPageHeading()
+                label = LabelViewModel(messages("whatIsYourFullName.heading")).withCssClass("govuk-visually-hidden")
             )
             .withWidth(Full)
         )

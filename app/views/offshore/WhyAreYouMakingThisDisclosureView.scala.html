@@ -25,7 +25,7 @@
     link: components.link
 )
 
-@(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], mode: Mode, areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = title(form, messages("whyAreYouMakingThisDisclosure.title"))) {
 
@@ -46,7 +46,7 @@
                 form   = form,
                 name   = "value",
                 legend = LegendViewModel(messages("whyAreYouMakingThisDisclosure.heading")).withCssClass("govuk-visually-hidden"),
-                items  = WhyAreYouMakingThisDisclosure.checkboxItems
+                items  = WhyAreYouMakingThisDisclosure.checkboxItems(areTheyTheIndividual, entity)
             )
         )
 

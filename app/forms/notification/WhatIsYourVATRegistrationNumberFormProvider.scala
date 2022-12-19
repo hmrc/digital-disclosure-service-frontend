@@ -27,7 +27,7 @@ class WhatIsYourVATRegistrationNumberFormProvider @Inject() extends Mappings {
 
   def apply(): Form[String] =
     Form(
-      "value" -> text("whatIsYourVATRegistrationNumber.error")
-        .verifying(validVAT(length, "whatIsYourVATRegistrationNumber.error"))
+      "value" -> text("whatIsYourVATRegistrationNumber.error.required")
+        .verifying(validVAT(length, "whatIsYourVATRegistrationNumber.error.invalid"))
     )
 }
