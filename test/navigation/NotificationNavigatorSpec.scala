@@ -126,81 +126,8 @@ class NotificationNavigatorSpec extends SpecBase {
       testOnshoreLiabilitiesRouting(OnlyOnshoreLiabilitiesPage)
 
       "must go from the WhatIsYourFullName page to the YourPhoneNumber controller when the user enter name" in {
-        UserAnswers("id").set(WhatIsYourFullNamePage, "test") match {
-          case Success(ua) => navigator.nextPage(WhatIsYourFullNamePage, NormalMode, ua) mustBe routes.YourPhoneNumberController.onPageLoad(NormalMode)
-          case Failure(e) => throw e
-        }
-      }
-
-      "must go from the YourPhoneNumber page to the YourEmailAddress controller when the user enter the phone number" in {
-        UserAnswers("id").set(YourPhoneNumberPage, "test") match {
-          case Success(ua) => navigator.nextPage(YourPhoneNumberPage, NormalMode, ua) mustBe routes.DoYouHaveAnEmailAddressController.onPageLoad(NormalMode)
-          case Failure(e) => throw e
-        }
-      }
-
-      "must go from DoYouHaveAnEmailAddressPage to the YourEmailAddressController when user select Yes and on behalf of individual" in {
-        val userAnswers = for {
-          uaWithOnshore <- UserAnswers("id").set(DoYouHaveAnEmailAddressPage, true)
-            ua 	<- uaWithOnshore.set(AreYouTheIndividualPage, true)
-          } yield ua
-        navigator.nextPage(DoYouHaveAnEmailAddressPage, NormalMode, userAnswers.success.value) mustBe routes.YourEmailAddressController.onPageLoad(NormalMode)
-      }
-
-      "must go from DoYouHaveAnEmailAddressPage to the WhatIsYourDateOfBirthController when user select No and on behalf of individual" in {
-        val userAnswers = for {
-          uaWithOnshore <- UserAnswers("id").set(DoYouHaveAnEmailAddressPage, false)
-            ua 	<- uaWithOnshore.set(AreYouTheIndividualPage, true)
-          } yield ua
-        navigator.nextPage(DoYouHaveAnEmailAddressPage, NormalMode, userAnswers.success.value) mustBe routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
-      }
-
-      "must go from DoYouHaveAnEmailAddressPage to the YourEmailAddressController when user select Yes and is an individual" in {
-        val userAnswers = for {
-          uaWithOnshore <- UserAnswers("id").set(DoYouHaveAnEmailAddressPage, true)
-            ua 	<- uaWithOnshore.set(AreYouTheIndividualPage, false)
-          } yield ua
-        navigator.nextPage(DoYouHaveAnEmailAddressPage, NormalMode, userAnswers.success.value) mustBe routes.YourEmailAddressController.onPageLoad(NormalMode)
-      }
-
-      "must go from DoYouHaveAnEmailAddressPage to the YourAddressLookupController when user select No and is an individual" in {
-        val userAnswers = for {
-          uaWithOnshore <- UserAnswers("id").set(DoYouHaveAnEmailAddressPage, false)
-            ua 	<- uaWithOnshore.set(AreYouTheIndividualPage, false)
-          } yield ua
-        navigator.nextPage(DoYouHaveAnEmailAddressPage, NormalMode, userAnswers.success.value) mustBe routes.YourAddressLookupController.lookupAddress(NormalMode)
-      }
-
-      "must go from DoYouHaveAnEmailAddressPage to the YourEmailAddressController when user select Yes, and Yes, I am an officer of the company" in {
-        val userAnswers = for {
-          uaWithOnshore <- UserAnswers("id").set(DoYouHaveAnEmailAddressPage, true)
-          ua 	<- uaWithOnshore.set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, true)
-        } yield ua
-        navigator.nextPage(DoYouHaveAnEmailAddressPage, NormalMode, userAnswers.success.value) mustBe routes.YourEmailAddressController.onPageLoad(NormalMode)
-      }
-
-      "must go from DoYouHaveAnEmailAddressPage to the YourEmailAddressController when user select Yes and No, I will be making a disclosure on behalf of an officer" in {
-        val userAnswers = for {
-          uaWithOnshore <- UserAnswers("id").set(DoYouHaveAnEmailAddressPage, true)
-          ua 	<- uaWithOnshore.set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, false)
-        } yield ua
-        navigator.nextPage(DoYouHaveAnEmailAddressPage, NormalMode, userAnswers.success.value) mustBe routes.YourEmailAddressController.onPageLoad(NormalMode)
-      }
-
-      "must go from DoYouHaveAnEmailAddressPage to the YourAddressLookupController when user select No and and Yes, I am an officer of the company" in {
-        val userAnswers = for {
-          uaWithOnshore <- UserAnswers("id").set(DoYouHaveAnEmailAddressPage, false)
-          ua 	<- uaWithOnshore.set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, true)
-        } yield ua
-        navigator.nextPage(DoYouHaveAnEmailAddressPage, NormalMode, userAnswers.success.value) mustBe routes.YourAddressLookupController.lookupAddress(NormalMode)
-      }
-
-      "must go from DoYouHaveAnEmailAddressPage to the YourAddressLookupController when user select No and and No, I will be making a disclosure on behalf of an officer" in {
-        val userAnswers = for {
-          uaWithOnshore <- UserAnswers("id").set(DoYouHaveAnEmailAddressPage, false)
-          ua 	<- uaWithOnshore.set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, false)
-        } yield ua
-        navigator.nextPage(DoYouHaveAnEmailAddressPage, NormalMode, userAnswers.success.value) mustBe routes.YourAddressLookupController.lookupAddress(NormalMode)
+        val ua = UserAnswers("id").set(WhatIsYourFullNamePage, "test").success.value
+        navigator.nextPage(WhatIsYourFullNamePage, NormalMode, ua) mustBe routes.HowWouldYouPreferToBeContactedController.onPageLoad(NormalMode)
       }
 
       "must go from the YourEmailAddressPage page to the WhatIsYourDateOfBirthController controller when the user enter an email and is an individual" in {
@@ -622,6 +549,25 @@ class NotificationNavigatorSpec extends SpecBase {
           case Failure(e) => throw e
         }
       }
+
+      "must go from the HowWouldYouPreferToBeContactedPage to the YourEmailAddressController when the user selects only Email as preferred method" in {
+        val answer: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Email)
+        val ua = UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, answer).success.value
+        navigator.nextPage(HowWouldYouPreferToBeContactedPage, NormalMode, ua) mustBe routes.YourEmailAddressController.onPageLoad(NormalMode)
+      }
+
+      "must go from the HowWouldYouPreferToBeContactedPage to the YourPhoneNumberController when the user selects only Telephone as preferred method" in {
+        val answer: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Telephone)
+        val ua = UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, answer).success.value
+        navigator.nextPage(HowWouldYouPreferToBeContactedPage, NormalMode, ua) mustBe routes.YourPhoneNumberController.onPageLoad(NormalMode)
+      }
+
+      "must go from the HowWouldYouPreferToBeContactedPage to the YourEmailAddressController when the user selects Email and Telephone as preferred method" in {
+        val answer: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Email, HowWouldYouPreferToBeContacted.Telephone)
+        val ua = UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, answer).success.value
+        navigator.nextPage(HowWouldYouPreferToBeContactedPage, NormalMode, ua) mustBe routes.YourEmailAddressController.onPageLoad(NormalMode)
+      }
+
     }
 
     "in Check mode" - {
@@ -833,6 +779,30 @@ class NotificationNavigatorSpec extends SpecBase {
       "must go from the WasThePersonRegisteredForVATPage to CheckYourAnswers where the answer is YesIKnow but has NOT changed" in {
         val userAnswers = UserAnswers("id").set(WasThePersonRegisteredForVATPage, WasThePersonRegisteredForVAT.YesIKnow).success.value
         navigator.nextPage(WasThePersonRegisteredForVATPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must go from the HowWouldYouPreferToBeContactedPage to CheckYourAnswers when the answer contact preference has not changed" in {
+        val answer: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Email)
+        val userAnswers = UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, answer).success.value
+        navigator.nextPage(HowWouldYouPreferToBeContactedPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must go from the HowWouldYouPreferToBeContactedPage to YourEmailAddress page when the contact preference answer has changed and Email is selected and it's not already set" in {
+        val answer: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Email)
+        val userAnswers = UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, answer).success.value
+        navigator.nextPage(HowWouldYouPreferToBeContactedPage, CheckMode, userAnswers) mustBe routes.YourEmailAddressController.onPageLoad(CheckMode)
+      }
+
+      "must go from the HowWouldYouPreferToBeContactedPage to YourPhone page when the contact preference answer has changed, Telephone is selected and it's not already set" in {
+        val answer: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Telephone)
+        val userAnswers = UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, answer).success.value
+        navigator.nextPage(HowWouldYouPreferToBeContactedPage, CheckMode, userAnswers) mustBe routes.YourPhoneNumberController.onPageLoad(CheckMode)
+      }
+
+      "must go from the YourEmailAddressPage to YourPhone page when the contact preference answers contains the Telephone and it's not already set" in {
+        val answer: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Telephone)
+        val userAnswers = UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, answer).success.value
+        navigator.nextPage(YourEmailAddressPage, CheckMode, userAnswers) mustBe routes.YourPhoneNumberController.onPageLoad(CheckMode)
       }
     }
   }

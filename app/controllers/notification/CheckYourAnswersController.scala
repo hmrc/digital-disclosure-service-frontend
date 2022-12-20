@@ -68,9 +68,9 @@ class CheckYourAnswersController @Inject()(
       val aboutYouList = SummaryListViewModel(
         rows = Seq(
           WhatIsYourFullNameSummary.row(ua),
-          YourPhoneNumberSummary.row(ua),
-          DoYouHaveAnEmailAddressSummary.row(ua),
+          HowWouldYouPreferToBeContactedSummary.row(ua),
           YourEmailAddressSummary.row(ua),
+          YourPhoneNumberSummary.row(ua),
           YourAddressLookupSummary.row(ua),
           WhatIsYourDateOfBirthSummary.row(ua),
           WhatIsYourMainOccupationSummary.row(ua),

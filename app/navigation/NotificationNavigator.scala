@@ -17,7 +17,6 @@
 package navigation
 
 import javax.inject.{Inject, Singleton}
-
 import play.api.mvc.Call
 import controllers.notification.routes
 import pages._
@@ -60,16 +59,7 @@ class NotificationNavigator @Inject()() {
       case None => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
     }
 
-    case WhatIsYourFullNamePage => _ => routes.YourPhoneNumberController.onPageLoad(NormalMode)
-
-    case YourPhoneNumberPage => _ => routes.DoYouHaveAnEmailAddressController.onPageLoad(NormalMode)
-
-    case DoYouHaveAnEmailAddressPage => ua => (ua.get(DoYouHaveAnEmailAddressPage), ua.get(AreYouTheIndividualPage)) match {
-      case (Some(true), _) => routes.YourEmailAddressController.onPageLoad(NormalMode)
-      case (Some(false), Some(true)) => routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
-      case (Some(false), _) => routes.YourAddressLookupController.lookupAddress(NormalMode)
-      case (_, _) => routes.DoYouHaveAnEmailAddressController.onPageLoad(NormalMode)
-    }
+    case WhatIsYourFullNamePage => _ => routes.HowWouldYouPreferToBeContactedController.onPageLoad(NormalMode)
 
     case WhatIsYourDateOfBirthPage => _ => routes.WhatIsYourMainOccupationController.onPageLoad(NormalMode)
 
@@ -82,9 +72,23 @@ class NotificationNavigator @Inject()() {
       case None => routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(NormalMode)
     }
 
-    case YourEmailAddressPage => ua => ua.get(AreYouTheIndividualPage) match {
-      case Some(true) => routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
+    case HowWouldYouPreferToBeContactedPage => ua =>
+      ua.get(HowWouldYouPreferToBeContactedPage) match {
+        case Some(value) if value.contains(HowWouldYouPreferToBeContacted.Email) => routes.YourEmailAddressController.onPageLoad(NormalMode)
+        case Some(_) => routes.YourPhoneNumberController.onPageLoad(NormalMode)
+        case _ => routes.HowWouldYouPreferToBeContactedController.onPageLoad(NormalMode)
+      }
+
+    case YourEmailAddressPage => ua => (ua.get(AreYouTheIndividualPage), ua.get(HowWouldYouPreferToBeContactedPage)) match {
+      case (_, Some(howWouldYouPreferToBeContacted)) if howWouldYouPreferToBeContacted.contains(HowWouldYouPreferToBeContacted.Telephone)
+        => routes.YourPhoneNumberController.onPageLoad(NormalMode)
+      case (Some(true), _) => routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
       case _ => routes.YourAddressLookupController.lookupAddress(NormalMode)
+    }
+
+    case YourPhoneNumberPage => ua => ua.get(AreYouTheIndividualPage) match {
+      case Some(true) => routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
+      case _ => routes.YourAddressLookupController.lookupAddress (NormalMode)
     }
 
     case WhatIsYourNationalInsuranceNumberPage => _ => routes.AreYouRegisteredForVATController.onPageLoad(NormalMode)
@@ -248,10 +252,6 @@ class NotificationNavigator @Inject()() {
       if(hasAnswerChanged) routes.LetterReferenceController.onPageLoad(CheckMode)
       else routes.CheckYourAnswersController.onPageLoad
 
-    case DoYouHaveAnEmailAddressPage => ua => hasAnswerChanged =>
-      if(hasAnswerChanged) routes.YourEmailAddressController.onPageLoad(CheckMode)
-      else routes.CheckYourAnswersController.onPageLoad
-
     case DoYouHaveNationalInsuranceNumberPage => ua => hasAnswerChanged => ua.get(DoYouHaveNationalInsuranceNumberPage) match {
       case Some(DoYouHaveNationalInsuranceNumber.YesIKnow) if hasAnswerChanged => routes.WhatIsYourNationalInsuranceNumberController.onPageLoad(CheckMode)
       case _ => routes.CheckYourAnswersController.onPageLoad
@@ -323,8 +323,18 @@ class NotificationNavigator @Inject()() {
     case RelatesToPage => ua => hasAnswerChanged => 
       if(hasAnswerChanged) nextPage(RelatesToPage, NormalMode, ua)
       else routes.CheckYourAnswersController.onPageLoad
-    
-       
+
+    case HowWouldYouPreferToBeContactedPage => ua => hasAnswerChanged => (ua.get(HowWouldYouPreferToBeContactedPage), ua.get(YourEmailAddressPage), ua.get(YourPhoneNumberPage)) match {
+      case (Some(preferences), None, _)  if hasAnswerChanged && preferences.contains(HowWouldYouPreferToBeContacted.Email) => routes.YourEmailAddressController.onPageLoad(CheckMode)
+      case (Some(preferences), _, None)  if hasAnswerChanged && preferences.contains(HowWouldYouPreferToBeContacted.Telephone) => routes.YourPhoneNumberController.onPageLoad(CheckMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad
+    }
+
+    case YourEmailAddressPage => ua => _ => (ua.get(HowWouldYouPreferToBeContactedPage), ua.get(YourPhoneNumberPage)) match {
+      case (Some(preferences), None) if preferences.contains(HowWouldYouPreferToBeContacted.Telephone) => routes.YourPhoneNumberController.onPageLoad(CheckMode)
+      case (_, _) => routes.CheckYourAnswersController.onPageLoad
+    }
+
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 

@@ -16,30 +16,30 @@
 
 package forms
 
-import forms.behaviours.BooleanFieldBehaviours
+import forms.behaviours.CheckboxFieldBehaviours
+import models.HowWouldYouPreferToBeContacted
 import play.api.data.FormError
 
-class DoYouHaveAnEmailAddressFormProviderSpec extends BooleanFieldBehaviours {
+class HowWouldYouPreferToBeContactedFormProviderSpec extends CheckboxFieldBehaviours {
 
-  val requiredKey = "doYouHaveAnEmailAddress.error.required"
-  val invalidKey = "error.boolean"
-
-  val form = new DoYouHaveAnEmailAddressFormProvider()()
+  val form = new HowWouldYouPreferToBeContactedFormProvider()()
 
   ".value" - {
 
     val fieldName = "value"
+    val requiredKey = "howWouldYouPreferToBeContacted.error.required"
 
-    behave like booleanField(
+    behave like checkboxField[HowWouldYouPreferToBeContacted](
       form,
       fieldName,
-      invalidError = FormError(fieldName, invalidKey)
+      validValues  = HowWouldYouPreferToBeContacted.values,
+      invalidError = FormError(s"$fieldName[0]", "error.invalid")
     )
 
-    behave like mandatoryField(
+    behave like mandatoryCheckboxField(
       form,
       fieldName,
-      requiredError = FormError(fieldName, requiredKey)
+      requiredKey
     )
   }
 }

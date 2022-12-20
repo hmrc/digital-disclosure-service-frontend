@@ -16,16 +16,17 @@
 
 package pages
 
+import models.HowWouldYouPreferToBeContacted
 import pages.behaviours.PageBehaviours
 
-class DoYouHaveAnEmailAddressPageSpec extends PageBehaviours {
+class HowWouldYouPreferToBeContactedPageSpec extends PageBehaviours {
 
-  "DoYouHaveAnEmailAddressPage" - {
+  "HowWouldYouPreferToBeContactedPage" - {
 
-    beRetrievable[Boolean](DoYouHaveAnEmailAddressPage)
+    beRetrievable[Set[HowWouldYouPreferToBeContacted]](HowWouldYouPreferToBeContactedPage)
 
-    beSettable[Boolean](DoYouHaveAnEmailAddressPage)
+    beSettable[Set[HowWouldYouPreferToBeContacted]](HowWouldYouPreferToBeContactedPage)
 
-    beRemovable[Boolean](DoYouHaveAnEmailAddressPage)
+    beRemovable[Set[HowWouldYouPreferToBeContacted]](HowWouldYouPreferToBeContactedPage)
   }
 }

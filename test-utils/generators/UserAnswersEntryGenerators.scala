@@ -48,6 +48,14 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
       } yield (page, value)
     }
 
+  implicit lazy val arbitraryHowWouldYouPreferToBeContactedUserAnswersEntry: Arbitrary[(HowWouldYouPreferToBeContactedPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[HowWouldYouPreferToBeContactedPage.type]
+        value <- arbitrary[HowWouldYouPreferToBeContacted].map(Json.toJson(_))
+      } yield (page, value)
+    }
+
   implicit lazy val arbitraryWhatWasThePersonUTRUserAnswersEntry: Arbitrary[(WhatWasThePersonUTRPage.type, JsValue)] =
     Arbitrary {
       for {
@@ -357,14 +365,6 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
       for {
         page  <- arbitrary[YourPhoneNumberPage.type]
         value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
-      } yield (page, value)
-    }
-
-  implicit lazy val arbitraryDoYouHaveAnEmailAddressUserAnswersEntry: Arbitrary[(DoYouHaveAnEmailAddressPage.type, JsValue)] =
-    Arbitrary {
-      for {
-        page  <- arbitrary[DoYouHaveAnEmailAddressPage.type]
-        value <- arbitrary[Boolean].map(Json.toJson(_))
       } yield (page, value)
     }
 

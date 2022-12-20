@@ -30,6 +30,9 @@ trait PageGenerators {
   implicit lazy val arbitraryMakeANotificationOrDisclosurePage: Arbitrary[MakeANotificationOrDisclosurePage.type] =
     Arbitrary(MakeANotificationOrDisclosurePage)
 
+  implicit lazy val arbitraryHowWouldYouPreferToBeContactedPage: Arbitrary[HowWouldYouPreferToBeContactedPage.type] =
+    Arbitrary(HowWouldYouPreferToBeContactedPage)
+
   implicit lazy val arbitraryWhatWasThePersonUTRPage: Arbitrary[WhatWasThePersonUTRPage.type] =
     Arbitrary(WhatWasThePersonUTRPage)
 
@@ -146,9 +149,6 @@ trait PageGenerators {
     
   implicit lazy val arbitraryYourPhoneNumberPage: Arbitrary[YourPhoneNumberPage.type] =
     Arbitrary(YourPhoneNumberPage)
-    
-  implicit lazy val arbitraryDoYouHaveAnEmailAddressPage: Arbitrary[DoYouHaveAnEmailAddressPage.type] =
-    Arbitrary(DoYouHaveAnEmailAddressPage)
 
   implicit lazy val arbitraryLetterReferencePage: Arbitrary[LetterReferencePage.type] =
     Arbitrary(LetterReferencePage)

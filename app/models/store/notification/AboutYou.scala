@@ -22,19 +22,19 @@ import models.store.YesNoOrUnsure
 import models.address.Address
 
 final case class AboutYou (
-  fullName: Option[String] = None,
-  telephoneNumber: Option[String] = None,
-  doYouHaveAEmailAddress: Option[Boolean] = None,
-  emailAddress: Option[String] = None,
-  dateOfBirth: Option[LocalDate] = None,
-  mainOccupation: Option[String] = None,
-  doYouHaveANino: Option[YesNoOrUnsure] = None,
-  nino: Option[String] = None,
-  registeredForVAT: Option[YesNoOrUnsure] = None,
-  vatRegNumber: Option[String] = None,
-  registeredForSA: Option[YesNoOrUnsure] = None,
-  sautr: Option[String] = None,
-  address: Option[Address] = None
+                            fullName: Option[String] = None,
+                            telephoneNumber: Option[String] = None,
+                            emailAddress: Option[String] = None,
+                            dateOfBirth: Option[LocalDate] = None,
+                            mainOccupation: Option[String] = None,
+                            contactPreference: Option[ContactPreferences] = None,
+                            doYouHaveANino: Option[YesNoOrUnsure] = None,
+                            nino: Option[String] = None,
+                            registeredForVAT: Option[YesNoOrUnsure] = None,
+                            vatRegNumber: Option[String] = None,
+                            registeredForSA: Option[YesNoOrUnsure] = None,
+                            sautr: Option[String] = None,
+                            address: Option[Address] = None
 )
 
 object AboutYou {

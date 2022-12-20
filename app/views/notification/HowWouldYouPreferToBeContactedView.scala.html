@@ -18,31 +18,30 @@
     layout: templates.Layout,
     formHelper: FormWithCSRF,
     govukErrorSummary: GovukErrorSummary,
-    govukRadios: GovukRadios,
+    govukCheckboxes: GovukCheckboxes,
     govukButton: GovukButton,
-    heading: components.heading,
-    paragraph: components.paragraph
+    heading: components.heading
 )
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("doYouHaveAnEmailAddress.title"))) {
+@layout(pageTitle = title(form, messages("howWouldYouPreferToBeContacted.title"))) {
 
-    @formHelper(action = controllers.notification.routes.DoYouHaveAnEmailAddressController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.notification.routes.HowWouldYouPreferToBeContactedController.onSubmit(mode), 'autoComplete -> "off") {
 
         @if(form.errors.nonEmpty) {
-            @govukErrorSummary(ErrorSummaryViewModel(form))
+            @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value_0")))
         }
 
-        @heading(Text(messages("doYouHaveAnEmailAddress.heading")))
+        @heading(Text(messages("howWouldYouPreferToBeContacted.heading")))
 
-        @paragraph(id = Some("paragraph"), content = Text(messages("doYouHaveAnEmailAddress.paragraph")))
-
-        @govukRadios(
-            RadiosViewModel.yesNo(
-                field = form("value"),
-                legend = LegendViewModel(messages("doYouHaveAnEmailAddress.heading")).withCssClass("govuk-visually-hidden")
-            )
+        @govukCheckboxes(
+            CheckboxesViewModel(
+                form   = form,
+                name   = "value",
+                legend = LegendViewModel(messages("howWouldYouPreferToBeContacted.body")),
+                items  = HowWouldYouPreferToBeContacted.checkboxItems,
+            ).withHint(Hint(content = Text(messages("howWouldYouPreferToBeContacted.hint"))))
         )
 
         @govukButton(

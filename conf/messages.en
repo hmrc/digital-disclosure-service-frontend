@@ -448,13 +448,6 @@ yourPhoneNumber.hint = For example, 01642 123456, 07777 777777 or +33 1 2345 678
 yourPhoneNumber.error.required = Enter your telephone number in the right format
 yourPhoneNumber.change.hidden = Your telephone number
 
-doYouHaveAnEmailAddress.title = Do you have an email address that you are happy to be contacted on by HMRC?
-doYouHaveAnEmailAddress.heading = Do you have an email address that you are happy to be contacted on by HMRC?
-doYouHaveAnEmailAddress.checkYourAnswersLabel = Do you have an email address that you are happy to be contacted on by HMRC?
-doYouHaveAnEmailAddress.paragraph = HMRC will only use this email address if they need to contact you about this disclosure
-doYouHaveAnEmailAddress.error.required = Select yes if you have an email address that HMRC can contact you with
-doYouHaveAnEmailAddress.change.hidden = Do you have an email address that you are happy to be contacted on by HMRC?
-
 whatIsYourDateOfBirth.title = What is your date of birth?
 whatIsYourDateOfBirth.heading = What is your date of birth?
 whatIsYourDateOfBirth.hint = For example, 20 3 1976.
@@ -1040,11 +1033,21 @@ taskList.status.notStarted = Not Started
 taskList.op.add = Add
 taskList.op.edit = Edit
 
+howWouldYouPreferToBeContacted.title = How would you prefer to be contacted by HMRC?
+howWouldYouPreferToBeContacted.heading = How would you prefer to be contacted by HMRC?
+howWouldYouPreferToBeContacted.body = We will only contact you to discuss this disclosure, if needed.
+howWouldYouPreferToBeContacted.hint = Select all that apply.
+howWouldYouPreferToBeContacted.email = Email
+howWouldYouPreferToBeContacted.telephone = Telephone
+howWouldYouPreferToBeContacted.checkYourAnswersLabel = Your contact preference
+howWouldYouPreferToBeContacted.error.required = Select how you want to be contacted
+howWouldYouPreferToBeContacted.change.hidden = Your contact preference
+
 contractualDisclosureFacility.title = Contractual Disclosure Facility
 contractualDisclosureFacility.heading = Contractual Disclosure Facility
 contractualDisclosureFacility.body.first = 'As you have a deliberate behaviour to disclose, you may qualify for the '
-contractualDisclosureFacility.link.first = Contractual Disclosure Facility (CDF) (opens in a new tab). 
-contractualDisclosureFacility.body.second = ' By using the CDF, HMRC will not carry out a criminal investigation into the deliberate behaviour you disclose. You do not have to wait for HMRC to offer you the facility. You can ask for it by ' 
+contractualDisclosureFacility.link.first = Contractual Disclosure Facility (CDF) (opens in a new tab).
+contractualDisclosureFacility.body.second = ' By using the CDF, HMRC will not carry out a criminal investigation into the deliberate behaviour you disclose. You do not have to wait for HMRC to offer you the facility. You can ask for it by '
 contractualDisclosureFacility.link.second = filling in the contractual disclosure form CDF1 (opens in a new tab).
 contractualDisclosureFacility.warningText = You may be subject to an HMRC criminal investigation if you qualify for CDF but choose to continue disclosing deliberate behaviour through this digital disclosure service instead.
 contractualDisclosureFacility.label = What do you want to do?

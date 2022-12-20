@@ -18,26 +18,35 @@ package viewmodels.checkAnswers
 
 import controllers.notification.routes
 import models.{CheckMode, UserAnswers}
-import pages.DoYouHaveAnEmailAddressPage
+import pages.HowWouldYouPreferToBeContactedPage
 import play.api.i18n.Messages
+import play.twirl.api.HtmlFormat
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object DoYouHaveAnEmailAddressSummary  {
+object HowWouldYouPreferToBeContactedSummary  {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(DoYouHaveAnEmailAddressPage).map {
-      answer =>
+    answers.get(HowWouldYouPreferToBeContactedPage).map {
+      answers =>
 
-        val value = if (answer) "site.yes" else "site.no"
+        val value = ValueViewModel(
+          HtmlContent(
+            answers.map {
+              answer => HtmlFormat.escape(messages(s"howWouldYouPreferToBeContacted.$answer")).toString
+            }
+            .mkString(",<br>")
+          )
+        )
 
         SummaryListRowViewModel(
-          key     = "doYouHaveAnEmailAddress.checkYourAnswersLabel",
-          value   = ValueViewModel(value),
+          key     = "howWouldYouPreferToBeContacted.checkYourAnswersLabel",
+          value   = value,
           actions = Seq(
-            ActionItemViewModel("site.change", routes.DoYouHaveAnEmailAddressController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("doYouHaveAnEmailAddress.change.hidden"))
+            ActionItemViewModel("site.change", routes.HowWouldYouPreferToBeContactedController.onPageLoad(CheckMode).url)
+              .withVisuallyHiddenText(messages("howWouldYouPreferToBeContacted.change.hidden"))
           )
         )
     }

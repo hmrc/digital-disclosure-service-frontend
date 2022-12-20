@@ -14,13 +14,19 @@
  * limitations under the License.
  */
 
-package pages
+package forms
 
-import play.api.libs.json.JsPath
+import javax.inject.Inject
 
-case object DoYouHaveAnEmailAddressPage extends QuestionPage[Boolean] {
+import forms.mappings.Mappings
+import play.api.data.Form
+import play.api.data.Forms.set
+import models.HowWouldYouPreferToBeContacted
 
-  override def path: JsPath = JsPath \ toString
+class HowWouldYouPreferToBeContactedFormProvider @Inject() extends Mappings {
 
-  override def toString: String = "doYouHaveAnEmailAddress"
+  def apply(): Form[Set[HowWouldYouPreferToBeContacted]] =
+    Form(
+      "value" -> set(enumerable[HowWouldYouPreferToBeContacted]("howWouldYouPreferToBeContacted.error.required")).verifying(nonEmptySet("howWouldYouPreferToBeContacted.error.required"))
+    )
 }

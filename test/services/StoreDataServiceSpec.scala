@@ -162,7 +162,6 @@ class StoreDataServiceSpec extends AnyWordSpec with Matchers with TryValues {
       val pages = List(
         PageWithValue(WhatIsYourFullNamePage, "Full name"),
         PageWithValue(YourPhoneNumberPage, "Phone number"),
-        PageWithValue(DoYouHaveAnEmailAddressPage, true),
         PageWithValue(YourEmailAddressPage, "Email address"),
         PageWithValue(WhatIsYourDateOfBirthPage, localDate),
         PageWithValue(WhatIsYourMainOccupationPage, "Occupation"), 
@@ -178,7 +177,6 @@ class StoreDataServiceSpec extends AnyWordSpec with Matchers with TryValues {
       val expected = AboutYou(
         fullName = Some("Full name"),
         telephoneNumber = Some("Phone number"),
-        doYouHaveAEmailAddress = Some(true),
         emailAddress = Some("Email address"),
         dateOfBirth = Some(localDate),
         mainOccupation = Some("Occupation"),

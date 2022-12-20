@@ -84,10 +84,18 @@ class StoreDataServiceImpl extends StoreDataService {
     AboutYou(
       fullName = userAnswers.get(WhatIsYourFullNamePage),
       telephoneNumber = userAnswers.get(YourPhoneNumberPage),
-      doYouHaveAEmailAddress = userAnswers.get(DoYouHaveAnEmailAddressPage),
       emailAddress = userAnswers.get(YourEmailAddressPage),
       dateOfBirth = userAnswers.get(WhatIsYourDateOfBirthPage),
       mainOccupation = userAnswers.get(WhatIsYourMainOccupationPage),
+      contactPreference = userAnswers.get(HowWouldYouPreferToBeContactedPage) match {
+        case Some(preference) =>
+          val contactPreference: Set[Preference] = preference.map{
+            case HowWouldYouPreferToBeContacted.Email => Email
+            case HowWouldYouPreferToBeContacted.Telephone => Telephone
+          }
+          Some(ContactPreferences(contactPreference))
+        case _ => None
+      },
       doYouHaveANino = userAnswers.get(DoYouHaveNationalInsuranceNumberPage),
       nino = userAnswers.get(WhatIsYourNationalInsuranceNumberPage),
       registeredForVAT = userAnswers.get(AreYouRegisteredForVATPage),
