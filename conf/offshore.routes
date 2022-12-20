@@ -8,3 +8,8 @@ GET        /contractual-disclosure-facility              controllers.offshore.Co
 POST       /contractual-disclosure-facility              controllers.offshore.ContractualDisclosureFacilityController.onSubmit(mode: Mode = NormalMode)
 GET        /contractual-disclosure-facility/change       controllers.offshore.ContractualDisclosureFacilityController.onPageLoad(mode: Mode = CheckMode)
 POST       /contractual-disclosure-facility/change       controllers.offshore.ContractualDisclosureFacilityController.onSubmit(mode: Mode = CheckMode)
+
+GET        /reasonable-care                              controllers.offshore.WhatReasonableCareDidYouTakeController.onPageLoad(mode: Mode = NormalMode)
+POST       /reasonable-care                              controllers.offshore.WhatReasonableCareDidYouTakeController.onSubmit(mode: Mode = NormalMode)
+GET        /reasonable-care/change                       controllers.offshore.WhatReasonableCareDidYouTakeController.onPageLoad(mode: Mode = CheckMode)
+POST       /reasonable-care/change                       controllers.offshore.WhatReasonableCareDidYouTakeController.onSubmit(mode: Mode = CheckMode)
