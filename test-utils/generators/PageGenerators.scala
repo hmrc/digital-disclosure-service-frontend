@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryWhatIsYourReasonableExcusePage: Arbitrary[WhatIsYourReasonableExcusePage.type] =
+    Arbitrary(WhatIsYourReasonableExcusePage)
+
   implicit lazy val arbitraryContractualDisclosureFacilityPage: Arbitrary[ContractualDisclosureFacilityPage.type] =
     Arbitrary(ContractualDisclosureFacilityPage)
 

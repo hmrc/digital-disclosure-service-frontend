@@ -1056,3 +1056,16 @@ contractualDisclosureFacility.no = Leave this service
 contractualDisclosureFacility.checkYourAnswersLabel = What do you want to do?
 contractualDisclosureFacility.error.required = Select continue using this digital disclosure service
 contractualDisclosureFacility.change.hidden = ContractualDisclosureFacility
+
+whatIsYourReasonableExcuse.title = What is your reasonable excuse for not notifying HMRC about a tax liability?
+whatIsYourReasonableExcuse.heading = What is your reasonable excuse for not notifying HMRC about a tax liability?
+whatIsYourReasonableExcuse.excuse = A reasonable excuse is something that stopped you meeting a tax obligation that you took reasonable care to meet.
+whatIsYourReasonableExcuse.years = Which years does this apply to?
+whatIsYourReasonableExcuse.years.hint = For example, tax year ending 2019.
+whatIsYourReasonableExcuse.checkYourAnswersLabel = What is your reasonable excuse for not notifying HMRC about a tax liability?
+whatIsYourReasonableExcuse.error.excuse.required = Enter excuse
+whatIsYourReasonableExcuse.error.years.required = Enter years
+whatIsYourReasonableExcuse.error.excuse.length = excuse must be 100 characters or less
+whatIsYourReasonableExcuse.error.years.length = years must be 100 characters or less
+whatIsYourReasonableExcuse.excuse.change.hidden = excuse
+whatIsYourReasonableExcuse.years.change.hidden = years

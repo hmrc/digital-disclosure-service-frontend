@@ -8,3 +8,8 @@ GET        /contractual-disclosure-facility              controllers.offshore.Co
 POST       /contractual-disclosure-facility              controllers.offshore.ContractualDisclosureFacilityController.onSubmit(mode: Mode = NormalMode)
 GET        /contractual-disclosure-facility/change       controllers.offshore.ContractualDisclosureFacilityController.onPageLoad(mode: Mode = CheckMode)
 POST       /contractual-disclosure-facility/change       controllers.offshore.ContractualDisclosureFacilityController.onSubmit(mode: Mode = CheckMode)
+
+GET        /excuse-for-not-notifying                        controllers.offshore.WhatIsYourReasonableExcuseController.onPageLoad(mode: Mode = NormalMode)
+POST       /excuse-for-not-notifying                        controllers.offshore.WhatIsYourReasonableExcuseController.onSubmit(mode: Mode = NormalMode)
+GET        /excuse-for-not-notifying/change                  controllers.offshore.WhatIsYourReasonableExcuseController.onPageLoad(mode: Mode = CheckMode)
+POST       /excuse-for-not-notifying/change                  controllers.offshore.WhatIsYourReasonableExcuseController.onSubmit(mode: Mode = CheckMode)
