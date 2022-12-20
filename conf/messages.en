@@ -1056,3 +1056,11 @@ contractualDisclosureFacility.no = Leave this service
 contractualDisclosureFacility.checkYourAnswersLabel = What do you want to do?
 contractualDisclosureFacility.error.required = Select continue using this digital disclosure service
 contractualDisclosureFacility.change.hidden = ContractualDisclosureFacility
+
+youHaveLeftTheDDS.title = You have left the digital disclosure service
+youHaveLeftTheDDS.heading = You have left the digital disclosure service
+youHaveLeftTheDDS.body.first = 'You can now choose to '
+youHaveLeftTheDDS.link = go to the Contractual Disclosure Facility (CDF) (opens in new tab)
+youHaveLeftTheDDS.body.second = ' or you can close this page.'
+youHaveLeftTheDDS.checkYourAnswersLabel = youHaveLeftTheDDS
+youHaveLeftTheDDS.change.hidden = YouHaveLeftTheDDS
