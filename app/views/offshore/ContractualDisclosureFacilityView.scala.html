@@ -18,6 +18,7 @@
     layout: templates.Layout,
     formHelper: FormWithCSRF,
     govukErrorSummary: GovukErrorSummary,
+    govukWarningText: GovukWarningText,
     govukRadios: GovukRadios,
     govukButton: GovukButton,
     heading: components.heading,
@@ -46,6 +47,8 @@
                 link(id = "guidance-link-second", text = messages("contractualDisclosureFacility.link.second"), newTab = true, call = Call("GET", "https://www.gov.uk/government/publications/voluntary-disclosure-contractual-disclosure-facility-cdf1"))
             )
         )
+
+        @govukWarningText(WarningText(content = messages("contractualDisclosureFacility.warningText")))
 
         @govukRadios(
             RadiosViewModel(
