@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryContractualDisclosureFacilityPage: Arbitrary[ContractualDisclosureFacilityPage.type] =
+    Arbitrary(ContractualDisclosureFacilityPage)
+
   implicit lazy val arbitraryWhyAreYouMakingThisDisclosurePage: Arbitrary[WhyAreYouMakingThisDisclosurePage.type] =
     Arbitrary(WhyAreYouMakingThisDisclosurePage)
 
