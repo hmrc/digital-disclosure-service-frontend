@@ -1,4 +1,4 @@
-service.name = Digital Disclosure Service
+service.name = Tell HMRC about underpaid tax from previous years
 site.back = Back
 site.remove = Remove
 site.change = Change
@@ -37,8 +37,8 @@ error.number = Please enter a valid number
 error.required = Please enter a value
 error.summary.title = There is a problem
 
-index.title = Digital Disclosure Service
-index.heading = Digital Disclosure Service
+index.title = Tell HMRC about underpaid tax from previous years
+index.heading = Tell HMRC about underpaid tax from previous years
 index.guidance.paragraph.first = You can tell us about undisclosed income you need to pay tax on for any years between the tax years ending 2003 and 2021. However, if you have been sent a tax return for any year from the tax year ending 2019 which is still outstanding, you must complete it as normal – do not include the tax from these tax years in this disclosure.
 index.guidance.paragraph.second = If you need to pay tax you owe from previous years (by making a ‘disclosure’), you need to make HMRC aware of this first.
 index.guidance.paragraph.third = To do this, you can either:
