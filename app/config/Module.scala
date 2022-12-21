@@ -35,7 +35,7 @@ class Module extends play.api.inject.Module  {
       bind[Clock].toInstance(Clock.systemUTC()),
       bind[DataRetrievalAction].to[DataRetrievalActionImpl].eagerly(),
       bind[DataRequiredAction].to[DataRequiredActionImpl].eagerly(),
-      bind[IdentifierAction].to[AuthenticatedIdentifierAction].eagerly(),
+      bind[IdentifierAction].to[AuthenticatedIdentifierAction].eagerly()
     ) 
 
     bindings ++ authTokenInitialiserBindings
