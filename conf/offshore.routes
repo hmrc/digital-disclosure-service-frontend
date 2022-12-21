@@ -9,6 +9,11 @@ POST       /contractual-disclosure-facility              controllers.offshore.Co
 GET        /contractual-disclosure-facility/change       controllers.offshore.ContractualDisclosureFacilityController.onPageLoad(mode: Mode = CheckMode)
 POST       /contractual-disclosure-facility/change       controllers.offshore.ContractualDisclosureFacilityController.onSubmit(mode: Mode = CheckMode)
 
+GET        /reasonable-care                              controllers.offshore.WhatReasonableCareDidYouTakeController.onPageLoad(mode: Mode = NormalMode)
+POST       /reasonable-care                              controllers.offshore.WhatReasonableCareDidYouTakeController.onSubmit(mode: Mode = NormalMode)
+GET        /reasonable-care/change                       controllers.offshore.WhatReasonableCareDidYouTakeController.onPageLoad(mode: Mode = CheckMode)
+POST       /reasonable-care/change                       controllers.offshore.WhatReasonableCareDidYouTakeController.onSubmit(mode: Mode = CheckMode)
+
 GET        /left-the-service                             controllers.offshore.YouHaveLeftTheDDSController.onPageLoad(mode: Mode = NormalMode)
 POST       /left-the-service                             controllers.offshore.YouHaveLeftTheDDSController.onSubmit(mode: Mode = NormalMode)
 GET        /left-the-service/change                      controllers.offshore.YouHaveLeftTheDDSController.onPageLoad(mode: Mode = CheckMode)

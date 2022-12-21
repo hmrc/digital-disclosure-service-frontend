@@ -26,6 +26,14 @@ import scala.language.higherKinds
 
 trait ModelGenerators {
 
+  implicit lazy val arbitraryWhatReasonableCareDidYouTake: Arbitrary[WhatReasonableCareDidYouTake] =
+    Arbitrary {
+      for {
+        reasonableCare <- arbitrary[String]
+        yearsThisAppliesTo <- arbitrary[String]
+      } yield WhatReasonableCareDidYouTake(reasonableCare, yearsThisAppliesTo)
+    }
+
   implicit lazy val arbitraryContractualDisclosureFacility: Arbitrary[ContractualDisclosureFacility] =
     Arbitrary {
       Gen.oneOf(ContractualDisclosureFacility.values.toSeq)

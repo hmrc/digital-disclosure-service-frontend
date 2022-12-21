@@ -1057,6 +1057,20 @@ contractualDisclosureFacility.checkYourAnswersLabel = What do you want to do?
 contractualDisclosureFacility.error.required = Select continue using this digital disclosure service
 contractualDisclosureFacility.change.hidden = ContractualDisclosureFacility
 
+whatReasonableCareDidYouTake.title = What reasonable care did you take when submitting the inaccurate return?
+whatReasonableCareDidYouTake.heading = What reasonable care did you take when submitting the inaccurate return?
+whatReasonableCareDidYouTake.reasonableCare = Reasonable care means you did everything you could to make sure the tax returns and other documents you sent to HMRC were accurate.
+whatReasonableCareDidYouTake.yearsThisAppliesTo = Which tax years does this apply to?
+whatReasonableCareDidYouTake.yearsThisAppliesTo.hint = For example, tax year ending 2019.
+whatReasonableCareDidYouTake.tasklist.link = Return to the list of tasks
+whatReasonableCareDidYouTake.checkYourAnswersLabel = WhatReasonableCareDidYouTake
+whatReasonableCareDidYouTake.error.reasonableCare.required = Enter the reasonable care taken
+whatReasonableCareDidYouTake.error.yearsThisAppliesTo.required = Enter the tax years this applies to
+whatReasonableCareDidYouTake.error.reasonableCare.length = The reasonable care you took must be between 1 and 5,000 characters
+whatReasonableCareDidYouTake.error.yearsThisAppliesTo.length = The tax years this applies to must be between 1 and 500 characters
+whatReasonableCareDidYouTake.reasonableCare.change.hidden = input1
+whatReasonableCareDidYouTake.yearsThisAppliesTo.change.hidden = input2
+
 youHaveLeftTheDDS.title = You have left the digital disclosure service
 youHaveLeftTheDDS.heading = You have left the digital disclosure service
 youHaveLeftTheDDS.body.first = 'You can now choose to '
