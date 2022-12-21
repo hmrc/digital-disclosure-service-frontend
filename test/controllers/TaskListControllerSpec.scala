@@ -178,17 +178,5 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
       link = routes.TaskListController.onPageLoad
     )
   }
-
-  private def buildLiabilitiesInformationRow(userAnswers: UserAnswers)(implicit messages: Messages): Seq[TaskListRow] = {
-    val offshore = userAnswers.get(OffshoreLiabilitiesPage) 
-    val onshore = userAnswers.get(OnshoreLiabilitiesPage)
-
-    (offshore, onshore) match {
-      case (None, None) => Seq(buildCaseReferenceRow, buildOtherLiabilityIssueRow)
-      case (Some(true), None) => Seq(buildCaseReferenceRow, buildOtherLiabilityIssueRow)
-      case (Some(true), Some(true)) => Seq(buildCaseReferenceRow, buildOnshoreLiabilitieDetailRow, buildOffshoreLiabilitieDetailRow(userAnswers), buildOtherLiabilityIssueRow)
-      case (Some(true), Some(false)) => Seq(buildCaseReferenceRow, buildOffshoreLiabilitieDetailRow(userAnswers), buildOtherLiabilityIssueRow)
-      case (Some(false), _) => Seq(buildCaseReferenceRow, buildOnshoreLiabilitieDetailRow, buildOtherLiabilityIssueRow)
-    }
-  }
+  
 }

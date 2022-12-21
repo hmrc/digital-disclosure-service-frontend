@@ -26,7 +26,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import models.store.notification._
 import java.time.Instant
 import uk.gov.hmrc.http.HeaderCarrier
-import play.api.libs.json.Json
 
 class AuditServiceSpec extends AnyWordSpec with Matchers with MockitoSugar {
 

@@ -19,7 +19,7 @@ package controllers.offshore
 import controllers.actions._
 import forms.WhyAreYouMakingThisDisclosureFormProvider
 import javax.inject.Inject
-import models.{Mode, UserAnswers, RelatesTo}
+import models.{Mode, UserAnswers}
 import navigation.NotificationNavigator
 import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}

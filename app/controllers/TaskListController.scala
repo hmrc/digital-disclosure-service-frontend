@@ -29,8 +29,6 @@ import views.html.TaskListView
 import viewmodels.{TaskListRow, TaskListViewModel}
 import play.api.i18n.Messages
 
-import scala.concurrent.{ExecutionContext, Future}
-
 class TaskListController @Inject()(
                                         override val messagesApi: MessagesApi,
                                         sessionService: SessionService,
@@ -40,7 +38,7 @@ class TaskListController @Inject()(
                                         requireData: DataRequiredAction,
                                         val controllerComponents: MessagesControllerComponents,
                                         view: TaskListView
-                                    )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+                                    ) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad(): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
@@ -127,11 +125,11 @@ class TaskListController @Inject()(
     val onshore = userAnswers.get(OnshoreLiabilitiesPage)
 
     (offshore, onshore) match {
-      case (None, None) => Seq(buildCaseReferenceRow, buildOtherLiabilityIssueRow)
-      case (Some(true), None) => Seq(buildCaseReferenceRow, buildOtherLiabilityIssueRow)
-      case (Some(true), Some(true)) => Seq(buildCaseReferenceRow, buildOnshoreLiabilitieDetailRow, buildOffshoreLiabilitieDetailRow(userAnswers), buildOtherLiabilityIssueRow)
-      case (Some(true), Some(false)) => Seq(buildCaseReferenceRow, buildOffshoreLiabilitieDetailRow(userAnswers), buildOtherLiabilityIssueRow)
-      case (Some(false), _) => Seq(buildCaseReferenceRow, buildOnshoreLiabilitieDetailRow, buildOtherLiabilityIssueRow)
+      case (Some(true),  Some(true))  => Seq(buildCaseReferenceRow, buildOnshoreLiabilitieDetailRow, buildOffshoreLiabilitieDetailRow(userAnswers), buildOtherLiabilityIssueRow)
+      case (Some(true),  _)           => Seq(buildCaseReferenceRow, buildOffshoreLiabilitieDetailRow(userAnswers), buildOtherLiabilityIssueRow)
+      case (_,           Some(true))  => Seq(buildCaseReferenceRow, buildOnshoreLiabilitieDetailRow, buildOtherLiabilityIssueRow)
+      case (Some(false), _)           => Seq(buildCaseReferenceRow, buildOnshoreLiabilitieDetailRow, buildOtherLiabilityIssueRow)
+      case (_,           _)           => Seq(buildCaseReferenceRow, buildOtherLiabilityIssueRow)
     }
   }
 }
