@@ -1070,3 +1070,11 @@ whatReasonableCareDidYouTake.error.reasonableCare.length = The reasonable care y
 whatReasonableCareDidYouTake.error.yearsThisAppliesTo.length = The tax years this applies to must be between 1 and 500 characters
 whatReasonableCareDidYouTake.reasonableCare.change.hidden = input1
 whatReasonableCareDidYouTake.yearsThisAppliesTo.change.hidden = input2
+
+youHaveLeftTheDDS.title = You have left the digital disclosure service
+youHaveLeftTheDDS.heading = You have left the digital disclosure service
+youHaveLeftTheDDS.body.first = 'You can now choose to '
+youHaveLeftTheDDS.link = go to the Contractual Disclosure Facility (CDF) (opens in new tab)
+youHaveLeftTheDDS.body.second = ' or you can close this page.'
+youHaveLeftTheDDS.checkYourAnswersLabel = youHaveLeftTheDDS
+youHaveLeftTheDDS.change.hidden = YouHaveLeftTheDDS

@@ -23,6 +23,9 @@ trait PageGenerators {
 
   implicit lazy val arbitraryWhatReasonableCareDidYouTakePage: Arbitrary[WhatReasonableCareDidYouTakePage.type] =
     Arbitrary(WhatReasonableCareDidYouTakePage)
+    
+  implicit lazy val arbitraryYouHaveLeftTheDDSPage: Arbitrary[YouHaveLeftTheDDSPage.type] =
+    Arbitrary(YouHaveLeftTheDDSPage)
 
   implicit lazy val arbitraryContractualDisclosureFacilityPage: Arbitrary[ContractualDisclosureFacilityPage.type] =
     Arbitrary(ContractualDisclosureFacilityPage)
