@@ -21,37 +21,50 @@ import play.api.data.FormError
 
 class WhatReasonableCareDidYouTakeFormProviderSpec extends StringFieldBehaviours {
 
-  val form = new WhatReasonableCareDidYouTakeFormProvider()()
-
-  ".reasonableCare" - {
+  ".reasonableCare when entity" - {
 
     val fieldName = "reasonableCare"
     val requiredKey = "whatReasonableCareDidYouTake.error.reasonableCare.required"
-    val lengthKey = "whatReasonableCareDidYouTake.error.reasonableCare.length"
+    val entityLengthKey = "whatReasonableCareDidYouTake.entity.error.reasonableCare.length"
     val maxLength = 5000
 
     behave like fieldThatBindsValidData(
-      form,
+      new WhatReasonableCareDidYouTakeFormProvider()(true),
       fieldName,
       stringsWithMaxLength(maxLength)
     )
 
     behave like fieldWithMaxLength(
-      form,
+      new WhatReasonableCareDidYouTakeFormProvider()(true),
       fieldName,
       maxLength = maxLength,
-      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
+      lengthError = FormError(fieldName, entityLengthKey, Seq(maxLength))
     )
 
     behave like mandatoryField(
-      form,
+      new WhatReasonableCareDidYouTakeFormProvider()(true),
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
   }
 
+  ".reasonableCare when agent" - {
+
+    val fieldName = "reasonableCare"
+    val agentLengthKey = "whatReasonableCareDidYouTake.agent.error.reasonableCare.length"
+    val maxLength = 5000
+
+    behave like fieldWithMaxLength(
+      new WhatReasonableCareDidYouTakeFormProvider()(false),
+      fieldName,
+      maxLength = maxLength,
+      lengthError = FormError(fieldName, agentLengthKey, Seq(maxLength))
+    )
+  }
+
   ".yearsThisAppliesTo" - {
 
+    val form = new WhatReasonableCareDidYouTakeFormProvider()(true)
     val fieldName = "yearsThisAppliesTo"
     val requiredKey = "whatReasonableCareDidYouTake.error.yearsThisAppliesTo.required"
     val lengthKey = "whatReasonableCareDidYouTake.error.yearsThisAppliesTo.length"

@@ -1063,7 +1063,6 @@ whatReasonableCareDidYouTake.tasklist.link = Return to the list of tasks
 whatReasonableCareDidYouTake.checkYourAnswersLabel = WhatReasonableCareDidYouTake
 whatReasonableCareDidYouTake.error.reasonableCare.required = Enter the reasonable care taken
 whatReasonableCareDidYouTake.error.yearsThisAppliesTo.required = Enter the tax years this applies to
-whatReasonableCareDidYouTake.error.reasonableCare.length = The reasonable care you took must be between 1 and 5,000 characters
 whatReasonableCareDidYouTake.error.yearsThisAppliesTo.length = The tax years this applies to must be between 1 and 500 characters
 whatReasonableCareDidYouTake.reasonableCare.change.hidden = input1
 whatReasonableCareDidYouTake.yearsThisAppliesTo.change.hidden = input2
@@ -1072,6 +1071,8 @@ whatReasonableCareDidYouTake.entity.title = What reasonable care did you take wh
 whatReasonableCareDidYouTake.entity.heading = What reasonable care did you take when submitting the inaccurate return?
 whatReasonableCareDidYouTake.agent.title = What reasonable care was taken when submitting the inaccurate return?
 whatReasonableCareDidYouTake.agent.heading = What reasonable care was taken when submitting the inaccurate return?
+whatReasonableCareDidYouTake.entity.error.reasonableCare.length = The reasonable care you took must be between 1 and 5,000 characters
+whatReasonableCareDidYouTake.agent.error.reasonableCare.length = Reasonable care taken must be between 1 and 5,000 characters
 
 whatReasonableCareDidYouTake.entity.reasonableCare = Reasonable care means you did everything you could to make sure the tax returns and other documents you sent to HMRC were accurate.
 whatReasonableCareDidYouTake.individual.reasonableCare = Reasonable care means the individual did everything they could to make sure the tax returns and other documents sent to HMRC were accurate.

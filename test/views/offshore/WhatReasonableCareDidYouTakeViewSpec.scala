@@ -25,7 +25,7 @@ import models.{NormalMode, RelatesTo}
 
 class WhatReasonableCareDidYouTakeViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhatReasonableCareDidYouTakeFormProvider()()
+  val form = new WhatReasonableCareDidYouTakeFormProvider()(true)
   val page: WhatReasonableCareDidYouTakeView = inject[WhatReasonableCareDidYouTakeView]
 
   "view" should {

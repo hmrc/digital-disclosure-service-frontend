@@ -42,19 +42,17 @@ class WhatReasonableCareDidYouTakeController @Inject()(
                                       view: WhatReasonableCareDidYouTakeView
                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  val form = formProvider()
-
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
+      val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
+
       val preparedForm = request.userAnswers.get(WhatReasonableCareDidYouTakePage) match {
-        case None => form
-        case Some(value) => form.fill(value)
+        case None => form(areTheyTheIndividual)
+        case Some(value) => form(areTheyTheIndividual).fill(value)
       }
 
-      val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
       val entity = request.userAnswers.get(RelatesToPage).get
-
       Ok(view(preparedForm, mode, areTheyTheIndividual, entity))
   }
 
@@ -64,7 +62,7 @@ class WhatReasonableCareDidYouTakeController @Inject()(
       val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
       val entity = request.userAnswers.get(RelatesToPage).get
 
-      form.bindFromRequest().fold(
+      form(areTheyTheIndividual).bindFromRequest().fold(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode, areTheyTheIndividual, entity))),
 
@@ -82,4 +80,6 @@ class WhatReasonableCareDidYouTakeController @Inject()(
       case _ => false
     }
   }
+
+  def form(areTheyTheIndividual: Boolean) = formProvider(areTheyTheIndividual)
 }

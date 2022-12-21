@@ -39,7 +39,7 @@ class WhatReasonableCareDidYouTakeControllerSpec extends SpecBase with MockitoSu
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new WhatReasonableCareDidYouTakeFormProvider()
-  val form = formProvider()
+  val form = formProvider(true)
 
   lazy val whatReasonableCareDidYouTakeRoute = offshore.routes.WhatReasonableCareDidYouTakeController.onPageLoad(NormalMode).url
 

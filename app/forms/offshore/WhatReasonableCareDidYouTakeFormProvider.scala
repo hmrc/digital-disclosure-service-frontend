@@ -25,10 +25,19 @@ import models.WhatReasonableCareDidYouTake
 
 class WhatReasonableCareDidYouTakeFormProvider @Inject() extends Mappings {
 
-   def apply(): Form[WhatReasonableCareDidYouTake] = Form(
+   def apply(areTheyTheIndividual: Boolean): Form[WhatReasonableCareDidYouTake] = Form(
      mapping(
       "reasonableCare" -> text("whatReasonableCareDidYouTake.error.reasonableCare.required")
-        .verifying(maxLength(5000, "whatReasonableCareDidYouTake.error.reasonableCare.length")),
+        .verifying(
+          maxLength(
+            5000,
+            if(areTheyTheIndividual) {
+              "whatReasonableCareDidYouTake.entity.error.reasonableCare.length"
+            } else {
+              "whatReasonableCareDidYouTake.agent.error.reasonableCare.length"
+            }
+          )
+        ),
       "yearsThisAppliesTo" -> text("whatReasonableCareDidYouTake.error.yearsThisAppliesTo.required")
         .verifying(maxLength(500, "whatReasonableCareDidYouTake.error.yearsThisAppliesTo.length"))
     )(WhatReasonableCareDidYouTake.apply)(WhatReasonableCareDidYouTake.unapply)
