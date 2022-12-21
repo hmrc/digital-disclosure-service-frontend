@@ -21,30 +21,32 @@ import forms.WhatReasonableCareDidYouTakeFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.offshore.WhatReasonableCareDidYouTakeView
-import models.NormalMode
+import models.{NormalMode, RelatesTo}
 
 class WhatReasonableCareDidYouTakeViewSpec extends ViewSpecBase with ViewMatchers {
 
   val form = new WhatReasonableCareDidYouTakeFormProvider()()
   val page: WhatReasonableCareDidYouTakeView = inject[WhatReasonableCareDidYouTakeView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
-
   "view" should {
+
+    val areTheyTheIndividual = true
+    val entity = RelatesTo.AnIndividual
+
+    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
     val view = createView
 
-
     "have title" in {
-      view.select("title").text() must include(messages("whatReasonableCareDidYouTake.title"))
+      view.select("title").text() must include(messages("whatReasonableCareDidYouTake.entity.title"))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatReasonableCareDidYouTake.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatReasonableCareDidYouTake.entity.heading")
     }
 
     "contain reasonableCare & yearsThisAppliesTo labels" in {
-      view.getElementsByClass("govuk-label").get(0).text() mustBe messages("whatReasonableCareDidYouTake.reasonableCare")
+      view.getElementsByClass("govuk-label").get(0).text() mustBe messages("whatReasonableCareDidYouTake.entity.reasonableCare")
       view.getElementsByClass("govuk-label").get(1).text() mustBe messages("whatReasonableCareDidYouTake.yearsThisAppliesTo")
     }
 
@@ -63,4 +65,113 @@ class WhatReasonableCareDidYouTakeViewSpec extends ViewSpecBase with ViewMatcher
 
   }
 
+  "view" should {
+
+    val areTheyTheIndividual = false
+    val entity = RelatesTo.AnIndividual
+
+    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+
+    val view = createView
+
+    "have title when you have selected onbehalf of individual agent" in {
+      view.select("title").text() must include(messages("whatReasonableCareDidYouTake.agent.title"))
+    }
+
+    "contain header when you have selected onbehalf of individual agent" in {
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatReasonableCareDidYouTake.agent.heading")
+    }
+
+    "contain reasonableCare labels when you have selected onbehalf of individual agent" in {
+      view.getElementsByClass("govuk-label").get(0).text() mustBe messages(s"whatReasonableCareDidYouTake.${entity}.reasonableCare")
+    }
+  }
+
+  "view" should {
+
+    val areTheyTheIndividual = false
+    val entity = RelatesTo.AnEstate
+
+    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+
+    val view = createView
+
+    "have title when you have selected AnEstate agent" in {
+      view.select("title").text() must include(messages("whatReasonableCareDidYouTake.agent.title"))
+    }
+
+    "contain header when you have selected AnEstate agent" in {
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatReasonableCareDidYouTake.agent.heading")
+    }
+
+    "contain reasonableCare labels when you have selected AnEstate agent" in {
+      view.getElementsByClass("govuk-label").get(0).text() mustBe messages(s"whatReasonableCareDidYouTake.${entity}.reasonableCare")
+    }
+  }
+
+  "view" should {
+
+    val areTheyTheIndividual = false
+    val entity = RelatesTo.ACompany
+
+    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+
+    val view = createView
+
+    "have title when you have selected ACompany agent" in {
+      view.select("title").text() must include(messages("whatReasonableCareDidYouTake.agent.title"))
+    }
+
+    "contain header when you have selected ACompany agent" in {
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatReasonableCareDidYouTake.agent.heading")
+    }
+
+    "contain reasonableCare labels when you have selected ACompany agent" in {
+      view.getElementsByClass("govuk-label").get(0).text() mustBe messages(s"whatReasonableCareDidYouTake.${entity}.reasonableCare")
+    }
+  }
+
+  "view" should {
+
+    val areTheyTheIndividual = false
+    val entity = RelatesTo.ALimitedLiabilityPartnership
+
+    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+
+    val view = createView
+
+    "have title when you have selected ALimitedLiabilityPartnership agent" in {
+      view.select("title").text() must include(messages("whatReasonableCareDidYouTake.agent.title"))
+    }
+
+    "contain header when you have selected ALimitedLiabilityPartnership agent" in {
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatReasonableCareDidYouTake.agent.heading")
+    }
+
+    "contain reasonableCare labels when you have selected ALimitedLiabilityPartnership agent" in {
+      view.getElementsByClass("govuk-label").get(0).text() mustBe messages(s"whatReasonableCareDidYouTake.${entity}.reasonableCare")
+    }
+  }
+
+  "view" should {
+
+    val areTheyTheIndividual = false
+    val entity = RelatesTo.ATrust
+
+    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+
+    val view = createView
+
+    "have title when you have selected ATrust agent" in {
+      view.select("title").text() must include(messages("whatReasonableCareDidYouTake.agent.title"))
+    }
+
+    "contain header when you have selected ATrust agent" in {
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatReasonableCareDidYouTake.agent.heading")
+    }
+
+    "contain reasonableCare labels when you have selected ATrust agent" in {
+      view.getElementsByClass("govuk-label").get(0).text() mustBe messages(s"whatReasonableCareDidYouTake.${entity}.reasonableCare")
+    }
+  }
 }

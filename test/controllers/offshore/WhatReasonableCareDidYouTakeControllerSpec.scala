@@ -18,12 +18,12 @@ package controllers
 
 import base.SpecBase
 import forms.WhatReasonableCareDidYouTakeFormProvider
-import models.{NormalMode, WhatReasonableCareDidYouTake, UserAnswers}
+import models.{NormalMode, WhatReasonableCareDidYouTake, UserAnswers, RelatesTo}
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.WhatReasonableCareDidYouTakePage
+import pages._
 import play.api.inject.bind
 import play.api.libs.json.Json
 import play.api.mvc.Call
@@ -47,7 +47,15 @@ class WhatReasonableCareDidYouTakeControllerSpec extends SpecBase with MockitoSu
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val userAnswers = (for {
+        userAnswer <- UserAnswers("id").set(AreYouTheIndividualPage, true)
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
+      } yield uaWithRelatesToPage).success.value
+
+      val areTheyTheIndividual = isTheUserTheIndividual(userAnswers)
+      val entity = userAnswers.get(RelatesToPage).get
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
         val request = FakeRequest(GET, whatReasonableCareDidYouTakeRoute)
@@ -57,7 +65,7 @@ class WhatReasonableCareDidYouTakeControllerSpec extends SpecBase with MockitoSu
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode, areTheyTheIndividual, entity)(request, messages(application)).toString
       }
     }
 
@@ -73,7 +81,15 @@ class WhatReasonableCareDidYouTakeControllerSpec extends SpecBase with MockitoSu
         ).toString
       )
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      val ua = (for {
+        updatedAnswer <- userAnswers.set(AreYouTheIndividualPage, true)
+        uaWithRelatesToPage <- updatedAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
+      } yield uaWithRelatesToPage).success.value
+
+      val areTheyTheIndividual = isTheUserTheIndividual(ua)
+      val entity = ua.get(RelatesToPage).get
+
+      val application = applicationBuilder(userAnswers = Some(ua)).build()
 
       running(application) {
         val request = FakeRequest(GET, whatReasonableCareDidYouTakeRoute)
@@ -83,18 +99,23 @@ class WhatReasonableCareDidYouTakeControllerSpec extends SpecBase with MockitoSu
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(WhatReasonableCareDidYouTake("", "")), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(WhatReasonableCareDidYouTake("", "")), NormalMode, areTheyTheIndividual, entity)(request, messages(application)).toString
       }
     }
 
     "must redirect to the next page when valid data is submitted" in {
+
+      val ua = (for {
+        updatedAnswer <- UserAnswers("id").set(AreYouTheIndividualPage, true)
+        uaWithRelatesToPage <- updatedAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
+      } yield uaWithRelatesToPage).success.value
 
       val mockSessionService = mock[SessionService]
 
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
 
       val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
+        applicationBuilderWithSessionService(userAnswers = Some(ua), mockSessionService)
           .overrides(
             bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
           )
@@ -114,7 +135,15 @@ class WhatReasonableCareDidYouTakeControllerSpec extends SpecBase with MockitoSu
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val ua = (for {
+        updatedAnswer <- UserAnswers("id").set(AreYouTheIndividualPage, true)
+        uaWithRelatesToPage <- updatedAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
+      } yield uaWithRelatesToPage).success.value
+
+      val areTheyTheIndividual = isTheUserTheIndividual(ua)
+      val entity = ua.get(RelatesToPage).get
+
+      val application = applicationBuilder(userAnswers = Some(ua)).build()
 
       running(application) {
         val request =
@@ -128,7 +157,7 @@ class WhatReasonableCareDidYouTakeControllerSpec extends SpecBase with MockitoSu
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(request, messages(application)).toString
       }
     }
 
@@ -160,6 +189,13 @@ class WhatReasonableCareDidYouTakeControllerSpec extends SpecBase with MockitoSu
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
       }
+    }
+  }
+
+  def isTheUserTheIndividual(userAnswers: UserAnswers): Boolean = {
+    userAnswers.get(AreYouTheIndividualPage) match {
+      case Some(true) => true
+      case _ => false
     }
   }
 }

@@ -19,9 +19,9 @@ package controllers.offshore
 import controllers.actions._
 import forms.WhatReasonableCareDidYouTakeFormProvider
 import javax.inject.Inject
-import models.Mode
+import models.{Mode, UserAnswers, RelatesTo}
 import navigation.NotificationNavigator
-import pages.WhatReasonableCareDidYouTakePage
+import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -52,15 +52,21 @@ class WhatReasonableCareDidYouTakeController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
+      val entity = request.userAnswers.get(RelatesToPage).get
+
+      Ok(view(preparedForm, mode, areTheyTheIndividual, entity))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
 
+      val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
+      val entity = request.userAnswers.get(RelatesToPage).get
+
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, areTheyTheIndividual, entity))),
 
         value =>
           for {
@@ -68,5 +74,12 @@ class WhatReasonableCareDidYouTakeController @Inject()(
             _              <- sessionService.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(WhatReasonableCareDidYouTakePage, mode, updatedAnswers))
       )
+  }
+
+  def isTheUserTheIndividual(userAnswers: UserAnswers): Boolean = {
+    userAnswers.get(AreYouTheIndividualPage) match {
+      case Some(true) => true
+      case _ => false
+    }
   }
 }
