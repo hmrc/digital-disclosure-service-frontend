@@ -43,13 +43,13 @@ class WhatReasonableCareDidYouTakeViewSpec extends ViewSpecBase with ViewMatcher
       view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatReasonableCareDidYouTake.heading")
     }
 
-    "contain input 1 & input 2 labels" in {
-      view.getElementsByClass("govuk-label").get(0).text() mustBe messages("whatReasonableCareDidYouTake.input1")
-      view.getElementsByClass("govuk-label").get(1).text() mustBe messages("whatReasonableCareDidYouTake.input2")
+    "contain reasonableCare & yearsThisAppliesTo labels" in {
+      view.getElementsByClass("govuk-label").get(0).text() mustBe messages("whatReasonableCareDidYouTake.reasonableCare")
+      view.getElementsByClass("govuk-label").get(1).text() mustBe messages("whatReasonableCareDidYouTake.yearsThisAppliesTo")
     }
 
     "contain input 2 hint" in {
-      view.getElementById("input2-hint").text() mustBe messages("whatReasonableCareDidYouTake.input2.hint")
+      view.getElementById("yearsThisAppliesTo-hint").text() mustBe messages("whatReasonableCareDidYouTake.yearsThisAppliesTo.hint")
     }
 
     "display the continue button" in {

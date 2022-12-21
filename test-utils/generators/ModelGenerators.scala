@@ -29,9 +29,9 @@ trait ModelGenerators {
   implicit lazy val arbitraryWhatReasonableCareDidYouTake: Arbitrary[WhatReasonableCareDidYouTake] =
     Arbitrary {
       for {
-        input1 <- arbitrary[String]
-        input2 <- arbitrary[String]
-      } yield WhatReasonableCareDidYouTake(input1, input2)
+        reasonableCare <- arbitrary[String]
+        yearsThisAppliesTo <- arbitrary[String]
+      } yield WhatReasonableCareDidYouTake(reasonableCare, yearsThisAppliesTo)
     }
 
   implicit lazy val arbitraryContractualDisclosureFacility: Arbitrary[ContractualDisclosureFacility] =

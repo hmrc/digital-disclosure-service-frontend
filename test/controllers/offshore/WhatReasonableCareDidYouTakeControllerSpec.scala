@@ -67,8 +67,8 @@ class WhatReasonableCareDidYouTakeControllerSpec extends SpecBase with MockitoSu
         userAnswersId,
         Json.obj(
           WhatReasonableCareDidYouTakePage.toString -> Json.obj(
-            "input1" -> "value 1",
-            "input2" -> "value 2"
+            "reasonableCare" -> "value 1",
+            "yearsThisAppliesTo" -> "value 2"
           )
         ).toString
       )
@@ -103,7 +103,7 @@ class WhatReasonableCareDidYouTakeControllerSpec extends SpecBase with MockitoSu
       running(application) {
         val request =
           FakeRequest(POST, whatReasonableCareDidYouTakeRoute)
-            .withFormUrlEncodedBody(("input1", "value 1"), ("input2", "value 2"))
+            .withFormUrlEncodedBody(("reasonableCare", "value 1"), ("yearsThisAppliesTo", "value 2"))
 
         val result = route(application, request).value
 
@@ -153,7 +153,7 @@ class WhatReasonableCareDidYouTakeControllerSpec extends SpecBase with MockitoSu
       running(application) {
         val request =
           FakeRequest(POST, whatReasonableCareDidYouTakeRoute)
-            .withFormUrlEncodedBody(("input1", "value 1"), ("input2", "value 2"))
+            .withFormUrlEncodedBody(("reasonableCare", "value 1"), ("yearsThisAppliesTo", "value 2"))
 
         val result = route(application, request).value
 

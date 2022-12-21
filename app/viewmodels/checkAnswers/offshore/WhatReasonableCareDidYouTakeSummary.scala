@@ -32,7 +32,7 @@ object WhatReasonableCareDidYouTakeSummary  {
     answers.get(WhatReasonableCareDidYouTakePage).map {
       answer =>
 
-      val value = HtmlFormat.escape(answer.input1).toString + "<br/>" + HtmlFormat.escape(answer.input2).toString
+      val value = HtmlFormat.escape(answer.reasonableCare).toString + "<br/>" + HtmlFormat.escape(answer.yearsThisAppliesTo).toString
 
         SummaryListRowViewModel(
           key     = "whatReasonableCareDidYouTake.checkYourAnswersLabel",

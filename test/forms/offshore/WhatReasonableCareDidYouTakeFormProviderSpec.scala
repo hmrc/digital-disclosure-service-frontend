@@ -23,11 +23,11 @@ class WhatReasonableCareDidYouTakeFormProviderSpec extends StringFieldBehaviours
 
   val form = new WhatReasonableCareDidYouTakeFormProvider()()
 
-  ".input1" - {
+  ".reasonableCare" - {
 
-    val fieldName = "input1"
-    val requiredKey = "whatReasonableCareDidYouTake.error.input1.required"
-    val lengthKey = "whatReasonableCareDidYouTake.error.input1.length"
+    val fieldName = "reasonableCare"
+    val requiredKey = "whatReasonableCareDidYouTake.error.reasonableCare.required"
+    val lengthKey = "whatReasonableCareDidYouTake.error.reasonableCare.length"
     val maxLength = 5000
 
     behave like fieldThatBindsValidData(
@@ -50,11 +50,11 @@ class WhatReasonableCareDidYouTakeFormProviderSpec extends StringFieldBehaviours
     )
   }
 
-  ".input2" - {
+  ".yearsThisAppliesTo" - {
 
-    val fieldName = "input2"
-    val requiredKey = "whatReasonableCareDidYouTake.error.input2.required"
-    val lengthKey = "whatReasonableCareDidYouTake.error.input2.length"
+    val fieldName = "yearsThisAppliesTo"
+    val requiredKey = "whatReasonableCareDidYouTake.error.yearsThisAppliesTo.required"
+    val lengthKey = "whatReasonableCareDidYouTake.error.yearsThisAppliesTo.length"
     val maxLength = 500
 
     behave like fieldThatBindsValidData(

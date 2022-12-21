@@ -27,10 +27,10 @@ class WhatReasonableCareDidYouTakeFormProvider @Inject() extends Mappings {
 
    def apply(): Form[WhatReasonableCareDidYouTake] = Form(
      mapping(
-      "input1" -> text("whatReasonableCareDidYouTake.error.input1.required")
-        .verifying(maxLength(5000, "whatReasonableCareDidYouTake.error.input1.length")),
-      "input2" -> text("whatReasonableCareDidYouTake.error.input2.required")
-        .verifying(maxLength(500, "whatReasonableCareDidYouTake.error.input2.length"))
+      "reasonableCare" -> text("whatReasonableCareDidYouTake.error.reasonableCare.required")
+        .verifying(maxLength(5000, "whatReasonableCareDidYouTake.error.reasonableCare.length")),
+      "yearsThisAppliesTo" -> text("whatReasonableCareDidYouTake.error.yearsThisAppliesTo.required")
+        .verifying(maxLength(500, "whatReasonableCareDidYouTake.error.yearsThisAppliesTo.length"))
     )(WhatReasonableCareDidYouTake.apply)(WhatReasonableCareDidYouTake.unapply)
    )
  }

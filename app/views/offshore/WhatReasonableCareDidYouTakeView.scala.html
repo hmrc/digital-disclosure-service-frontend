@@ -44,21 +44,21 @@
 
         @hmrcCharacterCount(
             CharacterCount(
-                id = "input1",
-                name = "input1",
+                id = "reasonableCare",
+                name = "reasonableCare",
                 maxLength = Some(5000), 
-                label = Label(content = messages("whatReasonableCareDidYouTake.input1")),
-                value = form("input1").value,
-                errorMessage = form("input1").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
+                label = Label(content = messages("whatReasonableCareDidYouTake.reasonableCare")),
+                value = form("reasonableCare").value,
+                errorMessage = form("reasonableCare").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
             )
         )
 
         @govukInput(
             InputViewModel(
-                field = form("input2"),
-                label = LabelViewModel(messages("whatReasonableCareDidYouTake.input2"))
+                field = form("yearsThisAppliesTo"),
+                label = LabelViewModel(messages("whatReasonableCareDidYouTake.yearsThisAppliesTo"))
             )
-            .withHint(Hint(content = Text(messages("whatReasonableCareDidYouTake.input2.hint"))))
+            .withHint(Hint(content = Text(messages("whatReasonableCareDidYouTake.yearsThisAppliesTo.hint"))))
             .withWidth(Full)
         )
 
