@@ -354,9 +354,9 @@ relatesTo.llp = A limited liability partnership
 relatesTo.hint.llp = A partnership where each partner has limited personal liability for debts or claims of the partnership.
 relatesTo.trust = A trust
 relatesTo.hint.trust = A trust is an arrangement that manages assets for people.
-relatesTo.checkYourAnswersLabel = Who this disclosure is for?
+relatesTo.checkYourAnswersLabel = Who this disclosure is for
 relatesTo.error.required = Select what your disclosure is about
-relatesTo.change.hidden = Who this disclosure is for?
+relatesTo.change.hidden = Who this disclosure is for
 
 areYouTheIndividual.title = Are you the individual this disclosure relates to?
 areYouTheIndividual.heading = Are you the individual this disclosure relates to?
