@@ -42,8 +42,6 @@ class WhatIsYourReasonableExcuseForNotFilingReturnController @Inject()(
                                       view: WhatIsYourReasonableExcuseForNotFilingReturnView
                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  val form = formProvider()
-
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
@@ -51,8 +49,8 @@ class WhatIsYourReasonableExcuseForNotFilingReturnController @Inject()(
       val entity = request.userAnswers.get(RelatesToPage).get
 
       val preparedForm = request.userAnswers.get(WhatIsYourReasonableExcuseForNotFilingReturnPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
+        case None => form(areTheyTheIndividual)
+        case Some(value) => form(areTheyTheIndividual).fill(value)
       }
 
       Ok(view(preparedForm, mode, areTheyTheIndividual, entity))
@@ -64,7 +62,7 @@ class WhatIsYourReasonableExcuseForNotFilingReturnController @Inject()(
       val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
       val entity = request.userAnswers.get(RelatesToPage).get
 
-      form.bindFromRequest().fold(
+      form(areTheyTheIndividual).bindFromRequest().fold(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode, areTheyTheIndividual, entity))),
 
@@ -82,4 +80,6 @@ class WhatIsYourReasonableExcuseForNotFilingReturnController @Inject()(
       case _ => false
     }
   }
+
+  def form(areTheyTheIndividual: Boolean) = formProvider(areTheyTheIndividual)
 }

@@ -25,14 +25,13 @@ import models.{NormalMode, RelatesTo}
 
 class WhatIsYourReasonableExcuseForNotFilingReturnViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()()
   val page: WhatIsYourReasonableExcuseForNotFilingReturnView = inject[WhatIsYourReasonableExcuseForNotFilingReturnView] 
 
   "view" should {
 
     val areTheyTheIndividual = true
     val entity = RelatesTo.AnIndividual
-
+    val form = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(areTheyTheIndividual)
     def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
     val view = createView
 
@@ -84,6 +83,7 @@ class WhatIsYourReasonableExcuseForNotFilingReturnViewSpec extends ViewSpecBase 
 
   def constructLabel(entity: RelatesTo) = {
     val areTheyTheIndividual = false
+    val form = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(areTheyTheIndividual)
     def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
     val view = createView
 

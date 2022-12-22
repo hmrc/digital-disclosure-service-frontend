@@ -21,37 +21,50 @@ import play.api.data.FormError
 
 class WhatIsYourReasonableExcuseForNotFilingReturnFormProviderSpec extends StringFieldBehaviours {
 
-  val form = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()()
-
-  ".reasonableExcuse" - {
+  ".reasonableExcuse when entity" - {
 
     val fieldName = "reasonableExcuse"
     val requiredKey = "whatIsYourReasonableExcuseForNotFilingReturn.error.reasonableExcuse.required"
-    val lengthKey = "whatIsYourReasonableExcuseForNotFilingReturn.error.reasonableExcuse.length"
+    val entityLengthKey = "whatIsYourReasonableExcuseForNotFilingReturn.entity.error.reasonableExcuse.length"
     val maxLength = 5000
 
     behave like fieldThatBindsValidData(
-      form,
+      new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(true),
       fieldName,
       stringsWithMaxLength(maxLength)
     )
 
     behave like fieldWithMaxLength(
-      form,
+      new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(true),
       fieldName,
       maxLength = maxLength,
-      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
+      lengthError = FormError(fieldName, entityLengthKey, Seq(maxLength))
     )
 
     behave like mandatoryField(
-      form,
+      new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(true),
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
   }
 
+  ".reasonableExcuse when agent" - {
+
+    val fieldName = "reasonableExcuse"
+    val agentLengthKey = "whatIsYourReasonableExcuseForNotFilingReturn.agent.error.reasonableExcuse.length"
+    val maxLength = 5000
+
+    behave like fieldWithMaxLength(
+      new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(false),
+      fieldName,
+      maxLength = maxLength,
+      lengthError = FormError(fieldName, agentLengthKey, Seq(maxLength))
+    )
+  }
+
   ".yearsThisAppliesTo" - {
 
+    val form = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(true)
     val fieldName = "yearsThisAppliesTo"
     val requiredKey = "whatIsYourReasonableExcuseForNotFilingReturn.error.yearsThisAppliesTo.required"
     val lengthKey = "whatIsYourReasonableExcuseForNotFilingReturn.error.yearsThisAppliesTo.length"

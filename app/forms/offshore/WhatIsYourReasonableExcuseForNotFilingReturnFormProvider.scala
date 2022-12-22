@@ -25,10 +25,19 @@ import models.WhatIsYourReasonableExcuseForNotFilingReturn
 
 class WhatIsYourReasonableExcuseForNotFilingReturnFormProvider @Inject() extends Mappings {
 
-   def apply(): Form[WhatIsYourReasonableExcuseForNotFilingReturn] = Form(
+   def apply(areTheyTheIndividual: Boolean): Form[WhatIsYourReasonableExcuseForNotFilingReturn] = Form(
      mapping(
       "reasonableExcuse" -> text("whatIsYourReasonableExcuseForNotFilingReturn.error.reasonableExcuse.required")
-        .verifying(maxLength(5000, "whatIsYourReasonableExcuseForNotFilingReturn.error.reasonableExcuse.length")),
+        .verifying(
+          maxLength(
+            5000, 
+            if(areTheyTheIndividual) {
+              "whatIsYourReasonableExcuseForNotFilingReturn.entity.error.reasonableExcuse.length"
+            } else {
+              "whatIsYourReasonableExcuseForNotFilingReturn.agent.error.reasonableExcuse.length"
+            }
+          )
+        ),
       "yearsThisAppliesTo" -> text("whatIsYourReasonableExcuseForNotFilingReturn.error.yearsThisAppliesTo.required")
         .verifying(maxLength(500, "whatIsYourReasonableExcuseForNotFilingReturn.error.yearsThisAppliesTo.length"))
     )(WhatIsYourReasonableExcuseForNotFilingReturn.apply)(WhatIsYourReasonableExcuseForNotFilingReturn.unapply)

@@ -39,7 +39,7 @@ class WhatIsYourReasonableExcuseForNotFilingReturnControllerSpec extends SpecBas
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()
-  val form = formProvider()
+  val form = formProvider(true)
 
   lazy val whatIsYourReasonableExcuseForNotFilingReturnRoute = offshore.routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode).url
 
@@ -156,7 +156,7 @@ class WhatIsYourReasonableExcuseForNotFilingReturnControllerSpec extends SpecBas
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, true, RelatesTo.AnIndividual)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(request, messages(application)).toString
       }
     }
 
