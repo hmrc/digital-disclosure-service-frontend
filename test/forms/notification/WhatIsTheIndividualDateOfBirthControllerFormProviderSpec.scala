@@ -27,8 +27,8 @@ class WhatIsTheIndividualDateOfBirthControllerFormProviderSpec extends DateBehav
   ".value" - {
 
     val validData = datesBetween(
-      min = LocalDate.of(2000, 1, 1),
-      max = LocalDate.now(ZoneOffset.UTC)
+      min = LocalDate.of(1850, 1, 1),
+      max = LocalDate.now(ZoneOffset.UTC).minusDays(1)
     )
 
     behave like dateField(form, "value", validData)
