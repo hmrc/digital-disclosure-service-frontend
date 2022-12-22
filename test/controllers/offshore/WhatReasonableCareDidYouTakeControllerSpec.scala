@@ -53,7 +53,7 @@ class WhatReasonableCareDidYouTakeControllerSpec extends SpecBase with MockitoSu
       } yield uaWithRelatesToPage).success.value
 
       val areTheyTheIndividual = isTheUserTheIndividual(userAnswers)
-      val entity = userAnswers.get(RelatesToPage).get
+      val entity = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -87,7 +87,7 @@ class WhatReasonableCareDidYouTakeControllerSpec extends SpecBase with MockitoSu
       } yield uaWithRelatesToPage).success.value
 
       val areTheyTheIndividual = isTheUserTheIndividual(ua)
-      val entity = ua.get(RelatesToPage).get
+      val entity = ua.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       val application = applicationBuilder(userAnswers = Some(ua)).build()
 
@@ -141,7 +141,7 @@ class WhatReasonableCareDidYouTakeControllerSpec extends SpecBase with MockitoSu
       } yield uaWithRelatesToPage).success.value
 
       val areTheyTheIndividual = isTheUserTheIndividual(ua)
-      val entity = ua.get(RelatesToPage).get
+      val entity = ua.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       val application = applicationBuilder(userAnswers = Some(ua)).build()
 

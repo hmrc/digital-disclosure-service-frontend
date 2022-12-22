@@ -53,7 +53,7 @@ class WhyAreYouMakingThisDisclosureController @Inject()(
       }
 
       val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
-      val entity = request.userAnswers.get(RelatesToPage).get
+      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       Ok(view(preparedForm, mode, areTheyTheIndividual, entity))
   }
@@ -62,7 +62,7 @@ class WhyAreYouMakingThisDisclosureController @Inject()(
     implicit request =>
 
       val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
-      val entity = request.userAnswers.get(RelatesToPage).get
+      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       form.bindFromRequest().fold(
         formWithErrors =>

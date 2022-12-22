@@ -1074,7 +1074,7 @@ whatReasonableCareDidYouTake.agent.heading = What reasonable care was taken when
 whatReasonableCareDidYouTake.entity.error.reasonableCare.length = The reasonable care you took must be between 1 and 5,000 characters
 whatReasonableCareDidYouTake.agent.error.reasonableCare.length = Reasonable care taken must be between 1 and 5,000 characters
 
-whatReasonableCareDidYouTake.entity.reasonableCare = Reasonable care means you did everything you could to make sure the tax returns and other documents you sent to HMRC were accurate.
+whatReasonableCareDidYouTake.you.reasonableCare = Reasonable care means you did everything you could to make sure the tax returns and other documents sent to HMRC were accurate.
 whatReasonableCareDidYouTake.individual.reasonableCare = Reasonable care means the individual did everything they could to make sure the tax returns and other documents sent to HMRC were accurate.
 whatReasonableCareDidYouTake.company.reasonableCare = Reasonable care means the company did everything they could to make sure the tax returns and other documents sent to HMRC were accurate.
 whatReasonableCareDidYouTake.llp.reasonableCare = Reasonable care means the limited liability partnership did everything they could to make sure the tax returns and other documents sent to HMRC were accurate.
@@ -1092,13 +1092,21 @@ youHaveLeftTheDDS.change.hidden = YouHaveLeftTheDDS
 
 whatIsYourReasonableExcuseForNotFilingReturn.title = What is your reasonable excuse for not filing a return?
 whatIsYourReasonableExcuseForNotFilingReturn.heading = What is your reasonable excuse for not filing a return?
-whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse = A reasonable excuse is something that stopped you meeting a tax obligation that you took reasonable care to meet.
 whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo = Which tax years does this apply to?
 whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo.hint = For example, tax year ending 2019.
 whatIsYourReasonableExcuseForNotFilingReturn.checkYourAnswersLabel = What is your reasonable excuse for not filing a return
-whatIsYourReasonableExcuseForNotFilingReturn.error.reasonableExcuse.required = Enter reasonableExcuse
-whatIsYourReasonableExcuseForNotFilingReturn.error.yearsThisAppliesTo.required = Enter yearsThisAppliesTo
-whatIsYourReasonableExcuseForNotFilingReturn.error.reasonableExcuse.length = reasonableExcuse must be 5000 characters or less
-whatIsYourReasonableExcuseForNotFilingReturn.error.yearsThisAppliesTo.length = yearsThisAppliesTo must be 500 characters or less
+whatIsYourReasonableExcuseForNotFilingReturn.error.reasonableExcuse.required = Enter the reasonable excuse
+whatIsYourReasonableExcuseForNotFilingReturn.error.yearsThisAppliesTo.required = Enter the tax years this applies to
+whatIsYourReasonableExcuseForNotFilingReturn.error.yearsThisAppliesTo.length = The tax years this applies to must be between 1 and 500 characters
 whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.change.hidden = reasonableExcuse
 whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo.change.hidden = yearsThisAppliesTo
+# ----------------------------------------------------------
+whatIsYourReasonableExcuseForNotFilingReturn.entity.error.reasonableExcuse.length = Your reasonable excuse must be between 1 and 5,000 characters
+whatIsYourReasonableExcuseForNotFilingReturn.agent.error.reasonableExcuse.length = Reasonable excuse must be between 1 and 5,000 characters
+whatIsYourReasonableExcuseForNotFilingReturn.you.reasonableExcuse = Reasonable care means you did everything you could to make sure the tax returns and other documents you sent to HMRC were accurate.
+whatIsYourReasonableExcuseForNotFilingReturn.individual.reasonableExcuse = A reasonable excuse is something that stopped the individual meeting a tax obligation that they took reasonable care to meet.
+whatIsYourReasonableExcuseForNotFilingReturn.company.reasonableExcuse = A reasonable excuse is something that stopped the company meeting a tax obligation that they took reasonable care to meet.
+whatIsYourReasonableExcuseForNotFilingReturn.llp.reasonableExcuse = A reasonable excuse is something that stopped the limited liability partnership meeting a tax obligation that they took reasonable care to meet.
+whatIsYourReasonableExcuseForNotFilingReturn.trust.reasonableExcuse = A reasonable excuse is something that stopped the trust meeting a tax obligation that they took reasonable care to meet.
+whatIsYourReasonableExcuseForNotFilingReturn.estate.reasonableExcuse = A reasonable excuse is something that stopped the person who died meeting a tax obligation that they took reasonable care to meet.
+# ----------------------------------------------------------

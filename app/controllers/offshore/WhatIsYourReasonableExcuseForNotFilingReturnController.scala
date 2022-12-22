@@ -19,9 +19,9 @@ package controllers.offshore
 import controllers.actions._
 import forms.WhatIsYourReasonableExcuseForNotFilingReturnFormProvider
 import javax.inject.Inject
-import models.Mode
+import models.{Mode, UserAnswers, RelatesTo}
 import navigation.NotificationNavigator
-import pages.WhatIsYourReasonableExcuseForNotFilingReturnPage
+import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -42,25 +42,29 @@ class WhatIsYourReasonableExcuseForNotFilingReturnController @Inject()(
                                       view: WhatIsYourReasonableExcuseForNotFilingReturnView
                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  val form = formProvider()
-
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
+      val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
+      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+
       val preparedForm = request.userAnswers.get(WhatIsYourReasonableExcuseForNotFilingReturnPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
+        case None => form(areTheyTheIndividual)
+        case Some(value) => form(areTheyTheIndividual).fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      Ok(view(preparedForm, mode, areTheyTheIndividual, entity))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
 
-      form.bindFromRequest().fold(
+      val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
+      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+
+      form(areTheyTheIndividual).bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, areTheyTheIndividual, entity))),
 
         value =>
           for {
@@ -69,4 +73,13 @@ class WhatIsYourReasonableExcuseForNotFilingReturnController @Inject()(
           } yield Redirect(navigator.nextPage(WhatIsYourReasonableExcuseForNotFilingReturnPage, mode, updatedAnswers))
       )
   }
+
+  def isTheUserTheIndividual(userAnswers: UserAnswers): Boolean = {
+    userAnswers.get(AreYouTheIndividualPage) match {
+      case Some(true) => true
+      case _ => false
+    }
+  }
+
+  def form(areTheyTheIndividual: Boolean) = formProvider(areTheyTheIndividual)
 }
