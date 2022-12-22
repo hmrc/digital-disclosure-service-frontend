@@ -26,6 +26,14 @@ import scala.language.higherKinds
 
 trait ModelGenerators {
 
+  implicit lazy val arbitraryWhatIsYourReasonableExcuseForNotFilingReturn: Arbitrary[WhatIsYourReasonableExcuseForNotFilingReturn] =
+    Arbitrary {
+      for {
+        reasonableExcuse <- arbitrary[String]
+        yearsThisAppliesTo <- arbitrary[String]
+      } yield WhatIsYourReasonableExcuseForNotFilingReturn(reasonableExcuse, yearsThisAppliesTo)
+    }
+
   implicit lazy val arbitraryWhatReasonableCareDidYouTake: Arbitrary[WhatReasonableCareDidYouTake] =
     Arbitrary {
       for {
