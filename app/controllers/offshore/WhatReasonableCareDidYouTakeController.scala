@@ -46,13 +46,13 @@ class WhatReasonableCareDidYouTakeController @Inject()(
     implicit request =>
 
       val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
+      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       val preparedForm = request.userAnswers.get(WhatReasonableCareDidYouTakePage) match {
         case None => form(areTheyTheIndividual)
         case Some(value) => form(areTheyTheIndividual).fill(value)
       }
-
-      val entity = request.userAnswers.get(RelatesToPage).get
+      
       Ok(view(preparedForm, mode, areTheyTheIndividual, entity))
   }
 
@@ -60,7 +60,7 @@ class WhatReasonableCareDidYouTakeController @Inject()(
     implicit request =>
 
       val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
-      val entity = request.userAnswers.get(RelatesToPage).get
+      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       form(areTheyTheIndividual).bindFromRequest().fold(
         formWithErrors =>

@@ -52,7 +52,7 @@ class WhyAreYouMakingThisDisclosureControllerSpec extends SpecBase with MockitoS
       } yield uaWithRelatesToPage).success.value
 
       val areTheyTheIndividual = isTheUserTheIndividual(userAnswers)
-      val entity = userAnswers.get(RelatesToPage).get
+      val entity = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -78,7 +78,7 @@ class WhyAreYouMakingThisDisclosureControllerSpec extends SpecBase with MockitoS
       } yield uaWithWhyAreYouMakingThisDisclosurePage).success.value
 
       val areTheyTheIndividual = isTheUserTheIndividual(userAnswers)
-      val entity = userAnswers.get(RelatesToPage).get
+      val entity = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -132,7 +132,7 @@ class WhyAreYouMakingThisDisclosureControllerSpec extends SpecBase with MockitoS
       } yield uaWithRelatesToPage).success.value
 
       val areTheyTheIndividual = isTheUserTheIndividual(userAnswers)
-      val entity = userAnswers.get(RelatesToPage).get
+      val entity = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 

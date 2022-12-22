@@ -1074,7 +1074,7 @@ whatReasonableCareDidYouTake.agent.heading = What reasonable care was taken when
 whatReasonableCareDidYouTake.entity.error.reasonableCare.length = The reasonable care you took must be between 1 and 5,000 characters
 whatReasonableCareDidYouTake.agent.error.reasonableCare.length = Reasonable care taken must be between 1 and 5,000 characters
 
-whatReasonableCareDidYouTake.you.reasonableCare = Reasonable care means you did everything you could to make sure the tax returns and other documents you sent to HMRC were accurate.
+whatReasonableCareDidYouTake.you.reasonableCare = Reasonable care means you did everything you could to make sure the tax returns and other documents sent to HMRC were accurate.
 whatReasonableCareDidYouTake.individual.reasonableCare = Reasonable care means the individual did everything they could to make sure the tax returns and other documents sent to HMRC were accurate.
 whatReasonableCareDidYouTake.company.reasonableCare = Reasonable care means the company did everything they could to make sure the tax returns and other documents sent to HMRC were accurate.
 whatReasonableCareDidYouTake.llp.reasonableCare = Reasonable care means the limited liability partnership did everything they could to make sure the tax returns and other documents sent to HMRC were accurate.

@@ -19,7 +19,7 @@ package controllers.offshore
 import controllers.actions._
 import forms.WhatIsYourReasonableExcuseForNotFilingReturnFormProvider
 import javax.inject.Inject
-import models.{Mode, UserAnswers}
+import models.{Mode, UserAnswers, RelatesTo}
 import navigation.NotificationNavigator
 import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -46,7 +46,7 @@ class WhatIsYourReasonableExcuseForNotFilingReturnController @Inject()(
     implicit request =>
 
       val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
-      val entity = request.userAnswers.get(RelatesToPage).get
+      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       val preparedForm = request.userAnswers.get(WhatIsYourReasonableExcuseForNotFilingReturnPage) match {
         case None => form(areTheyTheIndividual)
@@ -60,7 +60,7 @@ class WhatIsYourReasonableExcuseForNotFilingReturnController @Inject()(
     implicit request =>
 
       val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
-      val entity = request.userAnswers.get(RelatesToPage).get
+      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       form(areTheyTheIndividual).bindFromRequest().fold(
         formWithErrors =>
