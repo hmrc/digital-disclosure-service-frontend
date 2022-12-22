@@ -1078,3 +1078,16 @@ youHaveLeftTheDDS.link = go to the Contractual Disclosure Facility (CDF) (opens 
 youHaveLeftTheDDS.body.second = ' or you can close this page.'
 youHaveLeftTheDDS.checkYourAnswersLabel = youHaveLeftTheDDS
 youHaveLeftTheDDS.change.hidden = YouHaveLeftTheDDS
+
+whatIsYourReasonableExcuseForNotFilingReturn.title = What is your reasonable excuse for not filing a return?
+whatIsYourReasonableExcuseForNotFilingReturn.heading = What is your reasonable excuse for not filing a return?
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse = A reasonable excuse is something that stopped you meeting a tax obligation that you took reasonable care to meet.
+whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo = Which tax years does this apply to?
+whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo.hint = For example, tax year ending 2019.
+whatIsYourReasonableExcuseForNotFilingReturn.checkYourAnswersLabel = What is your reasonable excuse for not filing a return
+whatIsYourReasonableExcuseForNotFilingReturn.error.reasonableExcuse.required = Enter reasonableExcuse
+whatIsYourReasonableExcuseForNotFilingReturn.error.yearsThisAppliesTo.required = Enter yearsThisAppliesTo
+whatIsYourReasonableExcuseForNotFilingReturn.error.reasonableExcuse.length = reasonableExcuse must be 5000 characters or less
+whatIsYourReasonableExcuseForNotFilingReturn.error.yearsThisAppliesTo.length = yearsThisAppliesTo must be 500 characters or less
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.change.hidden = reasonableExcuse
+whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo.change.hidden = yearsThisAppliesTo

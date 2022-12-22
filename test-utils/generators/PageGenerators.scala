@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryWhatIsYourReasonableExcuseForNotFilingReturnPage: Arbitrary[WhatIsYourReasonableExcuseForNotFilingReturnPage.type] =
+    Arbitrary(WhatIsYourReasonableExcuseForNotFilingReturnPage)
+
   implicit lazy val arbitraryWhatReasonableCareDidYouTakePage: Arbitrary[WhatReasonableCareDidYouTakePage.type] =
     Arbitrary(WhatReasonableCareDidYouTakePage)
     
