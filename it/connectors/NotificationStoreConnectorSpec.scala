@@ -39,6 +39,7 @@ class NotificationStoreConnectorSpec extends AnyFreeSpec with Matchers with Scal
         "microservice.services.digital-disclosure-service-store.port" -> server.port(),
         "microservice.services.digital-disclosure-service-store.host" -> "localhost",
         "microservice.services.digital-disclosure-service-store.protocol" -> "http",
+        "create-internal-auth-token-on-start" -> "false"
       )
       .build()
 

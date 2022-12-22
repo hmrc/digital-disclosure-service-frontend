@@ -29,6 +29,7 @@ import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.test.FakeRequest
 import services.{SessionService, FakeSessionService}
+import config.{NoOpInternalAuthTokenInitialiser, InternalAuthTokenInitialiser}
 
 trait SpecBase
   extends AnyFreeSpec
@@ -51,15 +52,18 @@ trait SpecBase
         bind[DataRequiredAction].to[DataRequiredActionImpl],
         bind[IdentifierAction].to[FakeIdentifierAction],
         bind[DataRetrievalAction].toInstance(new FakeDataRetrievalAction(userAnswers)),
-        bind[SessionService].to[FakeSessionService]
+        bind[SessionService].to[FakeSessionService],
+        bind[InternalAuthTokenInitialiser].to[NoOpInternalAuthTokenInitialiser]
       )
-  
+
   protected def applicationBuilderWithSessionService(userAnswers: Option[UserAnswers] = None, sessionService: SessionService): GuiceApplicationBuilder =
     new GuiceApplicationBuilder()
       .overrides(
         bind[DataRequiredAction].to[DataRequiredActionImpl],
         bind[IdentifierAction].to[FakeIdentifierAction],
         bind[DataRetrievalAction].toInstance(new FakeDataRetrievalAction(userAnswers)),
-        bind[SessionService].toInstance(sessionService)
+        bind[SessionService].toInstance(sessionService),
+        bind[InternalAuthTokenInitialiser].to[NoOpInternalAuthTokenInitialiser]
       )
+      
 }
