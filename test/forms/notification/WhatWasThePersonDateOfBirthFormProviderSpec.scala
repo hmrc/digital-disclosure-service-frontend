@@ -28,7 +28,7 @@ class WhatWasThePersonDateOfBirthFormProviderSpec extends DateBehaviours {
     "behave like dateField" - {
 
       val validData = datesBetween(
-        min = LocalDate.of(1900, 1, 1),
+        min = LocalDate.of(1850, 1, 1),
         max = LocalDate.now(ZoneOffset.UTC).minusDays(1)
       )
 
