@@ -21,18 +21,18 @@ import java.time.LocalDate
 import org.scalacheck.Arbitrary
 import pages.behaviours.PageBehaviours
 
-class WhatIsTheIndividualDateOfBirthControllerPageSpec extends PageBehaviours {
+class WhatIsTheIndividualDateOfBirthPageSpec extends PageBehaviours {
 
-  "WhatIsTheIndividualDateOfBirthControllerPage" - {
+  "WhatIsTheIndividualDateOfBirthPage" - {
 
     implicit lazy val arbitraryLocalDate: Arbitrary[LocalDate] = Arbitrary {
       datesBetween(LocalDate.of(1900, 1, 1), LocalDate.of(2100, 1, 1))
     }
 
-    beRetrievable[LocalDate](WhatIsTheIndividualDateOfBirthControllerPage)
+    beRetrievable[LocalDate](WhatIsTheIndividualDateOfBirthPage)
 
-    beSettable[LocalDate](WhatIsTheIndividualDateOfBirthControllerPage)
+    beSettable[LocalDate](WhatIsTheIndividualDateOfBirthPage)
 
-    beRemovable[LocalDate](WhatIsTheIndividualDateOfBirthControllerPage)
+    beRemovable[LocalDate](WhatIsTheIndividualDateOfBirthPage)
   }
 }

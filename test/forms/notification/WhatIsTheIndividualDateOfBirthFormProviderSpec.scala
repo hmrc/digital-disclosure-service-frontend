@@ -20,9 +20,9 @@ import java.time.{LocalDate, Month, ZoneOffset}
 import forms.behaviours.DateBehaviours
 import play.api.data.FormError
 
-class WhatIsTheIndividualDateOfBirthControllerFormProviderSpec extends DateBehaviours {
+class WhatIsTheIndividualDateOfBirthFormProviderSpec extends DateBehaviours {
 
-  val form = new WhatIsTheIndividualDateOfBirthControllerFormProvider()()
+  val form = new WhatIsTheIndividualDateOfBirthFormProvider()()
 
   ".value" - {
 

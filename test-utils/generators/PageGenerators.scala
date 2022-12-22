@@ -111,8 +111,8 @@ trait PageGenerators {
   implicit lazy val arbitraryWhatIsTheIndividualOccupationPage: Arbitrary[WhatIsTheIndividualOccupationPage.type] =
     Arbitrary(WhatIsTheIndividualOccupationPage)
 
-  implicit lazy val arbitraryWhatIsTheIndividualDateOfBirthControllerPage: Arbitrary[WhatIsTheIndividualDateOfBirthControllerPage.type] =
-    Arbitrary(WhatIsTheIndividualDateOfBirthControllerPage)
+  implicit lazy val arbitraryWhatIsTheIndividualDateOfBirthPage: Arbitrary[WhatIsTheIndividualDateOfBirthPage.type] =
+    Arbitrary(WhatIsTheIndividualDateOfBirthPage)
 
   implicit lazy val arbitraryWhatIsTheIndividualsFullNamePage: Arbitrary[WhatIsTheIndividualsFullNamePage.type] =
     Arbitrary(WhatIsTheIndividualsFullNamePage)

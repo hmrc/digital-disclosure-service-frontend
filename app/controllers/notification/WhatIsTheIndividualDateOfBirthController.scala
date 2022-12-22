@@ -17,29 +17,29 @@
 package controllers.notification
 
 import controllers.actions._
-import forms.WhatIsTheIndividualDateOfBirthControllerFormProvider
+import forms.WhatIsTheIndividualDateOfBirthFormProvider
 import javax.inject.Inject
 import models.Mode
 import navigation.NotificationNavigator
-import pages.WhatIsTheIndividualDateOfBirthControllerPage
+import pages.WhatIsTheIndividualDateOfBirthPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import views.html.notification.WhatIsTheIndividualDateOfBirthControllerView
+import views.html.notification.WhatIsTheIndividualDateOfBirthView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class WhatIsTheIndividualDateOfBirthControllerController @Inject()(
+class WhatIsTheIndividualDateOfBirthController @Inject()(
                                         override val messagesApi: MessagesApi,
                                         sessionService: SessionService,
                                         navigator: NotificationNavigator,
                                         identify: IdentifierAction,
                                         getData: DataRetrievalAction,
                                         requireData: DataRequiredAction,
-                                        formProvider: WhatIsTheIndividualDateOfBirthControllerFormProvider,
+                                        formProvider: WhatIsTheIndividualDateOfBirthFormProvider,
                                         val controllerComponents: MessagesControllerComponents,
-                                        view: WhatIsTheIndividualDateOfBirthControllerView
+                                        view: WhatIsTheIndividualDateOfBirthView
                                       )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   def form = formProvider()
@@ -47,7 +47,7 @@ class WhatIsTheIndividualDateOfBirthControllerController @Inject()(
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val preparedForm = request.userAnswers.get(WhatIsTheIndividualDateOfBirthControllerPage) match {
+      val preparedForm = request.userAnswers.get(WhatIsTheIndividualDateOfBirthPage) match {
         case None => form
         case Some(value) => form.fill(value)
       }
@@ -64,9 +64,9 @@ class WhatIsTheIndividualDateOfBirthControllerController @Inject()(
 
         value =>
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(WhatIsTheIndividualDateOfBirthControllerPage, value))
+            updatedAnswers <- Future.fromTry(request.userAnswers.set(WhatIsTheIndividualDateOfBirthPage, value))
             _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(WhatIsTheIndividualDateOfBirthControllerPage, mode, updatedAnswers))
+          } yield Redirect(navigator.nextPage(WhatIsTheIndividualDateOfBirthPage, mode, updatedAnswers))
       )
   }
 }

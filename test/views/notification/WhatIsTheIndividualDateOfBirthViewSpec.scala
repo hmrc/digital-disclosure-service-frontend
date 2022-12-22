@@ -17,16 +17,16 @@
 package views.notification
 
 import base.ViewSpecBase
-import forms.WhatIsTheIndividualDateOfBirthControllerFormProvider
+import forms.WhatIsTheIndividualDateOfBirthFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
-import views.html.notification.WhatIsTheIndividualDateOfBirthControllerView
+import views.html.notification.WhatIsTheIndividualDateOfBirthView
 import models.NormalMode
 
-class WhatIsTheIndividualDateOfBirthControllerViewSpec extends ViewSpecBase with ViewMatchers {
+class WhatIsTheIndividualDateOfBirthViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhatIsTheIndividualDateOfBirthControllerFormProvider()()
-  val page: WhatIsTheIndividualDateOfBirthControllerView = inject[WhatIsTheIndividualDateOfBirthControllerView]
+  val form = new WhatIsTheIndividualDateOfBirthFormProvider()()
+  val page: WhatIsTheIndividualDateOfBirthView = inject[WhatIsTheIndividualDateOfBirthView]
 
   private def createView: Html = page(form, NormalMode)(request, messages)
 

@@ -20,16 +20,16 @@ import java.time.format.DateTimeFormatter
 
 import controllers.notification.routes
 import models.{CheckMode, UserAnswers}
-import pages.WhatIsTheIndividualDateOfBirthControllerPage
+import pages.WhatIsTheIndividualDateOfBirthPage
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object WhatIsTheIndividualDateOfBirthControllerSummary  {
+object WhatIsTheIndividualDateOfBirthSummary  {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(WhatIsTheIndividualDateOfBirthControllerPage).map {
+    answers.get(WhatIsTheIndividualDateOfBirthPage).map {
       answer =>
 
         val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
@@ -38,7 +38,7 @@ object WhatIsTheIndividualDateOfBirthControllerSummary  {
           key     = "whatIsTheIndividualDateOfBirth.checkYourAnswersLabel",
           value   = ValueViewModel(answer.format(dateFormatter)),
           actions = Seq(
-            ActionItemViewModel("site.change", routes.WhatIsTheIndividualDateOfBirthControllerController.onPageLoad(CheckMode).url)
+            ActionItemViewModel("site.change", routes.WhatIsTheIndividualDateOfBirthController.onPageLoad(CheckMode).url)
               .withVisuallyHiddenText(messages("whatIsTheIndividualDateOfBirth.change.hidden"))
           )
         )

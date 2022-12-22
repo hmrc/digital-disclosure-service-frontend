@@ -40,7 +40,7 @@ trait SectionPages {
 
   val aboutIndividualPages: List[QuestionPage[_]] = List(
     WhatIsTheIndividualsFullNamePage,
-    WhatIsTheIndividualDateOfBirthControllerPage,
+    WhatIsTheIndividualDateOfBirthPage,
     WhatIsTheIndividualOccupationPage,
     DoesTheIndividualHaveNationalInsuranceNumberPage,
     WhatIsIndividualsNationalInsuranceNumberPage,

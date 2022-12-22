@@ -108,7 +108,7 @@ class StoreDataServiceImpl extends StoreDataService {
   def userAnswersToAboutTheIndividual(userAnswers: UserAnswers): AboutTheIndividual = 
     AboutTheIndividual(
       fullName = userAnswers.get(WhatIsTheIndividualsFullNamePage),
-      dateOfBirth = userAnswers.get(WhatIsTheIndividualDateOfBirthControllerPage),
+      dateOfBirth = userAnswers.get(WhatIsTheIndividualDateOfBirthPage),
       mainOccupation = userAnswers.get(WhatIsTheIndividualOccupationPage),
       doTheyHaveANino = userAnswers.get(DoesTheIndividualHaveNationalInsuranceNumberPage),
       nino = userAnswers.get(WhatIsIndividualsNationalInsuranceNumberPage),

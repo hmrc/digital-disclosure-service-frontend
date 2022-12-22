@@ -89,7 +89,7 @@ class CheckYourAnswersController @Inject()(
             SummaryListViewModel(
               rows = Seq(
                 WhatIsTheIndividualsFullNameSummary.row(ua),
-                WhatIsTheIndividualDateOfBirthControllerSummary.row(ua),
+                WhatIsTheIndividualDateOfBirthSummary.row(ua),
                 WhatIsTheIndividualOccupationSummary.row(ua),
                 DoesTheIndividualHaveNationalInsuranceNumberSummary.row(ua),
                 WhatIsIndividualsNationalInsuranceNumberSummary.row(ua),
