@@ -21,17 +21,19 @@ import forms.WhatIsYourReasonableExcuseForNotFilingReturnFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.offshore.WhatIsYourReasonableExcuseForNotFilingReturnView
-import models.NormalMode
+import models.{NormalMode, RelatesTo}
 
 class WhatIsYourReasonableExcuseForNotFilingReturnViewSpec extends ViewSpecBase with ViewMatchers {
 
   val form = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()()
-  val page: WhatIsYourReasonableExcuseForNotFilingReturnView = inject[WhatIsYourReasonableExcuseForNotFilingReturnView]
-
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  val page: WhatIsYourReasonableExcuseForNotFilingReturnView = inject[WhatIsYourReasonableExcuseForNotFilingReturnView] 
 
   "view" should {
 
+    val areTheyTheIndividual = true
+    val entity = RelatesTo.AnIndividual
+
+    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
     val view = createView
 
     "have title" in {
@@ -42,8 +44,26 @@ class WhatIsYourReasonableExcuseForNotFilingReturnViewSpec extends ViewSpecBase 
       view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsYourReasonableExcuseForNotFilingReturn.heading")
     }
 
-    "contain reasonableExcuse & yearsThisAppliesTo labels" in {
-      view.getElementsByClass("govuk-label").get(0).text() mustBe messages("whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse")
+    "contain reasonableExcuse (when you are the individual) labels" in {
+      view.getElementsByClass("govuk-label").get(0).text() mustBe messages("whatIsYourReasonableExcuseForNotFilingReturn.you.reasonableExcuse")
+    }
+    "contain reasonableExcuse (when you are the agent individual) label" in {
+      constructLabel(RelatesTo.AnIndividual)
+    }
+    "contain reasonableExcuse (when you are the agent estate) label" in {
+      constructLabel(RelatesTo.AnEstate)
+    }
+    "contain reasonableExcuse (when you are the agent company) label" in {
+      constructLabel(RelatesTo.ACompany)
+    }
+    "contain reasonableExcuse (when you are the agent llp) label" in {
+      constructLabel(RelatesTo.ALimitedLiabilityPartnership)
+    }
+    "contain reasonableExcuse (when you are the agent trust) label" in {
+      constructLabel(RelatesTo.ATrust)
+    }
+
+    "contain yearsThisAppliesTo label" in {
       view.getElementsByClass("govuk-label").get(1).text() mustBe messages("whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo")
     }
 
@@ -60,6 +80,14 @@ class WhatIsYourReasonableExcuseForNotFilingReturnViewSpec extends ViewSpecBase 
       view.getElementById("task-list-link").attr("href") mustBe controllers.routes.TaskListController.onPageLoad.url
     }
 
+  }
+
+  def constructLabel(entity: RelatesTo) = {
+    val areTheyTheIndividual = false
+    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    val view = createView
+
+    view.getElementsByClass("govuk-label").get(0).text() mustBe messages(s"whatIsYourReasonableExcuseForNotFilingReturn.${entity}.reasonableExcuse")
   }
 
 }

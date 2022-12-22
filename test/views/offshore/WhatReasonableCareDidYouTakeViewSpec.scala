@@ -46,7 +46,7 @@ class WhatReasonableCareDidYouTakeViewSpec extends ViewSpecBase with ViewMatcher
     }
 
     "contain reasonableCare & yearsThisAppliesTo labels" in {
-      view.getElementsByClass("govuk-label").get(0).text() mustBe messages("whatReasonableCareDidYouTake.entity.reasonableCare")
+      view.getElementsByClass("govuk-label").get(0).text() mustBe messages("whatReasonableCareDidYouTake.you.reasonableCare")
       view.getElementsByClass("govuk-label").get(1).text() mustBe messages("whatReasonableCareDidYouTake.yearsThisAppliesTo")
     }
 

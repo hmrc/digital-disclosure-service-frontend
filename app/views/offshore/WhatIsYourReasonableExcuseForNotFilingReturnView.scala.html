@@ -29,7 +29,7 @@
     link: components.link
 )
 
-@(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], mode: Mode, areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = title(form, messages("whatIsYourReasonableExcuseForNotFilingReturn.title"))) {
 
@@ -46,7 +46,14 @@
                 id = "reasonableExcuse",
                 name = "reasonableExcuse",
                 maxLength = Some(5000), 
-                label = Label(content = messages("whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse")),
+                label = Label(
+                    content = 
+                        if(areTheyTheIndividual){
+                            messages("whatIsYourReasonableExcuseForNotFilingReturn.you.reasonableExcuse")
+                        } else {
+                        messages(s"whatIsYourReasonableExcuseForNotFilingReturn.${entity}.reasonableExcuse")
+                        }
+                    ),
                 value = form("reasonableExcuse").value,
                 errorMessage = form("reasonableExcuse").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
             )

@@ -18,12 +18,12 @@ package controllers
 
 import base.SpecBase
 import forms.WhatIsYourReasonableExcuseForNotFilingReturnFormProvider
-import models.{NormalMode, WhatIsYourReasonableExcuseForNotFilingReturn, UserAnswers}
+import models.{NormalMode, WhatIsYourReasonableExcuseForNotFilingReturn, UserAnswers, RelatesTo}
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.WhatIsYourReasonableExcuseForNotFilingReturnPage
+import pages._
 import play.api.inject.bind
 import play.api.libs.json.Json
 import play.api.mvc.Call
@@ -43,35 +43,16 @@ class WhatIsYourReasonableExcuseForNotFilingReturnControllerSpec extends SpecBas
 
   lazy val whatIsYourReasonableExcuseForNotFilingReturnRoute = offshore.routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode).url
 
-  val userAnswers = UserAnswers(
-    userAnswersId,
-    Json.obj(
-      WhatIsYourReasonableExcuseForNotFilingReturnPage.toString -> Json.obj(
-        "reasonableExcuse" -> "value 1",
-        "yearsThisAppliesTo" -> "value 2"
-      )
-    ).toString
-  )
-
   "WhatIsYourReasonableExcuseForNotFilingReturn Controller" - {
 
     "must return OK and the correct view for a GET" in {
+      val userAnswers = (for {
+        userAnswer <- UserAnswers("id").set(AreYouTheIndividualPage, true)
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
+      } yield uaWithRelatesToPage).success.value
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
-
-      running(application) {
-        val request = FakeRequest(GET, whatIsYourReasonableExcuseForNotFilingReturnRoute)
-
-        val view = application.injector.instanceOf[WhatIsYourReasonableExcuseForNotFilingReturnView]
-
-        val result = route(application, request).value
-
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
-      }
-    }
-
-    "must populate the view correctly on a GET when the question has previously been answered" in {
+      val areTheyTheIndividual = isTheUserTheIndividual(userAnswers)
+      val entity = userAnswers.get(RelatesToPage).get
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -83,18 +64,57 @@ class WhatIsYourReasonableExcuseForNotFilingReturnControllerSpec extends SpecBas
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(WhatIsYourReasonableExcuseForNotFilingReturn("", "")), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode, areTheyTheIndividual, entity)(request, messages(application)).toString
+      }
+    }
+
+    "must populate the view correctly on a GET when the question has previously been answered" in {
+
+      val userAnswers = UserAnswers(
+        userAnswersId,
+        Json.obj(
+          WhatReasonableCareDidYouTakePage.toString -> Json.obj(
+            "reasonableExcuse" -> "value 1",
+            "yearsThisAppliesTo" -> "value 2"
+          )
+        ).toString
+      )
+
+      val ua = (for {
+        updatedAnswer <- userAnswers.set(AreYouTheIndividualPage, true)
+        uaWithRelatesToPage <- updatedAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
+      } yield uaWithRelatesToPage).success.value
+
+      val areTheyTheIndividual = isTheUserTheIndividual(ua)
+      val entity = ua.get(RelatesToPage).get
+
+      val application = applicationBuilder(userAnswers = Some(ua)).build()
+
+      running(application) {
+        val request = FakeRequest(GET, whatIsYourReasonableExcuseForNotFilingReturnRoute)
+
+        val view = application.injector.instanceOf[WhatIsYourReasonableExcuseForNotFilingReturnView]
+
+        val result = route(application, request).value
+
+        status(result) mustEqual OK
+        contentAsString(result) mustEqual view(form.fill(WhatIsYourReasonableExcuseForNotFilingReturn("", "")), NormalMode, areTheyTheIndividual, entity)(request, messages(application)).toString
       }
     }
 
     "must redirect to the next page when valid data is submitted" in {
+
+      val ua = (for {
+        updatedAnswer <- UserAnswers("id").set(AreYouTheIndividualPage, true)
+        uaWithRelatesToPage <- updatedAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
+      } yield uaWithRelatesToPage).success.value
 
       val mockSessionService = mock[SessionService]
 
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
 
       val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
+        applicationBuilderWithSessionService(userAnswers = Some(ua), mockSessionService)
           .overrides(
             bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
           )
@@ -114,7 +134,15 @@ class WhatIsYourReasonableExcuseForNotFilingReturnControllerSpec extends SpecBas
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val ua = (for {
+        updatedAnswer <- UserAnswers("id").set(AreYouTheIndividualPage, true)
+        uaWithRelatesToPage <- updatedAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
+      } yield uaWithRelatesToPage).success.value
+
+      val areTheyTheIndividual = isTheUserTheIndividual(ua)
+      val entity = ua.get(RelatesToPage).get
+
+      val application = applicationBuilder(userAnswers = Some(ua)).build()
 
       running(application) {
         val request =
@@ -128,7 +156,7 @@ class WhatIsYourReasonableExcuseForNotFilingReturnControllerSpec extends SpecBas
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode, true, RelatesTo.AnIndividual)(request, messages(application)).toString
       }
     }
 
@@ -160,6 +188,13 @@ class WhatIsYourReasonableExcuseForNotFilingReturnControllerSpec extends SpecBas
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
       }
+    }
+  }
+
+  def isTheUserTheIndividual(userAnswers: UserAnswers): Boolean = {
+    userAnswers.get(AreYouTheIndividualPage) match {
+      case Some(true) => true
+      case _ => false
     }
   }
 }

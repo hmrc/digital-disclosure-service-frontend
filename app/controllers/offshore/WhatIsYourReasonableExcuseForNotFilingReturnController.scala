@@ -19,9 +19,9 @@ package controllers.offshore
 import controllers.actions._
 import forms.WhatIsYourReasonableExcuseForNotFilingReturnFormProvider
 import javax.inject.Inject
-import models.Mode
+import models.{Mode, UserAnswers}
 import navigation.NotificationNavigator
-import pages.WhatIsYourReasonableExcuseForNotFilingReturnPage
+import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -47,20 +47,26 @@ class WhatIsYourReasonableExcuseForNotFilingReturnController @Inject()(
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
+      val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
+      val entity = request.userAnswers.get(RelatesToPage).get
+
       val preparedForm = request.userAnswers.get(WhatIsYourReasonableExcuseForNotFilingReturnPage) match {
         case None => form
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      Ok(view(preparedForm, mode, areTheyTheIndividual, entity))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
 
+      val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
+      val entity = request.userAnswers.get(RelatesToPage).get
+
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, areTheyTheIndividual, entity))),
 
         value =>
           for {
@@ -68,5 +74,12 @@ class WhatIsYourReasonableExcuseForNotFilingReturnController @Inject()(
             _              <- sessionService.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(WhatIsYourReasonableExcuseForNotFilingReturnPage, mode, updatedAnswers))
       )
+  }
+
+  def isTheUserTheIndividual(userAnswers: UserAnswers): Boolean = {
+    userAnswers.get(AreYouTheIndividualPage) match {
+      case Some(true) => true
+      case _ => false
+    }
   }
 }
