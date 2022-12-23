@@ -301,7 +301,7 @@ class NotificationDataServiceSpec extends AnyWordSpec with Matchers with TryValu
       val aboutTheIndividual = AboutTheIndividual()
       val updatedUserAnswers = sut.aboutTheIndividualToUserAnswers(aboutTheIndividual, emptyUA).success.value
       updatedUserAnswers.get(WhatIsTheIndividualsFullNamePage)                  shouldEqual None
-      updatedUserAnswers.get(WhatIsTheIndividualDateOfBirthControllerPage)      shouldEqual None
+      updatedUserAnswers.get(WhatIsTheIndividualDateOfBirthPage)      shouldEqual None
       updatedUserAnswers.get(WhatIsTheIndividualOccupationPage)                 shouldEqual None
       updatedUserAnswers.get(DoesTheIndividualHaveNationalInsuranceNumberPage)  shouldEqual None
       updatedUserAnswers.get(WhatIsIndividualsNationalInsuranceNumberPage)      shouldEqual None
@@ -327,7 +327,7 @@ class NotificationDataServiceSpec extends AnyWordSpec with Matchers with TryValu
       )
       val updatedUserAnswers = sut.aboutTheIndividualToUserAnswers(aboutTheIndividual, emptyUA).success.value
       updatedUserAnswers.get(WhatIsTheIndividualsFullNamePage)                  shouldEqual Some("Some name")
-      updatedUserAnswers.get(WhatIsTheIndividualDateOfBirthControllerPage)      shouldEqual Some(localDate)
+      updatedUserAnswers.get(WhatIsTheIndividualDateOfBirthPage)      shouldEqual Some(localDate)
       updatedUserAnswers.get(WhatIsTheIndividualOccupationPage)                 shouldEqual Some("Occupation")
       updatedUserAnswers.get(DoesTheIndividualHaveNationalInsuranceNumberPage)  shouldEqual Some(DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow)
       updatedUserAnswers.get(WhatIsIndividualsNationalInsuranceNumberPage)      shouldEqual Some("Some NINO")

@@ -141,7 +141,7 @@ class NotificationDataServiceImpl extends NotificationDataService {
 
     val pages = List(
       fullName.map(PageWithValue(WhatIsTheIndividualsFullNamePage, _)),
-      dateOfBirth.map(PageWithValue(WhatIsTheIndividualDateOfBirthControllerPage, _)),
+      dateOfBirth.map(PageWithValue(WhatIsTheIndividualDateOfBirthPage, _)),
       mainOccupation.map(PageWithValue(WhatIsTheIndividualOccupationPage, _)),
       doTheyHaveANino.map(PageWithValue[DoesTheIndividualHaveNationalInsuranceNumber](DoesTheIndividualHaveNationalInsuranceNumberPage, _)),
       nino.map(PageWithValue(WhatIsIndividualsNationalInsuranceNumberPage, _)),

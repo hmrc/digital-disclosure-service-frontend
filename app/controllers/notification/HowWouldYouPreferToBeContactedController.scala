@@ -24,7 +24,6 @@ import javax.inject.Inject
 import models.{HowWouldYouPreferToBeContacted, Mode, UserAnswers}
 import navigation.NotificationNavigator
 import pages.{HowWouldYouPreferToBeContactedPage, QuestionPage, YourEmailAddressPage, YourPhoneNumberPage}
-import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService

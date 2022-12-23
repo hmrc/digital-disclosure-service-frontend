@@ -16,78 +16,65 @@
 
 package controllers
 
-import java.time.{LocalDate, ZoneOffset}
-
 import base.SpecBase
-import forms.WhatIsTheIndividualDateOfBirthControllerFormProvider
+import forms.YouHaveLeftTheDDSFormProvider
 import models.{NormalMode, UserAnswers}
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.WhatIsTheIndividualDateOfBirthControllerPage
+import pages.YouHaveLeftTheDDSPage
 import play.api.inject.bind
-import play.api.mvc.{AnyContentAsEmpty, AnyContentAsFormUrlEncoded, Call}
+import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
-import views.html.notification.WhatIsTheIndividualDateOfBirthControllerView
+import views.html.offshore.YouHaveLeftTheDDSView
 
 import scala.concurrent.Future
 
-class WhatIsTheIndividualDateOfBirthControllerControllerSpec extends SpecBase with MockitoSugar {
-
-  val formProvider = new WhatIsTheIndividualDateOfBirthControllerFormProvider()
-  private def form = formProvider()
+class YouHaveLeftTheDDSControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  val validAnswer = LocalDate.now(ZoneOffset.UTC).minusDays(1)
+  val formProvider = new YouHaveLeftTheDDSFormProvider()
+  val form = formProvider()
 
-  lazy val whatIsTheIndividualDateOfBirthControllerRoute = notification.routes.WhatIsTheIndividualDateOfBirthControllerController.onPageLoad(NormalMode).url
+  lazy val youHaveLeftTheDDSRoute = offshore.routes.YouHaveLeftTheDDSController.onPageLoad(NormalMode).url
 
-  override val emptyUserAnswers = UserAnswers(userAnswersId)
-
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
-    FakeRequest(GET, whatIsTheIndividualDateOfBirthControllerRoute)
-
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
-    FakeRequest(POST, whatIsTheIndividualDateOfBirthControllerRoute)
-      .withFormUrlEncodedBody(
-        "value.day"   -> validAnswer.getDayOfMonth.toString,
-        "value.month" -> validAnswer.getMonthValue.toString,
-        "value.year"  -> validAnswer.getYear.toString
-      )
-
-  "WhatIsTheIndividualDateOfBirthController Controller" - {
+  "YouHaveLeftTheDDS Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       running(application) {
-        val result = route(application, getRequest).value
+        val request = FakeRequest(GET, youHaveLeftTheDDSRoute)
 
-        val view = application.injector.instanceOf[WhatIsTheIndividualDateOfBirthControllerView]
+        val result = route(application, request).value
+
+        val view = application.injector.instanceOf[YouHaveLeftTheDDSView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(getRequest, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
       }
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(WhatIsTheIndividualDateOfBirthControllerPage, validAnswer).success.value
+      val userAnswers = UserAnswers(userAnswersId).set(YouHaveLeftTheDDSPage, "answer").success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
-        val view = application.injector.instanceOf[WhatIsTheIndividualDateOfBirthControllerView]
+        val request = FakeRequest(GET, youHaveLeftTheDDSRoute)
 
-        val result = route(application, getRequest).value
+        val view = application.injector.instanceOf[YouHaveLeftTheDDSView]
+
+        val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(validAnswer), NormalMode)(getRequest, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill("answer"), NormalMode)(request, messages(application)).toString
       }
     }
 
@@ -105,7 +92,11 @@ class WhatIsTheIndividualDateOfBirthControllerControllerSpec extends SpecBase wi
           .build()
 
       running(application) {
-        val result = route(application, postRequest).value
+        val request =
+          FakeRequest(POST, youHaveLeftTheDDSRoute)
+            .withFormUrlEncodedBody(("value", "answer"))
+
+        val result = route(application, request).value
 
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual onwardRoute.url
@@ -116,14 +107,14 @@ class WhatIsTheIndividualDateOfBirthControllerControllerSpec extends SpecBase wi
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val request =
-        FakeRequest(POST, whatIsTheIndividualDateOfBirthControllerRoute)
-          .withFormUrlEncodedBody(("value", "invalid value"))
-
       running(application) {
-        val boundForm = form.bind(Map("value" -> "invalid value"))
+        val request =
+          FakeRequest(POST, youHaveLeftTheDDSRoute)
+            .withFormUrlEncodedBody(("value", ""))
 
-        val view = application.injector.instanceOf[WhatIsTheIndividualDateOfBirthControllerView]
+        val boundForm = form.bind(Map("value" -> ""))
+
+        val view = application.injector.instanceOf[YouHaveLeftTheDDSView]
 
         val result = route(application, request).value
 
@@ -137,7 +128,9 @@ class WhatIsTheIndividualDateOfBirthControllerControllerSpec extends SpecBase wi
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val result = route(application, getRequest).value
+        val request = FakeRequest(GET, youHaveLeftTheDDSRoute)
+
+        val result = route(application, request).value
 
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
@@ -149,7 +142,11 @@ class WhatIsTheIndividualDateOfBirthControllerControllerSpec extends SpecBase wi
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val result = route(application, postRequest).value
+        val request =
+          FakeRequest(POST, youHaveLeftTheDDSRoute)
+            .withFormUrlEncodedBody(("value", "answer"))
+
+        val result = route(application, request).value
 
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url

@@ -59,6 +59,10 @@ class ContractualDisclosureFacilityViewSpec extends ViewSpecBase with ViewMatche
       view.getElementById("guidance-link-second").attr("href") mustBe "https://www.gov.uk/government/publications/voluntary-disclosure-contractual-disclosure-facility-cdf1"
     }
 
+    "contain warning text" in {
+      view.getElementsByClass("govuk-warning-text").text() mustBe "! " + messages("contractualDisclosureFacility.warningText")
+    }
+
     "contain label" in {
       view.getElementsByClass("govuk-fieldset__legend--m").text() mustBe messages("contractualDisclosureFacility.label")
     }

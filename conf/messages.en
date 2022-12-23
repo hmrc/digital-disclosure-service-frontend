@@ -1,4 +1,4 @@
-service.name = Digital Disclosure Service
+service.name = Tell HMRC about underpaid tax from previous years
 site.back = Back
 site.remove = Remove
 site.change = Change
@@ -37,8 +37,8 @@ error.number = Please enter a valid number
 error.required = Please enter a value
 error.summary.title = There is a problem
 
-index.title = Digital Disclosure Service
-index.heading = Digital Disclosure Service
+index.title = Tell HMRC about underpaid tax from previous years
+index.heading = Tell HMRC about underpaid tax from previous years
 index.guidance.paragraph.first = You can tell us about undisclosed income you need to pay tax on for any years between the tax years ending 2003 and 2021. However, if you have been sent a tax return for any year from the tax year ending 2019 which is still outstanding, you must complete it as normal – do not include the tax from these tax years in this disclosure.
 index.guidance.paragraph.second = If you need to pay tax you owe from previous years (by making a ‘disclosure’), you need to make HMRC aware of this first.
 index.guidance.paragraph.third = To do this, you can either:
@@ -354,9 +354,9 @@ relatesTo.llp = A limited liability partnership
 relatesTo.hint.llp = A partnership where each partner has limited personal liability for debts or claims of the partnership.
 relatesTo.trust = A trust
 relatesTo.hint.trust = A trust is an arrangement that manages assets for people.
-relatesTo.checkYourAnswersLabel = Who this disclosure is for?
+relatesTo.checkYourAnswersLabel = Who this disclosure is for
 relatesTo.error.required = Select what your disclosure is about
-relatesTo.change.hidden = Who this disclosure is for?
+relatesTo.change.hidden = Who this disclosure is for
 
 areYouTheIndividual.title = Are you the individual this disclosure relates to?
 areYouTheIndividual.heading = Are you the individual this disclosure relates to?
@@ -1069,3 +1069,57 @@ whatIsYourReasonableExcuse.error.excuse.length = excuse must be 100 characters o
 whatIsYourReasonableExcuse.error.years.length = years must be 100 characters or less
 whatIsYourReasonableExcuse.excuse.change.hidden = excuse
 whatIsYourReasonableExcuse.years.change.hidden = years
+
+whatReasonableCareDidYouTake.yearsThisAppliesTo = Which tax years does this apply to?
+whatReasonableCareDidYouTake.yearsThisAppliesTo.hint = For example, tax year ending 2019.
+whatReasonableCareDidYouTake.tasklist.link = Return to the list of tasks
+whatReasonableCareDidYouTake.checkYourAnswersLabel = WhatReasonableCareDidYouTake
+whatReasonableCareDidYouTake.error.reasonableCare.required = Enter the reasonable care taken
+whatReasonableCareDidYouTake.error.yearsThisAppliesTo.required = Enter the tax years this applies to
+whatReasonableCareDidYouTake.error.yearsThisAppliesTo.length = The tax years this applies to must be between 1 and 500 characters
+whatReasonableCareDidYouTake.reasonableCare.change.hidden = input1
+whatReasonableCareDidYouTake.yearsThisAppliesTo.change.hidden = input2
+# ----------------------------------------------------------
+whatReasonableCareDidYouTake.entity.title = What reasonable care did you take when submitting the inaccurate return?
+whatReasonableCareDidYouTake.entity.heading = What reasonable care did you take when submitting the inaccurate return?
+whatReasonableCareDidYouTake.agent.title = What reasonable care was taken when submitting the inaccurate return?
+whatReasonableCareDidYouTake.agent.heading = What reasonable care was taken when submitting the inaccurate return?
+whatReasonableCareDidYouTake.entity.error.reasonableCare.length = The reasonable care you took must be between 1 and 5,000 characters
+whatReasonableCareDidYouTake.agent.error.reasonableCare.length = Reasonable care taken must be between 1 and 5,000 characters
+
+whatReasonableCareDidYouTake.you.reasonableCare = Reasonable care means you did everything you could to make sure the tax returns and other documents sent to HMRC were accurate.
+whatReasonableCareDidYouTake.individual.reasonableCare = Reasonable care means the individual did everything they could to make sure the tax returns and other documents sent to HMRC were accurate.
+whatReasonableCareDidYouTake.company.reasonableCare = Reasonable care means the company did everything they could to make sure the tax returns and other documents sent to HMRC were accurate.
+whatReasonableCareDidYouTake.llp.reasonableCare = Reasonable care means the limited liability partnership did everything they could to make sure the tax returns and other documents sent to HMRC were accurate.
+whatReasonableCareDidYouTake.trust.reasonableCare = Reasonable care means the trust did everything they could to make sure the tax returns and other documents sent to HMRC were accurate.
+whatReasonableCareDidYouTake.estate.reasonableCare = Reasonable care means the person who died did everything they could to make sure the tax returns and other documents sent to HMRC were accurate.
+# ----------------------------------------------------------
+
+youHaveLeftTheDDS.title = You have left the digital disclosure service
+youHaveLeftTheDDS.heading = You have left the digital disclosure service
+youHaveLeftTheDDS.body.first = 'You can now choose to '
+youHaveLeftTheDDS.link = go to the Contractual Disclosure Facility (CDF) (opens in new tab)
+youHaveLeftTheDDS.body.second = ' or you can close this page.'
+youHaveLeftTheDDS.checkYourAnswersLabel = youHaveLeftTheDDS
+youHaveLeftTheDDS.change.hidden = YouHaveLeftTheDDS
+
+whatIsYourReasonableExcuseForNotFilingReturn.title = What is your reasonable excuse for not filing a return?
+whatIsYourReasonableExcuseForNotFilingReturn.heading = What is your reasonable excuse for not filing a return?
+whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo = Which tax years does this apply to?
+whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo.hint = For example, tax year ending 2019.
+whatIsYourReasonableExcuseForNotFilingReturn.checkYourAnswersLabel = What is your reasonable excuse for not filing a return
+whatIsYourReasonableExcuseForNotFilingReturn.error.reasonableExcuse.required = Enter the reasonable excuse
+whatIsYourReasonableExcuseForNotFilingReturn.error.yearsThisAppliesTo.required = Enter the tax years this applies to
+whatIsYourReasonableExcuseForNotFilingReturn.error.yearsThisAppliesTo.length = The tax years this applies to must be between 1 and 500 characters
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.change.hidden = reasonableExcuse
+whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo.change.hidden = yearsThisAppliesTo
+# ----------------------------------------------------------
+whatIsYourReasonableExcuseForNotFilingReturn.entity.error.reasonableExcuse.length = Your reasonable excuse must be between 1 and 5,000 characters
+whatIsYourReasonableExcuseForNotFilingReturn.agent.error.reasonableExcuse.length = Reasonable excuse must be between 1 and 5,000 characters
+whatIsYourReasonableExcuseForNotFilingReturn.you.reasonableExcuse = Reasonable care means you did everything you could to make sure the tax returns and other documents you sent to HMRC were accurate.
+whatIsYourReasonableExcuseForNotFilingReturn.individual.reasonableExcuse = A reasonable excuse is something that stopped the individual meeting a tax obligation that they took reasonable care to meet.
+whatIsYourReasonableExcuseForNotFilingReturn.company.reasonableExcuse = A reasonable excuse is something that stopped the company meeting a tax obligation that they took reasonable care to meet.
+whatIsYourReasonableExcuseForNotFilingReturn.llp.reasonableExcuse = A reasonable excuse is something that stopped the limited liability partnership meeting a tax obligation that they took reasonable care to meet.
+whatIsYourReasonableExcuseForNotFilingReturn.trust.reasonableExcuse = A reasonable excuse is something that stopped the trust meeting a tax obligation that they took reasonable care to meet.
+whatIsYourReasonableExcuseForNotFilingReturn.estate.reasonableExcuse = A reasonable excuse is something that stopped the person who died meeting a tax obligation that they took reasonable care to meet.
+# ----------------------------------------------------------

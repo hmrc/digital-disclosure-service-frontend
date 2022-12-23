@@ -33,6 +33,22 @@ trait ModelGenerators {
         years <- arbitrary[String]
       } yield WhatIsYourReasonableExcuse(excuse, years)
     }
+    
+  implicit lazy val arbitraryWhatIsYourReasonableExcuseForNotFilingReturn: Arbitrary[WhatIsYourReasonableExcuseForNotFilingReturn] =
+    Arbitrary {
+      for {
+        reasonableExcuse <- arbitrary[String]
+        yearsThisAppliesTo <- arbitrary[String]
+      } yield WhatIsYourReasonableExcuseForNotFilingReturn(reasonableExcuse, yearsThisAppliesTo)
+    }
+
+  implicit lazy val arbitraryWhatReasonableCareDidYouTake: Arbitrary[WhatReasonableCareDidYouTake] =
+    Arbitrary {
+      for {
+        reasonableCare <- arbitrary[String]
+        yearsThisAppliesTo <- arbitrary[String]
+      } yield WhatReasonableCareDidYouTake(reasonableCare, yearsThisAppliesTo)
+    }
 
   implicit lazy val arbitraryContractualDisclosureFacility: Arbitrary[ContractualDisclosureFacility] =
     Arbitrary {

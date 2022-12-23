@@ -35,6 +35,7 @@ import models.submission.SubmissionResponse
 import uk.gov.hmrc.http.HttpResponse
 import akka.util.ByteString
 import play.api.libs.ws.WSClient
+import play.mvc.Http.HeaderNames.AUTHORIZATION
 
 @Singleton
 class DigitalDisclosureServiceConnectorImpl @Inject() (
@@ -48,10 +49,13 @@ class DigitalDisclosureServiceConnectorImpl @Inject() (
   private val service: Service = configuration.get[Service]("microservice.services.digital-disclosure-service")
   private val baseUrl = s"${service.baseUrl}/digital-disclosure-service"
 
+  private val clientAuthToken = configuration.get[String]("internal-auth.token")
+
   def submitNotification(notification: Notification)(implicit hc: HeaderCarrier): Future[String] =
     retry {
       httpClient
         .post(url"$baseUrl/notification/submit")
+        .setHeader(AUTHORIZATION -> clientAuthToken)
         .withBody(Json.toJson(notification))
         .execute
         .flatMap { response =>
@@ -65,6 +69,7 @@ class DigitalDisclosureServiceConnectorImpl @Inject() (
   def generateNotificationPDF(notification: Notification)(implicit hc: HeaderCarrier): Future[ByteString] = {
     ws
       .url(s"$baseUrl/notification/pdf")
+      .withHttpHeaders(AUTHORIZATION -> clientAuthToken)
       .post(Json.toJson(notification)) 
       .flatMap { response =>
         response.status match {

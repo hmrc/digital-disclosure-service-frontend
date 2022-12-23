@@ -31,6 +31,30 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
         value <- arbitrary[WhatIsYourReasonableExcuse].map(Json.toJson(_))
       } yield (page, value)
     }
+      
+  implicit lazy val arbitraryWhatIsYourReasonableExcuseForNotFilingReturnUserAnswersEntry: Arbitrary[(WhatIsYourReasonableExcuseForNotFilingReturnPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[WhatIsYourReasonableExcuseForNotFilingReturnPage.type]
+        value <- arbitrary[WhatIsYourReasonableExcuseForNotFilingReturn].map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryWhatReasonableCareDidYouTakeUserAnswersEntry: Arbitrary[(WhatReasonableCareDidYouTakePage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[WhatReasonableCareDidYouTakePage.type]
+        value <- arbitrary[WhatReasonableCareDidYouTake].map(Json.toJson(_))
+        } yield (page, value)
+    }
+    
+  implicit lazy val arbitraryYouHaveLeftTheDDSUserAnswersEntry: Arbitrary[(YouHaveLeftTheDDSPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[YouHaveLeftTheDDSPage.type]
+        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
+      } yield (page, value)
+    }
 
   implicit lazy val arbitraryContractualDisclosureFacilityUserAnswersEntry: Arbitrary[(ContractualDisclosureFacilityPage.type, JsValue)] =
     Arbitrary {
@@ -272,10 +296,10 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
       } yield (page, value)
     }
 
-  implicit lazy val arbitraryWhatIsTheIndividualDateOfBirthControllerUserAnswersEntry: Arbitrary[(WhatIsTheIndividualDateOfBirthControllerPage.type, JsValue)] =
+  implicit lazy val arbitraryWhatIsTheIndividualDateOfBirthUserAnswersEntry: Arbitrary[(WhatIsTheIndividualDateOfBirthPage.type, JsValue)] =
     Arbitrary {
       for {
-        page  <- arbitrary[WhatIsTheIndividualDateOfBirthControllerPage.type]
+        page  <- arbitrary[WhatIsTheIndividualDateOfBirthPage.type]
         value <- arbitrary[Int].map(Json.toJson(_))
       } yield (page, value)
     }

@@ -31,6 +31,7 @@ import models.store.notification._
 import play.api.mvc.Result
 import play.api.mvc.Results.NoContent
 import java.time.Clock
+import play.mvc.Http.HeaderNames.AUTHORIZATION
 
 @Singleton
 class NotificationStoreConnectorImpl @Inject() (
@@ -42,9 +43,12 @@ class NotificationStoreConnectorImpl @Inject() (
   private val service: Service = configuration.get[Service]("microservice.services.digital-disclosure-service-store")
   private val baseUrl = s"${service.baseUrl}/digital-disclosure-service-store"
 
+  private val clientAuthToken = configuration.get[String]("internal-auth.token")
+
   def getNotification(userId: String, notificationId: String)(implicit hc: HeaderCarrier): Future[Option[Notification]] = {
     httpClient
       .get(url"$baseUrl/notification/user/$userId/id/$notificationId")
+      .setHeader(AUTHORIZATION -> clientAuthToken)
       .execute
       .flatMap { response =>
         if (response.status == OK) {
@@ -63,6 +67,7 @@ class NotificationStoreConnectorImpl @Inject() (
   def getAllNotifications(userId: String)(implicit hc: HeaderCarrier): Future[Seq[Notification]] = {
     httpClient
       .get(url"$baseUrl/notification/user/$userId")
+      .setHeader(AUTHORIZATION -> clientAuthToken)
       .execute
       .flatMap { response =>
         if (response.status == OK) {
@@ -81,6 +86,7 @@ class NotificationStoreConnectorImpl @Inject() (
   def setNotification(notification: Notification)(implicit hc: HeaderCarrier): Future[Result] = {
     httpClient
       .put(url"$baseUrl/notification")
+      .setHeader(AUTHORIZATION -> clientAuthToken)
       .withBody(Json.toJson(notification))
       .execute
       .flatMap { response =>
@@ -95,6 +101,7 @@ class NotificationStoreConnectorImpl @Inject() (
   def deleteNotification(userId: String, notificationId: String)(implicit hc: HeaderCarrier): Future[Result] = {
     httpClient
       .delete(url"$baseUrl/notification/user/$userId/id/$notificationId")
+      .setHeader(AUTHORIZATION -> clientAuthToken)
       .execute
       .flatMap { response =>
         if (response.status == NO_CONTENT) {

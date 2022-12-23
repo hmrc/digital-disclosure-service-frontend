@@ -248,8 +248,8 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(WhatIsYourUniqueTaxReferencePage, NormalMode, UserAnswers("id")) mustBe routes.YourAddressLookupController.lookupAddress(NormalMode)
       }
 
-      "must go from the WhatIsTheIndividualsFullNamePage to the WhatIsTheIndividualDateOfBirthControllerController" in {
-        navigator.nextPage(WhatIsTheIndividualsFullNamePage, NormalMode, UserAnswers("id")) mustBe routes.WhatIsTheIndividualDateOfBirthControllerController.onPageLoad(NormalMode)
+      "must go from the WhatIsTheIndividualsFullNamePage to the WhatIsTheIndividualDateOfBirthController" in {
+        navigator.nextPage(WhatIsTheIndividualsFullNamePage, NormalMode, UserAnswers("id")) mustBe routes.WhatIsTheIndividualDateOfBirthController.onPageLoad(NormalMode)
       }
 
       "must go from the WhatIsTheIndividualOccupationPage to the DoesTheIndividualHaveNationalInsuranceNumberController" in {
@@ -281,8 +281,8 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(WhatIsIndividualsNationalInsuranceNumberPage, NormalMode, UserAnswers("id")) mustBe routes.IsTheIndividualRegisteredForVATController.onPageLoad(NormalMode)
       }
 
-      "must go from the WhatIsTheIndividualDateOfBirthControllerPage to the WhatIsTheIndividualOccupationController" in {
-        navigator.nextPage(WhatIsTheIndividualDateOfBirthControllerPage, NormalMode, UserAnswers("id")) mustBe routes.WhatIsTheIndividualOccupationController.onPageLoad(NormalMode)
+      "must go from the WhatIsTheIndividualDateOfBirthPage to the WhatIsTheIndividualOccupationController" in {
+        navigator.nextPage(WhatIsTheIndividualDateOfBirthPage, NormalMode, UserAnswers("id")) mustBe routes.WhatIsTheIndividualOccupationController.onPageLoad(NormalMode)
       }
 
       "must go from the IsTheIndividualRegisteredForVATPage to the WhatIsIndividualsNationalInsuranceNumberController when the user selects Yes, and I know their VAT registration number"in {

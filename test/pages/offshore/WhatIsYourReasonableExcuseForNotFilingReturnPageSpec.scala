@@ -16,13 +16,17 @@
 
 package pages
 
-import java.time.LocalDate
+import models.WhatIsYourReasonableExcuseForNotFilingReturn
+import pages.behaviours.PageBehaviours
 
-import play.api.libs.json.JsPath
+class WhatIsYourReasonableExcuseForNotFilingReturnPageSpec extends PageBehaviours {
 
-case object WhatIsTheIndividualDateOfBirthControllerPage extends QuestionPage[LocalDate] {
+  "WhatIsYourReasonableExcuseForNotFilingReturnPage" - {
 
-  override def path: JsPath = JsPath \ toString
+    beRetrievable[WhatIsYourReasonableExcuseForNotFilingReturn](WhatIsYourReasonableExcuseForNotFilingReturnPage)
 
-  override def toString: String = "whatIsTheIndividualDateOfBirthController"
+    beSettable[WhatIsYourReasonableExcuseForNotFilingReturn](WhatIsYourReasonableExcuseForNotFilingReturnPage)
+
+    beRemovable[WhatIsYourReasonableExcuseForNotFilingReturn](WhatIsYourReasonableExcuseForNotFilingReturnPage)
+  }
 }

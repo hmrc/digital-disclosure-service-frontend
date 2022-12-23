@@ -14,35 +14,36 @@
  * limitations under the License.
  *@
 
+@import viewmodels.InputWidth._
+
 @this(
     layout: templates.Layout,
     formHelper: FormWithCSRF,
     govukErrorSummary: GovukErrorSummary,
-    govukDateInput: GovukDateInput,
-    govukButton: GovukButton
+    paragraph: components.paragraph,
+    link: components.link,
+    govukPanel: GovukPanel
 )
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("whatIsTheIndividualDateOfBirth.title"))) {
+@layout(pageTitle = title(form, messages("youHaveLeftTheDDS.title")), showBackLink = false) {
 
-    @formHelper(action = controllers.notification.routes.WhatIsTheIndividualDateOfBirthControllerController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.offshore.routes.YouHaveLeftTheDDSController.onSubmit(mode)) {
 
         @if(form.errors.nonEmpty) {
-            @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value.day")))
+            @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
-        @govukDateInput(
-            DateViewModel(
-                form   = form,
-                id     = "value",
-                legend = LegendViewModel(messages("whatIsTheIndividualDateOfBirth.heading")).asPageHeading()
-            )
-            .withHint(HintViewModel(messages("whatIsTheIndividualDateOfBirth.hint")))
-        )
+        @govukPanel(Panel(content = messages("youHaveLeftTheDDS.heading")))
 
-        @govukButton(
-            ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
+        @paragraph(
+            id = Some("body"),
+            content = HtmlContent(
+                messages("youHaveLeftTheDDS.body.first") +
+                link(id = "guidance-link-first", text = messages("youHaveLeftTheDDS.link"), newTab = true, call = Call("GET", "https://www.gov.uk/guidance/admitting-tax-fraud-the-contractual-disclosure-facility-cdf")) +
+                messages("youHaveLeftTheDDS.body.second")
+            )
         )
     }
 }

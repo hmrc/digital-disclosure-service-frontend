@@ -16,30 +16,27 @@
 
 package viewmodels.checkAnswers
 
-import java.time.format.DateTimeFormatter
-
-import controllers.notification.routes
+import controllers.offshore.routes
 import models.{CheckMode, UserAnswers}
-import pages.WhatIsTheIndividualDateOfBirthControllerPage
+import pages.YouHaveLeftTheDDSPage
 import play.api.i18n.Messages
+import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object WhatIsTheIndividualDateOfBirthControllerSummary  {
+object YouHaveLeftTheDDSSummary  {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(WhatIsTheIndividualDateOfBirthControllerPage).map {
+    answers.get(YouHaveLeftTheDDSPage).map {
       answer =>
 
-        val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
-
         SummaryListRowViewModel(
-          key     = "whatIsTheIndividualDateOfBirth.checkYourAnswersLabel",
-          value   = ValueViewModel(answer.format(dateFormatter)),
+          key     = "youHaveLeftTheDDS.checkYourAnswersLabel",
+          value   = ValueViewModel(HtmlFormat.escape(answer).toString),
           actions = Seq(
-            ActionItemViewModel("site.change", routes.WhatIsTheIndividualDateOfBirthControllerController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("whatIsTheIndividualDateOfBirth.change.hidden"))
+            ActionItemViewModel("site.change", routes.YouHaveLeftTheDDSController.onPageLoad(CheckMode).url)
+              .withVisuallyHiddenText(messages("youHaveLeftTheDDS.change.hidden"))
           )
         )
     }

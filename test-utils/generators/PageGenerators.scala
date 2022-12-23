@@ -23,6 +23,15 @@ trait PageGenerators {
 
   implicit lazy val arbitraryWhatIsYourReasonableExcusePage: Arbitrary[WhatIsYourReasonableExcusePage.type] =
     Arbitrary(WhatIsYourReasonableExcusePage)
+    
+  implicit lazy val arbitraryWhatIsYourReasonableExcuseForNotFilingReturnPage: Arbitrary[WhatIsYourReasonableExcuseForNotFilingReturnPage.type] =
+    Arbitrary(WhatIsYourReasonableExcuseForNotFilingReturnPage)
+
+  implicit lazy val arbitraryWhatReasonableCareDidYouTakePage: Arbitrary[WhatReasonableCareDidYouTakePage.type] =
+    Arbitrary(WhatReasonableCareDidYouTakePage)
+    
+  implicit lazy val arbitraryYouHaveLeftTheDDSPage: Arbitrary[YouHaveLeftTheDDSPage.type] =
+    Arbitrary(YouHaveLeftTheDDSPage)
 
   implicit lazy val arbitraryContractualDisclosureFacilityPage: Arbitrary[ContractualDisclosureFacilityPage.type] =
     Arbitrary(ContractualDisclosureFacilityPage)
@@ -114,8 +123,8 @@ trait PageGenerators {
   implicit lazy val arbitraryWhatIsTheIndividualOccupationPage: Arbitrary[WhatIsTheIndividualOccupationPage.type] =
     Arbitrary(WhatIsTheIndividualOccupationPage)
 
-  implicit lazy val arbitraryWhatIsTheIndividualDateOfBirthControllerPage: Arbitrary[WhatIsTheIndividualDateOfBirthControllerPage.type] =
-    Arbitrary(WhatIsTheIndividualDateOfBirthControllerPage)
+  implicit lazy val arbitraryWhatIsTheIndividualDateOfBirthPage: Arbitrary[WhatIsTheIndividualDateOfBirthPage.type] =
+    Arbitrary(WhatIsTheIndividualDateOfBirthPage)
 
   implicit lazy val arbitraryWhatIsTheIndividualsFullNamePage: Arbitrary[WhatIsTheIndividualsFullNamePage.type] =
     Arbitrary(WhatIsTheIndividualsFullNamePage)

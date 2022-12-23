@@ -16,23 +16,12 @@
 
 package pages
 
-import java.time.LocalDate
+import models.WhatIsYourReasonableExcuseForNotFilingReturn
+import play.api.libs.json.JsPath
 
-import org.scalacheck.Arbitrary
-import pages.behaviours.PageBehaviours
+case object WhatIsYourReasonableExcuseForNotFilingReturnPage extends QuestionPage[WhatIsYourReasonableExcuseForNotFilingReturn] {
 
-class WhatIsTheIndividualDateOfBirthControllerPageSpec extends PageBehaviours {
+  override def path: JsPath = JsPath \ toString
 
-  "WhatIsTheIndividualDateOfBirthControllerPage" - {
-
-    implicit lazy val arbitraryLocalDate: Arbitrary[LocalDate] = Arbitrary {
-      datesBetween(LocalDate.of(1900, 1, 1), LocalDate.of(2100, 1, 1))
-    }
-
-    beRetrievable[LocalDate](WhatIsTheIndividualDateOfBirthControllerPage)
-
-    beSettable[LocalDate](WhatIsTheIndividualDateOfBirthControllerPage)
-
-    beRemovable[LocalDate](WhatIsTheIndividualDateOfBirthControllerPage)
-  }
+  override def toString: String = "whatIsYourReasonableExcuseForNotFilingReturn"
 }
