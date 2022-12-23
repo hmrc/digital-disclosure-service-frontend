@@ -9,6 +9,11 @@ POST       /contractual-disclosure-facility              controllers.offshore.Co
 GET        /contractual-disclosure-facility/change       controllers.offshore.ContractualDisclosureFacilityController.onPageLoad(mode: Mode = CheckMode)
 POST       /contractual-disclosure-facility/change       controllers.offshore.ContractualDisclosureFacilityController.onSubmit(mode: Mode = CheckMode)
 
+GET        /excuse-for-not-notifying                     controllers.offshore.WhatIsYourReasonableExcuseController.onPageLoad(mode: Mode = NormalMode)
+POST       /excuse-for-not-notifying                     controllers.offshore.WhatIsYourReasonableExcuseController.onSubmit(mode: Mode = NormalMode)
+GET        /excuse-for-not-notifying/change              controllers.offshore.WhatIsYourReasonableExcuseController.onPageLoad(mode: Mode = CheckMode)
+POST       /excuse-for-not-notifying/change              controllers.offshore.WhatIsYourReasonableExcuseController.onSubmit(mode: Mode = CheckMode)
+
 GET        /reasonable-care                              controllers.offshore.WhatReasonableCareDidYouTakeController.onPageLoad(mode: Mode = NormalMode)
 POST       /reasonable-care                              controllers.offshore.WhatReasonableCareDidYouTakeController.onSubmit(mode: Mode = NormalMode)
 GET        /reasonable-care/change                       controllers.offshore.WhatReasonableCareDidYouTakeController.onPageLoad(mode: Mode = CheckMode)

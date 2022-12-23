@@ -184,11 +184,11 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
     val onshore = userAnswers.get(OnshoreLiabilitiesPage)
 
     (offshore, onshore) match {
-      case (None, None) => Seq(buildCaseReferenceRow, buildOtherLiabilityIssueRow)
-      case (Some(true), None) => Seq(buildCaseReferenceRow, buildOtherLiabilityIssueRow)
-      case (Some(true), Some(true)) => Seq(buildCaseReferenceRow, buildOnshoreLiabilitieDetailRow, buildOffshoreLiabilitieDetailRow(userAnswers), buildOtherLiabilityIssueRow)
-      case (Some(true), Some(false)) => Seq(buildCaseReferenceRow, buildOffshoreLiabilitieDetailRow(userAnswers), buildOtherLiabilityIssueRow)
-      case (Some(false), _) => Seq(buildCaseReferenceRow, buildOnshoreLiabilitieDetailRow, buildOtherLiabilityIssueRow)
+      case (Some(true),  Some(true))  => Seq(buildCaseReferenceRow, buildOnshoreLiabilitieDetailRow, buildOffshoreLiabilitieDetailRow(userAnswers), buildOtherLiabilityIssueRow)
+      case (Some(true),  _)           => Seq(buildCaseReferenceRow, buildOffshoreLiabilitieDetailRow(userAnswers), buildOtherLiabilityIssueRow)
+      case (_,           Some(true))  => Seq(buildCaseReferenceRow, buildOnshoreLiabilitieDetailRow, buildOtherLiabilityIssueRow)
+      case (Some(false), _)           => Seq(buildCaseReferenceRow, buildOnshoreLiabilitieDetailRow, buildOtherLiabilityIssueRow)
+      case (_,           _)           => Seq(buildCaseReferenceRow, buildOtherLiabilityIssueRow)
     }
   }
 }
