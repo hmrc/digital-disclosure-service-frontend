@@ -48,12 +48,16 @@ class WhatIsYourReasonableExcuseViewSpec extends ViewSpecBase with ViewMatchers 
     }
 
     "contain hints" in {
-      view.getElementsByClass("govuk-hint").last().text() mustBe messages("whatIsYourReasonableExcuse.years.hint")
+      view.getElementById("years-hint").text() mustBe messages("whatIsYourReasonableExcuse.years.hint")
     }
 
     "display the continue button" in {
       view.getElementsByClass("govuk-button").first() must haveId ("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
+    }
+
+    "have a task list link" in {
+      view.getElementById("task-list-link").attr("href") mustBe controllers.routes.TaskListController.onPageLoad.url
     }
 
   }

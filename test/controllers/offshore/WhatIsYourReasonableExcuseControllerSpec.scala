@@ -50,7 +50,7 @@ class WhatIsYourReasonableExcuseControllerSpec extends SpecBase with MockitoSuga
         "excuse" -> "value 1",
         "years" -> "value 2"
       )
-    ).toString()
+    ).toString
   )
 
   "WhatIsYourReasonableExcuse Controller" - {
@@ -83,7 +83,7 @@ class WhatIsYourReasonableExcuseControllerSpec extends SpecBase with MockitoSuga
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(WhatIsYourReasonableExcuse("value 1", "value 2")), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(WhatIsYourReasonableExcuse("", "")), NormalMode)(request, messages(application)).toString
       }
     }
 
