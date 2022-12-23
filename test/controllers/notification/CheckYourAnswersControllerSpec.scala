@@ -317,14 +317,14 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
     "must return OK and the correct view for a GET when WhatIsTheIndividualDateOfBirthPage is populated" in {
       val ua = (for {
-        userAnswer <- UserAnswers("id").set(WhatIsTheIndividualDateOfBirthControllerPage, arbitrary[LocalDate].sample.value)
+        userAnswer <- UserAnswers("id").set(WhatIsTheIndividualDateOfBirthPage, arbitrary[LocalDate].sample.value)
         uaWithAreYouTheIndividualPage <- userAnswer.set(AreYouTheIndividualPage, false)
       } yield uaWithAreYouTheIndividualPage).success.value
         
       rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
         background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua)(messages)).flatten), 
         aboutYou = SummaryListViewModel(Seq.empty), 
-        aboutTheIndividualList = Some(SummaryListViewModel(Seq(WhatIsTheIndividualDateOfBirthControllerSummary.row(ua)(messages)).flatten))
+        aboutTheIndividualList = Some(SummaryListViewModel(Seq(WhatIsTheIndividualDateOfBirthSummary.row(ua)(messages)).flatten))
       ))
     }
 

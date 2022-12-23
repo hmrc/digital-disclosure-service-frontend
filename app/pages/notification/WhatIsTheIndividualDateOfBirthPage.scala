@@ -18,21 +18,11 @@ package pages
 
 import java.time.LocalDate
 
-import org.scalacheck.Arbitrary
-import pages.behaviours.PageBehaviours
+import play.api.libs.json.JsPath
 
-class WhatIsTheIndividualDateOfBirthControllerPageSpec extends PageBehaviours {
+case object WhatIsTheIndividualDateOfBirthPage extends QuestionPage[LocalDate] {
 
-  "WhatIsTheIndividualDateOfBirthControllerPage" - {
+  override def path: JsPath = JsPath \ toString
 
-    implicit lazy val arbitraryLocalDate: Arbitrary[LocalDate] = Arbitrary {
-      datesBetween(LocalDate.of(1900, 1, 1), LocalDate.of(2100, 1, 1))
-    }
-
-    beRetrievable[LocalDate](WhatIsTheIndividualDateOfBirthControllerPage)
-
-    beSettable[LocalDate](WhatIsTheIndividualDateOfBirthControllerPage)
-
-    beRemovable[LocalDate](WhatIsTheIndividualDateOfBirthControllerPage)
-  }
+  override def toString: String = "WhatIsTheIndividualDateOfBirth"
 }

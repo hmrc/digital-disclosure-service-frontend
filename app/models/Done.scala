@@ -14,15 +14,7 @@
  * limitations under the License.
  */
 
-package pages
+package models
 
-import java.time.LocalDate
-
-import play.api.libs.json.JsPath
-
-case object WhatIsTheIndividualDateOfBirthControllerPage extends QuestionPage[LocalDate] {
-
-  override def path: JsPath = JsPath \ toString
-
-  override def toString: String = "whatIsTheIndividualDateOfBirthController"
-}
+sealed abstract class Done
+object Done extends Done

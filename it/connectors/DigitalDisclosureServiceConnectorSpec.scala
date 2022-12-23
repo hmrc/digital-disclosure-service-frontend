@@ -40,6 +40,7 @@ class DigitalDisclosureServiceConnectorSpec extends AnyFreeSpec with Matchers wi
         "microservice.services.digital-disclosure-service.port" -> server.port(),
         "microservice.services.digital-disclosure-service.host" -> "localhost",
         "microservice.services.digital-disclosure-service.protocol" -> "http",
+        "create-internal-auth-token-on-start" -> "false"
       )
       .build()
 

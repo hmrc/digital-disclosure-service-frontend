@@ -113,7 +113,7 @@ class NotificationNavigator @Inject()() {
 
     case YourAddressLookupPage => _ => routes.CheckYourAnswersController.onPageLoad
 
-    case WhatIsTheIndividualsFullNamePage => _ => routes.WhatIsTheIndividualDateOfBirthControllerController.onPageLoad(NormalMode)
+    case WhatIsTheIndividualsFullNamePage => _ => routes.WhatIsTheIndividualDateOfBirthController.onPageLoad(NormalMode)
 
     case WhatIsTheIndividualOccupationPage => _ => routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(NormalMode)
 
@@ -126,7 +126,7 @@ class NotificationNavigator @Inject()() {
 
     case WhatIsIndividualsNationalInsuranceNumberPage => _ => routes.IsTheIndividualRegisteredForVATController.onPageLoad(NormalMode)
 
-    case WhatIsTheIndividualDateOfBirthControllerPage => _ => routes.WhatIsTheIndividualOccupationController.onPageLoad(NormalMode)
+    case WhatIsTheIndividualDateOfBirthPage => _ => routes.WhatIsTheIndividualOccupationController.onPageLoad(NormalMode)
 
     case IsTheIndividualRegisteredForVATPage => ua => ua.get(IsTheIndividualRegisteredForVATPage) match {
       case Some(IsTheIndividualRegisteredForVAT.YesIKnow) => routes.WhatIsTheIndividualsVATRegistrationNumberController.onPageLoad(NormalMode)

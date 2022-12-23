@@ -60,7 +60,7 @@ trait UserAnswersGenerator extends TryValues {
     arbitrary[(WhatIsIndividualsNationalInsuranceNumberPage.type, JsValue)] ::
     arbitrary[(DoesTheIndividualHaveNationalInsuranceNumberPage.type, JsValue)] ::
     arbitrary[(WhatIsTheIndividualOccupationPage.type, JsValue)] ::
-    arbitrary[(WhatIsTheIndividualDateOfBirthControllerPage.type, JsValue)] ::
+    arbitrary[(WhatIsTheIndividualDateOfBirthPage.type, JsValue)] ::
     arbitrary[(WhatIsTheIndividualsFullNamePage.type, JsValue)] ::
     arbitrary[(WhatIsYourUniqueTaxReferencePage.type, JsValue)] ::
     arbitrary[(AreYouRegisteredForSelfAssessmentPage.type, JsValue)] ::

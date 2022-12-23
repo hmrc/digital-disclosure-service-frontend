@@ -23,10 +23,7 @@ import org.scalamock.scalatest.MockFactory
 import org.scalatest.{EitherValues, TryValues}
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.http.Status.ACCEPTED
-import play.api.libs.json.JsError
-import play.api.libs.json.JsPath
-import play.api.libs.json.Json
-import play.api.libs.json.JsonValidationError
+import play.api.libs.json.{JsError,JsPath,Json,JsonValidationError}
 import play.api.mvc.Call
 import play.api.test.Helpers.LOCATION
 import play.api.test.Helpers._
@@ -42,17 +39,15 @@ import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import config.{FrontendAppConfig, AddressLookupConfig}
 import play.api.test.{FakeRequest, Injecting}
 import play.api.i18n.{Messages, MessagesApi}
-import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import org.scalatestplus.play.PlaySpec
 import java.net.URL
 import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import pages._
+import base.SpecBase
 
 class AddressLookupServiceSpec
-    extends PlaySpec
-    with GuiceOneAppPerSuite
+    extends SpecBase
     with ScalaCheckPropertyChecks
     with EitherValues
     with MockFactory
@@ -62,6 +57,8 @@ class AddressLookupServiceSpec
     with AddressLookupHelper {
 
   implicit val hc: HeaderCarrier = HeaderCarrier()
+
+  val app = applicationBuilder().build
 
   val addressUpdateCall: Call = Call("", "/redirect")
 
@@ -106,7 +103,7 @@ class AddressLookupServiceSpec
       .expects(id, *)
       .returning(EitherT.fromEither[Future](response))
 
-  "The address lookup service" when {
+  "The address lookup service" - {
     
     def testAddressLookup(userAnswers: UserAnswers, addressLookupRequest: AddressLookupRequest) = {
       "succeed receiving user redirect URL" in {
@@ -141,7 +138,7 @@ class AddressLookupServiceSpec
       }
     }
 
-    "triggering a lookup for your address where they are not the individual" must {
+    "triggering a lookup for your address where they are not the individual" - {
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.AnIndividual)
@@ -151,7 +148,7 @@ class AddressLookupServiceSpec
       testAddressLookup(userAnswers, yourAddressIndividualBodyRequest)
     }
 
-    "triggering a lookup for your address when no body text" must {
+    "triggering a lookup for your address when no body text" - {
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.AnIndividual)
@@ -161,7 +158,7 @@ class AddressLookupServiceSpec
       testAddressLookup(userAnswers, yourAddressNoBodyRequest)
     }  
 
-    "triggering a lookup for your address when they are not an officer of the company" must {
+    "triggering a lookup for your address when they are not an officer of the company" - {
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ACompany)
@@ -171,7 +168,7 @@ class AddressLookupServiceSpec
       testAddressLookup(userAnswers, yourAddressCompanyBodyRequest)
     }  
 
-    "triggering a lookup for your address when they are an officer of the company" must {
+    "triggering a lookup for your address when they are an officer of the company" - {
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ACompany)
@@ -181,7 +178,7 @@ class AddressLookupServiceSpec
       testAddressLookup(userAnswers, yourAddressNoBodyRequest)
     }
 
-    "triggering a lookup for your address when they are not a limited liability partnership" must {
+    "triggering a lookup for your address when they are not a limited liability partnership" - {
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership)
@@ -191,7 +188,7 @@ class AddressLookupServiceSpec
       testAddressLookup(userAnswers, yourAddressLLPBodyRequest)
     }
 
-    "triggering a lookup for your address when they are a limited liability partnership" must {
+    "triggering a lookup for your address when they are a limited liability partnership" - {
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership)
@@ -201,7 +198,7 @@ class AddressLookupServiceSpec
       testAddressLookup(userAnswers, yourAddressNoBodyRequest)
     }
 
-    "triggering a lookup for your address when they are not a trust" must {
+    "triggering a lookup for your address when they are not a trust" - {
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ATrust)
@@ -211,7 +208,7 @@ class AddressLookupServiceSpec
       testAddressLookup(userAnswers, yourAddressTrustBodyRequest)
     }
 
-    "triggering a lookup for your address when they are a trust" must {
+    "triggering a lookup for your address when they are a trust" - {
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ATrust)
@@ -221,7 +218,7 @@ class AddressLookupServiceSpec
       testAddressLookup(userAnswers, yourAddressNoBodyRequest)
     }
 
-    "triggering a lookup for your address when they are not an estate" must {
+    "triggering a lookup for your address when they are not an estate" - {
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.AnEstate)
@@ -231,7 +228,7 @@ class AddressLookupServiceSpec
       testAddressLookup(userAnswers, yourAddressEstateBodyRequest)
     }
 
-    "triggering a lookup for your address when they are an estate" must {
+    "triggering a lookup for your address when they are an estate" - {
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.AnEstate)
@@ -241,7 +238,7 @@ class AddressLookupServiceSpec
       testAddressLookup(userAnswers, yourAddressNoBodyRequest)
     }  
 
-    "triggering a lookup for an individual address" must {
+    "triggering a lookup for an individual address" - {
 
       "succeed receiving user redirect URL" in {
         val locationUrl = new URL("http://someUrl:1234/redirect")
@@ -275,7 +272,7 @@ class AddressLookupServiceSpec
       }
     }
 
-    "triggering a lookup for an company address" must {
+    "triggering a lookup for an company address" - {
 
       "succeed receiving user redirect URL" in {
         val locationUrl = new URL("http://someUrl:1234/redirect")
@@ -309,7 +306,7 @@ class AddressLookupServiceSpec
       }
     }
 
-    "triggering a lookup for an llp address" must {
+    "triggering a lookup for an llp address" - {
 
       "succeed receiving user redirect URL" in {
         val locationUrl = new URL("http://someUrl:1234/redirect")
@@ -343,7 +340,7 @@ class AddressLookupServiceSpec
       }
     }
 
-    "triggering a lookup for a trust address" must {
+    "triggering a lookup for a trust address" - {
 
       "succeed receiving user redirect URL" in {
         val locationUrl = new URL("http://someUrl:1234/redirect")
@@ -377,7 +374,7 @@ class AddressLookupServiceSpec
       }
     }
 
-    "triggering a lookup for an estate address" must {
+    "triggering a lookup for an estate address" - {
 
       "succeed receiving user redirect URL" in {
         val locationUrl = new URL("http://someUrl:1234/redirect")
@@ -411,7 +408,7 @@ class AddressLookupServiceSpec
       }
     }
 
-    "retrieving address" must {
+    "retrieving address" - {
 
       "succeed having valid address ID" in forAll { (id: UUID, address: Address) =>
         val json = Json.obj(
@@ -442,7 +439,7 @@ class AddressLookupServiceSpec
       }
     }
 
-    "an address with only one address line" must {
+    "an address with only one address line" - {
       import AddressLookupServiceImpl.addressLookupResponseReads
 
       "fail to deserialise" in {

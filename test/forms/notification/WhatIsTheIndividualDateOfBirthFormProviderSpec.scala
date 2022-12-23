@@ -20,15 +20,15 @@ import java.time.{LocalDate, Month, ZoneOffset}
 import forms.behaviours.DateBehaviours
 import play.api.data.FormError
 
-class WhatIsTheIndividualDateOfBirthControllerFormProviderSpec extends DateBehaviours {
+class WhatIsTheIndividualDateOfBirthFormProviderSpec extends DateBehaviours {
 
-  val form = new WhatIsTheIndividualDateOfBirthControllerFormProvider()()
+  val form = new WhatIsTheIndividualDateOfBirthFormProvider()()
 
   ".value" - {
 
     val validData = datesBetween(
-      min = LocalDate.of(2000, 1, 1),
-      max = LocalDate.now(ZoneOffset.UTC)
+      min = LocalDate.of(1850, 1, 1),
+      max = LocalDate.now(ZoneOffset.UTC).minusDays(1)
     )
 
     behave like dateField(form, "value", validData)

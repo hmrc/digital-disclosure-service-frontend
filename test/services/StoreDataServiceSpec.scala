@@ -203,7 +203,7 @@ class StoreDataServiceSpec extends AnyWordSpec with Matchers with TryValues {
       val localDate = LocalDate.now()
       val pages = List(
         PageWithValue(WhatIsTheIndividualsFullNamePage, "Full name"),
-        PageWithValue(WhatIsTheIndividualDateOfBirthControllerPage, localDate),
+        PageWithValue(WhatIsTheIndividualDateOfBirthPage, localDate),
         PageWithValue(WhatIsTheIndividualOccupationPage, "Occupation"), 
         PageWithValue(DoesTheIndividualHaveNationalInsuranceNumberPage, DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow), 
         PageWithValue(WhatIsIndividualsNationalInsuranceNumberPage, "NINO"),
