@@ -21,14 +21,13 @@ import play.api.data.FormError
 
 class WhatIsYourReasonableExcuseFormProviderSpec extends StringFieldBehaviours {
 
-  val form = new WhatIsYourReasonableExcuseFormProvider()()
+  ".excuse when entity" - {
 
-  ".excuse" - {
-
+    val form = new WhatIsYourReasonableExcuseFormProvider()(true)
     val fieldName = "excuse"
     val requiredKey = "whatIsYourReasonableExcuse.error.excuse.required"
-    val lengthKey = "whatIsYourReasonableExcuse.error.excuse.length"
-    val maxLength = 100
+    val entityLengthKey = "whatIsYourReasonableExcuse.entity.error.excuse.length"
+    val maxLength = 5000
 
     behave like fieldThatBindsValidData(
       form,
@@ -40,7 +39,7 @@ class WhatIsYourReasonableExcuseFormProviderSpec extends StringFieldBehaviours {
       form,
       fieldName,
       maxLength = maxLength,
-      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
+      lengthError = FormError(fieldName, entityLengthKey, Seq(maxLength))
     )
 
     behave like mandatoryField(
@@ -50,12 +49,28 @@ class WhatIsYourReasonableExcuseFormProviderSpec extends StringFieldBehaviours {
     )
   }
 
+  ".excuse when agent" - {
+
+    val form = new WhatIsYourReasonableExcuseFormProvider()(false)
+    val fieldName = "excuse"
+    val agentLengthKey = "whatIsYourReasonableExcuse.agent.error.excuse.length"
+    val maxLength = 5000
+
+    behave like fieldWithMaxLength(
+      form,
+      fieldName,
+      maxLength = maxLength,
+      lengthError = FormError(fieldName, agentLengthKey, Seq(maxLength))
+    )
+  }
+
   ".years" - {
 
+    val form = new WhatIsYourReasonableExcuseFormProvider()(true)
     val fieldName = "years"
     val requiredKey = "whatIsYourReasonableExcuse.error.years.required"
     val lengthKey = "whatIsYourReasonableExcuse.error.years.length"
-    val maxLength = 100
+    val maxLength = 500
 
     behave like fieldThatBindsValidData(
       form,

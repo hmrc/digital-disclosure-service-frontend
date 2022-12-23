@@ -31,7 +31,7 @@ class WhatIsYourReasonableExcuseViewSpec extends ViewSpecBase with ViewMatchers 
 
     val areTheyTheIndividual = true
     val entity = RelatesTo.AnIndividual
-    val form = new WhatIsYourReasonableExcuseFormProvider()()
+    val form = new WhatIsYourReasonableExcuseFormProvider()(areTheyTheIndividual)
     def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
     val view = createView
@@ -67,7 +67,7 @@ class WhatIsYourReasonableExcuseViewSpec extends ViewSpecBase with ViewMatchers 
 
     val areTheyTheIndividual = false
     val entity = RelatesTo.AnIndividual
-    val form = new WhatIsYourReasonableExcuseFormProvider()()
+    val form = new WhatIsYourReasonableExcuseFormProvider()(areTheyTheIndividual)
     def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
     val view = createView
@@ -89,7 +89,7 @@ class WhatIsYourReasonableExcuseViewSpec extends ViewSpecBase with ViewMatchers 
 
     val areTheyTheIndividual = false
     val entity = RelatesTo.AnEstate
-    val form = new WhatIsYourReasonableExcuseFormProvider()()
+    val form = new WhatIsYourReasonableExcuseFormProvider()(areTheyTheIndividual)
     def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
     val view = createView
@@ -111,7 +111,7 @@ class WhatIsYourReasonableExcuseViewSpec extends ViewSpecBase with ViewMatchers 
 
     val areTheyTheIndividual = false
     val entity = RelatesTo.ACompany
-    val form = new WhatIsYourReasonableExcuseFormProvider()()
+    val form = new WhatIsYourReasonableExcuseFormProvider()(areTheyTheIndividual)
     def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
     val view = createView
@@ -133,7 +133,7 @@ class WhatIsYourReasonableExcuseViewSpec extends ViewSpecBase with ViewMatchers 
 
     val areTheyTheIndividual = false
     val entity = RelatesTo.ALimitedLiabilityPartnership
-    val form = new WhatIsYourReasonableExcuseFormProvider()()
+    val form = new WhatIsYourReasonableExcuseFormProvider()(areTheyTheIndividual)
     def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
     val view = createView
@@ -155,7 +155,7 @@ class WhatIsYourReasonableExcuseViewSpec extends ViewSpecBase with ViewMatchers 
 
     val areTheyTheIndividual = false
     val entity = RelatesTo.ATrust
-    val form = new WhatIsYourReasonableExcuseFormProvider()()
+    val form = new WhatIsYourReasonableExcuseFormProvider()(areTheyTheIndividual)
     def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
     val view = createView

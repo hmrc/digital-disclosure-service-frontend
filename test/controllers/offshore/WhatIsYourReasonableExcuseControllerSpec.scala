@@ -39,7 +39,7 @@ class WhatIsYourReasonableExcuseControllerSpec extends SpecBase with MockitoSuga
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new WhatIsYourReasonableExcuseFormProvider()
-  val form = formProvider()
+  val form = formProvider(true)
 
   lazy val whatIsYourReasonableExcuseRoute = offshore.routes.WhatIsYourReasonableExcuseController.onPageLoad(NormalMode).url
 
