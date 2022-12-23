@@ -959,7 +959,6 @@ whyAreYouMakingThisDisclosure.tasklist.link = Return to the list of tasks
 whyAreYouMakingThisDisclosure.checkYourAnswersLabel = Why are you making this disclosure?
 whyAreYouMakingThisDisclosure.error.required = Select the reason for making this disclosure
 whyAreYouMakingThisDisclosure.change.hidden = WhyAreYouMakingThisDisclosure
-# ----------------------------------------------------------
 whyAreYouMakingThisDisclosure.you.didNotNotifyHasExcuse = I did not notify HMRC about a tax liability but this was not deliberate and I have a reasonable excuse.
 whyAreYouMakingThisDisclosure.you.inaccurateReturnWithCare = I have submitted an inaccurate return despite taking reasonable care.
 whyAreYouMakingThisDisclosure.you.notFileHasExcuse = I have not filed a return but have a reasonable excuse.
@@ -968,7 +967,6 @@ whyAreYouMakingThisDisclosure.you.didNotNotifyNoExcuse = I did not notify HMRC o
 whyAreYouMakingThisDisclosure.you.deliberatelyDidNotNotify = I have deliberately failed to notify HMRC of a tax liability.
 whyAreYouMakingThisDisclosure.you.deliberateInaccurateReturn = I have deliberately submitted an inaccurate tax return.
 whyAreYouMakingThisDisclosure.you.deliberatelyDidNotFile = I have deliberately withheld information by failing to submit a return.
-
 whyAreYouMakingThisDisclosure.individual.didNotNotifyHasExcuse = The individual did not notify HMRC about a tax liability but this was not deliberate and there is a reasonable excuse.
 whyAreYouMakingThisDisclosure.individual.inaccurateReturnWithCare = The individual submitted an inaccurate return despite taking reasonable care.
 whyAreYouMakingThisDisclosure.individual.notFileHasExcuse = The individual did not file a return but has a reasonable excuse.
@@ -977,7 +975,6 @@ whyAreYouMakingThisDisclosure.individual.didNotNotifyNoExcuse = The individual d
 whyAreYouMakingThisDisclosure.individual.deliberatelyDidNotNotify = The individual deliberately failed to notify HMRC of a tax liability.
 whyAreYouMakingThisDisclosure.individual.deliberateInaccurateReturn = The individual deliberately submitted an inaccurate tax return.
 whyAreYouMakingThisDisclosure.individual.deliberatelyDidNotFile = The individual deliberately withheld information by failing to submit a return.
-
 whyAreYouMakingThisDisclosure.company.didNotNotifyHasExcuse = The company did not notify HMRC about a tax liability but this was not deliberate and there is a reasonable excuse.
 whyAreYouMakingThisDisclosure.company.inaccurateReturnWithCare = The company submitted an inaccurate return despite taking reasonable care.
 whyAreYouMakingThisDisclosure.company.notFileHasExcuse = The company did not file a return but has a reasonable excuse.
@@ -986,7 +983,6 @@ whyAreYouMakingThisDisclosure.company.didNotNotifyNoExcuse = The company did not
 whyAreYouMakingThisDisclosure.company.deliberatelyDidNotNotify = The company deliberately failed to notify HMRC of a tax liability.
 whyAreYouMakingThisDisclosure.company.deliberateInaccurateReturn = The company deliberately submitted an inaccurate tax return.
 whyAreYouMakingThisDisclosure.company.deliberatelyDidNotFile = The company deliberately withheld information by failing to submit a return.
-
 whyAreYouMakingThisDisclosure.llp.didNotNotifyHasExcuse = The limited liability partnership did not notify HMRC about a tax liability but this was not deliberate and there is a reasonable excuse.
 whyAreYouMakingThisDisclosure.llp.inaccurateReturnWithCare = The limited liability partnership submitted an inaccurate return despite taking reasonable care.
 whyAreYouMakingThisDisclosure.llp.notFileHasExcuse = The limited liability partnership did not file a return but has a reasonable excuse.
@@ -995,7 +991,6 @@ whyAreYouMakingThisDisclosure.llp.didNotNotifyNoExcuse = The limited liability p
 whyAreYouMakingThisDisclosure.llp.deliberatelyDidNotNotify = The limited liability partnership deliberately failed to notify HMRC of a tax liability.
 whyAreYouMakingThisDisclosure.llp.deliberateInaccurateReturn = The limited liability partnership deliberately submitted an inaccurate tax return.
 whyAreYouMakingThisDisclosure.llp.deliberatelyDidNotFile = The limited liability partnership deliberately withheld information by failing to submit a return.
-
 whyAreYouMakingThisDisclosure.trust.didNotNotifyHasExcuse = The trust did not notify HMRC about a tax liability but this was not deliberate and there is a reasonable excuse.
 whyAreYouMakingThisDisclosure.trust.inaccurateReturnWithCare = The trust submitted an inaccurate return despite taking reasonable care.
 whyAreYouMakingThisDisclosure.trust.notFileHasExcuse = The trust did not file a return but has a reasonable excuse.
@@ -1004,7 +999,6 @@ whyAreYouMakingThisDisclosure.trust.didNotNotifyNoExcuse = The trust did not not
 whyAreYouMakingThisDisclosure.trust.deliberatelyDidNotNotify = The trust deliberately failed to notify HMRC of a tax liability.
 whyAreYouMakingThisDisclosure.trust.deliberateInaccurateReturn = The trust deliberately submitted an inaccurate tax return.
 whyAreYouMakingThisDisclosure.trust.deliberatelyDidNotFile = The trust deliberately withheld information by failing to submit a return.
-
 whyAreYouMakingThisDisclosure.estate.didNotNotifyHasExcuse = The person who died did not notify HMRC about a tax liability but this was not deliberate and there is a reasonable excuse.
 whyAreYouMakingThisDisclosure.estate.inaccurateReturnWithCare = The person who died submitted an inaccurate return despite taking reasonable care.
 whyAreYouMakingThisDisclosure.estate.notFileHasExcuse = The person who died did not file a return but had a reasonable excuse.
@@ -1013,7 +1007,6 @@ whyAreYouMakingThisDisclosure.estate.didNotNotifyNoExcuse = The person who died 
 whyAreYouMakingThisDisclosure.estate.deliberatelyDidNotNotify = The person who died deliberately failed to notify HMRC of a tax liability.
 whyAreYouMakingThisDisclosure.estate.deliberateInaccurateReturn = The person who died deliberately submitted an inaccurate tax return.
 whyAreYouMakingThisDisclosure.estate.deliberatelyDidNotFile = The person who died deliberately withheld information by failing to submit a return.
-# ----------------------------------------------------------
 
 taskList.title = List of tasks
 taskList.heading = List of tasks
@@ -1057,9 +1050,6 @@ contractualDisclosureFacility.checkYourAnswersLabel = What do you want to do?
 contractualDisclosureFacility.error.required = Select continue using this digital disclosure service
 contractualDisclosureFacility.change.hidden = ContractualDisclosureFacility
 
-whatIsYourReasonableExcuse.title = What is your reasonable excuse for not notifying HMRC about a tax liability?
-whatIsYourReasonableExcuse.heading = What is your reasonable excuse for not notifying HMRC about a tax liability?
-whatIsYourReasonableExcuse.excuse = A reasonable excuse is something that stopped you meeting a tax obligation that you took reasonable care to meet.
 whatIsYourReasonableExcuse.years = Which tax years does this apply to?
 whatIsYourReasonableExcuse.years.hint = For example, tax year ending 2019.
 whatIsYourReasonableExcuse.checkYourAnswersLabel = What is your reasonable excuse for not notifying HMRC about a tax liability
@@ -1069,6 +1059,16 @@ whatIsYourReasonableExcuse.error.excuse.length = excuse must be 100 characters o
 whatIsYourReasonableExcuse.error.years.length = years must be 100 characters or less
 whatIsYourReasonableExcuse.excuse.change.hidden = excuse
 whatIsYourReasonableExcuse.years.change.hidden = years
+whatIsYourReasonableExcuse.entity.title = What is your reasonable excuse for not notifying HMRC about a tax liability?
+whatIsYourReasonableExcuse.entity.heading = What is your reasonable excuse for not notifying HMRC about a tax liability?
+whatIsYourReasonableExcuse.agent.title = What is the reasonable excuse for not notifying HMRC about a tax liability?
+whatIsYourReasonableExcuse.agent.heading = What is the reasonable excuse for not notifying HMRC about a tax liability?
+whatIsYourReasonableExcuse.you.excuse = A reasonable excuse is something that stopped you meeting a tax obligation that you took reasonable care to meet.
+whatIsYourReasonableExcuse.individual.excuse = A reasonable excuse is something that stopped the individual meeting a tax obligation that they took reasonable care to meet.
+whatIsYourReasonableExcuse.company.excuse = A reasonable excuse is something that stopped the company meeting a tax obligation that they took reasonable care to meet.
+whatIsYourReasonableExcuse.llp.excuse = A reasonable excuse is something that stopped the limited liability partnership meeting a tax obligation that they took reasonable care to meet.
+whatIsYourReasonableExcuse.trust.excuse = A reasonable excuse is something that stopped the trust meeting a tax obligation that they took reasonable care to meet.
+whatIsYourReasonableExcuse.estate.excuse = A reasonable excuse is something that stopped the estate meeting a tax obligation that they took reasonable care to meet.
 
 whatReasonableCareDidYouTake.yearsThisAppliesTo = Which tax years does this apply to?
 whatReasonableCareDidYouTake.yearsThisAppliesTo.hint = For example, tax year ending 2019.
@@ -1079,21 +1079,18 @@ whatReasonableCareDidYouTake.error.yearsThisAppliesTo.required = Enter the tax y
 whatReasonableCareDidYouTake.error.yearsThisAppliesTo.length = The tax years this applies to must be between 1 and 500 characters
 whatReasonableCareDidYouTake.reasonableCare.change.hidden = input1
 whatReasonableCareDidYouTake.yearsThisAppliesTo.change.hidden = input2
-# ----------------------------------------------------------
 whatReasonableCareDidYouTake.entity.title = What reasonable care did you take when submitting the inaccurate return?
 whatReasonableCareDidYouTake.entity.heading = What reasonable care did you take when submitting the inaccurate return?
 whatReasonableCareDidYouTake.agent.title = What reasonable care was taken when submitting the inaccurate return?
 whatReasonableCareDidYouTake.agent.heading = What reasonable care was taken when submitting the inaccurate return?
 whatReasonableCareDidYouTake.entity.error.reasonableCare.length = The reasonable care you took must be between 1 and 5,000 characters
 whatReasonableCareDidYouTake.agent.error.reasonableCare.length = Reasonable care taken must be between 1 and 5,000 characters
-
 whatReasonableCareDidYouTake.you.reasonableCare = Reasonable care means you did everything you could to make sure the tax returns and other documents sent to HMRC were accurate.
 whatReasonableCareDidYouTake.individual.reasonableCare = Reasonable care means the individual did everything they could to make sure the tax returns and other documents sent to HMRC were accurate.
 whatReasonableCareDidYouTake.company.reasonableCare = Reasonable care means the company did everything they could to make sure the tax returns and other documents sent to HMRC were accurate.
 whatReasonableCareDidYouTake.llp.reasonableCare = Reasonable care means the limited liability partnership did everything they could to make sure the tax returns and other documents sent to HMRC were accurate.
 whatReasonableCareDidYouTake.trust.reasonableCare = Reasonable care means the trust did everything they could to make sure the tax returns and other documents sent to HMRC were accurate.
 whatReasonableCareDidYouTake.estate.reasonableCare = Reasonable care means the person who died did everything they could to make sure the tax returns and other documents sent to HMRC were accurate.
-# ----------------------------------------------------------
 
 youHaveLeftTheDDS.title = You have left the digital disclosure service
 youHaveLeftTheDDS.heading = You have left the digital disclosure service
@@ -1113,7 +1110,6 @@ whatIsYourReasonableExcuseForNotFilingReturn.error.yearsThisAppliesTo.required =
 whatIsYourReasonableExcuseForNotFilingReturn.error.yearsThisAppliesTo.length = The tax years this applies to must be between 1 and 500 characters
 whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.change.hidden = reasonableExcuse
 whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo.change.hidden = yearsThisAppliesTo
-# ----------------------------------------------------------
 whatIsYourReasonableExcuseForNotFilingReturn.entity.error.reasonableExcuse.length = Your reasonable excuse must be between 1 and 5,000 characters
 whatIsYourReasonableExcuseForNotFilingReturn.agent.error.reasonableExcuse.length = Reasonable excuse must be between 1 and 5,000 characters
 whatIsYourReasonableExcuseForNotFilingReturn.you.reasonableExcuse = Reasonable care means you did everything you could to make sure the tax returns and other documents you sent to HMRC were accurate.
@@ -1122,4 +1118,3 @@ whatIsYourReasonableExcuseForNotFilingReturn.company.reasonableExcuse = A reason
 whatIsYourReasonableExcuseForNotFilingReturn.llp.reasonableExcuse = A reasonable excuse is something that stopped the limited liability partnership meeting a tax obligation that they took reasonable care to meet.
 whatIsYourReasonableExcuseForNotFilingReturn.trust.reasonableExcuse = A reasonable excuse is something that stopped the trust meeting a tax obligation that they took reasonable care to meet.
 whatIsYourReasonableExcuseForNotFilingReturn.estate.reasonableExcuse = A reasonable excuse is something that stopped the person who died meeting a tax obligation that they took reasonable care to meet.
-# ----------------------------------------------------------
