@@ -28,7 +28,6 @@ class WhatIsYourReasonableExcuseForNotFilingReturnViewSpec extends ViewSpecBase 
   val page: WhatIsYourReasonableExcuseForNotFilingReturnView = inject[WhatIsYourReasonableExcuseForNotFilingReturnView] 
 
   "view" should {
-
     val areTheyTheIndividual = true
     val entity = RelatesTo.AnIndividual
     val form = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(areTheyTheIndividual)
