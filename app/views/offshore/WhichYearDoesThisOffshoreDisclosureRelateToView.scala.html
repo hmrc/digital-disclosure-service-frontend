@@ -1,0 +1,78 @@
+@*
+ * Copyright 2023 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@this(
+    layout: templates.Layout,
+    formHelper: FormWithCSRF,
+    govukErrorSummary: GovukErrorSummary,
+    govukCheckboxes: GovukCheckboxes,
+    govukButton: GovukButton,
+    heading: components.heading,
+    paragraph: components.paragraph,
+    link: components.link
+)
+
+@(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
+
+@layout(pageTitle = title(form, messages("whichYearDoesThisOffshoreDisclosureRelateTo.title"))) {
+
+    @formHelper(action = controllers.offshore.routes.WhichYearDoesThisOffshoreDisclosureRelateToController.onSubmit(mode), 'autoComplete -> "off") {
+
+        @if(form.errors.nonEmpty) {
+            @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value_0")))
+        }
+
+        @heading(Text(messages("whichYearDoesThisOffshoreDisclosureRelateTo.heading")))
+
+        @paragraph(
+            id = Some("body"), 
+            classes = "govuk-inset-text", 
+            content = HtmlContent(
+                messages("whichYearDoesThisOffshoreDisclosureRelateTo.body") +
+                link(
+                    id = "body-link", 
+                    text = messages("whichYearDoesThisOffshoreDisclosureRelateTo.body.link"), 
+                    newTab = true, 
+                    call = Call("GET", "https://www.gov.uk/hmrc-internal-manuals/compliance-handbook/ch53505")
+                )
+            )
+        )
+
+        @govukCheckboxes(
+            CheckboxesViewModel(
+                form   = form,
+                name   = "value",
+                legend = LegendViewModel(messages("whichYearDoesThisOffshoreDisclosureRelateTo.checkbox.header")).withCssClass("govuk-hint"),
+                items  = WhichYearDoesThisOffshoreDisclosureRelateTo.checkboxItems
+            )
+        )
+
+        @govukButton(
+            ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
+        )
+
+        @paragraph(
+            content = HtmlContent(
+                link(
+                    id = "task-list-link", 
+                    text = messages("whatReasonableCareDidYouTake.tasklist.link"), 
+                    newTab = false, 
+                    call = Call("GET", controllers.routes.TaskListController.onPageLoad.url)
+                )
+            )
+        )
+    }
+}

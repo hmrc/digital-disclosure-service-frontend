@@ -26,6 +26,11 @@ import scala.language.higherKinds
 
 trait ModelGenerators {
 
+  implicit lazy val arbitraryWhichYearDoesThisOffshoreDisclosureRelateTo: Arbitrary[WhichYearDoesThisOffshoreDisclosureRelateTo] =
+    Arbitrary {
+      Gen.oneOf(WhichYearDoesThisOffshoreDisclosureRelateTo.values)
+    }
+
   implicit lazy val arbitraryWhatIsYourReasonableExcuse: Arbitrary[WhatIsYourReasonableExcuse] =
     Arbitrary {
       for {

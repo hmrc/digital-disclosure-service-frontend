@@ -28,3 +28,8 @@ GET        /excuse-for-not-filing-return                 controllers.offshore.Wh
 POST       /excuse-for-not-filing-return                 controllers.offshore.WhatIsYourReasonableExcuseForNotFilingReturnController.onSubmit(mode: Mode = NormalMode)
 GET        /excuse-for-not-filing-return/change          controllers.offshore.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(mode: Mode = CheckMode)
 POST       /excuse-for-not-filing-return/change          controllers.offshore.WhatIsYourReasonableExcuseForNotFilingReturnController.onSubmit(mode: Mode = CheckMode)
+
+GET        /offshore-years                               controllers.offshore.WhichYearDoesThisOffshoreDisclosureRelateToController.onPageLoad(mode: Mode = NormalMode)
+POST       /offshore-years                               controllers.offshore.WhichYearDoesThisOffshoreDisclosureRelateToController.onSubmit(mode: Mode = NormalMode)
+GET        /offshore-years/change                        controllers.offshore.WhichYearDoesThisOffshoreDisclosureRelateToController.onPageLoad(mode: Mode = CheckMode)
+POST       /offshore-years/change                        controllers.offshore.WhichYearDoesThisOffshoreDisclosureRelateToController.onSubmit(mode: Mode = CheckMode)
