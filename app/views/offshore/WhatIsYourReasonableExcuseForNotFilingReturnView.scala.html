@@ -1,5 +1,5 @@
 @*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,12 @@
 
 @(form: Form[_], mode: Mode, areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("whatIsYourReasonableExcuseForNotFilingReturn.title"))) {
+@layout(pageTitle = title(form, if(areTheyTheIndividual){
+                                    messages("whatIsYourReasonableExcuseForNotFilingReturn.entity.title")
+                                } else {
+                                    messages("whatIsYourReasonableExcuseForNotFilingReturn.agent.title")
+                                }
+                        )){
 
     @formHelper(action = controllers.offshore.routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onSubmit(mode), 'autoComplete -> "off") {
 
@@ -39,7 +44,12 @@
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
-        <h1 class="govuk-heading-xl">@messages("whatIsYourReasonableExcuseForNotFilingReturn.heading")</h1>
+        <h1 class="govuk-heading-xl">@if(areTheyTheIndividual){
+            @messages("whatIsYourReasonableExcuseForNotFilingReturn.entity.heading")
+        } else {
+            @messages("whatIsYourReasonableExcuseForNotFilingReturn.agent.heading")
+        } 
+        </h1>
 
         @hmrcCharacterCount(
             CharacterCount(
