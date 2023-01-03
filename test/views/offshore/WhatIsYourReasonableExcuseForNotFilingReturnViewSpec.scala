@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,6 @@ class WhatIsYourReasonableExcuseForNotFilingReturnViewSpec extends ViewSpecBase 
   val page: WhatIsYourReasonableExcuseForNotFilingReturnView = inject[WhatIsYourReasonableExcuseForNotFilingReturnView] 
 
   "view" should {
-
     val areTheyTheIndividual = true
     val entity = RelatesTo.AnIndividual
     val form = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(areTheyTheIndividual)
@@ -36,11 +35,13 @@ class WhatIsYourReasonableExcuseForNotFilingReturnViewSpec extends ViewSpecBase 
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("whatIsYourReasonableExcuseForNotFilingReturn.title"))
+      constructTitle(RelatesTo.AnIndividual, true)
+      constructTitle(RelatesTo.AnIndividual, false)
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsYourReasonableExcuseForNotFilingReturn.heading")
+      constructHeading(RelatesTo.AnIndividual, true)
+      constructHeading(RelatesTo.AnIndividual, false)
     }
 
     "contain reasonableExcuse (when you are the individual) labels" in {
@@ -79,6 +80,30 @@ class WhatIsYourReasonableExcuseForNotFilingReturnViewSpec extends ViewSpecBase 
       view.getElementById("task-list-link").attr("href") mustBe controllers.routes.TaskListController.onPageLoad.url
     }
 
+  }
+
+  def constructHeading(entity: RelatesTo, areTheyTheIndividual: Boolean) = {
+    val form = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(areTheyTheIndividual)
+    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    val view = createView
+
+    if(areTheyTheIndividual){
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsYourReasonableExcuseForNotFilingReturn.entity.heading")    
+    }else{
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsYourReasonableExcuseForNotFilingReturn.agent.heading")
+    }
+  }
+
+  def constructTitle(entity: RelatesTo, areTheyTheIndividual: Boolean) = {
+    val form = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(areTheyTheIndividual)
+    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    val view = createView
+
+    if(areTheyTheIndividual){
+      view.select("title").text() must include(messages("whatIsYourReasonableExcuseForNotFilingReturn.entity.title"))    
+    }else{
+      view.select("title").text() must include(messages("whatIsYourReasonableExcuseForNotFilingReturn.agent.title"))
+    }
   }
 
   def constructLabel(entity: RelatesTo) = {
