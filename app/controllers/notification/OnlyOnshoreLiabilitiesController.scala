@@ -36,8 +36,8 @@ class OnlyOnshoreLiabilitiesController @Inject()(
                                        navigator: NotificationNavigator
                                      ) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-      Ok(view(navigator.nextPage(OnlyOnshoreLiabilitiesPage, NormalMode, request.userAnswers).url.toString))
+      Ok(view(navigator.nextPage(OnlyOnshoreLiabilitiesPage, mode, request.userAnswers).url.toString))
   }
 }
