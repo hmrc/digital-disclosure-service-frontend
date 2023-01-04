@@ -396,12 +396,18 @@ letterReference.error.length = LetterReference must be 30 characters or less
 letterReference.error.format = Enter the case reference in the right format
 letterReference.change.hidden = Letter reference number
 
+liabilities.offshore = Offshore liabilities
+liabilities.onshore = Onshore liabilities
+liabilities.offshoreOnshore = Offshore and onshore liabilities
+liabilities.checkYourAnswersLabel = The disclosure will be about
+liabilities.change.hidden = The disclosure will be about
+
 offshoreLiabilities.title = Offshore liabilities
 offshoreLiabilities.heading = Offshore liabilities
 offshoreLiabilities.label = Will the disclosure be about offshore liabilities?
 offshoreLiabilities.yes = Yes
 offshoreLiabilities.no = No
-offshoreLiabilities.checkYourAnswersLabel = Will the disclosure be about offshore liabilities?
+offshoreLiabilities.checkYourAnswersLabel = The disclosure will be about
 offshoreLiabilities.error.required = Select yes if the disclosure is about offshore liabilities
 offshoreLiabilities.change.hidden = Will the disclosure be about offshore liabilities?
 offshoreLiabilities.paragraph.first = Offshore liabilities can be:
