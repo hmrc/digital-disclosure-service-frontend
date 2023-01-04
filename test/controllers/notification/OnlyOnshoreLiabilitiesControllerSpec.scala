@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ import org.mockito.Mockito.when
 import play.api.mvc.Call
 import org.scalatestplus.mockito.MockitoSugar
 import org.mockito.ArgumentMatchers.any
+import models.NormalMode
 
 class OnlyOnshoreLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
 
@@ -48,7 +49,7 @@ class OnlyOnshoreLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
           ).build()
 
       running(application) {
-        val request = FakeRequest(GET, notification.routes.OnlyOnshoreLiabilitiesController.onPageLoad.url)
+        val request = FakeRequest(GET, notification.routes.OnlyOnshoreLiabilitiesController.onPageLoad(NormalMode).url)
 
         val result = route(application, request).value
 
