@@ -55,7 +55,7 @@ class NotificationNavigator @Inject()() {
     
     case OffshoreLiabilitiesPage => ua => ua.get(OffshoreLiabilitiesPage) match {
       case Some(true) => routes.OnshoreLiabilitiesController.onPageLoad(NormalMode)
-      case Some(false) => routes.OnlyOnshoreLiabilitiesController.onPageLoad
+      case Some(false) => routes.OnlyOnshoreLiabilitiesController.onPageLoad(NormalMode)
       case None => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
     }
 
@@ -333,6 +333,12 @@ class NotificationNavigator @Inject()() {
     case YourEmailAddressPage => ua => _ => (ua.get(HowWouldYouPreferToBeContactedPage), ua.get(YourPhoneNumberPage)) match {
       case (Some(preferences), None) if preferences.contains(HowWouldYouPreferToBeContacted.Telephone) => routes.YourPhoneNumberController.onPageLoad(CheckMode)
       case (_, _) => routes.CheckYourAnswersController.onPageLoad
+    }
+
+    case OffshoreLiabilitiesPage => ua => _ => ua.get(OffshoreLiabilitiesPage) match {
+      case Some(true) => routes.OnshoreLiabilitiesController.onPageLoad(CheckMode)
+      case Some(false) => routes.OnlyOnshoreLiabilitiesController.onPageLoad(CheckMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad
     }
 
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad

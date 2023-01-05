@@ -60,8 +60,7 @@ class CheckYourAnswersController @Inject()(
           AreYouTheExecutorOfTheEstateSummary.row(ua),
           AreYouRepresentingAnOrganisationSummary.row(ua),
           WhatIsTheNameOfTheOrganisationYouRepresentSummary.row(ua),
-          OffshoreLiabilitiesSummary.row(ua),
-          OnshoreLiabilitiesSummary.row(ua)
+          LiabilitiesSummary.row(ua)
         ).flatten
       )
 
