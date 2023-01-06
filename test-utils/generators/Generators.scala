@@ -143,8 +143,12 @@ trait Generators extends UserAnswersGenerator
     str.mkString
   }
 
-  def nino(): Gen[String] = NinoGenerator.generateNino
+  def nino(): Gen[String] = for {
+    bool <- arbitrary[Boolean]
+    upper = NinoGenerator.generateNino
+    nino = if (bool) upper.toLowerCase else upper
+  } yield nino
   
   def invalidNino(): Gen[String] = Gen.alphaNumStr
-    .suchThat(_.trim.nonEmpty).suchThat(!Nino.isValid(_))
+    .suchThat(_.trim.nonEmpty).suchThat(str => !Nino.isValid(str.toUpperCase))
 }
