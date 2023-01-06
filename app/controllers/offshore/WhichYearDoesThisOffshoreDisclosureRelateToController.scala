@@ -19,9 +19,9 @@ package controllers.offshore
 import controllers.actions._
 import forms.WhichYearDoesThisOffshoreDisclosureRelateToFormProvider
 import javax.inject.Inject
-import models.Mode
+import models.{Mode, UserAnswers, WhyAreYouMakingThisDisclosure}
 import navigation.NotificationNavigator
-import pages.WhichYearDoesThisOffshoreDisclosureRelateToPage
+import pages.{WhichYearDoesThisOffshoreDisclosureRelateToPage, WhyAreYouMakingThisDisclosurePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -52,7 +52,7 @@ class WhichYearDoesThisOffshoreDisclosureRelateToController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      Ok(view(preparedForm, mode, numberOfYears(request.userAnswers)))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -60,7 +60,7 @@ class WhichYearDoesThisOffshoreDisclosureRelateToController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, numberOfYears(request.userAnswers)))),
 
         value =>
           for {
@@ -68,5 +68,33 @@ class WhichYearDoesThisOffshoreDisclosureRelateToController @Inject()(
             _              <- sessionService.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(WhichYearDoesThisOffshoreDisclosureRelateToPage, mode, updatedAnswers))
       )
+  }
+
+  def numberOfYears(ua: UserAnswers): Int = {
+
+    val didNotNotifyHasExcuse = WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse
+    val deliberatelyDidNotNotify = WhyAreYouMakingThisDisclosure.DeliberatelyDidNotNotify
+    val deliberateInaccurateReturn = WhyAreYouMakingThisDisclosure.DeliberateInaccurateReturn
+    val deliberatelyDidNotFile = WhyAreYouMakingThisDisclosure.DeliberatelyDidNotFile
+    val inaccurateReturnNoCare = WhyAreYouMakingThisDisclosure.InaccurateReturnNoCare
+    val notFileHasExcuse = WhyAreYouMakingThisDisclosure.NotFileHasExcuse
+    val didNotNotifyNoExcuse = WhyAreYouMakingThisDisclosure.DidNotNotifyNoExcuse
+    val inaccurateReturnWithCare = WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare
+  
+    ua.get(WhyAreYouMakingThisDisclosurePage) match {
+      case Some(value) => 
+        if (
+          value.contains(didNotNotifyHasExcuse) || 
+          value.contains(deliberatelyDidNotNotify) || 
+          value.contains(deliberateInaccurateReturn) || 
+          value.contains(deliberatelyDidNotFile)) {19}
+        else if (value.contains(inaccurateReturnNoCare)) {7}
+        else if (
+          value.contains(notFileHasExcuse) || 
+          value.contains(didNotNotifyNoExcuse) || 
+          value.contains(inaccurateReturnWithCare)) {5}
+        else {0}
+      case None => 0          
+    }
   }
 }

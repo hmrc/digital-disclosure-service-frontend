@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ class WhichYearDoesThisOffshoreDisclosureRelateToViewSpec extends ViewSpecBase w
   val form = new WhichYearDoesThisOffshoreDisclosureRelateToFormProvider()()
   val page: WhichYearDoesThisOffshoreDisclosureRelateToView = inject[WhichYearDoesThisOffshoreDisclosureRelateToView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode, 0)(request, messages)
 
   "view" should {
 
@@ -39,7 +39,7 @@ class WhichYearDoesThisOffshoreDisclosureRelateToViewSpec extends ViewSpecBase w
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("whichYearDoesThisOffshoreDisclosureRelateTo.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whichYearDoesThisOffshoreDisclosureRelateTo.heading")
     }
 
     "display the continue button" in {
