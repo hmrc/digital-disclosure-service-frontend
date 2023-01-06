@@ -1054,7 +1054,7 @@ contractualDisclosureFacility.label = What do you want to do?
 contractualDisclosureFacility.yes = Continue using this digital disclosure service
 contractualDisclosureFacility.no = Leave this service
 contractualDisclosureFacility.checkYourAnswersLabel = What do you want to do?
-contractualDisclosureFacility.error.required = Select continue using this digital disclosure service
+contractualDisclosureFacility.error.required = Select if you want to continue or leave the service
 contractualDisclosureFacility.change.hidden = ContractualDisclosureFacility
 
 whatIsYourReasonableExcuse.years = Which tax years does this apply to?
