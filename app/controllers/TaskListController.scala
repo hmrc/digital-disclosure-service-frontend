@@ -19,7 +19,7 @@ package controllers
 import controllers.actions._
 import javax.inject.Inject
 import models.{NormalMode, UserAnswers}
-import navigation.NotificationNavigator
+import navigation.Navigator
 import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -32,7 +32,7 @@ import play.api.i18n.Messages
 class TaskListController @Inject()(
                                         override val messagesApi: MessagesApi,
                                         sessionService: SessionService,
-                                        navigator: NotificationNavigator,
+                                        navigator: Navigator,
                                         identify: IdentifierAction,
                                         getData: DataRetrievalAction,
                                         requireData: DataRequiredAction,

@@ -16,10 +16,9 @@
 
 package pages
 
-import models.ContractualDisclosureFacility
 import play.api.libs.json.JsPath
 
-case object ContractualDisclosureFacilityPage extends QuestionPage[ContractualDisclosureFacility] {
+case object ContractualDisclosureFacilityPage extends QuestionPage[Boolean] {
 
   override def path: JsPath = JsPath \ toString
 

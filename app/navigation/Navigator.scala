@@ -19,7 +19,7 @@ package navigation
 import javax.inject.{Inject, Singleton}
 
 import play.api.mvc.Call
-import controllers.routes
+import controllers.notification.routes
 import pages._
 import models._
 
@@ -27,11 +27,18 @@ import models._
 class Navigator @Inject()() {
 
   private val normalRoutes: Page => UserAnswers => Call = {
-    case _ => _ => routes.IndexController.onPageLoad
+
+    case MakeANotificationOrDisclosurePage => ua => ua.get(MakeANotificationOrDisclosurePage) match {
+      case Some(MakeANotificationOrDisclosure.MakeANotification) => routes.ReceivedALetterController.onPageLoad(NormalMode)
+      case Some(MakeANotificationOrDisclosure.MakeADisclosure) => controllers.routes.TaskListController.onPageLoad
+      case None => controllers.routes.MakeANotificationOrDisclosureController.onPageLoad(NormalMode)
+    }
+    
+    case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
   private val checkRouteMap: Page => UserAnswers => Call = {
-    case _ => _ => routes.IndexController.onPageLoad
+    case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
   def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call = mode match {

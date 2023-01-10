@@ -20,7 +20,7 @@ import controllers.actions._
 import forms.MakeANotificationOrDisclosureFormProvider
 import javax.inject.Inject
 import models.Mode
-import navigation.NotificationNavigator
+import navigation.Navigator
 import pages.MakeANotificationOrDisclosurePage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -33,7 +33,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class MakeANotificationOrDisclosureController @Inject()(
                                        override val messagesApi: MessagesApi,
                                        sessionService: SessionService,
-                                       navigator: NotificationNavigator,
+                                       navigator: Navigator,
                                        identify: IdentifierAction,
                                        getData: DataRetrievalAction,
                                        requireData: DataRequiredAction,

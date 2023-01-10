@@ -33,7 +33,7 @@
     @formHelper(action = controllers.offshore.routes.ContractualDisclosureFacilityController.onSubmit(mode), 'autoComplete -> "off") {
 
         @if(form.errors.nonEmpty) {
-            @govukErrorSummary(ErrorSummaryViewModel(form,  errorLinkOverrides = Map("value" -> "value_0")))
+            @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
         @heading(Text(messages("contractualDisclosureFacility.heading")))
@@ -51,10 +51,10 @@
         @govukWarningText(WarningText(content = messages("contractualDisclosureFacility.warningText")))
 
         @govukRadios(
-            RadiosViewModel(
+            RadiosViewModel.yesNoNotInline(
                 field  = form("value"),
-                legend = LegendViewModel(messages("contractualDisclosureFacility.label")).withCssClass("govuk-fieldset__legend--m"),
-                items  = ContractualDisclosureFacility.options
+                legend = LegendViewModel(messages("contractualDisclosureFacility.label")).asPageHeading(),
+                messagePrefix = "contractualDisclosureFacility"
             )
         )
 

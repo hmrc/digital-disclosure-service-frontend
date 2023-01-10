@@ -16,17 +16,16 @@
 
 package pages
 
-import models.ContractualDisclosureFacility
 import pages.behaviours.PageBehaviours
 
 class ContractualDisclosureFacilitySpec extends PageBehaviours {
 
   "ContractualDisclosureFacilityPage" - {
 
-    beRetrievable[ContractualDisclosureFacility](ContractualDisclosureFacilityPage)
+    beRetrievable[Boolean](ContractualDisclosureFacilityPage)
 
-    beSettable[ContractualDisclosureFacility](ContractualDisclosureFacilityPage)
+    beSettable[Boolean](ContractualDisclosureFacilityPage)
 
-    beRemovable[ContractualDisclosureFacility](ContractualDisclosureFacilityPage)
+    beRemovable[Boolean](ContractualDisclosureFacilityPage)
   }
 }

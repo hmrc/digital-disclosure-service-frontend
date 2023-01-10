@@ -20,12 +20,12 @@ import javax.inject.Inject
 
 import forms.mappings.Mappings
 import play.api.data.Form
-import models.ContractualDisclosureFacility
 
 class ContractualDisclosureFacilityFormProvider @Inject() extends Mappings {
 
-  def apply(): Form[ContractualDisclosureFacility] =
+  def apply(): Form[Boolean] =
     Form(
-      "value" -> enumerable[ContractualDisclosureFacility]("contractualDisclosureFacility.error.required")
+      "value" -> boolean("contractualDisclosureFacility.error.required")
     )
+
 }

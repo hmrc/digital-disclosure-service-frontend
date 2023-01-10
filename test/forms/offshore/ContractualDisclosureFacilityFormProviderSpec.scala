@@ -16,11 +16,10 @@
 
 package forms
 
-import forms.behaviours.OptionFieldBehaviours
-import models.ContractualDisclosureFacility
+import forms.behaviours.BooleanFieldBehaviours
 import play.api.data.FormError
 
-class ContractualDisclosureFacilityFormProviderSpec extends OptionFieldBehaviours {
+class ContractualDisclosureFacilityFormProviderSpec extends BooleanFieldBehaviours {
 
   val form = new ContractualDisclosureFacilityFormProvider()()
 
@@ -29,11 +28,10 @@ class ContractualDisclosureFacilityFormProviderSpec extends OptionFieldBehaviour
     val fieldName = "value"
     val requiredKey = "contractualDisclosureFacility.error.required"
 
-    behave like optionsField[ContractualDisclosureFacility](
+    behave like booleanField(
       form,
       fieldName,
-      validValues  = ContractualDisclosureFacility.values,
-      invalidError = FormError(fieldName, "error.invalid")
+      invalidError = FormError(fieldName, "error.boolean")
     )
 
     behave like mandatoryField(

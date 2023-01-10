@@ -46,12 +46,12 @@ class WhichYearsViewSpec extends ViewSpecBase with ViewMatchers with CurrentTaxY
     }
 
     "contain checkboxes" in {
-      view.getElementsByClass("govuk-checkboxes__item").get(0).text() mustBe messages(s"whichYears.checkbox", current.back(1).startYear.toString, current.back(1).finishYear.toString)
-      view.getElementsByClass("govuk-checkboxes__item").get(1).text() mustBe messages(s"whichYears.checkbox", current.back(2).startYear.toString, current.back(2).finishYear.toString)
-      view.getElementsByClass("govuk-checkboxes__item").get(2).text() mustBe messages(s"whichYears.checkbox", current.back(3).startYear.toString, current.back(3).finishYear.toString)
-      view.getElementsByClass("govuk-checkboxes__item").get(3).text() mustBe messages(s"whichYears.checkbox", current.back(4).startYear.toString, current.back(4).finishYear.toString)
-      view.getElementsByClass("govuk-checkboxes__item").get(4).text() mustBe messages(s"whichYears.checkbox", current.back(5).startYear.toString, current.back(5).finishYear.toString)
-      view.getElementsByClass("govuk-checkboxes__item").get(5).text() mustBe messages(s"whichYears.checkbox.any", current.back(5).startYear.toString)
+      view.getElementsByClass("govuk-checkboxes__item").get(0).text() mustBe messages(s"whichYears.checkbox", current.back(0).startYear.toString, current.back(0).finishYear.toString)
+      view.getElementsByClass("govuk-checkboxes__item").get(1).text() mustBe messages(s"whichYears.checkbox", current.back(1).startYear.toString, current.back(1).finishYear.toString)
+      view.getElementsByClass("govuk-checkboxes__item").get(2).text() mustBe messages(s"whichYears.checkbox", current.back(2).startYear.toString, current.back(2).finishYear.toString)
+      view.getElementsByClass("govuk-checkboxes__item").get(3).text() mustBe messages(s"whichYears.checkbox", current.back(3).startYear.toString, current.back(3).finishYear.toString)
+      view.getElementsByClass("govuk-checkboxes__item").get(4).text() mustBe messages(s"whichYears.checkbox", current.back(4).startYear.toString, current.back(4).finishYear.toString)
+      view.getElementsByClass("govuk-checkboxes__item").get(5).text() mustBe messages(s"whichYears.checkbox.any", current.back(4).startYear.toString)
     }
 
     "display the continue button" in {

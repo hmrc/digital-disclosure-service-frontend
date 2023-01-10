@@ -17,9 +17,11 @@
 package navigation
 
 import base.SpecBase
-import controllers.routes
+import controllers.notification.routes
 import pages._
 import models._
+
+import scala.util.{Success, Failure}
 
 class NavigatorSpec extends SpecBase {
 
@@ -30,9 +32,22 @@ class NavigatorSpec extends SpecBase {
     "in Normal mode" - {
 
       "must go from a page that doesn't exist in the route map to Index" in {
+          case object UnknownPage extends Page
+          navigator.nextPage(UnknownPage, NormalMode, UserAnswers("id")) mustBe controllers.routes.IndexController.onPageLoad
+      }
 
-        case object UnknownPage extends Page
-        navigator.nextPage(UnknownPage, NormalMode, UserAnswers("id")) mustBe routes.IndexController.onPageLoad
+      "must go from the MakeANotificationOrDisclosure page to the ReceivedALetter controller when select an MakeANotification" in {
+        UserAnswers("id").set(MakeANotificationOrDisclosurePage, MakeANotificationOrDisclosure.MakeANotification) match {
+          case Success(ua) => navigator.nextPage(MakeANotificationOrDisclosurePage, NormalMode, ua) mustBe routes.ReceivedALetterController.onPageLoad(NormalMode)
+          case Failure(e) => throw e
+        }
+      }
+
+      "must go from the MakeANotificationOrDisclosure page to the TaskList controller when select an MakeADisclosure" in {
+        UserAnswers("id").set(MakeANotificationOrDisclosurePage, MakeANotificationOrDisclosure.MakeADisclosure) match {
+          case Success(ua) => navigator.nextPage(MakeANotificationOrDisclosurePage, NormalMode, ua) mustBe controllers.routes.TaskListController.onPageLoad
+          case Failure(e) => throw e
+        }
       }
     }
 
@@ -41,7 +56,7 @@ class NavigatorSpec extends SpecBase {
       "must go from a page that doesn't exist in the edit route map to CheckYourAnswers" in {
 
         case object UnknownPage extends Page
-        navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe routes.IndexController.onPageLoad
+        navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe controllers.routes.IndexController.onPageLoad
       }
     }
   }
