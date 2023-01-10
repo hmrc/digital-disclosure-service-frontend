@@ -18,7 +18,7 @@ package viewmodels.checkAnswers
 
 import controllers.offshore.routes
 import models.{CheckMode, UserAnswers}
-import pages.WhichYearDoesThisOffshoreDisclosureRelateToPage
+import pages.WhichYearsPage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
@@ -26,27 +26,27 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object WhichYearDoesThisOffshoreDisclosureRelateToSummary  {
+object WhichYearsSummary  {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(WhichYearDoesThisOffshoreDisclosureRelateToPage).map {
+    answers.get(WhichYearsPage).map {
       answers =>
 
         val value = ValueViewModel(
           HtmlContent(
             answers.map {
-              answer => HtmlFormat.escape(messages(s"whichYearDoesThisOffshoreDisclosureRelateTo.$answer")).toString
+              answer => HtmlFormat.escape(messages(s"whichYears.$answer")).toString
             }
             .mkString(",<br>")
           )
         )
 
         SummaryListRowViewModel(
-          key     = "whichYearDoesThisOffshoreDisclosureRelateTo.checkYourAnswersLabel",
+          key     = "whichYears.checkYourAnswersLabel",
           value   = value,
           actions = Seq(
-            ActionItemViewModel("site.change", routes.WhichYearDoesThisOffshoreDisclosureRelateToController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("whichYearDoesThisOffshoreDisclosureRelateTo.change.hidden"))
+            ActionItemViewModel("site.change", routes.WhichYearsController.onPageLoad(CheckMode).url)
+              .withVisuallyHiddenText(messages("whichYears.change.hidden"))
           )
         )
     }

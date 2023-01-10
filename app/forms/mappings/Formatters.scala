@@ -19,6 +19,7 @@ package forms.mappings
 import play.api.data.FormError
 import play.api.data.format.Formatter
 import models.Enumerable
+import models.OffshoreYears
 
 import scala.util.control.Exception.nonFatalCatch
 
@@ -93,6 +94,23 @@ trait Formatters {
         }
 
       override def unbind(key: String, value: A): Map[String, String] =
+        baseFormatter.unbind(key, value.toString)
+    }
+
+  private[mappings] def offshoreYearsFormatter(requiredKey: String, invalidKey: String, args: Seq[String] = Seq.empty): Formatter[OffshoreYears] =
+    new Formatter[OffshoreYears] {
+
+      private val baseFormatter = stringFormatter(requiredKey, args)
+
+      override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], OffshoreYears] =
+        baseFormatter.bind(key, data).right.flatMap {
+          str =>
+            OffshoreYears.fromString(str)
+              .map(Right.apply)
+              .getOrElse(Left(Seq(FormError(key, invalidKey, args))))
+        }
+
+      override def unbind(key: String, value: OffshoreYears): Map[String, String] =
         baseFormatter.unbind(key, value.toString)
     }
 }

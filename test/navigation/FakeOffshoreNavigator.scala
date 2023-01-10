@@ -14,19 +14,14 @@
  * limitations under the License.
  */
 
-package forms
+package navigation
 
-import javax.inject.Inject
+import play.api.mvc.Call
+import pages._
+import models.{Mode, UserAnswers}
 
-import forms.mappings.Mappings
-import play.api.data.Form
-import play.api.data.Forms.set
-import models.WhichYearDoesThisOffshoreDisclosureRelateTo
+class FakeOffshoreNavigator(desiredRoute: Call) extends OffshoreNavigator {
 
-class WhichYearDoesThisOffshoreDisclosureRelateToFormProvider @Inject() extends Mappings {
-
-  def apply(): Form[Set[WhichYearDoesThisOffshoreDisclosureRelateTo]] =
-    Form(
-      "value" -> set(enumerable[WhichYearDoesThisOffshoreDisclosureRelateTo]("whichYearDoesThisOffshoreDisclosureRelateTo.error.required")).verifying(nonEmptySet("whichYearDoesThisOffshoreDisclosureRelateTo.error.required"))
-    )
+  override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasChanged:Boolean = true): Call =
+    desiredRoute
 }

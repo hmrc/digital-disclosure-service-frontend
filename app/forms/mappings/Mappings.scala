@@ -21,6 +21,7 @@ import java.time.LocalDate
 import play.api.data.FieldMapping
 import play.api.data.Forms.of
 import models.Enumerable
+import models.OffshoreYears
 
 trait Mappings extends Formatters with Constraints {
 
@@ -43,6 +44,11 @@ trait Mappings extends Formatters with Constraints {
                               invalidKey: String = "error.invalid",
                               args: Seq[String] = Seq.empty)(implicit ev: Enumerable[A]): FieldMapping[A] =
     of(enumerableFormatter[A](requiredKey, invalidKey, args))
+
+  protected def offshoreYears(requiredKey: String = "error.required",
+                              invalidKey: String = "error.invalid",
+                              args: Seq[String] = Seq.empty): FieldMapping[OffshoreYears] =
+    of(offshoreYearsFormatter(requiredKey, invalidKey, args))
 
   protected def localDate(
                            invalidKey: String,

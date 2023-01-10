@@ -27,24 +27,24 @@
 
 @(form: Form[_], mode: Mode, numberOfYears: Int)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("whichYearDoesThisOffshoreDisclosureRelateTo.title"))) {
+@layout(pageTitle = title(form, messages("whichYears.title"))) {
 
-    @formHelper(action = controllers.offshore.routes.WhichYearDoesThisOffshoreDisclosureRelateToController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.offshore.routes.WhichYearsController.onSubmit(mode), 'autoComplete -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value_0")))
         }
 
-        @heading(Text(messages("whichYearDoesThisOffshoreDisclosureRelateTo.heading")))
+        @heading(Text(messages("whichYears.heading")))
 
         @paragraph(
             id = Some("body"), 
             classes = "govuk-inset-text", 
             content = HtmlContent(
-                messages("whichYearDoesThisOffshoreDisclosureRelateTo.body") +
+                messages("whichYears.body") +
                 link(
                     id = "body-link", 
-                    text = messages("whichYearDoesThisOffshoreDisclosureRelateTo.body.link"), 
+                    text = messages("whichYears.body.link"), 
                     newTab = true, 
                     call = Call("GET", "https://www.gov.uk/hmrc-internal-manuals/compliance-handbook/ch53505")
                 )
@@ -55,8 +55,8 @@
             CheckboxesViewModel(
                 form   = form,
                 name   = "value",
-                legend = LegendViewModel(messages("whichYearDoesThisOffshoreDisclosureRelateTo.checkbox.header")).withCssClass("govuk-hint"),
-                items  = WhichYearDoesThisOffshoreDisclosureRelateTo.checkboxItems(numberOfYears)
+                legend = LegendViewModel(messages("whichYears.checkbox.header")).withCssClass("govuk-hint"),
+                items  = WhichYears.checkboxItems(numberOfYears)
             )
         )
 

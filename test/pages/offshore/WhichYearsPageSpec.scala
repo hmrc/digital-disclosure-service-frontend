@@ -16,12 +16,17 @@
 
 package pages
 
-import models.WhichYearDoesThisOffshoreDisclosureRelateTo
-import play.api.libs.json.JsPath
+import models.OffshoreYears
+import pages.behaviours.PageBehaviours
 
-case object WhichYearDoesThisOffshoreDisclosureRelateToPage extends QuestionPage[Set[WhichYearDoesThisOffshoreDisclosureRelateTo]] {
+class WhichYearsPageSpec extends PageBehaviours {
 
-  override def path: JsPath = JsPath \ toString
+  "WhichYearsPage" - {
 
-  override def toString: String = "whichYearDoesThisOffshoreDisclosureRelateTo"
+    beRetrievable[Set[OffshoreYears]](WhichYearsPage)
+
+    beSettable[Set[OffshoreYears]](WhichYearsPage)
+
+    beRemovable[Set[OffshoreYears]](WhichYearsPage)
+  }
 }
