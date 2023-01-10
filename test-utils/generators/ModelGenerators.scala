@@ -26,6 +26,13 @@ import scala.language.higherKinds
 
 trait ModelGenerators {
 
+  implicit lazy val arbitraryOffshoreYears: Arbitrary[OffshoreYears] =
+    Arbitrary {
+      for {
+        year <- Gen.choose(2002, 2032)
+      } yield TaxYearStarting(year)
+    }
+
   implicit lazy val arbitraryWhatIsYourReasonableExcuse: Arbitrary[WhatIsYourReasonableExcuse] =
     Arbitrary {
       for {
