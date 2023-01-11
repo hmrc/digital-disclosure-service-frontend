@@ -42,7 +42,7 @@ class WhichYearsSpec extends SpecBase with CurrentTaxYear {
 
     "must create a checkbox for any prior to 7 years row" in {
       val checkbox = WhichYears.createPriorTo7YearsCheckbox(7, currentTaxYear)
-      checkbox.content mustEqual Text(mess(s"whichYears.checkbox.any", s"${currentTaxYear.back(6).startYear}"))
+      checkbox.content mustEqual Text(mess(s"whichYears.checkbox.any", s"${currentTaxYear.back(7).startYear}"))
       checkbox.id mustEqual Some("value_7")
       checkbox.name mustEqual Some("value[7]")
       checkbox.value mustEqual "priorTo7Years"
@@ -50,7 +50,7 @@ class WhichYearsSpec extends SpecBase with CurrentTaxYear {
 
     "must create a checkbox for any prior to 5 years row" in {
       val checkbox = WhichYears.createPriorTo5YearsCheckbox(5, currentTaxYear)
-      checkbox.content mustEqual Text(mess(s"whichYears.checkbox.any", s"${currentTaxYear.back(4).startYear}"))
+      checkbox.content mustEqual Text(mess(s"whichYears.checkbox.any", s"${currentTaxYear.back(5).startYear}"))
       checkbox.id mustEqual Some("value_5")
       checkbox.name mustEqual Some("value[5]")
       checkbox.value mustEqual "priorTo5Years"
@@ -60,10 +60,10 @@ class WhichYearsSpec extends SpecBase with CurrentTaxYear {
       val checkboxItems = WhichYears.createYearCheckboxes(19, currentTaxYear)
       checkboxItems.zipWithIndex.map{ 
         case (value, index) =>
-          value.content mustEqual Text(mess(s"whichYears.checkbox", s"${currentTaxYear.startYear - (index)}", s"${currentTaxYear.finishYear - (index)}"))
+          value.content mustEqual Text(mess(s"whichYears.checkbox", s"${currentTaxYear.startYear - (index+1)}", s"${currentTaxYear.finishYear - (index+1)}"))
           value.id mustEqual Some(s"value_${index}")
           value.name mustEqual Some(s"value[${index}]")
-          value.value mustEqual (currentTaxYear.startYear - (index)).toString
+          value.value mustEqual (currentTaxYear.startYear - (index+1)).toString
       } 
     }
 
@@ -71,10 +71,10 @@ class WhichYearsSpec extends SpecBase with CurrentTaxYear {
       val checkboxItems = WhichYears.createYearCheckboxes(5, currentTaxYear)
       checkboxItems.zipWithIndex.map{ 
         case (value, index) =>
-          value.content mustEqual Text(mess(s"whichYears.checkbox", s"${currentTaxYear.startYear - (index)}", s"${currentTaxYear.finishYear - (index)}"))
+          value.content mustEqual Text(mess(s"whichYears.checkbox", s"${currentTaxYear.startYear - (index+1)}", s"${currentTaxYear.finishYear - (index+1)}"))
           value.id mustEqual Some(s"value_${index}")
           value.name mustEqual Some(s"value[${index}]")
-          value.value mustEqual (currentTaxYear.startYear - (index)).toString
+          value.value mustEqual (currentTaxYear.startYear - (index+1)).toString
       } 
     }
 
@@ -82,10 +82,10 @@ class WhichYearsSpec extends SpecBase with CurrentTaxYear {
       val checkboxItems = WhichYears.createYearCheckboxes(7, currentTaxYear)
       checkboxItems.zipWithIndex.map{ 
         case (value, index) =>
-          value.content mustEqual Text(mess(s"whichYears.checkbox", s"${currentTaxYear.startYear - (index)}", s"${currentTaxYear.finishYear - (index)}"))
+          value.content mustEqual Text(mess(s"whichYears.checkbox", s"${currentTaxYear.startYear - (index+1)}", s"${currentTaxYear.finishYear - (index+1)}"))
           value.id mustEqual Some(s"value_${index}")
           value.name mustEqual Some(s"value[${index}]")
-          value.value mustEqual (currentTaxYear.startYear - (index)).toString
+          value.value mustEqual (currentTaxYear.startYear - (index+1)).toString
       } 
     }
 
@@ -94,7 +94,7 @@ class WhichYearsSpec extends SpecBase with CurrentTaxYear {
       val first19Elements = checkboxItems.slice(0,18)
 
       first19Elements.zipWithIndex.map{ 
-        case (value, index) => value.value mustEqual (currentTaxYear.startYear - (index)).toString
+        case (value, index) => value.value mustEqual (currentTaxYear.startYear - (index+1)).toString
       } 
       checkboxItems.last.value mustEqual "noneOfTheseYears"
     }
@@ -104,7 +104,7 @@ class WhichYearsSpec extends SpecBase with CurrentTaxYear {
       val first7Elements = checkboxItems.slice(0,6)
 
       first7Elements.zipWithIndex.map{ 
-        case (value, index) => value.value mustEqual (currentTaxYear.startYear - (index)).toString
+        case (value, index) => value.value mustEqual (currentTaxYear.startYear - (index+1)).toString
       } 
       checkboxItems.last.value mustEqual "priorTo7Years"
 
@@ -115,7 +115,7 @@ class WhichYearsSpec extends SpecBase with CurrentTaxYear {
       val first5Elements = checkboxItems.slice(0,4)
 
       first5Elements.zipWithIndex.map{ 
-        case (value, index) => value.value mustEqual (currentTaxYear.startYear - (index)).toString
+        case (value, index) => value.value mustEqual (currentTaxYear.startYear - (index+1)).toString
       } 
       checkboxItems.last.value mustEqual "priorTo5Years"
     }

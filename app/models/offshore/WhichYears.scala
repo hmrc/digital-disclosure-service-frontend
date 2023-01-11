@@ -41,7 +41,7 @@ object WhichYears extends CurrentTaxYear {
 
   def createYearCheckboxes(numberOfYears: Int, currentTaxYear: TaxYear)(implicit messages: Messages): Seq[CheckboxItem] = {
     Range.inclusive(0, numberOfYears-1).toList.map {i =>
-      val taxYear = currentTaxYear.back(i)
+      val taxYear = currentTaxYear.back(i+1)
       CheckboxItemViewModel(
         content = Text(messages(s"whichYears.checkbox", s"${taxYear.startYear}", s"${taxYear.finishYear}")),
         fieldId = "value",
@@ -52,7 +52,7 @@ object WhichYears extends CurrentTaxYear {
   }
 
   def createPriorTo5YearsCheckbox(numberOfYears: Int, currentTaxYear: TaxYear)(implicit messages: Messages): CheckboxItem = {
-    val taxYear = currentTaxYear.back(numberOfYears-1)
+    val taxYear = currentTaxYear.back(numberOfYears)
     CheckboxItemViewModel(
       content = Text(messages(s"whichYears.checkbox.any", s"${taxYear.startYear}")),
       fieldId = "value",
@@ -62,7 +62,7 @@ object WhichYears extends CurrentTaxYear {
   }
 
   def createPriorTo7YearsCheckbox(numberOfYears: Int, currentTaxYear: TaxYear)(implicit messages: Messages): CheckboxItem = {
-    val taxYear = currentTaxYear.back(numberOfYears-1)
+    val taxYear = currentTaxYear.back(numberOfYears)
     CheckboxItemViewModel(
       content = Text(messages(s"whichYears.checkbox.any", s"${taxYear.startYear}")),
       fieldId = "value",
