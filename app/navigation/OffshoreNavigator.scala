@@ -28,21 +28,38 @@ class OffshoreNavigator @Inject()() {
 
   private val normalRoutes: Page => UserAnswers => Call = {
 
+    case WhyAreYouMakingThisDisclosurePage => ua => ua.get(WhyAreYouMakingThisDisclosurePage) match {
+      case Some(value) if (
+        value.contains(DeliberatelyDidNotNotify) ||
+        value.contains(DeliberateInaccurateReturn) ||
+        value.contains(DeliberatelyDidNotFile)
+        ) => routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)  
+      case Some(value) if (value.contains(DidNotNotifyHasExcuse)) => routes.WhatIsYourReasonableExcuseController.onPageLoad(NormalMode)
+      case Some(value) if (value.contains(InaccurateReturnWithCare)) => routes.WhatReasonableCareDidYouTakeController.onPageLoad(NormalMode)
+      case Some(value) if (value.contains(NotFileHasExcuse)) => routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode)
+      case _ => routes.WhichYearsController.onPageLoad(NormalMode)
+    }
+
     case ContractualDisclosureFacilityPage => ua => (ua.get(WhyAreYouMakingThisDisclosurePage), ua.get(ContractualDisclosureFacilityPage)) match {
+      case (_, Some(false)) => routes.YouHaveLeftTheDDSController.onPageLoad(NormalMode)
       case (Some(value), Some(true)) if (value.contains(DidNotNotifyHasExcuse)) => routes.WhatIsYourReasonableExcuseController.onPageLoad(NormalMode)
       case (Some(value), Some(true)) if (value.contains(InaccurateReturnWithCare)) => routes.WhatReasonableCareDidYouTakeController.onPageLoad(NormalMode)
       case (Some(value), Some(true)) if (value.contains(NotFileHasExcuse)) => routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode)
-      case (Some(value), Some(true)) 
-        if (
-          value.contains(InaccurateReturnNoCare) ||
-          value.contains(DidNotNotifyNoExcuse) ||
-          value.contains(DeliberatelyDidNotNotify) ||
-          value.contains(DeliberateInaccurateReturn) ||
-          value.contains(DeliberatelyDidNotFile)
-        ) => routes.WhichYearsController.onPageLoad(NormalMode)
-      case (_, Some(false)) => routes.YouHaveLeftTheDDSController.onPageLoad(NormalMode)
-      case _ => routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)
+      case _ => routes.WhichYearsController.onPageLoad(NormalMode)
     }
+
+    case WhatIsYourReasonableExcusePage => ua => ua.get(WhyAreYouMakingThisDisclosurePage) match {
+      case Some(value) if (value.contains(InaccurateReturnWithCare)) => routes.WhatReasonableCareDidYouTakeController.onPageLoad(NormalMode)
+      case Some(value) if (value.contains(NotFileHasExcuse)) => routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode)
+      case _ => routes.WhichYearsController.onPageLoad(NormalMode)
+    }
+
+    case WhatReasonableCareDidYouTakePage => ua => ua.get(WhyAreYouMakingThisDisclosurePage) match {
+      case Some(value) if (value.contains(NotFileHasExcuse)) => routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode)
+      case _ => routes.WhichYearsController.onPageLoad(NormalMode)
+    }
+
+    case WhatIsYourReasonableExcuseForNotFilingReturnPage => _ => routes.WhichYearsController.onPageLoad(NormalMode)
 
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
