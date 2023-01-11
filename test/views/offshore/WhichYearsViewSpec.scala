@@ -89,7 +89,7 @@ class WhichYearsViewSpec extends ViewSpecBase with ViewMatchers with CurrentTaxY
     }
 
     "contain hint for none of these row" in {
-      view.getElementsByClass("govuk-hint govuk-checkboxes__hint").text() mustBe messages("whichYears.checkbox.none.hint")
+      view.getElementsByClass("govuk-hint govuk-checkboxes__hint").text() mustBe messages("whichYears.checkbox.none.hint", current.back(19).startYear.toString)
     }
   }
 

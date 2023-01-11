@@ -33,7 +33,7 @@ object WhichYears extends CurrentTaxYear {
     val checkboxItem = numberOfYears match {
       case 5  => Seq(createPriorTo5YearsCheckbox(numberOfYears, current)(messages))
       case 7  => Seq(createPriorTo7YearsCheckbox(numberOfYears, current)(messages))
-      case 19 => Seq(createNoneOfTheseCheckbox(numberOfYears)(messages))
+      case 19 => Seq(createNoneOfTheseCheckbox(numberOfYears, current)(messages))
       case _  => Nil
     }
 
@@ -72,13 +72,14 @@ object WhichYears extends CurrentTaxYear {
     )
   }
 
-  def createNoneOfTheseCheckbox(numberOfYears: Int)(implicit messages: Messages): CheckboxItem = {
+  def createNoneOfTheseCheckbox(numberOfYears: Int, currentTaxYear: TaxYear)(implicit messages: Messages): CheckboxItem = {
+    val taxYear = currentTaxYear.back(numberOfYears)
     CheckboxItemViewModel(
       content = Text(messages(s"whichYears.checkbox.none")),
       fieldId = "value",
       index   = numberOfYears,
       value   = "noneOfTheseYears"
-    ).withHint(Hint(content = Text(messages("whichYears.checkbox.none.hint"))))
+    ).withHint(Hint(content = Text(messages("whichYears.checkbox.none.hint", s"${taxYear.startYear}"))))
   }
     
 }
