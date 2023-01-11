@@ -64,8 +64,9 @@ class ContractualDisclosureFacilityViewSpec extends ViewSpecBase with ViewMatche
     }
 
     "contain label" in {
-      view.getElementsByClass("govuk-fieldset__legend--m").text() mustBe messages("contractualDisclosureFacility.label")
+      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("contractualDisclosureFacility.label")
     }
+
 
     "display the continue button" in {
       view.getElementsByClass("govuk-button").first() must haveId ("continue")

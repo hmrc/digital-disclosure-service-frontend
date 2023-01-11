@@ -19,7 +19,7 @@ package controllers
 import base.SpecBase
 import forms.WhatIsYourReasonableExcuseFormProvider
 import models.{NormalMode, WhatIsYourReasonableExcuse, UserAnswers, RelatesTo}
-import navigation.{FakeNotificationNavigator, NotificationNavigator}
+import navigation.{FakeOffshoreNavigator, OffshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
@@ -117,7 +117,7 @@ class WhatIsYourReasonableExcuseControllerSpec extends SpecBase with MockitoSuga
       val application =
         applicationBuilderWithSessionService(userAnswers = Some(ua), mockSessionService)
           .overrides(
-            bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
+            bind[OffshoreNavigator].toInstance(new FakeOffshoreNavigator(onwardRoute))
           )
           .build()
 

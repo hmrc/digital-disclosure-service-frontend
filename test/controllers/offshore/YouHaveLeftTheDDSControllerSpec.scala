@@ -19,7 +19,7 @@ package controllers
 import base.SpecBase
 import forms.YouHaveLeftTheDDSFormProvider
 import models.{NormalMode, UserAnswers}
-import navigation.{FakeNotificationNavigator, NotificationNavigator}
+import navigation.{FakeOffshoreNavigator, OffshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
@@ -87,7 +87,7 @@ class YouHaveLeftTheDDSControllerSpec extends SpecBase with MockitoSugar {
       val application =
         applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
           .overrides(
-            bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
+            bind[OffshoreNavigator].toInstance(new FakeOffshoreNavigator(onwardRoute))
           )
           .build()
 

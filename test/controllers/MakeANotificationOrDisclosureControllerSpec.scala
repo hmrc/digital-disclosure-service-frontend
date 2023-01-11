@@ -19,7 +19,7 @@ package controllers
 import base.SpecBase
 import forms.MakeANotificationOrDisclosureFormProvider
 import models.{NormalMode, MakeANotificationOrDisclosure, UserAnswers}
-import navigation.{FakeNotificationNavigator, NotificationNavigator}
+import navigation.{FakeNavigator, Navigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
@@ -87,7 +87,7 @@ class MakeANotificationOrDisclosureControllerSpec extends SpecBase with MockitoS
       val application =
         applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
           .overrides(
-            bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
+            bind[Navigator].toInstance(new FakeNavigator(onwardRoute))
           )
           .build()
 

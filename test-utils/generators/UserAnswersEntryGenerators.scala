@@ -64,14 +64,6 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
       } yield (page, value)
     }
 
-  implicit lazy val arbitraryContractualDisclosureFacilityUserAnswersEntry: Arbitrary[(ContractualDisclosureFacilityPage.type, JsValue)] =
-    Arbitrary {
-      for {
-        page  <- arbitrary[ContractualDisclosureFacilityPage.type]
-        value <- arbitrary[ContractualDisclosureFacility].map(Json.toJson(_))
-      } yield (page, value)
-    }
-
   implicit lazy val arbitraryWhyAreYouMakingThisDisclosureUserAnswersEntry: Arbitrary[(WhyAreYouMakingThisDisclosurePage.type, JsValue)] =
     Arbitrary {
       for {

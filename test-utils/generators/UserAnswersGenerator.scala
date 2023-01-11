@@ -32,7 +32,6 @@ trait UserAnswersGenerator extends TryValues {
     arbitrary[(WhatReasonableCareDidYouTakePage.type, JsValue)] ::
     arbitrary[(YouHaveLeftTheDDSPage.type, JsValue)] ::
     arbitrary[(HowWouldYouPreferToBeContactedPage.type, JsValue)] ::
-    arbitrary[(ContractualDisclosureFacilityPage.type, JsValue)] ::
     arbitrary[(WhyAreYouMakingThisDisclosurePage.type, JsValue)] ::
     arbitrary[(MakeANotificationOrDisclosurePage.type, JsValue)] ::
     arbitrary[(WhatWasThePersonUTRPage.type, JsValue)] ::

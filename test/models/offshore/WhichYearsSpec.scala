@@ -33,7 +33,7 @@ class WhichYearsSpec extends SpecBase with CurrentTaxYear {
   "WhichYearsSpec" - {
 
     "must create a checkbox for none of these years row" in {
-      val checkbox = WhichYears.createNoneOfTheseCheckbox(0)
+      val checkbox = WhichYears.createNoneOfTheseCheckbox(0, currentTaxYear)
       checkbox.content mustEqual Text(mess(s"whichYears.checkbox.none"))
       checkbox.id mustEqual Some("value_0")
       checkbox.name mustEqual Some("value[0]")

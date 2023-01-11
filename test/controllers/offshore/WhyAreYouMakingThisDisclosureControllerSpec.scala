@@ -19,7 +19,7 @@ package controllers
 import base.SpecBase
 import forms.WhyAreYouMakingThisDisclosureFormProvider
 import models.{NormalMode, WhyAreYouMakingThisDisclosure, UserAnswers, RelatesTo}
-import navigation.{FakeNotificationNavigator, NotificationNavigator}
+import navigation.{FakeOffshoreNavigator, OffshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
@@ -108,7 +108,7 @@ class WhyAreYouMakingThisDisclosureControllerSpec extends SpecBase with MockitoS
       val application =
         applicationBuilderWithSessionService(userAnswers = Some(userAnswers), mockSessionService)
           .overrides(
-            bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
+            bind[OffshoreNavigator].toInstance(new FakeOffshoreNavigator(onwardRoute))
           )
           .build()
 

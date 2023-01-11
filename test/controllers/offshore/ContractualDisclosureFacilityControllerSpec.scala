@@ -18,8 +18,8 @@ package controllers
 
 import base.SpecBase
 import forms.ContractualDisclosureFacilityFormProvider
-import models.{NormalMode, ContractualDisclosureFacility, UserAnswers}
-import navigation.{FakeNotificationNavigator, NotificationNavigator}
+import models._
+import navigation.{FakeOffshoreNavigator, OffshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
@@ -62,7 +62,7 @@ class ContractualDisclosureFacilityControllerSpec extends SpecBase with MockitoS
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(ContractualDisclosureFacilityPage, ContractualDisclosureFacility.values.head).success.value
+      val userAnswers = UserAnswers(userAnswersId).set(ContractualDisclosureFacilityPage, true).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -74,7 +74,7 @@ class ContractualDisclosureFacilityControllerSpec extends SpecBase with MockitoS
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(ContractualDisclosureFacility.values.head), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(true), NormalMode)(request, messages(application)).toString
       }
     }
 
@@ -87,14 +87,15 @@ class ContractualDisclosureFacilityControllerSpec extends SpecBase with MockitoS
       val application =
         applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
           .overrides(
-            bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
+            bind[OffshoreNavigator].toInstance(new FakeOffshoreNavigator(onwardRoute))
           )
           .build()
 
       running(application) {
         val request =
           FakeRequest(POST, contractualDisclosureFacilityRoute)
-            .withFormUrlEncodedBody(("value", ContractualDisclosureFacility.values.head.toString))
+            .withFormUrlEncodedBody(("value", true.toString))
+
 
         val result = route(application, request).value
 
@@ -144,7 +145,7 @@ class ContractualDisclosureFacilityControllerSpec extends SpecBase with MockitoS
       running(application) {
         val request =
           FakeRequest(POST, contractualDisclosureFacilityRoute)
-            .withFormUrlEncodedBody(("value", ContractualDisclosureFacility.values.head.toString))
+            .withFormUrlEncodedBody(("value", true.toString))
 
         val result = route(application, request).value
 

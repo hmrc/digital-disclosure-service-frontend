@@ -1140,3 +1140,4 @@ whichYears.change.hidden = WhichYears
 whichYears.checkbox = 6 April {0} to 5 April {1}
 whichYears.checkbox.any = Any tax year before 6 April {0}
 whichYears.checkbox.none = None of these
+whichYears.checkbox.none.hint = You will not be asked to provide any information for tax years before 6 April {0}.

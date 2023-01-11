@@ -20,7 +20,7 @@ import controllers.actions._
 import forms.ContractualDisclosureFacilityFormProvider
 import javax.inject.Inject
 import models.Mode
-import navigation.NotificationNavigator
+import navigation.OffshoreNavigator
 import pages.ContractualDisclosureFacilityPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -33,7 +33,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class ContractualDisclosureFacilityController @Inject()(
                                        override val messagesApi: MessagesApi,
                                        sessionService: SessionService,
-                                       navigator: NotificationNavigator,
+                                       navigator: OffshoreNavigator,
                                        identify: IdentifierAction,
                                        getData: DataRetrievalAction,
                                        requireData: DataRequiredAction,

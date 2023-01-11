@@ -57,11 +57,6 @@ trait ModelGenerators {
       } yield WhatReasonableCareDidYouTake(reasonableCare, yearsThisAppliesTo)
     }
 
-  implicit lazy val arbitraryContractualDisclosureFacility: Arbitrary[ContractualDisclosureFacility] =
-    Arbitrary {
-      Gen.oneOf(ContractualDisclosureFacility.values.toSeq)
-    }
-
   implicit lazy val arbitraryWhyAreYouMakingThisDisclosure: Arbitrary[WhyAreYouMakingThisDisclosure] =
     Arbitrary {
       Gen.oneOf(WhyAreYouMakingThisDisclosure.values)

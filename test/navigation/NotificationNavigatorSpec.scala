@@ -536,20 +536,6 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(WhatWasThePersonUTRPage, NormalMode, UserAnswers("id")) mustBe routes.EstateAddressLookupController.lookupAddress(NormalMode)
       }
 
-      "must go from the MakeANotificationOrDisclosure page to the ReceivedALetter controller when select an MakeANotification" in {
-        UserAnswers("id").set(MakeANotificationOrDisclosurePage, MakeANotificationOrDisclosure.MakeANotification) match {
-          case Success(ua) => navigator.nextPage(MakeANotificationOrDisclosurePage, NormalMode, ua) mustBe routes.ReceivedALetterController.onPageLoad(NormalMode)
-          case Failure(e) => throw e
-        }
-      }
-
-      "must go from the MakeANotificationOrDisclosure page to the TaskList controller when select an MakeADisclosure" in {
-        UserAnswers("id").set(MakeANotificationOrDisclosurePage, MakeANotificationOrDisclosure.MakeADisclosure) match {
-          case Success(ua) => navigator.nextPage(MakeANotificationOrDisclosurePage, NormalMode, ua) mustBe controllers.routes.TaskListController.onPageLoad
-          case Failure(e) => throw e
-        }
-      }
-
       "must go from the HowWouldYouPreferToBeContactedPage to the YourEmailAddressController when the user selects only Email as preferred method" in {
         val answer: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Email)
         val ua = UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, answer).success.value

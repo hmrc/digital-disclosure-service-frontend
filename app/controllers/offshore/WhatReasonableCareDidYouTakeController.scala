@@ -20,7 +20,7 @@ import controllers.actions._
 import forms.WhatReasonableCareDidYouTakeFormProvider
 import javax.inject.Inject
 import models.{Mode, UserAnswers, RelatesTo}
-import navigation.NotificationNavigator
+import navigation.OffshoreNavigator
 import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -33,7 +33,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class WhatReasonableCareDidYouTakeController @Inject()(
                                       override val messagesApi: MessagesApi,
                                       sessionService: SessionService,
-                                      navigator: NotificationNavigator,
+                                      navigator: OffshoreNavigator,
                                       identify: IdentifierAction,
                                       getData: DataRetrievalAction,
                                       requireData: DataRequiredAction,
