@@ -34,6 +34,45 @@ class OffshoreNavigatorSpec extends SpecBase {
         navigator.nextPage(UnknownPage, NormalMode, UserAnswers("id")) mustBe controllers.routes.IndexController.onPageLoad
       }
 
+      "must go from WhyAreYouMakingThisDisclosurePage to ContractualDisclosureFacilityController when selected any or all (DeliberatelyDidNotNotify/DeliberateInaccurateReturn/DeliberatelyDidNotFile)" in {
+        val set: Set[WhyAreYouMakingThisDisclosure] = Set(
+          WhyAreYouMakingThisDisclosure.DeliberatelyDidNotNotify,
+          WhyAreYouMakingThisDisclosure.DeliberateInaccurateReturn,
+          WhyAreYouMakingThisDisclosure.DeliberatelyDidNotFile
+        )
+        val userAnswers = UserAnswers("id").set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        navigator.nextPage(WhyAreYouMakingThisDisclosurePage, NormalMode, userAnswers) mustBe routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhyAreYouMakingThisDisclosurePage to WhatIsYourReasonableExcuseController when selected DidNotNotifyHasExcuse" in {
+        val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse)
+        val userAnswers = UserAnswers("id").set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        navigator.nextPage(WhyAreYouMakingThisDisclosurePage, NormalMode, userAnswers) mustBe routes.WhatIsYourReasonableExcuseController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhyAreYouMakingThisDisclosurePage to WhatReasonableCareDidYouTakeController when selected InaccurateReturnWithCare" in {
+        val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare)
+        val userAnswers = UserAnswers("id").set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        navigator.nextPage(WhyAreYouMakingThisDisclosurePage, NormalMode, userAnswers) mustBe routes.WhatReasonableCareDidYouTakeController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhyAreYouMakingThisDisclosurePage to WhatIsYourReasonableExcuseForNotFilingReturnController when selected NotFileHasExcuse" in {
+        val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.NotFileHasExcuse)
+        val userAnswers = UserAnswers("id").set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        navigator.nextPage(WhyAreYouMakingThisDisclosurePage, NormalMode, userAnswers) mustBe routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhyAreYouMakingThisDisclosurePage to WhichYearsController when selected any other option(s)" in {
+        val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.InaccurateReturnNoCare)
+        val userAnswers = UserAnswers("id").set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        navigator.nextPage(WhyAreYouMakingThisDisclosurePage, NormalMode, userAnswers) mustBe routes.WhichYearsController.onPageLoad(NormalMode)
+      }  
+
+      "must go from ContractualDisclosureFacilityPage to YouHaveLeftTheDDSController when selected any other option(s) & false" in {
+        val userAnswers = UserAnswers("id").set(ContractualDisclosureFacilityPage, false).success.value
+        navigator.nextPage(ContractualDisclosureFacilityPage, NormalMode, userAnswers) mustBe routes.YouHaveLeftTheDDSController.onPageLoad(NormalMode)
+      }
+
       "must go from ContractualDisclosureFacilityPage to WhatIsYourReasonableExcuseController when selected DidNotNotifyHasExcuse & true" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse)
         val userAnswers = for {
@@ -61,35 +100,40 @@ class OffshoreNavigatorSpec extends SpecBase {
         navigator.nextPage(ContractualDisclosureFacilityPage, NormalMode, userAnswers.success.value) mustBe routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode)
       }
 
-      "must go from ContractualDisclosureFacilityPage to WhichYearsController when selected any checkbox & false" in {
-        val set: Set[WhyAreYouMakingThisDisclosure] = Set(
-          WhyAreYouMakingThisDisclosure.InaccurateReturnNoCare,
-          WhyAreYouMakingThisDisclosure.DidNotNotifyNoExcuse,
-          WhyAreYouMakingThisDisclosure.DeliberatelyDidNotNotify,
-          WhyAreYouMakingThisDisclosure.DeliberateInaccurateReturn,
-          WhyAreYouMakingThisDisclosure.DeliberatelyDidNotFile
-        )
-        val userAnswers = for {
-          answer          <- UserAnswers("id").set(WhyAreYouMakingThisDisclosurePage, set)
-          updatedAnswer 	<- answer.set(ContractualDisclosureFacilityPage, true)
-          } yield updatedAnswer
-        navigator.nextPage(ContractualDisclosureFacilityPage, NormalMode, userAnswers.success.value) mustBe routes.WhichYearsController.onPageLoad(NormalMode)
+      "must go from ContractualDisclosureFacilityPage to WhichYearsController when selected any other option(s)" in {
+        navigator.nextPage(ContractualDisclosureFacilityPage, NormalMode, UserAnswers("id")) mustBe routes.WhichYearsController.onPageLoad(NormalMode)
       }
 
-      "must go from ContractualDisclosureFacilityPage to YouHaveLeftTheDDSController when selected any checkbox & false" in {
-        val set: Set[WhyAreYouMakingThisDisclosure] = Set(
-          WhyAreYouMakingThisDisclosure.InaccurateReturnNoCare,
-          WhyAreYouMakingThisDisclosure.DidNotNotifyNoExcuse,
-          WhyAreYouMakingThisDisclosure.DeliberatelyDidNotNotify,
-          WhyAreYouMakingThisDisclosure.DeliberateInaccurateReturn,
-          WhyAreYouMakingThisDisclosure.DeliberatelyDidNotFile
-        )
-        val userAnswers = for {
-          answer          <- UserAnswers("id").set(WhyAreYouMakingThisDisclosurePage, set)
-          updatedAnswer 	<- answer.set(ContractualDisclosureFacilityPage, false)
-          } yield updatedAnswer
-        navigator.nextPage(ContractualDisclosureFacilityPage, NormalMode, userAnswers.success.value) mustBe routes.YouHaveLeftTheDDSController.onPageLoad(NormalMode)
+      "must go from WhatIsYourReasonableExcusePage to WhatReasonableCareDidYouTakeController when selected InaccurateReturnWithCare" in {
+        val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare)
+        val userAnswers = UserAnswers("id").set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        navigator.nextPage(WhatIsYourReasonableExcusePage, NormalMode, userAnswers) mustBe routes.WhatReasonableCareDidYouTakeController.onPageLoad(NormalMode)
       }
+
+      "must go from WhatIsYourReasonableExcusePage to WhatIsYourReasonableExcuseForNotFilingReturnController when selected NotFileHasExcuse" in {
+        val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.NotFileHasExcuse)
+        val userAnswers = UserAnswers("id").set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        navigator.nextPage(WhatIsYourReasonableExcusePage, NormalMode, userAnswers) mustBe routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhatIsYourReasonableExcusePage to WhichYearsController when selected any other option(s)" in {
+        navigator.nextPage(WhatIsYourReasonableExcusePage, NormalMode, UserAnswers("id")) mustBe routes.WhichYearsController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhatReasonableCareDidYouTakePage to WhatIsYourReasonableExcuseForNotFilingReturnController when selected NotFileHasExcuse" in {
+        val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.NotFileHasExcuse)
+        val userAnswers = UserAnswers("id").set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        navigator.nextPage(WhatReasonableCareDidYouTakePage, NormalMode, userAnswers) mustBe routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhatReasonableCareDidYouTakePage to WhichYearsController when selected any other option(s)" in {
+        navigator.nextPage(WhatReasonableCareDidYouTakePage, NormalMode, UserAnswers("id")) mustBe routes.WhichYearsController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhatIsYourReasonableExcuseForNotFilingReturnPage to WhichYearsController when selected any other option(s)" in {
+        navigator.nextPage(WhatIsYourReasonableExcuseForNotFilingReturnPage, NormalMode, UserAnswers("id")) mustBe routes.WhichYearsController.onPageLoad(NormalMode)
+      }
+
     }
 
     "in Check mode" - {
