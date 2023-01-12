@@ -1141,3 +1141,19 @@ whichYears.checkbox = 6 April {0} to 5 April {1}
 whichYears.checkbox.any = Any tax year before 6 April {0}
 whichYears.checkbox.none = None of these
 whichYears.checkbox.none.hint = You will not be asked to provide any information for tax years before 6 April {0}.
+
+taxBeforeFiveYears.title = Can you tell us more about any tax owed before 6 April {0}?
+taxBeforeFiveYears.heading = Can you tell us more about any tax owed before 6 April {0}?
+taxBeforeFiveYears.checkYourAnswersLabel = Can you tell us more about any tax owed before 6 April {0}
+taxBeforeFiveYears.taxBeforeFiveYears = Provide the amount, when it was owed, and where the income or gain came from. Do not include these figures in this disclosure’s calculations. The person reviewing the disclosure may ask you further questions about this, if needed.
+taxBeforeFiveYears.error.taxBeforeFiveYears.required = Enter information about the tax owed before 6 April {0}
+taxBeforeFiveYears.error.taxBeforeFiveYears.length = The information about the tax owed must be between 1 and 500 characters
+taxBeforeFiveYears.taxBeforeFiveYears.change.hidden = TaxBeforeFiveYears
+
+taxBeforeSevenYears.title = Can you tell us more about any tax owed before 6 April {0}?
+taxBeforeSevenYears.heading = Can you tell us more about any tax owed before 6 April {0}?
+taxBeforeSevenYears.taxBeforeSevenYears = Provide the amount, when it was owed, and where the income or gain came from. Do not include these figures in this disclosure’s calculations. The person reviewing this disclosure may ask you further questions about this, if needed.
+taxBeforeSevenYears.checkYourAnswersLabel = Can you tell us more about any tax owed before 6 April {0}
+taxBeforeSevenYears.error.taxBeforeSevenYears.required = Enter information about the tax owed before 6 April {0}
+taxBeforeSevenYears.error.taxBeforeSevenYears.length = The information about the tax owed must be between 1 and 500 characters
+taxBeforeSevenYears.taxBeforeSevenYears.change.hidden = TaxBeforeSevenYears

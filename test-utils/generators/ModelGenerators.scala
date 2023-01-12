@@ -26,6 +26,20 @@ import scala.language.higherKinds
 
 trait ModelGenerators {
 
+  implicit lazy val arbitraryTaxBeforeSevenYears: Arbitrary[TaxBeforeSevenYears] =
+    Arbitrary {
+      for {
+        taxBeforeSevenYears <- arbitrary[String]
+      } yield TaxBeforeSevenYears(taxBeforeSevenYears)
+    }
+
+  implicit lazy val arbitraryTaxBeforeFiveYears: Arbitrary[TaxBeforeFiveYears] =
+    Arbitrary {
+      for {
+        taxBeforeFiveYears <- arbitrary[String]
+      } yield TaxBeforeFiveYears(taxBeforeFiveYears)
+    }
+
   implicit lazy val arbitraryOffshoreYears: Arbitrary[OffshoreYears] =
     Arbitrary {
       for {
