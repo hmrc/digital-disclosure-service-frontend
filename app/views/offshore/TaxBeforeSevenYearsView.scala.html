@@ -25,29 +25,30 @@
     govukInput: GovukInput,
     govukButton: GovukButton,
     paragraph: components.paragraph,
-    link: components.link
+    link: components.link,
+    heading: components.heading
 )
 
 @(form: Form[_], mode: Mode, year: String)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = title(form, messages("taxBeforeSevenYears.title", year))) {
 
-    @formHelper(action = controllers.offshore.routes.TaxBeforeSevenYearsController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.offshore.routes.TaxBeforeSevenYearsController.onSubmit(mode)) {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
-        <h1 class="govuk-heading-xl">@messages("taxBeforeSevenYears.heading", year)</h1>
+        @heading(Text(messages("taxBeforeSevenYears.heading", year)))
 
         @hmrcCharacterCount(
             CharacterCount(
-                id = "taxBeforeSevenYears",
-                name = "taxBeforeSevenYears",
-                maxLength = Some(500), 
+                id = "value",
+                name = "value",
+                maxLength = Some(5000), 
                 label = Label(content = messages("taxBeforeSevenYears.taxBeforeSevenYears")),
-                value = form("taxBeforeSevenYears").value,
-                errorMessage = form("taxBeforeSevenYears").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
+                value = form("value").value,
+                errorMessage = form("value").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
             )
         )
 

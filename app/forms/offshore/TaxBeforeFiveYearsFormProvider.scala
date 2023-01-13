@@ -20,15 +20,12 @@ import javax.inject.Inject
 
 import forms.mappings.Mappings
 import play.api.data.Form
-import play.api.data.Forms._
-import models.TaxBeforeFiveYears
 
 class TaxBeforeFiveYearsFormProvider @Inject() extends Mappings {
 
-   def apply(year: String): Form[TaxBeforeFiveYears] = Form(
-     mapping(
-      "taxBeforeFiveYears" -> text("taxBeforeFiveYears.error.taxBeforeFiveYears.required", Seq(year))
-        .verifying(maxLength(500, "taxBeforeFiveYears.error.taxBeforeFiveYears.length"))
-    )(TaxBeforeFiveYears.apply)(TaxBeforeFiveYears.unapply)
-   )
+   def apply(year: String): Form[String] = 
+    Form(
+      "value" -> text("taxBeforeFiveYears.error.required", Seq(year))
+        .verifying(maxLength(5000, "taxBeforeFiveYears.error.length"))
+    )
  }

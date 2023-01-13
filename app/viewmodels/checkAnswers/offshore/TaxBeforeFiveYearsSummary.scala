@@ -21,7 +21,6 @@ import models.{CheckMode, UserAnswers}
 import pages.TaxBeforeFiveYearsPage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
@@ -32,15 +31,14 @@ object TaxBeforeFiveYearsSummary  {
     answers.get(TaxBeforeFiveYearsPage).map {
       answer =>
 
-      val value = HtmlFormat.escape(answer.taxBeforeFiveYears).toString
-
-        SummaryListRowViewModel(
-          key     = "taxBeforeFiveYears.checkYourAnswersLabel",
-          value   = ValueViewModel(HtmlContent(value)),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.TaxBeforeFiveYearsController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("taxBeforeFiveYears.change.hidden"))
-          )
+      SummaryListRowViewModel(
+        key     = "taxBeforeFiveYears.checkYourAnswersLabel",
+        value   = ValueViewModel(HtmlFormat.escape(answer).toString),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.TaxBeforeFiveYearsController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("taxBeforeFiveYears.change.hidden"))
         )
+      )
     }
 }
+

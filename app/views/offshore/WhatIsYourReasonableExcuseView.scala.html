@@ -25,7 +25,8 @@
     govukCharacterCount:GovukCharacterCount,
     hmrcCharacterCount: HmrcCharacterCount,
     paragraph: components.paragraph,
-    link: components.link
+    link: components.link,
+    heading: components.heading
 )
 
 @(form: Form[_], mode: Mode, areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit request: Request[_], messages: Messages)
@@ -45,13 +46,13 @@
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
-        <h1 class="govuk-heading-xl">@if(areTheyTheIndividual){
-            @messages("whatIsYourReasonableExcuse.entity.heading")
-        } else {
-            @messages("whatIsYourReasonableExcuse.agent.heading")
-        } 
-        </h1>
-
+        @heading(Text(
+            if(areTheyTheIndividual){
+                messages("whatIsYourReasonableExcuse.entity.heading")
+            } else {
+                messages("whatIsYourReasonableExcuse.agent.heading")
+            }
+        ))
 
         @hmrcCharacterCount(uk.gov.hmrc.hmrcfrontend.views.html.components.CharacterCount(
                 id = "excuse",

@@ -28,7 +28,7 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
     Arbitrary {
       for {
         page  <- arbitrary[TaxBeforeSevenYearsPage.type]
-        value <- arbitrary[TaxBeforeSevenYears].map(Json.toJson(_))
+        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
       } yield (page, value)
     }
 
@@ -36,7 +36,7 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
     Arbitrary {
       for {
         page  <- arbitrary[TaxBeforeFiveYearsPage.type]
-        value <- arbitrary[TaxBeforeFiveYears].map(Json.toJson(_))
+        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
       } yield (page, value)
     }
 

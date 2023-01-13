@@ -26,10 +26,10 @@ class TaxBeforeFiveYearsFormProviderSpec extends StringFieldBehaviours {
 
   ".taxBeforeFiveYears" - {
 
-    val fieldName = "taxBeforeFiveYears"
-    val requiredKey = "taxBeforeFiveYears.error.taxBeforeFiveYears.required"
-    val lengthKey = "taxBeforeFiveYears.error.taxBeforeFiveYears.length"
-    val maxLength = 500
+    val fieldName = "value"
+    val requiredKey = "taxBeforeFiveYears.error.required"
+    val lengthKey = "taxBeforeFiveYears.error.length"
+    val maxLength = 5000
 
     behave like fieldThatBindsValidData(
       form,

@@ -16,17 +16,16 @@
 
 package pages
 
-import models.TaxBeforeFiveYears
 import pages.behaviours.PageBehaviours
 
 class TaxBeforeFiveYearsPageSpec extends PageBehaviours {
 
   "TaxBeforeFiveYearsPage" - {
 
-    beRetrievable[TaxBeforeFiveYears](TaxBeforeFiveYearsPage)
+    beRetrievable[String](TaxBeforeFiveYearsPage)
 
-    beSettable[TaxBeforeFiveYears](TaxBeforeFiveYearsPage)
+    beSettable[String](TaxBeforeFiveYearsPage)
 
-    beRemovable[TaxBeforeFiveYears](TaxBeforeFiveYearsPage)
+    beRemovable[String](TaxBeforeFiveYearsPage)
   }
 }

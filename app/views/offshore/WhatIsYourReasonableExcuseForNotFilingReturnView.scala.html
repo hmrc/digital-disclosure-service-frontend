@@ -26,7 +26,8 @@
     govukInput: GovukInput,
     govukButton: GovukButton,
     paragraph: components.paragraph,
-    link: components.link
+    link: components.link,
+    heading: components.heading
 )
 
 @(form: Form[_], mode: Mode, areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit request: Request[_], messages: Messages)
@@ -44,12 +45,13 @@
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
-        <h1 class="govuk-heading-xl">@if(areTheyTheIndividual){
-                @messages("whatIsYourReasonableExcuseForNotFilingReturn.entity.heading")
+        @heading(Text(
+            if(areTheyTheIndividual){
+                messages("whatIsYourReasonableExcuseForNotFilingReturn.entity.heading")
             } else {
-                @messages("whatIsYourReasonableExcuseForNotFilingReturn.agent.heading")
-            } 
-        </h1>
+                messages("whatIsYourReasonableExcuseForNotFilingReturn.agent.heading")
+            }
+        ))
 
         @hmrcCharacterCount(
             CharacterCount(

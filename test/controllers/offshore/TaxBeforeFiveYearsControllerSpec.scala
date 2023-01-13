@@ -18,7 +18,7 @@ package controllers
 
 import base.SpecBase
 import forms.TaxBeforeFiveYearsFormProvider
-import models.{NormalMode, TaxBeforeFiveYears, UserAnswers}
+import models.{NormalMode, UserAnswers}
 import navigation.{FakeOffshoreNavigator, OffshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
@@ -83,7 +83,7 @@ class TaxBeforeFiveYearsControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(TaxBeforeFiveYears("")), NormalMode, year)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(""), NormalMode, year)(request, messages(application)).toString
       }
     }
 
@@ -103,7 +103,7 @@ class TaxBeforeFiveYearsControllerSpec extends SpecBase with MockitoSugar {
       running(application) {
         val request =
           FakeRequest(POST, taxBeforeFiveYearsRoute)
-            .withFormUrlEncodedBody(("taxBeforeFiveYears", "value 1"))
+            .withFormUrlEncodedBody(("value", "value 1"))
 
         val result = route(application, request).value
 
@@ -119,9 +119,9 @@ class TaxBeforeFiveYearsControllerSpec extends SpecBase with MockitoSugar {
       running(application) {
         val request =
           FakeRequest(POST, taxBeforeFiveYearsRoute)
-            .withFormUrlEncodedBody(("value", "invalid value"))
+            .withFormUrlEncodedBody(("value", ""))
 
-        val boundForm = form.bind(Map("value" -> "invalid value"))
+        val boundForm = form.bind(Map("value" -> ""))
 
         val view = application.injector.instanceOf[TaxBeforeFiveYearsView]
 
@@ -153,7 +153,7 @@ class TaxBeforeFiveYearsControllerSpec extends SpecBase with MockitoSugar {
       running(application) {
         val request =
           FakeRequest(POST, taxBeforeFiveYearsRoute)
-            .withFormUrlEncodedBody(("taxBeforeFiveYears", "value 1"))
+            .withFormUrlEncodedBody(("value", "value 1"))
 
         val result = route(application, request).value
 

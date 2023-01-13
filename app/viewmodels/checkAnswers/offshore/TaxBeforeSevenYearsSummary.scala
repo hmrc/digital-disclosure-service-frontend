@@ -32,15 +32,13 @@ object TaxBeforeSevenYearsSummary  {
     answers.get(TaxBeforeSevenYearsPage).map {
       answer =>
 
-      val value = HtmlFormat.escape(answer.taxBeforeSevenYears).toString
-
-        SummaryListRowViewModel(
-          key     = "taxBeforeSevenYears.checkYourAnswersLabel",
-          value   = ValueViewModel(HtmlContent(value)),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.TaxBeforeSevenYearsController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("taxBeforeSevenYears.change.hidden"))
-          )
+      SummaryListRowViewModel(
+        key     = "taxBeforeSevenYears.checkYourAnswersLabel",
+        value   = ValueViewModel(HtmlFormat.escape(answer).toString),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.TaxBeforeSevenYearsController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("taxBeforeSevenYears.change.hidden"))
         )
+      )
     }
 }
