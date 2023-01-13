@@ -19,7 +19,6 @@ package forms
 import javax.inject.Inject
 
 import forms.mappings.Mappings
-import play.api.data.validation.{Constraint, Valid, Invalid, ValidationError}
 import play.api.data.Form
 import play.api.data.Forms.set
 import models.YourLegalInterpretation

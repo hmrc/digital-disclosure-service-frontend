@@ -19,8 +19,9 @@ package forms
 import forms.behaviours.CheckboxFieldBehaviours
 import models.YourLegalInterpretation
 import play.api.data.FormError
+import forms.mappings.Constraints
 
-class YourLegalInterpretationFormProviderSpec extends CheckboxFieldBehaviours {
+class YourLegalInterpretationFormProviderSpec extends CheckboxFieldBehaviours with Constraints {
 
   val form = new YourLegalInterpretationFormProvider()()
 
@@ -28,6 +29,7 @@ class YourLegalInterpretationFormProviderSpec extends CheckboxFieldBehaviours {
 
     val fieldName = "value"
     val requiredKey = "yourLegalInterpretation.error.required"
+    val validSelectionKey = "yourLegalInterpretation.error.validSelection"
 
     behave like checkboxField[YourLegalInterpretation](
       form,
@@ -41,5 +43,26 @@ class YourLegalInterpretationFormProviderSpec extends CheckboxFieldBehaviours {
       fieldName,
       requiredKey
     )
+    
+    behave like Seq(
+      "yourResidenceStatus",
+      "yourDomicileStatus",
+      "theRemittanceBasis",
+      "howIncomeArisingInATrust",
+      "theTransferOfAssets",
+      "howIncomeArisingInAnOffshore",
+      "inheritanceTaxIssues",
+      "whetherIncomeShouldBeTaxed",
+      "anotherIssue"
+    ).foreach { option => 
+      s"fail to bind when the user selects both No excluded amount AND $option" in {
+        val data = Map(
+          "value[0]" -> "noExclusion",
+          "value[1]" -> option
+        )
+        val expectedError = FormError("value", validSelectionKey)
+        form.bind(data).errors must contain(expectedError)
+      }  
+    }
   }
 }

@@ -25,8 +25,8 @@ sealed trait YourLegalInterpretation
 
 object YourLegalInterpretation extends Enumerable.Implicits {
 
-  case object Yourresidencestatus extends WithName("yourResidenceStatus") with YourLegalInterpretation
-  case object Yourdomicilestatus extends WithName("yourDomicileStatus") with YourLegalInterpretation
+  case object YourResidenceStatus extends WithName("yourResidenceStatus") with YourLegalInterpretation
+  case object YourDomicileStatus extends WithName("yourDomicileStatus") with YourLegalInterpretation
   case object TheRemittanceBasis extends WithName("theRemittanceBasis") with YourLegalInterpretation
   case object HowIncomeArisingInATrust extends WithName("howIncomeArisingInATrust") with YourLegalInterpretation
   case object TheTransferOfAssets extends WithName("theTransferOfAssets") with YourLegalInterpretation
@@ -37,8 +37,8 @@ object YourLegalInterpretation extends Enumerable.Implicits {
   case object NoExclusion extends WithName("noExclusion") with YourLegalInterpretation
 
   val values: Seq[YourLegalInterpretation] = Seq(
-    Yourresidencestatus,
-    Yourdomicilestatus,
+    YourResidenceStatus,
+    YourDomicileStatus,
     TheRemittanceBasis,
     HowIncomeArisingInATrust,
     TheTransferOfAssets,

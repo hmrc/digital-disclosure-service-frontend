@@ -173,7 +173,7 @@ trait Constraints {
   }
 
   protected def noneOrOthersConstraint(errorKey: String): Constraint[Set[YourLegalInterpretation]] = 
-    Constraint("constraints.noneOrOthers") { 
+    Constraint { 
       s => {
         if (s.contains(YourLegalInterpretation.NoExclusion) && s.size > 1) {
           Invalid(Seq(ValidationError(errorKey)))
