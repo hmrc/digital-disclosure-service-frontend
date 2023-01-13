@@ -18,8 +18,9 @@ package forms.mappings
 
 import java.time.LocalDate
 import uk.gov.hmrc.domain.Nino
-import play.api.data.validation.{Constraint, Invalid, Valid, ValidationResult}
+import play.api.data.validation.{Constraint, Invalid, Valid, ValidationResult, ValidationError}
 import uk.gov.hmrc.emailaddress.EmailAddress
+import models.YourLegalInterpretation
 
 trait Constraints {
 
@@ -170,4 +171,15 @@ trait Constraints {
       case _ => Invalid(errorKey)
     }
   }
+
+  protected def noneOrOthersConstraint(errorKey: String): Constraint[Set[YourLegalInterpretation]] = 
+    Constraint("constraints.noneOrOthers") { 
+      s => {
+        if (s.contains(YourLegalInterpretation.NoExclusion) && s.size > 1) {
+          Invalid(Seq(ValidationError(errorKey)))
+        } else {
+          Valid
+        }
+      }
+    }
 }
