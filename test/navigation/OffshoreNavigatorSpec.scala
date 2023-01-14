@@ -167,7 +167,7 @@ class OffshoreNavigatorSpec extends SpecBase {
         val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2020), TaxYearStarting(2019), TaxYearStarting(2018))
         val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value
 
-        navigator.nextTaxYearLiabilitiesPage(3, NormalMode, userAnswersWithTaxYears) mustBe controllers.routes.IndexController.onPageLoad
+        navigator.nextTaxYearLiabilitiesPage(3, NormalMode, userAnswersWithTaxYears) mustBe controllers.routes.YourLegalInterpretationController.onPageLoad(NormalMode)
       }
 
     }
