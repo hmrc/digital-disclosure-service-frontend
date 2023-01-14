@@ -22,7 +22,12 @@ import models.address.Address
 final case class AboutTheTrust (
   name: Option[String] = None,
   address: Option[Address] = None
-)
+) {
+  def isComplete = this match {
+    case AboutTheTrust(Some(_), Some(_)) => true
+    case _ => false
+  }
+}
 
 object AboutTheTrust {
   implicit val format: OFormat[AboutTheTrust] = Json.format[AboutTheTrust]

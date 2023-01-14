@@ -1030,6 +1030,7 @@ taskList.sectionTitle.forth = offshore liabilities details
 taskList.sectionTitle.fifth = other liability issues
 taskList.sectionTitle.sixth = the reason for coming forward now
 taskList.status.notStarted = Not started
+taskList.status.completed = Completed
 taskList.op.add = Add
 taskList.op.edit = Edit
 

@@ -22,8 +22,9 @@ import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.IndexView
-import services.SessionService
+import services.{SessionService, StoreDataService}
 import config.FrontendAppConfig
+import models.{UserAnswers, NormalMode}
 
 class IndexController @Inject()(
                                 val controllerComponents: MessagesControllerComponents,
@@ -31,19 +32,28 @@ class IndexController @Inject()(
                                 getData: DataRetrievalAction,
                                 view: IndexView,
                                 sessionService: SessionService,
+                                dataService: StoreDataService,
                                 appConfig: FrontendAppConfig
                                ) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData) { implicit request =>
 
-    request.userAnswers match {
-      case Some(_) => ()
-      case None => sessionService.newSession(request.userId)
+    val userAnswers = request.userAnswers match {
+      case Some(ua) => 
+        ua
+      case None => 
+        sessionService.newSession(request.userId)
+        UserAnswers(request.userId)
     }
 
-    val isFullDisclosureJourneyEnabled = appConfig.fullDisclosureJourneyEnabled
+    val notificationJourneyIsComplete = dataService.userAnswersToNotification(userAnswers).isComplete
+
+    val url = 
+      if (appConfig.fullDisclosureJourneyEnabled) controllers.routes.MakeANotificationOrDisclosureController.onPageLoad(NormalMode).url
+      else if (notificationJourneyIsComplete) controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
+      else controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url
     
-    Ok(view(isFullDisclosureJourneyEnabled))
+    Ok(view(url))
   }
   
 }
