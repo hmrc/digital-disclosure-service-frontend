@@ -51,6 +51,11 @@ trait ModelGenerators {
       }
     }
 
+  implicit lazy val arbitraryYourLegalInterpretation: Arbitrary[YourLegalInterpretation] =
+    Arbitrary {
+      Gen.oneOf(YourLegalInterpretation.values)
+    }
+
   implicit lazy val arbitraryOffshoreYears: Arbitrary[OffshoreYears] =
     Arbitrary {
       for {

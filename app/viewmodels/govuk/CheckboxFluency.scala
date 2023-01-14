@@ -103,5 +103,8 @@ trait CheckboxFluency {
 
     def withAttribute(attribute: (String, String)): CheckboxItem =
       item copy (attributes = item.attributes + attribute)
+    
+    def withDivider(text: String): CheckboxItem =
+      item copy (divider = Some(text))
   }
 }

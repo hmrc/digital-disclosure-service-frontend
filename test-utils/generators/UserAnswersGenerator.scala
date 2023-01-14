@@ -28,6 +28,7 @@ trait UserAnswersGenerator extends TryValues {
 
   val generators: Seq[Gen[(QuestionPage[_], JsValue)]] =
     arbitrary[(TaxYearLiabilitiesPage.type, JsValue)] ::
+    arbitrary[(YourLegalInterpretationPage.type, JsValue)] ::
     arbitrary[(WhatIsYourReasonableExcusePage.type, JsValue)] ::
     arbitrary[(WhatIsYourReasonableExcuseForNotFilingReturnPage.type, JsValue)] ::
     arbitrary[(WhatReasonableCareDidYouTakePage.type, JsValue)] ::
