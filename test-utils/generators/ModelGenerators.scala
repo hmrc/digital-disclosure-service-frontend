@@ -26,6 +26,31 @@ import scala.language.higherKinds
 
 trait ModelGenerators {
 
+  implicit lazy val abitraryTaxYearWithLiabilities: Arbitrary[TaxYearWithLiabilities] =
+    Arbitrary {
+      for {
+        year <- Gen.choose(2002, 2032)
+        income <- arbitrary[BigInt]
+        chargeableTransfers <- arbitrary[BigInt]
+        capitalGains <- arbitrary[BigInt]
+        unpaidTax <- arbitrary[BigInt]
+        interest <- arbitrary[BigInt]
+        penaltyRate <- arbitrary[Int]
+        foreignTaxCredit <- arbitrary[Boolean]
+      } yield {
+        val taxYearLiabilities = TaxYearLiabilities(
+          income, 
+          chargeableTransfers,
+          capitalGains,
+          unpaidTax,
+          interest,
+          penaltyRate,
+          foreignTaxCredit
+        )
+        TaxYearWithLiabilities(TaxYearStarting(year), taxYearLiabilities)
+      }
+    }
+
   implicit lazy val arbitraryOffshoreYears: Arbitrary[OffshoreYears] =
     Arbitrary {
       for {

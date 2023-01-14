@@ -53,7 +53,7 @@
         @govukRadios(
             RadiosViewModel.yesNoNotInline(
                 field  = form("value"),
-                legend = LegendViewModel(messages("contractualDisclosureFacility.label")).asPageHeading(),
+                legend = LegendViewModel(messages("contractualDisclosureFacility.label")).withCssClass("govuk-fieldset__legend--m"),
                 messagePrefix = "contractualDisclosureFacility"
             )
         )

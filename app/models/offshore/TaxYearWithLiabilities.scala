@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 
-package navigation
+package models
 
-import play.api.mvc.Call
-import pages._
-import models.{Mode, UserAnswers}
+import play.api.libs.json._
 
-class FakeOffshoreNavigator(desiredRoute: Call) extends OffshoreNavigator {
+final case class TaxYearWithLiabilities(
+  taxYear: TaxYearStarting,
+  taxYearLiabilities: TaxYearLiabilities,
+)
 
-  override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasChanged:Boolean = true): Call =
-    desiredRoute
-
-  override def nextTaxYearLiabilitiesPage(currentIndex: Int, mode: Mode, userAnswers: UserAnswers): Call = 
-    desiredRoute
-
+object TaxYearWithLiabilities {
+  implicit val format = Json.format[TaxYearWithLiabilities]
 }

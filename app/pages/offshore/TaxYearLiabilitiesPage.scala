@@ -14,18 +14,14 @@
  * limitations under the License.
  */
 
-package navigation
+package pages
 
-import play.api.mvc.Call
-import pages._
-import models.{Mode, UserAnswers}
+import play.api.libs.json.JsPath
+import models.TaxYearWithLiabilities
 
-class FakeOffshoreNavigator(desiredRoute: Call) extends OffshoreNavigator {
+case object TaxYearLiabilitiesPage extends QuestionPage[Seq[TaxYearWithLiabilities]] {
 
-  override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasChanged:Boolean = true): Call =
-    desiredRoute
+  override def path: JsPath = JsPath \ toString
 
-  override def nextTaxYearLiabilitiesPage(currentIndex: Int, mode: Mode, userAnswers: UserAnswers): Call = 
-    desiredRoute
-
+  override def toString: String = "taxYearLiabilities"
 }

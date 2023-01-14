@@ -33,3 +33,8 @@ GET        /offshore-years                               controllers.offshore.Wh
 POST       /offshore-years                               controllers.offshore.WhichYearsController.onSubmit(mode: Mode = NormalMode)
 GET        /offshore-years/change                        controllers.offshore.WhichYearsController.onPageLoad(mode: Mode = CheckMode)
 POST       /offshore-years/change                        controllers.offshore.WhichYearsController.onSubmit(mode: Mode = CheckMode)
+
+GET        /offshore-liabilities/:i                      controllers.offshore.TaxYearLiabilitiesController.onPageLoad(i: Int, mode: Mode = NormalMode)
+POST       /offshore-liabilities/:i                      controllers.offshore.TaxYearLiabilitiesController.onSubmit(i: Int, mode: Mode = NormalMode)
+GET        /offshore-liabilities/:i/change               controllers.offshore.TaxYearLiabilitiesController.onPageLoad(i: Int, mode: Mode = CheckMode)
+POST       /offshore-liabilities/:i/change               controllers.offshore.TaxYearLiabilitiesController.onSubmit(i: Int, mode: Mode = CheckMode)

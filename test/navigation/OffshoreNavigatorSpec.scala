@@ -144,6 +144,33 @@ class OffshoreNavigatorSpec extends SpecBase {
         navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe controllers.routes.IndexController.onPageLoad
       }
     }
+
+    "nextTaxYearLiabilitiesPage" - {
+
+      "must take the user to the CYA page in check mode" in {
+        val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2020), TaxYearStarting(2019))
+        val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value
+
+        navigator.nextTaxYearLiabilitiesPage(0, CheckMode, userAnswersWithTaxYears) mustBe controllers.routes.IndexController.onPageLoad
+      }
+
+      "must increment the index and tax the user to the tax year liability page when there more years in the which years list" in {
+        val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2020), TaxYearStarting(2019), TaxYearStarting(2018))
+        val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value
+
+        navigator.nextTaxYearLiabilitiesPage(0, NormalMode, userAnswersWithTaxYears) mustBe routes.TaxYearLiabilitiesController.onPageLoad(1, NormalMode)
+        navigator.nextTaxYearLiabilitiesPage(1, NormalMode, userAnswersWithTaxYears) mustBe routes.TaxYearLiabilitiesController.onPageLoad(2, NormalMode)
+        navigator.nextTaxYearLiabilitiesPage(2, NormalMode, userAnswersWithTaxYears) mustBe routes.TaxYearLiabilitiesController.onPageLoad(3, NormalMode)
+      }
+
+      "must take the user to the next page when there are no more years in the which years list" in {
+        val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2020), TaxYearStarting(2019), TaxYearStarting(2018))
+        val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value
+
+        navigator.nextTaxYearLiabilitiesPage(3, NormalMode, userAnswersWithTaxYears) mustBe controllers.routes.IndexController.onPageLoad
+      }
+
+    }
   }
 
 }
