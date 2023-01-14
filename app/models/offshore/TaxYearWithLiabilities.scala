@@ -20,7 +20,7 @@ import play.api.libs.json._
 
 final case class TaxYearWithLiabilities(
   taxYear: TaxYearStarting,
-  taxYearLiabilities: TaxYearLiabilities,
+  taxYearLiabilities: TaxYearLiabilities
 )
 
 object TaxYearWithLiabilities {

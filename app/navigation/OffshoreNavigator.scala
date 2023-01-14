@@ -79,7 +79,7 @@ class OffshoreNavigator @Inject()() {
 
   def nextTaxYearLiabilitiesPage(currentIndex: Int, mode: Mode, userAnswers: UserAnswers): Call = (mode, userAnswers.inverselySortedOffshoreTaxYears) match {
     case (NormalMode, Some(years)) if ((years.size - 1) > currentIndex) => routes.TaxYearLiabilitiesController.onPageLoad(currentIndex + 1, NormalMode)
-    case (NormalMode, _) => controllers.routes.YourLegalInterpretationController.onPageLoad(NormalMode)
+    case (NormalMode, _) => routes.YourLegalInterpretationController.onPageLoad(NormalMode)
     case (CheckMode, _) => checkRouteMap(TaxYearLiabilitiesPage)(userAnswers)(true)
   }
 
