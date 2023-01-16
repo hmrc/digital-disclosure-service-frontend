@@ -26,6 +26,11 @@ import scala.language.higherKinds
 
 trait ModelGenerators {
 
+  implicit lazy val arbitraryTheMaximumValueOfAllAssets: Arbitrary[TheMaximumValueOfAllAssets] =
+    Arbitrary {
+      Gen.oneOf(TheMaximumValueOfAllAssets.values.toSeq)
+    }
+
   implicit lazy val arbitraryHowMuchTaxHasNotBeenIncluded: Arbitrary[HowMuchTaxHasNotBeenIncluded] =
     Arbitrary {
       Gen.oneOf(HowMuchTaxHasNotBeenIncluded.values.toSeq)

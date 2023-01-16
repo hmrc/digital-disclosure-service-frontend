@@ -18,26 +18,33 @@ package viewmodels.checkAnswers
 
 import controllers.offshore.routes
 import models.{CheckMode, UserAnswers}
-import pages.TaxBeforeSevenYearsPage
+import pages.TheMaximumValueOfAllAssetsPage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object TaxBeforeSevenYearsSummary  {
+object TheMaximumValueOfAllAssetsSummary  {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(TaxBeforeSevenYearsPage).map {
+    answers.get(TheMaximumValueOfAllAssetsPage).map {
       answer =>
 
-      SummaryListRowViewModel(
-        key     = "taxBeforeSevenYears.checkYourAnswersLabel",
-        value   = ValueViewModel(HtmlFormat.escape(answer).toString),
-        actions = Seq(
-          ActionItemViewModel("site.change", routes.TaxBeforeSevenYearsController.onPageLoad(CheckMode).url)
-            .withVisuallyHiddenText(messages("taxBeforeSevenYears.change.hidden"))
+        val value = ValueViewModel(
+          HtmlContent(
+            HtmlFormat.escape(messages(s"theMaximumValueOfAllAssets.$answer"))
+          )
         )
-      )
+
+        SummaryListRowViewModel(
+          key     = "theMaximumValueOfAllAssets.checkYourAnswersLabel",
+          value   = value,
+          actions = Seq(
+            ActionItemViewModel("site.change", routes.TheMaximumValueOfAllAssetsController.onPageLoad(CheckMode).url)
+              .withVisuallyHiddenText(messages("theMaximumValueOfAllAssets.change.hidden"))
+          )
+        )
     }
 }

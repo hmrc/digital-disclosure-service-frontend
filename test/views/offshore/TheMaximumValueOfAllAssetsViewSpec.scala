@@ -17,16 +17,16 @@
 package views.offshore
 
 import base.ViewSpecBase
-import forms.HowMuchTaxHasNotBeenIncludedFormProvider
+import forms.TheMaximumValueOfAllAssetsFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
-import views.html.offshore.HowMuchTaxHasNotBeenIncludedView
+import views.html.offshore.TheMaximumValueOfAllAssetsView
 import models.NormalMode
 
-class HowMuchTaxHasNotBeenIncludedViewSpec extends ViewSpecBase with ViewMatchers {
+class TheMaximumValueOfAllAssetsViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new HowMuchTaxHasNotBeenIncludedFormProvider()()
-  val page: HowMuchTaxHasNotBeenIncludedView = inject[HowMuchTaxHasNotBeenIncludedView]
+  val form = new TheMaximumValueOfAllAssetsFormProvider()()
+  val page: TheMaximumValueOfAllAssetsView = inject[TheMaximumValueOfAllAssetsView]
 
   private def createView: Html = page(form, NormalMode)(request, messages)
 
@@ -35,17 +35,17 @@ class HowMuchTaxHasNotBeenIncludedViewSpec extends ViewSpecBase with ViewMatcher
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("howMuchTaxHasNotBeenIncluded.title"))
+      view.select("title").text() must include(messages("theMaximumValueOfAllAssets.title"))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("howMuchTaxHasNotBeenIncluded.heading")
+      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("theMaximumValueOfAllAssets.heading")
     }
 
     "have radio buttons" in {
-      view.getElementsByClass("govuk-radios__label").get(0).text() mustBe messages("howMuchTaxHasNotBeenIncluded.tenThousandOrLess")
-      view.getElementsByClass("govuk-radios__label").get(1).text() mustBe messages("howMuchTaxHasNotBeenIncluded.moreThanTenThousandLessThanOneLakh")
-      view.getElementsByClass("govuk-radios__label").get(2).text() mustBe messages("howMuchTaxHasNotBeenIncluded.oneLakhAndMore")
+      view.getElementsByClass("govuk-radios__label").get(0).text() mustBe messages("theMaximumValueOfAllAssets.tenThousandOrLess")
+      view.getElementsByClass("govuk-radios__label").get(1).text() mustBe messages("theMaximumValueOfAllAssets.moreThanTenThousandLessThanOneLakh")
+      view.getElementsByClass("govuk-radios__label").get(2).text() mustBe messages("theMaximumValueOfAllAssets.oneLakhAndMore")
     }
 
     "display the continue button" in {
@@ -56,7 +56,6 @@ class HowMuchTaxHasNotBeenIncludedViewSpec extends ViewSpecBase with ViewMatcher
     "have a task list link" in {
       view.getElementById("task-list-link").attr("href") mustBe controllers.routes.TaskListController.onPageLoad.url
     }
-
   }
 
 }
