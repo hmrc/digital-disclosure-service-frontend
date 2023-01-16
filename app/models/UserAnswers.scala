@@ -22,6 +22,7 @@ import uk.gov.hmrc.mongo.play.json.formats.MongoJavatimeFormats
 import models.store.notification._
 import java.time.Instant
 import scala.util.{Failure, Success, Try}
+import pages.WhichYearsPage
 
 final case class UserAnswers(
                               id: String,
@@ -32,34 +33,61 @@ final case class UserAnswers(
                               metadata: Metadata = Metadata()
                             ) {
 
-  def get[A](page: Gettable[A])(implicit rds: Reads[A]): Option[A] =
-    Reads.optionNoError(Reads.at(page.path)).reads(data).getOrElse(None)
+  def get[A](page: Gettable[A])(implicit rds: Reads[A]): Option[A] = get(page.path)
 
   def set[A](page: Settable[A], value: A)(implicit writes: Writes[A]): Try[UserAnswers] = {
+    val updatedData = set(page.path, value)
+    cleanupPage(page, updatedData)
+  }
 
-    val updatedData = data.setObject(page.path, Json.toJson(value)) match {
+  def remove[A](page: Settable[A]): Try[UserAnswers] = {
+    val updatedData = remove(page.path)
+    cleanupPage(page, updatedData)
+  }
+
+  def getByIndex[A](page: Gettable[Seq[A]], index: Int)(implicit rds: Reads[A]): Option[A] = {
+    val path = page.path \ index
+    get(path)
+  }
+
+  def setByIndex[A](page: Settable[Seq[A]], index: Int, value: A)(implicit writes: Writes[A]): Try[UserAnswers] = {
+    val path = page.path \ index
+    val updatedData = set(path, value)
+    cleanupPage(page, updatedData)
+  }
+
+  def removeByIndex[A](page: Settable[Seq[A]], index: Int): Try[UserAnswers] = {
+    val path = page.path \ index
+    val updatedData = remove(path)
+    cleanupPage(page, updatedData)
+  }
+
+  def get[A](path: JsPath)(implicit rds: Reads[A]): Option[A] =
+    Reads.optionNoError(Reads.at(path)).reads(data).getOrElse(None)
+
+  def set[A](path: JsPath, value: A)(implicit writes: Writes[A]): Try[JsObject] = 
+    data.setObject(path, Json.toJson(value)) match {
       case JsSuccess(jsValue, _) =>
         Success(jsValue)
       case JsError(errors) =>
         Failure(JsResultException(errors))
     }
 
-    updatedData.flatMap {
-      d =>
-        val updatedAnswers = copy (data = d)
-        page.cleanup(Some(value), updatedAnswers)
-    }
-  }
 
-  def remove[A](page: Settable[A]): Try[UserAnswers] = {
-
-    val updatedData = data.removeObject(page.path) match {
+  def remove[A](path: JsPath): Try[JsObject] = 
+    data.removeObject(path) match {
       case JsSuccess(jsValue, _) =>
         Success(jsValue)
       case JsError(_) =>
         Success(data)
     }
 
+  def remove(pages: List[Settable[_]]) : Try[UserAnswers] = 
+    pages.foldLeft(Try(this))((oldAnswerList, page) => {
+      oldAnswerList.flatMap(_.remove(page))
+    })
+
+  def cleanupPage(page: Settable[_], updatedData: Try[JsObject]): Try[UserAnswers] = {
     updatedData.flatMap {
       d =>
         val updatedAnswers = copy (data = d)
@@ -67,10 +95,9 @@ final case class UserAnswers(
     }
   }
 
-  def remove(pages: List[Settable[_]]) : Try[UserAnswers] = 
-    pages.foldLeft(Try(this))((oldAnswerList, page) => {
-      oldAnswerList.flatMap(_.remove(page))
-    })
+  def inverselySortedOffshoreTaxYears: Option[Seq[TaxYearStarting]] = get(WhichYearsPage).map{ yearSet => 
+    yearSet.collect{case TaxYearStarting(y) => TaxYearStarting(y)}.toSeq.sorted
+  }
   
 }
 

@@ -1,4 +1,4 @@
-/*
+@*
  * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,23 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *@
 
-package models.store.notification
+@this(
+    paragraph: components.paragraph,
+    link: components.link
+)
 
-import play.api.libs.json.{Json, OFormat}
-import models.address.Address
+@()(implicit messages: Messages)
 
-final case class AboutTheLLP (
-  name: Option[String] = None,
-  address: Option[Address] = None
-) {
-  def isComplete = this match {
-    case AboutTheLLP(Some(_), Some(_)) => true
-    case _ => false
-  }
-}
-
-object AboutTheLLP {
-  implicit val format: OFormat[AboutTheLLP] = Json.format[AboutTheLLP]
-}
+@paragraph(
+    content = HtmlContent(
+        link(
+            id = "task-list-link", 
+            text = messages("site.tasklist"), 
+            newTab = false, 
+            call = Call("GET", controllers.routes.TaskListController.onPageLoad.url)
+        )
+    )
+)

@@ -14,21 +14,19 @@
  * limitations under the License.
  */
 
-package models.store.notification
+package pages
 
-import play.api.libs.json.{Json, OFormat}
-import models.address.Address
+import pages.behaviours.PageBehaviours
+import models.TaxYearWithLiabilities
 
-final case class AboutTheLLP (
-  name: Option[String] = None,
-  address: Option[Address] = None
-) {
-  def isComplete = this match {
-    case AboutTheLLP(Some(_), Some(_)) => true
-    case _ => false
+class TaxYearLiabilitiesPageSpec extends PageBehaviours {
+
+  "TaxYearLiabilitiesPage" - {
+
+    beRetrievable[Seq[TaxYearWithLiabilities]](TaxYearLiabilitiesPage)
+
+    beSettable[Seq[TaxYearWithLiabilities]](TaxYearLiabilitiesPage)
+
+    beRemovable[Seq[TaxYearWithLiabilities]](TaxYearLiabilitiesPage)
   }
-}
-
-object AboutTheLLP {
-  implicit val format: OFormat[AboutTheLLP] = Json.format[AboutTheLLP]
 }

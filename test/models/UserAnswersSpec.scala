@@ -21,6 +21,7 @@ import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.must.Matchers
 import play.api.libs.json.JsPath
 import queries.{Gettable, Settable}
+import pages.WhichYearsPage
 
 import scala.util.Success
 
@@ -32,6 +33,8 @@ class UserAnswersSpec extends AnyFreeSpec with Matchers with Generators {
   case object TestPage1 extends Gettable[String] with Settable[String] { override def path: JsPath = JsPath \ toString }
   case object TestPage2 extends Gettable[String] with Settable[String] { override def path: JsPath = JsPath \ toString }
   case object TestPage3 extends Gettable[String] with Settable[String] { override def path: JsPath = JsPath \ toString }
+
+  case object TestSeqPage extends Gettable[Seq[String]] with Settable[Seq[String]] { override def path: JsPath = JsPath \ toString }
 
 
   "UserAnswers" - {
@@ -89,5 +92,68 @@ class UserAnswersSpec extends AnyFreeSpec with Matchers with Generators {
 
       pages.forall(page => updatedAnswers.get[String](page).isEmpty) mustBe true
     }
+
   }
+
+  "indexed functionality" - {
+
+
+    "should get the value of an answer for a given page and index" in {
+      val userAnswers = UserAnswers(id).set(TestSeqPage, Seq("123", "456", "789")).success.value
+      userAnswers.getByIndex(TestSeqPage, 0) mustBe Some("123")
+      userAnswers.getByIndex(TestSeqPage, 1) mustBe Some("456")
+      userAnswers.getByIndex(TestSeqPage, 2) mustBe Some("789")
+      userAnswers.getByIndex(TestSeqPage, 3) mustBe None
+    }
+
+    "should set the value of an answer for a given page and index and get the same value" in {
+      val userAnswers = UserAnswers(id)
+
+      val expectedValue = "value"
+
+      val updatedUserAnswer = userAnswers.setByIndex(TestSeqPage, 0, expectedValue) match {
+        case Success(value) => value
+        case _ => fail()
+      }
+
+      val actualValue = updatedUserAnswer.getByIndex(TestSeqPage, 0) match {
+        case Some(value) => value
+        case _ => fail()
+      }
+
+      expectedValue mustBe actualValue
+    }
+
+    "should remove a value for a given Page" in {
+      val userAnswers = UserAnswers(id).set(TestSeqPage, Seq("123", "456", "789")).success.value
+
+      val updatedUserAnswer = userAnswers.removeByIndex(TestSeqPage, 2) match {
+        case Success(ua) => ua
+        case _ => fail()
+      }
+
+      val actualValueOption = updatedUserAnswer.getByIndex(TestSeqPage, 2)
+      actualValueOption mustBe None
+    }
+
+  }
+
+  "inverselySortedOffshoreTaxYears" - {
+
+    "should return years from WhichYearsPage in reverse chronological order" in {
+      val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2020), TaxYearStarting(2018), TaxYearStarting(2021), TaxYearStarting(2019))
+      val userAnswers = UserAnswers(id).set(WhichYearsPage, whichYears).success.value
+
+      userAnswers.inverselySortedOffshoreTaxYears mustBe Some(Seq(TaxYearStarting(2021), TaxYearStarting(2020), TaxYearStarting(2019), TaxYearStarting(2018)))
+    }
+
+    "should remove all values which aren't TaxYearStarting" in {
+      val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2020), PriorTo5Years, PriorTo7Years, NoneOfTheseYears)
+      val userAnswers = UserAnswers(id).set(WhichYearsPage, whichYears).success.value
+
+      userAnswers.inverselySortedOffshoreTaxYears mustBe Some(Seq(TaxYearStarting(2020)))
+    }
+
+  }
+
 }

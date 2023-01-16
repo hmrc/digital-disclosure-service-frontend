@@ -14,21 +14,14 @@
  * limitations under the License.
  */
 
-package models.store.notification
+package pages
 
-import play.api.libs.json.{Json, OFormat}
-import models.address.Address
+import play.api.libs.json.JsPath
+import models.TaxYearWithLiabilities
 
-final case class AboutTheLLP (
-  name: Option[String] = None,
-  address: Option[Address] = None
-) {
-  def isComplete = this match {
-    case AboutTheLLP(Some(_), Some(_)) => true
-    case _ => false
-  }
-}
+case object TaxYearLiabilitiesPage extends QuestionPage[Seq[TaxYearWithLiabilities]] {
 
-object AboutTheLLP {
-  implicit val format: OFormat[AboutTheLLP] = Json.format[AboutTheLLP]
+  override def path: JsPath = JsPath \ toString
+
+  override def toString: String = "taxYearLiabilities"
 }

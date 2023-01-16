@@ -44,7 +44,13 @@ POST       /tax-before-seven-years                       controllers.offshore.Ta
 GET        /tax-before-seven-years/change                controllers.offshore.TaxBeforeSevenYearsController.onPageLoad(mode: Mode = CheckMode)
 POST       /tax-before-seven-years/change                controllers.offshore.TaxBeforeSevenYearsController.onSubmit(mode: Mode = CheckMode)
 
+GET        /offshore-liabilities/:i                      controllers.offshore.TaxYearLiabilitiesController.onPageLoad(i: Int, mode: Mode = NormalMode)
+POST       /offshore-liabilities/:i                      controllers.offshore.TaxYearLiabilitiesController.onSubmit(i: Int, mode: Mode = NormalMode)
+GET        /offshore-liabilities/:i/change               controllers.offshore.TaxYearLiabilitiesController.onPageLoad(i: Int, mode: Mode = CheckMode)
+POST       /offshore-liabilities/:i/change               controllers.offshore.TaxYearLiabilitiesController.onSubmit(i: Int, mode: Mode = CheckMode)
+
 GET        /offshore-liabilities-interpretation          controllers.offshore.YourLegalInterpretationController.onPageLoad(mode: Mode = NormalMode)
 POST       /offshore-liabilities-interpretation          controllers.offshore.YourLegalInterpretationController.onSubmit(mode: Mode = NormalMode)
 GET        /offshore-liabilities-interpretation/change   controllers.offshore.YourLegalInterpretationController.onPageLoad(mode: Mode = CheckMode)
 POST       /offshore-liabilities-interpretation/change   controllers.offshore.YourLegalInterpretationController.onSubmit(mode: Mode = CheckMode)
+

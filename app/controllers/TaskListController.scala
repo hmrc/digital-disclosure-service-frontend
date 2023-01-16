@@ -23,7 +23,7 @@ import navigation.Navigator
 import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import services.SessionService
+import services.{StoreDataService, SessionService}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.TaskListView
 import viewmodels.{TaskListRow, TaskListViewModel}
@@ -36,6 +36,7 @@ class TaskListController @Inject()(
                                         identify: IdentifierAction,
                                         getData: DataRetrievalAction,
                                         requireData: DataRequiredAction,
+                                        dataService: StoreDataService,
                                         val controllerComponents: MessagesControllerComponents,
                                         view: TaskListView
                                     ) extends FrontendBaseController with I18nSupport {
@@ -45,7 +46,7 @@ class TaskListController @Inject()(
 
       val ua = request.userAnswers
 
-      val personalDetailsTasks = Seq(buildYourPersonalDetailsRow)
+      val personalDetailsTasks = Seq(buildYourPersonalDetailsRow(ua))
 
       val liabilitiesInformation = buildLiabilitiesInformationRow(ua)
 
@@ -60,13 +61,20 @@ class TaskListController @Inject()(
       Ok(view(list))
   }
 
-  private def buildYourPersonalDetailsRow()(implicit messages: Messages): TaskListRow = {
+  def statusKey(isSectionComplete: Boolean): String = if (isSectionComplete) "taskList.status.completed" else "taskList.status.notStarted"
+
+  private def buildYourPersonalDetailsRow(userAnswers: UserAnswers)(implicit messages: Messages): TaskListRow = {
+
+    val isSectionComplete = dataService.userAnswersToNotification(userAnswers).isComplete
+    val link = if (isSectionComplete) notification.routes.CheckYourAnswersController.onPageLoad
+      else notification.routes.ReceivedALetterController.onPageLoad(NormalMode)
+
     TaskListRow(
       id = "personal-detail-task-list", 
       operation = messages("taskList.op.add"),
       sectionTitle = messages("taskList.sectionTitle.first"), 
-      status = messages("taskList.status.notStarted"), 
-      link = routes.TaskListController.onPageLoad
+      status = messages(statusKey(isSectionComplete)), 
+      link = link
     )
   }
 

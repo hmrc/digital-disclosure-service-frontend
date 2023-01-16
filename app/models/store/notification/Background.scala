@@ -26,7 +26,13 @@ final case class Background (
   organisationName: Option[String] = None,
   offshoreLiabilities: Option[Boolean] = None,
   onshoreLiabilities: Option[Boolean] = None  
-)
+) {
+  def isComplete = this match {
+    case Background(Some(receivedLetter), _, Some(_), _, _, Some(offshore), _) => 
+      ( (!receivedLetter || letterReferenceNumber.isDefined) && (!offshore || onshoreLiabilities.isDefined) )
+    case _ => false
+  }
+}
 
 object Background {
   implicit val format: OFormat[Background] = Json.format[Background]

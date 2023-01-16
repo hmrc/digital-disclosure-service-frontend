@@ -14,21 +14,20 @@
  * limitations under the License.
  */
 
-package models.store.notification
+package models
 
-import play.api.libs.json.{Json, OFormat}
-import models.address.Address
+import play.api.libs.json._
 
-final case class AboutTheLLP (
-  name: Option[String] = None,
-  address: Option[Address] = None
-) {
-  def isComplete = this match {
-    case AboutTheLLP(Some(_), Some(_)) => true
-    case _ => false
-  }
-}
+final case class TaxYearLiabilities(
+  income: BigInt,
+  chargeableTransfers: BigInt,
+  capitalGains: BigInt,
+  unpaidTax: BigInt,
+  interest: BigInt,
+  penaltyRate: Int,
+  foreignTaxCredit: Boolean
+)
 
-object AboutTheLLP {
-  implicit val format: OFormat[AboutTheLLP] = Json.format[AboutTheLLP]
+object TaxYearLiabilities {
+  implicit val format = Json.format[TaxYearLiabilities]
 }

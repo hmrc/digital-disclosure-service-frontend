@@ -24,4 +24,8 @@ class FakeOffshoreNavigator(desiredRoute: Call) extends OffshoreNavigator {
 
   override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasChanged:Boolean = true): Call =
     desiredRoute
+
+  override def nextTaxYearLiabilitiesPage(currentIndex: Int, mode: Mode, userAnswers: UserAnswers): Call = 
+    desiredRoute
+
 }

@@ -22,6 +22,7 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.hint.Hint
 import uk.gov.hmrc.govukfrontend.views.viewmodels.input.{Input, PrefixOrSuffix}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
 import viewmodels.{ErrorMessageAwareness, InputWidth}
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 
 object input extends InputFluency
 
@@ -96,5 +97,8 @@ trait InputFluency {
 
     def withWidth(inputWidth: InputWidth): Input =
       input.withCssClass(inputWidth.toString)
+
+    def withPoundPrefix: Input =
+      input copy (prefix = Some(PrefixOrSuffix(content = HtmlContent("&pound;"))))
   }
 }
