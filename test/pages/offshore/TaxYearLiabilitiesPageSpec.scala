@@ -23,10 +23,10 @@ class TaxYearLiabilitiesPageSpec extends PageBehaviours {
 
   "TaxYearLiabilitiesPage" - {
 
-    beRetrievable[Seq[TaxYearWithLiabilities]](TaxYearLiabilitiesPage)
+    beRetrievable[Map[String, TaxYearWithLiabilities]](TaxYearLiabilitiesPage)
 
-    beSettable[Seq[TaxYearWithLiabilities]](TaxYearLiabilitiesPage)
+    beSettable[Map[String, TaxYearWithLiabilities]](TaxYearLiabilitiesPage)
 
-    beRemovable[Seq[TaxYearWithLiabilities]](TaxYearLiabilitiesPage)
+    beRemovable[Map[String, TaxYearWithLiabilities]](TaxYearLiabilitiesPage)
   }
 }

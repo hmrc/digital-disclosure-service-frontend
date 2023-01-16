@@ -74,7 +74,7 @@ class TaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
         foreignTaxCredit = true
       )
 
-      val userAnswers = userAnswersWithTaxYears.set(TaxYearLiabilitiesPage, Seq(TaxYearWithLiabilities(TaxYearStarting(2021), answer))).success.value
+      val userAnswers = userAnswersWithTaxYears.set(TaxYearLiabilitiesPage, Map("2021" -> TaxYearWithLiabilities(TaxYearStarting(2021), answer))).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
