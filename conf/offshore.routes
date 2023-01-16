@@ -54,3 +54,8 @@ POST       /offshore-liabilities-interpretation          controllers.offshore.Yo
 GET        /offshore-liabilities-interpretation/change   controllers.offshore.YourLegalInterpretationController.onPageLoad(mode: Mode = CheckMode)
 POST       /offshore-liabilities-interpretation/change   controllers.offshore.YourLegalInterpretationController.onSubmit(mode: Mode = CheckMode)
 
+
+GET        /offshore-liabilities-law-consideration          controllers.offshore.UnderWhatConsiderationController.onPageLoad(mode: Mode = NormalMode)
+POST       /offshore-liabilities-law-consideration          controllers.offshore.UnderWhatConsiderationController.onSubmit(mode: Mode = NormalMode)
+GET        /offshore-liabilities-law-consideration/change   controllers.offshore.UnderWhatConsiderationController.onPageLoad(mode: Mode = CheckMode)
+POST       /offshore-liabilities-law-consideration/change   controllers.offshore.UnderWhatConsiderationController.onSubmit(mode: Mode = CheckMode)
