@@ -28,6 +28,7 @@
     govukButton: GovukButton,
     paragraph: components.paragraph,
     link: components.link,
+    heading: components.heading,
     tasklistLink: components.tasklistLink
 )
 
@@ -46,13 +47,13 @@
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
-        <h1 class="govuk-heading-xl">
-            @if(areTheyTheIndividual){
-                @messages("whatReasonableCareDidYouTake.entity.heading")
+        @heading(Text(
+            if(areTheyTheIndividual){
+                messages("whatReasonableCareDidYouTake.entity.heading")
             } else {
-                @messages("whatReasonableCareDidYouTake.agent.heading")
-            } 
-            </h1>
+                messages("whatReasonableCareDidYouTake.agent.heading")
+            }
+        ))    
 
         @hmrcCharacterCount(
             CharacterCount(
