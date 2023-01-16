@@ -39,7 +39,12 @@ POST       /tax-before-five-years                        controllers.offshore.Ta
 GET        /tax-before-five-years/change                 controllers.offshore.TaxBeforeFiveYearsController.onPageLoad(mode: Mode = CheckMode)
 POST       /tax-before-five-years/change                 controllers.offshore.TaxBeforeFiveYearsController.onSubmit(mode: Mode = CheckMode)
 
-GET        /tax-before-seven-years                        controllers.offshore.TaxBeforeSevenYearsController.onPageLoad(mode: Mode = NormalMode)
-POST       /tax-before-seven-years                        controllers.offshore.TaxBeforeSevenYearsController.onSubmit(mode: Mode = NormalMode)
-GET        /tax-before-seven-years/change                  controllers.offshore.TaxBeforeSevenYearsController.onPageLoad(mode: Mode = CheckMode)
-POST       /tax-before-seven-years/change                  controllers.offshore.TaxBeforeSevenYearsController.onSubmit(mode: Mode = CheckMode)
+GET        /tax-before-seven-years                       controllers.offshore.TaxBeforeSevenYearsController.onPageLoad(mode: Mode = NormalMode)
+POST       /tax-before-seven-years                       controllers.offshore.TaxBeforeSevenYearsController.onSubmit(mode: Mode = NormalMode)
+GET        /tax-before-seven-years/change                controllers.offshore.TaxBeforeSevenYearsController.onPageLoad(mode: Mode = CheckMode)
+POST       /tax-before-seven-years/change                controllers.offshore.TaxBeforeSevenYearsController.onSubmit(mode: Mode = CheckMode)
+
+GET        /offshore-liabilities-interpretation          controllers.offshore.YourLegalInterpretationController.onPageLoad(mode: Mode = NormalMode)
+POST       /offshore-liabilities-interpretation          controllers.offshore.YourLegalInterpretationController.onSubmit(mode: Mode = NormalMode)
+GET        /offshore-liabilities-interpretation/change   controllers.offshore.YourLegalInterpretationController.onPageLoad(mode: Mode = CheckMode)
+POST       /offshore-liabilities-interpretation/change   controllers.offshore.YourLegalInterpretationController.onSubmit(mode: Mode = CheckMode)

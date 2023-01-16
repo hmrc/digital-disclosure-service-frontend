@@ -37,6 +37,14 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
       for {
         page  <- arbitrary[TaxBeforeFiveYearsPage.type]
         value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
+       } yield (page, value)
+    }
+     
+  implicit lazy val arbitraryYourLegalInterpretationUserAnswersEntry: Arbitrary[(YourLegalInterpretationPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[YourLegalInterpretationPage.type]
+        value <- arbitrary[YourLegalInterpretation].map(Json.toJson(_))
       } yield (page, value)
     }
 
