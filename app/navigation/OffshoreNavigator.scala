@@ -22,6 +22,7 @@ import controllers.offshore.routes
 import pages._
 import models.{UserAnswers, Mode, NormalMode, CheckMode}
 import models.WhyAreYouMakingThisDisclosure._
+import models.YourLegalInterpretation._
 
 @Singleton
 class OffshoreNavigator @Inject()() {
@@ -62,6 +63,34 @@ class OffshoreNavigator @Inject()() {
     case WhatIsYourReasonableExcuseForNotFilingReturnPage => _ => routes.WhichYearsController.onPageLoad(NormalMode)
 
     case WhichYearsPage => _ => routes.TaxYearLiabilitiesController.onPageLoad(0, NormalMode)
+
+    case YourLegalInterpretationPage => ua => ua.get(YourLegalInterpretationPage) match {
+      case Some(value) if ((
+          value.contains(YourResidenceStatus) ||
+          value.contains(YourDomicileStatus) ||
+          value.contains(TheRemittanceBasis) ||
+          value.contains(HowIncomeArisingInATrust) ||
+          value.contains(TheTransferOfAssets) ||
+          value.contains(HowIncomeArisingInAnOffshore) ||
+          value.contains(InheritanceTaxIssues) ||
+          value.contains(WhetherIncomeShouldBeTaxed)) && 
+          value.contains(AnotherIssue)
+        ) => routes.UnderWhatConsiderationController.onPageLoad(NormalMode)
+      case Some(value) if (
+          value.contains(YourResidenceStatus) ||
+          value.contains(YourDomicileStatus) ||
+          value.contains(TheRemittanceBasis) ||
+          value.contains(HowIncomeArisingInATrust) ||
+          value.contains(TheTransferOfAssets) ||
+          value.contains(HowIncomeArisingInAnOffshore) ||
+          value.contains(InheritanceTaxIssues) ||
+          value.contains(WhetherIncomeShouldBeTaxed)
+        ) => routes.HowMuchTaxHasNotBeenIncludedController.onPageLoad(NormalMode)
+      case Some(value) if(value.contains(AnotherIssue)) => routes.UnderWhatConsiderationController.onPageLoad(NormalMode)
+      case Some(value) if(value.contains(NoExclusion)) => routes.TheMaximumValueOfAllAssetsController.onPageLoad(NormalMode)
+    }  
+
+    case UnderWhatConsiderationPage => _ => routes.HowMuchTaxHasNotBeenIncludedController.onPageLoad(NormalMode)  
 
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
