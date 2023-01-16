@@ -50,7 +50,7 @@ class TaxYearLiabilitiesController @Inject()(
     implicit request =>
 
     withYear(i) { year => 
-      val preparedForm = request.userAnswers.getByIndex(TaxYearLiabilitiesPage, i) match {
+      val preparedForm = request.userAnswers.getByKey(TaxYearLiabilitiesPage, year.toString) match {
         case None => form
         case Some(value) => form.fill(value.taxYearLiabilities)
       }
@@ -72,7 +72,7 @@ class TaxYearLiabilitiesController @Inject()(
           value => {
             val taxYearWithLiabilities = TaxYearWithLiabilities(TaxYearStarting(year), value)
             for {
-              updatedAnswers <- Future.fromTry(request.userAnswers.setByIndex(TaxYearLiabilitiesPage, i, taxYearWithLiabilities))
+              updatedAnswers <- Future.fromTry(request.userAnswers.setByKey(TaxYearLiabilitiesPage, year.toString, taxYearWithLiabilities))
               _              <- sessionService.set(updatedAnswers)
             } yield Redirect(navigator.nextTaxYearLiabilitiesPage(i, mode, updatedAnswers))
           }

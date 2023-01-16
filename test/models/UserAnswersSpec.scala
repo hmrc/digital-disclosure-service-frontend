@@ -35,6 +35,7 @@ class UserAnswersSpec extends AnyFreeSpec with Matchers with Generators {
   case object TestPage3 extends Gettable[String] with Settable[String] { override def path: JsPath = JsPath \ toString }
 
   case object TestSeqPage extends Gettable[Seq[String]] with Settable[Seq[String]] { override def path: JsPath = JsPath \ toString }
+  case object TestMapPage extends Gettable[Map[String, String]] with Settable[Map[String, String]] { override def path: JsPath = JsPath \ toString }
 
 
   "UserAnswers" - {
@@ -133,6 +134,49 @@ class UserAnswersSpec extends AnyFreeSpec with Matchers with Generators {
       }
 
       val actualValueOption = updatedUserAnswer.getByIndex(TestSeqPage, 2)
+      actualValueOption mustBe None
+    }
+
+  }
+
+  "map functionality" - {
+
+
+    "should get the value of an answer for a given page and index" in {
+      val userAnswers = UserAnswers(id).set(TestMapPage, Map("1" -> "123", "2" -> "456", "3" -> "789")).success.value
+      userAnswers.getByKey(TestMapPage, "1") mustBe Some("123")
+      userAnswers.getByKey(TestMapPage, "2") mustBe Some("456")
+      userAnswers.getByKey(TestMapPage, "3") mustBe Some("789")
+      userAnswers.getByKey(TestMapPage, "4") mustBe None
+    }
+
+    "should set the value of an answer for a given page and index and get the same value" in {
+      val userAnswers = UserAnswers(id)
+
+      val expectedValue = "value"
+
+      val updatedUserAnswer = userAnswers.setByKey(TestMapPage, "1", expectedValue) match {
+        case Success(value) => value
+        case _ => fail()
+      }
+
+      val actualValue = updatedUserAnswer.getByKey(TestMapPage, "1") match {
+        case Some(value) => value
+        case _ => fail()
+      }
+
+      expectedValue mustBe actualValue
+    }
+
+    "should remove a value for a given Page" in {
+      val userAnswers = UserAnswers(id).set(TestMapPage, Map("1" -> "123", "2" -> "456", "3" -> "789")).success.value
+
+      val updatedUserAnswer = userAnswers.removeByKey(TestMapPage, "3") match {
+        case Success(ua) => ua
+        case _ => fail()
+      }
+
+      val actualValueOption = updatedUserAnswer.getByKey(TestMapPage, "3")
       actualValueOption mustBe None
     }
 

@@ -21,7 +21,7 @@ import forms.TaxBeforeSevenYearsFormProvider
 import javax.inject.Inject
 import models.Mode
 import navigation.OffshoreNavigator
-import pages.{TaxBeforeSevenYearsPage, WhichYearsPage}
+import pages.TaxBeforeSevenYearsPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService

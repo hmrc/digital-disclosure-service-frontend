@@ -62,6 +62,23 @@ final case class UserAnswers(
     cleanupPage(page, updatedData)
   }
 
+  def getByKey[A](page: Gettable[Map[String, A]], key: String)(implicit rds: Reads[A]): Option[A] = {
+    val path = page.path \ key
+    get(path)
+  }
+
+  def setByKey[A](page: Settable[Map[String, A]], key: String, value: A)(implicit writes: Writes[A]): Try[UserAnswers] = {
+    val path = page.path \ key
+    val updatedData = set(path, value)
+    cleanupPage(page, updatedData)
+  }
+
+  def removeByKey[A](page: Settable[Map[String, A]], key: String): Try[UserAnswers] = {
+    val path = page.path \ key
+    val updatedData = remove(path)
+    cleanupPage(page, updatedData)
+  }
+
   def get[A](path: JsPath)(implicit rds: Reads[A]): Option[A] =
     Reads.optionNoError(Reads.at(path)).reads(data).getOrElse(None)
 
