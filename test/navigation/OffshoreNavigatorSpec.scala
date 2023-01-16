@@ -190,6 +190,10 @@ class OffshoreNavigatorSpec extends SpecBase {
       "must go from UnderWhatConsiderationPage to HowMuchTaxHasNotBeenIncludedController" in {
         navigator.nextPage(UnderWhatConsiderationPage, NormalMode, UserAnswers("id")) mustBe routes.HowMuchTaxHasNotBeenIncludedController.onPageLoad(NormalMode)
       }
+
+      "must go from HowMuchTaxHasNotBeenIncludedPage to TheMaximumValueOfAllAssetsController" in {
+        navigator.nextPage(HowMuchTaxHasNotBeenIncludedPage, NormalMode, UserAnswers("id")) mustBe routes.TheMaximumValueOfAllAssetsController.onPageLoad(NormalMode)
+      }
     }
 
     "in Check mode" - {
