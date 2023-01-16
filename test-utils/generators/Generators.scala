@@ -83,6 +83,24 @@ trait Generators extends UserAnswersGenerator
   def intsOutsideRange(min: Int, max: Int): Gen[Int] =
     arbitrary[Int] suchThat(x => x < min || x > max)
 
+  def bigintsInRangeWithCommas(min: BigInt, max: BigInt): Gen[String] = {
+    val numberGen = choose[BigInt](min, max).map(_.toString)
+    genIntersperseString(numberGen, ",")
+  }
+
+  def bigintsBelowZero: Gen[BigInt] =
+    arbitrary[Int].suchThat(_ < 0).map(BigInt(_))
+
+  def bigintsBelowValue(value: BigInt): Gen[BigInt] =
+    arbitrary[Int].suchThat(int => (int * -1) < value).map(int => BigInt(int * -1))
+
+  def bigintsAboveValue(value: BigInt): Gen[BigInt] =
+    arbitrary[BigInt] suchThat(_ > value)
+
+  def bigintsOutsideRange(min: BigInt, max: BigInt): Gen[BigInt] =
+    arbitrary[BigInt] suchThat(x => x < min || x > max)
+
+
   def nonBooleans: Gen[String] =
     arbitrary[String]
       .suchThat (_.nonEmpty)

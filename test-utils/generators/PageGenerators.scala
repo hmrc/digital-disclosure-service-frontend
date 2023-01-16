@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryTaxYearLiabilitiesPage: Arbitrary[TaxYearLiabilitiesPage.type] =
+    Arbitrary(TaxYearLiabilitiesPage)
+
   implicit lazy val arbitraryYourLegalInterpretationPage: Arbitrary[YourLegalInterpretationPage.type] =
     Arbitrary(YourLegalInterpretationPage)
 

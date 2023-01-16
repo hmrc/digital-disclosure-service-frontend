@@ -21,8 +21,14 @@ import scala.util.Try
 
 sealed trait OffshoreYears
 
-final case class TaxYearStarting(startYear: Int) extends OffshoreYears {
+final case class TaxYearStarting(startYear: Int) extends OffshoreYears with Ordered[TaxYearStarting]  {
   override def toString = startYear.toString
+
+  def compare(that: TaxYearStarting) = (that.startYear) - (this.startYear)
+}
+
+object TaxYearStarting {
+  implicit val format: Format[TaxYearStarting] =  Json.format[TaxYearStarting]
 }
 
 case object PriorTo5Years extends OffshoreYears {

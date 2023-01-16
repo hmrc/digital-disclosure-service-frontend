@@ -125,7 +125,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
       operation = messages("taskList.op.add"),
       sectionTitle = messages("taskList.sectionTitle.first"), 
       status = messages("taskList.status.notStarted"), 
-      link = routes.TaskListController.onPageLoad
+      link = notification.routes.ReceivedALetterController.onPageLoad(NormalMode)
     )
   }
 
@@ -191,4 +191,5 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
       case (_,           _)           => Seq(buildCaseReferenceRow, buildOtherLiabilityIssueRow)
     }
   }
+
 }

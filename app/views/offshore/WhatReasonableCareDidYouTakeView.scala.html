@@ -27,7 +27,8 @@
     govukTextarea: GovukTextarea,
     govukButton: GovukButton,
     paragraph: components.paragraph,
-    link: components.link
+    link: components.link,
+    tasklistLink: components.tasklistLink
 )
 
 @(form: Form[_], mode: Mode, areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit request: Request[_], messages: Messages)
@@ -81,15 +82,6 @@
             ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
         )
 
-        @paragraph(
-            content = HtmlContent(
-                link(
-                    id = "task-list-link", 
-                    text = messages("whatReasonableCareDidYouTake.tasklist.link"), 
-                    newTab = false, 
-                    call = Call("GET", controllers.routes.TaskListController.onPageLoad.url)
-                )
-            )
-        )
+        @tasklistLink()
     }
 }
