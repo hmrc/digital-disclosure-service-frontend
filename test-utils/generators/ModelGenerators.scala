@@ -26,6 +26,11 @@ import scala.language.higherKinds
 
 trait ModelGenerators {
 
+  implicit lazy val arbitraryHowMuchTaxHasNotBeenIncluded: Arbitrary[HowMuchTaxHasNotBeenIncluded] =
+    Arbitrary {
+      Gen.oneOf(HowMuchTaxHasNotBeenIncluded.values.toSeq)
+    }
+
   implicit lazy val abitraryTaxYearWithLiabilities: Arbitrary[TaxYearWithLiabilities] =
     Arbitrary {
       for {

@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryHowMuchTaxHasNotBeenIncludedPage: Arbitrary[HowMuchTaxHasNotBeenIncludedPage.type] =
+    Arbitrary(HowMuchTaxHasNotBeenIncludedPage)
+
   implicit lazy val arbitraryUnderWhatConsiderationPage: Arbitrary[UnderWhatConsiderationPage.type] =
     Arbitrary(UnderWhatConsiderationPage)
 
