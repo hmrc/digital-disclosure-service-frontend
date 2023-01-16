@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryTheMaximumValueOfAllAssetsPage: Arbitrary[TheMaximumValueOfAllAssetsPage.type] =
+    Arbitrary(TheMaximumValueOfAllAssetsPage)
+
   implicit lazy val arbitraryHowMuchTaxHasNotBeenIncludedPage: Arbitrary[HowMuchTaxHasNotBeenIncludedPage.type] =
     Arbitrary(HowMuchTaxHasNotBeenIncludedPage)
 

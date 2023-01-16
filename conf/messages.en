@@ -1233,3 +1233,12 @@ howMuchTaxHasNotBeenIncluded.oneLakhAndMore = £100,000 or more
 howMuchTaxHasNotBeenIncluded.checkYourAnswersLabel = How much tax has not been included in this disclosure as a result of your interpretation
 howMuchTaxHasNotBeenIncluded.error.required = Select how much tax has not been included in this disclosure
 howMuchTaxHasNotBeenIncluded.change.hidden = HowMuchTaxHasNotBeenIncluded
+
+theMaximumValueOfAllAssets.title = What was the maximum value of all assets held outside the UK at any point over the last 5 years?
+theMaximumValueOfAllAssets.heading = What was the maximum value of all assets held outside the UK at any point over the last 5 years?
+theMaximumValueOfAllAssets.tenThousandOrLess = £10,000 or less
+theMaximumValueOfAllAssets.moreThanTenThousandLessThanOneLakh = More than £10,000 but less than £100,000
+theMaximumValueOfAllAssets.oneLakhAndMore = £100,000 or more
+theMaximumValueOfAllAssets.checkYourAnswersLabel = What was the maximum value of all assets held outside the UK at any point over the last 5 years
+theMaximumValueOfAllAssets.error.required = Select the maximum value
+theMaximumValueOfAllAssets.change.hidden = TheMaximumValueOfAllAssets
