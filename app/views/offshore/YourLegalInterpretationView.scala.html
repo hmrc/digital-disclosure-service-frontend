@@ -22,8 +22,7 @@
     govukCheckboxes: GovukCheckboxes,
     govukButton: GovukButton,
     heading: components.heading,
-    paragraph: components.paragraph,
-    link: components.link 
+    tasklistLink: components.tasklistLink 
 )
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
@@ -57,15 +56,6 @@
         @govukButton(
             ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
         )
-
-        @paragraph(content = 
-            HtmlContent(
-                link(
-                    id = "task-list-link", 
-                    text = messages("whyAreYouMakingThisDisclosure.tasklist.link"), 
-                    newTab = false, 
-                    call = Call("GET", controllers.routes.TaskListController.onPageLoad.url)
-                )
-            ))
     }
+    @tasklistLink()
 }

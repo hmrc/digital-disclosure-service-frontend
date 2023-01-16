@@ -24,9 +24,8 @@
     hmrcCharacterCount: HmrcCharacterCount,
     govukInput: GovukInput,
     govukButton: GovukButton,
-    paragraph: components.paragraph,
-    link: components.link,
-    heading: components.heading
+    heading: components.heading,
+    tasklistLink: components.tasklistLink
 )
 
 @(form: Form[_], mode: Mode, year: String)(implicit request: Request[_], messages: Messages)
@@ -55,16 +54,6 @@
         @govukButton(
             ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
         )
-
-        @paragraph(
-            content = HtmlContent(
-                link(
-                    id = "task-list-link", 
-                    text = messages("whatReasonableCareDidYouTake.tasklist.link"), 
-                    newTab = false, 
-                    call = Call("GET", controllers.routes.TaskListController.onPageLoad.url)
-                )
-            )
-        )
     }
+    @tasklistLink()
 }

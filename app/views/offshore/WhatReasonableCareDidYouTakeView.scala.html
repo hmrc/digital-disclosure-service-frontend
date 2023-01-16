@@ -26,8 +26,6 @@
     hmrcCharacterCount: HmrcCharacterCount,
     govukTextarea: GovukTextarea,
     govukButton: GovukButton,
-    paragraph: components.paragraph,
-    link: components.link,
     heading: components.heading,
     tasklistLink: components.tasklistLink
 )
@@ -82,7 +80,6 @@
         @govukButton(
             ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
         )
-
-        @tasklistLink()
     }
+    @tasklistLink()
 }
