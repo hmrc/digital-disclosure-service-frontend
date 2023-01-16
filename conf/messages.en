@@ -1218,3 +1218,9 @@ yourLegalInterpretation.error.required = Select all relevant legal consideration
 yourLegalInterpretation.error.validSelection = Select the relevant legal consideration, or select Amounts have not been excluded from this disclosure
 yourLegalInterpretation.change.hidden = YourLegalInterpretation
 
+underWhatConsideration.title = Under what consideration of the law led you to not include some tax in this disclosure?
+underWhatConsideration.heading = Under what consideration of the law led you to not include some tax in this disclosure?
+underWhatConsideration.checkYourAnswersLabel = Under what consideration of the law led you to not include some tax in this disclosure
+underWhatConsideration.error.required = Enter the consideration of the law that led you to not include some tax in this disclosure
+underWhatConsideration.error.length = Your consideration of the law must be between 1 and 5000 characters
+underWhatConsideration.change.hidden = UnderWhatConsideration
