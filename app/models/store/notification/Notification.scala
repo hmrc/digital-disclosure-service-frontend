@@ -37,6 +37,19 @@ final case class Notification (
     case Some(DisclosureEntity(Individual, Some(true))) => true
     case _ => false
   }
+
+  def isComplete: Boolean = {
+    val sectionsCompleteForEntity: Boolean = background.disclosureEntity.map(_.entity) match {
+      case Some(Individual) if disclosingAboutThemselves => aboutYou.isComplete(true)
+      case Some(Individual) => aboutYou.isComplete(false) && (aboutTheIndividual.map(_.isComplete) == Some(true))
+      case Some(Estate) => aboutYou.isComplete(false) && (aboutTheEstate.map(_.isComplete) == Some(true))
+      case Some(Company) => aboutYou.isComplete(false) && (aboutTheCompany.map(_.isComplete) == Some(true))
+      case Some(LLP) => aboutYou.isComplete(false) && (aboutTheLLP.map(_.isComplete) == Some(true))
+      case Some(Trust) => aboutYou.isComplete(false) && (aboutTheTrust.map(_.isComplete) == Some(true))
+      case _ => false
+    }
+    background.isComplete && sectionsCompleteForEntity
+  }
 }
 
 object Notification {
