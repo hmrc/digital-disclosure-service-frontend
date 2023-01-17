@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryWhatOtherLiabilityIssuesPage: Arbitrary[WhatOtherLiabilityIssuesPage.type] =
+    Arbitrary(WhatOtherLiabilityIssuesPage)
+    
   implicit lazy val arbitraryDescribeTheGiftPage: Arbitrary[DescribeTheGiftPage.type] =
     Arbitrary(DescribeTheGiftPage)
 
