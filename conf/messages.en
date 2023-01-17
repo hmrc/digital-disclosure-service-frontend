@@ -1268,3 +1268,10 @@ otherLiabilityIssues.checkYourAnswersLabel = Do you have any other liability iss
 otherLiabilityIssues.error.required = Select any other liability issues to fix
 otherLiabilityIssues.error.validSelection = Select the liability issues you need to fix or select No, I do not have any other liability issues to fix
 otherLiabilityIssues.change.hidden = OtherLiabilityIssues
+
+whatOtherLiabilityIssues.title = Can you describe what other liability issues you need to fix?
+whatOtherLiabilityIssues.heading = Can you describe what other liability issues you need to fix?
+whatOtherLiabilityIssues.checkYourAnswersLabel = Can you describe what other liability issues you need to fix
+whatOtherLiabilityIssues.error.required = Enter the other liability issues you need to fix
+whatOtherLiabilityIssues.error.length = The other liability issues must be between 1 and 5,000 characters
+whatOtherLiabilityIssues.change.hidden = WhatOtherLiabilityIssues
