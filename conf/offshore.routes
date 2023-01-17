@@ -64,3 +64,5 @@ GET        /offshore-liabilities-tax-not-included           controllers.offshore
 POST       /offshore-liabilities-tax-not-included           controllers.offshore.HowMuchTaxHasNotBeenIncludedController.onSubmit(mode: Mode = NormalMode)
 GET        /offshore-liabilities-tax-not-included/change    controllers.offshore.HowMuchTaxHasNotBeenIncludedController.onPageLoad(mode: Mode = CheckMode)
 POST       /offshore-liabilities-tax-not-included/change    controllers.offshore.HowMuchTaxHasNotBeenIncludedController.onSubmit(mode: Mode = CheckMode)
+
+GET        /offshore-liabilities-summary                       controllers.offshore.CheckYourAnswersController.onPageLoad
