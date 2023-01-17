@@ -1275,3 +1275,10 @@ whatOtherLiabilityIssues.checkYourAnswersLabel = Can you describe what other lia
 whatOtherLiabilityIssues.error.required = Enter the other liability issues you need to fix
 whatOtherLiabilityIssues.error.length = The other liability issues must be between 1 and 5,000 characters
 whatOtherLiabilityIssues.change.hidden = WhatOtherLiabilityIssues
+
+describeTheGift.title = Can you describe the gift (known as a chargeable transfer) that your issue is about?
+describeTheGift.heading = Can you describe the gift (known as a chargeable transfer) that your issue is about?
+describeTheGift.checkYourAnswersLabel = Can you describe the gift (known as a chargeable transfer) that your issue is about
+describeTheGift.error.required = Enter a description of the gift that your issue is about
+describeTheGift.error.length = The description of the gift must be between 1 and 5,000 characters
+describeTheGift.change.hidden = DescribeTheGift

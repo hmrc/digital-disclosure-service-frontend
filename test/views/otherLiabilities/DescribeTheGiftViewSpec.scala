@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package views.offshore
+package views.otherLiabilities
 
 import base.ViewSpecBase
-import forms.UnderWhatConsiderationFormProvider
+import forms.DescribeTheGiftFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
-import views.html.offshore.UnderWhatConsiderationView
+import views.html.otherLiabilities.DescribeTheGiftView
 import models.NormalMode
 
-class UnderWhatConsiderationViewSpec extends ViewSpecBase with ViewMatchers {
+class DescribeTheGiftViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new UnderWhatConsiderationFormProvider()()
-  val page: UnderWhatConsiderationView = inject[UnderWhatConsiderationView]
+  val form = new DescribeTheGiftFormProvider()()
+  val page: DescribeTheGiftView = inject[DescribeTheGiftView]
 
   private def createView: Html = page(form, NormalMode)(request, messages)
 
@@ -35,11 +35,11 @@ class UnderWhatConsiderationViewSpec extends ViewSpecBase with ViewMatchers {
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("underWhatConsideration.title"))
+      view.select("title").text() must include(messages("describeTheGift.title"))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-label--xl").text() mustBe messages("underWhatConsideration.heading")
+      view.getElementsByClass("govuk-label--xl").text() mustBe messages("describeTheGift.heading")
     }
 
     "display the continue button" in {
