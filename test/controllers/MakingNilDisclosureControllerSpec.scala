@@ -20,7 +20,8 @@ import base.SpecBase
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.html.MakingNilDisclosureView
-import models.RelatesTo
+import models.{RelatesTo, WhyAreYouMakingThisDisclosure, UserAnswers}
+import pages.{AreYouTheIndividualPage, WhyAreYouMakingThisDisclosurePage}
 
 class MakingNilDisclosureControllerSpec extends SpecBase {
 
@@ -32,7 +33,13 @@ class MakingNilDisclosureControllerSpec extends SpecBase {
       val entity = RelatesTo.AnIndividual
       val years = 20
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DidNotNotifyNoExcuse)
+      val userAnswers = (for{
+        ua <- UserAnswers(userAnswersId).set(AreYouTheIndividualPage, areTheyTheIndividual)
+        updatedUa <- ua.set(WhyAreYouMakingThisDisclosurePage, set)
+      } yield updatedUa).success.value
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
         val request = FakeRequest(GET, routes.MakingNilDisclosureController.onPageLoad.url)
