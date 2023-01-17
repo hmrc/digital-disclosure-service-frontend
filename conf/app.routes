@@ -28,3 +28,5 @@ GET         /using-this-service/change                   controllers.MakeANotifi
 POST        /using-this-service/change                   controllers.MakeANotificationOrDisclosureController.onSubmit(mode: Mode = CheckMode)
 
 GET         /disclosure-list-of-tasks                    controllers.TaskListController.onPageLoad
+
+GET         /you-are-making-nil-disclosure               controllers.MakingNilDisclosureController.onPageLoad
