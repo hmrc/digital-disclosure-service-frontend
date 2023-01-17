@@ -24,6 +24,14 @@ import play.api.libs.json.{JsValue, Json}
 
 trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
 
+  implicit lazy val arbitraryOtherLiabilityIssuesUserAnswersEntry: Arbitrary[(OtherLiabilityIssuesPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[OtherLiabilityIssuesPage.type]
+        value <- arbitrary[OtherLiabilityIssues].map(Json.toJson(_))
+      } yield (page, value)
+    }
+
   implicit lazy val arbitraryTheMaximumValueOfAllAssetsUserAnswersEntry: Arbitrary[(TheMaximumValueOfAllAssetsPage.type, JsValue)] =
     Arbitrary {
       for {

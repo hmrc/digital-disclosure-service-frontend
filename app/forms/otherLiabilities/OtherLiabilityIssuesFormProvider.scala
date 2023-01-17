@@ -21,15 +21,16 @@ import javax.inject.Inject
 import forms.mappings.Mappings
 import play.api.data.Form
 import play.api.data.Forms.set
-import models.YourLegalInterpretation
+import models.OtherLiabilityIssues
 
-class YourLegalInterpretationFormProvider @Inject() extends Mappings {
+class OtherLiabilityIssuesFormProvider @Inject() extends Mappings {
 
-  def apply(): Form[Set[YourLegalInterpretation]] =
+  def apply(): Form[Set[OtherLiabilityIssues]] =
     Form(
-      "value" -> set(enumerable[YourLegalInterpretation]("yourLegalInterpretation.error.required"))
-      .verifying(nonEmptySet("yourLegalInterpretation.error.required"))
-      .verifying(allOrNoneCheckboxConstraint[YourLegalInterpretation]("yourLegalInterpretation.error.validSelection", YourLegalInterpretation.NoExclusion))
-    )
+      "value" -> set(enumerable[OtherLiabilityIssues]("otherLiabilityIssues.error.required"))
+      .verifying(nonEmptySet("otherLiabilityIssues.error.required"))
+      .verifying(allOrNoneCheckboxConstraint[OtherLiabilityIssues]("otherLiabilityIssues.error.validSelection", OtherLiabilityIssues.NoExclusion))
+    )  
 
 }
+

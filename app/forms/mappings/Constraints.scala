@@ -20,7 +20,6 @@ import java.time.LocalDate
 import uk.gov.hmrc.domain.Nino
 import play.api.data.validation.{Constraint, Invalid, Valid, ValidationResult, ValidationError}
 import uk.gov.hmrc.emailaddress.EmailAddress
-import models.YourLegalInterpretation
 
 trait Constraints {
 
@@ -172,10 +171,10 @@ trait Constraints {
     }
   }
 
-  protected def noneOrOthersConstraint(errorKey: String): Constraint[Set[YourLegalInterpretation]] = 
+  protected def allOrNoneCheckboxConstraint[A](errorKey: String, singleOption: A): Constraint[Set[A]] = 
     Constraint { 
       s => {
-        if (s.contains(YourLegalInterpretation.NoExclusion) && s.size > 1) {
+        if (s.contains(singleOption) && s.size > 1) {
           Invalid(Seq(ValidationError(errorKey)))
         } else {
           Valid
