@@ -1254,3 +1254,17 @@ makingNilDisclosure.trust.body.first = The trust only needs to pay HMRC what it 
 makingNilDisclosure.body.second = You will need to complete the remaining questions and then send the disclosure with an offer of £0.00. This is known as a ‘nil disclosure’.
 makingNilDisclosure.body.third = The person reviewing the disclosure will then contact you if they require further information.
 makingNilDisclosure.button = Go to list of tasks
+
+otherLiabilityIssues.title = Do you have any other liability issues to fix?
+otherLiabilityIssues.heading = Do you have any other liability issues to fix?
+otherLiabilityIssues.body = If you have other liability issues, we will pass your details to the appropriate team who will discuss these with you.
+otherLiabilityIssues.checkbox.header = Select all that apply
+otherLiabilityIssues.vatIssues = VAT issues
+otherLiabilityIssues.inheritanceTaxIssues = Inheritance tax issues
+otherLiabilityIssues.class2National = Class 2 National Insurance contributions issues
+otherLiabilityIssues.other = Other
+otherLiabilityIssues.noExclusion = No, I do not have any other liability issues to fix
+otherLiabilityIssues.checkYourAnswersLabel = Do you have any other liability issues to fix
+otherLiabilityIssues.error.required = Select any other liability issues to fix
+otherLiabilityIssues.error.validSelection = Select the liability issues you need to fix or select No, I do not have any other liability issues to fix
+otherLiabilityIssues.change.hidden = OtherLiabilityIssues

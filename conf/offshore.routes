@@ -65,7 +65,7 @@ POST       /offshore-liabilities-tax-not-included           controllers.offshore
 GET        /offshore-liabilities-tax-not-included/change    controllers.offshore.HowMuchTaxHasNotBeenIncludedController.onPageLoad(mode: Mode = CheckMode)
 POST       /offshore-liabilities-tax-not-included/change    controllers.offshore.HowMuchTaxHasNotBeenIncludedController.onSubmit(mode: Mode = CheckMode)
 
-GET        /offshore-liabilities-maximum-value-of-assets                        controllers.offshore.TheMaximumValueOfAllAssetsController.onPageLoad(mode: Mode = NormalMode)
-POST       /offshore-liabilities-maximum-value-of-assets                        controllers.offshore.TheMaximumValueOfAllAssetsController.onSubmit(mode: Mode = NormalMode)
-GET        /offshore-liabilities-maximum-value-of-assets/change                  controllers.offshore.TheMaximumValueOfAllAssetsController.onPageLoad(mode: Mode = CheckMode)
-POST       /offshore-liabilities-maximum-value-of-assets/change                  controllers.offshore.TheMaximumValueOfAllAssetsController.onSubmit(mode: Mode = CheckMode)
+GET        /offshore-liabilities-maximum-value-of-assets              controllers.offshore.TheMaximumValueOfAllAssetsController.onPageLoad(mode: Mode = NormalMode)
+POST       /offshore-liabilities-maximum-value-of-assets              controllers.offshore.TheMaximumValueOfAllAssetsController.onSubmit(mode: Mode = NormalMode)
+GET        /offshore-liabilities-maximum-value-of-assets/change       controllers.offshore.TheMaximumValueOfAllAssetsController.onPageLoad(mode: Mode = CheckMode)
+POST       /offshore-liabilities-maximum-value-of-assets/change       controllers.offshore.TheMaximumValueOfAllAssetsController.onSubmit(mode: Mode = CheckMode)

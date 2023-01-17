@@ -1,0 +1,6 @@
+
+GET        /other-liability-issues             controllers.otherLiabilities.OtherLiabilityIssuesController.onPageLoad(mode: Mode = NormalMode)
+POST       /other-liability-issues             controllers.otherLiabilities.OtherLiabilityIssuesController.onSubmit(mode: Mode = NormalMode)
+POST       /other-liability-issues             controllers.otherLiabilities.OtherLiabilityIssuesController.onSubmit(mode: Mode = NormalMode)
+GET        /other-liability-issues/change      controllers.otherLiabilities.OtherLiabilityIssuesController.onPageLoad(mode: Mode = CheckMode)
+POST       /other-liability-issues/change      controllers.otherLiabilities.OtherLiabilityIssuesController.onSubmit(mode: Mode = CheckMode)
