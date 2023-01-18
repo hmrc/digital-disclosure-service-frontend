@@ -22,6 +22,7 @@ import controllers.offshore.routes
 import pages._
 import models.{UserAnswers, Mode, NormalMode, CheckMode}
 import models.WhyAreYouMakingThisDisclosure._
+import models.YourLegalInterpretation._
 
 @Singleton
 class OffshoreNavigator @Inject()() {
@@ -63,11 +64,43 @@ class OffshoreNavigator @Inject()() {
 
     case WhichYearsPage => _ => routes.TaxYearLiabilitiesController.onPageLoad(0, NormalMode)
 
+    case YourLegalInterpretationPage => ua => ua.get(YourLegalInterpretationPage) match {
+      case Some(value) if ((
+          value.contains(YourResidenceStatus) ||
+          value.contains(YourDomicileStatus) ||
+          value.contains(TheRemittanceBasis) ||
+          value.contains(HowIncomeArisingInATrust) ||
+          value.contains(TheTransferOfAssets) ||
+          value.contains(HowIncomeArisingInAnOffshore) ||
+          value.contains(InheritanceTaxIssues) ||
+          value.contains(WhetherIncomeShouldBeTaxed)) && 
+          value.contains(AnotherIssue)
+        ) => routes.UnderWhatConsiderationController.onPageLoad(NormalMode)
+      case Some(value) if (
+          value.contains(YourResidenceStatus) ||
+          value.contains(YourDomicileStatus) ||
+          value.contains(TheRemittanceBasis) ||
+          value.contains(HowIncomeArisingInATrust) ||
+          value.contains(TheTransferOfAssets) ||
+          value.contains(HowIncomeArisingInAnOffshore) ||
+          value.contains(InheritanceTaxIssues) ||
+          value.contains(WhetherIncomeShouldBeTaxed)
+        ) => routes.HowMuchTaxHasNotBeenIncludedController.onPageLoad(NormalMode)
+      case Some(value) if(value.contains(AnotherIssue)) => routes.UnderWhatConsiderationController.onPageLoad(NormalMode)
+      case Some(value) if(value.contains(NoExclusion)) => routes.TheMaximumValueOfAllAssetsController.onPageLoad(NormalMode)
+    }  
+
+    case UnderWhatConsiderationPage => _ => routes.HowMuchTaxHasNotBeenIncludedController.onPageLoad(NormalMode)
+
+    case HowMuchTaxHasNotBeenIncludedPage => _ => routes.TheMaximumValueOfAllAssetsController.onPageLoad(NormalMode)
+
+    case TheMaximumValueOfAllAssetsPage => _ => routes.CheckYourAnswersController.onPageLoad
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
   private val checkRouteMap: Page => UserAnswers => Boolean => Call = {
-    case _ => _ => _ => controllers.routes.IndexController.onPageLoad
+    case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
   def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasAnswerChanged: Boolean = true): Call = mode match {

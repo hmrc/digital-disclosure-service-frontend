@@ -39,7 +39,7 @@ class UnderWhatConsiderationViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("underWhatConsideration.heading")
+      view.getElementsByClass("govuk-label--xl").text() mustBe messages("underWhatConsideration.heading")
     }
 
     "display the continue button" in {

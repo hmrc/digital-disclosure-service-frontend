@@ -24,6 +24,38 @@ import play.api.libs.json.{JsValue, Json}
 
 trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
 
+  implicit lazy val arbitraryWhatOtherLiabilityIssuesUserAnswersEntry: Arbitrary[(WhatOtherLiabilityIssuesPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[WhatOtherLiabilityIssuesPage.type]
+        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
+      } yield (page, value)
+    }
+    
+  implicit lazy val arbitraryDescribeTheGiftUserAnswersEntry: Arbitrary[(DescribeTheGiftPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[DescribeTheGiftPage.type]
+        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryOtherLiabilityIssuesUserAnswersEntry: Arbitrary[(OtherLiabilityIssuesPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[OtherLiabilityIssuesPage.type]
+        value <- arbitrary[OtherLiabilityIssues].map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryTheMaximumValueOfAllAssetsUserAnswersEntry: Arbitrary[(TheMaximumValueOfAllAssetsPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[TheMaximumValueOfAllAssetsPage.type]
+        value <- arbitrary[TheMaximumValueOfAllAssets].map(Json.toJson(_))
+      } yield (page, value)
+    }
+
   implicit lazy val arbitraryHowMuchTaxHasNotBeenIncludedUserAnswersEntry: Arbitrary[(HowMuchTaxHasNotBeenIncludedPage.type, JsValue)] =
     Arbitrary {
       for {

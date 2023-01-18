@@ -32,13 +32,12 @@
     @heading(Text(messages("checkYourAnswers.offshore.heading")))
 
     @viewModel.taxYearLists.map { case (year, list) =>
-        @heading(Text(messages("checkYourAnswers.offshore.taxYear.heading", year, (year+1))), "govuk-heading-m")
+        @heading(Text(messages("checkYourAnswers.offshore.taxYear.heading", year.toString, (year+1).toString)), "govuk-heading-m")
         @govukSummaryList(list.withAttribute("id", s"tax-year-list-$year"))
     }
 
     @heading(Text(messages("checkYourAnswers.offshore.offer.heading")), "govuk-heading-m")
-
-    @paragraph(id = Some("offer-paragraph-1"), content = Text(messages("checkYourAnswers.offshore.offer.paragraph1")))
+    @paragraph(id = Some("offer-paragraph-1"), content = Text(messages("checkYourAnswers.offshore.offer.paragraph1", viewModel.liabilitiesTotal)))
     @paragraph(id = Some("offer-paragraph-2"), content = Text(messages("checkYourAnswers.offshore.offer.paragraph2")))
 
     @heading(Text(messages("checkYourAnswers.offshore.fullAmount.heading")), "govuk-heading-m")
@@ -46,22 +45,21 @@
     @paragraph(
         id = Some("offer-paragraph-1"), 
         content = HtmlContent(
-            messages("checkYourAnswers.offshore.offer.paragraph1") +
+            messages("checkYourAnswers.offshore.fullAmount.paragraph1") +
             link(
                 id = "offer-paragraph-link", 
-                text = messages("checkYourAnswers.offshore.offer.link"), 
+                text = messages("checkYourAnswers.offshore.fullAmount.link"), 
                 newTab = true, 
                 call = Call("GET", "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure#general-information")
             )
         )
     )
-    @paragraph(id = Some("offer-paragraph-2"), content = Text(messages("checkYourAnswers.offshore.offer.paragraph2")))
-    @paragraph(id = Some("offer-paragraph-3"), content = Text(messages("checkYourAnswers.offshore.offer.paragraph3")))
-
+    @paragraph(id = Some("offer-paragraph-2"), content = Text(messages("checkYourAnswers.offshore.fullAmount.paragraph2")))
+    @paragraph(id = Some("offer-paragraph-3"), content = Text(messages("checkYourAnswers.offshore.fullAmount.paragraph3")))
 
     @govukButton(
         ButtonViewModel(messages("site.saveAndContinue"))
-            .withAttribute("id","continue-button")
+            .withAttribute("id","continue")
             .asLink(controllers.routes.TaskListController.onPageLoad.url)
     )
 }

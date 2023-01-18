@@ -42,6 +42,12 @@ class HowMuchTaxHasNotBeenIncludedViewSpec extends ViewSpecBase with ViewMatcher
       view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("howMuchTaxHasNotBeenIncluded.heading")
     }
 
+    "have radio buttons" in {
+      view.getElementsByClass("govuk-radios__label").get(0).text() mustBe messages("howMuchTaxHasNotBeenIncluded.tenThousandOrLess")
+      view.getElementsByClass("govuk-radios__label").get(1).text() mustBe messages("howMuchTaxHasNotBeenIncluded.moreThanTenThousandLessThanOneLakh")
+      view.getElementsByClass("govuk-radios__label").get(2).text() mustBe messages("howMuchTaxHasNotBeenIncluded.oneLakhAndMore")
+    }
+
     "display the continue button" in {
       view.getElementsByClass("govuk-button").first() must haveId ("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")

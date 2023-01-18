@@ -18,32 +18,37 @@ package viewmodels.offshore
 
 import models._
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryList
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import pages.TaxYearLiabilitiesPage
 import play.api.i18n.Messages
 
 case class CheckYourAnswersViewModel(
-  taxYearLists: Seq[(Int, SummaryList)]
+  taxYearLists: Seq[(Int, SummaryList)],
+  liabilitiesTotal: BigDecimal
 )
 
 object CheckYourAnswersViewModel {
 
   def apply(userAnswers: UserAnswers)(implicit messages: Messages): CheckYourAnswersViewModel = {
 
-    val taxYearLists: Seq[(Int, SummaryList)] = for {
-      (year, i) <- userAnswers.inverselySortedOffshoreTaxYears.getOrElse(Nil).zipWithIndex
+    val taxYears: Seq[TaxYearWithLiabilities] = for {
+      year <- userAnswers.inverselySortedOffshoreTaxYears.getOrElse(Nil)
       taxYearWithLiabilities <- userAnswers.getByKey(TaxYearLiabilitiesPage, year.toString)
-    } yield (year.startYear, taxYearWithLiabilitiesToSummaryList(i, taxYearWithLiabilities))
+    } yield taxYearWithLiabilities
 
-    CheckYourAnswersViewModel(taxYearLists)
+    val taxYearLists: Seq[(Int, SummaryList)] = taxYears.zipWithIndex.map{ case (yearWithLiabilites, i) => 
+      (yearWithLiabilites.taxYear.startYear, taxYearWithLiabilitiesToSummaryList(i, yearWithLiabilites.taxYearLiabilities))
+    }
+
+    val liabilitiesTotal: BigDecimal = taxYears.map(yearWithLiabilities => yearTotal(yearWithLiabilities.taxYearLiabilities)).sum
+
+    CheckYourAnswersViewModel(taxYearLists, liabilitiesTotal)
 
   }
 
-
-
-  def taxYearWithLiabilitiesToSummaryList(i: Int, taxYearWithLiabilities: TaxYearWithLiabilities)(implicit messages: Messages): SummaryList = {
-    val liabilities = taxYearWithLiabilities.taxYearLiabilities
+  def taxYearWithLiabilitiesToSummaryList(i: Int, liabilities: TaxYearLiabilities)(implicit messages: Messages): SummaryList = {
     SummaryListViewModel(
       rows = Seq(
         row(i, "taxYearLiabilities.income.checkYourAnswersLabel", s"&pound;${liabilities.income}", "taxYearLiabilities.income.hidden"),
@@ -52,9 +57,9 @@ object CheckYourAnswersViewModel {
         row(i, "taxYearLiabilities.unpaidTax.checkYourAnswersLabel", s"&pound;${liabilities.unpaidTax}", "taxYearLiabilities.unpaidTax.hidden"),
         row(i, "taxYearLiabilities.interest.checkYourAnswersLabel", s"&pound;${liabilities.interest}", "taxYearLiabilities.interest.hidden"),
         row(i, "taxYearLiabilities.penaltyRate.checkYourAnswersLabel", s"${liabilities.penaltyRate}%", "taxYearLiabilities.penaltyRate.hidden"),
-        row(i, "taxYearLiabilities.foreignTaxCredit.checkYourAnswersLabel", if (liabilities.foreignTaxCredit) "site.yes" else "site.no", "taxYearLiabilities.foreignTaxCredit.hidden"),
-        row(i, "taxYearLiabilities.amountDue.checkYourAnswersLabel", s"&pound;${yearTotal(liabilities)}", "taxYearLiabilities.income.hidden"),
-        row(i, "taxYearLiabilities.penaltyAmount.checkYourAnswersLabel", s"&pound;${penaltyAmount(liabilities)}", "taxYearLiabilities.income.hidden")
+        row(i, "taxYearLiabilities.penaltyAmount.checkYourAnswersLabel", s"&pound;${penaltyAmount(liabilities)}", "taxYearLiabilities.income.hidden"),
+        row(i, "taxYearLiabilities.foreignTaxCredit.checkYourAnswersLabel", if (liabilities.foreignTaxCredit) messages("site.yes") else messages("site.no"), "taxYearLiabilities.foreignTaxCredit.hidden"),
+        row(i, "taxYearLiabilities.amountDue.checkYourAnswersLabel", s"&pound;${yearTotal(liabilities)}", "taxYearLiabilities.income.hidden")
       )
     )
   }
@@ -64,7 +69,7 @@ object CheckYourAnswersViewModel {
   }
 
   def penaltyAmount(taxYearLiabilities: TaxYearLiabilities): BigDecimal = {
-    (taxYearLiabilities.penaltyRate/100) * yearTax(taxYearLiabilities)
+    (BigDecimal(taxYearLiabilities.penaltyRate)/100) * yearTax(taxYearLiabilities)
   }
   
   def yearTotal(taxYearLiabilities: TaxYearLiabilities): BigDecimal = {
@@ -74,7 +79,7 @@ object CheckYourAnswersViewModel {
   def row(i: Int,label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
     SummaryListRowViewModel(
       key     = label,
-      value   = ValueViewModel(value),
+      value   = ValueViewModel(HtmlContent(value)),
       actions = Seq(
         ActionItemViewModel("site.change", controllers.offshore.routes.TaxYearLiabilitiesController.onPageLoad(i, CheckMode).url)
           .withVisuallyHiddenText(messages(hiddenLabel))

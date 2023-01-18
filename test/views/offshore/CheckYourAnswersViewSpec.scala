@@ -17,29 +17,30 @@
 package views.offshore
 
 import base.ViewSpecBase
-import forms.CheckYourAnswersFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.offshore.CheckYourAnswersView
-import models.NormalMode
+import models.UserAnswers
+import viewmodels.offshore.CheckYourAnswersViewModel
 
 class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new CheckYourAnswersFormProvider()()
+  val userAnswers = UserAnswers("id")
+  val viewModel = CheckYourAnswersViewModel(userAnswers)
   val page: CheckYourAnswersView = inject[CheckYourAnswersView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(viewModel)(request, messages)
 
   "view" should {
 
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("checkYourAnswers.title"))
+      view.select("title").text() must include(messages("checkYourAnswers.offshore.title"))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("checkYourAnswers.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("checkYourAnswers.offshore.heading")
     }
 
     "display the continue button" in {

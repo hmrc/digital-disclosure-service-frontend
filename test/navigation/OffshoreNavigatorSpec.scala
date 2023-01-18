@@ -20,6 +20,7 @@ import base.SpecBase
 import controllers.offshore.routes
 import pages._
 import models._
+import models.YourLegalInterpretation._
 
 class OffshoreNavigatorSpec extends SpecBase {
 
@@ -134,6 +135,65 @@ class OffshoreNavigatorSpec extends SpecBase {
         navigator.nextPage(WhatIsYourReasonableExcuseForNotFilingReturnPage, NormalMode, UserAnswers("id")) mustBe routes.WhichYearsController.onPageLoad(NormalMode)
       }
 
+      Seq(
+        YourResidenceStatus,
+        YourDomicileStatus,
+        TheRemittanceBasis,
+        HowIncomeArisingInATrust,
+        TheTransferOfAssets,
+        HowIncomeArisingInAnOffshore,
+        InheritanceTaxIssues,
+        WhetherIncomeShouldBeTaxed,
+      ).foreach { option => 
+        s"must go from YourLegalInterpretationPage to UnderWhatConsiderationController when selected option $option & anotherIssue" in {
+          val set: Set[YourLegalInterpretation] = Set(option)
+          val updatedSet: Set[YourLegalInterpretation] = Set(AnotherIssue)
+          
+          val userAnswers = for {
+            answer          <- UserAnswers("id").set(YourLegalInterpretationPage, set)
+            updatedAnswer 	<- answer.set(YourLegalInterpretationPage, updatedSet)
+          } yield updatedAnswer
+        
+          navigator.nextPage(YourLegalInterpretationPage, NormalMode, userAnswers.success.value) mustBe routes.UnderWhatConsiderationController.onPageLoad(NormalMode)
+        }
+      }
+
+      Seq(
+        YourResidenceStatus,
+        YourDomicileStatus,
+        TheRemittanceBasis,
+        HowIncomeArisingInATrust,
+        TheTransferOfAssets,
+        HowIncomeArisingInAnOffshore,
+        InheritanceTaxIssues,
+        WhetherIncomeShouldBeTaxed,
+      ).foreach { option => 
+        s"must go from YourLegalInterpretationPage to HowMuchTaxHasNotBeenIncludedController when selected option $option" in {
+          val set: Set[YourLegalInterpretation] = Set(option)
+          val userAnswers = UserAnswers("id").set(YourLegalInterpretationPage, set).success.value
+          navigator.nextPage(YourLegalInterpretationPage, NormalMode, userAnswers) mustBe routes.HowMuchTaxHasNotBeenIncludedController.onPageLoad(NormalMode)
+        }
+      }
+
+      "must go from YourLegalInterpretationPage to UnderWhatConsiderationController when selected option anotherIssue" in {
+        val set: Set[YourLegalInterpretation] = Set(AnotherIssue)
+        val userAnswers = UserAnswers("id").set(YourLegalInterpretationPage, set).success.value
+        navigator.nextPage(YourLegalInterpretationPage, NormalMode, userAnswers) mustBe routes.UnderWhatConsiderationController.onPageLoad(NormalMode)
+      }
+
+      "must go from YourLegalInterpretationPage to TheMaximumValueOfAllAssetsController when selected option NoExclusion" in {
+        val set: Set[YourLegalInterpretation] = Set(NoExclusion)
+        val userAnswers = UserAnswers("id").set(YourLegalInterpretationPage, set).success.value
+        navigator.nextPage(YourLegalInterpretationPage, NormalMode, userAnswers) mustBe routes.TheMaximumValueOfAllAssetsController.onPageLoad(NormalMode)
+      }
+      
+      "must go from UnderWhatConsiderationPage to HowMuchTaxHasNotBeenIncludedController" in {
+        navigator.nextPage(UnderWhatConsiderationPage, NormalMode, UserAnswers("id")) mustBe routes.HowMuchTaxHasNotBeenIncludedController.onPageLoad(NormalMode)
+      }
+
+      "must go from HowMuchTaxHasNotBeenIncludedPage to TheMaximumValueOfAllAssetsController" in {
+        navigator.nextPage(HowMuchTaxHasNotBeenIncludedPage, NormalMode, UserAnswers("id")) mustBe routes.TheMaximumValueOfAllAssetsController.onPageLoad(NormalMode)
+      }
     }
 
     "in Check mode" - {
@@ -141,7 +201,7 @@ class OffshoreNavigatorSpec extends SpecBase {
       "must go from a page that doesn't exist in the edit route map to CheckYourAnswers" in {
 
         case object UnknownPage extends Page
-        navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe controllers.routes.IndexController.onPageLoad
+        navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad
       }
     }
 
@@ -151,7 +211,7 @@ class OffshoreNavigatorSpec extends SpecBase {
         val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2020), TaxYearStarting(2019))
         val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value
 
-        navigator.nextTaxYearLiabilitiesPage(0, CheckMode, userAnswersWithTaxYears) mustBe controllers.routes.IndexController.onPageLoad
+        navigator.nextTaxYearLiabilitiesPage(0, CheckMode, userAnswersWithTaxYears) mustBe routes.CheckYourAnswersController.onPageLoad
       }
 
       "must increment the index and tax the user to the tax year liability page when there more years in the which years list" in {

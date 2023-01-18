@@ -1,0 +1,16 @@
+
+GET        /other-liability-issues             controllers.otherLiabilities.OtherLiabilityIssuesController.onPageLoad(mode: Mode = NormalMode)
+POST       /other-liability-issues             controllers.otherLiabilities.OtherLiabilityIssuesController.onSubmit(mode: Mode = NormalMode)
+POST       /other-liability-issues             controllers.otherLiabilities.OtherLiabilityIssuesController.onSubmit(mode: Mode = NormalMode)
+GET        /other-liability-issues/change      controllers.otherLiabilities.OtherLiabilityIssuesController.onPageLoad(mode: Mode = CheckMode)
+POST       /other-liability-issues/change      controllers.otherLiabilities.OtherLiabilityIssuesController.onSubmit(mode: Mode = CheckMode)
+
+GET        /other-liabilities-to-fix           controllers.otherLiabilities.WhatOtherLiabilityIssuesController.onPageLoad(mode: Mode = NormalMode)
+POST       /other-liabilities-to-fix           controllers.otherLiabilities.WhatOtherLiabilityIssuesController.onSubmit(mode: Mode = NormalMode)
+GET        /other-liabilities-to-fix/change    controllers.otherLiabilities.WhatOtherLiabilityIssuesController.onPageLoad(mode: Mode = CheckMode)
+POST       /other-liabilities-to-fix/change    controllers.otherLiabilities.WhatOtherLiabilityIssuesController.onSubmit(mode: Mode = CheckMode)
+
+GET        /other-liabilities-chargeable-transfer              controllers.otherLiabilities.DescribeTheGiftController.onPageLoad(mode: Mode = NormalMode)
+POST       /other-liabilities-chargeable-transfer              controllers.otherLiabilities.DescribeTheGiftController.onSubmit(mode: Mode = NormalMode)
+GET        /other-liabilities-chargeable-transfer/change       controllers.otherLiabilities.DescribeTheGiftController.onPageLoad(mode: Mode = CheckMode)
+POST       /other-liabilities-chargeable-transfer/change       controllers.otherLiabilities.DescribeTheGiftController.onSubmit(mode: Mode = CheckMode)
