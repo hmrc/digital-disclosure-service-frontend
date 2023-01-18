@@ -1284,21 +1284,21 @@ otherLiabilityIssues.inheritanceTaxIssues = Inheritance tax issues
 otherLiabilityIssues.class2National = Class 2 National Insurance contributions issues
 otherLiabilityIssues.other = Other
 otherLiabilityIssues.noExclusion = No, I do not have any other liability issues to fix
-otherLiabilityIssues.checkYourAnswersLabel = Do you have any other liability issues to fix
+otherLiabilityIssues.checkYourAnswersLabel = Type of liability issues to fix
 otherLiabilityIssues.error.required = Select any other liability issues to fix
 otherLiabilityIssues.error.validSelection = Select the liability issues you need to fix or select No, I do not have any other liability issues to fix
 otherLiabilityIssues.change.hidden = OtherLiabilityIssues
 
 whatOtherLiabilityIssues.title = Can you describe what other liability issues you need to fix?
 whatOtherLiabilityIssues.heading = Can you describe what other liability issues you need to fix?
-whatOtherLiabilityIssues.checkYourAnswersLabel = Can you describe what other liability issues you need to fix
+whatOtherLiabilityIssues.checkYourAnswersLabel = Other liability issues you need to fix
 whatOtherLiabilityIssues.error.required = Enter the other liability issues you need to fix
 whatOtherLiabilityIssues.error.length = The other liability issues must be between 1 and 5,000 characters
 whatOtherLiabilityIssues.change.hidden = WhatOtherLiabilityIssues
 
 describeTheGift.title = Can you describe the gift (known as a chargeable transfer) that your issue is about?
 describeTheGift.heading = Can you describe the gift (known as a chargeable transfer) that your issue is about?
-describeTheGift.checkYourAnswersLabel = Can you describe the gift (known as a chargeable transfer) that your issue is about
+describeTheGift.checkYourAnswersLabel = Chargeable transfer
 describeTheGift.error.required = Enter a description of the gift that your issue is about
 describeTheGift.error.length = The description of the gift must be between 1 and 5,000 characters
 describeTheGift.change.hidden = DescribeTheGift
@@ -1311,3 +1311,6 @@ didYouReceiveTaxCredit.no = No
 didYouReceiveTaxCredit.checkYourAnswersLabel = Did you receive tax credits for any of the years covered by your disclosure?
 didYouReceiveTaxCredit.error.required = Select yes if you received tax credits
 didYouReceiveTaxCredit.change.hidden = DidYouReceiveTaxCredit
+
+checkYourAnswers.otherLiabilities.title = Other liabilities summary
+checkYourAnswers.otherLiabilities.heading = Other liabilities summary
