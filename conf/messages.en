@@ -1282,3 +1282,12 @@ describeTheGift.checkYourAnswersLabel = Can you describe the gift (known as a ch
 describeTheGift.error.required = Enter a description of the gift that your issue is about
 describeTheGift.error.length = The description of the gift must be between 1 and 5,000 characters
 describeTheGift.change.hidden = DescribeTheGift
+
+didYouReceiveTaxCredit.title = Did you receive tax credits for any of the years covered by your disclosure?
+didYouReceiveTaxCredit.heading = Did you receive tax credits for any of the years covered by your disclosure?
+didYouReceiveTaxCredit.body = We will consider the amount of tax credits you or your partner have received and pass your details to the appropriate team who will contact you if any changes are needed.
+didYouReceiveTaxCredit.yes = Yes
+didYouReceiveTaxCredit.no = No
+didYouReceiveTaxCredit.checkYourAnswersLabel = Did you receive tax credits for any of the years covered by your disclosure?
+didYouReceiveTaxCredit.error.required = Select yes if you received tax credits
+didYouReceiveTaxCredit.change.hidden = DidYouReceiveTaxCredit
