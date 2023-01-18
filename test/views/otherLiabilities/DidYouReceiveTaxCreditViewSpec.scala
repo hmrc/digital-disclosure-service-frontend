@@ -39,12 +39,16 @@ class DidYouReceiveTaxCreditViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("didYouReceiveTaxCredit.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("didYouReceiveTaxCredit.heading")
     }
 
     "display the continue button" in {
       view.getElementsByClass("govuk-button").first() must haveId ("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
+    }
+
+    "have a task list link" in {
+      view.getElementById("task-list-link").attr("href") mustBe controllers.routes.TaskListController.onPageLoad.url
     }
 
   }
