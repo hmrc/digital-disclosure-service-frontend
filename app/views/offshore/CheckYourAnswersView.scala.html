@@ -43,19 +43,19 @@
     @heading(Text(messages("checkYourAnswers.offshore.fullAmount.heading")), "govuk-heading-m")
 
     @paragraph(
-        id = Some("offer-paragraph-1"), 
+        id = Some("fullAmount-paragraph-1"), 
         content = HtmlContent(
             messages("checkYourAnswers.offshore.fullAmount.paragraph1") +
             link(
-                id = "offer-paragraph-link", 
+                id = "fullAmount-paragraph-link", 
                 text = messages("checkYourAnswers.offshore.fullAmount.link"), 
                 newTab = true, 
                 call = Call("GET", "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure#general-information")
             )
         )
     )
-    @paragraph(id = Some("offer-paragraph-2"), content = Text(messages("checkYourAnswers.offshore.fullAmount.paragraph2")))
-    @paragraph(id = Some("offer-paragraph-3"), content = Text(messages("checkYourAnswers.offshore.fullAmount.paragraph3")))
+    @paragraph(id = Some("fullAmount-paragraph-2"), content = Text(messages("checkYourAnswers.offshore.fullAmount.paragraph2")))
+    @paragraph(id = Some("fullAmount-paragraph-3"), content = Text(messages("checkYourAnswers.offshore.fullAmount.paragraph3")))
 
     @govukButton(
         ButtonViewModel(messages("site.saveAndContinue"))

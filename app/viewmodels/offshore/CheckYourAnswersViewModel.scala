@@ -48,32 +48,27 @@ object CheckYourAnswersViewModel {
 
   }
 
-  def taxYearWithLiabilitiesToSummaryList(i: Int, liabilities: TaxYearLiabilities)(implicit messages: Messages): SummaryList = {
+  def taxYearWithLiabilitiesToSummaryList(i: Int, liabilities: TaxYearLiabilities)(implicit messages: Messages): SummaryList =
     SummaryListViewModel(
       rows = Seq(
         row(i, "taxYearLiabilities.income.checkYourAnswersLabel", s"&pound;${liabilities.income}", "taxYearLiabilities.income.hidden"),
-        row(i, "taxYearLiabilities.chargeableTransfers.checkYourAnswersLabel", s"&pound;${liabilities.chargeableTransfers}", "taxYearLiabilities.income.hidden"),
+        row(i, "taxYearLiabilities.chargeableTransfers.checkYourAnswersLabel", s"&pound;${liabilities.chargeableTransfers}", "taxYearLiabilities.chargeableTransfers.hidden"),
         row(i, "taxYearLiabilities.capitalGains.checkYourAnswersLabel", s"&pound;${liabilities.capitalGains}", "taxYearLiabilities.capitalGains.hidden"),
         row(i, "taxYearLiabilities.unpaidTax.checkYourAnswersLabel", s"&pound;${liabilities.unpaidTax}", "taxYearLiabilities.unpaidTax.hidden"),
         row(i, "taxYearLiabilities.interest.checkYourAnswersLabel", s"&pound;${liabilities.interest}", "taxYearLiabilities.interest.hidden"),
         row(i, "taxYearLiabilities.penaltyRate.checkYourAnswersLabel", s"${liabilities.penaltyRate}%", "taxYearLiabilities.penaltyRate.hidden"),
-        row(i, "taxYearLiabilities.penaltyAmount.checkYourAnswersLabel", s"&pound;${penaltyAmount(liabilities)}", "taxYearLiabilities.income.hidden"),
+        row(i, "taxYearLiabilities.penaltyAmount.checkYourAnswersLabel", s"&pound;${penaltyAmount(liabilities)}", "taxYearLiabilities.penaltyRate.hidden"),
         row(i, "taxYearLiabilities.foreignTaxCredit.checkYourAnswersLabel", if (liabilities.foreignTaxCredit) messages("site.yes") else messages("site.no"), "taxYearLiabilities.foreignTaxCredit.hidden"),
-        row(i, "taxYearLiabilities.amountDue.checkYourAnswersLabel", s"&pound;${yearTotal(liabilities)}", "taxYearLiabilities.income.hidden")
+        row(i, "taxYearLiabilities.amountDue.checkYourAnswersLabel", s"&pound;${yearTotal(liabilities)}", "taxYearLiabilities.amountDue.hidden")
       )
     )
-  }
-
-  def yearTax(taxYearLiabilities: TaxYearLiabilities): BigDecimal = {
-    BigDecimal(taxYearLiabilities.capitalGains) + BigDecimal(taxYearLiabilities.capitalGains)
-  }
 
   def penaltyAmount(taxYearLiabilities: TaxYearLiabilities): BigDecimal = {
-    (BigDecimal(taxYearLiabilities.penaltyRate)/100) * yearTax(taxYearLiabilities)
+    (BigDecimal(taxYearLiabilities.penaltyRate) * BigDecimal(taxYearLiabilities.unpaidTax)) /100
   }
   
   def yearTotal(taxYearLiabilities: TaxYearLiabilities): BigDecimal = {
-    yearTax(taxYearLiabilities) + penaltyAmount(taxYearLiabilities) + BigDecimal(taxYearLiabilities.interest)
+    BigDecimal(taxYearLiabilities.unpaidTax) + penaltyAmount(taxYearLiabilities) + BigDecimal(taxYearLiabilities.interest)
   }
 
   def row(i: Int,label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {

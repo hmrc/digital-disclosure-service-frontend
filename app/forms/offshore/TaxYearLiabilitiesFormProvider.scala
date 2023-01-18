@@ -38,22 +38,22 @@ class TaxYearLiabilitiesFormProvider @Inject() extends Mappings {
         "taxYearLiabilities.chargeableTransfers.error.required",
         "taxYearLiabilities.chargeableTransfers.error.wholeNumber",
         "taxYearLiabilities.chargeableTransfers.error.nonNumeric")
-          .verifying(inRange(BigInt(0), MAX_BIGINT, "taxYearLiabilities.income.error.outOfRange")),
+          .verifying(inRange(BigInt(0), MAX_BIGINT, "taxYearLiabilities.chargeableTransfers.error.outOfRange")),
       "capitalGains" -> bigint(
         "taxYearLiabilities.capitalGains.error.required",
         "taxYearLiabilities.capitalGains.error.wholeNumber",
         "taxYearLiabilities.capitalGains.error.nonNumeric")
-          .verifying(inRange(BigInt(0), MAX_BIGINT, "taxYearLiabilities.income.error.outOfRange")),
+          .verifying(inRange(BigInt(0), MAX_BIGINT, "taxYearLiabilities.capitalGains.error.outOfRange")),
       "unpaidTax" -> bigint(
         "taxYearLiabilities.unpaidTax.error.required",
         "taxYearLiabilities.unpaidTax.error.wholeNumber",
         "taxYearLiabilities.unpaidTax.error.nonNumeric")
-          .verifying(inRange(BigInt(0), MAX_BIGINT, "taxYearLiabilities.income.error.outOfRange")),
+          .verifying(inRange(BigInt(0), MAX_BIGINT, "taxYearLiabilities.unpaidTax.error.outOfRange")),
       "interest" -> bigint(
         "taxYearLiabilities.interest.error.required",
         "taxYearLiabilities.interest.error.wholeNumber",
         "taxYearLiabilities.interest.error.nonNumeric")
-          .verifying(inRange(BigInt(0), MAX_BIGINT, "taxYearLiabilities.income.error.outOfRange")),
+          .verifying(inRange(BigInt(0), MAX_BIGINT, "taxYearLiabilities.interest.error.outOfRange")),
       "penaltyRate" -> int(
         "taxYearLiabilities.penaltyRate.error.required",
         "taxYearLiabilities.penaltyRate.error.wholeNumber",

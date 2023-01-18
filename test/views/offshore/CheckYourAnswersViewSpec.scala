@@ -43,6 +43,30 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementsByClass("govuk-heading-xl").text() mustBe messages("checkYourAnswers.offshore.heading")
     }
 
+    "have a offer heading" in {
+      view.getElementsByClass("govuk-heading-m").get(0).text() mustBe messages("checkYourAnswers.offshore.offer.heading")
+    }
+
+    "have a first offer paragraph" in {
+      view.getElementById("offer-paragraph-1").text() mustBe messages("checkYourAnswers.offshore.offer.paragraph1", viewModel.liabilitiesTotal)
+    }
+
+    "have a second offer paragraph" in {
+      view.getElementById("offer-paragraph-2").text() mustBe messages("checkYourAnswers.offshore.offer.paragraph2")
+    }
+
+    "have a fullAmount heading" in {
+      view.getElementsByClass("govuk-heading-m").get(1).text() mustBe messages("checkYourAnswers.offshore.fullAmount.heading")
+    }
+
+    "have a first fullAmount paragraph" in {
+      view.getElementById("fullAmount-paragraph-1").text() mustBe messages("checkYourAnswers.offshore.fullAmount.paragraph1", viewModel.liabilitiesTotal) + messages("checkYourAnswers.offshore.fullAmount.link")
+    }
+
+    "have a second fullAmount paragraph" in {
+      view.getElementById("fullAmount-paragraph-2").text() mustBe messages("checkYourAnswers.offshore.fullAmount.paragraph2")
+    }
+
     "display the continue button" in {
       view.getElementsByClass("govuk-button").first() must haveId ("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
