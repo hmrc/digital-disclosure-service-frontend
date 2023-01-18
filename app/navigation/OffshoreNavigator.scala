@@ -94,11 +94,13 @@ class OffshoreNavigator @Inject()() {
 
     case HowMuchTaxHasNotBeenIncludedPage => _ => routes.TheMaximumValueOfAllAssetsController.onPageLoad(NormalMode)
 
+    case TheMaximumValueOfAllAssetsPage => _ => routes.CheckYourAnswersController.onPageLoad
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
   private val checkRouteMap: Page => UserAnswers => Boolean => Call = {
-    case _ => _ => _ => controllers.routes.IndexController.onPageLoad
+    case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
   def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasAnswerChanged: Boolean = true): Call = mode match {

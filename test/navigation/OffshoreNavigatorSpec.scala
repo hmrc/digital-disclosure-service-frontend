@@ -201,7 +201,7 @@ class OffshoreNavigatorSpec extends SpecBase {
       "must go from a page that doesn't exist in the edit route map to CheckYourAnswers" in {
 
         case object UnknownPage extends Page
-        navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe controllers.routes.IndexController.onPageLoad
+        navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad
       }
     }
 
@@ -211,7 +211,7 @@ class OffshoreNavigatorSpec extends SpecBase {
         val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2020), TaxYearStarting(2019))
         val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value
 
-        navigator.nextTaxYearLiabilitiesPage(0, CheckMode, userAnswersWithTaxYears) mustBe controllers.routes.IndexController.onPageLoad
+        navigator.nextTaxYearLiabilitiesPage(0, CheckMode, userAnswersWithTaxYears) mustBe routes.CheckYourAnswersController.onPageLoad
       }
 
       "must increment the index and tax the user to the tax year liability page when there more years in the which years list" in {
