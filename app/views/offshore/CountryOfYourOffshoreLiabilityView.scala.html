@@ -1,0 +1,78 @@
+@*
+ * Copyright 2023 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import viewmodels.InputWidth._
+
+@import config.Country
+
+@this(
+    layout: templates.Layout,
+    paragraph: components.paragraph,
+    link: components.link,
+    heading: components.heading,
+    countries: config.Countries,
+    formHelper: FormWithCSRF,
+    govukErrorSummary: GovukErrorSummary,
+    govukSelect: GovukSelect,
+    govukInput: GovukInput,
+    govukButton: GovukButton
+)
+
+@(form: Form[_], mode: Mode, countryNumber: Int)(implicit request: Request[_], messages: Messages)
+
+@layout(pageTitle = title(form,
+    messages("countryOfYourOffshoreLiability.title.first")
+            + messages(s"countryOfYourOffshoreLiability.label.$countryNumber")
+            + messages("countryOfYourOffshoreLiability.title.second"))) {
+
+    @formHelper(action = controllers.offshore.routes.CountryOfYourOffshoreLiabilityController.onSubmit(countryNumber, mode)) {
+
+        @if(form.errors.nonEmpty) {
+            @govukErrorSummary(ErrorSummaryViewModel(form))
+        }
+
+        @heading(Text(messages("countryOfYourOffshoreLiability.heading.first")
+                + messages(s"countryOfYourOffshoreLiability.label.$countryNumber")
+                + messages("countryOfYourOffshoreLiability.heading.second")))
+
+        @govukSelect(Select(
+            id = "value",
+            name = "value",
+            items = Seq(SelectItem(value = Some(" "), text = "", attributes = Map("label" -> " "))) ++
+                    countries.countries.map(country =>
+                        SelectItem(
+                            value = Some(country.alpha3),
+                            text = country.name,
+                            selected = form("value").value.contains(country.alpha3)
+                        )
+                    ),
+            formGroupClasses = "autocomplete-wrapper",
+            attributes = Map("data-all-countries" -> "")
+        ))
+
+        @govukButton(
+            ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
+        )
+
+        @paragraph(
+            id = Some("task-list-link"),
+            content = HtmlContent(
+                link(id = "task-list-link", text = messages("countryOfYourOffshoreLiability.taskList.link.text"), newTab = true, call = Call("GET", messages("countryOfYourOffshoreLiability.taskList.link.url")))
+            )
+        )
+
+    }
+}

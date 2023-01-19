@@ -58,6 +58,12 @@ class FrontendAppConfig @Inject() (configuration: Configuration) {
 
   lazy val cacheTtl: Int = configuration.get[Int]("mongodb.timeToLiveInSeconds")
 
+  lazy val ordinalNumbers: Seq[String] = Seq(
+    configuration.get[String]("countryOfYourOffshoreLiability.label.1"),
+    configuration.get[String]("countryOfYourOffshoreLiability.label.2"),
+    configuration.get[String]("countryOfYourOffshoreLiability.label.3")
+  )
+
   lazy val identityVerificationURL: String = {
     val identityVerificationFrontendBaseUrl: String = configuration.get[String]("identity-verification-frontend.url")
     val upliftUri: String = configuration.get[String]("identity-verification-frontend.uplift-uri")
