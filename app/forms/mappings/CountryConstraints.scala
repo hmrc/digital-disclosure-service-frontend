@@ -21,10 +21,7 @@ import play.api.Logging
 import play.api.data.{FieldMapping, FormError}
 import play.api.data.format.Formatter
 import play.api.data.Forms._
-import play.api.i18n.MessagesApi
-abstract class CountryConstraints (countries: Countries)(
-  implicit messages: MessagesApi
-) extends Formatters with Logging{
+abstract class CountryConstraints (countries: Countries) extends Formatters with Logging{
 
   private val allowedCountries = countries.countries.map(_.alpha3)
 
