@@ -28,13 +28,12 @@ abstract class CountryConstraints (countries: Countries)(
 
   private val allowedCountries = countries.countries.map(_.alpha3)
 
-  protected def country(requiredKey: String, index:Int): FieldMapping[Set[Country]] = {
-    of(countryFormatter(requiredKey, index))
+  protected def country(requiredKey: String): FieldMapping[Set[Country]] = {
+    of(countryFormatter(requiredKey))
   }
 
-  private def countryFormatter(requiredKey: String, index:Int): Formatter[Set[Country]] = new Formatter[Set[Country]] {
-    private val ordinalNumber = messages.messages("en")(s"countryOfYourOffshoreLiability.label.$index")
-    private val baseFormatter = stringFormatter(requiredKey, Seq(ordinalNumber))
+  private def countryFormatter(requiredKey: String): Formatter[Set[Country]] = new Formatter[Set[Country]] {
+    private val baseFormatter = stringFormatter(requiredKey, Seq.empty)
 
     override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Set[Country]] =
       baseFormatter
@@ -45,7 +44,7 @@ abstract class CountryConstraints (countries: Countries)(
               Right(Set(Country(code, countries.getCountryNameFor(code))))
             }
             else {
-              Left(Seq(FormError(key, requiredKey, Seq(ordinalNumber))))
+              Left(Seq(FormError(key, requiredKey, Seq.empty)))
             }
       }
 

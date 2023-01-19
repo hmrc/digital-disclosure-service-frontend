@@ -26,6 +26,6 @@ import play.api.i18n.MessagesApi
 class CountryOfYourOffshoreLiabilityFormProvider @Inject()(countries: Countries)(implicit messagesApi: MessagesApi)
   extends CountryConstraints(countries) with Mappings {
   def apply(index:Int): Form[Set[Country]] = Form(
-    "value" -> country("countryOfYourOffshoreLiability.error.required", index)
+    "value" -> country(s"countryOfYourOffshoreLiability.error.required.$index")
   )
 }
