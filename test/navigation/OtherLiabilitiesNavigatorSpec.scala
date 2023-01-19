@@ -39,7 +39,31 @@ class OtherLiabilitiesNavigatorSpec extends SpecBase {
 
       "must go from a page that doesn't exist in the edit route map to CheckYourAnswers" in {
         case object UnknownPage extends Page
-        navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe controllers.routes.IndexController.onPageLoad
+        navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must go from the OtherLiabilityIssuesPage to CheckYourAnswers when the answer preference has not changed" in {
+        val answer: Set[OtherLiabilityIssues] = Set(OtherLiabilityIssues.InheritanceTaxIssues)
+        val userAnswers = UserAnswers("id").set(OtherLiabilityIssuesPage, answer).success.value
+        navigator.nextPage(OtherLiabilityIssuesPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must go from the OtherLiabilityIssuesPage to DescribeTheGiftPage when the preference answer has changed and InheritanceTaxIssues is selected and it's not already set" in {
+        val answer: Set[OtherLiabilityIssues] = Set(OtherLiabilityIssues.InheritanceTaxIssues)
+        val userAnswers = UserAnswers("id").set(OtherLiabilityIssuesPage, answer).success.value
+        navigator.nextPage(OtherLiabilityIssuesPage, CheckMode, userAnswers) mustBe routes.DescribeTheGiftController.onPageLoad(CheckMode)
+      }
+
+      "must go from the OtherLiabilityIssuesPage to WhatOtherLiabilityIssuesPage when the preference answer has changed, Other is selected and it's not already set" in {
+        val answer: Set[OtherLiabilityIssues] = Set(OtherLiabilityIssues.Other)
+        val userAnswers = UserAnswers("id").set(OtherLiabilityIssuesPage, answer).success.value
+        navigator.nextPage(OtherLiabilityIssuesPage, CheckMode, userAnswers) mustBe routes.WhatOtherLiabilityIssuesController.onPageLoad(CheckMode)
+      }
+
+      "must go from the DescribeTheGiftPage to WhatOtherLiabilityIssuesPage when the preference answers contains the Other and it's not already set" in {
+        val answer: Set[OtherLiabilityIssues] = Set(OtherLiabilityIssues.Other)
+        val userAnswers = UserAnswers("id").set(OtherLiabilityIssuesPage, answer).success.value
+        navigator.nextPage(DescribeTheGiftPage, CheckMode, userAnswers) mustBe routes.WhatOtherLiabilityIssuesController.onPageLoad(CheckMode)
       }
     }
     

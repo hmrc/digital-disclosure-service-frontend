@@ -25,9 +25,9 @@
     tasklistLink: components.tasklistLink
 )
 
-@(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], mode: Mode, areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("didYouReceiveTaxCredit.title"))) {
+@layout(pageTitle = title(form, if(areTheyTheIndividual) messages("didYouReceiveTaxCredit.agent.title") else messages(s"didYouReceiveTaxCredit.${entity}.title"))) {
 
     @formHelper(action = controllers.otherLiabilities.routes.DidYouReceiveTaxCreditController.onSubmit(mode), 'autoComplete -> "off") {
 
@@ -35,7 +35,7 @@
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
-        @heading(Text(messages("didYouReceiveTaxCredit.heading")))
+        @heading(Text(if(areTheyTheIndividual) messages("didYouReceiveTaxCredit.agent.heading") else messages(s"didYouReceiveTaxCredit.${entity}.heading")))
 
         @paragraph(id = Some("body"), content = Text(messages("didYouReceiveTaxCredit.body")))
 

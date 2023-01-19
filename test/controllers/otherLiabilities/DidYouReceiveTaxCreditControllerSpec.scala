@@ -18,18 +18,19 @@ package controllers
 
 import base.SpecBase
 import forms.DidYouReceiveTaxCreditFormProvider
-import models.{NormalMode, UserAnswers}
+import models.{NormalMode, UserAnswers, RelatesTo}
 import navigation.{FakeOtherLiabilitiesNavigator, OtherLiabilitiesNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.DidYouReceiveTaxCreditPage
+import pages._
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
 import views.html.otherLiabilities.DidYouReceiveTaxCreditView
+import org.scalacheck.Arbitrary.arbitrary
 
 import scala.concurrent.Future
 
@@ -46,7 +47,15 @@ class DidYouReceiveTaxCreditControllerSpec extends SpecBase with MockitoSugar {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val areTheyTheIndividual = arbitrary[Boolean].sample.value 
+      val entity = arbitrary[RelatesTo].sample.value  
+
+      val userAnswers = (for {
+        ua <- UserAnswers("id").set(AreYouTheIndividualPage, areTheyTheIndividual)
+        updatedUa <- ua.set(RelatesToPage, entity)  
+      } yield updatedUa).success.value  
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
         val request = FakeRequest(GET, didYouReceiveTaxCreditRoute)
@@ -56,13 +65,20 @@ class DidYouReceiveTaxCreditControllerSpec extends SpecBase with MockitoSugar {
         val view = application.injector.instanceOf[DidYouReceiveTaxCreditView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode, areTheyTheIndividual, entity)(request, messages(application)).toString
       }
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(DidYouReceiveTaxCreditPage, true).success.value
+      val areTheyTheIndividual = arbitrary[Boolean].sample.value 
+      val entity = arbitrary[RelatesTo].sample.value 
+
+      val userAnswers = (for {
+        ua <- UserAnswers("id").set(AreYouTheIndividualPage, areTheyTheIndividual)
+        uaRelatesToPage <- ua.set(RelatesToPage, entity) 
+        updatedUa <- uaRelatesToPage.set(DidYouReceiveTaxCreditPage, true)
+      } yield updatedUa).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -74,7 +90,7 @@ class DidYouReceiveTaxCreditControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(true), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(true), NormalMode, areTheyTheIndividual, entity)(request, messages(application)).toString
       }
     }
 
@@ -105,7 +121,15 @@ class DidYouReceiveTaxCreditControllerSpec extends SpecBase with MockitoSugar {
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val areTheyTheIndividual = arbitrary[Boolean].sample.value 
+      val entity = arbitrary[RelatesTo].sample.value 
+
+      val userAnswers = (for {
+        ua <- UserAnswers("id").set(AreYouTheIndividualPage, areTheyTheIndividual)
+        updatedUa <- ua.set(RelatesToPage, entity) 
+      } yield updatedUa).success.value
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
         val request =
@@ -119,7 +143,7 @@ class DidYouReceiveTaxCreditControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(request, messages(application)).toString
       }
     }
 

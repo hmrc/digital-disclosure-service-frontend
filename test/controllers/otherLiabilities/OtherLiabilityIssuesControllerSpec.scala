@@ -18,7 +18,7 @@ package controllers
 
 import base.SpecBase
 import forms.OtherLiabilityIssuesFormProvider
-import models.{NormalMode, OtherLiabilityIssues, UserAnswers}
+import models.{NormalMode, CheckMode, OtherLiabilityIssues, UserAnswers}
 import navigation.{FakeOtherLiabilitiesNavigator, OtherLiabilitiesNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
@@ -153,5 +153,68 @@ class OtherLiabilityIssuesControllerSpec extends SpecBase with MockitoSugar {
         redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
       }
     }
+
+    "must redirect to WhatOtherLiabilityIssuesPage screen in check mode if Other checkbox selected" in {
+      val previousPreferences: Set[OtherLiabilityIssues] = Set(OtherLiabilityIssues.InheritanceTaxIssues)
+      val previousAnswers = UserAnswers("id").set(OtherLiabilityIssuesPage, previousPreferences).success.value
+      val newAnswer = OtherLiabilityIssues.Other
+
+      val urlToTest = otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(CheckMode).url
+      val destinationRoute = otherLiabilities.routes.WhatOtherLiabilityIssuesController.onPageLoad(CheckMode).url
+      val application = applicationBuilder(userAnswers = Some(previousAnswers)).build()
+
+      running(application) {
+        val request =
+          FakeRequest(POST, urlToTest)
+            .withFormUrlEncodedBody(("value[0]", newAnswer.toString))
+
+        val result = route(application, request).value
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual destinationRoute
+      }
+    }
+
+    "must redirect to DescribeTheGiftPage screen in check mode if InheritanceTaxIssues checkbox selected" in {
+      val previousPreferences: Set[OtherLiabilityIssues] = Set(OtherLiabilityIssues.Other)
+      val previousAnswers = UserAnswers("id").set(OtherLiabilityIssuesPage, previousPreferences).success.value
+      val newAnswer = OtherLiabilityIssues.InheritanceTaxIssues
+
+      val urlToTest = otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(CheckMode).url
+      val destinationRoute = otherLiabilities.routes.DescribeTheGiftController.onPageLoad(CheckMode).url
+      val application = applicationBuilder(userAnswers = Some(previousAnswers)).build()
+
+      running(application) {
+        val request =
+          FakeRequest(POST, urlToTest)
+            .withFormUrlEncodedBody(("value[0]", newAnswer.toString))
+
+        val result = route(application, request).value
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual destinationRoute
+      }
+    }
+
+    "must redirect to CheckYourAnswer screen if there are no changes in the user answer" in {
+      val previousPreferences: Set[OtherLiabilityIssues] = Set(OtherLiabilityIssues.InheritanceTaxIssues, OtherLiabilityIssues.Other)
+      val previousAnswers = UserAnswers("id").set(OtherLiabilityIssuesPage, previousPreferences).success.value
+
+      val newAnswerInheritanceTaxIssues: OtherLiabilityIssues = OtherLiabilityIssues.InheritanceTaxIssues
+      val newAnswerOther: OtherLiabilityIssues = OtherLiabilityIssues.Other
+
+      val urlToTest = otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(CheckMode).url
+      val destinationRoute = otherLiabilities.routes.CheckYourAnswersController.onPageLoad.url
+      val application = applicationBuilder(userAnswers = Some(previousAnswers)).build()
+
+      running(application) {
+        val request =
+          FakeRequest(POST, urlToTest)
+            .withFormUrlEncodedBody(("value[0]", newAnswerInheritanceTaxIssues.toString), ("value[1]", newAnswerOther.toString))
+
+        val result = route(application, request).value
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual destinationRoute
+      }
+    }
+
   }
 }

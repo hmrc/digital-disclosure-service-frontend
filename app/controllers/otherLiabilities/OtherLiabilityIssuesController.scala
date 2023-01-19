@@ -19,9 +19,10 @@ package controllers.otherLiabilities
 import controllers.actions._
 import forms.OtherLiabilityIssuesFormProvider
 import javax.inject.Inject
-import models.Mode
+import models._
+import models.OtherLiabilityIssues._
 import navigation.OtherLiabilitiesNavigator
-import pages.OtherLiabilityIssuesPage
+import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -29,6 +30,8 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.otherLiabilities.OtherLiabilityIssuesView
 
 import scala.concurrent.{ExecutionContext, Future}
+
+import play.api.Logging
 
 class OtherLiabilityIssuesController @Inject()(
                                         override val messagesApi: MessagesApi,
@@ -40,7 +43,7 @@ class OtherLiabilityIssuesController @Inject()(
                                         formProvider: OtherLiabilityIssuesFormProvider,
                                         val controllerComponents: MessagesControllerComponents,
                                         view: OtherLiabilityIssuesView
-                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with Logging {
 
   val form = formProvider()
 
@@ -62,11 +65,29 @@ class OtherLiabilityIssuesController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
-        value =>
+        value => {
+          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(OtherLiabilityIssuesPage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(OtherLiabilityIssuesPage, mode, updatedAnswers))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+            _              <- sessionService.set(clearedAnswers)
+          } yield Redirect(navigator.nextPage(OtherLiabilityIssuesPage, mode, clearedAnswers, hasValueChanged))
+        }
       )
   }
+
+  def changedPages(existingUserAnswers: UserAnswers, value: Set[OtherLiabilityIssues]): (List[QuestionPage[_]], Boolean) = {
+    existingUserAnswers.get(OtherLiabilityIssuesPage) match {
+      case Some(preferences) if preferences != value =>
+        val pages = preferences.flatMap {
+            case InheritanceTaxIssues if !value.contains(InheritanceTaxIssues) => Some(DescribeTheGiftPage)
+            case Other if !value.contains(Other) => Some(WhatOtherLiabilityIssuesPage)
+            case _ => None
+          }.toList
+        (pages, true)
+      case _ => (Nil, false)
+    }
+
+  }
+
 }

@@ -20,17 +20,54 @@ import javax.inject.{Inject, Singleton}
 import play.api.mvc.Call
 import controllers.otherLiabilities.routes
 import pages._
-import models.{UserAnswers, Mode, NormalMode, CheckMode}
+import models.{UserAnswers, Mode, NormalMode, CheckMode, RelatesTo}
+import models.OtherLiabilityIssues._
 
 @Singleton
 class OtherLiabilitiesNavigator @Inject()() {
 
-  private val normalRoutes: Page => UserAnswers => Call = {
+  private val normalRoutes: Page => UserAnswers => Call = {  
+
+    case OtherLiabilityIssuesPage => ua => (ua.get(OtherLiabilityIssuesPage), ua.get(RelatesToPage)) match {
+      case (Some(value), _) if (value.contains(InheritanceTaxIssues)) => routes.DescribeTheGiftController.onPageLoad(NormalMode)
+      case (Some(value), _) if (value.contains(Other)) => routes.WhatOtherLiabilityIssuesController.onPageLoad(NormalMode) 
+      case (Some(_), relatesTo) if(relatesTo.contains(RelatesTo.AnIndividual) || relatesTo.contains(RelatesTo.AnEstate)) => routes.DidYouReceiveTaxCreditController.onPageLoad(NormalMode)
+      case (Some(_), _) => routes.CheckYourAnswersController.onPageLoad
+      case _ => routes.OtherLiabilityIssuesController.onPageLoad(NormalMode)
+    }
+
+    case DescribeTheGiftPage => ua => (ua.get(OtherLiabilityIssuesPage), ua.get(RelatesToPage)) match {
+      case (Some(value), relatesTo) if(!value.contains(Other) && (relatesTo.contains(RelatesTo.AnIndividual) || relatesTo.contains(RelatesTo.AnEstate))) => routes.DidYouReceiveTaxCreditController.onPageLoad(NormalMode)
+      case (Some(value), _) if (value.contains(Other)) => routes.WhatOtherLiabilityIssuesController.onPageLoad(NormalMode)
+      case (Some(_), _) => routes.CheckYourAnswersController.onPageLoad
+      case _ => routes.DescribeTheGiftController.onPageLoad(NormalMode)
+    }
+
+    case WhatOtherLiabilityIssuesPage => ua => (ua.get(WhatOtherLiabilityIssuesPage),  ua.get(RelatesToPage)) match {
+      case (Some(value), relatesTo) if(relatesTo.contains(RelatesTo.AnIndividual) || relatesTo.contains(RelatesTo.AnEstate)) => routes.DidYouReceiveTaxCreditController.onPageLoad(NormalMode)
+      case (Some(value), _) => routes.CheckYourAnswersController.onPageLoad
+      case _ => routes.WhatOtherLiabilityIssuesController.onPageLoad(NormalMode)
+    }
+
+    case DidYouReceiveTaxCreditPage => _ => routes.CheckYourAnswersController.onPageLoad
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
   private val checkRouteMap: Page => UserAnswers => Boolean => Call = {
-    case _ => _ => _ => controllers.routes.IndexController.onPageLoad
+
+    case OtherLiabilityIssuesPage => ua => hasValueChanged => ua.get(OtherLiabilityIssuesPage) match {
+      case Some(value) if hasValueChanged && value.contains(InheritanceTaxIssues) => routes.DescribeTheGiftController.onPageLoad(CheckMode)
+      case Some(value) if hasValueChanged && value.contains(Other) => routes.WhatOtherLiabilityIssuesController.onPageLoad(CheckMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad  
+    }
+
+    case DescribeTheGiftPage => ua => hasValueChanged => ua.get(OtherLiabilityIssuesPage) match {
+      case Some(value) if hasValueChanged && value.contains(Other) => routes.WhatOtherLiabilityIssuesController.onPageLoad(CheckMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad  
+    }
+
+    case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
   def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasAnswerChanged: Boolean = true): Call = mode match {

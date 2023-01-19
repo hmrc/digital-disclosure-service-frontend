@@ -21,25 +21,30 @@ import forms.DidYouReceiveTaxCreditFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.otherLiabilities.DidYouReceiveTaxCreditView
-import models.NormalMode
+import models.{NormalMode, RelatesTo}
+import org.scalacheck.Arbitrary.arbitrary
+import generators.Generators
 
-class DidYouReceiveTaxCreditViewSpec extends ViewSpecBase with ViewMatchers {
+class DidYouReceiveTaxCreditViewSpec extends ViewSpecBase with ViewMatchers with Generators {
 
   val form = new DidYouReceiveTaxCreditFormProvider()()
   val page: DidYouReceiveTaxCreditView = inject[DidYouReceiveTaxCreditView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  val areTheyTheIndividual = arbitrary[Boolean].sample.value 
+  val entity = arbitrary[RelatesTo].sample.value
+
+  private def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
   "view" should {
 
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("didYouReceiveTaxCredit.title"))
+      view.select("title").text() must include(if(areTheyTheIndividual) messages("didYouReceiveTaxCredit.agent.title") else messages(s"didYouReceiveTaxCredit.${entity}.title"))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("didYouReceiveTaxCredit.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe (if(areTheyTheIndividual) messages("didYouReceiveTaxCredit.agent.heading") else messages(s"didYouReceiveTaxCredit.${entity}.heading"))
     }
 
     "display the continue button" in {
