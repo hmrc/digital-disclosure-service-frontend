@@ -31,8 +31,6 @@ import views.html.otherLiabilities.OtherLiabilityIssuesView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-import play.api.Logging
-
 class OtherLiabilityIssuesController @Inject()(
                                         override val messagesApi: MessagesApi,
                                         sessionService: SessionService,
@@ -43,7 +41,7 @@ class OtherLiabilityIssuesController @Inject()(
                                         formProvider: OtherLiabilityIssuesFormProvider,
                                         val controllerComponents: MessagesControllerComponents,
                                         view: OtherLiabilityIssuesView
-                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with Logging {
+                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
 
