@@ -19,8 +19,8 @@ package models.store.notification
 import java.time.LocalDate
 import play.api.libs.json.{Json, OFormat}
 import models.store.YesNoOrUnsure
+import models.store.YesNoOrUnsure._
 import models.address.Address
-
 
 final case class AboutTheIndividual (
   fullName: Option[String] = None,
@@ -33,7 +33,13 @@ final case class AboutTheIndividual (
   registeredForSA: Option[YesNoOrUnsure] = None,
   sautr: Option[String] = None,
   address: Option[Address] = None
-)
+) {
+  def isComplete = this match {
+    case AboutTheIndividual(Some(_), Some(_), Some(_), Some(hasNino), nino, Some(hasVAT), vatRegNumber, Some(hasSA), sautr, Some(_)) => 
+      ( (hasNino != Yes || nino.isDefined) && (hasVAT != Yes || vatRegNumber.isDefined) && (hasSA != Yes || sautr.isDefined) )
+    case _ => false
+  }
+}
 
 object AboutTheIndividual {
   implicit val format: OFormat[AboutTheIndividual] = Json.format[AboutTheIndividual]

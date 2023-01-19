@@ -24,6 +24,94 @@ import play.api.libs.json.{JsValue, Json}
 
 trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
 
+  implicit lazy val arbitraryDidYouReceiveTaxCreditUserAnswersEntry: Arbitrary[(DidYouReceiveTaxCreditPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[DidYouReceiveTaxCreditPage.type]
+        value <- arbitrary[Boolean].map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryWhatOtherLiabilityIssuesUserAnswersEntry: Arbitrary[(WhatOtherLiabilityIssuesPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[WhatOtherLiabilityIssuesPage.type]
+        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryDescribeTheGiftUserAnswersEntry: Arbitrary[(DescribeTheGiftPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[DescribeTheGiftPage.type]
+        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryOtherLiabilityIssuesUserAnswersEntry: Arbitrary[(OtherLiabilityIssuesPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[OtherLiabilityIssuesPage.type]
+        value <- arbitrary[OtherLiabilityIssues].map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryTheMaximumValueOfAllAssetsUserAnswersEntry: Arbitrary[(TheMaximumValueOfAllAssetsPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[TheMaximumValueOfAllAssetsPage.type]
+        value <- arbitrary[TheMaximumValueOfAllAssets].map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryHowMuchTaxHasNotBeenIncludedUserAnswersEntry: Arbitrary[(HowMuchTaxHasNotBeenIncludedPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[HowMuchTaxHasNotBeenIncludedPage.type]
+        value <- arbitrary[HowMuchTaxHasNotBeenIncluded].map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryUnderWhatConsiderationUserAnswersEntry: Arbitrary[(UnderWhatConsiderationPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[UnderWhatConsiderationPage.type]
+        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryTaxBeforeSevenYearsUserAnswersEntry: Arbitrary[(TaxBeforeSevenYearsPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[TaxBeforeSevenYearsPage.type]
+        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryTaxYearLiabilitiesUserAnswersEntry: Arbitrary[(TaxYearLiabilitiesPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[TaxYearLiabilitiesPage.type]
+        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryTaxBeforeFiveYearsUserAnswersEntry: Arbitrary[(TaxBeforeFiveYearsPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[TaxBeforeFiveYearsPage.type]
+        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
+       } yield (page, value)
+    }
+
+  implicit lazy val arbitraryYourLegalInterpretationUserAnswersEntry: Arbitrary[(YourLegalInterpretationPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[YourLegalInterpretationPage.type]
+        value <- arbitrary[YourLegalInterpretation].map(Json.toJson(_))
+      } yield (page, value)
+    }
+
   implicit lazy val arbitraryCountryOfYourOffshoreLiabilityUserAnswersEntry: Arbitrary[(CountryOfYourOffshoreLiabilityPage.type, JsValue)] =
     Arbitrary {
       for {

@@ -18,7 +18,7 @@ package forms.mappings
 
 import java.time.LocalDate
 import uk.gov.hmrc.domain.Nino
-import play.api.data.validation.{Constraint, Invalid, Valid, ValidationResult}
+import play.api.data.validation.{Constraint, Invalid, Valid, ValidationResult, ValidationError}
 import uk.gov.hmrc.emailaddress.EmailAddress
 
 trait Constraints {
@@ -170,4 +170,15 @@ trait Constraints {
       case _ => Invalid(errorKey)
     }
   }
+
+  protected def allOrNoneCheckboxConstraint[A](errorKey: String, singleOption: A): Constraint[Set[A]] = 
+    Constraint { 
+      s => {
+        if (s.contains(singleOption) && s.size > 1) {
+          Invalid(Seq(ValidationError(errorKey)))
+        } else {
+          Valid
+        }
+      }
+    }
 }

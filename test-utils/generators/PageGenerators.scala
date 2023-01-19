@@ -21,6 +21,39 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryDidYouReceiveTaxCreditPage: Arbitrary[DidYouReceiveTaxCreditPage.type] =
+    Arbitrary(DidYouReceiveTaxCreditPage)
+
+  implicit lazy val arbitraryWhatOtherLiabilityIssuesPage: Arbitrary[WhatOtherLiabilityIssuesPage.type] =
+    Arbitrary(WhatOtherLiabilityIssuesPage)
+
+  implicit lazy val arbitraryDescribeTheGiftPage: Arbitrary[DescribeTheGiftPage.type] =
+    Arbitrary(DescribeTheGiftPage)
+
+  implicit lazy val arbitraryOtherLiabilityIssuesPage: Arbitrary[OtherLiabilityIssuesPage.type] =
+    Arbitrary(OtherLiabilityIssuesPage)
+
+  implicit lazy val arbitraryTheMaximumValueOfAllAssetsPage: Arbitrary[TheMaximumValueOfAllAssetsPage.type] =
+    Arbitrary(TheMaximumValueOfAllAssetsPage)
+
+  implicit lazy val arbitraryHowMuchTaxHasNotBeenIncludedPage: Arbitrary[HowMuchTaxHasNotBeenIncludedPage.type] =
+    Arbitrary(HowMuchTaxHasNotBeenIncludedPage)
+
+  implicit lazy val arbitraryUnderWhatConsiderationPage: Arbitrary[UnderWhatConsiderationPage.type] =
+    Arbitrary(UnderWhatConsiderationPage)
+
+  implicit lazy val arbitraryTaxBeforeSevenYearsPage: Arbitrary[TaxBeforeSevenYearsPage.type] =
+    Arbitrary(TaxBeforeSevenYearsPage)
+
+  implicit lazy val arbitraryTaxBeforeFiveYearsPage: Arbitrary[TaxBeforeFiveYearsPage.type] =
+    Arbitrary(TaxBeforeFiveYearsPage)
+
+  implicit lazy val arbitraryTaxYearLiabilitiesPage: Arbitrary[TaxYearLiabilitiesPage.type] =
+    Arbitrary(TaxYearLiabilitiesPage)
+
+  implicit lazy val arbitraryYourLegalInterpretationPage: Arbitrary[YourLegalInterpretationPage.type] =
+    Arbitrary(YourLegalInterpretationPage)
+
   implicit lazy val arbitraryCountryOfYourOffshoreLiabilityPage: Arbitrary[CountryOfYourOffshoreLiabilityPage.type] =
     Arbitrary(CountryOfYourOffshoreLiabilityPage)
 

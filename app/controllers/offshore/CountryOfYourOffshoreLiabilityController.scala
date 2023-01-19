@@ -46,30 +46,30 @@ class CountryOfYourOffshoreLiabilityController @Inject()(
                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
 
-  def onPageLoad(number:Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
+  def onPageLoad(index:Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val form: Form[Set[Country]] = formProvider(number)
+      val form: Form[Set[Country]] = formProvider(index)
 
-      val preparedForm = request.userAnswers.get(CountryOfYourOffshoreLiabilityPage) match {
+      val preparedForm = request.userAnswers.getByIndex(CountryOfYourOffshoreLiabilityPage, index - 1) match {
         case None => form
-        case Some(value) => form.fill(value)
+        case Some(value) => form.fill(Set(value))
       }
 
-      Ok(view(preparedForm, mode, number))
+      Ok(view(preparedForm, mode, index))
   }
 
-  def onSubmit(number:Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
+  def onSubmit(index:Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-      val form: Form[Set[Country]] = formProvider(number)
+      val form: Form[Set[Country]] = formProvider(index)
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, number))),
+          Future.successful(BadRequest(view(formWithErrors, mode, index))),
 
         value =>
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(CountryOfYourOffshoreLiabilityPage, value))
+            updatedAnswers <- Future.fromTry(request.userAnswers.setByIndex[Country](CountryOfYourOffshoreLiabilityPage, index - 1, value.head))
             _              <- sessionService.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(CountryOfYourOffshoreLiabilityPage, mode, updatedAnswers))
       )

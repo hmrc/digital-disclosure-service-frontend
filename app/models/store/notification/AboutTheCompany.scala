@@ -23,7 +23,12 @@ final case class AboutTheCompany (
   name: Option[String] = None,
   registrationNumber: Option[String] = None,
   address: Option[Address] = None
-)
+) {
+  def isComplete = this match {
+    case AboutTheCompany(Some(_), Some(_), Some(_)) => true
+    case _ => false
+  }
+}
 
 object AboutTheCompany {
   implicit val format: OFormat[AboutTheCompany] = Json.format[AboutTheCompany]

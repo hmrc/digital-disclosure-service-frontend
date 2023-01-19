@@ -22,6 +22,7 @@ import controllers.offshore.routes
 import pages._
 import models.{UserAnswers, Mode, NormalMode, CheckMode}
 import models.WhyAreYouMakingThisDisclosure._
+import models.YourLegalInterpretation._
 
 @Singleton
 class OffshoreNavigator @Inject()() {
@@ -61,11 +62,45 @@ class OffshoreNavigator @Inject()() {
 
     case WhatIsYourReasonableExcuseForNotFilingReturnPage => _ => routes.WhichYearsController.onPageLoad(NormalMode)
 
+    case WhichYearsPage => _ => routes.TaxYearLiabilitiesController.onPageLoad(0, NormalMode)
+
+    case YourLegalInterpretationPage => ua => ua.get(YourLegalInterpretationPage) match {
+      case Some(value) if ((
+          value.contains(YourResidenceStatus) ||
+          value.contains(YourDomicileStatus) ||
+          value.contains(TheRemittanceBasis) ||
+          value.contains(HowIncomeArisingInATrust) ||
+          value.contains(TheTransferOfAssets) ||
+          value.contains(HowIncomeArisingInAnOffshore) ||
+          value.contains(InheritanceTaxIssues) ||
+          value.contains(WhetherIncomeShouldBeTaxed)) && 
+          value.contains(AnotherIssue)
+        ) => routes.UnderWhatConsiderationController.onPageLoad(NormalMode)
+      case Some(value) if (
+          value.contains(YourResidenceStatus) ||
+          value.contains(YourDomicileStatus) ||
+          value.contains(TheRemittanceBasis) ||
+          value.contains(HowIncomeArisingInATrust) ||
+          value.contains(TheTransferOfAssets) ||
+          value.contains(HowIncomeArisingInAnOffshore) ||
+          value.contains(InheritanceTaxIssues) ||
+          value.contains(WhetherIncomeShouldBeTaxed)
+        ) => routes.HowMuchTaxHasNotBeenIncludedController.onPageLoad(NormalMode)
+      case Some(value) if(value.contains(AnotherIssue)) => routes.UnderWhatConsiderationController.onPageLoad(NormalMode)
+      case Some(value) if(value.contains(NoExclusion)) => routes.TheMaximumValueOfAllAssetsController.onPageLoad(NormalMode)
+    }  
+
+    case UnderWhatConsiderationPage => _ => routes.HowMuchTaxHasNotBeenIncludedController.onPageLoad(NormalMode)
+
+    case HowMuchTaxHasNotBeenIncludedPage => _ => routes.TheMaximumValueOfAllAssetsController.onPageLoad(NormalMode)
+
+    case TheMaximumValueOfAllAssetsPage => _ => routes.CheckYourAnswersController.onPageLoad
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
   private val checkRouteMap: Page => UserAnswers => Boolean => Call = {
-    case _ => _ => _ => controllers.routes.IndexController.onPageLoad
+    case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
   def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasAnswerChanged: Boolean = true): Call = mode match {
@@ -73,6 +108,12 @@ class OffshoreNavigator @Inject()() {
       normalRoutes(page)(userAnswers)
     case CheckMode =>
       checkRouteMap(page)(userAnswers)(hasAnswerChanged)
+  }
+
+  def nextTaxYearLiabilitiesPage(currentIndex: Int, mode: Mode, userAnswers: UserAnswers): Call = (mode, userAnswers.inverselySortedOffshoreTaxYears) match {
+    case (NormalMode, Some(years)) if ((years.size - 1) > currentIndex) => routes.TaxYearLiabilitiesController.onPageLoad(currentIndex + 1, NormalMode)
+    case (NormalMode, _) => routes.YourLegalInterpretationController.onPageLoad(NormalMode)
+    case (CheckMode, _) => checkRouteMap(TaxYearLiabilitiesPage)(userAnswers)(true)
   }
 
 }
