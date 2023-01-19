@@ -19,9 +19,9 @@ package controllers.otherLiabilities
 import controllers.actions._
 import forms.DidYouReceiveTaxCreditFormProvider
 import javax.inject.Inject
-import models.Mode
+import models.{Mode, UserAnswers, RelatesTo}
 import navigation.OtherLiabilitiesNavigator
-import pages.DidYouReceiveTaxCreditPage
+import pages.{DidYouReceiveTaxCreditPage, AreYouTheIndividualPage, RelatesToPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -52,15 +52,21 @@ class DidYouReceiveTaxCreditController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
+      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+
+      Ok(view(preparedForm, mode, areTheyTheIndividual, entity))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
 
+      val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
+      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, areTheyTheIndividual, entity))),
 
         value =>
           for {
@@ -68,5 +74,12 @@ class DidYouReceiveTaxCreditController @Inject()(
             _              <- sessionService.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(DidYouReceiveTaxCreditPage, mode, updatedAnswers))
       )
+  }
+
+  def isTheUserTheIndividual(userAnswers: UserAnswers): Boolean = {
+    userAnswers.get(AreYouTheIndividualPage) match {
+      case Some(true) => true
+      case _ => false
+    }
   }
 }
