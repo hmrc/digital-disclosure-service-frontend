@@ -22,7 +22,7 @@ import uk.gov.hmrc.http.HeaderCarrier
 
 class FakeSessionService extends SessionService {
   def getSession(userId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] = Future.successful(None)
-  def newSession(userId: String)(implicit hc: HeaderCarrier): Future[Boolean] = Future.successful(true)
+  def newSession(userId: String)(implicit hc: HeaderCarrier): Future[UserAnswers] = Future.successful(UserAnswers(userId))
   def set(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Boolean] = Future.successful(true)
   def clear(id: String): Future[Boolean] = Future.successful(true)
   def keepAlive(id: String): Future[Boolean] = Future.successful(true)

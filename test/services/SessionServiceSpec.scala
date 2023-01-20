@@ -83,7 +83,7 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
       (storeService.setNotification(_: UserAnswers)(_: HeaderCarrier)).expects(*, *).returning(Future.successful(Ok))
       val result = sut.newSession("123")
       Thread.sleep(150)
-      result.futureValue shouldEqual true
+      result.futureValue shouldBe a[UserAnswers]
     }
 
     "check the store and where it finds something, set that value in both the session and store" in new Test {
@@ -92,7 +92,7 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
       (repo.set(_: UserAnswers)).expects(userAnswers).returning(Future.successful(true))
       (storeService.setNotification(_: UserAnswers)(_: HeaderCarrier)).expects(userAnswers, *).returning(Future.successful(Ok))
 
-      sut.newSession("123").futureValue shouldEqual true
+      sut.newSession("123").futureValue shouldBe a[UserAnswers]
     }
 
     "check the store and where it finds something which has been submitted, default and set that default in the session and store" in new Test {
@@ -101,7 +101,7 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
       (repo.set(_: UserAnswers)).expects(*).returning(Future.successful(true))
       (storeService.setNotification(_: UserAnswers)(_: HeaderCarrier)).expects(*, *).returning(Future.successful(Ok))
 
-      sut.newSession("123").futureValue shouldEqual true
+      sut.newSession("123").futureValue shouldBe a[UserAnswers]
     }
   }
 

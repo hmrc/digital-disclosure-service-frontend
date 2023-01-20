@@ -18,6 +18,7 @@ package models.store.notification
 
 import play.api.libs.json.{Json, OFormat}
 import java.time.Instant
+import play.api.Logging 
 
 final case class Notification (
   userId: String,
@@ -32,7 +33,7 @@ final case class Notification (
   aboutTheLLP: Option[AboutTheLLP] = None,
   aboutTheEstate: Option[AboutTheEstate] = None,
   customerId: Option[CustomerId] = None
-) {
+) extends Logging {
   def disclosingAboutThemselves: Boolean = background.disclosureEntity match {
     case Some(DisclosureEntity(Individual, Some(true))) => true
     case _ => false
@@ -48,6 +49,14 @@ final case class Notification (
       case Some(Trust) => aboutYou.isComplete(false) && (aboutTheTrust.map(_.isComplete) == Some(true))
       case _ => false
     }
+    logger.info(s"------------------------")
+    logger.info(s"------------------------")
+    logger.info(s"------------------------")
+    logger.info(s"------------------------")
+    logger.info(s"------------------------")
+    logger.info(s"sectionsCompleteForEntity: $sectionsCompleteForEntity")
+    logger.info(s"background: ${background.isComplete}")
+    logger.info(s"themselves: $disclosingAboutThemselves")
     background.isComplete && sectionsCompleteForEntity
   }
 }

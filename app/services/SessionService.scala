@@ -34,12 +34,12 @@ class SessionServiceImpl @Inject()(
   def getSession(userId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] =
     sessionRepository.get(userId)
 
-  def newSession(userId: String)(implicit hc: HeaderCarrier): Future[Boolean] =
+  def newSession(userId: String)(implicit hc: HeaderCarrier): Future[UserAnswers] =
     for {
       uaOpt  <- getIndividualNotificationUserAnswers(userId, UserAnswers.defaultNotificationId)
       ua     = extractOrDefaultUserAnswers(userId, uaOpt)
       result <- set(ua)
-    } yield result
+    } yield ua
 
   def extractOrDefaultUserAnswers(userId: String, uaOpt: Option[UserAnswers]) =
     uaOpt match {
@@ -73,7 +73,7 @@ class SessionServiceImpl @Inject()(
 @ImplementedBy(classOf[SessionServiceImpl])
 trait SessionService {
   def getSession(userId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] 
-  def newSession(userId: String)(implicit hc: HeaderCarrier): Future[Boolean]
+  def newSession(userId: String)(implicit hc: HeaderCarrier): Future[UserAnswers]
   def set(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Boolean]
   def clear(id: String): Future[Boolean]
   def keepAlive(id: String): Future[Boolean]

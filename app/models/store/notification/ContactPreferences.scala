@@ -29,7 +29,7 @@ object Preference {
 
   implicit val writes = Writes[Preference] {
     case Email => Json.toJson("Email")
-    case Telephone => Json.toJson("Email")
+    case Telephone => Json.toJson("Telephone")
   }
 
   implicit val format: Format[Preference] =  Format(reads, writes)
