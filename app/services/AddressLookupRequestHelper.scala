@@ -26,13 +26,13 @@ trait AddressLookupRequestHelper {
 
   val API_VERSION = 2
 
-  def lookupRequestForYourAddress(baseUrl: String, 
+  def lookupRequestForYourAddress(timeout: Int, baseUrl: String, 
                                         redirectUrl: String, 
                                         proposalListLimit: Int, 
                                         userAnswers: UserAnswers,
                                         languageTranslationEnabled: Boolean)(implicit messages: Messages): AddressLookupRequest = {
 
-    lookupRequestForAddress(baseUrl, redirectUrl, proposalListLimit, languageTranslationEnabled,
+    lookupRequestForAddress(timeout, baseUrl, redirectUrl, proposalListLimit, languageTranslationEnabled,
                             "yourCountryLookup.title", 
                             "yourCountryLookup.heading",
                             "yourCountryLookup.hint",
@@ -47,12 +47,12 @@ trait AddressLookupRequestHelper {
                             "confirmAddress.heading")
   }
 
-  def lookupRequestForIndividualAddress(baseUrl: String, 
+  def lookupRequestForIndividualAddress(timeout: Int, baseUrl: String, 
                                         redirectUrl: String, 
                                         proposalListLimit: Int,
                                         languageTranslationEnabled: Boolean)(implicit messages: Messages): AddressLookupRequest = {                                      
 
-    lookupRequestForAddress(baseUrl, redirectUrl, proposalListLimit, languageTranslationEnabled,
+    lookupRequestForAddress(timeout, baseUrl, redirectUrl, proposalListLimit, languageTranslationEnabled,
                             "individualCountryLookup.title", 
                             "individualCountryLookup.heading",
                             "individualCountryLookup.hint",
@@ -67,12 +67,12 @@ trait AddressLookupRequestHelper {
                             "confirmIndividualAddress.heading")
   }
 
-  def lookupRequestForCompanyAddress(baseUrl: String, 
+  def lookupRequestForCompanyAddress(timeout: Int, baseUrl: String, 
                                      redirectUrl: String, 
                                      proposalListLimit: Int,
                                      languageTranslationEnabled: Boolean)(implicit messages: Messages): AddressLookupRequest = {                                      
 
-    lookupRequestForAddress(baseUrl, redirectUrl, proposalListLimit, languageTranslationEnabled,
+    lookupRequestForAddress(timeout, baseUrl, redirectUrl, proposalListLimit, languageTranslationEnabled,
                             "companyCountryLookup.title", 
                             "companyCountryLookup.heading",
                             "companyCountryLookup.hint",
@@ -87,12 +87,12 @@ trait AddressLookupRequestHelper {
                             "confirmCompanyAddress.heading")
   }
 
-  def lookupRequestForLLPAddress(baseUrl: String, 
+  def lookupRequestForLLPAddress(timeout: Int, baseUrl: String, 
                                      redirectUrl: String, 
                                      proposalListLimit: Int,
                                      languageTranslationEnabled: Boolean)(implicit messages: Messages): AddressLookupRequest = {                                      
 
-    lookupRequestForAddress(baseUrl, redirectUrl, proposalListLimit, languageTranslationEnabled,
+    lookupRequestForAddress(timeout, baseUrl, redirectUrl, proposalListLimit, languageTranslationEnabled,
                             "llpCountryLookup.title", 
                             "llpCountryLookup.heading",
                             "llpCountryLookup.hint",
@@ -107,12 +107,12 @@ trait AddressLookupRequestHelper {
                             "confirmLLPAddress.heading")
   }
 
-  def lookupRequestForTrustAddress(baseUrl: String, 
+  def lookupRequestForTrustAddress(timeout: Int, baseUrl: String, 
                                      redirectUrl: String, 
                                      proposalListLimit: Int,
                                      languageTranslationEnabled: Boolean)(implicit messages: Messages): AddressLookupRequest = {                                      
 
-    lookupRequestForAddress(baseUrl, redirectUrl, proposalListLimit, languageTranslationEnabled,
+    lookupRequestForAddress(timeout, baseUrl, redirectUrl, proposalListLimit, languageTranslationEnabled,
                             "trustCountryLookup.title", 
                             "trustCountryLookup.heading",
                             "trustCountryLookup.hint",
@@ -127,12 +127,12 @@ trait AddressLookupRequestHelper {
                             "confirmTrustAddress.heading")
   }
 
-  def lookupRequestForEstateAddress(baseUrl: String, 
+  def lookupRequestForEstateAddress(timeout: Int, baseUrl: String, 
                                      redirectUrl: String, 
                                      proposalListLimit: Int,
                                      languageTranslationEnabled: Boolean)(implicit messages: Messages): AddressLookupRequest = {                                      
 
-    lookupRequestForAddress(baseUrl, redirectUrl, proposalListLimit, languageTranslationEnabled,
+    lookupRequestForAddress(timeout, baseUrl, redirectUrl, proposalListLimit, languageTranslationEnabled,
                             "estateCountryLookup.title", 
                             "estateCountryLookup.heading",
                             "estateCountryLookup.hint",
@@ -147,7 +147,7 @@ trait AddressLookupRequestHelper {
                             "confirmEstateAddress.heading")
   }
 
-  def lookupRequestForAddress(baseUrl: String, 
+  def lookupRequestForAddress(timeout: Int, baseUrl: String, 
                               redirectUrl: String, 
                               proposalListLimit: Int,
                               languageTranslationEnabled: Boolean,
@@ -165,6 +165,7 @@ trait AddressLookupRequestHelper {
                               confirmAddressHeading: String)(implicit messages: Messages): AddressLookupRequest = {
 
     val selectPageConfig = SelectPageConfig(proposalListLimit = proposalListLimit)
+    val timeoutConfig = TimeoutConfig(timeoutAmount = timeout, timeoutUrl = routes.KeepAliveController.keepAlive.url)
     val addressLookupOptions = AddressLookupOptions(
       continueUrl = s"$baseUrl$redirectUrl",
       serviceHref = s"$baseUrl${routes.IndexController.onPageLoad.url}",
@@ -173,7 +174,8 @@ trait AddressLookupRequestHelper {
       alphaPhase = false,
       disableTranslations = !languageTranslationEnabled,
       selectPageConfig = Some(selectPageConfig),
-      includeHMRCBranding = Some(false)
+      includeHMRCBranding = Some(false),
+      timeoutConfig = Some(timeoutConfig)
     )
 
     val appLevelLabels = AppLevelLabels(messages("service.name"))
