@@ -21,10 +21,12 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryList
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
+import viewmodels.checkAnswers._
 import pages.TaxYearLiabilitiesPage
 import play.api.i18n.Messages
 
 case class CheckYourAnswersViewModel(
+  list: SummaryList,
   taxYearLists: Seq[(Int, SummaryList)],
   liabilitiesTotal: BigDecimal
 )
@@ -44,7 +46,18 @@ object CheckYourAnswersViewModel {
 
     val liabilitiesTotal: BigDecimal = taxYears.map(yearWithLiabilities => yearTotal(yearWithLiabilities.taxYearLiabilities)).sum
 
-    CheckYourAnswersViewModel(taxYearLists, liabilitiesTotal)
+    val list = SummaryListViewModel(
+      rows = Seq(
+        YourLegalInterpretationSummary.row(userAnswers),
+        UnderWhatConsiderationSummary.row(userAnswers),
+        HowMuchTaxHasNotBeenIncludedSummary.row(userAnswers),
+        TheMaximumValueOfAllAssetsSummary.row(userAnswers),
+        TaxBeforeFiveYearsSummary.row(userAnswers),
+        TaxBeforeSevenYearsSummary.row(userAnswers)
+      ).flatten
+    )
+
+    CheckYourAnswersViewModel(list, taxYearLists, liabilitiesTotal)
 
   }
 

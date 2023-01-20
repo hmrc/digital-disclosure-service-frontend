@@ -27,11 +27,16 @@ import viewmodels.govuk.summarylist._
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import org.scalacheck.Arbitrary.arbitrary
 import pages.{WhichYearsPage, TaxYearLiabilitiesPage}
+import uk.gov.hmrc.time.CurrentTaxYear
+import java.time.LocalDate
+import org.scalacheck.Gen
 
-class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChecks {
+class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChecks with CurrentTaxYear {
 
   lazy val app = applicationBuilder(Some(emptyUserAnswers)).build()
   implicit val mess = messages(app)
+
+  def now = () => LocalDate.now()
 
   "penaltyAmount" - {
 
@@ -62,6 +67,70 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
   }
 
   "CheckYourAnswersViewModel" - {
+
+    "return an empty Seq where the offshore pages isn't populated" in {
+      val ua = UserAnswers("id")
+      val viewModel = CheckYourAnswersViewModel(ua)
+      viewModel.list mustEqual SummaryListViewModel(rows = Seq.empty)
+      viewModel.taxYearLists mustEqual Nil
+      viewModel.liabilitiesTotal mustEqual BigDecimal(0)
+    }
+
+    "return the correct view for a TaxBeforeFiveYearsSummary is populated" in {
+      val year5 = current.back(5).startYear.toString
+      val ua = UserAnswers("id").set(TaxBeforeFiveYearsPage, "test").success.value
+      val viewModel = CheckYourAnswersViewModel(ua)
+      val summaryList = viewModel.list
+      summaryList.rows(0).key mustEqual Key(Text(mess("taxBeforeFiveYears.checkYourAnswersLabel", year5)))
+    }
+
+    "return the correct view for a TaxBeforeSevenYearsSummary is populated" in {
+      val year7 = current.back(7).startYear.toString
+      val ua = UserAnswers("id").set(TaxBeforeSevenYearsPage, "test").success.value
+      val viewModel = CheckYourAnswersViewModel(ua)
+      val summaryList = viewModel.list
+      summaryList.rows(0).key mustEqual Key(Text(mess("taxBeforeSevenYears.checkYourAnswersLabel", year7)))
+    }
+
+    "return the correct view for a TheMaximumValueOfAllAssetsSummary is populated" in {
+      val gen = Gen.oneOf(TheMaximumValueOfAllAssets.values.toSeq) 
+      forAll(gen) { value =>
+        val ua = UserAnswers("id").set(TheMaximumValueOfAllAssetsPage, value).success.value
+        val viewModel = CheckYourAnswersViewModel(ua)
+        val summaryList = viewModel.list
+        summaryList.rows(0).key mustEqual Key(Text(mess("theMaximumValueOfAllAssets.checkYourAnswersLabel")))
+        summaryList.rows(0).value mustEqual ValueViewModel(HtmlContent(mess(s"theMaximumValueOfAllAssets.${value}")))
+      }
+    }
+
+    "return the correct view for a HowMuchTaxHasNotBeenIncludedSummary is populated" in {
+      val gen = Gen.oneOf(HowMuchTaxHasNotBeenIncluded.values.toSeq) 
+      forAll(gen) { value =>
+        val ua = UserAnswers("id").set(HowMuchTaxHasNotBeenIncludedPage, value).success.value
+        val viewModel = CheckYourAnswersViewModel(ua)
+        val summaryList = viewModel.list
+        summaryList.rows(0).key mustEqual Key(Text(mess("howMuchTaxHasNotBeenIncluded.checkYourAnswersLabel")))
+        summaryList.rows(0).value mustEqual ValueViewModel(HtmlContent(mess(s"howMuchTaxHasNotBeenIncluded.${value}")))
+      }
+    }
+
+    "return the correct view for a UnderWhatConsiderationSummary is populated" in {
+      val ua = UserAnswers("id").set(UnderWhatConsiderationPage, "test").success.value
+      val viewModel = CheckYourAnswersViewModel(ua)
+      val summaryList = viewModel.list
+      summaryList.rows(0).key mustEqual Key(Text(mess("underWhatConsideration.checkYourAnswersLabel")))
+    }
+
+    "return the correct view for a YourLegalInterpretationSummary is populated" in {
+       val gen = Gen.oneOf(YourLegalInterpretation.values.toSeq) 
+       forAll(gen) { value =>
+          val ua = UserAnswers("id").set(YourLegalInterpretationPage, Set(value)).success.value
+          val viewModel = CheckYourAnswersViewModel(ua)
+          val summaryList = viewModel.list
+          summaryList.rows(0).key mustEqual Key(Text(mess("yourLegalInterpretation.checkYourAnswersLabel")))
+          summaryList.rows(0).value mustEqual ValueViewModel(HtmlContent(mess(s"yourLegalInterpretation.${value}")))
+       }
+    }
 
     "return an empty Seq where the years page isn't populated" in {
       val ua = UserAnswers("id")
