@@ -16,7 +16,6 @@
 
 package forms.mappings
 
-import config.Country
 import play.api.data.FormError
 import play.api.data.format.Formatter
 import models.Enumerable

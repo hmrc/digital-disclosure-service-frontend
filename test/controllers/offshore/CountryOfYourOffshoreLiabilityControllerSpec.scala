@@ -17,6 +17,7 @@
 package controllers
 
 import base.SpecBase
+import config.{Countries, Country}
 import forms.CountryOfYourOffshoreLiabilityFormProvider
 import models.{NormalMode, UserAnswers}
 import navigation.{FakeOffshoreNavigator, OffshoreNavigator}
@@ -24,64 +25,73 @@ import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages.CountryOfYourOffshoreLiabilityPage
+import play.api.Environment
 import play.api.inject.bind
 import play.api.mvc.Call
-import play.api.test.FakeRequest
+import play.api.test.{FakeRequest, Injecting}
 import play.api.test.Helpers._
 import services.SessionService
 import views.html.offshore.CountryOfYourOffshoreLiabilityView
 
 import scala.concurrent.Future
 
-class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with MockitoSugar {
+class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with Injecting with MockitoSugar {
 
+  val index = 1
   def onwardRoute = Call("GET", "/foo")
 
-  val formProvider = new CountryOfYourOffshoreLiabilityFormProvider()
-  val form = formProvider()
+  val countrySet = Set(Country("AFG", "Afghanistan"))
+  val userAnswers = UserAnswers(userAnswersId).set(CountryOfYourOffshoreLiabilityPage, countrySet).success.value
+  val app = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-  lazy val countryOfYourOffshoreLiabilityRoute = offshore.routes.CountryOfYourOffshoreLiabilityController.onPageLoad(NormalMode).url
+  lazy val countryOfYourOffshoreLiabilityRoute = offshore.routes.CountryOfYourOffshoreLiabilityController.onPageLoad(index, NormalMode).url
 
   "CountryOfYourOffshoreLiability Controller" - {
 
     "must return OK and the correct view for a GET" in {
+      lazy val env: Environment = inject[Environment]
+      val countries = new Countries(env)
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val formProvider = new CountryOfYourOffshoreLiabilityFormProvider(countries)
+      val form = formProvider(index)
 
-      running(application) {
+      running(app) {
         val request = FakeRequest(GET, countryOfYourOffshoreLiabilityRoute)
 
-        val result = route(application, request).value
+        val result = route(app, request).value
 
-        val view = application.injector.instanceOf[CountryOfYourOffshoreLiabilityView]
+        val view = app.injector.instanceOf[CountryOfYourOffshoreLiabilityView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode, index)(request, messages(app)).toString
       }
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(CountryOfYourOffshoreLiabilityPage, "answer").success.value
+      lazy val env: Environment = inject[Environment]
+      val countries = new Countries(env)
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      val formProvider = new CountryOfYourOffshoreLiabilityFormProvider(countries)
+      val form = formProvider(index)
 
-      running(application) {
+      val app = applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+      running(app) {
         val request = FakeRequest(GET, countryOfYourOffshoreLiabilityRoute)
 
-        val view = application.injector.instanceOf[CountryOfYourOffshoreLiabilityView]
+        val view = app.injector.instanceOf[CountryOfYourOffshoreLiabilityView]
 
-        val result = route(application, request).value
+        val result = route(app, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill("answer"), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(countrySet), NormalMode, index)(request, messages(app)).toString
       }
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
       val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
 
       val application =
@@ -94,7 +104,7 @@ class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with Mockito
       running(application) {
         val request =
           FakeRequest(POST, countryOfYourOffshoreLiabilityRoute)
-            .withFormUrlEncodedBody(("value", "answer"))
+            .withFormUrlEncodedBody(("value", "AFG"))
 
         val result = route(application, request).value
 
@@ -104,7 +114,11 @@ class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with Mockito
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
+      lazy val env: Environment = inject[Environment]
+      val countries = new Countries(env)
 
+      val formProvider = new CountryOfYourOffshoreLiabilityFormProvider(countries)
+      val form = formProvider(index)
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       running(application) {
@@ -119,7 +133,7 @@ class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with Mockito
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode, index)(request, messages(application)).toString
       }
     }
 

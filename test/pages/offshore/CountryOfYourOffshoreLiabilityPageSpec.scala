@@ -16,6 +16,7 @@
 
 package pages
 
+import config.Country
 import pages.behaviours.PageBehaviours
 
 
@@ -23,10 +24,10 @@ class CountryOfYourOffshoreLiabilityPageSpec extends PageBehaviours {
 
   "CountryOfYourOffshoreLiabilityPage" - {
 
-    beRetrievable[String](CountryOfYourOffshoreLiabilityPage)
+    beRetrievable[Set[Country]](CountryOfYourOffshoreLiabilityPage)
 
-    beSettable[String](CountryOfYourOffshoreLiabilityPage)
+    beSettable[Set[Country]](CountryOfYourOffshoreLiabilityPage)
 
-    beRemovable[String](CountryOfYourOffshoreLiabilityPage)
+    beRemovable[Set[Country]](CountryOfYourOffshoreLiabilityPage)
   }
 }

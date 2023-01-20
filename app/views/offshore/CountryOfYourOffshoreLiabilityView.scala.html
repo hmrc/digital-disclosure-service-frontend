@@ -25,6 +25,7 @@
     heading: components.heading,
     countries: config.Countries,
     formHelper: FormWithCSRF,
+    tasklistLink: components.tasklistLink,
     govukErrorSummary: GovukErrorSummary,
     govukSelect: GovukSelect,
     govukInput: GovukInput,
@@ -34,9 +35,7 @@
 @(form: Form[_], mode: Mode, countryNumber: Int)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = title(form,
-    messages("countryOfYourOffshoreLiability.title.first")
-            + messages(s"countryOfYourOffshoreLiability.label.$countryNumber")
-            + messages("countryOfYourOffshoreLiability.title.second"))) {
+    messages(s"countryOfYourOffshoreLiability.title.$countryNumber"))) {
 
     @formHelper(action = controllers.offshore.routes.CountryOfYourOffshoreLiabilityController.onSubmit(countryNumber, mode)) {
 
@@ -44,9 +43,7 @@
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
-        @heading(Text(messages("countryOfYourOffshoreLiability.heading.first")
-                + messages(s"countryOfYourOffshoreLiability.label.$countryNumber")
-                + messages("countryOfYourOffshoreLiability.heading.second")))
+        @heading(Text(messages(s"countryOfYourOffshoreLiability.heading.$countryNumber")))
 
         @govukSelect(Select(
             id = "value",
@@ -66,13 +63,7 @@
         @govukButton(
             ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
         )
-
-        @paragraph(
-            id = Some("task-list-link"),
-            content = HtmlContent(
-                link(id = "task-list-link", text = messages("countryOfYourOffshoreLiability.taskList.link.text"), newTab = true, call = Call("GET", messages("countryOfYourOffshoreLiability.taskList.link.url")))
-            )
-        )
-
     }
+
+    @tasklistLink()
 }

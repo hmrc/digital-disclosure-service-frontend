@@ -56,7 +56,7 @@ final case class UserAnswers(
     cleanupPage(page, updatedData)
   }
 
-  def removeByIndex[A](page: Settable[Seq[A]], index: Int): Try[UserAnswers] = {
+  def removeByIndex[A](page: Settable[Set[A]], index: Int): Try[UserAnswers] = {
     val path = page.path \ index
     val updatedData = remove(path)
     cleanupPage(page, updatedData)

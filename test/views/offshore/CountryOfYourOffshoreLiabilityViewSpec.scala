@@ -17,29 +17,44 @@
 package views.offshore
 
 import base.ViewSpecBase
+import config.{Countries, Country}
 import forms.CountryOfYourOffshoreLiabilityFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.offshore.CountryOfYourOffshoreLiabilityView
 import models.NormalMode
+import org.mockito.MockitoSugar.when
+import org.scalatestplus.mockito.MockitoSugar
 
-class CountryOfYourOffshoreLiabilityViewSpec extends ViewSpecBase with ViewMatchers {
+class CountryOfYourOffshoreLiabilityViewSpec extends ViewSpecBase with ViewMatchers with MockitoSugar {
 
-  val form = new CountryOfYourOffshoreLiabilityFormProvider()()
+  val countries = mock[Countries]
+  val countryNumber = 1
+
+  val countryMock = Country("AAA", "Country")
+  val countrySetMock: Seq[Country] = Seq(countryMock)
+  when(countries.countries).thenReturn(countrySetMock)
+
+  val form = new CountryOfYourOffshoreLiabilityFormProvider(countries)(countryNumber)
   val page: CountryOfYourOffshoreLiabilityView = inject[CountryOfYourOffshoreLiabilityView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode, countryNumber)(request, messages)
 
   "view" should {
 
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("countryOfYourOffshoreLiability.title"))
+      view.select("title").text() must include(messages("countryOfYourOffshoreLiability.title.1"))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-label--xl").text() mustBe messages("countryOfYourOffshoreLiability.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("countryOfYourOffshoreLiability.heading.1")
+    }
+
+    "display the select element and the first must be empty" in {
+      view.getElementsByTag("option").get(0).attr("value") mustBe " "
+      view.getElementsByTag("option").get(1).attr("value") mustBe "AFG"
     }
 
     "display the continue button" in {
@@ -47,6 +62,8 @@ class CountryOfYourOffshoreLiabilityViewSpec extends ViewSpecBase with ViewMatch
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 
+    "have a task list link" in {
+      view.getElementById("task-list-link").attr("href") mustBe controllers.routes.TaskListController.onPageLoad.url
+    }
   }
-
 }

@@ -17,7 +17,6 @@
 package navigation
 
 import base.SpecBase
-import controllers.otherLiabilities.routes
 import pages._
 import models._
 

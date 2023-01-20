@@ -34,7 +34,7 @@ class UserAnswersSpec extends AnyFreeSpec with Matchers with Generators {
   case object TestPage2 extends Gettable[String] with Settable[String] { override def path: JsPath = JsPath \ toString }
   case object TestPage3 extends Gettable[String] with Settable[String] { override def path: JsPath = JsPath \ toString }
 
-  case object TestSeqPage extends Gettable[Seq[String]] with Settable[Seq[String]] { override def path: JsPath = JsPath \ toString }
+  case object TestSeqPage extends Gettable[Set[String]] with Settable[Set[String]] { override def path: JsPath = JsPath \ toString }
   case object TestMapPage extends Gettable[Map[String, String]] with Settable[Map[String, String]] { override def path: JsPath = JsPath \ toString }
 
 
@@ -100,7 +100,7 @@ class UserAnswersSpec extends AnyFreeSpec with Matchers with Generators {
 
 
     "should get the value of an answer for a given page and index" in {
-      val userAnswers = UserAnswers(id).set(TestSeqPage, Seq("123", "456", "789")).success.value
+      val userAnswers = UserAnswers(id).set(TestSeqPage, Set("123", "456", "789")).success.value
       userAnswers.getByIndex(TestSeqPage, 0) mustBe Some("123")
       userAnswers.getByIndex(TestSeqPage, 1) mustBe Some("456")
       userAnswers.getByIndex(TestSeqPage, 2) mustBe Some("789")
@@ -126,7 +126,7 @@ class UserAnswersSpec extends AnyFreeSpec with Matchers with Generators {
     }
 
     "should remove a value for a given Page" in {
-      val userAnswers = UserAnswers(id).set(TestSeqPage, Seq("123", "456", "789")).success.value
+      val userAnswers = UserAnswers(id).set(TestSeqPage, Set("123", "456", "789")).success.value
 
       val updatedUserAnswer = userAnswers.removeByIndex(TestSeqPage, 2) match {
         case Success(ua) => ua

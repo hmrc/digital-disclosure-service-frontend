@@ -21,7 +21,6 @@ import config.{Countries, Country}
 import javax.inject.Inject
 import forms.mappings.{CountryConstraints, Mappings}
 import play.api.data.Form
-import play.api.i18n.MessagesApi
 
 class CountryOfYourOffshoreLiabilityFormProvider @Inject()(countries: Countries)
   extends CountryConstraints(countries) with Mappings {
