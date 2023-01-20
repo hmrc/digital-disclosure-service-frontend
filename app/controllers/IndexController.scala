@@ -25,6 +25,9 @@ import views.html.IndexView
 import services.{SessionService, StoreDataService}
 import config.FrontendAppConfig
 import models.{UserAnswers, NormalMode}
+import play.api.Logging
+import play.api.libs.json.Json
+import scala.concurrent.{ExecutionContext, Future}
 
 class IndexController @Inject()(
                                 val controllerComponents: MessagesControllerComponents,
@@ -34,26 +37,28 @@ class IndexController @Inject()(
                                 sessionService: SessionService,
                                 dataService: StoreDataService,
                                 appConfig: FrontendAppConfig
-                               ) extends FrontendBaseController with I18nSupport {
+                               )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with Logging {
 
-  def onPageLoad: Action[AnyContent] = (identify andThen getData) { implicit request =>
+  def onPageLoad: Action[AnyContent] = (identify andThen getData).async { implicit request =>
 
-    val userAnswers = request.userAnswers match {
+    val futureUA = request.userAnswers match {
       case Some(ua) => 
-        ua
+        Future.successful(ua)
       case None => 
         sessionService.newSession(request.userId)
-        UserAnswers(request.userId)
     }
 
-    val notificationJourneyIsComplete = dataService.userAnswersToNotification(userAnswers).isComplete
+    futureUA.map{ userAnswers =>
+      val notification = dataService.userAnswersToNotification(userAnswers)
+      logger.info(Json.toJson(notification).toString)
 
-    val url = 
-      if (appConfig.fullDisclosureJourneyEnabled) controllers.routes.MakeANotificationOrDisclosureController.onPageLoad(NormalMode).url
-      else if (notificationJourneyIsComplete) controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
-      else controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url
-    
-    Ok(view(url))
+      val url = 
+        if (appConfig.fullDisclosureJourneyEnabled) controllers.routes.MakeANotificationOrDisclosureController.onPageLoad(NormalMode).url
+        else if (notification.isComplete) controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
+        else controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url
+      
+      Ok(view(url))
+    }
   }
   
 }
