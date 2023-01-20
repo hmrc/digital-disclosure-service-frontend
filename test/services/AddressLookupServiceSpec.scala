@@ -65,6 +65,7 @@ class AddressLookupServiceSpec
   val config: Configuration = Configuration(
     ConfigFactory.parseString(
       """
+        |timeout-dialog.timeout = 900,
         |self.url = host1.com,
         |features.welsh-translation = false
         |microservice {

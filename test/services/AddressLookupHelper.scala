@@ -24,6 +24,7 @@ trait AddressLookupHelper {
    
     def constructYourAddressRequest(afterHeadingText: Option[String])(implicit messages: Messages) = {
       val selectPageConfig = SelectPageConfig(proposalListLimit = 15)
+      val timeoutConfig = TimeoutConfig(timeoutAmount = 900, timeoutUrl = routes.KeepAliveController.keepAlive.url)
       val addressLookupOptions = AddressLookupOptions(
         continueUrl = "host1.com/redirect",
         serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
@@ -32,7 +33,8 @@ trait AddressLookupHelper {
         alphaPhase = false,
         disableTranslations = true,
         selectPageConfig = Some(selectPageConfig),
-        includeHMRCBranding = Some(false)
+        includeHMRCBranding = Some(false),
+        timeoutConfig = Some(timeoutConfig)
       )
 
       val appLevelLabels = AppLevelLabels(messages("service.name"))
@@ -88,6 +90,7 @@ trait AddressLookupHelper {
 
     def individualLookupRequest(implicit messages: Messages) = {
       val selectPageConfig = SelectPageConfig(proposalListLimit = 15)
+      val timeoutConfig = TimeoutConfig(timeoutAmount = 900, timeoutUrl = routes.KeepAliveController.keepAlive.url)
       val addressLookupOptions = AddressLookupOptions(
         continueUrl = "host1.com/redirect",
         serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
@@ -96,7 +99,8 @@ trait AddressLookupHelper {
         alphaPhase = false,
         disableTranslations = true,
         selectPageConfig = Some(selectPageConfig),
-        includeHMRCBranding = Some(false)
+        includeHMRCBranding = Some(false),
+        timeoutConfig = Some(timeoutConfig)
       )
 
       val appLevelLabels = AppLevelLabels(messages("service.name"))
@@ -145,6 +149,7 @@ trait AddressLookupHelper {
 
     def companyLookupRequest(implicit messages: Messages) = {
       val selectPageConfig = SelectPageConfig(proposalListLimit = 15)
+      val timeoutConfig = TimeoutConfig(timeoutAmount = 900, timeoutUrl = routes.KeepAliveController.keepAlive.url)
       val addressLookupOptions = AddressLookupOptions(
         continueUrl = "host1.com/redirect",
         serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
@@ -153,7 +158,8 @@ trait AddressLookupHelper {
         alphaPhase = false,
         disableTranslations = true,
         selectPageConfig = Some(selectPageConfig),
-        includeHMRCBranding = Some(false)
+        includeHMRCBranding = Some(false),
+        timeoutConfig = Some(timeoutConfig)
       )
 
       val appLevelLabels = AppLevelLabels(messages("service.name"))
@@ -202,6 +208,7 @@ trait AddressLookupHelper {
 
     def llpLookupRequest(implicit messages: Messages) = {
       val selectPageConfig = SelectPageConfig(proposalListLimit = 15)
+      val timeoutConfig = TimeoutConfig(timeoutAmount = 900, timeoutUrl = routes.KeepAliveController.keepAlive.url)
       val addressLookupOptions = AddressLookupOptions(
         continueUrl = "host1.com/redirect",
         serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
@@ -210,7 +217,8 @@ trait AddressLookupHelper {
         alphaPhase = false,
         disableTranslations = true,
         selectPageConfig = Some(selectPageConfig),
-        includeHMRCBranding = Some(false)
+        includeHMRCBranding = Some(false),
+        timeoutConfig = Some(timeoutConfig)
       )
 
       val appLevelLabels = AppLevelLabels(messages("service.name"))
@@ -259,6 +267,7 @@ trait AddressLookupHelper {
 
     def trustLookupRequest(implicit messages: Messages) = {
       val selectPageConfig = SelectPageConfig(proposalListLimit = 15)
+      val timeoutConfig = TimeoutConfig(timeoutAmount = 900, timeoutUrl = routes.KeepAliveController.keepAlive.url)
       val addressLookupOptions = AddressLookupOptions(
         continueUrl = "host1.com/redirect",
         serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
@@ -267,7 +276,8 @@ trait AddressLookupHelper {
         alphaPhase = false,
         disableTranslations = true,
         selectPageConfig = Some(selectPageConfig),
-        includeHMRCBranding = Some(false)
+        includeHMRCBranding = Some(false),
+        timeoutConfig = Some(timeoutConfig)
       )
 
       val appLevelLabels = AppLevelLabels(messages("service.name"))
@@ -316,6 +326,7 @@ trait AddressLookupHelper {
 
     def estateLookupRequest(implicit messages: Messages) = {
       val selectPageConfig = SelectPageConfig(proposalListLimit = 15)
+      val timeoutConfig = TimeoutConfig(timeoutAmount = 900, timeoutUrl = routes.KeepAliveController.keepAlive.url)
       val addressLookupOptions = AddressLookupOptions(
         continueUrl = "host1.com/redirect",
         serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
@@ -324,7 +335,8 @@ trait AddressLookupHelper {
         alphaPhase = false,
         disableTranslations = true,
         selectPageConfig = Some(selectPageConfig),
-        includeHMRCBranding = Some(false)
+        includeHMRCBranding = Some(false),
+        timeoutConfig = Some(timeoutConfig)
       )
 
       val appLevelLabels = AppLevelLabels(messages("service.name"))
