@@ -24,15 +24,21 @@ import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
+import uk.gov.hmrc.time.CurrentTaxYear
+import java.time.LocalDate
 
-object TaxBeforeFiveYearsSummary  {
+object TaxBeforeFiveYearsSummary extends CurrentTaxYear  {
 
+  def now = () => LocalDate.now()
+  
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
     answers.get(TaxBeforeFiveYearsPage).map {
       answer =>
 
+      val year = current.back(5).startYear.toString
+
       SummaryListRowViewModel(
-        key     = "taxBeforeFiveYears.checkYourAnswersLabel",
+        key     = messages("taxBeforeFiveYears.checkYourAnswersLabel", year),
         value   = ValueViewModel(HtmlFormat.escape(answer).toString),
         actions = Seq(
           ActionItemViewModel("site.change", routes.TaxBeforeFiveYearsController.onPageLoad(CheckMode).url)

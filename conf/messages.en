@@ -1221,14 +1221,14 @@ yourLegalInterpretation.inheritanceTaxIssues = Inheritance Tax issues
 yourLegalInterpretation.whetherIncomeShouldBeTaxed = Whether income should be taxed under the settlements legislation at section 624 onwards of the Income Tax (Trading and Other Income) Act 2005. This legislation applies where an individual gains a tax advantage by making arrangements to divert their income to another person who is liable at a lower rate of tax or is not liable to income tax.
 yourLegalInterpretation.anotherIssue = Another issue
 yourLegalInterpretation.noExclusion = Amounts have not been excluded from this disclosure
-yourLegalInterpretation.checkYourAnswersLabel = Your legal interpretation
+yourLegalInterpretation.checkYourAnswersLabel = Legal considerations for not including any amount of tax
 yourLegalInterpretation.error.required = Select all relevant legal considerations
 yourLegalInterpretation.error.validSelection = Select the relevant legal consideration, or select Amounts have not been excluded from this disclosure
 yourLegalInterpretation.change.hidden = YourLegalInterpretation
 
 underWhatConsideration.title = Under what consideration of the law led you to not include some tax in this disclosure?
 underWhatConsideration.heading = Under what consideration of the law led you to not include some tax in this disclosure?
-underWhatConsideration.checkYourAnswersLabel = Under what consideration of the law led you to not include some tax in this disclosure
+underWhatConsideration.checkYourAnswersLabel = The other issue that you considered when not including any amount of tax
 underWhatConsideration.error.required = Enter the consideration of the law that led you to not include some tax in this disclosure
 underWhatConsideration.error.length = Your consideration of the law must be between 1 and 5000 characters
 underWhatConsideration.change.hidden = UnderWhatConsideration
@@ -1238,7 +1238,7 @@ howMuchTaxHasNotBeenIncluded.heading = How much tax has not been included in thi
 howMuchTaxHasNotBeenIncluded.tenThousandOrLess = £10,000 or less
 howMuchTaxHasNotBeenIncluded.moreThanTenThousandLessThanOneLakh = More than £10,000 but less than £100,000
 howMuchTaxHasNotBeenIncluded.oneLakhAndMore = £100,000 or more
-howMuchTaxHasNotBeenIncluded.checkYourAnswersLabel = How much tax has not been included in this disclosure as a result of your interpretation
+howMuchTaxHasNotBeenIncluded.checkYourAnswersLabel = Amount of tax not included
 howMuchTaxHasNotBeenIncluded.error.required = Select how much tax has not been included in this disclosure
 howMuchTaxHasNotBeenIncluded.change.hidden = HowMuchTaxHasNotBeenIncluded
 
@@ -1259,7 +1259,7 @@ theMaximumValueOfAllAssets.heading = What was the maximum value of all assets he
 theMaximumValueOfAllAssets.tenThousandOrLess = £10,000 or less
 theMaximumValueOfAllAssets.moreThanTenThousandLessThanOneLakh = More than £10,000 but less than £100,000
 theMaximumValueOfAllAssets.oneLakhAndMore = £100,000 or more
-theMaximumValueOfAllAssets.checkYourAnswersLabel = What was the maximum value of all assets held outside the UK at any point over the last 5 years
+theMaximumValueOfAllAssets.checkYourAnswersLabel = Maximum value of all assets held outside the UK at any point over the last 5 years
 theMaximumValueOfAllAssets.error.required = Select the maximum value
 theMaximumValueOfAllAssets.change.hidden = TheMaximumValueOfAllAssets
 
