@@ -35,7 +35,7 @@ object TaxBeforeSevenYearsSummary extends CurrentTaxYear  {
     answers.get(TaxBeforeSevenYearsPage).map {
       answer =>
 
-      val year = current.back(5).startYear.toString
+      val year = current.back(7).startYear.toString
 
       SummaryListRowViewModel(
         key     = messages("taxBeforeSevenYears.checkYourAnswersLabel", year),
