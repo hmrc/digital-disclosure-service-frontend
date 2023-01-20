@@ -29,6 +29,7 @@ trait BackLinkFluency {
     def apply(href: String)(implicit messages: Messages): BackLink =
       BackLink(
         href    = href,
+        classes = "js-enabled",
         content = Text(messages("site.back"))
       )
   }
