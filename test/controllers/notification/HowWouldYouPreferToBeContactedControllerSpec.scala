@@ -37,7 +37,7 @@ class HowWouldYouPreferToBeContactedControllerSpec extends SpecBase with Mockito
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val howWouldYouPreferToBeContactedRoute = notification.routes.HowWouldYouPreferToBeContactedController.onPageLoad(NormalMode).url
+  lazy val howWouldYouPreferToBeContactedRoute = controllers.notification.routes.HowWouldYouPreferToBeContactedController.onPageLoad(NormalMode).url
 
   val formProvider = new HowWouldYouPreferToBeContactedFormProvider()
   val form = formProvider()
@@ -159,8 +159,8 @@ class HowWouldYouPreferToBeContactedControllerSpec extends SpecBase with Mockito
       val previousAnswers = UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, previousPreferences).success.value
       val newAnswer = HowWouldYouPreferToBeContacted.Email
 
-      val urlToTest = notification.routes.HowWouldYouPreferToBeContactedController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.YourEmailAddressController.onPageLoad(CheckMode).url
+      val urlToTest = controllers.notification.routes.HowWouldYouPreferToBeContactedController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.YourEmailAddressController.onPageLoad(CheckMode).url
       val application = applicationBuilder(userAnswers = Some(previousAnswers)).build()
 
       running(application) {
@@ -179,8 +179,8 @@ class HowWouldYouPreferToBeContactedControllerSpec extends SpecBase with Mockito
       val previousAnswers = UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, previousPreferences).success.value
       val newAnswer = HowWouldYouPreferToBeContacted.Telephone
 
-      val urlToTest = notification.routes.HowWouldYouPreferToBeContactedController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.YourPhoneNumberController.onPageLoad(CheckMode).url
+      val urlToTest = controllers.notification.routes.HowWouldYouPreferToBeContactedController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.YourPhoneNumberController.onPageLoad(CheckMode).url
       val application = applicationBuilder(userAnswers = Some(previousAnswers)).build()
 
       running(application) {
@@ -201,8 +201,8 @@ class HowWouldYouPreferToBeContactedControllerSpec extends SpecBase with Mockito
       val newAnswerEmail: HowWouldYouPreferToBeContacted = HowWouldYouPreferToBeContacted.Email
       val newAnswerTelephone: HowWouldYouPreferToBeContacted = HowWouldYouPreferToBeContacted.Telephone
 
-      val urlToTest = notification.routes.HowWouldYouPreferToBeContactedController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.HowWouldYouPreferToBeContactedController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
       val application = applicationBuilder(userAnswers = Some(previousAnswers)).build()
 
       running(application) {

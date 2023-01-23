@@ -36,7 +36,7 @@ class DoesTheIndividualHaveNationalInsuranceNumberControllerSpec extends Control
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val doesTheIndividualHaveNationalInsuranceNumberRoute = notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(NormalMode).url
+  lazy val doesTheIndividualHaveNationalInsuranceNumberRoute = controllers.notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(NormalMode).url
 
   val formProvider = new DoesTheIndividualHaveNationalInsuranceNumberFormProvider()
   val form = formProvider()
@@ -158,8 +158,8 @@ class DoesTheIndividualHaveNationalInsuranceNumberControllerSpec extends Control
       val previousAnswer = DoesTheIndividualHaveNationalInsuranceNumber.No
       val newAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow
 
-      val urlToTest = notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val urlToTest = controllers.notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(CheckMode).url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, DoesTheIndividualHaveNationalInsuranceNumberPage, urlToTest, destinationRoute, Nil)
     }
@@ -169,8 +169,8 @@ class DoesTheIndividualHaveNationalInsuranceNumberControllerSpec extends Control
       val previousAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesButDontKnow
       val newAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow
 
-      val urlToTest = notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val urlToTest = controllers.notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(CheckMode).url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, DoesTheIndividualHaveNationalInsuranceNumberPage, urlToTest, destinationRoute, Nil)
     }
@@ -180,8 +180,8 @@ class DoesTheIndividualHaveNationalInsuranceNumberControllerSpec extends Control
       val previousAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow
       val newAnswer = DoesTheIndividualHaveNationalInsuranceNumber.No
 
-      val urlToTest = notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, DoesTheIndividualHaveNationalInsuranceNumberPage, urlToTest, destinationRoute, List(WhatIsIndividualsNationalInsuranceNumberPage))
     }
@@ -191,8 +191,8 @@ class DoesTheIndividualHaveNationalInsuranceNumberControllerSpec extends Control
       val previousAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow
       val newAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesButDontKnow
 
-      val urlToTest = notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, DoesTheIndividualHaveNationalInsuranceNumberPage, urlToTest, destinationRoute, List(WhatIsIndividualsNationalInsuranceNumberPage))
     }
@@ -202,8 +202,8 @@ class DoesTheIndividualHaveNationalInsuranceNumberControllerSpec extends Control
       val previousAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow
       val newAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow
 
-      val urlToTest = notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, DoesTheIndividualHaveNationalInsuranceNumberPage, urlToTest, destinationRoute, Nil)
     }
@@ -213,8 +213,8 @@ class DoesTheIndividualHaveNationalInsuranceNumberControllerSpec extends Control
       val previousAnswer = DoesTheIndividualHaveNationalInsuranceNumber.No
       val newAnswer = DoesTheIndividualHaveNationalInsuranceNumber.No
 
-      val urlToTest = notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, DoesTheIndividualHaveNationalInsuranceNumberPage, urlToTest, destinationRoute, Nil)
     }

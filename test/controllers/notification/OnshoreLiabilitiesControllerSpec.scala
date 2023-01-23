@@ -37,7 +37,7 @@ class OnshoreLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val onshoreLiabilitiesRoute = notification.routes.OnshoreLiabilitiesController.onPageLoad(NormalMode).url
+  lazy val onshoreLiabilitiesRoute = controllers.notification.routes.OnshoreLiabilitiesController.onPageLoad(NormalMode).url
 
   val formProvider = new OnshoreLiabilitiesFormProvider()
   val form = formProvider()

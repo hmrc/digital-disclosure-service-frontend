@@ -40,7 +40,7 @@ class WhatIsIndividualsNationalInsuranceNumberControllerSpec extends SpecBase wi
   val formProvider = new WhatIsIndividualsNationalInsuranceNumberFormProvider()
   val form = formProvider()
 
-  lazy val whatIsIndividualsNationalInsuranceNumberRoute = notification.routes.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(NormalMode).url
+  lazy val whatIsIndividualsNationalInsuranceNumberRoute = controllers.notification.routes.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(NormalMode).url
 
   "WhatIsIndividualsNationalInsuranceNumber Controller" - {
 

@@ -30,7 +30,7 @@ class IndividualSentYourNotificationControllerSpec extends SpecBase {
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, notification.routes.IndividualSentYourNotificationController.onPageLoad.url)
+        val request = FakeRequest(GET, controllers.notification.routes.IndividualSentYourNotificationController.onPageLoad.url)
 
         val result = route(application, request).value
 

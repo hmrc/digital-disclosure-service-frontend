@@ -39,7 +39,7 @@ class AreYouTheExecutorOfTheEstateControllerSpec extends ControllerSpecBase {
   val formProvider = new AreYouTheExecutorOfTheEstateFormProvider()
   val form = formProvider()
 
-  lazy val areYouTheExecutorOfTheEstateRoute = notification.routes.AreYouTheExecutorOfTheEstateController.onPageLoad(NormalMode).url
+  lazy val areYouTheExecutorOfTheEstateRoute = controllers.notification.routes.AreYouTheExecutorOfTheEstateController.onPageLoad(NormalMode).url
 
   "AreYouTheExecutorOfTheEstate Controller" - {
 
@@ -157,8 +157,8 @@ class AreYouTheExecutorOfTheEstateControllerSpec extends ControllerSpecBase {
       val previousAnswer = true
       val newAnswer = false
 
-      val urlToTest = notification.routes.AreYouTheExecutorOfTheEstateController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+      val urlToTest = controllers.notification.routes.AreYouTheExecutorOfTheEstateController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouTheExecutorOfTheEstatePage, urlToTest, destinationRoute)
     }
@@ -168,8 +168,8 @@ class AreYouTheExecutorOfTheEstateControllerSpec extends ControllerSpecBase {
       val previousAnswer = false
       val newAnswer = true
 
-      val urlToTest = notification.routes.AreYouTheExecutorOfTheEstateController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.AreYouTheExecutorOfTheEstateController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouTheExecutorOfTheEstatePage, urlToTest, destinationRoute, List(AreYouRepresentingAnOrganisationPage, WhatIsTheNameOfTheOrganisationYouRepresentPage))
     }
@@ -178,8 +178,8 @@ class AreYouTheExecutorOfTheEstateControllerSpec extends ControllerSpecBase {
       val previousAnswer = true
       val newAnswer = true
 
-      val urlToTest = notification.routes.AreYouTheExecutorOfTheEstateController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.AreYouTheExecutorOfTheEstateController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouTheExecutorOfTheEstatePage, urlToTest, destinationRoute, Nil)
     }
@@ -188,8 +188,8 @@ class AreYouTheExecutorOfTheEstateControllerSpec extends ControllerSpecBase {
       val previousAnswer = false
       val newAnswer = false
 
-      val urlToTest = notification.routes.AreYouTheExecutorOfTheEstateController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.AreYouTheExecutorOfTheEstateController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouTheExecutorOfTheEstatePage, urlToTest, destinationRoute, Nil)
     }

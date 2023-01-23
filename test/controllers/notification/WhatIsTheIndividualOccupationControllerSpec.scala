@@ -40,7 +40,7 @@ class WhatIsTheIndividualOccupationControllerSpec extends SpecBase with MockitoS
   val formProvider = new WhatIsTheIndividualOccupationFormProvider()
   val form = formProvider()
 
-  lazy val whatIsTheIndividualOccupationRoute = notification.routes.WhatIsTheIndividualOccupationController.onPageLoad(NormalMode).url
+  lazy val whatIsTheIndividualOccupationRoute = controllers.notification.routes.WhatIsTheIndividualOccupationController.onPageLoad(NormalMode).url
 
   "WhatIsTheIndividualOccupation Controller" - {
 

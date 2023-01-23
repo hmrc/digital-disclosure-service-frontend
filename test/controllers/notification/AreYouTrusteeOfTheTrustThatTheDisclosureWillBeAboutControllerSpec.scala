@@ -37,7 +37,7 @@ class AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutControllerSpec extends 
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val areYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutRoute = notification.routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode).url
+  lazy val areYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutRoute = controllers.notification.routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode).url
 
   val formProvider = new AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutFormProvider()
   val form = formProvider()

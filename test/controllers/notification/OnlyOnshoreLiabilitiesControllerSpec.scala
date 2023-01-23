@@ -49,7 +49,7 @@ class OnlyOnshoreLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
           ).build()
 
       running(application) {
-        val request = FakeRequest(GET, notification.routes.OnlyOnshoreLiabilitiesController.onPageLoad(NormalMode).url)
+        val request = FakeRequest(GET, controllers.notification.routes.OnlyOnshoreLiabilitiesController.onPageLoad(NormalMode).url)
 
         val result = route(application, request).value
 

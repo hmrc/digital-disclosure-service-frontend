@@ -43,7 +43,7 @@ class LLPAddressLookupControllerSpec extends SpecBase with MockFactory with Mode
   def addressLookupOnwardRoute = Call("GET", "http://localhost:15003/foo")
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val addressLookupRoute = notification.routes.LLPAddressLookupController.lookupAddress(NormalMode).url
+  lazy val addressLookupRoute = controllers.notification.routes.LLPAddressLookupController.lookupAddress(NormalMode).url
   lazy val mockSessionService = mock[SessionService]
 
   val addressLookupService = mock[AddressLookupService]
@@ -112,7 +112,7 @@ class LLPAddressLookupControllerSpec extends SpecBase with MockFactory with Mode
       val application = buildApplication
 
       val uuid = UUID.randomUUID()
-      lazy val retrieveAddressRoute = notification.routes.LLPAddressLookupController.retrieveConfirmedAddress(NormalMode, Some(uuid)).url
+      lazy val retrieveAddressRoute = controllers.notification.routes.LLPAddressLookupController.retrieveConfirmedAddress(NormalMode, Some(uuid)).url
 
       running(application) {
         val request = FakeRequest(GET, retrieveAddressRoute)
@@ -130,7 +130,7 @@ class LLPAddressLookupControllerSpec extends SpecBase with MockFactory with Mode
     "must redirect to the address lookup when an id isn't entered" in {
 
       val application = buildApplication
-      lazy val retrieveAddressRoute = notification.routes.LLPAddressLookupController.retrieveConfirmedAddress(NormalMode).url
+      lazy val retrieveAddressRoute = controllers.notification.routes.LLPAddressLookupController.retrieveConfirmedAddress(NormalMode).url
 
       running(application) {
         val request = FakeRequest(GET, retrieveAddressRoute)
@@ -138,7 +138,7 @@ class LLPAddressLookupControllerSpec extends SpecBase with MockFactory with Mode
         val result = route(application, request).value
 
         status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual notification.routes.LLPAddressLookupController.lookupAddress(NormalMode).url
+        redirectLocation(result).value mustEqual controllers.notification.routes.LLPAddressLookupController.lookupAddress(NormalMode).url
       }
     }
 

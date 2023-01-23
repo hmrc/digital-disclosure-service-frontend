@@ -40,7 +40,7 @@ class WhatWasTheNameOfThePersonWhoDiedControllerSpec extends SpecBase with Mocki
   val formProvider = new WhatWasTheNameOfThePersonWhoDiedFormProvider()
   val form = formProvider()
 
-  lazy val whatWasTheNameOfThePersonWhoDiedRoute = notification.routes.WhatWasTheNameOfThePersonWhoDiedController.onPageLoad(NormalMode).url
+  lazy val whatWasTheNameOfThePersonWhoDiedRoute = controllers.notification.routes.WhatWasTheNameOfThePersonWhoDiedController.onPageLoad(NormalMode).url
 
   "WhatWasTheNameOfThePersonWhoDied Controller" - {
 

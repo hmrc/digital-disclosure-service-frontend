@@ -22,7 +22,6 @@ import models._
 import models.address._
 import org.scalacheck.magnolia.Typeclass
 import org.scalacheck.magnolia.gen
-import scala.language.higherKinds
 
 trait ModelGenerators {
 
@@ -45,11 +44,11 @@ trait ModelGenerators {
     Arbitrary {
       for {
         year <- Gen.choose(2002, 2032)
-        income <- arbitrary[BigInt]
-        chargeableTransfers <- arbitrary[BigInt]
-        capitalGains <- arbitrary[BigInt]
-        unpaidTax <- arbitrary[BigInt]
-        interest <- arbitrary[BigInt]
+        income <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
+        chargeableTransfers <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
+        capitalGains <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
+        unpaidTax <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
+        interest <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
         penaltyRate <- arbitrary[Int]
         foreignTaxCredit <- arbitrary[Boolean]
       } yield {

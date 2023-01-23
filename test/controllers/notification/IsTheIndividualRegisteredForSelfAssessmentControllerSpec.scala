@@ -36,7 +36,7 @@ class IsTheIndividualRegisteredForSelfAssessmentControllerSpec extends Controlle
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val isTheIndividualRegisteredForSelfAssessmentRoute = notification.routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(NormalMode).url
+  lazy val isTheIndividualRegisteredForSelfAssessmentRoute = controllers.notification.routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(NormalMode).url
 
   val formProvider = new IsTheIndividualRegisteredForSelfAssessmentFormProvider()
   val form = formProvider()
@@ -158,8 +158,8 @@ class IsTheIndividualRegisteredForSelfAssessmentControllerSpec extends Controlle
       val previousAnswer = IsTheIndividualRegisteredForSelfAssessment.No
       val newAnswer = IsTheIndividualRegisteredForSelfAssessment.YesIKnow
 
-      val urlToTest = notification.routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.WhatIsTheIndividualsUniqueTaxReferenceController.onPageLoad(CheckMode).url
+      val urlToTest = controllers.notification.routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.WhatIsTheIndividualsUniqueTaxReferenceController.onPageLoad(CheckMode).url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, IsTheIndividualRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, Nil)
     }
@@ -169,8 +169,8 @@ class IsTheIndividualRegisteredForSelfAssessmentControllerSpec extends Controlle
       val previousAnswer = IsTheIndividualRegisteredForSelfAssessment.YesButDontKnow
       val newAnswer = IsTheIndividualRegisteredForSelfAssessment.YesIKnow
 
-      val urlToTest = notification.routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.WhatIsTheIndividualsUniqueTaxReferenceController.onPageLoad(CheckMode).url
+      val urlToTest = controllers.notification.routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.WhatIsTheIndividualsUniqueTaxReferenceController.onPageLoad(CheckMode).url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, IsTheIndividualRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, Nil)
     }
@@ -180,8 +180,8 @@ class IsTheIndividualRegisteredForSelfAssessmentControllerSpec extends Controlle
       val previousAnswer = IsTheIndividualRegisteredForSelfAssessment.YesIKnow
       val newAnswer = IsTheIndividualRegisteredForSelfAssessment.No
 
-      val urlToTest = notification.routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, IsTheIndividualRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, List(WhatIsTheIndividualsUniqueTaxReferencePage))
     }
@@ -191,8 +191,8 @@ class IsTheIndividualRegisteredForSelfAssessmentControllerSpec extends Controlle
       val previousAnswer = IsTheIndividualRegisteredForSelfAssessment.YesIKnow
       val newAnswer = IsTheIndividualRegisteredForSelfAssessment.YesButDontKnow
 
-      val urlToTest = notification.routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, IsTheIndividualRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, List(WhatIsTheIndividualsUniqueTaxReferencePage))
     }
@@ -202,8 +202,8 @@ class IsTheIndividualRegisteredForSelfAssessmentControllerSpec extends Controlle
       val previousAnswer = IsTheIndividualRegisteredForSelfAssessment.YesIKnow
       val newAnswer = IsTheIndividualRegisteredForSelfAssessment.YesIKnow
 
-      val urlToTest = notification.routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, IsTheIndividualRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, Nil)
     }
@@ -213,8 +213,8 @@ class IsTheIndividualRegisteredForSelfAssessmentControllerSpec extends Controlle
       val previousAnswer = IsTheIndividualRegisteredForSelfAssessment.No
       val newAnswer = IsTheIndividualRegisteredForSelfAssessment.No
 
-      val urlToTest = notification.routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, IsTheIndividualRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, Nil)
     }

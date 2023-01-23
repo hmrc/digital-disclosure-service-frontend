@@ -40,7 +40,7 @@ class WhatIsTheTrustNameControllerSpec extends SpecBase with MockitoSugar {
   val formProvider = new WhatIsTheTrustNameFormProvider()
   val form = formProvider()
 
-  lazy val whatIsTheTrustNameRoute = notification.routes.WhatIsTheTrustNameController.onPageLoad(NormalMode).url
+  lazy val whatIsTheTrustNameRoute = controllers.notification.routes.WhatIsTheTrustNameController.onPageLoad(NormalMode).url
 
   "WhatIsTheTrustName Controller" - {
 

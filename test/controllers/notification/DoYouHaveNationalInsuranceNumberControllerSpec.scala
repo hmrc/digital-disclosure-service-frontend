@@ -36,7 +36,7 @@ class DoYouHaveNationalInsuranceNumberControllerSpec extends ControllerSpecBase 
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val doYouHaveNationalInsuranceNumberRoute = notification.routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(NormalMode).url
+  lazy val doYouHaveNationalInsuranceNumberRoute = controllers.notification.routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(NormalMode).url
 
   val formProvider = new DoYouHaveNationalInsuranceNumberFormProvider()
   val form = formProvider()
@@ -106,8 +106,8 @@ class DoYouHaveNationalInsuranceNumberControllerSpec extends ControllerSpecBase 
       val previousAnswers = Seq(DoYouHaveNationalInsuranceNumber.No, DoYouHaveNationalInsuranceNumber.YesButDontKnow)
       val newAnswer = DoYouHaveNationalInsuranceNumber.YesIKnow
 
-      val urlToTest =  notification.routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.WhatIsYourNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val urlToTest =  controllers.notification.routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.WhatIsYourNationalInsuranceNumberController.onPageLoad(CheckMode).url
 
       previousAnswers.foreach (
         testChangeAnswerRouting(_, newAnswer, DoYouHaveNationalInsuranceNumberPage, urlToTest, destinationRoute)
@@ -118,8 +118,8 @@ class DoYouHaveNationalInsuranceNumberControllerSpec extends ControllerSpecBase 
       val previousAnswer = DoYouHaveNationalInsuranceNumber.YesIKnow
       val newAnswers = Seq(DoYouHaveNationalInsuranceNumber.No, DoYouHaveNationalInsuranceNumber.YesButDontKnow)
 
-      val urlToTest =  notification.routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest =  controllers.notification.routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       val pageToClean = List(WhatIsYourNationalInsuranceNumberPage)
 
@@ -129,8 +129,8 @@ class DoYouHaveNationalInsuranceNumberControllerSpec extends ControllerSpecBase 
     }
 
     "must redirect to CheckYourAnswer screen if there are no changes in the user answer" in {
-      val urlToTest =  notification.routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest =  controllers.notification.routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       DoYouHaveNationalInsuranceNumber.values.foreach( value =>
         testChangeAnswerRouting(value, value, DoYouHaveNationalInsuranceNumberPage, urlToTest, destinationRoute)

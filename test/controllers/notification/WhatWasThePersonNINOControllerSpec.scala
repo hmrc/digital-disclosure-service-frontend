@@ -40,7 +40,7 @@ class WhatWasThePersonNINOControllerSpec extends SpecBase with MockitoSugar {
   val formProvider = new WhatWasThePersonNINOFormProvider()
   val form = formProvider()
 
-  lazy val whatWasThePersonNINORoute = notification.routes.WhatWasThePersonNINOController.onPageLoad(NormalMode).url
+  lazy val whatWasThePersonNINORoute = controllers.notification.routes.WhatWasThePersonNINOController.onPageLoad(NormalMode).url
 
   "WhatWasThePersonNINO Controller" - {
 

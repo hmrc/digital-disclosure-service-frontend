@@ -40,7 +40,7 @@ class WhatIsTheCompanyRegistrationNumberControllerSpec extends SpecBase with Moc
   val formProvider = new WhatIsTheCompanyRegistrationNumberFormProvider()
   val form = formProvider()
 
-  lazy val whatIsTheCompanyRegistrationNumberRoute = notification.routes.WhatIsTheCompanyRegistrationNumberController.onPageLoad(NormalMode).url
+  lazy val whatIsTheCompanyRegistrationNumberRoute = controllers.notification.routes.WhatIsTheCompanyRegistrationNumberController.onPageLoad(NormalMode).url
 
   "WhatIsTheCompanyRegistrationNumber Controller" - {
 

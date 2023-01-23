@@ -31,8 +31,6 @@ import play.api.mvc.{Call, Result}
 import play.api.Logging
 import models.requests.{DataRequest}
 import models.Error
-import pages._
-import models._
 import scala.concurrent.{ExecutionContext, Future}
 
 class YourAddressLookupController @Inject()(

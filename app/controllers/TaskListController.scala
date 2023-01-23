@@ -41,7 +41,7 @@ class TaskListController @Inject()(
                                         view: TaskListView
                                     ) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoad(): Action[AnyContent] = (identify andThen getData andThen requireData) {
+  def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
       val ua = request.userAnswers
@@ -66,8 +66,8 @@ class TaskListController @Inject()(
   private def buildYourPersonalDetailsRow(userAnswers: UserAnswers)(implicit messages: Messages): TaskListRow = {
 
     val isSectionComplete = dataService.userAnswersToNotification(userAnswers).isComplete
-    val link = if (isSectionComplete) notification.routes.CheckYourAnswersController.onPageLoad
-      else notification.routes.ReceivedALetterController.onPageLoad(NormalMode)
+    val link = if (isSectionComplete) controllers.notification.routes.CheckYourAnswersController.onPageLoad
+      else controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode)
 
     TaskListRow(
       id = "personal-detail-task-list", 
@@ -78,7 +78,7 @@ class TaskListController @Inject()(
     )
   }
 
-  private def buildCaseReferenceRow()(implicit messages: Messages): TaskListRow = {
+  private def buildCaseReferenceRow(implicit messages: Messages): TaskListRow = {
     TaskListRow(
       id = "case-reference-task-list", 
       operation = messages("taskList.op.add"),
@@ -88,7 +88,7 @@ class TaskListController @Inject()(
     )
   }
 
-  private def buildOnshoreLiabilitieDetailRow()(implicit messages: Messages): TaskListRow = {
+  private def buildOnshoreLiabilitieDetailRow(implicit messages: Messages): TaskListRow = {
     TaskListRow(
       id = "onshore-liabilitie-task-list", 
       operation = messages("taskList.op.add"),
@@ -108,7 +108,7 @@ class TaskListController @Inject()(
     )
   }
 
-  private def buildOtherLiabilityIssueRow()(implicit messages: Messages): TaskListRow = {
+  private def buildOtherLiabilityIssueRow(implicit messages: Messages): TaskListRow = {
     TaskListRow(
       id = "other-liability-issue-task-list", 
       operation = messages("taskList.op.add"),
@@ -118,7 +118,7 @@ class TaskListController @Inject()(
     )
   }
 
-  private def buildTheReasonForComingForwardNowRow()(implicit messages: Messages): TaskListRow = {
+  private def buildTheReasonForComingForwardNowRow(implicit messages: Messages): TaskListRow = {
     TaskListRow(
       id = "reason-for-coming-forward-now-liabilitie-task-list", 
       operation = messages("taskList.op.add"),

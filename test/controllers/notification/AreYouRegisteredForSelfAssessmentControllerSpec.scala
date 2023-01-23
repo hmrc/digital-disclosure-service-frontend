@@ -36,7 +36,7 @@ class AreYouRegisteredForSelfAssessmentControllerSpec extends ControllerSpecBase
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val areYouRegisteredForSelfAssessmentRoute = notification.routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(NormalMode).url
+  lazy val areYouRegisteredForSelfAssessmentRoute = controllers.notification.routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(NormalMode).url
 
   val formProvider = new AreYouRegisteredForSelfAssessmentFormProvider()
   val form = formProvider()
@@ -158,8 +158,8 @@ class AreYouRegisteredForSelfAssessmentControllerSpec extends ControllerSpecBase
       val previousAnswer = AreYouRegisteredForSelfAssessment.No
       val newAnswer = AreYouRegisteredForSelfAssessment.YesIKnowMyUTR
 
-      val urlToTest = notification.routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.WhatIsYourUniqueTaxReferenceController.onPageLoad(CheckMode).url
+      val urlToTest = controllers.notification.routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.WhatIsYourUniqueTaxReferenceController.onPageLoad(CheckMode).url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, Nil)
     }
@@ -169,8 +169,8 @@ class AreYouRegisteredForSelfAssessmentControllerSpec extends ControllerSpecBase
       val previousAnswer = AreYouRegisteredForSelfAssessment.YesIDontKnowMyUTR
       val newAnswer = AreYouRegisteredForSelfAssessment.YesIKnowMyUTR
 
-      val urlToTest = notification.routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.WhatIsYourUniqueTaxReferenceController.onPageLoad(CheckMode).url
+      val urlToTest = controllers.notification.routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.WhatIsYourUniqueTaxReferenceController.onPageLoad(CheckMode).url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, Nil)
     }
@@ -180,8 +180,8 @@ class AreYouRegisteredForSelfAssessmentControllerSpec extends ControllerSpecBase
       val previousAnswer = AreYouRegisteredForSelfAssessment.YesIKnowMyUTR
       val newAnswer = AreYouRegisteredForSelfAssessment.No
 
-      val urlToTest = notification.routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, List(WhatIsYourUniqueTaxReferencePage))
     }
@@ -191,8 +191,8 @@ class AreYouRegisteredForSelfAssessmentControllerSpec extends ControllerSpecBase
       val previousAnswer = AreYouRegisteredForSelfAssessment.YesIKnowMyUTR
       val newAnswer = AreYouRegisteredForSelfAssessment.YesIDontKnowMyUTR
 
-      val urlToTest = notification.routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, List(WhatIsYourUniqueTaxReferencePage))
     }
@@ -202,8 +202,8 @@ class AreYouRegisteredForSelfAssessmentControllerSpec extends ControllerSpecBase
       val previousAnswer = AreYouRegisteredForSelfAssessment.YesIKnowMyUTR
       val newAnswer = AreYouRegisteredForSelfAssessment.YesIKnowMyUTR
 
-      val urlToTest = notification.routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, Nil)
     }
@@ -213,8 +213,8 @@ class AreYouRegisteredForSelfAssessmentControllerSpec extends ControllerSpecBase
       val previousAnswer = AreYouRegisteredForSelfAssessment.No
       val newAnswer = AreYouRegisteredForSelfAssessment.No
 
-      val urlToTest = notification.routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, Nil)
     }
