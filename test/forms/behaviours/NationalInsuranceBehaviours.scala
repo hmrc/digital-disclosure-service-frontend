@@ -34,6 +34,19 @@ trait NationalInsuranceBehaviours extends FieldBehaviours {
           result.errors mustBe empty
       }
     }
+
+    "bind valid national insurance number with leading or trailing blanks" in {
+
+      val validDataGenerator = nino()
+
+      forAll(validDataGenerator -> "validDataItem") {
+        dataItem: String =>
+          val withBlanks = s" $dataItem "
+          val result = form.bind(Map(fieldName -> withBlanks)).apply(fieldName)
+          result.value.value mustBe withBlanks
+          result.errors mustBe empty
+      }
+    }
   }
 
   def nationalInsuraceNumberBindsInvalidData(form: Form[_],
