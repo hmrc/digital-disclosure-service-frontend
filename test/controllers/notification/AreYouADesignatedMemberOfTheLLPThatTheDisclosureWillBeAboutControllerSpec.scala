@@ -36,7 +36,7 @@ class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutControllerSpec 
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutRoute = notification.routes.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode).url
+  lazy val areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutRoute = controllers.notification.routes.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode).url
 
   val formProvider = new AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutFormProvider()
   val form = formProvider()
@@ -158,8 +158,8 @@ class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutControllerSpec 
       val previousAnswer = true
       val newAnswer = false
 
-      val urlToTest = notification.routes.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+      val urlToTest = controllers.notification.routes.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, Nil)
     }
@@ -169,8 +169,8 @@ class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutControllerSpec 
       val previousAnswer = false
       val newAnswer = true
 
-      val urlToTest = notification.routes.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, List(AreYouRepresentingAnOrganisationPage, WhatIsTheNameOfTheOrganisationYouRepresentPage))
     }
@@ -180,8 +180,8 @@ class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutControllerSpec 
       val previousAnswer = true
       val newAnswer = true
 
-      val urlToTest = notification.routes.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, Nil)
     }
@@ -191,8 +191,8 @@ class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutControllerSpec 
       val previousAnswer = false
       val newAnswer = false
 
-      val urlToTest = notification.routes.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, Nil)
     }
@@ -202,8 +202,8 @@ class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutControllerSpec 
       val previousAnswer = true
       val newAnswer = false
 
-      val urlToTest = notification.routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+      val urlToTest = controllers.notification.routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, Nil)
     }
@@ -213,8 +213,8 @@ class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutControllerSpec 
       val previousAnswer = false
       val newAnswer = true
 
-      val urlToTest = notification.routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, List(AreYouRepresentingAnOrganisationPage, WhatIsTheNameOfTheOrganisationYouRepresentPage))
     }
@@ -224,8 +224,8 @@ class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutControllerSpec 
       val previousAnswer = true
       val newAnswer = true
 
-      val urlToTest = notification.routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, Nil)
     }
@@ -235,8 +235,8 @@ class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutControllerSpec 
       val previousAnswer = false
       val newAnswer = false
 
-      val urlToTest = notification.routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, Nil)
     }

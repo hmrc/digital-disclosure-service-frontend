@@ -38,8 +38,8 @@ class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar with 
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val areYouTheIndividualRoute = notification.routes.AreYouTheIndividualController.onPageLoad(NormalMode).url
-  lazy val areYouTheIndividualRouteCheckMode = notification.routes.AreYouTheIndividualController.onPageLoad(CheckMode).url
+  lazy val areYouTheIndividualRoute = controllers.notification.routes.AreYouTheIndividualController.onPageLoad(NormalMode).url
+  lazy val areYouTheIndividualRouteCheckMode = controllers.notification.routes.AreYouTheIndividualController.onPageLoad(CheckMode).url
 
   val formProvider = new AreYouTheIndividualFormProvider()
   val form = formProvider()
@@ -96,7 +96,7 @@ class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar with 
       val application = applicationBuilderWithSessionService(userAnswers = Some(userAnswers), mockSessionService)
         .build()
 
-      val offshoreLiabilitiesRoute = notification.routes.OffshoreLiabilitiesController.onPageLoad(NormalMode).url
+      val offshoreLiabilitiesRoute = controllers.notification.routes.OffshoreLiabilitiesController.onPageLoad(NormalMode).url
 
       running(application) {
         val request =
@@ -128,7 +128,7 @@ class AreYouTheIndividualControllerSpec extends SpecBase with MockitoSugar with 
       val application = applicationBuilderWithSessionService(userAnswers = Some(userAnswers), mockSessionService)
         .build()
 
-      val areYouRepresentingAnOrganisationRoute = notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode).url
+      val areYouRepresentingAnOrganisationRoute = controllers.notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode).url
 
       running(application) {
         val request =

@@ -44,7 +44,7 @@ class WhatIsYourDateOfBirthControllerSpec extends SpecBase with MockitoSugar {
 
   val validAnswer = LocalDate.now(ZoneOffset.UTC).minusDays(1)
 
-  lazy val whatIsYourDateOfBirthRoute = notification.routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode).url
+  lazy val whatIsYourDateOfBirthRoute = controllers.notification.routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode).url
 
   override val emptyUserAnswers = UserAnswers(userAnswersId)
 

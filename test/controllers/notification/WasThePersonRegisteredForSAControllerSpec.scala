@@ -36,7 +36,7 @@ class WasThePersonRegisteredForSAControllerSpec extends ControllerSpecBase {
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val wasThePersonRegisteredForSARoute = notification.routes.WasThePersonRegisteredForSAController.onPageLoad(NormalMode).url
+  lazy val wasThePersonRegisteredForSARoute = controllers.notification.routes.WasThePersonRegisteredForSAController.onPageLoad(NormalMode).url
 
   val formProvider = new WasThePersonRegisteredForSAFormProvider()
   val form = formProvider()
@@ -106,8 +106,8 @@ class WasThePersonRegisteredForSAControllerSpec extends ControllerSpecBase {
       val previousAnswers = Seq(WasThePersonRegisteredForSA.No, WasThePersonRegisteredForSA.YesButIDontKnow)
       val newAnswer = WasThePersonRegisteredForSA.YesIKnow
 
-      val urlToTest = notification.routes.WasThePersonRegisteredForSAController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.WhatWasThePersonUTRController.onPageLoad(CheckMode).url
+      val urlToTest = controllers.notification.routes.WasThePersonRegisteredForSAController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.WhatWasThePersonUTRController.onPageLoad(CheckMode).url
 
       previousAnswers.foreach(
         testChangeAnswerRouting(_, newAnswer, WasThePersonRegisteredForSAPage, urlToTest, destinationRoute)
@@ -118,8 +118,8 @@ class WasThePersonRegisteredForSAControllerSpec extends ControllerSpecBase {
       val previousAnswer = WasThePersonRegisteredForSA.YesIKnow
       val newAnswers = Seq(WasThePersonRegisteredForSA.No, WasThePersonRegisteredForSA.YesButIDontKnow)
 
-      val urlToTest = notification.routes.WasThePersonRegisteredForSAController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.WasThePersonRegisteredForSAController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       val pageToClean = List(WhatWasThePersonUTRPage)
 
@@ -129,8 +129,8 @@ class WasThePersonRegisteredForSAControllerSpec extends ControllerSpecBase {
     }
 
     "must redirect to CheckYourAnswer screen if there are no changes in the user answer" in {
-      val urlToTest = notification.routes.WasThePersonRegisteredForSAController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.WasThePersonRegisteredForSAController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       WasThePersonRegisteredForSA.values.foreach(value =>
         testChangeAnswerRouting(value, value, WasThePersonRegisteredForSAPage, urlToTest, destinationRoute)

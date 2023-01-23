@@ -40,7 +40,7 @@ class WhatIsTheIndividualsUniqueTaxReferenceControllerSpec extends SpecBase with
   val formProvider = new WhatIsTheIndividualsUniqueTaxReferenceFormProvider()
   val form = formProvider()
 
-  lazy val whatIsTheIndividualsUniqueTaxReferenceRoute = notification.routes.WhatIsTheIndividualsUniqueTaxReferenceController.onPageLoad(NormalMode).url
+  lazy val whatIsTheIndividualsUniqueTaxReferenceRoute = controllers.notification.routes.WhatIsTheIndividualsUniqueTaxReferenceController.onPageLoad(NormalMode).url
 
   "WhatIsTheIndividualsUniqueTaxReference Controller" - {
 

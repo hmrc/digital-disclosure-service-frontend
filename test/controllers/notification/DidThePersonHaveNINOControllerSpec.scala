@@ -36,7 +36,7 @@ class DidThePersonHaveNINOControllerSpec extends ControllerSpecBase  {
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val didThePersonHaveNINORoute = notification.routes.DidThePersonHaveNINOController.onPageLoad(NormalMode).url
+  lazy val didThePersonHaveNINORoute = controllers.notification.routes.DidThePersonHaveNINOController.onPageLoad(NormalMode).url
 
   val formProvider = new DidThePersonHaveNINOFormProvider()
   val form = formProvider()
@@ -106,8 +106,8 @@ class DidThePersonHaveNINOControllerSpec extends ControllerSpecBase  {
       val previousAnswers = Seq(DidThePersonHaveNINO.No, DidThePersonHaveNINO.YesButDontKnow)
       val newAnswer = DidThePersonHaveNINO.YesIKnow
 
-      val urlToTest = notification.routes.DidThePersonHaveNINOController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.WhatWasThePersonNINOController.onPageLoad(CheckMode).url
+      val urlToTest = controllers.notification.routes.DidThePersonHaveNINOController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.WhatWasThePersonNINOController.onPageLoad(CheckMode).url
 
       previousAnswers.foreach(
         testChangeAnswerRouting(_, newAnswer, DidThePersonHaveNINOPage, urlToTest, destinationRoute)
@@ -118,8 +118,8 @@ class DidThePersonHaveNINOControllerSpec extends ControllerSpecBase  {
       val previousAnswer = DidThePersonHaveNINO.YesIKnow
       val newAnswers = Seq(DidThePersonHaveNINO.No, DidThePersonHaveNINO.YesButDontKnow)
 
-      val urlToTest = notification.routes.DidThePersonHaveNINOController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.DidThePersonHaveNINOController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       val pageToClean = List(WhatWasThePersonNINOPage)
 
@@ -129,8 +129,8 @@ class DidThePersonHaveNINOControllerSpec extends ControllerSpecBase  {
     }
 
     "must redirect to CheckYourAnswer screen if there are no changes in the user answer" in {
-      val urlToTest = notification.routes.DidThePersonHaveNINOController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.DidThePersonHaveNINOController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       DidThePersonHaveNINO.values.foreach(value =>
         testChangeAnswerRouting(value, value, DidThePersonHaveNINOPage, urlToTest, destinationRoute)

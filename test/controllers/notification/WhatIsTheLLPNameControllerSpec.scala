@@ -40,7 +40,7 @@ class WhatIsTheLLPNameControllerSpec extends SpecBase with MockitoSugar {
   val formProvider = new WhatIsTheLLPNameFormProvider()
   val form = formProvider()
 
-  lazy val whatIsTheLLPNameRoute = notification.routes.WhatIsTheLLPNameController.onPageLoad(NormalMode).url
+  lazy val whatIsTheLLPNameRoute = controllers.notification.routes.WhatIsTheLLPNameController.onPageLoad(NormalMode).url
 
   "WhatIsTheLLPName Controller" - {
 

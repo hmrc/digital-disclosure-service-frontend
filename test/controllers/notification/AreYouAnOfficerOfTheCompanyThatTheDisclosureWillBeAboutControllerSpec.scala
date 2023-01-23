@@ -36,7 +36,7 @@ class AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutControllerSpec exte
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutRoute = notification.routes.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode).url
+  lazy val areYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutRoute = controllers.notification.routes.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode).url
 
   val formProvider = new AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutFormProvider()
   val form = formProvider()
@@ -159,8 +159,8 @@ class AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutControllerSpec exte
     val previousAnswer = true
     val newAnswer = false
 
-    val urlToTest = notification.routes.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
-    val destinationRoute = notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+    val urlToTest = controllers.notification.routes.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
+    val destinationRoute = controllers.notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
 
     testChangeAnswerRouting(previousAnswer, newAnswer, AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, Nil)
   }
@@ -170,8 +170,8 @@ class AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutControllerSpec exte
     val previousAnswer = false
     val newAnswer = true
 
-    val urlToTest = notification.routes.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
-    val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+    val urlToTest = controllers.notification.routes.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
+    val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
     testChangeAnswerRouting(previousAnswer, newAnswer, AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, List(AreYouRepresentingAnOrganisationPage, WhatIsTheNameOfTheOrganisationYouRepresentPage))
   }
@@ -181,8 +181,8 @@ class AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutControllerSpec exte
     val previousAnswer = true
     val newAnswer = true
 
-    val urlToTest = notification.routes.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
-    val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+    val urlToTest = controllers.notification.routes.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
+    val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
     testChangeAnswerRouting(previousAnswer, newAnswer, AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, Nil)
   }
@@ -192,8 +192,8 @@ class AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutControllerSpec exte
     val previousAnswer = false
     val newAnswer = false
 
-    val urlToTest = notification.routes.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
-    val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+    val urlToTest = controllers.notification.routes.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url
+    val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
     testChangeAnswerRouting(previousAnswer, newAnswer, AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, urlToTest, destinationRoute, Nil)
   }

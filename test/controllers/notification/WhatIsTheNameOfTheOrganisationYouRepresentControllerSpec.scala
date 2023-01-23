@@ -40,7 +40,7 @@ class WhatIsTheNameOfTheOrganisationYouRepresentControllerSpec extends SpecBase 
   val formProvider = new WhatIsTheNameOfTheOrganisationYouRepresentFormProvider()
   val form = formProvider()
 
-  lazy val whatIsTheNameOfTheOrganisationYouRepresentRoute = notification.routes.WhatIsTheNameOfTheOrganisationYouRepresentController.onPageLoad(NormalMode).url
+  lazy val whatIsTheNameOfTheOrganisationYouRepresentRoute = controllers.notification.routes.WhatIsTheNameOfTheOrganisationYouRepresentController.onPageLoad(NormalMode).url
 
   "WhatIsTheNameOfTheOrganisationYouRepresent Controller" - {
 

@@ -40,7 +40,7 @@ class WhatIsTheIndividualsVATRegistrationNumberControllerSpec extends SpecBase w
   val formProvider = new WhatIsTheIndividualsVATRegistrationNumberFormProvider()
   val form = formProvider()
 
-  lazy val whatIsTheIndividualsVATRegistrationNumberRoute = notification.routes.WhatIsTheIndividualsVATRegistrationNumberController.onPageLoad(NormalMode).url
+  lazy val whatIsTheIndividualsVATRegistrationNumberRoute = controllers.notification.routes.WhatIsTheIndividualsVATRegistrationNumberController.onPageLoad(NormalMode).url
 
   "WhatIsTheIndividualsVATRegistrationNumber Controller" - {
 

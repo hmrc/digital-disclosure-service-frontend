@@ -40,7 +40,7 @@ class LetterReferenceControllerSpec extends SpecBase with MockitoSugar {
   val formProvider = new LetterReferenceFormProvider()
   val form = formProvider()
 
-  lazy val letterReferenceRoute = notification.routes.LetterReferenceController.onPageLoad(NormalMode).url
+  lazy val letterReferenceRoute = controllers.notification.routes.LetterReferenceController.onPageLoad(NormalMode).url
 
   "LetterReference Controller" - {
 

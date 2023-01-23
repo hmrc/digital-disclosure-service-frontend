@@ -22,7 +22,6 @@ import models.store.notification._
 import play.api.mvc.Result
 import connectors.NotificationStoreConnector
 import com.google.inject.{Inject, Singleton, ImplementedBy}
-import scala.concurrent.Future
 import models.UserAnswers
 
 @Singleton

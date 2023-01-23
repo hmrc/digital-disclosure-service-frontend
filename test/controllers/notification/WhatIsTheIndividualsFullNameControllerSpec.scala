@@ -40,7 +40,7 @@ class WhatIsTheIndividualsFullNameControllerSpec extends SpecBase with MockitoSu
   val formProvider = new WhatIsTheIndividualsFullNameFormProvider()
   val form = formProvider()
 
-  lazy val whatIsTheIndividualsFullNameRoute = notification.routes.WhatIsTheIndividualsFullNameController.onPageLoad(NormalMode).url
+  lazy val whatIsTheIndividualsFullNameRoute = controllers.notification.routes.WhatIsTheIndividualsFullNameController.onPageLoad(NormalMode).url
 
   "WhatIsTheIndividualsFullName Controller" - {
 
