@@ -62,7 +62,7 @@ object CheckYourAnswersViewModel {
           case _ => None
         },
         HowMuchTaxHasNotBeenIncludedSummary.row(userAnswers),
-        TheMaximumValueOfAllAssetsSummary.row(userAnswers),
+        TheMaximumValueOfAllAssetsSummary.row(userAnswers)
       ).flatten
     )
 
