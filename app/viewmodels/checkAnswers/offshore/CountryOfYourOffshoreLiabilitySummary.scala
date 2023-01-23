@@ -21,19 +21,21 @@ import models.{CheckMode, UserAnswers}
 import pages.CountryOfYourOffshoreLiabilityPage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
-import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryList
+import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
 object CountryOfYourOffshoreLiabilitySummary  {
 
-  def rows(answers: UserAnswers)(implicit messages: Messages): Option[SummaryList] =
-    answers.get(CountryOfYourOffshoreLiabilityPage).getOrElse(Nil).map {
-       answer =>
+  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
+    answers.get(CountryOfYourOffshoreLiabilityPage).map {
+      answer =>
+
         SummaryListRowViewModel(
           key     = "countryOfYourOffshoreLiability.checkYourAnswersLabel",
           value   = ValueViewModel(HtmlFormat.escape(answer.toString).toString), // TODO: Create summary value
           actions = Seq(
+            // TODO: setup number
             ActionItemViewModel("site.change", routes.CountryOfYourOffshoreLiabilityController.onPageLoad(1, CheckMode).url)
               .withVisuallyHiddenText(messages("countryOfYourOffshoreLiability.change.hidden"))
           )

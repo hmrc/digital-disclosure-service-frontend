@@ -40,7 +40,7 @@ class YourEmailAddressControllerSpec extends SpecBase with MockitoSugar {
   val formProvider = new YourEmailAddressFormProvider()
   val form = formProvider()
 
-  lazy val yourEmailAddressRoute = notification.routes.YourEmailAddressController.onPageLoad(NormalMode).url
+  lazy val yourEmailAddressRoute = controllers.notification.routes.YourEmailAddressController.onPageLoad(NormalMode).url
 
   "YourEmailAddress Controller" - {
 

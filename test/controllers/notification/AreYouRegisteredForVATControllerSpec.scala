@@ -37,7 +37,7 @@ class AreYouRegisteredForVATControllerSpec extends ControllerSpecBase {
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val areYouRegisteredForVATRoute = notification.routes.AreYouRegisteredForVATController.onPageLoad(NormalMode).url
+  lazy val areYouRegisteredForVATRoute = controllers.notification.routes.AreYouRegisteredForVATController.onPageLoad(NormalMode).url
 
   val formProvider = new AreYouRegisteredForVATFormProvider()
   val form = formProvider()
@@ -159,8 +159,8 @@ class AreYouRegisteredForVATControllerSpec extends ControllerSpecBase {
       val previousAnswer = AreYouRegisteredForVAT.No
       val newAnswer = AreYouRegisteredForVAT.YesIKnow
 
-      val urlToTest = notification.routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.WhatIsYourVATRegistrationNumberController.onPageLoad(CheckMode).url
+      val urlToTest = controllers.notification.routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.WhatIsYourVATRegistrationNumberController.onPageLoad(CheckMode).url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForVATPage, urlToTest, destinationRoute, Nil)
     }
@@ -170,8 +170,8 @@ class AreYouRegisteredForVATControllerSpec extends ControllerSpecBase {
       val previousAnswer = AreYouRegisteredForVAT.YesButDontKnow
       val newAnswer = AreYouRegisteredForVAT.YesIKnow
 
-      val urlToTest = notification.routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.WhatIsYourVATRegistrationNumberController.onPageLoad(CheckMode).url
+      val urlToTest = controllers.notification.routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.WhatIsYourVATRegistrationNumberController.onPageLoad(CheckMode).url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForVATPage, urlToTest, destinationRoute, Nil)
     }
@@ -181,8 +181,8 @@ class AreYouRegisteredForVATControllerSpec extends ControllerSpecBase {
       val previousAnswer = AreYouRegisteredForVAT.YesIKnow
       val newAnswer = AreYouRegisteredForVAT.No
 
-      val urlToTest = notification.routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForVATPage, urlToTest, destinationRoute, List(WhatIsYourVATRegistrationNumberPage))
     }
@@ -192,8 +192,8 @@ class AreYouRegisteredForVATControllerSpec extends ControllerSpecBase {
       val previousAnswer = AreYouRegisteredForVAT.YesIKnow
       val newAnswer = AreYouRegisteredForVAT.YesButDontKnow
 
-      val urlToTest = notification.routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForVATPage, urlToTest, destinationRoute, List(WhatIsYourVATRegistrationNumberPage))
     }
@@ -203,8 +203,8 @@ class AreYouRegisteredForVATControllerSpec extends ControllerSpecBase {
       val previousAnswer = AreYouRegisteredForVAT.YesIKnow
       val newAnswer = AreYouRegisteredForVAT.YesIKnow
 
-      val urlToTest = notification.routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForVATPage, urlToTest, destinationRoute, Nil)
     }
@@ -214,8 +214,8 @@ class AreYouRegisteredForVATControllerSpec extends ControllerSpecBase {
       val previousAnswer = AreYouRegisteredForVAT.No
       val newAnswer = AreYouRegisteredForVAT.No
 
-      val urlToTest = notification.routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForVATPage, urlToTest, destinationRoute, Nil)
     }

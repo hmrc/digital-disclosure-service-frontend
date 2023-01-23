@@ -32,7 +32,7 @@ class YouHaveSentYourNotificationControllerSpec extends SpecBase {
       running(application) {
         val reference = "CFSS-1234567"
 
-        val request = FakeRequest(GET, notification.routes.YouHaveSentYourNotificationController.onPageLoad(reference).url)
+        val request = FakeRequest(GET, controllers.notification.routes.YouHaveSentYourNotificationController.onPageLoad(reference).url)
 
         val result = route(application, request).value
 

@@ -40,7 +40,7 @@ class WhatIsYourVATRegistrationNumberControllerSpec extends SpecBase with Mockit
   val formProvider = new WhatIsYourVATRegistrationNumberFormProvider()
   val form = formProvider()
 
-  lazy val whatIsYourVATRegistrationNumberRoute = notification.routes.WhatIsYourVATRegistrationNumberController.onPageLoad(NormalMode).url
+  lazy val whatIsYourVATRegistrationNumberRoute = controllers.notification.routes.WhatIsYourVATRegistrationNumberController.onPageLoad(NormalMode).url
 
   "WhatIsYourVATRegistrationNumber Controller" - {
 

@@ -27,7 +27,6 @@ import play.api.i18n.Messages
 
 case class CheckYourAnswersViewModel(
   list: SummaryList,
-  countryLists: SummaryList,
   taxYearLists: Seq[(Int, SummaryList)],
   liabilitiesTotal: BigDecimal
 )

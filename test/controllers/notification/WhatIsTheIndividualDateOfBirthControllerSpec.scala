@@ -44,7 +44,7 @@ class WhatIsTheIndividualDateOfBirthControllerSpec extends SpecBase with Mockito
 
   val validAnswer = LocalDate.now(ZoneOffset.UTC).minusDays(1)
 
-  lazy val WhatIsTheIndividualDateOfBirthRoute = notification.routes.WhatIsTheIndividualDateOfBirthController.onPageLoad(NormalMode).url
+  lazy val WhatIsTheIndividualDateOfBirthRoute = controllers.notification.routes.WhatIsTheIndividualDateOfBirthController.onPageLoad(NormalMode).url
 
   override val emptyUserAnswers = UserAnswers(userAnswersId)
 

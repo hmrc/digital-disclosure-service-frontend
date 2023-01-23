@@ -39,7 +39,7 @@ class ReceivedALetterControllerSpec extends ControllerSpecBase {
   val formProvider = new ReceivedALetterFormProvider()
   val form = formProvider()
 
-  lazy val receivedALetterRoute = notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url
+  lazy val receivedALetterRoute = controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url
   
   "ReceivedALetter Controller" - {
 
@@ -82,8 +82,8 @@ class ReceivedALetterControllerSpec extends ControllerSpecBase {
       val previousAnswer = false
       val newAnswer = true
 
-      val urlToTest = notification.routes.ReceivedALetterController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.LetterReferenceController.onPageLoad(CheckMode).url
+      val urlToTest = controllers.notification.routes.ReceivedALetterController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.LetterReferenceController.onPageLoad(CheckMode).url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, ReceivedALetterPage, urlToTest, destinationRoute)
     }
@@ -93,8 +93,8 @@ class ReceivedALetterControllerSpec extends ControllerSpecBase {
       val previousAnswer = true
       val newAnswer = false
 
-      val urlToTest = notification.routes.ReceivedALetterController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.ReceivedALetterController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, ReceivedALetterPage, urlToTest, destinationRoute, List(LetterReferencePage))
     }

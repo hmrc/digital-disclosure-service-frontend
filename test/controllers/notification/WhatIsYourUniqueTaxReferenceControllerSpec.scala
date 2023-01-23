@@ -40,7 +40,7 @@ class WhatIsYourUniqueTaxReferenceControllerSpec extends SpecBase with MockitoSu
   val formProvider = new WhatIsYourUniqueTaxReferenceFormProvider()
   val form = formProvider()
 
-  lazy val whatIsYourUniqueTaxReferenceRoute = notification.routes.WhatIsYourUniqueTaxReferenceController.onPageLoad(NormalMode).url
+  lazy val whatIsYourUniqueTaxReferenceRoute = controllers.notification.routes.WhatIsYourUniqueTaxReferenceController.onPageLoad(NormalMode).url
 
   "WhatIsYourUniqueTaxReference Controller" - {
 

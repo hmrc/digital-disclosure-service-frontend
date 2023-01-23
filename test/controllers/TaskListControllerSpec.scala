@@ -125,7 +125,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
       operation = messages("taskList.op.add"),
       sectionTitle = messages("taskList.sectionTitle.first"), 
       status = messages("taskList.status.notStarted"), 
-      link = notification.routes.ReceivedALetterController.onPageLoad(NormalMode)
+      link = controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode)
     )
   }
 

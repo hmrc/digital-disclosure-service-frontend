@@ -40,7 +40,7 @@ class WhatIsYourMainOccupationControllerSpec extends SpecBase with MockitoSugar 
   val formProvider = new WhatIsYourMainOccupationFormProvider()
   val form = formProvider()
 
-  lazy val whatIsYourMainOccupationRoute = notification.routes.WhatIsYourMainOccupationController.onPageLoad(NormalMode).url
+  lazy val whatIsYourMainOccupationRoute = controllers.notification.routes.WhatIsYourMainOccupationController.onPageLoad(NormalMode).url
 
   "WhatIsYourMainOccupation Controller" - {
 

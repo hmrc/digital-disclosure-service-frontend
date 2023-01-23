@@ -40,7 +40,7 @@ class WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutControllerSpec extends Sp
   val formProvider = new WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutFormProvider()
   val form = formProvider()
 
-  lazy val whatIsTheNameOfTheCompanyTheDisclosureWillBeAboutRoute = notification.routes.WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutController.onPageLoad(NormalMode).url
+  lazy val whatIsTheNameOfTheCompanyTheDisclosureWillBeAboutRoute = controllers.notification.routes.WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutController.onPageLoad(NormalMode).url
 
   "WhatIsTheNameOfTheCompanyTheDisclosureWillBeAbout Controller" - {
 

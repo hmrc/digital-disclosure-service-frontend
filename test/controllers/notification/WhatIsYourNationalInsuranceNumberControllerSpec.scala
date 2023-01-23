@@ -40,7 +40,7 @@ class WhatIsYourNationalInsuranceNumberControllerSpec extends SpecBase with Mock
   val formProvider = new WhatIsYourNationalInsuranceNumberFormProvider()
   val form = formProvider()
 
-  lazy val whatIsYourNationalInsuranceNumberRoute = notification.routes.WhatIsYourNationalInsuranceNumberController.onPageLoad(NormalMode).url
+  lazy val whatIsYourNationalInsuranceNumberRoute = controllers.notification.routes.WhatIsYourNationalInsuranceNumberController.onPageLoad(NormalMode).url
 
   "WhatIsYourNationalInsuranceNumber Controller" - {
 

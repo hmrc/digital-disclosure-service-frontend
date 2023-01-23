@@ -17,7 +17,6 @@
 package services
 
 import uk.gov.hmrc.http.HeaderCarrier
-import scala.concurrent.Future
 import connectors.DigitalDisclosureServiceConnector
 import com.google.inject.{Inject, Singleton, ImplementedBy}
 import scala.concurrent.{ExecutionContext, Future}

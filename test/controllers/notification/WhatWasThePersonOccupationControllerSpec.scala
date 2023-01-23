@@ -40,7 +40,7 @@ class WhatWasThePersonOccupationControllerSpec extends SpecBase with MockitoSuga
   val formProvider = new WhatWasThePersonOccupationFormProvider()
   val form = formProvider()
 
-  lazy val whatWasThePersonOccupationRoute = notification.routes.WhatWasThePersonOccupationController.onPageLoad(NormalMode).url
+  lazy val whatWasThePersonOccupationRoute = controllers.notification.routes.WhatWasThePersonOccupationController.onPageLoad(NormalMode).url
 
   "WhatWasThePersonOccupation Controller" - {
 

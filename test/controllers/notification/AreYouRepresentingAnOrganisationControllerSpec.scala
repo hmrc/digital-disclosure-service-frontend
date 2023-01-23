@@ -39,7 +39,7 @@ class AreYouRepresentingAnOrganisationControllerSpec extends ControllerSpecBase 
   val formProvider = new AreYouRepresentingAnOrganisationFormProvider()
   val form = formProvider()
 
-  lazy val areYouRepresentingAnOrganisationRoute = notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode).url
+  lazy val areYouRepresentingAnOrganisationRoute = controllers.notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode).url
 
   "AreYouRepresentingAnOrganisation Controller" - {
 
@@ -156,8 +156,8 @@ class AreYouRepresentingAnOrganisationControllerSpec extends ControllerSpecBase 
       val previousAnswer = false
       val newAnswer = true
 
-      val urlToTest = notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.WhatIsTheNameOfTheOrganisationYouRepresentController.onPageLoad(CheckMode).url
+      val urlToTest = controllers.notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.WhatIsTheNameOfTheOrganisationYouRepresentController.onPageLoad(CheckMode).url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRepresentingAnOrganisationPage, urlToTest, destinationRoute, Nil)
     }
@@ -165,8 +165,8 @@ class AreYouRepresentingAnOrganisationControllerSpec extends ControllerSpecBase 
     "must redirect to WhatIsTheNameOfTheOrganisationYouRepresent page (change mode) if page answer changes from No Answer to Yes in check mode" in {
       val newAnswer = true
 
-      val urlToTest = notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.WhatIsTheNameOfTheOrganisationYouRepresentController.onPageLoad(CheckMode).url
+      val urlToTest = controllers.notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.WhatIsTheNameOfTheOrganisationYouRepresentController.onPageLoad(CheckMode).url
 
       val userAnswers = UserAnswers("id")
 
@@ -197,8 +197,8 @@ class AreYouRepresentingAnOrganisationControllerSpec extends ControllerSpecBase 
       val previousAnswer = true
       val newAnswer = false
 
-      val urlToTest = notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRepresentingAnOrganisationPage, urlToTest, destinationRoute, List(WhatIsTheNameOfTheOrganisationYouRepresentPage))
     }
@@ -207,8 +207,8 @@ class AreYouRepresentingAnOrganisationControllerSpec extends ControllerSpecBase 
       val previousAnswer = true
       val newAnswer = true
 
-      val urlToTest = notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRepresentingAnOrganisationPage, urlToTest, destinationRoute, Nil)
     }
@@ -217,8 +217,8 @@ class AreYouRepresentingAnOrganisationControllerSpec extends ControllerSpecBase 
       val previousAnswer = false
       val newAnswer = false
 
-      val urlToTest = notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
-      val destinationRoute = notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = controllers.notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRepresentingAnOrganisationPage, urlToTest, destinationRoute, Nil)
     }

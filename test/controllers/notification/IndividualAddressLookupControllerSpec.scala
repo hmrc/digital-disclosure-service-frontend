@@ -43,7 +43,7 @@ class IndividualAddressLookupControllerSpec extends SpecBase with MockFactory wi
   def addressLookupOnwardRoute = Call("GET", "http://localhost:15003/foo")
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val addressLookupRoute = notification.routes.IndividualAddressLookupController.lookupAddress(NormalMode).url
+  lazy val addressLookupRoute = controllers.notification.routes.IndividualAddressLookupController.lookupAddress(NormalMode).url
   lazy val mockSessionService = mock[SessionService]
 
   val addressLookupService = mock[AddressLookupService]
@@ -112,7 +112,7 @@ class IndividualAddressLookupControllerSpec extends SpecBase with MockFactory wi
       val application = buildApplication
 
       val uuid = UUID.randomUUID()
-      lazy val retrieveAddressRoute = notification.routes.IndividualAddressLookupController.retrieveConfirmedAddress(NormalMode, Some(uuid)).url
+      lazy val retrieveAddressRoute = controllers.notification.routes.IndividualAddressLookupController.retrieveConfirmedAddress(NormalMode, Some(uuid)).url
 
       running(application) {
         val request = FakeRequest(GET, retrieveAddressRoute)
@@ -130,7 +130,7 @@ class IndividualAddressLookupControllerSpec extends SpecBase with MockFactory wi
     "must redirect to the address lookup when an id isn't entered" in {
 
       val application = buildApplication
-      lazy val retrieveAddressRoute = notification.routes.IndividualAddressLookupController.retrieveConfirmedAddress(NormalMode).url
+      lazy val retrieveAddressRoute = controllers.notification.routes.IndividualAddressLookupController.retrieveConfirmedAddress(NormalMode).url
 
       running(application) {
         val request = FakeRequest(GET, retrieveAddressRoute)
@@ -138,7 +138,7 @@ class IndividualAddressLookupControllerSpec extends SpecBase with MockFactory wi
         val result = route(application, request).value
 
         status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual notification.routes.IndividualAddressLookupController.lookupAddress(NormalMode).url
+        redirectLocation(result).value mustEqual controllers.notification.routes.IndividualAddressLookupController.lookupAddress(NormalMode).url
       }
     }
 
