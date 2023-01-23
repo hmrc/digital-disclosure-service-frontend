@@ -21,10 +21,15 @@ import controllers.offshore.routes
 import pages._
 import models._
 import models.YourLegalInterpretation._
+import uk.gov.hmrc.time.CurrentTaxYear
 
-class OffshoreNavigatorSpec extends SpecBase {
+import java.time.LocalDate
+
+class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
 
   val navigator = new OffshoreNavigator
+
+  def now = () => LocalDate.now()
 
   "Offshore Navigator" - {
 
@@ -193,6 +198,25 @@ class OffshoreNavigatorSpec extends SpecBase {
 
       "must go from HowMuchTaxHasNotBeenIncludedPage to TheMaximumValueOfAllAssetsController" in {
         navigator.nextPage(HowMuchTaxHasNotBeenIncludedPage, NormalMode, UserAnswers("id")) mustBe routes.TheMaximumValueOfAllAssetsController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhichYearsPage to TaxBeforeFiveYearsController when selected option PriorTo5Years" in {
+        val set: Set[OffshoreYears] = Set(PriorTo5Years)
+        val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
+        navigator.nextPage(WhichYearsPage, NormalMode, userAnswers) mustBe routes.TaxBeforeFiveYearsController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhichYearsPage to TaxBeforeSevenYearsController when selected option PriorTo5Years" in {
+        val set: Set[OffshoreYears] = Set(PriorTo7Years)
+        val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
+        navigator.nextPage(WhichYearsPage, NormalMode, userAnswers) mustBe routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhichYearsPage to CountryOfYourOffshoreLiabilityController when selected option PriorTo5Years" in {
+        val year = current.back(1).startYear
+        val set: Set[OffshoreYears] = Set(TaxYearStarting(year))
+        val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
+        navigator.nextPage(WhichYearsPage, NormalMode, userAnswers) mustBe routes.CountryOfYourOffshoreLiabilityController.onPageLoad(1, NormalMode)
       }
     }
 
