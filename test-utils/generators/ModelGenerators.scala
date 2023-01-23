@@ -167,6 +167,14 @@ trait ModelGenerators {
       Gen.oneOf(RelatesTo.values.toSeq)
     }
 
+  implicit lazy val arbitraryCountry: Arbitrary[Set[config.Country]] =
+    Arbitrary {
+      for {
+        alpha3 <- strGen(3)
+        name <- strGen(10)
+      } yield Set(config.Country(alpha3.mkString, name.mkString))
+    }
+
   implicit lazy val arbitraryAddressLookupRequest: Typeclass[AddressLookupRequest] =
     gen[AddressLookupRequest]
 

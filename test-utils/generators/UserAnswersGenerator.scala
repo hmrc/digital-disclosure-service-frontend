@@ -38,6 +38,7 @@ trait UserAnswersGenerator extends TryValues {
     arbitrary[(TaxBeforeFiveYearsPage.type, JsValue)] ::
     arbitrary[(TaxYearLiabilitiesPage.type, JsValue)] ::
     arbitrary[(YourLegalInterpretationPage.type, JsValue)] ::
+    arbitrary[(CountryOfYourOffshoreLiabilityPage.type, JsValue)] ::
     arbitrary[(WhatIsYourReasonableExcusePage.type, JsValue)] ::
     arbitrary[(WhatIsYourReasonableExcuseForNotFilingReturnPage.type, JsValue)] ::
     arbitrary[(WhatReasonableCareDidYouTakePage.type, JsValue)] ::

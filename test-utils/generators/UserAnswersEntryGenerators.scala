@@ -39,7 +39,7 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
         value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
       } yield (page, value)
     }
-    
+
   implicit lazy val arbitraryDescribeTheGiftUserAnswersEntry: Arbitrary[(DescribeTheGiftPage.type, JsValue)] =
     Arbitrary {
       for {
@@ -103,12 +103,20 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
         value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
        } yield (page, value)
     }
-     
+
   implicit lazy val arbitraryYourLegalInterpretationUserAnswersEntry: Arbitrary[(YourLegalInterpretationPage.type, JsValue)] =
     Arbitrary {
       for {
         page  <- arbitrary[YourLegalInterpretationPage.type]
         value <- arbitrary[YourLegalInterpretation].map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryCountryOfYourOffshoreLiabilityUserAnswersEntry: Arbitrary[(CountryOfYourOffshoreLiabilityPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[CountryOfYourOffshoreLiabilityPage.type]
+        value <- arbitrary[Set[config.Country]].map(Json.toJson(_))
       } yield (page, value)
     }
 

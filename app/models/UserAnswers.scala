@@ -45,18 +45,18 @@ final case class UserAnswers(
     cleanupPage(page, updatedData)
   }
 
-  def getByIndex[A](page: Gettable[Seq[A]], index: Int)(implicit rds: Reads[A]): Option[A] = {
+  def getByIndex[A](page: Gettable[Set[A]], index: Int)(implicit rds: Reads[A]): Option[A] = {
     val path = page.path \ index
     get(path)
   }
 
-  def setByIndex[A](page: Settable[Seq[A]], index: Int, value: A)(implicit writes: Writes[A]): Try[UserAnswers] = {
+  def setByIndex[A](page: Settable[Set[A]], index: Int, value: A)(implicit writes: Writes[A]): Try[UserAnswers] = {
     val path = page.path \ index
     val updatedData = set(path, value)
     cleanupPage(page, updatedData)
   }
 
-  def removeByIndex[A](page: Settable[Seq[A]], index: Int): Try[UserAnswers] = {
+  def removeByIndex[A](page: Settable[Set[A]], index: Int): Try[UserAnswers] = {
     val path = page.path \ index
     val updatedData = remove(path)
     cleanupPage(page, updatedData)
@@ -82,7 +82,7 @@ final case class UserAnswers(
   def get[A](path: JsPath)(implicit rds: Reads[A]): Option[A] =
     Reads.optionNoError(Reads.at(path)).reads(data).getOrElse(None)
 
-  def set[A](path: JsPath, value: A)(implicit writes: Writes[A]): Try[JsObject] = 
+  def set[A](path: JsPath, value: A)(implicit writes: Writes[A]): Try[JsObject] =
     data.setObject(path, Json.toJson(value)) match {
       case JsSuccess(jsValue, _) =>
         Success(jsValue)
@@ -91,7 +91,7 @@ final case class UserAnswers(
     }
 
 
-  def remove[A](path: JsPath): Try[JsObject] = 
+  def remove[A](path: JsPath): Try[JsObject] =
     data.removeObject(path) match {
       case JsSuccess(jsValue, _) =>
         Success(jsValue)
@@ -112,10 +112,10 @@ final case class UserAnswers(
     }
   }
 
-  def inverselySortedOffshoreTaxYears: Option[Seq[TaxYearStarting]] = get(WhichYearsPage).map{ yearSet => 
+  def inverselySortedOffshoreTaxYears: Option[Seq[TaxYearStarting]] = get(WhichYearsPage).map{ yearSet =>
     yearSet.collect{case TaxYearStarting(y) => TaxYearStarting(y)}.toSeq.sorted
   }
-  
+
 }
 
 object UserAnswers {

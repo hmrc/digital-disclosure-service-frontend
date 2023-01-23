@@ -18,7 +18,6 @@ package navigation
 
 import javax.inject.{Inject, Singleton}
 import play.api.mvc.Call
-import controllers.otherLiabilities.routes
 import pages._
 import models.{UserAnswers, Mode, NormalMode, CheckMode, RelatesTo}
 import models.OtherLiabilityIssues._
