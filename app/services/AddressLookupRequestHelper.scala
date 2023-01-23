@@ -165,7 +165,7 @@ trait AddressLookupRequestHelper {
                               confirmAddressHeading: String)(implicit messages: Messages): AddressLookupRequest = {
 
     val selectPageConfig = SelectPageConfig(proposalListLimit = proposalListLimit)
-    val timeoutConfig = TimeoutConfig(timeoutAmount = timeout, timeoutUrl = routes.KeepAliveController.keepAlive.url)
+    val timeoutConfig = TimeoutConfig(timeoutAmount = timeout, timeoutUrl = controllers.auth.routes.AuthController.signOut.url, timeoutKeepAliveUrl = Some(routes.KeepAliveController.keepAlive.url))
     val addressLookupOptions = AddressLookupOptions(
       continueUrl = s"$baseUrl$redirectUrl",
       serviceHref = s"$baseUrl${routes.IndexController.onPageLoad.url}",
