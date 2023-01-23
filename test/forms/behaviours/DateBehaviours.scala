@@ -43,6 +43,24 @@ class DateBehaviours extends FieldBehaviours {
           result.errors mustBe empty
       }
     }
+
+    "bind valid data with leading/trailing blanks" in {
+
+      forAll(validData -> "valid date") {
+        date =>
+
+          val data = Map(
+            s"$key.day"   -> s" ${date.getDayOfMonth.toString} ",
+            s"$key.month" -> s" ${date.getMonthValue.toString} ",
+            s"$key.year"  -> s" ${date.getYear.toString} "
+          )
+
+          val result = form.bind(data)
+
+          result.value.value mustEqual date
+          result.errors mustBe empty
+      }
+    }
   }
 
   def dateFieldCheckingMaxDayAndMonth(form: Form[_], key: String, validData: Gen[LocalDate], dayError: FormError, monthError: FormError): Unit = {
