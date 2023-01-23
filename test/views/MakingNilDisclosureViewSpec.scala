@@ -73,6 +73,10 @@ class MakingNilDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementsByClass("govuk-button").first() must haveId ("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
+
+    "have a task list link" in {
+      view.getElementById("task-list-link").attr("href") mustBe controllers.routes.TaskListController.onPageLoad.url
+    }
   }
 
   "view with 20 years & entity estate" should {
@@ -91,6 +95,10 @@ class MakingNilDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
     "display the continue button" in {
       view.getElementsByClass("govuk-button").first() must haveId ("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
+    }
+
+    "have a task list link" in {
+      view.getElementById("task-list-link").attr("href") mustBe controllers.routes.TaskListController.onPageLoad.url
     }
   }
 
@@ -111,6 +119,10 @@ class MakingNilDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementsByClass("govuk-button").first() must haveId ("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
+
+    "have a task list link" in {
+      view.getElementById("task-list-link").attr("href") mustBe controllers.routes.TaskListController.onPageLoad.url
+    }
   }
 
   "view with 20 years & entity llp" should {
@@ -130,6 +142,10 @@ class MakingNilDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementsByClass("govuk-button").first() must haveId ("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
+
+    "have a task list link" in {
+      view.getElementById("task-list-link").attr("href") mustBe controllers.routes.TaskListController.onPageLoad.url
+    }
   }
 
   "view with 20 years & entity trust" should {
@@ -148,6 +164,10 @@ class MakingNilDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
     "display the continue button" in {
       view.getElementsByClass("govuk-button").first() must haveId ("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
+    }
+
+    "have a task list link" in {
+      view.getElementById("task-list-link").attr("href") mustBe controllers.routes.TaskListController.onPageLoad.url
     }
   }
 
