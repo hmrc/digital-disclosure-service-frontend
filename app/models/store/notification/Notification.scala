@@ -49,14 +49,6 @@ final case class Notification (
       case Some(Trust) => aboutYou.isComplete(false) && (aboutTheTrust.map(_.isComplete) == Some(true))
       case _ => false
     }
-    logger.info(s"------------------------")
-    logger.info(s"------------------------")
-    logger.info(s"------------------------")
-    logger.info(s"------------------------")
-    logger.info(s"------------------------")
-    logger.info(s"sectionsCompleteForEntity: $sectionsCompleteForEntity")
-    logger.info(s"background: ${background.isComplete}")
-    logger.info(s"themselves: $disclosingAboutThemselves")
     background.isComplete && sectionsCompleteForEntity
   }
 }
