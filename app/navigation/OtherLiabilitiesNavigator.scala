@@ -21,6 +21,7 @@ import play.api.mvc.Call
 import pages._
 import models.{UserAnswers, Mode, NormalMode, CheckMode, RelatesTo}
 import models.OtherLiabilityIssues._
+import controllers.otherLiabilities.routes
 
 @Singleton
 class OtherLiabilitiesNavigator @Inject()() {

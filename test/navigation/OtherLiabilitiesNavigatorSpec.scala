@@ -19,6 +19,7 @@ package navigation
 import base.SpecBase
 import pages._
 import models._
+import controllers.otherLiabilities.routes
 
 import org.scalacheck.Arbitrary.arbitrary
 

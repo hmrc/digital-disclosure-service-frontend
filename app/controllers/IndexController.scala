@@ -24,7 +24,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.IndexView
 import services.{SessionService, StoreDataService}
 import config.FrontendAppConfig
-import models.{UserAnswers, NormalMode}
+import models.NormalMode
 import play.api.Logging
 import play.api.libs.json.Json
 import scala.concurrent.{ExecutionContext, Future}
