@@ -16,38 +16,37 @@
 
 package forms
 
-import forms.behaviours.StringFieldBehaviours
-//import play.api.data.FormError
+import config.{Countries, Country}
+import forms.behaviours.FieldBehaviours
+import org.mockito.MockitoSugar
+import play.api.data.FormError
 
-class CountryOfYourOffshoreLiabilityFormProviderSpec extends StringFieldBehaviours {
+class CountryOfYourOffshoreLiabilityFormProviderSpec extends FieldBehaviours with MockitoSugar {
 
-//  val requiredKey = "countryOfYourOffshoreLiability.error.required"
-//  val lengthKey = "countryOfYourOffshoreLiability.error.length"
-//  val maxLength = 100
-//
-//  val form = new CountryOfYourOffshoreLiabilityFormProvider()()
-//
-//  ".value" - {
-//
-//    val fieldName = "value"
-//
-//    behave like fieldThatBindsValidData(
-//      form,
-//      fieldName,
-//      stringsWithMaxLength(maxLength)
-//    )
-//
-//    behave like fieldWithMaxLength(
-//      form,
-//      fieldName,
-//      maxLength = maxLength,
-//      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
-//    )
-//
-//    behave like mandatoryField(
-//      form,
-//      fieldName,
-//      requiredError = FormError(fieldName, requiredKey)
-//    )
-//  }
+  val requiredKey = "countryOfYourOffshoreLiability.error.required.1"
+
+  val countryIndex = 1
+  val country = Country("AAA", "Country")
+  val countries = mock[Countries]
+  when(countries.countries).thenReturn(Seq(country))
+  when(countries.getCountryNameFor(country.alpha3)).thenReturn(country.name)
+
+  val form = new CountryOfYourOffshoreLiabilityFormProvider(countries)(countryIndex)
+
+  ".value" - {
+
+    val fieldName = "value"
+
+    behave like mandatoryField(
+      form,
+      fieldName,
+      requiredError = FormError(fieldName, requiredKey)
+    )
+
+    behave like fieldThatBindsValidData(
+      form,
+      fieldName,
+      country.alpha3
+    )
+  }
 }
