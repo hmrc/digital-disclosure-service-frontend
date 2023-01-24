@@ -14,7 +14,6 @@ POST       /reason-for-disclosure-now                 controllers.reason.WhatIsT
 GET        /reason-for-disclosure-now/change          controllers.reason.WhatIsTheReasonForMakingADisclosureNowController.onPageLoad(mode: Mode = CheckMode)
 POST       /reason-for-disclosure-now/change          controllers.reason.WhatIsTheReasonForMakingADisclosureNowController.onSubmit(mode: Mode = CheckMode)
 
-<<<<<<< HEAD
 GET        /who-gave-advice                           controllers.reason.PersonWhoGaveAdviceController.onPageLoad(mode: Mode = NormalMode)
 POST       /who-gave-advice                           controllers.reason.PersonWhoGaveAdviceController.onSubmit(mode: Mode = NormalMode)
 GET        /who-gave-advice/change                    controllers.reason.PersonWhoGaveAdviceController.onPageLoad(mode: Mode = CheckMode)
