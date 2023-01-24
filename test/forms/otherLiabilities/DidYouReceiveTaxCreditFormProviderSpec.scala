@@ -41,15 +41,16 @@ class DidYouReceiveTaxCreditFormProviderSpec extends BooleanFieldBehaviours {
     )
   }
 
-  ".value when an entity" - {
-
-    Seq(
+  Seq(
       AnIndividual, 
       AnEstate, 
       ACompany, 
       ALimitedLiabilityPartnership, 
       ATrust
-    ).foreach {relatesTo => 
+  ).foreach {relatesTo =>
+
+    s".value when an ${relatesTo}" - {
+    
       val form = new DidYouReceiveTaxCreditFormProvider()(false, relatesTo)
       val fieldName = "value"
       val requiredKey = s"didYouReceiveTaxCredit.${relatesTo}.error.required"
