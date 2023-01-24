@@ -1390,3 +1390,10 @@ adviceBusinessesOrOrg.heading = Did the person who gave advice work on behalf of
 adviceBusinessesOrOrg.checkYourAnswersLabel = adviceBusinessesOrOrg
 adviceBusinessesOrOrg.error.required = Select yes if the person’s advice was on behalf of a business or organisation
 adviceBusinessesOrOrg.change.hidden = AdviceBusinessesOrOrg
+
+adviceBusinessName.title = What was the name of the business or organisation the person who gave the advice was working on behalf of?
+adviceBusinessName.heading = What was the name of the business or organisation the person who gave the advice was working on behalf of?
+adviceBusinessName.checkYourAnswersLabel = adviceBusinessName
+adviceBusinessName.error.required = Enter the name of the business or organisation the person who gave advice was working on behalf of
+adviceBusinessName.error.length = The name of the business or organisation must be between 1 and 50 characters
+adviceBusinessName.change.hidden = AdviceBusinessName
