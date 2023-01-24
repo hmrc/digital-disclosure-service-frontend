@@ -17,43 +17,43 @@
 package controllers
 
 import base.SpecBase
-import forms.AdviceBusinessesOrOrgFormProvider
+import forms.AdviceProfessionFormProvider
 import models.{NormalMode, UserAnswers}
 import navigation.{FakeReasonNavigator, ReasonNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.AdviceBusinessesOrOrgPage
+import pages.AdviceProfessionPage
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
-import views.html.reason.AdviceBusinessesOrOrgView
+import views.html.reason.AdviceProfessionView
 
 import scala.concurrent.Future
 
-class AdviceBusinessesOrOrgControllerSpec extends SpecBase with MockitoSugar {
+class AdviceProfessionControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  val formProvider = new AdviceBusinessesOrOrgFormProvider()
+  val formProvider = new AdviceProfessionFormProvider()
   val form = formProvider()
 
-  lazy val adviceBusinessesOrOrgRoute = reason.routes.AdviceBusinessesOrOrgController.onPageLoad(NormalMode).url
+  lazy val adviceProfessionRoute = reason.routes.AdviceProfessionController.onPageLoad(NormalMode).url
 
-  "AdviceBusinessesOrOrg Controller" - {
+  "AdviceProfession Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, adviceBusinessesOrOrgRoute)
+        val request = FakeRequest(GET, adviceProfessionRoute)
 
         val result = route(application, request).value
 
-        val view = application.injector.instanceOf[AdviceBusinessesOrOrgView]
+        val view = application.injector.instanceOf[AdviceProfessionView]
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
@@ -62,19 +62,19 @@ class AdviceBusinessesOrOrgControllerSpec extends SpecBase with MockitoSugar {
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(AdviceBusinessesOrOrgPage, true).success.value
+      val userAnswers = UserAnswers(userAnswersId).set(AdviceProfessionPage, "answer").success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, adviceBusinessesOrOrgRoute)
+        val request = FakeRequest(GET, adviceProfessionRoute)
 
-        val view = application.injector.instanceOf[AdviceBusinessesOrOrgView]
+        val view = application.injector.instanceOf[AdviceProfessionView]
 
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(true), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill("answer"), NormalMode)(request, messages(application)).toString
       }
     }
 
@@ -93,8 +93,8 @@ class AdviceBusinessesOrOrgControllerSpec extends SpecBase with MockitoSugar {
 
       running(application) {
         val request =
-          FakeRequest(POST, adviceBusinessesOrOrgRoute)
-            .withFormUrlEncodedBody(("value", "true"))
+          FakeRequest(POST, adviceProfessionRoute)
+            .withFormUrlEncodedBody(("value", "answer"))
 
         val result = route(application, request).value
 
@@ -109,12 +109,12 @@ class AdviceBusinessesOrOrgControllerSpec extends SpecBase with MockitoSugar {
 
       running(application) {
         val request =
-          FakeRequest(POST, adviceBusinessesOrOrgRoute)
+          FakeRequest(POST, adviceProfessionRoute)
             .withFormUrlEncodedBody(("value", ""))
 
         val boundForm = form.bind(Map("value" -> ""))
 
-        val view = application.injector.instanceOf[AdviceBusinessesOrOrgView]
+        val view = application.injector.instanceOf[AdviceProfessionView]
 
         val result = route(application, request).value
 
@@ -128,7 +128,7 @@ class AdviceBusinessesOrOrgControllerSpec extends SpecBase with MockitoSugar {
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val request = FakeRequest(GET, adviceBusinessesOrOrgRoute)
+        val request = FakeRequest(GET, adviceProfessionRoute)
 
         val result = route(application, request).value
 
@@ -143,8 +143,8 @@ class AdviceBusinessesOrOrgControllerSpec extends SpecBase with MockitoSugar {
 
       running(application) {
         val request =
-          FakeRequest(POST, adviceBusinessesOrOrgRoute)
-            .withFormUrlEncodedBody(("value", "true"))
+          FakeRequest(POST, adviceProfessionRoute)
+            .withFormUrlEncodedBody(("value", "answer"))
 
         val result = route(application, request).value
 

@@ -21,7 +21,9 @@ import pages._
 
 trait PageGenerators {
 
-<<<<<<< Updated upstream
+  implicit lazy val arbitraryAdviceProfessionPage: Arbitrary[AdviceProfessionPage.type] =
+    Arbitrary(AdviceProfessionPage)
+
   implicit lazy val arbitraryAdviceBusinessNamePage: Arbitrary[AdviceBusinessNamePage.type] =
     Arbitrary(AdviceBusinessNamePage)
 
@@ -30,10 +32,9 @@ trait PageGenerators {
 
   implicit lazy val arbitraryPersonWhoGaveAdvicePage: Arbitrary[PersonWhoGaveAdvicePage.type] =
     Arbitrary(PersonWhoGaveAdvicePage)
-=======
+
   implicit lazy val arbitraryDidSomeoneGiveYouAdviceNotDeclareTaxPage: Arbitrary[DidSomeoneGiveYouAdviceNotDeclareTaxPage.type] =
     Arbitrary(DidSomeoneGiveYouAdviceNotDeclareTaxPage)
->>>>>>> Stashed changes
 
   implicit lazy val arbitraryWhyNotBeforeNowPage: Arbitrary[WhyNotBeforeNowPage.type] =
     Arbitrary(WhyNotBeforeNowPage)

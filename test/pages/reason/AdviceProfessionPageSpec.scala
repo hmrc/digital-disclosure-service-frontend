@@ -19,14 +19,14 @@ package pages
 import pages.behaviours.PageBehaviours
 
 
-class AdviceBusinessNamePageSpec extends PageBehaviours {
+class AdviceProfessionPageSpec extends PageBehaviours {
 
-  "AdviceBusinessNamePage" - {
+  "AdviceProfessionPage" - {
 
-    beRetrievable[String](AdviceBusinessNamePage)
+    beRetrievable[String](AdviceProfessionPage)
 
-    beSettable[String](AdviceBusinessNamePage)
+    beSettable[String](AdviceProfessionPage)
 
-    beRemovable[String](AdviceBusinessNamePage)
+    beRemovable[String](AdviceProfessionPage)
   }
 }

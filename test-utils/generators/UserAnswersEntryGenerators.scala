@@ -24,7 +24,14 @@ import play.api.libs.json.{JsValue, Json}
 
 trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
 
-<<<<<<< Updated upstream
+  implicit lazy val arbitraryAdviceProfessionUserAnswersEntry: Arbitrary[(AdviceProfessionPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[AdviceProfessionPage.type]
+        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
+      } yield (page, value)
+    }
+
   implicit lazy val arbitraryAdviceBusinessNameUserAnswersEntry: Arbitrary[(AdviceBusinessNamePage.type, JsValue)] =
     Arbitrary {
       for {
@@ -37,17 +44,18 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
     Arbitrary {
       for {
         page  <- arbitrary[AdviceBusinessesOrOrgPage.type]
-=======
-  implicit lazy val arbitraryDidSomeoneGiveYouAdviceNotDeclareTaxUserAnswersEntry: Arbitrary[(DidSomeoneGiveYouAdviceNotDeclareTaxPage.type, JsValue)] =
-    Arbitrary {
-      for {
-        page  <- arbitrary[DidSomeoneGiveYouAdviceNotDeclareTaxPage.type]
->>>>>>> Stashed changes
         value <- arbitrary[Boolean].map(Json.toJson(_))
       } yield (page, value)
     }
 
-<<<<<<< Updated upstream
+  implicit lazy val arbitraryDidSomeoneGiveYouAdviceNotDeclareTaxUserAnswersEntry: Arbitrary[(DidSomeoneGiveYouAdviceNotDeclareTaxPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[DidSomeoneGiveYouAdviceNotDeclareTaxPage.type]
+        value <- arbitrary[Boolean].map(Json.toJson(_))
+      } yield (page, value)
+    }
+
   implicit lazy val arbitraryPersonWhoGaveAdviceUserAnswersEntry: Arbitrary[(PersonWhoGaveAdvicePage.type, JsValue)] =
     Arbitrary {
       for {
@@ -56,8 +64,6 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
       } yield (page, value)
     }
 
-=======
->>>>>>> Stashed changes
   implicit lazy val arbitraryWhyNotBeforeNowUserAnswersEntry: Arbitrary[(WhyNotBeforeNowPage.type, JsValue)] =
     Arbitrary {
       for {
