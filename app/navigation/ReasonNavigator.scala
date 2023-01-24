@@ -26,6 +26,9 @@ import controllers.reason.routes
 class ReasonNavigator @Inject()() {
 
   private val normalRoutes: Page => UserAnswers => Call = {  
+
+    case WhyAreYouMakingADisclosurePage => _ => routes.WhyNotBeforeNowController.onPageLoad(NormalMode)
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 

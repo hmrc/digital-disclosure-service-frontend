@@ -3,3 +3,8 @@ GET        /why-disclosure-now                        controllers.reason.WhyAreY
 POST       /why-disclosure-now                        controllers.reason.WhyAreYouMakingADisclosureController.onSubmit(mode: Mode = NormalMode)
 GET        /why-disclosure-now/change                  controllers.reason.WhyAreYouMakingADisclosureController.onPageLoad(mode: Mode = CheckMode)
 POST       /why-disclosure-now/change                  controllers.reason.WhyAreYouMakingADisclosureController.onSubmit(mode: Mode = CheckMode)
+
+GET        /why-disclosure-not-made-before                        controllers.reason.WhyNotBeforeNowController.onPageLoad(mode: Mode = NormalMode)
+POST       /why-disclosure-not-made-before                        controllers.reason.WhyNotBeforeNowController.onSubmit(mode: Mode = NormalMode)
+GET        /why-disclosure-not-made-before/change                controllers.reason.WhyNotBeforeNowController.onPageLoad(mode: Mode = CheckMode)
+POST       /why-disclosure-not-made-before/change                controllers.reason.WhyNotBeforeNowController.onSubmit(mode: Mode = CheckMode)

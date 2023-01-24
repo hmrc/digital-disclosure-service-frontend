@@ -1363,3 +1363,10 @@ whyAreYouMakingADisclosure.other = Other
 whyAreYouMakingADisclosure.checkYourAnswersLabel = Why are you making a disclosure now?
 whyAreYouMakingADisclosure.error.required = Select the reasons for making a disclosure now
 whyAreYouMakingADisclosure.change.hidden = WhyAreYouMakingADisclosure
+
+whyNotBeforeNow.title = Why was the disclosure not made before now?
+whyNotBeforeNow.heading = Why was the disclosure not made before now?
+whyNotBeforeNow.checkYourAnswersLabel = whyNotBeforeNow
+whyNotBeforeNow.error.required = Enter a reason why the disclosure was not made before now
+whyNotBeforeNow.error.length = The reason for not making a disclosure before now must be between 1 and 5,000 characters
+whyNotBeforeNow.change.hidden = WhyNotBeforeNow
