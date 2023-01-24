@@ -65,33 +65,13 @@ class OffshoreNavigator @Inject()() {
     case WhichYearsPage => ua => ua.get(WhichYearsPage) match {
       case Some(value) if value.contains(PriorTo5Years) => routes.TaxBeforeFiveYearsController.onPageLoad(NormalMode)
       case Some(value) if value.contains(PriorTo7Years) => routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode)
-      case _ => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(1, NormalMode)
+      case _ => routes.TaxYearLiabilitiesController.onPageLoad(0, NormalMode)
     }
 
     case YourLegalInterpretationPage => ua => ua.get(YourLegalInterpretationPage) match {
-      case Some(value) if ((
-          value.contains(YourResidenceStatus) ||
-          value.contains(YourDomicileStatus) ||
-          value.contains(TheRemittanceBasis) ||
-          value.contains(HowIncomeArisingInATrust) ||
-          value.contains(TheTransferOfAssets) ||
-          value.contains(HowIncomeArisingInAnOffshore) ||
-          value.contains(InheritanceTaxIssues) ||
-          value.contains(WhetherIncomeShouldBeTaxed)) && 
-          value.contains(AnotherIssue)
-        ) => routes.UnderWhatConsiderationController.onPageLoad(NormalMode)
-      case Some(value) if (
-          value.contains(YourResidenceStatus) ||
-          value.contains(YourDomicileStatus) ||
-          value.contains(TheRemittanceBasis) ||
-          value.contains(HowIncomeArisingInATrust) ||
-          value.contains(TheTransferOfAssets) ||
-          value.contains(HowIncomeArisingInAnOffshore) ||
-          value.contains(InheritanceTaxIssues) ||
-          value.contains(WhetherIncomeShouldBeTaxed)
-        ) => routes.HowMuchTaxHasNotBeenIncludedController.onPageLoad(NormalMode)
-      case Some(value) if(value.contains(AnotherIssue)) => routes.UnderWhatConsiderationController.onPageLoad(NormalMode)
+      case Some(value) if(value == Set(AnotherIssue)) => routes.UnderWhatConsiderationController.onPageLoad(NormalMode)
       case Some(value) if(value.contains(NoExclusion)) => routes.TheMaximumValueOfAllAssetsController.onPageLoad(NormalMode)
+      case _ => routes.HowMuchTaxHasNotBeenIncludedController.onPageLoad(NormalMode)
     }  
 
     case UnderWhatConsiderationPage => _ => routes.HowMuchTaxHasNotBeenIncludedController.onPageLoad(NormalMode)

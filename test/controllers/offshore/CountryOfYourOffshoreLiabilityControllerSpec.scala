@@ -104,7 +104,7 @@ class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with Injecti
       running(application) {
         val request =
           FakeRequest(POST, countryOfYourOffshoreLiabilityRoute)
-            .withFormUrlEncodedBody(("value", "AFG"))
+            .withFormUrlEncodedBody(("country", "AFG"))
 
         val result = route(application, request).value
 
@@ -124,9 +124,9 @@ class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with Injecti
       running(application) {
         val request =
           FakeRequest(POST, countryOfYourOffshoreLiabilityRoute)
-            .withFormUrlEncodedBody(("value", ""))
+            .withFormUrlEncodedBody(("country", ""))
 
-        val boundForm = form.bind(Map("value" -> ""))
+        val boundForm = form.bind(Map("country" -> ""))
 
         val view = application.injector.instanceOf[CountryOfYourOffshoreLiabilityView]
 
@@ -158,7 +158,7 @@ class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with Injecti
       running(application) {
         val request =
           FakeRequest(POST, countryOfYourOffshoreLiabilityRoute)
-            .withFormUrlEncodedBody(("value", "answer"))
+            .withFormUrlEncodedBody(("country", "answer"))
 
         val result = route(application, request).value
 

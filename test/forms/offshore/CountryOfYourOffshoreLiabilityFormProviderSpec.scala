@@ -33,9 +33,9 @@ class CountryOfYourOffshoreLiabilityFormProviderSpec extends FieldBehaviours wit
 
   val form = new CountryOfYourOffshoreLiabilityFormProvider(countries)(countryIndex)
 
-  ".value" - {
+  ".country" - {
 
-    val fieldName = "value"
+    val fieldName = "country"
 
     behave like mandatoryField(
       form,
