@@ -32,6 +32,7 @@ trait UserAnswersGenerator extends TryValues {
     arbitrary[(AdviceBusinessNamePage.type, JsValue)] ::
     arbitrary[(AdviceBusinessesOrOrgPage.type, JsValue)] ::
     arbitrary[(PersonWhoGaveAdvicePage.type, JsValue)] ::
+    arbitrary[(DidSomeoneGiveYouAdviceNotDeclareTaxPage.type, JsValue)] ::
     arbitrary[(WhyNotBeforeNowPage.type, JsValue)] ::
     arbitrary[(WhatIsTheReasonForMakingADisclosureNowPage.type, JsValue)] ::
     arbitrary[(WhyAreYouMakingADisclosurePage.type, JsValue)] ::

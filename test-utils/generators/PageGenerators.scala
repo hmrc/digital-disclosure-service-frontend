@@ -36,6 +36,9 @@ trait PageGenerators {
   implicit lazy val arbitraryPersonWhoGaveAdvicePage: Arbitrary[PersonWhoGaveAdvicePage.type] =
     Arbitrary(PersonWhoGaveAdvicePage)
 
+  implicit lazy val arbitraryDidSomeoneGiveYouAdviceNotDeclareTaxPage: Arbitrary[DidSomeoneGiveYouAdviceNotDeclareTaxPage.type] =
+    Arbitrary(DidSomeoneGiveYouAdviceNotDeclareTaxPage)
+
   implicit lazy val arbitraryWhyNotBeforeNowPage: Arbitrary[WhyNotBeforeNowPage.type] =
     Arbitrary(WhyNotBeforeNowPage)
     
