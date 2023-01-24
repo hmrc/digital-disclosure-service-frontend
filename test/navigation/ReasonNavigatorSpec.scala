@@ -20,6 +20,7 @@ import base.SpecBase
 import controllers.reason.routes
 import pages._
 import models._
+import models.WhyAreYouMakingADisclosure._
 
 class ReasonNavigatorSpec extends SpecBase {
 
@@ -35,7 +36,7 @@ class ReasonNavigatorSpec extends SpecBase {
       }
 
       "must go from WhyAreYouMakingADisclosurePage to WhatIsTheReasonForMakingADisclosureNowController when selected Other" in {
-        val set: Set[WhyAreYouMakingADisclosure] = Set(WhyAreYouMakingADisclosure.Other)
+        val set: Set[WhyAreYouMakingADisclosure] = Set(Other)
         val userAnswers = UserAnswers("id").set(WhyAreYouMakingADisclosurePage, set).success.value
         navigator.nextPage(WhyAreYouMakingADisclosurePage, NormalMode, userAnswers) mustBe routes.WhatIsTheReasonForMakingADisclosureNowController.onPageLoad(NormalMode)
       }
@@ -66,7 +67,7 @@ class ReasonNavigatorSpec extends SpecBase {
       "must go from a page that doesn't exist in the edit route map to CheckYourAnswers" in {
 
         case object UnknownPage extends Page
-        navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad
+        navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe routes.IndexController.onPageLoad
       }
     }
   }

@@ -30,7 +30,7 @@ class ReasonNavigator @Inject()() {
 
     case WhyAreYouMakingADisclosurePage => ua => ua.get(WhyAreYouMakingADisclosurePage) match {
       case Some(value) if(value.contains(Other)) => routes.WhatIsTheReasonForMakingADisclosureNowController.onPageLoad(NormalMode)
-      case Some(_) => routes.WhyNotBeforeNowController.onPageLoad(NormalMode)
+      case _ => routes.WhyNotBeforeNowController.onPageLoad(NormalMode)
     }
     case WhatIsTheReasonForMakingADisclosureNowPage => _ => routes.WhyNotBeforeNowController.onPageLoad(NormalMode)
 
