@@ -218,6 +218,19 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
         navigator.nextPage(WhichYearsPage, NormalMode, userAnswers) mustBe routes.TaxYearLiabilitiesController.onPageLoad(0, NormalMode)
       }
+
+      "must go from TaxBeforeFiveYearsPage to MakingNilDisclosureController when only selected option PriorTo5Years" in {
+        val set: Set[OffshoreYears] = Set(PriorTo5Years)
+        val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
+        navigator.nextPage(TaxBeforeFiveYearsPage, NormalMode, userAnswers) mustBe controllers.routes.MakingNilDisclosureController.onPageLoad
+      }
+
+      "must go from TaxBeforeFiveYearsPage to CountryOfYourOffshoreLiabilityController when selected more than one TaxYear option including PriorTo5Years" in {
+        val year = current.back(1).startYear
+        val set: Set[OffshoreYears] = Set(PriorTo5Years, TaxYearStarting(year))
+        val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
+        navigator.nextPage(TaxBeforeFiveYearsPage, NormalMode, userAnswers) mustBe routes.CountryOfYourOffshoreLiabilityController.onPageLoad(1, NormalMode)
+      }
     }
 
     "in Check mode" - {
