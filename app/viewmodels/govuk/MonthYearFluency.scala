@@ -19,7 +19,6 @@ package viewmodels.govuk
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.dateinput.{DateInput, InputItem}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.fieldset.{Fieldset, Legend}
-import uk.gov.hmrc.govukfrontend.views.viewmodels.hint.Hint
 import viewmodels.ErrorMessageAwareness
 import play.api.data.Form
 

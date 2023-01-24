@@ -54,7 +54,7 @@ class CanWeUseEmailAddressToContactYouController @Inject()(
 
       request.userAnswers.get(YourEmailAddressPage) match {
         case Some(email) => Ok(view(preparedForm, mode, email))
-        case _ => Redirect(navigator.nextPage(TaskListPage, mode, request.userAnswers))
+        case _ => Redirect(controllers.reason.routes.AdviceGivenController.onPageLoad(mode))
       }
   }
 
