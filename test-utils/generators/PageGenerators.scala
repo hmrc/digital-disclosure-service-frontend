@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryWhyAreYouMakingADisclosurePage: Arbitrary[WhyAreYouMakingADisclosurePage.type] =
+    Arbitrary(WhyAreYouMakingADisclosurePage)
+
   implicit lazy val arbitraryDidYouReceiveTaxCreditPage: Arbitrary[DidYouReceiveTaxCreditPage.type] =
     Arbitrary(DidYouReceiveTaxCreditPage)
 

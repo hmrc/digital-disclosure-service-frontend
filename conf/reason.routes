@@ -1,0 +1,5 @@
+
+GET        /why-disclosure-now                        controllers.reason.WhyAreYouMakingADisclosureController.onPageLoad(mode: Mode = NormalMode)
+POST       /why-disclosure-now                        controllers.reason.WhyAreYouMakingADisclosureController.onSubmit(mode: Mode = NormalMode)
+GET        /why-disclosure-now/change                  controllers.reason.WhyAreYouMakingADisclosureController.onPageLoad(mode: Mode = CheckMode)
+POST       /why-disclosure-now/change                  controllers.reason.WhyAreYouMakingADisclosureController.onSubmit(mode: Mode = CheckMode)

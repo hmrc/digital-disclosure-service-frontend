@@ -1347,3 +1347,19 @@ countryOfYourOffshoreLiability.taskList.link.text = Return to the list of tasks
 countryOfYourOffshoreLiability.taskList.link.url = http://localhost:15003/digital-disclosure/disclosure-list-of-tasks
 
 checkYourAnswers.yourLegalInterpretation.heading = Legal interpretation
+
+whyAreYouMakingADisclosure.title = Why are you making a disclosure now?
+whyAreYouMakingADisclosure.heading = Why are you making a disclosure now?
+whyAreYouMakingADisclosure.body = The answers to these questions form part of this disclosure.
+whyAreYouMakingADisclosure.hint = Select all that apply.
+whyAreYouMakingADisclosure.govUkGuidance = Advised by guidance on the GOV.UK website
+whyAreYouMakingADisclosure.letterFromHMRC = Prompted by a letter from HMRC advising to make a disclosure
+whyAreYouMakingADisclosure.employer = Advised by employer
+whyAreYouMakingADisclosure.news = After reading an online or newspaper article
+whyAreYouMakingADisclosure.publication = After reading an article from a professional association website or publication
+whyAreYouMakingADisclosure.accountant = Advised by an accountant, or other type of third party agent
+whyAreYouMakingADisclosure.roe = After reading about the Register of Overseas Entities
+whyAreYouMakingADisclosure.other = Other
+whyAreYouMakingADisclosure.checkYourAnswersLabel = Why are you making a disclosure now?
+whyAreYouMakingADisclosure.error.required = Select the reasons for making a disclosure now
+whyAreYouMakingADisclosure.change.hidden = WhyAreYouMakingADisclosure
