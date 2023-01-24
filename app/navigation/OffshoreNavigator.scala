@@ -80,6 +80,11 @@ class OffshoreNavigator @Inject()() {
 
     case TheMaximumValueOfAllAssetsPage => _ => routes.CheckYourAnswersController.onPageLoad
 
+    case TaxBeforeFiveYearsPage => ua => ua.get(WhichYearsPage) match {
+      case Some(whichYear) if whichYear.contains(PriorTo5Years) && whichYear.size == 1 => controllers.routes.MakingNilDisclosureController.onPageLoad
+      case _ => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(1, NormalMode)
+    }
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
