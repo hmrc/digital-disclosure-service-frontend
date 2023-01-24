@@ -21,7 +21,7 @@ import forms.CanWeUseEmailAddressToContactYouFormProvider
 import javax.inject.Inject
 import models.Mode
 import navigation.ReasonNavigator
-import pages.{CanWeUseEmailAddressToContactYouPage, YourEmailAddressPage}
+import pages.{CanWeUseEmailAddressToContactYouPage, YourEmailAddressPage, TaskListPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -54,7 +54,7 @@ class CanWeUseEmailAddressToContactYouController @Inject()(
 
       request.userAnswers.get(YourEmailAddressPage) match {
         case Some(email) => Ok(view(preparedForm, mode, email))
-        case _ => Redirect(navigator.nextPage(IndexController, mode, request.userAnswers)
+        case _ => Redirect(navigator.nextPage(TaskListPage, mode, request.userAnswers))
       }
   }
 
@@ -63,7 +63,10 @@ class CanWeUseEmailAddressToContactYouController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          request.userAnswers.get(YourEmailAddressPage) match {
+            case Some(email) => Future.successful(BadRequest(view(formWithErrors, mode, email)))
+            case _ => Future.successful(Redirect(navigator.nextPage(TaskListPage, mode, request.userAnswers)))
+          },
 
         value =>
           for {

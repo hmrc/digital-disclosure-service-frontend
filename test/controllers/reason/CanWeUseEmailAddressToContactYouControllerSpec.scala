@@ -23,7 +23,7 @@ import navigation.{FakeReasonNavigator, ReasonNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.CanWeUseEmailAddressToContactYouPage
+import pages.{CanWeUseEmailAddressToContactYouPage, YourEmailAddressPage}
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -46,7 +46,7 @@ class CanWeUseEmailAddressToContactYouControllerSpec extends SpecBase with Mocki
 
     "must return OK and the correct view for a GET" in {
       val email = "test@test.com"
-      val userAnswers = UserAnswers("id").set(YourEmailAddressPage, email)
+      val userAnswers = UserAnswers("id").set(YourEmailAddressPage, email).success.value
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
