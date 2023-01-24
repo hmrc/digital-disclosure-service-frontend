@@ -124,7 +124,7 @@ class TaskListController @Inject()(
       operation = messages("taskList.op.add"),
       sectionTitle = messages("taskList.sectionTitle.sixth"), 
       status = messages("taskList.status.notStarted"), 
-      link = routes.TaskListController.onPageLoad
+      link = reason.routes.WhyAreYouMakingADisclosureController.onPageLoad(NormalMode)
     )
   }
 

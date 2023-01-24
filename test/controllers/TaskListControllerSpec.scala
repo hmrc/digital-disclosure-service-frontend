@@ -174,8 +174,8 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
       id = "reason-for-coming-forward-now-liabilitie-task-list", 
       operation = messages("taskList.op.add"),
       sectionTitle = messages("taskList.sectionTitle.sixth"), 
-      status = messages("taskList.status.notStarted"), 
-      link = routes.TaskListController.onPageLoad
+      status = messages("taskList.status.notStarted"),
+      link = reason.routes.WhyAreYouMakingADisclosureController.onPageLoad(NormalMode)
     )
   }
 
