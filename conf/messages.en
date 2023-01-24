@@ -1428,6 +1428,7 @@ adviceProfession.error.required = Enter the profession of the person who gave ad
 adviceProfession.error.length = The profession of the person who gave advice must be between 4 and 30 characters
 adviceProfession.change.hidden = AdviceProfession
 
+<<<<<<< HEAD
 adviceGiven.title = Advice given 
 adviceGiven.heading = Advice given 
 adviceGiven.adviceGiven = What did the person who gave the advice say?
@@ -1447,3 +1448,12 @@ adviceGiven.contact.email = Yes, by email
 adviceGiven.contact.telephone = Yes, by telephone
 adviceGiven.contact.no = No
 adviceGiven.error.contact.required = Select yes if HMRC can contact you to discuss the advice
+=======
+canWeUseEmailAddressToContactYou.title = Can we use the email address {0} to contact you with?
+canWeUseEmailAddressToContactYou.heading = Can we use the email address {0} to contact you with?
+canWeUseEmailAddressToContactYou.yes = Yes
+canWeUseEmailAddressToContactYou.no = No
+canWeUseEmailAddressToContactYou.checkYourAnswersLabel = canWeUseEmailAddressToContactYou
+canWeUseEmailAddressToContactYou.error.required = Select yes if we can use this email address
+canWeUseEmailAddressToContactYou.change.hidden = CanWeUseEmailAddressToContactYou
+>>>>>>> origin/main

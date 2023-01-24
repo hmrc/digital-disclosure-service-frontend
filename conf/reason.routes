@@ -43,3 +43,8 @@ GET        /someone-gave-advice                       controllers.reason.DidSome
 POST       /someone-gave-advice                       controllers.reason.DidSomeoneGiveYouAdviceNotDeclareTaxController.onSubmit(mode: Mode = NormalMode)
 GET        /someone-gave-advice/change                controllers.reason.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(mode: Mode = CheckMode)
 POST       /someone-gave-advice/change                controllers.reason.DidSomeoneGiveYouAdviceNotDeclareTaxController.onSubmit(mode: Mode = CheckMode)
+
+GET        /use-this-email                            controllers.reason.CanWeUseEmailAddressToContactYouController.onPageLoad(mode: Mode = NormalMode)
+POST       /use-this-email                            controllers.reason.CanWeUseEmailAddressToContactYouController.onSubmit(mode: Mode = NormalMode)
+GET        /use-this-email/change                     controllers.reason.CanWeUseEmailAddressToContactYouController.onPageLoad(mode: Mode = CheckMode)
+POST       /use-this-email/change                     controllers.reason.CanWeUseEmailAddressToContactYouController.onSubmit(mode: Mode = CheckMode)

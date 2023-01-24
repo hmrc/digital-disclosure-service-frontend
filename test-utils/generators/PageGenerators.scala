@@ -23,6 +23,9 @@ trait PageGenerators {
 
   implicit lazy val arbitraryAdviceGivenPage: Arbitrary[AdviceGivenPage.type] =
     Arbitrary(AdviceGivenPage)
+    
+  implicit lazy val arbitraryCanWeUseEmailAddressToContactYouPage: Arbitrary[CanWeUseEmailAddressToContactYouPage.type] =
+    Arbitrary(CanWeUseEmailAddressToContactYouPage)
 
   implicit lazy val arbitraryAdviceProfessionPage: Arbitrary[AdviceProfessionPage.type] =
     Arbitrary(AdviceProfessionPage)
