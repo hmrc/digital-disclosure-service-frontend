@@ -20,6 +20,7 @@ import javax.inject.{Inject, Singleton}
 import play.api.mvc.Call
 import pages._
 import models.{UserAnswers, Mode, NormalMode, CheckMode}
+import models.WhyAreYouMakingADisclosure._
 import controllers.reason.routes
 
 @Singleton
@@ -27,7 +28,11 @@ class ReasonNavigator @Inject()() {
 
   private val normalRoutes: Page => UserAnswers => Call = {  
 
-    case WhyAreYouMakingADisclosurePage => _ => routes.WhyNotBeforeNowController.onPageLoad(NormalMode)
+    case WhyAreYouMakingADisclosurePage => ua => ua.get(WhyAreYouMakingADisclosurePage) match {
+      case Some(value) if(value.contains(Other)) => routes.WhatIsTheReasonForMakingADisclosureNowController.onPageLoad(NormalMode)
+      case Some(_) => routes.WhyNotBeforeNowController.onPageLoad(NormalMode)
+    }
+    case WhatIsTheReasonForMakingADisclosureNowPage => _ => routes.WhyNotBeforeNowController.onPageLoad(NormalMode)
 
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }

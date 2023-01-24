@@ -23,6 +23,9 @@ trait PageGenerators {
 
   implicit lazy val arbitraryWhyNotBeforeNowPage: Arbitrary[WhyNotBeforeNowPage.type] =
     Arbitrary(WhyNotBeforeNowPage)
+    
+  implicit lazy val arbitraryWhatIsTheReasonForMakingADisclosureNowPage: Arbitrary[WhatIsTheReasonForMakingADisclosureNowPage.type] =
+    Arbitrary(WhatIsTheReasonForMakingADisclosureNowPage)
 
   implicit lazy val arbitraryWhyAreYouMakingADisclosurePage: Arbitrary[WhyAreYouMakingADisclosurePage.type] =
     Arbitrary(WhyAreYouMakingADisclosurePage)
