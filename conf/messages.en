@@ -1144,7 +1144,7 @@ whichYears.checkbox.none.hint = You will not be asked to provide any information
 
 taxBeforeFiveYears.title = Can you tell us more about any tax owed before 6 April {0}?
 taxBeforeFiveYears.heading = Can you tell us more about any tax owed before 6 April {0}?
-taxBeforeFiveYears.checkYourAnswersLabel = Can you tell us more about any tax owed before 6 April {0}
+taxBeforeFiveYears.checkYourAnswersLabel = Tax owed before 6 April {0}
 taxBeforeFiveYears.taxBeforeFiveYears = Provide the amount, when it was owed, and where the income or gain came from. Do not include these figures in this disclosure’s calculations. The person reviewing the disclosure may ask you further questions about this, if needed.
 taxBeforeFiveYears.error.required = Enter information about the tax owed before 6 April {0}
 taxBeforeFiveYears.error.length = The information about the tax owed must be between 1 and 5000 characters
@@ -1153,7 +1153,7 @@ taxBeforeFiveYears.taxBeforeFiveYears.change.hidden = TaxBeforeFiveYears
 taxBeforeSevenYears.title = Can you tell us more about any tax owed before 6 April {0}?
 taxBeforeSevenYears.heading = Can you tell us more about any tax owed before 6 April {0}?
 taxBeforeSevenYears.taxBeforeSevenYears = Provide the amount, when it was owed, and where the income or gain came from. Do not include these figures in this disclosure’s calculations. The person reviewing this disclosure may ask you further questions about this, if needed.
-taxBeforeSevenYears.checkYourAnswersLabel = Can you tell us more about any tax owed before 6 April {0}
+taxBeforeSevenYears.checkYourAnswersLabel = Tax owed before 6 April {0}
 taxBeforeSevenYears.error.required = Enter information about the tax owed before 6 April {0}
 taxBeforeSevenYears.error.length = The information about the tax owed must be between 1 and 5000 characters
 taxBeforeSevenYears.taxBeforeSevenYears.change.hidden = TaxBeforeSevenYears
@@ -1340,3 +1340,5 @@ countryOfYourOffshoreLiability.change.hidden = CountryOfYourOffshoreLiability
 countryOfYourOffshoreLiability.button.add = Add another country or territory
 countryOfYourOffshoreLiability.taskList.link.text = Return to the list of tasks
 countryOfYourOffshoreLiability.taskList.link.url = http://localhost:15003/digital-disclosure/disclosure-list-of-tasks
+
+checkYourAnswers.yourLegalInterpretation.heading = Legal interpretation

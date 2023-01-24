@@ -71,7 +71,7 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
     "return an empty Seq where the offshore pages isn't populated" in {
       val ua = UserAnswers("id")
       val viewModel = CheckYourAnswersViewModel(ua)
-      viewModel.list mustEqual SummaryListViewModel(rows = Seq.empty)
+      viewModel.legalInterpretationlist mustEqual SummaryListViewModel(rows = Seq.empty)
       viewModel.taxYearLists mustEqual Nil
       viewModel.liabilitiesTotal mustEqual BigDecimal(0)
     }
@@ -80,7 +80,7 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
       val year = current.back(5).startYear.toString
       val ua = UserAnswers("id").set(TaxBeforeFiveYearsPage, "test").success.value
       val viewModel = CheckYourAnswersViewModel(ua)
-      val summaryList = viewModel.list
+      val summaryList = viewModel.taxBefore5or7Yearslist
       summaryList.rows(0).key mustEqual Key(Text(mess("taxBeforeFiveYears.checkYourAnswersLabel", year)))
     }
 
@@ -88,7 +88,7 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
       val year = current.back(7).startYear.toString
       val ua = UserAnswers("id").set(TaxBeforeSevenYearsPage, "test").success.value
       val viewModel = CheckYourAnswersViewModel(ua)
-      val summaryList = viewModel.list
+      val summaryList = viewModel.taxBefore5or7Yearslist
       summaryList.rows(0).key mustEqual Key(Text(mess("taxBeforeSevenYears.checkYourAnswersLabel", year)))
     }
 
@@ -97,7 +97,7 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
       forAll(gen) { value =>
         val ua = UserAnswers("id").set(TheMaximumValueOfAllAssetsPage, value).success.value
         val viewModel = CheckYourAnswersViewModel(ua)
-        val summaryList = viewModel.list
+        val summaryList = viewModel.legalInterpretationlist
         summaryList.rows(0).key mustEqual Key(Text(mess("theMaximumValueOfAllAssets.checkYourAnswersLabel")))
         summaryList.rows(0).value mustEqual ValueViewModel(HtmlContent(mess(s"theMaximumValueOfAllAssets.${value}")))
       }
@@ -108,17 +108,22 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
       forAll(gen) { value =>
         val ua = UserAnswers("id").set(HowMuchTaxHasNotBeenIncludedPage, value).success.value
         val viewModel = CheckYourAnswersViewModel(ua)
-        val summaryList = viewModel.list
+        val summaryList = viewModel.legalInterpretationlist
         summaryList.rows(0).key mustEqual Key(Text(mess("howMuchTaxHasNotBeenIncluded.checkYourAnswersLabel")))
         summaryList.rows(0).value mustEqual ValueViewModel(HtmlContent(mess(s"howMuchTaxHasNotBeenIncluded.${value}")))
       }
     }
 
     "return the correct view for a UnderWhatConsiderationSummary is populated" in {
-      val ua = UserAnswers("id").set(UnderWhatConsiderationPage, "test").success.value
+       val yourLegalInterpretation: Set[YourLegalInterpretation] = Set(YourLegalInterpretation.AnotherIssue)
+      val ua = (for {
+        ua1 <- UserAnswers("id").set(YourLegalInterpretationPage, yourLegalInterpretation)
+        ua2 <- ua1.set(UnderWhatConsiderationPage, "test")
+      } yield ua2).success.value
+
       val viewModel = CheckYourAnswersViewModel(ua)
-      val summaryList = viewModel.list
-      summaryList.rows(0).key mustEqual Key(Text(mess("underWhatConsideration.checkYourAnswersLabel")))
+      val summaryList = viewModel.legalInterpretationlist
+      summaryList.rows(1).key mustEqual Key(Text(mess("underWhatConsideration.checkYourAnswersLabel")))
     }
 
     "return the correct view for a YourLegalInterpretationSummary is populated" in {
@@ -126,7 +131,7 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
        forAll(gen) { value =>
           val ua = UserAnswers("id").set(YourLegalInterpretationPage, Set(value)).success.value
           val viewModel = CheckYourAnswersViewModel(ua)
-          val summaryList = viewModel.list
+          val summaryList = viewModel.legalInterpretationlist
           summaryList.rows(0).key mustEqual Key(Text(mess("yourLegalInterpretation.checkYourAnswersLabel")))
           summaryList.rows(0).value mustEqual ValueViewModel(HtmlContent(mess(s"yourLegalInterpretation.${value}")))
        }

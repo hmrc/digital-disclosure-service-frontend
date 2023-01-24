@@ -22,11 +22,12 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import viewmodels.checkAnswers._
-import pages.TaxYearLiabilitiesPage
+import pages.{TaxYearLiabilitiesPage, YourLegalInterpretationPage}
 import play.api.i18n.Messages
 
 case class CheckYourAnswersViewModel(
-  list: SummaryList,
+  taxBefore5or7Yearslist: SummaryList,
+  legalInterpretationlist: SummaryList,
   taxYearLists: Seq[(Int, SummaryList)],
   liabilitiesTotal: BigDecimal
 )
@@ -34,6 +35,13 @@ case class CheckYourAnswersViewModel(
 object CheckYourAnswersViewModel {
 
   def apply(userAnswers: UserAnswers)(implicit messages: Messages): CheckYourAnswersViewModel = {
+
+    val taxBefore5or7Yearslist = SummaryListViewModel(
+      rows = Seq(
+        TaxBeforeFiveYearsSummary.row(userAnswers),
+        TaxBeforeSevenYearsSummary.row(userAnswers)
+      ).flatten
+    )
 
     val taxYears: Seq[TaxYearWithLiabilities] = for {
       year <- userAnswers.inverselySortedOffshoreTaxYears.getOrElse(Nil)
@@ -46,18 +54,19 @@ object CheckYourAnswersViewModel {
 
     val liabilitiesTotal: BigDecimal = taxYears.map(yearWithLiabilities => yearTotal(yearWithLiabilities.taxYearLiabilities)).sum
 
-    val list = SummaryListViewModel(
+    val legalInterpretationlist = SummaryListViewModel(
       rows = Seq(
         YourLegalInterpretationSummary.row(userAnswers),
-        UnderWhatConsiderationSummary.row(userAnswers),
+        userAnswers.get(YourLegalInterpretationPage) match {
+          case Some(value) if value.contains(YourLegalInterpretation.AnotherIssue) => UnderWhatConsiderationSummary.row(userAnswers)
+          case _ => None
+        },
         HowMuchTaxHasNotBeenIncludedSummary.row(userAnswers),
-        TheMaximumValueOfAllAssetsSummary.row(userAnswers),
-        TaxBeforeFiveYearsSummary.row(userAnswers),
-        TaxBeforeSevenYearsSummary.row(userAnswers)
+        TheMaximumValueOfAllAssetsSummary.row(userAnswers)
       ).flatten
     )
 
-    CheckYourAnswersViewModel(list, taxYearLists, liabilitiesTotal)
+    CheckYourAnswersViewModel(taxBefore5or7Yearslist, legalInterpretationlist, taxYearLists, liabilitiesTotal)
 
   }
 
