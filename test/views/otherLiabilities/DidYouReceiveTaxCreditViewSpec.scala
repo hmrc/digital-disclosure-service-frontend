@@ -27,11 +27,11 @@ import generators.Generators
 
 class DidYouReceiveTaxCreditViewSpec extends ViewSpecBase with ViewMatchers with Generators {
 
-  val form = new DidYouReceiveTaxCreditFormProvider()()
   val page: DidYouReceiveTaxCreditView = inject[DidYouReceiveTaxCreditView]
 
   val areTheyTheIndividual = arbitrary[Boolean].sample.value 
   val entity = arbitrary[RelatesTo].sample.value
+  val form = new DidYouReceiveTaxCreditFormProvider()(areTheyTheIndividual, entity)
 
   private def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 

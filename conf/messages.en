@@ -1319,7 +1319,12 @@ didYouReceiveTaxCredit.body = We will consider the amount of tax credits you or 
 didYouReceiveTaxCredit.yes = Yes
 didYouReceiveTaxCredit.no = No
 didYouReceiveTaxCredit.checkYourAnswersLabel = Did you receive tax credits for any of the years covered by your disclosure?
-didYouReceiveTaxCredit.error.required = Select yes if you received tax credits
+didYouReceiveTaxCredit.agent.error.required = Select yes if you received tax credits
+didYouReceiveTaxCredit.individual.error.required = Select yes if the individual received tax credits
+didYouReceiveTaxCredit.estate.error.required = Select yes if the person received tax credits
+didYouReceiveTaxCredit.company.error.required = Select yes if you received tax credits
+didYouReceiveTaxCredit.llp.error.required = Select yes if you received tax credits
+didYouReceiveTaxCredit.trust.error.required = Select yes if you received tax credits
 didYouReceiveTaxCredit.change.hidden = DidYouReceiveTaxCredit
 
 checkYourAnswers.otherLiabilities.title = Other liabilities summary
