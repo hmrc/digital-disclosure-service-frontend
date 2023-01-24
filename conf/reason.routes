@@ -28,3 +28,8 @@ GET        /name-of-organisation-gave-advice                        controllers.
 POST       /name-of-organisation-gave-advice                        controllers.reason.AdviceBusinessNameController.onSubmit(mode: Mode = NormalMode)
 GET        /name-of-organisation-gave-advice/change                controllers.reason.AdviceBusinessNameController.onPageLoad(mode: Mode = CheckMode)
 POST       /name-of-organisation-gave-advice/change                controllers.reason.AdviceBusinessNameController.onSubmit(mode: Mode = CheckMode)
+
+GET        /profession-of-person-gave-advice                        controllers.reason.AdviceProfessionController.onPageLoad(mode: Mode = NormalMode)
+POST       /profession-of-person-gave-advice                        controllers.reason.AdviceProfessionController.onSubmit(mode: Mode = NormalMode)
+GET        /profession-of-person-gave-advice/change                controllers.reason.AdviceProfessionController.onPageLoad(mode: Mode = CheckMode)
+POST       /profession-of-person-gave-advice/change                controllers.reason.AdviceProfessionController.onSubmit(mode: Mode = CheckMode)

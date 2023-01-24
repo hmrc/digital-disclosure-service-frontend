@@ -1397,3 +1397,10 @@ adviceBusinessName.checkYourAnswersLabel = adviceBusinessName
 adviceBusinessName.error.required = Enter the name of the business or organisation the person who gave advice was working on behalf of
 adviceBusinessName.error.length = The name of the business or organisation must be between 1 and 50 characters
 adviceBusinessName.change.hidden = AdviceBusinessName
+
+adviceProfession.title = What was the profession of the person who gave this advice?
+adviceProfession.heading = What was the profession of the person who gave this advice?
+adviceProfession.checkYourAnswersLabel = adviceProfession
+adviceProfession.error.required = Enter the profession of the person who gave advice
+adviceProfession.error.length = The profession of the person who gave advice must be between 4 and 30 characters
+adviceProfession.change.hidden = AdviceProfession
