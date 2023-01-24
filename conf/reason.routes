@@ -38,3 +38,8 @@ GET        /profession-of-person-gave-advice          controllers.reason.AdviceP
 POST       /profession-of-person-gave-advice          controllers.reason.AdviceProfessionController.onSubmit(mode: Mode = NormalMode)
 GET        /profession-of-person-gave-advice/change   controllers.reason.AdviceProfessionController.onPageLoad(mode: Mode = CheckMode)
 POST       /profession-of-person-gave-advice/change   controllers.reason.AdviceProfessionController.onSubmit(mode: Mode = CheckMode)
+
+GET        /use-this-email                            controllers.reason.CanWeUseEmailAddressToContactYouController.onPageLoad(mode: Mode = NormalMode)
+POST       /use-this-email                            controllers.reason.CanWeUseEmailAddressToContactYouController.onSubmit(mode: Mode = NormalMode)
+GET        /use-this-email/change                     controllers.reason.CanWeUseEmailAddressToContactYouController.onPageLoad(mode: Mode = CheckMode)
+POST       /use-this-email/change                     controllers.reason.CanWeUseEmailAddressToContactYouController.onSubmit(mode: Mode = CheckMode)

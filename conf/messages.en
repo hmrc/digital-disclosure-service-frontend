@@ -1427,3 +1427,11 @@ adviceProfession.checkYourAnswersLabel = adviceProfession
 adviceProfession.error.required = Enter the profession of the person who gave advice
 adviceProfession.error.length = The profession of the person who gave advice must be between 4 and 30 characters
 adviceProfession.change.hidden = AdviceProfession
+
+canWeUseEmailAddressToContactYou.title = Can we use the email address {0} to contact you with?
+canWeUseEmailAddressToContactYou.heading = Can we use the email address {0} to contact you with?
+canWeUseEmailAddressToContactYou.yes = Yes
+canWeUseEmailAddressToContactYou.no = No
+canWeUseEmailAddressToContactYou.checkYourAnswersLabel = canWeUseEmailAddressToContactYou
+canWeUseEmailAddressToContactYou.error.required = Select yes if we can use this email address
+canWeUseEmailAddressToContactYou.change.hidden = CanWeUseEmailAddressToContactYou
