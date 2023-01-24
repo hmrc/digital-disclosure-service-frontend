@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryPersonWhoGaveAdvicePage: Arbitrary[PersonWhoGaveAdvicePage.type] =
+    Arbitrary(PersonWhoGaveAdvicePage)
+
   implicit lazy val arbitraryWhyNotBeforeNowPage: Arbitrary[WhyNotBeforeNowPage.type] =
     Arbitrary(WhyNotBeforeNowPage)
     

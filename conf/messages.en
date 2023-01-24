@@ -1377,3 +1377,10 @@ whatIsTheReasonForMakingADisclosureNow.checkYourAnswersLabel = whatIsTheReasonFo
 whatIsTheReasonForMakingADisclosureNow.error.required = Enter a reason for making a disclosure
 whatIsTheReasonForMakingADisclosureNow.error.length = The reason for making a disclosure now must be between 1 and 5,000 characters
 whatIsTheReasonForMakingADisclosureNow.change.hidden = WhatIsTheReasonForMakingADisclosureNow
+
+personWhoGaveAdvice.title = What was the name of the person who gave the advice?
+personWhoGaveAdvice.heading = What was the name of the person who gave the advice?
+personWhoGaveAdvice.checkYourAnswersLabel = personWhoGaveAdvice
+personWhoGaveAdvice.error.required = Enter the name of the person who gave advice
+personWhoGaveAdvice.error.length = The name of the person who gave advice must be between 1 and 30 characters
+personWhoGaveAdvice.change.hidden = PersonWhoGaveAdvice
