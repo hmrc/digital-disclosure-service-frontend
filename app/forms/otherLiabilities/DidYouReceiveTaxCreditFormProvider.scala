@@ -20,11 +20,12 @@ import javax.inject.Inject
 
 import forms.mappings.Mappings
 import play.api.data.Form
+import models.RelatesTo
 
 class DidYouReceiveTaxCreditFormProvider @Inject() extends Mappings {
 
-  def apply(): Form[Boolean] =
+  def apply(areTheyTheIndividual: Boolean, entity: RelatesTo): Form[Boolean] =
     Form(
-      "value" -> boolean("didYouReceiveTaxCredit.error.required")
+      "value" -> boolean(if(areTheyTheIndividual) "didYouReceiveTaxCredit.agent.error.required" else s"didYouReceiveTaxCredit.${entity}.error.required")
     )
 }

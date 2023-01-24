@@ -18,15 +18,15 @@ package forms
 
 import forms.behaviours.BooleanFieldBehaviours
 import play.api.data.FormError
+import models.RelatesTo._
 
 class DidYouReceiveTaxCreditFormProviderSpec extends BooleanFieldBehaviours {
 
-  val form = new DidYouReceiveTaxCreditFormProvider()()
+  ".value when an agent" - {
 
-  ".value" - {
-
+    val form = new DidYouReceiveTaxCreditFormProvider()(true, AnIndividual)
     val fieldName = "value"
-    val requiredKey = "didYouReceiveTaxCredit.error.required"
+    val requiredKey = "didYouReceiveTaxCredit.agent.error.required"
 
     behave like booleanField(
       form,
@@ -39,5 +39,32 @@ class DidYouReceiveTaxCreditFormProviderSpec extends BooleanFieldBehaviours {
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+  }
+
+  ".value when an entity" - {
+
+    Seq(
+      AnIndividual, 
+      AnEstate, 
+      ACompany, 
+      ALimitedLiabilityPartnership, 
+      ATrust
+    ).foreach {relatesTo => 
+      val form = new DidYouReceiveTaxCreditFormProvider()(false, relatesTo)
+      val fieldName = "value"
+      val requiredKey = s"didYouReceiveTaxCredit.${relatesTo}.error.required"
+
+      behave like booleanField(
+        form,
+        fieldName,
+        invalidError = FormError(fieldName, "error.boolean")
+      )
+
+      behave like mandatoryField(
+        form,
+        fieldName,
+        requiredError = FormError(fieldName, requiredKey)
+      )
+    }
   }
 }
