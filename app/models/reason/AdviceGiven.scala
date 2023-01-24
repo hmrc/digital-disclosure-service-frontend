@@ -14,23 +14,13 @@
  * limitations under the License.
  */
 
-package viewmodels
+package models
 
-package object govuk {
+import play.api.libs.json._
 
-  object all
-    extends ImplicitConversions
-      with BackLinkFluency
-      with ButtonFluency
-      with CheckboxFluency
-      with DateFluency
-      with ErrorSummaryFluency
-      with FieldsetFluency
-      with HintFluency
-      with InputFluency
-      with LabelFluency
-      with RadiosFluency
-      with SummaryListFluency
-      with TagFluency
-      with MonthYearFluency
+case class AdviceGiven(adviceGiven: String, adviceMonth: Int, adviceYear: Int, contactPreference: AdviceContactPreference)
+
+object AdviceGiven {
+  implicit val format = Json.format[AdviceGiven]
 }
+

@@ -33,3 +33,8 @@ GET        /profession-of-person-gave-advice                        controllers.
 POST       /profession-of-person-gave-advice                        controllers.reason.AdviceProfessionController.onSubmit(mode: Mode = NormalMode)
 GET        /profession-of-person-gave-advice/change                controllers.reason.AdviceProfessionController.onPageLoad(mode: Mode = CheckMode)
 POST       /profession-of-person-gave-advice/change                controllers.reason.AdviceProfessionController.onSubmit(mode: Mode = CheckMode)
+
+GET        /advice-given                        controllers.reason.AdviceGivenController.onPageLoad(mode: Mode = NormalMode)
+POST       /advice-given                        controllers.reason.AdviceGivenController.onSubmit(mode: Mode = NormalMode)
+GET        /advice-given/change                  controllers.reason.AdviceGivenController.onPageLoad(mode: Mode = CheckMode)
+POST       /advice-given/change                  controllers.reason.AdviceGivenController.onSubmit(mode: Mode = CheckMode)
