@@ -18,3 +18,13 @@ GET        /who-gave-advice                        controllers.reason.PersonWhoG
 POST       /who-gave-advice                        controllers.reason.PersonWhoGaveAdviceController.onSubmit(mode: Mode = NormalMode)
 GET        /who-gave-advice/change                controllers.reason.PersonWhoGaveAdviceController.onPageLoad(mode: Mode = CheckMode)
 POST       /who-gave-advice/change                controllers.reason.PersonWhoGaveAdviceController.onSubmit(mode: Mode = CheckMode)
+
+GET        /organisation-gave-advice                         controllers.reason.AdviceBusinessesOrOrgController.onPageLoad(mode: Mode = NormalMode)
+POST       /organisation-gave-advice                         controllers.reason.AdviceBusinessesOrOrgController.onSubmit(mode: Mode = NormalMode)
+GET        /organisation-gave-advice/change                 controllers.reason.AdviceBusinessesOrOrgController.onPageLoad(mode: Mode = CheckMode)
+POST       /organisation-gave-advice/change                 controllers.reason.AdviceBusinessesOrOrgController.onSubmit(mode: Mode = CheckMode)
+
+GET        /name-of-organisation-gave-advice                        controllers.reason.AdviceBusinessNameController.onPageLoad(mode: Mode = NormalMode)
+POST       /name-of-organisation-gave-advice                        controllers.reason.AdviceBusinessNameController.onSubmit(mode: Mode = NormalMode)
+GET        /name-of-organisation-gave-advice/change                controllers.reason.AdviceBusinessNameController.onPageLoad(mode: Mode = CheckMode)
+POST       /name-of-organisation-gave-advice/change                controllers.reason.AdviceBusinessNameController.onSubmit(mode: Mode = CheckMode)
