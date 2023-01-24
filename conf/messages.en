@@ -1384,3 +1384,9 @@ personWhoGaveAdvice.checkYourAnswersLabel = personWhoGaveAdvice
 personWhoGaveAdvice.error.required = Enter the name of the person who gave advice
 personWhoGaveAdvice.error.length = The name of the person who gave advice must be between 1 and 30 characters
 personWhoGaveAdvice.change.hidden = PersonWhoGaveAdvice
+
+adviceBusinessesOrOrg.title = Did the person who gave advice work on behalf of a business or organisation?
+adviceBusinessesOrOrg.heading = Did the person who gave advice work on behalf of a business or organisation?
+adviceBusinessesOrOrg.checkYourAnswersLabel = adviceBusinessesOrOrg
+adviceBusinessesOrOrg.error.required = Select yes if the person’s advice was on behalf of a business or organisation
+adviceBusinessesOrOrg.change.hidden = AdviceBusinessesOrOrg
