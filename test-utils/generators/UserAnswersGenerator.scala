@@ -27,9 +27,13 @@ trait UserAnswersGenerator extends TryValues {
   self: Generators =>
 
   val generators: Seq[Gen[(QuestionPage[_], JsValue)]] =
+<<<<<<< Updated upstream
     arbitrary[(AdviceBusinessNamePage.type, JsValue)] ::
     arbitrary[(AdviceBusinessesOrOrgPage.type, JsValue)] ::
     arbitrary[(PersonWhoGaveAdvicePage.type, JsValue)] ::
+=======
+    arbitrary[(DidSomeoneGiveYouAdviceNotDeclareTaxPage.type, JsValue)] ::
+>>>>>>> Stashed changes
     arbitrary[(WhyNotBeforeNowPage.type, JsValue)] ::
     arbitrary[(WhatIsTheReasonForMakingADisclosureNowPage.type, JsValue)] ::
     arbitrary[(WhyAreYouMakingADisclosurePage.type, JsValue)] ::

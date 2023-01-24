@@ -14,6 +14,7 @@ POST       /reason-for-disclosure-now                 controllers.reason.WhatIsT
 GET        /reason-for-disclosure-now/change          controllers.reason.WhatIsTheReasonForMakingADisclosureNowController.onPageLoad(mode: Mode = CheckMode)
 POST       /reason-for-disclosure-now/change          controllers.reason.WhatIsTheReasonForMakingADisclosureNowController.onSubmit(mode: Mode = CheckMode)
 
+<<<<<<< Updated upstream
 GET        /who-gave-advice                        controllers.reason.PersonWhoGaveAdviceController.onPageLoad(mode: Mode = NormalMode)
 POST       /who-gave-advice                        controllers.reason.PersonWhoGaveAdviceController.onSubmit(mode: Mode = NormalMode)
 GET        /who-gave-advice/change                controllers.reason.PersonWhoGaveAdviceController.onPageLoad(mode: Mode = CheckMode)
@@ -28,3 +29,9 @@ GET        /name-of-organisation-gave-advice                        controllers.
 POST       /name-of-organisation-gave-advice                        controllers.reason.AdviceBusinessNameController.onSubmit(mode: Mode = NormalMode)
 GET        /name-of-organisation-gave-advice/change                controllers.reason.AdviceBusinessNameController.onPageLoad(mode: Mode = CheckMode)
 POST       /name-of-organisation-gave-advice/change                controllers.reason.AdviceBusinessNameController.onSubmit(mode: Mode = CheckMode)
+=======
+GET        /someone-gave-advice                       controllers.reason.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(mode: Mode = NormalMode)
+POST       /someone-gave-advice                       controllers.reason.DidSomeoneGiveYouAdviceNotDeclareTaxController.onSubmit(mode: Mode = NormalMode)
+GET        /someone-gave-advice/change                controllers.reason.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(mode: Mode = CheckMode)
+POST       /someone-gave-advice/change                controllers.reason.DidSomeoneGiveYouAdviceNotDeclareTaxController.onSubmit(mode: Mode = CheckMode)
+>>>>>>> Stashed changes
