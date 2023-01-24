@@ -31,6 +31,14 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
         value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
       } yield (page, value)
     }
+    
+  implicit lazy val arbitraryWhatIsTheReasonForMakingADisclosureNowUserAnswersEntry: Arbitrary[(WhatIsTheReasonForMakingADisclosureNowPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[WhatIsTheReasonForMakingADisclosureNowPage.type]
+        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
+      } yield (page, value)
+    }
 
   implicit lazy val arbitraryWhyAreYouMakingADisclosureUserAnswersEntry: Arbitrary[(WhyAreYouMakingADisclosurePage.type, JsValue)] =
     Arbitrary {

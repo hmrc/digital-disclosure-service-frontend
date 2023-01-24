@@ -14,38 +14,38 @@
  * limitations under the License.
  *@
 
+@import uk.gov.hmrc.hmrcfrontend.views.html.components.CharacterCount
+@import viewmodels.InputWidth._
+
 @this(
     layout: templates.Layout,
     formHelper: FormWithCSRF,
     govukErrorSummary: GovukErrorSummary,
-    govukCheckboxes: GovukCheckboxes,
+    hmrcCharacterCount: HmrcCharacterCount,
+    govukInput: GovukInput,
     govukButton: GovukButton,
-    heading: components.heading,
-    paragraph: components.paragraph,
     tasklistLink: components.tasklistLink
 )
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("whyAreYouMakingADisclosure.title"))) {
+@layout(pageTitle = title(form, messages("whatIsTheReasonForMakingADisclosureNow.title"))) {
 
-    @formHelper(action = controllers.reason.routes.WhyAreYouMakingADisclosureController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.reason.routes.WhatIsTheReasonForMakingADisclosureNowController.onSubmit(mode)) {
 
         @if(form.errors.nonEmpty) {
-            @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value_0")))
+            @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
-        @heading(Text(messages("whyAreYouMakingADisclosure.heading")))
-
-        @paragraph(id = Some("paragraph"), content = Text(messages("whyAreYouMakingADisclosure.body")))
-
-        @govukCheckboxes(
-            CheckboxesViewModel(
-                form   = form,
-                name   = "value",
-                legend = LegendViewModel(messages("whyAreYouMakingADisclosure.heading")).withCssClass("govuk-visually-hidden"),
-                items  = WhyAreYouMakingADisclosure.checkboxItems
-            ).withHint(Hint(content = Text(messages("whyAreYouMakingADisclosure.hint"))))
+        @hmrcCharacterCount(
+            CharacterCount(
+                id = "value",
+                name = "value",
+                maxLength = Some(5000), 
+                label = Label(content = messages("whatIsTheReasonForMakingADisclosureNow.heading")).asPageHeading(),
+                value = form("value").value,
+                errorMessage = form("value").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
+            )
         )
 
         @govukButton(

@@ -1370,3 +1370,10 @@ whyNotBeforeNow.checkYourAnswersLabel = whyNotBeforeNow
 whyNotBeforeNow.error.required = Enter a reason why the disclosure was not made before now
 whyNotBeforeNow.error.length = The reason for not making a disclosure before now must be between 1 and 5,000 characters
 whyNotBeforeNow.change.hidden = WhyNotBeforeNow
+
+whatIsTheReasonForMakingADisclosureNow.title = What is the reason for making a disclosure now?
+whatIsTheReasonForMakingADisclosureNow.heading = What is the reason for making a disclosure now?
+whatIsTheReasonForMakingADisclosureNow.checkYourAnswersLabel = whatIsTheReasonForMakingADisclosureNow
+whatIsTheReasonForMakingADisclosureNow.error.required = Enter a reason for making a disclosure
+whatIsTheReasonForMakingADisclosureNow.error.length = The reason for making a disclosure now must be between 1 and 5,000 characters
+whatIsTheReasonForMakingADisclosureNow.change.hidden = WhatIsTheReasonForMakingADisclosureNow
