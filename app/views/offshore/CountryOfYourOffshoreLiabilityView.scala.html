@@ -46,8 +46,8 @@
         @heading(Text(messages(s"countryOfYourOffshoreLiability.heading.$countryNumber")))
 
         @govukSelect(Select(
-            id = "value",
-            name = "value",
+            id = "country",
+            name = "country",
             items = Seq(SelectItem(value = Some(" "), text = "", attributes = Map("label" -> " "))) ++
                     countries.countries.map(country =>
                         SelectItem(
@@ -57,7 +57,7 @@
                         )
                     ),
             formGroupClasses = "autocomplete-wrapper",
-            attributes = Map("data-all-countries" -> "")
+            attributes = Map("data-non-uk-countries" -> "")
         ))
 
         @govukButton(

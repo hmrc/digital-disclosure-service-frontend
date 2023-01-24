@@ -55,9 +55,10 @@ lazy val root = (project in file("."))
     Concat.groups := Seq(
       "javascripts/application.js" ->
         group(Seq(
+          "javascripts/jquery-3.6.0.min.js",
           "javascripts/app.js",
           "javascripts/libraries/location-autocomplete.min.js",
-          "javascripts/autocomplete.js",
+          "javascripts/autocomplete.js"
         ))
     ),
     // prevent removal of unused code which generates warning errors due to use of third-party libs
