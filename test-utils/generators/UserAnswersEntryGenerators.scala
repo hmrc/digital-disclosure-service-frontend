@@ -24,6 +24,70 @@ import play.api.libs.json.{JsValue, Json}
 
 trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
 
+  implicit lazy val arbitraryAdviceProfessionUserAnswersEntry: Arbitrary[(AdviceProfessionPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[AdviceProfessionPage.type]
+        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryAdviceBusinessNameUserAnswersEntry: Arbitrary[(AdviceBusinessNamePage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[AdviceBusinessNamePage.type]
+        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryAdviceBusinessesOrOrgUserAnswersEntry: Arbitrary[(AdviceBusinessesOrOrgPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[AdviceBusinessesOrOrgPage.type]
+        value <- arbitrary[Boolean].map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryDidSomeoneGiveYouAdviceNotDeclareTaxUserAnswersEntry: Arbitrary[(DidSomeoneGiveYouAdviceNotDeclareTaxPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[DidSomeoneGiveYouAdviceNotDeclareTaxPage.type]
+        value <- arbitrary[Boolean].map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryPersonWhoGaveAdviceUserAnswersEntry: Arbitrary[(PersonWhoGaveAdvicePage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[PersonWhoGaveAdvicePage.type]
+        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryWhyNotBeforeNowUserAnswersEntry: Arbitrary[(WhyNotBeforeNowPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[WhyNotBeforeNowPage.type]
+        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
+      } yield (page, value)
+    }
+    
+  implicit lazy val arbitraryWhatIsTheReasonForMakingADisclosureNowUserAnswersEntry: Arbitrary[(WhatIsTheReasonForMakingADisclosureNowPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[WhatIsTheReasonForMakingADisclosureNowPage.type]
+        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryWhyAreYouMakingADisclosureUserAnswersEntry: Arbitrary[(WhyAreYouMakingADisclosurePage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[WhyAreYouMakingADisclosurePage.type]
+        value <- arbitrary[WhyAreYouMakingADisclosure].map(Json.toJson(_))
+      } yield (page, value)
+    }
+
   implicit lazy val arbitraryDidYouReceiveTaxCreditUserAnswersEntry: Arbitrary[(DidYouReceiveTaxCreditPage.type, JsValue)] =
     Arbitrary {
       for {

@@ -1319,7 +1319,12 @@ didYouReceiveTaxCredit.body = We will consider the amount of tax credits you or 
 didYouReceiveTaxCredit.yes = Yes
 didYouReceiveTaxCredit.no = No
 didYouReceiveTaxCredit.checkYourAnswersLabel = Did you receive tax credits for any of the years covered by your disclosure?
-didYouReceiveTaxCredit.error.required = Select yes if you received tax credits
+didYouReceiveTaxCredit.agent.error.required = Select yes if you received tax credits
+didYouReceiveTaxCredit.individual.error.required = Select yes if the individual received tax credits
+didYouReceiveTaxCredit.estate.error.required = Select yes if the person received tax credits
+didYouReceiveTaxCredit.company.error.required = Select yes if you received tax credits
+didYouReceiveTaxCredit.llp.error.required = Select yes if you received tax credits
+didYouReceiveTaxCredit.trust.error.required = Select yes if you received tax credits
 didYouReceiveTaxCredit.change.hidden = DidYouReceiveTaxCredit
 
 checkYourAnswers.otherLiabilities.title = Other liabilities summary
@@ -1342,3 +1347,83 @@ countryOfYourOffshoreLiability.taskList.link.text = Return to the list of tasks
 countryOfYourOffshoreLiability.taskList.link.url = http://localhost:15003/digital-disclosure/disclosure-list-of-tasks
 
 checkYourAnswers.yourLegalInterpretation.heading = Legal interpretation
+
+whyAreYouMakingADisclosure.title = Why are you making a disclosure now?
+whyAreYouMakingADisclosure.heading = Why are you making a disclosure now?
+whyAreYouMakingADisclosure.body = The answers to these questions form part of this disclosure.
+whyAreYouMakingADisclosure.hint = Select all that apply.
+whyAreYouMakingADisclosure.govUkGuidance = Advised by guidance on the GOV.UK website
+whyAreYouMakingADisclosure.letterFromHMRC = Prompted by a letter from HMRC advising to make a disclosure
+whyAreYouMakingADisclosure.employer = Advised by employer
+whyAreYouMakingADisclosure.news = After reading an online or newspaper article
+whyAreYouMakingADisclosure.publication = After reading an article from a professional association website or publication
+whyAreYouMakingADisclosure.accountant = Advised by an accountant, or other type of third party agent
+whyAreYouMakingADisclosure.roe = After reading about the Register of Overseas Entities
+whyAreYouMakingADisclosure.other = Other
+whyAreYouMakingADisclosure.checkYourAnswersLabel = Why are you making a disclosure now?
+whyAreYouMakingADisclosure.error.required = Select the reasons for making a disclosure now
+whyAreYouMakingADisclosure.change.hidden = WhyAreYouMakingADisclosure
+
+whyNotBeforeNow.title = Why was the disclosure not made before now?
+whyNotBeforeNow.heading = Why was the disclosure not made before now?
+whyNotBeforeNow.checkYourAnswersLabel = whyNotBeforeNow
+whyNotBeforeNow.error.required = Enter a reason why the disclosure was not made before now
+whyNotBeforeNow.error.length = The reason for not making a disclosure before now must be between 1 and 5,000 characters
+whyNotBeforeNow.change.hidden = WhyNotBeforeNow
+
+whatIsTheReasonForMakingADisclosureNow.title = What is the reason for making a disclosure now?
+whatIsTheReasonForMakingADisclosureNow.heading = What is the reason for making a disclosure now?
+whatIsTheReasonForMakingADisclosureNow.checkYourAnswersLabel = whatIsTheReasonForMakingADisclosureNow
+whatIsTheReasonForMakingADisclosureNow.error.required = Enter a reason for making a disclosure
+whatIsTheReasonForMakingADisclosureNow.error.length = The reason for making a disclosure now must be between 1 and 5,000 characters
+whatIsTheReasonForMakingADisclosureNow.change.hidden = WhatIsTheReasonForMakingADisclosureNow
+
+personWhoGaveAdvice.title = What was the name of the person who gave the advice?
+personWhoGaveAdvice.heading = What was the name of the person who gave the advice?
+personWhoGaveAdvice.checkYourAnswersLabel = personWhoGaveAdvice
+personWhoGaveAdvice.error.required = Enter the name of the person who gave advice
+personWhoGaveAdvice.error.length = The name of the person who gave advice must be between 1 and 30 characters
+personWhoGaveAdvice.change.hidden = PersonWhoGaveAdvice
+
+adviceBusinessesOrOrg.title = Did the person who gave advice work on behalf of a business or organisation?
+adviceBusinessesOrOrg.heading = Did the person who gave advice work on behalf of a business or organisation?
+adviceBusinessesOrOrg.checkYourAnswersLabel = adviceBusinessesOrOrg
+adviceBusinessesOrOrg.error.required = Select yes if the person’s advice was on behalf of a business or organisation
+adviceBusinessesOrOrg.change.hidden = AdviceBusinessesOrOrg
+
+adviceBusinessName.title = What was the name of the business or organisation the person who gave the advice was working on behalf of?
+adviceBusinessName.heading = What was the name of the business or organisation the person who gave the advice was working on behalf of?
+adviceBusinessName.checkYourAnswersLabel = adviceBusinessName
+adviceBusinessName.error.required = Enter the name of the business or organisation the person who gave advice was working on behalf of
+adviceBusinessName.error.length = The name of the business or organisation must be between 1 and 50 characters
+adviceBusinessName.change.hidden = AdviceBusinessName
+
+didSomeoneGiveYouAdviceNotDeclareTax.agent.title = Did someone give you advice that led you to not declare these tax issues previously?
+didSomeoneGiveYouAdviceNotDeclareTax.agent.heading = Did someone give you advice that led you to not declare these tax issues previously?
+didSomeoneGiveYouAdviceNotDeclareTax.company.title = Did someone give the company advice that led it to not declare these tax issues previously?
+didSomeoneGiveYouAdviceNotDeclareTax.company.heading = Did someone give the company advice that led it to not declare these tax issues previously?
+didSomeoneGiveYouAdviceNotDeclareTax.llp.title = Did someone give the limited liability partnership advice that led it to not declare these tax issues previously?
+didSomeoneGiveYouAdviceNotDeclareTax.llp.heading = Did someone give the limited liability partnership advice that led it to not declare these tax issues previously?
+didSomeoneGiveYouAdviceNotDeclareTax.trust.title = Did someone give a trustee advice that led them to not declare these tax issues previously?
+didSomeoneGiveYouAdviceNotDeclareTax.trust.heading = Did someone give a trustee advice that led them to not declare these tax issues previously?
+didSomeoneGiveYouAdviceNotDeclareTax.estate.title = Did someone give the person advice that led them to not declare these tax issues previously?
+didSomeoneGiveYouAdviceNotDeclareTax.estate.heading = Did someone give the person advice that led them to not declare these tax issues previously?
+didSomeoneGiveYouAdviceNotDeclareTax.individual.title = Did someone give the individual advice that led them to not declare these tax issues previously?
+didSomeoneGiveYouAdviceNotDeclareTax.individual.heading = Did someone give the individual advice that led them to not declare these tax issues previously?
+didSomeoneGiveYouAdviceNotDeclareTax.yes = Yes
+didSomeoneGiveYouAdviceNotDeclareTax.no = No
+didSomeoneGiveYouAdviceNotDeclareTax.checkYourAnswersLabel = didSomeoneGiveYouAdviceNotDeclareTax
+didSomeoneGiveYouAdviceNotDeclareTax.agent.error.required = Select yes if someone gave you advice that led to you not declaring these tax issues
+didSomeoneGiveYouAdviceNotDeclareTax.company.error.required = Select yes if someone gave advice that led to the company not declaring these tax issues
+didSomeoneGiveYouAdviceNotDeclareTax.llp.error.required = Select yes if someone gave advice that led to the limited liability partnership not declaring these tax issues
+didSomeoneGiveYouAdviceNotDeclareTax.trust.error.required = Select yes if someone gave advice that led to a trustee not declaring these tax issues
+didSomeoneGiveYouAdviceNotDeclareTax.estate.error.required = Select yes if someone gave advice that led to the person not declaring these tax issues
+didSomeoneGiveYouAdviceNotDeclareTax.individual.error.required = Select yes if someone gave advice that led to the individual not declaring these tax issues
+didSomeoneGiveYouAdviceNotDeclareTax.change.hidden = DidSomeoneGiveYouAdviceNotDeclareTax
+
+adviceProfession.title = What was the profession of the person who gave this advice?
+adviceProfession.heading = What was the profession of the person who gave this advice?
+adviceProfession.checkYourAnswersLabel = adviceProfession
+adviceProfession.error.required = Enter the profession of the person who gave advice
+adviceProfession.error.length = The profession of the person who gave advice must be between 4 and 30 characters
+adviceProfession.change.hidden = AdviceProfession

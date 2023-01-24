@@ -21,6 +21,30 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryAdviceProfessionPage: Arbitrary[AdviceProfessionPage.type] =
+    Arbitrary(AdviceProfessionPage)
+
+  implicit lazy val arbitraryAdviceBusinessNamePage: Arbitrary[AdviceBusinessNamePage.type] =
+    Arbitrary(AdviceBusinessNamePage)
+
+  implicit lazy val arbitraryAdviceBusinessesOrOrgPage: Arbitrary[AdviceBusinessesOrOrgPage.type] =
+    Arbitrary(AdviceBusinessesOrOrgPage)
+
+  implicit lazy val arbitraryPersonWhoGaveAdvicePage: Arbitrary[PersonWhoGaveAdvicePage.type] =
+    Arbitrary(PersonWhoGaveAdvicePage)
+
+  implicit lazy val arbitraryDidSomeoneGiveYouAdviceNotDeclareTaxPage: Arbitrary[DidSomeoneGiveYouAdviceNotDeclareTaxPage.type] =
+    Arbitrary(DidSomeoneGiveYouAdviceNotDeclareTaxPage)
+
+  implicit lazy val arbitraryWhyNotBeforeNowPage: Arbitrary[WhyNotBeforeNowPage.type] =
+    Arbitrary(WhyNotBeforeNowPage)
+    
+  implicit lazy val arbitraryWhatIsTheReasonForMakingADisclosureNowPage: Arbitrary[WhatIsTheReasonForMakingADisclosureNowPage.type] =
+    Arbitrary(WhatIsTheReasonForMakingADisclosureNowPage)
+
+  implicit lazy val arbitraryWhyAreYouMakingADisclosurePage: Arbitrary[WhyAreYouMakingADisclosurePage.type] =
+    Arbitrary(WhyAreYouMakingADisclosurePage)
+
   implicit lazy val arbitraryDidYouReceiveTaxCreditPage: Arbitrary[DidYouReceiveTaxCreditPage.type] =
     Arbitrary(DidYouReceiveTaxCreditPage)
 

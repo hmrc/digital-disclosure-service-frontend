@@ -1,0 +1,40 @@
+
+GET        /why-disclosure-now                        controllers.reason.WhyAreYouMakingADisclosureController.onPageLoad(mode: Mode = NormalMode)
+POST       /why-disclosure-now                        controllers.reason.WhyAreYouMakingADisclosureController.onSubmit(mode: Mode = NormalMode)
+GET        /why-disclosure-now/change                 controllers.reason.WhyAreYouMakingADisclosureController.onPageLoad(mode: Mode = CheckMode)
+POST       /why-disclosure-now/change                 controllers.reason.WhyAreYouMakingADisclosureController.onSubmit(mode: Mode = CheckMode)
+
+GET        /why-disclosure-not-made-before            controllers.reason.WhyNotBeforeNowController.onPageLoad(mode: Mode = NormalMode)
+POST       /why-disclosure-not-made-before            controllers.reason.WhyNotBeforeNowController.onSubmit(mode: Mode = NormalMode)
+GET        /why-disclosure-not-made-before/change     controllers.reason.WhyNotBeforeNowController.onPageLoad(mode: Mode = CheckMode)
+POST       /why-disclosure-not-made-before/change     controllers.reason.WhyNotBeforeNowController.onSubmit(mode: Mode = CheckMode)
+
+GET        /reason-for-disclosure-now                 controllers.reason.WhatIsTheReasonForMakingADisclosureNowController.onPageLoad(mode: Mode = NormalMode)
+POST       /reason-for-disclosure-now                 controllers.reason.WhatIsTheReasonForMakingADisclosureNowController.onSubmit(mode: Mode = NormalMode)
+GET        /reason-for-disclosure-now/change          controllers.reason.WhatIsTheReasonForMakingADisclosureNowController.onPageLoad(mode: Mode = CheckMode)
+POST       /reason-for-disclosure-now/change          controllers.reason.WhatIsTheReasonForMakingADisclosureNowController.onSubmit(mode: Mode = CheckMode)
+
+GET        /who-gave-advice                           controllers.reason.PersonWhoGaveAdviceController.onPageLoad(mode: Mode = NormalMode)
+POST       /who-gave-advice                           controllers.reason.PersonWhoGaveAdviceController.onSubmit(mode: Mode = NormalMode)
+GET        /who-gave-advice/change                    controllers.reason.PersonWhoGaveAdviceController.onPageLoad(mode: Mode = CheckMode)
+POST       /who-gave-advice/change                    controllers.reason.PersonWhoGaveAdviceController.onSubmit(mode: Mode = CheckMode)
+
+GET        /organisation-gave-advice                  controllers.reason.AdviceBusinessesOrOrgController.onPageLoad(mode: Mode = NormalMode)
+POST       /organisation-gave-advice                  controllers.reason.AdviceBusinessesOrOrgController.onSubmit(mode: Mode = NormalMode)
+GET        /organisation-gave-advice/change           controllers.reason.AdviceBusinessesOrOrgController.onPageLoad(mode: Mode = CheckMode)
+POST       /organisation-gave-advice/change           controllers.reason.AdviceBusinessesOrOrgController.onSubmit(mode: Mode = CheckMode)
+
+GET        /name-of-organisation-gave-advice          controllers.reason.AdviceBusinessNameController.onPageLoad(mode: Mode = NormalMode)
+POST       /name-of-organisation-gave-advice          controllers.reason.AdviceBusinessNameController.onSubmit(mode: Mode = NormalMode)
+GET        /name-of-organisation-gave-advice/change   controllers.reason.AdviceBusinessNameController.onPageLoad(mode: Mode = CheckMode)
+POST       /name-of-organisation-gave-advice/change   controllers.reason.AdviceBusinessNameController.onSubmit(mode: Mode = CheckMode)
+
+GET        /someone-gave-advice                       controllers.reason.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(mode: Mode = NormalMode)
+POST       /someone-gave-advice                       controllers.reason.DidSomeoneGiveYouAdviceNotDeclareTaxController.onSubmit(mode: Mode = NormalMode)
+GET        /someone-gave-advice/change                controllers.reason.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(mode: Mode = CheckMode)
+POST       /someone-gave-advice/change                controllers.reason.DidSomeoneGiveYouAdviceNotDeclareTaxController.onSubmit(mode: Mode = CheckMode)
+
+GET        /profession-of-person-gave-advice          controllers.reason.AdviceProfessionController.onPageLoad(mode: Mode = NormalMode)
+POST       /profession-of-person-gave-advice          controllers.reason.AdviceProfessionController.onSubmit(mode: Mode = NormalMode)
+GET        /profession-of-person-gave-advice/change   controllers.reason.AdviceProfessionController.onPageLoad(mode: Mode = CheckMode)
+POST       /profession-of-person-gave-advice/change   controllers.reason.AdviceProfessionController.onSubmit(mode: Mode = CheckMode)

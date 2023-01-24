@@ -42,18 +42,16 @@ class DidYouReceiveTaxCreditController @Inject()(
                                        view: DidYouReceiveTaxCreditView
                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  val form = formProvider()
-
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val preparedForm = request.userAnswers.get(DidYouReceiveTaxCreditPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
       val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
       val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+      
+      val preparedForm = request.userAnswers.get(DidYouReceiveTaxCreditPage) match {
+        case None => form(areTheyTheIndividual, entity)
+        case Some(value) => form(areTheyTheIndividual, entity).fill(value)
+      }
 
       Ok(view(preparedForm, mode, areTheyTheIndividual, entity))
   }
@@ -64,7 +62,7 @@ class DidYouReceiveTaxCreditController @Inject()(
       val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
       val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
-      form.bindFromRequest().fold(
+      form(areTheyTheIndividual, entity).bindFromRequest().fold(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode, areTheyTheIndividual, entity))),
 
@@ -82,4 +80,6 @@ class DidYouReceiveTaxCreditController @Inject()(
       case _ => false
     }
   }
+
+  def form(areTheyTheIndividual: Boolean, entity: RelatesTo) = formProvider(areTheyTheIndividual, entity)
 }

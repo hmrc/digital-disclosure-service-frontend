@@ -41,7 +41,7 @@ class DidYouReceiveTaxCreditControllerSpec extends SpecBase with MockitoSugar {
   lazy val didYouReceiveTaxCreditRoute = otherLiabilities.routes.DidYouReceiveTaxCreditController.onPageLoad(NormalMode).url
 
   val formProvider = new DidYouReceiveTaxCreditFormProvider()
-  val form = formProvider()
+  val form = formProvider(true, RelatesTo.AnIndividual)
 
   "DidYouReceiveTaxCredit Controller" - {
 
