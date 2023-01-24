@@ -16,24 +16,40 @@
 
 package forms
 
-import forms.behaviours.BooleanFieldBehaviours
+import forms.behaviours.StringFieldBehaviours
 import play.api.data.FormError
 
-class AdviceBusinessesOrOrgFormProviderSpec extends BooleanFieldBehaviours {
+class AdviceProfessionFormProviderSpec extends StringFieldBehaviours {
 
-  val requiredKey = "adviceBusinessesOrOrg.error.required"
-  val invalidKey = "error.boolean"
+  val requiredKey = "adviceProfession.error.required"
+  val lengthKey = "adviceProfession.error.length"
+  val minLength = 4
+  val maxLength = 30
 
-  val form = new AdviceBusinessesOrOrgFormProvider()()
+  val form = new AdviceProfessionFormProvider()()
 
   ".value" - {
 
     val fieldName = "value"
 
-    behave like booleanField(
+    behave like fieldThatBindsValidData(
       form,
       fieldName,
-      invalidError = FormError(fieldName, invalidKey)
+      stringsWithLengthBetween(minLength, maxLength)
+    )
+
+    behave like fieldWithMaxLength(
+      form,
+      fieldName,
+      maxLength = maxLength,
+      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
+    )
+
+    behave like fieldWithMinLength(
+      form,
+      fieldName,
+      minLength = minLength,
+      lengthError = FormError(fieldName, lengthKey, Seq(minLength))
     )
 
     behave like mandatoryField(

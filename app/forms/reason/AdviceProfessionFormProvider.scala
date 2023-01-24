@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package pages
+package forms
 
-import pages.behaviours.PageBehaviours
+import javax.inject.Inject
 
+import forms.mappings.Mappings
+import play.api.data.Form
 
-class AdviceBusinessNamePageSpec extends PageBehaviours {
+class AdviceProfessionFormProvider @Inject() extends Mappings {
 
-  "AdviceBusinessNamePage" - {
-
-    beRetrievable[String](AdviceBusinessNamePage)
-
-    beSettable[String](AdviceBusinessNamePage)
-
-    beRemovable[String](AdviceBusinessNamePage)
-  }
+  def apply(): Form[String] =
+    Form(
+      "value" -> text("adviceProfession.error.required")
+        .verifying(minLength(4, "adviceProfession.error.length"))
+        .verifying(maxLength(30, "adviceProfession.error.length"))
+    )
 }
