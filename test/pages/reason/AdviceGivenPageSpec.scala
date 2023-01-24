@@ -14,23 +14,19 @@
  * limitations under the License.
  */
 
-package viewmodels
+package pages
 
-package object govuk {
+import models.AdviceGiven
+import pages.behaviours.PageBehaviours
 
-  object all
-    extends ImplicitConversions
-      with BackLinkFluency
-      with ButtonFluency
-      with CheckboxFluency
-      with DateFluency
-      with ErrorSummaryFluency
-      with FieldsetFluency
-      with HintFluency
-      with InputFluency
-      with LabelFluency
-      with RadiosFluency
-      with SummaryListFluency
-      with TagFluency
-      with MonthYearFluency
+class AdviceGivenPageSpec extends PageBehaviours {
+
+  "AdviceGivenPage" - {
+
+    beRetrievable[AdviceGiven](AdviceGivenPage)
+
+    beSettable[AdviceGiven](AdviceGivenPage)
+
+    beRemovable[AdviceGiven](AdviceGivenPage)
+  }
 }

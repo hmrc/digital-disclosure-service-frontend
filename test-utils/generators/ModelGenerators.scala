@@ -25,6 +25,21 @@ import org.scalacheck.magnolia.gen
 
 trait ModelGenerators {
 
+  implicit lazy val arbitraryAdviceGiven: Arbitrary[AdviceGiven] =
+    Arbitrary {
+      for {
+        adviceGiven <- arbitrary[String]
+        month <- Gen.choose(1, 12)
+        year <- Gen.choose(1850, 2023)
+        contactPref <- arbitrary[AdviceContactPreference]
+      } yield AdviceGiven(adviceGiven, month, year, contactPref)
+    }
+
+  implicit lazy val arbitraryAdviceContactPreference: Arbitrary[AdviceContactPreference] =
+    Arbitrary {
+      Gen.oneOf(AdviceContactPreference.values)
+    }
+
   implicit lazy val arbitraryWhyAreYouMakingADisclosure: Arbitrary[WhyAreYouMakingADisclosure] =
     Arbitrary {
       Gen.oneOf(WhyAreYouMakingADisclosure.values)

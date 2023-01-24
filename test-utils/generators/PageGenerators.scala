@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryAdviceGivenPage: Arbitrary[AdviceGivenPage.type] =
+    Arbitrary(AdviceGivenPage)
+    
   implicit lazy val arbitraryCanWeUseEmailAddressToContactYouPage: Arbitrary[CanWeUseEmailAddressToContactYouPage.type] =
     Arbitrary(CanWeUseEmailAddressToContactYouPage)
 
