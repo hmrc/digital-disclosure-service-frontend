@@ -70,9 +70,8 @@ class ReasonNavigatorSpec extends SpecBase {
       }
 
       "if the user says no must go from DidSomeoneGiveYouAdviceNotDeclareTaxPage to Summary page" in {
-        //TODO - go to CYA
         val ua = UserAnswers("id").set(DidSomeoneGiveYouAdviceNotDeclareTaxPage, false).success.value
-        navigator.nextPage(DidSomeoneGiveYouAdviceNotDeclareTaxPage, NormalMode, ua) mustBe routes.PersonWhoGaveAdviceController.onPageLoad(NormalMode)
+        navigator.nextPage(DidSomeoneGiveYouAdviceNotDeclareTaxPage, NormalMode, ua) mustBe routes.CheckYourAnswersController.onPageLoad
       }
 
       "must go from PersonWhoGaveAdvicePage to AdviceBusinessesOrOrgController" in {
@@ -104,7 +103,7 @@ class ReasonNavigatorSpec extends SpecBase {
       "must go from a page that doesn't exist in the edit route map to CheckYourAnswers" in {
 
         case object UnknownPage extends Page
-        navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe controllers.routes.IndexController.onPageLoad
+        navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad
       }
     }
   }
