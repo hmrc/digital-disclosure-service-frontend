@@ -20,30 +20,24 @@
     govukErrorSummary: GovukErrorSummary,
     govukRadios: GovukRadios,
     govukButton: GovukButton,
-    heading: components.heading,
-    paragraph: components.paragraph,
     tasklistLink: components.tasklistLink
 )
 
-@(form: Form[_], mode: Mode, areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], mode: Mode, telephoneNumber: String)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, if(areTheyTheIndividual) messages("didYouReceiveTaxCredit.agent.title") else messages(s"didYouReceiveTaxCredit.${entity}.title"))) {
+@layout(pageTitle = title(form, messages("canWeUseTelephoneNumberToContactYou.title", telephoneNumber))) {
 
-    @formHelper(action = controllers.otherLiabilities.routes.DidYouReceiveTaxCreditController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.reason.routes.CanWeUseTelephoneNumberToContactYouController.onSubmit(mode), 'autoComplete -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
-        @heading(Text(if(areTheyTheIndividual) messages("didYouReceiveTaxCredit.agent.heading") else messages(s"didYouReceiveTaxCredit.${entity}.heading")))
-
-        @paragraph(id = Some("body"), content = Text(if(areTheyTheIndividual) messages("didYouReceiveTaxCredit.agent.body") else messages(s"didYouReceiveTaxCredit.${entity}.body")))
-
         @govukRadios(
             RadiosViewModel.yesNoNotInline(
                 field  = form("value"),
-                legend = LegendViewModel(messages("didYouReceiveTaxCredit.heading")).withCssClass("govuk-visually-hidden"),
-                messagePrefix = "didYouReceiveTaxCredit"
+                legend = LegendViewModel(messages("canWeUseTelephoneNumberToContactYou.heading", telephoneNumber)).asPageHeading(),
+                messagePrefix = "canWeUseTelephoneNumberToContactYou"
             )
         )
 
