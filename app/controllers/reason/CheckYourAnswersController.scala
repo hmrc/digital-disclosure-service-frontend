@@ -25,6 +25,10 @@ import views.html.reason.CheckYourAnswersView
 import viewmodels.reason.CheckYourAnswersViewModel
 import viewmodels.govuk.summarylist._
 import viewmodels.checkAnswers._
+import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist._
+import models.UserAnswers
+import pages.DidSomeoneGiveYouAdviceNotDeclareTaxPage
+import play.api.i18n.Messages
 
 class CheckYourAnswersController @Inject()(
                                        override val messagesApi: MessagesApi,
@@ -49,8 +53,8 @@ class CheckYourAnswersController @Inject()(
         ).flatten
       )
 
-      val adviceList = ua.get(DidSomeoneGiveYouAdviceNotDeclareTaxPage) match {
-        case Some(true) => getAdviceList(ua)
+      val adviceList: Option[SummaryList] = ua.get(DidSomeoneGiveYouAdviceNotDeclareTaxPage) match {
+        case Some(true) => Some(getAdviceList(ua))
         case _ => None
       }
 
@@ -63,7 +67,7 @@ class CheckYourAnswersController @Inject()(
 
   }
 
-  def getAdviceList(ua: UserAnswers): SummaryList = {
+  def getAdviceList(ua: UserAnswers)(implicit messages: Messages): SummaryList = {
 
     val pageRows = Seq(
       PersonWhoGaveAdviceSummary.row(ua),
@@ -73,10 +77,10 @@ class CheckYourAnswersController @Inject()(
     ).flatten
 
     val contactPageRows = Seq(
-
+      WhatEmailAddressCanWeContactYouWithSummary.row(ua)
     ).flatten
 
-    val rows = pageRows ++ AdviceGivenRowsSummary.rows(ua)
+    val rows = pageRows ++ AdviceGivenRowsSummary.rows(ua) ++ contactPageRows
 
     SummaryListViewModel(rows = rows)
   }

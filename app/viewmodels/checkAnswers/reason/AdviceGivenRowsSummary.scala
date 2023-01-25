@@ -17,27 +17,70 @@
 package viewmodels.checkAnswers
 
 import controllers.reason.routes
-import models.{CheckMode, UserAnswers}
-import pages.PersonWhoGaveAdvicePage
+import models.{CheckMode, UserAnswers, AdviceContactPreference}
+import pages._
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
+import java.time.format.DateTimeFormatter
+import java.time.LocalDate
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 
 object AdviceGivenRowsSummary  {
 
   def rows(answers: UserAnswers)(implicit messages: Messages): Seq[SummaryListRow] =
-    answers.get(PersonWhoGaveAdvicePage).map {
-      answer =>
+    answers.get(AdviceGivenPage).map { answer =>
+      Seq(
+        adviceGivenRow(answer.adviceGiven),
+        dateRow(answer.adviceMonth, answer.adviceYear),
+        contactRow(answer.contactPreference)
+      )
+    }.getOrElse(Nil)
 
-        SummaryListRowViewModel(
-          key     = "personWhoGaveAdvice.checkYourAnswersLabel",
-          value   = ValueViewModel(HtmlFormat.escape(answer).toString),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.PersonWhoGaveAdviceController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("personWhoGaveAdvice.change.hidden"))
-          )
-        )
-    }
+  def adviceGivenRow(adviceGiven: String)(implicit messages: Messages): SummaryListRow =
+    SummaryListRowViewModel(
+      key     = "adviceGiven.adviceGiven.checkYourAnswersLabel",
+      value   = ValueViewModel(HtmlFormat.escape(adviceGiven).toString),
+      actions = Seq(
+        ActionItemViewModel("site.change", routes.AdviceGivenController.onPageLoad(CheckMode).url)
+          .withVisuallyHiddenText(messages("adviceGiven.adviceGiven.change.hidden"))
+      )
+    )
+
+  def dateRow(month: Int, year: Int)(implicit messages: Messages): SummaryListRow = {
+
+    val FIRST_DAY = 1
+    val dateFormatter = DateTimeFormatter.ofPattern("MMMM yyyy")
+    val dateAtStartOfMonth = LocalDate.of(year, month, FIRST_DAY)
+
+    SummaryListRowViewModel(
+      key     = "adviceGiven.date.checkYourAnswersLabel",
+      value   = ValueViewModel(dateAtStartOfMonth.format(dateFormatter)),
+      actions = Seq(
+        ActionItemViewModel("site.change", routes.AdviceGivenController.onPageLoad(CheckMode).url)
+          .withVisuallyHiddenText(messages("adviceGiven.date.change.hidden"))
+      )
+    )
+  }
+
+  def contactRow(contactPreference: AdviceContactPreference)(implicit messages: Messages): SummaryListRow = {
+
+    val value = ValueViewModel(
+      HtmlContent(
+        HtmlFormat.escape(messages(s"adviceGiven.contact.$contactPreference"))
+      )
+    )
+
+    SummaryListRowViewModel(
+      key     = "adviceGiven.contact.checkYourAnswersLabel",
+      value   = value,
+      actions = Seq(
+        ActionItemViewModel("site.change", routes.AdviceGivenController.onPageLoad(CheckMode).url)
+          .withVisuallyHiddenText(messages("adviceGiven.contact.change.hidden"))
+      )
+    )
+  }
+    
 }
