@@ -77,7 +77,8 @@ class CheckYourAnswersController @Inject()(
     ).flatten
 
     val contactPageRows = Seq(
-      WhatEmailAddressCanWeContactYouWithSummary.row(ua)
+      WhatEmailAddressCanWeContactYouWithSummary.row(ua),
+      WhatTelephoneNumberCanWeContactYouWithSummary.row(ua)
     ).flatten
 
     val rows = pageRows ++ AdviceGivenRowsSummary.rows(ua) ++ contactPageRows

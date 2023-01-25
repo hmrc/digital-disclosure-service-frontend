@@ -60,3 +60,8 @@ GET        /advice-given-email                        controllers.reason.WhatEma
 POST       /advice-given-email                        controllers.reason.WhatEmailAddressCanWeContactYouWithController.onSubmit(mode: Mode = NormalMode)
 GET        /advice-given-email/change                 controllers.reason.WhatEmailAddressCanWeContactYouWithController.onPageLoad(mode: Mode = CheckMode)
 POST       /advice-given-email/change                 controllers.reason.WhatEmailAddressCanWeContactYouWithController.onSubmit(mode: Mode = CheckMode)
+
+GET        /advice-given-telephone                    controllers.reason.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(mode: Mode = NormalMode)
+POST       /advice-given-telephone                    controllers.reason.WhatTelephoneNumberCanWeContactYouWithController.onSubmit(mode: Mode = NormalMode)
+GET        /advice-given-telephone/change             controllers.reason.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(mode: Mode = CheckMode)
+POST       /advice-given-telephone/change             controllers.reason.WhatTelephoneNumberCanWeContactYouWithController.onSubmit(mode: Mode = CheckMode)
