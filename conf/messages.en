@@ -1476,3 +1476,12 @@ whatEmailAddressCanWeContactYouWith.checkYourAnswersLabel = whatEmailAddressCanW
 whatEmailAddressCanWeContactYouWith.error.required = Enter your email address
 whatEmailAddressCanWeContactYouWith.error.validFormat = Enter your email address in the right format
 whatEmailAddressCanWeContactYouWith.change.hidden = WhatEmailAddressCanWeContactYouWith
+
+whatTelephoneNumberCanWeContactYouWith.title = What telephone number can we contact you with?
+whatTelephoneNumberCanWeContactYouWith.heading = What telephone number can we contact you with?
+whatTelephoneNumberCanWeContactYouWith.body = If this is a UK landline or an overseas number, you must include the area or dialing code.
+whatTelephoneNumberCanWeContactYouWith.hint = For example, 01642 123456, 07777 777777 or +33 1 2345 6788.
+whatTelephoneNumberCanWeContactYouWith.checkYourAnswersLabel = whatTelephoneNumberCanWeContactYouWith
+whatTelephoneNumberCanWeContactYouWith.error.required = Enter your telephone number
+whatTelephoneNumberCanWeContactYouWith.error.validFormat = Enter your telephone number in the right format
+whatTelephoneNumberCanWeContactYouWith.change.hidden = WhatTelephoneNumberCanWeContactYouWith
