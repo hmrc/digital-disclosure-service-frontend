@@ -1461,7 +1461,6 @@ canWeUseEmailAddressToContactYou.checkYourAnswersLabel = canWeUseEmailAddressToC
 canWeUseEmailAddressToContactYou.error.required = Select yes if we can use this email address
 canWeUseEmailAddressToContactYou.change.hidden = CanWeUseEmailAddressToContactYou
 
-
 canWeUseTelephoneNumberToContactYou.title = Can we use the telephone number {0} to contact you with?
 canWeUseTelephoneNumberToContactYou.heading = Can we use the telephone number {0} to contact you with?
 canWeUseTelephoneNumberToContactYou.yes = Yes
@@ -1474,3 +1473,12 @@ checkYourAnswers.reason.title = Summary
 checkYourAnswers.reason.heading = Summary
 checkYourAnswers.reason.section1.heading = Reason for making a disclosure now
 checkYourAnswers.reason.section2.heading = About the advice given
+
+whatEmailAddressCanWeContactYouWith.title = What email address can we contact you with?
+whatEmailAddressCanWeContactYouWith.heading = What email address can we contact you with?
+whatEmailAddressCanWeContactYouWith.hint = For example, name@example.com.
+whatEmailAddressCanWeContactYouWith.checkYourAnswersLabel = whatEmailAddressCanWeContactYouWith
+whatEmailAddressCanWeContactYouWith.error.required = Enter your email address
+whatEmailAddressCanWeContactYouWith.error.validFormat = Enter your email address in the right format
+whatEmailAddressCanWeContactYouWith.change.hidden = WhatEmailAddressCanWeContactYouWith
+
