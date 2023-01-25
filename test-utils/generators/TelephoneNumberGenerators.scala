@@ -17,8 +17,9 @@
 package generators
 
 import org.scalacheck.Gen
-import org.scalacheck.Gen.{chooseNum, listOfN, numChar, numStr}
+import org.scalacheck.Gen.{chooseNum, listOfN, numChar}
 import forms.YourPhoneNumberFormProvider
+import org.scalacheck.Arbitrary.arbitrary
 
 trait TelephoneNumberGenerators {
 
@@ -47,8 +48,8 @@ trait TelephoneNumberGenerators {
   }
 
   def invalidPhoneNumber : Gen[String] = for {
-    number <- numStr
-    if !number.matches(YourPhoneNumberFormProvider.telephoneRegex)
+    number <- arbitrary[String] suchThat (_.nonEmpty)
+    if !number.toString().matches(YourPhoneNumberFormProvider.telephoneRegex)
   } yield {
     number
   }
