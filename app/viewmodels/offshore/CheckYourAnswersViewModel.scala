@@ -57,10 +57,7 @@ object CheckYourAnswersViewModel {
     val legalInterpretationlist = SummaryListViewModel(
       rows = Seq(
         YourLegalInterpretationSummary.row(userAnswers),
-        userAnswers.get(YourLegalInterpretationPage) match {
-          case Some(value) if value.contains(YourLegalInterpretation.AnotherIssue) => UnderWhatConsiderationSummary.row(userAnswers)
-          case _ => None
-        },
+        UnderWhatConsiderationSummary.row(userAnswers),
         HowMuchTaxHasNotBeenIncludedSummary.row(userAnswers),
         TheMaximumValueOfAllAssetsSummary.row(userAnswers)
       ).flatten
