@@ -1315,7 +1315,12 @@ didYouReceiveTaxCredit.trust.title = Did you receive tax credits for any of the 
 didYouReceiveTaxCredit.trust.heading = Did you receive tax credits for any of the years covered by your disclosure?
 didYouReceiveTaxCredit.company.title = Did you receive tax credits for any of the years covered by your disclosure?
 didYouReceiveTaxCredit.company.heading = Did you receive tax credits for any of the years covered by your disclosure?
-didYouReceiveTaxCredit.body = We will consider the amount of tax credits you or your partner have received and pass your details to the appropriate team who will contact you if any changes are needed.
+didYouReceiveTaxCredit.agent.body = We will consider the amount of tax credits you or your partner have received and pass your details to the appropriate team who will contact you if any changes are needed.
+didYouReceiveTaxCredit.individual.body = We will consider the amount of tax credits they or their partner received and pass their details to the appropriate team who will contact you if any changes are needed.
+didYouReceiveTaxCredit.estate.body = We will consider the amount of tax credits they or their partner received and pass their details to the appropriate team who will contact you if any changes are needed.
+didYouReceiveTaxCredit.llp.body = We will consider the amount of tax credits you or your partner have received and pass your details to the appropriate team who will contact you if any changes are needed.
+didYouReceiveTaxCredit.trust.body = We will consider the amount of tax credits you or your partner have received and pass your details to the appropriate team who will contact you if any changes are needed.
+didYouReceiveTaxCredit.company.body = We will consider the amount of tax credits you or your partner have received and pass your details to the appropriate team who will contact you if any changes are needed.
 didYouReceiveTaxCredit.yes = Yes
 didYouReceiveTaxCredit.no = No
 didYouReceiveTaxCredit.checkYourAnswersLabel = Did you receive tax credits for any of the years covered by your disclosure?
@@ -1456,3 +1461,11 @@ canWeUseEmailAddressToContactYou.checkYourAnswersLabel = canWeUseEmailAddressToC
 canWeUseEmailAddressToContactYou.error.required = Select yes if we can use this email address
 canWeUseEmailAddressToContactYou.change.hidden = CanWeUseEmailAddressToContactYou
 
+
+canWeUseTelephoneNumberToContactYou.title = Can we use the telephone number {0} to contact you with?
+canWeUseTelephoneNumberToContactYou.heading = Can we use the telephone number {0} to contact you with?
+canWeUseTelephoneNumberToContactYou.yes = Yes
+canWeUseTelephoneNumberToContactYou.no = No
+canWeUseTelephoneNumberToContactYou.checkYourAnswersLabel = canWeUseTelephoneNumberToContactYou
+canWeUseTelephoneNumberToContactYou.error.required = Select yes if we can use this telephone number
+canWeUseTelephoneNumberToContactYou.change.hidden = CanWeUseTelephoneNumberToContactYou

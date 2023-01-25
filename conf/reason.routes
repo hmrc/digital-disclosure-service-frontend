@@ -48,3 +48,8 @@ GET        /use-this-email                            controllers.reason.CanWeUs
 POST       /use-this-email                            controllers.reason.CanWeUseEmailAddressToContactYouController.onSubmit(mode: Mode = NormalMode)
 GET        /use-this-email/change                     controllers.reason.CanWeUseEmailAddressToContactYouController.onPageLoad(mode: Mode = CheckMode)
 POST       /use-this-email/change                     controllers.reason.CanWeUseEmailAddressToContactYouController.onSubmit(mode: Mode = CheckMode)
+
+GET        /use-this-telephone-number                 controllers.reason.CanWeUseTelephoneNumberToContactYouController.onPageLoad(mode: Mode = NormalMode)
+POST       /use-this-telephone-number                 controllers.reason.CanWeUseTelephoneNumberToContactYouController.onSubmit(mode: Mode = NormalMode)
+GET        /use-this-telephone-number/change          controllers.reason.CanWeUseTelephoneNumberToContactYouController.onPageLoad(mode: Mode = CheckMode)
+POST       /use-this-telephone-number/change          controllers.reason.CanWeUseTelephoneNumberToContactYouController.onSubmit(mode: Mode = CheckMode)
