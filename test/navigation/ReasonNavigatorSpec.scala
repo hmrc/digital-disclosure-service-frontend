@@ -59,7 +59,44 @@ class ReasonNavigatorSpec extends SpecBase {
       "must go from WhatIsTheReasonForMakingADisclosureNowPage to WhyNotBeforeNowController" in {
         navigator.nextPage(WhatIsTheReasonForMakingADisclosureNowPage, NormalMode, UserAnswers("id")) mustBe routes.WhyNotBeforeNowController.onPageLoad(NormalMode)
       }
+
+      "must go from WhyNotBeforeNowPage to DidSomeoneGiveYouAdviceNotDeclareTaxController" in {
+        navigator.nextPage(WhyNotBeforeNowPage, NormalMode, UserAnswers("id")) mustBe routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(NormalMode)
+      }
+
+      "if the user says yes must go from DidSomeoneGiveYouAdviceNotDeclareTaxPage to PersonWhoGaveAdviceController" in {
+        val ua = UserAnswers("id").set(DidSomeoneGiveYouAdviceNotDeclareTaxPage, true).success.value
+        navigator.nextPage(DidSomeoneGiveYouAdviceNotDeclareTaxPage, NormalMode, ua) mustBe routes.PersonWhoGaveAdviceController.onPageLoad(NormalMode)
+      }
+
+      "if the user says no must go from DidSomeoneGiveYouAdviceNotDeclareTaxPage to Summary page" in {
+        //TODO - go to CYA
+        val ua = UserAnswers("id").set(DidSomeoneGiveYouAdviceNotDeclareTaxPage, false).success.value
+        navigator.nextPage(DidSomeoneGiveYouAdviceNotDeclareTaxPage, NormalMode, ua) mustBe routes.PersonWhoGaveAdviceController.onPageLoad(NormalMode)
+      }
+
+      "must go from PersonWhoGaveAdvicePage to AdviceBusinessesOrOrgController" in {
+        navigator.nextPage(PersonWhoGaveAdvicePage, NormalMode, UserAnswers("id")) mustBe routes.AdviceBusinessesOrOrgController.onPageLoad(NormalMode)
+      }
       
+      "if the user says yes must go from AdviceBusinessesOrOrgPage to AdviceBusinessNameController" in {
+        val ua = UserAnswers("id").set(AdviceBusinessesOrOrgPage, true).success.value
+        navigator.nextPage(AdviceBusinessesOrOrgPage, NormalMode, ua) mustBe routes.AdviceBusinessNameController.onPageLoad(NormalMode)
+      }
+
+      "if the user says no must go from AdviceBusinessesOrOrgPage to AdviceProfessionController" in {
+        val ua = UserAnswers("id").set(AdviceBusinessesOrOrgPage, false).success.value
+        navigator.nextPage(AdviceBusinessesOrOrgPage, NormalMode, ua) mustBe routes.AdviceProfessionController.onPageLoad(NormalMode)
+      }
+
+      "must go from AdviceBusinessNamePage to AdviceProfessionController" in {
+        navigator.nextPage(AdviceBusinessNamePage, NormalMode, UserAnswers("id")) mustBe routes.AdviceProfessionController.onPageLoad(NormalMode)
+      }
+
+      "must go from AdviceProfessionPage to AdviceGivenController" in {
+        navigator.nextPage(AdviceProfessionPage, NormalMode, UserAnswers("id")) mustBe routes.AdviceGivenController.onPageLoad(NormalMode)
+      }
+
     }
 
     "in Check mode" - {

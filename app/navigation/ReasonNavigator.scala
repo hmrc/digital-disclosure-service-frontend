@@ -33,6 +33,19 @@ class ReasonNavigator @Inject()() {
       case _ => routes.WhyNotBeforeNowController.onPageLoad(NormalMode)
     }
     case WhatIsTheReasonForMakingADisclosureNowPage => _ => routes.WhyNotBeforeNowController.onPageLoad(NormalMode)
+    case WhyNotBeforeNowPage => _ => routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(NormalMode)
+    case DidSomeoneGiveYouAdviceNotDeclareTaxPage => ua => ua.get(DidSomeoneGiveYouAdviceNotDeclareTaxPage) match {
+      case Some(true) => routes.PersonWhoGaveAdviceController.onPageLoad(NormalMode)
+      //TODO go to CYA
+      case _ => routes.PersonWhoGaveAdviceController.onPageLoad(NormalMode)
+    }
+    case PersonWhoGaveAdvicePage => _ => routes.AdviceBusinessesOrOrgController.onPageLoad(NormalMode)
+    case AdviceBusinessesOrOrgPage => ua => ua.get(AdviceBusinessesOrOrgPage) match {
+      case Some(true) => routes.AdviceBusinessNameController.onPageLoad(NormalMode)
+      case _ => routes.AdviceProfessionController.onPageLoad(NormalMode)
+    }
+    case AdviceBusinessNamePage => _ => routes.AdviceProfessionController.onPageLoad(NormalMode)
+    case AdviceProfessionPage => _ => routes.AdviceGivenController.onPageLoad(NormalMode)
 
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
