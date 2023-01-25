@@ -53,3 +53,5 @@ GET        /use-this-telephone-number                 controllers.reason.CanWeUs
 POST       /use-this-telephone-number                 controllers.reason.CanWeUseTelephoneNumberToContactYouController.onSubmit(mode: Mode = NormalMode)
 GET        /use-this-telephone-number/change          controllers.reason.CanWeUseTelephoneNumberToContactYouController.onPageLoad(mode: Mode = CheckMode)
 POST       /use-this-telephone-number/change          controllers.reason.CanWeUseTelephoneNumberToContactYouController.onSubmit(mode: Mode = CheckMode)
+
+GET        /making-disclosure-now                       controllers.reason.CheckYourAnswersController.onPageLoad

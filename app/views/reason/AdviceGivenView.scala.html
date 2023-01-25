@@ -24,6 +24,7 @@
     govukInput: GovukInput,
     govukButton: GovukButton,
     heading: components.heading,
+    subheading: components.subheading,
     govukDateInput: GovukDateInput,
     hmrcCharacterCount: HmrcCharacterCount,
     tasklistLink: components.tasklistLink,
@@ -53,7 +54,7 @@
             )
         )
 
-        @heading(Text(messages("adviceGiven.date")), "govuk-heading-m")
+        @subheading(Text(messages("adviceGiven.date")), "govuk-heading-m")
 
         @govukDateInput(
             MonthYearViewModel(
