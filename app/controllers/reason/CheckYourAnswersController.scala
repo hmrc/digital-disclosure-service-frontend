@@ -73,7 +73,7 @@ class CheckYourAnswersController @Inject()(
       PersonWhoGaveAdviceSummary.row(ua),
       AdviceBusinessesOrOrgSummary.row(ua),
       AdviceBusinessNameSummary.row(ua),
-      AdviceProfessionSummary.row(ua),
+      AdviceProfessionSummary.row(ua)
     ).flatten
 
     val contactPageRows = Seq(
