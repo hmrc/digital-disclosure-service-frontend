@@ -48,7 +48,7 @@ class DidYouReceiveTaxCreditViewSpec extends ViewSpecBase with ViewMatchers with
     }
 
     "contain body" in {
-      view.getElementsByClass("body").text() mustBe (if(areTheyTheIndividual) messages("didYouReceiveTaxCredit.agent.body") else messages(s"didYouReceiveTaxCredit.${entity}.body"))
+      view.getElementsByClass("govuk-body").text() mustBe (if(areTheyTheIndividual) messages("didYouReceiveTaxCredit.agent.body") else messages(s"didYouReceiveTaxCredit.${entity}.body"))
     }
 
     "display the continue button" in {
