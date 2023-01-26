@@ -32,19 +32,40 @@ class ReasonNavigator @Inject()() {
       case Some(value) if(value.contains(Other)) => routes.WhatIsTheReasonForMakingADisclosureNowController.onPageLoad(NormalMode)
       case _ => routes.WhyNotBeforeNowController.onPageLoad(NormalMode)
     }
+
     case WhatIsTheReasonForMakingADisclosureNowPage => _ => routes.WhyNotBeforeNowController.onPageLoad(NormalMode)
+    
     case WhyNotBeforeNowPage => _ => routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(NormalMode)
+    
     case DidSomeoneGiveYouAdviceNotDeclareTaxPage => ua => ua.get(DidSomeoneGiveYouAdviceNotDeclareTaxPage) match {
       case Some(true) => routes.PersonWhoGaveAdviceController.onPageLoad(NormalMode)
       case _ => routes.CheckYourAnswersController.onPageLoad
     }
+    
     case PersonWhoGaveAdvicePage => _ => routes.AdviceBusinessesOrOrgController.onPageLoad(NormalMode)
+    
     case AdviceBusinessesOrOrgPage => ua => ua.get(AdviceBusinessesOrOrgPage) match {
       case Some(true) => routes.AdviceBusinessNameController.onPageLoad(NormalMode)
       case _ => routes.AdviceProfessionController.onPageLoad(NormalMode)
     }
+    
     case AdviceBusinessNamePage => _ => routes.AdviceProfessionController.onPageLoad(NormalMode)
+    
     case AdviceProfessionPage => _ => routes.AdviceGivenController.onPageLoad(NormalMode)
+
+    case CanWeUseEmailAddressToContactYouPage => ua => ua.get(CanWeUseEmailAddressToContactYouPage) match {
+      case Some(true) => routes.CheckYourAnswersController.onPageLoad
+      case _ => routes.WhatEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
+    }
+
+    case CanWeUseTelephoneNumberToContactYouPage => ua => ua.get(CanWeUseTelephoneNumberToContactYouPage) match {
+      case Some(true) => routes.CheckYourAnswersController.onPageLoad
+      case _ => routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode)
+    }
+
+    case WhatEmailAddressCanWeContactYouWithPage => _ => routes.CheckYourAnswersController.onPageLoad
+
+    case WhatTelephoneNumberCanWeContactYouWithPage => _ => routes.CheckYourAnswersController.onPageLoad
 
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
