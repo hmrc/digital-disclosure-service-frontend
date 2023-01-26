@@ -35,9 +35,9 @@ class NotificationPDFServiceSpec extends AnyWordSpec with ScalaFutures
     with TryValues with Matchers with MockitoSugar  {
 
   val connector: DigitalDisclosureServiceConnector = mock[DigitalDisclosureServiceConnector]
-  val storeDataService: StoreDataService = mock[StoreDataService]
+  val UAToNotificationService: UAToNotificationService = mock[UAToNotificationService]
 
-  val sut = new NotificationPDFServiceImpl(connector, storeDataService)
+  val sut = new NotificationPDFServiceImpl(connector, UAToNotificationService)
 
   val emptyUA = UserAnswers("id")
   val testNotification = Notification("123", "456", Instant.now(), Metadata(), Background(), AboutYou())
@@ -46,7 +46,7 @@ class NotificationPDFServiceSpec extends AnyWordSpec with ScalaFutures
   "generatePdf" should {
 
     "call userAnswersToNotification followed by generateNotificationPDF" in {
-      when(storeDataService.userAnswersToNotification(emptyUA)) thenReturn testNotification
+      when(UAToNotificationService.userAnswersToNotification(emptyUA)) thenReturn testNotification
       when(connector.generateNotificationPDF(testNotification)(hc)) thenReturn Future.successful(ByteString("1234"))
       
       sut.generatePdf(emptyUA).futureValue shouldEqual ByteString("1234")
