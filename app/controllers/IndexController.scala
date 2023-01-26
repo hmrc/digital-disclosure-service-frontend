@@ -22,7 +22,7 @@ import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.IndexView
-import services.{SessionService, StoreDataService}
+import services.{SessionService, UAToNotificationService}
 import config.FrontendAppConfig
 import models.NormalMode
 import play.api.Logging
@@ -35,7 +35,7 @@ class IndexController @Inject()(
                                 getData: DataRetrievalAction,
                                 view: IndexView,
                                 sessionService: SessionService,
-                                dataService: StoreDataService,
+                                dataService: UAToNotificationService,
                                 appConfig: FrontendAppConfig
                                )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with Logging {
 

@@ -27,11 +27,11 @@ import models.UserAnswers
 @Singleton
 class NotificationStoreServiceImpl @Inject()(
   connector: NotificationStoreConnector,
-  storeDataService: StoreDataService
+  UAToNotificationService: UAToNotificationService
 ) extends NotificationStoreService {
 
   def setNotification(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Result] = {
-    val notification = storeDataService.userAnswersToNotification(userAnswers)
+    val notification = UAToNotificationService.userAnswersToNotification(userAnswers)
     setNotification(notification)
   }
 

@@ -23,7 +23,7 @@ import scala.util.{Success, Try}
 import com.google.inject.{Singleton, ImplementedBy}
 
 @Singleton
-class NotificationDataServiceImpl extends NotificationDataService {
+class NotificationToUAServiceImpl extends NotificationToUAService {
   
   def notificationToUserAnswers(notification: Notification): Try[UserAnswers] = {
 
@@ -220,7 +220,7 @@ class NotificationDataServiceImpl extends NotificationDataService {
 
 }
 
-@ImplementedBy(classOf[NotificationDataServiceImpl])
-trait NotificationDataService {
+@ImplementedBy(classOf[NotificationToUAServiceImpl])
+trait NotificationToUAService {
   def notificationToUserAnswers(notification: Notification): Try[UserAnswers] 
 }

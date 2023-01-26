@@ -124,7 +124,7 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
   
     val repo = mock[SessionRepository]
     val storeService = mock[NotificationStoreService]
-    val dataService = mock[NotificationDataService]
+    val dataService = mock[NotificationToUAService]
 
     val sut = new SessionServiceImpl(repo, storeService, dataService)
 
