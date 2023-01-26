@@ -26,9 +26,9 @@ import models.store._
 import org.scalatest.TryValues
 import java.time.{LocalDate, Instant, LocalDateTime}
 
-class StoreDataServiceSpec extends AnyWordSpec with Matchers with TryValues {
+class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValues {
 
-  val sut = new StoreDataServiceImpl
+  val sut = new UAToNotificationServiceImpl
 
   val metadata = Metadata(reference = Some("123"), submissionTime = Some(LocalDateTime.now))
   val instant = Instant.now()

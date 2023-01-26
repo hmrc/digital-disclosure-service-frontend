@@ -23,7 +23,7 @@ import navigation.Navigator
 import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import services.{StoreDataService, SessionService}
+import services.{UAToNotificationService, SessionService}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.TaskListView
 import viewmodels.{TaskListRow, TaskListViewModel}
@@ -36,7 +36,7 @@ class TaskListController @Inject()(
                                         identify: IdentifierAction,
                                         getData: DataRetrievalAction,
                                         requireData: DataRequiredAction,
-                                        dataService: StoreDataService,
+                                        dataService: UAToNotificationService,
                                         val controllerComponents: MessagesControllerComponents,
                                         view: TaskListView
                                     ) extends FrontendBaseController with I18nSupport {

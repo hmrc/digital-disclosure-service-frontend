@@ -34,7 +34,7 @@ class NotificationStoreServiceSpec extends AnyWordSpec with Matchers
     with MockFactory with ScalaFutures {
 
   private val connector = mock[NotificationStoreConnector]
-  private val service = mock[StoreDataService]
+  private val service = mock[UAToNotificationService]
   val sut = new NotificationStoreServiceImpl(connector, service)
   implicit val hc = HeaderCarrier()
 

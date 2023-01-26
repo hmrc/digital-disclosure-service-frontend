@@ -26,9 +26,9 @@ import models.store._
 import org.scalatest.TryValues
 import java.time.{LocalDate, Instant, LocalDateTime}
 
-class NotificationDataServiceSpec extends AnyWordSpec with Matchers with TryValues {
+class NotificationToUAServiceSpec extends AnyWordSpec with Matchers with TryValues {
 
-  val sut = new NotificationDataServiceImpl
+  val sut = new NotificationToUAServiceImpl
 
   val testNotification = Notification("userId", "notificationId", Instant.now(), Metadata(), Background(), AboutYou())
 

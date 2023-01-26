@@ -22,7 +22,7 @@ import pages._
 import com.google.inject.{Singleton, ImplementedBy}
 
 @Singleton
-class StoreDataServiceImpl extends StoreDataService {
+class UAToNotificationServiceImpl extends UAToNotificationService {
   
   def userAnswersToNotification(userAnswers: UserAnswers): Notification = {
 
@@ -154,7 +154,7 @@ class StoreDataServiceImpl extends StoreDataService {
 
 }
 
-@ImplementedBy(classOf[StoreDataServiceImpl])
-trait StoreDataService {
+@ImplementedBy(classOf[UAToNotificationServiceImpl])
+trait UAToNotificationService {
   def userAnswersToNotification(userAnswers: UserAnswers): Notification
 }

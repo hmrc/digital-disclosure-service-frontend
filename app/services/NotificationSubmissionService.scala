@@ -27,7 +27,7 @@ import pages.LetterReferencePage
 @Singleton
 class NotificationSubmissionServiceImpl @Inject()(
   connector: DigitalDisclosureServiceConnector,
-  storeDataService: StoreDataService,
+  UAToNotificationService: UAToNotificationService,
   referenceService: ReferenceService,
   sessionService: SessionService,
   timeService: TimeService,
@@ -40,7 +40,7 @@ class NotificationSubmissionServiceImpl @Inject()(
     val metadata = Metadata(reference = Some(reference), submissionTime = Some(timeService.now))
 
     val updatedUserAnswers = userAnswers.copy(metadata = metadata)
-    val notification = storeDataService.userAnswersToNotification(updatedUserAnswers)
+    val notification = UAToNotificationService.userAnswersToNotification(updatedUserAnswers)
 
     for {
       _ <- connector.submitNotification(notification)
