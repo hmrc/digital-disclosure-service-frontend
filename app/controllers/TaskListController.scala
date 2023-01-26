@@ -18,7 +18,7 @@ package controllers
 
 import controllers.actions._
 import javax.inject.Inject
-import models.{NormalMode, UserAnswers}
+import models.{NormalMode, UserAnswers, RelatesTo}
 import navigation.Navigator
 import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -46,7 +46,10 @@ class TaskListController @Inject()(
 
       val ua = request.userAnswers
 
-      val personalDetailsTasks = Seq(buildYourPersonalDetailsRow(ua))
+      val areTheyTheIndividual = isTheUserTheIndividual(ua)
+      val entity = ua.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+
+      val personalDetailsTasks = Seq(buildYourPersonalDetailsRow(ua, areTheyTheIndividual, entity))
 
       val liabilitiesInformation = buildLiabilitiesInformationRow(ua)
 
@@ -58,12 +61,13 @@ class TaskListController @Inject()(
         additionalInformation
       )
 
-      Ok(view(list))
+      Ok(view(list, areTheyTheIndividual, entity))
   }
 
   def statusKey(isSectionComplete: Boolean): String = if (isSectionComplete) "taskList.status.completed" else "taskList.status.notStarted"
+  def operationKey(isSectionComplete: Boolean): String = if (isSectionComplete) "taskList.op.edit" else "taskList.op.add"
 
-  private def buildYourPersonalDetailsRow(userAnswers: UserAnswers)(implicit messages: Messages): TaskListRow = {
+  private def buildYourPersonalDetailsRow(userAnswers: UserAnswers, areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit messages: Messages): TaskListRow = {
 
     val isSectionComplete = dataService.userAnswersToNotification(userAnswers).isComplete
     val link = if (isSectionComplete) controllers.notification.routes.CheckYourAnswersController.onPageLoad
@@ -71,8 +75,8 @@ class TaskListController @Inject()(
 
     TaskListRow(
       id = "personal-detail-task-list", 
-      operation = messages("taskList.op.add"),
-      sectionTitle = messages("taskList.sectionTitle.first"), 
+      operation = messages("taskList.op.add"), //TODO: Need to remove
+      sectionTitle = if(areTheyTheIndividual) messages(operationKey(isSectionComplete)) + messages("taskList.agent.sectionTitle.first") else messages(operationKey(isSectionComplete)) + messages(s"taskList.${entity}.sectionTitle.first"), 
       status = messages(statusKey(isSectionComplete)), 
       link = link
     )
@@ -138,6 +142,13 @@ class TaskListController @Inject()(
       case (_,           Some(true))  => Seq(buildCaseReferenceRow, buildOnshoreLiabilitieDetailRow, buildOtherLiabilityIssueRow)
       case (Some(false), _)           => Seq(buildCaseReferenceRow, buildOnshoreLiabilitieDetailRow, buildOtherLiabilityIssueRow)
       case (_,           _)           => Seq(buildCaseReferenceRow, buildOtherLiabilityIssueRow)
+    }
+  }
+
+  def isTheUserTheIndividual(userAnswers: UserAnswers): Boolean = {
+    userAnswers.get(AreYouTheIndividualPage) match {
+      case Some(true) => true
+      case _ => false
     }
   }
 }

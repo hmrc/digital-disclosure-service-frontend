@@ -1020,10 +1020,24 @@ taskList.heading = List of tasks
 taskList.paragraph.first = Disclosure not complete
 taskList.paragraph.second = You have completed 0 of 3 sections.
 taskList.paragraph.third = You must complete all 3 sections before you can make an offer and send the disclosure.
-taskList.heading.first = Provide your personal details
+
+taskList.agent.heading.first = Provide your personal details
+taskList.individual.heading.first = Provide individual’s personal details
+taskList.company.heading.first = Provide the company’s details 
+taskList.llp.heading.first = Provide the limited liability partnership’s details
+taskList.estate.heading.first = Provide the details of the person who died
+taskList.trust.heading.first = Provide the trust's details
+
 taskList.heading.second = Provide liabilities information
 taskList.heading.third = Provide additional information
-taskList.sectionTitle.first = your personal details
+
+taskList.agent.sectionTitle.first = your personal details
+taskList.individual.sectionTitle.first = the individual’s details
+taskList.company.sectionTitle.first = the company’s details
+taskList.llp.sectionTitle.first = the limited liability partnership’s details
+taskList.estate.sectionTitle.first = the person’s details
+taskList.trust.sectionTitle.first = the trust’s details
+
 taskList.sectionTitle.second = case reference
 taskList.sectionTitle.third = onshore liabilities details
 taskList.sectionTitle.forth = offshore liabilities details
@@ -1031,8 +1045,8 @@ taskList.sectionTitle.fifth = other liability issues
 taskList.sectionTitle.sixth = the reason for coming forward now
 taskList.status.notStarted = Not started
 taskList.status.completed = Completed
-taskList.op.add = Add
-taskList.op.edit = Edit
+taskList.op.add = 'Add '
+taskList.op.edit = 'Edit '
 
 howWouldYouPreferToBeContacted.title = How would you prefer to be contacted by HMRC?
 howWouldYouPreferToBeContacted.heading = How would you prefer to be contacted by HMRC?
