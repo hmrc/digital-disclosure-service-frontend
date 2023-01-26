@@ -1517,3 +1517,12 @@ whatTelephoneNumberCanWeContactYouWith.checkYourAnswersLabel = Telephone number
 whatTelephoneNumberCanWeContactYouWith.error.required = Enter your telephone number
 whatTelephoneNumberCanWeContactYouWith.error.validFormat = Enter your telephone number in the right format
 whatTelephoneNumberCanWeContactYouWith.change.hidden = Telephone number
+
+doYouHaveACaseReference.title = Do you have a case reference?
+doYouHaveACaseReference.heading = Do you have a case reference?
+doYouHaveACaseReference.label = It begins with 'CFSS' or 'CFS' followed by 7 numbers.
+doYouHaveACaseReference.checkYourAnswersLabel = Do you have a case reference?
+doYouHaveACaseReference.error.required = Select yes if you have a case reference
+doYouHaveACaseReference.change.hidden = Case reference
+doYouHaveACaseReference.yes = Yes
+doYouHaveACaseReference.no = No
