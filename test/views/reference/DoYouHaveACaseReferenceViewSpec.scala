@@ -39,7 +39,11 @@ class DoYouHaveACaseReferenceViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("doYouHaveACaseReference.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("doYouHaveACaseReference.heading")
+    }
+
+    "contain body text" in {
+      view.getElementById("body").text() mustBe messages("doYouHaveACaseReference.label")
     }
 
     "have yes" in {

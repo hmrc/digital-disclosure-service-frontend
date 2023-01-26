@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 
-package pages
+package navigation
 
-import pages.behaviours.PageBehaviours
+import models.{Mode, UserAnswers}
+import pages._
+import play.api.mvc.Call
 
-class DoYouHaveACaseReferencePageSpec extends PageBehaviours {
+class FakeReferenceNavigator(desiredRoute: Call) extends ReferenceNavigator {
 
-  "DoYouHaveACaseReferencePage" - {
+  override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasChanged:Boolean = true): Call =
+    desiredRoute
 
-    beRetrievable[Boolean](DoYouHaveACaseReferencePage)
-
-    beSettable[Boolean](DoYouHaveACaseReferencePage)
-
-    beRemovable[Boolean](DoYouHaveACaseReferencePage)
-  }
 }

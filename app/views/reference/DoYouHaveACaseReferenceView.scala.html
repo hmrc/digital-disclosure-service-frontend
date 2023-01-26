@@ -17,6 +17,7 @@
 @this(
     layout: templates.Layout,
     heading: components.heading,
+    paragraph: components.paragraph,
     tasklistLink: components.tasklistLink,
     formHelper: FormWithCSRF,
     govukErrorSummary: GovukErrorSummary,
@@ -36,10 +37,12 @@
 
         @heading(Text(messages("doYouHaveACaseReference.heading")))
 
+        @paragraph(id = Some("body"), content = Text(messages("doYouHaveACaseReference.label")))
+
         @govukRadios(
                RadiosViewModel.yesNoNotInline(
                    field = form("value"),
-                   legend = LegendViewModel(messages("doYouHaveACaseReference.label")),
+                   legend = LegendViewModel(messages("doYouHaveACaseReference.heading")).withCssClass("govuk-visually-hidden"),
                    messagePrefix = "doYouHaveACaseReference"
                )
            )
