@@ -48,9 +48,14 @@ class TaskListController @Inject()(
 
       val areTheyTheIndividual = isTheUserTheIndividual(ua)
       val entity = ua.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
-      val isSectionComplete = dataService.userAnswersToNotification(ua).isComplete
 
-      val personalDetailsTasks = Seq(buildYourPersonalDetailsRow(ua, areTheyTheIndividual, entity, isSectionComplete))
+      val isSectionComplete = dataService.userAnswersToNotification(ua).isComplete
+      val operationKey = if (isSectionComplete) "edit" else "add"
+      val entityKey = if (areTheyTheIndividual) "agent" else entity
+      val notificationSectionKey = s"taskList.$entityKey.$operationKey.heading.first"
+      val notificationTitleKey = s"taskList.$entityKey.$operationKey.sectionTitle.first"
+      
+      val personalDetailsTasks = Seq(buildYourPersonalDetailsRow(notificationTitleKey, isSectionComplete))
 
       val liabilitiesInformation = buildLiabilitiesInformationRow(ua)
 
@@ -62,21 +67,19 @@ class TaskListController @Inject()(
         additionalInformation
       )
 
-      Ok(view(list, areTheyTheIndividual, entity, isSectionComplete))
+      Ok(view(list, notificationSectionKey))
   }
 
   def statusKey(isSectionComplete: Boolean): String = if (isSectionComplete) "taskList.status.completed" else "taskList.status.notStarted"
-  def operationKey(isSectionComplete: Boolean): String = if (isSectionComplete) "taskList.op.edit" else "taskList.op.add"
-
-  private def buildYourPersonalDetailsRow(userAnswers: UserAnswers, areTheyTheIndividual: Boolean, entity: RelatesTo, isSectionComplete: Boolean)(implicit messages: Messages): TaskListRow = {
+  
+  private def buildYourPersonalDetailsRow(notificationTitleKey: String, isSectionComplete: Boolean)(implicit messages: Messages): TaskListRow = {
 
     val link = if (isSectionComplete) controllers.notification.routes.CheckYourAnswersController.onPageLoad
       else controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode)
 
     TaskListRow(
       id = "personal-detail-task-list", 
-      operation = messages("taskList.op.add"), //TODO: Need to remove once all task list section is completed..
-      sectionTitle = if(areTheyTheIndividual) messages(operationKey(isSectionComplete)) + messages("taskList.agent.sectionTitle.first") else messages(operationKey(isSectionComplete)) + messages(s"taskList.${entity}.sectionTitle.first"), 
+      sectionTitle = messages(notificationTitleKey), 
       status = messages(statusKey(isSectionComplete)), 
       link = link
     )
@@ -85,7 +88,6 @@ class TaskListController @Inject()(
   private def buildCaseReferenceRow(implicit messages: Messages): TaskListRow = {
     TaskListRow(
       id = "case-reference-task-list", 
-      operation = messages("taskList.op.add"),
       sectionTitle = messages("taskList.sectionTitle.second"), 
       status = messages("taskList.status.notStarted"), 
       link = routes.TaskListController.onPageLoad
@@ -95,7 +97,6 @@ class TaskListController @Inject()(
   private def buildOnshoreLiabilitieDetailRow(implicit messages: Messages): TaskListRow = {
     TaskListRow(
       id = "onshore-liabilitie-task-list", 
-      operation = messages("taskList.op.add"),
       sectionTitle = messages("taskList.sectionTitle.third"), 
       status = messages("taskList.status.notStarted"), 
       link = routes.TaskListController.onPageLoad
@@ -105,7 +106,6 @@ class TaskListController @Inject()(
   private def buildOffshoreLiabilitieDetailRow(userAnswers: UserAnswers)(implicit messages: Messages): TaskListRow = {
     TaskListRow(
       id = "offshore-liabilitie-task-list", 
-      operation = messages("taskList.op.add"),
       sectionTitle = messages("taskList.sectionTitle.forth"), 
       status = messages("taskList.status.notStarted"), 
       link = offshore.routes.WhyAreYouMakingThisDisclosureController.onPageLoad(NormalMode)
@@ -115,7 +115,6 @@ class TaskListController @Inject()(
   private def buildOtherLiabilityIssueRow(implicit messages: Messages): TaskListRow = {
     TaskListRow(
       id = "other-liability-issue-task-list", 
-      operation = messages("taskList.op.add"),
       sectionTitle = messages("taskList.sectionTitle.fifth"), 
       status = messages("taskList.status.notStarted"), 
       link = otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(NormalMode)
@@ -125,7 +124,6 @@ class TaskListController @Inject()(
   private def buildTheReasonForComingForwardNowRow(implicit messages: Messages): TaskListRow = {
     TaskListRow(
       id = "reason-for-coming-forward-now-liabilitie-task-list", 
-      operation = messages("taskList.op.add"),
       sectionTitle = messages("taskList.sectionTitle.sixth"), 
       status = messages("taskList.status.notStarted"), 
       link = reason.routes.WhyAreYouMakingADisclosureController.onPageLoad(NormalMode)

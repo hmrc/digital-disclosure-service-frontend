@@ -24,7 +24,7 @@
     task: components.task
 )
 
-@(list: TaskListViewModel, areTheyTheIndividual: Boolean, entity: RelatesTo, isSectionComplete: Boolean)(implicit request: Request[_], messages: Messages)
+@(list: TaskListViewModel, notificationSectionKey: String)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = titleNoForm(messages("taskList.title"))) {
 
@@ -37,20 +37,7 @@
         @paragraph(id = Some("third-paragraph"), content = Text(messages("taskList.paragraph.third")))
 
         <ol class="app-task-list">
-            @task(
-                "1.", 
-                if(areTheyTheIndividual)
-                    if(!isSectionComplete) 
-                        messages("taskList.agent.add.heading.first")
-                    else
-                        messages("taskList.agent.edit.heading.first") 
-                else 
-                    if(!isSectionComplete)
-                        messages(s"taskList.${entity}.add.heading.first")
-                    else
-                        messages(s"taskList.${entity}.edit.heading.first"),
-                list.personalDetailsTask
-            )
+            @task("1.", messages(notificationSectionKey), list.personalDetailsTask)
             @task("2.", messages("taskList.heading.second"), list.liabilitiesInformation)
             @task("3.", messages("taskList.heading.third"), list.additionalInformation)
         </ol>

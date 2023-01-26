@@ -25,7 +25,6 @@ final case class TaskListViewModel (
 
 final case class TaskListRow (
     id: String, 
-    operation: String, 
     sectionTitle: String, 
     status: String, 
     link: Call)

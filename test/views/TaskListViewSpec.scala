@@ -29,7 +29,6 @@ class TaskListViewSpec extends ViewSpecBase with ViewMatchers {
 
   val testRow1 = TaskListRow(
     id = "task-list", 
-    operation = "Add",
     sectionTitle = "Section Title", 
     status = "Not Started", 
     link = routes.TaskListController.onPageLoad
@@ -37,7 +36,6 @@ class TaskListViewSpec extends ViewSpecBase with ViewMatchers {
 
   val testRow2 = TaskListRow(
     id = "task-list", 
-    operation = "Add",
     sectionTitle = "Section Title", 
     status = "Not Started", 
     link = routes.TaskListController.onPageLoad
@@ -45,7 +43,6 @@ class TaskListViewSpec extends ViewSpecBase with ViewMatchers {
 
   val testRow3 = TaskListRow(
     id = "task-list", 
-    operation = "Add",
     sectionTitle = "Section Title", 
     status = "Not Started", 
     link = routes.TaskListController.onPageLoad
@@ -53,12 +50,16 @@ class TaskListViewSpec extends ViewSpecBase with ViewMatchers {
 
   "view" should {
 
+    val operationKey = "add"
+    val entityKey = "agent"
+    val notificationSectionKey = s"taskList.$entityKey.$operationKey.heading.first"
+
     val personalDetailsTask = Seq(testRow1) 
     val liabilitiesInformation = Seq(testRow2)
     val additionalInformation = Seq(testRow3)
     val list = TaskListViewModel(personalDetailsTask, liabilitiesInformation, additionalInformation)
     
-    def createView: Html = page(list)(request, messages)
+    def createView: Html = page(list, notificationSectionKey)(request, messages)
 
     val view = createView
 
@@ -83,7 +84,7 @@ class TaskListViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain list of section" in {
-      view.getElementsByClass("app-task-list__section").get(0).text() mustBe "1. " + messages("taskList.heading.first")
+      view.getElementsByClass("app-task-list__section").get(0).text() mustBe "1. " + messages(notificationSectionKey)
       view.getElementsByClass("app-task-list__section").get(1).text() mustBe "2. " + messages("taskList.heading.second")
       view.getElementsByClass("app-task-list__section").get(2).text() mustBe "3. " + messages("taskList.heading.third")
     }
