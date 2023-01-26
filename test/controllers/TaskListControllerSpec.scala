@@ -43,13 +43,19 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
 
         implicit val mess = messages(application)
 
-        val personalDetailsTask = Seq(buildYourPersonalDetailsRow()(mess))
+        val isSectionComplete = false
+        val operationKey = "add"
+        val entityKey = "individual"
+        val notificationSectionKey = s"taskList.$entityKey.$operationKey.heading.first"
+        val notificationTitleKey = s"taskList.$entityKey.$operationKey.sectionTitle.first"
+
+        val personalDetailsTask = Seq(buildYourPersonalDetailsRow(notificationTitleKey, isSectionComplete)(mess))
         val liabilitiesInformation = buildLiabilitiesInformationRow(UserAnswers("id"))(mess)
         val additionalInformation = Seq(buildTheReasonForComingForwardNowRow()(mess))
         val list = TaskListViewModel(personalDetailsTask, liabilitiesInformation, additionalInformation)
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(list)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(list, notificationSectionKey)(request, messages(application)).toString
       }
     }
 
@@ -79,60 +85,71 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
 
         implicit val mess = messages(application)
 
-        val personalDetailsTask = Seq(buildYourPersonalDetailsRow()(mess))
+        val isSectionComplete = false
+        val operationKey = "add"
+        val entityKey = "agent"
+        val notificationSectionKey = s"taskList.$entityKey.$operationKey.heading.first"
+        val notificationTitleKey = s"taskList.$entityKey.$operationKey.sectionTitle.first"
+
+        val personalDetailsTask = Seq(buildYourPersonalDetailsRow(notificationTitleKey, isSectionComplete)(mess))
         val liabilitiesInformation = buildLiabilitiesInformationRow(ua)(mess)
         val additionalInformation = Seq(buildTheReasonForComingForwardNowRow()(mess))
         val list = TaskListViewModel(personalDetailsTask, liabilitiesInformation, additionalInformation)
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(list)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(list, notificationSectionKey)(request, messages(application)).toString
       }
     }
 
     "must return the correct view when TaskListPage is populated with both liabilities information" in {
       val userAnswer = (for {
         ua <- UserAnswers("id").set(OffshoreLiabilitiesPage, true)
-        updatedUa <- ua.set(OnshoreLiabilitiesPage, true)
-      } yield updatedUa).success.value
+        ua1 <- ua.set(OnshoreLiabilitiesPage, true)
+        ua2 <- ua1.set(AreYouTheIndividualPage, true)
+      } yield ua2).success.value
       rowIsDisplayedWhenPageIsPopulated(userAnswer)
     }
 
     "must return the correct view when TaskListPage is populated with onshore liabilities row" in {
       val userAnswer = (for {
         ua <- UserAnswers("id").set(OffshoreLiabilitiesPage, false)
-        updatedUa <- ua.set(OnshoreLiabilitiesPage, true)
-      } yield updatedUa).success.value
+        ua1 <- ua.set(OnshoreLiabilitiesPage, true)
+        ua2 <- ua1.set(AreYouTheIndividualPage, true)
+      } yield ua2).success.value
       rowIsDisplayedWhenPageIsPopulated(userAnswer)
     }
 
     "must return the correct view when TaskListPage is populated with offshore liabilities row" in {
       val userAnswer = (for {
         ua <- UserAnswers("id").set(OffshoreLiabilitiesPage, true)
-        updatedUa <- ua.set(OnshoreLiabilitiesPage, false)
-      } yield updatedUa).success.value
+        ua1 <- ua.set(OnshoreLiabilitiesPage, false)
+        ua2 <- ua1.set(AreYouTheIndividualPage, true)
+      } yield ua2).success.value
       rowIsDisplayedWhenPageIsPopulated(userAnswer)
     }
 
     "must return the correct view when TaskListPage is populated with no liabilities information row" in {
-      val userAnswer = UserAnswers("id")
+      val userAnswer = UserAnswers("id").set(AreYouTheIndividualPage, true).success.value
       rowIsDisplayedWhenPageIsPopulated(userAnswer)
     }
   }
 
-  private def buildYourPersonalDetailsRow()(implicit messages: Messages): TaskListRow = {
+  private def buildYourPersonalDetailsRow(notificationTitleKey: String, isSectionComplete: Boolean)(implicit messages: Messages): TaskListRow = {
+
+    val link = if (isSectionComplete) controllers.notification.routes.CheckYourAnswersController.onPageLoad
+      else controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode)
+
     TaskListRow(
       id = "personal-detail-task-list", 
-      operation = messages("taskList.op.add"),
-      sectionTitle = messages("taskList.sectionTitle.first"), 
+      sectionTitle = messages(notificationTitleKey), 
       status = messages("taskList.status.notStarted"), 
-      link = controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode)
+      link = link
     )
   }
 
   private def buildCaseReferenceRow()(implicit messages: Messages): TaskListRow = {
     TaskListRow(
       id = "case-reference-task-list", 
-      operation = messages("taskList.op.add"),
       sectionTitle = messages("taskList.sectionTitle.second"), 
       status = messages("taskList.status.notStarted"), 
       link = routes.TaskListController.onPageLoad
@@ -142,7 +159,6 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
   private def buildOnshoreLiabilitieDetailRow()(implicit messages: Messages): TaskListRow = {
     TaskListRow(
       id = "onshore-liabilitie-task-list", 
-      operation = messages("taskList.op.add"),
       sectionTitle = messages("taskList.sectionTitle.third"), 
       status = messages("taskList.status.notStarted"), 
       link = routes.TaskListController.onPageLoad
@@ -152,7 +168,6 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
   private def buildOffshoreLiabilitieDetailRow(userAnswers: UserAnswers)(implicit messages: Messages): TaskListRow = {
     TaskListRow(
       id = "offshore-liabilitie-task-list", 
-      operation = messages("taskList.op.add"),
       sectionTitle = messages("taskList.sectionTitle.forth"), 
       status = messages("taskList.status.notStarted"), 
       link = offshore.routes.WhyAreYouMakingThisDisclosureController.onPageLoad(NormalMode)
@@ -162,7 +177,6 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
   private def buildOtherLiabilityIssueRow()(implicit messages: Messages): TaskListRow = {
     TaskListRow(
       id = "other-liability-issue-task-list", 
-      operation = messages("taskList.op.add"),
       sectionTitle = messages("taskList.sectionTitle.fifth"), 
       status = messages("taskList.status.notStarted"), 
       link = otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(NormalMode)
@@ -172,7 +186,6 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
   private def buildTheReasonForComingForwardNowRow()(implicit messages: Messages): TaskListRow = {
     TaskListRow(
       id = "reason-for-coming-forward-now-liabilitie-task-list", 
-      operation = messages("taskList.op.add"),
       sectionTitle = messages("taskList.sectionTitle.sixth"), 
       status = messages("taskList.status.notStarted"),
       link = reason.routes.WhyAreYouMakingADisclosureController.onPageLoad(NormalMode)
