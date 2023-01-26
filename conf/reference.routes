@@ -1,0 +1,5 @@
+
+GET        /do-you-have-a-case-reference                         controllers.reference.DoYouHaveACaseReferenceController.onPageLoad(mode: Mode = NormalMode)
+POST       /do-you-have-a-case-reference                         controllers.reference.DoYouHaveACaseReferenceController.onSubmit(mode: Mode = NormalMode)
+GET        /do-you-have-a-case-reference/change                 controllers.reference.DoYouHaveACaseReferenceController.onPageLoad(mode: Mode = CheckMode)
+POST       /do-you-have-a-case-reference/change                 controllers.reference.DoYouHaveACaseReferenceController.onSubmit(mode: Mode = CheckMode)
