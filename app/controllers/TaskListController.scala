@@ -48,8 +48,9 @@ class TaskListController @Inject()(
 
       val areTheyTheIndividual = isTheUserTheIndividual(ua)
       val entity = ua.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+      val isSectionComplete = dataService.userAnswersToNotification(ua).isComplete
 
-      val personalDetailsTasks = Seq(buildYourPersonalDetailsRow(ua, areTheyTheIndividual, entity))
+      val personalDetailsTasks = Seq(buildYourPersonalDetailsRow(ua, areTheyTheIndividual, entity, isSectionComplete))
 
       val liabilitiesInformation = buildLiabilitiesInformationRow(ua)
 
@@ -61,21 +62,20 @@ class TaskListController @Inject()(
         additionalInformation
       )
 
-      Ok(view(list, areTheyTheIndividual, entity))
+      Ok(view(list, areTheyTheIndividual, entity, isSectionComplete))
   }
 
   def statusKey(isSectionComplete: Boolean): String = if (isSectionComplete) "taskList.status.completed" else "taskList.status.notStarted"
   def operationKey(isSectionComplete: Boolean): String = if (isSectionComplete) "taskList.op.edit" else "taskList.op.add"
 
-  private def buildYourPersonalDetailsRow(userAnswers: UserAnswers, areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit messages: Messages): TaskListRow = {
+  private def buildYourPersonalDetailsRow(userAnswers: UserAnswers, areTheyTheIndividual: Boolean, entity: RelatesTo, isSectionComplete: Boolean)(implicit messages: Messages): TaskListRow = {
 
-    val isSectionComplete = dataService.userAnswersToNotification(userAnswers).isComplete
     val link = if (isSectionComplete) controllers.notification.routes.CheckYourAnswersController.onPageLoad
       else controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode)
 
     TaskListRow(
       id = "personal-detail-task-list", 
-      operation = messages("taskList.op.add"), //TODO: Need to remove
+      operation = messages("taskList.op.add"), //TODO: Need to remove once all task list section is completed..
       sectionTitle = if(areTheyTheIndividual) messages(operationKey(isSectionComplete)) + messages("taskList.agent.sectionTitle.first") else messages(operationKey(isSectionComplete)) + messages(s"taskList.${entity}.sectionTitle.first"), 
       status = messages(statusKey(isSectionComplete)), 
       link = link

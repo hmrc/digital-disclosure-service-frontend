@@ -1020,13 +1020,20 @@ taskList.heading = List of tasks
 taskList.paragraph.first = Disclosure not complete
 taskList.paragraph.second = You have completed 0 of 3 sections.
 taskList.paragraph.third = You must complete all 3 sections before you can make an offer and send the disclosure.
-
-taskList.agent.heading.first = Provide your personal details
-taskList.individual.heading.first = Provide individual’s personal details
-taskList.company.heading.first = Provide the company’s details 
-taskList.llp.heading.first = Provide the limited liability partnership’s details
-taskList.estate.heading.first = Provide the details of the person who died
-taskList.trust.heading.first = Provide the trust's details
+#--------Personal details header----ADD operation-----
+taskList.agent.add.heading.first = Provide your personal details
+taskList.individual.add.heading.first = Provide individual’s personal details
+taskList.company.add.heading.first = Provide the company’s details 
+taskList.llp.add.heading.first = Provide the limited liability partnership’s details
+taskList.estate.add.heading.first = Provide the details of the person who died
+taskList.trust.add.heading.first = Provide the trust's details
+#--------Personal details header----Edit operation-----
+taskList.agent.edit.heading.first = Review notification details
+taskList.individual.edit.heading.first = Review the individual’s details
+taskList.company.edit.heading.first = Review the company’s details
+taskList.llp.edit.heading.first = Review the limited liability partnership’s details
+taskList.trust.edit.heading.first = Review the trust’s details
+taskList.estate.edit.heading.first = Review the details of the person who died
 
 taskList.heading.second = Provide liabilities information
 taskList.heading.third = Provide additional information
