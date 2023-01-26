@@ -28,7 +28,7 @@ import play.api.Logging
 class SessionServiceImpl @Inject()(
   val sessionRepository: SessionRepository,
   val notificationStoreService: NotificationStoreService,
-  val notificationDataService: NotificationDataService
+  val NotificationToUAService: NotificationToUAService
 )(implicit ec: ExecutionContext) extends SessionService with Logging {
 
   def getSession(userId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] =
@@ -50,7 +50,7 @@ class SessionServiceImpl @Inject()(
   def getIndividualNotificationUserAnswers(userId: String, notificationId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] = 
     for {
       notificationOpt <- notificationStoreService.getNotification(userId, notificationId)
-      uaOpt <- Future.fromTry(notificationOpt.map(notificationDataService.notificationToUserAnswers).sequence)
+      uaOpt <- Future.fromTry(notificationOpt.map(NotificationToUAService.notificationToUserAnswers).sequence)
     } yield uaOpt
 
   def set(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Boolean] =

@@ -26,11 +26,11 @@ import akka.util.ByteString
 @Singleton
 class NotificationPDFServiceImpl @Inject()(
   connector: DigitalDisclosureServiceConnector,
-  storeDataService: StoreDataService
+  UAToNotificationService: UAToNotificationService
 ) extends NotificationPDFService {
 
   def generatePdf(userAnswers: UserAnswers)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[ByteString] = {
-    val notification = storeDataService.userAnswersToNotification(userAnswers)
+    val notification = UAToNotificationService.userAnswersToNotification(userAnswers)
     connector.generateNotificationPDF(notification)
   }
 

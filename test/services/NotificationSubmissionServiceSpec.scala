@@ -41,7 +41,7 @@ class NotificationSubmissionServiceSpec extends AnyWordSpec with ScalaFutures
       val metadata = Metadata(reference = Some("123456"), submissionTime = Some(time))
       val updatedUserAnswers = emptyUA.copy(metadata = metadata)
 
-      when(storeDataService.userAnswersToNotification(updatedUserAnswers)) thenReturn testNotification
+      when(UAToNotificationService.userAnswersToNotification(updatedUserAnswers)) thenReturn testNotification
       when(connector.submitNotification(testNotification)(hc)) thenReturn Future.successful("id")
       when(sessionService.set(updatedUserAnswers)(hc)) thenReturn Future.successful(true)
       
@@ -55,7 +55,7 @@ class NotificationSubmissionServiceSpec extends AnyWordSpec with ScalaFutures
       val metadata = Metadata(reference = Some("ABCDE"), submissionTime = Some(time))
       val updatedUserAnswers = initialUserAnswers.copy(metadata = metadata)
 
-      when(storeDataService.userAnswersToNotification(updatedUserAnswers)) thenReturn testNotification
+      when(UAToNotificationService.userAnswersToNotification(updatedUserAnswers)) thenReturn testNotification
       when(connector.submitNotification(testNotification)(hc)) thenReturn Future.successful("id")
       when(sessionService.set(updatedUserAnswers)(hc)) thenReturn Future.successful(true)
       
@@ -65,7 +65,7 @@ class NotificationSubmissionServiceSpec extends AnyWordSpec with ScalaFutures
 
     trait Test {
       val connector: DigitalDisclosureServiceConnector = mock[DigitalDisclosureServiceConnector]
-      val storeDataService: StoreDataService = mock[StoreDataService]
+      val UAToNotificationService: UAToNotificationService = mock[UAToNotificationService]
       val sessionService: SessionService = mock[SessionService]
       val auditService: AuditService = mock[AuditService]
 
@@ -79,7 +79,7 @@ class NotificationSubmissionServiceSpec extends AnyWordSpec with ScalaFutures
         def now: LocalDateTime = time
       } 
 
-      val sut = new NotificationSubmissionServiceImpl(connector, storeDataService, FakeReferenceService, sessionService, FakeTimeService, auditService)
+      val sut = new NotificationSubmissionServiceImpl(connector, UAToNotificationService, FakeReferenceService, sessionService, FakeTimeService, auditService)
 
       val emptyUA = UserAnswers("id")
       val testNotification = Notification("123", "456", Instant.now(), Metadata(), Background(), AboutYou())
