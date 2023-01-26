@@ -54,6 +54,8 @@ POST       /use-this-telephone-number                 controllers.reason.CanWeUs
 GET        /use-this-telephone-number/change          controllers.reason.CanWeUseTelephoneNumberToContactYouController.onPageLoad(mode: Mode = CheckMode)
 POST       /use-this-telephone-number/change          controllers.reason.CanWeUseTelephoneNumberToContactYouController.onSubmit(mode: Mode = CheckMode)
 
+GET        /making-disclosure-now                       controllers.reason.CheckYourAnswersController.onPageLoad
+
 GET        /advice-given-email                        controllers.reason.WhatEmailAddressCanWeContactYouWithController.onPageLoad(mode: Mode = NormalMode)
 POST       /advice-given-email                        controllers.reason.WhatEmailAddressCanWeContactYouWithController.onSubmit(mode: Mode = NormalMode)
 GET        /advice-given-email/change                 controllers.reason.WhatEmailAddressCanWeContactYouWithController.onPageLoad(mode: Mode = CheckMode)

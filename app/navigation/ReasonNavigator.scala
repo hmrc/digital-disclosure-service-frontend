@@ -36,8 +36,7 @@ class ReasonNavigator @Inject()() {
     case WhyNotBeforeNowPage => _ => routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(NormalMode)
     case DidSomeoneGiveYouAdviceNotDeclareTaxPage => ua => ua.get(DidSomeoneGiveYouAdviceNotDeclareTaxPage) match {
       case Some(true) => routes.PersonWhoGaveAdviceController.onPageLoad(NormalMode)
-      //TODO go to CYA
-      case _ => routes.PersonWhoGaveAdviceController.onPageLoad(NormalMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad
     }
     case PersonWhoGaveAdvicePage => _ => routes.AdviceBusinessesOrOrgController.onPageLoad(NormalMode)
     case AdviceBusinessesOrOrgPage => ua => ua.get(AdviceBusinessesOrOrgPage) match {
@@ -51,7 +50,7 @@ class ReasonNavigator @Inject()() {
   }
 
   private val checkRouteMap: Page => UserAnswers => Boolean => Call = {
-    case _ => _ => _ => controllers.routes.IndexController.onPageLoad
+    case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
   def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasAnswerChanged: Boolean = true): Call = mode match {
