@@ -116,6 +116,14 @@ class ReasonNavigatorSpec extends SpecBase {
         navigator.nextPage(CanWeUseTelephoneNumberToContactYouPage, NormalMode, ua) mustBe routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode)
       }
 
+      "must go from CanWeUseEmailAddressToContactYouPage to CheckYourAnswersController" in {
+        navigator.nextPage(CanWeUseEmailAddressToContactYouPage, NormalMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must go from CanWeUseTelephoneNumberToContactYouPage to CheckYourAnswersController" in {
+        navigator.nextPage(CanWeUseTelephoneNumberToContactYouPage, NormalMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
     }
 
     "in Check mode" - {

@@ -63,6 +63,10 @@ class ReasonNavigator @Inject()() {
       case _ => routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode)
     }
 
+    case WhatEmailAddressCanWeContactYouWithPage => _ => routes.CheckYourAnswersController.onPageLoad
+
+    case WhatTelephoneNumberCanWeContactYouWithPage => _ => routes.CheckYourAnswersController.onPageLoad
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
