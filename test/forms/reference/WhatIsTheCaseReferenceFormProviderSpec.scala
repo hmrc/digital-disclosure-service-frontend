@@ -16,7 +16,7 @@
 
 package forms
 
-import forms.behaviours.{CaseReferenceBehaviours, StringFieldBehaviours}
+import forms.behaviours.CaseReferenceBehaviours
 import play.api.data.FormError
 
 class WhatIsTheCaseReferenceFormProviderSpec extends CaseReferenceBehaviours {

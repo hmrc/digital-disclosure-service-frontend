@@ -22,7 +22,7 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import viewmodels.checkAnswers._
-import pages.{TaxYearLiabilitiesPage, YourLegalInterpretationPage}
+import pages.TaxYearLiabilitiesPage
 import play.api.i18n.Messages
 
 case class CheckYourAnswersViewModel(
