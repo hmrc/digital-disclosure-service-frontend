@@ -16,29 +16,24 @@
 
 package forms
 
-import forms.behaviours.EmailBehaviours
+import forms.behaviours.OptionFieldBehaviours
+import models.WhatEmailAddressCanWeContactYouWith
 import play.api.data.FormError
 
-class WhatEmailAddressCanWeContactYouWithFormProviderSpec extends EmailBehaviours {
-
-  val requiredKey = "whatEmailAddressCanWeContactYouWith.error.required"
-  val validFormatKey = "whatEmailAddressCanWeContactYouWith.error.validFormat"
+class WhatEmailAddressCanWeContactYouWithFormProviderSpec extends OptionFieldBehaviours {
 
   val form = new WhatEmailAddressCanWeContactYouWithFormProvider()()
 
   ".value" - {
 
     val fieldName = "value"
+    val requiredKey = "whatEmailAddressCanWeContactYouWith.error.required"
 
-    behave like validEmailBindsValidData(
-      form,
-      fieldName
-    )
-
-    behave like emailBindsInvalidData(
+    behave like optionsField[WhatEmailAddressCanWeContactYouWith](
       form,
       fieldName,
-      validError = FormError(fieldName, validFormatKey, Seq())
+      validValues  = WhatEmailAddressCanWeContactYouWith.values,
+      invalidError = FormError(fieldName, "error.invalid")
     )
 
     behave like mandatoryField(

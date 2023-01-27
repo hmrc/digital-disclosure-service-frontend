@@ -16,9 +16,10 @@
 
 package pages
 
+import models.WhatEmailAddressCanWeContactYouWith
 import play.api.libs.json.JsPath
 
-case object WhatEmailAddressCanWeContactYouWithPage extends QuestionPage[String] {
+case object WhatEmailAddressCanWeContactYouWithPage extends QuestionPage[WhatEmailAddressCanWeContactYouWith] {
 
   override def path: JsPath = JsPath \ toString
 
