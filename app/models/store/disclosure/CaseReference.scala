@@ -23,7 +23,8 @@ final case class CaseReference (
   whatIsTheCaseReference: Option[String] = None
 ) {
   def isComplete = this match {
-    case CaseReference(Some(_), Some(_)) => true
+    case CaseReference(Some(true), Some(_)) => true
+    case CaseReference(Some(false), _) => true
     case _ => false
   }
 }
