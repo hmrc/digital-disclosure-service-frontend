@@ -17,7 +17,7 @@
 package navigation
 
 import models.{CheckMode, Mode, NormalMode, UserAnswers}
-import pages.{DoYouHaveACaseReferencePage, Page}
+import pages.{DoYouHaveACaseReferencePage, Page, WhatIsTheCaseReferencePage}
 import play.api.mvc.Call
 import controllers.reference.routes
 
@@ -30,8 +30,10 @@ class ReferenceNavigator @Inject()() {
 
     case DoYouHaveACaseReferencePage => ua => ua.get(DoYouHaveACaseReferencePage) match {
       case Some(true) => routes.WhatIsTheCaseReferenceController.onPageLoad(NormalMode)
-      case Some(false) => controllers.routes.TaskListController.onPageLoad
+      case _ => controllers.routes.TaskListController.onPageLoad
     }
+
+    case WhatIsTheCaseReferencePage => _ => controllers.routes.TaskListController.onPageLoad
 
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }

@@ -28,6 +28,7 @@ class LetterReferenceFormProvider @Inject() extends Mappings {
   def apply(): Form[String] =
     Form(
       "value" -> text("letterReference.error.required")
+        .transform[String](_.trim, identity)
         .verifying(regexp(formatRegex, "letterReference.error.format"))
     )
 }

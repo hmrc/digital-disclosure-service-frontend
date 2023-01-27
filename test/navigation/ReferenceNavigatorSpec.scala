@@ -18,7 +18,7 @@ package navigation
 
 import base.SpecBase
 import models.{NormalMode, UserAnswers}
-import pages.{DoYouHaveACaseReferencePage, Page}
+import pages.{DoYouHaveACaseReferencePage, Page, WhatIsTheCaseReferencePage}
 import controllers.reference.routes
 
 class ReferenceNavigatorSpec extends SpecBase {
@@ -41,6 +41,11 @@ class ReferenceNavigatorSpec extends SpecBase {
       "must go from DoYouHaveACaseReferencePage to WhatIsTheCaseReferenceController when selected No" in {
         val userAnswers = UserAnswers("id").set(DoYouHaveACaseReferencePage, false).success.value
         navigator.nextPage(DoYouHaveACaseReferencePage, NormalMode, userAnswers) mustBe controllers.routes.TaskListController.onPageLoad
+      }
+
+      "must go from WhatIsTheCaseReferencePage to TaskListController when the user inserts a case reference" in {
+        val userAnswers = UserAnswers("id").set(WhatIsTheCaseReferencePage, "answer").success.value
+        navigator.nextPage(WhatIsTheCaseReferencePage, NormalMode, userAnswers) mustBe controllers.routes.TaskListController.onPageLoad
       }
 
     }
