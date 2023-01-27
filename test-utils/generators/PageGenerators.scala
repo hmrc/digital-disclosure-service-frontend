@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryWhatIsTheCaseReferencePage: Arbitrary[WhatIsTheCaseReferencePage.type] =
+    Arbitrary(WhatIsTheCaseReferencePage)
+
   implicit lazy val arbitraryDoYouHaveACaseReferencePage: Arbitrary[DoYouHaveACaseReferencePage.type] =
     Arbitrary(DoYouHaveACaseReferencePage)
 
