@@ -19,4 +19,4 @@ POST       /other-liabilities-tax-credits                      controllers.other
 GET        /other-liabilities-tax-credits/change               controllers.otherLiabilities.DidYouReceiveTaxCreditController.onPageLoad(mode: Mode = CheckMode)
 POST       /other-liabilities-tax-credits/change               controllers.otherLiabilities.DidYouReceiveTaxCreditController.onSubmit(mode: Mode = CheckMode)
 
-GET        /other-liabilities-summary                          controllers.otherLiabilities.CheckYourAnswersController.onPageLoad
+GET        /review-other-liability-issues                      controllers.otherLiabilities.CheckYourAnswersController.onPageLoad
