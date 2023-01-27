@@ -17,16 +17,16 @@
 package views.reference
 
 import base.ViewSpecBase
-import forms.DoYouHaveACaseReferenceFormProvider
+import forms.WhatIsTheCaseReferenceFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
-import views.html.reference.DoYouHaveACaseReferenceView
+import views.html.reference.WhatIsTheCaseReferenceView
 import models.NormalMode
 
-class DoYouHaveACaseReferenceViewSpec extends ViewSpecBase with ViewMatchers {
+class WhatIsTheCaseReferenceViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new DoYouHaveACaseReferenceFormProvider()()
-  val page: DoYouHaveACaseReferenceView = inject[DoYouHaveACaseReferenceView]
+  val form = new WhatIsTheCaseReferenceFormProvider()()
+  val page: WhatIsTheCaseReferenceView = inject[WhatIsTheCaseReferenceView]
 
   private def createView: Html = page(form, NormalMode)(request, messages)
 
@@ -35,23 +35,23 @@ class DoYouHaveACaseReferenceViewSpec extends ViewSpecBase with ViewMatchers {
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("doYouHaveACaseReference.title"))
+      view.select("title").text() must include(messages("whatIsTheCaseReference.title"))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("doYouHaveACaseReference.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsTheCaseReference.heading")
     }
 
-    "contain body text" in {
-      view.getElementById("body").text() mustBe messages("doYouHaveACaseReference.label")
+    "contain body" in {
+      view.getElementsByClass("govuk-label").text() mustBe messages("whatIsTheCaseReference.body")
     }
 
-    "have yes" in {
-      view.getElementsByClass("govuk-radios__label").first().text() mustBe messages("doYouHaveACaseReference.yes")
+    "contain hint" in {
+      view.getElementsByClass("govuk-hint").text() mustBe messages("whatIsTheCaseReference.hint")
     }
 
-    "have no" in {
-      view.getElementsByClass("govuk-radios__label").last().text() mustBe messages("doYouHaveACaseReference.no")
+    "have a text input" in {
+      view.getElementsByClass("govuk-input").first must haveClass("govuk-!-width-full")
     }
 
     "display the continue button" in {
@@ -62,7 +62,6 @@ class DoYouHaveACaseReferenceViewSpec extends ViewSpecBase with ViewMatchers {
     "have a task list link" in {
       view.getElementById("task-list-link").attr("href") mustBe controllers.routes.TaskListController.onPageLoad.url
     }
-
   }
 
 }

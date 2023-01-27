@@ -1531,3 +1531,12 @@ doYouHaveACaseReference.error.required = Select yes if you have a case reference
 doYouHaveACaseReference.change.hidden = Case reference
 doYouHaveACaseReference.yes = Yes
 doYouHaveACaseReference.no = No
+
+whatIsTheCaseReference.title = What is the case reference?
+whatIsTheCaseReference.heading = What is the case reference?
+whatIsTheCaseReference.body = It begins with ‘CFSS’ or ‘CFS’ followed by 7 numbers.
+whatIsTheCaseReference.hint = For example, CFSS-1234567 or CFS-1234567.
+whatIsTheCaseReference.checkYourAnswersLabel = Case reference
+whatIsTheCaseReference.error.required = Enter the case reference
+whatIsTheCaseReference.error.format = Enter the case reference in the right format
+whatIsTheCaseReference.change.hidden = Case reference
