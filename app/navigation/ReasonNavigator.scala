@@ -53,11 +53,6 @@ class ReasonNavigator @Inject()() {
     
     case AdviceProfessionPage => _ => routes.AdviceGivenController.onPageLoad(NormalMode)
 
-    case CanWeUseEmailAddressToContactYouPage => ua => ua.get(CanWeUseEmailAddressToContactYouPage) match {
-      case Some(true) => routes.CheckYourAnswersController.onPageLoad
-      case _ => routes.WhatEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
-    }
-
     case CanWeUseTelephoneNumberToContactYouPage => ua => ua.get(CanWeUseTelephoneNumberToContactYouPage) match {
       case Some(true) => routes.CheckYourAnswersController.onPageLoad
       case _ => routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode)
@@ -69,7 +64,7 @@ class ReasonNavigator @Inject()() {
 
     case AdviceGivenPage => ua =>
       (ua.get(AdviceGivenPage), ua.get(WhatEmailAddressCanWeContactYouWithPage), ua.get(WhatTelephoneNumberCanWeContactYouWithPage)) match {
-        case (Some(value), Some(_), _) if value.contactPreference == AdviceContactPreference.Email => routes.CanWeUseEmailAddressToContactYouController.onPageLoad(NormalMode)
+        case (Some(value), Some(_), _) if value.contactPreference == AdviceContactPreference.Email => routes.WhatEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
         case (Some(value), None, _) if value.contactPreference == AdviceContactPreference.Email => routes.WhatEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
         case (Some(value), _, Some(_)) if value.contactPreference == AdviceContactPreference.Telephone => routes.CanWeUseTelephoneNumberToContactYouController.onPageLoad(NormalMode)
         case (Some(value), _, None) if value.contactPreference == AdviceContactPreference.Telephone => routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode)

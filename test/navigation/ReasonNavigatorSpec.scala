@@ -96,16 +96,6 @@ class ReasonNavigatorSpec extends SpecBase {
         navigator.nextPage(AdviceProfessionPage, NormalMode, UserAnswers("id")) mustBe routes.AdviceGivenController.onPageLoad(NormalMode)
       }
 
-      "if the user says yes must go from CanWeUseEmailAddressToContactYouPage to CheckYourAnswersController" in {
-        val ua = UserAnswers("id").set(CanWeUseEmailAddressToContactYouPage, true).success.value
-        navigator.nextPage(CanWeUseEmailAddressToContactYouPage, NormalMode, ua) mustBe routes.CheckYourAnswersController.onPageLoad
-      }
-
-      "if the user says no must go from CanWeUseEmailAddressToContactYouPage to WhatEmailAddressCanWeContactYouWithController" in {
-        val ua = UserAnswers("id").set(CanWeUseEmailAddressToContactYouPage, false).success.value
-        navigator.nextPage(CanWeUseEmailAddressToContactYouPage, NormalMode, ua) mustBe routes.WhatEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
-      }
-
       "if the user says yes must go from CanWeUseTelephoneNumberToContactYouPage to CheckYourAnswersController" in {
         val ua = UserAnswers("id").set(CanWeUseTelephoneNumberToContactYouPage, true).success.value
         navigator.nextPage(CanWeUseTelephoneNumberToContactYouPage, NormalMode, ua) mustBe routes.CheckYourAnswersController.onPageLoad
@@ -116,19 +106,11 @@ class ReasonNavigatorSpec extends SpecBase {
         navigator.nextPage(CanWeUseTelephoneNumberToContactYouPage, NormalMode, ua) mustBe routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode)
       }
 
-      "must go from WhatEmailAddressCanWeContactYouWithPage to CheckYourAnswersController" in {
-        navigator.nextPage(WhatEmailAddressCanWeContactYouWithPage, NormalMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad
-      }
-
-      "must go from WhatTelephoneNumberCanWeContactYouWithPage to CheckYourAnswersController" in {
-        navigator.nextPage(WhatTelephoneNumberCanWeContactYouWithPage, NormalMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad
-      }
-
-      "must go from AdviceGivenPage to CanWeUseEmailAddressToContactYouController if the user already entered an email" in {
+      "must go from AdviceGivenPage to WhatEmailAddressCanWeContactYouWithController if the user already entered an email" in {
         val adviceGiven = AdviceGiven("Advice",1,1960, AdviceContactPreference.Email)
         val adviceUa = UserAnswers("id").set(AdviceGivenPage, adviceGiven).success.value
-        val ua = adviceUa.set(WhatEmailAddressCanWeContactYouWithPage, "some@email.com").success.value
-        navigator.nextPage(AdviceGivenPage, NormalMode, ua) mustBe routes.CanWeUseEmailAddressToContactYouController.onPageLoad(NormalMode)
+        val ua = adviceUa.set(WhatEmailAddressCanWeContactYouWithPage, WhatEmailAddressCanWeContactYouWith.values.head).success.value
+        navigator.nextPage(AdviceGivenPage, NormalMode, ua) mustBe routes.WhatEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
       }
 
       "must go from AdviceGivenPage to WhatEmailAddressCanWeContactYouWithController if the user has not entered an email" in {

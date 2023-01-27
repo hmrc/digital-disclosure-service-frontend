@@ -27,8 +27,8 @@ class WhatEmailAddressCanWeContactYouWithViewSpec extends ViewSpecBase with View
 
   val form = new WhatEmailAddressCanWeContactYouWithFormProvider()()
   val page: WhatEmailAddressCanWeContactYouWithView = inject[WhatEmailAddressCanWeContactYouWithView]
-
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  val email = "test@test.com"
+  private def createView: Html = page(form, NormalMode, email)(request, messages)
 
   "view" should {
 
@@ -39,20 +39,12 @@ class WhatEmailAddressCanWeContactYouWithViewSpec extends ViewSpecBase with View
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-label--xl").text() mustBe messages("whatEmailAddressCanWeContactYouWith.heading")
-    }
-
-    "contain hint" in {
-      view.getElementsByClass("govuk-hint").text() mustBe messages("whatEmailAddressCanWeContactYouWith.hint")
+      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("whatEmailAddressCanWeContactYouWith.heading")
     }
 
     "display the continue button" in {
       view.getElementsByClass("govuk-button").first() must haveId ("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
-    }
-
-    "have a task list link" in {
-      view.getElementById("task-list-link").attr("href") mustBe controllers.routes.TaskListController.onPageLoad.url
     }
 
   }
