@@ -19,7 +19,7 @@ package navigation
 import javax.inject.{Inject, Singleton}
 import play.api.mvc.Call
 import pages._
-import models.{UserAnswers, Mode, NormalMode, CheckMode}
+import models.{AdviceContactPreference, CheckMode, Mode, NormalMode, UserAnswers}
 import models.WhyAreYouMakingADisclosure._
 import controllers.reason.routes
 
@@ -66,6 +66,15 @@ class ReasonNavigator @Inject()() {
     case WhatEmailAddressCanWeContactYouWithPage => _ => routes.CheckYourAnswersController.onPageLoad
 
     case WhatTelephoneNumberCanWeContactYouWithPage => _ => routes.CheckYourAnswersController.onPageLoad
+
+    case AdviceGivenPage => ua =>
+      (ua.get(AdviceGivenPage), ua.get(WhatEmailAddressCanWeContactYouWithPage), ua.get(WhatTelephoneNumberCanWeContactYouWithPage)) match {
+        case (Some(value), Some(_), _) if value.contactPreference == AdviceContactPreference.Email => routes.CanWeUseEmailAddressToContactYouController.onPageLoad(NormalMode)
+        case (Some(value), None, _) if value.contactPreference == AdviceContactPreference.Email => routes.WhatEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
+        case (Some(value), _, Some(_)) if value.contactPreference == AdviceContactPreference.Telephone => routes.CanWeUseTelephoneNumberToContactYouController.onPageLoad(NormalMode)
+        case (Some(value), _, None) if value.contactPreference == AdviceContactPreference.Telephone => routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode)
+        case (_, _, _) => routes.WhatIsTheReasonForMakingADisclosureNowController.onPageLoad(NormalMode)
+      }
 
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
