@@ -28,6 +28,7 @@ class WhatIsTheCaseReferenceFormProvider @Inject() extends Mappings {
   def apply(): Form[String] =
     Form(
       "value" -> text("whatIsTheCaseReference.error.required")
+        .transform[String](_.trim, identity)
         .verifying(regexp(formatRegex, "whatIsTheCaseReference.error.format"))
     )
 }
