@@ -33,10 +33,9 @@ object CountryOfYourOffshoreLiabilitySummary  {
 
         SummaryListRowViewModel(
           key     = "countryOfYourOffshoreLiability.checkYourAnswersLabel",
-          value   = ValueViewModel(HtmlFormat.escape(answer.toString).toString), // TODO: Create summary value
+          value   = ValueViewModel(HtmlFormat.escape(answer.toString).toString),
           actions = Seq(
-            // TODO: setup number
-            ActionItemViewModel("site.change", routes.CountryOfYourOffshoreLiabilityController.onPageLoad(1, CheckMode).url)
+            ActionItemViewModel("site.change", routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, CheckMode).url)
               .withVisuallyHiddenText(messages("countryOfYourOffshoreLiability.change.hidden"))
           )
         )

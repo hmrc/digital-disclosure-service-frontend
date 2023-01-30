@@ -72,7 +72,7 @@ class OffshoreNavigator @Inject()() {
       case Some(value) if(value == Set(AnotherIssue)) => routes.UnderWhatConsiderationController.onPageLoad(NormalMode)
       case Some(value) if(value.contains(NoExclusion)) => routes.TheMaximumValueOfAllAssetsController.onPageLoad(NormalMode)
       case _ => routes.HowMuchTaxHasNotBeenIncludedController.onPageLoad(NormalMode)
-    }  
+    }
 
     case UnderWhatConsiderationPage => _ => routes.HowMuchTaxHasNotBeenIncludedController.onPageLoad(NormalMode)
 
@@ -82,12 +82,12 @@ class OffshoreNavigator @Inject()() {
 
     case TaxBeforeFiveYearsPage => ua => ua.get(WhichYearsPage) match {
       case Some(whichYear) if whichYear.contains(PriorTo5Years) && whichYear.size == 1 => controllers.routes.MakingNilDisclosureController.onPageLoad
-      case _ => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(1, NormalMode)
+      case _ => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
     }
 
     case TaxBeforeSevenYearsPage => ua => ua.get(WhichYearsPage) match {
         case Some(whichYear) if whichYear.contains(PriorTo7Years) && whichYear.size == 1 => controllers.routes.MakingNilDisclosureController.onPageLoad
-        case _ => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(1, NormalMode)
+        case _ => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
       }
 
     case _ => _ => controllers.routes.IndexController.onPageLoad

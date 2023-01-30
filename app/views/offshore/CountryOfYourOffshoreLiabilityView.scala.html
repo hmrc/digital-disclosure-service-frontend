@@ -32,18 +32,18 @@
     govukButton: GovukButton
 )
 
-@(form: Form[_], mode: Mode, countryNumber: Int)(implicit request: Request[_], messages: Messages)
+@(index:Option[Int], form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = title(form,
-    messages(s"countryOfYourOffshoreLiability.title.$countryNumber"))) {
+    messages(s"countryOfYourOffshoreLiability.title"))) {
 
-    @formHelper(action = controllers.offshore.routes.CountryOfYourOffshoreLiabilityController.onSubmit(countryNumber, mode)) {
+    @formHelper(action = controllers.offshore.routes.CountryOfYourOffshoreLiabilityController.onSubmit(index, mode)) {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
-        @heading(Text(messages(s"countryOfYourOffshoreLiability.heading.$countryNumber")))
+        @heading(Text(messages(s"countryOfYourOffshoreLiability.heading")))
 
         @govukSelect(Select(
             id = "country",
