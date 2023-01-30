@@ -16,11 +16,12 @@
 
 package forms
 
-import forms.behaviours.{IntFieldBehaviours, StringFieldBehaviours, OptionFieldBehaviours}
+import forms.behaviours.{MonthYearBehaviours, StringFieldBehaviours, OptionFieldBehaviours}
 import play.api.data.FormError
-import models.AdviceContactPreference
+import models.{MonthYear, AdviceContactPreference}
+import org.scalacheck.Arbitrary.arbitrary
 
-class AdviceGivenFormProviderSpec extends OptionFieldBehaviours with StringFieldBehaviours with IntFieldBehaviours {
+class AdviceGivenFormProviderSpec extends OptionFieldBehaviours with StringFieldBehaviours with MonthYearBehaviours {
 
   val form = new AdviceGivenFormProvider()()
 
@@ -52,44 +53,18 @@ class AdviceGivenFormProviderSpec extends OptionFieldBehaviours with StringField
   }
 
   
-  ".date.month" - {
-    val minimum = 1
-    val maximum = 12
+  ".date" - {
+    val validData = arbitrary[MonthYear]
 
-    val fieldName = "date.month"
-    val requiredKey = "adviceGiven.error.date.month.required"
-    val formatKey = "adviceGiven.error.format"
-    val rangeKey = "adviceGiven.error.date.month.max"
+    behave like monthYearField(form, "date", validData)
 
+    behave like monthYearFieldInFuture(form, "date", FormError("date", "adviceGiven.date.error.invalidFutureDate"))
 
-    val validDataGenerator = intsInRangeWithCommas(minimum, maximum)
+    behave like monthYearFieldWithMin(form, "date", FormError("date", "adviceGiven.date.error.invalidPastDate"))
 
-    behave like fieldThatBindsValidData(
-      form,
-      fieldName,
-      validDataGenerator
-    )
+    behave like mandatoryMonthYearField(form, "date", "adviceGiven.date.error.required.all")
 
-    behave like intField(
-      form,
-      fieldName,
-      nonNumericError  = FormError(fieldName, formatKey),
-      wholeNumberError = FormError(fieldName, formatKey)
-    )
-
-    behave like intFieldWithRange(
-      form,
-      fieldName,
-      minimum       = minimum,
-      maximum       = maximum,
-      expectedError = FormError(fieldName, rangeKey, Seq(minimum, maximum))
-    )
-
-    behave like mandatoryField(
-      form,
-      fieldName,
-      requiredError = FormError(fieldName, requiredKey)
-    )
+    behave like monthYearFieldCheckingMaxMonth(form, "date", validData, FormError("date.month", "adviceGiven.date.error.invalidMonth"))
   }
 
   ".contact" - {

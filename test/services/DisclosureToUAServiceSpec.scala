@@ -141,7 +141,7 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
         Some(true), 
         Some("Some business"), 
         Some("Some profession"),
-        Some(AdviceGiven("Some advice", 12, 2012, AdviceContactPreference.No)),
+        Some(AdviceGiven("Some advice", MonthYear(12, 2012), AdviceContactPreference.No)),
         Some(WhatEmailAddressCanWeContactYouWith.values.head),
         Some(false),
         Some("Telephone")
@@ -155,7 +155,7 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
       updatedUserAnswers.get(AdviceBusinessesOrOrgPage)                            shouldEqual Some(true)
       updatedUserAnswers.get(AdviceBusinessNamePage)                               shouldEqual Some("Some business")
       updatedUserAnswers.get(AdviceProfessionPage)                                 shouldEqual Some("Some profession")
-      updatedUserAnswers.get(AdviceGivenPage)                                      shouldEqual Some(AdviceGiven("Some advice", 12, 2012, AdviceContactPreference.No))
+      updatedUserAnswers.get(AdviceGivenPage)                                      shouldEqual Some(AdviceGiven("Some advice", MonthYear(12, 2012), AdviceContactPreference.No))
       updatedUserAnswers.get(WhatEmailAddressCanWeContactYouWithPage)              shouldEqual Some(WhatEmailAddressCanWeContactYouWith.values.head)
       updatedUserAnswers.get(CanWeUseTelephoneNumberToContactYouPage)              shouldEqual Some(false)
       updatedUserAnswers.get(WhatTelephoneNumberCanWeContactYouWithPage)           shouldEqual Some("Telephone")

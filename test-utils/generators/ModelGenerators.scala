@@ -37,7 +37,15 @@ trait ModelGenerators {
         month <- Gen.choose(1, 12)
         year <- Gen.choose(1850, 2023)
         contactPref <- arbitrary[AdviceContactPreference]
-      } yield AdviceGiven(adviceGiven, month, year, contactPref)
+      } yield AdviceGiven(adviceGiven, MonthYear(month, year), contactPref)
+    }
+
+    implicit lazy val arbitraryMonthYear: Arbitrary[MonthYear] = 
+      Arbitrary {
+      for {
+        month <- Gen.choose(1, 12)
+        year <- Gen.choose(1850, 2023)
+      } yield MonthYear(month, year)
     }
 
   implicit lazy val arbitraryAdviceContactPreference: Arbitrary[AdviceContactPreference] =

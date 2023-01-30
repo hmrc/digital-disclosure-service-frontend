@@ -34,7 +34,7 @@ object AdviceGivenRowsSummary  {
     answers.get(AdviceGivenPage).map { answer =>
       Seq(
         adviceGivenRow(answer.adviceGiven),
-        dateRow(answer.adviceMonth, answer.adviceYear),
+        dateRow(answer.monthYear.month, answer.monthYear.year),
         contactRow(answer.contactPreference)
       )
     }.getOrElse(Nil)
