@@ -26,7 +26,7 @@ class OtherLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues {
   "isComplete" - {
 
     "must return true where they have answered necessary questions" in {
-      val otherLiabilities = OtherLiabilities(Some(Set(OtherLiabilityIssues.VatIssues)), Some("test"), Some("test"), Some(true))
+      val otherLiabilities = OtherLiabilities(Some(Set(OtherLiabilityIssues.VatIssues)), None, None, Some(true))
       otherLiabilities.isComplete mustBe true
     }
 

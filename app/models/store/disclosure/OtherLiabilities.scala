@@ -26,7 +26,8 @@ final case class OtherLiabilities(
   taxCreditsReceived: Option[Boolean] = None
 ) {
   def isComplete = this match {
-    case OtherLiabilities(Some(_), Some(_), Some(_), Some(_)) => true
+    case OtherLiabilities(Some(_), _, _, Some(_)) => true
+    case OtherLiabilities(Some(_), None, None, Some(_)) => true
     case _ => false
   }
 }
