@@ -27,17 +27,17 @@ class OtherLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues {
 
     "must return true where they have answered necessary questions" in {
       val otherLiabilities = OtherLiabilities(Some(Set(OtherLiabilityIssues.VatIssues)), None, None, Some(true))
-      otherLiabilities.isComplete mustBe true
+      otherLiabilities.isComplete(false) mustBe true
     }
 
     "must return true where they have answered all questions" in {
       val otherLiabilities = OtherLiabilities(Some(Set(OtherLiabilityIssues.Other, OtherLiabilityIssues.InheritanceTaxIssues)), Some("Some gift"), Some("Some issue"), Some(false))
-      otherLiabilities.isComplete mustBe true
+      otherLiabilities.isComplete(false) mustBe true
     }
 
     "must return false where they have not answered all necessary questions" in {
       val otherLiabilities = OtherLiabilities()
-      otherLiabilities.isComplete mustBe false
+      otherLiabilities.isComplete(false) mustBe false
     }
 
   }

@@ -123,7 +123,12 @@ class TaskListController @Inject()(
   private def buildOtherLiabilityIssueRow(userAnswers: UserAnswers)(implicit messages: Messages): TaskListRow = {
 
     val firstPage = userAnswers.get(OtherLiabilityIssuesPage)
-    val isSectionComplete = dateDisclosureService.uaToOtherLiabilities(userAnswers).isComplete
+    val isAnIndividual = userAnswers.get(RelatesToPage) match {
+      case Some(RelatesTo.AnIndividual) => true 
+      case Some(RelatesTo.AnEstate) => true
+      case _ => false
+    }
+    val isSectionComplete = dateDisclosureService.uaToOtherLiabilities(userAnswers).isComplete(isAnIndividual)
     val link = if(isSectionComplete) controllers.otherLiabilities.routes.CheckYourAnswersController.onPageLoad
     else otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(NormalMode)
 

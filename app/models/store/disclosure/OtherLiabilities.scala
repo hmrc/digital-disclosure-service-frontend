@@ -25,11 +25,17 @@ final case class OtherLiabilities(
   other: Option[String] = None,
   taxCreditsReceived: Option[Boolean] = None
 ) {
-  def isComplete = this match {
-    case OtherLiabilities(Some(_), _, _, Some(_)) => true
-    case OtherLiabilities(Some(_), None, None, Some(_)) => true
-    case _ => false
+  def isComplete(isAnIndividual: Boolean) = {
+    val taxCreditsRequiredAndCompleted = (!isAnIndividual || taxCreditsReceived.isDefined)
+    this match {
+	    case OtherLiabilities(Some(set), _, _, _) if inheritanceTaxComplete(set) && otherComplete(set) && taxCreditsRequiredAndCompleted => true
+      case OtherLiabilities(Some(set), _, _, _) if taxCreditsRequiredAndCompleted => true
+      case _ => false
+	  }
   }
+
+  def inheritanceTaxComplete(set: Set[OtherLiabilityIssues]) = set.contains(OtherLiabilityIssues.InheritanceTaxIssues) && inheritanceGift.isDefined
+  def otherComplete(set: Set[OtherLiabilityIssues]) = set.contains(OtherLiabilityIssues.Other) && other.isDefined
 }
 
 object OtherLiabilities {
