@@ -47,6 +47,10 @@ class WhatEmailAddressCanWeContactYouWithViewSpec extends ViewSpecBase with View
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 
+    "have a task list link" in {
+      view.getElementById("task-list-link").attr("href") mustBe controllers.routes.TaskListController.onPageLoad.url
+    }
+
   }
 
 }

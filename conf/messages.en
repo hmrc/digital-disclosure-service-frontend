@@ -1375,8 +1375,6 @@ countryOfYourOffshoreLiability.error.required.3 = Enter the country or territory
 countryOfYourOffshoreLiability.error.length = CountryOfYourOffshoreLiability must be 100 characters or less
 countryOfYourOffshoreLiability.change.hidden = CountryOfYourOffshoreLiability
 countryOfYourOffshoreLiability.button.add = Add another country or territory
-countryOfYourOffshoreLiability.taskList.link.text = Return to the list of tasks
-countryOfYourOffshoreLiability.taskList.link.url = http://localhost:15003/digital-disclosure/disclosure-list-of-tasks
 
 checkYourAnswers.yourLegalInterpretation.heading = Legal interpretation
 
