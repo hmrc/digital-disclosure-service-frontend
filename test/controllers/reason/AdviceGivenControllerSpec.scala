@@ -18,7 +18,7 @@ package controllers
 
 import base.SpecBase
 import forms.AdviceGivenFormProvider
-import models.{NormalMode, AdviceGiven, UserAnswers, AdviceContactPreference}
+import models.{MonthYear, NormalMode, AdviceGiven, UserAnswers, AdviceContactPreference}
 import navigation.{FakeReasonNavigator, ReasonNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
@@ -42,7 +42,7 @@ class AdviceGivenControllerSpec extends SpecBase with MockitoSugar {
 
   lazy val adviceGivenRoute = reason.routes.AdviceGivenController.onPageLoad(NormalMode).url
 
-  val adviceGiven = AdviceGiven("Advice", 12, 2021, AdviceContactPreference.Email)
+  val adviceGiven = AdviceGiven("Advice", MonthYear(12, 2021), AdviceContactPreference.Email)
   val userAnswers = UserAnswers(userAnswersId).set(AdviceGivenPage, adviceGiven).success.value
 
   "AdviceGiven Controller" - {

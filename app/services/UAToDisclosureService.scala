@@ -59,9 +59,8 @@ class UAToDisclosureServiceImpl extends UAToDisclosureService {
       adviceBusinessName = userAnswers.get(AdviceBusinessNamePage),
       personProfession = userAnswers.get(AdviceProfessionPage),
       adviceGiven = userAnswers.get(AdviceGivenPage),
-      canWeUseEmail = userAnswers.get(CanWeUseEmailAddressToContactYouPage),
-      canWeUsePhone = userAnswers.get(CanWeUseTelephoneNumberToContactYouPage),
       email = userAnswers.get(WhatEmailAddressCanWeContactYouWithPage),
+      canWeUsePhone = userAnswers.get(CanWeUseTelephoneNumberToContactYouPage),
       telephone = userAnswers.get(WhatTelephoneNumberCanWeContactYouWithPage)
     )
 

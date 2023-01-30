@@ -125,10 +125,9 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
         PageWithValue(AdviceBusinessesOrOrgPage, true),
         PageWithValue(AdviceBusinessNamePage, "Some business"),
         PageWithValue(AdviceProfessionPage, "Some profession"),
-        PageWithValue(AdviceGivenPage, AdviceGiven("Some advice", 12, 2012, AdviceContactPreference.No)),
-        PageWithValue(CanWeUseEmailAddressToContactYouPage, false),
+        PageWithValue(AdviceGivenPage, AdviceGiven("Some advice", MonthYear(12, 2012), AdviceContactPreference.No)),
+        PageWithValue(WhatEmailAddressCanWeContactYouWithPage, WhatEmailAddressCanWeContactYouWith.values.head),
         PageWithValue(CanWeUseTelephoneNumberToContactYouPage, false),
-        PageWithValue(WhatEmailAddressCanWeContactYouWithPage, "Email"),
         PageWithValue(WhatTelephoneNumberCanWeContactYouWithPage, "Telephone"),
       )
       val userAnswers = PageWithValue.pagesToUserAnswers(pages, emptyUA).success.value
@@ -141,10 +140,9 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
         Some(true), 
         Some("Some business"), 
         Some("Some profession"),
-        Some(AdviceGiven("Some advice", 12, 2012, AdviceContactPreference.No)),
+        Some(AdviceGiven("Some advice", MonthYear(12, 2012), AdviceContactPreference.No)),
+        Some(WhatEmailAddressCanWeContactYouWith.values.head),
         Some(false),
-        Some(false),
-        Some("Email"),
         Some("Telephone")
       )
       sut.uaToReasonForDisclosingNow(userAnswers) shouldEqual expected

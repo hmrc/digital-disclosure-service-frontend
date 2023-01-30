@@ -19,7 +19,7 @@ package models.store.disclosure
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
-import models.{WhyAreYouMakingADisclosure, AdviceGiven, AdviceContactPreference}
+import models.{MonthYear, WhyAreYouMakingADisclosure, AdviceGiven, AdviceContactPreference}
 
 class ReasonForDisclosingNowSpec extends AnyFreeSpec with Matchers with OptionValues {
 
@@ -40,7 +40,7 @@ class ReasonForDisclosingNowSpec extends AnyFreeSpec with Matchers with OptionVa
         Some(false), 
         None, 
         Some("Some profession"),
-        Some(AdviceGiven("Some advice", 12, 2012, AdviceContactPreference.No))
+        Some(AdviceGiven("Some advice", MonthYear(12, 2012), AdviceContactPreference.No))
       )
       reasonForDisclosingNow.isComplete mustBe true
     }

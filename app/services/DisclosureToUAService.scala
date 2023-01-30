@@ -74,9 +74,8 @@ class DisclosureToUAServiceImpl @Inject()(
       adviceBusinessName.map(PageWithValue(AdviceBusinessNamePage, _)),
       personProfession.map(PageWithValue(AdviceProfessionPage, _)),
       adviceGiven.map(PageWithValue(AdviceGivenPage, _)),
-      canWeUseEmail.map(PageWithValue(CanWeUseEmailAddressToContactYouPage, _)),
-      canWeUsePhone.map(PageWithValue(CanWeUseTelephoneNumberToContactYouPage, _)),
       email.map(PageWithValue(WhatEmailAddressCanWeContactYouWithPage, _)),
+      canWeUsePhone.map(PageWithValue(CanWeUseTelephoneNumberToContactYouPage, _)),
       telephone.map(PageWithValue(WhatTelephoneNumberCanWeContactYouWithPage, _))
     ).flatten
     

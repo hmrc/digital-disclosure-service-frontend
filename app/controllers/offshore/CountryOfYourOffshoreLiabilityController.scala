@@ -24,7 +24,6 @@ import javax.inject.Inject
 import models.{Mode, UserAnswers}
 import navigation.OffshoreNavigator
 import pages.CountryOfYourOffshoreLiabilityPage
-import play.api.Logging
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -45,7 +44,7 @@ class CountryOfYourOffshoreLiabilityController @Inject()(
                                         formProvider: CountryOfYourOffshoreLiabilityFormProvider,
                                         val controllerComponents: MessagesControllerComponents,
                                         view: CountryOfYourOffshoreLiabilityView
-                                    )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with Logging {
+                                    )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
 
   def onPageLoad(index:Option[Int] = None, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {

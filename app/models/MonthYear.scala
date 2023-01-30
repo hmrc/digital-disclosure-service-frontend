@@ -14,17 +14,12 @@
  * limitations under the License.
  */
 
-package forms
+package models
 
-import javax.inject.Inject
+import play.api.libs.json._
 
-import forms.mappings.Mappings
-import play.api.data.Form
+final case class MonthYear(month: Int, year: Int)
 
-class CanWeUseEmailAddressToContactYouFormProvider @Inject() extends Mappings {
-
-  def apply(): Form[Boolean] =
-    Form(
-      "value" -> boolean("canWeUseEmailAddressToContactYou.error.required")
-    )
+object MonthYear {
+  implicit val format = Json.format[MonthYear]
 }

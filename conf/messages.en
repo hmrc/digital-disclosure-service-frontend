@@ -1310,22 +1310,22 @@ otherLiabilityIssues.vatIssues = VAT issues
 otherLiabilityIssues.inheritanceTaxIssues = Inheritance tax issues
 otherLiabilityIssues.class2National = Class 2 National Insurance contributions issues
 otherLiabilityIssues.other = Other
-otherLiabilityIssues.noExclusion = No, I do not have any other liability issues to fix
-otherLiabilityIssues.checkYourAnswersLabel = Type of liability issues to fix
-otherLiabilityIssues.error.required = Select any other liability issues to fix
-otherLiabilityIssues.error.validSelection = Select the liability issues you need to fix or select No, I do not have any other liability issues to fix
+otherLiabilityIssues.noExclusion = No, I do not have any other liability issues
+otherLiabilityIssues.checkYourAnswersLabel = Other liability issues
+otherLiabilityIssues.error.required = Select any other liability issues
+otherLiabilityIssues.error.validSelection = Select the liability issues you have or select ‘No, I do not have any other liability issues’
 otherLiabilityIssues.change.hidden = OtherLiabilityIssues
 
 whatOtherLiabilityIssues.title = Can you describe what other liability issues you need to fix?
 whatOtherLiabilityIssues.heading = Can you describe what other liability issues you need to fix?
-whatOtherLiabilityIssues.checkYourAnswersLabel = Other liability issues you need to fix
+whatOtherLiabilityIssues.checkYourAnswersLabel = Other liability issue description
 whatOtherLiabilityIssues.error.required = Enter the other liability issues you need to fix
 whatOtherLiabilityIssues.error.length = The other liability issues must be between 1 and 5,000 characters
 whatOtherLiabilityIssues.change.hidden = WhatOtherLiabilityIssues
 
 describeTheGift.title = Can you describe the gift (known as a chargeable transfer) that your issue is about?
 describeTheGift.heading = Can you describe the gift (known as a chargeable transfer) that your issue is about?
-describeTheGift.checkYourAnswersLabel = Chargeable transfer
+describeTheGift.checkYourAnswersLabel = Gift description
 describeTheGift.error.required = Enter a description of the gift that your issue is about
 describeTheGift.error.length = The description of the gift must be between 1 and 5,000 characters
 describeTheGift.change.hidden = DescribeTheGift
@@ -1359,8 +1359,8 @@ didYouReceiveTaxCredit.llp.error.required = Select yes if you received tax credi
 didYouReceiveTaxCredit.trust.error.required = Select yes if you received tax credits
 didYouReceiveTaxCredit.change.hidden = DidYouReceiveTaxCredit
 
-checkYourAnswers.otherLiabilities.title = Other liabilities summary
-checkYourAnswers.otherLiabilities.heading = Other liabilities summary
+checkYourAnswers.otherLiabilities.title = Review other liability issues
+checkYourAnswers.otherLiabilities.heading = Review other liability issues
 
 countryOfYourOffshoreLiability.title = 'What is the country or territory of the first offshore liability?'
 countryOfYourOffshoreLiability.heading = 'What is the country or territory of the first offshore liability?'
@@ -1369,8 +1369,6 @@ countryOfYourOffshoreLiability.error.required = Enter the country or territory o
 countryOfYourOffshoreLiability.error.length = CountryOfYourOffshoreLiability must be 100 characters or less
 countryOfYourOffshoreLiability.change.hidden = CountryOfYourOffshoreLiability
 countryOfYourOffshoreLiability.button.add = Add another country or territory
-countryOfYourOffshoreLiability.taskList.link.text = Return to the list of tasks
-countryOfYourOffshoreLiability.taskList.link.url = http://localhost:15003/digital-disclosure/disclosure-list-of-tasks
 
 checkYourAnswers.yourLegalInterpretation.heading = Legal interpretation
 
@@ -1449,6 +1447,7 @@ didSomeoneGiveYouAdviceNotDeclareTax.change.hidden = Did someone give you advice
 
 adviceProfession.title = What was the profession of the person who gave this advice?
 adviceProfession.heading = What was the profession of the person who gave this advice?
+adviceProfession.hint = For example, an accountant or tax advisor.
 adviceProfession.checkYourAnswersLabel = Profession of person who gave advice
 adviceProfession.error.required = Enter the profession of the person who gave advice
 adviceProfession.error.length = The profession of the person who gave advice must be between 4 and 30 characters
@@ -1466,12 +1465,12 @@ adviceGiven.date.checkYourAnswersLabel = Date advice was given
 adviceGiven.date.change.hidden = Date advice was given
 adviceGiven.date.paragraph = Provide the month and year.
 adviceGiven.date.hint = For example, 3 2017.
-adviceGiven.error.date.month.required = Date must include a month
-adviceGiven.error.date.year.required = Date must include a year
-adviceGiven.error.date.month.max = Enter a real date - there are only 12 months in a year
-adviceGiven.error.date.min = Date must be after the year 1849
-adviceGiven.error.date.past = Date must be in the past
-adviceGiven.error.format = Enter the date in the right format
+adviceGiven.date.error.required.all = Enter the month and year of when the advice was first given
+adviceGiven.date.error.required = Date must include a {0}
+adviceGiven.date.error.invalid = Enter the date in the right format
+adviceGiven.date.error.invalidMonth = Enter a real date - there are only 12 months in a year
+adviceGiven.date.error.invalidFutureDate = Date must be in the past
+adviceGiven.date.error.invalidPastDate = Date must be after the year 1849
 adviceGiven.contact = Can HMRC contact you to discuss the advice?
 adviceGiven.contact.checkYourAnswersLabel = Can HMRC contact you to discuss the advice?
 adviceGiven.contact.change.hidden = Can HMRC contact you to discuss the advice?
@@ -1479,14 +1478,6 @@ adviceGiven.contact.email = Yes, by email
 adviceGiven.contact.telephone = Yes, by telephone
 adviceGiven.contact.no = No
 adviceGiven.error.contact.required = Select yes if HMRC can contact you to discuss the advice
-
-canWeUseEmailAddressToContactYou.title = Can we use the email address {0} to contact you with?
-canWeUseEmailAddressToContactYou.heading = Can we use the email address {0} to contact you with?
-canWeUseEmailAddressToContactYou.yes = Yes
-canWeUseEmailAddressToContactYou.no = No
-canWeUseEmailAddressToContactYou.checkYourAnswersLabel = canWeUseEmailAddressToContactYou
-canWeUseEmailAddressToContactYou.error.required = Select yes if we can use this email address
-canWeUseEmailAddressToContactYou.change.hidden = CanWeUseEmailAddressToContactYou
 
 canWeUseTelephoneNumberToContactYou.title = Can we use the telephone number {0} to contact you with?
 canWeUseTelephoneNumberToContactYou.heading = Can we use the telephone number {0} to contact you with?
@@ -1500,14 +1491,6 @@ checkYourAnswers.reason.title = Summary
 checkYourAnswers.reason.heading = Summary
 checkYourAnswers.reason.section1.heading = Reason for making a disclosure now
 checkYourAnswers.reason.section2.heading = About the advice given
-
-whatEmailAddressCanWeContactYouWith.title = What email address can we contact you with?
-whatEmailAddressCanWeContactYouWith.heading = What email address can we contact you with?
-whatEmailAddressCanWeContactYouWith.hint = For example, name@example.com.
-whatEmailAddressCanWeContactYouWith.checkYourAnswersLabel = Email address
-whatEmailAddressCanWeContactYouWith.error.required = Enter your email address
-whatEmailAddressCanWeContactYouWith.error.validFormat = Enter your email address in the right format
-whatEmailAddressCanWeContactYouWith.change.hidden = Email address
 
 whatTelephoneNumberCanWeContactYouWith.title = What telephone number can we contact you with?
 whatTelephoneNumberCanWeContactYouWith.heading = What telephone number can we contact you with?
@@ -1535,3 +1518,11 @@ whatIsTheCaseReference.checkYourAnswersLabel = Case reference
 whatIsTheCaseReference.error.required = Enter the case reference
 whatIsTheCaseReference.error.format = Enter the case reference in the right format
 whatIsTheCaseReference.change.hidden = Case reference
+
+whatEmailAddressCanWeContactYouWith.title = Which email address can we contact you with?
+whatEmailAddressCanWeContactYouWith.heading = Which email address can we contact you with?
+whatEmailAddressCanWeContactYouWith.existingEmail = {0}
+whatEmailAddressCanWeContactYouWith.differentEmail = A different email address
+whatEmailAddressCanWeContactYouWith.checkYourAnswersLabel = Which email address can we contact you with?
+whatEmailAddressCanWeContactYouWith.error.required = Select whatEmailAddressCanWeContactYouWith
+whatEmailAddressCanWeContactYouWith.change.hidden = WhatEmailAddressCanWeContactYouWith
