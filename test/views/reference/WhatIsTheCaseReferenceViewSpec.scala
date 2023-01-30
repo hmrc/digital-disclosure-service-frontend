@@ -14,33 +14,44 @@
  * limitations under the License.
  */
 
-package views.reason
+package views.reference
 
 import base.ViewSpecBase
-import forms.CanWeUseEmailAddressToContactYouFormProvider
+import forms.WhatIsTheCaseReferenceFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
-import views.html.reason.CanWeUseEmailAddressToContactYouView
+import views.html.reference.WhatIsTheCaseReferenceView
 import models.NormalMode
 
-class CanWeUseEmailAddressToContactYouViewSpec extends ViewSpecBase with ViewMatchers {
+class WhatIsTheCaseReferenceViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new CanWeUseEmailAddressToContactYouFormProvider()()
-  val page: CanWeUseEmailAddressToContactYouView = inject[CanWeUseEmailAddressToContactYouView]
-  val email = "test@test.com"
+  val form = new WhatIsTheCaseReferenceFormProvider()()
+  val page: WhatIsTheCaseReferenceView = inject[WhatIsTheCaseReferenceView]
 
-  private def createView: Html = page(form, NormalMode, email)(request, messages)
+  private def createView: Html = page(form, NormalMode)(request, messages)
 
   "view" should {
 
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("canWeUseEmailAddressToContactYou.title", email))
+      view.select("title").text() must include(messages("whatIsTheCaseReference.title"))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("canWeUseEmailAddressToContactYou.heading", email)
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsTheCaseReference.heading")
+    }
+
+    "contain body" in {
+      view.getElementsByClass("govuk-label").text() mustBe messages("whatIsTheCaseReference.body")
+    }
+
+    "contain hint" in {
+      view.getElementsByClass("govuk-hint").text() mustBe messages("whatIsTheCaseReference.hint")
+    }
+
+    "have a text input" in {
+      view.getElementsByClass("govuk-input").first must haveClass("govuk-!-width-full")
     }
 
     "display the continue button" in {
@@ -51,7 +62,6 @@ class CanWeUseEmailAddressToContactYouViewSpec extends ViewSpecBase with ViewMat
     "have a task list link" in {
       view.getElementById("task-list-link").attr("href") mustBe controllers.routes.TaskListController.onPageLoad.url
     }
-
   }
 
 }

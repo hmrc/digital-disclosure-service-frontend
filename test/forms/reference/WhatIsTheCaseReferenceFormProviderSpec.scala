@@ -16,22 +16,30 @@
 
 package forms
 
-import forms.behaviours.BooleanFieldBehaviours
+import forms.behaviours.CaseReferenceBehaviours
 import play.api.data.FormError
 
-class CanWeUseEmailAddressToContactYouFormProviderSpec extends BooleanFieldBehaviours {
+class WhatIsTheCaseReferenceFormProviderSpec extends CaseReferenceBehaviours {
 
-  val form = new CanWeUseEmailAddressToContactYouFormProvider()()
+  val requiredKey = "whatIsTheCaseReference.error.required"
+  val formatErrorKey = "whatIsTheCaseReference.error.format"
+  val maxLength = 100
+
+  val form = new WhatIsTheCaseReferenceFormProvider()()
 
   ".value" - {
 
     val fieldName = "value"
-    val requiredKey = "canWeUseEmailAddressToContactYou.error.required"
 
-    behave like booleanField(
+    behave like fieldThatBindsValidCaseReference(
+      form,
+      fieldName
+    )
+
+    behave like fieldWithInvalidCaseReference(
       form,
       fieldName,
-      invalidError = FormError(fieldName, "error.boolean")
+      formatErrorKey
     )
 
     behave like mandatoryField(

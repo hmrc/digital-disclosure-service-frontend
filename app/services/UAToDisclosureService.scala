@@ -19,12 +19,10 @@ package services
 import models._
 import models.store.disclosure._
 import pages._
-import com.google.inject.{Inject, Singleton, ImplementedBy}
+import com.google.inject.{Singleton, ImplementedBy}
 
 @Singleton
-class UAToDisclosureServiceImpl @Inject()(
-  notificationService: UAToNotificationService
-) extends UAToDisclosureService {
+class UAToDisclosureServiceImpl extends UAToDisclosureService {
   
   def uaToOtherLiabilities(userAnswers: UserAnswers): OtherLiabilities = 
     OtherLiabilities(
@@ -61,17 +59,23 @@ class UAToDisclosureServiceImpl @Inject()(
       adviceBusinessName = userAnswers.get(AdviceBusinessNamePage),
       personProfession = userAnswers.get(AdviceProfessionPage),
       adviceGiven = userAnswers.get(AdviceGivenPage),
-      canWeUseEmail = userAnswers.get(CanWeUseEmailAddressToContactYouPage),
-      canWeUsePhone = userAnswers.get(CanWeUseTelephoneNumberToContactYouPage),
       email = userAnswers.get(WhatEmailAddressCanWeContactYouWithPage),
+      canWeUsePhone = userAnswers.get(CanWeUseTelephoneNumberToContactYouPage),
       telephone = userAnswers.get(WhatTelephoneNumberCanWeContactYouWithPage)
     )
 
+  def uaToCaseReference(userAnswers: UserAnswers): CaseReference = 
+    CaseReference(
+      doYouHaveACaseReference = userAnswers.get(DoYouHaveACaseReferencePage),
+      whatIsTheCaseReference = userAnswers.get(WhatIsTheCaseReferencePage)
+    )  
+
 }
 
-@ImplementedBy(classOf[UAToNotificationServiceImpl])
+@ImplementedBy(classOf[UAToDisclosureServiceImpl])
 trait UAToDisclosureService {
   def uaToOtherLiabilities(userAnswers: UserAnswers): OtherLiabilities
   def uaToOffshoreLiabilities(userAnswers: UserAnswers): OffshoreLiabilities
   def uaToReasonForDisclosingNow(userAnswers: UserAnswers): ReasonForDisclosingNow 
+  def uaToCaseReference(userAnswers: UserAnswers): CaseReference 
 }

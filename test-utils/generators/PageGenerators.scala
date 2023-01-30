@@ -21,14 +21,17 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryWhatEmailAddressCanWeContactYouWithPage: Arbitrary[WhatEmailAddressCanWeContactYouWithPage.type] =
+    Arbitrary(WhatEmailAddressCanWeContactYouWithPage)
+
+  implicit lazy val arbitraryWhatIsTheCaseReferencePage: Arbitrary[WhatIsTheCaseReferencePage.type] =
+    Arbitrary(WhatIsTheCaseReferencePage)
+
   implicit lazy val arbitraryDoYouHaveACaseReferencePage: Arbitrary[DoYouHaveACaseReferencePage.type] =
     Arbitrary(DoYouHaveACaseReferencePage)
 
   implicit lazy val arbitraryWhatTelephoneNumberCanWeContactYouWithPage: Arbitrary[WhatTelephoneNumberCanWeContactYouWithPage.type] =
     Arbitrary(WhatTelephoneNumberCanWeContactYouWithPage)
-
-  implicit lazy val arbitraryWhatEmailAddressCanWeContactYouWithPage: Arbitrary[WhatEmailAddressCanWeContactYouWithPage.type] =
-    Arbitrary(WhatEmailAddressCanWeContactYouWithPage)
 
   implicit lazy val arbitraryCanWeUseTelephoneNumberToContactYouPage: Arbitrary[CanWeUseTelephoneNumberToContactYouPage.type] =
     Arbitrary(CanWeUseTelephoneNumberToContactYouPage)
@@ -36,9 +39,6 @@ trait PageGenerators {
   implicit lazy val arbitraryAdviceGivenPage: Arbitrary[AdviceGivenPage.type] =
     Arbitrary(AdviceGivenPage)
     
-  implicit lazy val arbitraryCanWeUseEmailAddressToContactYouPage: Arbitrary[CanWeUseEmailAddressToContactYouPage.type] =
-    Arbitrary(CanWeUseEmailAddressToContactYouPage)
-
   implicit lazy val arbitraryAdviceProfessionPage: Arbitrary[AdviceProfessionPage.type] =
     Arbitrary(AdviceProfessionPage)
 

@@ -147,12 +147,16 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
     )
   }
 
-  private def buildCaseReferenceRow()(implicit messages: Messages): TaskListRow = {
+  private def buildCaseReferenceRow(userAnswer: UserAnswers)(implicit messages: Messages): TaskListRow = {
+
+    val operationKey = "add"
+    val caseReferenceTitleKey = s"taskList.$operationKey.sectionTitle.second"
+
     TaskListRow(
       id = "case-reference-task-list", 
-      sectionTitle = messages("taskList.sectionTitle.second"), 
+      sectionTitle = messages(caseReferenceTitleKey), 
       status = messages("taskList.status.notStarted"), 
-      link = routes.TaskListController.onPageLoad
+      link = controllers.reference.routes.DoYouHaveACaseReferenceController.onPageLoad(NormalMode)
     )
   }
 
@@ -197,11 +201,11 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
     val onshore = userAnswers.get(OnshoreLiabilitiesPage)
 
     (offshore, onshore) match {
-      case (Some(true),  Some(true))  => Seq(buildCaseReferenceRow, buildOnshoreLiabilitieDetailRow, buildOffshoreLiabilitieDetailRow(userAnswers), buildOtherLiabilityIssueRow)
-      case (Some(true),  _)           => Seq(buildCaseReferenceRow, buildOffshoreLiabilitieDetailRow(userAnswers), buildOtherLiabilityIssueRow)
-      case (_,           Some(true))  => Seq(buildCaseReferenceRow, buildOnshoreLiabilitieDetailRow, buildOtherLiabilityIssueRow)
-      case (Some(false), _)           => Seq(buildCaseReferenceRow, buildOnshoreLiabilitieDetailRow, buildOtherLiabilityIssueRow)
-      case (_,           _)           => Seq(buildCaseReferenceRow, buildOtherLiabilityIssueRow)
+      case (Some(true),  Some(true))  => Seq(buildCaseReferenceRow(userAnswers), buildOnshoreLiabilitieDetailRow, buildOffshoreLiabilitieDetailRow(userAnswers), buildOtherLiabilityIssueRow)
+      case (Some(true),  _)           => Seq(buildCaseReferenceRow(userAnswers), buildOffshoreLiabilitieDetailRow(userAnswers), buildOtherLiabilityIssueRow)
+      case (_,           Some(true))  => Seq(buildCaseReferenceRow(userAnswers), buildOnshoreLiabilitieDetailRow, buildOtherLiabilityIssueRow)
+      case (Some(false), _)           => Seq(buildCaseReferenceRow(userAnswers), buildOnshoreLiabilitieDetailRow, buildOtherLiabilityIssueRow)
+      case (_,           _)           => Seq(buildCaseReferenceRow(userAnswers), buildOtherLiabilityIssueRow)
     }
   }
 

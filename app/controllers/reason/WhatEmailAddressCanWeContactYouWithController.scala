@@ -21,7 +21,7 @@ import forms.WhatEmailAddressCanWeContactYouWithFormProvider
 import javax.inject.Inject
 import models.Mode
 import navigation.ReasonNavigator
-import pages.WhatEmailAddressCanWeContactYouWithPage
+import pages.{WhatEmailAddressCanWeContactYouWithPage, YourEmailAddressPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -31,16 +31,16 @@ import views.html.reason.WhatEmailAddressCanWeContactYouWithView
 import scala.concurrent.{ExecutionContext, Future}
 
 class WhatEmailAddressCanWeContactYouWithController @Inject()(
-                                        override val messagesApi: MessagesApi,
-                                        sessionService: SessionService,
-                                        navigator: ReasonNavigator,
-                                        identify: IdentifierAction,
-                                        getData: DataRetrievalAction,
-                                        requireData: DataRequiredAction,
-                                        formProvider: WhatEmailAddressCanWeContactYouWithFormProvider,
-                                        val controllerComponents: MessagesControllerComponents,
-                                        view: WhatEmailAddressCanWeContactYouWithView
-                                    )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+                                       override val messagesApi: MessagesApi,
+                                       sessionService: SessionService,
+                                       navigator: ReasonNavigator,
+                                       identify: IdentifierAction,
+                                       getData: DataRetrievalAction,
+                                       requireData: DataRequiredAction,
+                                       formProvider: WhatEmailAddressCanWeContactYouWithFormProvider,
+                                       val controllerComponents: MessagesControllerComponents,
+                                       view: WhatEmailAddressCanWeContactYouWithView
+                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
 
@@ -52,7 +52,10 @@ class WhatEmailAddressCanWeContactYouWithController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      request.userAnswers.get(YourEmailAddressPage) match {
+        case Some(email) => Ok(view(preparedForm, mode, email))
+        case _ => Redirect(controllers.reason.routes.AdviceGivenController.onPageLoad(mode))
+      }
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -60,7 +63,10 @@ class WhatEmailAddressCanWeContactYouWithController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          request.userAnswers.get(YourEmailAddressPage) match {
+            case Some(email) => Future.successful(BadRequest(view(formWithErrors, mode, email)))
+            case _ => Future.successful(Redirect(controllers.reason.routes.AdviceGivenController.onPageLoad(mode)))
+          },
 
         value =>
           for {

@@ -23,7 +23,7 @@ import navigation.Navigator
 import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import services.{UAToNotificationService, SessionService}
+import services.{UAToNotificationService, SessionService, UAToDisclosureService}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.TaskListView
 import viewmodels.{TaskListRow, TaskListViewModel}
@@ -37,6 +37,7 @@ class TaskListController @Inject()(
                                         getData: DataRetrievalAction,
                                         requireData: DataRequiredAction,
                                         dataService: UAToNotificationService,
+                                        dateDisclosureService: UAToDisclosureService,
                                         val controllerComponents: MessagesControllerComponents,
                                         view: TaskListView
                                     ) extends FrontendBaseController with I18nSupport {
@@ -85,12 +86,19 @@ class TaskListController @Inject()(
     )
   }
 
-  private def buildCaseReferenceRow(implicit messages: Messages): TaskListRow = {
+  private def buildCaseReferenceRow(userAnswers: UserAnswers)(implicit messages: Messages): TaskListRow = {
+
+    val isSectionComplete = dateDisclosureService.uaToCaseReference(userAnswers).isComplete
+    val operationKey = if (isSectionComplete) "edit" else "add"
+    val caseReferenceTitleKey = s"taskList.$operationKey.sectionTitle.second"
+
+    val link = controllers.reference.routes.DoYouHaveACaseReferenceController.onPageLoad(NormalMode)
+
     TaskListRow(
       id = "case-reference-task-list", 
-      sectionTitle = messages("taskList.sectionTitle.second"), 
-      status = messages("taskList.status.notStarted"), 
-      link = routes.TaskListController.onPageLoad
+      sectionTitle = messages(caseReferenceTitleKey), 
+      status = messages(statusKey(isSectionComplete)), 
+      link = link
     )
   }
 
@@ -135,11 +143,11 @@ class TaskListController @Inject()(
     val onshore = userAnswers.get(OnshoreLiabilitiesPage)
 
     (offshore, onshore) match {
-      case (Some(true),  Some(true))  => Seq(buildCaseReferenceRow, buildOnshoreLiabilitieDetailRow, buildOffshoreLiabilitieDetailRow(userAnswers), buildOtherLiabilityIssueRow)
-      case (Some(true),  _)           => Seq(buildCaseReferenceRow, buildOffshoreLiabilitieDetailRow(userAnswers), buildOtherLiabilityIssueRow)
-      case (_,           Some(true))  => Seq(buildCaseReferenceRow, buildOnshoreLiabilitieDetailRow, buildOtherLiabilityIssueRow)
-      case (Some(false), _)           => Seq(buildCaseReferenceRow, buildOnshoreLiabilitieDetailRow, buildOtherLiabilityIssueRow)
-      case (_,           _)           => Seq(buildCaseReferenceRow, buildOtherLiabilityIssueRow)
+      case (Some(true),  Some(true))  => Seq(buildCaseReferenceRow(userAnswers), buildOnshoreLiabilitieDetailRow, buildOffshoreLiabilitieDetailRow(userAnswers), buildOtherLiabilityIssueRow)
+      case (Some(true),  _)           => Seq(buildCaseReferenceRow(userAnswers), buildOffshoreLiabilitieDetailRow(userAnswers), buildOtherLiabilityIssueRow)
+      case (_,           Some(true))  => Seq(buildCaseReferenceRow(userAnswers), buildOnshoreLiabilitieDetailRow, buildOtherLiabilityIssueRow)
+      case (Some(false), _)           => Seq(buildCaseReferenceRow(userAnswers), buildOnshoreLiabilitieDetailRow, buildOtherLiabilityIssueRow)
+      case (_,           _)           => Seq(buildCaseReferenceRow(userAnswers), buildOtherLiabilityIssueRow)
     }
   }
 

@@ -16,36 +16,27 @@
 
 package viewmodels.checkAnswers
 
-import controllers.reason.routes
+import controllers.reference.routes
 import models.{CheckMode, UserAnswers}
-import pages.CanWeUseEmailAddressToContactYouPage
+import pages.WhatIsTheCaseReferencePage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object CanWeUseEmailAddressToContactYouSummary  {
+object WhatIsTheCaseReferenceSummary  {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(CanWeUseEmailAddressToContactYouPage).map {
+    answers.get(WhatIsTheCaseReferencePage).map {
       answer =>
 
-        val answerString = if (answer) "yes" else "no"
-
-        val value = ValueViewModel(
-          HtmlContent(
-            HtmlFormat.escape(messages(s"canWeUseEmailAddressToContactYou.$answerString"))
-          )
-        )
-
         SummaryListRowViewModel(
-          key     = "canWeUseEmailAddressToContactYou.checkYourAnswersLabel",
-          value   = value,
+          key     = "whatIsTheCaseReference.checkYourAnswersLabel",
+          value   = ValueViewModel(HtmlFormat.escape(answer).toString),
           actions = Seq(
-            ActionItemViewModel("site.change", routes.CanWeUseEmailAddressToContactYouController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("canWeUseEmailAddressToContactYou.change.hidden"))
+            ActionItemViewModel("site.change", routes.WhatIsTheCaseReferenceController.onPageLoad(CheckMode).url)
+              .withVisuallyHiddenText(messages("whatIsTheCaseReference.change.hidden"))
           )
         )
     }

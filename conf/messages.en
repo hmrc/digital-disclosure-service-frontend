@@ -1050,9 +1050,10 @@ taskList.llp.edit.sectionTitle.first = Edit the limited liability partnership’
 taskList.estate.edit.sectionTitle.first = Edit the person’s details
 taskList.trust.edit.sectionTitle.first = Edit the trust’s details
 
-taskList.heading.second = Provide liabilities information
+taskList.heading.second = Provide liability information
 taskList.heading.third = Provide additional information
-taskList.sectionTitle.second = case reference
+taskList.add.sectionTitle.second = Add case reference
+taskList.edit.sectionTitle.second = Edit case reference
 taskList.sectionTitle.third = onshore liabilities details
 taskList.sectionTitle.forth = offshore liabilities details
 taskList.sectionTitle.fifth = other liability issues
@@ -1309,22 +1310,22 @@ otherLiabilityIssues.vatIssues = VAT issues
 otherLiabilityIssues.inheritanceTaxIssues = Inheritance tax issues
 otherLiabilityIssues.class2National = Class 2 National Insurance contributions issues
 otherLiabilityIssues.other = Other
-otherLiabilityIssues.noExclusion = No, I do not have any other liability issues to fix
-otherLiabilityIssues.checkYourAnswersLabel = Type of liability issues to fix
-otherLiabilityIssues.error.required = Select any other liability issues to fix
-otherLiabilityIssues.error.validSelection = Select the liability issues you need to fix or select No, I do not have any other liability issues to fix
+otherLiabilityIssues.noExclusion = No, I do not have any other liability issues
+otherLiabilityIssues.checkYourAnswersLabel = Other liability issues
+otherLiabilityIssues.error.required = Select any other liability issues
+otherLiabilityIssues.error.validSelection = Select the liability issues you have or select ‘No, I do not have any other liability issues’
 otherLiabilityIssues.change.hidden = OtherLiabilityIssues
 
 whatOtherLiabilityIssues.title = Can you describe what other liability issues you need to fix?
 whatOtherLiabilityIssues.heading = Can you describe what other liability issues you need to fix?
-whatOtherLiabilityIssues.checkYourAnswersLabel = Other liability issues you need to fix
+whatOtherLiabilityIssues.checkYourAnswersLabel = Other liability issue description
 whatOtherLiabilityIssues.error.required = Enter the other liability issues you need to fix
 whatOtherLiabilityIssues.error.length = The other liability issues must be between 1 and 5,000 characters
 whatOtherLiabilityIssues.change.hidden = WhatOtherLiabilityIssues
 
 describeTheGift.title = Can you describe the gift (known as a chargeable transfer) that your issue is about?
 describeTheGift.heading = Can you describe the gift (known as a chargeable transfer) that your issue is about?
-describeTheGift.checkYourAnswersLabel = Chargeable transfer
+describeTheGift.checkYourAnswersLabel = Gift description
 describeTheGift.error.required = Enter a description of the gift that your issue is about
 describeTheGift.error.length = The description of the gift must be between 1 and 5,000 characters
 describeTheGift.change.hidden = DescribeTheGift
@@ -1358,8 +1359,8 @@ didYouReceiveTaxCredit.llp.error.required = Select yes if you received tax credi
 didYouReceiveTaxCredit.trust.error.required = Select yes if you received tax credits
 didYouReceiveTaxCredit.change.hidden = DidYouReceiveTaxCredit
 
-checkYourAnswers.otherLiabilities.title = Other liabilities summary
-checkYourAnswers.otherLiabilities.heading = Other liabilities summary
+checkYourAnswers.otherLiabilities.title = Review other liability issues
+checkYourAnswers.otherLiabilities.heading = Review other liability issues
 
 countryOfYourOffshoreLiability.title.1 = 'What is the country or territory of the first offshore liability?'
 countryOfYourOffshoreLiability.title.2 = 'What is the country or territory of the second offshore liability?'
@@ -1374,8 +1375,6 @@ countryOfYourOffshoreLiability.error.required.3 = Enter the country or territory
 countryOfYourOffshoreLiability.error.length = CountryOfYourOffshoreLiability must be 100 characters or less
 countryOfYourOffshoreLiability.change.hidden = CountryOfYourOffshoreLiability
 countryOfYourOffshoreLiability.button.add = Add another country or territory
-countryOfYourOffshoreLiability.taskList.link.text = Return to the list of tasks
-countryOfYourOffshoreLiability.taskList.link.url = http://localhost:15003/digital-disclosure/disclosure-list-of-tasks
 
 checkYourAnswers.yourLegalInterpretation.heading = Legal interpretation
 
@@ -1486,14 +1485,6 @@ adviceGiven.contact.telephone = Yes, by telephone
 adviceGiven.contact.no = No
 adviceGiven.error.contact.required = Select yes if HMRC can contact you to discuss the advice
 
-canWeUseEmailAddressToContactYou.title = Can we use the email address {0} to contact you with?
-canWeUseEmailAddressToContactYou.heading = Can we use the email address {0} to contact you with?
-canWeUseEmailAddressToContactYou.yes = Yes
-canWeUseEmailAddressToContactYou.no = No
-canWeUseEmailAddressToContactYou.checkYourAnswersLabel = canWeUseEmailAddressToContactYou
-canWeUseEmailAddressToContactYou.error.required = Select yes if we can use this email address
-canWeUseEmailAddressToContactYou.change.hidden = CanWeUseEmailAddressToContactYou
-
 canWeUseTelephoneNumberToContactYou.title = Can we use the telephone number {0} to contact you with?
 canWeUseTelephoneNumberToContactYou.heading = Can we use the telephone number {0} to contact you with?
 canWeUseTelephoneNumberToContactYou.yes = Yes
@@ -1506,14 +1497,6 @@ checkYourAnswers.reason.title = Summary
 checkYourAnswers.reason.heading = Summary
 checkYourAnswers.reason.section1.heading = Reason for making a disclosure now
 checkYourAnswers.reason.section2.heading = About the advice given
-
-whatEmailAddressCanWeContactYouWith.title = What email address can we contact you with?
-whatEmailAddressCanWeContactYouWith.heading = What email address can we contact you with?
-whatEmailAddressCanWeContactYouWith.hint = For example, name@example.com.
-whatEmailAddressCanWeContactYouWith.checkYourAnswersLabel = Email address
-whatEmailAddressCanWeContactYouWith.error.required = Enter your email address
-whatEmailAddressCanWeContactYouWith.error.validFormat = Enter your email address in the right format
-whatEmailAddressCanWeContactYouWith.change.hidden = Email address
 
 whatTelephoneNumberCanWeContactYouWith.title = What telephone number can we contact you with?
 whatTelephoneNumberCanWeContactYouWith.heading = What telephone number can we contact you with?
@@ -1532,3 +1515,20 @@ doYouHaveACaseReference.error.required = Select yes if you have a case reference
 doYouHaveACaseReference.change.hidden = Case reference
 doYouHaveACaseReference.yes = Yes
 doYouHaveACaseReference.no = No
+
+whatIsTheCaseReference.title = What is the case reference?
+whatIsTheCaseReference.heading = What is the case reference?
+whatIsTheCaseReference.body = It begins with ‘CFSS’ or ‘CFS’ followed by 7 numbers.
+whatIsTheCaseReference.hint = For example, CFSS-1234567 or CFS-1234567.
+whatIsTheCaseReference.checkYourAnswersLabel = Case reference
+whatIsTheCaseReference.error.required = Enter the case reference
+whatIsTheCaseReference.error.format = Enter the case reference in the right format
+whatIsTheCaseReference.change.hidden = Case reference
+
+whatEmailAddressCanWeContactYouWith.title = Which email address can we contact you with?
+whatEmailAddressCanWeContactYouWith.heading = Which email address can we contact you with?
+whatEmailAddressCanWeContactYouWith.existingEmail = {0}
+whatEmailAddressCanWeContactYouWith.differentEmail = A different email address
+whatEmailAddressCanWeContactYouWith.checkYourAnswersLabel = Which email address can we contact you with?
+whatEmailAddressCanWeContactYouWith.error.required = Select whatEmailAddressCanWeContactYouWith
+whatEmailAddressCanWeContactYouWith.change.hidden = WhatEmailAddressCanWeContactYouWith

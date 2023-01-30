@@ -16,11 +16,17 @@
 
 package pages
 
-import play.api.libs.json.JsPath
+import pages.behaviours.PageBehaviours
 
-case object CanWeUseEmailAddressToContactYouPage extends QuestionPage[Boolean] {
 
-  override def path: JsPath = JsPath \ toString
+class WhatIsTheCaseReferencePageSpec extends PageBehaviours {
 
-  override def toString: String = "canWeUseEmailAddressToContactYou"
+  "WhatIsTheCaseReferencePage" - {
+
+    beRetrievable[String](WhatIsTheCaseReferencePage)
+
+    beSettable[String](WhatIsTheCaseReferencePage)
+
+    beRemovable[String](WhatIsTheCaseReferencePage)
+  }
 }

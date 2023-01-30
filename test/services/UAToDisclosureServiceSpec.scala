@@ -18,26 +18,16 @@ package services
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
+import org.scalatest.TryValues
 import models.store.disclosure._
-import models.store.notification._
 import pages._
 import models._
-import org.scalatest.TryValues
-import java.time.{Instant, LocalDateTime}
 
 class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues {
 
-  object TestUAToNotificationService extends UAToNotificationService {
-    def userAnswersToNotification(userAnswers: UserAnswers): Notification = {
-      val metadata = Metadata(reference = Some("123"), submissionTime = Some(LocalDateTime.now))
-      val instant = Instant.now()
-      Notification("userId", "notificationId", instant, metadata, Background(), AboutYou())
-    }
-  }
-
   val emptyUA = UserAnswers("id")
 
-  val sut = new UAToDisclosureServiceImpl(TestUAToNotificationService)
+  val sut = new UAToDisclosureServiceImpl
 
   "uaToOtherLiabilities" should {
 
@@ -136,9 +126,8 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
         PageWithValue(AdviceBusinessNamePage, "Some business"),
         PageWithValue(AdviceProfessionPage, "Some profession"),
         PageWithValue(AdviceGivenPage, AdviceGiven("Some advice", MonthYear(12, 2012), AdviceContactPreference.No)),
-        PageWithValue(CanWeUseEmailAddressToContactYouPage, false),
+        PageWithValue(WhatEmailAddressCanWeContactYouWithPage, WhatEmailAddressCanWeContactYouWith.values.head),
         PageWithValue(CanWeUseTelephoneNumberToContactYouPage, false),
-        PageWithValue(WhatEmailAddressCanWeContactYouWithPage, "Email"),
         PageWithValue(WhatTelephoneNumberCanWeContactYouWithPage, "Telephone"),
       )
       val userAnswers = PageWithValue.pagesToUserAnswers(pages, emptyUA).success.value
@@ -152,12 +141,32 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
         Some("Some business"), 
         Some("Some profession"),
         Some(AdviceGiven("Some advice", MonthYear(12, 2012), AdviceContactPreference.No)),
+        Some(WhatEmailAddressCanWeContactYouWith.values.head),
         Some(false),
-        Some(false),
-        Some("Email"),
         Some("Telephone")
       )
       sut.uaToReasonForDisclosingNow(userAnswers) shouldEqual expected
+    }
+
+  }
+
+  "uaToCaseReference" should {
+
+    "populate CaseReference with nothing if nothing is set" in {
+      sut.uaToCaseReference(emptyUA) shouldEqual CaseReference()
+    }
+
+    "populate CaseReference with everything that is set" in {
+      val pages = List(
+        PageWithValue(DoYouHaveACaseReferencePage, true),
+        PageWithValue(WhatIsTheCaseReferencePage, "CSFF-1234567")
+      )
+      val userAnswers = PageWithValue.pagesToUserAnswers(pages, emptyUA).success.value
+      val expected = CaseReference(
+        Some(true), 
+        Some("CSFF-1234567")
+      )
+      sut.uaToCaseReference(userAnswers) shouldEqual expected
     }
 
   }

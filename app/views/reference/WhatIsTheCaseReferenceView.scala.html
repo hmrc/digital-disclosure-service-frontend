@@ -14,31 +14,37 @@
  * limitations under the License.
  *@
 
+@import viewmodels.InputWidth._
+
 @this(
     layout: templates.Layout,
+    heading: components.heading,
+    tasklistLink: components.tasklistLink,
     formHelper: FormWithCSRF,
     govukErrorSummary: GovukErrorSummary,
-    govukRadios: GovukRadios,
-    govukButton: GovukButton,
-    tasklistLink: components.tasklistLink
+    govukInput: GovukInput,
+    govukButton: GovukButton
 )
 
-@(form: Form[_], mode: Mode, emailAddress: String)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("canWeUseEmailAddressToContactYou.title", emailAddress))) {
+@layout(pageTitle = title(form, messages("whatIsTheCaseReference.title"))) {
 
-    @formHelper(action = controllers.reason.routes.CanWeUseEmailAddressToContactYouController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.reference.routes.WhatIsTheCaseReferenceController.onSubmit(mode)) {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
-        @govukRadios(
-            RadiosViewModel.yesNoNotInline(
-                field  = form("value"),
-                legend = LegendViewModel(messages("canWeUseEmailAddressToContactYou.heading", emailAddress)).asPageHeading(),
-                messagePrefix = "canWeUseEmailAddressToContactYou"
+        @heading(Text(messages("whatIsTheCaseReference.heading")))
+
+        @govukInput(
+            InputViewModel(
+                field = form("value"),
+                label = LabelViewModel(messages("whatIsTheCaseReference.body"))
             )
+            .withHint(Hint(content = Text(messages("whatIsTheCaseReference.hint"))))
+            .withWidth(Full)
         )
 
         @govukButton(

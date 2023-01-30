@@ -14,18 +14,21 @@
  * limitations under the License.
  */
 
-package pages
+package forms
 
-import pages.behaviours.PageBehaviours
+import javax.inject.Inject
 
-class CanWeUseEmailAddressToContactYouSpec extends PageBehaviours {
+import forms.mappings.Mappings
+import play.api.data.Form
 
-  "CanWeUseEmailAddressToContactYouPage" - {
+class WhatIsTheCaseReferenceFormProvider @Inject() extends Mappings {
 
-    beRetrievable[Boolean](CanWeUseEmailAddressToContactYouPage)
+  val formatRegex: String = "CFS[S]?[\\s]?[-]?[0-9]{7}$"
 
-    beSettable[Boolean](CanWeUseEmailAddressToContactYouPage)
-
-    beRemovable[Boolean](CanWeUseEmailAddressToContactYouPage)
-  }
+  def apply(): Form[String] =
+    Form(
+      "value" -> text("whatIsTheCaseReference.error.required")
+        .transform[String](_.trim, identity)
+        .verifying(regexp(formatRegex, "whatIsTheCaseReference.error.format"))
+    )
 }

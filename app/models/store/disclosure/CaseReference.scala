@@ -14,14 +14,21 @@
  * limitations under the License.
  */
 
-package pages
+package models.store.disclosure
 
-import models.WhatEmailAddressCanWeContactYouWith
-import play.api.libs.json.JsPath
+import play.api.libs.json.{Json, OFormat}
 
-case object WhatEmailAddressCanWeContactYouWithPage extends QuestionPage[WhatEmailAddressCanWeContactYouWith] {
+final case class CaseReference (
+  doYouHaveACaseReference: Option[Boolean] = None,
+  whatIsTheCaseReference: Option[String] = None
+) {
+  def isComplete = this match {
+    case CaseReference(Some(true), Some(_)) => true
+    case CaseReference(Some(false), _) => true
+    case _ => false
+  }
+}
 
-  override def path: JsPath = JsPath \ toString
-
-  override def toString: String = "whatEmailAddressCanWeContactYouWith"
+object CaseReference {
+  implicit val format: OFormat[CaseReference] = Json.format[CaseReference]
 }
