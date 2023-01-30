@@ -1056,9 +1056,11 @@ taskList.add.sectionTitle.second = Add case reference
 taskList.edit.sectionTitle.second = Edit case reference
 taskList.sectionTitle.third = onshore liabilities details
 taskList.sectionTitle.forth = offshore liabilities details
-taskList.sectionTitle.fifth = other liability issues
-taskList.sectionTitle.sixth = the reason for coming forward now
+taskList.sectionTitle.fifth = Confirm if you have other liability issues or not
+taskList.add.sectionTitle.sixth = Add the reason for coming forward now
+taskList.edit.sectionTitle.sixth = Edit the reason for coming forward now
 taskList.status.notStarted = Not started
+taskList.status.inProgress = In Progress
 taskList.status.completed = Completed
 
 howWouldYouPreferToBeContacted.title = How would you prefer to be contacted by HMRC?
