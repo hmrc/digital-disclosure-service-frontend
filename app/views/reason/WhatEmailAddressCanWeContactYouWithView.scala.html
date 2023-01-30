@@ -19,7 +19,8 @@
     formHelper: FormWithCSRF,
     govukErrorSummary: GovukErrorSummary,
     govukRadios: GovukRadios,
-    govukButton: GovukButton
+    govukButton: GovukButton,
+    tasklistLink: components.tasklistLink
 )
 
 @(form: Form[_], mode: Mode, email: String)(implicit request: Request[_], messages: Messages)
@@ -44,4 +45,5 @@
             ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
         )
     }
+    @tasklistLink()
 }
