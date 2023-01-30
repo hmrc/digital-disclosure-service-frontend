@@ -22,7 +22,6 @@ import forms.mappings.Mappings
 import play.api.data.Form
 import play.api.data.Forms._
 import models.{AdviceContactPreference, AdviceGiven}
-import java.time.LocalDate
 
 class AdviceGivenFormProvider @Inject() extends Mappings {
 
@@ -30,11 +29,14 @@ class AdviceGivenFormProvider @Inject() extends Mappings {
      mapping(
       "adviceGiven" -> text("adviceGiven.error.adviceGiven.required")
         .verifying(maxLength(5000, "adviceGiven.error.adviceGiven.length")),
-      "date.month" -> int("adviceGiven.error.date.month.required", "adviceGiven.error.format", "adviceGiven.error.format")
-        .verifying(inRange(1, 12, "adviceGiven.error.date.month.max")),
-      "date.year" -> int("adviceGiven.error.date.year.required", "adviceGiven.error.format", "adviceGiven.error.format")
-        .verifying(minimumValue(1850, "adviceGiven.error.date.min"))
-        .verifying(maximumValue(LocalDate.now().getYear(), "adviceGiven.error.date.past")),
+      "date" -> monthYear(
+        invalidKey       = "adviceGiven.date.error.invalid",
+        allRequiredKey   = "adviceGiven.date.error.required.all",
+        requiredKey      = "adviceGiven.date.error.required",
+        invalidMonthKey  = "adviceGiven.date.error.invalidMonth",
+        futureDateKey = "adviceGiven.date.error.invalidFutureDate",
+        minimumDateKey = "adviceGiven.date.error.invalidPastDate" 
+      ),
       "contact" -> enumerable[AdviceContactPreference]("adviceGiven.error.contact.required")  
     )(AdviceGiven.apply)(AdviceGiven.unapply)
    )

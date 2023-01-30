@@ -18,9 +18,8 @@ package models
 
 import play.api.libs.json._
 
-case class AdviceGiven(adviceGiven: String, monthYear: MonthYear, contactPreference: AdviceContactPreference)
+final case class MonthYear(month: Int, year: Int)
 
-object AdviceGiven {
-  implicit val format = Json.format[AdviceGiven]
+object MonthYear {
+  implicit val format = Json.format[MonthYear]
 }
-
