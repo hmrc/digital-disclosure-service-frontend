@@ -42,6 +42,10 @@ class AdviceProfessionViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementsByClass("govuk-label--xl").text() mustBe messages("adviceProfession.heading")
     }
 
+    "contain hint" in {
+      view.getElementsByClass("govuk-hint").text() mustBe messages("adviceProfession.hint")
+    }
+
     "display the continue button" in {
       view.getElementsByClass("govuk-button").first() must haveId ("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")

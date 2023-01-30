@@ -1454,6 +1454,7 @@ didSomeoneGiveYouAdviceNotDeclareTax.change.hidden = Did someone give you advice
 
 adviceProfession.title = What was the profession of the person who gave this advice?
 adviceProfession.heading = What was the profession of the person who gave this advice?
+adviceProfession.hint = For example, an accountant or tax advisor.
 adviceProfession.checkYourAnswersLabel = Profession of person who gave advice
 adviceProfession.error.required = Enter the profession of the person who gave advice
 adviceProfession.error.length = The profession of the person who gave advice must be between 4 and 30 characters

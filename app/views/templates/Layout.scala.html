@@ -30,10 +30,12 @@
     hmrcTimeoutDialog: HmrcTimeoutDialog,
     hmrcReportTechnicalIssueHelper: HmrcReportTechnicalIssueHelper,
     hmrcScripts: HmrcScripts,
-    betaBanner: StandardBetaBanner
+    betaBanner: StandardBetaBanner,
+    defaultMainContentLayout: TwoThirdsMainContent,
+    fullWidthMainContentLayout: templates.FullWidthMainContent
 )
 
-@(pageTitle: String, showBackLink: Boolean = true, timeout: Boolean = true, showSignOut: Boolean = true)(contentBlock: Html)(implicit request: Request[_], messages: Messages)
+@(pageTitle: String, showBackLink: Boolean = true, timeout: Boolean = true, showSignOut: Boolean = true, fullWidth: Boolean = false)(contentBlock: Html)(implicit request: Request[_], messages: Messages)
 
 @head = {
 
@@ -95,5 +97,6 @@
     scriptsBlock       = Some(hmrcScripts(
         nonce        = CSPNonce.get,
         scriptsBlock = Some(additionalScripts)
-    ))
+    )),
+    mainContentLayout = if (fullWidth) Some(fullWidthMainContentLayout(_)) else Some(defaultMainContentLayout(_)),
 )(content)
