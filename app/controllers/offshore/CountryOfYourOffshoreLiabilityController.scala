@@ -52,10 +52,7 @@ class CountryOfYourOffshoreLiabilityController @Inject()(
 
       val form: Form[Set[Country]] = formProvider()
 
-      val country = index match {
-        case Some(indexValue) => request.userAnswers.getByIndex(CountryOfYourOffshoreLiabilityPage, indexValue)
-        case _ => None
-      }
+      val country: Option[Country] = index.flatMap(i => request.userAnswers.getByIndex(CountryOfYourOffshoreLiabilityPage, i))
 
       val preparedForm = country match {
         case None => form

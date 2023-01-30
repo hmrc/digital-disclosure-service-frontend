@@ -60,7 +60,7 @@ final case class UserAnswers(
     val path = page.path
     val data = get[Set[A]](path)
     val updatedData = data match {
-      case Some(valueSet:Set[A]) => set(path, valueSet ++ Set(value))
+      case Some(valueSet:Set[A]) => set(path, valueSet + value)
       case _ => set(path, Set(value))
     }
     cleanupPage(page, updatedData)
