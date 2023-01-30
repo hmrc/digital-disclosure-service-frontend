@@ -229,7 +229,7 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         val year = current.back(1).startYear
         val set: Set[OffshoreYears] = Set(PriorTo5Years, TaxYearStarting(year))
         val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
-        navigator.nextPage(TaxBeforeFiveYearsPage, NormalMode, userAnswers) mustBe routes.CountryOfYourOffshoreLiabilityController.onPageLoad(1, NormalMode)
+        navigator.nextPage(TaxBeforeFiveYearsPage, NormalMode, userAnswers) mustBe routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
       }
 
       "must go from TaxBeforeSevenYearsPage to MakingNilDisclosureController when only selected option PriorTo7Years" in {
@@ -242,7 +242,7 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         val year = current.back(1).startYear
         val set: Set[OffshoreYears] = Set(PriorTo7Years, TaxYearStarting(year))
         val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
-        navigator.nextPage(TaxBeforeSevenYearsPage, NormalMode, userAnswers) mustBe routes.CountryOfYourOffshoreLiabilityController.onPageLoad(1, NormalMode)
+        navigator.nextPage(TaxBeforeSevenYearsPage, NormalMode, userAnswers) mustBe routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
       }
     }
 

@@ -37,7 +37,7 @@ import scala.concurrent.Future
 
 class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with Injecting with MockitoSugar {
 
-  val index = 1
+  val index =  Some(0)
   def onwardRoute = Call("GET", "/foo")
 
   val countrySet = Set(Country("AFG", "Afghanistan"))
@@ -53,7 +53,7 @@ class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with Injecti
       val countries = new Countries(env)
 
       val formProvider = new CountryOfYourOffshoreLiabilityFormProvider(countries)
-      val form = formProvider(index)
+      val form = formProvider()
 
       running(app) {
         val request = FakeRequest(GET, countryOfYourOffshoreLiabilityRoute)
@@ -63,7 +63,7 @@ class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with Injecti
         val view = app.injector.instanceOf[CountryOfYourOffshoreLiabilityView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode, index)(request, messages(app)).toString
+        contentAsString(result) mustEqual view(index, form, NormalMode)(request, messages(app)).toString
       }
     }
 
@@ -73,7 +73,7 @@ class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with Injecti
       val countries = new Countries(env)
 
       val formProvider = new CountryOfYourOffshoreLiabilityFormProvider(countries)
-      val form = formProvider(index)
+      val form = formProvider()
 
       val app = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -85,7 +85,7 @@ class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with Injecti
         val result = route(app, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(countrySet), NormalMode, index)(request, messages(app)).toString
+        contentAsString(result) mustEqual view(index, form.fill(countrySet), NormalMode)(request, messages(app)).toString
       }
     }
 
@@ -118,7 +118,7 @@ class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with Injecti
       val countries = new Countries(env)
 
       val formProvider = new CountryOfYourOffshoreLiabilityFormProvider(countries)
-      val form = formProvider(index)
+      val form = formProvider()
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       running(application) {
@@ -133,7 +133,7 @@ class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with Injecti
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, index)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(index, boundForm, NormalMode)(request, messages(application)).toString
       }
     }
 

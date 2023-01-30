@@ -56,6 +56,16 @@ final case class UserAnswers(
     cleanupPage(page, updatedData)
   }
 
+  def addToSet[A](page: Settable[Set[A]], value: A)(implicit writes:Writes[A], rds: Reads[A]): Try[UserAnswers] = {
+    val path = page.path
+    val data = get[Set[A]](path)
+    val updatedData = data match {
+      case Some(valueSet:Set[A]) => set(path, valueSet + value)
+      case _ => set(path, Set(value))
+    }
+    cleanupPage(page, updatedData)
+  }
+
   def removeByIndex[A](page: Settable[Set[A]], index: Int): Try[UserAnswers] = {
     val path = page.path \ index
     val updatedData = remove(path)

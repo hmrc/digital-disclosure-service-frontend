@@ -125,6 +125,24 @@ class UserAnswersSpec extends AnyFreeSpec with Matchers with Generators {
       expectedValue mustBe actualValue
     }
 
+    "should add a value to a set for a given page and get the same value" in {
+      val userAnswers = UserAnswers(id)
+
+      val expectedValue = "value"
+
+      val updatedUserAnswer = userAnswers.addToSet(TestSeqPage, expectedValue) match {
+        case Success(value) => value
+        case _ => fail()
+      }
+
+      val actualValue = updatedUserAnswer.getByIndex(TestSeqPage, 0) match {
+        case Some(value) => value
+        case _ => fail()
+      }
+
+      expectedValue mustBe actualValue
+    }
+
     "should remove a value for a given Page" in {
       val userAnswers = UserAnswers(id).set(TestSeqPage, Set("123", "456", "789")).success.value
 

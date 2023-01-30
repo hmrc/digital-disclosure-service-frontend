@@ -29,27 +29,27 @@ import org.scalatestplus.mockito.MockitoSugar
 class CountryOfYourOffshoreLiabilityViewSpec extends ViewSpecBase with ViewMatchers with MockitoSugar {
 
   val countries = mock[Countries]
-  val countryNumber = 1
+  val countryNumber = Some(0)
 
   val countryMock = Country("AAA", "Country")
   val countrySetMock: Seq[Country] = Seq(countryMock)
   when(countries.countries).thenReturn(countrySetMock)
 
-  val form = new CountryOfYourOffshoreLiabilityFormProvider(countries)(countryNumber)
+  val form = new CountryOfYourOffshoreLiabilityFormProvider(countries)()
   val page: CountryOfYourOffshoreLiabilityView = inject[CountryOfYourOffshoreLiabilityView]
 
-  private def createView: Html = page(form, NormalMode, countryNumber)(request, messages)
+  private def createView: Html = page(countryNumber, form, NormalMode)(request, messages)
 
   "view" should {
 
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("countryOfYourOffshoreLiability.title.1"))
+      view.select("title").text() must include(messages("countryOfYourOffshoreLiability.title"))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("countryOfYourOffshoreLiability.heading.1")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("countryOfYourOffshoreLiability.heading")
     }
 
     "display the select element and the first must be empty" in {
