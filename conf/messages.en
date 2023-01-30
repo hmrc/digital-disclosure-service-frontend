@@ -1362,8 +1362,8 @@ didYouReceiveTaxCredit.change.hidden = DidYouReceiveTaxCredit
 checkYourAnswers.otherLiabilities.title = Review other liability issues
 checkYourAnswers.otherLiabilities.heading = Review other liability issues
 
-countryOfYourOffshoreLiability.title = 'What is the country or territory of the first offshore liability?'
-countryOfYourOffshoreLiability.heading = 'What is the country or territory of the first offshore liability?'
+countryOfYourOffshoreLiability.title = In which country or territory are your offshore liabilities?
+countryOfYourOffshoreLiability.heading = In which country or territory are your offshore liabilities?
 countryOfYourOffshoreLiability.checkYourAnswersLabel = countryOfYourOffshoreLiability
 countryOfYourOffshoreLiability.error.required = Enter the country or territory of your offshore liabilities
 countryOfYourOffshoreLiability.error.length = CountryOfYourOffshoreLiability must be 100 characters or less
