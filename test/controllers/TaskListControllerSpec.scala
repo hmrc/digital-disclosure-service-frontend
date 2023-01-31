@@ -46,6 +46,9 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         val isSectionComplete = false
         val operationKey = "add"
         val entityKey = "individual"
+        val entity = RelatesTo.AnIndividual
+        val isTheUserAgent = true
+        val isAllTaskCompleted = true
         val notificationSectionKey = s"taskList.$entityKey.$operationKey.heading.first"
         val notificationTitleKey = s"taskList.$entityKey.$operationKey.sectionTitle.first"
 
@@ -55,7 +58,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         val list = TaskListViewModel(personalDetailsTask, liabilitiesInformation, additionalInformation)
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(list, notificationSectionKey)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(list, notificationSectionKey, isTheUserAgent, entity, isAllTaskCompleted)(request, messages(application)).toString
       }
     }
 
@@ -88,6 +91,9 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         val isSectionComplete = false
         val operationKey = "add"
         val entityKey = "agent"
+        val entity = RelatesTo.AnIndividual
+        val isTheUserAgent = true
+        val isAllTaskCompleted = true
         val notificationSectionKey = s"taskList.$entityKey.$operationKey.heading.first"
         val notificationTitleKey = s"taskList.$entityKey.$operationKey.sectionTitle.first"
 
@@ -97,7 +103,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         val list = TaskListViewModel(personalDetailsTask, liabilitiesInformation, additionalInformation)
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(list, notificationSectionKey)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(list, notificationSectionKey, isTheUserAgent, entity, isAllTaskCompleted)(request, messages(application)).toString
       }
     }
 

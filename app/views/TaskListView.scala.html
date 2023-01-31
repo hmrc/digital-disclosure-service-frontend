@@ -21,10 +21,13 @@
     govukSummaryList: GovukSummaryList,
     formHelper: FormWithCSRF,
     paragraph: components.paragraph,
-    task: components.task
+    task: components.task,
+    govukButton: GovukButton,
+    subheading: components.subheading,
+    link: components.link
 )
 
-@(list: TaskListViewModel, notificationSectionKey: String)(implicit request: Request[_], messages: Messages)
+@(list: TaskListViewModel, notificationSectionKey: String, isTheUserAgent: Boolean, entity: RelatesTo, isAllTaskCompleted: Boolean)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = titleNoForm(messages("taskList.title"))) {
 
@@ -41,5 +44,32 @@
             @task("2.", messages("taskList.heading.second"), list.liabilitiesInformation)
             @task("3.", messages("taskList.heading.third"), list.additionalInformation)
         </ol>
+        
+        <p class="govuk-body">
+            @link(id = "link-view-a-copy", classes = "govuk-link", text = messages("taskList.link"), newTab = false, call = Call("GET", controllers.routes.TaskListController.onPageLoad.url))
+        </p>
+
+        @if(isAllTaskCompleted) {
+        
+            @subheading(Text(messages("taskList.subheading")), "govuk-heading-m")
+
+            @if(isTheUserAgent) {
+                @paragraph(id = Some("forth-paragraph"), content = Text(messages("taskList.agent.paragraph.forth")))
+            } else {
+                @paragraph(id = Some("forth-paragraph"), content = Text(messages(s"taskList.${entity}.paragraph.forth")))
+            }
+
+            @paragraph(
+                id = Some("fifth-paragraph"), 
+                content = HtmlContent(
+                    messages("taskList.paragraph.fifth") +
+                    link(id = "fifth-paragraph-link", text = messages("taskList.paragraph.fifth.link"), newTab = true, call = Call("GET", "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure#general-information"))
+                )
+            )
+
+            @govukButton(
+                ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
+            )
+        }
     }
 }

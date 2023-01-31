@@ -22,8 +22,11 @@ import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.TaskListView
 import viewmodels.{TaskListRow, TaskListViewModel}
+import models.RelatesTo
+import org.scalacheck.Arbitrary.arbitrary
+import generators.Generators
 
-class TaskListViewSpec extends ViewSpecBase with ViewMatchers {
+class TaskListViewSpec extends ViewSpecBase with ViewMatchers with Generators {
 
   val page: TaskListView = inject[TaskListView]
 
@@ -59,7 +62,10 @@ class TaskListViewSpec extends ViewSpecBase with ViewMatchers {
     val additionalInformation = Seq(testRow3)
     val list = TaskListViewModel(personalDetailsTask, liabilitiesInformation, additionalInformation)
     
-    def createView: Html = page(list, notificationSectionKey)(request, messages)
+    val entity = arbitrary[RelatesTo].sample.value
+    val isTheUserAgent = arbitrary[Boolean].sample.value
+    
+    def createView: Html = page(list, notificationSectionKey, isTheUserAgent, entity, true)(request, messages)
 
     val view = createView
 
@@ -87,6 +93,26 @@ class TaskListViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementsByClass("app-task-list__section").get(0).text() mustBe "1. " + messages(notificationSectionKey)
       view.getElementsByClass("app-task-list__section").get(1).text() mustBe "2. " + messages("taskList.heading.second")
       view.getElementsByClass("app-task-list__section").get(2).text() mustBe "3. " + messages("taskList.heading.third")
+    }
+
+    "have a view details link" in {
+      view.getElementById("link-view-a-copy").attr("href") mustBe controllers.routes.TaskListController.onPageLoad.url
+    }
+
+    "contain the sub heading" in {
+      view.getElementsByClass("govuk-heading-m").text() mustBe messages("taskList.subheading")
+    }
+
+    s"have a forth paragraph when $isTheUserAgent & $entity" in {
+      if(isTheUserAgent){
+        view.getElementById("forth-paragraph").text() mustBe messages("taskList.agent.paragraph.forth")
+      } else {
+        view.getElementById("forth-paragraph").text() mustBe messages(s"taskList.${entity}.paragraph.forth")
+      }
+    }
+
+    "have a fifth paragraph" in {
+      view.getElementById("fifth-paragraph").text() mustBe messages("taskList.paragraph.fifth") + messages("taskList.paragraph.fifth.link")
     }
 
   }

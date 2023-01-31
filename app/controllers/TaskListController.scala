@@ -68,7 +68,7 @@ class TaskListController @Inject()(
         additionalInformation
       )
 
-      Ok(view(list, notificationSectionKey))
+      Ok(view(list, notificationSectionKey, isTheUserAgent(ua), entity, true))
   }
 
   def statusKey(isSectionComplete: Boolean): String = if (isSectionComplete) "taskList.status.completed" else "taskList.status.notStarted"
@@ -182,6 +182,17 @@ class TaskListController @Inject()(
     userAnswers.get(AreYouTheIndividualPage) match {
       case Some(true) => true
       case _ => false
+    }
+  }
+
+  def isTheUserAgent(userAnswers: UserAnswers): Boolean ={
+    userAnswers.get(RelatesToPage) match {
+      case Some(RelatesTo.AnIndividual) => userAnswers.get(AreYouTheIndividualPage).getOrElse(true)
+      case Some(RelatesTo.ACompany) => userAnswers.get(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage).getOrElse(true)
+      case Some(RelatesTo.ALimitedLiabilityPartnership) => userAnswers.get(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage).getOrElse(true)
+      case Some(RelatesTo.ATrust) => userAnswers.get(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage).getOrElse(true)
+      case Some(RelatesTo.AnEstate) => userAnswers.get(AreYouTheExecutorOfTheEstatePage).getOrElse(true)
+      case _ => true
     }
   }
 }

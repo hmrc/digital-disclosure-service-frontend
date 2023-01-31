@@ -1017,10 +1017,10 @@ whyAreYouMakingThisDisclosure.estate.deliberatelyDidNotFile = The person who die
 
 taskList.title = List of tasks
 taskList.heading = List of tasks
+taskList.subheading = Next steps
 taskList.paragraph.first = Disclosure not complete
 taskList.paragraph.second = You have completed 0 of 3 sections.
 taskList.paragraph.third = You must complete all 3 sections before you can make an offer and send the disclosure.
-
 #--------Personal details header----Add operation-----
 taskList.agent.add.heading.first = Provide your personal details
 taskList.individual.add.heading.first = Provide individual’s personal details
@@ -1049,7 +1049,6 @@ taskList.company.edit.sectionTitle.first = Edit the company’s details
 taskList.llp.edit.sectionTitle.first = Edit the limited liability partnership’s details
 taskList.estate.edit.sectionTitle.first = Edit the person’s details
 taskList.trust.edit.sectionTitle.first = Edit the trust’s details
-
 taskList.heading.second = Provide liability information
 taskList.heading.third = Provide additional information
 taskList.add.sectionTitle.second = Add case reference
@@ -1062,6 +1061,15 @@ taskList.edit.sectionTitle.sixth = Edit the reason for coming forward now
 taskList.status.notStarted = Not started
 taskList.status.inProgress = In Progress
 taskList.status.completed = Completed
+taskList.agent.paragraph.forth = When you select ‘Save and continue’, you will be asked to make a formal offer of the amount you will pay HMRC. You will then see a full summary of the information you have provided before you send the disclosure.
+taskList.individual.paragraph.forth = When you select ‘Save and continue’, you will be asked to make a formal offer of the amount you will pay HMRC. You will be given the opportunity to save a copy of this to send to the individual that this disclosure relates to for their agreement. You will then see a full summary of the information you have provided before you send the disclosure.
+taskList.company.paragraph.forth = When you select ‘Save and continue’, you will be asked to make a formal offer of the amount you will pay HMRC. You will be given the opportunity to save a copy of this to send to the company that this disclosure relates to for their agreement. You will then see a full summary of the information you have provided before you send the disclosure.
+taskList.llp.paragraph.forth = When you select ‘Save and continue’, you will be asked to make a formal offer of the amount you will pay HMRC. You will be given the opportunity to save a copy of this to send to the limited liability partnership that this disclosure relates to for their agreement. You will then see a full summary of the information you have provided before you send the disclosure.
+taskList.trust.paragraph.forth = When you select ‘Save and continue’, you will be asked to make a formal offer of the amount you will pay HMRC. You will be given the opportunity to save a copy of this to send to the trust that this disclosure relates to for their agreement. You will then see a full summary of the information you have provided before you send the disclosure.
+taskList.estate.paragraph.forth = When you select ‘Save and continue’, you will be asked to make a formal offer of the amount you will pay HMRC. You will be given the opportunity to save a copy of this to send to the person who died that this disclosure relates to for their agreement. You will then see a full summary of the information you have provided before you send the disclosure.
+taskList.paragraph.fifth = 'If you cannot pay the full amount, let us know as soon as possible and before you send in your disclosure by '
+taskList.paragraph.fifth.link = calling the helpline (opens in new tab)
+taskList.link = View a copy of the information you have entered so far
 
 howWouldYouPreferToBeContacted.title = How would you prefer to be contacted by HMRC?
 howWouldYouPreferToBeContacted.heading = How would you prefer to be contacted by HMRC?
