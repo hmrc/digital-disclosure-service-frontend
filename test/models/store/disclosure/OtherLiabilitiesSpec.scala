@@ -25,9 +25,34 @@ class OtherLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues {
 
   "isComplete" - {
 
-    "must return true where they have answered necessary questions" in {
-      val otherLiabilities = OtherLiabilities(Some(Set(OtherLiabilityIssues.VatIssues)), None, None, Some(true))
+    "must return true where they have answered only by selecting 'InheritanceTaxIssues' & it's gift page questions" in {
+      val otherLiabilities = OtherLiabilities(Some(Set(OtherLiabilityIssues.InheritanceTaxIssues)), Some("Some string"), None, None)
       otherLiabilities.isComplete(false) mustBe true
+    }
+
+    "must return false where they have answered only by selecting 'InheritanceTaxIssues' questions" in {
+      val otherLiabilities = OtherLiabilities(Some(Set(OtherLiabilityIssues.InheritanceTaxIssues)), None, None, None)
+      otherLiabilities.isComplete(false) mustBe false
+    }
+
+    "must return true where they have answered only by selecting 'Other' & it's page questions" in {
+      val otherLiabilities = OtherLiabilities(Some(Set(OtherLiabilityIssues.Other)), None, Some("Some string"), None)
+      otherLiabilities.isComplete(false) mustBe true
+    }
+
+    "must return false where they have answered only by selecting 'Other' questions" in {
+      val otherLiabilities = OtherLiabilities(Some(Set(OtherLiabilityIssues.Other)), None, None, None)
+      otherLiabilities.isComplete(false) mustBe false
+    }
+
+    "must return true where they have answered only by selecting 'InheritanceTaxIssues & Other' & it's page questions" in {
+      val otherLiabilities = OtherLiabilities(Some(Set(OtherLiabilityIssues.InheritanceTaxIssues, OtherLiabilityIssues.Other)), Some("Some string"), Some("Some string"), None)
+      otherLiabilities.isComplete(false) mustBe true
+    }
+
+    "must return false where they have answered only by selecting 'InheritanceTaxIssues & Other' questions" in {
+      val otherLiabilities = OtherLiabilities(Some(Set(OtherLiabilityIssues.InheritanceTaxIssues, OtherLiabilityIssues.Other)), None, None, None)
+      otherLiabilities.isComplete(false) mustBe false
     }
 
     "must return true where they have answered all questions" in {
