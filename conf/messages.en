@@ -1043,7 +1043,7 @@ taskList.llp.add.sectionTitle.first = Add the limited liability partnership’s 
 taskList.estate.add.sectionTitle.first = Add the person’s details
 taskList.trust.add.sectionTitle.first = Add the trust’s details
 #--------Personal details title----Edit operation-----
-taskList.agent.edit.sectionTitle.first = Edit your personal details
+taskList.agent.edit.sectionTitle.first = Edit your notification details
 taskList.individual.edit.sectionTitle.first = Edit the individual’s details
 taskList.company.edit.sectionTitle.first = Edit the company’s details
 taskList.llp.edit.sectionTitle.first = Edit the limited liability partnership’s details
