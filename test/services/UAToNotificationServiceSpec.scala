@@ -19,6 +19,7 @@ package services
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import models.store.notification._
+import models.store.Metadata
 import pages._
 import models._
 import models.address._
@@ -32,7 +33,7 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
 
   val metadata = Metadata(reference = Some("123"), submissionTime = Some(LocalDateTime.now))
   val instant = Instant.now()
-  val testNotification = Notification("userId", "notificationId", instant, metadata, Background(), AboutYou())
+  val testNotification = Notification("userId", "notificationId", instant, metadata, PersonalDetails(Background(), AboutYou()))
   val address = Address("line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GBR"))
   val emptyUA = UserAnswers("id")
   val userAnswers = UserAnswers("userId", "notificationId", lastUpdated = instant, metadata = metadata)
@@ -343,7 +344,8 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
         PageWithValue(AreYouTheIndividualPage, false)
       )
       val ua = PageWithValue.pagesToUserAnswers(pages, userAnswers).success.value
-      val expected = testNotification.copy(background = Background(disclosureEntity = Some(DisclosureEntity(Individual, Some(false)))), aboutTheIndividual = Some(AboutTheIndividual()))
+      val personalDetails = testNotification.personalDetails.copy(background = Background(disclosureEntity = Some(DisclosureEntity(Individual, Some(false)))), aboutTheIndividual = Some(AboutTheIndividual()))
+      val expected = testNotification.copy(personalDetails = personalDetails)
       sut.userAnswersToNotification(ua) shouldEqual expected
     }
 
@@ -353,7 +355,8 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
         PageWithValue(AreYouTheIndividualPage, true)
       )
       val ua = PageWithValue.pagesToUserAnswers(pages, userAnswers).success.value
-      val expected = testNotification.copy(background = Background(disclosureEntity = Some(DisclosureEntity(Individual, Some(true)))), aboutTheIndividual = None)
+      val personalDetails = testNotification.personalDetails.copy(background = Background(disclosureEntity = Some(DisclosureEntity(Individual, Some(true)))), aboutTheIndividual = None)
+      val expected = testNotification.copy(personalDetails = personalDetails)
       sut.userAnswersToNotification(ua) shouldEqual expected
     }
 
@@ -362,7 +365,8 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
         PageWithValue(RelatesToPage, RelatesTo.ACompany)
       )
       val ua = PageWithValue.pagesToUserAnswers(pages, userAnswers).success.value
-      val expected = testNotification.copy(background = Background(disclosureEntity = Some(DisclosureEntity(Company, None))), aboutTheCompany = Some(AboutTheCompany()))
+      val personalDetails = testNotification.personalDetails.copy(background = Background(disclosureEntity = Some(DisclosureEntity(Company, None))), aboutTheCompany = Some(AboutTheCompany()))
+      val expected = testNotification.copy(personalDetails = personalDetails)
       sut.userAnswersToNotification(ua) shouldEqual expected
     }
 
@@ -371,7 +375,8 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
         PageWithValue(RelatesToPage, RelatesTo.ATrust)
       )
       val ua = PageWithValue.pagesToUserAnswers(pages, userAnswers).success.value
-      val expected = testNotification.copy(background = Background(disclosureEntity = Some(DisclosureEntity(Trust, None))), aboutTheTrust = Some(AboutTheTrust()))
+      val personalDetails = testNotification.personalDetails.copy(background = Background(disclosureEntity = Some(DisclosureEntity(Trust, None))), aboutTheTrust = Some(AboutTheTrust()))
+      val expected = testNotification.copy(personalDetails = personalDetails)
       sut.userAnswersToNotification(ua) shouldEqual expected
     }
 
@@ -380,7 +385,8 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
         PageWithValue(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership)
       )
       val ua = PageWithValue.pagesToUserAnswers(pages, userAnswers).success.value
-      val expected = testNotification.copy(background = Background(disclosureEntity = Some(DisclosureEntity(LLP, None))), aboutTheLLP = Some(AboutTheLLP()))
+      val personalDetails = testNotification.personalDetails.copy(background = Background(disclosureEntity = Some(DisclosureEntity(LLP, None))), aboutTheLLP = Some(AboutTheLLP()))
+      val expected = testNotification.copy(personalDetails = personalDetails)
       sut.userAnswersToNotification(ua) shouldEqual expected
     }
 

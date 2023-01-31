@@ -24,7 +24,7 @@ import play.api.data.Form
 
 class CountryOfYourOffshoreLiabilityFormProvider @Inject()(countries: Countries)
   extends CountryConstraints(countries) with Mappings {
-  def apply(index:Int): Form[Set[Country]] = Form(
-    "country" -> country(s"countryOfYourOffshoreLiability.error.required.$index")
+  def apply(): Form[Set[Country]] = Form(
+    "country" -> country(s"countryOfYourOffshoreLiability.error.required")
   )
 }

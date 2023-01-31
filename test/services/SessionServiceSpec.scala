@@ -20,6 +20,7 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalamock.scalatest.MockFactory
 import models.store.notification._
+import models.store.Metadata
 import org.scalatest.concurrent.ScalaFutures
 import scala.concurrent.Future
 import org.scalamock.handlers.{CallHandler1, CallHandler2, CallHandler3}
@@ -37,8 +38,8 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
 
   implicit val hc = HeaderCarrier()
     
-  val testNotification = Notification("123", "Individual", Instant.now(), Metadata(), Background(), AboutYou())
-  val testSubmittedNotification = Notification("123", "Individual", Instant.now(), Metadata(submissionTime = Some(LocalDateTime.now)), Background(), AboutYou())
+  val testNotification = Notification("123", "Individual", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
+  val testSubmittedNotification = Notification("123", "Individual", Instant.now(), Metadata(submissionTime = Some(LocalDateTime.now)), PersonalDetails(Background(), AboutYou()))
 
   val userAnswers = UserAnswers("123", "Individual", SubmissionType.Notification, lastUpdated = Instant.now())
   val submittedUserAnswers = UserAnswers("123", "Individual", SubmissionType.Notification, lastUpdated = Instant.now(), metadata = Metadata(submissionTime = Some(LocalDateTime.now)))

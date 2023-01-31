@@ -26,6 +26,7 @@ import org.scalatest.concurrent.ScalaFutures
 import connectors.DigitalDisclosureServiceConnector
 import models.UserAnswers
 import models.store.notification._
+import models.store.Metadata
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -82,7 +83,7 @@ class NotificationSubmissionServiceSpec extends AnyWordSpec with ScalaFutures
       val sut = new NotificationSubmissionServiceImpl(connector, UAToNotificationService, FakeReferenceService, sessionService, FakeTimeService, auditService)
 
       val emptyUA = UserAnswers("id")
-      val testNotification = Notification("123", "456", Instant.now(), Metadata(), Background(), AboutYou())
+      val testNotification = Notification("123", "456", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
       implicit val hc = HeaderCarrier()
     }
 

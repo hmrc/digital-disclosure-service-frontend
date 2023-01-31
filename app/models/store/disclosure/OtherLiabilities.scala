@@ -33,8 +33,8 @@ final case class OtherLiabilities(
 	  }
   }
 
-  def inheritanceTaxComplete(set: Set[OtherLiabilityIssues]) = set.contains(OtherLiabilityIssues.InheritanceTaxIssues) && inheritanceGift.isDefined
-  def otherComplete(set: Set[OtherLiabilityIssues]) = set.contains(OtherLiabilityIssues.Other) && other.isDefined
+  def inheritanceTaxComplete(set: Set[OtherLiabilityIssues]) = !set.contains(OtherLiabilityIssues.InheritanceTaxIssues) || inheritanceGift.isDefined
+  def otherComplete(set: Set[OtherLiabilityIssues]) = !set.contains(OtherLiabilityIssues.Other) || other.isDefined
 }
 
 object OtherLiabilities {

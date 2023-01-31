@@ -20,6 +20,7 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalamock.scalatest.MockFactory
 import models.store.notification._
+import models.store.Metadata
 import org.scalatest.concurrent.ScalaFutures
 import scala.concurrent.Future
 import org.scalamock.handlers.{CallHandler1, CallHandler2, CallHandler3}
@@ -78,7 +79,7 @@ class NotificationStoreServiceSpec extends AnyWordSpec with Matchers
       .expects(userAnswers)
       .returning(response)
 
-  val testNotification = Notification("123", "456", Instant.now(), Metadata(), Background(), AboutYou())
+  val testNotification = Notification("123", "456", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
 
   "getNotification" should {
     "return the same value as returned by the connector" in {
@@ -90,7 +91,7 @@ class NotificationStoreServiceSpec extends AnyWordSpec with Matchers
   "setNotification" should {
     "pass the userAnswers to the dataService and return the converted value to the connector" in {
       val userAnswers = UserAnswers("id")
-      val convertedNotification = Notification("id", "notificationId", Instant.now(), Metadata(), Background(), AboutYou())
+      val convertedNotification = Notification("id", "notificationId", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
       mockUserAnswersToNotification(userAnswers)(convertedNotification)
       mockSetNotification(convertedNotification)(Future.successful(Ok("Done")))
 

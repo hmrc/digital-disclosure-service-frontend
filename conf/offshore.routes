@@ -74,7 +74,7 @@ GET        /offshore-liabilities-maximum-value-of-assets/change       controller
 POST       /offshore-liabilities-maximum-value-of-assets/change       controllers.offshore.TheMaximumValueOfAllAssetsController.onSubmit(mode: Mode = CheckMode)
 
 
-GET        /offshore-liabilities-country/:number         controllers.offshore.CountryOfYourOffshoreLiabilityController.onPageLoad(number:Int, mode: Mode = NormalMode)
-POST       /offshore-liabilities-country/:number         controllers.offshore.CountryOfYourOffshoreLiabilityController.onSubmit(number:Int, mode: Mode = NormalMode)
-GET        /offshore-liabilities-country/:number/change  controllers.offshore.CountryOfYourOffshoreLiabilityController.onPageLoad(number:Int, mode: Mode = CheckMode)
-POST       /offshore-liabilities-country/:number/change  controllers.offshore.CountryOfYourOffshoreLiabilityController.onSubmit(number:Int, mode: Mode = CheckMode)
+GET        /offshore-liabilities-country            controllers.offshore.CountryOfYourOffshoreLiabilityController.onPageLoad(index:Option[Int] ?= None, mode: Mode = NormalMode)
+POST       /offshore-liabilities-country            controllers.offshore.CountryOfYourOffshoreLiabilityController.onSubmit(index:Option[Int] ?= None, mode: Mode = NormalMode)
+GET        /offshore-liabilities-country/change     controllers.offshore.CountryOfYourOffshoreLiabilityController.onPageLoad(index:Option[Int] ?= None, mode: Mode = CheckMode)
+POST       /offshore-liabilities-country/change     controllers.offshore.CountryOfYourOffshoreLiabilityController.onSubmit(index:Option[Int] ?= None, mode: Mode = CheckMode)
