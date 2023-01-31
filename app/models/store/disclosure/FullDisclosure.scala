@@ -14,29 +14,35 @@
  * limitations under the License.
  */
 
-package models.store.notification
+package models.store.disclosure
 
 import play.api.libs.json.{Json, OFormat}
 import java.time.Instant
 import play.api.Logging 
 import models.store.{CustomerId, Metadata}
+import models.store.notification.PersonalDetails
 
-final case class Notification (
+final case class FullDisclosure (
   userId: String,
-  notificationId: String,
+  disclosureId: String,
   lastUpdated: Instant,
   metadata: Metadata,
   personalDetails: PersonalDetails,
+  offshoreLiabilities: OffshoreLiabilities,
+  otherLiabilities: OtherLiabilities,
+  reasonForDisclosingNow: ReasonForDisclosingNow,
   customerId: Option[CustomerId] = None
 ) extends Logging {
 
-  def disclosingAboutThemselves: Boolean = personalDetails.disclosingAboutThemselves
+  lazy val disclosingAboutThemselves: Boolean = personalDetails.disclosingAboutThemselves
 
-  def isSubmitted: Boolean = metadata.submissionTime.isDefined
+  lazy val isSubmitted: Boolean = metadata.submissionTime.isDefined
 
-  def isComplete: Boolean = personalDetails.isComplete
+  lazy val disclosingOffshoreLiabilities: Boolean = personalDetails.background.offshoreLiabilities.getOrElse(false)
+
+  lazy val isComplete: Boolean = personalDetails.isComplete && otherLiabilities.isComplete(personalDetails.isAnIndividual) && reasonForDisclosingNow.isComplete && (!disclosingOffshoreLiabilities || offshoreLiabilities.isComplete)
 }
 
-object Notification {
-  implicit val format: OFormat[Notification] = Json.format[Notification]
+object FullDisclosure {
+  implicit val format: OFormat[FullDisclosure] = Json.format[FullDisclosure]
 }

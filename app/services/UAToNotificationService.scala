@@ -26,11 +26,7 @@ class UAToNotificationServiceImpl extends UAToNotificationService {
   
   def userAnswersToNotification(userAnswers: UserAnswers): Notification = {
 
-    val notification = Notification(
-      userId = userAnswers.id,
-      notificationId = userAnswers.notificationId,
-      lastUpdated = userAnswers.lastUpdated,
-      metadata = userAnswers.metadata,
+    val rawPersonalDetails = PersonalDetails(
       background = userAnswersToBackground(userAnswers),
       aboutYou = userAnswersToAboutYou(userAnswers)
     )
@@ -38,14 +34,22 @@ class UAToNotificationServiceImpl extends UAToNotificationService {
     val relatesToPage = userAnswers.get(RelatesToPage)
     val areYouTheIndividualPage = userAnswers.get(AreYouTheIndividualPage)
 
-    (relatesToPage, areYouTheIndividualPage) match {
-      case (Some(RelatesTo.AnIndividual), Some(false)) => notification.copy(aboutTheIndividual = Some(userAnswersToAboutTheIndividual(userAnswers)))
-      case (Some(RelatesTo.ACompany), _) => notification.copy(aboutTheCompany = Some(userAnswersToAboutTheCompany(userAnswers)))
-      case (Some(RelatesTo.ATrust), _) => notification.copy(aboutTheTrust = Some(userAnswersToAboutTheTrust(userAnswers)))
-      case (Some(RelatesTo.ALimitedLiabilityPartnership), _) => notification.copy(aboutTheLLP = Some(userAnswersToAboutTheLLP(userAnswers)))
-      case (Some(RelatesTo.AnEstate), _) => notification.copy(aboutTheEstate = Some(userAnswersToAboutTheEstate(userAnswers)))
-      case _ => notification
+    val personalDetails = (relatesToPage, areYouTheIndividualPage) match {
+      case (Some(RelatesTo.AnIndividual), Some(false)) => rawPersonalDetails.copy(aboutTheIndividual = Some(userAnswersToAboutTheIndividual(userAnswers)))
+      case (Some(RelatesTo.ACompany), _) => rawPersonalDetails.copy(aboutTheCompany = Some(userAnswersToAboutTheCompany(userAnswers)))
+      case (Some(RelatesTo.ATrust), _) => rawPersonalDetails.copy(aboutTheTrust = Some(userAnswersToAboutTheTrust(userAnswers)))
+      case (Some(RelatesTo.ALimitedLiabilityPartnership), _) => rawPersonalDetails.copy(aboutTheLLP = Some(userAnswersToAboutTheLLP(userAnswers)))
+      case (Some(RelatesTo.AnEstate), _) => rawPersonalDetails.copy(aboutTheEstate = Some(userAnswersToAboutTheEstate(userAnswers)))
+      case _ => rawPersonalDetails
     }
+
+    Notification(
+      userId = userAnswers.id,
+      notificationId = userAnswers.notificationId,
+      lastUpdated = userAnswers.lastUpdated,
+      metadata = userAnswers.metadata,
+      personalDetails = personalDetails
+    )
 
   }
 

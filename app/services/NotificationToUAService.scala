@@ -30,20 +30,20 @@ class NotificationToUAServiceImpl extends NotificationToUAService {
     val userAnswers = initialiseUserAnswers(notification)
 
     for {
-      uaWithBackground  <- backgroundToUserAnswers(notification.background, userAnswers)
-      uaWithAboutYou    <- aboutYouToUserAnswers(notification.aboutYou, uaWithBackground)
-      updatedUa         <- aboutTheEntityToUserAnswers(notification, uaWithAboutYou)
+      uaWithBackground  <- backgroundToUserAnswers(notification.personalDetails.background, userAnswers)
+      uaWithAboutYou    <- aboutYouToUserAnswers(notification.personalDetails.aboutYou, uaWithBackground)
+      updatedUa         <- aboutTheEntityToUserAnswers(notification.personalDetails, uaWithAboutYou)
     } yield updatedUa
 
   }
 
-  def aboutTheEntityToUserAnswers(notification: Notification, userAnswers: UserAnswers): Try[UserAnswers] = {
-    notification.background.disclosureEntity.flatMap(de => (de.entity, de.areYouTheEntity) match {
-      case (Individual, Some(false)) => notification.aboutTheIndividual.map(aboutTheIndividualToUserAnswers(_, userAnswers))
-      case (Company, _) => notification.aboutTheCompany.map(aboutTheCompanyToUserAnswers(_, userAnswers))
-      case (LLP, _) => notification.aboutTheLLP.map(aboutTheLLPToUserAnswers(_, userAnswers))
-      case (Trust, _) => notification.aboutTheTrust.map(aboutTheTrustToUserAnswers(_, userAnswers))
-      case (Estate, _) => notification.aboutTheEstate.map(aboutTheEstateToUserAnswers(_, userAnswers))
+  def aboutTheEntityToUserAnswers(personalDetails: PersonalDetails, userAnswers: UserAnswers): Try[UserAnswers] = {
+    personalDetails.background.disclosureEntity.flatMap(de => (de.entity, de.areYouTheEntity) match {
+      case (Individual, Some(false)) => personalDetails.aboutTheIndividual.map(aboutTheIndividualToUserAnswers(_, userAnswers))
+      case (Company, _) => personalDetails.aboutTheCompany.map(aboutTheCompanyToUserAnswers(_, userAnswers))
+      case (LLP, _) => personalDetails.aboutTheLLP.map(aboutTheLLPToUserAnswers(_, userAnswers))
+      case (Trust, _) => personalDetails.aboutTheTrust.map(aboutTheTrustToUserAnswers(_, userAnswers))
+      case (Estate, _) => personalDetails.aboutTheEstate.map(aboutTheEstateToUserAnswers(_, userAnswers))
       case _ => Some(Success(userAnswers))
     }).getOrElse(Success(userAnswers))
   }

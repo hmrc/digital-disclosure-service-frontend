@@ -56,4 +56,5 @@ class NotificationStoreServiceImpl @Inject()(
 trait NotificationStoreService {
   def setNotification(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Result]
   def getNotification(userId: String, notificationId: String)(implicit hc: HeaderCarrier): Future[Option[Notification]]
+  def deleteNotification(userId: String, notificationId: String)(implicit hc: HeaderCarrier): Future[Result]
 }
