@@ -60,7 +60,7 @@ class TaskListController @Inject()(
 
       val liabilitiesInformation = buildLiabilitiesInformationRow(ua)
 
-      val additionalInformation = Seq(buildTheReasonForComingForwardNowRow)
+      val additionalInformation = Seq(buildOtherLiabilityIssueRow(ua), buildTheReasonForComingForwardNowRow(ua))
 
       val list = TaskListViewModel(
         personalDetailsTasks,
@@ -120,34 +120,61 @@ class TaskListController @Inject()(
     )
   }
 
-  private def buildOtherLiabilityIssueRow(implicit messages: Messages): TaskListRow = {
+  private def buildOtherLiabilityIssueRow(userAnswers: UserAnswers)(implicit messages: Messages): TaskListRow = {
+
+    val firstPage = userAnswers.get(OtherLiabilityIssuesPage)
+    val isAnIndividual = userAnswers.get(RelatesToPage) match {
+      case Some(RelatesTo.AnIndividual) => true 
+      case Some(RelatesTo.AnEstate) => true
+      case _ => false
+    }
+    val isSectionComplete = dateDisclosureService.uaToOtherLiabilities(userAnswers).isComplete(isAnIndividual)
+    val link = if(isSectionComplete) controllers.otherLiabilities.routes.CheckYourAnswersController.onPageLoad
+    else otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(NormalMode)
+
     TaskListRow(
       id = "other-liability-issue-task-list", 
       sectionTitle = messages("taskList.sectionTitle.fifth"), 
-      status = messages("taskList.status.notStarted"), 
-      link = otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(NormalMode)
+      status = messages(
+        if(isSectionComplete) "taskList.status.completed" 
+        else if(firstPage.isDefined) "taskList.status.inProgress" 
+        else "taskList.status.notStarted"
+      ), 
+      link = link
     )
   }
 
-  private def buildTheReasonForComingForwardNowRow(implicit messages: Messages): TaskListRow = {
+  private def buildTheReasonForComingForwardNowRow(userAnswers: UserAnswers)(implicit messages: Messages): TaskListRow = {
+
+    val firstPage = userAnswers.get(WhyAreYouMakingADisclosurePage)
+    val isSectionComplete = dateDisclosureService.uaToReasonForDisclosingNow(userAnswers).isComplete
+    val operationKey = if (isSectionComplete || firstPage.isDefined) "edit" else "add"
+    val reasonForComingForwardNowTitleKey = s"taskList.$operationKey.sectionTitle.sixth"
+    val link = if(isSectionComplete) controllers.reason.routes.CheckYourAnswersController.onPageLoad
+    else reason.routes.WhyAreYouMakingADisclosureController.onPageLoad(NormalMode)
+
     TaskListRow(
       id = "reason-for-coming-forward-now-liabilitie-task-list", 
-      sectionTitle = messages("taskList.sectionTitle.sixth"), 
-      status = messages("taskList.status.notStarted"), 
-      link = reason.routes.WhyAreYouMakingADisclosureController.onPageLoad(NormalMode)
+      sectionTitle = messages(reasonForComingForwardNowTitleKey), 
+      status = messages(
+        if(isSectionComplete) "taskList.status.completed" 
+        else if(firstPage.isDefined) "taskList.status.inProgress" 
+        else "taskList.status.notStarted"
+      ),  
+      link = link
     )
   }
-
+  
   private def buildLiabilitiesInformationRow(userAnswers: UserAnswers)(implicit messages: Messages): Seq[TaskListRow] = {
     val offshore = userAnswers.get(OffshoreLiabilitiesPage) 
     val onshore = userAnswers.get(OnshoreLiabilitiesPage)
 
     (offshore, onshore) match {
-      case (Some(true),  Some(true))  => Seq(buildCaseReferenceRow(userAnswers), buildOnshoreLiabilitieDetailRow, buildOffshoreLiabilitieDetailRow(userAnswers), buildOtherLiabilityIssueRow)
-      case (Some(true),  _)           => Seq(buildCaseReferenceRow(userAnswers), buildOffshoreLiabilitieDetailRow(userAnswers), buildOtherLiabilityIssueRow)
-      case (_,           Some(true))  => Seq(buildCaseReferenceRow(userAnswers), buildOnshoreLiabilitieDetailRow, buildOtherLiabilityIssueRow)
-      case (Some(false), _)           => Seq(buildCaseReferenceRow(userAnswers), buildOnshoreLiabilitieDetailRow, buildOtherLiabilityIssueRow)
-      case (_,           _)           => Seq(buildCaseReferenceRow(userAnswers), buildOtherLiabilityIssueRow)
+      case (Some(true),  Some(true))  => Seq(buildCaseReferenceRow(userAnswers), buildOnshoreLiabilitieDetailRow, buildOffshoreLiabilitieDetailRow(userAnswers))
+      case (Some(true),  _)           => Seq(buildCaseReferenceRow(userAnswers), buildOffshoreLiabilitieDetailRow(userAnswers))
+      case (_,           Some(true))  => Seq(buildCaseReferenceRow(userAnswers), buildOnshoreLiabilitieDetailRow)
+      case (Some(false), _)           => Seq(buildCaseReferenceRow(userAnswers), buildOnshoreLiabilitieDetailRow)
+      case (_,           _)           => Seq(buildCaseReferenceRow(userAnswers))
     }
   }
 

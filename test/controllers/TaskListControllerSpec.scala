@@ -51,7 +51,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
 
         val personalDetailsTask = Seq(buildYourPersonalDetailsRow(notificationTitleKey, isSectionComplete)(mess))
         val liabilitiesInformation = buildLiabilitiesInformationRow(UserAnswers("id"))(mess)
-        val additionalInformation = Seq(buildTheReasonForComingForwardNowRow()(mess))
+        val additionalInformation = Seq(buildOtherLiabilityIssueRow(UserAnswers("id"))(mess), buildTheReasonForComingForwardNowRow(UserAnswers("id"))(mess))
         val list = TaskListViewModel(personalDetailsTask, liabilitiesInformation, additionalInformation)
 
         status(result) mustEqual OK
@@ -93,7 +93,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
 
         val personalDetailsTask = Seq(buildYourPersonalDetailsRow(notificationTitleKey, isSectionComplete)(mess))
         val liabilitiesInformation = buildLiabilitiesInformationRow(ua)(mess)
-        val additionalInformation = Seq(buildTheReasonForComingForwardNowRow()(mess))
+        val additionalInformation = Seq(buildOtherLiabilityIssueRow(ua)(mess), buildTheReasonForComingForwardNowRow(ua)(mess))
         val list = TaskListViewModel(personalDetailsTask, liabilitiesInformation, additionalInformation)
 
         status(result) mustEqual OK
@@ -178,7 +178,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
     )
   }
 
-  private def buildOtherLiabilityIssueRow()(implicit messages: Messages): TaskListRow = {
+  private def buildOtherLiabilityIssueRow(userAnswers: UserAnswers)(implicit messages: Messages): TaskListRow = {
     TaskListRow(
       id = "other-liability-issue-task-list", 
       sectionTitle = messages("taskList.sectionTitle.fifth"), 
@@ -187,10 +187,14 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
     )
   }
 
-  private def buildTheReasonForComingForwardNowRow()(implicit messages: Messages): TaskListRow = {
+  private def buildTheReasonForComingForwardNowRow(userAnswers: UserAnswers)(implicit messages: Messages): TaskListRow = {
+
+    val operationKey = "add"
+    val reasonForComingForwardNowTitleKey = s"taskList.$operationKey.sectionTitle.sixth"
+
     TaskListRow(
       id = "reason-for-coming-forward-now-liabilitie-task-list", 
-      sectionTitle = messages("taskList.sectionTitle.sixth"), 
+      sectionTitle = messages(reasonForComingForwardNowTitleKey), 
       status = messages("taskList.status.notStarted"),
       link = reason.routes.WhyAreYouMakingADisclosureController.onPageLoad(NormalMode)
     )
@@ -201,11 +205,11 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
     val onshore = userAnswers.get(OnshoreLiabilitiesPage)
 
     (offshore, onshore) match {
-      case (Some(true),  Some(true))  => Seq(buildCaseReferenceRow(userAnswers), buildOnshoreLiabilitieDetailRow, buildOffshoreLiabilitieDetailRow(userAnswers), buildOtherLiabilityIssueRow)
-      case (Some(true),  _)           => Seq(buildCaseReferenceRow(userAnswers), buildOffshoreLiabilitieDetailRow(userAnswers), buildOtherLiabilityIssueRow)
-      case (_,           Some(true))  => Seq(buildCaseReferenceRow(userAnswers), buildOnshoreLiabilitieDetailRow, buildOtherLiabilityIssueRow)
-      case (Some(false), _)           => Seq(buildCaseReferenceRow(userAnswers), buildOnshoreLiabilitieDetailRow, buildOtherLiabilityIssueRow)
-      case (_,           _)           => Seq(buildCaseReferenceRow(userAnswers), buildOtherLiabilityIssueRow)
+      case (Some(true),  Some(true))  => Seq(buildCaseReferenceRow(userAnswers), buildOnshoreLiabilitieDetailRow, buildOffshoreLiabilitieDetailRow(userAnswers))
+      case (Some(true),  _)           => Seq(buildCaseReferenceRow(userAnswers), buildOffshoreLiabilitieDetailRow(userAnswers))
+      case (_,           Some(true))  => Seq(buildCaseReferenceRow(userAnswers), buildOnshoreLiabilitieDetailRow)
+      case (Some(false), _)           => Seq(buildCaseReferenceRow(userAnswers), buildOnshoreLiabilitieDetailRow)
+      case (_,           _)           => Seq(buildCaseReferenceRow(userAnswers))
     }
   }
 
