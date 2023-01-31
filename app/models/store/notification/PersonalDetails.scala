@@ -25,7 +25,7 @@ final case class PersonalDetails(
   aboutTheCompany: Option[AboutTheCompany] = None,
   aboutTheTrust: Option[AboutTheTrust] = None,
   aboutTheLLP: Option[AboutTheLLP] = None,
-  aboutTheEstate: Option[AboutTheEstate] = None,
+  aboutTheEstate: Option[AboutTheEstate] = None
 ) {
   lazy val disclosingAboutThemselves: Boolean = background.disclosureEntity match {
     case Some(DisclosureEntity(Individual, Some(true))) => true
