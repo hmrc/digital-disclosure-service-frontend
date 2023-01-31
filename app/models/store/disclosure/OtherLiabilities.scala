@@ -25,7 +25,6 @@ final case class OtherLiabilities(
   other: Option[String] = None,
   taxCreditsReceived: Option[Boolean] = None
 ) {
-  
   def isComplete(isAnIndividual: Boolean) = {
     val taxCreditsRequiredAndCompleted = (!isAnIndividual || taxCreditsReceived.isDefined)
     this match {

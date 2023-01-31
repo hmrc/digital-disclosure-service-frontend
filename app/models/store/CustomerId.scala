@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package models.store.notification
+package models.store
 
 import play.api.libs.json.{Json, OFormat}
 

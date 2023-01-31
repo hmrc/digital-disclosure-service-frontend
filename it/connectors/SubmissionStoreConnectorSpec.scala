@@ -29,9 +29,10 @@ import util.WireMockHelper
 import java.time.Instant
 import play.api.http.Status._
 import models.store.notification._
+import models.store._
 import play.api.mvc.Results.NoContent
 
-class NotificationStoreConnectorSpec extends AnyFreeSpec with Matchers with ScalaFutures with IntegrationPatience with WireMockHelper {
+class SubmissionStoreConnectorSpec extends AnyFreeSpec with Matchers with ScalaFutures with IntegrationPatience with WireMockHelper {
 
   private lazy val app: Application =
     GuiceApplicationBuilder()
@@ -43,27 +44,27 @@ class NotificationStoreConnectorSpec extends AnyFreeSpec with Matchers with Scal
       )
       .build()
 
-  private lazy val connector = app.injector.instanceOf[NotificationStoreConnector]
+  private lazy val connector = app.injector.instanceOf[SubmissionStoreConnector]
 
-  "getNotification" - {
+  "getSubmission" - {
 
     val hc = HeaderCarrier()
-    val url = "/digital-disclosure-service-store/notification/user/123/id/456"
+    val url = "/digital-disclosure-service-store/submission/user/123/id/456"
 
-    val testNotification = Notification("123", "456", Instant.now(), Metadata(), Background(), AboutYou())
+    val testSubmission: Submission = Notification("123", "456", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
 
-    "must return a successful future when the store responds with OK and a Notification object" in {
+    "must return a successful future when the store responds with OK and a Submission object" in {
 
       server.stubFor(
         get(urlMatching(url))
           .willReturn(
             aResponse()
               .withStatus(OK)
-              .withBody(Json.toJson(testNotification).toString)
+              .withBody(Json.toJson(testSubmission).toString)
           )
       )
 
-      connector.getNotification("123", "456")(hc).futureValue mustEqual Some(testNotification)
+      connector.getSubmission("123", "456")(hc).futureValue mustEqual Some(testSubmission)
     }
 
     "must return a successful future when the store responds with NOT_FOUND" in {
@@ -73,7 +74,7 @@ class NotificationStoreConnectorSpec extends AnyFreeSpec with Matchers with Scal
           .willReturn(aResponse().withStatus(NOT_FOUND))
       )
 
-      connector.getNotification("123", "456")(hc).futureValue mustEqual None
+      connector.getSubmission("123", "456")(hc).futureValue mustEqual None
     }
 
     "must return a failed future when the store responds with OK but a different object" in {
@@ -83,8 +84,8 @@ class NotificationStoreConnectorSpec extends AnyFreeSpec with Matchers with Scal
           .willReturn(aResponse().withBody("""{ "element" : "value" }""").withStatus(OK))
       )
 
-      val exception = connector.getNotification("123", "456")(hc).failed.futureValue
-      exception mustEqual NotificationStoreConnector.UnexpectedResponseException(200, """{ "element" : "value" }""")
+      val exception = connector.getSubmission("123", "456")(hc).failed.futureValue
+      exception mustEqual SubmissionStoreConnector.UnexpectedResponseException(200, """{ "element" : "value" }""")
     }
 
     "must return a failed future when the store responds with anything else" in {
@@ -94,8 +95,8 @@ class NotificationStoreConnectorSpec extends AnyFreeSpec with Matchers with Scal
           .willReturn(aResponse().withBody("body").withStatus(INTERNAL_SERVER_ERROR))
       )
 
-      val exception = connector.getNotification("123", "456")(hc).failed.futureValue
-      exception mustEqual NotificationStoreConnector.UnexpectedResponseException(500, "body")
+      val exception = connector.getSubmission("123", "456")(hc).failed.futureValue
+      exception mustEqual SubmissionStoreConnector.UnexpectedResponseException(500, "body")
     }
 
     "must return a failed future when there is a connection error" in {
@@ -105,30 +106,30 @@ class NotificationStoreConnectorSpec extends AnyFreeSpec with Matchers with Scal
           .willReturn(aResponse().withFault(Fault.RANDOM_DATA_THEN_CLOSE))
       )
 
-      connector.getNotification("123", "456")(hc).failed.futureValue
+      connector.getSubmission("123", "456")(hc).failed.futureValue
     }
 
   }
 
-  "getAllNotifications" - {
+  "getAllSubmissions" - {
 
     val hc = HeaderCarrier()
-    val url = "/digital-disclosure-service-store/notification/user/123"
+    val url = "/digital-disclosure-service-store/submission/user/123"
 
-    val testNotification = Notification("123", "456", Instant.now(), Metadata(), Background(), AboutYou())
+    val testSubmission: Submission = Notification("123", "456", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
 
-    "must return a successful future when the store responds with OK and a Notification object" in {
+    "must return a successful future when the store responds with OK and a Submission object" in {
 
       server.stubFor(
         get(urlMatching(url))
           .willReturn(
             aResponse()
               .withStatus(OK)
-              .withBody(Json.toJson(Seq(testNotification)).toString)
+              .withBody(Json.toJson(Seq(testSubmission)).toString)
           )
       )
 
-      connector.getAllNotifications("123")(hc).futureValue mustEqual Seq(testNotification)
+      connector.getAllSubmissions("123")(hc).futureValue mustEqual Seq(testSubmission)
     }
 
     "must return a successful future when the store responds with NOT_FOUND" in {
@@ -138,7 +139,7 @@ class NotificationStoreConnectorSpec extends AnyFreeSpec with Matchers with Scal
           .willReturn(aResponse().withStatus(NOT_FOUND))
       )
 
-      connector.getAllNotifications("123")(hc).futureValue mustEqual Nil
+      connector.getAllSubmissions("123")(hc).futureValue mustEqual Nil
     }
 
     "must return a failed future when the store responds with OK but a different object" in {
@@ -148,8 +149,8 @@ class NotificationStoreConnectorSpec extends AnyFreeSpec with Matchers with Scal
           .willReturn(aResponse().withBody("""{ "element" : "value" }""").withStatus(OK))
       )
 
-      val exception = connector.getAllNotifications("123")(hc).failed.futureValue
-      exception mustEqual NotificationStoreConnector.UnexpectedResponseException(200, """{ "element" : "value" }""")
+      val exception = connector.getAllSubmissions("123")(hc).failed.futureValue
+      exception mustEqual SubmissionStoreConnector.UnexpectedResponseException(200, """{ "element" : "value" }""")
     }
 
     "must return a failed future when the store responds with anything else" in {
@@ -159,8 +160,8 @@ class NotificationStoreConnectorSpec extends AnyFreeSpec with Matchers with Scal
           .willReturn(aResponse().withBody("body").withStatus(INTERNAL_SERVER_ERROR))
       )
 
-      val exception = connector.getAllNotifications("123")(hc).failed.futureValue
-      exception mustEqual NotificationStoreConnector.UnexpectedResponseException(500, "body")
+      val exception = connector.getAllSubmissions("123")(hc).failed.futureValue
+      exception mustEqual SubmissionStoreConnector.UnexpectedResponseException(500, "body")
     }
 
     "must return a failed future when there is a connection error" in {
@@ -170,30 +171,30 @@ class NotificationStoreConnectorSpec extends AnyFreeSpec with Matchers with Scal
           .willReturn(aResponse().withFault(Fault.RANDOM_DATA_THEN_CLOSE))
       )
 
-      connector.getAllNotifications("123")(hc).failed.futureValue
+      connector.getAllSubmissions("123")(hc).failed.futureValue
     }
 
   }
 
-  "setNotification" - {
+  "setSubmission" - {
 
     val hc = HeaderCarrier()
-    val url = "/digital-disclosure-service-store/notification"
+    val url = "/digital-disclosure-service-store/submission"
 
-    val testNotification = Notification("123", "456", Instant.now(), Metadata(), Background(), AboutYou())
+    val testSubmission: Submission = Notification("123", "456", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
 
     "must return a successful future when the store responds with NO_CONTENT" in {
 
       server.stubFor(
         put(urlMatching(url))
-          .withRequestBody(equalToJson(Json.stringify(Json.toJson(testNotification))))
+          .withRequestBody(equalToJson(Json.stringify(Json.toJson(testSubmission))))
           .willReturn(
             aResponse()
               .withStatus(NO_CONTENT)
           )
       )
 
-      connector.setNotification(testNotification)(hc).futureValue mustEqual NoContent
+      connector.setSubmission(testSubmission)(hc).futureValue mustEqual NoContent
     }
 
 
@@ -201,31 +202,31 @@ class NotificationStoreConnectorSpec extends AnyFreeSpec with Matchers with Scal
 
       server.stubFor(
         put(urlMatching(url))
-          .withRequestBody(equalToJson(Json.stringify(Json.toJson(testNotification))))
+          .withRequestBody(equalToJson(Json.stringify(Json.toJson(testSubmission))))
           .willReturn(aResponse().withBody("body").withStatus(INTERNAL_SERVER_ERROR))
       )
 
-      val exception = connector.setNotification(testNotification)(hc).failed.futureValue
-      exception mustEqual NotificationStoreConnector.UnexpectedResponseException(500, "body")
+      val exception = connector.setSubmission(testSubmission)(hc).failed.futureValue
+      exception mustEqual SubmissionStoreConnector.UnexpectedResponseException(500, "body")
     }
 
     "must return a failed future when there is a connection error" in {
 
       server.stubFor(
         put(urlMatching(url))
-          .withRequestBody(equalToJson(Json.stringify(Json.toJson(testNotification))))
+          .withRequestBody(equalToJson(Json.stringify(Json.toJson(testSubmission))))
           .willReturn(aResponse().withFault(Fault.RANDOM_DATA_THEN_CLOSE))
       )
 
-      connector.setNotification(testNotification)(hc).failed.futureValue
+      connector.setSubmission(testSubmission)(hc).failed.futureValue
     }
 
   }
 
-  "deleteNotification" - {
+  "deleteSubmission" - {
 
     val hc = HeaderCarrier()
-    val url = "/digital-disclosure-service-store/notification/user/123/id/456"
+    val url = "/digital-disclosure-service-store/submission/user/123/id/456"
 
     "must return a successful future when the store responds with NO_CONTENT" in {
 
@@ -237,7 +238,7 @@ class NotificationStoreConnectorSpec extends AnyFreeSpec with Matchers with Scal
           )
       )
 
-      connector.deleteNotification("123", "456")(hc).futureValue mustEqual NoContent
+      connector.deleteSubmission("123", "456")(hc).futureValue mustEqual NoContent
     }
 
 
@@ -248,8 +249,8 @@ class NotificationStoreConnectorSpec extends AnyFreeSpec with Matchers with Scal
           .willReturn(aResponse().withBody("body").withStatus(INTERNAL_SERVER_ERROR))
       )
 
-      val exception = connector.deleteNotification("123", "456")(hc).failed.futureValue
-      exception mustEqual NotificationStoreConnector.UnexpectedResponseException(500, "body")
+      val exception = connector.deleteSubmission("123", "456")(hc).failed.futureValue
+      exception mustEqual SubmissionStoreConnector.UnexpectedResponseException(500, "body")
     }
 
     "must return a failed future when there is a connection error" in {
@@ -259,7 +260,7 @@ class NotificationStoreConnectorSpec extends AnyFreeSpec with Matchers with Scal
           .willReturn(aResponse().withFault(Fault.RANDOM_DATA_THEN_CLOSE))
       )
 
-      connector.deleteNotification("123", "456")(hc).failed.futureValue
+      connector.deleteSubmission("123", "456")(hc).failed.futureValue
     }
 
   }

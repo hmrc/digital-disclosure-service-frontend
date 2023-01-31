@@ -19,6 +19,7 @@ package services
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import models.store.notification._
+import models.store.Metadata
 import pages._
 import models._
 import models.address._
@@ -30,7 +31,7 @@ class NotificationToUAServiceSpec extends AnyWordSpec with Matchers with TryValu
 
   val sut = new NotificationToUAServiceImpl
 
-  val testNotification = Notification("userId", "notificationId", Instant.now(), Metadata(), Background(), AboutYou())
+  val testNotification = Notification("userId", "submissionId", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
 
   val emptyUA = UserAnswers("id")
 
@@ -230,11 +231,11 @@ class NotificationToUAServiceSpec extends AnyWordSpec with Matchers with TryValu
   }
   
   "initialiseUserAnswers" should {
-    "retrieve the userId, notificationId and lastUpdated from the notification" in {
+    "retrieve the userId, submissionId and lastUpdated from the notification" in {
       val instant = Instant.now()
       val metadata = Metadata(reference = Some("123"), submissionTime = Some(LocalDateTime.now))
-      val expectedResult = UserAnswers(id = "This user Id", notificationId = "Some notification Id", lastUpdated = instant, metadata = metadata)
-      val notification = Notification("This user Id", "Some notification Id", instant, metadata, Background(), AboutYou())
+      val expectedResult = UserAnswers(id = "This user Id", submissionId = "Some notification Id", lastUpdated = instant, metadata = metadata)
+      val notification = Notification("This user Id", "Some notification Id", instant, metadata, PersonalDetails(Background(), AboutYou()))
       sut.initialiseUserAnswers(notification) shouldEqual expectedResult
     }
   }
@@ -415,33 +416,33 @@ class NotificationToUAServiceSpec extends AnyWordSpec with Matchers with TryValu
 
     "return populated AboutTheIndividual information where the entity is set to Individual" in {
       val background = Background(disclosureEntity = Some(DisclosureEntity(Individual, Some(false))))
-      val notification = testNotification.copy(background = background, aboutTheIndividual = Some(AboutTheIndividual(fullName = Some("Some full name"))))
+      val personalDetails = testNotification.personalDetails.copy(background = background, aboutTheIndividual = Some(AboutTheIndividual(fullName = Some("Some full name"))))      
 
-      val updatedUserAnswers = sut.aboutTheEntityToUserAnswers(notification, emptyUA).success.value
+      val updatedUserAnswers = sut.aboutTheEntityToUserAnswers(personalDetails, emptyUA).success.value
       updatedUserAnswers.get(WhatIsTheIndividualsFullNamePage) shouldEqual Some("Some full name")
     }
 
     "return populated AboutTheCompany information where the entity is set to Company" in {
       val background = Background(disclosureEntity = Some(DisclosureEntity(Company, Some(false))))
-      val notification = testNotification.copy(background = background, aboutTheCompany = Some(AboutTheCompany(name = Some("Some name"))))
+      val personalDetails = testNotification.personalDetails.copy(background = background, aboutTheCompany = Some(AboutTheCompany(name = Some("Some name"))))
 
-      val updatedUserAnswers = sut.aboutTheEntityToUserAnswers(notification, emptyUA).success.value
+      val updatedUserAnswers = sut.aboutTheEntityToUserAnswers(personalDetails, emptyUA).success.value
       updatedUserAnswers.get(WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage) shouldEqual Some("Some name")
     }
 
     "return populated AboutTheTrust information where the entity is set to Trust" in {
       val background = Background(disclosureEntity = Some(DisclosureEntity(Trust, Some(false))))
-      val notification = testNotification.copy(background = background, aboutTheTrust = Some(AboutTheTrust(name = Some("Some name"))))
+      val personalDetails = testNotification.personalDetails.copy(background = background, aboutTheTrust = Some(AboutTheTrust(name = Some("Some name"))))
 
-      val updatedUserAnswers = sut.aboutTheEntityToUserAnswers(notification, emptyUA).success.value
+      val updatedUserAnswers = sut.aboutTheEntityToUserAnswers(personalDetails, emptyUA).success.value
       updatedUserAnswers.get(WhatIsTheTrustNamePage) shouldEqual Some("Some name")
     }
 
     "return populated AboutTheLLP information where the entity is set to LLP" in {
       val background = Background(disclosureEntity = Some(DisclosureEntity(LLP, Some(false))))
-      val notification = testNotification.copy(background = background, aboutTheLLP = Some(AboutTheLLP(name = Some("Some name"))))
+      val personalDetails = testNotification.personalDetails.copy(background = background, aboutTheLLP = Some(AboutTheLLP(name = Some("Some name"))))
 
-      val updatedUserAnswers = sut.aboutTheEntityToUserAnswers(notification, emptyUA).success.value
+      val updatedUserAnswers = sut.aboutTheEntityToUserAnswers(personalDetails, emptyUA).success.value
       updatedUserAnswers.get(WhatIsTheLLPNamePage) shouldEqual Some("Some name")
     }
 

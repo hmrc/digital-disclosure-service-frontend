@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package models.store.notification
+package models.store
 
 import java.time.LocalDateTime
 import play.api.libs.json.{Json, OFormat}

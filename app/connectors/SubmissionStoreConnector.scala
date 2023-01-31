@@ -27,101 +27,101 @@ import uk.gov.hmrc.http.{HeaderCarrier, StringContextOps}
 import com.google.inject.{Inject, Singleton, ImplementedBy}
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.control.NoStackTrace
-import models.store.notification._
+import models.store.Submission
 import play.api.mvc.Result
 import play.api.mvc.Results.NoContent
 import java.time.Clock
 import play.mvc.Http.HeaderNames.AUTHORIZATION
 
 @Singleton
-class NotificationStoreConnectorImpl @Inject() (
+class SubmissionStoreConnectorImpl @Inject() (
                                 httpClient: HttpClientV2,
                                 configuration: Configuration,
                                 clock: Clock
-                              )(implicit ec: ExecutionContext) extends NotificationStoreConnector with ConnectorErrorHandler {
+                              )(implicit ec: ExecutionContext) extends SubmissionStoreConnector with ConnectorErrorHandler {
 
   private val service: Service = configuration.get[Service]("microservice.services.digital-disclosure-service-store")
   private val baseUrl = s"${service.baseUrl}/digital-disclosure-service-store"
 
   private val clientAuthToken = configuration.get[String]("internal-auth.token")
 
-  def getNotification(userId: String, notificationId: String)(implicit hc: HeaderCarrier): Future[Option[Notification]] = {
+  def getSubmission(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Option[Submission]] = {
     httpClient
-      .get(url"$baseUrl/notification/user/$userId/id/$notificationId")
+      .get(url"$baseUrl/submission/user/$userId/id/$submissionId")
       .setHeader(AUTHORIZATION -> clientAuthToken)
       .execute
       .flatMap { response =>
         if (response.status == OK) {
-            response.json.validate[Notification] match {
-              case JsSuccess(notification, _) => Future.successful(Some(notification))
-              case JsError(_) => Future.failed(NotificationStoreConnector.UnexpectedResponseException(response.status, response.body))
+            response.json.validate[Submission] match {
+              case JsSuccess(submission, _) => Future.successful(Some(submission))
+              case JsError(_) => Future.failed(SubmissionStoreConnector.UnexpectedResponseException(response.status, response.body))
             }
         } else if (response.status == NOT_FOUND) {
           Future.successful(None)
         } else {
-          handleError(NotificationStoreConnector.UnexpectedResponseException(response.status, response.body))
+          handleError(SubmissionStoreConnector.UnexpectedResponseException(response.status, response.body))
         }
       }
   }
 
-  def getAllNotifications(userId: String)(implicit hc: HeaderCarrier): Future[Seq[Notification]] = {
+  def getAllSubmissions(userId: String)(implicit hc: HeaderCarrier): Future[Seq[Submission]] = {
     httpClient
-      .get(url"$baseUrl/notification/user/$userId")
+      .get(url"$baseUrl/submission/user/$userId")
       .setHeader(AUTHORIZATION -> clientAuthToken)
       .execute
       .flatMap { response =>
         if (response.status == OK) {
-            response.json.validate[Seq[Notification]] match {
-              case JsSuccess(notifications, _) => Future.successful(notifications)
-              case JsError(_) => Future.failed(NotificationStoreConnector.UnexpectedResponseException(response.status, response.body))
+            response.json.validate[Seq[Submission]] match {
+              case JsSuccess(submissions, _) => Future.successful(submissions)
+              case JsError(_) => Future.failed(SubmissionStoreConnector.UnexpectedResponseException(response.status, response.body))
             }
         } else if (response.status == NOT_FOUND) {
           Future.successful(Nil)
         } else {
-          handleError(NotificationStoreConnector.UnexpectedResponseException(response.status, response.body))
+          handleError(SubmissionStoreConnector.UnexpectedResponseException(response.status, response.body))
         }
       }
   }
 
-  def setNotification(notification: Notification)(implicit hc: HeaderCarrier): Future[Result] = {
+  def setSubmission(submission: Submission)(implicit hc: HeaderCarrier): Future[Result] = {
     httpClient
-      .put(url"$baseUrl/notification")
+      .put(url"$baseUrl/submission")
       .setHeader(AUTHORIZATION -> clientAuthToken)
-      .withBody(Json.toJson(notification))
+      .withBody(Json.toJson(submission))
       .execute
       .flatMap { response =>
         if (response.status == NO_CONTENT) {
           Future.successful(NoContent)
         } else {
-          handleError(NotificationStoreConnector.UnexpectedResponseException(response.status, response.body))
+          handleError(SubmissionStoreConnector.UnexpectedResponseException(response.status, response.body))
         }
       }
   }
 
-  def deleteNotification(userId: String, notificationId: String)(implicit hc: HeaderCarrier): Future[Result] = {
+  def deleteSubmission(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Result] = {
     httpClient
-      .delete(url"$baseUrl/notification/user/$userId/id/$notificationId")
+      .delete(url"$baseUrl/submission/user/$userId/id/$submissionId")
       .setHeader(AUTHORIZATION -> clientAuthToken)
       .execute
       .flatMap { response =>
         if (response.status == NO_CONTENT) {
           Future.successful(NoContent)
         } else {
-          handleError(NotificationStoreConnector.UnexpectedResponseException(response.status, response.body))
+          handleError(SubmissionStoreConnector.UnexpectedResponseException(response.status, response.body))
         }
       }
   }
 }
 
-@ImplementedBy(classOf[NotificationStoreConnectorImpl])
-trait NotificationStoreConnector {
-  def getNotification(userId: String, notificationId: String)(implicit hc: HeaderCarrier): Future[Option[Notification]]
-  def getAllNotifications(userId: String)(implicit hc: HeaderCarrier): Future[Seq[Notification]]
-  def setNotification(notification: Notification)(implicit hc: HeaderCarrier): Future[Result]
-  def deleteNotification(userId: String, notificationId: String)(implicit hc: HeaderCarrier): Future[Result]
+@ImplementedBy(classOf[SubmissionStoreConnectorImpl])
+trait SubmissionStoreConnector {
+  def getSubmission(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Option[Submission]]
+  def getAllSubmissions(userId: String)(implicit hc: HeaderCarrier): Future[Seq[Submission]]
+  def setSubmission(submission: Submission)(implicit hc: HeaderCarrier): Future[Result]
+  def deleteSubmission(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Result]
 }
 
-object NotificationStoreConnector {
+object SubmissionStoreConnector {
   final case class UnexpectedResponseException(status: Int, body: String) extends Exception with NoStackTrace {
     override def getMessage: String = s"Unexpected response from DDS Store, status: $status, body: $body"
   }

@@ -20,54 +20,55 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalamock.scalatest.MockFactory
 import models.store.notification._
+import models.store._
 import org.scalatest.concurrent.ScalaFutures
 import scala.concurrent.Future
 import org.scalamock.handlers.{CallHandler1, CallHandler2, CallHandler3}
 import uk.gov.hmrc.http.HeaderCarrier
-import connectors.NotificationStoreConnector
+import connectors.SubmissionStoreConnector
 import play.api.mvc.Result
 import java.time.Instant
 import models.UserAnswers
 import play.api.mvc.Results.Ok
 
-class NotificationStoreServiceSpec extends AnyWordSpec with Matchers 
+class SubmissionStoreServiceSpec extends AnyWordSpec with Matchers 
     with MockFactory with ScalaFutures {
 
-  private val connector = mock[NotificationStoreConnector]
+  private val connector = mock[SubmissionStoreConnector]
   private val service = mock[UAToNotificationService]
-  val sut = new NotificationStoreServiceImpl(connector, service)
+  val sut = new SubmissionStoreServiceImpl(connector, service)
   implicit val hc = HeaderCarrier()
 
-  def mockGetNotification(userId: String, notificationId: String)(
-    response: Future[Option[Notification]]
-  ): CallHandler3[String, String, HeaderCarrier, Future[Option[Notification]]] =
+  def mockGetSubmission(userId: String, submissionId: String)(
+    response: Future[Option[Submission]]
+  ): CallHandler3[String, String, HeaderCarrier, Future[Option[Submission]]] =
     (connector
-      .getNotification(_: String, _: String)(_: HeaderCarrier))
-      .expects(userId, notificationId, *)
+      .getSubmission(_: String, _: String)(_: HeaderCarrier))
+      .expects(userId, submissionId, *)
       .returning(response)
   
-  def mockGetAllNotifications(userId: String)(
-    response: Future[Seq[Notification]]
-  ): CallHandler2[String, HeaderCarrier, Future[Seq[Notification]]] =
+  def mockGetAllSubmissions(userId: String)(
+    response: Future[Seq[Submission]]
+  ): CallHandler2[String, HeaderCarrier, Future[Seq[Submission]]] =
     (connector
-      .getAllNotifications(_: String)(_: HeaderCarrier))
+      .getAllSubmissions(_: String)(_: HeaderCarrier))
       .expects(userId, *)
       .returning(response)
 
-  def mockSetNotification(notification: Notification)(
+  def mockSetSubmission(notification: Submission)(
     response: Future[Result]
-  ): CallHandler2[Notification, HeaderCarrier, Future[Result]] =
+  ): CallHandler2[Submission, HeaderCarrier, Future[Result]] =
     (connector
-      .setNotification(_: Notification)(_: HeaderCarrier))
+      .setSubmission(_: Submission)(_: HeaderCarrier))
       .expects(notification, *)
       .returning(response)
   
-  def mockDeleteNotification(userId: String, notificationId: String)(
+  def mockDeleteSubmission(userId: String, submissionId: String)(
     response: Future[Result]
   ): CallHandler3[String, String, HeaderCarrier, Future[Result]] =
     (connector
-      .deleteNotification(_: String, _: String)(_: HeaderCarrier))
-      .expects(userId, notificationId, *)
+      .deleteSubmission(_: String, _: String)(_: HeaderCarrier))
+      .expects(userId, submissionId, *)
       .returning(response)
 
   def mockUserAnswersToNotification(userAnswers: UserAnswers)(
@@ -78,23 +79,23 @@ class NotificationStoreServiceSpec extends AnyWordSpec with Matchers
       .expects(userAnswers)
       .returning(response)
 
-  val testNotification = Notification("123", "456", Instant.now(), Metadata(), Background(), AboutYou())
+  val testSubmission: Submission = Notification("123", "456", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
 
-  "getNotification" should {
+  "getSubmission" should {
     "return the same value as returned by the connector" in {
-      mockGetNotification("123", "456")(Future.successful(Some(testNotification)))
-      sut.getNotification("123", "456").futureValue shouldEqual Some(testNotification)
+      mockGetSubmission("123", "456")(Future.successful(Some(testSubmission)))
+      sut.getSubmission("123", "456").futureValue shouldEqual Some(testSubmission)
     }
   }
 
-  "setNotification" should {
+  "setSubmission" should {
     "pass the userAnswers to the dataService and return the converted value to the connector" in {
       val userAnswers = UserAnswers("id")
-      val convertedNotification = Notification("id", "notificationId", Instant.now(), Metadata(), Background(), AboutYou())
-      mockUserAnswersToNotification(userAnswers)(convertedNotification)
-      mockSetNotification(convertedNotification)(Future.successful(Ok("Done")))
+      val convertedSubmission = Notification("id", "submissionId", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
+      mockUserAnswersToNotification(userAnswers)(convertedSubmission)
+      mockSetSubmission(convertedSubmission)(Future.successful(Ok("Done")))
 
-      sut.setNotification(userAnswers).futureValue shouldEqual Ok("Done")
+      sut.setSubmission(userAnswers).futureValue shouldEqual Ok("Done")
     }
   }
 

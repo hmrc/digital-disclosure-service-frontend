@@ -28,7 +28,7 @@ class SessionRepositorySpec
   private val instant = Instant.now.truncatedTo(ChronoUnit.MILLIS)
   private val stubClock: Clock = Clock.fixed(instant, ZoneId.systemDefault)
 
-  private val userAnswers = UserAnswers("id", "notificationId", SubmissionType.Notification, Json.obj("foo" -> "bar"), Instant.ofEpochSecond(1))
+  private val userAnswers = UserAnswers("id", "submissionId", SubmissionType.Notification, Json.obj("foo" -> "bar"), Instant.ofEpochSecond(1))
 
   private val mockAppConfig = mock[FrontendAppConfig]
   when(mockAppConfig.cacheTtl) thenReturn 1

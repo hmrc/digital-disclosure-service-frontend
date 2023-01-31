@@ -17,6 +17,7 @@
 package services
 
 import models._
+import models.store.Notification
 import uk.gov.hmrc.http.HeaderCarrier
 import scala.concurrent.{ExecutionContext, Future}
 import com.google.inject.{Inject, Singleton, ImplementedBy}
@@ -27,7 +28,7 @@ import play.api.Logging
 @Singleton
 class SessionServiceImpl @Inject()(
   val sessionRepository: SessionRepository,
-  val notificationStoreService: NotificationStoreService,
+  val submissionStoreService: SubmissionStoreService,
   val NotificationToUAService: NotificationToUAService
 )(implicit ec: ExecutionContext) extends SessionService with Logging {
 
@@ -36,7 +37,7 @@ class SessionServiceImpl @Inject()(
 
   def newSession(userId: String)(implicit hc: HeaderCarrier): Future[UserAnswers] =
     for {
-      uaOpt  <- getIndividualNotificationUserAnswers(userId, UserAnswers.defaultNotificationId)
+      uaOpt  <- getIndividualNotificationUserAnswers(userId, UserAnswers.defaultsubmissionId)
       ua     = extractOrDefaultUserAnswers(userId, uaOpt)
       result <- set(ua)
     } yield ua
@@ -47,10 +48,10 @@ class SessionServiceImpl @Inject()(
       case _ => UserAnswers(userId)
     }
 
-  def getIndividualNotificationUserAnswers(userId: String, notificationId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] = 
+  def getIndividualNotificationUserAnswers(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] = 
     for {
-      notificationOpt <- notificationStoreService.getNotification(userId, notificationId)
-      uaOpt <- Future.fromTry(notificationOpt.map(NotificationToUAService.notificationToUserAnswers).sequence)
+      notificationOpt <- submissionStoreService.getSubmission(userId, submissionId)
+      uaOpt <- Future.fromTry(notificationOpt.map{case notification: Notification => NotificationToUAService.notificationToUserAnswers(notification)}.sequence)
     } yield uaOpt
 
   def set(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Boolean] =
@@ -62,7 +63,7 @@ class SessionServiceImpl @Inject()(
   def setNotification(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Boolean] =
     for {
       result <- sessionRepository.set(userAnswers)
-      _      <- notificationStoreService.setNotification(userAnswers)
+      _      <- submissionStoreService.setSubmission(userAnswers)
     } yield result
     
   def clear(id: String): Future[Boolean] = sessionRepository.clear(id)

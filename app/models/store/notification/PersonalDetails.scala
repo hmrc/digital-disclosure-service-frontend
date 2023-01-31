@@ -17,29 +17,24 @@
 package models.store.notification
 
 import play.api.libs.json.{Json, OFormat}
-import java.time.Instant
-import play.api.Logging 
 
-final case class Notification (
-  userId: String,
-  notificationId: String,
-  lastUpdated: Instant,
-  metadata: Metadata,
+final case class PersonalDetails(
   background: Background,
   aboutYou: AboutYou,
   aboutTheIndividual: Option[AboutTheIndividual] = None,
   aboutTheCompany: Option[AboutTheCompany] = None,
   aboutTheTrust: Option[AboutTheTrust] = None,
   aboutTheLLP: Option[AboutTheLLP] = None,
-  aboutTheEstate: Option[AboutTheEstate] = None,
-  customerId: Option[CustomerId] = None
-) extends Logging {
-  def disclosingAboutThemselves: Boolean = background.disclosureEntity match {
+  aboutTheEstate: Option[AboutTheEstate] = None
+) {
+  lazy val disclosingAboutThemselves: Boolean = background.disclosureEntity match {
     case Some(DisclosureEntity(Individual, Some(true))) => true
     case _ => false
   }
 
-  def isComplete: Boolean = {
+  lazy val isAnIndividual: Boolean = background.disclosureEntity.map(de => List(Individual, Estate).contains(de.entity)).getOrElse(false)
+
+  lazy val isComplete: Boolean = {
     val sectionsCompleteForEntity: Boolean = background.disclosureEntity.map(_.entity) match {
       case Some(Individual) if disclosingAboutThemselves => aboutYou.isComplete(true)
       case Some(Individual) => aboutYou.isComplete(false) && (aboutTheIndividual.map(_.isComplete) == Some(true))
@@ -53,6 +48,6 @@ final case class Notification (
   }
 }
 
-object Notification {
-  implicit val format: OFormat[Notification] = Json.format[Notification]
+object PersonalDetails {
+  implicit val format: OFormat[PersonalDetails] = Json.format[PersonalDetails]
 }

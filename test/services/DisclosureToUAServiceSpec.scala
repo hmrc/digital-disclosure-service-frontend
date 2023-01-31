@@ -19,7 +19,9 @@ package services
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import models.store.disclosure._
+import models.store.Notification
 import models.store.notification._
+import models.store.Metadata
 import pages._
 import models._
 import org.scalatest.TryValues
@@ -34,7 +36,7 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
 
   val sut = new DisclosureToUAServiceImpl(TestNotificationToUAService)
 
-  val testNotification = Notification("userId", "notificationId", Instant.now(), Metadata(), Background(), AboutYou())
+  val testNotification = Notification("userId", "submissionId", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
 
   val emptyUA = UserAnswers("id")
 
