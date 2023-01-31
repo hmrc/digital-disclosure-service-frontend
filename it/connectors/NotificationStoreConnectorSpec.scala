@@ -29,6 +29,7 @@ import util.WireMockHelper
 import java.time.Instant
 import play.api.http.Status._
 import models.store.notification._
+import models.store.Metadata
 import play.api.mvc.Results.NoContent
 
 class NotificationStoreConnectorSpec extends AnyFreeSpec with Matchers with ScalaFutures with IntegrationPatience with WireMockHelper {
@@ -50,7 +51,7 @@ class NotificationStoreConnectorSpec extends AnyFreeSpec with Matchers with Scal
     val hc = HeaderCarrier()
     val url = "/digital-disclosure-service-store/notification/user/123/id/456"
 
-    val testNotification = Notification("123", "456", Instant.now(), Metadata(), Background(), AboutYou())
+    val testNotification = Notification("123", "456", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
 
     "must return a successful future when the store responds with OK and a Notification object" in {
 
@@ -115,7 +116,7 @@ class NotificationStoreConnectorSpec extends AnyFreeSpec with Matchers with Scal
     val hc = HeaderCarrier()
     val url = "/digital-disclosure-service-store/notification/user/123"
 
-    val testNotification = Notification("123", "456", Instant.now(), Metadata(), Background(), AboutYou())
+    val testNotification = Notification("123", "456", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
 
     "must return a successful future when the store responds with OK and a Notification object" in {
 
@@ -180,7 +181,7 @@ class NotificationStoreConnectorSpec extends AnyFreeSpec with Matchers with Scal
     val hc = HeaderCarrier()
     val url = "/digital-disclosure-service-store/notification"
 
-    val testNotification = Notification("123", "456", Instant.now(), Metadata(), Background(), AboutYou())
+    val testNotification = Notification("123", "456", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
 
     "must return a successful future when the store responds with NO_CONTENT" in {
 

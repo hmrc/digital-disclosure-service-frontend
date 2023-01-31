@@ -30,6 +30,7 @@ import java.time.Instant
 import play.api.http.Status._
 import models.store.notification._
 import models.submission.SubmissionResponse
+import models.store.Metadata
 import akka.util.ByteString
 
 class DigitalDisclosureServiceConnectorSpec extends AnyFreeSpec with Matchers with ScalaFutures with IntegrationPatience with WireMockHelper {
@@ -51,7 +52,7 @@ class DigitalDisclosureServiceConnectorSpec extends AnyFreeSpec with Matchers wi
     val hc = HeaderCarrier()
     val url = "/digital-disclosure-service/notification/submit"
 
-    val testNotification = Notification("123", "456", Instant.now(), Metadata(), Background(), AboutYou())
+    val testNotification = Notification("123", "456", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
 
     "must return an ID when the store responds with ACCEPTED" in {
 
@@ -98,7 +99,7 @@ class DigitalDisclosureServiceConnectorSpec extends AnyFreeSpec with Matchers wi
     val hc = HeaderCarrier()
     val url = "/digital-disclosure-service/notification/pdf"
 
-    val testNotification = Notification("123", "456", Instant.now(), Metadata(), Background(), AboutYou())
+    val testNotification = Notification("123", "456", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
 
     val testBodyString = "Some body"
     val testBody = ByteString("Some body".getBytes)
