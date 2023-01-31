@@ -27,6 +27,7 @@ final case class FullDisclosure (
   disclosureId: String,
   lastUpdated: Instant,
   metadata: Metadata,
+  caseReference: CaseReference,
   personalDetails: PersonalDetails,
   offshoreLiabilities: OffshoreLiabilities,
   otherLiabilities: OtherLiabilities,
@@ -40,7 +41,12 @@ final case class FullDisclosure (
 
   lazy val disclosingOffshoreLiabilities: Boolean = personalDetails.background.offshoreLiabilities.getOrElse(false)
 
-  lazy val isComplete: Boolean = personalDetails.isComplete && otherLiabilities.isComplete(personalDetails.isAnIndividual) && reasonForDisclosingNow.isComplete && (!disclosingOffshoreLiabilities || offshoreLiabilities.isComplete)
+  lazy val isComplete: Boolean = 
+    caseReference.isComplete && 
+    personalDetails.isComplete && 
+    otherLiabilities.isComplete(personalDetails.isAnIndividual) && 
+    reasonForDisclosingNow.isComplete && 
+    (!disclosingOffshoreLiabilities || offshoreLiabilities.isComplete)
 }
 
 object FullDisclosure {
