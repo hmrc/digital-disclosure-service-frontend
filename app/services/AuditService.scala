@@ -19,7 +19,7 @@ package services
 import com.google.inject.{Inject, Singleton, ImplementedBy}
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 import uk.gov.hmrc.http.HeaderCarrier
-import models.store.notification.Notification
+import models.store.Notification
 import scala.concurrent.ExecutionContext
 
 @Singleton

@@ -25,8 +25,8 @@ import org.scalatest.TryValues
 import org.scalatest.concurrent.ScalaFutures
 import connectors.DigitalDisclosureServiceConnector
 import models.UserAnswers
+import models.store._
 import models.store.notification._
-import models.store.Metadata
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 import scala.concurrent.ExecutionContext.Implicits.global

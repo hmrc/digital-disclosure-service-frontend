@@ -31,7 +31,7 @@ class NotificationToUAServiceSpec extends AnyWordSpec with Matchers with TryValu
 
   val sut = new NotificationToUAServiceImpl
 
-  val testNotification = Notification("userId", "notificationId", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
+  val testNotification = Notification("userId", "submissionId", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
 
   val emptyUA = UserAnswers("id")
 
@@ -231,10 +231,10 @@ class NotificationToUAServiceSpec extends AnyWordSpec with Matchers with TryValu
   }
   
   "initialiseUserAnswers" should {
-    "retrieve the userId, notificationId and lastUpdated from the notification" in {
+    "retrieve the userId, submissionId and lastUpdated from the notification" in {
       val instant = Instant.now()
       val metadata = Metadata(reference = Some("123"), submissionTime = Some(LocalDateTime.now))
-      val expectedResult = UserAnswers(id = "This user Id", notificationId = "Some notification Id", lastUpdated = instant, metadata = metadata)
+      val expectedResult = UserAnswers(id = "This user Id", submissionId = "Some notification Id", lastUpdated = instant, metadata = metadata)
       val notification = Notification("This user Id", "Some notification Id", instant, metadata, PersonalDetails(Background(), AboutYou()))
       sut.initialiseUserAnswers(notification) shouldEqual expectedResult
     }

@@ -17,6 +17,7 @@
 package services
 
 import models._
+import models.store.Notification
 import models.store.notification._
 import pages._
 import scala.util.{Success, Try}
@@ -53,7 +54,7 @@ class NotificationToUAServiceImpl extends NotificationToUAService {
 
     UserAnswers(
       id = userId, 
-      notificationId = notificationId, 
+      submissionId = submissionId, 
       submissionType = SubmissionType.Notification, 
       lastUpdated = lastUpdated,
       metadata = notification.metadata

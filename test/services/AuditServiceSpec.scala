@@ -24,7 +24,7 @@ import org.scalatestplus.mockito.MockitoSugar
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 import scala.concurrent.ExecutionContext.Implicits.global
 import models.store.notification._
-import models.store.Metadata
+import models.store._
 import java.time.Instant
 import uk.gov.hmrc.http.HeaderCarrier
 

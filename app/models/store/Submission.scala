@@ -14,17 +14,26 @@
  * limitations under the License.
  */
 
-package models.store.disclosure
+package models.store
 
-import play.api.libs.json.{Json, OFormat}
 import java.time.Instant
-import play.api.Logging 
-import models.store.{CustomerId, Metadata}
-import models.store.notification.PersonalDetails
+import models.store.notification._
+import models.store.disclosure._
+import play.api.libs.json.{Json, OFormat}
+
+sealed trait Submission {
+  def userId: String
+  def submissionId: String
+  def lastUpdated: Instant
+}
+
+object Submission {
+  implicit val format: OFormat[Submission] = Json.format[Submission]
+}
 
 final case class FullDisclosure (
   userId: String,
-  disclosureId: String,
+  submissionId: String,
   lastUpdated: Instant,
   metadata: Metadata,
   caseReference: CaseReference,
@@ -33,7 +42,7 @@ final case class FullDisclosure (
   otherLiabilities: OtherLiabilities,
   reasonForDisclosingNow: ReasonForDisclosingNow,
   customerId: Option[CustomerId] = None
-) extends Logging {
+) extends Submission {
 
   lazy val disclosingAboutThemselves: Boolean = personalDetails.disclosingAboutThemselves
 
@@ -51,4 +60,24 @@ final case class FullDisclosure (
 
 object FullDisclosure {
   implicit val format: OFormat[FullDisclosure] = Json.format[FullDisclosure]
+}
+
+final case class Notification (
+  userId: String,
+  submissionId: String,
+  lastUpdated: Instant,
+  metadata: Metadata,
+  personalDetails: PersonalDetails,
+  customerId: Option[CustomerId] = None
+) extends Submission {
+
+  def disclosingAboutThemselves: Boolean = personalDetails.disclosingAboutThemselves
+
+  def isSubmitted: Boolean = metadata.submissionTime.isDefined
+
+  def isComplete: Boolean = personalDetails.isComplete
+} 
+
+object Notification {
+  implicit val format: OFormat[Notification] = Json.format[Notification]
 }

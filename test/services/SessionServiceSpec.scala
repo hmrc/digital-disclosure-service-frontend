@@ -19,8 +19,8 @@ package services
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalamock.scalatest.MockFactory
+import models.store._
 import models.store.notification._
-import models.store.Metadata
 import org.scalatest.concurrent.ScalaFutures
 import scala.concurrent.Future
 import org.scalamock.handlers.{CallHandler1, CallHandler2, CallHandler3}
@@ -55,7 +55,7 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
   "set" should {
     "update the repo and the store" in new Test {
       (repo.set(_: UserAnswers)).expects(userAnswers).returning(Future.successful(true))
-      (storeService.setNotification(_: UserAnswers)(_: HeaderCarrier)).expects(userAnswers, *).returning(Future.successful(Ok))
+      (storeService.setSubmission(_: UserAnswers)(_: HeaderCarrier)).expects(userAnswers, *).returning(Future.successful(Ok))
 
       sut.set(userAnswers).futureValue shouldEqual true
     }
@@ -79,28 +79,28 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
   "newSession" should {
 
     "check the store and where it finds nothing, default and set that default in the session and store" in new Test {   
-      mockGetNotification("123", UserAnswers.defaultNotificationId)(Future.successful(None))
+      mockGetSubmission("123", UserAnswers.defaultsubmissionId)(Future.successful(None))
       (repo.set(_: UserAnswers)).expects(*).returning(Future.successful(true))
-      (storeService.setNotification(_: UserAnswers)(_: HeaderCarrier)).expects(*, *).returning(Future.successful(Ok))
+      (storeService.setSubmission(_: UserAnswers)(_: HeaderCarrier)).expects(*, *).returning(Future.successful(Ok))
       val result = sut.newSession("123")
       Thread.sleep(150)
       result.futureValue shouldBe a[UserAnswers]
     }
 
     "check the store and where it finds something, set that value in both the session and store" in new Test {
-      mockGetNotification("123", UserAnswers.defaultNotificationId)(Future.successful(Some(testNotification)))
+      mockGetSubmission("123", UserAnswers.defaultsubmissionId)(Future.successful(Some(testNotification)))
       mockNotificationToUserAnswers(testNotification)(Success(userAnswers))
       (repo.set(_: UserAnswers)).expects(userAnswers).returning(Future.successful(true))
-      (storeService.setNotification(_: UserAnswers)(_: HeaderCarrier)).expects(userAnswers, *).returning(Future.successful(Ok))
+      (storeService.setSubmission(_: UserAnswers)(_: HeaderCarrier)).expects(userAnswers, *).returning(Future.successful(Ok))
 
       sut.newSession("123").futureValue shouldBe a[UserAnswers]
     }
 
     "check the store and where it finds something which has been submitted, default and set that default in the session and store" in new Test {
-      mockGetNotification("123", UserAnswers.defaultNotificationId)(Future.successful(Some(testSubmittedNotification)))
+      mockGetSubmission("123", UserAnswers.defaultsubmissionId)(Future.successful(Some(testSubmittedNotification)))
       mockNotificationToUserAnswers(testSubmittedNotification)(Success(submittedUserAnswers))
       (repo.set(_: UserAnswers)).expects(*).returning(Future.successful(true))
-      (storeService.setNotification(_: UserAnswers)(_: HeaderCarrier)).expects(*, *).returning(Future.successful(Ok))
+      (storeService.setSubmission(_: UserAnswers)(_: HeaderCarrier)).expects(*, *).returning(Future.successful(Ok))
 
       sut.newSession("123").futureValue shouldBe a[UserAnswers]
     }
@@ -108,13 +108,13 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
 
   "getIndividualNotificationUserAnswers" should {
     "check the store and where it finds nothing return None" in new Test {
-      mockGetNotification("123", UserAnswers.defaultNotificationId)(Future.successful(None))
+      mockGetSubmission("123", UserAnswers.defaultsubmissionId)(Future.successful(None))
 
       sut.getIndividualNotificationUserAnswers("123", "Individual").futureValue shouldEqual None
     }
 
     "check the store and where it finds something, convert it to a UserAnswers" in new Test {
-      mockGetNotification("123", UserAnswers.defaultNotificationId)(Future.successful(Some(testNotification)))
+      mockGetSubmission("123", UserAnswers.defaultsubmissionId)(Future.successful(Some(testNotification)))
       mockNotificationToUserAnswers(testNotification)(Success(userAnswers))
 
       sut.getIndividualNotificationUserAnswers("123", "Individual").futureValue shouldEqual Some(userAnswers)
@@ -124,7 +124,7 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
   trait Test { 
   
     val repo = mock[SessionRepository]
-    val storeService = mock[NotificationStoreService]
+    val storeService = mock[SubmissionStoreService]
     val dataService = mock[NotificationToUAService]
 
     val sut = new SessionServiceImpl(repo, storeService, dataService)
@@ -161,19 +161,19 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
         .expects(userId)
         .returning(response)
 
-    def mockGetNotification(userId: String, notificationId: String)(
-      response: Future[Option[Notification]]
-    ): CallHandler3[String, String, HeaderCarrier, Future[Option[Notification]]] =
+    def mockGetSubmission(userId: String, submissionId: String)(
+      response: Future[Option[Submission]]
+    ): CallHandler3[String, String, HeaderCarrier, Future[Option[Submission]]] =
       (storeService
-        .getNotification(_: String, _: String)(_: HeaderCarrier))
-        .expects(userId, notificationId, *)
+        .getSubmission(_: String, _: String)(_: HeaderCarrier))
+        .expects(userId, submissionId, *)
         .returning(response)
     
-    def mockSetNotification(userAnswers: UserAnswers)(
+    def mockSetSubmission(userAnswers: UserAnswers)(
       response: Future[Result]
     ): CallHandler2[UserAnswers, HeaderCarrier, Future[Result]] =
       (storeService
-        .setNotification(_: UserAnswers)(_: HeaderCarrier))
+        .setSubmission(_: UserAnswers)(_: HeaderCarrier))
         .expects(userAnswers, *)
         .returning(response)
     

@@ -33,10 +33,10 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
 
   val metadata = Metadata(reference = Some("123"), submissionTime = Some(LocalDateTime.now))
   val instant = Instant.now()
-  val testNotification = Notification("userId", "notificationId", instant, metadata, PersonalDetails(Background(), AboutYou()))
+  val testNotification = Notification("userId", "submissionId", instant, metadata, PersonalDetails(Background(), AboutYou()))
   val address = Address("line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GBR"))
   val emptyUA = UserAnswers("id")
-  val userAnswers = UserAnswers("userId", "notificationId", lastUpdated = instant, metadata = metadata)
+  val userAnswers = UserAnswers("userId", "submissionId", lastUpdated = instant, metadata = metadata)
 
   "userAnswersToNotification" should {
     val result = sut.userAnswersToNotification(userAnswers)
@@ -45,8 +45,8 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
       result.userId shouldEqual "userId"
     }
 
-    "get the notificationId from UserAnswers" in {
-      result.notificationId shouldEqual "notificationId"
+    "get the submissionId from UserAnswers" in {
+      result.submissionId shouldEqual "submissionId"
     }
 
     "get the lastUpdated from UserAnswers" in {

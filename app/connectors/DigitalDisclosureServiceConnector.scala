@@ -28,8 +28,7 @@ import com.google.inject.{ImplementedBy, Inject, Singleton}
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.control.NoStackTrace
-import models.store.notification._
-
+import models.store.Notification
 import java.time.Clock
 import models.submission.SubmissionResponse
 import uk.gov.hmrc.http.HttpResponse
@@ -82,7 +81,7 @@ class DigitalDisclosureServiceConnectorImpl @Inject() (
   def handleResponse[A](response: HttpResponse)(implicit reads: Reads[A]): Future[A] = {
     response.json.validate[A] match {
       case JsSuccess(a, _) => Future.successful(a)
-      case JsError(_) => handleError(NotificationStoreConnector.UnexpectedResponseException(response.status, response.body))
+      case JsError(_) => handleError(SubmissionStoreConnector.UnexpectedResponseException(response.status, response.body))
     }
   }
 

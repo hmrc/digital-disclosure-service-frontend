@@ -30,7 +30,7 @@ import java.time.Instant
 import play.api.http.Status._
 import models.store.notification._
 import models.submission.SubmissionResponse
-import models.store.Metadata
+import models.store.{Notification, Metadata}
 import akka.util.ByteString
 
 class DigitalDisclosureServiceConnectorSpec extends AnyFreeSpec with Matchers with ScalaFutures with IntegrationPatience with WireMockHelper {

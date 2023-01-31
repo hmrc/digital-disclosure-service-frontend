@@ -17,6 +17,7 @@
 package services
 
 import models._
+import models.store.Notification
 import models.store.notification._
 import pages._
 import com.google.inject.{Singleton, ImplementedBy}
@@ -45,7 +46,7 @@ class UAToNotificationServiceImpl extends UAToNotificationService {
 
     Notification(
       userId = userAnswers.id,
-      notificationId = userAnswers.notificationId,
+      submissionId = userAnswers.submissionId,
       lastUpdated = userAnswers.lastUpdated,
       metadata = userAnswers.metadata,
       personalDetails = personalDetails

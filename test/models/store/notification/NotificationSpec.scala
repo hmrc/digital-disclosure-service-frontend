@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package models.store.notification
+package models.store
 
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.must.Matchers
@@ -22,7 +22,7 @@ import org.scalatest.OptionValues
 import models.address._
 import java.time.{Instant, LocalDate}
 import models.store.YesNoOrUnsure._
-import models.store.Metadata
+import models.store.notification._
 
 class NotificationSpec extends AnyFreeSpec with Matchers with OptionValues {
 
@@ -33,7 +33,7 @@ class NotificationSpec extends AnyFreeSpec with Matchers with OptionValues {
     "must return true where you are the individual and all questions are answered" in {
       val completedBackground = Background(Some(false), None, Some(DisclosureEntity(Individual, Some(true))), Some(false), None, Some(true), Some(false))
       val aboutYou = AboutYou(Some("name"), None, Some("email"), Some(LocalDate.now), Some("mainOccupation"), Some(ContactPreferences(Set(Email))), Some(No), None, Some(No), None, Some(No), None, Some(address))
-      val notification = Notification("id", "notificationId", Instant.now, Metadata(), PersonalDetails(completedBackground, aboutYou, None, None, None, None, None), None)
+      val notification = Notification("id", "submissionId", Instant.now, Metadata(), PersonalDetails(completedBackground, aboutYou, None, None, None, None, None), None)
       notification.isComplete mustBe true
     }
 
@@ -41,7 +41,7 @@ class NotificationSpec extends AnyFreeSpec with Matchers with OptionValues {
       val completedBackground = Background(Some(false), None, Some(DisclosureEntity(Individual, Some(false))), Some(false), None, Some(true), Some(false))
       val aboutYou = AboutYou(Some("name"), None, Some("email"), None, None, Some(ContactPreferences(Set(Email))), None, None, None, None, None, None, Some(address))
       val aboutTheIndividual = AboutTheIndividual(Some("name"), Some(LocalDate.now), Some("mainOccupation"), Some(Yes), Some("NINO"), Some(No), None, Some(No), None, Some(address))
-      val notification = Notification("id", "notificationId", Instant.now, Metadata(), PersonalDetails(completedBackground, aboutYou, Some(aboutTheIndividual), None, None, None, None), None)
+      val notification = Notification("id", "submissionId", Instant.now, Metadata(), PersonalDetails(completedBackground, aboutYou, Some(aboutTheIndividual), None, None, None, None), None)
       notification.isComplete mustBe true
     }
 
@@ -49,7 +49,7 @@ class NotificationSpec extends AnyFreeSpec with Matchers with OptionValues {
       val completedBackground = Background(Some(false), None, Some(DisclosureEntity(Estate, Some(true))), Some(false), None, Some(true), Some(false))
       val aboutYou = AboutYou(Some("name"), None, Some("email"), None, None, Some(ContactPreferences(Set(Email))), None, None, None, None, None, None, Some(address))
       val aboutTheEstate = AboutTheEstate(Some("name"), Some(LocalDate.now), Some("mainOccupation"), Some(Yes), Some("NINO"), Some(No), None, Some(No), None, Some(address))
-      val notification = Notification("id", "notificationId", Instant.now, Metadata(), PersonalDetails(completedBackground, aboutYou, None, None, None, None, Some(aboutTheEstate)), None)
+      val notification = Notification("id", "submissionId", Instant.now, Metadata(), PersonalDetails(completedBackground, aboutYou, None, None, None, None, Some(aboutTheEstate)), None)
       notification.isComplete mustBe true
     }
 
@@ -57,7 +57,7 @@ class NotificationSpec extends AnyFreeSpec with Matchers with OptionValues {
       val completedBackground = Background(Some(false), None, Some(DisclosureEntity(Company, Some(true))), Some(false), None, Some(true), Some(false))
       val aboutYou = AboutYou(Some("name"), None, Some("email"), None, None, Some(ContactPreferences(Set(Email))), None, None, None, None, None, None, Some(address))
       val aboutTheCompany = AboutTheCompany(Some("name"), Some("Reg number"), Some(address))
-      val notification = Notification("id", "notificationId", Instant.now, Metadata(), PersonalDetails(completedBackground, aboutYou, None, Some(aboutTheCompany), None, None, None), None)
+      val notification = Notification("id", "submissionId", Instant.now, Metadata(), PersonalDetails(completedBackground, aboutYou, None, Some(aboutTheCompany), None, None, None), None)
       notification.isComplete mustBe true
     }
 
@@ -65,7 +65,7 @@ class NotificationSpec extends AnyFreeSpec with Matchers with OptionValues {
       val completedBackground = Background(Some(false), None, Some(DisclosureEntity(Trust, Some(true))), Some(false), None, Some(true), Some(false))
       val aboutYou = AboutYou(Some("name"), None, Some("email"), None, None, Some(ContactPreferences(Set(Email))), None, None, None, None, None, None, Some(address))
       val aboutTheTrust = AboutTheTrust(Some("name"), Some(address))
-      val notification = Notification("id", "notificationId", Instant.now, Metadata(), PersonalDetails(completedBackground, aboutYou, None, None, Some(aboutTheTrust), None, None), None)
+      val notification = Notification("id", "submissionId", Instant.now, Metadata(), PersonalDetails(completedBackground, aboutYou, None, None, Some(aboutTheTrust), None, None), None)
       notification.isComplete mustBe true
     }
 
@@ -73,12 +73,12 @@ class NotificationSpec extends AnyFreeSpec with Matchers with OptionValues {
       val completedBackground = Background(Some(false), None, Some(DisclosureEntity(LLP, Some(true))), Some(false), None, Some(true), Some(false))
       val aboutYou = AboutYou(Some("name"), None, Some("email"), None, None, Some(ContactPreferences(Set(Email))), None, None, None, None, None, None, Some(address))
       val aboutTheLLP = AboutTheLLP(Some("name"), Some(address))
-      val notification = Notification("id", "notificationId", Instant.now, Metadata(), PersonalDetails(completedBackground, aboutYou, None, None, None, Some(aboutTheLLP), None), None)
+      val notification = Notification("id", "submissionId", Instant.now, Metadata(), PersonalDetails(completedBackground, aboutYou, None, None, None, Some(aboutTheLLP), None), None)
       notification.isComplete mustBe true
     }
 
     "must return false where they have not answered all necessary questions" in {
-      val notification = Notification("id", "notificationId", Instant.now, Metadata(), PersonalDetails(Background(), AboutYou(), None, None, None, None, None), None)
+      val notification = Notification("id", "submissionId", Instant.now, Metadata(), PersonalDetails(Background(), AboutYou(), None, None, None, None, None), None)
       notification.isComplete mustBe false
     }
 

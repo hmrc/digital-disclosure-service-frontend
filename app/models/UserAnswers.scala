@@ -26,7 +26,7 @@ import pages.WhichYearsPage
 
 final case class UserAnswers(
                               id: String,
-                              notificationId: String = UserAnswers.defaultNotificationId,
+                              submissionId: String = UserAnswers.defaultsubmissionId,
                               submissionType: SubmissionType = SubmissionType.Notification,
                               data: JsObject = Json.obj(),
                               lastUpdated: Instant = Instant.now,
@@ -130,7 +130,7 @@ final case class UserAnswers(
 
 object UserAnswers {
 
-  val defaultNotificationId = "Individual"
+  val defaultsubmissionId = "Individual"
 
   val reads: Reads[UserAnswers] = {
 
@@ -138,7 +138,7 @@ object UserAnswers {
 
     (
       (__ \ "_id").read[String] and
-      (__ \ "notificationId").read[String] and
+      (__ \ "submissionId").read[String] and
       (__ \ "submissionType").read[SubmissionType] and
       (__ \ "data").read[JsObject] and
       (__ \ "lastUpdated").read(MongoJavatimeFormats.instantFormat) and
@@ -152,7 +152,7 @@ object UserAnswers {
 
     (
       (__ \ "_id").write[String] and
-      (__ \ "notificationId").write[String] and
+      (__ \ "submissionId").write[String] and
       (__ \ "submissionType").write[SubmissionType] and
       (__ \ "data").write[JsObject] and
       (__ \ "lastUpdated").write(MongoJavatimeFormats.instantFormat) and
