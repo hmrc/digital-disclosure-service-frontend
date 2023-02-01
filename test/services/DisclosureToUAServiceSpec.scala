@@ -142,6 +142,7 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
         Some(AdviceGiven("Some advice", MonthYear(12, 2012), AdviceContactPreference.No)),
         Some(WhichEmailAddressCanWeContactYouWith.values.head),
         Some(false),
+        Some("Email"),
         Some("Telephone")
       )
       val updatedUserAnswers = sut.reasonForDisclosingNowToUa(reasonForDisclosingNow, emptyUA).success.value
