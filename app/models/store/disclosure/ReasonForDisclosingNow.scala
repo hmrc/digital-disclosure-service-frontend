@@ -31,11 +31,12 @@ final case class ReasonForDisclosingNow(
   adviceGiven: Option[AdviceGiven] = None,
   whichEmail: Option[WhichEmailAddressCanWeContactYouWith] = None,
   canWeUsePhone: Option[Boolean] = None,
+  email: Option[String] = None,
   telephone: Option[String] = None
 ) {
   def isComplete = this match {
-    case ReasonForDisclosingNow(Some(_), _, Some(_), Some(false), _, _, _, _, _, _, _, _) => true
-    case ReasonForDisclosingNow(Some(_), _, Some(_), Some(true), Some(_), Some(_), _, Some(_), Some(_), _, _, _) => true
+    case ReasonForDisclosingNow(Some(_), _, Some(_), Some(false), _, _, _, _, _, _, _, _, _) => true
+    case ReasonForDisclosingNow(Some(_), _, Some(_), Some(true), Some(_), Some(_), _, Some(_), Some(_), _, _, _, _) => true
     case _ => false
   }
 }
