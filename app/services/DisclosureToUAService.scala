@@ -17,6 +17,7 @@
 package services
 
 import models._
+import models.store._
 import models.store.disclosure._
 import pages._
 import scala.util.Try
@@ -31,10 +32,11 @@ class DisclosureToUAServiceImpl @Inject()(
     val userAnswers = initialiseUserAnswers(fullDisclosure)
 
     for {
-      uaWithCaseRef   <- caseReferenceToUa(fullDisclosure.caseReference, userAnswers)
-      uaWithOffshore  <- offshoreLiabilitiesToUa(fullDisclosure.aboutYou, uaWithCaseRef)
-      uaWithOther     <- otherLiabilitiesToUa(fullDisclosure, uaWithOffshore)
-      updatedUa       <- reasonForDisclosingNowToUa(fullDisclosure, uaWithOther)
+      uaWithCaseRef         <- caseReferenceToUa(fullDisclosure.caseReference, userAnswers)
+      uaWithPersonalDetails <- notificationService.personalDetailsToUserAnswers(fullDisclosure.personalDetails, uaWithCaseRef)
+      uaWithOffshore        <- offshoreLiabilitiesToUa(fullDisclosure.offshoreLiabilities, uaWithPersonalDetails)
+      uaWithOther           <- otherLiabilitiesToUa(fullDisclosure.otherLiabilities, uaWithOffshore)
+      updatedUa             <- reasonForDisclosingNowToUa(fullDisclosure.reasonForDisclosingNow, uaWithOther)
     } yield updatedUa
   }
 
