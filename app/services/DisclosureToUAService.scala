@@ -120,9 +120,7 @@ class DisclosureToUAServiceImpl @Inject()(
 
 }
 
-@ImplementedBy(classOf[NotificationToUAServiceImpl])
+@ImplementedBy(classOf[DisclosureToUAServiceImpl])
 trait DisclosureToUAService {
-  def otherLiabilitiesToUa(otherLiabilities: OtherLiabilities, userAnswers: UserAnswers): Try[UserAnswers] 
-  def offshoreLiabilitiesToUa(offshoreLiabilities: OffshoreLiabilities, userAnswers: UserAnswers): Try[UserAnswers]
-  def reasonForDisclosingNowToUa(reasonForDisclosingNow: ReasonForDisclosingNow, userAnswers: UserAnswers): Try[UserAnswers]
+  def fullDisclosureToUa(fullDisclosure: FullDisclosure): Try[UserAnswers]
 }
