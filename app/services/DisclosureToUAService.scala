@@ -26,6 +26,40 @@ import com.google.inject.{Inject, Singleton, ImplementedBy}
 class DisclosureToUAServiceImpl @Inject()(
   notificationService: NotificationToUAService
 ) extends DisclosureToUAService {
+
+  def fullDisclosureToUa(fullDisclosure: FullDisclosure): Try[UserAnswers] = {
+    val userAnswers = initialiseUserAnswers(fullDisclosure)
+
+    for {
+      uaWithCaseRef   <- caseReferenceToUa(fullDisclosure.caseReference, userAnswers)
+      uaWithOffshore  <- offshoreLiabilitiesToUa(fullDisclosure.aboutYou, uaWithCaseRef)
+      uaWithOther     <- otherLiabilitiesToUa(fullDisclosure, uaWithOffshore)
+      updatedUa       <- reasonForDisclosingNowToUa(fullDisclosure, uaWithOther)
+    } yield updatedUa
+  }
+
+  def initialiseUserAnswers(fullDisclosure: FullDisclosure): UserAnswers = {
+    import fullDisclosure._
+
+    UserAnswers(
+      id = userId, 
+      submissionId = submissionId, 
+      submissionType = SubmissionType.Disclosure, 
+      lastUpdated = lastUpdated,
+      metadata = metadata
+    )
+  }
+
+  def caseReferenceToUa(caseReference: CaseReference, userAnswers: UserAnswers): Try[UserAnswers] = {
+    import caseReference._
+
+    val pages = List(
+      doYouHaveACaseReference.map(PageWithValue(DoYouHaveACaseReferencePage, _)),
+      whatIsTheCaseReference.map(PageWithValue(WhatIsTheCaseReferencePage, _))
+    ).flatten
+    
+    PageWithValue.pagesToUserAnswers(pages, userAnswers)
+  }
   
   def otherLiabilitiesToUa(otherLiabilities: OtherLiabilities, userAnswers: UserAnswers): Try[UserAnswers] = {
     import otherLiabilities._
