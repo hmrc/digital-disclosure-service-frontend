@@ -26,7 +26,7 @@ import pages.WhichYearsPage
 
 final case class UserAnswers(
                               id: String,
-                              submissionId: String = UserAnswers.defaultsubmissionId,
+                              submissionId: String = UserAnswers.defaultSubmissionId,
                               submissionType: SubmissionType = SubmissionType.Notification,
                               data: JsObject = Json.obj(),
                               lastUpdated: Instant = Instant.now,
@@ -130,7 +130,7 @@ final case class UserAnswers(
 
 object UserAnswers {
 
-  val defaultsubmissionId = "Individual"
+  val defaultSubmissionId = "Individual"
 
   val reads: Reads[UserAnswers] = {
 

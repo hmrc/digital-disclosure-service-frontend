@@ -122,36 +122,5 @@ class MakeANotificationOrDisclosureControllerSpec extends SpecBase with MockitoS
         contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages(application)).toString
       }
     }
-
-    "must redirect to Index for a GET if no existing data is found" in {
-
-      val application = applicationBuilder(userAnswers = None).build()
-
-      running(application) {
-        val request = FakeRequest(GET, makeANotificationOrDisclosureRoute)
-
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
-    }
-
-    "redirect to Journey Recovery for a POST if no existing data is found" in {
-
-      val application = applicationBuilder(userAnswers = None).build()
-
-      running(application) {
-        val request =
-          FakeRequest(POST, makeANotificationOrDisclosureRoute)
-            .withFormUrlEncodedBody(("value", MakeANotificationOrDisclosure.values.head.toString))
-
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
-    }
   }
 }

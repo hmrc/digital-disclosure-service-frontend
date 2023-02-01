@@ -24,10 +24,10 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.IndexView
 import services.{SessionService, UAToNotificationService}
 import config.FrontendAppConfig
-import models.NormalMode
+import models.{UserAnswers, NormalMode, SubmissionType}
 import play.api.Logging
-import play.api.libs.json.Json
 import scala.concurrent.{ExecutionContext, Future}
+import uk.gov.hmrc.http.HeaderCarrier
 
 class IndexController @Inject()(
                                 val controllerComponents: MessagesControllerComponents,
@@ -41,16 +41,12 @@ class IndexController @Inject()(
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData).async { implicit request =>
 
-    val futureUA = request.userAnswers match {
-      case Some(ua) => 
-        Future.successful(ua)
-      case None => 
-        sessionService.newSession(request.userId)
-    }
+    for {
+      ua <- retrieveUserAnswers(request.userId, request.userAnswers)
+      updatedUa <- renewNotificationIfSubmitted(request.userId, appConfig.fullDisclosureJourneyEnabled, ua)
+    } yield {
 
-    futureUA.map{ userAnswers =>
-      val notification = dataService.userAnswersToNotification(userAnswers)
-      logger.info(Json.toJson(notification).toString)
+      val notification = dataService.userAnswersToNotification(updatedUa)
 
       val url = 
         if (appConfig.fullDisclosureJourneyEnabled) controllers.routes.MakeANotificationOrDisclosureController.onPageLoad(NormalMode).url
@@ -58,6 +54,26 @@ class IndexController @Inject()(
         else controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url
       
       Ok(view(url))
+    }
+
+  }
+
+  def renewNotificationIfSubmitted(userId: String, fullDisclosureJourneyEnabled: Boolean, userAnswers: UserAnswers)(implicit hc: HeaderCarrier) = {
+    if (!fullDisclosureJourneyEnabled) {
+      val notification = dataService.userAnswersToNotification(userAnswers)
+      if (notification.metadata.submissionTime.isDefined)
+        sessionService.clearAndRestartSessionAndDraft(userId, UserAnswers.defaultSubmissionId, SubmissionType.Notification)
+      else 
+        Future.successful(userAnswers)
+    } else Future.successful(userAnswers)
+  }
+
+  def retrieveUserAnswers(userId: String, userAnswers: Option[UserAnswers])(implicit hc: HeaderCarrier): Future[UserAnswers] = {
+    userAnswers match {
+      case Some(ua) => 
+        Future.successful(ua)
+      case None => 
+        sessionService.newSession(userId, UserAnswers.defaultSubmissionId, SubmissionType.Notification)
     }
   }
   

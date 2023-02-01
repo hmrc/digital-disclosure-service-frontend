@@ -19,7 +19,8 @@ package controllers
 import controllers.actions._
 import forms.MakeANotificationOrDisclosureFormProvider
 import javax.inject.Inject
-import models.Mode
+import models.{UserAnswers, Mode, SubmissionType}
+import models.MakeANotificationOrDisclosure._
 import navigation.Navigator
 import pages.MakeANotificationOrDisclosurePage
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -36,7 +37,6 @@ class MakeANotificationOrDisclosureController @Inject()(
                                        navigator: Navigator,
                                        identify: IdentifierAction,
                                        getData: DataRetrievalAction,
-                                       requireData: DataRequiredAction,
                                        formProvider: MakeANotificationOrDisclosureFormProvider,
                                        val controllerComponents: MessagesControllerComponents,
                                        view: MakeANotificationOrDisclosureView
@@ -44,10 +44,10 @@ class MakeANotificationOrDisclosureController @Inject()(
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData) {
     implicit request =>
 
-      val preparedForm = request.userAnswers.get(MakeANotificationOrDisclosurePage) match {
+      val preparedForm = request.userAnswers.flatMap(_.get(MakeANotificationOrDisclosurePage)) match {
         case None => form
         case Some(value) => form.fill(value)
       }
@@ -55,18 +55,24 @@ class MakeANotificationOrDisclosureController @Inject()(
       Ok(view(preparedForm, mode))
   }
 
-  def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
+  def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData).async {
     implicit request =>
 
       form.bindFromRequest().fold(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
-        value =>
+        value => {
+          val newSubmissionType = if (value == MakeANotification) SubmissionType.Notification else SubmissionType.Disclosure
+          val updatedAnswers = request.userAnswers match {
+            case Some(ua) => ua.copy(submissionType = newSubmissionType)
+            case None => UserAnswers(request.userId, UserAnswers.defaultSubmissionId, newSubmissionType)
+          }
+
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(MakeANotificationOrDisclosurePage, value))
-            _              <- sessionService.set(updatedAnswers)
+            _ <- sessionService.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(MakeANotificationOrDisclosurePage, mode, updatedAnswers))
+        }
       )
   }
 }

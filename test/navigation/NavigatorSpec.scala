@@ -37,17 +37,13 @@ class NavigatorSpec extends SpecBase {
       }
 
       "must go from the MakeANotificationOrDisclosure page to the ReceivedALetter controller when select an MakeANotification" in {
-        UserAnswers("id").set(MakeANotificationOrDisclosurePage, MakeANotificationOrDisclosure.MakeANotification) match {
-          case Success(ua) => navigator.nextPage(MakeANotificationOrDisclosurePage, NormalMode, ua) mustBe routes.ReceivedALetterController.onPageLoad(NormalMode)
-          case Failure(e) => throw e
-        }
+        val ua = UserAnswers(id = "id", submissionType = SubmissionType.Notification)
+        navigator.nextPage(MakeANotificationOrDisclosurePage, NormalMode, ua) mustBe routes.ReceivedALetterController.onPageLoad(NormalMode)
       }
 
       "must go from the MakeANotificationOrDisclosure page to the TaskList controller when select an MakeADisclosure" in {
-        UserAnswers("id").set(MakeANotificationOrDisclosurePage, MakeANotificationOrDisclosure.MakeADisclosure) match {
-          case Success(ua) => navigator.nextPage(MakeANotificationOrDisclosurePage, NormalMode, ua) mustBe controllers.routes.TaskListController.onPageLoad
-          case Failure(e) => throw e
-        }
+        val ua = UserAnswers(id = "id", submissionType = SubmissionType.Disclosure)
+        navigator.nextPage(MakeANotificationOrDisclosurePage, NormalMode, ua) mustBe controllers.routes.TaskListController.onPageLoad
       }
     }
 
