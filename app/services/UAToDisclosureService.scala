@@ -17,12 +17,28 @@
 package services
 
 import models._
+import models.store._
 import models.store.disclosure._
 import pages._
-import com.google.inject.{Singleton, ImplementedBy}
+import com.google.inject.{Inject, Singleton, ImplementedBy}
 
 @Singleton
-class UAToDisclosureServiceImpl extends UAToDisclosureService {
+class UAToDisclosureServiceImpl @Inject()(
+  notificationService: UAToNotificationService
+) extends UAToDisclosureService {
+
+  def uaToFullDisclosure(userAnswers: UserAnswers): FullDisclosure = 
+    FullDisclosure (
+      userId = userAnswers.id,
+      submissionId = userAnswers.submissionId,
+      lastUpdated = userAnswers.lastUpdated,
+      metadata = userAnswers.metadata,
+      caseReference = uaToCaseReference(userAnswers),
+      personalDetails = notificationService.userAnswersToPersonalDetails(userAnswers),
+      offshoreLiabilities = uaToOffshoreLiabilities(userAnswers),
+      otherLiabilities = uaToOtherLiabilities(userAnswers),
+      reasonForDisclosingNow = uaToReasonForDisclosingNow(userAnswers)
+    )
   
   def uaToOtherLiabilities(userAnswers: UserAnswers): OtherLiabilities = 
     OtherLiabilities(
@@ -74,6 +90,7 @@ class UAToDisclosureServiceImpl extends UAToDisclosureService {
 
 @ImplementedBy(classOf[UAToDisclosureServiceImpl])
 trait UAToDisclosureService {
+  def uaToFullDisclosure(userAnswers: UserAnswers): FullDisclosure
   def uaToOtherLiabilities(userAnswers: UserAnswers): OtherLiabilities
   def uaToOffshoreLiabilities(userAnswers: UserAnswers): OffshoreLiabilities
   def uaToReasonForDisclosingNow(userAnswers: UserAnswers): ReasonForDisclosingNow 

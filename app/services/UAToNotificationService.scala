@@ -25,8 +25,16 @@ import com.google.inject.{Singleton, ImplementedBy}
 @Singleton
 class UAToNotificationServiceImpl extends UAToNotificationService {
   
-  def userAnswersToNotification(userAnswers: UserAnswers): Notification = {
+  def userAnswersToNotification(userAnswers: UserAnswers): Notification = 
+    Notification(
+      userId = userAnswers.id,
+      submissionId = userAnswers.submissionId,
+      lastUpdated = userAnswers.lastUpdated,
+      metadata = userAnswers.metadata,
+      personalDetails = userAnswersToPersonalDetails(userAnswers)
+    )
 
+  def userAnswersToPersonalDetails(userAnswers: UserAnswers): PersonalDetails = {
     val rawPersonalDetails = PersonalDetails(
       background = userAnswersToBackground(userAnswers),
       aboutYou = userAnswersToAboutYou(userAnswers)
@@ -35,7 +43,7 @@ class UAToNotificationServiceImpl extends UAToNotificationService {
     val relatesToPage = userAnswers.get(RelatesToPage)
     val areYouTheIndividualPage = userAnswers.get(AreYouTheIndividualPage)
 
-    val personalDetails = (relatesToPage, areYouTheIndividualPage) match {
+    (relatesToPage, areYouTheIndividualPage) match {
       case (Some(RelatesTo.AnIndividual), Some(false)) => rawPersonalDetails.copy(aboutTheIndividual = Some(userAnswersToAboutTheIndividual(userAnswers)))
       case (Some(RelatesTo.ACompany), _) => rawPersonalDetails.copy(aboutTheCompany = Some(userAnswersToAboutTheCompany(userAnswers)))
       case (Some(RelatesTo.ATrust), _) => rawPersonalDetails.copy(aboutTheTrust = Some(userAnswersToAboutTheTrust(userAnswers)))
@@ -43,15 +51,6 @@ class UAToNotificationServiceImpl extends UAToNotificationService {
       case (Some(RelatesTo.AnEstate), _) => rawPersonalDetails.copy(aboutTheEstate = Some(userAnswersToAboutTheEstate(userAnswers)))
       case _ => rawPersonalDetails
     }
-
-    Notification(
-      userId = userAnswers.id,
-      submissionId = userAnswers.submissionId,
-      lastUpdated = userAnswers.lastUpdated,
-      metadata = userAnswers.metadata,
-      personalDetails = personalDetails
-    )
-
   }
 
   def userAnswersToBackground(userAnswers: UserAnswers): Background = {
@@ -162,4 +161,5 @@ class UAToNotificationServiceImpl extends UAToNotificationService {
 @ImplementedBy(classOf[UAToNotificationServiceImpl])
 trait UAToNotificationService {
   def userAnswersToNotification(userAnswers: UserAnswers): Notification
+  def userAnswersToPersonalDetails(userAnswers: UserAnswers): PersonalDetails
 }

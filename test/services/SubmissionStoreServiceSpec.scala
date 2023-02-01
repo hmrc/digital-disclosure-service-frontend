@@ -35,7 +35,7 @@ class SubmissionStoreServiceSpec extends AnyWordSpec with Matchers
     with MockFactory with ScalaFutures {
 
   private val connector = mock[SubmissionStoreConnector]
-  private val service = mock[UAToNotificationService]
+  private val service = mock[UAToSubmissionService]
   val sut = new SubmissionStoreServiceImpl(connector, service)
   implicit val hc = HeaderCarrier()
 
@@ -72,10 +72,10 @@ class SubmissionStoreServiceSpec extends AnyWordSpec with Matchers
       .returning(response)
 
   def mockUserAnswersToNotification(userAnswers: UserAnswers)(
-    response: Notification
-  ): CallHandler1[UserAnswers, Notification] =
+    response: Submission
+  ): CallHandler1[UserAnswers, Submission] =
     (service
-      .userAnswersToNotification(_: UserAnswers))
+      .uaToSubmission(_: UserAnswers))
       .expects(userAnswers)
       .returning(response)
 

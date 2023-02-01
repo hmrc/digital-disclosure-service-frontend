@@ -29,14 +29,16 @@ class NotificationToUAServiceImpl extends NotificationToUAService {
   def notificationToUserAnswers(notification: Notification): Try[UserAnswers] = {
 
     val userAnswers = initialiseUserAnswers(notification)
-
-    for {
-      uaWithBackground  <- backgroundToUserAnswers(notification.personalDetails.background, userAnswers)
-      uaWithAboutYou    <- aboutYouToUserAnswers(notification.personalDetails.aboutYou, uaWithBackground)
-      updatedUa         <- aboutTheEntityToUserAnswers(notification.personalDetails, uaWithAboutYou)
-    } yield updatedUa
+    personalDetailsToUserAnswers(notification.personalDetails, userAnswers)
 
   }
+
+  def personalDetailsToUserAnswers(personalDetails: PersonalDetails, userAnswers: UserAnswers): Try[UserAnswers] = 
+    for {
+      uaWithBackground  <- backgroundToUserAnswers(personalDetails.background, userAnswers)
+      uaWithAboutYou    <- aboutYouToUserAnswers(personalDetails.aboutYou, uaWithBackground)
+      updatedUa         <- aboutTheEntityToUserAnswers(personalDetails, uaWithAboutYou)
+    } yield updatedUa
 
   def aboutTheEntityToUserAnswers(personalDetails: PersonalDetails, userAnswers: UserAnswers): Try[UserAnswers] = {
     personalDetails.background.disclosureEntity.flatMap(de => (de.entity, de.areYouTheEntity) match {
@@ -224,4 +226,5 @@ class NotificationToUAServiceImpl extends NotificationToUAService {
 @ImplementedBy(classOf[NotificationToUAServiceImpl])
 trait NotificationToUAService {
   def notificationToUserAnswers(notification: Notification): Try[UserAnswers] 
+  def personalDetailsToUserAnswers(personalDetails: PersonalDetails, userAnswers: UserAnswers): Try[UserAnswers]
 }

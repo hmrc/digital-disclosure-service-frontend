@@ -27,11 +27,11 @@ import models.UserAnswers
 @Singleton
 class SubmissionStoreServiceImpl @Inject()(
   connector: SubmissionStoreConnector,
-  UAToNotificationService: UAToNotificationService
+  uaToSubmissionService: UAToSubmissionService
 ) extends SubmissionStoreService {
 
   def setSubmission(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Result] = {
-    val submission = UAToNotificationService.userAnswersToNotification(userAnswers)
+    val submission = uaToSubmissionService.uaToSubmission(userAnswers)
     setSubmission(submission)
   }
 

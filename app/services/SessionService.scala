@@ -17,7 +17,6 @@
 package services
 
 import models._
-import models.store.Notification
 import uk.gov.hmrc.http.HeaderCarrier
 import scala.concurrent.{ExecutionContext, Future}
 import com.google.inject.{Inject, Singleton, ImplementedBy}
@@ -29,7 +28,7 @@ import play.api.Logging
 class SessionServiceImpl @Inject()(
   val sessionRepository: SessionRepository,
   val submissionStoreService: SubmissionStoreService,
-  val NotificationToUAService: NotificationToUAService
+  val submissionToUAService: SubmissionToUAService
 )(implicit ec: ExecutionContext) extends SessionService with Logging {
 
   def getSession(userId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] =
@@ -37,7 +36,7 @@ class SessionServiceImpl @Inject()(
 
   def newSession(userId: String)(implicit hc: HeaderCarrier): Future[UserAnswers] =
     for {
-      uaOpt  <- getIndividualNotificationUserAnswers(userId, UserAnswers.defaultsubmissionId)
+      uaOpt  <- getIndividualUserAnswers(userId, UserAnswers.defaultsubmissionId)
       ua     = extractOrDefaultUserAnswers(userId, uaOpt)
       result <- set(ua)
     } yield ua
@@ -48,19 +47,13 @@ class SessionServiceImpl @Inject()(
       case _ => UserAnswers(userId)
     }
 
-  def getIndividualNotificationUserAnswers(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] = 
+  def getIndividualUserAnswers(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] = 
     for {
-      notificationOpt <- submissionStoreService.getSubmission(userId, submissionId)
-      uaOpt <- Future.fromTry(notificationOpt.map{case notification: Notification => NotificationToUAService.notificationToUserAnswers(notification)}.sequence)
+      submissionOpt <- submissionStoreService.getSubmission(userId, submissionId)
+      uaOpt <- Future.fromTry(submissionOpt.map(submissionToUAService.submissionToUa).sequence)
     } yield uaOpt
 
   def set(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Boolean] =
-    userAnswers.submissionType match {
-      case SubmissionType.Notification => setNotification(userAnswers)
-      case SubmissionType.Disclosure => sessionRepository.set(userAnswers)
-    }
-
-  def setNotification(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Boolean] =
     for {
       result <- sessionRepository.set(userAnswers)
       _      <- submissionStoreService.setSubmission(userAnswers)

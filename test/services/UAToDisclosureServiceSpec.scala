@@ -19,6 +19,8 @@ package services
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.TryValues
+import models.store.FullDisclosure
+import models.store.notification.{Background, PersonalDetails, AboutYou}
 import models.store.disclosure._
 import pages._
 import models._
@@ -27,7 +29,8 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
 
   val emptyUA = UserAnswers("id")
 
-  val sut = new UAToDisclosureServiceImpl
+  val notificationService = new UAToNotificationServiceImpl
+  val sut = new UAToDisclosureServiceImpl(notificationService)
 
   "uaToOtherLiabilities" should {
 
@@ -167,6 +170,24 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
         Some("CSFF-1234567")
       )
       sut.uaToCaseReference(userAnswers) shouldEqual expected
+    }
+
+  }
+
+  "uaToFullDisclosure" should {
+
+    "populate FullDisclosure" in {
+      sut.uaToFullDisclosure(emptyUA) shouldEqual FullDisclosure (
+        userId = emptyUA.id,
+        submissionId = emptyUA.submissionId,
+        lastUpdated = emptyUA.lastUpdated,
+        metadata = emptyUA.metadata,
+        caseReference = CaseReference(),
+        personalDetails = PersonalDetails(Background(), AboutYou()),
+        offshoreLiabilities = OffshoreLiabilities(),
+        otherLiabilities = OtherLiabilities(),
+        reasonForDisclosingNow = ReasonForDisclosingNow()
+      )
     }
 
   }

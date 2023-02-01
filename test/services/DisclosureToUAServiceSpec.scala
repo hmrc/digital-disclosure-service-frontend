@@ -19,22 +19,18 @@ package services
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import models.store.disclosure._
-import models.store.Notification
+import models.store._
 import models.store.notification._
 import models.store.Metadata
 import pages._
 import models._
 import org.scalatest.TryValues
-import java.time.Instant
-import scala.util.{Success, Try}
+import java.time.{LocalDateTime, Instant}
 
 class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues {
 
-  object TestNotificationToUAService extends NotificationToUAService {
-    def notificationToUserAnswers(notification: Notification): Try[UserAnswers] = Success(UserAnswers("Id"))
-  }
-
-  val sut = new DisclosureToUAServiceImpl(TestNotificationToUAService)
+  val notificationToUaService = new NotificationToUAServiceImpl
+  val sut = new DisclosureToUAServiceImpl(notificationToUaService)
 
   val testNotification = Notification("userId", "submissionId", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
 
@@ -163,5 +159,65 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
       updatedUserAnswers.get(WhatTelephoneNumberCanWeContactYouWithPage)           shouldEqual Some("Telephone")
     }
   }
+
+  "caseReferenceToUa" should {
+
+    "return no PageWithValues for an empty ReasonForDisclosingNow" in {
+      val model = CaseReference()
+      val updatedUserAnswers = sut.caseReferenceToUa(model, emptyUA).success.value
+      updatedUserAnswers.get(DoYouHaveACaseReferencePage)                           shouldEqual None
+      updatedUserAnswers.get(WhatIsTheCaseReferencePage)                            shouldEqual None
+
+    }
+
+    "return a PageWithValue for all that are set" in {
+      val model = CaseReference(Some(true), Some("Some reference"))
+      val updatedUserAnswers = sut.caseReferenceToUa(model, emptyUA).success.value
+      updatedUserAnswers.get(DoYouHaveACaseReferencePage)                           shouldEqual Some(true)
+      updatedUserAnswers.get(WhatIsTheCaseReferencePage)                            shouldEqual Some("Some reference")
+    }
+  }
+
+  "initialiseUserAnswers" should {
+    "retrieve the userId, submissionId and lastUpdated from the notification" in {
+      val instant = Instant.now()
+      val metadata = Metadata(reference = Some("123"), submissionTime = Some(LocalDateTime.now))
+      val expectedResult = UserAnswers(id = "This user Id", submissionId = "Some notification Id", submissionType = SubmissionType.Disclosure, lastUpdated = instant, metadata = metadata)
+      val disclosure = FullDisclosure("This user Id", "Some notification Id", instant, metadata, CaseReference(), PersonalDetails(Background(), AboutYou()), OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
+      sut.initialiseUserAnswers(disclosure) shouldEqual expectedResult
+    }
+  }
+
+  "fullDisclosureToUa" should {
+    "populate UA with everything within the FullDisclosure object" in {
+      val instant = Instant.now()
+      val metadata = Metadata(reference = Some("123"), submissionTime = Some(LocalDateTime.now))
+
+      val caseReference = CaseReference(Some(true), Some("Some reference"))
+      val background = Background(haveYouReceivedALetter = Some(false))
+      val whySet: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse)
+      val offshoreLiabilities = OffshoreLiabilities(Some(whySet))
+      val otherLiabilities = OtherLiabilities(None, Some("Some gift"), None, None)
+      val reasonSet: Set[WhyAreYouMakingADisclosure] = Set(WhyAreYouMakingADisclosure.GovUkGuidance)
+      val reasonForDisclosingNow = ReasonForDisclosingNow(Some(reasonSet))
+      val disclosure = FullDisclosure("This user Id", "Some notification Id", instant, metadata, caseReference, PersonalDetails(background, AboutYou()), offshoreLiabilities, otherLiabilities, reasonForDisclosingNow)
+
+      val updatedUserAnswers = sut.fullDisclosureToUa(disclosure).success.value
+
+      updatedUserAnswers.id shouldEqual "This user Id"
+      updatedUserAnswers.submissionId shouldEqual "Some notification Id"
+      updatedUserAnswers.submissionType shouldEqual SubmissionType.Disclosure
+      updatedUserAnswers.lastUpdated shouldEqual instant
+      updatedUserAnswers.metadata shouldEqual metadata
+
+      updatedUserAnswers.get(DescribeTheGiftPage)                                   shouldEqual Some("Some gift")
+      updatedUserAnswers.get(DoYouHaveACaseReferencePage)                           shouldEqual Some(true)
+      updatedUserAnswers.get(WhyAreYouMakingADisclosurePage)                        shouldEqual Some(reasonSet)
+      updatedUserAnswers.get(WhyAreYouMakingThisDisclosurePage)                     shouldEqual Some(whySet)
+      updatedUserAnswers.get(ReceivedALetterPage)                                   shouldEqual Some(false)
+    }
+  }
+
+
 
 }

@@ -106,18 +106,18 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
     }
   }
 
-  "getIndividualNotificationUserAnswers" should {
+  "getIndividualUserAnswers" should {
     "check the store and where it finds nothing return None" in new Test {
       mockGetSubmission("123", UserAnswers.defaultsubmissionId)(Future.successful(None))
 
-      sut.getIndividualNotificationUserAnswers("123", "Individual").futureValue shouldEqual None
+      sut.getIndividualUserAnswers("123", "Individual").futureValue shouldEqual None
     }
 
     "check the store and where it finds something, convert it to a UserAnswers" in new Test {
       mockGetSubmission("123", UserAnswers.defaultsubmissionId)(Future.successful(Some(testNotification)))
       mockNotificationToUserAnswers(testNotification)(Success(userAnswers))
 
-      sut.getIndividualNotificationUserAnswers("123", "Individual").futureValue shouldEqual Some(userAnswers)
+      sut.getIndividualUserAnswers("123", "Individual").futureValue shouldEqual Some(userAnswers)
     }
   }
 
@@ -125,7 +125,7 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
   
     val repo = mock[SessionRepository]
     val storeService = mock[SubmissionStoreService]
-    val dataService = mock[NotificationToUAService]
+    val dataService = mock[SubmissionToUAService]
 
     val sut = new SessionServiceImpl(repo, storeService, dataService)
 
@@ -177,12 +177,12 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
         .expects(userAnswers, *)
         .returning(response)
     
-    def mockNotificationToUserAnswers(notification: Notification)(
+    def mockNotificationToUserAnswers(submission: Submission)(
       response: Try[UserAnswers]
-    ): CallHandler1[Notification, Try[UserAnswers]] =
+    ): CallHandler1[Submission, Try[UserAnswers]] =
       (dataService
-        .notificationToUserAnswers(_: Notification))
-        .expects(notification)
+        .submissionToUa(_: Submission))
+        .expects(submission)
         .returning(response)
 
   }

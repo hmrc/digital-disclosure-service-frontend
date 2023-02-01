@@ -17,6 +17,7 @@
 package services
 
 import models._
+import models.store._
 import models.store.disclosure._
 import pages._
 import scala.util.Try
@@ -26,6 +27,41 @@ import com.google.inject.{Inject, Singleton, ImplementedBy}
 class DisclosureToUAServiceImpl @Inject()(
   notificationService: NotificationToUAService
 ) extends DisclosureToUAService {
+
+  def fullDisclosureToUa(fullDisclosure: FullDisclosure): Try[UserAnswers] = {
+    val userAnswers = initialiseUserAnswers(fullDisclosure)
+
+    for {
+      uaWithCaseRef         <- caseReferenceToUa(fullDisclosure.caseReference, userAnswers)
+      uaWithPersonalDetails <- notificationService.personalDetailsToUserAnswers(fullDisclosure.personalDetails, uaWithCaseRef)
+      uaWithOffshore        <- offshoreLiabilitiesToUa(fullDisclosure.offshoreLiabilities, uaWithPersonalDetails)
+      uaWithOther           <- otherLiabilitiesToUa(fullDisclosure.otherLiabilities, uaWithOffshore)
+      updatedUa             <- reasonForDisclosingNowToUa(fullDisclosure.reasonForDisclosingNow, uaWithOther)
+    } yield updatedUa
+  }
+
+  def initialiseUserAnswers(fullDisclosure: FullDisclosure): UserAnswers = {
+    import fullDisclosure._
+
+    UserAnswers(
+      id = userId, 
+      submissionId = submissionId, 
+      submissionType = SubmissionType.Disclosure, 
+      lastUpdated = lastUpdated,
+      metadata = metadata
+    )
+  }
+
+  def caseReferenceToUa(caseReference: CaseReference, userAnswers: UserAnswers): Try[UserAnswers] = {
+    import caseReference._
+
+    val pages = List(
+      doYouHaveACaseReference.map(PageWithValue(DoYouHaveACaseReferencePage, _)),
+      whatIsTheCaseReference.map(PageWithValue(WhatIsTheCaseReferencePage, _))
+    ).flatten
+    
+    PageWithValue.pagesToUserAnswers(pages, userAnswers)
+  }
   
   def otherLiabilitiesToUa(otherLiabilities: OtherLiabilities, userAnswers: UserAnswers): Try[UserAnswers] = {
     import otherLiabilities._
@@ -84,9 +120,7 @@ class DisclosureToUAServiceImpl @Inject()(
 
 }
 
-@ImplementedBy(classOf[NotificationToUAServiceImpl])
+@ImplementedBy(classOf[DisclosureToUAServiceImpl])
 trait DisclosureToUAService {
-  def otherLiabilitiesToUa(otherLiabilities: OtherLiabilities, userAnswers: UserAnswers): Try[UserAnswers] 
-  def offshoreLiabilitiesToUa(offshoreLiabilities: OffshoreLiabilities, userAnswers: UserAnswers): Try[UserAnswers]
-  def reasonForDisclosingNowToUa(reasonForDisclosingNow: ReasonForDisclosingNow, userAnswers: UserAnswers): Try[UserAnswers]
+  def fullDisclosureToUa(fullDisclosure: FullDisclosure): Try[UserAnswers]
 }
