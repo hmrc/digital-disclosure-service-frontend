@@ -14,13 +14,18 @@
  * limitations under the License.
  */
 
-package pages
+package forms
 
-import play.api.libs.json.JsPath
+import javax.inject.Inject
 
-case object WhatEmailAddressCanWeContactYouWithPage extends QuestionPage[String] {
+import forms.mappings.Mappings
+import play.api.data.Form
+import models.WhichEmailAddressCanWeContactYouWith
 
-  override def path: JsPath = JsPath \ toString
+class WhichEmailAddressCanWeContactYouWithFormProvider @Inject() extends Mappings {
 
-  override def toString: String = "whatEmailAddressCanWeContactYouWith"
+  def apply(): Form[WhichEmailAddressCanWeContactYouWith] =
+    Form(
+      "value" -> enumerable[WhichEmailAddressCanWeContactYouWith]("whichEmailAddressCanWeContactYouWith.error.required")
+    )
 }

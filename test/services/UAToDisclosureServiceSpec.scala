@@ -129,7 +129,7 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
         PageWithValue(AdviceBusinessNamePage, "Some business"),
         PageWithValue(AdviceProfessionPage, "Some profession"),
         PageWithValue(AdviceGivenPage, AdviceGiven("Some advice", MonthYear(12, 2012), AdviceContactPreference.No)),
-        PageWithValue(WhatEmailAddressCanWeContactYouWithPage, WhatEmailAddressCanWeContactYouWith.values.head),
+        PageWithValue(WhichEmailAddressCanWeContactYouWithPage, WhichEmailAddressCanWeContactYouWith.values.head),
         PageWithValue(CanWeUseTelephoneNumberToContactYouPage, false),
         PageWithValue(WhatTelephoneNumberCanWeContactYouWithPage, "Telephone"),
       )
@@ -144,7 +144,7 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
         Some("Some business"), 
         Some("Some profession"),
         Some(AdviceGiven("Some advice", MonthYear(12, 2012), AdviceContactPreference.No)),
-        Some(WhatEmailAddressCanWeContactYouWith.values.head),
+        Some(WhichEmailAddressCanWeContactYouWith.values.head),
         Some(false),
         Some("Telephone")
       )

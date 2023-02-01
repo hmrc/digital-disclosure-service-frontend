@@ -24,6 +24,9 @@ trait PageGenerators {
   implicit lazy val arbitraryWhatEmailAddressCanWeContactYouWithPage: Arbitrary[WhatEmailAddressCanWeContactYouWithPage.type] =
     Arbitrary(WhatEmailAddressCanWeContactYouWithPage)
 
+  implicit lazy val arbitraryWhichEmailAddressCanWeContactYouWithPage: Arbitrary[WhichEmailAddressCanWeContactYouWithPage.type] =
+    Arbitrary(WhichEmailAddressCanWeContactYouWithPage)
+
   implicit lazy val arbitraryWhatIsTheCaseReferencePage: Arbitrary[WhatIsTheCaseReferencePage.type] =
     Arbitrary(WhatIsTheCaseReferencePage)
 
