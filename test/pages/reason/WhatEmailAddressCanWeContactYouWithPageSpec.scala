@@ -16,17 +16,17 @@
 
 package pages
 
-import models.WhatEmailAddressCanWeContactYouWith
 import pages.behaviours.PageBehaviours
 
-class WhatEmailAddressCanWeContactYouWithSpec extends PageBehaviours {
+
+class WhatEmailAddressCanWeContactYouWithPageSpec extends PageBehaviours {
 
   "WhatEmailAddressCanWeContactYouWithPage" - {
 
-    beRetrievable[WhatEmailAddressCanWeContactYouWith](WhatEmailAddressCanWeContactYouWithPage)
+    beRetrievable[String](WhatEmailAddressCanWeContactYouWithPage)
 
-    beSettable[WhatEmailAddressCanWeContactYouWith](WhatEmailAddressCanWeContactYouWithPage)
+    beSettable[String](WhatEmailAddressCanWeContactYouWithPage)
 
-    beRemovable[WhatEmailAddressCanWeContactYouWith](WhatEmailAddressCanWeContactYouWithPage)
+    beRemovable[String](WhatEmailAddressCanWeContactYouWithPage)
   }
 }

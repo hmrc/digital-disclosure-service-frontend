@@ -25,9 +25,9 @@ import org.scalacheck.magnolia.gen
 
 trait ModelGenerators {
 
-  implicit lazy val arbitraryWhatEmailAddressCanWeContactYouWith: Arbitrary[WhatEmailAddressCanWeContactYouWith] =
+  implicit lazy val arbitraryWhichEmailAddressCanWeContactYouWith: Arbitrary[WhichEmailAddressCanWeContactYouWith] =
     Arbitrary {
-      Gen.oneOf(WhatEmailAddressCanWeContactYouWith.values.toSeq)
+      Gen.oneOf(WhichEmailAddressCanWeContactYouWith.values.toSeq)
     }
 
   implicit lazy val arbitraryAdviceGiven: Arbitrary[AdviceGiven] =

@@ -18,25 +18,32 @@ package viewmodels.checkAnswers
 
 import controllers.reason.routes
 import models.{CheckMode, UserAnswers}
-import pages.WhatEmailAddressCanWeContactYouWithPage
+import pages.WhichEmailAddressCanWeContactYouWithPage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object WhatEmailAddressCanWeContactYouWithSummary  {
+object WhichEmailAddressCanWeContactYouWithSummary  {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(WhatEmailAddressCanWeContactYouWithPage).map {
+    answers.get(WhichEmailAddressCanWeContactYouWithPage).map {
       answer =>
 
+        val value = ValueViewModel(
+          HtmlContent(
+            HtmlFormat.escape(messages(s"whichEmailAddressCanWeContactYouWith.$answer"))
+          )
+        )
+
         SummaryListRowViewModel(
-          key     = "whatEmailAddressCanWeContactYouWith.checkYourAnswersLabel",
-          value   = ValueViewModel(HtmlFormat.escape(answer).toString),
+          key     = "whichEmailAddressCanWeContactYouWith.checkYourAnswersLabel",
+          value   = value,
           actions = Seq(
-            ActionItemViewModel("site.change", routes.WhatEmailAddressCanWeContactYouWithController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("whatEmailAddressCanWeContactYouWith.change.hidden"))
+            ActionItemViewModel("site.change", routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(CheckMode).url)
+              .withVisuallyHiddenText(messages("whichEmailAddressCanWeContactYouWith.change.hidden"))
           )
         )
     }

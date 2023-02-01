@@ -17,64 +17,70 @@
 package controllers
 
 import base.SpecBase
-import forms.WhatEmailAddressCanWeContactYouWithFormProvider
-import models.{NormalMode, UserAnswers}
+import forms.WhichEmailAddressCanWeContactYouWithFormProvider
+import models.{NormalMode, WhichEmailAddressCanWeContactYouWith, UserAnswers}
 import navigation.{FakeReasonNavigator, ReasonNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.WhatEmailAddressCanWeContactYouWithPage
+import pages.{WhichEmailAddressCanWeContactYouWithPage, YourEmailAddressPage}
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
-import views.html.reason.WhatEmailAddressCanWeContactYouWithView
+import views.html.reason.WhichEmailAddressCanWeContactYouWithView
 
 import scala.concurrent.Future
 
-class WhatEmailAddressCanWeContactYouWithControllerSpec extends SpecBase with MockitoSugar {
+class WhichEmailAddressCanWeContactYouWithControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  val formProvider = new WhatEmailAddressCanWeContactYouWithFormProvider()
+  lazy val whichEmailAddressCanWeContactYouWithRoute = reason.routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode).url
+
+  val formProvider = new WhichEmailAddressCanWeContactYouWithFormProvider()
   val form = formProvider()
 
-  lazy val whatEmailAddressCanWeContactYouWithRoute = reason.routes.WhatEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode).url
-
-  "WhatEmailAddressCanWeContactYouWith Controller" - {
+  "WhichEmailAddressCanWeContactYouWith Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val email = "test@test.com"
+      val userAnswers = UserAnswers("id").set(YourEmailAddressPage, email).success.value
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, whatEmailAddressCanWeContactYouWithRoute)
+        val request = FakeRequest(GET, whichEmailAddressCanWeContactYouWithRoute)
 
         val result = route(application, request).value
 
-        val view = application.injector.instanceOf[WhatEmailAddressCanWeContactYouWithView]
+        val view = application.injector.instanceOf[WhichEmailAddressCanWeContactYouWithView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode, email)(request, messages(application)).toString
       }
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(WhatEmailAddressCanWeContactYouWithPage, "answer").success.value
+      val email = "test@test.com"
+      val userAnswers = (for {
+        ua <- UserAnswers("id").set(WhichEmailAddressCanWeContactYouWithPage, WhichEmailAddressCanWeContactYouWith.values.head)
+        updatedUa <- ua.set(YourEmailAddressPage, email)  
+      } yield updatedUa).success.value  
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, whatEmailAddressCanWeContactYouWithRoute)
+        val request = FakeRequest(GET, whichEmailAddressCanWeContactYouWithRoute)
 
-        val view = application.injector.instanceOf[WhatEmailAddressCanWeContactYouWithView]
+        val view = application.injector.instanceOf[WhichEmailAddressCanWeContactYouWithView]
 
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill("answer"), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(WhichEmailAddressCanWeContactYouWith.values.head), NormalMode, email)(request, messages(application)).toString
       }
     }
 
@@ -91,12 +97,10 @@ class WhatEmailAddressCanWeContactYouWithControllerSpec extends SpecBase with Mo
           )
           .build()
 
-      val validEmail = "some@example.com"    
-
       running(application) {
         val request =
-          FakeRequest(POST, whatEmailAddressCanWeContactYouWithRoute)
-            .withFormUrlEncodedBody(("value", validEmail))
+          FakeRequest(POST, whichEmailAddressCanWeContactYouWithRoute)
+            .withFormUrlEncodedBody(("value", WhichEmailAddressCanWeContactYouWith.values.head.toString))
 
         val result = route(application, request).value
 
@@ -107,21 +111,27 @@ class WhatEmailAddressCanWeContactYouWithControllerSpec extends SpecBase with Mo
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val email = "test@test.com"
+      val userAnswers = (for {
+        ua <- UserAnswers("id").set(WhichEmailAddressCanWeContactYouWithPage, WhichEmailAddressCanWeContactYouWith.values.head)
+        updatedUa <- ua.set(YourEmailAddressPage, email)  
+      } yield updatedUa).success.value 
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
         val request =
-          FakeRequest(POST, whatEmailAddressCanWeContactYouWithRoute)
-            .withFormUrlEncodedBody(("value", ""))
+          FakeRequest(POST, whichEmailAddressCanWeContactYouWithRoute)
+            .withFormUrlEncodedBody(("value", "invalid value"))
 
-        val boundForm = form.bind(Map("value" -> ""))
+        val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[WhatEmailAddressCanWeContactYouWithView]
+        val view = application.injector.instanceOf[WhichEmailAddressCanWeContactYouWithView]
 
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode, email)(request, messages(application)).toString
       }
     }
 
@@ -130,7 +140,7 @@ class WhatEmailAddressCanWeContactYouWithControllerSpec extends SpecBase with Mo
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val request = FakeRequest(GET, whatEmailAddressCanWeContactYouWithRoute)
+        val request = FakeRequest(GET, whichEmailAddressCanWeContactYouWithRoute)
 
         val result = route(application, request).value
 
@@ -139,18 +149,19 @@ class WhatEmailAddressCanWeContactYouWithControllerSpec extends SpecBase with Mo
       }
     }
 
-    "must redirect to Index for a POST if no existing data is found" in {
+    "redirect to Journey Recovery for a POST if no existing data is found" in {
 
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
         val request =
-          FakeRequest(POST, whatEmailAddressCanWeContactYouWithRoute)
-            .withFormUrlEncodedBody(("value", "answer"))
+          FakeRequest(POST, whichEmailAddressCanWeContactYouWithRoute)
+            .withFormUrlEncodedBody(("value", WhichEmailAddressCanWeContactYouWith.values.head.toString))
 
         val result = route(application, request).value
 
         status(result) mustEqual SEE_OTHER
+
         redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
       }
     }

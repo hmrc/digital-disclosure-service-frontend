@@ -16,11 +16,17 @@
 
 package pages
 
-import play.api.libs.json.JsPath
+import models.WhichEmailAddressCanWeContactYouWith
+import pages.behaviours.PageBehaviours
 
-case object WhatEmailAddressCanWeContactYouWithPage extends QuestionPage[String] {
+class WhichEmailAddressCanWeContactYouWithSpec extends PageBehaviours {
 
-  override def path: JsPath = JsPath \ toString
+  "WhichEmailAddressCanWeContactYouWithPage" - {
 
-  override def toString: String = "whatEmailAddressCanWeContactYouWith"
+    beRetrievable[WhichEmailAddressCanWeContactYouWith](WhichEmailAddressCanWeContactYouWithPage)
+
+    beSettable[WhichEmailAddressCanWeContactYouWith](WhichEmailAddressCanWeContactYouWithPage)
+
+    beRemovable[WhichEmailAddressCanWeContactYouWith](WhichEmailAddressCanWeContactYouWithPage)
+  }
 }

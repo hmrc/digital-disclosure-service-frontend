@@ -1529,10 +1529,18 @@ whatIsTheCaseReference.error.required = Enter the case reference
 whatIsTheCaseReference.error.format = Enter the case reference in the right format
 whatIsTheCaseReference.change.hidden = Case reference
 
-whatEmailAddressCanWeContactYouWith.title = Which email address can we contact you with?
-whatEmailAddressCanWeContactYouWith.heading = Which email address can we contact you with?
-whatEmailAddressCanWeContactYouWith.existingEmail = {0}
-whatEmailAddressCanWeContactYouWith.differentEmail = A different email address
-whatEmailAddressCanWeContactYouWith.checkYourAnswersLabel = Which email address can we contact you with?
-whatEmailAddressCanWeContactYouWith.error.required = Select whatEmailAddressCanWeContactYouWith
+whichEmailAddressCanWeContactYouWith.title = Which email address can we contact you with?
+whichEmailAddressCanWeContactYouWith.heading = Which email address can we contact you with?
+whichEmailAddressCanWeContactYouWith.existingEmail = {0}
+whichEmailAddressCanWeContactYouWith.differentEmail = A different email address
+whichEmailAddressCanWeContactYouWith.checkYourAnswersLabel = Which email address can we contact you with?
+whichEmailAddressCanWeContactYouWith.error.required = Select whichEmailAddressCanWeContactYouWith
+whichEmailAddressCanWeContactYouWith.change.hidden = WhichEmailAddressCanWeContactYouWith
+
+whatEmailAddressCanWeContactYouWith.title = What email address can we contact you with?
+whatEmailAddressCanWeContactYouWith.heading = What email address can we contact you with?
+whatEmailAddressCanWeContactYouWith.hint = For example, name@example.com.
+whatEmailAddressCanWeContactYouWith.checkYourAnswersLabel = Email address
+whatEmailAddressCanWeContactYouWith.error.required = Enter your email address
+whatEmailAddressCanWeContactYouWith.error.validFormat = Enter your email address in the right format
 whatEmailAddressCanWeContactYouWith.change.hidden = WhatEmailAddressCanWeContactYouWith

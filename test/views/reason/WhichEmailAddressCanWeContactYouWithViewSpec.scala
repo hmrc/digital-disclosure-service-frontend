@@ -17,34 +17,38 @@
 package views.reason
 
 import base.ViewSpecBase
-import forms.WhatEmailAddressCanWeContactYouWithFormProvider
+import forms.WhichEmailAddressCanWeContactYouWithFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
-import views.html.reason.WhatEmailAddressCanWeContactYouWithView
+import views.html.reason.WhichEmailAddressCanWeContactYouWithView
 import models.NormalMode
 
-class WhatEmailAddressCanWeContactYouWithViewSpec extends ViewSpecBase with ViewMatchers {
+class WhichEmailAddressCanWeContactYouWithViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhatEmailAddressCanWeContactYouWithFormProvider()()
-  val page: WhatEmailAddressCanWeContactYouWithView = inject[WhatEmailAddressCanWeContactYouWithView]
-
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  val form = new WhichEmailAddressCanWeContactYouWithFormProvider()()
+  val page: WhichEmailAddressCanWeContactYouWithView = inject[WhichEmailAddressCanWeContactYouWithView]
+  val email = "test@test.com"
+  private def createView: Html = page(form, NormalMode, email)(request, messages)
 
   "view" should {
 
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("whatEmailAddressCanWeContactYouWith.title"))
+      view.select("title").text() must include(messages("whichEmailAddressCanWeContactYouWith.title"))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-label--xl").text() mustBe messages("whatEmailAddressCanWeContactYouWith.heading")
+      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("whichEmailAddressCanWeContactYouWith.heading")
     }
 
     "display the continue button" in {
       view.getElementsByClass("govuk-button").first() must haveId ("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
+    }
+
+    "have a task list link" in {
+      view.getElementById("task-list-link").attr("href") mustBe controllers.routes.TaskListController.onPageLoad.url
     }
 
   }

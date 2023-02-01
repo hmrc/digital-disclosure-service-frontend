@@ -56,7 +56,12 @@ POST       /advice-given-telephone                    controllers.reason.WhatTel
 GET        /advice-given-telephone/change             controllers.reason.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(mode: Mode = CheckMode)
 POST       /advice-given-telephone/change             controllers.reason.WhatTelephoneNumberCanWeContactYouWithController.onSubmit(mode: Mode = CheckMode)
 
-GET        /use-this-email                            controllers.reason.WhatEmailAddressCanWeContactYouWithController.onPageLoad(mode: Mode = NormalMode)
-POST       /use-this-email                            controllers.reason.WhatEmailAddressCanWeContactYouWithController.onSubmit(mode: Mode = NormalMode)
-GET        /use-this-email/change                     controllers.reason.WhatEmailAddressCanWeContactYouWithController.onPageLoad(mode: Mode = CheckMode)
-POST       /use-this-email/change                     controllers.reason.WhatEmailAddressCanWeContactYouWithController.onSubmit(mode: Mode = CheckMode)
+GET        /use-this-email                            controllers.reason.WhichEmailAddressCanWeContactYouWithController.onPageLoad(mode: Mode = NormalMode)
+POST       /use-this-email                            controllers.reason.WhichEmailAddressCanWeContactYouWithController.onSubmit(mode: Mode = NormalMode)
+GET        /use-this-email/change                     controllers.reason.WhichEmailAddressCanWeContactYouWithController.onPageLoad(mode: Mode = CheckMode)
+POST       /use-this-email/change                     controllers.reason.WhichEmailAddressCanWeContactYouWithController.onSubmit(mode: Mode = CheckMode)
+
+GET        /advice-given-email                        controllers.reason.WhatEmailAddressCanWeContactYouWithController.onPageLoad(mode: Mode = NormalMode)
+POST       /advice-given-email                        controllers.reason.WhatEmailAddressCanWeContactYouWithController.onSubmit(mode: Mode = NormalMode)
+GET        /advice-given-email/change                 controllers.reason.WhatEmailAddressCanWeContactYouWithController.onPageLoad(mode: Mode = CheckMode)
+POST       /advice-given-email/change                 controllers.reason.WhatEmailAddressCanWeContactYouWithController.onSubmit(mode: Mode = CheckMode)

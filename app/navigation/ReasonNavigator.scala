@@ -21,6 +21,7 @@ import play.api.mvc.Call
 import pages._
 import models.{AdviceContactPreference, CheckMode, Mode, NormalMode, UserAnswers}
 import models.WhyAreYouMakingADisclosure._
+import models.WhichEmailAddressCanWeContactYouWith._
 import controllers.reason.routes
 
 @Singleton
@@ -53,19 +54,25 @@ class ReasonNavigator @Inject()() {
     
     case AdviceProfessionPage => _ => routes.AdviceGivenController.onPageLoad(NormalMode)
 
+    case WhichEmailAddressCanWeContactYouWithPage => ua => ua.get(WhichEmailAddressCanWeContactYouWithPage) match {
+      case Some(DifferentEmail) => routes.WhatEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
+      case Some(ExistingEmail) => routes.CheckYourAnswersController.onPageLoad
+      case _ => routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
+    }
+
+    case WhatEmailAddressCanWeContactYouWithPage => _ => routes.CheckYourAnswersController.onPageLoad
+    
     case CanWeUseTelephoneNumberToContactYouPage => ua => ua.get(CanWeUseTelephoneNumberToContactYouPage) match {
       case Some(true) => routes.CheckYourAnswersController.onPageLoad
       case _ => routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode)
     }
 
-    case WhatEmailAddressCanWeContactYouWithPage => _ => routes.CheckYourAnswersController.onPageLoad
-
     case WhatTelephoneNumberCanWeContactYouWithPage => _ => routes.CheckYourAnswersController.onPageLoad
 
     case AdviceGivenPage => ua =>
-      (ua.get(AdviceGivenPage), ua.get(WhatEmailAddressCanWeContactYouWithPage), ua.get(WhatTelephoneNumberCanWeContactYouWithPage)) match {
-        case (Some(value), Some(_), _) if value.contactPreference == AdviceContactPreference.Email => routes.WhatEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
-        case (Some(value), None, _) if value.contactPreference == AdviceContactPreference.Email => routes.WhatEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
+      (ua.get(AdviceGivenPage), ua.get(WhichEmailAddressCanWeContactYouWithPage), ua.get(WhatTelephoneNumberCanWeContactYouWithPage)) match {
+        case (Some(value), Some(_), _) if value.contactPreference == AdviceContactPreference.Email => routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
+        case (Some(value), None, _) if value.contactPreference == AdviceContactPreference.Email => routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
         case (Some(value), _, Some(_)) if value.contactPreference == AdviceContactPreference.Telephone => routes.CanWeUseTelephoneNumberToContactYouController.onPageLoad(NormalMode)
         case (Some(value), _, None) if value.contactPreference == AdviceContactPreference.Telephone => routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode)
         case (_, _, _) => routes.WhatIsTheReasonForMakingADisclosureNowController.onPageLoad(NormalMode)

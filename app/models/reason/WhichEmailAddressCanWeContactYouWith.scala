@@ -20,26 +20,26 @@ import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.RadioItem
 
-sealed trait WhatEmailAddressCanWeContactYouWith
+sealed trait WhichEmailAddressCanWeContactYouWith
 
-object WhatEmailAddressCanWeContactYouWith extends Enumerable.Implicits {
+object WhichEmailAddressCanWeContactYouWith extends Enumerable.Implicits {
 
-  case object ExistingEmail extends WithName("existingEmail") with WhatEmailAddressCanWeContactYouWith
-  case object DifferentEmail extends WithName("differentEmail") with WhatEmailAddressCanWeContactYouWith
+  case object ExistingEmail extends WithName("existingEmail") with WhichEmailAddressCanWeContactYouWith
+  case object DifferentEmail extends WithName("differentEmail") with WhichEmailAddressCanWeContactYouWith
 
-  val values: Seq[WhatEmailAddressCanWeContactYouWith] = Seq(
+  val values: Seq[WhichEmailAddressCanWeContactYouWith] = Seq(
     ExistingEmail, DifferentEmail
   )
 
   def options(email: String)(implicit messages: Messages): Seq[RadioItem] = values.zipWithIndex.map {
     case (value, index) =>
       RadioItem(
-        content = Text(messages(s"whatEmailAddressCanWeContactYouWith.${value.toString}", email)),
+        content = Text(messages(s"whichEmailAddressCanWeContactYouWith.${value.toString}", email)),
         value   = Some(value.toString),
         id      = Some(s"value_$index")
       )
   }
 
-  implicit val enumerable: Enumerable[WhatEmailAddressCanWeContactYouWith] =
+  implicit val enumerable: Enumerable[WhichEmailAddressCanWeContactYouWith] =
     Enumerable(values.map(v => v.toString -> v): _*)
 }

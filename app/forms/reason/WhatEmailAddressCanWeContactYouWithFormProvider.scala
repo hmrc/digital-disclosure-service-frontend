@@ -20,12 +20,12 @@ import javax.inject.Inject
 
 import forms.mappings.Mappings
 import play.api.data.Form
-import models.WhatEmailAddressCanWeContactYouWith
 
 class WhatEmailAddressCanWeContactYouWithFormProvider @Inject() extends Mappings {
 
-  def apply(): Form[WhatEmailAddressCanWeContactYouWith] =
+  def apply(): Form[String] =
     Form(
-      "value" -> enumerable[WhatEmailAddressCanWeContactYouWith]("whatEmailAddressCanWeContactYouWith.error.required")
+      "value" -> text("whatEmailAddressCanWeContactYouWith.error.required")
+        .verifying(validEmail("whatEmailAddressCanWeContactYouWith.error.validFormat"))
     )
 }

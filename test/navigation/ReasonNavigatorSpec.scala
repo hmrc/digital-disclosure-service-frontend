@@ -101,9 +101,19 @@ class ReasonNavigatorSpec extends SpecBase {
         navigator.nextPage(CanWeUseTelephoneNumberToContactYouPage, NormalMode, ua) mustBe routes.CheckYourAnswersController.onPageLoad
       }
 
-      "if the user says no must go from CanWeUseTelephoneNumberToContactYouPage to WhatEmailAddressCanWeContactYouWithController" in {
+      "if the user says no must go from CanWeUseTelephoneNumberToContactYouPage to WhichEmailAddressCanWeContactYouWithController" in {
         val ua = UserAnswers("id").set(CanWeUseTelephoneNumberToContactYouPage, false).success.value
         navigator.nextPage(CanWeUseTelephoneNumberToContactYouPage, NormalMode, ua) mustBe routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode)
+      }
+
+      "if the user select existing email radio button must go from WhichEmailAddressCanWeContactYouWithPage to CheckYourAnswersController" in {
+        val ua = UserAnswers("id").set(WhichEmailAddressCanWeContactYouWithPage, WhichEmailAddressCanWeContactYouWith.ExistingEmail).success.value
+        navigator.nextPage(WhichEmailAddressCanWeContactYouWithPage, NormalMode, ua) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "if the user select different email radio button must go from WhichEmailAddressCanWeContactYouWithPage to WhatEmailAddressCanWeContactYouWithPage" in {
+        val ua = UserAnswers("id").set(WhichEmailAddressCanWeContactYouWithPage, WhichEmailAddressCanWeContactYouWith.DifferentEmail).success.value
+        navigator.nextPage(WhichEmailAddressCanWeContactYouWithPage, NormalMode, ua) mustBe routes.WhatEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
       }
 
       "must go from WhatEmailAddressCanWeContactYouWithPage to CheckYourAnswersController" in {
@@ -117,14 +127,14 @@ class ReasonNavigatorSpec extends SpecBase {
       "must go from AdviceGivenPage to CanWeUseEmailAddressToContactYouController if the user already entered an email" in {
         val adviceGiven = AdviceGiven("Advice",MonthYear(1,1960), AdviceContactPreference.Email)
         val adviceUa = UserAnswers("id").set(AdviceGivenPage, adviceGiven).success.value
-        val ua = adviceUa.set(WhatEmailAddressCanWeContactYouWithPage, WhatEmailAddressCanWeContactYouWith.values.head).success.value
-        navigator.nextPage(AdviceGivenPage, NormalMode, ua) mustBe routes.WhatEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
+        val ua = adviceUa.set(WhichEmailAddressCanWeContactYouWithPage, WhichEmailAddressCanWeContactYouWith.values.head).success.value
+        navigator.nextPage(AdviceGivenPage, NormalMode, ua) mustBe routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
       }
 
-      "must go from AdviceGivenPage to WhatEmailAddressCanWeContactYouWithController if the user has not entered an email" in {
+      "must go from AdviceGivenPage to WhichEmailAddressCanWeContactYouWithController if the user has not entered an email" in {
         val adviceGiven = AdviceGiven("Advice", MonthYear(1, 1960), AdviceContactPreference.Email)
         val ua = UserAnswers("id").set(AdviceGivenPage, adviceGiven).success.value
-        navigator.nextPage(AdviceGivenPage, NormalMode, ua) mustBe routes.WhatEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
+        navigator.nextPage(AdviceGivenPage, NormalMode, ua) mustBe routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
       }
 
       "must go from AdviceGivenPage to CanWeUseTelephoneNumberToContactYouController if the user already entered a telephone number" in {
