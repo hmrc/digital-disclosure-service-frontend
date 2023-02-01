@@ -147,7 +147,7 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
         Some(AdviceGiven("Some advice", MonthYear(12, 2012), AdviceContactPreference.No)),
         Some(WhichEmailAddressCanWeContactYouWith.values.head),
         Some(false),
-        Some("Email")
+        Some("Email"),
         Some("Telephone")
       )
       sut.uaToReasonForDisclosingNow(userAnswers) shouldEqual expected
