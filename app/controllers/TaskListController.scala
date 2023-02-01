@@ -68,7 +68,7 @@ class TaskListController @Inject()(
         additionalInformation
       )
 
-      Ok(view(list, notificationSectionKey, isTheUserAgent(ua), entity, true))
+      Ok(view(list, notificationSectionKey, isTheUserAgent(ua), entity, false))
   }
 
   def statusKey(isSectionComplete: Boolean): String = if (isSectionComplete) "taskList.status.completed" else "taskList.status.notStarted"

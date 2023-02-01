@@ -48,7 +48,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         val entityKey = "individual"
         val entity = RelatesTo.AnIndividual
         val isTheUserAgent = true
-        val isAllTaskCompleted = true
+        val isAllTaskCompleted = false
         val notificationSectionKey = s"taskList.$entityKey.$operationKey.heading.first"
         val notificationTitleKey = s"taskList.$entityKey.$operationKey.sectionTitle.first"
 
@@ -93,7 +93,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         val entityKey = "agent"
         val entity = RelatesTo.AnIndividual
         val isTheUserAgent = true
-        val isAllTaskCompleted = true
+        val isAllTaskCompleted = false
         val notificationSectionKey = s"taskList.$entityKey.$operationKey.heading.first"
         val notificationTitleKey = s"taskList.$entityKey.$operationKey.sectionTitle.first"
 

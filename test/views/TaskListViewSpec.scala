@@ -112,7 +112,7 @@ class TaskListViewSpec extends ViewSpecBase with ViewMatchers with Generators {
     }
 
     "have a fifth paragraph" in {
-      view.getElementById("fifth-paragraph").text() mustBe messages("taskList.paragraph.fifth") + messages("taskList.paragraph.fifth.link")
+      view.getElementById("fifth-paragraph").text() mustBe messages("taskList.paragraph.fifth") + messages("taskList.paragraph.fifth.link") + messages("site.dot")
     }
 
   }

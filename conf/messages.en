@@ -1027,7 +1027,7 @@ taskList.individual.add.heading.first = Provide individual’s personal details
 taskList.company.add.heading.first = Provide the company’s details 
 taskList.llp.add.heading.first = Provide the limited liability partnership’s details
 taskList.estate.add.heading.first = Provide the details of the person who died
-taskList.trust.add.heading.first = Provide the trust's details
+taskList.trust.add.heading.first = Provide the trust’s details
 #--------Personal details header----Edit operation-----
 taskList.agent.edit.heading.first = Review notification details
 taskList.individual.edit.heading.first = Review the individual’s details
