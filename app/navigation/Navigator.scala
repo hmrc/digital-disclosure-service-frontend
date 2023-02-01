@@ -28,10 +28,9 @@ class Navigator @Inject()() {
 
   private val normalRoutes: Page => UserAnswers => Call = {
 
-    case MakeANotificationOrDisclosurePage => ua => ua.get(MakeANotificationOrDisclosurePage) match {
-      case Some(MakeANotificationOrDisclosure.MakeANotification) => routes.ReceivedALetterController.onPageLoad(NormalMode)
-      case Some(MakeANotificationOrDisclosure.MakeADisclosure) => controllers.routes.TaskListController.onPageLoad
-      case None => controllers.routes.MakeANotificationOrDisclosureController.onPageLoad(NormalMode)
+    case MakeANotificationOrDisclosurePage => ua => ua.submissionType match {
+      case SubmissionType.Notification => routes.ReceivedALetterController.onPageLoad(NormalMode)
+      case SubmissionType.Disclosure => controllers.routes.TaskListController.onPageLoad
     }
     
     case _ => _ => controllers.routes.IndexController.onPageLoad

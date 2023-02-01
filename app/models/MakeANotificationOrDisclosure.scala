@@ -24,8 +24,8 @@ sealed trait MakeANotificationOrDisclosure
 
 object MakeANotificationOrDisclosure extends Enumerable.Implicits {
 
-  case object MakeANotification extends WithName("yes") with MakeANotificationOrDisclosure
-  case object MakeADisclosure extends WithName("no") with MakeANotificationOrDisclosure
+  case object MakeANotification extends WithName("notification") with MakeANotificationOrDisclosure
+  case object MakeADisclosure extends WithName("disclosure") with MakeANotificationOrDisclosure
 
   val values: Seq[MakeANotificationOrDisclosure] = Seq(
     MakeANotification, MakeADisclosure

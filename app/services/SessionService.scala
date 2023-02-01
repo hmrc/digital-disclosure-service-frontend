@@ -34,18 +34,12 @@ class SessionServiceImpl @Inject()(
   def getSession(userId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] =
     sessionRepository.get(userId)
 
-  def newSession(userId: String)(implicit hc: HeaderCarrier): Future[UserAnswers] =
+  def newSession(userId: String, submissionId: String, submissionType: SubmissionType)(implicit hc: HeaderCarrier): Future[UserAnswers] =
     for {
-      uaOpt  <- getIndividualUserAnswers(userId, UserAnswers.defaultsubmissionId)
-      ua     = extractOrDefaultUserAnswers(userId, uaOpt)
+      uaOpt  <- getIndividualUserAnswers(userId, submissionId)
+      ua     = uaOpt.getOrElse(UserAnswers(id = userId, submissionId = submissionId, submissionType = submissionType))
       result <- set(ua)
     } yield ua
-
-  def extractOrDefaultUserAnswers(userId: String, uaOpt: Option[UserAnswers]) =
-    uaOpt match {
-      case Some(ua) if ua.metadata.submissionTime.isEmpty => ua
-      case _ => UserAnswers(userId)
-    }
 
   def getIndividualUserAnswers(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] = 
     for {
@@ -59,6 +53,15 @@ class SessionServiceImpl @Inject()(
       _      <- submissionStoreService.setSubmission(userAnswers)
     } yield result
     
+  def clearAndRestartSessionAndDraft(id: String, submissionId: String, submissionType: SubmissionType)(implicit hc: HeaderCarrier): Future[UserAnswers] = {
+    for {
+      _ <- submissionStoreService.deleteSubmission(id, submissionId)
+      _ <- sessionRepository.clear(id)
+      ua = UserAnswers(id, submissionId, submissionType)
+      _ <- set(ua)
+    } yield ua
+  }
+  
   def clear(id: String): Future[Boolean] = sessionRepository.clear(id)
 
   def keepAlive(id: String): Future[Boolean] = sessionRepository.keepAlive(id)
@@ -67,8 +70,9 @@ class SessionServiceImpl @Inject()(
 @ImplementedBy(classOf[SessionServiceImpl])
 trait SessionService {
   def getSession(userId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] 
-  def newSession(userId: String)(implicit hc: HeaderCarrier): Future[UserAnswers]
+  def newSession(userId: String, submissionId: String, submissionType: SubmissionType)(implicit hc: HeaderCarrier): Future[UserAnswers]
   def set(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Boolean]
   def clear(id: String): Future[Boolean]
   def keepAlive(id: String): Future[Boolean]
+  def clearAndRestartSessionAndDraft(id: String, submissionId: String, submissionType: SubmissionType)(implicit hc: HeaderCarrier): Future[UserAnswers]
 }

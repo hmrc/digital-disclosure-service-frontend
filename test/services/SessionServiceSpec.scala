@@ -79,42 +79,42 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
   "newSession" should {
 
     "check the store and where it finds nothing, default and set that default in the session and store" in new Test {   
-      mockGetSubmission("123", UserAnswers.defaultsubmissionId)(Future.successful(None))
+      mockGetSubmission("123", UserAnswers.defaultSubmissionId)(Future.successful(None))
       (repo.set(_: UserAnswers)).expects(*).returning(Future.successful(true))
       (storeService.setSubmission(_: UserAnswers)(_: HeaderCarrier)).expects(*, *).returning(Future.successful(Ok))
-      val result = sut.newSession("123")
+      val result = sut.newSession("123", UserAnswers.defaultSubmissionId, SubmissionType.Notification)
       Thread.sleep(150)
       result.futureValue shouldBe a[UserAnswers]
     }
 
     "check the store and where it finds something, set that value in both the session and store" in new Test {
-      mockGetSubmission("123", UserAnswers.defaultsubmissionId)(Future.successful(Some(testNotification)))
+      mockGetSubmission("123", UserAnswers.defaultSubmissionId)(Future.successful(Some(testNotification)))
       mockNotificationToUserAnswers(testNotification)(Success(userAnswers))
       (repo.set(_: UserAnswers)).expects(userAnswers).returning(Future.successful(true))
       (storeService.setSubmission(_: UserAnswers)(_: HeaderCarrier)).expects(userAnswers, *).returning(Future.successful(Ok))
 
-      sut.newSession("123").futureValue shouldBe a[UserAnswers]
+      sut.newSession("123", UserAnswers.defaultSubmissionId, SubmissionType.Notification).futureValue shouldBe a[UserAnswers]
     }
 
     "check the store and where it finds something which has been submitted, default and set that default in the session and store" in new Test {
-      mockGetSubmission("123", UserAnswers.defaultsubmissionId)(Future.successful(Some(testSubmittedNotification)))
+      mockGetSubmission("123", UserAnswers.defaultSubmissionId)(Future.successful(Some(testSubmittedNotification)))
       mockNotificationToUserAnswers(testSubmittedNotification)(Success(submittedUserAnswers))
       (repo.set(_: UserAnswers)).expects(*).returning(Future.successful(true))
       (storeService.setSubmission(_: UserAnswers)(_: HeaderCarrier)).expects(*, *).returning(Future.successful(Ok))
 
-      sut.newSession("123").futureValue shouldBe a[UserAnswers]
+      sut.newSession("123", UserAnswers.defaultSubmissionId, SubmissionType.Notification).futureValue shouldBe a[UserAnswers]
     }
   }
 
   "getIndividualUserAnswers" should {
     "check the store and where it finds nothing return None" in new Test {
-      mockGetSubmission("123", UserAnswers.defaultsubmissionId)(Future.successful(None))
+      mockGetSubmission("123", UserAnswers.defaultSubmissionId)(Future.successful(None))
 
       sut.getIndividualUserAnswers("123", "Individual").futureValue shouldEqual None
     }
 
     "check the store and where it finds something, convert it to a UserAnswers" in new Test {
-      mockGetSubmission("123", UserAnswers.defaultsubmissionId)(Future.successful(Some(testNotification)))
+      mockGetSubmission("123", UserAnswers.defaultSubmissionId)(Future.successful(Some(testNotification)))
       mockNotificationToUserAnswers(testNotification)(Success(userAnswers))
 
       sut.getIndividualUserAnswers("123", "Individual").futureValue shouldEqual Some(userAnswers)
