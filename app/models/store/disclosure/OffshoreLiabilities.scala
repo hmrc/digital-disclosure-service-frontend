@@ -34,6 +34,8 @@ final case class OffshoreLiabilities(
   maximumValueOfAssets: Option[TheMaximumValueOfAllAssets] = None
 ) {
   def isComplete = this match {
+    case OffshoreLiabilities(Some(_), _, _, _, Some(years), Some(priorTo5Years), _, _, _, _, _, _) if years == Set(PriorTo5Years) => true
+    case OffshoreLiabilities(Some(_), _, _, _, Some(years), _, Some(priorTo7Years), _, _, _, _, _) if years == Set(PriorTo7Years) => true
     case OffshoreLiabilities(Some(_), _, _, _, Some(_), _, _, Some(_), Some(_), _, _, Some(_)) => true
     case _ => false
   }
