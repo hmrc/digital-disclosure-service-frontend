@@ -124,36 +124,22 @@ class ReasonNavigatorSpec extends SpecBase {
         navigator.nextPage(WhatTelephoneNumberCanWeContactYouWithPage, NormalMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad
       }
 
-      "must go from AdviceGivenPage to CanWeUseEmailAddressToContactYouController if the user already entered an email" in {
+      "must go from AdviceGivenPage to WhichEmailAddressCanWeContactYouWithController if the user already entered an email" in {
         val adviceGiven = AdviceGiven("Advice",MonthYear(1,1960), AdviceContactPreference.Email)
         val adviceUa = UserAnswers("id").set(AdviceGivenPage, adviceGiven).success.value
-        val ua = adviceUa.set(WhichEmailAddressCanWeContactYouWithPage, WhichEmailAddressCanWeContactYouWith.values.head).success.value
-        navigator.nextPage(AdviceGivenPage, NormalMode, ua) mustBe routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
-      }
-
-      "must go from AdviceGivenPage to WhichEmailAddressCanWeContactYouWithController if the user has not entered an email" in {
-        val adviceGiven = AdviceGiven("Advice", MonthYear(1, 1960), AdviceContactPreference.Email)
-        val ua = UserAnswers("id").set(AdviceGivenPage, adviceGiven).success.value
-        navigator.nextPage(AdviceGivenPage, NormalMode, ua) mustBe routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
+        navigator.nextPage(AdviceGivenPage, NormalMode, adviceUa) mustBe routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
       }
 
       "must go from AdviceGivenPage to CanWeUseTelephoneNumberToContactYouController if the user already entered a telephone number" in {
         val adviceGiven = AdviceGiven("Advice", MonthYear(1, 1960), AdviceContactPreference.Telephone)
         val adviceUa = UserAnswers("id").set(AdviceGivenPage, adviceGiven).success.value
-        val ua = adviceUa.set(WhatTelephoneNumberCanWeContactYouWithPage, "0123456789").success.value
-        navigator.nextPage(AdviceGivenPage, NormalMode, ua) mustBe routes.CanWeUseTelephoneNumberToContactYouController.onPageLoad(NormalMode)
-      }
-
-      "must go from AdviceGivenPage to WhatTelephoneNumberCanWeContactYouWithController if the user has not entered an telephone" in {
-        val adviceGiven = AdviceGiven("Advice", MonthYear(1, 1960), AdviceContactPreference.Telephone)
-        val ua = UserAnswers("id").set(AdviceGivenPage, adviceGiven).success.value
-        navigator.nextPage(AdviceGivenPage, NormalMode, ua) mustBe routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode)
+        navigator.nextPage(AdviceGivenPage, NormalMode, adviceUa) mustBe routes.CanWeUseTelephoneNumberToContactYouController.onPageLoad(NormalMode)
       }
 
       "must go from AdviceGivenPage to WhatIsTheReasonForMakingADisclosureNowController if the user selected No" in {
         val adviceGiven = AdviceGiven("", MonthYear(1, 1960), AdviceContactPreference.No)
-        val ua = UserAnswers("id").set(AdviceGivenPage, adviceGiven).success.value
-        navigator.nextPage(AdviceGivenPage, NormalMode, ua) mustBe routes.WhatIsTheReasonForMakingADisclosureNowController.onPageLoad(NormalMode)
+        val adviceUa = UserAnswers("id").set(AdviceGivenPage, adviceGiven).success.value
+        navigator.nextPage(AdviceGivenPage, NormalMode, adviceUa) mustBe routes.WhatIsTheReasonForMakingADisclosureNowController.onPageLoad(NormalMode)
       }
     }
 

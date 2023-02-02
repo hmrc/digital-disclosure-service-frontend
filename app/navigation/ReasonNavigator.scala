@@ -54,6 +54,12 @@ class ReasonNavigator @Inject()() {
     
     case AdviceProfessionPage => _ => routes.AdviceGivenController.onPageLoad(NormalMode)
 
+    case AdviceGivenPage => ua => ua.get(AdviceGivenPage) match {
+      case (Some(value)) if value.contactPreference == AdviceContactPreference.Email => routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
+      case (Some(value)) if value.contactPreference == AdviceContactPreference.Telephone => routes.CanWeUseTelephoneNumberToContactYouController.onPageLoad(NormalMode)
+      case _ => routes.WhatIsTheReasonForMakingADisclosureNowController.onPageLoad(NormalMode)
+    }
+
     case WhichEmailAddressCanWeContactYouWithPage => ua => ua.get(WhichEmailAddressCanWeContactYouWithPage) match {
       case Some(DifferentEmail) => routes.WhatEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
       case Some(ExistingEmail) => routes.CheckYourAnswersController.onPageLoad
@@ -67,16 +73,7 @@ class ReasonNavigator @Inject()() {
       case _ => routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode)
     }
 
-    case WhatTelephoneNumberCanWeContactYouWithPage => _ => routes.CheckYourAnswersController.onPageLoad
-
-    case AdviceGivenPage => ua =>
-      (ua.get(AdviceGivenPage), ua.get(WhichEmailAddressCanWeContactYouWithPage), ua.get(WhatTelephoneNumberCanWeContactYouWithPage)) match {
-        case (Some(value), Some(_), _) if value.contactPreference == AdviceContactPreference.Email => routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
-        case (Some(value), None, _) if value.contactPreference == AdviceContactPreference.Email => routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
-        case (Some(value), _, Some(_)) if value.contactPreference == AdviceContactPreference.Telephone => routes.CanWeUseTelephoneNumberToContactYouController.onPageLoad(NormalMode)
-        case (Some(value), _, None) if value.contactPreference == AdviceContactPreference.Telephone => routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode)
-        case (_, _, _) => routes.WhatIsTheReasonForMakingADisclosureNowController.onPageLoad(NormalMode)
-      }
+    case WhatTelephoneNumberCanWeContactYouWithPage => _ => routes.CheckYourAnswersController.onPageLoad  
 
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
