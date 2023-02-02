@@ -216,7 +216,7 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         val year = current.back(1).startYear
         val set: Set[OffshoreYears] = Set(TaxYearStarting(year))
         val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
-        navigator.nextPage(WhichYearsPage, NormalMode, userAnswers) mustBe routes.TaxYearLiabilitiesController.onPageLoad(0, NormalMode)
+        navigator.nextPage(WhichYearsPage, NormalMode, userAnswers) mustBe routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
       }
 
       "must go from TaxBeforeFiveYearsPage to MakingNilDisclosureController when only selected option PriorTo5Years" in {
