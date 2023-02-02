@@ -28,7 +28,7 @@ import com.google.inject.{ImplementedBy, Inject, Singleton}
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.control.NoStackTrace
-import models.store.Notification
+import models.store.{FullDisclosure, Notification}
 import java.time.Clock
 import models.submission.SubmissionResponse
 import uk.gov.hmrc.http.HttpResponse
@@ -78,6 +78,34 @@ class DigitalDisclosureServiceConnectorImpl @Inject() (
       }
   }
 
+  def submitDisclosure(disclosure: FullDisclosure)(implicit hc: HeaderCarrier): Future[String] =
+    retry {
+      httpClient
+        .post(url"$baseUrl/disclosure/submit")
+        .setHeader(AUTHORIZATION -> clientAuthToken)
+        .withBody(Json.toJson(disclosure))
+        .execute
+        .flatMap { response =>
+          response.status match {
+            case ACCEPTED => handleResponse[SubmissionResponse.Success](response).map(_.id)
+            case _ => handleError(DigitalDisclosureServiceConnector.UnexpectedResponseException(response.status, response.body))
+          }
+        }
+    }
+
+  def generateDisclosurePDF(disclosure: FullDisclosure)(implicit hc: HeaderCarrier): Future[ByteString] = {
+    ws
+      .url(s"$baseUrl/disclosure/pdf")
+      .withHttpHeaders(AUTHORIZATION -> clientAuthToken)
+      .post(Json.toJson(disclosure)) 
+      .flatMap { response =>
+        response.status match {
+          case OK => Future.successful(response.bodyAsBytes)
+          case _ => Future.failed(DigitalDisclosureServiceConnector.UnexpectedResponseException(response.status, response.body))
+        }
+      }
+  }
+
   def handleResponse[A](response: HttpResponse)(implicit reads: Reads[A]): Future[A] = {
     response.json.validate[A] match {
       case JsSuccess(a, _) => Future.successful(a)
@@ -91,6 +119,8 @@ class DigitalDisclosureServiceConnectorImpl @Inject() (
 trait DigitalDisclosureServiceConnector {
   def submitNotification(notification: Notification)(implicit hc: HeaderCarrier): Future[String]
   def generateNotificationPDF(notification: Notification)(implicit hc: HeaderCarrier): Future[ByteString]
+  def submitDisclosure(disclosure: FullDisclosure)(implicit hc: HeaderCarrier): Future[String]
+  def generateDisclosurePDF(disclosure: FullDisclosure)(implicit hc: HeaderCarrier): Future[ByteString]
 }
 
 object DigitalDisclosureServiceConnector {

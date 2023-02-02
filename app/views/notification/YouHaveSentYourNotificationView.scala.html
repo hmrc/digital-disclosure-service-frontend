@@ -54,7 +54,7 @@
                     case false => messages("youHaveSentYourNotification.paragraph.link.agent")
                 },
                 fileName = "notification.pdf", 
-                call = controllers.notification.routes.PdfGenerationController.generate
+                call = controllers.routes.PdfGenerationController.generate
             ) + 
             messages("site.dot")
     ))

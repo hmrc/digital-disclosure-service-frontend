@@ -73,7 +73,7 @@
                     case false => messages("notificationCYA.link.agent")
                 }, 
                 fileName = "notification.pdf", 
-                call = controllers.notification.routes.PdfGenerationController.generate)@messages("site.dot")
+                call = controllers.routes.PdfGenerationController.generate)@messages("site.dot")
         </p>
 
         @govukButton(
