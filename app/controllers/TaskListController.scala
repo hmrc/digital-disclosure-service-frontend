@@ -115,7 +115,6 @@ class TaskListController @Inject()(
 
     val firstPage = userAnswers.get(WhyAreYouMakingThisDisclosurePage)
     val isSectionComplete = dateDisclosureService.uaToOffshoreLiabilities(userAnswers).isComplete
-    System.out.println("This 1-> " + isSectionComplete)
     val operationKey = if (isSectionComplete || firstPage.isDefined) "edit" else "add"
     val offshoreLiabilitieTitleKey = s"taskList.$operationKey.sectionTitle.forth"
 
