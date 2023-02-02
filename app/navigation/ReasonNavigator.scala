@@ -57,7 +57,7 @@ class ReasonNavigator @Inject()() {
     case AdviceGivenPage => ua => ua.get(AdviceGivenPage) match {
       case (Some(value)) if value.contactPreference == AdviceContactPreference.Email => routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
       case (Some(value)) if value.contactPreference == AdviceContactPreference.Telephone => routes.CanWeUseTelephoneNumberToContactYouController.onPageLoad(NormalMode)
-      case _ => routes.WhatIsTheReasonForMakingADisclosureNowController.onPageLoad(NormalMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad
     }
 
     case WhichEmailAddressCanWeContactYouWithPage => ua => ua.get(WhichEmailAddressCanWeContactYouWithPage) match {

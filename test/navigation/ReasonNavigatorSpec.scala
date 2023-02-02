@@ -136,10 +136,10 @@ class ReasonNavigatorSpec extends SpecBase {
         navigator.nextPage(AdviceGivenPage, NormalMode, adviceUa) mustBe routes.CanWeUseTelephoneNumberToContactYouController.onPageLoad(NormalMode)
       }
 
-      "must go from AdviceGivenPage to WhatIsTheReasonForMakingADisclosureNowController if the user selected No" in {
+      "must go from AdviceGivenPage to CheckYourAnswersController if the user selected No" in {
         val adviceGiven = AdviceGiven("", MonthYear(1, 1960), AdviceContactPreference.No)
         val adviceUa = UserAnswers("id").set(AdviceGivenPage, adviceGiven).success.value
-        navigator.nextPage(AdviceGivenPage, NormalMode, adviceUa) mustBe routes.WhatIsTheReasonForMakingADisclosureNowController.onPageLoad(NormalMode)
+        navigator.nextPage(AdviceGivenPage, NormalMode, adviceUa) mustBe routes.CheckYourAnswersController.onPageLoad
       }
     }
 
