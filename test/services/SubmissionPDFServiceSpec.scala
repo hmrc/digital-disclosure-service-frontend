@@ -27,28 +27,37 @@ import connectors.DigitalDisclosureServiceConnector
 import models.UserAnswers
 import models.store._
 import models.store.notification._
+import models.store.disclosure._
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 import scala.concurrent.ExecutionContext.Implicits.global
 import akka.util.ByteString
 
-class NotificationPDFServiceSpec extends AnyWordSpec with ScalaFutures
+class SubmissionPDFServiceSpec extends AnyWordSpec with ScalaFutures
     with TryValues with Matchers with MockitoSugar  {
 
   val connector: DigitalDisclosureServiceConnector = mock[DigitalDisclosureServiceConnector]
-  val UAToNotificationService: UAToNotificationService = mock[UAToNotificationService]
+  val uaToSubmissionService: UAToSubmissionService = mock[UAToSubmissionService]
 
-  val sut = new NotificationPDFServiceImpl(connector, UAToNotificationService)
+  val sut = new SubmissionPDFServiceImpl(connector, uaToSubmissionService)
 
   val emptyUA = UserAnswers("id")
   val testNotification = Notification("123", "456", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
+  val testDisclosure = FullDisclosure("123", "123", Instant.now(), Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
   implicit val hc = HeaderCarrier()
 
   "generatePdf" should {
 
-    "call userAnswersToNotification followed by generateNotificationPDF" in {
-      when(UAToNotificationService.userAnswersToNotification(emptyUA)) thenReturn testNotification
+    "call userAnswersToSubmission followed by generateNotificationPDF for a notification" in {
+      when(uaToSubmissionService.uaToSubmission(emptyUA)) thenReturn testNotification
       when(connector.generateNotificationPDF(testNotification)(hc)) thenReturn Future.successful(ByteString("1234"))
+      
+      sut.generatePdf(emptyUA).futureValue shouldEqual ByteString("1234")
+    }
+
+    "call userAnswersToSubmission followed by generateSubmissionPDF for a disclosure" in {
+      when(uaToSubmissionService.uaToSubmission(emptyUA)) thenReturn testDisclosure
+      when(connector.generateDisclosurePDF(testDisclosure)(hc)) thenReturn Future.successful(ByteString("1234"))
       
       sut.generatePdf(emptyUA).futureValue shouldEqual ByteString("1234")
     }

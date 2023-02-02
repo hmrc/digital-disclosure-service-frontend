@@ -22,21 +22,23 @@ import com.google.inject.{Inject, Singleton, ImplementedBy}
 import scala.concurrent.{ExecutionContext, Future}
 import models.UserAnswers
 import akka.util.ByteString
+import models.store.{FullDisclosure, Notification}
 
 @Singleton
-class NotificationPDFServiceImpl @Inject()(
+class SubmissionPDFServiceImpl @Inject()(
   connector: DigitalDisclosureServiceConnector,
-  UAToNotificationService: UAToNotificationService
-) extends NotificationPDFService {
+  uaToSubmissionService: UAToSubmissionService
+) extends SubmissionPDFService {
 
-  def generatePdf(userAnswers: UserAnswers)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[ByteString] = {
-    val notification = UAToNotificationService.userAnswersToNotification(userAnswers)
-    connector.generateNotificationPDF(notification)
-  }
+  def generatePdf(userAnswers: UserAnswers)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[ByteString] = 
+    uaToSubmissionService.uaToSubmission(userAnswers) match {
+      case notification: Notification => connector.generateNotificationPDF(notification)
+      case disclosure: FullDisclosure => connector.generateDisclosurePDF(disclosure)
+    }
 
 }
 
-@ImplementedBy(classOf[NotificationPDFServiceImpl])
-trait NotificationPDFService {
+@ImplementedBy(classOf[SubmissionPDFServiceImpl])
+trait SubmissionPDFService {
   def generatePdf(userAnswers: UserAnswers)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[ByteString]
 }

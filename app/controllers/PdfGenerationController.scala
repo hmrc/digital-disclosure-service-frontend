@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package controllers.notification
+package controllers
 
 import controllers.actions._
 import javax.inject.Inject
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Result, ResponseHeader, Action, AnyContent, MessagesControllerComponents}
-import services.NotificationPDFService
+import services.SubmissionPDFService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import scala.concurrent.ExecutionContext
 import play.api.http.HttpEntity
 
 class PdfGenerationController @Inject()(
                                        override val messagesApi: MessagesApi,
-                                       pdfService: NotificationPDFService,
+                                       pdfService: SubmissionPDFService,
                                        identify: IdentifierAction,
                                        getData: DataRetrievalAction,
                                        requireData: DataRequiredAction,
