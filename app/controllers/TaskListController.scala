@@ -112,11 +112,19 @@ class TaskListController @Inject()(
   }
 
   private def buildOffshoreLiabilitieDetailRow(userAnswers: UserAnswers)(implicit messages: Messages): TaskListRow = {
+
+    val isSectionComplete = dateDisclosureService.uaToOffshoreLiabilities(userAnswers).isComplete
+    val operationKey = if (isSectionComplete) "edit" else "add"
+    val offshoreLiabilitieTitleKey = s"taskList.$operationKey.sectionTitle.forth"
+
+    val link = if (isSectionComplete) controllers.offshore.routes.CheckYourAnswersController.onPageLoad
+      else controllers.offshore.routes.WhyAreYouMakingThisDisclosureController.onPageLoad(NormalMode)
+
     TaskListRow(
       id = "offshore-liabilitie-task-list", 
-      sectionTitle = messages("taskList.sectionTitle.forth"), 
-      status = messages("taskList.status.notStarted"), 
-      link = offshore.routes.WhyAreYouMakingThisDisclosureController.onPageLoad(NormalMode)
+      sectionTitle = messages(offshoreLiabilitieTitleKey), 
+      status = messages(statusKey(isSectionComplete)), 
+      link = link
     )
   }
 
