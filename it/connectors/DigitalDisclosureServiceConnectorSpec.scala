@@ -29,8 +29,9 @@ import util.WireMockHelper
 import java.time.Instant
 import play.api.http.Status._
 import models.store.notification._
+import models.store.disclosure._
 import models.submission.SubmissionResponse
-import models.store.{Notification, Metadata}
+import models.store.{Notification, FullDisclosure, Metadata}
 import akka.util.ByteString
 
 class DigitalDisclosureServiceConnectorSpec extends AnyFreeSpec with Matchers with ScalaFutures with IntegrationPatience with WireMockHelper {
@@ -127,6 +128,79 @@ class DigitalDisclosureServiceConnectorSpec extends AnyFreeSpec with Matchers wi
       )
 
       connector.generateNotificationPDF(testNotification)(hc).failed.futureValue
+    }
+
+  }
+
+  "submitDisclosure" - {
+
+    val hc = HeaderCarrier()
+    val url = "/digital-disclosure-service/disclosure/submit"
+
+    val testDisclosure = FullDisclosure("123", "123", Instant.now(), Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
+
+    "must return an ID when the store responds with ACCEPTED" in {
+
+      server.stubFor(
+        post(urlMatching(url))
+          .withRequestBody(equalToJson(Json.stringify(Json.toJson(testDisclosure))))
+          .willReturn(
+            aResponse()
+              .withStatus(ACCEPTED)
+              .withBody(Json.toJson(SubmissionResponse.Success("ID123")).toString)
+          )
+      )
+
+      connector.submitDisclosure(testDisclosure)(hc).futureValue mustEqual "ID123"
+    }
+
+    "must return a failed future when the store responds with anything else" in {
+
+      server.stubFor(
+        post(urlMatching(url))
+          .withRequestBody(equalToJson(Json.stringify(Json.toJson(testDisclosure))))
+          .willReturn(aResponse().withBody("""{"body" : "body"}""").withStatus(INTERNAL_SERVER_ERROR))
+      )
+
+      val exception = connector.submitDisclosure(testDisclosure)(hc).failed.futureValue
+      exception mustEqual DigitalDisclosureServiceConnector.UnexpectedResponseException(500, """{"body" : "body"}""")
+    }
+
+    "must return a failed future when there is a connection error" in {
+
+      server.stubFor(
+        post(urlMatching(url))
+          .withRequestBody(equalToJson(Json.stringify(Json.toJson(testDisclosure))))
+          .willReturn(aResponse().withFault(Fault.RANDOM_DATA_THEN_CLOSE))
+      )
+
+      connector.submitDisclosure(testDisclosure)(hc).failed.futureValue
+    }
+
+  }
+
+  "generateDisclosurePDF" - {
+
+    val hc = HeaderCarrier()
+    val url = "/digital-disclosure-service/disclosure/pdf"
+
+    val testDisclosure = FullDisclosure("123", "123", Instant.now(), Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
+
+    val testBodyString = "Some body"
+    val testBody = ByteString("Some body".getBytes)
+
+    "must return an ID when the store responds with ACCEPTED" in {
+
+      server.stubFor(
+        post(urlMatching(url))
+          .withRequestBody(equalToJson(Json.stringify(Json.toJson(testDisclosure))))
+          .willReturn(
+            aResponse()
+              .withStatus(OK)
+              .withBody(testBodyString))
+      )
+
+      connector.generateDisclosurePDF(testDisclosure)(hc).futureValue mustEqual testBody
     }
 
   }

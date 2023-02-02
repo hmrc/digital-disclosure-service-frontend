@@ -19,7 +19,7 @@ package services
 import com.google.inject.{Inject, Singleton, ImplementedBy}
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 import uk.gov.hmrc.http.HeaderCarrier
-import models.store.Notification
+import models.store.{FullDisclosure, Notification}
 import scala.concurrent.ExecutionContext
 
 @Singleton
@@ -27,13 +27,16 @@ class AuditServiceImpl @Inject()(
   connector: AuditConnector
 )(implicit ec: ExecutionContext) extends AuditService {
 
-  val AUDIT_TYPE = "NotificationSubmission"
+  val NOTIFICATION_AUDIT_TYPE = "NotificationSubmission"
+  val DISCLOSURE_AUDIT_TYPE = "DisclosureSubmission"
 
-  def auditSubmission(notification: Notification)(implicit hc: HeaderCarrier): Unit = connector.sendExplicitAudit(AUDIT_TYPE, notification)
+  def auditNotificationSubmission(notification: Notification)(implicit hc: HeaderCarrier): Unit = connector.sendExplicitAudit(NOTIFICATION_AUDIT_TYPE, notification)
+  def auditDisclosureSubmission(disclosure: FullDisclosure)(implicit hc: HeaderCarrier): Unit = connector.sendExplicitAudit(DISCLOSURE_AUDIT_TYPE, disclosure)
 
 }
 
 @ImplementedBy(classOf[AuditServiceImpl])
 trait AuditService {
-  def auditSubmission(notification: Notification)(implicit hc: HeaderCarrier): Unit
+  def auditNotificationSubmission(notification: Notification)(implicit hc: HeaderCarrier): Unit
+  def auditDisclosureSubmission(disclosure: FullDisclosure)(implicit hc: HeaderCarrier): Unit
 }

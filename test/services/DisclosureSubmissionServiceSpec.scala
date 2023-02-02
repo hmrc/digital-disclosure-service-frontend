@@ -26,28 +26,29 @@ import org.scalatest.concurrent.ScalaFutures
 import connectors.DigitalDisclosureServiceConnector
 import models.UserAnswers
 import models.store.notification._
+import models.store.disclosure._
 import models.store._
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 import scala.concurrent.ExecutionContext.Implicits.global
 import pages.LetterReferencePage
 
-class NotificationSubmissionServiceSpec extends AnyWordSpec with ScalaFutures
+class DisclosureSubmissionServiceSpec extends AnyWordSpec with ScalaFutures
     with TryValues with Matchers with MockitoSugar  {
 
-  "submitNotification" should {
+  "submitDisclosure" should {
 
     "call the reference generator if a letter reference isn't populated" in new Test {
 
       val metadata = Metadata(reference = Some("123456"), submissionTime = Some(time))
       val updatedUserAnswers = emptyUA.copy(metadata = metadata)
 
-      when(UAToNotificationService.userAnswersToNotification(updatedUserAnswers)) thenReturn testNotification
-      when(connector.submitNotification(testNotification)(hc)) thenReturn Future.successful("id")
+      when(uaToDisclosureService.uaToFullDisclosure(updatedUserAnswers)) thenReturn testDisclosure
+      when(connector.submitDisclosure(testDisclosure)(hc)) thenReturn Future.successful("id")
       when(sessionService.set(updatedUserAnswers)(hc)) thenReturn Future.successful(true)
       
-      sut.submitNotification(emptyUA).futureValue shouldEqual "123456"
-      verify(auditService).auditNotificationSubmission(testNotification)(hc)
+      sut.submitDisclosure(emptyUA).futureValue shouldEqual "123456"
+      verify(auditService).auditDisclosureSubmission(testDisclosure)(hc)
     }
 
     "use the letter reference for the ref if a letter reference is populated" in new Test {
@@ -56,17 +57,17 @@ class NotificationSubmissionServiceSpec extends AnyWordSpec with ScalaFutures
       val metadata = Metadata(reference = Some("ABCDE"), submissionTime = Some(time))
       val updatedUserAnswers = initialUserAnswers.copy(metadata = metadata)
 
-      when(UAToNotificationService.userAnswersToNotification(updatedUserAnswers)) thenReturn testNotification
-      when(connector.submitNotification(testNotification)(hc)) thenReturn Future.successful("id")
+      when(uaToDisclosureService.uaToFullDisclosure(updatedUserAnswers)) thenReturn testDisclosure
+      when(connector.submitDisclosure(testDisclosure)(hc)) thenReturn Future.successful("id")
       when(sessionService.set(updatedUserAnswers)(hc)) thenReturn Future.successful(true)
       
-      sut.submitNotification(initialUserAnswers).futureValue shouldEqual "ABCDE"
-      verify(auditService).auditNotificationSubmission(testNotification)(hc)
+      sut.submitDisclosure(initialUserAnswers).futureValue shouldEqual "ABCDE"
+      verify(auditService).auditDisclosureSubmission(testDisclosure)(hc)
     }
 
     trait Test {
       val connector: DigitalDisclosureServiceConnector = mock[DigitalDisclosureServiceConnector]
-      val UAToNotificationService: UAToNotificationService = mock[UAToNotificationService]
+      val uaToDisclosureService: UAToDisclosureService = mock[UAToDisclosureService]
       val sessionService: SessionService = mock[SessionService]
       val auditService: AuditService = mock[AuditService]
 
@@ -80,10 +81,10 @@ class NotificationSubmissionServiceSpec extends AnyWordSpec with ScalaFutures
         def now: LocalDateTime = time
       } 
 
-      val sut = new NotificationSubmissionServiceImpl(connector, UAToNotificationService, FakeReferenceService, sessionService, FakeTimeService, auditService)
+      val sut = new DisclosureSubmissionServiceImpl(connector, uaToDisclosureService, FakeReferenceService, sessionService, FakeTimeService, auditService)
 
       val emptyUA = UserAnswers("id")
-      val testNotification = Notification("123", "456", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
+      val testDisclosure = FullDisclosure("123", "123", Instant.now(), Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
       implicit val hc = HeaderCarrier()
     }
 

@@ -263,7 +263,7 @@ GET        /estate-address/retrieve                                 controllers.
 GET        /estate-address/lookup/change                            controllers.notification.EstateAddressLookupController.lookupAddress(mode: Mode = CheckMode)
 GET        /estate-address/retrieve/change                          controllers.notification.EstateAddressLookupController.retrieveConfirmedAddress(mode: Mode = CheckMode, id: Option[UUID] ?= None)
 
-GET        /pdf                                                     controllers.notification.PdfGenerationController.generate
+GET        /pdf                                                     controllers.PdfGenerationController.generate
 GET        /contact-preference                        controllers.notification.HowWouldYouPreferToBeContactedController.onPageLoad(mode: Mode = NormalMode)
 POST       /contact-preference                        controllers.notification.HowWouldYouPreferToBeContactedController.onSubmit(mode: Mode = NormalMode)
 GET        /contact-preference/change                  controllers.notification.HowWouldYouPreferToBeContactedController.onPageLoad(mode: Mode = CheckMode)
