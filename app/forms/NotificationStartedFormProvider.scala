@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package navigation
+package forms
 
-import play.api.mvc.Call
-import pages._
-import models.UserAnswers
+import javax.inject.Inject
 
-class FakeNavigator(desiredRoute: Call) extends Navigator {
+import forms.mappings.Mappings
+import play.api.data.Form
+import models.NotificationStarted
 
-  override def nextPage(page: Page, userAnswers: UserAnswers): Call =
-    desiredRoute
+class NotificationStartedFormProvider @Inject() extends Mappings {
 
-  override def indexNextPage(userAnswers: Option[UserAnswers]): Call =
-    desiredRoute
+  def apply(): Form[NotificationStarted] =
+    Form(
+      "value" -> enumerable[NotificationStarted]("notificationStarted.error.required")
+    )
 }

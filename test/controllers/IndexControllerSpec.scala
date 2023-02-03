@@ -27,19 +27,25 @@ import models.address._
 import scala.concurrent.ExecutionContext.Implicits.global
 import generators.Generators
 import pages._
+import play.api.mvc.Call
+import navigation.{FakeNavigator, Navigator}
+import play.api.inject.bind
 
 class IndexControllerSpec extends SpecBase with Generators {
 
+  def onwardRoute = Call("GET", "/foo")
+
   "Index Controller" - {
 
-    "must return a view with a link to the MakeANotificationOrDisclosureController where the disclosure journey is configured" in {
-
-      val url = "/digital-disclosure/using-this-service"
+    "must return a view with a link to the next page from the navigator where the disclosure journey is configured" in {
 
       val application = applicationBuilder(userAnswers = None)
         .configure(
           "features.full-disclosure-journey" -> true,
-        ).build()
+        ).overrides(
+          bind[Navigator].toInstance(new FakeNavigator(onwardRoute))
+        )
+        .build()
 
       running(application) {
         val request = FakeRequest(GET, routes.IndexController.onPageLoad.url)
@@ -50,31 +56,10 @@ class IndexControllerSpec extends SpecBase with Generators {
 
         status(result) mustEqual OK
 
-        contentAsString(result) mustEqual view(url)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(onwardRoute.url)(request, messages(application)).toString
       }
     }
 
-    "must return a view with a link to the ReceivedALetterController where the disclosure journey is NOT configured and the notification journey is NOT complete" in {
-
-      val url = controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url
-
-      val application = applicationBuilder(userAnswers = None)
-        .configure(
-          "features.full-disclosure-journey" -> false,
-        ).build()
-
-      running(application) {
-        val request = FakeRequest(GET, routes.IndexController.onPageLoad.url)
-
-        val result = route(application, request).value
-
-        val view = application.injector.instanceOf[IndexView]
-
-        status(result) mustEqual OK
-
-        contentAsString(result) mustEqual view(url)(request, messages(application)).toString
-      }
-    }
 
     "must return a view with a link to the ReceivedALetterController where the disclosure journey is NOT configured and the notification journey is complete" in {
 
@@ -131,8 +116,6 @@ class IndexControllerSpec extends SpecBase with Generators {
   }
 
   val address = Address("line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GBR"))
-
-
   val contactSet: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Email)
   val completeUserAnswers = (for {
     ua1 <- UserAnswers("id").set(ReceivedALetterPage, true)

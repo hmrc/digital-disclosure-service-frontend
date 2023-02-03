@@ -21,14 +21,13 @@ import forms.MakeANotificationOrDisclosureFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.MakeANotificationOrDisclosureView
-import models.NormalMode
 
 class MakeANotificationOrDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
 
   val form = new MakeANotificationOrDisclosureFormProvider()()
   val page: MakeANotificationOrDisclosureView = inject[MakeANotificationOrDisclosureView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form)(request, messages)
 
   "view" should {
 

@@ -28,7 +28,7 @@ class IndexViewSpec extends ViewSpecBase with ViewMatchers {
 
   "view" should {
 
-    def createView: Html = page(controllers.routes.MakeANotificationOrDisclosureController.onPageLoad(NormalMode).url)(request, messages)
+    def createView: Html = page(controllers.routes.MakeANotificationOrDisclosureController.onPageLoad.url)(request, messages)
 
     val view = createView
 
@@ -43,7 +43,7 @@ class IndexViewSpec extends ViewSpecBase with ViewMatchers {
     "display the start now button when full disclosure journey enabled is true" in {
       view.getElementsByClass("govuk-button").first() must haveId ("start")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.continue")
-      view.getElementById("start").attr("href") mustBe controllers.routes.MakeANotificationOrDisclosureController.onPageLoad(NormalMode).url
+      view.getElementById("start").attr("href") mustBe controllers.routes.MakeANotificationOrDisclosureController.onPageLoad.url
     }
 
     "have a first paragraph" in {

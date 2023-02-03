@@ -26,11 +26,11 @@
     link: components.link
 )
 
-@(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
+@(form: Form[_])(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = title(form, messages("makeANotificationOrDisclosure.title"))) {
 
-    @formHelper(action = controllers.routes.MakeANotificationOrDisclosureController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.routes.MakeANotificationOrDisclosureController.onSubmit, 'autoComplete -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form,  errorLinkOverrides = Map("value" -> "value_0")))

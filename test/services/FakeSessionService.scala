@@ -27,4 +27,5 @@ class FakeSessionService extends SessionService {
   def clear(id: String): Future[Boolean] = Future.successful(true)
   def keepAlive(id: String): Future[Boolean] = Future.successful(true)
   def clearAndRestartSessionAndDraft(id: String, submissionId: String, submissionType: SubmissionType)(implicit hc: HeaderCarrier): Future[UserAnswers] = Future.successful(UserAnswers(id))
+  def getIndividualUserAnswers(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] = Future.successful(Some(UserAnswers(userId)))
 }

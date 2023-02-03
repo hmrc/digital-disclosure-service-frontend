@@ -14,17 +14,19 @@
  * limitations under the License.
  */
 
-package navigation
+package pages
 
-import play.api.mvc.Call
-import pages._
-import models.UserAnswers
+import models.NotificationStarted
+import pages.behaviours.PageBehaviours
 
-class FakeNavigator(desiredRoute: Call) extends Navigator {
+class NotificationStartedSpec extends PageBehaviours {
 
-  override def nextPage(page: Page, userAnswers: UserAnswers): Call =
-    desiredRoute
+  "NotificationStartedPage" - {
 
-  override def indexNextPage(userAnswers: Option[UserAnswers]): Call =
-    desiredRoute
+    beRetrievable[NotificationStarted](NotificationStartedPage)
+
+    beSettable[NotificationStarted](NotificationStartedPage)
+
+    beRemovable[NotificationStarted](NotificationStartedPage)
+  }
 }
