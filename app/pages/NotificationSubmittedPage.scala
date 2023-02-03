@@ -14,17 +14,10 @@
  * limitations under the License.
  */
 
-package navigation
+package pages
 
-import play.api.mvc.Call
-import pages._
-import models.UserAnswers
+case object NotificationSubmittedPage extends Page {
 
-class FakeNavigator(desiredRoute: Call) extends Navigator {
+  override def toString: String = "notificationSubmitted"
 
-  override def nextPage(page: Page, userAnswers: UserAnswers): Call =
-    desiredRoute
-
-  override def indexNextPage(userAnswers: Option[UserAnswers]): Call =
-    desiredRoute
 }

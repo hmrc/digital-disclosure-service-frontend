@@ -17,56 +17,67 @@
 package controllers
 
 import controllers.actions._
-import forms.MakeANotificationOrDisclosureFormProvider
+import forms.NotificationStartedFormProvider
 import javax.inject.Inject
-import models.{UserAnswers, SubmissionType}
-import models.MakeANotificationOrDisclosure._
 import navigation.Navigator
-import pages.MakeANotificationOrDisclosurePage
+import pages.NotificationStartedPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import views.html.MakeANotificationOrDisclosureView
+import views.html.NotificationStartedView
+import java.time.format.DateTimeFormatter
+import java.time.ZoneOffset
+import models.{SubmissionType, NotificationStarted}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class MakeANotificationOrDisclosureController @Inject()(
+class NotificationStartedController @Inject()(
                                        override val messagesApi: MessagesApi,
                                        sessionService: SessionService,
                                        navigator: Navigator,
                                        identify: IdentifierAction,
                                        getData: DataRetrievalAction,
-                                       formProvider: MakeANotificationOrDisclosureFormProvider,
+                                       requireData: DataRequiredAction,
+                                       formProvider: NotificationStartedFormProvider,
                                        val controllerComponents: MessagesControllerComponents,
-                                       view: MakeANotificationOrDisclosureView
+                                       view: NotificationStartedView
                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad: Action[AnyContent] = (identify andThen getData) {
+  def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-      Ok(view(form))
+
+    val date = request.userAnswers.lastUpdated.atZone(ZoneOffset.UTC).toLocalDate()
+    val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+    val formattedDate = date.format(dateFormatter)
+    Ok(view(form, formattedDate))
   }
 
-  def onSubmit: Action[AnyContent] = (identify andThen getData).async {
+  def onSubmit: Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
 
       form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors))),
-
+        formWithErrors => {
+          val date = request.userAnswers.lastUpdated.atZone(ZoneOffset.UTC).toLocalDate()
+          val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+          val formattedDate = date.format(dateFormatter)
+          Future.successful(BadRequest(view(formWithErrors, formattedDate)))
+        },
         value => {
-          val newSubmissionType = if (value == MakeANotification) SubmissionType.Notification else SubmissionType.Disclosure
-          val updatedAnswers = request.userAnswers match {
-            case Some(ua) => ua.copy(submissionType = newSubmissionType)
-            case None => UserAnswers(request.userId, UserAnswers.defaultSubmissionId, newSubmissionType)
+          val submissionType = value match {
+            case NotificationStarted.Continue => SubmissionType.Notification
+            case NotificationStarted.Disclosure => SubmissionType.Disclosure
           }
-
+          val updatedAnswers = request.userAnswers.copy(submissionType = submissionType)
           for {
-            _ <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(MakeANotificationOrDisclosurePage, updatedAnswers))
+            _  <- sessionService.set(updatedAnswers)
+          } yield Redirect(navigator.nextPage(NotificationStartedPage, updatedAnswers))
         }
       )
   }
+
+
+
 }

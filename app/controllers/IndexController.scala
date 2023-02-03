@@ -28,6 +28,7 @@ import models.{UserAnswers, NormalMode, SubmissionType}
 import play.api.Logging
 import scala.concurrent.{ExecutionContext, Future}
 import uk.gov.hmrc.http.HeaderCarrier
+import navigation.Navigator
 
 class IndexController @Inject()(
                                 val controllerComponents: MessagesControllerComponents,
@@ -36,24 +37,35 @@ class IndexController @Inject()(
                                 view: IndexView,
                                 sessionService: SessionService,
                                 dataService: UAToNotificationService,
+                                navigator: Navigator,
                                 appConfig: FrontendAppConfig
                                )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with Logging {
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData).async { implicit request =>
 
-    for {
-      ua <- retrieveUserAnswers(request.userId, request.userAnswers)
-      updatedUa <- renewNotificationIfSubmitted(request.userId, appConfig.fullDisclosureJourneyEnabled, ua)
-    } yield {
+    if (appConfig.fullDisclosureJourneyEnabled) {
 
-      val notification = dataService.userAnswersToNotification(updatedUa)
+      for {
+        uaOpt  <- sessionService.getIndividualUserAnswers(request.userId, UserAnswers.defaultSubmissionId)
+        url    = navigator.indexNextPage(uaOpt).url
+        _      = uaOpt.map(sessionService.set)
+      } yield Ok(view(url))
 
-      val url = 
-        if (appConfig.fullDisclosureJourneyEnabled) controllers.routes.MakeANotificationOrDisclosureController.onPageLoad(NormalMode).url
-        else if (notification.isComplete) controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
-        else controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url
-      
-      Ok(view(url))
+    } else {
+
+      for {
+        ua <- retrieveUserAnswers(request.userId, request.userAnswers)
+        updatedUa <- renewNotificationIfSubmitted(request.userId, appConfig.fullDisclosureJourneyEnabled, ua)
+      } yield {
+
+        val notification = dataService.userAnswersToNotification(updatedUa)
+
+        val url = 
+          if (notification.isComplete) controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
+          else controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url
+        
+        Ok(view(url))
+      }
     }
 
   }

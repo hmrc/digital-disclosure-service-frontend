@@ -75,4 +75,5 @@ trait SessionService {
   def clear(id: String): Future[Boolean]
   def keepAlive(id: String): Future[Boolean]
   def clearAndRestartSessionAndDraft(id: String, submissionId: String, submissionType: SubmissionType)(implicit hc: HeaderCarrier): Future[UserAnswers]
+  def getIndividualUserAnswers(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]]
 }

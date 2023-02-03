@@ -1545,3 +1545,18 @@ whatEmailAddressCanWeContactYouWith.checkYourAnswersLabel = Email address
 whatEmailAddressCanWeContactYouWith.error.required = Enter your email address
 whatEmailAddressCanWeContactYouWith.error.validFormat = Enter your email address in the right format
 whatEmailAddressCanWeContactYouWith.change.hidden = WhatEmailAddressCanWeContactYouWith
+
+notificationSubmitted.title = You sent a notification on {0}
+notificationSubmitted.heading = You sent a notification on {0}
+notificationSubmitted.paragraph1 = You can now continue to make a disclosure for the notification with the reference {0}.
+notificationSubmitted.paragraph2 = If you need to update the details you provided in this notification, you can do this when you make a disclosure.
+notificationSubmitted.button = Make a disclosure
+
+notificationStarted.title = You have already started a notification
+notificationStarted.heading = You have already started a notification
+notificationStarted.continue = Continue or edit this notification
+notificationStarted.disclosure = Make a disclosure
+notificationStarted.checkYourAnswersLabel = You have already started a notification
+notificationStarted.error.required = Select if you want to continue with this notification or make a disclosure
+notificationStarted.change.hidden = NotificationStarted
+notificationStarted.paragraph = You last updated a draft notification on {0}, but you did not send it.

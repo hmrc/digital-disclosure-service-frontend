@@ -16,15 +16,16 @@
 
 package navigation
 
-import javax.inject.{Inject, Singleton}
+import com.google.inject.{Inject, Singleton, ImplementedBy}
 
 import play.api.mvc.Call
 import controllers.notification.routes
 import pages._
 import models._
+import services.UAToNotificationService
 
 @Singleton
-class Navigator @Inject()() {
+class NavigatorImpl @Inject()(notificationDataService: UAToNotificationService) extends Navigator {
 
   private val normalRoutes: Page => UserAnswers => Call = {
 
@@ -32,18 +33,39 @@ class Navigator @Inject()() {
       case SubmissionType.Notification => routes.ReceivedALetterController.onPageLoad(NormalMode)
       case SubmissionType.Disclosure => controllers.routes.TaskListController.onPageLoad
     }
+
+    case NotificationStartedPage => ua => ua.submissionType match {
+      case SubmissionType.Notification => 
+        val notification = notificationDataService.userAnswersToNotification(ua)
+        if (notification.isComplete) controllers.notification.routes.CheckYourAnswersController.onPageLoad
+        else controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode)
+      case SubmissionType.Disclosure => 
+        controllers.routes.TaskListController.onPageLoad
+    }
+
+    case NotificationSubmittedPage => _ => controllers.routes.TaskListController.onPageLoad
     
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
-  private val checkRouteMap: Page => UserAnswers => Call = {
-    case _ => _ => controllers.routes.IndexController.onPageLoad
+  def nextPage(page: Page, userAnswers: UserAnswers): Call = normalRoutes(page)(userAnswers)
+
+  def indexNextPage(userAnswers: Option[UserAnswers]): Call = userAnswers match {
+    case Some(ua) if ua.submissionType == SubmissionType.Disclosure => 
+      controllers.routes.TaskListController.onPageLoad
+    case Some(ua) if ua.submissionType == SubmissionType.Notification && ua.metadata.submissionTime.isDefined => 
+      controllers.routes.NotificationSubmittedController.onPageLoad
+    case Some(ua) if ua.submissionType == SubmissionType.Notification =>
+      controllers.routes.NotificationStartedController.onPageLoad
+    case _ => 
+      controllers.routes.MakeANotificationOrDisclosureController.onPageLoad
   }
 
-  def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call = mode match {
-    case NormalMode =>
-      normalRoutes(page)(userAnswers)
-    case CheckMode =>
-      checkRouteMap(page)(userAnswers)
-  }
+}
+
+
+@ImplementedBy(classOf[NavigatorImpl])
+trait Navigator {
+  def nextPage(page: Page, userAnswers: UserAnswers): Call
+  def indexNextPage(userAnswers: Option[UserAnswers]): Call 
 }
