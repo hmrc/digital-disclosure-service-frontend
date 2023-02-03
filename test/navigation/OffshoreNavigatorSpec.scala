@@ -144,6 +144,16 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextPage(CountryOfYourOffshoreLiabilityPage, NormalMode, UserAnswers("id")) mustBe routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
       }
 
+      "must go from CountriesOrTerritoriesPage to CountryOfYourOffshoreLiabilityController if the user select yes" in {
+        val userAnswers = UserAnswers("id").set(CountriesOrTerritoriesPage, true).success.value
+        navigator.nextPage(CountriesOrTerritoriesPage, NormalMode, userAnswers) mustBe routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
+      }
+
+      "must go from CountriesOrTerritoriesPage to TaxYearLiabilitiesController if the user select no" in {
+        val userAnswers = UserAnswers("id").set(CountriesOrTerritoriesPage, false).success.value
+        navigator.nextPage(CountriesOrTerritoriesPage, NormalMode, userAnswers) mustBe routes.TaxYearLiabilitiesController.onPageLoad(0, NormalMode)
+      }
+
 
       Seq(
         YourResidenceStatus,
