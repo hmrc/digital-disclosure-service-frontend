@@ -92,6 +92,12 @@ class OffshoreNavigator @Inject()() {
 
     case CountryOfYourOffshoreLiabilityPage => _ => routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
 
+    case CountriesOrTerritoriesPage => ua => ua.get(CountriesOrTerritoriesPage) match {
+      case Some(true) => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
+      case Some(false) => routes.TaxYearLiabilitiesController.onPageLoad(0, NormalMode)
+      case _ => routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
+    }
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
