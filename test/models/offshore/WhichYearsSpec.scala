@@ -33,11 +33,11 @@ class WhichYearsSpec extends SpecBase with CurrentTaxYear {
   "WhichYearsSpec" - {
 
     "must create a checkbox for none of these years row" in {
-      val checkbox = WhichYears.createNoneOfTheseCheckbox(0, currentTaxYear)
-      checkbox.content mustEqual Text(mess(s"whichYears.checkbox.none"))
-      checkbox.id mustEqual Some("value_0")
-      checkbox.name mustEqual Some("value[0]")
-      checkbox.value mustEqual "noneOfTheseYears"
+      val checkbox = WhichYears.createPriorTo19YearsCheckbox(19, currentTaxYear)
+      checkbox.content mustEqual Text(mess(s"whichYears.checkbox.any", s"${currentTaxYear.back(19).startYear}"))
+      checkbox.id mustEqual Some("value_19")
+      checkbox.name mustEqual Some("value[19]")
+      checkbox.value mustEqual "priorTo19Years"
     }
 
     "must create a checkbox for any prior to 7 years row" in {
@@ -96,7 +96,7 @@ class WhichYearsSpec extends SpecBase with CurrentTaxYear {
       first19Elements.zipWithIndex.map{ 
         case (value, index) => value.value mustEqual (currentTaxYear.startYear - (index+1)).toString
       } 
-      checkboxItems.last.value mustEqual "noneOfTheseYears"
+      checkboxItems.last.value mustEqual "priorTo19Years"
     }
 
     "must create checkbox items for 7 years with prior to 7 years row" in {

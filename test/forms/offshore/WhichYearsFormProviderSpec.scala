@@ -17,7 +17,7 @@
 package forms
 
 import forms.behaviours.CheckboxFieldBehaviours
-import models.{TaxYearStarting, OffshoreYears, PriorTo5Years, PriorTo7Years, NoneOfTheseYears}
+import models.{TaxYearStarting, OffshoreYears, PriorTo5Years, PriorTo7Years, PriorTo19Years}
 import play.api.data.FormError
 import java.time.LocalDate
 import uk.gov.hmrc.time.CurrentTaxYear
@@ -29,7 +29,7 @@ class WhichYearsFormProviderSpec extends CheckboxFieldBehaviours with CurrentTax
   val form = new WhichYearsFormProvider()()
 
   val currentYear = current.startYear
-  val nineteenYears = Range.inclusive(1, 19).map(i => TaxYearStarting(currentYear-i)).toSeq :+ NoneOfTheseYears
+  val nineteenYears = Range.inclusive(1, 19).map(i => TaxYearStarting(currentYear-i)).toSeq :+ PriorTo19Years
   val sevenYears = Range.inclusive(1, 19).map(i => TaxYearStarting(currentYear-i)).toSeq :+ PriorTo7Years
   val fiveYears = Range.inclusive(1, 19).map(i => TaxYearStarting(currentYear-i)).toSeq :+ PriorTo5Years
 

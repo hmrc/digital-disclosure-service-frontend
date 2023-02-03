@@ -39,8 +39,8 @@ case object PriorTo7Years extends OffshoreYears {
   override def toString = "priorTo7Years"
 }
 
-case object NoneOfTheseYears extends OffshoreYears {
-  override def toString = "noneOfTheseYears"
+case object PriorTo19Years extends OffshoreYears {
+  override def toString = "priorTo19Years"
 }
 
 object RawOffshoreYears {
@@ -53,7 +53,7 @@ object OffshoreYears {
     str match {
       case "priorTo5Years"        => Some(PriorTo5Years)
       case "priorTo7Years"        => Some(PriorTo7Years)
-      case "noneOfTheseYears"     => Some(NoneOfTheseYears)
+      case "priorTo19Years"     => Some(PriorTo19Years)
       case RawOffshoreYears(year) => Some(TaxYearStarting(year))
       case _ => None
     }
