@@ -25,26 +25,26 @@ import models.UserAnswers
 import pages.LetterReferencePage
 
 @Singleton
-class NotificationSubmissionServiceImpl @Inject()(
+class DisclosureSubmissionServiceImpl @Inject()(
   connector: DigitalDisclosureServiceConnector,
-  UAToNotificationService: UAToNotificationService,
+  uaToDisclosureService: UAToDisclosureService,
   referenceService: ReferenceService,
   sessionService: SessionService,
   timeService: TimeService,
   auditService: AuditService
-) extends NotificationSubmissionService {
+) extends DisclosureSubmissionService {
 
-  def submitNotification(userAnswers: UserAnswers)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[String] = {
+  def submitDisclosure(userAnswers: UserAnswers)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[String] = {
         
     val reference = userAnswers.get(LetterReferencePage).getOrElse(referenceService.generateReference.toString)
     val metadata = Metadata(reference = Some(reference), submissionTime = Some(timeService.now))
 
     val updatedUserAnswers = userAnswers.copy(metadata = metadata)
-    val notification = UAToNotificationService.userAnswersToNotification(updatedUserAnswers)
+    val fullDisclosure = uaToDisclosureService.uaToFullDisclosure(updatedUserAnswers)
 
     for {
-      _ <- connector.submitNotification(notification)
-      _ = auditService.auditNotificationSubmission(notification)
+      _ <- connector.submitDisclosure(fullDisclosure)
+      _ = auditService.auditDisclosureSubmission(fullDisclosure)
       _ <- sessionService.set(updatedUserAnswers)
     } yield reference
 
@@ -52,7 +52,7 @@ class NotificationSubmissionServiceImpl @Inject()(
 
 }
 
-@ImplementedBy(classOf[NotificationSubmissionServiceImpl])
-trait NotificationSubmissionService {
-  def submitNotification(userAnswers: UserAnswers)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[String]
+@ImplementedBy(classOf[DisclosureSubmissionServiceImpl])
+trait DisclosureSubmissionService {
+  def submitDisclosure(userAnswers: UserAnswers)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[String]
 }

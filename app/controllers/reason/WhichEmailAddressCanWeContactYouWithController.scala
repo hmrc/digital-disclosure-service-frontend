@@ -54,7 +54,7 @@ class WhichEmailAddressCanWeContactYouWithController @Inject()(
 
       request.userAnswers.get(YourEmailAddressPage) match {
         case Some(email) => Ok(view(preparedForm, mode, email))
-        case _ => Redirect(controllers.reason.routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(mode))
+        case _ => Redirect(routes.WhatEmailAddressCanWeContactYouWithController.onPageLoad(mode))
       }
   }
 
@@ -65,7 +65,7 @@ class WhichEmailAddressCanWeContactYouWithController @Inject()(
         formWithErrors =>
           request.userAnswers.get(YourEmailAddressPage) match {
             case Some(email) => Future.successful(BadRequest(view(formWithErrors, mode, email)))
-            case _ => Future.successful(Redirect(controllers.reason.routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(mode)))
+            case _ => Future.successful(Redirect(routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(mode)))
           },
 
         value =>

@@ -112,11 +112,24 @@ class TaskListController @Inject()(
   }
 
   private def buildOffshoreLiabilitieDetailRow(userAnswers: UserAnswers)(implicit messages: Messages): TaskListRow = {
+
+    val firstPage = userAnswers.get(WhyAreYouMakingThisDisclosurePage)
+    val isSectionComplete = dateDisclosureService.uaToOffshoreLiabilities(userAnswers).isComplete
+    val operationKey = if (isSectionComplete || firstPage.isDefined) "edit" else "add"
+    val offshoreLiabilitieTitleKey = s"taskList.$operationKey.sectionTitle.forth"
+
+    val link = if (isSectionComplete) controllers.offshore.routes.CheckYourAnswersController.onPageLoad
+      else controllers.offshore.routes.WhyAreYouMakingThisDisclosureController.onPageLoad(NormalMode)
+
     TaskListRow(
       id = "offshore-liabilitie-task-list", 
-      sectionTitle = messages("taskList.sectionTitle.forth"), 
-      status = messages("taskList.status.notStarted"), 
-      link = offshore.routes.WhyAreYouMakingThisDisclosureController.onPageLoad(NormalMode)
+      sectionTitle = messages(offshoreLiabilitieTitleKey), 
+      status = messages(
+        if(isSectionComplete) "taskList.status.completed" 
+        else if(firstPage.isDefined) "taskList.status.inProgress" 
+        else "taskList.status.notStarted"
+      ), 
+      link = link
     )
   }
 

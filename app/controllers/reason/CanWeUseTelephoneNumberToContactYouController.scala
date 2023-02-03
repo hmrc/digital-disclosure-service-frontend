@@ -54,7 +54,7 @@ class CanWeUseTelephoneNumberToContactYouController @Inject()(
 
       request.userAnswers.get(YourPhoneNumberPage) match {
         case Some(telephoneNumber) => Ok(view(preparedForm, mode, telephoneNumber))
-        case _ => Redirect(controllers.reason.routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(mode))
+        case _ => Redirect(routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(mode))
       }
   }
 
@@ -65,7 +65,7 @@ class CanWeUseTelephoneNumberToContactYouController @Inject()(
         formWithErrors =>
           request.userAnswers.get(YourPhoneNumberPage) match {
             case Some(telephoneNumber) => Future.successful(BadRequest(view(formWithErrors, mode, telephoneNumber)))
-            case _ => Future.successful(Redirect(controllers.reason.routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(mode)))
+            case _ => Future.successful(Redirect(routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(mode)))
           },
 
         value =>

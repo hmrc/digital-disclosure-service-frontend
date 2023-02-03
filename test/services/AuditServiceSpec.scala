@@ -24,6 +24,7 @@ import org.scalatestplus.mockito.MockitoSugar
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 import scala.concurrent.ExecutionContext.Implicits.global
 import models.store.notification._
+import models.store.disclosure._
 import models.store._
 import java.time.Instant
 import uk.gov.hmrc.http.HeaderCarrier
@@ -33,14 +34,22 @@ class AuditServiceSpec extends AnyWordSpec with Matchers with MockitoSugar {
   val mockConnector = mock[AuditConnector]
   val sut = new AuditServiceImpl(mockConnector)
 
-  "auditSubmission" should {
+  "auditNotificationSubmission" should {
 
     "call connector passing the notification with audit type NotificationSubmission" in {
       implicit val hc = HeaderCarrier()
       val notification = Notification("This user Id", "Some notification Id", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
-      sut.auditSubmission(notification)
+      sut.auditNotificationSubmission(notification)
       verify(mockConnector).sendExplicitAudit(refEq("NotificationSubmission"), refEq(notification))(any(), any(), any())
     }
+
+    "call connector passing the disclosure with audit type DisclosureSubmission" in {
+      implicit val hc = HeaderCarrier()
+      val testDisclosure = FullDisclosure("123", "123", Instant.now(), Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
+      sut.auditDisclosureSubmission(testDisclosure)
+      verify(mockConnector).sendExplicitAudit(refEq("DisclosureSubmission"), refEq(testDisclosure))(any(), any(), any())
+    }
+
 
   }
 

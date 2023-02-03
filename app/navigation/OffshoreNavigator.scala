@@ -69,8 +69,8 @@ class OffshoreNavigator @Inject()() {
     }
 
     case YourLegalInterpretationPage => ua => ua.get(YourLegalInterpretationPage) match {
-      case Some(value) if(value == Set(AnotherIssue)) => routes.UnderWhatConsiderationController.onPageLoad(NormalMode)
-      case Some(value) if(value.contains(NoExclusion)) => routes.TheMaximumValueOfAllAssetsController.onPageLoad(NormalMode)
+      case Some(value) if(value.contains(AnotherIssue)) => routes.UnderWhatConsiderationController.onPageLoad(NormalMode)
+      case Some(value) if(value == Set(NoExclusion)) => routes.TheMaximumValueOfAllAssetsController.onPageLoad(NormalMode)
       case _ => routes.HowMuchTaxHasNotBeenIncludedController.onPageLoad(NormalMode)
     }
 
