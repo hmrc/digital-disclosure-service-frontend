@@ -20,7 +20,7 @@ import javax.inject.{Inject, Singleton}
 import play.api.mvc.Call
 import controllers.offshore.routes
 import pages._
-import models.{CheckMode, Mode, NormalMode, PriorTo5Years, PriorTo7Years, UserAnswers}
+import models.{CheckMode, Mode, NormalMode, PriorTo19Years, PriorTo5Years, PriorTo7Years, UserAnswers}
 import models.WhyAreYouMakingThisDisclosure._
 import models.YourLegalInterpretation._
 
@@ -65,6 +65,7 @@ class OffshoreNavigator @Inject()() {
     case WhichYearsPage => ua => ua.get(WhichYearsPage) match {
       case Some(value) if value.contains(PriorTo5Years) => routes.TaxBeforeFiveYearsController.onPageLoad(NormalMode)
       case Some(value) if value.contains(PriorTo7Years) => routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode)
+      case Some(value) if value.contains(PriorTo19Years) => routes.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onPageLoad(NormalMode)
       case _ => routes.TaxYearLiabilitiesController.onPageLoad(0, NormalMode)
     }
 
