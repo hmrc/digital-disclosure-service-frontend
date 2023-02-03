@@ -17,58 +17,48 @@
 package controllers
 
 import base.SpecBase
-import forms.TaxBeforeFiveYearsFormProvider
+import forms.CanYouTellUsMoreAboutTaxBeforeNineteenYearFormProvider
 import models.{NormalMode, UserAnswers}
 import navigation.{FakeOffshoreNavigator, OffshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.TaxBeforeFiveYearsPage
+import pages.CanYouTellUsMoreAboutTaxBeforeNineteenYearPage
 import play.api.inject.bind
-import play.api.libs.json.Json
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
-import views.html.offshore.TaxBeforeFiveYearsView
+import views.html.offshore.CanYouTellUsMoreAboutTaxBeforeNineteenYearView
 import uk.gov.hmrc.time.CurrentTaxYear
 import java.time.LocalDate
 
 import scala.concurrent.Future
 
-class TaxBeforeFiveYearsControllerSpec extends SpecBase with MockitoSugar with CurrentTaxYear {
+class CanYouTellUsMoreAboutTaxBeforeNineteenYearControllerSpec extends SpecBase with MockitoSugar with CurrentTaxYear {
 
   def onwardRoute = Call("GET", "/foo")
 
   def now = () => LocalDate.now()
-  val year = current.back(5).startYear.toString
+  val year = current.back(19).startYear.toString
 
-  val formProvider = new TaxBeforeFiveYearsFormProvider()
+  val formProvider = new CanYouTellUsMoreAboutTaxBeforeNineteenYearFormProvider()
   val form = formProvider(year)
 
-  lazy val taxBeforeFiveYearsRoute = offshore.routes.TaxBeforeFiveYearsController.onPageLoad(NormalMode).url
+  lazy val canYouTellUsMoreAboutTaxBeforeNineteenYearRoute = offshore.routes.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onPageLoad(NormalMode).url
 
-  val userAnswers = UserAnswers(
-    userAnswersId,
-    Json.obj(
-      TaxBeforeFiveYearsPage.toString -> Json.obj(
-        "taxBeforeFiveYears" -> "value 1"
-      )
-    ).toString
-  )
-
-  "TaxBeforeFiveYears Controller" - {
+  "CanYouTellUsMoreAboutTaxBeforeNineteenYear Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, taxBeforeFiveYearsRoute)
-
-        val view = application.injector.instanceOf[TaxBeforeFiveYearsView]
+        val request = FakeRequest(GET, canYouTellUsMoreAboutTaxBeforeNineteenYearRoute)
 
         val result = route(application, request).value
+
+        val view = application.injector.instanceOf[CanYouTellUsMoreAboutTaxBeforeNineteenYearView]
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(form, NormalMode, year)(request, messages(application)).toString
@@ -77,17 +67,19 @@ class TaxBeforeFiveYearsControllerSpec extends SpecBase with MockitoSugar with C
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
+      val userAnswers = UserAnswers(userAnswersId).set(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage, "answer").success.value
+
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, taxBeforeFiveYearsRoute)
+        val request = FakeRequest(GET, canYouTellUsMoreAboutTaxBeforeNineteenYearRoute)
 
-        val view = application.injector.instanceOf[TaxBeforeFiveYearsView]
+        val view = application.injector.instanceOf[CanYouTellUsMoreAboutTaxBeforeNineteenYearView]
 
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(""), NormalMode, year)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill("answer"), NormalMode, year)(request, messages(application)).toString
       }
     }
 
@@ -106,8 +98,8 @@ class TaxBeforeFiveYearsControllerSpec extends SpecBase with MockitoSugar with C
 
       running(application) {
         val request =
-          FakeRequest(POST, taxBeforeFiveYearsRoute)
-            .withFormUrlEncodedBody(("value", "value 1"))
+          FakeRequest(POST, canYouTellUsMoreAboutTaxBeforeNineteenYearRoute)
+            .withFormUrlEncodedBody(("value", "answer"))
 
         val result = route(application, request).value
 
@@ -122,12 +114,12 @@ class TaxBeforeFiveYearsControllerSpec extends SpecBase with MockitoSugar with C
 
       running(application) {
         val request =
-          FakeRequest(POST, taxBeforeFiveYearsRoute)
+          FakeRequest(POST, canYouTellUsMoreAboutTaxBeforeNineteenYearRoute)
             .withFormUrlEncodedBody(("value", ""))
 
         val boundForm = form.bind(Map("value" -> ""))
 
-        val view = application.injector.instanceOf[TaxBeforeFiveYearsView]
+        val view = application.injector.instanceOf[CanYouTellUsMoreAboutTaxBeforeNineteenYearView]
 
         val result = route(application, request).value
 
@@ -141,7 +133,7 @@ class TaxBeforeFiveYearsControllerSpec extends SpecBase with MockitoSugar with C
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val request = FakeRequest(GET, taxBeforeFiveYearsRoute)
+        val request = FakeRequest(GET, canYouTellUsMoreAboutTaxBeforeNineteenYearRoute)
 
         val result = route(application, request).value
 
@@ -156,8 +148,8 @@ class TaxBeforeFiveYearsControllerSpec extends SpecBase with MockitoSugar with C
 
       running(application) {
         val request =
-          FakeRequest(POST, taxBeforeFiveYearsRoute)
-            .withFormUrlEncodedBody(("value", "value 1"))
+          FakeRequest(POST, canYouTellUsMoreAboutTaxBeforeNineteenYearRoute)
+            .withFormUrlEncodedBody(("value", "answer"))
 
         val result = route(application, request).value
 

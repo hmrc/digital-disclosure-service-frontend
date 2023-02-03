@@ -31,14 +31,18 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
 import views.html.offshore.TaxBeforeSevenYearsView
+import uk.gov.hmrc.time.CurrentTaxYear
+import java.time.LocalDate
 
 import scala.concurrent.Future
 
-class TaxBeforeSevenYearsControllerSpec extends SpecBase with MockitoSugar {
+class TaxBeforeSevenYearsControllerSpec extends SpecBase with MockitoSugar with CurrentTaxYear {
 
   def onwardRoute = Call("GET", "/foo")
 
-  val year = "2015"
+  def now = () => LocalDate.now()
+  val year = current.back(7).startYear.toString
+
   val formProvider = new TaxBeforeSevenYearsFormProvider()
   val form = formProvider(year)
 

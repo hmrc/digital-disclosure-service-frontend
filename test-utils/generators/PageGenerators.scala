@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryCanYouTellUsMoreAboutTaxBeforeNineteenYearPage: Arbitrary[CanYouTellUsMoreAboutTaxBeforeNineteenYearPage.type] =
+    Arbitrary(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage)
+
   implicit lazy val arbitraryNotificationStartedPage: Arbitrary[NotificationStartedPage.type] =
     Arbitrary(NotificationStartedPage)
 
