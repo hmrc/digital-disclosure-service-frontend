@@ -1571,3 +1571,12 @@ countriesOrTerritories.checkYourAnswersLabel = countriesOrTerritories
 countriesOrTerritories.error.required = Select yes if you want to add another country or territory
 countriesOrTerritories.change.hidden = CountriesOrTerritories
 countriesOrTerritories.remove.hidden = Remove country or territory
+
+youHaveNotIncludedTheTaxYear.title = You have not included the tax year ending {0} 
+youHaveNotIncludedTheTaxYear.heading = You have not included the tax year ending {0}
+youHaveNotIncludedTheTaxYear.body = You have selected the tax years ending {0} and {1}, but not the tax year ending {2}.
+youHaveNotIncludedTheTaxYear.label = Why are you not including this year in the disclosure? 
+youHaveNotIncludedTheTaxYear.checkYourAnswersLabel = youHaveNotIncludedTheTaxYear
+youHaveNotIncludedTheTaxYear.error.required = Enter your reason for not including the tax year ending {0}
+youHaveNotIncludedTheTaxYear.error.length = Your reason for not including the tax year ending {0} must be between 1 and 500 characters
+youHaveNotIncludedTheTaxYear.change.hidden = YouHaveNotIncludedTheTaxYear

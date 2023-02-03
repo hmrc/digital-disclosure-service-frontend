@@ -23,6 +23,9 @@ trait PageGenerators {
 
   implicit lazy val arbitraryNotificationStartedPage: Arbitrary[NotificationStartedPage.type] =
     Arbitrary(NotificationStartedPage)
+    
+  implicit lazy val arbitraryYouHaveNotIncludedTheTaxYearPage: Arbitrary[YouHaveNotIncludedTheTaxYearPage.type] =
+    Arbitrary(YouHaveNotIncludedTheTaxYearPage)
 
   implicit lazy val arbitraryCountriesOrTerritoriesPage: Arbitrary[CountriesOrTerritoriesPage.type] =
     Arbitrary(CountriesOrTerritoriesPage)
