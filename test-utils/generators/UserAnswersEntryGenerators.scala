@@ -24,6 +24,14 @@ import play.api.libs.json.{JsValue, Json}
 
 trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
 
+  implicit lazy val arbitraryCountriesOrTerritoriesUserAnswersEntry: Arbitrary[(CountriesOrTerritoriesPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[CountriesOrTerritoriesPage.type]
+        value <- arbitrary[Boolean].map(Json.toJson(_))
+      } yield (page, value)
+    }
+
   implicit lazy val arbitraryWhatEmailAddressCanWeContactYouWithUserAnswersEntry: Arbitrary[(WhatEmailAddressCanWeContactYouWithPage.type, JsValue)] =
     Arbitrary {
       for {
@@ -236,7 +244,7 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
     Arbitrary {
       for {
         page  <- arbitrary[CountryOfYourOffshoreLiabilityPage.type]
-        value <- arbitrary[Set[config.Country]].map(Json.toJson(_))
+        value <- arbitrary[Map[String, config.Country]].map(Json.toJson(_))
       } yield (page, value)
     }
 

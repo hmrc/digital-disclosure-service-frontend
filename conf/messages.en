@@ -1545,3 +1545,13 @@ whatEmailAddressCanWeContactYouWith.checkYourAnswersLabel = Email address
 whatEmailAddressCanWeContactYouWith.error.required = Enter your email address
 whatEmailAddressCanWeContactYouWith.error.validFormat = Enter your email address in the right format
 whatEmailAddressCanWeContactYouWith.change.hidden = WhatEmailAddressCanWeContactYouWith
+
+countriesOrTerritories.title.single = You have added 1 country or territory
+countriesOrTerritories.title.multi = You have added {0} countries or territories
+countriesOrTerritories.heading.single = You have added 1 country or territory
+countriesOrTerritories.heading.multi = You have added {0} countries or territories
+countriesOrTerritories.label = Do you need to add another country or territory?
+countriesOrTerritories.checkYourAnswersLabel = countriesOrTerritories
+countriesOrTerritories.error.required = Select yes if you want to add another country or territory
+countriesOrTerritories.change.hidden = CountriesOrTerritories
+countriesOrTerritories.remove.hidden = Remove country or territory

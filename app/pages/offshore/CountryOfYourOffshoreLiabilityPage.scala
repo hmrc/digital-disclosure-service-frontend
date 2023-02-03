@@ -19,7 +19,7 @@ package pages
 import config.Country
 import play.api.libs.json.JsPath
 
-case object CountryOfYourOffshoreLiabilityPage extends QuestionPage[Set[Country]] {
+case object CountryOfYourOffshoreLiabilityPage extends QuestionPage[Map[String, Country]] {
 
   override def path: JsPath = JsPath \ toString
 
