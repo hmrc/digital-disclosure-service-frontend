@@ -1580,3 +1580,11 @@ youHaveNotIncludedTheTaxYear.checkYourAnswersLabel = youHaveNotIncludedTheTaxYea
 youHaveNotIncludedTheTaxYear.error.required = Enter your reason for not including the tax year ending {0}
 youHaveNotIncludedTheTaxYear.error.length = Your reason for not including the tax year ending {0} must be between 1 and 500 characters
 youHaveNotIncludedTheTaxYear.change.hidden = YouHaveNotIncludedTheTaxYear
+
+canYouTellUsMoreAboutTaxBeforeNineteenYear.title = Can you tell us more about any tax owed before 6 April {0}?
+canYouTellUsMoreAboutTaxBeforeNineteenYear.heading = Can you tell us more about any tax owed before 6 April {0}?
+canYouTellUsMoreAboutTaxBeforeNineteenYear.body = Provide the amount, when it was owed, and where the income or gain came from. Do not include these figures in this disclosure’s calculations. The person reviewing the disclosure may ask you further questions about this, if needed.
+canYouTellUsMoreAboutTaxBeforeNineteenYear.checkYourAnswersLabel = canYouTellUsMoreAboutTaxBeforeNineteenYear
+canYouTellUsMoreAboutTaxBeforeNineteenYear.error.required = Enter information about the tax owed before 6 April {0}
+canYouTellUsMoreAboutTaxBeforeNineteenYear.error.length = The information about the tax owed must be between 1 and 5000 characters
+canYouTellUsMoreAboutTaxBeforeNineteenYear.change.hidden = CanYouTellUsMoreAboutTaxBeforeNineteenYear

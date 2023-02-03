@@ -20,7 +20,7 @@ import javax.inject.{Inject, Singleton}
 import play.api.mvc.Call
 import controllers.offshore.routes
 import pages._
-import models.{CheckMode, Mode, NormalMode, PriorTo5Years, PriorTo7Years, UserAnswers}
+import models.{CheckMode, Mode, NormalMode, PriorTo5Years, PriorTo7Years, TaxYearStarting, UserAnswers}
 import models.WhyAreYouMakingThisDisclosure._
 import models.YourLegalInterpretation._
 
@@ -97,6 +97,8 @@ class OffshoreNavigator @Inject()() {
       case Some(false) => routes.TaxYearLiabilitiesController.onPageLoad(0, NormalMode)
       case _ => routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
     }
+
+    case YouHaveNotIncludedTheTaxYearPage => _ => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
 
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
