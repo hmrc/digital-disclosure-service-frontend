@@ -192,11 +192,19 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
   }
 
   private def buildOtherLiabilityIssueRow(userAnswers: UserAnswers)(implicit messages: Messages): TaskListRow = {
+
+    val operationKey = "add"
+    val otherLiabilitiesTitleKey = s"taskList.$operationKey.sectionTitle.fifth"
+    val isSectionComplete = false
+
+    val link = if(isSectionComplete) controllers.otherLiabilities.routes.CheckYourAnswersController.onPageLoad
+    else otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(NormalMode)
+
     TaskListRow(
       id = "other-liability-issue-task-list", 
-      sectionTitle = messages("taskList.sectionTitle.fifth"), 
+      sectionTitle = messages(otherLiabilitiesTitleKey), 
       status = messages("taskList.status.notStarted"), 
-      link = otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(NormalMode)
+      link = link
     )
   }
 

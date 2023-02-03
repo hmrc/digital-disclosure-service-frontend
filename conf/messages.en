@@ -1056,7 +1056,8 @@ taskList.edit.sectionTitle.second = Edit case reference
 taskList.sectionTitle.third = Add onshore liability details
 taskList.add.sectionTitle.forth = Add offshore liability details
 taskList.edit.sectionTitle.forth = Edit offshore liability details
-taskList.sectionTitle.fifth = Confirm if you have other liability issues or not
+taskList.add.sectionTitle.fifth = Confirm if you have other liability issues or not
+taskList.edit.sectionTitle.fifth = Edit other liability issues
 taskList.add.sectionTitle.sixth = Add the reason for coming forward now
 taskList.edit.sectionTitle.sixth = Edit the reason for coming forward now
 taskList.status.notStarted = Not started
@@ -1546,6 +1547,7 @@ whatEmailAddressCanWeContactYouWith.error.required = Enter your email address
 whatEmailAddressCanWeContactYouWith.error.validFormat = Enter your email address in the right format
 whatEmailAddressCanWeContactYouWith.change.hidden = WhatEmailAddressCanWeContactYouWith
 
+<<<<<<< HEAD
 notificationSubmitted.title = You sent a notification on {0}
 notificationSubmitted.heading = You sent a notification on {0}
 notificationSubmitted.paragraph1 = You can now continue to make a disclosure for the notification with the reference {0}.
@@ -1560,3 +1562,14 @@ notificationStarted.checkYourAnswersLabel = You have already started a notificat
 notificationStarted.error.required = Select if you want to continue with this notification or make a disclosure
 notificationStarted.change.hidden = NotificationStarted
 notificationStarted.paragraph = You last updated a draft notification on {0}, but you did not send it.
+=======
+countriesOrTerritories.title.single = You have added 1 country or territory
+countriesOrTerritories.title.multi = You have added {0} countries or territories
+countriesOrTerritories.heading.single = You have added 1 country or territory
+countriesOrTerritories.heading.multi = You have added {0} countries or territories
+countriesOrTerritories.label = Do you need to add another country or territory?
+countriesOrTerritories.checkYourAnswersLabel = countriesOrTerritories
+countriesOrTerritories.error.required = Select yes if you want to add another country or territory
+countriesOrTerritories.change.hidden = CountriesOrTerritories
+countriesOrTerritories.remove.hidden = Remove country or territory
+>>>>>>> origin/main

@@ -74,7 +74,13 @@ GET        /offshore-liabilities-maximum-value-of-assets/change       controller
 POST       /offshore-liabilities-maximum-value-of-assets/change       controllers.offshore.TheMaximumValueOfAllAssetsController.onSubmit(mode: Mode = CheckMode)
 
 
-GET        /offshore-liabilities-country            controllers.offshore.CountryOfYourOffshoreLiabilityController.onPageLoad(index:Option[Int] ?= None, mode: Mode = NormalMode)
-POST       /offshore-liabilities-country            controllers.offshore.CountryOfYourOffshoreLiabilityController.onSubmit(index:Option[Int] ?= None, mode: Mode = NormalMode)
-GET        /offshore-liabilities-country/change     controllers.offshore.CountryOfYourOffshoreLiabilityController.onPageLoad(index:Option[Int] ?= None, mode: Mode = CheckMode)
-POST       /offshore-liabilities-country/change     controllers.offshore.CountryOfYourOffshoreLiabilityController.onSubmit(index:Option[Int] ?= None, mode: Mode = CheckMode)
+GET        /offshore-liabilities-country            controllers.offshore.CountryOfYourOffshoreLiabilityController.onPageLoad(index:Option[String] ?= None, mode: Mode = NormalMode)
+POST       /offshore-liabilities-country            controllers.offshore.CountryOfYourOffshoreLiabilityController.onSubmit(mode: Mode = NormalMode)
+GET        /offshore-liabilities-country/change     controllers.offshore.CountryOfYourOffshoreLiabilityController.onPageLoad(index:Option[String] ?= None, mode: Mode = CheckMode)
+POST       /offshore-liabilities-country/change     controllers.offshore.CountryOfYourOffshoreLiabilityController.onSubmit(mode: Mode = CheckMode)
+
+GET        /countries-or-territories                        controllers.offshore.CountriesOrTerritoriesController.onPageLoad(mode: Mode = NormalMode)
+POST       /countries-or-territories                        controllers.offshore.CountriesOrTerritoriesController.onSubmit(mode: Mode = NormalMode)
+GET        /countries-or-territories/change                 controllers.offshore.CountriesOrTerritoriesController.onPageLoad(mode: Mode = CheckMode)
+POST       /countries-or-territories/change                 controllers.offshore.CountriesOrTerritoriesController.onSubmit(mode: Mode = CheckMode)
+GET        /countries-or-territories/remove/:countryCode    controllers.offshore.CountriesOrTerritoriesController.remove(countryCode: String)

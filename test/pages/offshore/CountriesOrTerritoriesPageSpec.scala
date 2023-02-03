@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package forms
+package pages
 
-import config.{Countries, Country}
+import pages.behaviours.PageBehaviours
 
-import javax.inject.Inject
-import forms.mappings.{CountryConstraints, Mappings}
-import play.api.data.Form
+class CountriesOrTerritoriesPageSpec extends PageBehaviours {
 
-class CountryOfYourOffshoreLiabilityFormProvider @Inject()(countries: Countries)
-  extends CountryConstraints(countries) with Mappings {
-  def apply(): Form[Country] = Form(
-    "country" -> country(s"countryOfYourOffshoreLiability.error.required")
-  )
+  "CountriesOrTerritoriesPage" - {
+
+    beRetrievable[Boolean](CountriesOrTerritoriesPage)
+
+    beSettable[Boolean](CountriesOrTerritoriesPage)
+
+    beRemovable[Boolean](CountriesOrTerritoriesPage)
+  }
 }

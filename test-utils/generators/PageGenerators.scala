@@ -24,6 +24,9 @@ trait PageGenerators {
   implicit lazy val arbitraryNotificationStartedPage: Arbitrary[NotificationStartedPage.type] =
     Arbitrary(NotificationStartedPage)
 
+  implicit lazy val arbitraryCountriesOrTerritoriesPage: Arbitrary[CountriesOrTerritoriesPage.type] =
+    Arbitrary(CountriesOrTerritoriesPage)
+
   implicit lazy val arbitraryWhatEmailAddressCanWeContactYouWithPage: Arbitrary[WhatEmailAddressCanWeContactYouWithPage.type] =
     Arbitrary(WhatEmailAddressCanWeContactYouWithPage)
 

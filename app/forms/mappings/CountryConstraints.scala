@@ -25,26 +25,26 @@ abstract class CountryConstraints (countries: Countries) extends Formatters with
 
   private val allowedCountries = countries.countries.map(_.alpha3)
 
-  protected def country(requiredKey: String): FieldMapping[Set[Country]] = {
+  protected def country(requiredKey: String): FieldMapping[Country] = {
     of(countryFormatter(requiredKey))
   }
 
-  private def countryFormatter(requiredKey: String): Formatter[Set[Country]] = new Formatter[Set[Country]] {
+  private def countryFormatter(requiredKey: String): Formatter[Country] = new Formatter[Country] {
     private val baseFormatter = stringFormatter(requiredKey, Seq.empty)
 
-    override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Set[Country]] =
+    override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Country] =
       baseFormatter
         .bind(key, data)
         .right.flatMap {
           code =>
             if(allowedCountries.contains(code)) {
-              Right(Set(Country(code, countries.getCountryNameFor(code))))
+              Right(Country(code, countries.getCountryNameFor(code)))
             }
             else {
               Left(Seq(FormError(key, requiredKey, Seq.empty)))
             }
       }
 
-    override def unbind(key: String, value: Set[Country]): Map[String, String] = baseFormatter.unbind(key, value.toString)
+    override def unbind(key: String, value: Country): Map[String, String] = baseFormatter.unbind(key, value.toString)
   }
 }

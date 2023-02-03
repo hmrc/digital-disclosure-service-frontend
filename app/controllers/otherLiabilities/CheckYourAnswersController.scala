@@ -43,8 +43,8 @@ class CheckYourAnswersController @Inject()(
       val otherLiabilitiesList = SummaryListViewModel(
         rows = Seq(
           OtherLiabilityIssuesSummary.row(ua),
-          DescribeTheGiftSummary.row(ua),
           WhatOtherLiabilityIssuesSummary.row(ua),
+          DescribeTheGiftSummary.row(ua),
           DidYouReceiveTaxCreditSummary.row(ua)
         ).flatten
       )
