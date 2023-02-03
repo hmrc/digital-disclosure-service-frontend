@@ -142,12 +142,15 @@ class TaskListController @Inject()(
       case _ => false
     }
     val isSectionComplete = dateDisclosureService.uaToOtherLiabilities(userAnswers).isComplete(isAnIndividual)
+    val operationKey = if (isSectionComplete || firstPage.isDefined) "edit" else "add"
+    val otherLiabilitiesTitleKey = s"taskList.$operationKey.sectionTitle.fifth"
+
     val link = if(isSectionComplete) controllers.otherLiabilities.routes.CheckYourAnswersController.onPageLoad
     else otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(NormalMode)
 
     TaskListRow(
       id = "other-liability-issue-task-list", 
-      sectionTitle = messages("taskList.sectionTitle.fifth"), 
+      sectionTitle = messages(otherLiabilitiesTitleKey), 
       status = messages(
         if(isSectionComplete) "taskList.status.completed" 
         else if(firstPage.isDefined) "taskList.status.inProgress" 
