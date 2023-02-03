@@ -28,6 +28,15 @@ final case class TaxYearStarting(startYear: Int) extends OffshoreYears with Orde
 }
 
 object TaxYearStarting {
+  def findMissingYears(yearList: List[TaxYearStarting]): List[TaxYearStarting] =
+    yearList.sorted(Ordering[TaxYearStarting].reverse).map(_.startYear) match {
+      case (head :: tail) :+ last => 
+        val yearsBetweenFirstAndLast = Range(head, last)
+        val missingYearsAsInts = yearsBetweenFirstAndLast.filterNot{int => yearList.contains(TaxYearStarting(int))}
+        missingYearsAsInts.map(TaxYearStarting(_)).toList
+      case _ => Nil
+    }
+
   implicit val format: Format[TaxYearStarting] =  Json.format[TaxYearStarting]
 }
 
