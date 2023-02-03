@@ -47,40 +47,35 @@ class CountryOfYourOffshoreLiabilityController @Inject()(
                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
 
-  def onPageLoad(index:Option[Int] = None, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
+  def onPageLoad(countryCode:Option[String] = None, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val form: Form[Set[Country]] = formProvider()
+      val form: Form[Country] = formProvider()
 
-      val country: Option[Country] = index.flatMap(i => request.userAnswers.getByIndex(CountryOfYourOffshoreLiabilityPage, i))
+      val country: Option[Country] = countryCode.flatMap(country => request.userAnswers.getByKey(CountryOfYourOffshoreLiabilityPage, country))
 
       val preparedForm = country match {
         case None => form
-        case Some(value) => form.fill(Set(value))
+        case Some(value) => form.fill(value)
       }
 
-      Ok(view(index, preparedForm, mode))
+      Ok(view(preparedForm, mode))
   }
 
-  def onSubmit(index:Option[Int] = None, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
+  def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-      val form: Form[Set[Country]] = formProvider()
+      val form: Form[Country] = formProvider()
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(index, formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode))),
 
         value =>
           for {
-            updatedAnswers <- Future.fromTry(setOrAdd(request.userAnswers, index, value.head))
+            updatedAnswers <- Future.fromTry(request.userAnswers.setByKey[Country](CountryOfYourOffshoreLiabilityPage, value.alpha3, value))
             _              <- sessionService.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(CountryOfYourOffshoreLiabilityPage, mode, updatedAnswers))
       )
-  }
-
-  private def setOrAdd(userAnswers:UserAnswers, index:Option[Int], value:Country): Try[UserAnswers] = index match {
-    case Some(indexValue) => userAnswers.setByIndex[Country](CountryOfYourOffshoreLiabilityPage, indexValue, value)
-    case _ => userAnswers.addToSet[Country](CountryOfYourOffshoreLiabilityPage, value)
   }
 
 }

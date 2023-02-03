@@ -16,15 +16,15 @@
 
 package forms
 
-import config.{Countries, Country}
-
 import javax.inject.Inject
-import forms.mappings.{CountryConstraints, Mappings}
+
+import forms.mappings.Mappings
 import play.api.data.Form
 
-class CountryOfYourOffshoreLiabilityFormProvider @Inject()(countries: Countries)
-  extends CountryConstraints(countries) with Mappings {
-  def apply(): Form[Country] = Form(
-    "country" -> country(s"countryOfYourOffshoreLiability.error.required")
-  )
+class CountriesOrTerritoriesFormProvider @Inject() extends Mappings {
+
+  def apply(): Form[Boolean] =
+    Form(
+      "value" -> boolean("countriesOrTerritories.error.required")
+    )
 }

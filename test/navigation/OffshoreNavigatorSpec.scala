@@ -140,6 +140,11 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextPage(WhatIsYourReasonableExcuseForNotFilingReturnPage, NormalMode, UserAnswers("id")) mustBe routes.WhichYearsController.onPageLoad(NormalMode)
       }
 
+      "must go from CountryOfYourOffshoreLiabilityPage to CountriesOrTerritoriesController" in {
+        navigator.nextPage(CountryOfYourOffshoreLiabilityPage, NormalMode, UserAnswers("id")) mustBe routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
+      }
+
+
       Seq(
         YourResidenceStatus,
         YourDomicileStatus,

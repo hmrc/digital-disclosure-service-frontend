@@ -24,10 +24,10 @@ class CountryOfYourOffshoreLiabilityPageSpec extends PageBehaviours {
 
   "CountryOfYourOffshoreLiabilityPage" - {
 
-    beRetrievable[Set[Country]](CountryOfYourOffshoreLiabilityPage)
+    beRetrievable[Map[String, Country]](CountryOfYourOffshoreLiabilityPage)
 
-    beSettable[Set[Country]](CountryOfYourOffshoreLiabilityPage)
+    beSettable[Map[String, Country]](CountryOfYourOffshoreLiabilityPage)
 
-    beRemovable[Set[Country]](CountryOfYourOffshoreLiabilityPage)
+    beRemovable[Map[String, Country]](CountryOfYourOffshoreLiabilityPage)
   }
 }

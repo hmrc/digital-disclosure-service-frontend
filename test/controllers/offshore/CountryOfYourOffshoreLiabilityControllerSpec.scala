@@ -37,14 +37,15 @@ import scala.concurrent.Future
 
 class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with Injecting with MockitoSugar {
 
-  val index =  Some(0)
   def onwardRoute = Call("GET", "/foo")
 
-  val countrySet = Set(Country("AFG", "Afghanistan"))
-  val userAnswers = UserAnswers(userAnswersId).set(CountryOfYourOffshoreLiabilityPage, countrySet).success.value
+  val countryCode = "AFG"
+  val country = Country(countryCode, "Afghanistan")
+  val countriesMap = Map(countryCode -> Country(countryCode, "Afghanistan"))
+  val userAnswers = UserAnswers(userAnswersId).set(CountryOfYourOffshoreLiabilityPage, countriesMap).success.value
   val app = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-  lazy val countryOfYourOffshoreLiabilityRoute = offshore.routes.CountryOfYourOffshoreLiabilityController.onPageLoad(index, NormalMode).url
+  lazy val countryOfYourOffshoreLiabilityRoute = offshore.routes.CountryOfYourOffshoreLiabilityController.onPageLoad(Some(countryCode), NormalMode).url
 
   "CountryOfYourOffshoreLiability Controller" - {
 
@@ -63,7 +64,7 @@ class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with Injecti
         val view = app.injector.instanceOf[CountryOfYourOffshoreLiabilityView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(index, form, NormalMode)(request, messages(app)).toString
+        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(app)).toString
       }
     }
 
@@ -85,7 +86,7 @@ class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with Injecti
         val result = route(app, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(index, form.fill(countrySet), NormalMode)(request, messages(app)).toString
+        contentAsString(result) mustEqual view(form.fill(country), NormalMode)(request, messages(app)).toString
       }
     }
 
@@ -133,7 +134,7 @@ class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with Injecti
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(index, boundForm, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages(application)).toString
       }
     }
 

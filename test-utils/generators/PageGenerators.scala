@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryCountriesOrTerritoriesPage: Arbitrary[CountriesOrTerritoriesPage.type] =
+    Arbitrary(CountriesOrTerritoriesPage)
+
   implicit lazy val arbitraryWhatEmailAddressCanWeContactYouWithPage: Arbitrary[WhatEmailAddressCanWeContactYouWithPage.type] =
     Arbitrary(WhatEmailAddressCanWeContactYouWithPage)
 

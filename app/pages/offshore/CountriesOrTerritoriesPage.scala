@@ -14,17 +14,13 @@
  * limitations under the License.
  */
 
-package forms
+package pages
 
-import config.{Countries, Country}
+import play.api.libs.json.JsPath
 
-import javax.inject.Inject
-import forms.mappings.{CountryConstraints, Mappings}
-import play.api.data.Form
+case object CountriesOrTerritoriesPage extends QuestionPage[Boolean] {
 
-class CountryOfYourOffshoreLiabilityFormProvider @Inject()(countries: Countries)
-  extends CountryConstraints(countries) with Mappings {
-  def apply(): Form[Country] = Form(
-    "country" -> country(s"countryOfYourOffshoreLiability.error.required")
-  )
+  override def path: JsPath = JsPath \ toString
+
+  override def toString: String = "countriesOrTerritories"
 }

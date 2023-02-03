@@ -38,7 +38,7 @@ class CountryOfYourOffshoreLiabilityViewSpec extends ViewSpecBase with ViewMatch
   val form = new CountryOfYourOffshoreLiabilityFormProvider(countries)()
   val page: CountryOfYourOffshoreLiabilityView = inject[CountryOfYourOffshoreLiabilityView]
 
-  private def createView: Html = page(countryNumber, form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode)(request, messages)
 
   "view" should {
 

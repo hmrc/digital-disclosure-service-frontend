@@ -16,15 +16,30 @@
 
 package forms
 
-import config.{Countries, Country}
+import forms.behaviours.BooleanFieldBehaviours
+import play.api.data.FormError
 
-import javax.inject.Inject
-import forms.mappings.{CountryConstraints, Mappings}
-import play.api.data.Form
+class CountriesOrTerritoriesFormProviderSpec extends BooleanFieldBehaviours {
 
-class CountryOfYourOffshoreLiabilityFormProvider @Inject()(countries: Countries)
-  extends CountryConstraints(countries) with Mappings {
-  def apply(): Form[Country] = Form(
-    "country" -> country(s"countryOfYourOffshoreLiability.error.required")
-  )
+  val requiredKey = "countriesOrTerritories.error.required"
+  val invalidKey = "error.boolean"
+
+  val form = new CountriesOrTerritoriesFormProvider()()
+
+  ".value" - {
+
+    val fieldName = "value"
+
+    behave like booleanField(
+      form,
+      fieldName,
+      invalidError = FormError(fieldName, invalidKey)
+    )
+
+    behave like mandatoryField(
+      form,
+      fieldName,
+      requiredError = FormError(fieldName, requiredKey)
+    )
+  }
 }

@@ -21,8 +21,6 @@ import controllers.notification.routes
 import pages._
 import models._
 
-import scala.util.{Success, Failure}
-
 class NavigatorSpec extends SpecBase {
 
   val navigator = new Navigator
