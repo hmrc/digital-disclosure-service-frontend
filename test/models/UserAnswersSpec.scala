@@ -210,7 +210,7 @@ class UserAnswersSpec extends AnyFreeSpec with Matchers with Generators {
     }
 
     "should remove all values which aren't TaxYearStarting" in {
-      val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2020), PriorTo5Years, PriorTo7Years, PriorTo19Years)
+      val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2020), ReasonableExcusePriorTo, CarelessPriorTo, DeliberatePriorTo)
       val userAnswers = UserAnswers(id).set(WhichYearsPage, whichYears).success.value
 
       userAnswers.inverselySortedOffshoreTaxYears mustBe Some(Seq(TaxYearStarting(2020)))
