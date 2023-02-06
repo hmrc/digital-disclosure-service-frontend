@@ -35,7 +35,7 @@ package controllers.offshore
 import controllers.actions._
 import forms.WhichYearsFormProvider
 import javax.inject.Inject
-import models.{Mode, UserAnswers}
+import models.{WhichYears, Mode, UserAnswers}
 import navigation.OffshoreNavigator
 import pages.{WhichYearsPage, WhyAreYouMakingThisDisclosurePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -68,7 +68,7 @@ class WhichYearsController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode, numberOfYears(request.userAnswers)))
+      Ok(view(preparedForm, mode, determineBehaviour(request.userAnswers)))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -76,7 +76,7 @@ class WhichYearsController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, numberOfYears(request.userAnswers)))),
+          Future.successful(BadRequest(view(formWithErrors, mode, determineBehaviour(request.userAnswers)))),
 
         value =>
           for {
@@ -86,22 +86,20 @@ class WhichYearsController @Inject()(
       )
   }
 
-  def numberOfYears(ua: UserAnswers): Int = {
+  def determineBehaviour(ua: UserAnswers): WhichYears.Behaviour = {
 
     import models.WhyAreYouMakingThisDisclosure._
  
     ua.get(WhyAreYouMakingThisDisclosurePage) match {
-      case Some(value) => 
-        if (value.contains(DidNotNotifyNoExcuse) || 
+      case Some(value) if (value.contains(DidNotNotifyNoExcuse) || 
           value.contains(DeliberatelyDidNotNotify) || 
           value.contains(DeliberateInaccurateReturn) || 
-          value.contains(DeliberatelyDidNotFile)) 
-          19
-        else if (value.contains(InaccurateReturnNoCare)) 
-          7
-        else 
-          5
-      case None => 5     
+          value.contains(DeliberatelyDidNotFile)) =>
+        WhichYears.Deliberate
+      case Some(value) if (value.contains(InaccurateReturnNoCare)) =>
+        WhichYears.Careless
+      case _ =>     
+        WhichYears.ReasonableExcuse 
     }
   }
 

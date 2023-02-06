@@ -20,7 +20,7 @@ import javax.inject.{Inject, Singleton}
 import play.api.mvc.Call
 import controllers.offshore.routes
 import pages._
-import models.{CheckMode, Mode, NormalMode, PriorTo19Years, PriorTo5Years, PriorTo7Years, UserAnswers}
+import models.{CheckMode, Mode, NormalMode, DeliberatePriorTo, ReasonableExcusePriorTo, CarelessPriorTo, UserAnswers}
 import models.WhyAreYouMakingThisDisclosure._
 import models.YourLegalInterpretation._
 
@@ -63,9 +63,9 @@ class OffshoreNavigator @Inject()() {
     case WhatIsYourReasonableExcuseForNotFilingReturnPage => _ => routes.WhichYearsController.onPageLoad(NormalMode)
 
     case WhichYearsPage => ua => ua.get(WhichYearsPage) match {
-      case Some(value) if value.contains(PriorTo5Years) => routes.TaxBeforeFiveYearsController.onPageLoad(NormalMode)
-      case Some(value) if value.contains(PriorTo7Years) => routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode)
-      case Some(value) if value.contains(PriorTo19Years) => routes.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onPageLoad(NormalMode)
+      case Some(value) if value.contains(ReasonableExcusePriorTo) => routes.TaxBeforeFiveYearsController.onPageLoad(NormalMode)
+      case Some(value) if value.contains(CarelessPriorTo) => routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode)
+      case Some(value) if value.contains(DeliberatePriorTo) => routes.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onPageLoad(NormalMode)
       case _ => routes.TaxYearLiabilitiesController.onPageLoad(0, NormalMode)
     }
 
@@ -82,12 +82,12 @@ class OffshoreNavigator @Inject()() {
     case TheMaximumValueOfAllAssetsPage => _ => routes.CheckYourAnswersController.onPageLoad
 
     case TaxBeforeFiveYearsPage => ua => ua.get(WhichYearsPage) match {
-      case Some(whichYear) if whichYear.contains(PriorTo5Years) && whichYear.size == 1 => controllers.routes.MakingNilDisclosureController.onPageLoad
+      case Some(whichYear) if whichYear.contains(ReasonableExcusePriorTo) && whichYear.size == 1 => controllers.routes.MakingNilDisclosureController.onPageLoad
       case _ => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
     }
 
     case TaxBeforeSevenYearsPage => ua => ua.get(WhichYearsPage) match {
-        case Some(whichYear) if whichYear.contains(PriorTo7Years) && whichYear.size == 1 => controllers.routes.MakingNilDisclosureController.onPageLoad
+        case Some(whichYear) if whichYear.contains(CarelessPriorTo) && whichYear.size == 1 => controllers.routes.MakingNilDisclosureController.onPageLoad
         case _ => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
       }
 

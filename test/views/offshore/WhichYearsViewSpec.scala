@@ -21,7 +21,7 @@ import forms.WhichYearsFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.offshore.WhichYearsView
-import models.NormalMode
+import models.{WhichYears, NormalMode}
 import uk.gov.hmrc.time.CurrentTaxYear
 import java.time.LocalDate
 
@@ -33,7 +33,7 @@ class WhichYearsViewSpec extends ViewSpecBase with ViewMatchers with CurrentTaxY
 
   "view for 5 Years" should {
 
-    def createView: Html = page(form, NormalMode, 5)(request, messages)
+    def createView: Html = page(form, NormalMode, WhichYears.ReasonableExcuse)(request, messages)
     val view = createView
 
     "have title" in {
@@ -50,7 +50,8 @@ class WhichYearsViewSpec extends ViewSpecBase with ViewMatchers with CurrentTaxY
       view.getElementsByClass("govuk-checkboxes__item").get(2).text() mustBe messages(s"whichYears.checkbox", current.back(3).startYear.toString, current.back(3).finishYear.toString)
       view.getElementsByClass("govuk-checkboxes__item").get(3).text() mustBe messages(s"whichYears.checkbox", current.back(4).startYear.toString, current.back(4).finishYear.toString)
       view.getElementsByClass("govuk-checkboxes__item").get(4).text() mustBe messages(s"whichYears.checkbox", current.back(5).startYear.toString, current.back(5).finishYear.toString)
-      view.getElementsByClass("govuk-checkboxes__item").get(5).text() mustBe messages(s"whichYears.checkbox.any", current.back(5).startYear.toString)
+      view.getElementsByClass("govuk-checkboxes__item").get(5).text() mustBe messages(s"whichYears.checkbox", current.back(6).startYear.toString, current.back(6).finishYear.toString)
+      view.getElementsByClass("govuk-checkboxes__item").get(6).text() mustBe messages(s"whichYears.checkbox.any", current.back(6).startYear.toString)
     }
 
     "display the continue button" in {
@@ -62,7 +63,7 @@ class WhichYearsViewSpec extends ViewSpecBase with ViewMatchers with CurrentTaxY
 
   "view for 19 years" should {
 
-    def createView: Html = page(form, NormalMode, 19)(request, messages)
+    def createView: Html = page(form, NormalMode, WhichYears.Deliberate)(request, messages)
     val view = createView
 
     "contain checkboxes" in {
@@ -91,7 +92,7 @@ class WhichYearsViewSpec extends ViewSpecBase with ViewMatchers with CurrentTaxY
 
   "view for 7 years" should {
 
-    def createView: Html = page(form, NormalMode, 7)(request, messages)
+    def createView: Html = page(form, NormalMode, WhichYears.Careless)(request, messages)
     val view = createView
 
     "contain checkboxes" in {
@@ -102,7 +103,8 @@ class WhichYearsViewSpec extends ViewSpecBase with ViewMatchers with CurrentTaxY
       view.getElementsByClass("govuk-checkboxes__item").get(4).text() mustBe messages(s"whichYears.checkbox", current.back(5).startYear.toString, current.back(5).finishYear.toString)
       view.getElementsByClass("govuk-checkboxes__item").get(5).text() mustBe messages(s"whichYears.checkbox", current.back(6).startYear.toString, current.back(6).finishYear.toString)
       view.getElementsByClass("govuk-checkboxes__item").get(6).text() mustBe messages(s"whichYears.checkbox", current.back(7).startYear.toString, current.back(7).finishYear.toString)
-      view.getElementsByClass("govuk-checkboxes__item").get(7).text() mustBe messages(s"whichYears.checkbox.any", current.back(7).startYear.toString)
+      view.getElementsByClass("govuk-checkboxes__item").get(7).text() mustBe messages(s"whichYears.checkbox", current.back(8).startYear.toString, current.back(8).finishYear.toString)
+      view.getElementsByClass("govuk-checkboxes__item").get(8).text() mustBe messages(s"whichYears.checkbox.any", current.back(8).startYear.toString)
     }
   }
 
