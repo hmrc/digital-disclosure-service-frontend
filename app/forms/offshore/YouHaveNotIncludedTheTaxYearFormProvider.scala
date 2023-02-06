@@ -23,9 +23,9 @@ import play.api.data.Form
 
 class YouHaveNotIncludedTheTaxYearFormProvider @Inject() extends Mappings {
 
-  def apply(): Form[String] =
+  def apply(missingYear: String): Form[String] =
     Form(
-      "value" -> text("youHaveNotIncludedTheTaxYear.error.required")
-        .verifying(maxLength(500, "youHaveNotIncludedTheTaxYear.error.length"))
+      "value" -> text("youHaveNotIncludedTheTaxYear.error.required", Seq(missingYear))
+        .verifying(maxLength(500, "youHaveNotIncludedTheTaxYear.error.length", missingYear))
     )
 }

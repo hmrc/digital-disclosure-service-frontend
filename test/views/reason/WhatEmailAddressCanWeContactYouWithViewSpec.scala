@@ -42,9 +42,17 @@ class WhatEmailAddressCanWeContactYouWithViewSpec extends ViewSpecBase with View
       view.getElementsByClass("govuk-label--xl").text() mustBe messages("whatEmailAddressCanWeContactYouWith.heading")
     }
 
+    "contain header" in {
+      view.getElementsByClass("govuk-hint").text() mustBe messages("whatEmailAddressCanWeContactYouWith.hint")
+    }
+
     "display the continue button" in {
       view.getElementsByClass("govuk-button").first() must haveId ("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
+    }
+
+    "have a task list link" in {
+      view.getElementById("task-list-link").attr("href") mustBe controllers.routes.TaskListController.onPageLoad.url
     }
 
   }

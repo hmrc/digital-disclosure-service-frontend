@@ -27,9 +27,9 @@
     tasklistLink: components.tasklistLink
 )
 
-@(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], mode: Mode, firstYear: String, missingYear: String, lastYear: String)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("youHaveNotIncludedTheTaxYear.title"))) {
+@layout(pageTitle = title(form, messages("youHaveNotIncludedTheTaxYear.title", missingYear))) {
 
     @formHelper(action = controllers.offshore.routes.YouHaveNotIncludedTheTaxYearController.onSubmit(mode)) {
 
@@ -37,9 +37,9 @@
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
-        @heading(Text(messages("youHaveNotIncludedTheTaxYear.heading")))
+        @heading(Text(messages("youHaveNotIncludedTheTaxYear.heading", missingYear)))
 
-        @paragraph(id = Some("body"), content = Text(messages("youHaveNotIncludedTheTaxYear.body")))
+        @paragraph(id = Some("body"), content = Text(messages("youHaveNotIncludedTheTaxYear.body", firstYear, lastYear, missingYear)))
 
         @hmrcCharacterCount(
             CharacterCount(

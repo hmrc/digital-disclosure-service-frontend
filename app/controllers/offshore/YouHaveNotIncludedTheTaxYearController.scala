@@ -19,8 +19,7 @@ package controllers.offshore
 import controllers.actions._
 import forms.YouHaveNotIncludedTheTaxYearFormProvider
 import javax.inject.Inject
-import models.Mode
-import models.TaxYearStarting
+import models.{Mode, UserAnswers, TaxYearStarting}
 import navigation.OffshoreNavigator
 import pages.YouHaveNotIncludedTheTaxYearPage
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -43,25 +42,27 @@ class YouHaveNotIncludedTheTaxYearController @Inject()(
                                         view: YouHaveNotIncludedTheTaxYearView
                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  val form = formProvider()
-
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
+      val (firstYear, missingYear, lastYear) = getMissingYearData(request.userAnswers)
+
       val preparedForm = request.userAnswers.get(YouHaveNotIncludedTheTaxYearPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
+        case None => formProvider(missingYear)
+        case Some(value) => formProvider(missingYear).fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      Ok(view(preparedForm, mode, firstYear, missingYear, lastYear))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
 
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+      val (firstYear, missingYear, lastYear) = getMissingYearData(request.userAnswers)
+
+      formProvider(missingYear).bindFromRequest().fold(  
+        formWithErrors => 
+          Future.successful(BadRequest(view(formWithErrors, mode, firstYear, missingYear, lastYear))),
 
         value =>
           for {
@@ -70,4 +71,14 @@ class YouHaveNotIncludedTheTaxYearController @Inject()(
           } yield Redirect(navigator.nextPage(YouHaveNotIncludedTheTaxYearPage, mode, updatedAnswers))
       )
   }
+
+  private def getMissingYearData(userAnswers: UserAnswers): (String, String, String) = {
+    val taxYearStartingList = userAnswers.inverselySortedOffshoreTaxYears.toList.flatten
+    val missingYears = TaxYearStarting.findMissingYears(taxYearStartingList)
+    val missingYear = if (missingYears.nonEmpty) missingYears(0).toString else "0"
+    val firstYear = (missingYear.toInt - 1).toString
+    val lastYear = (missingYear.toInt + 1).toString 
+    (firstYear, missingYear, lastYear)
+  }
+
 }
