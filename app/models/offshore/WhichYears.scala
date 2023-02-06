@@ -19,25 +19,37 @@ package models
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.checkboxes.CheckboxItem
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
-import uk.gov.hmrc.govukfrontend.views.viewmodels.hint.Hint
 import viewmodels.govuk.checkbox._
 import uk.gov.hmrc.time.{CurrentTaxYear, TaxYear}
 import java.time.LocalDate
 
 object WhichYears extends CurrentTaxYear {
 
+  sealed trait Behaviour {
+    def numberOfYears: Int
+  }
+
+  case object ReasonableExcuse extends Behaviour {
+    val numberOfYears = 6
+  }
+  case object Careless extends Behaviour {
+    val numberOfYears = 8
+  }
+  case object Deliberate extends Behaviour {
+    val numberOfYears = 19
+  }
+
   def now = () => LocalDate.now()
 
-  def checkboxItems(numberOfYears: Int)(implicit messages: Messages): Seq[CheckboxItem] = { 
-    
-    val checkboxItem = numberOfYears match {
-      case 5  => Seq(createPriorTo5YearsCheckbox(numberOfYears, current)(messages))
-      case 7  => Seq(createPriorTo7YearsCheckbox(numberOfYears, current)(messages))
-      case 19 => Seq(createPriorTo19YearsCheckbox(numberOfYears, current)(messages))
-      case _  => Nil
+  def checkboxItems(behaviour: Behaviour)(implicit messages: Messages): Seq[CheckboxItem] = { 
+
+    val checkboxItem = behaviour match {
+      case ReasonableExcuse => Seq(createReasonableExcusePriorToCheckbox(behaviour.numberOfYears, current)(messages))
+      case Careless         => Seq(createCarelessPriorToCheckbox(behaviour.numberOfYears, current)(messages))
+      case Deliberate       => Seq(createDeliberatePriorToCheckbox(behaviour.numberOfYears, current)(messages))
     }
 
-    createYearCheckboxes(numberOfYears, current)(messages) ++ checkboxItem
+    createYearCheckboxes(behaviour.numberOfYears, current)(messages) ++ checkboxItem
   }
 
   def createYearCheckboxes(numberOfYears: Int, currentTaxYear: TaxYear)(implicit messages: Messages): Seq[CheckboxItem] = {
@@ -52,33 +64,33 @@ object WhichYears extends CurrentTaxYear {
     }
   }
 
-  def createPriorTo5YearsCheckbox(numberOfYears: Int, currentTaxYear: TaxYear)(implicit messages: Messages): CheckboxItem = {
+  def createReasonableExcusePriorToCheckbox(numberOfYears: Int, currentTaxYear: TaxYear)(implicit messages: Messages): CheckboxItem = {
+    val taxYear = currentTaxYear.back(6)
+    CheckboxItemViewModel(
+      content = Text(messages(s"whichYears.checkbox.any", s"${taxYear.startYear}")),
+      fieldId = "value",
+      index   = numberOfYears,
+      value   = "reasonableExcusePriorTo"
+    )
+  }
+
+  def createCarelessPriorToCheckbox(numberOfYears: Int, currentTaxYear: TaxYear)(implicit messages: Messages): CheckboxItem = {
     val taxYear = currentTaxYear.back(numberOfYears)
     CheckboxItemViewModel(
       content = Text(messages(s"whichYears.checkbox.any", s"${taxYear.startYear}")),
       fieldId = "value",
       index   = numberOfYears,
-      value   = "priorTo5Years"
+      value   = "carelessPriorTo"
     )
   }
 
-  def createPriorTo7YearsCheckbox(numberOfYears: Int, currentTaxYear: TaxYear)(implicit messages: Messages): CheckboxItem = {
-    val taxYear = currentTaxYear.back(numberOfYears)
-    CheckboxItemViewModel(
-      content = Text(messages(s"whichYears.checkbox.any", s"${taxYear.startYear}")),
-      fieldId = "value",
-      index   = numberOfYears,
-      value   = "priorTo7Years"
-    )
-  }
-
-  def createPriorTo19YearsCheckbox(numberOfYears: Int, currentTaxYear: TaxYear)(implicit messages: Messages): CheckboxItem = {
+  def createDeliberatePriorToCheckbox(numberOfYears: Int, currentTaxYear: TaxYear)(implicit messages: Messages): CheckboxItem = {
     val taxYear = currentTaxYear.back(numberOfYears)
     CheckboxItemViewModel(
       content = Text(messages(s"whichYears.checkbox.any", s"${taxYear.startYear}")),
       fieldId = "value",
       index = numberOfYears,
-      value = "priorTo19Years"
+      value = "deliberatePriorTo"
     )
   }
     

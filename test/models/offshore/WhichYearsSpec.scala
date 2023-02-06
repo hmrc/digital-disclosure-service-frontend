@@ -33,27 +33,27 @@ class WhichYearsSpec extends SpecBase with CurrentTaxYear {
   "WhichYearsSpec" - {
 
     "must create a checkbox for none of these years row" in {
-      val checkbox = WhichYears.createPriorTo19YearsCheckbox(19, currentTaxYear)
+      val checkbox = WhichYears.createDeliberatePriorToCheckbox(19, currentTaxYear)
       checkbox.content mustEqual Text(mess(s"whichYears.checkbox.any", s"${currentTaxYear.back(19).startYear}"))
       checkbox.id mustEqual Some("value_19")
       checkbox.name mustEqual Some("value[19]")
-      checkbox.value mustEqual "priorTo19Years"
+      checkbox.value mustEqual "deliberatePriorTo"
     }
 
-    "must create a checkbox for any prior to 7 years row" in {
-      val checkbox = WhichYears.createPriorTo7YearsCheckbox(7, currentTaxYear)
-      checkbox.content mustEqual Text(mess(s"whichYears.checkbox.any", s"${currentTaxYear.back(7).startYear}"))
-      checkbox.id mustEqual Some("value_7")
-      checkbox.name mustEqual Some("value[7]")
-      checkbox.value mustEqual "priorTo7Years"
+    "must create a checkbox for any prior to 8 years row" in {
+      val checkbox = WhichYears.createCarelessPriorToCheckbox(8, currentTaxYear)
+      checkbox.content mustEqual Text(mess(s"whichYears.checkbox.any", s"${currentTaxYear.back(8).startYear}"))
+      checkbox.id mustEqual Some("value_8")
+      checkbox.name mustEqual Some("value[8]")
+      checkbox.value mustEqual "carelessPriorTo"
     }
 
-    "must create a checkbox for any prior to 5 years row" in {
-      val checkbox = WhichYears.createPriorTo5YearsCheckbox(5, currentTaxYear)
-      checkbox.content mustEqual Text(mess(s"whichYears.checkbox.any", s"${currentTaxYear.back(5).startYear}"))
-      checkbox.id mustEqual Some("value_5")
-      checkbox.name mustEqual Some("value[5]")
-      checkbox.value mustEqual "priorTo5Years"
+    "must create a checkbox for any prior to 6 years row" in {
+      val checkbox = WhichYears.createReasonableExcusePriorToCheckbox(6, currentTaxYear)
+      checkbox.content mustEqual Text(mess(s"whichYears.checkbox.any", s"${currentTaxYear.back(6).startYear}"))
+      checkbox.id mustEqual Some("value_6")
+      checkbox.name mustEqual Some("value[6]")
+      checkbox.value mustEqual "reasonableExcusePriorTo"
     }
 
     "must create checkbox items for 19 years" in {
@@ -67,8 +67,8 @@ class WhichYearsSpec extends SpecBase with CurrentTaxYear {
       } 
     }
 
-    "must create checkbox items for 5 years" in {
-      val checkboxItems = WhichYears.createYearCheckboxes(5, currentTaxYear)
+    "must create checkbox items for 6 years" in {
+      val checkboxItems = WhichYears.createYearCheckboxes(6, currentTaxYear)
       checkboxItems.zipWithIndex.map{ 
         case (value, index) =>
           value.content mustEqual Text(mess(s"whichYears.checkbox", s"${currentTaxYear.startYear - (index+1)}", s"${currentTaxYear.finishYear - (index+1)}"))
@@ -78,8 +78,8 @@ class WhichYearsSpec extends SpecBase with CurrentTaxYear {
       } 
     }
 
-    "must create checkbox items for 7 years" in {
-      val checkboxItems = WhichYears.createYearCheckboxes(7, currentTaxYear)
+    "must create checkbox items for 8 years" in {
+      val checkboxItems = WhichYears.createYearCheckboxes(8, currentTaxYear)
       checkboxItems.zipWithIndex.map{ 
         case (value, index) =>
           value.content mustEqual Text(mess(s"whichYears.checkbox", s"${currentTaxYear.startYear - (index+1)}", s"${currentTaxYear.finishYear - (index+1)}"))
@@ -90,34 +90,34 @@ class WhichYearsSpec extends SpecBase with CurrentTaxYear {
     }
 
     "must create checkbox items for 19 years with none of these years row" in {
-      val checkboxItems = WhichYears.checkboxItems(19)
+      val checkboxItems = WhichYears.checkboxItems(WhichYears.Deliberate)
       val first19Elements = checkboxItems.slice(0,18)
 
       first19Elements.zipWithIndex.map{ 
         case (value, index) => value.value mustEqual (currentTaxYear.startYear - (index+1)).toString
       } 
-      checkboxItems.last.value mustEqual "priorTo19Years"
+      checkboxItems.last.value mustEqual "deliberatePriorTo"
     }
 
-    "must create checkbox items for 7 years with prior to 7 years row" in {
-      val checkboxItems = WhichYears.checkboxItems(7)
-      val first7Elements = checkboxItems.slice(0,6)
+    "must create checkbox items for 8 years with prior to 8 years row" in {
+      val checkboxItems = WhichYears.checkboxItems(WhichYears.Careless)
+      val first8Elements = checkboxItems.slice(0,7)
 
-      first7Elements.zipWithIndex.map{ 
+      first8Elements.zipWithIndex.map{ 
         case (value, index) => value.value mustEqual (currentTaxYear.startYear - (index+1)).toString
       } 
-      checkboxItems.last.value mustEqual "priorTo7Years"
+      checkboxItems.last.value mustEqual "carelessPriorTo"
 
     }
 
-    "must create checkbox items for 5 years with prior to 5 years row" in {
-      val checkboxItems = WhichYears.checkboxItems(5)
-      val first5Elements = checkboxItems.slice(0,4)
+    "must create checkbox items for 6 years with prior to 6 years row" in {
+      val checkboxItems = WhichYears.checkboxItems(WhichYears.ReasonableExcuse)
+      val first6Elements = checkboxItems.slice(0,5)
 
-      first5Elements.zipWithIndex.map{ 
+      first6Elements.zipWithIndex.map{ 
         case (value, index) => value.value mustEqual (currentTaxYear.startYear - (index+1)).toString
       } 
-      checkboxItems.last.value mustEqual "priorTo5Years"
+      checkboxItems.last.value mustEqual "reasonableExcusePriorTo"
     }
 
   }

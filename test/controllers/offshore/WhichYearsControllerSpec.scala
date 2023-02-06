@@ -18,7 +18,7 @@ package controllers
 
 import base.SpecBase
 import forms.WhichYearsFormProvider
-import models.{NormalMode, UserAnswers, TaxYearStarting, OffshoreYears, WhyAreYouMakingThisDisclosure}
+import models.{WhichYears, NormalMode, UserAnswers, TaxYearStarting, OffshoreYears, WhyAreYouMakingThisDisclosure}
 import navigation.{FakeOffshoreNavigator, OffshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
@@ -43,7 +43,7 @@ class WhichYearsControllerSpec extends SpecBase with MockitoSugar {
   val formProvider = new WhichYearsFormProvider()
   val form = formProvider()
 
-  "numberOfYears" - {
+  "determineBehaviour" - {
 
     val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
     val controller = application.injector.instanceOf[WhichYearsController]
@@ -52,31 +52,31 @@ class WhichYearsControllerSpec extends SpecBase with MockitoSugar {
     
       "when a deliberate behaviour is selected alongside other values" in {
         val userAnswers = UserAnswers(userAnswersId).set(WhyAreYouMakingThisDisclosurePage, WhyAreYouMakingThisDisclosure.values.toSet).success.value
-        controller.numberOfYears(userAnswers) mustEqual 19
+        controller.determineBehaviour(userAnswers) mustEqual WhichYears.Deliberate
       }
 
       "when only DidNotNotifyNoExcuse is selected" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DidNotNotifyNoExcuse)
         val userAnswers = UserAnswers(userAnswersId).set(WhyAreYouMakingThisDisclosurePage, set).success.value
-        controller.numberOfYears(userAnswers) mustEqual 19
+        controller.determineBehaviour(userAnswers) mustEqual WhichYears.Deliberate
       }
 
       "when only DeliberatelyDidNotNotify is selected" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DeliberatelyDidNotNotify)
         val userAnswers = UserAnswers(userAnswersId).set(WhyAreYouMakingThisDisclosurePage, set).success.value
-        controller.numberOfYears(userAnswers) mustEqual 19
+        controller.determineBehaviour(userAnswers) mustEqual WhichYears.Deliberate
       }
 
       "when only DeliberateInaccurateReturn is selected" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DeliberateInaccurateReturn)
         val userAnswers = UserAnswers(userAnswersId).set(WhyAreYouMakingThisDisclosurePage, set).success.value
-        controller.numberOfYears(userAnswers) mustEqual 19
+        controller.determineBehaviour(userAnswers) mustEqual WhichYears.Deliberate
       }
 
       "when only DeliberatelyDidNotFile is selected" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DeliberatelyDidNotFile)
         val userAnswers = UserAnswers(userAnswersId).set(WhyAreYouMakingThisDisclosurePage, set).success.value
-        controller.numberOfYears(userAnswers) mustEqual 19
+        controller.determineBehaviour(userAnswers) mustEqual WhichYears.Deliberate
       }
 
     }
@@ -91,13 +91,13 @@ class WhichYearsControllerSpec extends SpecBase with MockitoSugar {
           WhyAreYouMakingThisDisclosure.NotFileHasExcuse
         )
         val userAnswers = UserAnswers(userAnswersId).set(WhyAreYouMakingThisDisclosurePage, set).success.value
-        controller.numberOfYears(userAnswers) mustEqual 7
+        controller.determineBehaviour(userAnswers) mustEqual WhichYears.Careless
       }
 
       "when only InaccurateReturnNoCare is selected" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.InaccurateReturnNoCare)
         val userAnswers = UserAnswers(userAnswersId).set(WhyAreYouMakingThisDisclosurePage, set).success.value
-        controller.numberOfYears(userAnswers) mustEqual 7
+        controller.determineBehaviour(userAnswers) mustEqual WhichYears.Careless
       }
 
     }
@@ -111,25 +111,25 @@ class WhichYearsControllerSpec extends SpecBase with MockitoSugar {
           WhyAreYouMakingThisDisclosure.NotFileHasExcuse
         )
         val userAnswers = UserAnswers(userAnswersId).set(WhyAreYouMakingThisDisclosurePage, set).success.value
-        controller.numberOfYears(userAnswers) mustEqual 5
+        controller.determineBehaviour(userAnswers) mustEqual WhichYears.ReasonableExcuse
       }
 
       "when only DidNotNotifyHasExcuse is selected" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse)
         val userAnswers = UserAnswers(userAnswersId).set(WhyAreYouMakingThisDisclosurePage, set).success.value
-        controller.numberOfYears(userAnswers) mustEqual 5
+        controller.determineBehaviour(userAnswers) mustEqual WhichYears.ReasonableExcuse
       }
 
       "when only InaccurateReturnWithCare is selected" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare)
         val userAnswers = UserAnswers(userAnswersId).set(WhyAreYouMakingThisDisclosurePage, set).success.value
-        controller.numberOfYears(userAnswers) mustEqual 5
+        controller.determineBehaviour(userAnswers) mustEqual WhichYears.ReasonableExcuse
       }
 
       "when only NotFileHasExcuse is selected" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.NotFileHasExcuse)
         val userAnswers = UserAnswers(userAnswersId).set(WhyAreYouMakingThisDisclosurePage, set).success.value
-        controller.numberOfYears(userAnswers) mustEqual 5
+        controller.determineBehaviour(userAnswers) mustEqual WhichYears.ReasonableExcuse
       }
 
     }
@@ -151,7 +151,7 @@ class WhichYearsControllerSpec extends SpecBase with MockitoSugar {
 
         status(result) mustEqual OK
 
-        contentAsString(result) mustEqual view(form, NormalMode, 5)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode, WhichYears.ReasonableExcuse)(request, messages(application)).toString
       }
     }
 
@@ -170,7 +170,7 @@ class WhichYearsControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(previousValue), NormalMode, 5)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(previousValue), NormalMode, WhichYears.ReasonableExcuse)(request, messages(application)).toString
       }
     }
 
@@ -215,7 +215,7 @@ class WhichYearsControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, 5)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode, WhichYears.ReasonableExcuse)(request, messages(application)).toString
       }
     }
 
