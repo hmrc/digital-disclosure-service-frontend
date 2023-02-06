@@ -19,7 +19,9 @@ package controllers.offshore
 import controllers.actions._
 import forms.YouHaveNotIncludedTheTaxYearFormProvider
 import javax.inject.Inject
-import models.{Mode, UserAnswers, TaxYearStarting}
+import models.{Mode, NormalMode, UserAnswers, TaxYearStarting}
+import models.requests.DataRequest
+import play.api.mvc.Result
 import navigation.OffshoreNavigator
 import pages.YouHaveNotIncludedTheTaxYearPage
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -42,43 +44,60 @@ class YouHaveNotIncludedTheTaxYearController @Inject()(
                                         view: YouHaveNotIncludedTheTaxYearView
                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
 
-      val (firstYear, missingYear, lastYear) = getMissingYearData(request.userAnswers)
-
-      val preparedForm = request.userAnswers.get(YouHaveNotIncludedTheTaxYearPage) match {
-        case None => formProvider(missingYear)
-        case Some(value) => formProvider(missingYear).fill(value)
+      onMissingYearData(request.userAnswers, mode){
+        (userAnswers, mode, head, firstYear, lastYear) => displayPage(userAnswers, mode, head, firstYear, lastYear)
       }
-
-      Ok(view(preparedForm, mode, firstYear, missingYear, lastYear))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
 
-      val (firstYear, missingYear, lastYear) = getMissingYearData(request.userAnswers)
-
-      formProvider(missingYear).bindFromRequest().fold(  
-        formWithErrors => 
-          Future.successful(BadRequest(view(formWithErrors, mode, firstYear, missingYear, lastYear))),
-
-        value =>
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(YouHaveNotIncludedTheTaxYearPage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(YouHaveNotIncludedTheTaxYearPage, mode, updatedAnswers))
-      )
+      onMissingYearData(request.userAnswers, mode){
+        (userAnswers, mode, head, firstYear, lastYear) => submitData(userAnswers, mode, head, firstYear, lastYear)
+      }
   }
 
-  private def getMissingYearData(userAnswers: UserAnswers): (String, String, String) = {
-    val taxYearStartingList = userAnswers.inverselySortedOffshoreTaxYears.toList.flatten
-    val missingYears = TaxYearStarting.findMissingYears(taxYearStartingList)
-    val missingYear = if (missingYears.nonEmpty) missingYears(0).toString else "0"
-    val firstYear = (missingYear.toInt - 1).toString
-    val lastYear = (missingYear.toInt + 1).toString 
-    (firstYear, missingYear, lastYear)
+  private def onMissingYearData(userAnswers: UserAnswers, mode: Mode)(f: (UserAnswers, Mode, TaxYearStarting, TaxYearStarting, TaxYearStarting) => Future[Result]): Future[Result] = {
+    val result = for {
+      years <- userAnswers.inverselySortedOffshoreTaxYears
+      firstYear <- years.toList.lastOption
+      lastYear <- years.toList.headOption
+    } yield {
+      val missingYears = TaxYearStarting.findMissingYears(years.toList)
+
+      missingYears match {
+        case head :: Nil => f(userAnswers, mode, head, firstYear, lastYear) 
+        case head :: tail => Future.successful(Redirect(controllers.offshore.routes.YouHaveNotIncludedTheTaxYearController.onPageLoad(NormalMode).url)) //TODO: Multiple missing years page
+        case Nil => Future.successful(Redirect(controllers.offshore.routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode).url))
+      }
+    } 
+
+    result.getOrElse(Future.successful(Redirect(controllers.offshore.routes.WhichYearsController.onPageLoad(NormalMode).url))) 
+  }
+
+  def displayPage(userAnswers: UserAnswers, mode: Mode, missingYear: TaxYearStarting, firstYear: TaxYearStarting, lastYear: TaxYearStarting)(implicit request: DataRequest[_]): Future[Result] = {
+    val preparedForm = userAnswers.get(YouHaveNotIncludedTheTaxYearPage) match {
+      case None => formProvider(missingYear.toString)
+      case Some(value) => formProvider(missingYear.toString).fill(value)
+    }
+
+    Future.successful(Ok(view(preparedForm, mode, missingYear.toString, firstYear.toString, lastYear.toString)))
+  }
+
+  def submitData(userAnswers: UserAnswers, mode: Mode, missingYear: TaxYearStarting, firstYear: TaxYearStarting, lastYear: TaxYearStarting)(implicit request: DataRequest[_]): Future[Result] = {
+    formProvider(missingYear.toString).bindFromRequest().fold(  
+      formWithErrors => 
+        Future.successful(BadRequest(view(formWithErrors, mode, missingYear.toString, firstYear.toString, lastYear.toString))),
+
+      value =>
+        for {
+          updatedAnswers <- Future.fromTry(userAnswers.set(YouHaveNotIncludedTheTaxYearPage, value))
+          _              <- sessionService.set(updatedAnswers)
+        } yield Redirect(navigator.nextPage(YouHaveNotIncludedTheTaxYearPage, mode, updatedAnswers))
+    )
   }
 
 }

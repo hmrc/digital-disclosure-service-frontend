@@ -259,6 +259,10 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
         navigator.nextPage(TaxBeforeSevenYearsPage, NormalMode, userAnswers) mustBe routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
       }
+
+      "must go from YouHaveNotIncludedTheTaxYearPage to CountryOfYourOffshoreLiabilityController" in {
+        navigator.nextPage(YouHaveNotIncludedTheTaxYearPage, NormalMode, UserAnswers("id")) mustBe routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
+      }
     }
 
     "in Check mode" - {

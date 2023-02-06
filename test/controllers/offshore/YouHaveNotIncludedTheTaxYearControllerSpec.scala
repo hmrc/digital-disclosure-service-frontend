@@ -18,12 +18,12 @@ package controllers
 
 import base.SpecBase
 import forms.YouHaveNotIncludedTheTaxYearFormProvider
-import models.{NormalMode, UserAnswers}
+import models.{OffshoreYears, TaxYearStarting, NormalMode, UserAnswers}
 import navigation.{FakeOffshoreNavigator, OffshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.YouHaveNotIncludedTheTaxYearPage
+import pages.{YouHaveNotIncludedTheTaxYearPage, WhichYearsPage}
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -38,25 +38,35 @@ class YouHaveNotIncludedTheTaxYearControllerSpec extends SpecBase with MockitoSu
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new YouHaveNotIncludedTheTaxYearFormProvider()
-  val form = formProvider()
+  val missingYear = "2020"
+  val firstYear = "2019"
+  val lastYear = "2021"
+  val form = formProvider(missingYear)
 
   lazy val youHaveNotIncludedTheTaxYearRoute = offshore.routes.YouHaveNotIncludedTheTaxYearController.onPageLoad(NormalMode).url
+
+  lazy val whichYearsRoute = offshore.routes.WhichYearsController.onPageLoad(NormalMode).url
+  lazy val countryRoute = offshore.routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode).url
 
   "YouHaveNotIncludedTheTaxYear Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(missingYear.toInt))
+      val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value
+      val ua = userAnswersWithTaxYears.set(YouHaveNotIncludedTheTaxYearPage, "answer").success.value
+
+      val application = applicationBuilder(userAnswers = Some(ua)).build()
 
       running(application) {
         val request = FakeRequest(GET, youHaveNotIncludedTheTaxYearRoute)
-
+        
         val result = route(application, request).value
-
+        
         val view = application.injector.instanceOf[YouHaveNotIncludedTheTaxYearView]
-
+        
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode, missingYear, firstYear, lastYear)(request, messages(application)).toString
       }
     }
 
@@ -74,11 +84,11 @@ class YouHaveNotIncludedTheTaxYearControllerSpec extends SpecBase with MockitoSu
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill("answer"), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill("answer"), NormalMode, missingYear, firstYear, lastYear)(request, messages(application)).toString
       }
     }
 
-    "must redirect to the next page when valid data is submitted" in {
+    "must redirect to the which offshore years page when valid data is submitted" in {
 
       val mockSessionService = mock[SessionService]
 
@@ -99,7 +109,36 @@ class YouHaveNotIncludedTheTaxYearControllerSpec extends SpecBase with MockitoSu
         val result = route(application, request).value
 
         status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
+        redirectLocation(result).value mustEqual whichYearsRoute
+      }
+    }
+
+    "must redirect to the country page when valid data is submitted" in {
+
+      val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(0))
+      val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value
+      val ua = userAnswersWithTaxYears.set(YouHaveNotIncludedTheTaxYearPage, "answer").success.value
+
+      val mockSessionService = mock[SessionService]
+
+      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+
+      val application =
+        applicationBuilderWithSessionService(userAnswers = Some(ua), mockSessionService)
+          .overrides(
+            bind[OffshoreNavigator].toInstance(new FakeOffshoreNavigator(onwardRoute))
+          )
+          .build()
+
+      running(application) {
+        val request =
+          FakeRequest(POST, youHaveNotIncludedTheTaxYearRoute)
+            .withFormUrlEncodedBody(("value", "answer"))
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual countryRoute
       }
     }
 
@@ -119,7 +158,7 @@ class YouHaveNotIncludedTheTaxYearControllerSpec extends SpecBase with MockitoSu
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode, missingYear, firstYear, lastYear)(request, messages(application)).toString
       }
     }
 

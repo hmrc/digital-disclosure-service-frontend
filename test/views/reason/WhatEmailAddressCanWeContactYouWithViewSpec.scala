@@ -42,7 +42,7 @@ class WhatEmailAddressCanWeContactYouWithViewSpec extends ViewSpecBase with View
       view.getElementsByClass("govuk-label--xl").text() mustBe messages("whatEmailAddressCanWeContactYouWith.heading")
     }
 
-    "contain header" in {
+    "contain hint" in {
       view.getElementsByClass("govuk-hint").text() mustBe messages("whatEmailAddressCanWeContactYouWith.hint")
     }
 

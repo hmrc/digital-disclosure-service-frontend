@@ -24,8 +24,9 @@ class YouHaveNotIncludedTheTaxYearFormProviderSpec extends StringFieldBehaviours
   val requiredKey = "youHaveNotIncludedTheTaxYear.error.required"
   val lengthKey = "youHaveNotIncludedTheTaxYear.error.length"
   val maxLength = 500
+  val missingYear = "2020"
 
-  val form = new YouHaveNotIncludedTheTaxYearFormProvider()()
+  val form = new YouHaveNotIncludedTheTaxYearFormProvider()(missingYear)
 
   ".value" - {
 
@@ -41,13 +42,13 @@ class YouHaveNotIncludedTheTaxYearFormProviderSpec extends StringFieldBehaviours
       form,
       fieldName,
       maxLength = maxLength,
-      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
+      lengthError = FormError(fieldName, lengthKey, Seq(missingYear))
     )
 
     behave like mandatoryField(
       form,
       fieldName,
-      requiredError = FormError(fieldName, requiredKey)
+      requiredError = FormError(fieldName, requiredKey, Seq(missingYear))
     )
   }
 }
