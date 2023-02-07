@@ -27,7 +27,7 @@
     link: components.link
 )
 
-@(list: TaskListViewModel, notificationSectionKey: String, isTheUserAgent: Boolean, entity: RelatesTo, isAllTaskCompleted: Boolean)(implicit request: Request[_], messages: Messages)
+@(list: TaskListViewModel, notificationSectionKey: String, isTheUserAgent: Boolean, entity: String, isAllTaskCompleted: Boolean)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = titleNoForm(messages("taskList.title"))) {
 

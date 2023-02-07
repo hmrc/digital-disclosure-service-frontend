@@ -62,7 +62,7 @@ class TaskListViewSpec extends ViewSpecBase with ViewMatchers with Generators {
     val additionalInformation = Seq(testRow3)
     val list = TaskListViewModel(personalDetailsTask, liabilitiesInformation, additionalInformation)
     
-    val entity = arbitrary[RelatesTo].sample.value
+    val entity = arbitrary[RelatesTo].sample.value.toString
     val isTheUserAgent = arbitrary[Boolean].sample.value
     
     def createView: Html = page(list, notificationSectionKey, isTheUserAgent, entity, true)(request, messages)
