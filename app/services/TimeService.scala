@@ -16,17 +16,30 @@
 
 package services
 
-import java.time.LocalDateTime
-import com.google.inject.{Singleton, ImplementedBy}
+import java.time.{LocalDate, LocalDateTime}
+import com.google.inject.{Singleton, Inject, ImplementedBy}
+import play.api.Configuration
 
 @Singleton
 class TimeServiceImpl extends TimeService {
 
   def now: LocalDateTime = LocalDateTime.now
+  def date: LocalDate = LocalDate.now
+
+}
+
+@Singleton
+class TestTimeService @Inject() (configuration: Configuration) extends TimeService {
+
+  val year = configuration.get[Int]("test-with-tax-year-starting.yearStarting")
+
+  def now: LocalDateTime = LocalDateTime.of(year, 4, 6, 0, 0, 0, 0)
+  def date: LocalDate = LocalDate.of(year, 4, 6)
 
 }
 
 @ImplementedBy(classOf[TimeServiceImpl])
 trait TimeService {
   def now: LocalDateTime
+  def date: LocalDate
 }

@@ -19,6 +19,7 @@ package config
 import controllers.actions._
 import play.api.inject.Binding
 import play.api.{Configuration, Environment}
+import services.{TimeService, TimeServiceImpl, TestTimeService}
 
 import java.time.Clock
 
@@ -31,6 +32,12 @@ class Module extends play.api.inject.Module  {
         Seq(bind[InternalAuthTokenInitialiser].to[InternalAuthTokenInitialiserImpl].eagerly())
       } else Seq(bind[InternalAuthTokenInitialiser].to[NoOpInternalAuthTokenInitialiser].eagerly())
 
+    val timeServiceBindings: Seq[Binding[_]] =
+      if (configuration.get[Boolean]("test-with-tax-year-starting.enabled")) {
+        Seq(bind[TimeService].to[TestTimeService].eagerly())
+      } else Seq(bind[TimeService].to[TimeServiceImpl].eagerly())
+
+
     val bindings = Seq(
       bind[Clock].toInstance(Clock.systemUTC()),
       bind[DataRetrievalAction].to[DataRetrievalActionImpl].eagerly(),
@@ -38,7 +45,7 @@ class Module extends play.api.inject.Module  {
       bind[IdentifierAction].to[AuthenticatedIdentifierAction].eagerly()
     ) 
 
-    bindings ++ authTokenInitialiserBindings
+    bindings ++ authTokenInitialiserBindings ++ timeServiceBindings
   }
 
 }

@@ -22,7 +22,7 @@ import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.offshore.CheckYourAnswersView
-import viewmodels.offshore.CheckYourAnswersViewModel
+import viewmodels.offshore.CheckYourAnswersViewModelCreation
 
 class CheckYourAnswersController @Inject()(
                                        override val messagesApi: MessagesApi,
@@ -30,13 +30,14 @@ class CheckYourAnswersController @Inject()(
                                        getData: DataRetrievalAction,
                                        requireData: DataRequiredAction,
                                        val controllerComponents: MessagesControllerComponents,
-                                       view: CheckYourAnswersView
+                                       view: CheckYourAnswersView,
+                                       viewModelCreation: CheckYourAnswersViewModelCreation
                                      ) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val viewModel = CheckYourAnswersViewModel(request.userAnswers)
+      val viewModel = viewModelCreation.create(request.userAnswers)
 
       Ok(view(viewModel))
   }

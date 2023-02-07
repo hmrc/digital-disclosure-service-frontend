@@ -18,7 +18,7 @@ package services
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import java.time.{Instant, LocalDateTime}
+import java.time.{Instant, LocalDateTime, LocalDate}
 import org.mockito.Mockito.{verify, when}
 import org.scalatestplus.mockito.MockitoSugar
 import org.scalatest.TryValues
@@ -78,6 +78,7 @@ class NotificationSubmissionServiceSpec extends AnyWordSpec with ScalaFutures
       val time = LocalDateTime.now
       object FakeTimeService extends TimeService {
         def now: LocalDateTime = time
+        def date: LocalDate = time.toLocalDate()
       } 
 
       val sut = new NotificationSubmissionServiceImpl(connector, UAToNotificationService, FakeReferenceService, sessionService, FakeTimeService, auditService)

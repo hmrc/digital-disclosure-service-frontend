@@ -19,17 +19,14 @@ package controllers.offshore
 import controllers.actions._
 import forms.CanYouTellUsMoreAboutTaxBeforeNineteenYearFormProvider
 import javax.inject.Inject
-import models.Mode
+import models.{Behaviour, Mode}
 import navigation.OffshoreNavigator
 import pages.CanYouTellUsMoreAboutTaxBeforeNineteenYearPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import services.SessionService
+import services.{OffshoreWhichYearsService, SessionService}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.offshore.CanYouTellUsMoreAboutTaxBeforeNineteenYearView
-import uk.gov.hmrc.time.CurrentTaxYear
-import java.time.LocalDate
-
 import scala.concurrent.{ExecutionContext, Future}
 
 class CanYouTellUsMoreAboutTaxBeforeNineteenYearController @Inject()(
@@ -41,11 +38,11 @@ class CanYouTellUsMoreAboutTaxBeforeNineteenYearController @Inject()(
                                         requireData: DataRequiredAction,
                                         formProvider: CanYouTellUsMoreAboutTaxBeforeNineteenYearFormProvider,
                                         val controllerComponents: MessagesControllerComponents,
-                                        view: CanYouTellUsMoreAboutTaxBeforeNineteenYearView
-                                    )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with CurrentTaxYear {
+                                        view: CanYouTellUsMoreAboutTaxBeforeNineteenYearView,
+                                        offshoreWhichYearsService: OffshoreWhichYearsService
+                                    )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  def now = () => LocalDate.now()
-  val year = current.back(19).startYear.toString
+  val year = offshoreWhichYearsService.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
 
   val form = formProvider(year)
 
