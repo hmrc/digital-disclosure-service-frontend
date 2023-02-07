@@ -16,10 +16,10 @@
 
 package forms
 
-import forms.behaviours.{BigIntFieldBehaviours, IntFieldBehaviours}
+import forms.behaviours.{BigIntFieldBehaviours, IntFieldBehaviours, StringFieldBehaviours}
 import play.api.data.FormError
 
-class TaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with BigIntFieldBehaviours {
+class TaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with BigIntFieldBehaviours with StringFieldBehaviours {
 
   val form = new TaxYearLiabilitiesFormProvider()()
 
@@ -105,6 +105,7 @@ class TaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with BigIntF
         ("capitalGains", "2000"),
         ("unpaidTax", "2000"),
         ("interest", "2000"),
+        ("penaltyRateReason", "Reason"),
         ("penaltyRate", "100")
       ))
       result.value.value.foreignTaxCredit mustBe true
@@ -119,6 +120,7 @@ class TaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with BigIntF
         ("capitalGains", "2000"),
         ("unpaidTax", "2000"),
         ("interest", "2000"),
+        ("penaltyRateReason", "Reason"),
         ("penaltyRate", "100")
       ))
       result.value.value.foreignTaxCredit mustBe false
@@ -133,6 +135,34 @@ class TaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with BigIntF
           result.errors mustBe Seq(FormError("foreignTaxCredit", List("error.boolean")))
       }
     }
+
+    behave like mandatoryField(
+      form,
+      fieldName,
+      requiredError = FormError(fieldName, requiredKey)
+    )
+  }
+
+  ".penaltyRateReason" - {
+
+    val fieldName = "penaltyRateReason"
+    val maxLength = 5000
+
+    val lengthKey = "taxYearLiabilities.penaltyRateReason.error.length"
+    val requiredKey = "taxYearLiabilities.penaltyRateReason.error.required"
+
+    behave like fieldThatBindsValidData(
+      form,
+      fieldName,
+      stringsWithMaxLength(maxLength)
+    )
+
+    behave like fieldWithMaxLength(
+      form,
+      fieldName,
+      maxLength = maxLength,
+      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
+    )
 
     behave like mandatoryField(
       form,

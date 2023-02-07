@@ -25,6 +25,7 @@ final case class TaxYearLiabilities(
   unpaidTax: BigInt,
   interest: BigInt,
   penaltyRate: Int,
+  penaltyRateReason: String,
   foreignTaxCredit: Boolean
 )
 
