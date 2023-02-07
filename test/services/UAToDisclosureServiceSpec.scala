@@ -72,6 +72,7 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
         unpaidTax = BigInt(2000),
         interest = BigInt(2000),
         penaltyRate = 12,
+        penaltyRateReason = "Reason",
         foreignTaxCredit = false
       )
       val whySet: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse)

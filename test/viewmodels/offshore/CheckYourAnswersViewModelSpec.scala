@@ -172,6 +172,7 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
         unpaidTax = BigInt(100),
         interest = BigInt(100),
         penaltyRate = 100,
+        penaltyRateReason = "Reason",
         foreignTaxCredit = true
       )
       val firstTaxYear = TaxYearWithLiabilities(TaxYearStarting(2019), firstTaxYearLiabilities)
@@ -182,6 +183,7 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
         unpaidTax = BigInt(200),
         interest = BigInt(200),
         penaltyRate = 200,
+        penaltyRateReason = "Other reason",
         foreignTaxCredit = false
       )
       val secondTaxYear = TaxYearWithLiabilities(TaxYearStarting(2018), secondTaxYearLiabilities)

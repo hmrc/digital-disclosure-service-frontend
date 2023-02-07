@@ -71,6 +71,7 @@ class TaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
         unpaidTax = BigInt(200),
         interest = BigInt(20),
         penaltyRate = 30,
+        penaltyRateReason = "Reason",
         foreignTaxCredit = true
       )
 
@@ -113,6 +114,7 @@ class TaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
               ("unpaidTax", "2000"),
               ("interest", "2000"),
               ("penaltyRate", "100"),
+              ("penaltyRateReason", "Reason"),
               ("foreignTaxCredit", "true")
             )
 
