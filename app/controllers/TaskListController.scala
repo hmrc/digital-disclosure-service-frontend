@@ -89,15 +89,16 @@ class TaskListController @Inject()(
   private def buildCaseReferenceRow(userAnswers: UserAnswers)(implicit messages: Messages): TaskListRow = {
 
     val isSectionComplete = dateDisclosureService.uaToCaseReference(userAnswers).isComplete
+    val firstPage = userAnswers.get(DoYouHaveACaseReferencePage)
     val operationKey = if (isSectionComplete) "edit" else "add"
     val caseReferenceTitleKey = s"taskList.$operationKey.sectionTitle.second"
 
     val link = controllers.reference.routes.DoYouHaveACaseReferenceController.onPageLoad(NormalMode)
 
     TaskListRow(
-      id = "case-reference-task-list", 
-      sectionTitle = messages(caseReferenceTitleKey), 
-      status = messages(statusKey(isSectionComplete)), 
+      id = "case-reference-task-list",
+      sectionTitle = messages(caseReferenceTitleKey),
+      status = getStatusMessage(isSectionComplete, firstPage.isDefined),
       link = link
     )
   }
@@ -122,13 +123,9 @@ class TaskListController @Inject()(
       else controllers.offshore.routes.WhyAreYouMakingThisDisclosureController.onPageLoad(NormalMode)
 
     TaskListRow(
-      id = "offshore-liabilitie-task-list", 
-      sectionTitle = messages(offshoreLiabilitieTitleKey), 
-      status = messages(
-        if(isSectionComplete) "taskList.status.completed" 
-        else if(firstPage.isDefined) "taskList.status.inProgress" 
-        else "taskList.status.notStarted"
-      ), 
+      id = "offshore-liabilitie-task-list",
+      sectionTitle = messages(offshoreLiabilitieTitleKey),
+      status = getStatusMessage(isSectionComplete, firstPage.isDefined),
       link = link
     )
   }
@@ -149,13 +146,9 @@ class TaskListController @Inject()(
     else otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(NormalMode)
 
     TaskListRow(
-      id = "other-liability-issue-task-list", 
-      sectionTitle = messages(otherLiabilitiesTitleKey), 
-      status = messages(
-        if(isSectionComplete) "taskList.status.completed" 
-        else if(firstPage.isDefined) "taskList.status.inProgress" 
-        else "taskList.status.notStarted"
-      ), 
+      id = "other-liability-issue-task-list",
+      sectionTitle = messages(otherLiabilitiesTitleKey),
+      status = getStatusMessage(isSectionComplete, firstPage.isDefined),
       link = link
     )
   }
@@ -170,13 +163,9 @@ class TaskListController @Inject()(
     else reason.routes.WhyAreYouMakingADisclosureController.onPageLoad(NormalMode)
 
     TaskListRow(
-      id = "reason-for-coming-forward-now-liabilitie-task-list", 
-      sectionTitle = messages(reasonForComingForwardNowTitleKey), 
-      status = messages(
-        if(isSectionComplete) "taskList.status.completed" 
-        else if(firstPage.isDefined) "taskList.status.inProgress" 
-        else "taskList.status.notStarted"
-      ),  
+      id = "reason-for-coming-forward-now-liabilitie-task-list",
+      sectionTitle = messages(reasonForComingForwardNowTitleKey),
+      status = getStatusMessage(isSectionComplete, firstPage.isDefined),
       link = link
     )
   }
@@ -211,4 +200,12 @@ class TaskListController @Inject()(
       case _ => true
     }
   }
+
+  private def getStatusMessage(isSectionComplete: Boolean, isInProgress: Boolean)(implicit messages: Messages): String =
+    messages(
+      if (isSectionComplete) "taskList.status.completed"
+      else if (isInProgress) "taskList.status.inProgress"
+      else "taskList.status.notStarted"
+    )
+
 }
