@@ -21,16 +21,21 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.html.offshore.CheckYourAnswersView
 import viewmodels.offshore.CheckYourAnswersViewModel
+import viewmodels.govuk.SummaryListFluency
 
-class CheckYourAnswersControllerSpec extends SpecBase {
+class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
   "CheckYourAnswers Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
-      implicit val mess = messages(application)
-      val viewmodel = CheckYourAnswersViewModel(emptyUserAnswers)
+      val viewmodel = CheckYourAnswersViewModel(
+        SummaryListViewModel(rows = Nil),
+        SummaryListViewModel(rows = Nil),
+        Nil,
+        0
+      )
 
       running(application) {
         val request = FakeRequest(GET, offshore.routes.CheckYourAnswersController.onPageLoad.url)

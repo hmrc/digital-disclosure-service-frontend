@@ -17,84 +17,72 @@
 package controllers
 
 import base.SpecBase
-import forms.TaxBeforeSevenYearsFormProvider
-import models.{Behaviour, NormalMode, UserAnswers}
+import forms.YouHaveNotSelectedCertainTaxYearFormProvider
+import models.{NormalMode, UserAnswers, OffshoreYears, TaxYearStarting}
 import navigation.{FakeOffshoreNavigator, OffshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.TaxBeforeSevenYearsPage
+import pages.{YouHaveNotSelectedCertainTaxYearPage, WhichYearsPage}
 import play.api.inject.bind
-import play.api.libs.json.Json
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.{OffshoreWhichYearsService, SessionService}
-import views.html.offshore.TaxBeforeSevenYearsView
-import uk.gov.hmrc.time.CurrentTaxYear
-import java.time.LocalDate
+import services.SessionService
+import views.html.offshore.YouHaveNotSelectedCertainTaxYearView
 
 import scala.concurrent.Future
 
-class TaxBeforeSevenYearsControllerSpec extends SpecBase with MockitoSugar with CurrentTaxYear {
+class YouHaveNotSelectedCertainTaxYearControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  def now = () => LocalDate.now()
+  val formProvider = new YouHaveNotSelectedCertainTaxYearFormProvider()
+  val form = formProvider()
 
-  val formProvider = new TaxBeforeSevenYearsFormProvider()
-  def form(year: String) = {
-    formProvider(year)
-  }
+  val selectedYears = List(TaxYearStarting(2021), TaxYearStarting(2019), TaxYearStarting(2017))
+  val notSelectedYears = List(TaxYearStarting(2018), TaxYearStarting(2020))
 
-  lazy val taxBeforeSevenYearsRoute = offshore.routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode).url
+  lazy val youHaveNotSelectedCertainTaxYearRoute = offshore.routes.YouHaveNotSelectedCertainTaxYearController.onPageLoad(NormalMode).url
 
-  val userAnswers = UserAnswers(
-    userAnswersId,
-    Json.obj(
-      TaxBeforeSevenYearsPage.toString -> Json.obj(
-        "taxBeforeSevenYears" -> "value 1"
-      )
-    ).toString
-  )
-
-  "TaxBeforeSevenYears Controller" - {
+  "YouHaveNotSelectedCertainTaxYear Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2019), TaxYearStarting(2017))
+      val userAnswers = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value  
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, taxBeforeSevenYearsRoute)
-
-        val view = application.injector.instanceOf[TaxBeforeSevenYearsView]
+        val request = FakeRequest(GET, youHaveNotSelectedCertainTaxYearRoute)
 
         val result = route(application, request).value
 
-        val service = application.injector.instanceOf[OffshoreWhichYearsService]
-        val year = service.getEarliestYearByBehaviour(Behaviour.Careless).toString
+        val view = application.injector.instanceOf[YouHaveNotSelectedCertainTaxYearView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form(year), NormalMode, year)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode, selectedYears, notSelectedYears)(request, messages(application)).toString
       }
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
+      val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2019), TaxYearStarting(2017))
+      val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value  
+      val userAnswers = userAnswersWithTaxYears.set(YouHaveNotSelectedCertainTaxYearPage, "answer").success.value
+
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, taxBeforeSevenYearsRoute)
+        val request = FakeRequest(GET, youHaveNotSelectedCertainTaxYearRoute)
 
-        val view = application.injector.instanceOf[TaxBeforeSevenYearsView]
+        val view = application.injector.instanceOf[YouHaveNotSelectedCertainTaxYearView]
 
         val result = route(application, request).value
 
-        val service = application.injector.instanceOf[OffshoreWhichYearsService]
-        val year = service.getEarliestYearByBehaviour(Behaviour.Careless).toString
-
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form(year).fill(""), NormalMode, year)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill("answer"), NormalMode, selectedYears, notSelectedYears)(request, messages(application)).toString
       }
     }
 
@@ -113,8 +101,8 @@ class TaxBeforeSevenYearsControllerSpec extends SpecBase with MockitoSugar with 
 
       running(application) {
         val request =
-          FakeRequest(POST, taxBeforeSevenYearsRoute)
-            .withFormUrlEncodedBody(("value", "value 1"))
+          FakeRequest(POST, youHaveNotSelectedCertainTaxYearRoute)
+            .withFormUrlEncodedBody(("value", "answer"))
 
         val result = route(application, request).value
 
@@ -125,24 +113,24 @@ class TaxBeforeSevenYearsControllerSpec extends SpecBase with MockitoSugar with 
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2019), TaxYearStarting(2017))
+      val userAnswers = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value  
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
         val request =
-          FakeRequest(POST, taxBeforeSevenYearsRoute)
+          FakeRequest(POST, youHaveNotSelectedCertainTaxYearRoute)
             .withFormUrlEncodedBody(("value", ""))
 
-        val service = application.injector.instanceOf[OffshoreWhichYearsService]
-        val year = service.getEarliestYearByBehaviour(Behaviour.Careless).toString
+        val boundForm = form.bind(Map("value" -> ""))
 
-        val boundForm = form(year).bind(Map("value" -> ""))
-
-        val view = application.injector.instanceOf[TaxBeforeSevenYearsView]
+        val view = application.injector.instanceOf[YouHaveNotSelectedCertainTaxYearView]
 
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, year)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode, selectedYears, notSelectedYears)(request, messages(application)).toString
       }
     }
 
@@ -151,7 +139,7 @@ class TaxBeforeSevenYearsControllerSpec extends SpecBase with MockitoSugar with 
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val request = FakeRequest(GET, taxBeforeSevenYearsRoute)
+        val request = FakeRequest(GET, youHaveNotSelectedCertainTaxYearRoute)
 
         val result = route(application, request).value
 
@@ -166,8 +154,8 @@ class TaxBeforeSevenYearsControllerSpec extends SpecBase with MockitoSugar with 
 
       running(application) {
         val request =
-          FakeRequest(POST, taxBeforeSevenYearsRoute)
-            .withFormUrlEncodedBody(("value", "value 1"))
+          FakeRequest(POST, youHaveNotSelectedCertainTaxYearRoute)
+            .withFormUrlEncodedBody(("value", "answer"))
 
         val result = route(application, request).value
 

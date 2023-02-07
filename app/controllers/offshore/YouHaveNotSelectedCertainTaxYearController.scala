@@ -17,58 +17,62 @@
 package controllers.offshore
 
 import controllers.actions._
-import forms.CanYouTellUsMoreAboutTaxBeforeNineteenYearFormProvider
+import forms.YouHaveNotSelectedCertainTaxYearFormProvider
 import javax.inject.Inject
-import models.{Behaviour, Mode}
+import models.{Mode, TaxYearStarting}
 import navigation.OffshoreNavigator
-import pages.CanYouTellUsMoreAboutTaxBeforeNineteenYearPage
+import pages.YouHaveNotSelectedCertainTaxYearPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import services.{OffshoreWhichYearsService, SessionService}
+import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import views.html.offshore.CanYouTellUsMoreAboutTaxBeforeNineteenYearView
+import views.html.offshore.YouHaveNotSelectedCertainTaxYearView
+
 import scala.concurrent.{ExecutionContext, Future}
 
-class CanYouTellUsMoreAboutTaxBeforeNineteenYearController @Inject()(
+class YouHaveNotSelectedCertainTaxYearController @Inject()(
                                         override val messagesApi: MessagesApi,
                                         sessionService: SessionService,
                                         navigator: OffshoreNavigator,
                                         identify: IdentifierAction,
                                         getData: DataRetrievalAction,
                                         requireData: DataRequiredAction,
-                                        formProvider: CanYouTellUsMoreAboutTaxBeforeNineteenYearFormProvider,
+                                        formProvider: YouHaveNotSelectedCertainTaxYearFormProvider,
                                         val controllerComponents: MessagesControllerComponents,
-                                        view: CanYouTellUsMoreAboutTaxBeforeNineteenYearView,
-                                        offshoreWhichYearsService: OffshoreWhichYearsService
+                                        view: YouHaveNotSelectedCertainTaxYearView
                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  val year = offshoreWhichYearsService.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
-
-  val form = formProvider(year)
+  val form = formProvider()
 
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val preparedForm = request.userAnswers.get(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage) match {
+      val preparedForm = request.userAnswers.get(YouHaveNotSelectedCertainTaxYearPage) match {
         case None => form
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode, year))
+      val selectedYears = request.userAnswers.inverselySortedOffshoreTaxYears.toList.flatten
+      val notSelectedYears = TaxYearStarting.findMissingYears(selectedYears)
+      
+      Ok(view(preparedForm, mode, selectedYears, notSelectedYears))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
 
+      val selectedYears = request.userAnswers.inverselySortedOffshoreTaxYears.toList.flatten
+      val notSelectedYears = TaxYearStarting.findMissingYears(selectedYears)
+      
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, year))),
+          Future.successful(BadRequest(view(formWithErrors, mode, selectedYears, notSelectedYears))),
 
         value =>
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage, value))
+            updatedAnswers <- Future.fromTry(request.userAnswers.set(YouHaveNotSelectedCertainTaxYearPage, value))
             _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage, mode, updatedAnswers))
+          } yield Redirect(navigator.nextPage(YouHaveNotSelectedCertainTaxYearPage, mode, updatedAnswers))
       )
   }
 }

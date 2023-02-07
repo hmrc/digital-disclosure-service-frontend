@@ -18,7 +18,7 @@ package controllers
 
 import base.SpecBase
 import forms.CanYouTellUsMoreAboutTaxBeforeNineteenYearFormProvider
-import models.{NormalMode, UserAnswers}
+import models.{Behaviour, NormalMode, UserAnswers}
 import navigation.{FakeOffshoreNavigator, OffshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
@@ -28,7 +28,7 @@ import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
+import services.{OffshoreWhichYearsService, SessionService}
 import views.html.offshore.CanYouTellUsMoreAboutTaxBeforeNineteenYearView
 import uk.gov.hmrc.time.CurrentTaxYear
 import java.time.LocalDate
@@ -40,10 +40,11 @@ class CanYouTellUsMoreAboutTaxBeforeNineteenYearControllerSpec extends SpecBase 
   def onwardRoute = Call("GET", "/foo")
 
   def now = () => LocalDate.now()
-  val year = current.back(19).startYear.toString
 
   val formProvider = new CanYouTellUsMoreAboutTaxBeforeNineteenYearFormProvider()
-  val form = formProvider(year)
+  def form(year: String) = {
+    formProvider(year)
+  }
 
   lazy val canYouTellUsMoreAboutTaxBeforeNineteenYearRoute = offshore.routes.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onPageLoad(NormalMode).url
 
@@ -60,8 +61,11 @@ class CanYouTellUsMoreAboutTaxBeforeNineteenYearControllerSpec extends SpecBase 
 
         val view = application.injector.instanceOf[CanYouTellUsMoreAboutTaxBeforeNineteenYearView]
 
+        val service = application.injector.instanceOf[OffshoreWhichYearsService]
+        val year = service.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
+
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode, year)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form(year), NormalMode, year)(request, messages(application)).toString
       }
     }
 
@@ -76,10 +80,14 @@ class CanYouTellUsMoreAboutTaxBeforeNineteenYearControllerSpec extends SpecBase 
 
         val view = application.injector.instanceOf[CanYouTellUsMoreAboutTaxBeforeNineteenYearView]
 
+
+        val service = application.injector.instanceOf[OffshoreWhichYearsService]
+        val year = service.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
+
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill("answer"), NormalMode, year)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form(year).fill("answer"), NormalMode, year)(request, messages(application)).toString
       }
     }
 
@@ -117,7 +125,10 @@ class CanYouTellUsMoreAboutTaxBeforeNineteenYearControllerSpec extends SpecBase 
           FakeRequest(POST, canYouTellUsMoreAboutTaxBeforeNineteenYearRoute)
             .withFormUrlEncodedBody(("value", ""))
 
-        val boundForm = form.bind(Map("value" -> ""))
+        val service = application.injector.instanceOf[OffshoreWhichYearsService]
+        val year = service.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
+
+        val boundForm = form(year).bind(Map("value" -> ""))
 
         val view = application.injector.instanceOf[CanYouTellUsMoreAboutTaxBeforeNineteenYearView]
 

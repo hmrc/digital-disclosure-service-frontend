@@ -19,16 +19,14 @@ package controllers.offshore
 import controllers.actions._
 import forms.TaxBeforeFiveYearsFormProvider
 import javax.inject.Inject
-import models.Mode
+import models.{Behaviour, Mode}
 import navigation.OffshoreNavigator
 import pages.TaxBeforeFiveYearsPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import services.SessionService
+import services.{OffshoreWhichYearsService, SessionService}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.offshore.TaxBeforeFiveYearsView
-import uk.gov.hmrc.time.CurrentTaxYear
-import java.time.LocalDate
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -41,11 +39,11 @@ class TaxBeforeFiveYearsController @Inject()(
                                       requireData: DataRequiredAction,
                                       formProvider: TaxBeforeFiveYearsFormProvider,
                                       val controllerComponents: MessagesControllerComponents,
-                                      view: TaxBeforeFiveYearsView
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with CurrentTaxYear {
+                                      view: TaxBeforeFiveYearsView,
+                                      offshoreWhichYearsService: OffshoreWhichYearsService
+                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  def now = () => LocalDate.now()
-  val year = current.back(5).startYear.toString
+  val year = offshoreWhichYearsService.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString
   
   val form = formProvider(year)
 

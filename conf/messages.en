@@ -1170,8 +1170,8 @@ whatIsYourReasonableExcuseForNotFilingReturn.estate.reasonableExcuse = A reasona
 
 whichYears.title = Which year does this offshore disclosure relate to?
 whichYears.heading = Which year does this offshore disclosure relate to?
-whichYears.body = The Offshore Extended Time Limit allows HMRC to collect income tax, Capital Gains Tax and inheritance tax for up to 12 tax years if the tax lost involves an offshore matter or offshore transfer.
-whichYears.body.link = HMRC’s compliance handbook explains what tax years you should include in your disclosure (opens in a new tab)
+whichYears.body = The Offshore Extended Time Limit allows HMRC to collect income tax, Capital Gains Tax and Inheritance Tax for up to 12 tax years if the tax lost involves an offshore matter or offshore transfer.
+whichYears.body.link = HMRC’s compliance handbook explains what tax years you should include in your disclosure (opens in a new tab).
 whichYears.checkbox.header = Select all that apply
 whichYears.checkYourAnswersLabel = Which year does this offshore disclosure relate to?
 whichYears.error.required = Select the years this disclosure relates to
@@ -1570,6 +1570,15 @@ countriesOrTerritories.error.required = Select yes if you want to add another co
 countriesOrTerritories.change.hidden = CountriesOrTerritories
 countriesOrTerritories.remove.hidden = Remove country or territory
 
+youHaveNotIncludedTheTaxYear.title = You have not included the tax year ending {0} 
+youHaveNotIncludedTheTaxYear.heading = You have not included the tax year ending {0}
+youHaveNotIncludedTheTaxYear.body = You have selected the tax years ending {0} and {1}, but not the tax year ending {2}.
+youHaveNotIncludedTheTaxYear.label = Why are you not including this year in the disclosure? 
+youHaveNotIncludedTheTaxYear.checkYourAnswersLabel = youHaveNotIncludedTheTaxYear
+youHaveNotIncludedTheTaxYear.error.required = Enter your reason for not including the tax year ending {0}
+youHaveNotIncludedTheTaxYear.error.length = Your reason for not including the tax year ending {0} must be between 1 and 500 characters
+youHaveNotIncludedTheTaxYear.change.hidden = YouHaveNotIncludedTheTaxYear
+
 canYouTellUsMoreAboutTaxBeforeNineteenYear.title = Can you tell us more about any tax owed before 6 April {0}?
 canYouTellUsMoreAboutTaxBeforeNineteenYear.heading = Can you tell us more about any tax owed before 6 April {0}?
 canYouTellUsMoreAboutTaxBeforeNineteenYear.body = Provide the amount, when it was owed, and where the income or gain came from. Do not include these figures in this disclosure’s calculations. The person reviewing the disclosure may ask you further questions about this, if needed.
@@ -1577,3 +1586,14 @@ canYouTellUsMoreAboutTaxBeforeNineteenYear.checkYourAnswersLabel = canYouTellUsM
 canYouTellUsMoreAboutTaxBeforeNineteenYear.error.required = Enter information about the tax owed before 6 April {0}
 canYouTellUsMoreAboutTaxBeforeNineteenYear.error.length = The information about the tax owed must be between 1 and 5000 characters
 canYouTellUsMoreAboutTaxBeforeNineteenYear.change.hidden = CanYouTellUsMoreAboutTaxBeforeNineteenYear
+
+youHaveNotSelectedCertainTaxYear.title = You have not selected certain years
+youHaveNotSelectedCertainTaxYear.heading = You have not selected certain years
+youHaveNotSelectedCertainTaxYear.selected.body = You have selected the tax years:
+youHaveNotSelectedCertainTaxYear.notSelected.body = However, you have not selected:
+youHaveNotSelectedCertainTaxYear.taxYear = 6 April {0} to 5 April {1}
+youHaveNotSelectedCertainTaxYear.label = Why are you not including these years in the disclosure?
+youHaveNotSelectedCertainTaxYear.checkYourAnswersLabel = youHaveNotSelectedCertainTaxYear
+youHaveNotSelectedCertainTaxYear.error.required = Enter your reason for not including certain years
+youHaveNotSelectedCertainTaxYear.error.length = Your reason for not including certain years must be between 1 and 500 characters
+youHaveNotSelectedCertainTaxYear.change.hidden = YouHaveNotSelectedCertainTaxYear

@@ -40,16 +40,16 @@ object TaxYearStarting {
   implicit val format: Format[TaxYearStarting] =  Json.format[TaxYearStarting]
 }
 
-case object PriorTo5Years extends OffshoreYears {
-  override def toString = "priorTo5Years"
+case object ReasonableExcusePriorTo extends OffshoreYears {
+  override def toString = "reasonableExcusePriorTo"
 }
 
-case object PriorTo7Years extends OffshoreYears {
-  override def toString = "priorTo7Years"
+case object CarelessPriorTo extends OffshoreYears {
+  override def toString = "carelessPriorTo"
 }
 
-case object PriorTo19Years extends OffshoreYears {
-  override def toString = "priorTo19Years"
+case object DeliberatePriorTo extends OffshoreYears {
+  override def toString = "deliberatePriorTo"
 }
 
 object RawOffshoreYears {
@@ -60,9 +60,9 @@ object OffshoreYears {
 
   def fromString(str: String): Option[OffshoreYears] = {
     str match {
-      case "priorTo5Years"        => Some(PriorTo5Years)
-      case "priorTo7Years"        => Some(PriorTo7Years)
-      case "priorTo19Years"     => Some(PriorTo19Years)
+      case "reasonableExcusePriorTo"        => Some(ReasonableExcusePriorTo)
+      case "carelessPriorTo"        => Some(CarelessPriorTo)
+      case "deliberatePriorTo"     => Some(DeliberatePriorTo)
       case RawOffshoreYears(year) => Some(TaxYearStarting(year))
       case _ => None
     }

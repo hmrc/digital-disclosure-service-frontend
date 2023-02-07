@@ -24,6 +24,7 @@ import viewmodels.implicits._
 import viewmodels.checkAnswers._
 import pages.TaxYearLiabilitiesPage
 import play.api.i18n.Messages
+import com.google.inject.{Inject, Singleton}
 
 case class CheckYourAnswersViewModel(
   taxBefore5or7Yearslist: SummaryList,
@@ -32,14 +33,15 @@ case class CheckYourAnswersViewModel(
   liabilitiesTotal: BigDecimal
 )
 
-object CheckYourAnswersViewModel {
+@Singleton
+class CheckYourAnswersViewModelCreation @Inject() (taxBeforeFiveYearsSummary: TaxBeforeFiveYearsSummary, taxBeforeSevenYearsSummary: TaxBeforeSevenYearsSummary) {
 
-  def apply(userAnswers: UserAnswers)(implicit messages: Messages): CheckYourAnswersViewModel = {
+  def create(userAnswers: UserAnswers)(implicit messages: Messages): CheckYourAnswersViewModel = {
 
     val taxBefore5or7Yearslist = SummaryListViewModel(
       rows = Seq(
-        TaxBeforeFiveYearsSummary.row(userAnswers),
-        TaxBeforeSevenYearsSummary.row(userAnswers)
+        taxBeforeFiveYearsSummary.row(userAnswers),
+        taxBeforeSevenYearsSummary.row(userAnswers)
       ).flatten
     )
 

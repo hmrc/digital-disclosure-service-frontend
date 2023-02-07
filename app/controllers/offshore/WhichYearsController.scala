@@ -35,28 +35,31 @@ package controllers.offshore
 import controllers.actions._
 import forms.WhichYearsFormProvider
 import javax.inject.Inject
-import models.{Mode, UserAnswers}
+import models.{Behaviour, Mode, UserAnswers}
 import navigation.OffshoreNavigator
 import pages.{WhichYearsPage, WhyAreYouMakingThisDisclosurePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import services.SessionService
+import services.{OffshoreWhichYearsService, SessionService}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.offshore.WhichYearsView
+import uk.gov.hmrc.govukfrontend.views.viewmodels.checkboxes.CheckboxItem
+import play.api.i18n.Messages
 
 import scala.concurrent.{ExecutionContext, Future}
 
 class WhichYearsController @Inject()(
-                                        override val messagesApi: MessagesApi,
-                                        sessionService: SessionService,
-                                        navigator: OffshoreNavigator,
-                                        identify: IdentifierAction,
-                                        getData: DataRetrievalAction,
-                                        requireData: DataRequiredAction,
-                                        formProvider: WhichYearsFormProvider,
-                                        val controllerComponents: MessagesControllerComponents,
-                                        view: WhichYearsView
-                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: OffshoreNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: WhichYearsFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: WhichYearsView,
+  offshoreWhichYearsService: OffshoreWhichYearsService
+)(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
 
@@ -68,7 +71,7 @@ class WhichYearsController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode, numberOfYears(request.userAnswers)))
+      Ok(view(preparedForm, mode, populateChecklist(request.userAnswers)))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -76,7 +79,7 @@ class WhichYearsController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, numberOfYears(request.userAnswers)))),
+          Future.successful(BadRequest(view(formWithErrors, mode, populateChecklist(request.userAnswers)))),
 
         value =>
           for {
@@ -86,23 +89,20 @@ class WhichYearsController @Inject()(
       )
   }
 
-  def numberOfYears(ua: UserAnswers): Int = {
+  def populateChecklist(ua: UserAnswers)(implicit messages: Messages): Seq[CheckboxItem] = {
 
     import models.WhyAreYouMakingThisDisclosure._
  
-    ua.get(WhyAreYouMakingThisDisclosurePage) match {
-      case Some(value) => 
-        if (value.contains(DidNotNotifyNoExcuse) || 
+    val behaviour = ua.get(WhyAreYouMakingThisDisclosurePage) match {
+      case Some(value) if (value.contains(DidNotNotifyNoExcuse) || 
           value.contains(DeliberatelyDidNotNotify) || 
           value.contains(DeliberateInaccurateReturn) || 
-          value.contains(DeliberatelyDidNotFile)) 
-          19
-        else if (value.contains(InaccurateReturnNoCare)) 
-          7
-        else 
-          5
-      case None => 5     
+          value.contains(DeliberatelyDidNotFile)) =>  Behaviour.Deliberate
+      case Some(value) if (value.contains(InaccurateReturnNoCare)) => Behaviour.Careless      
+      case _ => Behaviour.ReasonableExcuse 
     }
+
+    offshoreWhichYearsService.checkboxItems(behaviour)
   }
 
 }

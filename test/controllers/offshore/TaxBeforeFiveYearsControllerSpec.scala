@@ -18,7 +18,7 @@ package controllers
 
 import base.SpecBase
 import forms.TaxBeforeFiveYearsFormProvider
-import models.{NormalMode, UserAnswers}
+import models.{Behaviour, NormalMode, UserAnswers}
 import navigation.{FakeOffshoreNavigator, OffshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
@@ -29,7 +29,7 @@ import play.api.libs.json.Json
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
+import services.{OffshoreWhichYearsService, SessionService}
 import views.html.offshore.TaxBeforeFiveYearsView
 import uk.gov.hmrc.time.CurrentTaxYear
 import java.time.LocalDate
@@ -41,10 +41,11 @@ class TaxBeforeFiveYearsControllerSpec extends SpecBase with MockitoSugar with C
   def onwardRoute = Call("GET", "/foo")
 
   def now = () => LocalDate.now()
-  val year = current.back(5).startYear.toString
 
   val formProvider = new TaxBeforeFiveYearsFormProvider()
-  val form = formProvider(year)
+  def form(year: String) = {
+    formProvider(year)
+  }
 
   lazy val taxBeforeFiveYearsRoute = offshore.routes.TaxBeforeFiveYearsController.onPageLoad(NormalMode).url
 
@@ -70,8 +71,11 @@ class TaxBeforeFiveYearsControllerSpec extends SpecBase with MockitoSugar with C
 
         val result = route(application, request).value
 
+        val service = application.injector.instanceOf[OffshoreWhichYearsService]
+        val year = service.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString
+        
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode, year)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form(year), NormalMode, year)(request, messages(application)).toString
       }
     }
 
@@ -86,8 +90,11 @@ class TaxBeforeFiveYearsControllerSpec extends SpecBase with MockitoSugar with C
 
         val result = route(application, request).value
 
+        val service = application.injector.instanceOf[OffshoreWhichYearsService]
+        val year = service.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString
+
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(""), NormalMode, year)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form(year).fill(""), NormalMode, year)(request, messages(application)).toString
       }
     }
 
@@ -125,7 +132,10 @@ class TaxBeforeFiveYearsControllerSpec extends SpecBase with MockitoSugar with C
           FakeRequest(POST, taxBeforeFiveYearsRoute)
             .withFormUrlEncodedBody(("value", ""))
 
-        val boundForm = form.bind(Map("value" -> ""))
+        val service = application.injector.instanceOf[OffshoreWhichYearsService]
+        val year = service.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString
+
+        val boundForm = form(year).bind(Map("value" -> ""))
 
         val view = application.injector.instanceOf[TaxBeforeFiveYearsView]
 

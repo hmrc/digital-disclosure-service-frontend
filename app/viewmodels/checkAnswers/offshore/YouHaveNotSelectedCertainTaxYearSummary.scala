@@ -17,33 +17,27 @@
 package viewmodels.checkAnswers
 
 import controllers.offshore.routes
-import models.{Behaviour, CheckMode, UserAnswers}
-import pages.TaxBeforeSevenYearsPage
+import models.{CheckMode, UserAnswers}
+import pages.YouHaveNotSelectedCertainTaxYearPage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
-import java.time.LocalDate
-import services.OffshoreWhichYearsService
-import com.google.inject.{Inject, Singleton}
 
-@Singleton
-class TaxBeforeSevenYearsSummary @Inject() (offshoreWhichYearsService: OffshoreWhichYearsService)  {
+object YouHaveNotSelectedCertainTaxYearSummary  {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(TaxBeforeSevenYearsPage).map {
+    answers.get(YouHaveNotSelectedCertainTaxYearPage).map {
       answer =>
 
-      val year = offshoreWhichYearsService.getEarliestYearByBehaviour(Behaviour.Careless).toString
-
-      SummaryListRowViewModel(
-        key     = messages("taxBeforeSevenYears.checkYourAnswersLabel", year),
-        value   = ValueViewModel(HtmlFormat.escape(answer).toString),
-        actions = Seq(
-          ActionItemViewModel("site.change", routes.TaxBeforeSevenYearsController.onPageLoad(CheckMode).url)
-            .withVisuallyHiddenText(messages("taxBeforeSevenYears.change.hidden"))
+        SummaryListRowViewModel(
+          key     = "youHaveNotSelectedCertainTaxYear.checkYourAnswersLabel",
+          value   = ValueViewModel(HtmlFormat.escape(answer).toString),
+          actions = Seq(
+            ActionItemViewModel("site.change", routes.YouHaveNotSelectedCertainTaxYearController.onPageLoad(CheckMode).url)
+              .withVisuallyHiddenText(messages("youHaveNotSelectedCertainTaxYear.change.hidden"))
+          )
         )
-      )
     }
 }
