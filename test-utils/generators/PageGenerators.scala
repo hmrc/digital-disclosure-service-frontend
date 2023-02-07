@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryYouHaveNotSelectedCertainTaxYearPage: Arbitrary[YouHaveNotSelectedCertainTaxYearPage.type] =
+    Arbitrary(YouHaveNotSelectedCertainTaxYearPage)
+
   implicit lazy val arbitraryCanYouTellUsMoreAboutTaxBeforeNineteenYearPage: Arbitrary[CanYouTellUsMoreAboutTaxBeforeNineteenYearPage.type] =
     Arbitrary(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage)
 

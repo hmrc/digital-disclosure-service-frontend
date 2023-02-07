@@ -1586,3 +1586,14 @@ canYouTellUsMoreAboutTaxBeforeNineteenYear.checkYourAnswersLabel = canYouTellUsM
 canYouTellUsMoreAboutTaxBeforeNineteenYear.error.required = Enter information about the tax owed before 6 April {0}
 canYouTellUsMoreAboutTaxBeforeNineteenYear.error.length = The information about the tax owed must be between 1 and 5000 characters
 canYouTellUsMoreAboutTaxBeforeNineteenYear.change.hidden = CanYouTellUsMoreAboutTaxBeforeNineteenYear
+
+youHaveNotSelectedCertainTaxYear.title = You have not selected certain years
+youHaveNotSelectedCertainTaxYear.heading = You have not selected certain years
+youHaveNotSelectedCertainTaxYear.selected.body = You have selected the tax years:
+youHaveNotSelectedCertainTaxYear.notSelected.body = However, you have not selected:
+youHaveNotSelectedCertainTaxYear.taxYear = 6 April {0} to 5 April {1}
+youHaveNotSelectedCertainTaxYear.label = Why are you not including these years in the disclosure?
+youHaveNotSelectedCertainTaxYear.checkYourAnswersLabel = youHaveNotSelectedCertainTaxYear
+youHaveNotSelectedCertainTaxYear.error.required = Enter your reason for not including certain years
+youHaveNotSelectedCertainTaxYear.error.length = Your reason for not including certain years must be between 1 and 500 characters
+youHaveNotSelectedCertainTaxYear.change.hidden = YouHaveNotSelectedCertainTaxYear
