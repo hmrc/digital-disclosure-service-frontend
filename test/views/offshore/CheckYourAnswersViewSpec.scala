@@ -22,11 +22,17 @@ import support.ViewMatchers
 import views.html.offshore.CheckYourAnswersView
 import models.UserAnswers
 import viewmodels.offshore.CheckYourAnswersViewModel
+import viewmodels.govuk.SummaryListFluency
 
-class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers {
+class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with SummaryListFluency {
 
   val userAnswers = UserAnswers("id")
-  val viewModel = CheckYourAnswersViewModel(userAnswers)
+  val viewModel = CheckYourAnswersViewModel(
+    SummaryListViewModel(rows = Nil),
+    SummaryListViewModel(rows = Nil),
+    Nil,
+    0
+  )
   val page: CheckYourAnswersView = inject[CheckYourAnswersView]
 
   private def createView: Html = page(viewModel)(request, messages)

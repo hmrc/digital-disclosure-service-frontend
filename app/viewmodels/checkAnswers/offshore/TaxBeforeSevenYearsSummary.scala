@@ -17,25 +17,25 @@
 package viewmodels.checkAnswers
 
 import controllers.offshore.routes
-import models.{CheckMode, UserAnswers}
+import models.{Behaviour, CheckMode, UserAnswers}
 import pages.TaxBeforeSevenYearsPage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
-import uk.gov.hmrc.time.CurrentTaxYear
 import java.time.LocalDate
+import services.OffshoreWhichYearsService
+import com.google.inject.{Inject, Singleton}
 
-object TaxBeforeSevenYearsSummary extends CurrentTaxYear  {
-
-  def now = () => LocalDate.now()
+@Singleton
+class TaxBeforeSevenYearsSummary @Inject() (offshoreWhichYearsService: OffshoreWhichYearsService)  {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
     answers.get(TaxBeforeSevenYearsPage).map {
       answer =>
 
-      val year = current.back(7).startYear.toString
+      val year = offshoreWhichYearsService.getEarliestYearByBehaviour(Behaviour.Careless).toString
 
       SummaryListRowViewModel(
         key     = messages("taxBeforeSevenYears.checkYourAnswersLabel", year),
