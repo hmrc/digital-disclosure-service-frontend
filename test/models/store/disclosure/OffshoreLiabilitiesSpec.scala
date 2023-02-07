@@ -33,6 +33,7 @@ class OffshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValue
         unpaidTax = BigInt(2000),
         interest = BigInt(2000),
         penaltyRate = 12,
+        penaltyRateReason = "Reason",
         foreignTaxCredit = false
       )
       val offshoreLiabilities = OffshoreLiabilities(
@@ -62,6 +63,7 @@ class OffshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValue
         unpaidTax = BigInt(2000),
         interest = BigInt(2000),
         penaltyRate = 12,
+        penaltyRateReason = "Reason",
         foreignTaxCredit = false
       )
       val offshoreLiabilities = OffshoreLiabilities(

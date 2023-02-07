@@ -88,6 +88,7 @@ trait ModelGenerators {
         unpaidTax <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
         interest <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
         penaltyRate <- arbitrary[Int]
+        penaltyRateReason <- arbitrary[String]
         foreignTaxCredit <- arbitrary[Boolean]
       } yield {
         val taxYearLiabilities = TaxYearLiabilities(
@@ -97,6 +98,7 @@ trait ModelGenerators {
           unpaidTax,
           interest,
           penaltyRate,
+          penaltyRateReason,
           foreignTaxCredit
         )
         TaxYearWithLiabilities(TaxYearStarting(year), taxYearLiabilities)

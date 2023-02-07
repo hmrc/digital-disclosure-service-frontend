@@ -46,6 +46,7 @@ class FullDisclosureSpec extends AnyFreeSpec with Matchers with OptionValues {
     unpaidTax = BigInt(2000),
     interest = BigInt(2000),
     penaltyRate = 12,
+    penaltyRateReason = "Reason",
     foreignTaxCredit = false
   )
   val completedOfffshoreLiabilities = OffshoreLiabilities(
