@@ -26,7 +26,7 @@
     link: components.link
 )
 
-@(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], mode: Mode, entity: RelatesTo)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = title(form, messages("contractualDisclosureFacility.title"))) {
 
@@ -41,19 +41,27 @@
         @paragraph(
             id = Some("body"),
             content = HtmlContent(
-                messages("contractualDisclosureFacility.body.first") +
-                link(id = "guidance-link-first", text = messages("contractualDisclosureFacility.link.first"), newTab = true, call = Call("GET", "https://www.gov.uk/guidance/admitting-tax-fraud-the-contractual-disclosure-facility-cdf")) +
-                messages("contractualDisclosureFacility.body.second") +
-                link(id = "guidance-link-second", text = messages("contractualDisclosureFacility.link.second"), newTab = true, call = Call("GET", "https://www.gov.uk/government/publications/voluntary-disclosure-contractual-disclosure-facility-cdf1"))
+                messages(s"contractualDisclosureFacility.${entity}.body.first") +
+                link(id = "guidance-link-first", text = messages(s"contractualDisclosureFacility.${entity}.link.first"), newTab = true, call = Call("GET", "https://www.gov.uk/guidance/admitting-tax-fraud-the-contractual-disclosure-facility-cdf")) +
+                messages("site.dot") +
+                messages(s"contractualDisclosureFacility.${entity}.body.second") +
+                link(id = "guidance-link-second", text = messages(s"contractualDisclosureFacility.${entity}.link.second"), newTab = true, call = Call("GET", "https://www.gov.uk/government/publications/voluntary-disclosure-contractual-disclosure-facility-cdf1")) +
+                messages("site.dot")
             )
         )
 
-        @govukWarningText(WarningText(content = messages("contractualDisclosureFacility.warningText")))
+        @if(Seq(RelatesTo.ACompany, RelatesTo.ALimitedLiabilityPartnership, RelatesTo.ATrust).contains(entity)) {
+            @paragraph(id = Some("third-body"), content = Text(messages(s"contractualDisclosureFacility.${entity}.body.third")))
+        }
+
+        @if(Seq(RelatesTo.ACompany, RelatesTo.ALimitedLiabilityPartnership, RelatesTo.ATrust, RelatesTo.AnIndividual).contains(entity)) {
+            @govukWarningText(WarningText(content = messages(s"contractualDisclosureFacility.${entity}.warningText")))
+        }   
 
         @govukRadios(
             RadiosViewModel.yesNoNotInline(
                 field  = form("value"),
-                legend = LegendViewModel(messages("contractualDisclosureFacility.label")).withCssClass("govuk-fieldset__legend--m"),
+                legend = LegendViewModel(messages(s"contractualDisclosureFacility.${entity}.label")).withCssClass("govuk-fieldset__legend--m"),
                 messagePrefix = "contractualDisclosureFacility"
             )
         )

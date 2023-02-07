@@ -23,13 +23,14 @@ import navigation.{FakeOffshoreNavigator, OffshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.ContractualDisclosureFacilityPage
+import pages.{ContractualDisclosureFacilityPage, RelatesToPage}
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
 import views.html.offshore.ContractualDisclosureFacilityView
+import org.scalacheck.Arbitrary.arbitrary
 
 import scala.concurrent.Future
 
@@ -42,11 +43,15 @@ class ContractualDisclosureFacilityControllerSpec extends SpecBase with MockitoS
   val formProvider = new ContractualDisclosureFacilityFormProvider()
   val form = formProvider()
 
+  val entity = arbitrary[RelatesTo].sample.value
+
   "ContractualDisclosureFacility Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val userAnswers = UserAnswers(userAnswersId).set(RelatesToPage, entity).success.value
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
         val request = FakeRequest(GET, contractualDisclosureFacilityRoute)
@@ -56,13 +61,14 @@ class ContractualDisclosureFacilityControllerSpec extends SpecBase with MockitoS
         val view = application.injector.instanceOf[ContractualDisclosureFacilityView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode, entity)(request, messages(application)).toString
       }
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(ContractualDisclosureFacilityPage, true).success.value
+      val relatesToPage = UserAnswers(userAnswersId).set(RelatesToPage, entity).success.value
+      val userAnswers = relatesToPage.set(ContractualDisclosureFacilityPage, true).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -74,7 +80,7 @@ class ContractualDisclosureFacilityControllerSpec extends SpecBase with MockitoS
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(true), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(true), NormalMode, entity)(request, messages(application)).toString
       }
     }
 
@@ -120,7 +126,7 @@ class ContractualDisclosureFacilityControllerSpec extends SpecBase with MockitoS
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode, entity)(request, messages(application)).toString
       }
     }
 
