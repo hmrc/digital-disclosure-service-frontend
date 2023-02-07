@@ -20,7 +20,7 @@ import javax.inject.{Inject, Singleton}
 import play.api.mvc.Call
 import controllers.offshore.routes
 import pages._
-import models.{CheckMode, Mode, NormalMode, DeliberatePriorTo, ReasonableExcusePriorTo, CarelessPriorTo, UserAnswers}
+import models.{RelatesTo, CheckMode, Mode, NormalMode, DeliberatePriorTo, ReasonableExcusePriorTo, CarelessPriorTo, UserAnswers}
 import models.WhyAreYouMakingThisDisclosure._
 import models.YourLegalInterpretation._
 
@@ -29,15 +29,15 @@ class OffshoreNavigator @Inject()() {
 
   private val normalRoutes: Page => UserAnswers => Call = {
 
-    case WhyAreYouMakingThisDisclosurePage => ua => ua.get(WhyAreYouMakingThisDisclosurePage) match {
-      case Some(value) if (
+    case WhyAreYouMakingThisDisclosurePage => ua => (ua.get(WhyAreYouMakingThisDisclosurePage), ua.get(RelatesToPage)) match {
+      case (Some(value), Some(entity)) if ( (entity != RelatesTo.AnEstate) && (
         value.contains(DeliberatelyDidNotNotify) ||
         value.contains(DeliberateInaccurateReturn) ||
-        value.contains(DeliberatelyDidNotFile)
+        value.contains(DeliberatelyDidNotFile))
         ) => routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)  
-      case Some(value) if (value.contains(DidNotNotifyHasExcuse)) => routes.WhatIsYourReasonableExcuseController.onPageLoad(NormalMode)
-      case Some(value) if (value.contains(InaccurateReturnWithCare)) => routes.WhatReasonableCareDidYouTakeController.onPageLoad(NormalMode)
-      case Some(value) if (value.contains(NotFileHasExcuse)) => routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode)
+      case (Some(value), _) if (value.contains(DidNotNotifyHasExcuse)) => routes.WhatIsYourReasonableExcuseController.onPageLoad(NormalMode)
+      case (Some(value), _) if (value.contains(InaccurateReturnWithCare)) => routes.WhatReasonableCareDidYouTakeController.onPageLoad(NormalMode)
+      case (Some(value), _) if (value.contains(NotFileHasExcuse)) => routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode)
       case _ => routes.WhichYearsController.onPageLoad(NormalMode)
     }
 
