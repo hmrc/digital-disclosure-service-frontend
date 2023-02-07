@@ -46,6 +46,7 @@ class YouHaveNotIncludedTheTaxYearControllerSpec extends SpecBase with MockitoSu
   lazy val youHaveNotIncludedTheTaxYearRoute = offshore.routes.YouHaveNotIncludedTheTaxYearController.onPageLoad(NormalMode).url
   lazy val whichYearsRoute = offshore.routes.WhichYearsController.onPageLoad(NormalMode).url
   lazy val countryRoute = offshore.routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode).url
+  lazy val youHaveNotSelectedCertainTaxYearRoute = offshore.routes.YouHaveNotSelectedCertainTaxYearController.onPageLoad(NormalMode).url
 
   "YouHaveNotIncludedTheTaxYear Controller" - {
 
@@ -139,6 +140,35 @@ class YouHaveNotIncludedTheTaxYearControllerSpec extends SpecBase with MockitoSu
 
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual countryRoute
+      }
+    }
+
+    "must redirect to the YouHaveNotSelectedCertainTaxYearPage when valid data is submitted" in {
+
+      val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2019), TaxYearStarting(2017))
+      val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value
+      val ua = userAnswersWithTaxYears.set(YouHaveNotIncludedTheTaxYearPage, "answer").success.value
+
+      val mockSessionService = mock[SessionService]
+
+      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+
+      val application =
+        applicationBuilderWithSessionService(userAnswers = Some(ua), mockSessionService)
+          .overrides(
+            bind[OffshoreNavigator].toInstance(new FakeOffshoreNavigator(onwardRoute))
+          )
+          .build()
+
+      running(application) {
+        val request =
+          FakeRequest(POST, youHaveNotIncludedTheTaxYearRoute)
+            .withFormUrlEncodedBody(("value", "answer"))
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual youHaveNotSelectedCertainTaxYearRoute
       }
     }
 

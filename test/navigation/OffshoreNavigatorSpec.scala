@@ -263,6 +263,10 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
       "must go from YouHaveNotIncludedTheTaxYearPage to CountryOfYourOffshoreLiabilityController" in {
         navigator.nextPage(YouHaveNotIncludedTheTaxYearPage, NormalMode, UserAnswers("id")) mustBe routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
       }
+
+      "must go from YouHaveNotSelectedCertainTaxYearPage to CountryOfYourOffshoreLiabilityController" in {
+        navigator.nextPage(YouHaveNotSelectedCertainTaxYearPage, NormalMode, UserAnswers("id")) mustBe routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
+      }
     }
 
     "in Check mode" - {

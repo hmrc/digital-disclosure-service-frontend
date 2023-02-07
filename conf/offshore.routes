@@ -94,3 +94,8 @@ GET        /tax-before-nineteen-years                       controllers.offshore
 POST       /tax-before-nineteen-years                       controllers.offshore.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onSubmit(mode: Mode = NormalMode)
 GET        /tax-before-nineteen-years/change                controllers.offshore.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onPageLoad(mode: Mode = CheckMode)
 POST       /tax-before-nineteen-years/change                controllers.offshore.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onSubmit(mode: Mode = CheckMode)
+
+GET        /missing-tax-years                               controllers.offshore.YouHaveNotSelectedCertainTaxYearController.onPageLoad(mode: Mode = NormalMode)
+POST       /missing-tax-years                               controllers.offshore.YouHaveNotSelectedCertainTaxYearController.onSubmit(mode: Mode = NormalMode)
+GET        /missing-tax-years/change                        controllers.offshore.YouHaveNotSelectedCertainTaxYearController.onPageLoad(mode: Mode = CheckMode)
+POST       /missing-tax-years/change                        controllers.offshore.YouHaveNotSelectedCertainTaxYearController.onSubmit(mode: Mode = CheckMode)
