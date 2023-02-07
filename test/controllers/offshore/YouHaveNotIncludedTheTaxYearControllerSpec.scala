@@ -44,7 +44,6 @@ class YouHaveNotIncludedTheTaxYearControllerSpec extends SpecBase with MockitoSu
   val form = formProvider(missingYear)
 
   lazy val youHaveNotIncludedTheTaxYearRoute = offshore.routes.YouHaveNotIncludedTheTaxYearController.onPageLoad(NormalMode).url
-
   lazy val whichYearsRoute = offshore.routes.WhichYearsController.onPageLoad(NormalMode).url
   lazy val countryRoute = offshore.routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode).url
 
@@ -52,11 +51,10 @@ class YouHaveNotIncludedTheTaxYearControllerSpec extends SpecBase with MockitoSu
 
     "must return OK and the correct view for a GET" in {
 
-      val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(missingYear.toInt))
-      val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value
-      val ua = userAnswersWithTaxYears.set(YouHaveNotIncludedTheTaxYearPage, "answer").success.value
-
-      val application = applicationBuilder(userAnswers = Some(ua)).build()
+      val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2019))
+      val userAnswers = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value
+      
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
         val request = FakeRequest(GET, youHaveNotIncludedTheTaxYearRoute)
@@ -72,7 +70,9 @@ class YouHaveNotIncludedTheTaxYearControllerSpec extends SpecBase with MockitoSu
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(YouHaveNotIncludedTheTaxYearPage, "answer").success.value
+       val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2019))
+      val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value
+      val userAnswers = userAnswersWithTaxYears.set(YouHaveNotIncludedTheTaxYearPage, "answer").success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -115,7 +115,7 @@ class YouHaveNotIncludedTheTaxYearControllerSpec extends SpecBase with MockitoSu
 
     "must redirect to the country page when valid data is submitted" in {
 
-      val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(0))
+      val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2020), TaxYearStarting(2019))
       val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value
       val ua = userAnswersWithTaxYears.set(YouHaveNotIncludedTheTaxYearPage, "answer").success.value
 
@@ -144,7 +144,10 @@ class YouHaveNotIncludedTheTaxYearControllerSpec extends SpecBase with MockitoSu
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2019))
+      val userAnswers = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
         val request =

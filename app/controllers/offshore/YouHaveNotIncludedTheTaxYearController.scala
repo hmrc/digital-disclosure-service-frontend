@@ -67,14 +67,12 @@ class YouHaveNotIncludedTheTaxYearController @Inject()(
       lastYear <- years.toList.headOption
     } yield {
       val missingYears = TaxYearStarting.findMissingYears(years.toList)
-
       missingYears match {
         case head :: Nil => f(userAnswers, mode, head, firstYear, lastYear) 
         case head :: tail => Future.successful(Redirect(controllers.offshore.routes.YouHaveNotIncludedTheTaxYearController.onPageLoad(NormalMode).url)) //TODO: Multiple missing years page
         case Nil => Future.successful(Redirect(controllers.offshore.routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode).url))
       }
     } 
-
     result.getOrElse(Future.successful(Redirect(controllers.offshore.routes.WhichYearsController.onPageLoad(NormalMode).url))) 
   }
 
@@ -83,7 +81,6 @@ class YouHaveNotIncludedTheTaxYearController @Inject()(
       case None => formProvider(missingYear.toString)
       case Some(value) => formProvider(missingYear.toString).fill(value)
     }
-
     Future.successful(Ok(view(preparedForm, mode, missingYear.toString, firstYear.toString, lastYear.toString)))
   }
 
