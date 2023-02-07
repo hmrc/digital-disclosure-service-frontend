@@ -138,6 +138,23 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
       val userAnswer = UserAnswers("id").set(AreYouTheIndividualPage, true).success.value
       rowIsDisplayedWhenPageIsPopulated(userAnswer)
     }
+
+    "must return the correct view when TaskListPage is populated case reference in progress" in {
+      val userAnswer = (for {
+        ua <- UserAnswers("id").set(DoYouHaveACaseReferencePage, true)
+        ua2 <- ua.set(AreYouTheIndividualPage, true)
+      } yield ua2).success.value
+      rowIsDisplayedWhenPageIsPopulated(userAnswer)
+    }
+
+    "must return the correct view when TaskListPage is populated case reference is complete" in {
+      val userAnswer = (for {
+        ua <- UserAnswers("id").set(DoYouHaveACaseReferencePage, true)
+        ua1 <- ua.set(WhatIsTheCaseReferencePage, "AAA1234")
+        ua2 <- ua1.set(AreYouTheIndividualPage, true)
+      } yield ua2).success.value
+      rowIsDisplayedWhenPageIsPopulated(userAnswer)
+    }
   }
 
   private def buildYourPersonalDetailsRow(notificationTitleKey: String, isSectionComplete: Boolean)(implicit messages: Messages): TaskListRow = {
@@ -155,13 +172,18 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
 
   private def buildCaseReferenceRow(userAnswer: UserAnswers)(implicit messages: Messages): TaskListRow = {
 
-    val operationKey = "add"
+    val (status, operationKey) = (userAnswer.get(DoYouHaveACaseReferencePage), userAnswer.get(WhatIsTheCaseReferencePage)) match {
+      case (None, _) => ("taskList.status.notStarted", "add")
+      case (Some(true), None) => ("taskList.status.inProgress", "add")
+      case (_, _) => ("taskList.status.completed", "edit")
+    }
+
     val caseReferenceTitleKey = s"taskList.$operationKey.sectionTitle.second"
 
     TaskListRow(
-      id = "case-reference-task-list", 
-      sectionTitle = messages(caseReferenceTitleKey), 
-      status = messages("taskList.status.notStarted"), 
+      id = "case-reference-task-list",
+      sectionTitle = messages(caseReferenceTitleKey),
+      status = messages(status),
       link = controllers.reference.routes.DoYouHaveACaseReferenceController.onPageLoad(NormalMode)
     )
   }
