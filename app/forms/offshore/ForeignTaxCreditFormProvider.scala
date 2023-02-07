@@ -14,18 +14,23 @@
  * limitations under the License.
  */
 
-package navigation
+package forms
 
-import play.api.mvc.Call
-import pages._
-import models.{Mode, UserAnswers}
+import forms.mappings.Mappings
+import javax.inject.Inject
+import play.api.data.Form
 
-class FakeOffshoreNavigator(desiredRoute: Call) extends OffshoreNavigator {
+class ForeignTaxCreditFormProvider @Inject() extends Mappings {
 
-  override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasChanged:Boolean = true): Call =
-    desiredRoute
+  val MAX_BIGINT = BigInt("999999999999999999999999")
 
-  override def nextTaxYearLiabilitiesPage(currentIndex: Int, foreignTaxCredit: Boolean, mode: Mode, userAnswers: UserAnswers): Call = 
-    desiredRoute
-
+  def apply(): Form[BigInt] =
+    Form(
+      "value" -> bigint(
+        "foreignTaxCredit.error.required",
+        "foreignTaxCredit.error.wholeNumber",
+        "foreignTaxCredit.error.nonNumeric")
+          .verifying(inRange(BigInt(0), MAX_BIGINT, "foreignTaxCredit.error.outOfRange"))
+    )
 }
+  

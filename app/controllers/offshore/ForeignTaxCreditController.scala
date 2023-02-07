@@ -17,49 +17,47 @@
 package controllers.offshore
 
 import controllers.actions._
-import forms.TaxYearLiabilitiesFormProvider
+import forms.ForeignTaxCreditFormProvider
 import javax.inject.Inject
-import models.{Mode, TaxYearStarting, TaxYearWithLiabilities, NormalMode}
+import models.{TaxYearStarting, Mode, NormalMode}
 import navigation.OffshoreNavigator
-import pages.TaxYearLiabilitiesPage
+import pages.ForeignTaxCreditPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import views.html.offshore.TaxYearLiabilitiesView
+import views.html.offshore.ForeignTaxCreditView
 import play.api.mvc.Result
 import models.requests.DataRequest
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class TaxYearLiabilitiesController @Inject()(
+class ForeignTaxCreditController @Inject()(
                                         override val messagesApi: MessagesApi,
                                         sessionService: SessionService,
                                         navigator: OffshoreNavigator,
                                         identify: IdentifierAction,
                                         getData: DataRetrievalAction,
                                         requireData: DataRequiredAction,
-                                        formProvider: TaxYearLiabilitiesFormProvider,
+                                        formProvider: ForeignTaxCreditFormProvider,
                                         val controllerComponents: MessagesControllerComponents,
-                                        view: TaxYearLiabilitiesView
-                                    )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+                                        view: ForeignTaxCreditView
+                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
 
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-    withYear(i) { year => 
-      val preparedForm = request.userAnswers.getByKey(TaxYearLiabilitiesPage, year.toString) match {
-        case None => form
-        case Some(value) => form.fill(value.taxYearLiabilities)
+      withYear(i) { year => 
+        val preparedForm = request.userAnswers.getByKey(ForeignTaxCreditPage, year.toString) match {
+          case None => form
+          case Some(value) => form.fill(value)
+        }
+
+        Ok(view(preparedForm, i, (year+1).toString, mode))
       }
-
-      Ok(view(preparedForm, mode, i, year))
-    }
-
   }
-
 
   def onSubmit(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
@@ -67,15 +65,13 @@ class TaxYearLiabilitiesController @Inject()(
       withYearAsync(i) { year =>
         form.bindFromRequest().fold(
           formWithErrors =>
-            Future.successful(BadRequest(view(formWithErrors, mode, i, year))),
+            Future.successful(BadRequest(view(formWithErrors, i, (year+1).toString, mode))),
 
-          value => {
-            val taxYearWithLiabilities = TaxYearWithLiabilities(TaxYearStarting(year), value)
+          value =>
             for {
-              updatedAnswers <- Future.fromTry(request.userAnswers.setByKey(TaxYearLiabilitiesPage, year.toString, taxYearWithLiabilities))
+              updatedAnswers <- Future.fromTry(request.userAnswers.setByKey(ForeignTaxCreditPage, year.toString, value))
               _              <- sessionService.set(updatedAnswers)
-            } yield Redirect(navigator.nextTaxYearLiabilitiesPage(i, value.foreignTaxCredit, mode, updatedAnswers))
-          }
+            } yield Redirect(navigator.nextTaxYearLiabilitiesPage(i, false, mode, updatedAnswers))
         )
       }
   }
