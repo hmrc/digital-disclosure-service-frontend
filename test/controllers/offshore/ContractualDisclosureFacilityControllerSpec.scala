@@ -30,7 +30,6 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
 import views.html.offshore.ContractualDisclosureFacilityView
-import org.scalacheck.Arbitrary.arbitrary
 
 import scala.concurrent.Future
 
@@ -43,7 +42,7 @@ class ContractualDisclosureFacilityControllerSpec extends SpecBase with MockitoS
   val formProvider = new ContractualDisclosureFacilityFormProvider()
   val form = formProvider()
 
-  val entity = arbitrary[RelatesTo].sample.value
+  val entity = RelatesTo.ACompany
 
   "ContractualDisclosureFacility Controller" - {
 

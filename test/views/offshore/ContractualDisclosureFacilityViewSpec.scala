@@ -22,14 +22,12 @@ import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.offshore.ContractualDisclosureFacilityView
 import models.{NormalMode, RelatesTo}
-import org.scalacheck.Arbitrary.arbitrary
-import generators.Generators
 
-class ContractualDisclosureFacilityViewSpec extends ViewSpecBase with ViewMatchers with Generators {
+class ContractualDisclosureFacilityViewSpec extends ViewSpecBase with ViewMatchers {
 
   val form = new ContractualDisclosureFacilityFormProvider()()
   val page: ContractualDisclosureFacilityView = inject[ContractualDisclosureFacilityView]
-  val entity = arbitrary[RelatesTo].sample.value 
+  val entity = RelatesTo.ACompany 
 
   private def createView: Html = page(form, NormalMode, entity)(request, messages)
 
@@ -45,38 +43,35 @@ class ContractualDisclosureFacilityViewSpec extends ViewSpecBase with ViewMatche
       view.getElementsByClass("govuk-heading-xl").text() mustBe messages("contractualDisclosureFacility.heading")
     }
 
-    if(Seq(RelatesTo.ACompany, RelatesTo.ALimitedLiabilityPartnership, RelatesTo.ATrust, RelatesTo.AnIndividual).contains(entity)) {
-      "contain first paragraph" in {
-        view.getElementById("body").text() mustBe 
-          messages("contractualDisclosureFacility.${entity}.body.first") +
-          messages("contractualDisclosureFacility.${entity}.link.first") +
-          messages("site.dot") +
-          messages("contractualDisclosureFacility.${entity}.body.second") +
-          messages("contractualDisclosureFacility.${entity}.link.second") +
-          messages("site.dot")
-      }
-
-      "have a first guidance link" in {
-        view.getElementById("guidance-link-first").attr("href") mustBe "https://www.gov.uk/guidance/admitting-tax-fraud-the-contractual-disclosure-facility-cdf"
-      }
-
-      "have a second guidance link" in {
-        view.getElementById("guidance-link-second").attr("href") mustBe "https://www.gov.uk/government/publications/voluntary-disclosure-contractual-disclosure-facility-cdf1"
-      }
-
-      "contain warning text" in {
-        view.getElementsByClass("govuk-warning-text").text() mustBe "! " + messages("contractualDisclosureFacility.${entity}.warningText")
-      }
-
-      "contain label" in {
-        view.getElementsByClass("govuk-fieldset__legend--m").text() mustBe messages("contractualDisclosureFacility.${entity}.label")
-      }
+    "contain first paragraph" in {
+      view.getElementById("body").text() mustBe 
+        messages("contractualDisclosureFacility.${entity}.body.first") +
+        messages("contractualDisclosureFacility.${entity}.link.first") +
+        messages("site.dot") +
+        messages("contractualDisclosureFacility.${entity}.body.second") +
+        messages("contractualDisclosureFacility.${entity}.link.second") +
+        messages("site.dot")
     }
 
-    if(Seq(RelatesTo.ACompany, RelatesTo.ALimitedLiabilityPartnership, RelatesTo.ATrust).contains(entity)) {
-      "contain third paragraph" in {
-        view.getElementById("third-body").text() mustBe messages("contractualDisclosureFacility.${entity}.body.third")
-      }
+    "have a first guidance link" in {
+      view.getElementById("guidance-link-first").attr("href") mustBe "https://www.gov.uk/guidance/admitting-tax-fraud-the-contractual-disclosure-facility-cdf"
+    }
+
+    "have a second guidance link" in {
+      view.getElementById("guidance-link-second").attr("href") mustBe "https://www.gov.uk/government/publications/voluntary-disclosure-contractual-disclosure-facility-cdf1"
+    }
+
+    "contain warning text" in {
+      view.getElementsByClass("govuk-warning-text").text() mustBe "! " + messages("contractualDisclosureFacility.${entity}.warningText")
+    }
+
+    "contain label" in {
+      view.getElementsByClass("govuk-fieldset__legend--m").text() mustBe messages("contractualDisclosureFacility.${entity}.label")
+    }
+  
+
+    "contain third paragraph" in {
+      view.getElementById("third-body").text() mustBe messages("contractualDisclosureFacility.${entity}.body.third")
     }
 
     "display the continue button" in {
