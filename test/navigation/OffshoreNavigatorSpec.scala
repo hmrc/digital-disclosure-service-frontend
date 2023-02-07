@@ -300,23 +300,30 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2020), TaxYearStarting(2019))
         val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value
 
-        navigator.nextTaxYearLiabilitiesPage(0, CheckMode, userAnswersWithTaxYears) mustBe routes.CheckYourAnswersController.onPageLoad
+        navigator.nextTaxYearLiabilitiesPage(0, false, CheckMode, userAnswersWithTaxYears) mustBe routes.CheckYourAnswersController.onPageLoad
       }
 
       "must increment the index and tax the user to the tax year liability page when there more years in the which years list" in {
         val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2020), TaxYearStarting(2019), TaxYearStarting(2018))
         val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value
 
-        navigator.nextTaxYearLiabilitiesPage(0, NormalMode, userAnswersWithTaxYears) mustBe routes.TaxYearLiabilitiesController.onPageLoad(1, NormalMode)
-        navigator.nextTaxYearLiabilitiesPage(1, NormalMode, userAnswersWithTaxYears) mustBe routes.TaxYearLiabilitiesController.onPageLoad(2, NormalMode)
-        navigator.nextTaxYearLiabilitiesPage(2, NormalMode, userAnswersWithTaxYears) mustBe routes.TaxYearLiabilitiesController.onPageLoad(3, NormalMode)
+        navigator.nextTaxYearLiabilitiesPage(0, false, NormalMode, userAnswersWithTaxYears) mustBe routes.TaxYearLiabilitiesController.onPageLoad(1, NormalMode)
+        navigator.nextTaxYearLiabilitiesPage(1, false, NormalMode, userAnswersWithTaxYears) mustBe routes.TaxYearLiabilitiesController.onPageLoad(2, NormalMode)
+        navigator.nextTaxYearLiabilitiesPage(2, false, NormalMode, userAnswersWithTaxYears) mustBe routes.TaxYearLiabilitiesController.onPageLoad(3, NormalMode)
       }
 
       "must take the user to the next page when there are no more years in the which years list" in {
         val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2020), TaxYearStarting(2019), TaxYearStarting(2018))
         val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value
 
-        navigator.nextTaxYearLiabilitiesPage(3, NormalMode, userAnswersWithTaxYears) mustBe routes.YourLegalInterpretationController.onPageLoad(NormalMode)
+        navigator.nextTaxYearLiabilitiesPage(3, false, NormalMode, userAnswersWithTaxYears) mustBe routes.YourLegalInterpretationController.onPageLoad(NormalMode)
+      }
+
+      "must take the user to the foreign tax credit page where the param is true" in {
+        val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2020), TaxYearStarting(2019), TaxYearStarting(2018))
+        val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value
+
+        navigator.nextTaxYearLiabilitiesPage(3, true, NormalMode, userAnswersWithTaxYears) mustBe routes.ForeignTaxCreditController.onPageLoad(3, NormalMode)
       }
 
     }

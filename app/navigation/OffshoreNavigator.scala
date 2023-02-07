@@ -117,10 +117,11 @@ class OffshoreNavigator @Inject()() {
       checkRouteMap(page)(userAnswers)(hasAnswerChanged)
   }
 
-  def nextTaxYearLiabilitiesPage(currentIndex: Int, mode: Mode, userAnswers: UserAnswers): Call = (mode, userAnswers.inverselySortedOffshoreTaxYears) match {
-    case (NormalMode, Some(years)) if ((years.size - 1) > currentIndex) => routes.TaxYearLiabilitiesController.onPageLoad(currentIndex + 1, NormalMode)
-    case (NormalMode, _) => routes.YourLegalInterpretationController.onPageLoad(NormalMode)
-    case (CheckMode, _) => checkRouteMap(TaxYearLiabilitiesPage)(userAnswers)(true)
+  def nextTaxYearLiabilitiesPage(currentIndex: Int, foreignTaxCreditReduction: Boolean, mode: Mode, userAnswers: UserAnswers): Call = (mode, foreignTaxCreditReduction, userAnswers.inverselySortedOffshoreTaxYears) match {
+    case (NormalMode, true, _) => routes.ForeignTaxCreditController.onPageLoad(currentIndex, NormalMode)
+    case (NormalMode, _, Some(years)) if ((years.size - 1) > currentIndex) => routes.TaxYearLiabilitiesController.onPageLoad(currentIndex + 1, NormalMode)
+    case (NormalMode, _, _) => routes.YourLegalInterpretationController.onPageLoad(NormalMode)
+    case (CheckMode, _, _) => checkRouteMap(TaxYearLiabilitiesPage)(userAnswers)(true)
   }
 
 }

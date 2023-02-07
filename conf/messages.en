@@ -1597,3 +1597,12 @@ youHaveNotSelectedCertainTaxYear.checkYourAnswersLabel = youHaveNotSelectedCerta
 youHaveNotSelectedCertainTaxYear.error.required = Enter your reason for not including certain years
 youHaveNotSelectedCertainTaxYear.error.length = Your reason for not including certain years must be between 1 and 500 characters
 youHaveNotSelectedCertainTaxYear.change.hidden = YouHaveNotSelectedCertainTaxYear
+
+foreignTaxCredit.title = How much foreign tax credit relief have you deducted from your calculations for the tax year ending {0}, in pounds?
+foreignTaxCredit.heading = How much foreign tax credit relief have you deducted from your calculations for the tax year ending {0}, in pounds?
+foreignTaxCredit.checkYourAnswersLabel = ForeignTaxCredit
+foreignTaxCredit.error.nonNumeric = The amount of foreign tax credit relief deductions must be an amount of money, like 1200
+foreignTaxCredit.error.required = Enter the amount of foreign tax credit relief deducted from your calculations, in pounds
+foreignTaxCredit.error.wholeNumber = The amount of foreign tax credit relief must not include pence, like 1000 or 1567
+foreignTaxCredit.error.outOfRange = The amount of foreign tax credit relief must be 0 or more
+foreignTaxCredit.change.hidden = ForeignTaxCredit

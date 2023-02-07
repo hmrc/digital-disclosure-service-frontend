@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package navigation
+package pages
 
-import play.api.mvc.Call
-import pages._
-import models.{Mode, UserAnswers}
+import pages.behaviours.PageBehaviours
 
-class FakeOffshoreNavigator(desiredRoute: Call) extends OffshoreNavigator {
+class ForeignTaxCreditPageSpec extends PageBehaviours {
 
-  override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasChanged:Boolean = true): Call =
-    desiredRoute
+  "ForeignTaxCreditPage" - {
 
-  override def nextTaxYearLiabilitiesPage(currentIndex: Int, foreignTaxCredit: Boolean, mode: Mode, userAnswers: UserAnswers): Call = 
-    desiredRoute
+    beRetrievable[Map[String, BigInt]](ForeignTaxCreditPage)
 
+    beSettable[Map[String, BigInt]](ForeignTaxCreditPage)
+
+    beRemovable[Map[String, BigInt]](ForeignTaxCreditPage)
+  }
 }
