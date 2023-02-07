@@ -19,9 +19,9 @@ package controllers.offshore
 import controllers.actions._
 import forms.ContractualDisclosureFacilityFormProvider
 import javax.inject.Inject
-import models.Mode
+import models.{Mode, RelatesTo}
 import navigation.OffshoreNavigator
-import pages.ContractualDisclosureFacilityPage
+import pages.{ContractualDisclosureFacilityPage, RelatesToPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -52,15 +52,19 @@ class ContractualDisclosureFacilityController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+
+      Ok(view(preparedForm, mode, entity))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
 
+      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, entity))),
 
         value =>
           for {

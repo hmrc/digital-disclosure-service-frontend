@@ -21,14 +21,15 @@ import forms.ContractualDisclosureFacilityFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.offshore.ContractualDisclosureFacilityView
-import models.NormalMode
+import models.{NormalMode, RelatesTo}
 
 class ContractualDisclosureFacilityViewSpec extends ViewSpecBase with ViewMatchers {
 
   val form = new ContractualDisclosureFacilityFormProvider()()
   val page: ContractualDisclosureFacilityView = inject[ContractualDisclosureFacilityView]
+  val entity = RelatesTo.ACompany 
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode, entity)(request, messages)
 
   "view" should {
 
@@ -40,15 +41,16 @@ class ContractualDisclosureFacilityViewSpec extends ViewSpecBase with ViewMatche
 
     "contain header" in {
       view.getElementsByClass("govuk-heading-xl").text() mustBe messages("contractualDisclosureFacility.heading")
-
     }
 
     "contain first paragraph" in {
       view.getElementById("body").text() mustBe 
-        messages("contractualDisclosureFacility.body.first") +
-        messages("contractualDisclosureFacility.link.first") +
-        messages("contractualDisclosureFacility.body.second") +
-        messages("contractualDisclosureFacility.link.second")
+        messages(s"contractualDisclosureFacility.${entity}.body.first") +
+        messages(s"contractualDisclosureFacility.${entity}.link.first") +
+        messages("site.dot") +
+        messages(s"contractualDisclosureFacility.${entity}.body.second") +
+        messages(s"contractualDisclosureFacility.${entity}.link.second") +
+        messages("site.dot")
     }
 
     "have a first guidance link" in {
@@ -60,13 +62,17 @@ class ContractualDisclosureFacilityViewSpec extends ViewSpecBase with ViewMatche
     }
 
     "contain warning text" in {
-      view.getElementsByClass("govuk-warning-text").text() mustBe "! " + messages("contractualDisclosureFacility.warningText")
+      view.getElementsByClass("govuk-warning-text").text() mustBe "! " + messages(s"contractualDisclosureFacility.${entity}.warningText")
     }
 
     "contain label" in {
-      view.getElementsByClass("govuk-fieldset__legend--m").text() mustBe messages("contractualDisclosureFacility.label")
+      view.getElementsByClass("govuk-fieldset__legend--m").text() mustBe messages(s"contractualDisclosureFacility.${entity}.label")
     }
+  
 
+    "contain third paragraph" in {
+      view.getElementById("third-body").text() mustBe messages(s"contractualDisclosureFacility.${entity}.body.third")
+    }
 
     "display the continue button" in {
       view.getElementsByClass("govuk-button").first() must haveId ("continue")
