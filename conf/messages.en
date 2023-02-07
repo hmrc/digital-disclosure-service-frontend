@@ -1192,8 +1192,13 @@ whatIsYourReasonableExcuseForNotFilingReturn.estate.reasonableExcuse = A reasona
 whichYears.title = Which year does this offshore disclosure relate to?
 whichYears.heading = Which year does this offshore disclosure relate to?
 whichYears.body = The Offshore Extended Time Limit allows HMRC to collect income tax, Capital Gains Tax and Inheritance Tax for up to 12 tax years if the tax lost involves an offshore matter or offshore transfer.
+<<<<<<< HEAD
 whichYears.body.link = HMRC’s compliance handbook explains what tax years you should include in your disclosure (opens in new tab)
 whichYears.checkbox.header = Select all that apply
+=======
+whichYears.body.link = HMRC’s compliance handbook explains what tax years you should include in your disclosure (opens in new tab).
+whichYears.checkbox.header = Select all that apply.
+>>>>>>> f602c06 (DDS2-1675 - Fix minor content issues)
 whichYears.checkYourAnswersLabel = Which year does this offshore disclosure relate to?
 whichYears.error.required = Select the years this disclosure relates to
 whichYears.change.hidden = WhichYears
@@ -1311,7 +1316,7 @@ checkYourAnswers.offshore.offer.paragraph1 = When you send this disclosure, you 
 checkYourAnswers.offshore.offer.paragraph2 = The person reviewing your disclosure will expect you to pay the full and total amount due at the same time as making your disclosure. If your offer is less than this, it may be rejected and delay your disclosure.
 checkYourAnswers.offshore.fullAmount.heading = If you cannot pay the full amount
 checkYourAnswers.offshore.fullAmount.paragraph1 = 'If you cannot pay the full amount, let us know as soon as possible and before you send in your disclosure by '
-checkYourAnswers.offshore.fullAmount.link = calling the helpline (opens in a new tab).
+checkYourAnswers.offshore.fullAmount.link = calling the helpline (opens in new tab).
 checkYourAnswers.offshore.fullAmount.paragraph2 = When you phone, we’ll want to talk to you about your current financial position so we can tell you what we think you should pay and when.
 checkYourAnswers.offshore.fullAmount.paragraph3 = If you cannot pay the full amount do not submit your disclosure or payment until you’ve spoken to us.
 
