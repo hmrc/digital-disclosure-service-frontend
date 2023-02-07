@@ -45,11 +45,11 @@ class ContractualDisclosureFacilityViewSpec extends ViewSpecBase with ViewMatche
 
     "contain first paragraph" in {
       view.getElementById("body").text() mustBe 
-        messages("contractualDisclosureFacility.${entity}.body.first") +
-        messages("contractualDisclosureFacility.${entity}.link.first") +
+        messages(s"contractualDisclosureFacility.${entity}.body.first") +
+        messages(s"contractualDisclosureFacility.${entity}.link.first") +
         messages("site.dot") +
-        messages("contractualDisclosureFacility.${entity}.body.second") +
-        messages("contractualDisclosureFacility.${entity}.link.second") +
+        messages(s"contractualDisclosureFacility.${entity}.body.second") +
+        messages(s"contractualDisclosureFacility.${entity}.link.second") +
         messages("site.dot")
     }
 
@@ -62,16 +62,16 @@ class ContractualDisclosureFacilityViewSpec extends ViewSpecBase with ViewMatche
     }
 
     "contain warning text" in {
-      view.getElementsByClass("govuk-warning-text").text() mustBe "! " + messages("contractualDisclosureFacility.${entity}.warningText")
+      view.getElementsByClass("govuk-warning-text").text() mustBe "! " + messages(s"contractualDisclosureFacility.${entity}.warningText")
     }
 
     "contain label" in {
-      view.getElementsByClass("govuk-fieldset__legend--m").text() mustBe messages("contractualDisclosureFacility.${entity}.label")
+      view.getElementsByClass("govuk-fieldset__legend--m").text() mustBe messages(s"contractualDisclosureFacility.${entity}.label")
     }
   
 
     "contain third paragraph" in {
-      view.getElementById("third-body").text() mustBe messages("contractualDisclosureFacility.${entity}.body.third")
+      view.getElementById("third-body").text() mustBe messages(s"contractualDisclosureFacility.${entity}.body.third")
     }
 
     "display the continue button" in {

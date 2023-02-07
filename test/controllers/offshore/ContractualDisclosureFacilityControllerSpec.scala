@@ -111,7 +111,9 @@ class ContractualDisclosureFacilityControllerSpec extends SpecBase with MockitoS
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val relatesToPage = UserAnswers(userAnswersId).set(RelatesToPage, entity).success.value
+
+      val application = applicationBuilder(userAnswers = Some(relatesToPage)).build()
 
       running(application) {
         val request =
