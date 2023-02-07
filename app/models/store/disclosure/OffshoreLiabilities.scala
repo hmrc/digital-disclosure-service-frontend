@@ -25,6 +25,8 @@ final case class OffshoreLiabilities(
   reasonableCare: Option[WhatReasonableCareDidYouTake] = None,
   excuseForNotFiling: Option[WhatIsYourReasonableExcuseForNotFilingReturn] = None,
   whichYears: Option[Set[OffshoreYears]] = None,
+  youHaveNotIncludedTheTaxYear: Option[String] = None,
+  youHaveNotSelectedCertainTaxYears: Option[String] = None,
   taxBeforeFiveYears: Option[String] = None,
   taxBeforeSevenYears: Option[String] = None,
   taxYearLiabilities: Option[Map[String, TaxYearWithLiabilities]] = None,
@@ -34,9 +36,9 @@ final case class OffshoreLiabilities(
   maximumValueOfAssets: Option[TheMaximumValueOfAllAssets] = None
 ) {
   def isComplete = this match {
-    case OffshoreLiabilities(Some(_), _, _, _, Some(years), Some(reasonableExcusePriorTo), _, _, _, _, _, _) if years == Set(ReasonableExcusePriorTo) => true
-    case OffshoreLiabilities(Some(_), _, _, _, Some(years), _, Some(carelessPriorTo), _, _, _, _, _) if years == Set(CarelessPriorTo) => true
-    case OffshoreLiabilities(Some(_), _, _, _, Some(_), _, _, Some(_), Some(_), _, _, Some(_)) => true
+    case OffshoreLiabilities(Some(_), _, _, _, Some(years),_ , _, Some(reasonableExcusePriorTo), _, _, _, _, _, _) if years == Set(ReasonableExcusePriorTo) => true
+    case OffshoreLiabilities(Some(_), _, _, _, Some(years),_ , _, _, Some(carelessPriorTo), _, _, _, _, _) if years == Set(CarelessPriorTo) => true
+    case OffshoreLiabilities(Some(_), _, _, _, Some(_),_ , _, _, _, Some(_), Some(_), _, _, Some(_)) => true
     case _ => false
   }
 }

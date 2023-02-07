@@ -55,6 +55,8 @@ class UAToDisclosureServiceImpl @Inject()(
       reasonableCare = userAnswers.get(WhatReasonableCareDidYouTakePage),
       excuseForNotFiling = userAnswers.get(WhatIsYourReasonableExcuseForNotFilingReturnPage),
       whichYears = userAnswers.get(WhichYearsPage),
+      youHaveNotIncludedTheTaxYear = userAnswers.get(YouHaveNotIncludedTheTaxYearPage),
+      youHaveNotSelectedCertainTaxYears = userAnswers.get(YouHaveNotSelectedCertainTaxYearPage),
       taxBeforeFiveYears = userAnswers.get(TaxBeforeFiveYearsPage),
       taxBeforeSevenYears = userAnswers.get(TaxBeforeSevenYearsPage),
       taxYearLiabilities = userAnswers.get(TaxYearLiabilitiesPage),
