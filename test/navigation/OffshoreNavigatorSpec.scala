@@ -40,14 +40,30 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextPage(UnknownPage, NormalMode, UserAnswers("id")) mustBe controllers.routes.IndexController.onPageLoad
       }
 
-      "must go from WhyAreYouMakingThisDisclosurePage to ContractualDisclosureFacilityController when selected any or all (DeliberatelyDidNotNotify/DeliberateInaccurateReturn/DeliberatelyDidNotFile)" in {
+      "must go from WhyAreYouMakingThisDisclosurePage to ContractualDisclosureFacilityController when selected any deliberate behaviour, and they're not an estate" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(
           WhyAreYouMakingThisDisclosure.DeliberatelyDidNotNotify,
           WhyAreYouMakingThisDisclosure.DeliberateInaccurateReturn,
           WhyAreYouMakingThisDisclosure.DeliberatelyDidNotFile
         )
-        val userAnswers = UserAnswers("id").set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        val userAnswers = (for {
+          ua <- UserAnswers("id").set(WhyAreYouMakingThisDisclosurePage, set)
+          finalUa <- ua.set(RelatesToPage, RelatesTo.AnIndividual)
+        } yield finalUa).success.value
         navigator.nextPage(WhyAreYouMakingThisDisclosurePage, NormalMode, userAnswers) mustBe routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhyAreYouMakingThisDisclosurePage to WhichYearsController when selected a deliberate behaviour, and also selected that they're an estate" in {
+        val set: Set[WhyAreYouMakingThisDisclosure] = Set(
+          WhyAreYouMakingThisDisclosure.DeliberatelyDidNotNotify,
+          WhyAreYouMakingThisDisclosure.DeliberateInaccurateReturn,
+          WhyAreYouMakingThisDisclosure.DeliberatelyDidNotFile
+        )
+        val userAnswers = (for {
+          ua <- UserAnswers("id").set(WhyAreYouMakingThisDisclosurePage, set)
+          finalUa <- ua.set(RelatesToPage, RelatesTo.AnEstate)
+        } yield finalUa).success.value
+        navigator.nextPage(WhyAreYouMakingThisDisclosurePage, NormalMode, userAnswers) mustBe routes.WhichYearsController.onPageLoad(NormalMode)
       }
 
       "must go from WhyAreYouMakingThisDisclosurePage to WhatIsYourReasonableExcuseController when selected DidNotNotifyHasExcuse" in {
