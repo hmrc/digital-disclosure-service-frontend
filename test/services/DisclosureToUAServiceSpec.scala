@@ -93,6 +93,8 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
         Some(WhatReasonableCareDidYouTake("Some excuse", "Some years")), 
         Some(WhatIsYourReasonableExcuseForNotFilingReturn("Some excuse", "Some years")), 
         Some(yearsSet), 
+        Some("Some Value"),
+        Some("Some Value"),
         Some("Some liabilities"),
         Some("Some liabilities"),
         Some(Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities))),
@@ -107,6 +109,8 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
       updatedUserAnswers.get(WhatReasonableCareDidYouTakePage)                       shouldEqual Some(WhatReasonableCareDidYouTake("Some excuse", "Some years"))
       updatedUserAnswers.get(WhatIsYourReasonableExcuseForNotFilingReturnPage)       shouldEqual Some(WhatIsYourReasonableExcuseForNotFilingReturn("Some excuse", "Some years"))
       updatedUserAnswers.get(WhichYearsPage)                                         shouldEqual Some(yearsSet)
+      updatedUserAnswers.get(YouHaveNotIncludedTheTaxYearPage)                       shouldEqual Some("Some Value")
+      updatedUserAnswers.get(YouHaveNotSelectedCertainTaxYearPage)                   shouldEqual Some("Some Value")
       updatedUserAnswers.get(TaxBeforeFiveYearsPage)                                 shouldEqual Some("Some liabilities")
       updatedUserAnswers.get(TaxBeforeSevenYearsPage)                                shouldEqual Some("Some liabilities")
       updatedUserAnswers.get(TaxYearLiabilitiesPage)                                 shouldEqual Some(Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities)))
