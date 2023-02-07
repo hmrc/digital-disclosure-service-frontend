@@ -14,36 +14,43 @@
  * limitations under the License.
  */
 
-package views.reason
+package views.offshore
 
 import base.ViewSpecBase
-import forms.WhatEmailAddressCanWeContactYouWithFormProvider
+import forms.YouHaveNotIncludedTheTaxYearFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
-import views.html.reason.WhatEmailAddressCanWeContactYouWithView
+import views.html.offshore.YouHaveNotIncludedTheTaxYearView
 import models.NormalMode
 
-class WhatEmailAddressCanWeContactYouWithViewSpec extends ViewSpecBase with ViewMatchers {
+class YouHaveNotIncludedTheTaxYearViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhatEmailAddressCanWeContactYouWithFormProvider()()
-  val page: WhatEmailAddressCanWeContactYouWithView = inject[WhatEmailAddressCanWeContactYouWithView]
+  val missingYear = "2020"
+  val firstYear = "2019"
+  val lastYear = "2021"
+  val form = new YouHaveNotIncludedTheTaxYearFormProvider()(missingYear)
+  val page: YouHaveNotIncludedTheTaxYearView = inject[YouHaveNotIncludedTheTaxYearView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode, missingYear, firstYear, lastYear)(request, messages)
 
   "view" should {
 
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("whatEmailAddressCanWeContactYouWith.title"))
+      view.select("title").text() must include(messages("youHaveNotIncludedTheTaxYear.title", missingYear))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-label--xl").text() mustBe messages("whatEmailAddressCanWeContactYouWith.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("youHaveNotIncludedTheTaxYear.heading", missingYear)
     }
 
-    "contain hint" in {
-      view.getElementsByClass("govuk-hint").text() mustBe messages("whatEmailAddressCanWeContactYouWith.hint")
+    "contain body" in {
+      view.getElementById("body").text() mustBe messages("youHaveNotIncludedTheTaxYear.body", firstYear, lastYear, missingYear)
+    }
+
+    "contain label" in {
+      view.getElementsByClass("govuk-label").text() mustBe messages("youHaveNotIncludedTheTaxYear.label")
     }
 
     "display the continue button" in {

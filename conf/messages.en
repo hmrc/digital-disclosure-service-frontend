@@ -1570,6 +1570,15 @@ countriesOrTerritories.error.required = Select yes if you want to add another co
 countriesOrTerritories.change.hidden = CountriesOrTerritories
 countriesOrTerritories.remove.hidden = Remove country or territory
 
+youHaveNotIncludedTheTaxYear.title = You have not included the tax year ending {0} 
+youHaveNotIncludedTheTaxYear.heading = You have not included the tax year ending {0}
+youHaveNotIncludedTheTaxYear.body = You have selected the tax years ending {0} and {1}, but not the tax year ending {2}.
+youHaveNotIncludedTheTaxYear.label = Why are you not including this year in the disclosure? 
+youHaveNotIncludedTheTaxYear.checkYourAnswersLabel = youHaveNotIncludedTheTaxYear
+youHaveNotIncludedTheTaxYear.error.required = Enter your reason for not including the tax year ending {0}
+youHaveNotIncludedTheTaxYear.error.length = Your reason for not including the tax year ending {0} must be between 1 and 500 characters
+youHaveNotIncludedTheTaxYear.change.hidden = YouHaveNotIncludedTheTaxYear
+
 canYouTellUsMoreAboutTaxBeforeNineteenYear.title = Can you tell us more about any tax owed before 6 April {0}?
 canYouTellUsMoreAboutTaxBeforeNineteenYear.heading = Can you tell us more about any tax owed before 6 April {0}?
 canYouTellUsMoreAboutTaxBeforeNineteenYear.body = Provide the amount, when it was owed, and where the income or gain came from. Do not include these figures in this disclosure’s calculations. The person reviewing the disclosure may ask you further questions about this, if needed.

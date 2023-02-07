@@ -85,6 +85,11 @@ GET        /countries-or-territories/change                 controllers.offshore
 POST       /countries-or-territories/change                 controllers.offshore.CountriesOrTerritoriesController.onSubmit(mode: Mode = CheckMode)
 GET        /countries-or-territories/remove/:countryCode    controllers.offshore.CountriesOrTerritoriesController.remove(countryCode: String)
 
+GET        /missing-tax-year                 controllers.offshore.YouHaveNotIncludedTheTaxYearController.onPageLoad(mode: Mode = NormalMode)
+POST       /missing-tax-year                 controllers.offshore.YouHaveNotIncludedTheTaxYearController.onSubmit(mode: Mode = NormalMode)
+GET        /missing-tax-year/change          controllers.offshore.YouHaveNotIncludedTheTaxYearController.onPageLoad(mode: Mode = CheckMode)
+POST       /missing-tax-year/change          controllers.offshore.YouHaveNotIncludedTheTaxYearController.onSubmit(mode: Mode = CheckMode)
+
 GET        /tax-before-nineteen-years                       controllers.offshore.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onPageLoad(mode: Mode = NormalMode)
 POST       /tax-before-nineteen-years                       controllers.offshore.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onSubmit(mode: Mode = NormalMode)
 GET        /tax-before-nineteen-years/change                controllers.offshore.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onPageLoad(mode: Mode = CheckMode)

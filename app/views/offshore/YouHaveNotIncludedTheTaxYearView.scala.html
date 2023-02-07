@@ -1,0 +1,60 @@
+@*
+ * Copyright 2023 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.hmrcfrontend.views.html.components.CharacterCount
+
+@this(
+    layout: templates.Layout,
+    formHelper: FormWithCSRF,
+    govukErrorSummary: GovukErrorSummary,
+    hmrcCharacterCount: HmrcCharacterCount,
+    heading: components.heading,
+    paragraph: components.paragraph,
+    govukButton: GovukButton,
+    tasklistLink: components.tasklistLink
+)
+
+@(form: Form[_], mode: Mode, missingYear: String, firstYear: String, lastYear: String)(implicit request: Request[_], messages: Messages)
+
+@layout(pageTitle = title(form, messages("youHaveNotIncludedTheTaxYear.title", missingYear))) {
+
+    @formHelper(action = controllers.offshore.routes.YouHaveNotIncludedTheTaxYearController.onSubmit(mode)) {
+
+        @if(form.errors.nonEmpty) {
+            @govukErrorSummary(ErrorSummaryViewModel(form))
+        }
+
+        @heading(Text(messages("youHaveNotIncludedTheTaxYear.heading", missingYear)))
+
+        @paragraph(id = Some("body"), content = Text(messages("youHaveNotIncludedTheTaxYear.body", firstYear, lastYear, missingYear)))
+
+        @hmrcCharacterCount(
+            CharacterCount(
+                id = "value",
+                name = "value",
+                maxLength = Some(500), 
+                label = Label(content = messages("youHaveNotIncludedTheTaxYear.label")).withCssClass("govuk-label govuk-label--l"),
+                value = form("value").value,
+                errorMessage = form("value").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
+            )
+        )
+
+        @govukButton(
+            ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
+        )
+    }
+    @tasklistLink()
+}

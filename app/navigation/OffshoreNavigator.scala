@@ -99,6 +99,8 @@ class OffshoreNavigator @Inject()() {
       case _ => routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
     }
 
+    case YouHaveNotIncludedTheTaxYearPage => _ => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
