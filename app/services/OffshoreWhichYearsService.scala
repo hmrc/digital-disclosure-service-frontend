@@ -32,7 +32,7 @@ class OffshoreWhichYearsServiceImpl @Inject() (timeService: TimeService) extends
   val DELIBERATE_YEARS = 19
   val REASONABLE_EXCUSE_LEGISLATION_START = 2015
   val CARELESS_LEGISLATION_START = 2013
-  val YEARS_TO_GO_BACK = 2013
+  val YEARS_TO_GO_BACK = 12
 
   def checkboxItems(behaviour: Behaviour)(implicit messages: Messages): Seq[CheckboxItem] = { 
 
