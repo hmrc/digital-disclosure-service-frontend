@@ -1555,7 +1555,7 @@ whichEmailAddressCanWeContactYouWith.heading = Which email address can we contac
 whichEmailAddressCanWeContactYouWith.existingEmail = {0}
 whichEmailAddressCanWeContactYouWith.differentEmail = A different email address
 whichEmailAddressCanWeContactYouWith.checkYourAnswersLabel = Which email address can we contact you with?
-whichEmailAddressCanWeContactYouWith.error.required = Select whichEmailAddressCanWeContactYouWith
+whichEmailAddressCanWeContactYouWith.error.required = Select an email address we can contact you with
 whichEmailAddressCanWeContactYouWith.change.hidden = WhichEmailAddressCanWeContactYouWith
 
 whatEmailAddressCanWeContactYouWith.title = What email address can we contact you with?
