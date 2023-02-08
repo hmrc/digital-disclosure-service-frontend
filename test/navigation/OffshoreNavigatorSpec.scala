@@ -319,6 +319,11 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
       "must go from YouHaveNotSelectedCertainTaxYearPage to CountryOfYourOffshoreLiabilityController" in {
         navigator.nextPage(YouHaveNotSelectedCertainTaxYearPage, NormalMode, UserAnswers("id")) mustBe routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
       }
+
+      "must go from WhereDidTheUndeclaredIncomeOrGainPage to YourLegalInterpretationController" in {
+        navigator.nextPage(WhereDidTheUndeclaredIncomeOrGainPage, NormalMode, UserAnswers("id")) mustBe routes.YourLegalInterpretationController.onPageLoad(NormalMode)
+      }
+
     }
 
     "in Check mode" - {
@@ -352,7 +357,7 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2020), TaxYearStarting(2019), TaxYearStarting(2018))
         val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value
 
-        navigator.nextTaxYearLiabilitiesPage(3, false, NormalMode, userAnswersWithTaxYears) mustBe routes.YourLegalInterpretationController.onPageLoad(NormalMode)
+        navigator.nextTaxYearLiabilitiesPage(3, false, NormalMode, userAnswersWithTaxYears) mustBe routes.WhereDidTheUndeclaredIncomeOrGainController.onPageLoad(NormalMode)
       }
 
       "must take the user to the foreign tax credit page where the param is true" in {

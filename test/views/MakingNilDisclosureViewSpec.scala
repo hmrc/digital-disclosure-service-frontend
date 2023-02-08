@@ -49,9 +49,12 @@ class MakingNilDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementById("third-paragraph").text() mustBe messages("makingNilDisclosure.body.third")
     }
 
-    "display the button" in {
-      view.getElementsByClass("govuk-button").text() mustBe messages("makingNilDisclosure.button")
-      view.getElementById("govuk-button").attr("href") mustBe controllers.routes.TaskListController.onPageLoad.url
+    "have a continue link" in {
+      view.getElementById("continue").attr("href") mustBe controllers.offshore.routes.CheckYourAnswersController.onPageLoad.url
+    }
+
+    "have a task list link" in {
+      view.getElementById("task-list-link").attr("href") mustBe controllers.routes.TaskListController.onPageLoad.url
     }
 
   }

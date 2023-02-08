@@ -88,6 +88,10 @@ trait Generators extends UserAnswersGenerator
     genIntersperseString(numberGen, ",")
   }
 
+  def bigintsInRange(min: BigInt, max: BigInt): Gen[String] = {
+    choose[BigInt](min, max).map(_.toString)
+  }
+
   def bigintsBelowZero: Gen[BigInt] =
     arbitrary[Int].suchThat(_ < 0).map(BigInt(_))
 

@@ -115,6 +115,8 @@ class OffshoreNavigator @Inject()() {
 
     case YouHaveNotSelectedCertainTaxYearPage => _ => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
 
+    case WhereDidTheUndeclaredIncomeOrGainPage => _ => routes.YourLegalInterpretationController.onPageLoad(NormalMode)
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
@@ -132,7 +134,7 @@ class OffshoreNavigator @Inject()() {
   def nextTaxYearLiabilitiesPage(currentIndex: Int, foreignTaxCreditReduction: Boolean, mode: Mode, userAnswers: UserAnswers): Call = (mode, foreignTaxCreditReduction, userAnswers.inverselySortedOffshoreTaxYears) match {
     case (NormalMode, true, _) => routes.ForeignTaxCreditController.onPageLoad(currentIndex, NormalMode)
     case (NormalMode, _, Some(years)) if ((years.size - 1) > currentIndex) => routes.TaxYearLiabilitiesController.onPageLoad(currentIndex + 1, NormalMode)
-    case (NormalMode, _, _) => routes.YourLegalInterpretationController.onPageLoad(NormalMode)
+    case (NormalMode, _, _) => routes.WhereDidTheUndeclaredIncomeOrGainController.onPageLoad(NormalMode)
     case (CheckMode, _, _) => checkRouteMap(TaxYearLiabilitiesPage)(userAnswers)(true)
   }
 
