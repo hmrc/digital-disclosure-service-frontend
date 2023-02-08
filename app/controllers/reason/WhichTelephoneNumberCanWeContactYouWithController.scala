@@ -17,29 +17,29 @@
 package controllers.reason
 
 import controllers.actions._
-import forms.CanWeUseTelephoneNumberToContactYouFormProvider
+import forms.WhichTelephoneNumberCanWeContactYouWithFormProvider
 import javax.inject.Inject
 import models.Mode
 import navigation.ReasonNavigator
-import pages.{CanWeUseTelephoneNumberToContactYouPage, YourPhoneNumberPage}
+import pages.{WhichTelephoneNumberCanWeContactYouWithPage, YourPhoneNumberPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import views.html.reason.CanWeUseTelephoneNumberToContactYouView
+import views.html.reason.WhichTelephoneNumberCanWeContactYouWithView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class CanWeUseTelephoneNumberToContactYouController @Inject()(
+class WhichTelephoneNumberCanWeContactYouWithController @Inject()(
                                        override val messagesApi: MessagesApi,
                                        sessionService: SessionService,
                                        navigator: ReasonNavigator,
                                        identify: IdentifierAction,
                                        getData: DataRetrievalAction,
                                        requireData: DataRequiredAction,
-                                       formProvider: CanWeUseTelephoneNumberToContactYouFormProvider,
+                                       formProvider: WhichTelephoneNumberCanWeContactYouWithFormProvider,
                                        val controllerComponents: MessagesControllerComponents,
-                                       view: CanWeUseTelephoneNumberToContactYouView
+                                       view: WhichTelephoneNumberCanWeContactYouWithView
                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
@@ -47,7 +47,7 @@ class CanWeUseTelephoneNumberToContactYouController @Inject()(
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val preparedForm = request.userAnswers.get(CanWeUseTelephoneNumberToContactYouPage) match {
+      val preparedForm = request.userAnswers.get(WhichTelephoneNumberCanWeContactYouWithPage) match {
         case None => form
         case Some(value) => form.fill(value)
       }
@@ -70,9 +70,9 @@ class CanWeUseTelephoneNumberToContactYouController @Inject()(
 
         value =>
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(CanWeUseTelephoneNumberToContactYouPage, value))
+            updatedAnswers <- Future.fromTry(request.userAnswers.set(WhichTelephoneNumberCanWeContactYouWithPage, value))
             _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(CanWeUseTelephoneNumberToContactYouPage, mode, updatedAnswers))
+          } yield Redirect(navigator.nextPage(WhichTelephoneNumberCanWeContactYouWithPage, mode, updatedAnswers))
       )
   }
 }

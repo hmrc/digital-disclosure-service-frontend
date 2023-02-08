@@ -78,7 +78,7 @@ class UAToDisclosureServiceImpl @Inject()(
       personProfession = userAnswers.get(AdviceProfessionPage),
       adviceGiven = userAnswers.get(AdviceGivenPage),
       whichEmail = userAnswers.get(WhichEmailAddressCanWeContactYouWithPage),
-      canWeUsePhone = userAnswers.get(CanWeUseTelephoneNumberToContactYouPage),
+      whichPhone = userAnswers.get(WhichTelephoneNumberCanWeContactYouWithPage),
       email = userAnswers.get(WhatEmailAddressCanWeContactYouWithPage),
       telephone = userAnswers.get(WhatTelephoneNumberCanWeContactYouWithPage)
     )

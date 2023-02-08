@@ -1518,14 +1518,6 @@ adviceGiven.contact.telephone = Yes, by telephone
 adviceGiven.contact.no = No
 adviceGiven.error.contact.required = Select yes if HMRC can contact you to discuss the advice
 
-canWeUseTelephoneNumberToContactYou.title = Can we use the telephone number {0} to contact you with?
-canWeUseTelephoneNumberToContactYou.heading = Can we use the telephone number {0} to contact you with?
-canWeUseTelephoneNumberToContactYou.yes = Yes
-canWeUseTelephoneNumberToContactYou.no = No
-canWeUseTelephoneNumberToContactYou.checkYourAnswersLabel = canWeUseTelephoneNumberToContactYou
-canWeUseTelephoneNumberToContactYou.error.required = Select yes if we can use this telephone number
-canWeUseTelephoneNumberToContactYou.change.hidden = CanWeUseTelephoneNumberToContactYou
-
 checkYourAnswers.reason.title = Summary
 checkYourAnswers.reason.heading = Summary
 checkYourAnswers.reason.section1.heading = Reason for making a disclosure now
@@ -1643,3 +1635,11 @@ whereDidTheUndeclaredIncomeOrGain.checkYourAnswersLabel = whereDidTheUndeclaredI
 whereDidTheUndeclaredIncomeOrGain.error.required = Enter where the undeclared income or gain came from
 whereDidTheUndeclaredIncomeOrGain.error.length = The undeclared income or gain must be between 1 and 500 characters
 whereDidTheUndeclaredIncomeOrGain.change.hidden = WhereDidTheUndeclaredIncomeOrGain
+
+whichTelephoneNumberCanWeContactYouWith.title = Which telephone number can we contact you with?
+whichTelephoneNumberCanWeContactYouWith.heading = Which telephone number can we contact you with?
+whichTelephoneNumberCanWeContactYouWith.existingNumber = {0}
+whichTelephoneNumberCanWeContactYouWith.differentNumber = A different telephone number
+whichTelephoneNumberCanWeContactYouWith.checkYourAnswersLabel = whichTelephoneNumberCanWeContactYouWith
+whichTelephoneNumberCanWeContactYouWith.error.required = Select telephone number we can contact you with
+whichTelephoneNumberCanWeContactYouWith.change.hidden = WhichTelephoneNumberCanWeContactYouWith

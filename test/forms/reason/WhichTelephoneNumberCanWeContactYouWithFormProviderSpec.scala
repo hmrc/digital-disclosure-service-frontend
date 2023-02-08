@@ -16,22 +16,24 @@
 
 package forms
 
-import forms.behaviours.BooleanFieldBehaviours
+import forms.behaviours.OptionFieldBehaviours
+import models.WhichTelephoneNumberCanWeContactYouWith
 import play.api.data.FormError
 
-class CanWeUseTelephoneNumberToContactYouFormProviderSpec extends BooleanFieldBehaviours {
+class WhichTelephoneNumberCanWeContactYouWithFormProviderSpec extends OptionFieldBehaviours {
 
-  val form = new CanWeUseTelephoneNumberToContactYouFormProvider()()
+  val form = new WhichTelephoneNumberCanWeContactYouWithFormProvider()()
 
   ".value" - {
 
     val fieldName = "value"
-    val requiredKey = "canWeUseTelephoneNumberToContactYou.error.required"
+    val requiredKey = "whichTelephoneNumberCanWeContactYouWith.error.required"
 
-    behave like booleanField(
+    behave like optionsField[WhichTelephoneNumberCanWeContactYouWith](
       form,
       fieldName,
-      invalidError = FormError(fieldName, "error.boolean")
+      validValues  = WhichTelephoneNumberCanWeContactYouWith.values,
+      invalidError = FormError(fieldName, "error.invalid")
     )
 
     behave like mandatoryField(

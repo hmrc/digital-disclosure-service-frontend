@@ -14,17 +14,19 @@
  * limitations under the License.
  */
 
-package forms
+package pages
 
-import javax.inject.Inject
+import models.WhichTelephoneNumberCanWeContactYouWith
+import pages.behaviours.PageBehaviours
 
-import forms.mappings.Mappings
-import play.api.data.Form
+class WhichTelephoneNumberCanWeContactYouWithSpec extends PageBehaviours {
 
-class CanWeUseTelephoneNumberToContactYouFormProvider @Inject() extends Mappings {
+  "WhichTelephoneNumberCanWeContactYouWithPage" - {
 
-  def apply(): Form[Boolean] =
-    Form(
-      "value" -> boolean("canWeUseTelephoneNumberToContactYou.error.required")
-    )
+    beRetrievable[WhichTelephoneNumberCanWeContactYouWith](WhichTelephoneNumberCanWeContactYouWithPage)
+
+    beSettable[WhichTelephoneNumberCanWeContactYouWith](WhichTelephoneNumberCanWeContactYouWithPage)
+
+    beRemovable[WhichTelephoneNumberCanWeContactYouWith](WhichTelephoneNumberCanWeContactYouWithPage)
+  }
 }

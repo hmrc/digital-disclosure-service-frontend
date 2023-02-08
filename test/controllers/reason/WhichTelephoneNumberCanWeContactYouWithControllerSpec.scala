@@ -17,32 +17,32 @@
 package controllers
 
 import base.SpecBase
-import forms.CanWeUseTelephoneNumberToContactYouFormProvider
-import models.{NormalMode, UserAnswers}
+import forms.WhichTelephoneNumberCanWeContactYouWithFormProvider
+import models.{NormalMode, WhichTelephoneNumberCanWeContactYouWith, UserAnswers}
 import navigation.{FakeReasonNavigator, ReasonNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.{CanWeUseTelephoneNumberToContactYouPage, YourPhoneNumberPage}
+import pages.{WhichTelephoneNumberCanWeContactYouWithPage, YourPhoneNumberPage}
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
-import views.html.reason.CanWeUseTelephoneNumberToContactYouView
+import views.html.reason.WhichTelephoneNumberCanWeContactYouWithView
 
 import scala.concurrent.Future
 
-class CanWeUseTelephoneNumberToContactYouControllerSpec extends SpecBase with MockitoSugar {
+class WhichTelephoneNumberCanWeContactYouWithControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val canWeUseTelephoneNumberToContactYouRoute = reason.routes.CanWeUseTelephoneNumberToContactYouController.onPageLoad(NormalMode).url
+  lazy val whichTelephoneNumberCanWeContactYouWithRoute = reason.routes.WhichTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode).url
 
-  val formProvider = new CanWeUseTelephoneNumberToContactYouFormProvider()
+  val formProvider = new WhichTelephoneNumberCanWeContactYouWithFormProvider()
   val form = formProvider()
 
-  "CanWeUseTelephoneNumberToContactYou Controller" - {
+  "WhichTelephoneNumberCanWeContactYouWith Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
@@ -51,11 +51,11 @@ class CanWeUseTelephoneNumberToContactYouControllerSpec extends SpecBase with Mo
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, canWeUseTelephoneNumberToContactYouRoute)
+        val request = FakeRequest(GET, whichTelephoneNumberCanWeContactYouWithRoute)
 
         val result = route(application, request).value
 
-        val view = application.injector.instanceOf[CanWeUseTelephoneNumberToContactYouView]
+        val view = application.injector.instanceOf[WhichTelephoneNumberCanWeContactYouWithView]
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(form, NormalMode, telephoneNumber)(request, messages(application)).toString
@@ -66,21 +66,21 @@ class CanWeUseTelephoneNumberToContactYouControllerSpec extends SpecBase with Mo
 
       val telephoneNumber = "07777 777777"
       val userAnswers = (for {
-        ua <- UserAnswers("id").set(CanWeUseTelephoneNumberToContactYouPage, true)
+        ua <- UserAnswers("id").set(WhichTelephoneNumberCanWeContactYouWithPage, WhichTelephoneNumberCanWeContactYouWith.values.head)
         updatedUa <- ua.set(YourPhoneNumberPage, telephoneNumber)  
       } yield updatedUa).success.value  
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, canWeUseTelephoneNumberToContactYouRoute)
+        val request = FakeRequest(GET, whichTelephoneNumberCanWeContactYouWithRoute)
 
-        val view = application.injector.instanceOf[CanWeUseTelephoneNumberToContactYouView]
+        val view = application.injector.instanceOf[WhichTelephoneNumberCanWeContactYouWithView]
 
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(true), NormalMode, telephoneNumber)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(WhichTelephoneNumberCanWeContactYouWith.values.head), NormalMode, telephoneNumber)(request, messages(application)).toString
       }
     }
 
@@ -99,8 +99,8 @@ class CanWeUseTelephoneNumberToContactYouControllerSpec extends SpecBase with Mo
 
       running(application) {
         val request =
-          FakeRequest(POST, canWeUseTelephoneNumberToContactYouRoute)
-            .withFormUrlEncodedBody(("value", true.toString))
+          FakeRequest(POST, whichTelephoneNumberCanWeContactYouWithRoute)
+            .withFormUrlEncodedBody(("value", WhichTelephoneNumberCanWeContactYouWith.values.head.toString))
 
         val result = route(application, request).value
 
@@ -113,7 +113,7 @@ class CanWeUseTelephoneNumberToContactYouControllerSpec extends SpecBase with Mo
 
       val telephoneNumber = "07777 777777"
       val userAnswers = (for {
-        ua <- UserAnswers("id").set(CanWeUseTelephoneNumberToContactYouPage, true)
+        ua <- UserAnswers("id").set(WhichTelephoneNumberCanWeContactYouWithPage, WhichTelephoneNumberCanWeContactYouWith.values.head)
         updatedUa <- ua.set(YourPhoneNumberPage, telephoneNumber)  
       } yield updatedUa).success.value 
 
@@ -121,12 +121,12 @@ class CanWeUseTelephoneNumberToContactYouControllerSpec extends SpecBase with Mo
 
       running(application) {
         val request =
-          FakeRequest(POST, canWeUseTelephoneNumberToContactYouRoute)
+          FakeRequest(POST, whichTelephoneNumberCanWeContactYouWithRoute)
             .withFormUrlEncodedBody(("value", "invalid value"))
 
         val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[CanWeUseTelephoneNumberToContactYouView]
+        val view = application.injector.instanceOf[WhichTelephoneNumberCanWeContactYouWithView]
 
         val result = route(application, request).value
 
@@ -140,7 +140,7 @@ class CanWeUseTelephoneNumberToContactYouControllerSpec extends SpecBase with Mo
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val request = FakeRequest(GET, canWeUseTelephoneNumberToContactYouRoute)
+        val request = FakeRequest(GET, whichTelephoneNumberCanWeContactYouWithRoute)
 
         val result = route(application, request).value
 
@@ -155,8 +155,8 @@ class CanWeUseTelephoneNumberToContactYouControllerSpec extends SpecBase with Mo
 
       running(application) {
         val request =
-          FakeRequest(POST, canWeUseTelephoneNumberToContactYouRoute)
-            .withFormUrlEncodedBody(("value", true.toString))
+          FakeRequest(POST, whichTelephoneNumberCanWeContactYouWithRoute)
+            .withFormUrlEncodedBody(("value", WhichTelephoneNumberCanWeContactYouWith.values.head.toString))
 
         val result = route(application, request).value
 

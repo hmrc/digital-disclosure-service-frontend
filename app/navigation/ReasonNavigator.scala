@@ -22,6 +22,7 @@ import pages._
 import models.{AdviceContactPreference, CheckMode, Mode, NormalMode, UserAnswers}
 import models.WhyAreYouMakingADisclosure._
 import models.WhichEmailAddressCanWeContactYouWith._
+import models.WhichTelephoneNumberCanWeContactYouWith._
 import controllers.reason.routes
 
 @Singleton
@@ -56,7 +57,7 @@ class ReasonNavigator @Inject()() {
 
     case AdviceGivenPage => ua => ua.get(AdviceGivenPage) match {
       case (Some(value)) if value.contactPreference == AdviceContactPreference.Email => routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
-      case (Some(value)) if value.contactPreference == AdviceContactPreference.Telephone => routes.CanWeUseTelephoneNumberToContactYouController.onPageLoad(NormalMode)
+      case (Some(value)) if value.contactPreference == AdviceContactPreference.Telephone => routes.WhichTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode)
       case _ => routes.CheckYourAnswersController.onPageLoad
     }
 
@@ -68,8 +69,9 @@ class ReasonNavigator @Inject()() {
 
     case WhatEmailAddressCanWeContactYouWithPage => _ => routes.CheckYourAnswersController.onPageLoad
     
-    case CanWeUseTelephoneNumberToContactYouPage => ua => ua.get(CanWeUseTelephoneNumberToContactYouPage) match {
-      case Some(true) => routes.CheckYourAnswersController.onPageLoad
+    case WhichTelephoneNumberCanWeContactYouWithPage => ua => ua.get(WhichTelephoneNumberCanWeContactYouWithPage) match {
+      case Some(DifferentNumber) => routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode)
+      case Some(ExistingNumber) => routes.CheckYourAnswersController.onPageLoad
       case _ => routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode)
     }
 

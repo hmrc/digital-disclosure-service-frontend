@@ -96,14 +96,14 @@ class ReasonNavigatorSpec extends SpecBase {
         navigator.nextPage(AdviceProfessionPage, NormalMode, UserAnswers("id")) mustBe routes.AdviceGivenController.onPageLoad(NormalMode)
       }
 
-      "if the user says yes must go from CanWeUseTelephoneNumberToContactYouPage to CheckYourAnswersController" in {
-        val ua = UserAnswers("id").set(CanWeUseTelephoneNumberToContactYouPage, true).success.value
-        navigator.nextPage(CanWeUseTelephoneNumberToContactYouPage, NormalMode, ua) mustBe routes.CheckYourAnswersController.onPageLoad
+      "if the user says yes must go from WhichTelephoneNumberCanWeContactYouWithPage to CheckYourAnswersController" in {
+        val ua = UserAnswers("id").set(WhichTelephoneNumberCanWeContactYouWithPage, WhichTelephoneNumberCanWeContactYouWith.ExistingNumber).success.value
+        navigator.nextPage(WhichTelephoneNumberCanWeContactYouWithPage, NormalMode, ua) mustBe routes.CheckYourAnswersController.onPageLoad
       }
 
-      "if the user says no must go from CanWeUseTelephoneNumberToContactYouPage to WhichEmailAddressCanWeContactYouWithController" in {
-        val ua = UserAnswers("id").set(CanWeUseTelephoneNumberToContactYouPage, false).success.value
-        navigator.nextPage(CanWeUseTelephoneNumberToContactYouPage, NormalMode, ua) mustBe routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode)
+      "if the user says no must go from WhichTelephoneNumberCanWeContactYouWithPage to WhichEmailAddressCanWeContactYouWithController" in {
+        val ua = UserAnswers("id").set(WhichTelephoneNumberCanWeContactYouWithPage, WhichTelephoneNumberCanWeContactYouWith.DifferentNumber).success.value
+        navigator.nextPage(WhichTelephoneNumberCanWeContactYouWithPage, NormalMode, ua) mustBe routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode)
       }
 
       "if the user select existing email radio button must go from WhichEmailAddressCanWeContactYouWithPage to CheckYourAnswersController" in {
@@ -130,10 +130,10 @@ class ReasonNavigatorSpec extends SpecBase {
         navigator.nextPage(AdviceGivenPage, NormalMode, adviceUa) mustBe routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
       }
 
-      "must go from AdviceGivenPage to CanWeUseTelephoneNumberToContactYouController if the user already entered a telephone number" in {
+      "must go from AdviceGivenPage to WhichTelephoneNumberCanWeContactYouWithController if the user already entered a telephone number" in {
         val adviceGiven = AdviceGiven("Advice", MonthYear(1, 1960), AdviceContactPreference.Telephone)
         val adviceUa = UserAnswers("id").set(AdviceGivenPage, adviceGiven).success.value
-        navigator.nextPage(AdviceGivenPage, NormalMode, adviceUa) mustBe routes.CanWeUseTelephoneNumberToContactYouController.onPageLoad(NormalMode)
+        navigator.nextPage(AdviceGivenPage, NormalMode, adviceUa) mustBe routes.WhichTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode)
       }
 
       "must go from AdviceGivenPage to CheckYourAnswersController if the user selected No" in {
