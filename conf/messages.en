@@ -1209,7 +1209,7 @@ taxBeforeFiveYears.heading = Can you tell us more about any tax owed before 6 Ap
 taxBeforeFiveYears.checkYourAnswersLabel = Tax owed before 6 April {0}
 taxBeforeFiveYears.taxBeforeFiveYears = Provide the amount, when it was owed, and where the income or gain came from. Do not include these figures in this disclosure’s calculations. The person reviewing the disclosure may ask you further questions about this, if needed.
 taxBeforeFiveYears.error.required = Enter information about the tax owed before 6 April {0}
-taxBeforeFiveYears.error.length = The information about the tax owed must be between 1 and 5000 characters
+taxBeforeFiveYears.error.length = The information about the tax owed must be between 1 and 5,000 characters
 taxBeforeFiveYears.taxBeforeFiveYears.change.hidden = TaxBeforeFiveYears
 
 taxBeforeSevenYears.title = Can you tell us more about any tax owed before 6 April {0}?
@@ -1217,7 +1217,7 @@ taxBeforeSevenYears.heading = Can you tell us more about any tax owed before 6 A
 taxBeforeSevenYears.taxBeforeSevenYears = Provide the amount, when it was owed, and where the income or gain came from. Do not include these figures in this disclosure’s calculations. The person reviewing this disclosure may ask you further questions about this, if needed.
 taxBeforeSevenYears.checkYourAnswersLabel = Tax owed before 6 April {0}
 taxBeforeSevenYears.error.required = Enter information about the tax owed before 6 April {0}
-taxBeforeSevenYears.error.length = The information about the tax owed must be between 1 and 5000 characters
+taxBeforeSevenYears.error.length = The information about the tax owed must be between 1 and 5,000 characters
 taxBeforeSevenYears.taxBeforeSevenYears.change.hidden = TaxBeforeSevenYears
 
 taxYearLiabilities.title = Offshore liabilities - Tax year 6 April {0} to 5 April {1}
@@ -1295,7 +1295,7 @@ underWhatConsideration.title = Under what consideration of the law led you to no
 underWhatConsideration.heading = Under what consideration of the law led you to not include some tax in this disclosure?
 underWhatConsideration.checkYourAnswersLabel = The other issue that you considered when not including any amount of tax
 underWhatConsideration.error.required = Enter the consideration of the law that led you to not include some tax in this disclosure
-underWhatConsideration.error.length = Your consideration of the law must be between 1 and 5000 characters
+underWhatConsideration.error.length = Your consideration of the law must be between 1 and 5,000 characters
 underWhatConsideration.change.hidden = UnderWhatConsideration
 
 howMuchTaxHasNotBeenIncluded.title = How much tax has not been included in this disclosure as a result of your interpretation?
@@ -1613,7 +1613,7 @@ canYouTellUsMoreAboutTaxBeforeNineteenYear.heading = Can you tell us more about 
 canYouTellUsMoreAboutTaxBeforeNineteenYear.body = Provide the amount, when it was owed, and where the income or gain came from. Do not include these figures in this disclosure’s calculations. The person reviewing the disclosure may ask you further questions about this, if needed.
 canYouTellUsMoreAboutTaxBeforeNineteenYear.checkYourAnswersLabel = canYouTellUsMoreAboutTaxBeforeNineteenYear
 canYouTellUsMoreAboutTaxBeforeNineteenYear.error.required = Enter information about the tax owed before 6 April {0}
-canYouTellUsMoreAboutTaxBeforeNineteenYear.error.length = The information about the tax owed must be between 1 and 5000 characters
+canYouTellUsMoreAboutTaxBeforeNineteenYear.error.length = The information about the tax owed must be between 1 and 5,000 characters
 canYouTellUsMoreAboutTaxBeforeNineteenYear.change.hidden = CanYouTellUsMoreAboutTaxBeforeNineteenYear
 
 youHaveNotSelectedCertainTaxYear.title = You have not selected certain years
@@ -1635,3 +1635,11 @@ foreignTaxCredit.error.required = Enter the amount of foreign tax credit relief 
 foreignTaxCredit.error.wholeNumber = The amount of foreign tax credit relief must not include pence, like 1000 or 1567
 foreignTaxCredit.error.outOfRange = The amount of foreign tax credit relief must be 0 or more
 foreignTaxCredit.change.hidden = ForeignTaxCredit
+
+whereDidTheUndeclaredIncomeOrGain.title = Where did the undeclared income or gain included in this disclosure come from?
+whereDidTheUndeclaredIncomeOrGain.heading = Where did the undeclared income or gain included in this disclosure come from?
+whereDidTheUndeclaredIncomeOrGain.body = Provide details of up to 3 ways this was earned or gained.
+whereDidTheUndeclaredIncomeOrGain.checkYourAnswersLabel = whereDidTheUndeclaredIncomeOrGain
+whereDidTheUndeclaredIncomeOrGain.error.required = Enter where the undeclared income or gain came from
+whereDidTheUndeclaredIncomeOrGain.error.length = The undeclared income or gain must be between 1 and 500 characters
+whereDidTheUndeclaredIncomeOrGain.change.hidden = WhereDidTheUndeclaredIncomeOrGain
