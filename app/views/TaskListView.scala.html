@@ -24,10 +24,11 @@
     task: components.task,
     govukButton: GovukButton,
     subheading: components.subheading,
+    downloadLink: components.downloadLink,
     link: components.link
 )
 
-@(list: TaskListViewModel, notificationSectionKey: String, isTheUserAgent: Boolean, entity: String, isAllTaskCompleted: Boolean)(implicit request: Request[_], messages: Messages)
+@(list: TaskListViewModel, notificationSectionKey: String, isTheUserAgent: Boolean, entity: String, isAllTaskCompleted: Boolean, sectionsComplete: Int)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = titleNoForm(messages("taskList.title"))) {
 
@@ -35,8 +36,12 @@
 
         <h1 class="govuk-heading-l">@messages("taskList.heading")</h1>
 
-        @paragraph(id = Some("first-paragraph"), classes = "govuk-heading-s govuk-!-margin-bottom-2", content = Text(messages("taskList.paragraph.first")))
-        @paragraph(id = Some("second-paragraph"), content = Text(messages("taskList.paragraph.second")))
+        @if(isAllTaskCompleted) {
+            @paragraph(id = Some("first-paragraph"), classes = "govuk-heading-s govuk-!-margin-bottom-2", content = Text(messages("taskList.paragraph.first.complete")))
+        } else {
+            @paragraph(id = Some("first-paragraph"), classes = "govuk-heading-s govuk-!-margin-bottom-2", content = Text(messages("taskList.paragraph.first.incomplete")))
+        }
+        @paragraph(id = Some("second-paragraph"), content = Text(messages("taskList.paragraph.second", sectionsComplete)))
         @paragraph(id = Some("third-paragraph"), content = Text(messages("taskList.paragraph.third")))
 
         <ol class="app-task-list">
@@ -46,7 +51,12 @@
         </ol>
         
         <p class="govuk-body">
-            @link(id = "link-view-a-copy", classes = "govuk-link", text = messages("taskList.link"), newTab = false, call = Call("GET", controllers.routes.TaskListController.onPageLoad.url))
+            @downloadLink(
+                id = "link-view-a-copy", 
+                text = messages("taskList.link"), 
+                fileName = "disclosure.pdf", 
+                call = controllers.routes.PdfGenerationController.generate
+            )
         </p>
 
         @if(isAllTaskCompleted) {
