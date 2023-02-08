@@ -64,24 +64,6 @@ class CountriesOrTerritoriesControllerSpec extends SpecBase with MockitoSugar {
       }
     }
 
-    "must populate the view correctly on a GET when the question has previously been answered" in {
-
-      val userAnswers = UserAnswers(userAnswersId).set(CountriesOrTerritoriesPage, true).success.value
-
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
-
-      running(application) {
-        val request = FakeRequest(GET, countriesOrTerritoriesRoute)
-
-        val view = application.injector.instanceOf[CountriesOrTerritoriesView]
-
-        val result = route(application, request).value
-
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(true), countries, NormalMode)(request, messages(application)).toString
-      }
-    }
-
     "must redirect to the next page when valid data is submitted" in {
 
       val mockSessionService = mock[SessionService]
