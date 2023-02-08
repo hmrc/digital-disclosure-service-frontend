@@ -14,13 +14,18 @@
  * limitations under the License.
  */
 
-package pages
+package forms
 
-import play.api.libs.json.JsPath
+import javax.inject.Inject
 
-case object CanWeUseTelephoneNumberToContactYouPage extends QuestionPage[Boolean] {
+import forms.mappings.Mappings
+import play.api.data.Form
+import models.WhichTelephoneNumberCanWeContactYouWith
 
-  override def path: JsPath = JsPath \ toString
+class WhichTelephoneNumberCanWeContactYouWithFormProvider @Inject() extends Mappings {
 
-  override def toString: String = "canWeUseTelephoneNumberToContactYou"
+  def apply(): Form[WhichTelephoneNumberCanWeContactYouWith] =
+    Form(
+      "value" -> enumerable[WhichTelephoneNumberCanWeContactYouWith]("whichTelephoneNumberCanWeContactYouWith.error.required")
+    )
 }

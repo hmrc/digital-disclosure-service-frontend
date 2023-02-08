@@ -24,10 +24,9 @@ import views.html.TaskListView
 import viewmodels.{TaskListRow, TaskListViewModel}
 import models._
 import models.address._
-import models.store.FullDisclosure
 import models.store.notification._
 import models.store.disclosure._
-import java.time.{Instant, LocalDate}
+import java.time.LocalDate
 import models.store.YesNoOrUnsure._
 
 class TaskListControllerSpec extends SpecBase with MockitoSugar {

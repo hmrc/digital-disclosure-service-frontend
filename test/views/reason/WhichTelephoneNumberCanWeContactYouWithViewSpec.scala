@@ -17,16 +17,16 @@
 package views.reason
 
 import base.ViewSpecBase
-import forms.CanWeUseTelephoneNumberToContactYouFormProvider
+import forms.WhichTelephoneNumberCanWeContactYouWithFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
-import views.html.reason.CanWeUseTelephoneNumberToContactYouView
+import views.html.reason.WhichTelephoneNumberCanWeContactYouWithView
 import models.NormalMode
 
-class CanWeUseTelephoneNumberToContactYouViewSpec extends ViewSpecBase with ViewMatchers {
+class WhichTelephoneNumberCanWeContactYouWithViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new CanWeUseTelephoneNumberToContactYouFormProvider()()
-  val page: CanWeUseTelephoneNumberToContactYouView = inject[CanWeUseTelephoneNumberToContactYouView]
+  val form = new WhichTelephoneNumberCanWeContactYouWithFormProvider()()
+  val page: WhichTelephoneNumberCanWeContactYouWithView = inject[WhichTelephoneNumberCanWeContactYouWithView]
   val telephoneNumber = "07777 777777"
   private def createView: Html = page(form, NormalMode, telephoneNumber)(request, messages)
 
@@ -35,11 +35,11 @@ class CanWeUseTelephoneNumberToContactYouViewSpec extends ViewSpecBase with View
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("canWeUseTelephoneNumberToContactYou.title", telephoneNumber))
+      view.select("title").text() must include(messages("whichTelephoneNumberCanWeContactYouWith.title"))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("canWeUseTelephoneNumberToContactYou.heading", telephoneNumber)
+      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("whichTelephoneNumberCanWeContactYouWith.heading")
     }
 
     "display the continue button" in {

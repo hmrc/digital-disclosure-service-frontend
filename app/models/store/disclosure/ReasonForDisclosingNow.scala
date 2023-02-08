@@ -17,7 +17,7 @@
 package models.store.disclosure
 
 import play.api.libs.json.{Json, OFormat}
-import models.{AdviceGiven, WhyAreYouMakingADisclosure, WhichEmailAddressCanWeContactYouWith}
+import models.{AdviceGiven, WhyAreYouMakingADisclosure, WhichEmailAddressCanWeContactYouWith, WhichTelephoneNumberCanWeContactYouWith}
 
 final case class ReasonForDisclosingNow(
   reason: Option[Set[WhyAreYouMakingADisclosure]] = None,
@@ -30,7 +30,7 @@ final case class ReasonForDisclosingNow(
   personProfession: Option[String] = None,
   adviceGiven: Option[AdviceGiven] = None,
   whichEmail: Option[WhichEmailAddressCanWeContactYouWith] = None,
-  canWeUsePhone: Option[Boolean] = None,
+  whichPhone: Option[WhichTelephoneNumberCanWeContactYouWith] = None,
   email: Option[String] = None,
   telephone: Option[String] = None
 ) {

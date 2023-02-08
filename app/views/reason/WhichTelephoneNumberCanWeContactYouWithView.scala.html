@@ -23,21 +23,21 @@
     tasklistLink: components.tasklistLink
 )
 
-@(form: Form[_], mode: Mode, telephoneNumber: String)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], mode: Mode, number: String)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("canWeUseTelephoneNumberToContactYou.title", telephoneNumber))) {
+@layout(pageTitle = title(form, messages("whichTelephoneNumberCanWeContactYouWith.title"))) {
 
-    @formHelper(action = controllers.reason.routes.CanWeUseTelephoneNumberToContactYouController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.reason.routes.WhichTelephoneNumberCanWeContactYouWithController.onSubmit(mode), 'autoComplete -> "off") {
 
         @if(form.errors.nonEmpty) {
-            @govukErrorSummary(ErrorSummaryViewModel(form))
+            @govukErrorSummary(ErrorSummaryViewModel(form,  errorLinkOverrides = Map("value" -> "value_0")))
         }
 
         @govukRadios(
-            RadiosViewModel.yesNoNotInline(
+            RadiosViewModel(
                 field  = form("value"),
-                legend = LegendViewModel(messages("canWeUseTelephoneNumberToContactYou.heading", telephoneNumber)).asPageHeading(),
-                messagePrefix = "canWeUseTelephoneNumberToContactYou"
+                legend = LegendViewModel(messages("whichTelephoneNumberCanWeContactYouWith.heading")).asPageHeading(),
+                items  = WhichTelephoneNumberCanWeContactYouWith.options(number)
             )
         )
 

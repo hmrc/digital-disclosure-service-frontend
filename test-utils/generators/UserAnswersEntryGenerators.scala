@@ -24,6 +24,14 @@ import play.api.libs.json.{JsValue, Json}
 
 trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
 
+  implicit lazy val arbitraryWhichTelephoneNumberCanWeContactYouWithUserAnswersEntry: Arbitrary[(WhichTelephoneNumberCanWeContactYouWithPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[WhichTelephoneNumberCanWeContactYouWithPage.type]
+        value <- arbitrary[WhichTelephoneNumberCanWeContactYouWith].map(Json.toJson(_))
+      } yield (page, value)
+    }
+
   implicit lazy val arbitraryWhereDidTheUndeclaredIncomeOrGainUserAnswersEntry: Arbitrary[(WhereDidTheUndeclaredIncomeOrGainPage.type, JsValue)] =
     Arbitrary {
       for {
@@ -44,14 +52,6 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
     Arbitrary {
       for {
         page  <- arbitrary[YouHaveNotSelectedCertainTaxYearPage.type]
-        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
-      } yield (page, value)
-    }
-
-  implicit lazy val arbitraryCanYouTellUsMoreAboutTaxBeforeNineteenYearUserAnswersEntry: Arbitrary[(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage.type, JsValue)] =
-    Arbitrary {
-      for {
-        page  <- arbitrary[CanYouTellUsMoreAboutTaxBeforeNineteenYearPage.type]
         value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
       } yield (page, value)
     }
@@ -117,14 +117,6 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
       for {
         page  <- arbitrary[WhatTelephoneNumberCanWeContactYouWithPage.type]
         value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
-      } yield (page, value)
-    }
-
-  implicit lazy val arbitraryCanWeUseTelephoneNumberToContactYouUserAnswersEntry: Arbitrary[(CanWeUseTelephoneNumberToContactYouPage.type, JsValue)] =
-    Arbitrary {
-      for {
-        page  <- arbitrary[CanWeUseTelephoneNumberToContactYouPage.type]
-        value <- arbitrary[Boolean].map(Json.toJson(_))
       } yield (page, value)
     }
 

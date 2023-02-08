@@ -18,7 +18,7 @@ package viewmodels.checkAnswers
 
 import controllers.reason.routes
 import models.{CheckMode, UserAnswers}
-import pages.CanWeUseTelephoneNumberToContactYouPage
+import pages.WhichTelephoneNumberCanWeContactYouWithPage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
@@ -26,26 +26,24 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object CanWeUseTelephoneNumberToContactYouSummary  {
+object WhichTelephoneNumberCanWeContactYouWithSummary  {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(CanWeUseTelephoneNumberToContactYouPage).map {
+    answers.get(WhichTelephoneNumberCanWeContactYouWithPage).map {
       answer =>
-
-        val answerString = if (answer) "yes" else "no"
 
         val value = ValueViewModel(
           HtmlContent(
-            HtmlFormat.escape(messages(s"canWeUseTelephoneNumberToContactYou.$answerString"))
+            HtmlFormat.escape(messages(s"whichTelephoneNumberCanWeContactYouWith.$answer"))
           )
         )
 
         SummaryListRowViewModel(
-          key     = "canWeUseTelephoneNumberToContactYou.checkYourAnswersLabel",
+          key     = "whichTelephoneNumberCanWeContactYouWith.checkYourAnswersLabel",
           value   = value,
           actions = Seq(
-            ActionItemViewModel("site.change", routes.CanWeUseTelephoneNumberToContactYouController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("canWeUseTelephoneNumberToContactYou.change.hidden"))
+            ActionItemViewModel("site.change", routes.WhichTelephoneNumberCanWeContactYouWithController.onPageLoad(CheckMode).url)
+              .withVisuallyHiddenText(messages("whichTelephoneNumberCanWeContactYouWith.change.hidden"))
           )
         )
     }

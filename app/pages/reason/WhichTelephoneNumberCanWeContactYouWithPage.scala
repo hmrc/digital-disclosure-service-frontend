@@ -16,16 +16,12 @@
 
 package pages
 
-import pages.behaviours.PageBehaviours
+import models.WhichTelephoneNumberCanWeContactYouWith
+import play.api.libs.json.JsPath
 
-class CanWeUseTelephoneNumberToContactYouSpec extends PageBehaviours {
+case object WhichTelephoneNumberCanWeContactYouWithPage extends QuestionPage[WhichTelephoneNumberCanWeContactYouWith] {
 
-  "CanWeUseTelephoneNumberToContactYouPage" - {
+  override def path: JsPath = JsPath \ toString
 
-    beRetrievable[Boolean](CanWeUseTelephoneNumberToContactYouPage)
-
-    beSettable[Boolean](CanWeUseTelephoneNumberToContactYouPage)
-
-    beRemovable[Boolean](CanWeUseTelephoneNumberToContactYouPage)
-  }
+  override def toString: String = "whichTelephoneNumberCanWeContactYouWith"
 }
