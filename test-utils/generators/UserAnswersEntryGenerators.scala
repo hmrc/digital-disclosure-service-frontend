@@ -56,6 +56,14 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
       } yield (page, value)
     }
 
+  implicit lazy val arbitraryCanYouTellUsMoreAboutTaxBeforeNineteenYearUserAnswersEntry: Arbitrary[(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[CanYouTellUsMoreAboutTaxBeforeNineteenYearPage.type]
+        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
+      } yield (page, value)
+    }  
+
   implicit lazy val arbitraryNotificationStartedUserAnswersEntry: Arbitrary[(NotificationStartedPage.type, JsValue)] =
     Arbitrary {
       for {
