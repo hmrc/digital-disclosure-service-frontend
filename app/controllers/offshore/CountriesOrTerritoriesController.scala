@@ -50,17 +50,8 @@ class CountriesOrTerritoriesController @Inject()(
 
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-
-
       val countries = getCountries(request.userAnswers)
-
-      val preparedForm = request.userAnswers.get(CountriesOrTerritoriesPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-
-      Ok(view(preparedForm, countries, mode))
+      Ok(view(form, countries, mode))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
