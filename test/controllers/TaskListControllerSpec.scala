@@ -46,11 +46,11 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         val isSectionComplete = false
         val operationKey = "add"
         val entityKey = "individual"
-        val entity = RelatesTo.AnIndividual
+        val entity = "individual"
         val isTheUserAgent = true
         val isAllTaskCompleted = false
-        val notificationSectionKey = s"taskList.$entityKey.$operationKey.heading.first"
-        val notificationTitleKey = s"taskList.$entityKey.$operationKey.sectionTitle.first"
+        val notificationSectionKey = s"taskList.$operationKey.heading.first.none"
+        val notificationTitleKey = s"taskList.$operationKey.sectionTitle.first.none"
 
         val personalDetailsTask = Seq(buildYourPersonalDetailsRow(notificationTitleKey, isSectionComplete)(mess))
         val liabilitiesInformation = buildLiabilitiesInformationRow(UserAnswers("id"))(mess)
@@ -90,12 +90,12 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
 
         val isSectionComplete = false
         val operationKey = "add"
-        val entityKey = "agent"
-        val entity = RelatesTo.AnIndividual
+        val entityKey = "none"
+        val entity = "none"
         val isTheUserAgent = true
         val isAllTaskCompleted = false
-        val notificationSectionKey = s"taskList.$entityKey.$operationKey.heading.first"
-        val notificationTitleKey = s"taskList.$entityKey.$operationKey.sectionTitle.first"
+        val notificationSectionKey = s"taskList.$operationKey.heading.first.$entityKey"
+        val notificationTitleKey = s"taskList.$operationKey.sectionTitle.first.$entityKey"
 
         val personalDetailsTask = Seq(buildYourPersonalDetailsRow(notificationTitleKey, isSectionComplete)(mess))
         val liabilitiesInformation = buildLiabilitiesInformationRow(ua)(mess)
@@ -190,8 +190,8 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
 
   private def buildOnshoreLiabilitieDetailRow()(implicit messages: Messages): TaskListRow = {
     TaskListRow(
-      id = "onshore-liabilitie-task-list", 
-      sectionTitle = messages("taskList.sectionTitle.third"), 
+      id = "onshore-liabilities-task-list", 
+      sectionTitle = messages("taskList.add.sectionTitle.third"), 
       status = messages("taskList.status.notStarted"), 
       link = routes.TaskListController.onPageLoad
     )
@@ -206,7 +206,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
       else controllers.offshore.routes.WhyAreYouMakingThisDisclosureController.onPageLoad(NormalMode)
 
     TaskListRow(
-      id = "offshore-liabilitie-task-list", 
+      id = "offshore-liabilities-task-list", 
       sectionTitle = messages(offshoreLiabilitieTitleKey), 
       status = messages("taskList.status.notStarted"), 
       link = link
@@ -223,7 +223,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
     else otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(NormalMode)
 
     TaskListRow(
-      id = "other-liability-issue-task-list", 
+      id = "other-liability-issues-task-list", 
       sectionTitle = messages(otherLiabilitiesTitleKey), 
       status = messages("taskList.status.notStarted"), 
       link = link
@@ -236,7 +236,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
     val reasonForComingForwardNowTitleKey = s"taskList.$operationKey.sectionTitle.sixth"
 
     TaskListRow(
-      id = "reason-for-coming-forward-now-liabilitie-task-list", 
+      id = "reason-for-coming-forward-now-task-list", 
       sectionTitle = messages(reasonForComingForwardNowTitleKey), 
       status = messages("taskList.status.notStarted"),
       link = reason.routes.WhyAreYouMakingADisclosureController.onPageLoad(NormalMode)

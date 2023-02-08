@@ -18,7 +18,7 @@ package controllers.notification
 
 import com.google.inject.Inject
 import controllers.actions.{DataRequiredAction, DataRetrievalAction, IdentifierAction}
-import models.SummaryLists
+import models.{SubmissionType, SummaryLists}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
@@ -176,7 +176,8 @@ class CheckYourAnswersController @Inject()(
       
       val isTheEntity = isTheUserTheEntity(request.userAnswers)
 
-      Ok(view(list, isTheEntity))
+      val isNotification = (request.userAnswers.submissionType == SubmissionType.Notification)
+      Ok(view(list, isTheEntity, isNotification))
   }
 
   def onSubmit: Action[AnyContent] = (identify andThen getData andThen requireData).async {
