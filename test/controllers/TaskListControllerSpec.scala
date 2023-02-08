@@ -22,17 +22,24 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.html.TaskListView
 import viewmodels.{TaskListRow, TaskListViewModel}
-import play.api.i18n.Messages
-import pages._
 import models._
+import models.address._
+import models.store.FullDisclosure
+import models.store.notification._
+import models.store.disclosure._
+import java.time.{Instant, LocalDate}
+import models.store.YesNoOrUnsure._
 
 class TaskListControllerSpec extends SpecBase with MockitoSugar {
+
+  val address = Address("line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GBR"))
 
   "TaskList Controller" - {
 
     "must return OK and the correct view for a GET when userAnswers is empty" in {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      implicit val mess = messages(application)
 
       running(application) {
         val request = FakeRequest(GET, routes.TaskListController.onPageLoad.url)
@@ -41,24 +48,44 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
 
         val view = application.injector.instanceOf[TaskListView]
 
-        implicit val mess = messages(application)
-
-        val isSectionComplete = false
-        val operationKey = "add"
-        val entityKey = "individual"
-        val entity = RelatesTo.AnIndividual
+        val entity = "individual"
         val isTheUserAgent = true
         val isAllTaskCompleted = false
-        val notificationSectionKey = s"taskList.$entityKey.$operationKey.heading.first"
-        val notificationTitleKey = s"taskList.$entityKey.$operationKey.sectionTitle.first"
+        val tasksComplete = 0
+        val notificationSectionKey = "taskList.add.heading.first.none"
 
-        val personalDetailsTask = Seq(buildYourPersonalDetailsRow(notificationTitleKey, isSectionComplete)(mess))
-        val liabilitiesInformation = buildLiabilitiesInformationRow(UserAnswers("id"))(mess)
-        val additionalInformation = Seq(buildOtherLiabilityIssueRow(UserAnswers("id"))(mess), buildTheReasonForComingForwardNowRow(UserAnswers("id"))(mess))
-        val list = TaskListViewModel(personalDetailsTask, liabilitiesInformation, additionalInformation)
+        val personalDetailsTask = TaskListRow(
+          id = "personal-detail-task-list",
+          sectionTitle = mess("taskList.add.sectionTitle.first.none"),
+          status = mess("taskList.status.notStarted"),
+          link = controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode)
+        )
+
+        val caseReferenceTask = TaskListRow(
+          id = "case-reference-task-list",
+          sectionTitle = mess("taskList.add.sectionTitle.second"),
+          status = mess("taskList.status.notStarted"),
+          link = controllers.reference.routes.DoYouHaveACaseReferenceController.onPageLoad(NormalMode)
+        )
+
+        val otherLiabilitiesTask = TaskListRow(
+          id = "other-liability-issues-task-list",
+          sectionTitle = mess("taskList.add.sectionTitle.fifth"),
+          status = mess("taskList.status.notStarted"),
+          link = controllers.otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(NormalMode)
+        )
+
+        val reasonTask = TaskListRow(
+          id = "reason-for-coming-forward-now-task-list",
+          sectionTitle = mess("taskList.add.sectionTitle.sixth"),
+          status = mess("taskList.status.notStarted"),
+          link = reason.routes.WhyAreYouMakingADisclosureController.onPageLoad(NormalMode)
+        )
+        
+        val list = TaskListViewModel(Seq(personalDetailsTask), Seq(caseReferenceTask), Seq(otherLiabilitiesTask, reasonTask))
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(list, notificationSectionKey, isTheUserAgent, entity, isAllTaskCompleted)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(list, notificationSectionKey, isTheUserAgent, entity, isAllTaskCompleted, tasksComplete)(request, messages(application)).toString
       }
     }
 
@@ -76,184 +103,306 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
       }
     }
 
-    def rowIsDisplayedWhenPageIsPopulated(ua: UserAnswers) = {
-      val application = applicationBuilder(userAnswers = Some(ua)).build()
+  }
 
-      running(application) {
-        val request = FakeRequest(GET, routes.TaskListController.onPageLoad.url)
+  val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+  val sut = application.injector.instanceOf[TaskListController]
+  implicit val mess = messages(application)
 
-        val result = route(application, request).value
+  "getStatusMessage" - {
 
-        val view = application.injector.instanceOf[TaskListView]
-
-        implicit val mess = messages(application)
-
-        val isSectionComplete = false
-        val operationKey = "add"
-        val entityKey = "agent"
-        val entity = RelatesTo.AnIndividual
-        val isTheUserAgent = true
-        val isAllTaskCompleted = false
-        val notificationSectionKey = s"taskList.$entityKey.$operationKey.heading.first"
-        val notificationTitleKey = s"taskList.$entityKey.$operationKey.sectionTitle.first"
-
-        val personalDetailsTask = Seq(buildYourPersonalDetailsRow(notificationTitleKey, isSectionComplete)(mess))
-        val liabilitiesInformation = buildLiabilitiesInformationRow(ua)(mess)
-        val additionalInformation = Seq(buildOtherLiabilityIssueRow(ua)(mess), buildTheReasonForComingForwardNowRow(ua)(mess))
-        val list = TaskListViewModel(personalDetailsTask, liabilitiesInformation, additionalInformation)
-
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(list, notificationSectionKey, isTheUserAgent, entity, isAllTaskCompleted)(request, messages(application)).toString
-      }
+    "should return taskList.status.completed when section is complete" in {
+      sut.getStatusMessage(true, true) mustEqual mess("taskList.status.completed")
     }
 
-    "must return the correct view when TaskListPage is populated with both liabilities information" in {
-      val userAnswer = (for {
-        ua <- UserAnswers("id").set(OffshoreLiabilitiesPage, true)
-        ua1 <- ua.set(OnshoreLiabilitiesPage, true)
-        ua2 <- ua1.set(AreYouTheIndividualPage, true)
-      } yield ua2).success.value
-      rowIsDisplayedWhenPageIsPopulated(userAnswer)
+    "should return taskList.status.inProgress when first page is complete but section is not" in {
+      sut.getStatusMessage(false, true) mustEqual mess("taskList.status.inProgress")
     }
 
-    "must return the correct view when TaskListPage is populated with onshore liabilities row" in {
-      val userAnswer = (for {
-        ua <- UserAnswers("id").set(OffshoreLiabilitiesPage, false)
-        ua1 <- ua.set(OnshoreLiabilitiesPage, true)
-        ua2 <- ua1.set(AreYouTheIndividualPage, true)
-      } yield ua2).success.value
-      rowIsDisplayedWhenPageIsPopulated(userAnswer)
+    "should return taskList.status.notStarted when no pages are complete" in {
+      sut.getStatusMessage(false, false) mustEqual mess("taskList.status.notStarted")
     }
 
-    "must return the correct view when TaskListPage is populated with offshore liabilities row" in {
-      val userAnswer = (for {
-        ua <- UserAnswers("id").set(OffshoreLiabilitiesPage, true)
-        ua1 <- ua.set(OnshoreLiabilitiesPage, false)
-        ua2 <- ua1.set(AreYouTheIndividualPage, true)
-      } yield ua2).success.value
-      rowIsDisplayedWhenPageIsPopulated(userAnswer)
+  }
+
+  "buildYourPersonalDetailsRow" - {
+    "should display Not Started when the section isn't complete" in {
+      
+      val personalDetails = PersonalDetails(background = Background(), aboutYou = AboutYou())
+      
+      val expectedTask = TaskListRow(
+        id = "personal-detail-task-list",
+        sectionTitle = mess("taskList.add.sectionTitle.first.none"),
+        status = mess("taskList.status.notStarted"),
+        link = controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode)
+      )
+      val expectedSectionKey = "taskList.add.heading.first.none"
+      val (actualKey, actualTask) = sut.buildYourPersonalDetailsRow(personalDetails, "none") 
+
+      actualKey mustEqual expectedSectionKey
+      actualTask mustEqual expectedTask    
+
     }
 
-    "must return the correct view when TaskListPage is populated with no liabilities information row" in {
-      val userAnswer = UserAnswers("id").set(AreYouTheIndividualPage, true).success.value
-      rowIsDisplayedWhenPageIsPopulated(userAnswer)
+    "should display In Progress when the section has been started but isn't complete" in {
+      
+      val personalDetails = PersonalDetails(background = Background(haveYouReceivedALetter = Some(true)), aboutYou = AboutYou())
+      
+      val expectedTask = TaskListRow(
+        id = "personal-detail-task-list",
+        sectionTitle = mess("taskList.add.sectionTitle.first.individual"),
+        status = mess("taskList.status.inProgress"),
+        link = controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode)
+      )
+      val expectedSectionKey = "taskList.add.heading.first.individual"
+      val (actualKey, actualTask) = sut.buildYourPersonalDetailsRow(personalDetails, "individual") 
+
+      actualKey mustEqual expectedSectionKey
+      actualTask mustEqual expectedTask    
     }
 
-    "must return the correct view when TaskListPage is populated case reference in progress" in {
-      val userAnswer = (for {
-        ua <- UserAnswers("id").set(DoYouHaveACaseReferencePage, true)
-        ua2 <- ua.set(AreYouTheIndividualPage, true)
-      } yield ua2).success.value
-      rowIsDisplayedWhenPageIsPopulated(userAnswer)
-    }
+    "should display Completed when the section is complete" in {
+      val completedBackground = Background(Some(false), None, Some(DisclosureEntity(Individual, Some(true))), Some(false), None, Some(true), Some(false))
+      val aboutYou = AboutYou(Some("name"), None, Some("email"), Some(LocalDate.now), Some("mainOccupation"), Some(ContactPreferences(Set(Email))), Some(No), None, Some(No), None, Some(No), None, Some(address))
+      val personalDetails = PersonalDetails(completedBackground, aboutYou, None, None, None, None, None)
+      
+      val expectedTask = TaskListRow(
+        id = "personal-detail-task-list",
+        sectionTitle = mess("taskList.edit.sectionTitle.first.company"),
+        status = mess("taskList.status.completed"),
+        link = controllers.notification.routes.CheckYourAnswersController.onPageLoad
+      )
+      val expectedSectionKey = "taskList.edit.heading.first.company"
+      val (actualKey, actualTask) = sut.buildYourPersonalDetailsRow(personalDetails, "company") 
 
-    "must return the correct view when TaskListPage is populated case reference is complete" in {
-      val userAnswer = (for {
-        ua <- UserAnswers("id").set(DoYouHaveACaseReferencePage, true)
-        ua1 <- ua.set(WhatIsTheCaseReferencePage, "AAA1234")
-        ua2 <- ua1.set(AreYouTheIndividualPage, true)
-      } yield ua2).success.value
-      rowIsDisplayedWhenPageIsPopulated(userAnswer)
+      actualKey mustEqual expectedSectionKey
+      actualTask mustEqual expectedTask    
     }
   }
 
-  private def buildYourPersonalDetailsRow(notificationTitleKey: String, isSectionComplete: Boolean)(implicit messages: Messages): TaskListRow = {
+  "buildCaseReferenceRow" - {
+    "should display Not Started when the section isn't complete" in {
+      
+      val model = CaseReference()
+      
+      val expectedTask = TaskListRow(
+        id = "case-reference-task-list",
+        sectionTitle = mess("taskList.add.sectionTitle.second"),
+        status = mess("taskList.status.notStarted"),
+        link = controllers.reference.routes.DoYouHaveACaseReferenceController.onPageLoad(NormalMode)
+      )
+      val actualTask = sut.buildCaseReferenceRow(model) 
 
-    val link = if (isSectionComplete) controllers.notification.routes.CheckYourAnswersController.onPageLoad
-      else controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode)
+      actualTask mustEqual expectedTask    
 
-    TaskListRow(
-      id = "personal-detail-task-list", 
-      sectionTitle = messages(notificationTitleKey), 
-      status = messages("taskList.status.notStarted"), 
-      link = link
-    )
-  }
-
-  private def buildCaseReferenceRow(userAnswer: UserAnswers)(implicit messages: Messages): TaskListRow = {
-
-    val (status, operationKey) = (userAnswer.get(DoYouHaveACaseReferencePage), userAnswer.get(WhatIsTheCaseReferencePage)) match {
-      case (None, _) => ("taskList.status.notStarted", "add")
-      case (Some(true), None) => ("taskList.status.inProgress", "add")
-      case (_, _) => ("taskList.status.completed", "edit")
     }
 
-    val caseReferenceTitleKey = s"taskList.$operationKey.sectionTitle.second"
+    "should display In Progress when the section has been started but isn't complete" in {
+      
+      val model = CaseReference(doYouHaveACaseReference = Some(true))
+      
+      val expectedTask = TaskListRow(
+        id = "case-reference-task-list",
+        sectionTitle = mess("taskList.add.sectionTitle.second"),
+        status = mess("taskList.status.inProgress"),
+        link = controllers.reference.routes.DoYouHaveACaseReferenceController.onPageLoad(NormalMode)
+      )
+      val actualTask = sut.buildCaseReferenceRow(model) 
 
-    TaskListRow(
-      id = "case-reference-task-list",
-      sectionTitle = messages(caseReferenceTitleKey),
-      status = messages(status),
-      link = controllers.reference.routes.DoYouHaveACaseReferenceController.onPageLoad(NormalMode)
-    )
-  }
+      actualTask mustEqual expectedTask  
+    }
 
-  private def buildOnshoreLiabilitieDetailRow()(implicit messages: Messages): TaskListRow = {
-    TaskListRow(
-      id = "onshore-liabilitie-task-list", 
-      sectionTitle = messages("taskList.sectionTitle.third"), 
-      status = messages("taskList.status.notStarted"), 
-      link = routes.TaskListController.onPageLoad
-    )
-  }
+    "should display Completed when the section is complete" in {
+      val model = CaseReference(doYouHaveACaseReference = Some(true), whatIsTheCaseReference = Some("Case ref"))
+      
+      val expectedTask = TaskListRow(
+        id = "case-reference-task-list",
+        sectionTitle = mess("taskList.edit.sectionTitle.second"),
+        status = mess("taskList.status.completed"),
+        link = controllers.reference.routes.DoYouHaveACaseReferenceController.onPageLoad(NormalMode)
+      )
+      val actualTask = sut.buildCaseReferenceRow(model) 
 
-  private def buildOffshoreLiabilitieDetailRow(userAnswers: UserAnswers)(implicit messages: Messages): TaskListRow = {
-
-    val operationKey = "add"
-    val offshoreLiabilitieTitleKey = s"taskList.$operationKey.sectionTitle.forth"
-    val isSectionComplete = false
-    val link = if (isSectionComplete) controllers.offshore.routes.CheckYourAnswersController.onPageLoad
-      else controllers.offshore.routes.WhyAreYouMakingThisDisclosureController.onPageLoad(NormalMode)
-
-    TaskListRow(
-      id = "offshore-liabilitie-task-list", 
-      sectionTitle = messages(offshoreLiabilitieTitleKey), 
-      status = messages("taskList.status.notStarted"), 
-      link = link
-    )
-  }
-
-  private def buildOtherLiabilityIssueRow(userAnswers: UserAnswers)(implicit messages: Messages): TaskListRow = {
-
-    val operationKey = "add"
-    val otherLiabilitiesTitleKey = s"taskList.$operationKey.sectionTitle.fifth"
-    val isSectionComplete = false
-
-    val link = if(isSectionComplete) controllers.otherLiabilities.routes.CheckYourAnswersController.onPageLoad
-    else otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(NormalMode)
-
-    TaskListRow(
-      id = "other-liability-issue-task-list", 
-      sectionTitle = messages(otherLiabilitiesTitleKey), 
-      status = messages("taskList.status.notStarted"), 
-      link = link
-    )
-  }
-
-  private def buildTheReasonForComingForwardNowRow(userAnswers: UserAnswers)(implicit messages: Messages): TaskListRow = {
-
-    val operationKey = "add"
-    val reasonForComingForwardNowTitleKey = s"taskList.$operationKey.sectionTitle.sixth"
-
-    TaskListRow(
-      id = "reason-for-coming-forward-now-liabilitie-task-list", 
-      sectionTitle = messages(reasonForComingForwardNowTitleKey), 
-      status = messages("taskList.status.notStarted"),
-      link = reason.routes.WhyAreYouMakingADisclosureController.onPageLoad(NormalMode)
-    )
-  }
-
-  private def buildLiabilitiesInformationRow(userAnswers: UserAnswers)(implicit messages: Messages): Seq[TaskListRow] = {
-    val offshore = userAnswers.get(OffshoreLiabilitiesPage) 
-    val onshore = userAnswers.get(OnshoreLiabilitiesPage)
-
-    (offshore, onshore) match {
-      case (Some(true),  Some(true))  => Seq(buildCaseReferenceRow(userAnswers), buildOnshoreLiabilitieDetailRow, buildOffshoreLiabilitieDetailRow(userAnswers))
-      case (Some(true),  _)           => Seq(buildCaseReferenceRow(userAnswers), buildOffshoreLiabilitieDetailRow(userAnswers))
-      case (_,           Some(true))  => Seq(buildCaseReferenceRow(userAnswers), buildOnshoreLiabilitieDetailRow)
-      case (Some(false), _)           => Seq(buildCaseReferenceRow(userAnswers), buildOnshoreLiabilitieDetailRow)
-      case (_,           _)           => Seq(buildCaseReferenceRow(userAnswers))
+      actualTask mustEqual expectedTask    
     }
   }
 
+  "buildOffshoreLiabilitiesDetailRow" - {
+    "should display Not Started when the section isn't complete" in {
+      
+      val model = OffshoreLiabilities()
+      
+      val expectedTask = TaskListRow(
+        id = "offshore-liabilities-task-list",
+        sectionTitle = mess("taskList.add.sectionTitle.forth"),
+        status = mess("taskList.status.notStarted"),
+        link = controllers.offshore.routes.WhyAreYouMakingThisDisclosureController.onPageLoad(NormalMode)
+      )
+      val actualTask = sut.buildOffshoreLiabilitiesDetailRow(model) 
+
+      actualTask mustEqual expectedTask    
+
+    }
+
+    "should display In Progress when the section has been started but isn't complete" in {
+    
+      val model = OffshoreLiabilities(behaviour = Some(Set()))
+      
+      val expectedTask = TaskListRow(
+        id = "offshore-liabilities-task-list",
+        sectionTitle = mess("taskList.add.sectionTitle.forth"),
+        status = mess("taskList.status.inProgress"),
+        link = controllers.offshore.routes.WhyAreYouMakingThisDisclosureController.onPageLoad(NormalMode)
+      )
+      val actualTask = sut.buildOffshoreLiabilitiesDetailRow(model) 
+
+      actualTask mustEqual expectedTask  
+    }
+
+    "should display Completed when the section is complete" in {
+
+      val liabilities = TaxYearLiabilities(
+        income = BigInt(2000),
+        chargeableTransfers = BigInt(2000),
+        capitalGains = BigInt(2000),
+        unpaidTax = BigInt(2000),
+        interest = BigInt(2000),
+        penaltyRate = 12,
+        penaltyRateReason = "Reason",
+        foreignTaxCredit = false
+      )
+      val model = OffshoreLiabilities(
+        Some(Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse)), 
+        None, 
+        None, 
+        None, 
+        Some(Set(TaxYearStarting(2012))),
+        None,
+        None,
+        None,
+        None,
+        Some(Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities))),
+        Some(Set(YourLegalInterpretation.NoExclusion)),
+        None,
+        None,
+        Some(TheMaximumValueOfAllAssets.TenThousandOrLess)
+      )
+
+      val expectedTask = TaskListRow(
+        id = "offshore-liabilities-task-list",
+        sectionTitle = mess("taskList.edit.sectionTitle.forth"),
+        status = mess("taskList.status.completed"),
+        link = controllers.offshore.routes.CheckYourAnswersController.onPageLoad
+      )
+      val actualTask = sut.buildOffshoreLiabilitiesDetailRow(model) 
+
+      actualTask mustEqual expectedTask    
+    }
+  }
+
+  "buildOtherLiabilityIssueRow" - {
+    "should display Not Started when the section isn't complete" in {
+      
+      val model = OtherLiabilities()
+      
+      val expectedTask = TaskListRow(
+        id = "other-liability-issues-task-list",
+        sectionTitle = mess("taskList.add.sectionTitle.fifth"),
+        status = mess("taskList.status.notStarted"),
+        link = controllers.otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(NormalMode)
+      )
+      val actualTask = sut.buildOtherLiabilityIssueRow(model, false) 
+
+      actualTask mustEqual expectedTask    
+
+    }
+
+    "should display In Progress when the section has been started but isn't complete" in {
+    
+      val model = OtherLiabilities(Some(Set(OtherLiabilityIssues.InheritanceTaxIssues)))
+
+      val expectedTask = TaskListRow(
+        id = "other-liability-issues-task-list",
+        sectionTitle = mess("taskList.add.sectionTitle.fifth"),
+        status = mess("taskList.status.inProgress"),
+        link = controllers.otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(NormalMode)
+      )
+      val actualTask = sut.buildOtherLiabilityIssueRow(model, false) 
+
+      actualTask mustEqual expectedTask  
+    }
+
+    "should display Completed when the section is complete" in {
+
+      val model = OtherLiabilities(Some(Set(OtherLiabilityIssues.InheritanceTaxIssues)), Some("Some string"), None, None)
+
+      val expectedTask = TaskListRow(
+        id = "other-liability-issues-task-list",
+        sectionTitle = mess("taskList.edit.sectionTitle.fifth"),
+        status = mess("taskList.status.completed"),
+        link = controllers.otherLiabilities.routes.CheckYourAnswersController.onPageLoad
+      )
+      val actualTask = sut.buildOtherLiabilityIssueRow(model, false) 
+
+      actualTask mustEqual expectedTask    
+    }
+  }
+
+  "buildTheReasonForComingForwardNowRow" - {
+    "should display Not Started when the section isn't complete" in {
+      
+      val model = ReasonForDisclosingNow()
+      
+      val expectedTask = TaskListRow(
+        id = "reason-for-coming-forward-now-task-list",
+        sectionTitle = mess("taskList.add.sectionTitle.sixth"),
+        status = mess("taskList.status.notStarted"),
+        link = reason.routes.WhyAreYouMakingADisclosureController.onPageLoad(NormalMode)
+      )
+      val actualTask = sut.buildTheReasonForComingForwardNowRow(model) 
+
+      actualTask mustEqual expectedTask    
+
+    }
+
+    "should display In Progress when the section has been started but isn't complete" in {
+    
+      val model = ReasonForDisclosingNow(Some(Set(WhyAreYouMakingADisclosure.GovUkGuidance)))
+
+      val expectedTask = TaskListRow(
+        id = "reason-for-coming-forward-now-task-list",
+        sectionTitle = mess("taskList.add.sectionTitle.sixth"),
+        status = mess("taskList.status.inProgress"),
+        link = reason.routes.WhyAreYouMakingADisclosureController.onPageLoad(NormalMode)
+      )
+      val actualTask = sut.buildTheReasonForComingForwardNowRow(model) 
+
+      actualTask mustEqual expectedTask  
+    }
+
+    "should display Completed when the section is complete" in {
+
+      val model = ReasonForDisclosingNow(
+        Some(Set(WhyAreYouMakingADisclosure.GovUkGuidance)), 
+        None, 
+        Some("Some reason"), 
+        Some(true), 
+        Some("Some guy"), 
+        Some(false), 
+        None, 
+        Some("Some profession"),
+        Some(AdviceGiven("Some advice", MonthYear(12, 2012), AdviceContactPreference.No))
+      )
+
+      val expectedTask = TaskListRow(
+        id = "reason-for-coming-forward-now-task-list",
+        sectionTitle = mess("taskList.edit.sectionTitle.sixth"),
+        status = mess("taskList.status.completed"),
+        link = controllers.reason.routes.CheckYourAnswersController.onPageLoad
+      )
+      val actualTask = sut.buildTheReasonForComingForwardNowRow(model) 
+
+      actualTask mustEqual expectedTask    
+    }
+  }
 }

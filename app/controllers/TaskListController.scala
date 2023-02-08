@@ -19,6 +19,9 @@ package controllers
 import controllers.actions._
 import javax.inject.Inject
 import models.{NormalMode, UserAnswers, RelatesTo}
+import models.store.FullDisclosure
+import models.store.notification._
+import models.store.disclosure._
 import navigation.Navigator
 import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -28,6 +31,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.TaskListView
 import viewmodels.{TaskListRow, TaskListViewModel}
 import play.api.i18n.Messages
+import play.api.mvc.Call
 
 class TaskListController @Inject()(
                                         override val messagesApi: MessagesApi,
@@ -36,8 +40,8 @@ class TaskListController @Inject()(
                                         identify: IdentifierAction,
                                         getData: DataRetrievalAction,
                                         requireData: DataRequiredAction,
-                                        dataService: UAToNotificationService,
-                                        dateDisclosureService: UAToDisclosureService,
+                                        uaToNotificationService: UAToNotificationService,
+                                        uaToDisclosureService: UAToDisclosureService,
                                         val controllerComponents: MessagesControllerComponents,
                                         view: TaskListView
                                     ) extends FrontendBaseController with I18nSupport {
@@ -46,151 +50,105 @@ class TaskListController @Inject()(
     implicit request =>
 
       val ua = request.userAnswers
+      val fullDisclosure = uaToDisclosureService.uaToFullDisclosure(ua)
 
-      val areTheyTheIndividual = isTheUserTheIndividual(ua)
-      val entity = ua.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
-
-      val isSectionComplete = dataService.userAnswersToNotification(ua).isComplete
-      val operationKey = if (isSectionComplete) "edit" else "add"
-      val entityKey = if (areTheyTheIndividual) "agent" else entity
-      val notificationSectionKey = s"taskList.$entityKey.$operationKey.heading.first"
-      val notificationTitleKey = s"taskList.$entityKey.$operationKey.sectionTitle.first"
+      val entity: String = ua.get(RelatesToPage).map(_.toString).getOrElse("none")
+      val entityKey = if (fullDisclosure.disclosingAboutThemselves) "agent" else entity
       
-      val personalDetailsTasks = Seq(buildYourPersonalDetailsRow(notificationTitleKey, isSectionComplete))
-
-      val liabilitiesInformation = buildLiabilitiesInformationRow(ua)
-
-      val additionalInformation = Seq(buildOtherLiabilityIssueRow(ua), buildTheReasonForComingForwardNowRow(ua))
+      val (notificationSectionKey, personalDetailsRow) = buildYourPersonalDetailsRow(fullDisclosure.personalDetails, entityKey)
+      val liabilitiesRows = buildLiabilitiesInformationRow(fullDisclosure.personalDetails.background, fullDisclosure.offshoreLiabilities)
 
       val list = TaskListViewModel(
-        personalDetailsTasks,
-        liabilitiesInformation,
-        additionalInformation
+        Seq(personalDetailsRow),
+        buildCaseReferenceRow(fullDisclosure.caseReference) +: liabilitiesRows,
+        Seq(buildOtherLiabilityIssueRow(fullDisclosure.otherLiabilities, fullDisclosure.personalDetails.isAnIndividual), buildTheReasonForComingForwardNowRow(fullDisclosure.reasonForDisclosingNow))
       )
-
-      Ok(view(list, notificationSectionKey, isTheUserAgent(ua), entity, false))
+      
+      Ok(view(list, notificationSectionKey, isTheUserAgent(ua), entity, fullDisclosure.isComplete, sectionsComplete(fullDisclosure)))
   }
 
-  def statusKey(isSectionComplete: Boolean): String = if (isSectionComplete) "taskList.status.completed" else "taskList.status.notStarted"
+  private[controllers] def buildYourPersonalDetailsRow(personalDetails: PersonalDetails, entityKey: String)(implicit messages: Messages): (String, TaskListRow) = {
+    val isSectionComplete = personalDetails.isComplete
+    val firstPage = personalDetails.background.haveYouReceivedALetter
+    val completeLink = controllers.notification.routes.CheckYourAnswersController.onPageLoad
+    val incompleteLink = controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode)
+    
+    val operationKey = getOperationKey(isSectionComplete, firstPage.isDefined)
+    val notificationSectionKey = s"taskList.$operationKey.heading.first.$entityKey"
+
+    (notificationSectionKey, buildRow("personal-detail", s"first.$entityKey", isSectionComplete, firstPage.isDefined, completeLink, incompleteLink))
+  }
+
+  private[controllers] def buildCaseReferenceRow(caseReference: CaseReference)(implicit messages: Messages): TaskListRow = {
+    val isSectionComplete = caseReference.isComplete
+    val firstPage = caseReference.doYouHaveACaseReference
+    val completeLink = controllers.reference.routes.DoYouHaveACaseReferenceController.onPageLoad(NormalMode)
+    val incompleteLink = controllers.reference.routes.DoYouHaveACaseReferenceController.onPageLoad(NormalMode)
+
+    buildRow("case-reference", "second", isSectionComplete, firstPage.isDefined, completeLink, incompleteLink)
+  }
+
+  private[controllers] def buildOnshoreLiabilitieDetailRow(implicit messages: Messages): TaskListRow = {
+    val firstPage = None
+    val isSectionComplete = false
+    val completeLink = routes.TaskListController.onPageLoad
+    val incompleteLink = routes.TaskListController.onPageLoad
+
+    buildRow("onshore-liabilities", "third", isSectionComplete, firstPage.isDefined, completeLink, incompleteLink)
+  }
+
+  private[controllers] def buildOffshoreLiabilitiesDetailRow(offshoreLiabilities: OffshoreLiabilities)(implicit messages: Messages): TaskListRow = {
+    val firstPage = offshoreLiabilities.behaviour
+    val isSectionComplete = offshoreLiabilities.isComplete
+    val completeLink = controllers.offshore.routes.CheckYourAnswersController.onPageLoad
+    val incompleteLink = controllers.offshore.routes.WhyAreYouMakingThisDisclosureController.onPageLoad(NormalMode)
+
+    buildRow("offshore-liabilities", "forth", isSectionComplete, firstPage.isDefined, completeLink, incompleteLink)
+  }
+
+  private[controllers] def buildOtherLiabilityIssueRow(otherLiabilities: OtherLiabilities, isAnIndividual: Boolean)(implicit messages: Messages): TaskListRow = {
+    val firstPage = otherLiabilities.issues
+    val isSectionComplete = otherLiabilities.isComplete(isAnIndividual)
+    val completeLink = controllers.otherLiabilities.routes.CheckYourAnswersController.onPageLoad
+    val incompleteLink =  controllers.otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(NormalMode)
+
+    buildRow("other-liability-issues", "fifth", isSectionComplete, firstPage.isDefined, completeLink, incompleteLink)
+  }
+
+  private[controllers] def buildTheReasonForComingForwardNowRow(reasonForDisclosingNow: ReasonForDisclosingNow)(implicit messages: Messages): TaskListRow = {
+    val firstPage = reasonForDisclosingNow.reason
+    val isSectionComplete = reasonForDisclosingNow.isComplete
+    val completeLink = controllers.reason.routes.CheckYourAnswersController.onPageLoad
+    val incompleteLink = reason.routes.WhyAreYouMakingADisclosureController.onPageLoad(NormalMode)
+
+    buildRow("reason-for-coming-forward-now", "sixth", isSectionComplete, firstPage.isDefined, completeLink, incompleteLink)
+  }
+
+  private def buildRow(prefix: String, titleKeySuffix: String, isSectionComplete: Boolean, isFirstPageDefined: Boolean, completeLink: Call, incompleteLink: Call)(implicit messages: Messages) = {
+    val operationKey = getOperationKey(isSectionComplete, isFirstPageDefined)
+    val titleKey = s"taskList.$operationKey.sectionTitle.$titleKeySuffix"
+    val link = if (isSectionComplete) completeLink else incompleteLink
+    TaskListRow(
+      id = s"$prefix-task-list",
+      sectionTitle = messages(titleKey),
+      status = getStatusMessage(isSectionComplete, isFirstPageDefined),
+      link = link
+    )
+  }
+
+  private[controllers] def getOperationKey(isSectionComplete: Boolean, isFirstPageDefined: Boolean) = if (isSectionComplete) "edit" else "add"
   
-  private def buildYourPersonalDetailsRow(notificationTitleKey: String, isSectionComplete: Boolean)(implicit messages: Messages): TaskListRow = {
-
-    val link = if (isSectionComplete) controllers.notification.routes.CheckYourAnswersController.onPageLoad
-      else controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode)
-
-    TaskListRow(
-      id = "personal-detail-task-list", 
-      sectionTitle = messages(notificationTitleKey), 
-      status = messages(statusKey(isSectionComplete)), 
-      link = link
-    )
-  }
-
-  private def buildCaseReferenceRow(userAnswers: UserAnswers)(implicit messages: Messages): TaskListRow = {
-
-    val isSectionComplete = dateDisclosureService.uaToCaseReference(userAnswers).isComplete
-    val firstPage = userAnswers.get(DoYouHaveACaseReferencePage)
-    val operationKey = if (isSectionComplete) "edit" else "add"
-    val caseReferenceTitleKey = s"taskList.$operationKey.sectionTitle.second"
-
-    val link = controllers.reference.routes.DoYouHaveACaseReferenceController.onPageLoad(NormalMode)
-
-    TaskListRow(
-      id = "case-reference-task-list",
-      sectionTitle = messages(caseReferenceTitleKey),
-      status = getStatusMessage(isSectionComplete, firstPage.isDefined),
-      link = link
-    )
-  }
-
-  private def buildOnshoreLiabilitieDetailRow(implicit messages: Messages): TaskListRow = {
-    TaskListRow(
-      id = "onshore-liabilitie-task-list", 
-      sectionTitle = messages("taskList.sectionTitle.third"), 
-      status = messages("taskList.status.notStarted"), 
-      link = routes.TaskListController.onPageLoad
-    )
-  }
-
-  private def buildOffshoreLiabilitieDetailRow(userAnswers: UserAnswers)(implicit messages: Messages): TaskListRow = {
-
-    val firstPage = userAnswers.get(WhyAreYouMakingThisDisclosurePage)
-    val isSectionComplete = dateDisclosureService.uaToOffshoreLiabilities(userAnswers).isComplete
-    val operationKey = if (isSectionComplete || firstPage.isDefined) "edit" else "add"
-    val offshoreLiabilitieTitleKey = s"taskList.$operationKey.sectionTitle.forth"
-
-    val link = if (isSectionComplete) controllers.offshore.routes.CheckYourAnswersController.onPageLoad
-      else controllers.offshore.routes.WhyAreYouMakingThisDisclosureController.onPageLoad(NormalMode)
-
-    TaskListRow(
-      id = "offshore-liabilitie-task-list",
-      sectionTitle = messages(offshoreLiabilitieTitleKey),
-      status = getStatusMessage(isSectionComplete, firstPage.isDefined),
-      link = link
-    )
-  }
-
-  private def buildOtherLiabilityIssueRow(userAnswers: UserAnswers)(implicit messages: Messages): TaskListRow = {
-
-    val firstPage = userAnswers.get(OtherLiabilityIssuesPage)
-    val isAnIndividual = userAnswers.get(RelatesToPage) match {
-      case Some(RelatesTo.AnIndividual) => true 
-      case Some(RelatesTo.AnEstate) => true
-      case _ => false
-    }
-    val isSectionComplete = dateDisclosureService.uaToOtherLiabilities(userAnswers).isComplete(isAnIndividual)
-    val operationKey = if (isSectionComplete || firstPage.isDefined) "edit" else "add"
-    val otherLiabilitiesTitleKey = s"taskList.$operationKey.sectionTitle.fifth"
-
-    val link = if(isSectionComplete) controllers.otherLiabilities.routes.CheckYourAnswersController.onPageLoad
-    else otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(NormalMode)
-
-    TaskListRow(
-      id = "other-liability-issue-task-list",
-      sectionTitle = messages(otherLiabilitiesTitleKey),
-      status = getStatusMessage(isSectionComplete, firstPage.isDefined),
-      link = link
-    )
-  }
-
-  private def buildTheReasonForComingForwardNowRow(userAnswers: UserAnswers)(implicit messages: Messages): TaskListRow = {
-
-    val firstPage = userAnswers.get(WhyAreYouMakingADisclosurePage)
-    val isSectionComplete = dateDisclosureService.uaToReasonForDisclosingNow(userAnswers).isComplete
-    val operationKey = if (isSectionComplete || firstPage.isDefined) "edit" else "add"
-    val reasonForComingForwardNowTitleKey = s"taskList.$operationKey.sectionTitle.sixth"
-    val link = if(isSectionComplete) controllers.reason.routes.CheckYourAnswersController.onPageLoad
-    else reason.routes.WhyAreYouMakingADisclosureController.onPageLoad(NormalMode)
-
-    TaskListRow(
-      id = "reason-for-coming-forward-now-liabilitie-task-list",
-      sectionTitle = messages(reasonForComingForwardNowTitleKey),
-      status = getStatusMessage(isSectionComplete, firstPage.isDefined),
-      link = link
-    )
-  }
-  
-  private def buildLiabilitiesInformationRow(userAnswers: UserAnswers)(implicit messages: Messages): Seq[TaskListRow] = {
-    val offshore = userAnswers.get(OffshoreLiabilitiesPage) 
-    val onshore = userAnswers.get(OnshoreLiabilitiesPage)
-
-    (offshore, onshore) match {
-      case (Some(true),  Some(true))  => Seq(buildCaseReferenceRow(userAnswers), buildOnshoreLiabilitieDetailRow, buildOffshoreLiabilitieDetailRow(userAnswers))
-      case (Some(true),  _)           => Seq(buildCaseReferenceRow(userAnswers), buildOffshoreLiabilitieDetailRow(userAnswers))
-      case (_,           Some(true))  => Seq(buildCaseReferenceRow(userAnswers), buildOnshoreLiabilitieDetailRow)
-      case (Some(false), _)           => Seq(buildCaseReferenceRow(userAnswers), buildOnshoreLiabilitieDetailRow)
-      case (_,           _)           => Seq(buildCaseReferenceRow(userAnswers))
+  private[controllers] def buildLiabilitiesInformationRow(background: Background, offshoreLiabilities: OffshoreLiabilities)(implicit messages: Messages): Seq[TaskListRow] = {
+    (background.offshoreLiabilities, background.onshoreLiabilities) match {
+      case (Some(true),  Some(true))  => Seq(buildOnshoreLiabilitieDetailRow, buildOffshoreLiabilitiesDetailRow(offshoreLiabilities))
+      case (Some(true),  _)           => Seq(buildOffshoreLiabilitiesDetailRow(offshoreLiabilities))
+      case (_,           Some(true))  => Seq(buildOnshoreLiabilitieDetailRow)
+      case (Some(false), _)           => Seq(buildOnshoreLiabilitieDetailRow)
+      case (_,           _)           => Nil
     }
   }
 
-  def isTheUserTheIndividual(userAnswers: UserAnswers): Boolean = {
-    userAnswers.get(AreYouTheIndividualPage) match {
-      case Some(true) => true
-      case _ => false
-    }
-  }
-
-  def isTheUserAgent(userAnswers: UserAnswers): Boolean ={
+  private[controllers] def isTheUserAgent(userAnswers: UserAnswers): Boolean ={
     userAnswers.get(RelatesToPage) match {
       case Some(RelatesTo.AnIndividual) => userAnswers.get(AreYouTheIndividualPage).getOrElse(true)
       case Some(RelatesTo.ACompany) => userAnswers.get(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage).getOrElse(true)
@@ -201,7 +159,15 @@ class TaskListController @Inject()(
     }
   }
 
-  private def getStatusMessage(isSectionComplete: Boolean, isInProgress: Boolean)(implicit messages: Messages): String =
+  private[controllers] def sectionsComplete(fullDisclosure: FullDisclosure): Int = {
+    import fullDisclosure._
+    val section1Complete = personalDetails.isComplete
+    val section2Complete = caseReference.isComplete && (!disclosingOffshoreLiabilities || offshoreLiabilities.isComplete)
+    val section3Complete = otherLiabilities.isComplete(personalDetails.isAnIndividual) && reasonForDisclosingNow.isComplete
+    List(section1Complete, section2Complete, section3Complete).count(identity)
+  }
+
+  private[controllers] def getStatusMessage(isSectionComplete: Boolean, isInProgress: Boolean)(implicit messages: Messages): String =
     messages(
       if (isSectionComplete) "taskList.status.completed"
       else if (isInProgress) "taskList.status.inProgress"

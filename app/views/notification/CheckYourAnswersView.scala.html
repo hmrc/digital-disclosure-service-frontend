@@ -19,10 +19,11 @@
     govukSummaryList: GovukSummaryList,
     govukButton: GovukButton,
     formHelper: FormWithCSRF,
-    downloadLink: components.downloadLink
+    downloadLink: components.downloadLink,
+    link: components.link
 )
 
-@(list: SummaryLists, isTheEntity: Boolean)(implicit request: Request[_], messages: Messages)
+@(list: SummaryLists, isTheEntity: Boolean, isNotification: Boolean)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = titleNoForm(messages("checkYourAnswers.title"))) {
 
@@ -61,23 +62,27 @@
         <h2 class="govuk-heading-l">@messages("notificationCYA.aboutYou")</h2>
         @govukSummaryList(list.aboutYou.withAttribute("id", "about-you-list"))
 
-        <h2 class="govuk-heading-l">@messages("notificationCYA.send.heading")</h2>
+        @if(isNotification){
+            <h2 class="govuk-heading-l">@messages("notificationCYA.send.heading")</h2>
 
-        <p class="govuk-body" id="first-paragraph">@messages("notificationCYA.body1")</p>
-        <p class="govuk-body" id="second-paragraph">
-            @messages("notificationCYA.body2") 
-            @downloadLink(
-                id = "pdf-download", 
-                text = isTheEntity match {
-                    case true => messages("notificationCYA.link.entity")
-                    case false => messages("notificationCYA.link.agent")
-                }, 
-                fileName = "notification.pdf", 
-                call = controllers.routes.PdfGenerationController.generate)@messages("site.dot")
-        </p>
+            <p class="govuk-body" id="first-paragraph">@messages("notificationCYA.body1")</p>
+            <p class="govuk-body" id="second-paragraph">
+                @messages("notificationCYA.body2") 
+                @downloadLink(
+                    id = "pdf-download", 
+                    text = isTheEntity match {
+                        case true => messages("notificationCYA.link.entity")
+                        case false => messages("notificationCYA.link.agent")
+                    }, 
+                    fileName = "notification.pdf", 
+                    call = controllers.routes.PdfGenerationController.generate)@messages("site.dot")
+            </p>
 
-        @govukButton(
-            ButtonViewModel(messages("notificationCYA.send.button")).withAttribute("id","send-button")
-        )
+            @govukButton(
+                ButtonViewModel(messages("notificationCYA.send.button")).withAttribute("id","send-button")
+            )
+        } else {
+            @link(id = "continue", classes = "govuk-button", text = messages("site.continue"), newTab = false, call = Call("GET", controllers.routes.TaskListController.onPageLoad.url))
+        }
     }
 }

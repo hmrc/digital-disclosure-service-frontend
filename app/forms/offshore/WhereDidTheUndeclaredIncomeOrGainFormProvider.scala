@@ -1,4 +1,4 @@
-@*
+/*
  * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,10 +12,20 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@this()
+package forms
 
-@(id: String, text: String, call: Call, newTab: Boolean = false, fileName: String = "notification.pdf", classes: String = "govuk-link govuk-link--no-visited-state")
+import javax.inject.Inject
 
-<a class="@classes" href="@call" @if(newTab) { target="_blank" rel="noopener noreferrer" } download="@fileName" id="@id">@text</a>
+import forms.mappings.Mappings
+import play.api.data.Form
+
+class WhereDidTheUndeclaredIncomeOrGainFormProvider @Inject() extends Mappings {
+
+  def apply(): Form[String] =
+    Form(
+      "value" -> text("whereDidTheUndeclaredIncomeOrGain.error.required")
+        .verifying(maxLength(500, "whereDidTheUndeclaredIncomeOrGain.error.length"))
+    )
+}
