@@ -87,9 +87,14 @@ class OffshoreNavigator @Inject()() {
     }
 
     case TaxBeforeSevenYearsPage => ua => ua.get(WhichYearsPage) match {
-        case Some(whichYear) if whichYear.contains(CarelessPriorTo) && whichYear.size == 1 => controllers.routes.MakingNilDisclosureController.onPageLoad
-        case _ => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
-      }
+      case Some(whichYear) if whichYear.contains(CarelessPriorTo) && whichYear.size == 1 => controllers.routes.MakingNilDisclosureController.onPageLoad
+      case _ => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
+    }
+
+    case CanYouTellUsMoreAboutTaxBeforeNineteenYearPage => ua => ua.get(WhichYearsPage) match {
+      case Some(whichYear) if whichYear.contains(DeliberatePriorTo) && whichYear.size == 1 => controllers.routes.MakingNilDisclosureController.onPageLoad
+      case _ => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
+    }
 
     case CountryOfYourOffshoreLiabilityPage => _ => routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
 
