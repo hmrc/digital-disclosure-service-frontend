@@ -243,11 +243,34 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextPage(WhichYearsPage, NormalMode, userAnswers) mustBe routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode)
       }
 
+      "must go from WhichYearsPage to CanYouTellUsMoreAboutTaxBeforeNineteenYearController when selected option ReasonableExcusePriorTo" in {
+        val set: Set[OffshoreYears] = Set(DeliberatePriorTo)
+        val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
+        navigator.nextPage(WhichYearsPage, NormalMode, userAnswers) mustBe routes.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhichYearsPage to YouHaveNotIncludedTheTaxYearController when not selected an entire interval" in {
+        val year = current.back(1).startYear
+        val year2 = current.back(3).startYear
+        val set: Set[OffshoreYears] = Set(TaxYearStarting(year), TaxYearStarting(year2))
+        val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
+        navigator.nextPage(WhichYearsPage, NormalMode, userAnswers) mustBe routes.YouHaveNotIncludedTheTaxYearController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhichYearsPage to YouHaveNotIncludedTheTaxYearController when multiple intervals are missing" in {
+        val year = current.back(1).startYear
+        val year2 = current.back(3).startYear
+        val year3 = current.back(5).startYear
+        val set: Set[OffshoreYears] = Set(TaxYearStarting(year), TaxYearStarting(year2), TaxYearStarting(year3))
+        val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
+        navigator.nextPage(WhichYearsPage, NormalMode, userAnswers) mustBe routes.YouHaveNotSelectedCertainTaxYearController.onPageLoad(NormalMode)
+      }
+
       "must go from WhichYearsPage to CountryOfYourOffshoreLiabilityController when selected option ReasonableExcusePriorTo" in {
         val year = current.back(1).startYear
         val set: Set[OffshoreYears] = Set(TaxYearStarting(year))
         val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
-        navigator.nextPage(WhichYearsPage, NormalMode, userAnswers) mustBe routes.TaxYearLiabilitiesController.onPageLoad(0, NormalMode)
+        navigator.nextPage(WhichYearsPage, NormalMode, userAnswers) mustBe routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
       }
 
       "must go from TaxBeforeFiveYearsPage to MakingNilDisclosureController when only selected option ReasonableExcusePriorTo" in {

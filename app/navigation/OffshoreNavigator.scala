@@ -20,7 +20,7 @@ import javax.inject.{Inject, Singleton}
 import play.api.mvc.Call
 import controllers.offshore.routes
 import pages._
-import models.{RelatesTo, CheckMode, Mode, NormalMode, DeliberatePriorTo, ReasonableExcusePriorTo, CarelessPriorTo, UserAnswers}
+import models.{CarelessPriorTo, CheckMode, DeliberatePriorTo, Mode, NormalMode, ReasonableExcusePriorTo, RelatesTo, TaxYearStarting, UserAnswers}
 import models.WhyAreYouMakingThisDisclosure._
 import models.YourLegalInterpretation._
 
@@ -62,11 +62,18 @@ class OffshoreNavigator @Inject()() {
 
     case WhatIsYourReasonableExcuseForNotFilingReturnPage => _ => routes.WhichYearsController.onPageLoad(NormalMode)
 
-    case WhichYearsPage => ua => ua.get(WhichYearsPage) match {
-      case Some(value) if value.contains(ReasonableExcusePriorTo) => routes.TaxBeforeFiveYearsController.onPageLoad(NormalMode)
-      case Some(value) if value.contains(CarelessPriorTo) => routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode)
-      case Some(value) if value.contains(DeliberatePriorTo) => routes.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onPageLoad(NormalMode)
-      case _ => routes.TaxYearLiabilitiesController.onPageLoad(0, NormalMode)
+    case WhichYearsPage => ua => {
+      val missingYearsCount = ua.inverselySortedOffshoreTaxYears.map(ty => TaxYearStarting.findMissingYears(ty.toList).size)
+      (ua.get(WhichYearsPage), missingYearsCount) match {
+        case (Some(years), Some(0)) if years.contains(ReasonableExcusePriorTo) => routes.TaxBeforeFiveYearsController.onPageLoad(NormalMode)
+        case (Some(years), Some(0)) if years.contains(CarelessPriorTo) => routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode)
+        case (Some(years), Some(0)) if years.contains(DeliberatePriorTo) => routes.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onPageLoad(NormalMode)
+        case (Some(_), Some(0)) => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
+        case (Some(_), Some(1)) => routes.YouHaveNotIncludedTheTaxYearController.onPageLoad(NormalMode)
+        case (Some(_), Some(_)) => routes.YouHaveNotSelectedCertainTaxYearController.onPageLoad(NormalMode)
+        case (_, _) => routes.WhichYearsController.onPageLoad(NormalMode)
+
+      }
     }
 
     case YourLegalInterpretationPage => ua => ua.get(YourLegalInterpretationPage) match {
