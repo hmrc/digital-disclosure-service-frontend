@@ -61,13 +61,13 @@ class TaskListController @Inject()(
       val list = TaskListViewModel(
         Seq(personalDetailsRow),
         buildCaseReferenceRow(fullDisclosure.caseReference) +: liabilitiesRows,
-        Seq(buildOtherLiabilityIssueRow(fullDisclosure), buildTheReasonForComingForwardNowRow(fullDisclosure.reasonForDisclosingNow))
+        Seq(buildOtherLiabilityIssueRow(fullDisclosure.otherLiabilities, fullDisclosure.personalDetails.isAnIndividual), buildTheReasonForComingForwardNowRow(fullDisclosure.reasonForDisclosingNow))
       )
       
-      Ok(view(list, notificationSectionKey, isTheUserAgent(ua), entity, fullDisclosure.isComplete))
+      Ok(view(list, notificationSectionKey, isTheUserAgent(ua), entity, fullDisclosure.isComplete, sectionsComplete(fullDisclosure)))
   }
 
-  private def buildYourPersonalDetailsRow(personalDetails: PersonalDetails, entityKey: String)(implicit messages: Messages): (String, TaskListRow) = {
+  private[controllers] def buildYourPersonalDetailsRow(personalDetails: PersonalDetails, entityKey: String)(implicit messages: Messages): (String, TaskListRow) = {
     val isSectionComplete = personalDetails.isComplete
     val firstPage = personalDetails.background.haveYouReceivedALetter
     val completeLink = controllers.notification.routes.CheckYourAnswersController.onPageLoad
@@ -79,7 +79,7 @@ class TaskListController @Inject()(
     (notificationSectionKey, buildRow("personal-detail", s"first.$entityKey", isSectionComplete, firstPage.isDefined, completeLink, incompleteLink))
   }
 
-  private def buildCaseReferenceRow(caseReference: CaseReference)(implicit messages: Messages): TaskListRow = {
+  private[controllers] def buildCaseReferenceRow(caseReference: CaseReference)(implicit messages: Messages): TaskListRow = {
     val isSectionComplete = caseReference.isComplete
     val firstPage = caseReference.doYouHaveACaseReference
     val completeLink = controllers.reference.routes.DoYouHaveACaseReferenceController.onPageLoad(NormalMode)
@@ -88,7 +88,7 @@ class TaskListController @Inject()(
     buildRow("case-reference", "second", isSectionComplete, firstPage.isDefined, completeLink, incompleteLink)
   }
 
-  private def buildOnshoreLiabilitieDetailRow(implicit messages: Messages): TaskListRow = {
+  private[controllers] def buildOnshoreLiabilitieDetailRow(implicit messages: Messages): TaskListRow = {
     val firstPage = None
     val isSectionComplete = false
     val completeLink = routes.TaskListController.onPageLoad
@@ -97,7 +97,7 @@ class TaskListController @Inject()(
     buildRow("onshore-liabilities", "third", isSectionComplete, firstPage.isDefined, completeLink, incompleteLink)
   }
 
-  private def buildOffshoreLiabilitieDetailRow(offshoreLiabilities: OffshoreLiabilities)(implicit messages: Messages): TaskListRow = {
+  private[controllers] def buildOffshoreLiabilitiesDetailRow(offshoreLiabilities: OffshoreLiabilities)(implicit messages: Messages): TaskListRow = {
     val firstPage = offshoreLiabilities.behaviour
     val isSectionComplete = offshoreLiabilities.isComplete
     val completeLink = controllers.offshore.routes.CheckYourAnswersController.onPageLoad
@@ -106,16 +106,16 @@ class TaskListController @Inject()(
     buildRow("offshore-liabilities", "forth", isSectionComplete, firstPage.isDefined, completeLink, incompleteLink)
   }
 
-  private def buildOtherLiabilityIssueRow(fullDisclosure: FullDisclosure)(implicit messages: Messages): TaskListRow = {
-    val firstPage = fullDisclosure.otherLiabilities.issues
-    val isSectionComplete = fullDisclosure.otherLiabilities.isComplete(fullDisclosure.personalDetails.isAnIndividual)
+  private[controllers] def buildOtherLiabilityIssueRow(otherLiabilities: OtherLiabilities, isAnIndividual: Boolean)(implicit messages: Messages): TaskListRow = {
+    val firstPage = otherLiabilities.issues
+    val isSectionComplete = otherLiabilities.isComplete(isAnIndividual)
     val completeLink = controllers.otherLiabilities.routes.CheckYourAnswersController.onPageLoad
-    val incompleteLink =  otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(NormalMode)
+    val incompleteLink =  controllers.otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(NormalMode)
 
     buildRow("other-liability-issues", "fifth", isSectionComplete, firstPage.isDefined, completeLink, incompleteLink)
   }
 
-  private def buildTheReasonForComingForwardNowRow(reasonForDisclosingNow: ReasonForDisclosingNow)(implicit messages: Messages): TaskListRow = {
+  private[controllers] def buildTheReasonForComingForwardNowRow(reasonForDisclosingNow: ReasonForDisclosingNow)(implicit messages: Messages): TaskListRow = {
     val firstPage = reasonForDisclosingNow.reason
     val isSectionComplete = reasonForDisclosingNow.isComplete
     val completeLink = controllers.reason.routes.CheckYourAnswersController.onPageLoad
@@ -136,19 +136,19 @@ class TaskListController @Inject()(
     )
   }
 
-  def getOperationKey(isSectionComplete: Boolean, isFirstPageDefined: Boolean) = if (isSectionComplete) "edit" else "add"
+  private[controllers] def getOperationKey(isSectionComplete: Boolean, isFirstPageDefined: Boolean) = if (isSectionComplete) "edit" else "add"
   
-  private def buildLiabilitiesInformationRow(background: Background, offshoreLiabilities: OffshoreLiabilities)(implicit messages: Messages): Seq[TaskListRow] = {
+  private[controllers] def buildLiabilitiesInformationRow(background: Background, offshoreLiabilities: OffshoreLiabilities)(implicit messages: Messages): Seq[TaskListRow] = {
     (background.offshoreLiabilities, background.onshoreLiabilities) match {
-      case (Some(true),  Some(true))  => Seq(buildOnshoreLiabilitieDetailRow, buildOffshoreLiabilitieDetailRow(offshoreLiabilities))
-      case (Some(true),  _)           => Seq(buildOffshoreLiabilitieDetailRow(offshoreLiabilities))
+      case (Some(true),  Some(true))  => Seq(buildOnshoreLiabilitieDetailRow, buildOffshoreLiabilitiesDetailRow(offshoreLiabilities))
+      case (Some(true),  _)           => Seq(buildOffshoreLiabilitiesDetailRow(offshoreLiabilities))
       case (_,           Some(true))  => Seq(buildOnshoreLiabilitieDetailRow)
       case (Some(false), _)           => Seq(buildOnshoreLiabilitieDetailRow)
       case (_,           _)           => Nil
     }
   }
 
-  def isTheUserAgent(userAnswers: UserAnswers): Boolean ={
+  private[controllers] def isTheUserAgent(userAnswers: UserAnswers): Boolean ={
     userAnswers.get(RelatesToPage) match {
       case Some(RelatesTo.AnIndividual) => userAnswers.get(AreYouTheIndividualPage).getOrElse(true)
       case Some(RelatesTo.ACompany) => userAnswers.get(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage).getOrElse(true)
@@ -159,7 +159,15 @@ class TaskListController @Inject()(
     }
   }
 
-  private def getStatusMessage(isSectionComplete: Boolean, isInProgress: Boolean)(implicit messages: Messages): String =
+  private[controllers] def sectionsComplete(fullDisclosure: FullDisclosure): Int = {
+    import fullDisclosure._
+    val section1Complete = personalDetails.isComplete
+    val section2Complete = caseReference.isComplete && (!disclosingOffshoreLiabilities || offshoreLiabilities.isComplete)
+    val section3Complete = otherLiabilities.isComplete(personalDetails.isAnIndividual) && reasonForDisclosingNow.isComplete
+    List(section1Complete, section2Complete, section3Complete).count(identity)
+  }
+
+  private[controllers] def getStatusMessage(isSectionComplete: Boolean, isInProgress: Boolean)(implicit messages: Messages): String =
     messages(
       if (isSectionComplete) "taskList.status.completed"
       else if (isInProgress) "taskList.status.inProgress"
