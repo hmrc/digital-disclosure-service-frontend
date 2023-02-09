@@ -36,7 +36,7 @@ class DisclosureSubmissionServiceImpl @Inject()(
 
   def submitDisclosure(userAnswers: UserAnswers)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[String] = {
         
-    val reference = userAnswers.get(LetterReferencePage).getOrElse(referenceService.generateReference.toString)
+    val reference = referenceService.generateReference.toString
     val metadata = Metadata(reference = Some(reference), submissionTime = Some(timeService.now))
 
     val updatedUserAnswers = userAnswers.copy(metadata = metadata)

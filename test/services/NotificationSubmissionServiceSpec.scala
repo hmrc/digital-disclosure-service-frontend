@@ -37,7 +37,7 @@ class NotificationSubmissionServiceSpec extends AnyWordSpec with ScalaFutures
 
   "submitNotification" should {
 
-    "call the reference generator if a letter reference isn't populated" in new Test {
+    "call the reference generator" in new Test {
 
       val metadata = Metadata(reference = Some("123456"), submissionTime = Some(time))
       val updatedUserAnswers = emptyUA.copy(metadata = metadata)
@@ -47,20 +47,6 @@ class NotificationSubmissionServiceSpec extends AnyWordSpec with ScalaFutures
       when(sessionService.set(updatedUserAnswers)(hc)) thenReturn Future.successful(true)
       
       sut.submitNotification(emptyUA).futureValue shouldEqual "123456"
-      verify(auditService).auditNotificationSubmission(testNotification)(hc)
-    }
-
-    "use the letter reference for the ref if a letter reference is populated" in new Test {
-
-      val initialUserAnswers = emptyUA.set(LetterReferencePage, "ABCDE").success.value
-      val metadata = Metadata(reference = Some("ABCDE"), submissionTime = Some(time))
-      val updatedUserAnswers = initialUserAnswers.copy(metadata = metadata)
-
-      when(UAToNotificationService.userAnswersToNotification(updatedUserAnswers)) thenReturn testNotification
-      when(connector.submitNotification(testNotification)(hc)) thenReturn Future.successful("id")
-      when(sessionService.set(updatedUserAnswers)(hc)) thenReturn Future.successful(true)
-      
-      sut.submitNotification(initialUserAnswers).futureValue shouldEqual "ABCDE"
       verify(auditService).auditNotificationSubmission(testNotification)(hc)
     }
 
