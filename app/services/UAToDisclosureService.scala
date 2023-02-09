@@ -59,6 +59,7 @@ class UAToDisclosureServiceImpl @Inject()(
       youHaveNotSelectedCertainTaxYears = userAnswers.get(YouHaveNotSelectedCertainTaxYearPage),
       taxBeforeFiveYears = userAnswers.get(TaxBeforeFiveYearsPage),
       taxBeforeSevenYears = userAnswers.get(TaxBeforeSevenYearsPage),
+      taxBeforeNineteenYears = userAnswers.get(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage),
       taxYearLiabilities = userAnswers.get(TaxYearLiabilitiesPage),
       legalInterpretation = userAnswers.get(YourLegalInterpretationPage),
       otherInterpretation = userAnswers.get(UnderWhatConsiderationPage),

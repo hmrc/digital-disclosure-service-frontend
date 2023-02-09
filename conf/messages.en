@@ -1288,7 +1288,7 @@ yourLegalInterpretation.anotherIssue = Another issue
 yourLegalInterpretation.noExclusion = Amounts have not been excluded from this disclosure
 yourLegalInterpretation.checkYourAnswersLabel = Legal considerations for not including any amount of tax
 yourLegalInterpretation.error.required = Select all relevant legal considerations
-yourLegalInterpretation.error.validSelection = Select the relevant legal consideration, or select 'Amounts have not been excluded from this disclosure'
+yourLegalInterpretation.error.validSelection = Select the relevant legal consideration, or select ‘Amounts have not been excluded from this disclosure’
 yourLegalInterpretation.change.hidden = YourLegalInterpretation
 
 underWhatConsideration.title = Under what consideration of the law led you to not include some tax in this disclosure?
@@ -1606,7 +1606,7 @@ youHaveNotIncludedTheTaxYear.change.hidden = YouHaveNotIncludedTheTaxYear
 canYouTellUsMoreAboutTaxBeforeNineteenYear.title = Can you tell us more about any tax owed before 6 April {0}?
 canYouTellUsMoreAboutTaxBeforeNineteenYear.heading = Can you tell us more about any tax owed before 6 April {0}?
 canYouTellUsMoreAboutTaxBeforeNineteenYear.body = Provide the amount, when it was owed, and where the income or gain came from. Do not include these figures in this disclosure’s calculations. The person reviewing the disclosure may ask you further questions about this, if needed.
-canYouTellUsMoreAboutTaxBeforeNineteenYear.checkYourAnswersLabel = canYouTellUsMoreAboutTaxBeforeNineteenYear
+canYouTellUsMoreAboutTaxBeforeNineteenYear.checkYourAnswersLabel = Tax owed before 6 April {0}
 canYouTellUsMoreAboutTaxBeforeNineteenYear.error.required = Enter information about the tax owed before 6 April {0}
 canYouTellUsMoreAboutTaxBeforeNineteenYear.error.length = The information about the tax owed must be between 1 and 5,000 characters
 canYouTellUsMoreAboutTaxBeforeNineteenYear.change.hidden = CanYouTellUsMoreAboutTaxBeforeNineteenYear

@@ -77,17 +77,25 @@ class YouHaveNotIncludedTheTaxYearController @Inject()(
   }
 
   def displayPage(userAnswers: UserAnswers, mode: Mode, missingYear: TaxYearStarting, firstYear: TaxYearStarting, lastYear: TaxYearStarting)(implicit request: DataRequest[_]): Future[Result] = {
+    val missingYr: String = (missingYear.toString.toInt + 1).toString
+    val firstYr: String = (firstYear.toString.toInt + 1).toString
+    val lastYr: String = (lastYear.toString.toInt + 1).toString
+    
     val preparedForm = userAnswers.get(YouHaveNotIncludedTheTaxYearPage) match {
-      case None => formProvider(missingYear.toString)
-      case Some(value) => formProvider(missingYear.toString).fill(value)
+      case None => formProvider(missingYr)
+      case Some(value) => formProvider(missingYr).fill(value)
     }
-    Future.successful(Ok(view(preparedForm, mode, missingYear.toString, firstYear.toString, lastYear.toString)))
+    Future.successful(Ok(view(preparedForm, mode, missingYr, firstYr, lastYr)))
   }
 
   def submitData(userAnswers: UserAnswers, mode: Mode, missingYear: TaxYearStarting, firstYear: TaxYearStarting, lastYear: TaxYearStarting)(implicit request: DataRequest[_]): Future[Result] = {
-    formProvider(missingYear.toString).bindFromRequest().fold(  
+    val missingYr: String = (missingYear.toString.toInt + 1).toString
+    val firstYr: String = (firstYear.toString.toInt + 1).toString
+    val lastYr: String = (lastYear.toString.toInt + 1).toString
+    
+    formProvider(missingYr).bindFromRequest().fold(  
       formWithErrors => 
-        Future.successful(BadRequest(view(formWithErrors, mode, missingYear.toString, firstYear.toString, lastYear.toString))),
+        Future.successful(BadRequest(view(formWithErrors, mode, missingYr, firstYr, lastYr))),
 
       value =>
         for {
