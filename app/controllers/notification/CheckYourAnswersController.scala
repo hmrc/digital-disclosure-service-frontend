@@ -187,8 +187,9 @@ class CheckYourAnswersController @Inject()(
       userAnswers.metadata.submissionTime match {
         case Some(_) => Future.successful(Redirect(navigator.submitPage(request.userAnswers, userAnswers.metadata.reference.get)))
         case None => for {
-            reference <- notificationSubmissionService.submitNotification (request.userAnswers)
-          } yield Redirect (navigator.submitPage (request.userAnswers, reference) )
+          reference <- notificationSubmissionService.submitNotification (request.userAnswers)
+          userReference = userAnswers.get(LetterReferencePage).getOrElse(reference)
+        } yield Redirect (navigator.submitPage (request.userAnswers, reference) )
       }
   }
 
