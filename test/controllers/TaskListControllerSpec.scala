@@ -284,7 +284,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         Some(Set(YourLegalInterpretation.NoExclusion)),
         None,
         None,
-        Some(TheMaximumValueOfAllAssets.TenThousandOrLess)
+        Some(TheMaximumValueOfAllAssets.Below500k)
       )
 
       val expectedTask = TaskListRow(
