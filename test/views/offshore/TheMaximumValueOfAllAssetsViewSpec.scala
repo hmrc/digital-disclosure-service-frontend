@@ -43,9 +43,12 @@ class TheMaximumValueOfAllAssetsViewSpec extends ViewSpecBase with ViewMatchers 
     }
 
     "have radio buttons" in {
-      view.getElementsByClass("govuk-radios__label").get(0).text() mustBe messages("theMaximumValueOfAllAssets.tenThousandOrLess")
-      view.getElementsByClass("govuk-radios__label").get(1).text() mustBe messages("theMaximumValueOfAllAssets.moreThanTenThousandLessThanOneLakh")
-      view.getElementsByClass("govuk-radios__label").get(2).text() mustBe messages("theMaximumValueOfAllAssets.oneLakhAndMore")
+      view.getElementsByClass("govuk-radios__label").get(0).text() mustBe messages("theMaximumValueOfAllAssets.below500k")
+      view.getElementsByClass("govuk-radios__label").get(1).text() mustBe messages("theMaximumValueOfAllAssets.between500kAnd1M")
+      view.getElementsByClass("govuk-radios__label").get(2).text() mustBe messages("theMaximumValueOfAllAssets.between1MAnd100M")
+      view.getElementsByClass("govuk-radios__label").get(3).text() mustBe messages("theMaximumValueOfAllAssets.between100MAnd500M")
+      view.getElementsByClass("govuk-radios__label").get(4).text() mustBe messages("theMaximumValueOfAllAssets.between500MAnd1B")
+      view.getElementsByClass("govuk-radios__label").get(5).text() mustBe messages("theMaximumValueOfAllAssets.over1B")
     }
 
     "display the continue button" in {
