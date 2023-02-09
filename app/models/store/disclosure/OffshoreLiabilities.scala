@@ -29,6 +29,7 @@ final case class OffshoreLiabilities(
   youHaveNotSelectedCertainTaxYears: Option[String] = None,
   taxBeforeFiveYears: Option[String] = None,
   taxBeforeSevenYears: Option[String] = None,
+  taxBeforeNineteenYears: Option[String] = None,
   taxYearLiabilities: Option[Map[String, TaxYearWithLiabilities]] = None,
   legalInterpretation: Option[Set[YourLegalInterpretation]] = None,
   otherInterpretation: Option[String] = None,
@@ -38,6 +39,7 @@ final case class OffshoreLiabilities(
   def isComplete = this match {
     case OffshoreLiabilities(Some(_), _, _, _, Some(years),_ , _, Some(reasonableExcusePriorTo), _, _, _, _, _, _) if years == Set(ReasonableExcusePriorTo) => true
     case OffshoreLiabilities(Some(_), _, _, _, Some(years),_ , _, _, Some(carelessPriorTo), _, _, _, _, _) if years == Set(CarelessPriorTo) => true
+    case OffshoreLiabilities(Some(_), _, _, _, Some(years),_ , _, _, Some(deliberatePriorTo), _, _, _, _, _) if years == Set(DeliberatePriorTo) => true
     case OffshoreLiabilities(Some(_), _, _, _, Some(_),_ , _, _, _, Some(_), Some(_), _, _, Some(_)) => true
     case _ => false
   }
