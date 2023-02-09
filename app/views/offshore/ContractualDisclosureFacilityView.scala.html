@@ -23,7 +23,8 @@
     govukButton: GovukButton,
     heading: components.heading,
     paragraph: components.paragraph,
-    link: components.link
+    link: components.link,
+    tasklistLink: components.tasklistLink
 )
 
 @(form: Form[_], mode: Mode, entity: RelatesTo)(implicit request: Request[_], messages: Messages)
@@ -70,4 +71,6 @@
             ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
         )
     }
+
+    @tasklistLink()
 }

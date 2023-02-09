@@ -38,11 +38,7 @@
 
     @paragraph(id = Some("third-paragraph"), content = Text(messages("makingNilDisclosure.body.third")))
 
-    @if(areTheyTheIndividual){
-        @link(id = "govuk-button", classes = "govuk-button", text = messages("makingNilDisclosure.button"), newTab = false, call = Call("GET", controllers.routes.TaskListController.onPageLoad.url))
-    } else {
-        @link(id = "continue", classes = "govuk-button", text = messages("site.saveAndContinue"), newTab = false, call = Call("GET", controllers.offshore.routes.CheckYourAnswersController.onPageLoad.url))
-        @tasklistLink()
-    }   
+    @link(id = "continue", classes = "govuk-button", text = messages("site.saveAndContinue"), newTab = false, call = Call("GET", controllers.offshore.routes.CheckYourAnswersController.onPageLoad.url))
+    @tasklistLink() 
     
 }

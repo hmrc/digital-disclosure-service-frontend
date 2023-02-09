@@ -30,7 +30,7 @@ class ForeignTaxCreditFormProviderSpec extends BigIntFieldBehaviours {
     val minimum = BigInt(0)
     val maximum = BigInt("999999999999999999999999")
 
-    val validDataGenerator = bigintsInRangeWithCommas(minimum, maximum)
+    val validDataGenerator = bigintsInRange(minimum, maximum)
 
     behave like fieldThatBindsValidData(
       form,
