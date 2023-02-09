@@ -34,14 +34,15 @@ case class CheckYourAnswersViewModel(
 )
 
 @Singleton
-class CheckYourAnswersViewModelCreation @Inject() (taxBeforeFiveYearsSummary: TaxBeforeFiveYearsSummary, taxBeforeSevenYearsSummary: TaxBeforeSevenYearsSummary) {
+class CheckYourAnswersViewModelCreation @Inject() (taxBeforeFiveYearsSummary: TaxBeforeFiveYearsSummary, taxBeforeSevenYearsSummary: TaxBeforeSevenYearsSummary, taxBeforeNineteenYearSummary: CanYouTellUsMoreAboutTaxBeforeNineteenYearSummary) {
 
   def create(userAnswers: UserAnswers)(implicit messages: Messages): CheckYourAnswersViewModel = {
 
     val taxBefore5or7Yearslist = SummaryListViewModel(
       rows = Seq(
         taxBeforeFiveYearsSummary.row(userAnswers),
-        taxBeforeSevenYearsSummary.row(userAnswers)
+        taxBeforeSevenYearsSummary.row(userAnswers),
+        taxBeforeNineteenYearSummary.row(userAnswers)
       ).flatten
     )
 
