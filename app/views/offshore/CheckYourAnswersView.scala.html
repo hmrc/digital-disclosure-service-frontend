@@ -31,6 +31,8 @@
 
     @heading(Text(messages("checkYourAnswers.offshore.heading")))
 
+    @govukSummaryList(viewModel.summary)
+
     @viewModel.taxYearLists.map { case (year, list) =>
         @heading(Text(messages("checkYourAnswers.offshore.taxYear.heading", year.toString, (year+1).toString)), "govuk-heading-m")
         @govukSummaryList(list.withAttribute("id", s"tax-year-list-$year"))

@@ -18,7 +18,7 @@ package viewmodels.checkAnswers
 
 import controllers.offshore.routes
 import models.{CheckMode, UserAnswers}
-import pages.CountriesOrTerritoriesPage
+import pages.CountryOfYourOffshoreLiabilityPage
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
@@ -27,10 +27,10 @@ import viewmodels.implicits._
 object CountriesOrTerritoriesSummary  {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(CountriesOrTerritoriesPage).map {
+    answers.get(CountryOfYourOffshoreLiabilityPage).map {
       answer =>
 
-        val value = if (answer) "site.yes" else "site.no"
+        val value = answer.values.map(_.name).mkString(", ")
 
         SummaryListRowViewModel(
           key     = "countriesOrTerritories.checkYourAnswersLabel",
