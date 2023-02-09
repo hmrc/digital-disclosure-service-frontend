@@ -1288,7 +1288,7 @@ yourLegalInterpretation.anotherIssue = Another issue
 yourLegalInterpretation.noExclusion = Amounts have not been excluded from this disclosure
 yourLegalInterpretation.checkYourAnswersLabel = Legal considerations for not including any amount of tax
 yourLegalInterpretation.error.required = Select all relevant legal considerations
-yourLegalInterpretation.error.validSelection = Select the relevant legal consideration, or select 'Amounts have not been excluded from this disclosure'
+yourLegalInterpretation.error.validSelection = Select the relevant legal consideration, or select ‘Amounts have not been excluded from this disclosure’
 yourLegalInterpretation.change.hidden = YourLegalInterpretation
 
 underWhatConsideration.title = Under what consideration of the law led you to not include some tax in this disclosure?
