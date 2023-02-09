@@ -24,12 +24,15 @@ sealed trait TheMaximumValueOfAllAssets
 
 object TheMaximumValueOfAllAssets extends Enumerable.Implicits {
 
-  case object TenThousandOrLess extends WithName("tenThousandOrLess") with TheMaximumValueOfAllAssets
-  case object MoreThanTenThousandAndLessThanOneLakh extends WithName("moreThanTenThousandLessThanOneLakh") with TheMaximumValueOfAllAssets
-  case object OneLakhAndMore extends WithName("oneLakhAndMore") with TheMaximumValueOfAllAssets
+  case object Below500k extends WithName("below500k") with TheMaximumValueOfAllAssets
+  case object Between500kAnd1M extends WithName("between500kAnd1M") with TheMaximumValueOfAllAssets
+  case object Between1MAnd100M extends WithName("between1MAnd100M") with TheMaximumValueOfAllAssets
+  case object Between100MAnd500M extends WithName("between100MAnd500M") with TheMaximumValueOfAllAssets
+  case object Between500MAnd1B extends WithName("between500MAnd1B") with TheMaximumValueOfAllAssets
+  case object Over1B extends WithName("over1B") with TheMaximumValueOfAllAssets
 
   val values: Seq[TheMaximumValueOfAllAssets] = Seq(
-    TenThousandOrLess, MoreThanTenThousandAndLessThanOneLakh, OneLakhAndMore
+    Below500k, Between500kAnd1M, Between1MAnd100M, Between100MAnd500M, Between500MAnd1B, Over1B
   )
 
   def options(implicit messages: Messages): Seq[RadioItem] = values.zipWithIndex.map {

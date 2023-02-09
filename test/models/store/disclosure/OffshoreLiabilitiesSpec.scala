@@ -50,7 +50,7 @@ class OffshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValue
         Some(Set(YourLegalInterpretation.NoExclusion)),
         None,
         None,
-        Some(TheMaximumValueOfAllAssets.TenThousandOrLess)
+        Some(TheMaximumValueOfAllAssets.Below500k)
       )
       offshoreLiabilities.isComplete mustBe true
     }
@@ -80,7 +80,7 @@ class OffshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValue
         Some(Set(YourLegalInterpretation.AnotherIssue)),
         Some("Some interpretation"),
         Some(HowMuchTaxHasNotBeenIncluded.TenThousandOrLess),
-        Some(TheMaximumValueOfAllAssets.TenThousandOrLess)
+        Some(TheMaximumValueOfAllAssets.Below500k)
       )
       offshoreLiabilities.isComplete mustBe true
     }

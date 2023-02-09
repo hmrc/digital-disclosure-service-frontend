@@ -102,7 +102,7 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
         Some(interpretationSet),
         Some("Some interpretation"),
         Some(HowMuchTaxHasNotBeenIncluded.TenThousandOrLess),
-        Some(TheMaximumValueOfAllAssets.TenThousandOrLess)
+        Some(TheMaximumValueOfAllAssets.Below500k)
       )
       val updatedUserAnswers = sut.offshoreLiabilitiesToUa(offshoreLiabilities, emptyUA).success.value
       updatedUserAnswers.get(WhyAreYouMakingThisDisclosurePage)                      shouldEqual Some(whySet)
@@ -118,7 +118,7 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
       updatedUserAnswers.get(YourLegalInterpretationPage)                            shouldEqual Some(interpretationSet)
       updatedUserAnswers.get(UnderWhatConsiderationPage)                             shouldEqual Some("Some interpretation")
       updatedUserAnswers.get(HowMuchTaxHasNotBeenIncludedPage)                       shouldEqual Some(HowMuchTaxHasNotBeenIncluded.TenThousandOrLess)
-      updatedUserAnswers.get(TheMaximumValueOfAllAssetsPage)                         shouldEqual Some(TheMaximumValueOfAllAssets.TenThousandOrLess)
+      updatedUserAnswers.get(TheMaximumValueOfAllAssetsPage)                         shouldEqual Some(TheMaximumValueOfAllAssets.Below500k)
     }
   }
 

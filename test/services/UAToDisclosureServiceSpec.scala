@@ -92,7 +92,7 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
         PageWithValue(YourLegalInterpretationPage, interpretationSet),
         PageWithValue(UnderWhatConsiderationPage, "Some interpretation"),
         PageWithValue(HowMuchTaxHasNotBeenIncludedPage, HowMuchTaxHasNotBeenIncluded.TenThousandOrLess),
-        PageWithValue(TheMaximumValueOfAllAssetsPage, TheMaximumValueOfAllAssets.TenThousandOrLess)
+        PageWithValue(TheMaximumValueOfAllAssetsPage, TheMaximumValueOfAllAssets.Below500k)
       )
       val userAnswers = PageWithValue.pagesToUserAnswers(pages, emptyUA).success.value
       val expected = OffshoreLiabilities(
@@ -109,7 +109,7 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
         Some(interpretationSet),
         Some("Some interpretation"),
         Some(HowMuchTaxHasNotBeenIncluded.TenThousandOrLess),
-        Some(TheMaximumValueOfAllAssets.TenThousandOrLess)
+        Some(TheMaximumValueOfAllAssets.Below500k)
       )
       sut.uaToOffshoreLiabilities(userAnswers) shouldEqual expected
     }

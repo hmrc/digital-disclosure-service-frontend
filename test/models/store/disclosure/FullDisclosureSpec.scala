@@ -63,7 +63,7 @@ class FullDisclosureSpec extends AnyFreeSpec with Matchers with OptionValues {
     Some(Set(YourLegalInterpretation.NoExclusion)),
     None,
     None,
-    Some(TheMaximumValueOfAllAssets.TenThousandOrLess)
+    Some(TheMaximumValueOfAllAssets.Below500k)
   )
 
   val completedLLPOtherLiabilities = OtherLiabilities(Some(Set(OtherLiabilityIssues.InheritanceTaxIssues)), Some("Some string"), None, None)
