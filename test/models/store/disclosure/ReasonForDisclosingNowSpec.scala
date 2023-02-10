@@ -19,7 +19,7 @@ package models.store.disclosure
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
-import models.{MonthYear, WhyAreYouMakingADisclosure, AdviceGiven, AdviceContactPreference}
+import models.{MonthYear, WhyAreYouMakingADisclosure, AdviceGiven, AdviceContactPreference, WhichEmailAddressCanWeContactYouWith}
 
 class ReasonForDisclosingNowSpec extends AnyFreeSpec with Matchers with OptionValues {
 
@@ -32,15 +32,19 @@ class ReasonForDisclosingNowSpec extends AnyFreeSpec with Matchers with OptionVa
 
     "must return true where they have answered necessary questions and advice was given" in {
       val reasonForDisclosingNow = ReasonForDisclosingNow(
-        Some(Set(WhyAreYouMakingADisclosure.GovUkGuidance)), 
-        None, 
-        Some("Some reason"), 
-        Some(true), 
-        Some("Some guy"), 
-        Some(false), 
-        None, 
+        Some(Set(WhyAreYouMakingADisclosure.GovUkGuidance)),
+        None,
+        Some("Some reason"),
+        Some(true),
+        Some("Some guy"),
+        Some(false),
+        None,
         Some("Some profession"),
-        Some(AdviceGiven("Some advice", MonthYear(12, 2012), AdviceContactPreference.No))
+        Some(AdviceGiven("Some advice", MonthYear(12, 2012), AdviceContactPreference.Email)),
+        Some(WhichEmailAddressCanWeContactYouWith.ExistingEmail),
+        None,
+        None,
+        None
       )
       reasonForDisclosingNow.isComplete mustBe true
     }

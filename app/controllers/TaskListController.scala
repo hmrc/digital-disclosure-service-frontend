@@ -136,7 +136,7 @@ class TaskListController @Inject()(
     )
   }
 
-  private[controllers] def getOperationKey(isSectionComplete: Boolean, isFirstPageDefined: Boolean) = if (isSectionComplete) "edit" else "add"
+  private[controllers] def getOperationKey(isSectionComplete: Boolean, isFirstPageDefined: Boolean) = if (isSectionComplete || isFirstPageDefined) "edit" else "add"
   
   private[controllers] def buildLiabilitiesInformationRow(background: Background, offshoreLiabilities: OffshoreLiabilities)(implicit messages: Messages): Seq[TaskListRow] = {
     (background.offshoreLiabilities, background.onshoreLiabilities) match {
