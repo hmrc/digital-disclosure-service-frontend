@@ -17,7 +17,7 @@
 package models.store.disclosure
 
 import play.api.libs.json.{Json, OFormat}
-import models.{AdviceGiven, WhyAreYouMakingADisclosure, WhichEmailAddressCanWeContactYouWith, WhichTelephoneNumberCanWeContactYouWith}
+import models.{AdviceGiven, AdviceContactPreference, WhyAreYouMakingADisclosure, WhichEmailAddressCanWeContactYouWith, WhichTelephoneNumberCanWeContactYouWith}
 
 final case class ReasonForDisclosingNow(
   reason: Option[Set[WhyAreYouMakingADisclosure]] = None,
@@ -35,10 +35,13 @@ final case class ReasonForDisclosingNow(
   telephone: Option[String] = None
 ) {
   def isComplete = this match {
-    case ReasonForDisclosingNow(Some(_), _, Some(_), Some(false), _, _, _, _, _, _, _, _, _) => true
-    case ReasonForDisclosingNow(Some(_), _, Some(_), Some(true), Some(_), Some(_), _, Some(_), Some(_), _, _, _, _) => true
+    case ReasonForDisclosingNow(Some(_), _, _, Some(true), _, _, _, _, Some(advice), _, _, _, _) if(advice.contactPreference == AdviceContactPreference.No || whichEmailComplete(advice) || whichPhoneComplete(advice)) => true
+    case ReasonForDisclosingNow(Some(_), _, _, Some(false), _, _, _, _, _, _, _, _, _) => true
     case _ => false
   }
+  
+  def whichEmailComplete(advice: AdviceGiven) = advice.contactPreference == AdviceContactPreference.Email && (whichEmail == Some(WhichEmailAddressCanWeContactYouWith.ExistingEmail) || email.isDefined)
+  def whichPhoneComplete(advice: AdviceGiven) = advice.contactPreference == AdviceContactPreference.Telephone && (whichPhone == Some(WhichTelephoneNumberCanWeContactYouWith.ExistingNumber) || telephone.isDefined)
 }
 
 object ReasonForDisclosingNow {
