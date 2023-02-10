@@ -1073,7 +1073,7 @@ taskList.trust.paragraph.forth = When you select ‘Save and continue’, you wi
 taskList.estate.paragraph.forth = When you select ‘Save and continue’, you will be asked to make a formal offer of the amount you will pay HMRC. You will be given the opportunity to save a copy of this to send to the person who died that this disclosure relates to for their agreement. You will then see a full summary of the information you have provided before you send the disclosure.
 taskList.paragraph.fifth = 'If you cannot pay the full amount, let us know as soon as possible and before you send in your disclosure by '
 taskList.paragraph.fifth.link = calling the helpline (opens in new tab)
-taskList.link = View a copy of the information you have entered so far.
+taskList.link = View a copy of the information you have entered so far
 
 howWouldYouPreferToBeContacted.title = How would you prefer to be contacted by HMRC?
 howWouldYouPreferToBeContacted.heading = How would you prefer to be contacted by HMRC?
