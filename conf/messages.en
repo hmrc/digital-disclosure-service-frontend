@@ -474,9 +474,8 @@ whatIsYourMainOccupation.title = What is your main occupation?
 whatIsYourMainOccupation.heading = What is your main occupation?
 whatIsYourMainOccupation.hint = For example, plumber or dentist.
 whatIsYourMainOccupation.checkYourAnswersLabel = Your main occupation
-whatIsYourMainOccupation.error.required = Enter your main occupation
-whatIsYourMainOccupation.error.maxLength = Your main occupation should have no more than 30 characters
-whatIsYourMainOccupation.error.minLength = Your main occupation should have at least 4 characters
+whatIsYourMainOccupation.error.required = Your main occupation must be between 1 and 30 characters
+whatIsYourMainOccupation.error.maxLength = Your main occupation must be between 1 and 30 characters
 whatIsYourMainOccupation.change.hidden = Your main occupation
 
 doYouHaveNationalInsuranceNumber.title = Do you have a National Insurance number?
@@ -598,9 +597,8 @@ whatIsTheIndividualOccupation.title = What is the individual’s main occupation
 whatIsTheIndividualOccupation.heading = What is the individual’s main occupation?
 whatIsTheIndividualOccupation.hint = For example, plumber or dentist.
 whatIsTheIndividualOccupation.checkYourAnswersLabel = Individual’s main occupation
-whatIsTheIndividualOccupation.error.required = Enter the individual’s main occupation
-whatIsTheIndividualOccupation.error.minLength = The individual’s main occupation should have at least 4 characters
-whatIsTheIndividualOccupation.error.maxLength = The individual’s main occupation should have no more than 30 characters
+whatIsTheIndividualOccupation.error.required = The individual’s main occupation must be between 1 and 30 characters
+whatIsTheIndividualOccupation.error.maxLength = The individual’s main occupation must be between 1 and 30 characters
 whatIsTheIndividualOccupation.change.hidden = Individual’s main occupation
 
 doesTheIndividualHaveNINO.title = Does the individual have a National Insurance number, as far as you’re aware?
@@ -852,8 +850,8 @@ whatWasThePersonOccupation.title = What was the person’s main occupation?
 whatWasThePersonOccupation.heading = What was the person’s main occupation?
 whatWasThePersonOccupation.hint = For example, plumber or dentist.
 whatWasThePersonOccupation.checkYourAnswersLabel = Person’s main occupation
-whatWasThePersonOccupation.error.required = Enter the person’s main occupation
-whatWasThePersonOccupation.error.length = The person’s main occupation must be between 4 and 30 characters
+whatWasThePersonOccupation.error.required = The person’s main occupation must be between 1 and 30 characters
+whatWasThePersonOccupation.error.length = The person’s main occupation must be between 1 and 30 characters
 whatWasThePersonOccupation.change.hidden = Person’s main occupation
 
 whatWasThePersonDateOfBirth.title = What was the person’s date of birth?
