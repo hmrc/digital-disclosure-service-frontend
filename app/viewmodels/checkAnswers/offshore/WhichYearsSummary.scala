@@ -17,16 +17,19 @@
 package viewmodels.checkAnswers
 
 import controllers.offshore.routes
-import models.{CheckMode, UserAnswers, OffshoreYears}
+import models.{CheckMode, UserAnswers, Behaviour, ReasonableExcusePriorTo, CarelessPriorTo, DeliberatePriorTo}
 import pages.WhichYearsPage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
+import services.OffshoreWhichYearsService
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
+import com.google.inject.{Inject, Singleton}
 
-object WhichYearsSummary  {
+@Singleton
+class WhichYearsSummary @Inject() (offshoreWhichYearsService: OffshoreWhichYearsService)  {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
     answers.get(WhichYearsPage).map {
@@ -35,7 +38,12 @@ object WhichYearsSummary  {
         val value = ValueViewModel(
           HtmlContent(
             answers.map {
-              answer => HtmlFormat.escape(messages(s"whichYears.checkbox", answer, (answer.toString.toInt+1).toString)).toString
+              answer => answer match {
+                case ReasonableExcusePriorTo => HtmlFormat.escape(messages(s"whichYears.checkbox.any", offshoreWhichYearsService.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString)).toString
+                case CarelessPriorTo => HtmlFormat.escape(messages(s"whichYears.checkbox.any", offshoreWhichYearsService.getEarliestYearByBehaviour(Behaviour.Careless).toString)).toString
+                case DeliberatePriorTo => HtmlFormat.escape(messages(s"whichYears.checkbox.any", offshoreWhichYearsService.getEarliestYearByBehaviour(Behaviour.Deliberate).toString)).toString
+                case _ => HtmlFormat.escape(messages(s"whichYears.checkbox", answer, (answer.toString.toInt+1).toString)).toString
+              }
             }
             .mkString(",<br>")
           )
