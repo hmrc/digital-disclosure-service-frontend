@@ -20,6 +20,7 @@
     layout: templates.Layout,
     govukButton: GovukButton,
     heading: components.heading,
+    subheading: components.subheading,
     paragraph: components.paragraph,
     link: components.link,
     govukSummaryList: GovukSummaryList
@@ -30,6 +31,9 @@
 @layout(pageTitle = titleNoForm(messages("checkYourAnswers.offshore.title"))) {
 
     @heading(Text(messages("checkYourAnswers.offshore.heading")))
+
+    @subheading(Text(messages("checkYourAnswers.offshore.subheading.reason")), "govuk-heading-m")
+    @govukSummaryList(viewModel.whyAreYouMakingThisDisclosureSummarylist)
 
     @viewModel.taxYearLists.map { case (year, list) =>
         @heading(Text(messages("checkYourAnswers.offshore.taxYear.heading", year.toString, (year+1).toString)), "govuk-heading-m")

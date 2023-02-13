@@ -28,19 +28,28 @@ import viewmodels.implicits._
 
 object WhatReasonableCareDidYouTakeSummary  {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
+  def row(fieldName: String, answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
     answers.get(WhatReasonableCareDidYouTakePage).map {
       answer =>
 
-      val value = HtmlFormat.escape(answer.reasonableCare).toString + "<br/>" + HtmlFormat.escape(answer.yearsThisAppliesTo).toString
-
-        SummaryListRowViewModel(
-          key     = "whatReasonableCareDidYouTake.checkYourAnswersLabel",
-          value   = ValueViewModel(HtmlContent(value)),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.WhatReasonableCareDidYouTakeController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("whatReasonableCareDidYouTake.change.hidden"))
+        if(fieldName == "reasonableCare"){
+          SummaryListRowViewModel(
+            key     = "whatReasonableCareDidYouTake.reasonableCare.checkYourAnswersLabel",
+            value   = ValueViewModel(HtmlContent(HtmlFormat.escape(answer.reasonableCare).toString)),
+            actions = Seq(
+              ActionItemViewModel("site.change", routes.WhatReasonableCareDidYouTakeController.onPageLoad(CheckMode).url)
+                .withVisuallyHiddenText(messages("whatReasonableCareDidYouTake.change.hidden"))
+            )
           )
-        )
-    }
+        } else {
+          SummaryListRowViewModel(
+            key     = "whatReasonableCareDidYouTake.yearsThisAppliesTo.checkYourAnswersLabel",
+            value   = ValueViewModel(HtmlContent(HtmlFormat.escape(answer.yearsThisAppliesTo).toString)),
+            actions = Seq(
+              ActionItemViewModel("site.change", routes.WhatReasonableCareDidYouTakeController.onPageLoad(CheckMode).url)
+                .withVisuallyHiddenText(messages("whatReasonableCareDidYouTake.change.hidden"))
+            )
+          )
+        }
+    }  
 }
