@@ -19,9 +19,9 @@ package controllers.reason
 import controllers.actions._
 import forms.AdviceBusinessesOrOrgFormProvider
 import javax.inject.Inject
-import models.Mode
+import models.{Mode, UserAnswers}
 import navigation.ReasonNavigator
-import pages.AdviceBusinessesOrOrgPage
+import pages.{AdviceBusinessesOrOrgPage, AdviceBusinessNamePage, QuestionPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -62,11 +62,24 @@ class AdviceBusinessesOrOrgController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
-        value =>
+        value => {
+
+          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
+
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AdviceBusinessesOrOrgPage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(AdviceBusinessesOrOrgPage, mode, updatedAnswers))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+            _              <- sessionService.set(clearedAnswers)
+          } yield Redirect(navigator.nextPage(AdviceBusinessesOrOrgPage, mode, clearedAnswers, hasValueChanged))
+        }
       )
   }
+
+  def changedPages(userAnswers: UserAnswers, value: Boolean): (List[QuestionPage[_]], Boolean) =
+    userAnswers.get(AdviceBusinessesOrOrgPage) match {
+      case Some(true) if false == value => (List(AdviceBusinessNamePage), false)
+      case Some(false) if true == value => (Nil, true)
+      case _ => (Nil, false)
+    }
+
 }

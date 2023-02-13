@@ -81,6 +81,11 @@ class ReasonNavigator @Inject()() {
   }
 
   private val checkRouteMap: Page => UserAnswers => Boolean => Call = {
+
+    case AdviceBusinessesOrOrgPage => ua => hasAnswerChanged =>
+      if(hasAnswerChanged) routes.AdviceBusinessNameController.onPageLoad(CheckMode)
+      else routes.CheckYourAnswersController.onPageLoad  
+
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
