@@ -27,6 +27,7 @@ import play.api.i18n.Messages
 import com.google.inject.{Inject, Singleton}
 
 case class CheckYourAnswersViewModel(
+  whyAreYouMakingThisDisclosureSummarylist: SummaryList,
   taxBefore5or7Yearslist: SummaryList,
   legalInterpretationlist: SummaryList,
   taxYearLists: Seq[(Int, SummaryList)],
@@ -37,6 +38,17 @@ case class CheckYourAnswersViewModel(
 class CheckYourAnswersViewModelCreation @Inject() (taxBeforeFiveYearsSummary: TaxBeforeFiveYearsSummary, taxBeforeSevenYearsSummary: TaxBeforeSevenYearsSummary, taxBeforeNineteenYearSummary: CanYouTellUsMoreAboutTaxBeforeNineteenYearSummary) {
 
   def create(userAnswers: UserAnswers)(implicit messages: Messages): CheckYourAnswersViewModel = {
+
+    val whyAreYouMakingThisDisclosureSummarylist = SummaryListViewModel(
+      rows = Seq(
+        WhyAreYouMakingThisDisclosureSummary.row(userAnswers),
+        ContractualDisclosureFacilitySummary.row(userAnswers),
+        WhatReasonableCareDidYouTakeSummary.row("reasonableCare", userAnswers),
+        WhatReasonableCareDidYouTakeSummary.row("yearsThisAppliesTo", userAnswers),
+        WhatIsYourReasonableExcuseForNotFilingReturnSummary.row("reasonableExcuse", userAnswers),
+        WhatIsYourReasonableExcuseForNotFilingReturnSummary.row("yearsThisAppliesTo", userAnswers)
+      ).flatten
+    )
 
     val taxBefore5or7Yearslist = SummaryListViewModel(
       rows = Seq(
@@ -66,7 +78,7 @@ class CheckYourAnswersViewModelCreation @Inject() (taxBeforeFiveYearsSummary: Ta
       ).flatten
     )
 
-    CheckYourAnswersViewModel(taxBefore5or7Yearslist, legalInterpretationlist, taxYearLists, liabilitiesTotal)
+    CheckYourAnswersViewModel(whyAreYouMakingThisDisclosureSummarylist, taxBefore5or7Yearslist, legalInterpretationlist, taxYearLists, liabilitiesTotal)
 
   }
 

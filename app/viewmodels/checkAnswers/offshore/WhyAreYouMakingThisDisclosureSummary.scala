@@ -35,7 +35,7 @@ object WhyAreYouMakingThisDisclosureSummary  {
         val value = ValueViewModel(
           HtmlContent(
             answers.map {
-              answer => HtmlFormat.escape(messages(s"whyAreYouMakingThisDisclosure.$answer")).toString
+              answer => HtmlFormat.escape(messages(s"whyAreYouMakingThisDisclosure.you.$answer")).toString
             }
             .mkString(",<br>")
           )
