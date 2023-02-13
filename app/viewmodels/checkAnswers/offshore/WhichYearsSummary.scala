@@ -17,7 +17,7 @@
 package viewmodels.checkAnswers
 
 import controllers.offshore.routes
-import models.{CheckMode, UserAnswers}
+import models.{CheckMode, UserAnswers, OffshoreYears}
 import pages.WhichYearsPage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
@@ -35,7 +35,7 @@ object WhichYearsSummary  {
         val value = ValueViewModel(
           HtmlContent(
             answers.map {
-              answer => HtmlFormat.escape(messages(s"whichYears.$answer")).toString
+              answer => HtmlFormat.escape(messages(s"whichYears.checkbox", answer, (answer.toString.toInt+1).toString)).toString
             }
             .mkString(",<br>")
           )
