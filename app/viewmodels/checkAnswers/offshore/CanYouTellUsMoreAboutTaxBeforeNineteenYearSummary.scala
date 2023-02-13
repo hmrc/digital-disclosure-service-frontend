@@ -17,22 +17,27 @@
 package viewmodels.checkAnswers
 
 import controllers.offshore.routes
-import models.{CheckMode, UserAnswers}
+import models.{Behaviour, CheckMode, UserAnswers}
 import pages.CanYouTellUsMoreAboutTaxBeforeNineteenYearPage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
+import services.OffshoreWhichYearsService
 import viewmodels.implicits._
+import com.google.inject.{Inject, Singleton}
 
-object CanYouTellUsMoreAboutTaxBeforeNineteenYearSummary  {
+@Singleton
+class CanYouTellUsMoreAboutTaxBeforeNineteenYearSummary @Inject() (offshoreWhichYearsService: OffshoreWhichYearsService)  {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
     answers.get(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage).map {
       answer =>
 
+        val year = offshoreWhichYearsService.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
+
         SummaryListRowViewModel(
-          key     = "canYouTellUsMoreAboutTaxBeforeNineteenYear.checkYourAnswersLabel",
+          key     = messages("canYouTellUsMoreAboutTaxBeforeNineteenYear.checkYourAnswersLabel", year),
           value   = ValueViewModel(HtmlFormat.escape(answer).toString),
           actions = Seq(
             ActionItemViewModel("site.change", routes.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onPageLoad(CheckMode).url)

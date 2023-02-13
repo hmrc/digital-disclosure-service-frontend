@@ -32,9 +32,11 @@ object ContractualDisclosureFacilitySummary  {
     answers.get(ContractualDisclosureFacilityPage).map {
       answer =>
 
+        val answerString = if (answer) "yes" else "no"
+        
         val value = ValueViewModel(
           HtmlContent(
-            HtmlFormat.escape(messages(s"contractualDisclosureFacility.$answer"))
+            HtmlFormat.escape(messages(answerString.capitalize))
           )
         )
 

@@ -189,7 +189,7 @@ class CheckYourAnswersController @Inject()(
         case None => for {
           reference <- notificationSubmissionService.submitNotification (request.userAnswers)
           userReference = userAnswers.get(LetterReferencePage).getOrElse(reference)
-        } yield Redirect (navigator.submitPage (request.userAnswers, reference) )
+        } yield Redirect (navigator.submitPage (request.userAnswers, userReference) )
       }
   }
 

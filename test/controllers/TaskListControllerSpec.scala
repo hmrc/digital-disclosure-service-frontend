@@ -149,11 +149,11 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
       
       val expectedTask = TaskListRow(
         id = "personal-detail-task-list",
-        sectionTitle = mess("taskList.add.sectionTitle.first.individual"),
+        sectionTitle = mess("taskList.edit.sectionTitle.first.individual"),
         status = mess("taskList.status.inProgress"),
         link = controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode)
       )
-      val expectedSectionKey = "taskList.add.heading.first.individual"
+      val expectedSectionKey = "taskList.edit.heading.first.individual"
       val (actualKey, actualTask) = sut.buildYourPersonalDetailsRow(personalDetails, "individual") 
 
       actualKey mustEqual expectedSectionKey
@@ -202,7 +202,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
       
       val expectedTask = TaskListRow(
         id = "case-reference-task-list",
-        sectionTitle = mess("taskList.add.sectionTitle.second"),
+        sectionTitle = mess("taskList.edit.sectionTitle.second"),
         status = mess("taskList.status.inProgress"),
         link = controllers.reference.routes.DoYouHaveACaseReferenceController.onPageLoad(NormalMode)
       )
@@ -249,7 +249,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
       
       val expectedTask = TaskListRow(
         id = "offshore-liabilities-task-list",
-        sectionTitle = mess("taskList.add.sectionTitle.forth"),
+        sectionTitle = mess("taskList.edit.sectionTitle.forth"),
         status = mess("taskList.status.inProgress"),
         link = controllers.offshore.routes.WhyAreYouMakingThisDisclosureController.onPageLoad(NormalMode)
       )
@@ -276,6 +276,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         None, 
         None, 
         Some(Set(TaxYearStarting(2012))),
+        None,
         None,
         None,
         None,
@@ -322,7 +323,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
 
       val expectedTask = TaskListRow(
         id = "other-liability-issues-task-list",
-        sectionTitle = mess("taskList.add.sectionTitle.fifth"),
+        sectionTitle = mess("taskList.edit.sectionTitle.fifth"),
         status = mess("taskList.status.inProgress"),
         link = controllers.otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(NormalMode)
       )
@@ -370,7 +371,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
 
       val expectedTask = TaskListRow(
         id = "reason-for-coming-forward-now-task-list",
-        sectionTitle = mess("taskList.add.sectionTitle.sixth"),
+        sectionTitle = mess("taskList.edit.sectionTitle.sixth"),
         status = mess("taskList.status.inProgress"),
         link = reason.routes.WhyAreYouMakingADisclosureController.onPageLoad(NormalMode)
       )

@@ -34,6 +34,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         SummaryListViewModel(rows = Nil),
         SummaryListViewModel(rows = Nil),
         SummaryListViewModel(rows = Nil),
+        SummaryListViewModel(rows = Nil),
         Nil,
         0
       )

@@ -28,6 +28,7 @@ import com.google.inject.{Inject, Singleton}
 
 case class CheckYourAnswersViewModel(
   summary: SummaryList,
+  whyAreYouMakingThisDisclosureSummarylist: SummaryList,
   taxBefore5or7Yearslist: SummaryList,
   legalInterpretationlist: SummaryList,
   taxYearLists: Seq[(Int, SummaryList)],
@@ -35,7 +36,7 @@ case class CheckYourAnswersViewModel(
 )
 
 @Singleton
-class CheckYourAnswersViewModelCreation @Inject() (taxBeforeFiveYearsSummary: TaxBeforeFiveYearsSummary, taxBeforeSevenYearsSummary: TaxBeforeSevenYearsSummary) {
+class CheckYourAnswersViewModelCreation @Inject() (taxBeforeFiveYearsSummary: TaxBeforeFiveYearsSummary, taxBeforeSevenYearsSummary: TaxBeforeSevenYearsSummary, taxBeforeNineteenYearSummary: CanYouTellUsMoreAboutTaxBeforeNineteenYearSummary) {
 
   def create(userAnswers: UserAnswers)(implicit messages: Messages): CheckYourAnswersViewModel = {
 
@@ -45,10 +46,22 @@ class CheckYourAnswersViewModelCreation @Inject() (taxBeforeFiveYearsSummary: Ta
       ).flatten
     )
 
+    val whyAreYouMakingThisDisclosureSummarylist = SummaryListViewModel(
+      rows = Seq(
+        WhyAreYouMakingThisDisclosureSummary.row(userAnswers),
+        ContractualDisclosureFacilitySummary.row(userAnswers),
+        WhatReasonableCareDidYouTakeSummary.row("reasonableCare", userAnswers),
+        WhatReasonableCareDidYouTakeSummary.row("yearsThisAppliesTo", userAnswers),
+        WhatIsYourReasonableExcuseForNotFilingReturnSummary.row("reasonableExcuse", userAnswers),
+        WhatIsYourReasonableExcuseForNotFilingReturnSummary.row("yearsThisAppliesTo", userAnswers)
+      ).flatten
+    )
+
     val taxBefore5or7Yearslist = SummaryListViewModel(
       rows = Seq(
         taxBeforeFiveYearsSummary.row(userAnswers),
-        taxBeforeSevenYearsSummary.row(userAnswers)
+        taxBeforeSevenYearsSummary.row(userAnswers),
+        taxBeforeNineteenYearSummary.row(userAnswers)
       ).flatten
     )
 
@@ -72,7 +85,7 @@ class CheckYourAnswersViewModelCreation @Inject() (taxBeforeFiveYearsSummary: Ta
       ).flatten
     )
 
-    CheckYourAnswersViewModel(summary, taxBefore5or7Yearslist, legalInterpretationlist, taxYearLists, liabilitiesTotal)
+    CheckYourAnswersViewModel(summary, whyAreYouMakingThisDisclosureSummarylist, taxBefore5or7Yearslist, legalInterpretationlist, taxYearLists, liabilitiesTotal)
 
   }
 

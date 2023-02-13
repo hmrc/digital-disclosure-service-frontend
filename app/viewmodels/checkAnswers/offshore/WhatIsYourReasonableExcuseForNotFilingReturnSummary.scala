@@ -28,19 +28,28 @@ import viewmodels.implicits._
 
 object WhatIsYourReasonableExcuseForNotFilingReturnSummary  {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
+  def row(fieldName: String, answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
     answers.get(WhatIsYourReasonableExcuseForNotFilingReturnPage).map {
       answer =>
 
-      val value = HtmlFormat.escape(answer.reasonableExcuse).toString + "<br/>" + HtmlFormat.escape(answer.yearsThisAppliesTo).toString
-
-        SummaryListRowViewModel(
-          key     = "whatIsYourReasonableExcuseForNotFilingReturn.checkYourAnswersLabel",
-          value   = ValueViewModel(HtmlContent(value)),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("whatIsYourReasonableExcuseForNotFilingReturn.change.hidden"))
+        if(fieldName == "reasonableExcuse") {
+          SummaryListRowViewModel(
+            key     = "whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.checkYourAnswersLabel",
+            value   = ValueViewModel(HtmlContent(HtmlFormat.escape(answer.reasonableExcuse).toString)),
+            actions = Seq(
+              ActionItemViewModel("site.change", routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(CheckMode).url)
+                .withVisuallyHiddenText(messages("whatIsYourReasonableExcuseForNotFilingReturn.change.hidden"))
+            )
           )
-        )
+        } else {
+          SummaryListRowViewModel(
+            key     = "whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo.checkYourAnswersLabel",
+            value   = ValueViewModel(HtmlContent(HtmlFormat.escape(answer.yearsThisAppliesTo).toString)),
+            actions = Seq(
+              ActionItemViewModel("site.change", routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(CheckMode).url)
+                .withVisuallyHiddenText(messages("whatIsYourReasonableExcuseForNotFilingReturn.change.hidden"))
+            )
+          )
+        }
     }
 }

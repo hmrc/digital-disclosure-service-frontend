@@ -31,6 +31,7 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
     SummaryListViewModel(rows = Nil),
     SummaryListViewModel(rows = Nil),
     SummaryListViewModel(rows = Nil),
+    SummaryListViewModel(rows = Nil),
     Nil,
     0
   )
@@ -50,8 +51,9 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
       view.getElementsByClass("govuk-heading-xl").text() mustBe messages("checkYourAnswers.offshore.heading")
     }
 
-    "have a offer heading" in {
-      view.getElementsByClass("govuk-heading-m").get(1).text() mustBe messages("checkYourAnswers.offshore.offer.heading")
+    "have a heading" in {
+      view.getElementsByClass("govuk-heading-m").get(0).text() mustBe messages("checkYourAnswers.offshore.subheading.reason")
+      view.getElementsByClass("govuk-heading-m").get(2).text() mustBe messages("checkYourAnswers.offshore.offer.heading")
     }
 
     "have a first offer paragraph" in {
@@ -63,7 +65,7 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
     }
 
     "have a fullAmount heading" in {
-      view.getElementsByClass("govuk-heading-m").get(2).text() mustBe messages("checkYourAnswers.offshore.fullAmount.heading")
+      view.getElementsByClass("govuk-heading-m").get(3).text() mustBe messages("checkYourAnswers.offshore.fullAmount.heading")
     }
 
     "have a first fullAmount paragraph" in {
