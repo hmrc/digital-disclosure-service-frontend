@@ -17,8 +17,8 @@
 package viewmodels.checkAnswers
 
 import controllers.offshore.routes
-import models.{CheckMode, UserAnswers}
-import pages.WhyAreYouMakingThisDisclosurePage
+import models.{CheckMode, UserAnswers, RelatesTo}
+import pages.{WhyAreYouMakingThisDisclosurePage, AreYouTheIndividualPage, RelatesToPage}
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
@@ -28,14 +28,17 @@ import viewmodels.implicits._
 
 object WhyAreYouMakingThisDisclosureSummary  {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(WhyAreYouMakingThisDisclosurePage).map {
+  def row(userAnswers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
+    userAnswers.get(WhyAreYouMakingThisDisclosurePage).map {
       answers =>
+
+        val areTheyTheIndividual = isTheUserTheIndividual(userAnswers)
+        val entity = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
         val value = ValueViewModel(
           HtmlContent(
             answers.map {
-              answer => HtmlFormat.escape(messages(s"whyAreYouMakingThisDisclosure.you.$answer")).toString
+              answer => HtmlFormat.escape(messages(if(areTheyTheIndividual) s"whyAreYouMakingThisDisclosure.you.$answer" else s"whyAreYouMakingThisDisclosure.${entity}.$answer")).toString
             }
             .mkString(",<br>")
           )
@@ -50,4 +53,11 @@ object WhyAreYouMakingThisDisclosureSummary  {
           )
         )
     }
+
+  def isTheUserTheIndividual(userAnswers: UserAnswers): Boolean = {
+    userAnswers.get(AreYouTheIndividualPage) match {
+      case Some(true) => true
+      case _ => false
+    }
+  }  
 }
