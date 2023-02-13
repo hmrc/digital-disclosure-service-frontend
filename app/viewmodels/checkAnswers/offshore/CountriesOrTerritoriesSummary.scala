@@ -20,7 +20,9 @@ import controllers.offshore.routes
 import models.{CheckMode, UserAnswers}
 import pages.CountryOfYourOffshoreLiabilityPage
 import play.api.i18n.Messages
+import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
+import viewmodels.govuk.all.FluentText
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
@@ -34,7 +36,7 @@ object CountriesOrTerritoriesSummary  {
 
         SummaryListRowViewModel(
           key     = "countriesOrTerritories.checkYourAnswersLabel",
-          value   = ValueViewModel(value),
+          value   = ValueViewModel(Text(value).withEllipsisOverflow(150)),
           actions = Seq(
             ActionItemViewModel("site.change", routes.CountriesOrTerritoriesController.onPageLoad(CheckMode).url)
               .withVisuallyHiddenText(messages("countriesOrTerritories.change.hidden"))
