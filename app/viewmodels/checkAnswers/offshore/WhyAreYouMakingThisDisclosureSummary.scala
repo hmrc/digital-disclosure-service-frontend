@@ -17,12 +17,14 @@
 package viewmodels.checkAnswers
 
 import controllers.offshore.routes
-import models.{CheckMode, UserAnswers, RelatesTo}
-import pages.{WhyAreYouMakingThisDisclosurePage, AreYouTheIndividualPage, RelatesToPage}
+import models.{CheckMode, RelatesTo, UserAnswers}
+import pages.{AreYouTheIndividualPage, RelatesToPage, WhyAreYouMakingThisDisclosurePage}
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
+import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
+import viewmodels.govuk.all.FluentText
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
@@ -36,12 +38,12 @@ object WhyAreYouMakingThisDisclosureSummary  {
         val entity = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
         val value = ValueViewModel(
-          HtmlContent(
+          HtmlContent(Text(
             answers.map {
               answer => HtmlFormat.escape(messages(if(areTheyTheIndividual) s"whyAreYouMakingThisDisclosure.you.$answer" else s"whyAreYouMakingThisDisclosure.${entity}.$answer")).toString
             }
-            .mkString(",<br>")
-          )
+            .mkString("<br>")
+          ).withEllipsisOverflow(150).value)
         )
 
         SummaryListRowViewModel(
@@ -59,5 +61,5 @@ object WhyAreYouMakingThisDisclosureSummary  {
       case Some(true) => true
       case _ => false
     }
-  }  
+  }
 }

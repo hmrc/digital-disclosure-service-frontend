@@ -14,24 +14,24 @@
  * limitations under the License.
  */
 
-package viewmodels
+package viewmodels.govuk
 
-package object govuk {
+import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 
-  object all
-    extends ImplicitConversions
-      with BackLinkFluency
-      with ButtonFluency
-      with CheckboxFluency
-      with DateFluency
-      with ErrorSummaryFluency
-      with FieldsetFluency
-      with HintFluency
-      with InputFluency
-      with LabelFluency
-      with RadiosFluency
-      with SummaryListFluency
-      with TagFluency
-      with MonthYearFluency
-      with TextFluency
+
+object text extends TextFluency
+trait TextFluency {
+
+  object TextViewModel {
+    def apply(content:String): Text = {
+      Text(content)
+    }
+  }
+
+  implicit class FluentText(text:Text) {
+    def withEllipsisOverflow(maxSize:Int):Text = {
+      val value = if(text.value.length > maxSize) text.value.substring(0, maxSize) + "..." else text.value
+      text copy (value = value)
+    }
+  }
 }

@@ -32,6 +32,8 @@
 
     @heading(Text(messages("checkYourAnswers.offshore.heading")))
 
+    @govukSummaryList(viewModel.summary)
+
     @subheading(Text(messages("checkYourAnswers.offshore.subheading.reason")), "govuk-heading-m")
     @govukSummaryList(viewModel.whyAreYouMakingThisDisclosureSummarylist)
 

@@ -1590,9 +1590,9 @@ countriesOrTerritories.title.multi = You have added {0} countries or territories
 countriesOrTerritories.heading.single = You have added 1 country or territory
 countriesOrTerritories.heading.multi = You have added {0} countries or territories
 countriesOrTerritories.label = Do you need to add another country or territory?
-countriesOrTerritories.checkYourAnswersLabel = countriesOrTerritories
+countriesOrTerritories.checkYourAnswersLabel = These are the countries or territories you added
 countriesOrTerritories.error.required = Select yes if you want to add another country or territory
-countriesOrTerritories.change.hidden = CountriesOrTerritories
+countriesOrTerritories.change.hidden = Countries or Territories
 countriesOrTerritories.remove.hidden = Remove country or territory
 
 youHaveNotIncludedTheTaxYear.title = You have not included the tax year ending {0} 

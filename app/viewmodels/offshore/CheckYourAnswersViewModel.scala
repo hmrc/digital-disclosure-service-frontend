@@ -27,6 +27,7 @@ import play.api.i18n.Messages
 import com.google.inject.{Inject, Singleton}
 
 case class CheckYourAnswersViewModel(
+  summary: SummaryList,
   whyAreYouMakingThisDisclosureSummarylist: SummaryList,
   taxBefore5or7Yearslist: SummaryList,
   legalInterpretationlist: SummaryList,
@@ -38,6 +39,12 @@ case class CheckYourAnswersViewModel(
 class CheckYourAnswersViewModelCreation @Inject() (taxBeforeFiveYearsSummary: TaxBeforeFiveYearsSummary, taxBeforeSevenYearsSummary: TaxBeforeSevenYearsSummary, taxBeforeNineteenYearSummary: CanYouTellUsMoreAboutTaxBeforeNineteenYearSummary) {
 
   def create(userAnswers: UserAnswers)(implicit messages: Messages): CheckYourAnswersViewModel = {
+
+    val summary = SummaryListViewModel(
+      rows = Seq(
+        CountriesOrTerritoriesSummary.row(userAnswers)
+      ).flatten
+    )
 
     val whyAreYouMakingThisDisclosureSummarylist = SummaryListViewModel(
       rows = Seq(
@@ -78,7 +85,7 @@ class CheckYourAnswersViewModelCreation @Inject() (taxBeforeFiveYearsSummary: Ta
       ).flatten
     )
 
-    CheckYourAnswersViewModel(whyAreYouMakingThisDisclosureSummarylist, taxBefore5or7Yearslist, legalInterpretationlist, taxYearLists, liabilitiesTotal)
+    CheckYourAnswersViewModel(summary, whyAreYouMakingThisDisclosureSummarylist, taxBefore5or7Yearslist, legalInterpretationlist, taxYearLists, liabilitiesTotal)
 
   }
 
