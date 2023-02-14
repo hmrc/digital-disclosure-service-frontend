@@ -105,7 +105,7 @@ class CheckYourAnswersViewModelCreation @Inject() (whichYearsSummary: WhichYears
       row(i, "taxYearLiabilities.interest.checkYourAnswersLabel", s"&pound;${liabilities.interest}", "taxYearLiabilities.interest.hidden"),
       row(i, "taxYearLiabilities.penaltyRate.checkYourAnswersLabel", s"${liabilities.penaltyRate}%", "taxYearLiabilities.penaltyRate.hidden"),
       row(i, "taxYearLiabilities.penaltyAmount.checkYourAnswersLabel", s"&pound;${penaltyAmount(liabilities)}", "taxYearLiabilities.penaltyRate.hidden"),
-      row(i, "taxYearLiabilities.foreignTaxCredit.checkYourAnswersLabel", if (liabilities.foreignTaxCredit) messages("site.yes") else messages("site.no"), "taxYearLiabilities.foreignTaxCredit.hidden"),
+      row(i, "taxYearLiabilities.foreignTaxCredit.checkYourAnswersLabel", if (liabilities.foreignTaxCredit) messages("site.yes") else messages("site.no"), "taxYearLiabilities.foreignTaxCredit.hidden")
     ) ++ foreignTaxCredit ++ Seq(row(i, "taxYearLiabilities.amountDue.checkYourAnswersLabel", s"&pound;${yearTotal(liabilities)}", "taxYearLiabilities.amountDue.hidden"))
 
     SummaryListViewModel(rows)
