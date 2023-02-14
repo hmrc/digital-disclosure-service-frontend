@@ -104,6 +104,16 @@ class CheckYourAnswersViewModelCreation @Inject() (taxBeforeFiveYearsSummary: Ta
       )
     )
 
+  def totalAmountsSummaryList(liabilities: TaxYearLiabilities)(implicit messages: Messages): SummaryList =
+    SummaryListViewModel(
+      rows = Seq(
+        row(i, "taxYearLiabilities.unpaidTax.total", s"&pound;${liabilities.unpaidTax}", "taxYearLiabilities.unpaidTax.hidden"),
+        row(i, "taxYearLiabilities.interest.total", s"&pound;${liabilities.interest}", "taxYearLiabilities.interest.hidden"),
+        row(i, "taxYearLiabilities.penaltyAmount.total", s"&pound;${penaltyAmount(liabilities)}", "taxYearLiabilities.penaltyRate.hidden"),
+        row(i, "taxYearLiabilities.amountDue.total", s"&pound;${yearTotal(liabilities)}", "taxYearLiabilities.amountDue.hidden")
+      )
+    )
+
   def penaltyAmount(taxYearLiabilities: TaxYearLiabilities): BigDecimal = {
     (BigDecimal(taxYearLiabilities.penaltyRate) * BigDecimal(taxYearLiabilities.unpaidTax)) /100
   }
