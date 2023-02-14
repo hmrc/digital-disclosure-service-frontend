@@ -344,6 +344,13 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextTaxYearLiabilitiesPage(0, false, CheckMode, userAnswersWithTaxYears) mustBe routes.CheckYourAnswersController.onPageLoad
       }
 
+      "must take the user to the foreign tax credit page when the param is true, it is in CheckMode and there is a change" in {
+        val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2020), TaxYearStarting(2019), TaxYearStarting(2018))
+        val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value
+
+        navigator.nextTaxYearLiabilitiesPage(0, true, CheckMode, userAnswersWithTaxYears, true) mustBe routes.ForeignTaxCreditController.onPageLoad(0, CheckMode)
+      }
+
       "must increment the index and tax the user to the tax year liability page when there more years in the which years list" in {
         val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2020), TaxYearStarting(2019), TaxYearStarting(2018))
         val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value
