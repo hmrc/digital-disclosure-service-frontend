@@ -1669,12 +1669,12 @@ whereDidTheUndeclaredIncomeOrGainIncluded.change.hidden = WhereDidTheUndeclaredI
 
 offerLetter.individual.title = Your offer
 offerLetter.individual.heading = Your offer
-offerLetter.company.title = Your company's offer
-offerLetter.company.heading = Your company's offer
-offerLetter.llp.title = Your limited liability partnership's offer
-offerLetter.llp.heading = Your limited liability partnership's offer
-offerLetter.estate.title = Your estate's offer
-offerLetter.estate.heading = Your estate's offer
+offerLetter.company.title = Your company‘s offer
+offerLetter.company.heading = Your company‘s offer
+offerLetter.llp.title = Your limited liability partnership‘s offer
+offerLetter.llp.heading = Your limited liability partnership‘s offer
+offerLetter.estate.title = Your estate‘s offer
+offerLetter.estate.heading = Your estate‘s offer
 offerLetter.trust.title = Your trust’s offer
 offerLetter.trust.heading = Your trust’s offer
 
@@ -1716,3 +1716,16 @@ offerLetter.send.paragraph2 = The person reviewing your disclosure will then let
 offerLetter.send.paragraph3 = If you cannot pay the full amount do not submit your disclosure or payment until you’ve spoken to us by
 offerLetter.send.link = calling the helpline (opens in new tab)
 offerLetter.button = Send offer and disclosure
+
+submitted.title = You have sent your disclosure
+submitted.heading = You have sent your disclosure
+submitted.submissionRef = Your disclosure number is
+submitted.caseRef = Your case reference is
+submitted.paragraph1 = You can
+submitted.paragraph1.link = save a copy of this disclosure (opens in new tab)
+submitted.paragraph2 = Unless you‘ve contacted HMRC to agree more time to pay, you should now send the full payment, quoting the Payment Reference Number (PRN). You‘ll find your Payment Reference Number on the notification acknowledgement letter that HMRC may have sent you which also provides information on how to pay.
+submitted.paragraph2.link = Call us if you do not have a PRN (opens in new tab)
+submitted.paragraph3 = In most cases we‘ll check the disclosure and send a formal acceptance within 90 days from today. If we are not able to do this we‘ll contact you to explain why.
+submitted.paragraph4 = If you would like to give your feedback on how to improve this service, you can
+submitted.paragraph4.link = sign up to take part in our research (opens in new tab)
+

@@ -31,8 +31,10 @@ import play.api.test.Helpers._
 import services.SessionService
 import views.html.OfferLetterView
 import models.address._
+import services.DisclosureSubmissionService
 
-import scala.concurrent.Future
+import uk.gov.hmrc.http.HeaderCarrier
+import scala.concurrent.{ExecutionContext, Future}
 
 class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
 
@@ -226,10 +228,16 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
 
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
 
+      object FakeDisclosureSubmissionService extends DisclosureSubmissionService {
+        def submitDisclosure(userAnswers: UserAnswers)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[String] =
+          Future.successful("Reference")
+      }
+
       val application =
         applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
           .overrides(
-            bind[Navigator].toInstance(new FakeNavigator(onwardRoute))
+            bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
+            bind[DisclosureSubmissionService].toInstance(FakeDisclosureSubmissionService)
           )
           .build()
 

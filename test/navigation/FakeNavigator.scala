@@ -27,4 +27,8 @@ class FakeNavigator(desiredRoute: Call) extends Navigator {
 
   override def indexNextPage(userAnswers: Option[UserAnswers]): Call =
     desiredRoute
+
+   override def submitPage(reference: String): Call = 
+    desiredRoute
+
 }

@@ -131,7 +131,7 @@ class OfferLetterViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "have a first letter paragraph" in {
-      view.getElementById("letter-paragraph1").text() mustBe messages("offerLetter.letter.paragraph1.estate")
+      view.getElementById("letter-paragraph1").text() mustBe messages("offerLetter.letter.paragraph1.estate", "some name")
     }
 
     "have a second letter paragraph" in {

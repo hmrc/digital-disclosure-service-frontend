@@ -23,7 +23,7 @@ import navigation.Navigator
 import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import services.SessionService
+import services.{DisclosureSubmissionService, SessionService}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.OfferLetterView
 import viewmodels.offshore.CheckYourAnswersViewModelCreation
@@ -44,7 +44,8 @@ class OfferLetterController @Inject()(
                                         formProvider: OfferLetterFormProvider,
                                         val controllerComponents: MessagesControllerComponents,
                                         view: OfferLetterView,
-                                        viewModelCreation: CheckYourAnswersViewModelCreation
+                                        viewModelCreation: CheckYourAnswersViewModelCreation,
+                                        submissionService: DisclosureSubmissionService
                                       )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
@@ -75,11 +76,19 @@ class OfferLetterController @Inject()(
           val entityKey = getEntityKey(request.userAnswers)
           Future.successful(BadRequest(view(formWithErrors, name, addressLines, totalAmount, entityKey, getAgentName(request.userAnswers))))}
         ,
-        value =>
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(OfferLetterPage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(OfferLetterPage, updatedAnswers))
+        value => {
+          request.userAnswers.metadata.reference match {
+            case Some(ref) => Future.successful(Redirect(navigator.submitPage(ref)))
+            case None => 
+              for {
+                updatedAnswers <- Future.fromTry(request.userAnswers.set(OfferLetterPage, value))
+                _              <- sessionService.set(updatedAnswers)
+                reference      <- submissionService.submitDisclosure(updatedAnswers)
+                userReference  = updatedAnswers.get(LetterReferencePage).getOrElse(reference)
+              } yield Redirect(navigator.submitPage(userReference))
+          }
+          
+        }
       )
   }
 
