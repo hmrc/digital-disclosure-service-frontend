@@ -68,7 +68,7 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
     }
 
     "have a first fullAmount paragraph" in {
-      view.getElementById("fullAmount-paragraph-1").text() mustBe messages("checkYourAnswers.offshore.fullAmount.paragraph1", viewModel.liabilitiesTotal) + messages("checkYourAnswers.offshore.fullAmount.link")
+      view.getElementById("fullAmount-paragraph-1").text() mustBe messages("checkYourAnswers.offshore.fullAmount.paragraph1", viewModel.liabilitiesTotal) + messages("checkYourAnswers.offshore.fullAmount.link") + messages("site.dot")
     }
 
     "have a second fullAmount paragraph" in {
