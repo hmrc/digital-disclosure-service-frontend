@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryOfferLetterPage: Arbitrary[OfferLetterPage.type] =
+    Arbitrary(OfferLetterPage)
+
   implicit lazy val arbitraryWhichTelephoneNumberCanWeContactYouWithPage: Arbitrary[WhichTelephoneNumberCanWeContactYouWithPage.type] =
     Arbitrary(WhichTelephoneNumberCanWeContactYouWithPage)
 

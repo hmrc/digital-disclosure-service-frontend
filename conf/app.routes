@@ -42,3 +42,6 @@ POST        /make-a-disclosure                           controllers.Notificatio
 
 GET         /started-a-notification                      controllers.NotificationStartedController.onPageLoad
 POST        /started-a-notification                      controllers.NotificationStartedController.onSubmit
+
+GET         /your-offer                                  controllers.OfferLetterController.onPageLoad
+POST        /your-offer                                  controllers.OfferLetterController.onSubmit
