@@ -61,6 +61,8 @@ class NavigatorImpl @Inject()(notificationDataService: UAToNotificationService) 
       controllers.routes.MakeANotificationOrDisclosureController.onPageLoad
   }
 
+  def submitPage(reference: String): Call = controllers.routes.SubmittedController.onPageLoad(reference)
+
 }
 
 
@@ -68,4 +70,5 @@ class NavigatorImpl @Inject()(notificationDataService: UAToNotificationService) 
 trait Navigator {
   def nextPage(page: Page, userAnswers: UserAnswers): Call
   def indexNextPage(userAnswers: Option[UserAnswers]): Call 
+  def submitPage(reference: String): Call
 }

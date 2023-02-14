@@ -45,3 +45,5 @@ POST        /started-a-notification                      controllers.Notificatio
 
 GET         /your-offer                                  controllers.OfferLetterController.onPageLoad
 POST        /your-offer                                  controllers.OfferLetterController.onSubmit
+
+GET         /disclosure-submitted/:reference             controllers.SubmittedController.onPageLoad(reference)

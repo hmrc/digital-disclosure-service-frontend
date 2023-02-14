@@ -184,8 +184,8 @@ class CheckYourAnswersController @Inject()(
     implicit request =>
       val userAnswers = request.userAnswers
 
-      userAnswers.metadata.submissionTime match {
-        case Some(_) => Future.successful(Redirect(navigator.submitPage(request.userAnswers, userAnswers.metadata.reference.get)))
+      userAnswers.metadata.reference match {
+        case Some(ref) => Future.successful(Redirect(navigator.submitPage(request.userAnswers, ref)))
         case None => for {
           reference <- notificationSubmissionService.submitNotification (request.userAnswers)
           userReference = userAnswers.get(LetterReferencePage).getOrElse(reference)

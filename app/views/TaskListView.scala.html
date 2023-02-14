@@ -78,9 +78,7 @@
                 )
             )
 
-            @govukButton(
-                ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
-            )
+            @link(id = "continue", classes = "govuk-button", text = messages("site.saveAndContinue"), newTab = false, call = Call("GET", controllers.routes.OfferLetterController.onPageLoad.url))
         }
     }
 }

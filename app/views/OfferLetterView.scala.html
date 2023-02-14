@@ -45,7 +45,7 @@
 
         @subheading(Text(messages("offerLetter.subheading.letter")), "govuk-heading-m", Some("subheading-letter"))
 
-        @paragraph(id = Some("letter-paragraph1"), content = Text(messages(s"offerLetter.letter.paragraph1.$entityKey")))
+        @paragraph(id = Some("letter-paragraph1"), content = Text(messages(s"offerLetter.letter.paragraph1.$entityKey", entityName)))
 
         @paragraph(id = Some("letter-paragraph2"), content = Text(messages(s"offerLetter.letter.paragraph2.$entityKey")))
 
