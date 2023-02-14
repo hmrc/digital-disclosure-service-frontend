@@ -146,9 +146,18 @@ class ReasonNavigatorSpec extends SpecBase {
     "in Check mode" - {
 
       "must go from a page that doesn't exist in the edit route map to CheckYourAnswers" in {
-
         case object UnknownPage extends Page
         navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must go from the AdviceBusinessesOrOrgPage to AdviceBusinessNameController where the answer is Yes" in {
+        val userAnswers = UserAnswers("id").set(AdviceBusinessesOrOrgPage, true).success.value
+        navigator.nextPage(AdviceBusinessesOrOrgPage, CheckMode, userAnswers, true) mustBe routes.AdviceBusinessNameController.onPageLoad(CheckMode)
+      }
+
+      "must go from the AdviceBusinessesOrOrgPage to CheckYourAnswers where the answer is No" in {
+        val userAnswers = UserAnswers("id").set(AdviceBusinessesOrOrgPage, false).success.value
+        navigator.nextPage(AdviceBusinessesOrOrgPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
       }
     }
   }
