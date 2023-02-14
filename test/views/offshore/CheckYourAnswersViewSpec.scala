@@ -23,15 +23,45 @@ import views.html.offshore.CheckYourAnswersView
 import models.UserAnswers
 import viewmodels.offshore.CheckYourAnswersViewModel
 import viewmodels.govuk.SummaryListFluency
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
+import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist._
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
+import play.api.i18n.Messages
 
 class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with SummaryListFluency {
 
   val userAnswers = UserAnswers("id")
+
+  def totalRows(implicit messages: Messages) = SummaryListViewModel(
+    rows = Seq(
+      SummaryListRowViewModel(
+        key     = Key(Text(messages("taxYearLiabilities.unpaidTax.total"))),
+        value   = ValueViewModel(HtmlContent("&pound;0")),
+        actions = Nil
+      ),
+      SummaryListRowViewModel(
+        key     = Key(Text(messages("taxYearLiabilities.interest.total"))),
+        value   = ValueViewModel(HtmlContent("&pound;0")),
+        actions = Nil
+      ),
+      SummaryListRowViewModel(
+        key     = Key(Text(messages("taxYearLiabilities.penaltyAmount.total"))),
+        value   = ValueViewModel(HtmlContent("&pound;0")),
+        actions = Nil
+      ),
+      SummaryListRowViewModel(
+        key     = Key(Text(messages("taxYearLiabilities.amountDue.total"))),
+        value   = ValueViewModel(HtmlContent("&pound;0")),
+        actions = Nil
+      )
+    )
+  )
   val viewModel = CheckYourAnswersViewModel(
     SummaryListViewModel(rows = Nil),
     SummaryListViewModel(rows = Nil),
     SummaryListViewModel(rows = Nil),
     Nil,
+    totalRows,
     0
   )
   val page: CheckYourAnswersView = inject[CheckYourAnswersView]
@@ -52,7 +82,9 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
 
     "have a heading" in {
       view.getElementsByClass("govuk-heading-m").get(0).text() mustBe messages("checkYourAnswers.offshore.subheading.reason")
-      view.getElementsByClass("govuk-heading-m").get(2).text() mustBe messages("checkYourAnswers.offshore.offer.heading")
+      view.getElementsByClass("govuk-heading-m").get(1).text() mustBe messages("checkYourAnswers.offshore.total.heading")
+      view.getElementsByClass("govuk-heading-m").get(2).text() mustBe messages("checkYourAnswers.yourLegalInterpretation.heading")
+      view.getElementsByClass("govuk-heading-m").get(3).text() mustBe messages("checkYourAnswers.offshore.offer.heading")
     }
 
     "have a first offer paragraph" in {
@@ -64,7 +96,7 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
     }
 
     "have a fullAmount heading" in {
-      view.getElementsByClass("govuk-heading-m").get(3).text() mustBe messages("checkYourAnswers.offshore.fullAmount.heading")
+      view.getElementsByClass("govuk-heading-m").get(4).text() mustBe messages("checkYourAnswers.offshore.fullAmount.heading")
     }
 
     "have a first fullAmount paragraph" in {

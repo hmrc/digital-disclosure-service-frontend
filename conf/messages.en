@@ -1321,6 +1321,12 @@ checkYourAnswers.offshore.fullAmount.link = calling the helpline (opens in new t
 checkYourAnswers.offshore.fullAmount.paragraph2 = When you phone, we’ll want to talk to you about your current financial position so we can tell you what we think you should pay and when.
 checkYourAnswers.offshore.fullAmount.paragraph3 = If you cannot pay the full amount do not submit your disclosure or payment until you’ve spoken to us.
 
+checkYourAnswers.offshore.total.heading = What you owe in total
+taxYearLiabilities.unpaidTax.total = Total tax due
+taxYearLiabilities.interest.total = Total interest due
+taxYearLiabilities.penaltyAmount.total = Total penalties due
+taxYearLiabilities.amountDue.total = Total amount to pay HMRC 
+
 theMaximumValueOfAllAssets.title = What was the maximum value of all assets held outside the UK at any point over the last 5 years?
 theMaximumValueOfAllAssets.heading = What was the maximum value of all assets held outside the UK at any point over the last 5 years?
 theMaximumValueOfAllAssets.below500k = Below £500,00

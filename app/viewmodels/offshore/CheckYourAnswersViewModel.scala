@@ -31,6 +31,7 @@ case class CheckYourAnswersViewModel(
   summaryList: SummaryList,
   legalInterpretationlist: SummaryList,
   taxYearLists: Seq[(Int, SummaryList)],
+  totalAmountsList: SummaryList,
   liabilitiesTotal: BigDecimal
 )
 
@@ -71,6 +72,7 @@ class CheckYourAnswersViewModelCreation @Inject() (whichYearsSummary: WhichYears
       (yearWithLiabilites.taxYear.startYear, taxYearWithLiabilitiesToSummaryList(i, yearWithLiabilites.taxYearLiabilities))
     }
 
+    val totalAmountsList = totalAmountsSummaryList(taxYears)
     val liabilitiesTotal: BigDecimal = taxYears.map(yearWithLiabilities => yearTotal(yearWithLiabilities.taxYearLiabilities)).sum
 
     val legalInterpretationlist = SummaryListViewModel(
@@ -82,7 +84,7 @@ class CheckYourAnswersViewModelCreation @Inject() (whichYearsSummary: WhichYears
       ).flatten
     )
 
-    CheckYourAnswersViewModel(summary, summaryList, legalInterpretationlist, taxYearLists, liabilitiesTotal)
+    CheckYourAnswersViewModel(summary, summaryList, legalInterpretationlist, taxYearLists, totalAmountsList, liabilitiesTotal)
 
   }
 
@@ -101,6 +103,23 @@ class CheckYourAnswersViewModelCreation @Inject() (whichYearsSummary: WhichYears
       )
     )
 
+  def totalAmountsSummaryList(taxYears: Seq[TaxYearWithLiabilities])(implicit messages: Messages): SummaryList = {
+    val taxYearLiabilities = taxYears.map(_.taxYearLiabilities)
+    val unpaidTaxTotal = taxYearLiabilities.map(_.unpaidTax).sum
+    val interestTotal = taxYearLiabilities.map(_.interest).sum
+    val penaltyAmountTotal = taxYearLiabilities.map(penaltyAmount).sum
+    val amountDueTotal = taxYearLiabilities.map(yearTotal(_)).sum
+
+    SummaryListViewModel(
+      rows = Seq(
+        totalRow("taxYearLiabilities.unpaidTax.total", s"&pound;$unpaidTaxTotal"),
+        totalRow("taxYearLiabilities.interest.total", s"&pound;$interestTotal"),
+        totalRow("taxYearLiabilities.penaltyAmount.total", s"&pound;$penaltyAmountTotal"),
+        totalRow("taxYearLiabilities.amountDue.total", s"&pound;$amountDueTotal")
+      )
+    )
+  }
+
   def penaltyAmount(taxYearLiabilities: TaxYearLiabilities): BigDecimal = {
     (BigDecimal(taxYearLiabilities.penaltyRate) * BigDecimal(taxYearLiabilities.unpaidTax)) /100
   }
@@ -117,6 +136,14 @@ class CheckYourAnswersViewModelCreation @Inject() (whichYearsSummary: WhichYears
         ActionItemViewModel("site.change", controllers.offshore.routes.TaxYearLiabilitiesController.onPageLoad(i, CheckMode).url)
           .withVisuallyHiddenText(messages(hiddenLabel))
       )
+    )
+  }
+
+  def totalRow(label: String, value: String)(implicit messages: Messages) = {
+    SummaryListRowViewModel(
+      key     = label,
+      value   = ValueViewModel(HtmlContent(value)),
+      actions = Nil
     )
   }
 
