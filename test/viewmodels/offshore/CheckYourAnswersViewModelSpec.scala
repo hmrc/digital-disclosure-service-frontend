@@ -84,7 +84,7 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
       val year = yearsService.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString
       val ua = UserAnswers("id").set(TaxBeforeFiveYearsPage, "test").success.value
       val viewModel = sut.create(ua)
-      val summaryList = viewModel.taxBefore5or7Yearslist
+      val summaryList = viewModel.summaryList
       summaryList.rows(0).key mustEqual Key(Text(mess("taxBeforeFiveYears.checkYourAnswersLabel", year)))
     }
 
@@ -92,7 +92,7 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
       val year = yearsService.getEarliestYearByBehaviour(Behaviour.Careless).toString
       val ua = UserAnswers("id").set(TaxBeforeSevenYearsPage, "test").success.value
       val viewModel = sut.create(ua)
-      val summaryList = viewModel.taxBefore5or7Yearslist
+      val summaryList = viewModel.summaryList
       summaryList.rows(0).key mustEqual Key(Text(mess("taxBeforeSevenYears.checkYourAnswersLabel", year)))
     }
 
@@ -100,7 +100,7 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
       val year = yearsService.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
       val ua = UserAnswers("id").set(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage, "test").success.value
       val viewModel = sut.create(ua)
-      val summaryList = viewModel.taxBefore5or7Yearslist
+      val summaryList = viewModel.summaryList
       summaryList.rows(0).key mustEqual Key(Text(mess("canYouTellUsMoreAboutTaxBeforeNineteenYear.checkYourAnswersLabel", year)))
     }
 
