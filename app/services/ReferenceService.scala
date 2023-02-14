@@ -16,13 +16,16 @@
 
 package services
 
-import java.util.UUID
+import scala.util.Random
 import com.google.inject.{Singleton, ImplementedBy}
 
 @Singleton
 class ReferenceServiceImpl extends ReferenceService {
 
-  def generateReference: String = UUID.randomUUID().toString
+  def generateReference: String = {
+    val str = Random.alphanumeric.take(12).mkString
+    str.grouped(4).mkString("-").toUpperCase
+  }
 
 }
 
