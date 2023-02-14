@@ -20,12 +20,13 @@ import javax.inject.Inject
 
 import forms.mappings.Mappings
 import play.api.data.Form
+import play.api.data.Forms.set
+import models.WhereDidTheUndeclaredIncomeOrGainIncluded
 
-class WhereDidTheUndeclaredIncomeOrGainFormProvider @Inject() extends Mappings {
+class WhereDidTheUndeclaredIncomeOrGainIncludedFormProvider @Inject() extends Mappings {
 
-  def apply(): Form[String] =
+  def apply(): Form[Set[WhereDidTheUndeclaredIncomeOrGainIncluded]] =
     Form(
-      "value" -> text("whereDidTheUndeclaredIncomeOrGain.error.required")
-        .verifying(maxLength(5000, "whereDidTheUndeclaredIncomeOrGain.error.length"))
+      "value" -> set(enumerable[WhereDidTheUndeclaredIncomeOrGainIncluded]("whereDidTheUndeclaredIncomeOrGainIncluded.error.required")).verifying(nonEmptySet("whereDidTheUndeclaredIncomeOrGainIncluded.error.required"))
     )
 }

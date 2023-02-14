@@ -14,18 +14,14 @@
  * limitations under the License.
  */
 
-package forms
+package pages
 
-import javax.inject.Inject
+import models.WhereDidTheUndeclaredIncomeOrGainIncluded
+import play.api.libs.json.JsPath
 
-import forms.mappings.Mappings
-import play.api.data.Form
+case object WhereDidTheUndeclaredIncomeOrGainIncludedPage extends QuestionPage[Set[WhereDidTheUndeclaredIncomeOrGainIncluded]] {
 
-class WhereDidTheUndeclaredIncomeOrGainFormProvider @Inject() extends Mappings {
+  override def path: JsPath = JsPath \ toString
 
-  def apply(): Form[String] =
-    Form(
-      "value" -> text("whereDidTheUndeclaredIncomeOrGain.error.required")
-        .verifying(maxLength(5000, "whereDidTheUndeclaredIncomeOrGain.error.length"))
-    )
+  override def toString: String = "whereDidTheUndeclaredIncomeOrGainIncluded"
 }

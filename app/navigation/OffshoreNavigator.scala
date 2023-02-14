@@ -23,6 +23,7 @@ import pages._
 import models.{CarelessPriorTo, CheckMode, DeliberatePriorTo, Mode, NormalMode, ReasonableExcusePriorTo, RelatesTo, TaxYearStarting, UserAnswers}
 import models.WhyAreYouMakingThisDisclosure._
 import models.YourLegalInterpretation._
+import models.WhereDidTheUndeclaredIncomeOrGainIncluded._
 
 @Singleton
 class OffshoreNavigator @Inject()() {
@@ -114,6 +115,11 @@ class OffshoreNavigator @Inject()() {
     case YouHaveNotIncludedTheTaxYearPage => _ => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
 
     case YouHaveNotSelectedCertainTaxYearPage => _ => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
+
+    case WhereDidTheUndeclaredIncomeOrGainIncludedPage => ua => ua.get(WhereDidTheUndeclaredIncomeOrGainIncludedPage) match {
+      case Some(value) if(value.contains(SomewhereElse)) => routes.WhereDidTheUndeclaredIncomeOrGainController.onPageLoad(NormalMode)
+      case _ => routes.YourLegalInterpretationController.onPageLoad(NormalMode) 
+    }
 
     case WhereDidTheUndeclaredIncomeOrGainPage => _ => routes.YourLegalInterpretationController.onPageLoad(NormalMode)
 

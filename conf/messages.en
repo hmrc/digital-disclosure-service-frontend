@@ -1639,12 +1639,11 @@ foreignTaxCredit.error.wholeNumber = The amount of foreign tax credit relief mus
 foreignTaxCredit.error.outOfRange = The amount of foreign tax credit relief must be 0 or more
 foreignTaxCredit.change.hidden = ForeignTaxCredit
 
-whereDidTheUndeclaredIncomeOrGain.title = Where did the undeclared income or gain included in this disclosure come from?
-whereDidTheUndeclaredIncomeOrGain.heading = Where did the undeclared income or gain included in this disclosure come from?
-whereDidTheUndeclaredIncomeOrGain.body = Provide details of up to 3 ways this was earned or gained.
+whereDidTheUndeclaredIncomeOrGain.title = Where did the undeclared income or gain come from?
+whereDidTheUndeclaredIncomeOrGain.heading = Where did the undeclared income or gain come from?
 whereDidTheUndeclaredIncomeOrGain.checkYourAnswersLabel = whereDidTheUndeclaredIncomeOrGain
 whereDidTheUndeclaredIncomeOrGain.error.required = Enter where the undeclared income or gain came from
-whereDidTheUndeclaredIncomeOrGain.error.length = The undeclared income or gain must be between 1 and 500 characters
+whereDidTheUndeclaredIncomeOrGain.error.length = Details of where the undeclared income or gain must be between 1 and 5,000 characters
 whereDidTheUndeclaredIncomeOrGain.change.hidden = WhereDidTheUndeclaredIncomeOrGain
 
 whichTelephoneNumberCanWeContactYouWith.title = Which telephone number can we contact you with?
@@ -1654,3 +1653,16 @@ whichTelephoneNumberCanWeContactYouWith.differentNumber = A different telephone 
 whichTelephoneNumberCanWeContactYouWith.checkYourAnswersLabel = whichTelephoneNumberCanWeContactYouWith
 whichTelephoneNumberCanWeContactYouWith.error.required = Select telephone number we can contact you with
 whichTelephoneNumberCanWeContactYouWith.change.hidden = WhichTelephoneNumberCanWeContactYouWith
+
+whereDidTheUndeclaredIncomeOrGainIncluded.title = Where did the undeclared income or gain included in this disclosure come from?
+whereDidTheUndeclaredIncomeOrGainIncluded.heading = Where did the undeclared income or gain included in this disclosure come from?
+whereDidTheUndeclaredIncomeOrGainIncluded.dividends = Dividends
+whereDidTheUndeclaredIncomeOrGainIncluded.interest = Interest
+whereDidTheUndeclaredIncomeOrGainIncluded.propertyIncome = Property income
+whereDidTheUndeclaredIncomeOrGainIncluded.residentialPropertyGain = Residential property gain
+whereDidTheUndeclaredIncomeOrGainIncluded.selfEmploymentIncome = Self-employment income
+whereDidTheUndeclaredIncomeOrGainIncluded.otherGains = Other gains
+whereDidTheUndeclaredIncomeOrGainIncluded.somewhereElse = Somewhere else
+whereDidTheUndeclaredIncomeOrGainIncluded.checkYourAnswersLabel = whereDidTheUndeclaredIncomeOrGainIncluded
+whereDidTheUndeclaredIncomeOrGainIncluded.error.required = Select where the undeclared income or gain came from
+whereDidTheUndeclaredIncomeOrGainIncluded.change.hidden = WhereDidTheUndeclaredIncomeOrGainIncluded
