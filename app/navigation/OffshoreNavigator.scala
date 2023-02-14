@@ -121,6 +121,11 @@ class OffshoreNavigator @Inject()() {
   }
 
   private val checkRouteMap: Page => UserAnswers => Boolean => Call = {
+
+    case YourLegalInterpretationPage => ua => hasAnswerChanged => 
+      if(hasAnswerChanged) nextPage(YourLegalInterpretationPage, NormalMode, ua)
+      else routes.CheckYourAnswersController.onPageLoad
+
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 

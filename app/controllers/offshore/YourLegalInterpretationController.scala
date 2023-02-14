@@ -19,9 +19,10 @@ package controllers.offshore
 import controllers.actions._
 import forms.YourLegalInterpretationFormProvider
 import javax.inject.Inject
-import models.Mode
 import navigation.OffshoreNavigator
-import pages.YourLegalInterpretationPage
+import models.{Mode, UserAnswers, YourLegalInterpretation}
+import models.YourLegalInterpretation._
+import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -62,11 +63,24 @@ class YourLegalInterpretationController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
-        value =>
+        value => {
+
+          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
+
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(YourLegalInterpretationPage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(YourLegalInterpretationPage, mode, updatedAnswers))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+            _              <- sessionService.set(clearedAnswers)
+          } yield Redirect(navigator.nextPage(YourLegalInterpretationPage, mode, clearedAnswers, hasValueChanged))
+        }
       )
   }
+
+  def changedPages(userAnswers: UserAnswers, newValue: Set[YourLegalInterpretation]): (List[QuestionPage[_]], Boolean) =
+    userAnswers.get(YourLegalInterpretationPage) match {
+      case Some(oldValue) if (newValue.contains(NoExclusion)) => (List(UnderWhatConsiderationPage, HowMuchTaxHasNotBeenIncludedPage), true)
+      case Some(oldValue) if (oldValue.contains(AnotherIssue) && !newValue.contains(AnotherIssue)) => (List(UnderWhatConsiderationPage), false)
+      case Some(oldValue) if (oldValue != newValue) => (Nil, true)
+      case _ => (Nil, false)
+    }
 }
