@@ -35,7 +35,7 @@
     @govukSummaryList(viewModel.summary)
 
     @subheading(Text(messages("checkYourAnswers.offshore.subheading.reason")), "govuk-heading-m")
-    @govukSummaryList(viewModel.whyAreYouMakingThisDisclosureSummarylist)
+    @govukSummaryList(viewModel.summaryList)
 
     @viewModel.taxYearLists.map { case (year, list) =>
         @subheading(Text(messages("checkYourAnswers.offshore.taxYear.heading", year.toString, (year+1).toString)), "govuk-heading-m")
@@ -44,8 +44,6 @@
 
     @subheading(Text(messages("checkYourAnswers.offshore.total.heading")), "govuk-heading-m")
     @govukSummaryList(viewModel.totalAmountsList)
-
-    @govukSummaryList(viewModel.taxBefore5or7Yearslist)
 
     <h2 class="govuk-heading-m">@messages("checkYourAnswers.yourLegalInterpretation.heading")</h2>
     @govukSummaryList(viewModel.legalInterpretationlist)

@@ -28,8 +28,7 @@ import com.google.inject.{Inject, Singleton}
 
 case class CheckYourAnswersViewModel(
   summary: SummaryList,
-  whyAreYouMakingThisDisclosureSummarylist: SummaryList,
-  taxBefore5or7Yearslist: SummaryList,
+  summaryList: SummaryList,
   legalInterpretationlist: SummaryList,
   taxYearLists: Seq[(Int, SummaryList)],
   totalAmountsList: SummaryList,
@@ -37,7 +36,7 @@ case class CheckYourAnswersViewModel(
 )
 
 @Singleton
-class CheckYourAnswersViewModelCreation @Inject() (taxBeforeFiveYearsSummary: TaxBeforeFiveYearsSummary, taxBeforeSevenYearsSummary: TaxBeforeSevenYearsSummary, taxBeforeNineteenYearSummary: CanYouTellUsMoreAboutTaxBeforeNineteenYearSummary) {
+class CheckYourAnswersViewModelCreation @Inject() (whichYearsSummary: WhichYearsSummary, taxBeforeFiveYearsSummary: TaxBeforeFiveYearsSummary, taxBeforeSevenYearsSummary: TaxBeforeSevenYearsSummary, taxBeforeNineteenYearSummary: CanYouTellUsMoreAboutTaxBeforeNineteenYearSummary) {
 
   def create(userAnswers: UserAnswers)(implicit messages: Messages): CheckYourAnswersViewModel = {
 
@@ -47,19 +46,17 @@ class CheckYourAnswersViewModelCreation @Inject() (taxBeforeFiveYearsSummary: Ta
       ).flatten
     )
 
-    val whyAreYouMakingThisDisclosureSummarylist = SummaryListViewModel(
+    val summaryList = SummaryListViewModel(
       rows = Seq(
         WhyAreYouMakingThisDisclosureSummary.row(userAnswers),
         ContractualDisclosureFacilitySummary.row(userAnswers),
+        WhatIsYourReasonableExcuseSummary.row("excuse", userAnswers),
+        WhatIsYourReasonableExcuseSummary.row("years", userAnswers),
         WhatReasonableCareDidYouTakeSummary.row("reasonableCare", userAnswers),
         WhatReasonableCareDidYouTakeSummary.row("yearsThisAppliesTo", userAnswers),
         WhatIsYourReasonableExcuseForNotFilingReturnSummary.row("reasonableExcuse", userAnswers),
-        WhatIsYourReasonableExcuseForNotFilingReturnSummary.row("yearsThisAppliesTo", userAnswers)
-      ).flatten
-    )
-
-    val taxBefore5or7Yearslist = SummaryListViewModel(
-      rows = Seq(
+        WhatIsYourReasonableExcuseForNotFilingReturnSummary.row("yearsThisAppliesTo", userAnswers),
+        whichYearsSummary.row(userAnswers),
         taxBeforeFiveYearsSummary.row(userAnswers),
         taxBeforeSevenYearsSummary.row(userAnswers),
         taxBeforeNineteenYearSummary.row(userAnswers)
@@ -87,7 +84,7 @@ class CheckYourAnswersViewModelCreation @Inject() (taxBeforeFiveYearsSummary: Ta
       ).flatten
     )
 
-    CheckYourAnswersViewModel(summary, whyAreYouMakingThisDisclosureSummarylist, taxBefore5or7Yearslist, legalInterpretationlist, taxYearLists, totalAmountsList, liabilitiesTotal)
+    CheckYourAnswersViewModel(summary, summaryList, legalInterpretationlist, taxYearLists, totalAmountsList, liabilitiesTotal)
 
   }
 

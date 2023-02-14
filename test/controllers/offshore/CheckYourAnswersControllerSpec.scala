@@ -22,7 +22,6 @@ import play.api.test.Helpers._
 import views.html.offshore.CheckYourAnswersView
 import viewmodels.offshore.CheckYourAnswersViewModel
 import viewmodels.govuk.SummaryListFluency
-import viewmodels.govuk.summarylist._
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist._
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
@@ -63,7 +62,6 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       implicit val mess = messages(application)
 
       val viewmodel = CheckYourAnswersViewModel(
-        SummaryListViewModel(rows = Nil),
         SummaryListViewModel(rows = Nil),
         SummaryListViewModel(rows = Nil),
         SummaryListViewModel(rows = Nil),
