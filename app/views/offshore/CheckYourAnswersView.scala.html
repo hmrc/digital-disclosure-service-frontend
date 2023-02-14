@@ -60,7 +60,8 @@
                 text = messages("checkYourAnswers.offshore.fullAmount.link"), 
                 newTab = true, 
                 call = Call("GET", "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure#general-information")
-            )
+            ) +
+            messages("site.dot")
         )
     )
     @paragraph(id = Some("fullAmount-paragraph-2"), content = Text(messages("checkYourAnswers.offshore.fullAmount.paragraph2")))

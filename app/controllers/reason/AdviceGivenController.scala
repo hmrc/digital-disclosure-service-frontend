@@ -19,9 +19,9 @@ package controllers.reason
 import controllers.actions._
 import forms.AdviceGivenFormProvider
 import javax.inject.Inject
-import models.Mode
+import models.{Mode, UserAnswers, AdviceGiven}
 import navigation.ReasonNavigator
-import pages.AdviceGivenPage
+import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -62,11 +62,32 @@ class AdviceGivenController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
-        value =>
+        value => {
+
+          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
+          
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AdviceGivenPage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(AdviceGivenPage, mode, updatedAnswers))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+            _              <- sessionService.set(clearedAnswers)
+          } yield Redirect(navigator.nextPage(AdviceGivenPage, mode, clearedAnswers, hasValueChanged))
+        }  
       )
   }
+
+  def changedPages(userAnswers: UserAnswers, newValue: AdviceGiven): (List[QuestionPage[_]], Boolean) =
+    userAnswers.get(AdviceGivenPage)match {
+      case Some(oldValue) if (oldValue.contactPreference != newValue.contactPreference) => 
+        (
+          List(
+            WhichEmailAddressCanWeContactYouWithPage,
+            WhatEmailAddressCanWeContactYouWithPage,
+            WhichTelephoneNumberCanWeContactYouWithPage,
+            WhatTelephoneNumberCanWeContactYouWithPage
+          ), 
+          true
+        )
+      case _ => (Nil, false)
+    }
+    
 }

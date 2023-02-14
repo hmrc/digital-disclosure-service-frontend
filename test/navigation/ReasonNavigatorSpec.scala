@@ -174,6 +174,24 @@ class ReasonNavigatorSpec extends SpecBase {
         val userAnswers = UserAnswers("id").set(AdviceBusinessesOrOrgPage, false).success.value
         navigator.nextPage(AdviceBusinessesOrOrgPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
       }
+
+      "must go from the AdviceGivenPage to WhichEmailAddressCanWeContactYouWithController where the answer is Yes, by email" in {
+        val adviceGiven = AdviceGiven("Advice", MonthYear(1,1960), AdviceContactPreference.Email)
+        val userAnswers = UserAnswers("id").set(AdviceGivenPage, adviceGiven).success.value
+        navigator.nextPage(AdviceGivenPage, CheckMode, userAnswers, true) mustBe routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(CheckMode)
+      }
+
+      "must go from the AdviceGivenPage to WhichTelephoneNumberCanWeContactYouWithController where the answer is Yes, by telephone" in {
+        val adviceGiven = AdviceGiven("Advice", MonthYear(1,1960), AdviceContactPreference.Telephone)
+        val userAnswers = UserAnswers("id").set(AdviceGivenPage, adviceGiven).success.value
+        navigator.nextPage(AdviceGivenPage, CheckMode, userAnswers, true) mustBe routes.WhichTelephoneNumberCanWeContactYouWithController.onPageLoad(CheckMode)
+      }
+
+      "must go from the AdviceGivenPage to CheckYourAnswersController where the answer is No" in {
+        val adviceGiven = AdviceGiven("Advice", MonthYear(1,1960), AdviceContactPreference.No)
+        val userAnswers = UserAnswers("id").set(AdviceGivenPage, adviceGiven).success.value
+        navigator.nextPage(AdviceGivenPage, CheckMode, userAnswers, true) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
     }
   }
 

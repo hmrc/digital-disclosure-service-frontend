@@ -90,6 +90,12 @@ class ReasonNavigator @Inject()() {
       if(hasAnswerChanged) routes.AdviceBusinessNameController.onPageLoad(CheckMode)
       else routes.CheckYourAnswersController.onPageLoad
 
+    case AdviceGivenPage => ua => hasAnswerChanged => ua.get(AdviceGivenPage) match {
+      case (Some(value)) if (hasAnswerChanged && value.contactPreference == AdviceContactPreference.Email) => routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(CheckMode)
+      case (Some(value)) if (hasAnswerChanged && value.contactPreference == AdviceContactPreference.Telephone) => routes.WhichTelephoneNumberCanWeContactYouWithController.onPageLoad(CheckMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad
+    }
+
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
