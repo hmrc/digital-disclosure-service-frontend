@@ -320,6 +320,18 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextPage(YouHaveNotSelectedCertainTaxYearPage, NormalMode, UserAnswers("id")) mustBe routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
       }
 
+      "must go from WhereDidTheUndeclaredIncomeOrGainIncludedPage to WhereDidTheUndeclaredIncomeOrGainController when selected 'SomewhereElse'" in {
+        val set: Set[WhereDidTheUndeclaredIncomeOrGainIncluded] = Set(WhereDidTheUndeclaredIncomeOrGainIncluded.SomewhereElse)
+        val userAnswers = UserAnswers("id").set(WhereDidTheUndeclaredIncomeOrGainIncludedPage, set).success.value
+        navigator.nextPage(WhereDidTheUndeclaredIncomeOrGainIncludedPage, NormalMode, userAnswers) mustBe routes.WhereDidTheUndeclaredIncomeOrGainController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhereDidTheUndeclaredIncomeOrGainIncludedPage to YourLegalInterpretationController when selected other then 'SomewhereElse'" in {
+        val set: Set[WhereDidTheUndeclaredIncomeOrGainIncluded] = Set(WhereDidTheUndeclaredIncomeOrGainIncluded.Interest)
+        val userAnswers = UserAnswers("id").set(WhereDidTheUndeclaredIncomeOrGainIncludedPage, set).success.value
+        navigator.nextPage(WhereDidTheUndeclaredIncomeOrGainIncludedPage, NormalMode, userAnswers) mustBe routes.YourLegalInterpretationController.onPageLoad(NormalMode)
+      }
+
       "must go from WhereDidTheUndeclaredIncomeOrGainPage to YourLegalInterpretationController" in {
         navigator.nextPage(WhereDidTheUndeclaredIncomeOrGainPage, NormalMode, UserAnswers("id")) mustBe routes.YourLegalInterpretationController.onPageLoad(NormalMode)
       }

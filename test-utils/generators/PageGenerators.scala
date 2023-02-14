@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryWhereDidTheUndeclaredIncomeOrGainIncludedPage: Arbitrary[WhereDidTheUndeclaredIncomeOrGainIncludedPage.type] =
+    Arbitrary(WhereDidTheUndeclaredIncomeOrGainIncludedPage)
+    
   implicit lazy val arbitraryOfferLetterPage: Arbitrary[OfferLetterPage.type] =
     Arbitrary(OfferLetterPage)
 

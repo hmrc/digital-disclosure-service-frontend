@@ -105,7 +105,12 @@ POST       /foreign-tax-credit-deduction-amount/:i                  controllers.
 GET        /foreign-tax-credit-deduction-amount/:i/change           controllers.offshore.ForeignTaxCreditController.onPageLoad(i: Int, mode: Mode = CheckMode)
 POST       /foreign-tax-credit-deduction-amount/:i/change           controllers.offshore.ForeignTaxCreditController.onSubmit(i: Int, mode: Mode = CheckMode)
 
-GET        /where-the-income-came-from                       controllers.offshore.WhereDidTheUndeclaredIncomeOrGainController.onPageLoad(mode: Mode = NormalMode)
-POST       /where-the-income-came-from                       controllers.offshore.WhereDidTheUndeclaredIncomeOrGainController.onSubmit(mode: Mode = NormalMode)
-GET        /where-the-income-came-from/change                controllers.offshore.WhereDidTheUndeclaredIncomeOrGainController.onPageLoad(mode: Mode = CheckMode)
-POST       /where-the-income-came-from/change                controllers.offshore.WhereDidTheUndeclaredIncomeOrGainController.onSubmit(mode: Mode = CheckMode)
+GET        /where-else-the-income-came-from                  controllers.offshore.WhereDidTheUndeclaredIncomeOrGainController.onPageLoad(mode: Mode = NormalMode)
+POST       /where-else-the-income-came-from                  controllers.offshore.WhereDidTheUndeclaredIncomeOrGainController.onSubmit(mode: Mode = NormalMode)
+GET        /where-else-the-income-came-from/change           controllers.offshore.WhereDidTheUndeclaredIncomeOrGainController.onPageLoad(mode: Mode = CheckMode)
+POST       /where-else-the-income-came-from/change           controllers.offshore.WhereDidTheUndeclaredIncomeOrGainController.onSubmit(mode: Mode = CheckMode)
+
+GET        /where-the-income-came-from                       controllers.offshore.WhereDidTheUndeclaredIncomeOrGainIncludedController.onPageLoad(mode: Mode = NormalMode)
+POST       /where-the-income-came-from                       controllers.offshore.WhereDidTheUndeclaredIncomeOrGainIncludedController.onSubmit(mode: Mode = NormalMode)
+GET        /where-the-income-came-from/change                controllers.offshore.WhereDidTheUndeclaredIncomeOrGainIncludedController.onPageLoad(mode: Mode = CheckMode)
+POST       /where-the-income-came-from/change                controllers.offshore.WhereDidTheUndeclaredIncomeOrGainIncludedController.onSubmit(mode: Mode = CheckMode)
