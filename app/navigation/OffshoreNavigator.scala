@@ -136,11 +136,13 @@ class OffshoreNavigator @Inject()() {
       checkRouteMap(page)(userAnswers)(hasAnswerChanged)
   }
 
-  def nextTaxYearLiabilitiesPage(currentIndex: Int, foreignTaxCreditReduction: Boolean, mode: Mode, userAnswers: UserAnswers): Call = (mode, foreignTaxCreditReduction, userAnswers.inverselySortedOffshoreTaxYears) match {
-    case (NormalMode, true, _) => routes.ForeignTaxCreditController.onPageLoad(currentIndex, NormalMode)
-    case (NormalMode, _, Some(years)) if ((years.size - 1) > currentIndex) => routes.TaxYearLiabilitiesController.onPageLoad(currentIndex + 1, NormalMode)
-    case (NormalMode, _, _) => routes.WhereDidTheUndeclaredIncomeOrGainController.onPageLoad(NormalMode)
-    case (CheckMode, _, _) => checkRouteMap(TaxYearLiabilitiesPage)(userAnswers)(true)
+  def nextTaxYearLiabilitiesPage(currentIndex: Int, foreignTaxCreditReduction: Boolean, mode: Mode, userAnswers: UserAnswers, hasAnswerChanged:Boolean = false): Call =
+    (mode, foreignTaxCreditReduction, userAnswers.inverselySortedOffshoreTaxYears, hasAnswerChanged) match {
+    case (NormalMode, true, _, _) => routes.ForeignTaxCreditController.onPageLoad(currentIndex, NormalMode)
+    case (NormalMode, _, Some(years), _) if ((years.size - 1) > currentIndex) => routes.TaxYearLiabilitiesController.onPageLoad(currentIndex + 1, NormalMode)
+    case (NormalMode, _, _, _) => routes.WhereDidTheUndeclaredIncomeOrGainController.onPageLoad(NormalMode)
+    case (CheckMode, _, _, true) => routes.ForeignTaxCreditController.onPageLoad(currentIndex, CheckMode)
+    case (CheckMode, _, _, _) => checkRouteMap(TaxYearLiabilitiesPage)(userAnswers)(hasAnswerChanged)
   }
 
 }
