@@ -22,6 +22,11 @@ import play.api.test.Helpers._
 import views.html.offshore.CheckYourAnswersView
 import viewmodels.offshore.CheckYourAnswersViewModel
 import viewmodels.govuk.SummaryListFluency
+import viewmodels.govuk.summarylist._
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
+import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist._
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
+import play.api.i18n.Messages
 
 class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
@@ -29,13 +34,41 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
     "must return OK and the correct view for a GET" in {
 
+      def totalRows(implicit messages: Messages) = SummaryListViewModel(
+        rows = Seq(
+          SummaryListRowViewModel(
+            key     = Key(Text(messages("taxYearLiabilities.unpaidTax.total"))),
+            value   = ValueViewModel(HtmlContent("&pound;0")),
+            actions = Nil
+          ),
+          SummaryListRowViewModel(
+            key     = Key(Text(messages("taxYearLiabilities.interest.total"))),
+            value   = ValueViewModel(HtmlContent("&pound;0")),
+            actions = Nil
+          ),
+          SummaryListRowViewModel(
+            key     = Key(Text(messages("taxYearLiabilities.penaltyAmount.total"))),
+            value   = ValueViewModel(HtmlContent("&pound;0")),
+            actions = Nil
+          ),
+          SummaryListRowViewModel(
+            key     = Key(Text(messages("taxYearLiabilities.amountDue.total"))),
+            value   = ValueViewModel(HtmlContent("&pound;0")),
+            actions = Nil
+          )
+        )
+      )
+
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      implicit val mess = messages(application)
+
       val viewmodel = CheckYourAnswersViewModel(
         SummaryListViewModel(rows = Nil),
         SummaryListViewModel(rows = Nil),
         SummaryListViewModel(rows = Nil),
         SummaryListViewModel(rows = Nil),
         Nil,
+        totalRows,
         0
       )
 
