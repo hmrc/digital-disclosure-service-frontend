@@ -25,9 +25,14 @@ class ReferenceServiceSpec extends AnyWordSpec with Matchers {
 
   "generateReference" should {
 
-    "return a random UUID" in {
+    "return a random ID" in {
       sut.generateReference should not be sut.generateReference
     }
+
+    "return an ID of length 12 separated by dashes" in {
+      sut.generateReference should startWith regex "^([A-Z0-9]{4})-([A-Z0-9]{4})-([A-Z0-9]{4})$"
+    }
+
 
   }
 
