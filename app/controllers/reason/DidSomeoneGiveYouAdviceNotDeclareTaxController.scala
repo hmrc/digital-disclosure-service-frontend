@@ -18,10 +18,11 @@ package controllers.reason
 
 import controllers.actions._
 import forms.DidSomeoneGiveYouAdviceNotDeclareTaxFormProvider
+
 import javax.inject.Inject
-import models.{Mode, UserAnswers, RelatesTo}
+import models.{Mode, RelatesTo, UserAnswers}
 import navigation.ReasonNavigator
-import pages.{DidSomeoneGiveYouAdviceNotDeclareTaxPage, AreYouTheIndividualPage, RelatesToPage}
+import pages.{AdviceBusinessNamePage, AdviceBusinessesOrOrgPage, AdviceGivenPage, AdviceProfessionPage, AreYouTheIndividualPage, DidSomeoneGiveYouAdviceNotDeclareTaxPage, PersonWhoGaveAdvicePage, QuestionPage, RelatesToPage, WhatEmailAddressCanWeContactYouWithPage, WhatTelephoneNumberCanWeContactYouWithPage, WhichEmailAddressCanWeContactYouWithPage, WhichTelephoneNumberCanWeContactYouWithPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -66,11 +67,14 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode, areTheyTheIndividual, entity))),
 
-        value =>
+        value => {
+          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(DidSomeoneGiveYouAdviceNotDeclareTaxPage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(DidSomeoneGiveYouAdviceNotDeclareTaxPage, mode, updatedAnswers))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+            _ <- sessionService.set(clearedAnswers)
+          } yield Redirect(navigator.nextPage(DidSomeoneGiveYouAdviceNotDeclareTaxPage, mode, updatedAnswers, hasValueChanged))
+        }
       )
   }
 
@@ -82,4 +86,22 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxController @Inject()(
   }
 
   def form(areTheyTheIndividual: Boolean, entity: RelatesTo) = formProvider(areTheyTheIndividual, entity)
+
+  def changedPages(existingUserAnswers: UserAnswers, value: Boolean): (List[QuestionPage[_]], Boolean) = {
+    existingUserAnswers.get(DidSomeoneGiveYouAdviceNotDeclareTaxPage) match {
+      case Some(true) if !value => (List(
+        PersonWhoGaveAdvicePage,
+        AdviceBusinessesOrOrgPage,
+        AdviceBusinessNamePage,
+        AdviceProfessionPage,
+        AdviceGivenPage,
+        WhichEmailAddressCanWeContactYouWithPage,
+        WhatEmailAddressCanWeContactYouWithPage,
+        WhichTelephoneNumberCanWeContactYouWithPage,
+        WhatTelephoneNumberCanWeContactYouWithPage
+      ), false)
+      case Some(false) if value => (Nil, true)
+      case _ => (Nil, false)
+    }
+  }
 }

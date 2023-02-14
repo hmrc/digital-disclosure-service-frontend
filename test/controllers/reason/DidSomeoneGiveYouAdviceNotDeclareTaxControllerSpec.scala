@@ -16,14 +16,13 @@
 
 package controllers
 
-import base.SpecBase
+import base.ControllerSpecBase
 import forms.DidSomeoneGiveYouAdviceNotDeclareTaxFormProvider
-import models.{NormalMode, UserAnswers, RelatesTo}
+import models.{CheckMode, NormalMode, RelatesTo, UserAnswers}
 import navigation.{FakeReasonNavigator, ReasonNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
-import org.scalatestplus.mockito.MockitoSugar
-import pages.{DidSomeoneGiveYouAdviceNotDeclareTaxPage, AreYouTheIndividualPage, RelatesToPage}
+import pages.{AdviceBusinessNamePage, AdviceBusinessesOrOrgPage, AdviceGivenPage, AdviceProfessionPage, AreYouTheIndividualPage, DidSomeoneGiveYouAdviceNotDeclareTaxPage, PersonWhoGaveAdvicePage, RelatesToPage, WhatEmailAddressCanWeContactYouWithPage, WhatTelephoneNumberCanWeContactYouWithPage, WhichEmailAddressCanWeContactYouWithPage, WhichTelephoneNumberCanWeContactYouWithPage}
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -34,7 +33,7 @@ import org.scalacheck.Arbitrary.arbitrary
 
 import scala.concurrent.Future
 
-class DidSomeoneGiveYouAdviceNotDeclareTaxControllerSpec extends SpecBase with MockitoSugar {
+class DidSomeoneGiveYouAdviceNotDeclareTaxControllerSpec extends ControllerSpecBase {
 
   def onwardRoute = Call("GET", "/foo")
 
@@ -176,6 +175,56 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxControllerSpec extends SpecBase with M
 
         redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
       }
+    }
+
+    "must redirect to PersonWhoGaveAdvice page screen if page answer changes from No to Yes in check mode" in {
+      val previousAnswer = false
+      val newAnswer = true
+
+      val urlToTest = reason.routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(CheckMode).url
+      val destinationRoute = reason.routes.PersonWhoGaveAdviceController.onPageLoad(NormalMode).url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, DidSomeoneGiveYouAdviceNotDeclareTaxPage, urlToTest, destinationRoute, Nil)
+    }
+
+    "must redirect to CheckYourAnswers page screen if page answer changes from Yes to No in check mode and clear Advice Given related pages" in {
+      val previousAnswer = true
+      val newAnswer = false
+
+      val pageToClear = List(PersonWhoGaveAdvicePage,
+        AdviceBusinessesOrOrgPage,
+        AdviceBusinessNamePage,
+        AdviceProfessionPage,
+        AdviceGivenPage,
+        WhichEmailAddressCanWeContactYouWithPage,
+        WhatEmailAddressCanWeContactYouWithPage,
+        WhichTelephoneNumberCanWeContactYouWithPage,
+        WhatTelephoneNumberCanWeContactYouWithPage)
+
+      val urlToTest = reason.routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(CheckMode).url
+      val destinationRoute = reason.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, DidSomeoneGiveYouAdviceNotDeclareTaxPage, urlToTest, destinationRoute, pageToClear)
+    }
+
+    "must redirect to CheckYourAnswers page screen if page answer is Yes and it does not change" in {
+      val previousAnswer = true
+      val newAnswer = true
+
+      val urlToTest = reason.routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(CheckMode).url
+      val destinationRoute = reason.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, DidSomeoneGiveYouAdviceNotDeclareTaxPage, urlToTest, destinationRoute, Nil)
+    }
+
+    "must redirect to CheckYourAnswers page screen if page answer is No and it does not change" in {
+      val previousAnswer = false
+      val newAnswer = false
+
+      val urlToTest = reason.routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(CheckMode).url
+      val destinationRoute = reason.routes.CheckYourAnswersController.onPageLoad.url
+
+      testChangeAnswerRouting(previousAnswer, newAnswer, DidSomeoneGiveYouAdviceNotDeclareTaxPage, urlToTest, destinationRoute, Nil)
     }
   }
 }

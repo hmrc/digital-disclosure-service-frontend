@@ -145,6 +145,21 @@ class ReasonNavigatorSpec extends SpecBase {
 
     "in Check mode" - {
 
+      "must go from the DidSomeoneGiveYouAdviceNotDeclareTaxPage to CheckYourAnswers when the answer is No and has changed" in {
+        val userAnswers = UserAnswers("id").set(DidSomeoneGiveYouAdviceNotDeclareTaxPage, false).success.value
+        navigator.nextPage(DidSomeoneGiveYouAdviceNotDeclareTaxPage, CheckMode, userAnswers, true) mustBe routes.PersonWhoGaveAdviceController.onPageLoad(NormalMode)
+      }
+
+      "must go from the DidSomeoneGiveYouAdviceNotDeclareTaxPage to CheckYourAnswers when the answer is Yes and has not changed" in {
+        val userAnswers = UserAnswers("id").set(DidSomeoneGiveYouAdviceNotDeclareTaxPage, true).success.value
+        navigator.nextPage(DidSomeoneGiveYouAdviceNotDeclareTaxPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must go from the DidSomeoneGiveYouAdviceNotDeclareTaxPage to CheckYourAnswers when the answer is No and has not changed" in {
+        val userAnswers = UserAnswers("id").set(DidSomeoneGiveYouAdviceNotDeclareTaxPage, false).success.value
+        navigator.nextPage(DidSomeoneGiveYouAdviceNotDeclareTaxPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
       "must go from a page that doesn't exist in the edit route map to CheckYourAnswers" in {
         case object UnknownPage extends Page
         navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad
