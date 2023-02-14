@@ -21,8 +21,10 @@ import models.{CheckMode, UserAnswers}
 import pages.WhatReasonableCareDidYouTakePage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
+import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
+import viewmodels.govuk.all.FluentText
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
@@ -35,7 +37,13 @@ object WhatReasonableCareDidYouTakeSummary  {
         if(fieldName == "reasonableCare"){
           SummaryListRowViewModel(
             key     = "whatReasonableCareDidYouTake.reasonableCare.checkYourAnswersLabel",
-            value   = ValueViewModel(HtmlContent(HtmlFormat.escape(answer.reasonableCare).toString)),
+            value   = ValueViewModel(
+              HtmlContent(
+                Text(
+                  HtmlFormat.escape(answer.reasonableCare).toString    
+                ).withEllipsisOverflow(150).value
+              )
+            ),
             actions = Seq(
               ActionItemViewModel("site.change", routes.WhatReasonableCareDidYouTakeController.onPageLoad(CheckMode).url)
                 .withVisuallyHiddenText(messages("whatReasonableCareDidYouTake.change.hidden"))

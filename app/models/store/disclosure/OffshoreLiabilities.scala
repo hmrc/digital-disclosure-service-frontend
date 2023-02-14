@@ -40,7 +40,7 @@ final case class OffshoreLiabilities(
     case OffshoreLiabilities(Some(_), _, _, _, Some(years), _, _, _, _, _, Some(reasonableExcusePriorTo), _, _, _, _) if years == Set(ReasonableExcusePriorTo) => true
     case OffshoreLiabilities(Some(_), _, _, _, Some(years), _, _, _, _, _, Some(carelessPriorTo), _, _, _, _) if years == Set(CarelessPriorTo) => true
     case OffshoreLiabilities(Some(_), _, _, _, Some(years), _, _, _, _, _, Some(deliberatePriorTo), _, _, _, _) if years == Set(DeliberatePriorTo) => true
-    case OffshoreLiabilities(Some(_), _, _, _, Some(years), _, _, _, _, _, Some(_), Some(_), _, _, Some(_)) => true
+    case OffshoreLiabilities(Some(_), _, _, _, Some(years), _, _, _, _, _, _, _, _, _, _) => true
     case _ => false
   }
 }
