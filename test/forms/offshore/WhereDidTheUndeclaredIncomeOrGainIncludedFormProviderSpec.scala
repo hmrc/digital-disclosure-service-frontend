@@ -16,38 +16,30 @@
 
 package forms
 
-import forms.behaviours.StringFieldBehaviours
+import forms.behaviours.CheckboxFieldBehaviours
+import models.WhereDidTheUndeclaredIncomeOrGainIncluded
 import play.api.data.FormError
 
-class WhereDidTheUndeclaredIncomeOrGainFormProviderSpec extends StringFieldBehaviours {
+class WhereDidTheUndeclaredIncomeOrGainIncludedFormProviderSpec extends CheckboxFieldBehaviours {
 
-  val requiredKey = "whereDidTheUndeclaredIncomeOrGain.error.required"
-  val lengthKey = "whereDidTheUndeclaredIncomeOrGain.error.length"
-  val maxLength = 5000
-
-  val form = new WhereDidTheUndeclaredIncomeOrGainFormProvider()()
+  val form = new WhereDidTheUndeclaredIncomeOrGainIncludedFormProvider()()
 
   ".value" - {
 
     val fieldName = "value"
+    val requiredKey = "whereDidTheUndeclaredIncomeOrGainIncluded.error.required"
 
-    behave like fieldThatBindsValidData(
+    behave like checkboxField[WhereDidTheUndeclaredIncomeOrGainIncluded](
       form,
       fieldName,
-      stringsWithMaxLength(maxLength)
+      validValues  = WhereDidTheUndeclaredIncomeOrGainIncluded.values,
+      invalidError = FormError(s"$fieldName[0]", "error.invalid")
     )
 
-    behave like fieldWithMaxLength(
+    behave like mandatoryCheckboxField(
       form,
       fieldName,
-      maxLength = maxLength,
-      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
-    )
-
-    behave like mandatoryField(
-      form,
-      fieldName,
-      requiredError = FormError(fieldName, requiredKey)
+      requiredKey
     )
   }
 }

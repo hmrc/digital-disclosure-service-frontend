@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-package forms
+package pages
 
-import javax.inject.Inject
+import models.WhereDidTheUndeclaredIncomeOrGainIncluded
+import pages.behaviours.PageBehaviours
 
-import forms.mappings.Mappings
-import play.api.data.Form
+class WhereDidTheUndeclaredIncomeOrGainIncludedPageSpec extends PageBehaviours {
 
-class WhereDidTheUndeclaredIncomeOrGainFormProvider @Inject() extends Mappings {
+  "WhereDidTheUndeclaredIncomeOrGainIncludedPage" - {
 
-  def apply(): Form[String] =
-    Form(
-      "value" -> text("whereDidTheUndeclaredIncomeOrGain.error.required")
-        .verifying(maxLength(5000, "whereDidTheUndeclaredIncomeOrGain.error.length"))
-    )
+    beRetrievable[Set[WhereDidTheUndeclaredIncomeOrGainIncluded]](WhereDidTheUndeclaredIncomeOrGainIncludedPage)
+
+    beSettable[Set[WhereDidTheUndeclaredIncomeOrGainIncluded]](WhereDidTheUndeclaredIncomeOrGainIncludedPage)
+
+    beRemovable[Set[WhereDidTheUndeclaredIncomeOrGainIncluded]](WhereDidTheUndeclaredIncomeOrGainIncludedPage)
+  }
 }

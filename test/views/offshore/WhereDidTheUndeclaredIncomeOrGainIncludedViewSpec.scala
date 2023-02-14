@@ -17,16 +17,16 @@
 package views.offshore
 
 import base.ViewSpecBase
-import forms.WhereDidTheUndeclaredIncomeOrGainFormProvider
+import forms.WhereDidTheUndeclaredIncomeOrGainIncludedFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
-import views.html.offshore.WhereDidTheUndeclaredIncomeOrGainView
+import views.html.offshore.WhereDidTheUndeclaredIncomeOrGainIncludedView
 import models.NormalMode
 
-class WhereDidTheUndeclaredIncomeOrGainViewSpec extends ViewSpecBase with ViewMatchers {
+class WhereDidTheUndeclaredIncomeOrGainIncludedViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhereDidTheUndeclaredIncomeOrGainFormProvider()()
-  val page: WhereDidTheUndeclaredIncomeOrGainView = inject[WhereDidTheUndeclaredIncomeOrGainView]
+  val form = new WhereDidTheUndeclaredIncomeOrGainIncludedFormProvider()()
+  val page: WhereDidTheUndeclaredIncomeOrGainIncludedView = inject[WhereDidTheUndeclaredIncomeOrGainIncludedView]
 
   private def createView: Html = page(form, NormalMode)(request, messages)
 
@@ -35,11 +35,11 @@ class WhereDidTheUndeclaredIncomeOrGainViewSpec extends ViewSpecBase with ViewMa
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("whereDidTheUndeclaredIncomeOrGain.title"))
+      view.select("title").text() must include(messages("whereDidTheUndeclaredIncomeOrGainIncluded.title"))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whereDidTheUndeclaredIncomeOrGain.heading")
+      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("whereDidTheUndeclaredIncomeOrGainIncluded.heading")
     }
 
     "display the continue button" in {
@@ -50,7 +50,6 @@ class WhereDidTheUndeclaredIncomeOrGainViewSpec extends ViewSpecBase with ViewMa
     "have a task list link" in {
       view.getElementById("task-list-link").attr("href") mustBe controllers.routes.TaskListController.onPageLoad.url
     }
-
   }
 
 }

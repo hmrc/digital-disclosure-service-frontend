@@ -17,30 +17,29 @@
 package controllers.offshore
 
 import controllers.actions._
-import forms.YourLegalInterpretationFormProvider
+import forms.WhereDidTheUndeclaredIncomeOrGainIncludedFormProvider
 import javax.inject.Inject
+import models.Mode
 import navigation.OffshoreNavigator
-import models.{Mode, UserAnswers, YourLegalInterpretation}
-import models.YourLegalInterpretation._
-import pages._
+import pages.WhereDidTheUndeclaredIncomeOrGainIncludedPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import views.html.offshore.YourLegalInterpretationView
+import views.html.offshore.WhereDidTheUndeclaredIncomeOrGainIncludedView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class YourLegalInterpretationController @Inject()(
+class WhereDidTheUndeclaredIncomeOrGainIncludedController @Inject()(
                                         override val messagesApi: MessagesApi,
                                         sessionService: SessionService,
                                         navigator: OffshoreNavigator,
                                         identify: IdentifierAction,
                                         getData: DataRetrievalAction,
                                         requireData: DataRequiredAction,
-                                        formProvider: YourLegalInterpretationFormProvider,
+                                        formProvider: WhereDidTheUndeclaredIncomeOrGainIncludedFormProvider,
                                         val controllerComponents: MessagesControllerComponents,
-                                        view: YourLegalInterpretationView
+                                        view: WhereDidTheUndeclaredIncomeOrGainIncludedView
                                       )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
@@ -48,7 +47,7 @@ class YourLegalInterpretationController @Inject()(
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val preparedForm = request.userAnswers.get(YourLegalInterpretationPage) match {
+      val preparedForm = request.userAnswers.get(WhereDidTheUndeclaredIncomeOrGainIncludedPage) match {
         case None => form
         case Some(value) => form.fill(value)
       }
@@ -63,24 +62,11 @@ class YourLegalInterpretationController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
-        value => {
-
-          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
-
+        value =>
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(YourLegalInterpretationPage, value))
-            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
-            _              <- sessionService.set(clearedAnswers)
-          } yield Redirect(navigator.nextPage(YourLegalInterpretationPage, mode, clearedAnswers, hasValueChanged))
-        }
+            updatedAnswers <- Future.fromTry(request.userAnswers.set(WhereDidTheUndeclaredIncomeOrGainIncludedPage, value))
+            _              <- sessionService.set(updatedAnswers)
+          } yield Redirect(navigator.nextPage(WhereDidTheUndeclaredIncomeOrGainIncludedPage, mode, updatedAnswers))
       )
   }
-
-  def changedPages(userAnswers: UserAnswers, newValue: Set[YourLegalInterpretation]): (List[QuestionPage[_]], Boolean) =
-    userAnswers.get(YourLegalInterpretationPage) match {
-      case Some(oldValue) if (newValue.contains(NoExclusion)) => (List(UnderWhatConsiderationPage, HowMuchTaxHasNotBeenIncludedPage), true)
-      case Some(oldValue) if (oldValue.contains(AnotherIssue) && !newValue.contains(AnotherIssue)) => (List(UnderWhatConsiderationPage), false)
-      case Some(oldValue) if (oldValue != newValue) => (Nil, true)
-      case _ => (Nil, false)
-    }
 }

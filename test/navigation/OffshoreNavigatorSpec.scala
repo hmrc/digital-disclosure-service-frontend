@@ -320,6 +320,18 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextPage(YouHaveNotSelectedCertainTaxYearPage, NormalMode, UserAnswers("id")) mustBe routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
       }
 
+      "must go from WhereDidTheUndeclaredIncomeOrGainIncludedPage to WhereDidTheUndeclaredIncomeOrGainController when selected 'SomewhereElse'" in {
+        val set: Set[WhereDidTheUndeclaredIncomeOrGainIncluded] = Set(WhereDidTheUndeclaredIncomeOrGainIncluded.SomewhereElse)
+        val userAnswers = UserAnswers("id").set(WhereDidTheUndeclaredIncomeOrGainIncludedPage, set).success.value
+        navigator.nextPage(WhereDidTheUndeclaredIncomeOrGainIncludedPage, NormalMode, userAnswers) mustBe routes.WhereDidTheUndeclaredIncomeOrGainController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhereDidTheUndeclaredIncomeOrGainIncludedPage to YourLegalInterpretationController when selected other then 'SomewhereElse'" in {
+        val set: Set[WhereDidTheUndeclaredIncomeOrGainIncluded] = Set(WhereDidTheUndeclaredIncomeOrGainIncluded.Interest)
+        val userAnswers = UserAnswers("id").set(WhereDidTheUndeclaredIncomeOrGainIncludedPage, set).success.value
+        navigator.nextPage(WhereDidTheUndeclaredIncomeOrGainIncludedPage, NormalMode, userAnswers) mustBe routes.YourLegalInterpretationController.onPageLoad(NormalMode)
+      }
+
       "must go from WhereDidTheUndeclaredIncomeOrGainPage to YourLegalInterpretationController" in {
         navigator.nextPage(WhereDidTheUndeclaredIncomeOrGainPage, NormalMode, UserAnswers("id")) mustBe routes.YourLegalInterpretationController.onPageLoad(NormalMode)
       }
@@ -342,6 +354,13 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value
 
         navigator.nextTaxYearLiabilitiesPage(0, false, CheckMode, userAnswersWithTaxYears) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must take the user to the foreign tax credit page when the param is true, it is in CheckMode and there is a change" in {
+        val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2020), TaxYearStarting(2019), TaxYearStarting(2018))
+        val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value
+
+        navigator.nextTaxYearLiabilitiesPage(0, true, CheckMode, userAnswersWithTaxYears, true) mustBe routes.ForeignTaxCreditController.onPageLoad(0, CheckMode)
       }
 
       "must increment the index and tax the user to the tax year liability page when there more years in the which years list" in {

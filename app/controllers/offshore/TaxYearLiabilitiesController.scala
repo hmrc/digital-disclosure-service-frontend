@@ -18,10 +18,11 @@ package controllers.offshore
 
 import controllers.actions._
 import forms.TaxYearLiabilitiesFormProvider
+
 import javax.inject.Inject
-import models.{Mode, TaxYearStarting, TaxYearWithLiabilities, NormalMode}
+import models.{Mode, NormalMode, TaxYearLiabilities, TaxYearStarting, TaxYearWithLiabilities, UserAnswers}
 import navigation.OffshoreNavigator
-import pages.TaxYearLiabilitiesPage
+import pages.{ForeignTaxCreditPage, QuestionPage, TaxYearLiabilitiesPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -31,6 +32,7 @@ import play.api.mvc.Result
 import models.requests.DataRequest
 
 import scala.concurrent.{ExecutionContext, Future}
+import scala.util.Try
 
 class TaxYearLiabilitiesController @Inject()(
                                         override val messagesApi: MessagesApi,
@@ -71,10 +73,12 @@ class TaxYearLiabilitiesController @Inject()(
 
           value => {
             val taxYearWithLiabilities = TaxYearWithLiabilities(TaxYearStarting(year), value)
+            val (clearedAnswers, hasValueChanged) = changedPages(request.userAnswers, year.toString, value)
             for {
-              updatedAnswers <- Future.fromTry(request.userAnswers.setByKey(TaxYearLiabilitiesPage, year.toString, taxYearWithLiabilities))
+              aaaa <- Future.fromTry(clearedAnswers)
+              updatedAnswers <- Future.fromTry(aaaa.setByKey(TaxYearLiabilitiesPage, year.toString, taxYearWithLiabilities))
               _              <- sessionService.set(updatedAnswers)
-            } yield Redirect(navigator.nextTaxYearLiabilitiesPage(i, value.foreignTaxCredit, mode, updatedAnswers))
+            } yield Redirect(navigator.nextTaxYearLiabilitiesPage(i, value.foreignTaxCredit, mode, updatedAnswers, hasValueChanged))
           }
         )
       }
@@ -91,6 +95,14 @@ class TaxYearLiabilitiesController @Inject()(
     request.userAnswers.inverselySortedOffshoreTaxYears.flatMap(_.lift(i)) match {
       case Some(year: TaxYearStarting) => f(year.startYear)
       case _ => Redirect(routes.WhichYearsController.onPageLoad(NormalMode).url)
+    }
+  }
+
+  def changedPages(userAnswers: UserAnswers, year:String, newAnswer: TaxYearLiabilities): (Try[UserAnswers], Boolean) = {
+    userAnswers.getByKey(TaxYearLiabilitiesPage, year) match {
+      case Some(taxYear) if taxYear.taxYearLiabilities.foreignTaxCredit && !newAnswer.foreignTaxCredit => (userAnswers.removeByKey(ForeignTaxCreditPage, year), false)
+      case Some(taxYear) if !taxYear.taxYearLiabilities.foreignTaxCredit && newAnswer.foreignTaxCredit => (Try{userAnswers}, true)
+      case _ => (Try{userAnswers}, false)
     }
   }
 }
