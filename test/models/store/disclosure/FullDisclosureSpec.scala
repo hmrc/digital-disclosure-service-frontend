@@ -61,6 +61,7 @@ class FullDisclosureSpec extends AnyFreeSpec with Matchers with OptionValues {
     None,
     None,
     Some(Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities))),
+    Some(Map()),
     Some(Set(YourLegalInterpretation.NoExclusion)),
     None,
     None,

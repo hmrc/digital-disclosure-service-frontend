@@ -22,7 +22,7 @@ import forms.TaxYearLiabilitiesFormProvider
 import javax.inject.Inject
 import models.{Mode, NormalMode, TaxYearLiabilities, TaxYearStarting, TaxYearWithLiabilities, UserAnswers}
 import navigation.OffshoreNavigator
-import pages.{ForeignTaxCreditPage, QuestionPage, TaxYearLiabilitiesPage}
+import pages.{ForeignTaxCreditPage, TaxYearLiabilitiesPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService

@@ -100,6 +100,7 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
         Some("Some liabilities"),
         Some("Some liabilities"),
         Some(Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities))),
+        Some(Map()),
         Some(interpretationSet),
         Some("Some interpretation"),
         Some(HowMuchTaxHasNotBeenIncluded.TenThousandOrLess),

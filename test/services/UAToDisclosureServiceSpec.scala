@@ -24,6 +24,7 @@ import models.store.notification.{Background, PersonalDetails, AboutYou}
 import models.store.disclosure._
 import pages._
 import models._
+import config.Country
 
 class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues {
 
@@ -90,6 +91,7 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
         PageWithValue(TaxBeforeSevenYearsPage, "Some liabilities"),
         PageWithValue(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage, "Some liabilities"),
         PageWithValue(TaxYearLiabilitiesPage, Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities))),
+        PageWithValue(CountryOfYourOffshoreLiabilityPage, Map("GBR" -> Country("GBR", "United Kingdom"))),
         PageWithValue(YourLegalInterpretationPage, interpretationSet),
         PageWithValue(UnderWhatConsiderationPage, "Some interpretation"),
         PageWithValue(HowMuchTaxHasNotBeenIncludedPage, HowMuchTaxHasNotBeenIncluded.TenThousandOrLess),
@@ -108,6 +110,7 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
         Some("Some liabilities"),
         Some("Some liabilities"),
         Some(Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities))),
+        Some(Map("GBR" -> Country("GBR", "United Kingdom"))),
         Some(interpretationSet),
         Some("Some interpretation"),
         Some(HowMuchTaxHasNotBeenIncluded.TenThousandOrLess),

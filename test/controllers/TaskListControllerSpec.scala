@@ -282,6 +282,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         None,
         None,
         Some(Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities))),
+        Some(Map()),
         Some(Set(YourLegalInterpretation.NoExclusion)),
         None,
         None,
