@@ -71,7 +71,7 @@
     @paragraph(id = Some("fullAmount-paragraph-3"), content = Text(messages("checkYourAnswers.offshore.fullAmount.paragraph3")))
 
     @govukButton(
-        ButtonViewModel(messages("site.saveAndContinue"))
+        ButtonViewModel(messages("site.continue"))
             .withAttribute("id","continue")
             .asLink(controllers.routes.TaskListController.onPageLoad.url)
     )
