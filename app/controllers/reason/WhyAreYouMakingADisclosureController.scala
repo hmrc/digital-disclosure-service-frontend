@@ -19,9 +19,10 @@ package controllers.reason
 import controllers.actions._
 import forms.WhyAreYouMakingADisclosureFormProvider
 import javax.inject.Inject
-import models.Mode
+import models.{Mode, UserAnswers, WhyAreYouMakingADisclosure}
+import models.WhyAreYouMakingADisclosure._
 import navigation.ReasonNavigator
-import pages.WhyAreYouMakingADisclosurePage
+import pages.{WhyAreYouMakingADisclosurePage, WhatIsTheReasonForMakingADisclosureNowPage, QuestionPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -62,11 +63,24 @@ class WhyAreYouMakingADisclosureController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
-        value =>
+        value => {
+
+          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
+
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(WhyAreYouMakingADisclosurePage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(WhyAreYouMakingADisclosurePage, mode, updatedAnswers))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+            _              <- sessionService.set(clearedAnswers)
+          } yield Redirect(navigator.nextPage(WhyAreYouMakingADisclosurePage, mode, clearedAnswers, hasValueChanged))
+        }
       )
+  }
+
+  def changedPages(userAnswers: UserAnswers, newValue: Set[WhyAreYouMakingADisclosure]): (List[QuestionPage[_]], Boolean) = {
+    userAnswers.get(WhyAreYouMakingADisclosurePage) match {
+      case Some(oldValue) if (!oldValue.contains(Other) && newValue.contains(Other)) => (Nil, true)
+      case Some(oldValue) if (oldValue.contains(Other) && !newValue.contains(Other)) => (List(WhatIsTheReasonForMakingADisclosureNowPage), false)
+      case _ => (Nil, false)
+    }
   }
 }

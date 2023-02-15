@@ -72,8 +72,8 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxController @Inject()(
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(DidSomeoneGiveYouAdviceNotDeclareTaxPage, value))
             clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
-            _ <- sessionService.set(clearedAnswers)
-          } yield Redirect(navigator.nextPage(DidSomeoneGiveYouAdviceNotDeclareTaxPage, mode, updatedAnswers, hasValueChanged))
+            _              <- sessionService.set(clearedAnswers)
+          } yield Redirect(navigator.nextPage(DidSomeoneGiveYouAdviceNotDeclareTaxPage, mode, clearedAnswers, hasValueChanged))
         }
       )
   }
