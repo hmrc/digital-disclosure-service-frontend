@@ -82,8 +82,8 @@ class ReasonNavigator @Inject()() {
 
   private val checkRouteMap: Page => UserAnswers => Boolean => Call = {
 
-    case WhyAreYouMakingADisclosurePage => ua => hasAnswerChanged => ua.get(WhyAreYouMakingADisclosurePage) match {
-      case Some(value) if(hasAnswerChanged && value.contains(Other)) => routes.WhatIsTheReasonForMakingADisclosureNowController.onPageLoad(CheckMode)
+    case WhyAreYouMakingADisclosurePage => ua => _ => (ua.get(WhyAreYouMakingADisclosurePage), ua.get(WhatIsTheReasonForMakingADisclosureNowPage)) match {
+      case (Some(value), None) if (value.contains(Other)) => routes.WhatIsTheReasonForMakingADisclosureNowController.onPageLoad(CheckMode)
       case _ => routes.CheckYourAnswersController.onPageLoad
     }
 
