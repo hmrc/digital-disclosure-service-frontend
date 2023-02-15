@@ -1329,7 +1329,7 @@ taxYearLiabilities.amountDue.total = Total amount to pay HMRC 
 
 theMaximumValueOfAllAssets.title = What was the maximum value of all assets held outside the UK at any point over the last 5 years?
 theMaximumValueOfAllAssets.heading = What was the maximum value of all assets held outside the UK at any point over the last 5 years?
-theMaximumValueOfAllAssets.below500k = Below £500,00
+theMaximumValueOfAllAssets.below500k = Below £500,000
 theMaximumValueOfAllAssets.between500kAnd1M = Between £500,000 and £1 million
 theMaximumValueOfAllAssets.between1MAnd100M = Between £1 million and £100 million
 theMaximumValueOfAllAssets.between100MAnd500M = Between £100 million and £500 million
