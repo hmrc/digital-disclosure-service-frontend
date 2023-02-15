@@ -145,6 +145,18 @@ class ReasonNavigatorSpec extends SpecBase {
 
     "in Check mode" - {
 
+      "must go from the WhyAreYouMakingADisclosurePage to WhatIsTheReasonForMakingADisclosureNowController when user select 'Other'" in {
+        val set: Set[WhyAreYouMakingADisclosure] = Set(Other)
+        val userAnswers = UserAnswers("id").set(WhyAreYouMakingADisclosurePage, set).success.value
+        navigator.nextPage(WhyAreYouMakingADisclosurePage, CheckMode, userAnswers, true) mustBe routes.WhatIsTheReasonForMakingADisclosureNowController.onPageLoad(CheckMode)
+      }
+
+      "must go from the WhyAreYouMakingADisclosurePage to CheckYourAnswers when user don't change anything" in {
+        val set: Set[WhyAreYouMakingADisclosure] = Set(GovUkGuidance)
+        val userAnswers = UserAnswers("id").set(WhyAreYouMakingADisclosurePage, set).success.value
+        navigator.nextPage(WhyAreYouMakingADisclosurePage, CheckMode, userAnswers, true) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
       "must go from the DidSomeoneGiveYouAdviceNotDeclareTaxPage to CheckYourAnswers when the answer is No and has changed" in {
         val userAnswers = UserAnswers("id").set(DidSomeoneGiveYouAdviceNotDeclareTaxPage, false).success.value
         navigator.nextPage(DidSomeoneGiveYouAdviceNotDeclareTaxPage, CheckMode, userAnswers, true) mustBe routes.PersonWhoGaveAdviceController.onPageLoad(NormalMode)
