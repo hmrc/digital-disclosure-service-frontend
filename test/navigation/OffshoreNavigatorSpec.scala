@@ -376,7 +376,7 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2020), TaxYearStarting(2019), TaxYearStarting(2018))
         val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value
 
-        navigator.nextTaxYearLiabilitiesPage(3, false, NormalMode, userAnswersWithTaxYears) mustBe routes.WhereDidTheUndeclaredIncomeOrGainController.onPageLoad(NormalMode)
+        navigator.nextTaxYearLiabilitiesPage(3, false, NormalMode, userAnswersWithTaxYears) mustBe routes.WhereDidTheUndeclaredIncomeOrGainIncludedController.onPageLoad(NormalMode)
       }
 
       "must take the user to the foreign tax credit page where the param is true" in {

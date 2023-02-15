@@ -146,7 +146,7 @@ class OffshoreNavigator @Inject()() {
     (mode, foreignTaxCreditReduction, userAnswers.inverselySortedOffshoreTaxYears, hasAnswerChanged) match {
     case (NormalMode, true, _, _) => routes.ForeignTaxCreditController.onPageLoad(currentIndex, NormalMode)
     case (NormalMode, _, Some(years), _) if ((years.size - 1) > currentIndex) => routes.TaxYearLiabilitiesController.onPageLoad(currentIndex + 1, NormalMode)
-    case (NormalMode, _, _, _) => routes.WhereDidTheUndeclaredIncomeOrGainController.onPageLoad(NormalMode)
+    case (NormalMode, _, _, _) => routes.WhereDidTheUndeclaredIncomeOrGainIncludedController.onPageLoad(NormalMode)
     case (CheckMode, _, _, true) => routes.ForeignTaxCreditController.onPageLoad(currentIndex, CheckMode)
     case (CheckMode, _, _, _) => checkRouteMap(TaxYearLiabilitiesPage)(userAnswers)(hasAnswerChanged)
   }
