@@ -1117,7 +1117,7 @@ contractualDisclosureFacility.trust.label = Which service do you want to use?
 contractualDisclosureFacility.yes = Continue using this digital disclosure service
 contractualDisclosureFacility.no = CDF
 contractualDisclosureFacility.checkYourAnswersLabel = Considered CDF?
-contractualDisclosureFacility.error.required = Select if you want to continue or leave the service
+contractualDisclosureFacility.error.required = Select the service you want to use
 contractualDisclosureFacility.change.hidden = ContractualDisclosureFacility
 
 whatIsYourReasonableExcuse.years = Which tax years does this apply to?
