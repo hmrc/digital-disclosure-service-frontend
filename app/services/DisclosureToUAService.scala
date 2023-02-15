@@ -89,6 +89,7 @@ class DisclosureToUAServiceImpl @Inject()(
       taxBeforeSevenYears.map(PageWithValue(TaxBeforeSevenYearsPage, _)),
       taxBeforeNineteenYears.map(PageWithValue(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage, _)),
       taxYearLiabilities.map(PageWithValue(TaxYearLiabilitiesPage, _)),
+      countryOfYourOffshoreLiability.map(PageWithValue(CountryOfYourOffshoreLiabilityPage, _)),
       legalInterpretation.map(PageWithValue(YourLegalInterpretationPage, _)),
       otherInterpretation.map(PageWithValue(UnderWhatConsiderationPage, _)),
       notIncludedDueToInterpretation.map(PageWithValue(HowMuchTaxHasNotBeenIncludedPage, _)),

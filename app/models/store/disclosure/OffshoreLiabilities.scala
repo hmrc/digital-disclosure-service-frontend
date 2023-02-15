@@ -18,6 +18,7 @@ package models.store.disclosure
 
 import play.api.libs.json.{Json, OFormat}
 import models._
+import config.Country
 
 final case class OffshoreLiabilities(
   behaviour: Option[Set[WhyAreYouMakingThisDisclosure]] = None,
@@ -31,16 +32,17 @@ final case class OffshoreLiabilities(
   taxBeforeSevenYears: Option[String] = None,
   taxBeforeNineteenYears: Option[String] = None,
   taxYearLiabilities: Option[Map[String, TaxYearWithLiabilities]] = None,
+  countryOfYourOffshoreLiability: Option[Map[String, Country]] = None,
   legalInterpretation: Option[Set[YourLegalInterpretation]] = None,
   otherInterpretation: Option[String] = None,
   notIncludedDueToInterpretation: Option[HowMuchTaxHasNotBeenIncluded] = None,
   maximumValueOfAssets: Option[TheMaximumValueOfAllAssets] = None
 ) {
   def isComplete = this match {
-    case OffshoreLiabilities(Some(_), _, _, _, Some(years), _, _, _, _, _, Some(reasonableExcusePriorTo), _, _, _, _) if years == Set(ReasonableExcusePriorTo) => true
-    case OffshoreLiabilities(Some(_), _, _, _, Some(years), _, _, _, _, _, Some(carelessPriorTo), _, _, _, _) if years == Set(CarelessPriorTo) => true
-    case OffshoreLiabilities(Some(_), _, _, _, Some(years), _, _, _, _, _, Some(deliberatePriorTo), _, _, _, _) if years == Set(DeliberatePriorTo) => true
-    case OffshoreLiabilities(Some(_), _, _, _, Some(years), _, _, _, _, _, _, _, _, _, _) => true
+    case OffshoreLiabilities(Some(_), _, _, _, Some(years), _, _, _, _, _, Some(reasonableExcusePriorTo), _, _, _, _, _) if years == Set(ReasonableExcusePriorTo) => true
+    case OffshoreLiabilities(Some(_), _, _, _, Some(years), _, _, _, _, _, Some(carelessPriorTo), _, _, _, _, _) if years == Set(CarelessPriorTo) => true
+    case OffshoreLiabilities(Some(_), _, _, _, Some(years), _, _, _, _, _, Some(deliberatePriorTo), _, _, _, _, _) if years == Set(DeliberatePriorTo) => true
+    case OffshoreLiabilities(Some(_), _, _, _, Some(years), _, _, _, _, _, _, Some(_), _, _, _, Some(_)) => true
     case _ => false
   }
 }
