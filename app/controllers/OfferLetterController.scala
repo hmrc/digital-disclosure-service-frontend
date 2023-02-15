@@ -84,7 +84,7 @@ class OfferLetterController @Inject()(
                 updatedAnswers <- Future.fromTry(request.userAnswers.set(OfferLetterPage, value))
                 _              <- sessionService.set(updatedAnswers)
                 reference      <- submissionService.submitDisclosure(updatedAnswers)
-                userReference  = updatedAnswers.get(LetterReferencePage).getOrElse(reference)
+                userReference  = updatedAnswers.get(WhatIsTheCaseReferencePage).getOrElse(reference)
               } yield Redirect(navigator.submitPage(userReference))
           }
           
