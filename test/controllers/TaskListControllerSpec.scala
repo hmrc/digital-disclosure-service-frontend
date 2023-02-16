@@ -271,22 +271,13 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         foreignTaxCredit = false
       )
       val model = OffshoreLiabilities(
-        Some(Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse)), 
-        None, 
-        None, 
-        None, 
-        Some(Set(TaxYearStarting(2012))),
-        None,
-        None,
-        None,
-        None,
-        None,
-        Some(Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities))),
-        Some(Map()),
-        Some(Set(YourLegalInterpretation.NoExclusion)),
-        None,
-        None,
-        Some(TheMaximumValueOfAllAssets.Below500k)
+        behaviour = Some(Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse)), 
+        whichYears = Some(Set(TaxYearStarting(2012))),
+        taxYearLiabilities = Some(Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities))),
+        countryOfYourOffshoreLiability = Some(Map()),
+        incomeSource = Some(Set(WhereDidTheUndeclaredIncomeOrGainIncluded.Dividends)),
+        legalInterpretation = Some(Set(YourLegalInterpretation.NoExclusion)),
+        maximumValueOfAssets = Some(TheMaximumValueOfAllAssets.Below500k)
       )
 
       val expectedTask = TaskListRow(
