@@ -22,15 +22,16 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import play.api.i18n.Messages
 import controllers.offshore.routes
+import models.Mode
 object CountryModels {
-  def row(countries: Set[Country])(implicit messages: Messages): Seq[SummaryListRow] = {
+  def row(countries: Set[Country], mode:Mode)(implicit messages: Messages): Seq[SummaryListRow] = {
 
     countries.map{ country =>
       SummaryListRowViewModel(
         key = Key(country.name).withCssClass("govuk-!-font-weight-regular hmrc-summary-list__key"),
         value = ValueViewModel(""),
         actions = Seq(
-          ActionItemViewModel("site.remove", routes.CountriesOrTerritoriesController.remove(country.alpha3).url)
+          ActionItemViewModel("site.remove", routes.CountriesOrTerritoriesController.remove(country.alpha3, mode).url)
             .withCssClass("summary-list-remove-link")
             .withVisuallyHiddenText(messages("countriesOrTerritories.remove.hidden"))
         )
