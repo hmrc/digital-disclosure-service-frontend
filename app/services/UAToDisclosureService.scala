@@ -37,7 +37,8 @@ class UAToDisclosureServiceImpl @Inject()(
       personalDetails = notificationService.userAnswersToPersonalDetails(userAnswers),
       offshoreLiabilities = uaToOffshoreLiabilities(userAnswers),
       otherLiabilities = uaToOtherLiabilities(userAnswers),
-      reasonForDisclosingNow = uaToReasonForDisclosingNow(userAnswers)
+      reasonForDisclosingNow = uaToReasonForDisclosingNow(userAnswers),
+      offerAmount = userAnswers.get(OfferLetterPage)
     )
   
   def uaToOtherLiabilities(userAnswers: UserAnswers): OtherLiabilities = 

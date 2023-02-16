@@ -41,7 +41,8 @@ final case class FullDisclosure (
   offshoreLiabilities: OffshoreLiabilities,
   otherLiabilities: OtherLiabilities,
   reasonForDisclosingNow: ReasonForDisclosingNow,
-  customerId: Option[CustomerId] = None
+  customerId: Option[CustomerId] = None,
+  offerAmount: Option[BigInt] = None
 ) extends Submission {
 
   lazy val disclosingAboutThemselves: Boolean = personalDetails.disclosingAboutThemselves
