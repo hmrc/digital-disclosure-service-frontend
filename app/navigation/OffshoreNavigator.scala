@@ -35,7 +35,7 @@ class OffshoreNavigator @Inject()() {
         value.contains(DeliberatelyDidNotNotify) ||
         value.contains(DeliberateInaccurateReturn) ||
         value.contains(DeliberatelyDidNotFile))
-        ) => routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)  
+        ) => routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)
       case (Some(value), _) if (value.contains(DidNotNotifyHasExcuse)) => routes.WhatIsYourReasonableExcuseController.onPageLoad(NormalMode)
       case (Some(value), _) if (value.contains(InaccurateReturnWithCare)) => routes.WhatReasonableCareDidYouTakeController.onPageLoad(NormalMode)
       case (Some(value), _) if (value.contains(NotFileHasExcuse)) => routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode)
@@ -118,7 +118,7 @@ class OffshoreNavigator @Inject()() {
 
     case WhereDidTheUndeclaredIncomeOrGainIncludedPage => ua => ua.get(WhereDidTheUndeclaredIncomeOrGainIncludedPage) match {
       case Some(value) if(value.contains(SomewhereElse)) => routes.WhereDidTheUndeclaredIncomeOrGainController.onPageLoad(NormalMode)
-      case _ => routes.YourLegalInterpretationController.onPageLoad(NormalMode) 
+      case _ => routes.YourLegalInterpretationController.onPageLoad(NormalMode)
     }
 
     case WhereDidTheUndeclaredIncomeOrGainPage => _ => routes.YourLegalInterpretationController.onPageLoad(NormalMode)
@@ -128,9 +128,18 @@ class OffshoreNavigator @Inject()() {
 
   private val checkRouteMap: Page => UserAnswers => Boolean => Call = {
 
-    case YourLegalInterpretationPage => ua => hasAnswerChanged => 
-      if(hasAnswerChanged) nextPage(YourLegalInterpretationPage, NormalMode, ua)
-      else routes.CheckYourAnswersController.onPageLoad
+    case CountryOfYourOffshoreLiabilityPage => _ => _ => routes.CountriesOrTerritoriesController.onPageLoad(CheckMode)
+
+    case CountriesOrTerritoriesPage => ua => _ => ua.get(CountriesOrTerritoriesPage) match {
+        case Some(true) => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, CheckMode)
+        case Some(false) => routes.CheckYourAnswersController.onPageLoad
+        case _ => routes.CountriesOrTerritoriesController.onPageLoad(CheckMode)
+      }
+
+    case YourLegalInterpretationPage => ua => {
+      case true => nextPage(YourLegalInterpretationPage, NormalMode, ua)
+      case false => routes.CheckYourAnswersController.onPageLoad
+    }
 
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
