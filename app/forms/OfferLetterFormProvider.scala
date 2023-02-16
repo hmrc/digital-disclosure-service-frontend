@@ -22,12 +22,14 @@ import play.api.data.Form
 
 class OfferLetterFormProvider @Inject() extends Mappings {
 
-  def apply(): Form[Int] =
+  val MAX = BigInt("999999999999999999999999")
+
+  def apply(): Form[BigInt] =
     Form(
-      "value" -> int(
+      "value" -> bigint(
         "offerLetter.error.required",
         "offerLetter.error.wholeNumber",
         "offerLetter.error.nonNumeric")
-          .verifying(inRange(0, Int.MaxValue, "offerLetter.error.outOfRange"))
+          .verifying(inRange(BigInt(0), MAX, "offerLetter.error.outOfRange"))
     )
 }

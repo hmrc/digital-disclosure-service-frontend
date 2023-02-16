@@ -207,7 +207,8 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
         personalDetails = PersonalDetails(Background(), AboutYou()),
         offshoreLiabilities = OffshoreLiabilities(),
         otherLiabilities = OtherLiabilities(),
-        reasonForDisclosingNow = ReasonForDisclosingNow()
+        reasonForDisclosingNow = ReasonForDisclosingNow(),
+        offerAmount = None
       )
     }
 

@@ -206,7 +206,7 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(OfferLetterPage, validAnswer).success.value
+      val userAnswers = UserAnswers(userAnswersId).set(OfferLetterPage, BigInt(validAnswer)).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -218,7 +218,7 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(validAnswer), "", "", 0, "individual")(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(BigInt(validAnswer)), "", "", 0, "individual")(request, messages(application)).toString
       }
     }
 

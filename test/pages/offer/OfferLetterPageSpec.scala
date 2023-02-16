@@ -22,10 +22,10 @@ class OfferLetterPageSpec extends PageBehaviours {
 
   "OfferLetterPage" - {
 
-    beRetrievable[Int](OfferLetterPage)
+    beRetrievable[BigInt](OfferLetterPage)
 
-    beSettable[Int](OfferLetterPage)
+    beSettable[BigInt](OfferLetterPage)
 
-    beRemovable[Int](OfferLetterPage)
+    beRemovable[BigInt](OfferLetterPage)
   }
 }
