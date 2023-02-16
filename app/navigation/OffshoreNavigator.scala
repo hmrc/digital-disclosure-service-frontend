@@ -128,6 +128,7 @@ class OffshoreNavigator @Inject()() {
 
   private val checkRouteMap: Page => UserAnswers => Boolean => Call = {
 
+<<<<<<< Updated upstream
     case CountryOfYourOffshoreLiabilityPage => _ => _ => routes.CountriesOrTerritoriesController.onPageLoad(CheckMode)
 
     case CountriesOrTerritoriesPage => ua => _ => ua.get(CountriesOrTerritoriesPage) match {
@@ -140,6 +141,15 @@ class OffshoreNavigator @Inject()() {
       case true => nextPage(YourLegalInterpretationPage, NormalMode, ua)
       case false => routes.CheckYourAnswersController.onPageLoad
     }
+=======
+    case WhichYearsPage => ua => hasAnswerChanged => 
+      if(hasAnswerChanged) nextPage(WhichYearsPage, NormalMode, ua)
+      else routes.CheckYourAnswersController.onPageLoad
+
+    case YourLegalInterpretationPage => ua => hasAnswerChanged => 
+      if(hasAnswerChanged) nextPage(YourLegalInterpretationPage, NormalMode, ua)
+      else routes.CheckYourAnswersController.onPageLoad
+>>>>>>> Stashed changes
 
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
