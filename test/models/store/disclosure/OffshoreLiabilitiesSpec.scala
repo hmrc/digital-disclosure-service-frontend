@@ -37,23 +37,15 @@ class OffshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValue
         foreignTaxCredit = false
       )
       val offshoreLiabilities = OffshoreLiabilities(
-        Some(Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse)), 
-        None, 
-        None, 
-        None, 
-        Some(Set(TaxYearStarting(2012))),
-        None,
-        None,
-        None,
-        None,
-        None,
-        Some(Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities))),
-        Some(Map()),
-        Some(Set(YourLegalInterpretation.NoExclusion)),
-        None,
-        None,
-        Some(TheMaximumValueOfAllAssets.Below500k)
+        behaviour = Some(Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse)), 
+        whichYears = Some(Set(TaxYearStarting(2012))),
+        taxYearLiabilities = Some(Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities))),
+        countryOfYourOffshoreLiability = Some(Map()),
+        incomeSource = Some(Set(WhereDidTheUndeclaredIncomeOrGainIncluded.Dividends)),
+        legalInterpretation = Some(Set(YourLegalInterpretation.NoExclusion)),
+        maximumValueOfAssets = Some(TheMaximumValueOfAllAssets.Below500k)
       )
+
       offshoreLiabilities.isComplete mustBe true
     }
 
@@ -69,22 +61,23 @@ class OffshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValue
         foreignTaxCredit = false
       )
       val offshoreLiabilities = OffshoreLiabilities(
-        Some(Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse)), 
-        Some(WhatIsYourReasonableExcuse("Some excuse", "Some years")), 
-        Some(WhatReasonableCareDidYouTake("Some excuse", "Some years")), 
-        Some(WhatIsYourReasonableExcuseForNotFilingReturn("Some excuse", "Some years")), 
-        Some(Set(TaxYearStarting(2012))), 
-        Some("You have not included the tax year"),
-        Some("You have not selected certain tax years"),
-        Some("Some liabilities"),
-        Some("Some liabilities"),
-        Some("Some liabilities"),
-        Some(Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities))),
-        Some(Map()),
-        Some(Set(YourLegalInterpretation.AnotherIssue)),
-        Some("Some interpretation"),
-        Some(HowMuchTaxHasNotBeenIncluded.TenThousandOrLess),
-        Some(TheMaximumValueOfAllAssets.Below500k)
+        behaviour = Some(Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse)), 
+        excuseForNotNotifying = Some(WhatIsYourReasonableExcuse("Some excuse", "Some years")), 
+        reasonableCare = Some(WhatReasonableCareDidYouTake("Some excuse", "Some years")), 
+        excuseForNotFiling = Some(WhatIsYourReasonableExcuseForNotFilingReturn("Some excuse", "Some years")), 
+        whichYears = Some(Set(TaxYearStarting(2012))), 
+        youHaveNotIncludedTheTaxYear = Some("You have not included the tax year"),
+        youHaveNotSelectedCertainTaxYears = Some("You have not selected certain tax years"),
+        taxBeforeFiveYears = Some("Some liabilities"),
+        taxBeforeSevenYears = Some("Some liabilities"),
+        taxBeforeNineteenYears = Some("Some liabilities"),
+        taxYearLiabilities = Some(Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities))),
+        countryOfYourOffshoreLiability = Some(Map()),
+        incomeSource = Some(Set(WhereDidTheUndeclaredIncomeOrGainIncluded.Dividends)),
+        legalInterpretation = Some(Set(YourLegalInterpretation.AnotherIssue)),
+        otherInterpretation = Some("Some interpretation"),
+        notIncludedDueToInterpretation = Some(HowMuchTaxHasNotBeenIncluded.TenThousandOrLess),
+        maximumValueOfAssets = Some(TheMaximumValueOfAllAssets.Below500k)
       )
       offshoreLiabilities.isComplete mustBe true
     }

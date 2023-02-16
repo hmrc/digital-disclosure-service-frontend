@@ -79,19 +79,24 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
       val whySet: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse)
       val yearsSet: Set[OffshoreYears] = Set(TaxYearStarting(2012))
       val interpretationSet: Set[YourLegalInterpretation] = Set(YourLegalInterpretation.AnotherIssue)
+      val incomeSourceSet: Set[WhereDidTheUndeclaredIncomeOrGainIncluded] = Set(WhereDidTheUndeclaredIncomeOrGainIncluded.Dividends)
       val pages = List(
         PageWithValue(WhyAreYouMakingThisDisclosurePage, whySet),
         PageWithValue(WhatIsYourReasonableExcusePage, WhatIsYourReasonableExcuse("Some excuse", "Some years")),
         PageWithValue(WhatReasonableCareDidYouTakePage, WhatReasonableCareDidYouTake("Some excuse", "Some years")),
         PageWithValue(WhatIsYourReasonableExcuseForNotFilingReturnPage, WhatIsYourReasonableExcuseForNotFilingReturn("Some excuse", "Some years")),
         PageWithValue(WhichYearsPage, yearsSet),
-        PageWithValue(YouHaveNotIncludedTheTaxYearPage, "Some Value"),
-        PageWithValue(YouHaveNotSelectedCertainTaxYearPage, "Some Value"),
+        PageWithValue(YouHaveNotIncludedTheTaxYearPage, "Some value"),
+        PageWithValue(YouHaveNotSelectedCertainTaxYearPage, "Some value"),
         PageWithValue(TaxBeforeFiveYearsPage, "Some liabilities"),
         PageWithValue(TaxBeforeSevenYearsPage, "Some liabilities"),
         PageWithValue(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage, "Some liabilities"),
+        PageWithValue(ContractualDisclosureFacilityPage, true),
         PageWithValue(TaxYearLiabilitiesPage, Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities))),
+        PageWithValue(ForeignTaxCreditPage, Map("2012" -> BigInt(123))),
         PageWithValue(CountryOfYourOffshoreLiabilityPage, Map("GBR" -> Country("GBR", "United Kingdom"))),
+        PageWithValue(WhereDidTheUndeclaredIncomeOrGainIncludedPage, incomeSourceSet),
+        PageWithValue(WhereDidTheUndeclaredIncomeOrGainPage, "Some income"),
         PageWithValue(YourLegalInterpretationPage, interpretationSet),
         PageWithValue(UnderWhatConsiderationPage, "Some interpretation"),
         PageWithValue(HowMuchTaxHasNotBeenIncludedPage, HowMuchTaxHasNotBeenIncluded.TenThousandOrLess),
@@ -99,22 +104,26 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
       )
       val userAnswers = PageWithValue.pagesToUserAnswers(pages, emptyUA).success.value
       val expected = OffshoreLiabilities(
-        Some(whySet), 
-        Some(WhatIsYourReasonableExcuse("Some excuse", "Some years")), 
-        Some(WhatReasonableCareDidYouTake("Some excuse", "Some years")), 
-        Some(WhatIsYourReasonableExcuseForNotFilingReturn("Some excuse", "Some years")), 
-        Some(yearsSet),
-        Some("Some Value"),
-        Some("Some Value"), 
-        Some("Some liabilities"),
-        Some("Some liabilities"),
-        Some("Some liabilities"),
-        Some(Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities))),
-        Some(Map("GBR" -> Country("GBR", "United Kingdom"))),
-        Some(interpretationSet),
-        Some("Some interpretation"),
-        Some(HowMuchTaxHasNotBeenIncluded.TenThousandOrLess),
-        Some(TheMaximumValueOfAllAssets.Below500k)
+        behaviour = Some(Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse)), 
+        excuseForNotNotifying = Some(WhatIsYourReasonableExcuse("Some excuse", "Some years")), 
+        reasonableCare = Some(WhatReasonableCareDidYouTake("Some excuse", "Some years")), 
+        excuseForNotFiling = Some(WhatIsYourReasonableExcuseForNotFilingReturn("Some excuse", "Some years")), 
+        whichYears = Some(yearsSet), 
+        youHaveNotIncludedTheTaxYear = Some("Some value"),
+        youHaveNotSelectedCertainTaxYears = Some("Some value"),
+        taxBeforeFiveYears = Some("Some liabilities"),
+        taxBeforeSevenYears = Some("Some liabilities"),
+        taxBeforeNineteenYears = Some("Some liabilities"),
+        disregardedCDF = Some(true),
+        taxYearLiabilities = Some(Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities))),
+        taxYearForeignTaxDeductions = Some(Map("2012" -> BigInt(123))),
+        countryOfYourOffshoreLiability = Some(Map("GBR" -> Country("GBR", "United Kingdom"))),
+        incomeSource = Some(Set(WhereDidTheUndeclaredIncomeOrGainIncluded.Dividends)),
+        otherIncomeSource = Some("Some income"),
+        legalInterpretation = Some(interpretationSet),
+        otherInterpretation = Some("Some interpretation"),
+        notIncludedDueToInterpretation = Some(HowMuchTaxHasNotBeenIncluded.TenThousandOrLess),
+        maximumValueOfAssets = Some(TheMaximumValueOfAllAssets.Below500k)
       )
       sut.uaToOffshoreLiabilities(userAnswers) shouldEqual expected
     }
