@@ -79,11 +79,12 @@ POST       /offshore-liabilities-country            controllers.offshore.Country
 GET        /offshore-liabilities-country/change     controllers.offshore.CountryOfYourOffshoreLiabilityController.onPageLoad(index:Option[String] ?= None, mode: Mode = CheckMode)
 POST       /offshore-liabilities-country/change     controllers.offshore.CountryOfYourOffshoreLiabilityController.onSubmit(mode: Mode = CheckMode)
 
-GET        /countries-or-territories                        controllers.offshore.CountriesOrTerritoriesController.onPageLoad(mode: Mode = NormalMode)
-POST       /countries-or-territories                        controllers.offshore.CountriesOrTerritoriesController.onSubmit(mode: Mode = NormalMode)
-GET        /countries-or-territories/change                 controllers.offshore.CountriesOrTerritoriesController.onPageLoad(mode: Mode = CheckMode)
-POST       /countries-or-territories/change                 controllers.offshore.CountriesOrTerritoriesController.onSubmit(mode: Mode = CheckMode)
-GET        /countries-or-territories/remove/:countryCode    controllers.offshore.CountriesOrTerritoriesController.remove(countryCode: String)
+GET        /countries-or-territories                                controllers.offshore.CountriesOrTerritoriesController.onPageLoad(mode: Mode = NormalMode)
+POST       /countries-or-territories                                controllers.offshore.CountriesOrTerritoriesController.onSubmit(mode: Mode = NormalMode)
+GET        /countries-or-territories/change                         controllers.offshore.CountriesOrTerritoriesController.onPageLoad(mode: Mode = CheckMode)
+POST       /countries-or-territories/change                         controllers.offshore.CountriesOrTerritoriesController.onSubmit(mode: Mode = CheckMode)
+GET        /countries-or-territories/remove/:countryCode            controllers.offshore.CountriesOrTerritoriesController.remove(countryCode: String, mode:Mode = NormalMode)
+GET        /countries-or-territories/remove/:countryCode/change     controllers.offshore.CountriesOrTerritoriesController.remove(countryCode: String, mode:Mode = CheckMode)
 
 GET        /missing-tax-year                 controllers.offshore.YouHaveNotIncludedTheTaxYearController.onPageLoad(mode: Mode = NormalMode)
 POST       /missing-tax-year                 controllers.offshore.YouHaveNotIncludedTheTaxYearController.onSubmit(mode: Mode = NormalMode)

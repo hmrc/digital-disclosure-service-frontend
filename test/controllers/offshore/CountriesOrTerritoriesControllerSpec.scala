@@ -144,7 +144,7 @@ class CountriesOrTerritoriesControllerSpec extends SpecBase with MockitoSugar {
 
     val mockSessionService = mock[SessionService]
 
-    val removeCountryRoute = offshore.routes.CountriesOrTerritoriesController.remove(countryCode).url
+    val removeCountryRoute = offshore.routes.CountriesOrTerritoriesController.remove(countryCode, NormalMode).url
 
     when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
 
@@ -177,7 +177,7 @@ class CountriesOrTerritoriesControllerSpec extends SpecBase with MockitoSugar {
       .setByKey(CountryOfYourOffshoreLiabilityPage, country1.alpha3 ,country1).success.value
       .setByKey(CountryOfYourOffshoreLiabilityPage, country2.alpha3 ,country2).success.value
 
-    lazy val removeCountryRoute = offshore.routes.CountriesOrTerritoriesController.remove(countryCode).url
+    lazy val removeCountryRoute = offshore.routes.CountriesOrTerritoriesController.remove(countryCode, NormalMode).url
 
     val application =
       applicationBuilderWithSessionService(userAnswers = Some(userAnswers), mockSessionService)

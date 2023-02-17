@@ -101,6 +101,16 @@ class ReasonNavigator @Inject()() {
       case _ => routes.CheckYourAnswersController.onPageLoad
     }
 
+    case WhichEmailAddressCanWeContactYouWithPage => ua => hasAnswerChanged => ua.get(WhichEmailAddressCanWeContactYouWithPage) match {
+      case Some(DifferentEmail) => routes.WhatEmailAddressCanWeContactYouWithController.onPageLoad(CheckMode)
+      case Some(ExistingEmail) => routes.CheckYourAnswersController.onPageLoad
+    }
+
+    case WhichTelephoneNumberCanWeContactYouWithPage => ua => hasAnswerChanged => ua.get(WhichTelephoneNumberCanWeContactYouWithPage) match {
+      case Some(DifferentNumber) => routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(CheckMode)
+      case Some(ExistingNumber) => routes.CheckYourAnswersController.onPageLoad
+    }
+
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 

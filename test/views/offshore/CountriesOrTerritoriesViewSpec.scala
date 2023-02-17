@@ -37,7 +37,7 @@ class CountriesOrTerritoriesViewSpec extends ViewSpecBase with ViewMatchers {
 
   "view for a single country" should {
 
-    def createView: Html = page(form, CountryModels.row(singleCountrySet), NormalMode)(request, messages)
+    def createView: Html = page(form, CountryModels.row(singleCountrySet, NormalMode), NormalMode)(request, messages)
 
     val view = createView
 
@@ -77,7 +77,7 @@ class CountriesOrTerritoriesViewSpec extends ViewSpecBase with ViewMatchers {
 
   "view for multiple countries" should {
 
-    def createView: Html = page(form, CountryModels.row(multipleCountrySet), NormalMode)(request, messages)
+    def createView: Html = page(form, CountryModels.row(multipleCountrySet, NormalMode), NormalMode)(request, messages)
 
     val view = createView
 

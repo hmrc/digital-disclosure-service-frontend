@@ -50,14 +50,14 @@ class CountriesOrTerritoriesController @Inject()(
 
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-      val countries = getCountries(request.userAnswers)
+      val countries = getCountries(request.userAnswers, mode)
       Ok(view(form, countries, mode))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
 
-      val countries = getCountries(request.userAnswers)
+      val countries = getCountries(request.userAnswers, mode)
 
       form.bindFromRequest().fold(
         formWithErrors =>
@@ -71,7 +71,7 @@ class CountriesOrTerritoriesController @Inject()(
       )
   }
 
-  def remove(countryCode:String): Action[AnyContent] = (identify andThen getData andThen requireData).async {
+  def remove(countryCode:String, mode:Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
 
       for {
@@ -79,16 +79,16 @@ class CountriesOrTerritoriesController @Inject()(
         _ <- sessionService.set(updatedAnswers)
       } yield {
         updatedAnswers.get(CountryOfYourOffshoreLiabilityPage) match {
-          case Some(countries) if countries.nonEmpty => Redirect(routes.CountriesOrTerritoriesController.onSubmit(NormalMode).url)
-          case _ =>  Redirect(routes.CountryOfYourOffshoreLiabilityController.onSubmit(NormalMode).url)
+          case Some(countries) if countries.nonEmpty => Redirect(routes.CountriesOrTerritoriesController.onSubmit(mode).url)
+          case _ =>  Redirect(routes.CountryOfYourOffshoreLiabilityController.onSubmit(mode).url)
         }
       }
 
   }
 
-  private def getCountries(userAnswers:UserAnswers)(implicit messages:Messages): Seq[SummaryListRow] =
+  private def getCountries(userAnswers:UserAnswers, mode:Mode)(implicit messages:Messages): Seq[SummaryListRow] =
     userAnswers.get(CountryOfYourOffshoreLiabilityPage) match {
-      case Some(countryMap) => CountryModels.row(countryMap.values.toSet)
+      case Some(countryMap) => CountryModels.row(countryMap.values.toSet, mode)
       case None => Seq()
     }
 }
