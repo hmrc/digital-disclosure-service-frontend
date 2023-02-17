@@ -21,7 +21,7 @@ import play.api.mvc.Call
 import controllers.onshore.routes
 import pages._
 import models.{CarelessPriorTo, CheckMode, DeliberatePriorTo, Mode, NormalMode, ReasonableExcusePriorTo, RelatesTo, TaxYearStarting, UserAnswers}
-import models.WhyAreYouMakingThisDisclosure._
+import models.WhyAreYouMakingThisOnshoreDisclosure._
 import models.YourLegalInterpretation._
 import models.WhereDidTheUndeclaredIncomeOrGainIncluded._
 
@@ -29,6 +29,19 @@ import models.WhereDidTheUndeclaredIncomeOrGainIncluded._
 class OnshoreNavigator @Inject()() {
 
   private val normalRoutes: Page => UserAnswers => Call = {
+
+    case WhyAreYouMakingThisOnshoreDisclosurePage => ua => (ua.get(WhyAreYouMakingThisOnshoreDisclosurePage), ua.get(RelatesToPage)) match {
+      case (Some(value), Some(entity)) if ( (entity != RelatesTo.AnEstate) && (
+        value.contains(DeliberatelyDidNotNotify) ||
+        value.contains(DeliberateInaccurateReturn) ||
+        value.contains(DeliberatelyDidNotFile))
+        ) => routes.CDFOnshoreController.onPageLoad(NormalMode)
+      case (Some(value), _) if (value.contains(DidNotNotifyHasExcuse)) => routes.ReasonableExcuseOnshoreController.onPageLoad(NormalMode)
+      case (Some(value), _) if (value.contains(InaccurateReturnWithCare)) => routes.ReasonableCareOnshoreController.onPageLoad(NormalMode)
+      case (Some(value), _) if (value.contains(NotFileHasExcuse)) => routes.ReasonableExcuseForNotFilingOnshoreController.onPageLoad(NormalMode)
+      case _ => routes.WhyAreYouMakingThisOnshoreDisclosureController.onPageLoad(NormalMode)
+    }
+
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 

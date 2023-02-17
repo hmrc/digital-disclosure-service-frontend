@@ -16,12 +16,17 @@
 
 package pages
 
-import models.WhyAreYouMakingThisOnshoreDisclosure
-import play.api.libs.json.JsPath
+import models.ReasonableExcuseForNotFilingOnshore
+import pages.behaviours.PageBehaviours
 
-case object WhyAreYouMakingThisOnshoreDisclosurePage extends QuestionPage[Set[WhyAreYouMakingThisOnshoreDisclosure]] {
+class ReasonableExcuseForNotFilingOnshorePageSpec extends PageBehaviours {
 
-  override def path: JsPath = JsPath \ toString
+  "ReasonableExcuseForNotFilingOnshorePage" - {
 
-  override def toString: String = "whyAreYouMakingThisOnshoreDisclosure"
+    beRetrievable[ReasonableExcuseForNotFilingOnshore](ReasonableExcuseForNotFilingOnshorePage)
+
+    beSettable[ReasonableExcuseForNotFilingOnshore](ReasonableExcuseForNotFilingOnshorePage)
+
+    beRemovable[ReasonableExcuseForNotFilingOnshore](ReasonableExcuseForNotFilingOnshorePage)
+  }
 }

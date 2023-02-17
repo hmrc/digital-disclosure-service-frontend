@@ -151,6 +151,37 @@ trait ModelGenerators {
       } yield WhatReasonableCareDidYouTake(reasonableCare, yearsThisAppliesTo)
     }
 
+
+
+
+  implicit lazy val arbitraryReasonableExcuseOnshore: Arbitrary[ReasonableExcuseOnshore] =
+    Arbitrary {
+      for {
+        excuse <- arbitrary[String]
+        years <- arbitrary[String]
+      } yield ReasonableExcuseOnshore(excuse, years)
+    }
+    
+  implicit lazy val arbitraryReasonableExcuseForNotFilingOnshore: Arbitrary[ReasonableExcuseForNotFilingOnshore] =
+    Arbitrary {
+      for {
+        reasonableExcuse <- arbitrary[String]
+        yearsThisAppliesTo <- arbitrary[String]
+      } yield ReasonableExcuseForNotFilingOnshore(reasonableExcuse, yearsThisAppliesTo)
+    }
+
+  implicit lazy val arbitraryReasonableCareOnshore: Arbitrary[ReasonableCareOnshore] =
+    Arbitrary {
+      for {
+        reasonableCare <- arbitrary[String]
+        yearsThisAppliesTo <- arbitrary[String]
+      } yield ReasonableCareOnshore(reasonableCare, yearsThisAppliesTo)
+    }
+
+
+
+
+
   implicit lazy val arbitraryWhyAreYouMakingThisDisclosure: Arbitrary[WhyAreYouMakingThisDisclosure] =
     Arbitrary {
       Gen.oneOf(WhyAreYouMakingThisDisclosure.values)

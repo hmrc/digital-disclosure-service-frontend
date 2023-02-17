@@ -16,12 +16,12 @@
 
 package pages
 
-import models.WhyAreYouMakingThisOnshoreDisclosure
+import models.ReasonableExcuseForNotFilingOnshore
 import play.api.libs.json.JsPath
 
-case object WhyAreYouMakingThisOnshoreDisclosurePage extends QuestionPage[Set[WhyAreYouMakingThisOnshoreDisclosure]] {
+case object ReasonableExcuseForNotFilingOnshorePage extends QuestionPage[ReasonableExcuseForNotFilingOnshore] {
 
   override def path: JsPath = JsPath \ toString
 
-  override def toString: String = "whyAreYouMakingThisOnshoreDisclosure"
+  override def toString: String = "reasonableExcuseForNotFilingOnshorePage"
 }
