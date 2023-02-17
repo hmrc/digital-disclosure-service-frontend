@@ -23,3 +23,28 @@ GET        /excuse-for-not-filing-return                 controllers.onshore.Rea
 POST       /excuse-for-not-filing-return                 controllers.onshore.ReasonableExcuseForNotFilingOnshoreController.onSubmit(mode: Mode = NormalMode)
 GET        /excuse-for-not-filing-return/change          controllers.onshore.ReasonableExcuseForNotFilingOnshoreController.onPageLoad(mode: Mode = CheckMode)
 POST       /excuse-for-not-filing-return/change          controllers.onshore.ReasonableExcuseForNotFilingOnshoreController.onSubmit(mode: Mode = CheckMode)
+
+GET        /where-the-income-came-from                       controllers.onshore.IncomeOrGainSourceController.onPageLoad(mode: Mode = NormalMode)
+POST       /where-the-income-came-from                       controllers.onshore.IncomeOrGainSourceController.onSubmit(mode: Mode = NormalMode)
+GET        /where-the-income-came-from/change                controllers.onshore.IncomeOrGainSourceController.onPageLoad(mode: Mode = CheckMode)
+POST       /where-the-income-came-from/change                controllers.onshore.IncomeOrGainSourceController.onSubmit(mode: Mode = CheckMode)
+
+GET        /where-else-the-income-came-from                  controllers.onshore.OtherIncomeOrGainSourceController.onPageLoad(mode: Mode = NormalMode)
+POST       /where-else-the-income-came-from                  controllers.onshore.OtherIncomeOrGainSourceController.onSubmit(mode: Mode = NormalMode)
+GET        /where-else-the-income-came-from/change           controllers.onshore.OtherIncomeOrGainSourceController.onPageLoad(mode: Mode = CheckMode)
+POST       /where-else-the-income-came-from/change           controllers.onshore.OtherIncomeOrGainSourceController.onSubmit(mode: Mode = CheckMode)
+
+GET        /left-the-service                             controllers.onshore.YouHaveLeftTheDDSOnshoreController.onPageLoad(mode: Mode = NormalMode)
+POST       /left-the-service                             controllers.onshore.YouHaveLeftTheDDSOnshoreController.onSubmit(mode: Mode = NormalMode)
+GET        /left-the-service/change                      controllers.onshore.YouHaveLeftTheDDSOnshoreController.onPageLoad(mode: Mode = CheckMode)
+POST       /left-the-service/change                      controllers.onshore.YouHaveLeftTheDDSOnshoreController.onSubmit(mode: Mode = CheckMode)
+
+GET        /missing-tax-year                                controllers.onshore.NotIncludedSingleTaxYearController.onPageLoad(mode: Mode = NormalMode)
+POST       /missing-tax-year                                controllers.onshore.NotIncludedSingleTaxYearController.onSubmit(mode: Mode = NormalMode)
+GET        /missing-tax-year/change                         controllers.onshore.NotIncludedSingleTaxYearController.onPageLoad(mode: Mode = CheckMode)
+POST       /missing-tax-year/change                         controllers.onshore.NotIncludedSingleTaxYearController.onSubmit(mode: Mode = CheckMode)
+
+GET        /missing-tax-years                               controllers.onshore.NotIncludedMultipleTaxYearsController.onPageLoad(mode: Mode = NormalMode)
+POST       /missing-tax-years                               controllers.onshore.NotIncludedMultipleTaxYearsController.onSubmit(mode: Mode = NormalMode)
+GET        /missing-tax-years/change                        controllers.onshore.NotIncludedMultipleTaxYearsController.onPageLoad(mode: Mode = CheckMode)
+POST       /missing-tax-years/change                        controllers.onshore.NotIncludedMultipleTaxYearsController.onSubmit(mode: Mode = CheckMode)

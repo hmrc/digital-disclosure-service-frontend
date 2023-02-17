@@ -25,6 +25,11 @@ import org.scalacheck.magnolia.gen
 
 trait ModelGenerators {
 
+  implicit lazy val arbitraryIncomeOrGainSource: Arbitrary[IncomeOrGainSource] =
+    Arbitrary {
+      Gen.oneOf(IncomeOrGainSource.values)
+    }
+
   implicit lazy val arbitraryWhereDidTheUndeclaredIncomeOrGainIncluded: Arbitrary[WhereDidTheUndeclaredIncomeOrGainIncluded] =
     Arbitrary {
       Gen.oneOf(WhereDidTheUndeclaredIncomeOrGainIncluded.values)
