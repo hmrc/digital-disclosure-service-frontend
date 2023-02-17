@@ -16,12 +16,12 @@
 
 package pages
 
-import models.WhyAreYouMakingThisOnshoreDisclosure
+import models.ReasonableCareOnshore
 import play.api.libs.json.JsPath
 
-case object WhyAreYouMakingThisOnshoreDisclosurePage extends QuestionPage[Set[WhyAreYouMakingThisOnshoreDisclosure]] {
+case object ReasonableCareOnshorePage extends QuestionPage[ReasonableCareOnshore] {
 
   override def path: JsPath = JsPath \ toString
 
-  override def toString: String = "whyAreYouMakingThisOnshoreDisclosure"
+  override def toString: String = "reasonableCareOnshore"
 }

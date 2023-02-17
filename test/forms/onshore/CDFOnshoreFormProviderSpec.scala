@@ -14,14 +14,30 @@
  * limitations under the License.
  */
 
-package pages
+package forms
 
-import models.WhyAreYouMakingThisOnshoreDisclosure
-import play.api.libs.json.JsPath
+import forms.behaviours.BooleanFieldBehaviours
+import play.api.data.FormError
 
-case object WhyAreYouMakingThisOnshoreDisclosurePage extends QuestionPage[Set[WhyAreYouMakingThisOnshoreDisclosure]] {
+class CDFOnshoreFormProviderSpec extends BooleanFieldBehaviours {
 
-  override def path: JsPath = JsPath \ toString
+  val form = new CDFOnshoreFormProvider()()
 
-  override def toString: String = "whyAreYouMakingThisOnshoreDisclosure"
+  ".value" - {
+
+    val fieldName = "value"
+    val requiredKey = "contractualDisclosureFacility.error.required"
+
+    behave like booleanField(
+      form,
+      fieldName,
+      invalidError = FormError(fieldName, "error.boolean")
+    )
+
+    behave like mandatoryField(
+      form,
+      fieldName,
+      requiredError = FormError(fieldName, requiredKey)
+    )
+  }
 }

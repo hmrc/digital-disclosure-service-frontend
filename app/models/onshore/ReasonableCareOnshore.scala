@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-package pages
+package models
 
-import models.WhyAreYouMakingThisOnshoreDisclosure
-import play.api.libs.json.JsPath
+import play.api.libs.json._
 
-case object WhyAreYouMakingThisOnshoreDisclosurePage extends QuestionPage[Set[WhyAreYouMakingThisOnshoreDisclosure]] {
+case class ReasonableCareOnshore (reasonableCare: String, yearsThisAppliesTo: String)
 
-  override def path: JsPath = JsPath \ toString
-
-  override def toString: String = "whyAreYouMakingThisOnshoreDisclosure"
+object ReasonableCareOnshore {
+  implicit val format = Json.format[ReasonableCareOnshore]
 }

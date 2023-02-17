@@ -3,3 +3,23 @@ GET        /reason-for-disclosure                        controllers.onshore.Why
 POST       /reason-for-disclosure                        controllers.onshore.WhyAreYouMakingThisOnshoreDisclosureController.onSubmit(mode: Mode = NormalMode)
 GET        /reason-for-disclosure/change                 controllers.onshore.WhyAreYouMakingThisOnshoreDisclosureController.onPageLoad(mode: Mode = CheckMode)
 POST       /reason-for-disclosure/change                 controllers.onshore.WhyAreYouMakingThisOnshoreDisclosureController.onSubmit(mode: Mode = CheckMode)
+
+GET        /contractual-disclosure-facility              controllers.onshore.CDFOnshoreController.onPageLoad(mode: Mode = NormalMode)
+POST       /contractual-disclosure-facility              controllers.onshore.CDFOnshoreController.onSubmit(mode: Mode = NormalMode)
+GET        /contractual-disclosure-facility/change       controllers.onshore.CDFOnshoreController.onPageLoad(mode: Mode = CheckMode)
+POST       /contractual-disclosure-facility/change       controllers.onshore.CDFOnshoreController.onSubmit(mode: Mode = CheckMode)
+
+GET        /excuse-for-not-notifying                     controllers.onshore.ReasonableExcuseOnshoreController.onPageLoad(mode: Mode = NormalMode)
+POST       /excuse-for-not-notifying                     controllers.onshore.ReasonableExcuseOnshoreController.onSubmit(mode: Mode = NormalMode)
+GET        /excuse-for-not-notifying/change              controllers.onshore.ReasonableExcuseOnshoreController.onPageLoad(mode: Mode = CheckMode)
+POST       /excuse-for-not-notifying/change              controllers.onshore.ReasonableExcuseOnshoreController.onSubmit(mode: Mode = CheckMode)
+
+GET        /reasonable-care                              controllers.onshore.ReasonableCareOnshoreController.onPageLoad(mode: Mode = NormalMode)
+POST       /reasonable-care                              controllers.onshore.ReasonableCareOnshoreController.onSubmit(mode: Mode = NormalMode)
+GET        /reasonable-care/change                       controllers.onshore.ReasonableCareOnshoreController.onPageLoad(mode: Mode = CheckMode)
+POST       /reasonable-care/change                       controllers.onshore.ReasonableCareOnshoreController.onSubmit(mode: Mode = CheckMode)
+
+GET        /excuse-for-not-filing-return                 controllers.onshore.ReasonableExcuseForNotFilingOnshoreController.onPageLoad(mode: Mode = NormalMode)
+POST       /excuse-for-not-filing-return                 controllers.onshore.ReasonableExcuseForNotFilingOnshoreController.onSubmit(mode: Mode = NormalMode)
+GET        /excuse-for-not-filing-return/change          controllers.onshore.ReasonableExcuseForNotFilingOnshoreController.onPageLoad(mode: Mode = CheckMode)
+POST       /excuse-for-not-filing-return/change          controllers.onshore.ReasonableExcuseForNotFilingOnshoreController.onSubmit(mode: Mode = CheckMode)

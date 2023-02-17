@@ -14,14 +14,18 @@
  * limitations under the License.
  */
 
-package pages
+package forms
 
-import models.WhyAreYouMakingThisOnshoreDisclosure
-import play.api.libs.json.JsPath
+import javax.inject.Inject
 
-case object WhyAreYouMakingThisOnshoreDisclosurePage extends QuestionPage[Set[WhyAreYouMakingThisOnshoreDisclosure]] {
+import forms.mappings.Mappings
+import play.api.data.Form
 
-  override def path: JsPath = JsPath \ toString
+class CDFOnshoreFormProvider @Inject() extends Mappings {
 
-  override def toString: String = "whyAreYouMakingThisOnshoreDisclosure"
+  def apply(): Form[Boolean] =
+    Form(
+      "value" -> boolean("contractualDisclosureFacility.error.required")
+    )
+
 }
