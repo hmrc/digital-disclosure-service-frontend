@@ -17,7 +17,7 @@
 package forms
 
 import forms.behaviours.CheckboxFieldBehaviours
-import models.WhyAreYouMakingThisDisclosure
+import models.WhyAreYouMakingThisOnshoreDisclosure
 import play.api.data.FormError
 
 class WhyAreYouMakingThisOnshoreDisclosureFormProviderSpec extends CheckboxFieldBehaviours {
@@ -29,10 +29,10 @@ class WhyAreYouMakingThisOnshoreDisclosureFormProviderSpec extends CheckboxField
     val fieldName = "value"
     val requiredKey = "whyAreYouMakingThisDisclosure.error.required"
 
-    behave like checkboxField[WhyAreYouMakingThisDisclosure](
+    behave like checkboxField[WhyAreYouMakingThisOnshoreDisclosure](
       form,
       fieldName,
-      validValues  = WhyAreYouMakingThisDisclosure.values,
+      validValues  = WhyAreYouMakingThisOnshoreDisclosure.values,
       invalidError = FormError(s"$fieldName[0]", "error.invalid")
     )
 

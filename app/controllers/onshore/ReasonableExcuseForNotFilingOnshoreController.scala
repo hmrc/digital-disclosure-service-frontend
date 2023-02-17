@@ -20,7 +20,7 @@ import controllers.actions._
 import forms.ReasonableExcuseForNotFilingOnshoreFormProvider
 import javax.inject.Inject
 import models.{Mode, UserAnswers, RelatesTo}
-import navigation.OffshoreNavigator
+import navigation.OnshoreNavigator
 import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -33,7 +33,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class ReasonableExcuseForNotFilingOnshoreController @Inject()(
                                       override val messagesApi: MessagesApi,
                                       sessionService: SessionService,
-                                      navigator: OffshoreNavigator,
+                                      navigator: OnshoreNavigator,
                                       identify: IdentifierAction,
                                       getData: DataRetrievalAction,
                                       requireData: DataRequiredAction,

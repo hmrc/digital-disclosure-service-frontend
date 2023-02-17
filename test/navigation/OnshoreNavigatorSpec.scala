@@ -17,7 +17,7 @@
 package navigation
 
 import base.SpecBase
-import controllers.offshore.routes
+import controllers.onshore.routes
 import pages._
 import models._
 import models.YourLegalInterpretation._
@@ -54,7 +54,7 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextPage(WhyAreYouMakingThisOnshoreDisclosurePage, NormalMode, userAnswers) mustBe routes.CDFOnshoreController.onPageLoad(NormalMode)
       }
 
-      "must go from WhyAreYouMakingThisOnshoreDisclosurePage to WhichYearsController when selected a deliberate behaviour, and also selected that they're an estate" in {
+      "must go from WhyAreYouMakingThisOnshoreDisclosurePage to ??? when selected a deliberate behaviour, and also selected that they're an estate" in {
         val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(
           WhyAreYouMakingThisOnshoreDisclosure.DeliberatelyDidNotNotify,
           WhyAreYouMakingThisOnshoreDisclosure.DeliberateInaccurateReturn,
@@ -64,7 +64,7 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
           ua <- UserAnswers("id").set(WhyAreYouMakingThisOnshoreDisclosurePage, set)
           finalUa <- ua.set(RelatesToPage, RelatesTo.AnEstate)
         } yield finalUa).success.value
-        navigator.nextPage(WhyAreYouMakingThisOnshoreDisclosurePage, NormalMode, userAnswers) mustBe routes.WhichYearsController.onPageLoad(NormalMode)
+        navigator.nextPage(WhyAreYouMakingThisOnshoreDisclosurePage, NormalMode, userAnswers) mustBe routes.WhyAreYouMakingThisOnshoreDisclosureController.onPageLoad(NormalMode)
       }
 
       "must go from WhyAreYouMakingThisOnshoreDisclosurePage to ReasonableExcuseOnshoreController when selected DidNotNotifyHasExcuse" in {
@@ -79,16 +79,16 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextPage(WhyAreYouMakingThisOnshoreDisclosurePage, NormalMode, userAnswers) mustBe routes.ReasonableCareOnshoreController.onPageLoad(NormalMode)
       }
 
-      "must go from WhyAreYouMakingThisOnshoreDisclosurePage to ReasonableExcuseOnshoreForNotFilingReturnController when selected NotFileHasExcuse" in {
+      "must go from WhyAreYouMakingThisOnshoreDisclosurePage to ReasonableExcuseForNotFilingOnshoreController when selected NotFileHasExcuse" in {
         val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.NotFileHasExcuse)
         val userAnswers = UserAnswers("id").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
-        navigator.nextPage(WhyAreYouMakingThisOnshoreDisclosurePage, NormalMode, userAnswers) mustBe routes.ReasonableExcuseOnshoreForNotFilingReturnController.onPageLoad(NormalMode)
+        navigator.nextPage(WhyAreYouMakingThisOnshoreDisclosurePage, NormalMode, userAnswers) mustBe routes.ReasonableExcuseForNotFilingOnshoreController.onPageLoad(NormalMode)
       }
 
-      "must go from WhyAreYouMakingThisOnshoreDisclosurePage to WhichYearsController when selected any other option(s)" in {
+      "must go from WhyAreYouMakingThisOnshoreDisclosurePage to ??? when selected any other option(s)" in {
         val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnNoCare)
         val userAnswers = UserAnswers("id").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
-        navigator.nextPage(WhyAreYouMakingThisOnshoreDisclosurePage, NormalMode, userAnswers) mustBe routes.WhichYearsController.onPageLoad(NormalMode)
+        navigator.nextPage(WhyAreYouMakingThisOnshoreDisclosurePage, NormalMode, userAnswers) mustBe routes.WhyAreYouMakingThisOnshoreDisclosureController.onPageLoad(NormalMode)
       }  
 
     }

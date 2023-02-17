@@ -20,7 +20,7 @@ import controllers.actions._
 import forms.CDFOnshoreFormProvider
 import javax.inject.Inject
 import models.{Mode, RelatesTo}
-import navigation.OffshoreNavigator
+import navigation.OnshoreNavigator
 import pages.{CDFOnshorePage, RelatesToPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -33,7 +33,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class CDFOnshoreController @Inject()(
                                        override val messagesApi: MessagesApi,
                                        sessionService: SessionService,
-                                       navigator: OffshoreNavigator,
+                                       navigator: OnshoreNavigator,
                                        identify: IdentifierAction,
                                        getData: DataRetrievalAction,
                                        requireData: DataRequiredAction,
