@@ -28,7 +28,7 @@
 
 @(form: Form[_], mode: Mode, areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("WhyAreYouMakingThisOnshoreDisclosure.title"))) {
+@layout(pageTitle = title(form, messages("whyAreYouMakingThisDisclosure.title"))) {
 
     @formHelper(action = controllers.onshore.routes.WhyAreYouMakingThisOnshoreDisclosureController.onSubmit(mode), 'autoComplete -> "off") {
 
@@ -36,17 +36,17 @@
             @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value_0")))
         }
 
-        @heading(Text(messages("WhyAreYouMakingThisOnshoreDisclosure.heading")))
+        @heading(Text(messages("whyAreYouMakingThisDisclosure.heading")))
 
-        @paragraph(id = Some("first-paragraph"), classes = "govuk-inset-text", content = Text(messages("WhyAreYouMakingThisOnshoreDisclosure.paragraph.first")))
+        @paragraph(id = Some("first-paragraph"), classes = "govuk-inset-text", content = Text(messages(if (areTheyTheIndividual) "whyAreYouMakingThisDisclosure.paragraph.first.you" else "whyAreYouMakingThisDisclosure.paragraph.first")))
 
-        @paragraph(id = Some("second-paragraph"), content = Text(messages("WhyAreYouMakingThisOnshoreDisclosure.paragraph.second")))
+        @paragraph(id = Some("second-paragraph"), content = Text(messages("whyAreYouMakingThisDisclosure.paragraph.second")))
 
         @govukCheckboxes(
             CheckboxesViewModel(
                 form   = form,
                 name   = "value",
-                legend = LegendViewModel(messages("WhyAreYouMakingThisOnshoreDisclosure.heading")).withCssClass("govuk-visually-hidden"),
+                legend = LegendViewModel(messages("whyAreYouMakingThisDisclosure.heading")).withCssClass("govuk-visually-hidden"),
                 items  = WhyAreYouMakingThisOnshoreDisclosure.checkboxItems(areTheyTheIndividual, entity)
             )
         )

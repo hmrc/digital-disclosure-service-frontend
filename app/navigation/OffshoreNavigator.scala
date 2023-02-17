@@ -69,12 +69,10 @@ class OffshoreNavigator @Inject()() {
         case (Some(years), Some(0), Some(countryMap)) if years.contains(ReasonableExcusePriorTo) => routes.TaxBeforeFiveYearsController.onPageLoad(NormalMode)
         case (Some(years), Some(0), Some(countryMap)) if years.contains(CarelessPriorTo) => routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode)
         case (Some(years), Some(0), Some(countryMap)) if years.contains(DeliberatePriorTo) => routes.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onPageLoad(NormalMode)
-        case (Some(_), Some(0), Some(countryMap)) if countryMap.isEmpty => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
         case (Some(_), Some(0), Some(countryMap)) if !countryMap.isEmpty => routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
         case (Some(_), Some(1), Some(countryMap)) => routes.YouHaveNotIncludedTheTaxYearController.onPageLoad(NormalMode)
         case (Some(_), Some(_), Some(countryMap)) => routes.YouHaveNotSelectedCertainTaxYearController.onPageLoad(NormalMode)
-        case (_, _, _) => routes.WhichYearsController.onPageLoad(NormalMode)
-
+        case (_, _, _) => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
       }
     }
 

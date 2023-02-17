@@ -959,7 +959,7 @@ makeANotificationOrDisclosure.change.hidden = MakeANotificationOrDisclosure
 
 whyAreYouMakingThisDisclosure.title = Why are you making this disclosure?
 whyAreYouMakingThisDisclosure.heading = Why are you making this disclosure?
-whyAreYouMakingThisDisclosure.paragraph.first.you = Answering accurately will speed up the process as it allows us to accept the disclosure as quickly as possible. If the person reviewing the disclosure finds it’s largely wrong or answered incorrectly for a more favourable outcome, they will contact you about this and may seek much higher penalties.
+whyAreYouMakingThisDisclosure.paragraph.first.you = Answering accurately will speed up the process as it allows us to accept your disclosure as quickly as possible. If the person reviewing your disclosure finds it’s largely wrong or answered incorrectly for a more favourable outcome, they will contact you about this and may seek much higher penalties.
 whyAreYouMakingThisDisclosure.paragraph.first = Answering accurately will speed up the process as it allows us to accept the disclosure as quickly as possible. If the person reviewing the disclosure finds it’s largely wrong or answered incorrectly for a more favourable outcome, they will contact you about this and may seek much higher penalties.
 whyAreYouMakingThisDisclosure.paragraph.second = Select all options that are relevant to all tax years you need to disclose for.
 whyAreYouMakingThisDisclosure.checkYourAnswersLabel = Reason

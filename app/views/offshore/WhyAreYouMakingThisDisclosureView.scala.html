@@ -38,7 +38,7 @@
 
         @heading(Text(messages("whyAreYouMakingThisDisclosure.heading")))
 
-        @paragraph(id = Some("first-paragraph"), classes = "govuk-inset-text", content = Text(messages("whyAreYouMakingThisDisclosure.paragraph.first")))
+        @paragraph(id = Some("first-paragraph"), classes = "govuk-inset-text", content = Text(messages(if (areTheyTheIndividual) "whyAreYouMakingThisDisclosure.paragraph.first.you" else "whyAreYouMakingThisDisclosure.paragraph.first")))
 
         @paragraph(id = Some("second-paragraph"), content = Text(messages("whyAreYouMakingThisDisclosure.paragraph.second")))
 
