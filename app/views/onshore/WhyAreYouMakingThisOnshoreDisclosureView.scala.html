@@ -30,7 +30,7 @@
 
 @layout(pageTitle = title(form, messages("whyAreYouMakingThisDisclosure.title"))) {
 
-    @formHelper(action = controllers.offshore.routes.WhyAreYouMakingThisDisclosureController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.onshore.routes.WhyAreYouMakingThisOnshoreDisclosureController.onSubmit(mode), 'autoComplete -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value_0")))
@@ -47,7 +47,7 @@
                 form   = form,
                 name   = "value",
                 legend = LegendViewModel(messages("whyAreYouMakingThisDisclosure.heading")).withCssClass("govuk-visually-hidden"),
-                items  = WhyAreYouMakingThisDisclosure.checkboxItems(areTheyTheIndividual, entity)
+                items  = WhyAreYouMakingThisOnshoreDisclosure.checkboxItems(areTheyTheIndividual, entity)
             )
         )
 

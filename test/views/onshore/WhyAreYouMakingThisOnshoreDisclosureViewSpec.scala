@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package views.offshore
+package views.onshore
 
 import base.ViewSpecBase
-import forms.WhyAreYouMakingThisDisclosureFormProvider
+import forms.WhyAreYouMakingThisOnshoreDisclosureFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
-import views.html.offshore.WhyAreYouMakingThisDisclosureView
+import views.html.onshore.WhyAreYouMakingThisOnshoreDisclosureView
 import models.{NormalMode, RelatesTo, UserAnswers}
 import pages.AreYouTheIndividualPage
 
-class WhyAreYouMakingThisDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
+class WhyAreYouMakingThisOnshoreDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhyAreYouMakingThisDisclosureFormProvider()()
-  val page: WhyAreYouMakingThisDisclosureView = inject[WhyAreYouMakingThisDisclosureView]
+  val form = new WhyAreYouMakingThisOnshoreDisclosureFormProvider()()
+  val page: WhyAreYouMakingThisOnshoreDisclosureView = inject[WhyAreYouMakingThisOnshoreDisclosureView]
 
   "view" should {
     
