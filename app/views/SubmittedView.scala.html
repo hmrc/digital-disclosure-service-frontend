@@ -22,12 +22,12 @@
         link: components.link
 )
 
-@(isCaseReferenceAvailable: Boolean, referenceNumber: String)(implicit request: Request[_], messages: Messages)
+@(isCaseReferenceAvailable: Boolean, taxYearExists: Boolean, referenceNumber: String)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = titleNoForm(messages("submitted.title")), showBackLink = false) {
-
+@layout(pageTitle = titleNoForm(if(taxYearExists) messages("submitted.nil.title") else messages("submitted.notNil.title")), showBackLink = false) {
+    
     @govukPanel(Panel( 
-        title = messages("submitted.heading"),
+        title = if(taxYearExists) messages("submitted.nil.heading") else messages("submitted.notNil.heading"),
         content = isCaseReferenceAvailable match {
             case true => HtmlContent(messages("submitted.caseRef") +"<br>"+ referenceNumber)
             case false => HtmlContent(messages("submitted.submissionRef") +"<br>"+ referenceNumber)
@@ -46,15 +46,17 @@
             ) + messages("site.dot")
         )
     )
-
-    @paragraph(
-        id = Some("paragraph2"), 
-        content = HtmlContent(
-            messages("submitted.paragraph2") + " " + 
-            link(id = "paragraph2-link", text = messages("submitted.paragraph2.link"), newTab = true, call = Call("GET", "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure#general-information")) +
-            messages("site.dot")
+    
+    @if(!taxYearExists) {
+        @paragraph(
+            id = Some("paragraph2"), 
+            content = HtmlContent(
+                messages("submitted.paragraph2") + " " + 
+                link(id = "paragraph2-link", text = messages("submitted.paragraph2.link"), newTab = true, call = Call("GET", "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure#general-information")) +
+                messages("site.dot")
+            )
         )
-    )
+    }
 
     @paragraph(id = Some("paragraph3"), content = HtmlContent(messages("submitted.paragraph3")))
 

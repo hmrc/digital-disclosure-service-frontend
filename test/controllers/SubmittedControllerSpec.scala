@@ -20,12 +20,46 @@ import base.SpecBase
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.html.SubmittedView
+import models._
+import pages._
 
 class SubmittedControllerSpec extends SpecBase {
 
   "Submitted Controller" - {
 
-    "must return OK and the correct view for a GET" in {
+    "must return OK and the correct view for a GET when tax year is not empty" in {
+
+      val answer = TaxYearLiabilities(
+        income = BigInt(1000),
+        chargeableTransfers = BigInt(100),
+        capitalGains = BigInt(1000),
+        unpaidTax = BigInt(200),
+        interest = BigInt(20),
+        penaltyRate = 30,
+        penaltyRateReason = "Reason",
+        foreignTaxCredit = true
+      )
+
+      val userAnswers = (for {
+        ua <- UserAnswers("id").set(TaxYearLiabilitiesPage, Map("2021" -> TaxYearWithLiabilities(TaxYearStarting(2021), answer)))
+        updatedUa <- ua.set(LetterReferencePage, "CSFF-12345")  
+      } yield updatedUa).success.value 
+      
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+      running(application) {
+        val request = FakeRequest(GET, routes.SubmittedController.onPageLoad("reference").url)
+
+        val result = route(application, request).value
+
+        val view = application.injector.instanceOf[SubmittedView]
+
+        status(result) mustEqual OK
+        contentAsString(result) mustEqual view(true, false, "reference")(request, messages(application)).toString
+      }
+    }
+
+    "must return OK and the correct view for a GET when tax year is empty" in {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
@@ -37,7 +71,7 @@ class SubmittedControllerSpec extends SpecBase {
         val view = application.injector.instanceOf[SubmittedView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(false, "reference")(request, messages(application)).toString
+        contentAsString(result) mustEqual view(false, true, "reference")(request, messages(application)).toString
       }
     }
   }
