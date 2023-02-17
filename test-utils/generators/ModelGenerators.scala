@@ -156,6 +156,11 @@ trait ModelGenerators {
       Gen.oneOf(WhyAreYouMakingThisDisclosure.values)
     }
 
+  implicit lazy val arbitraryWhyAreYouMakingThisOnshoreDisclosure: Arbitrary[WhyAreYouMakingThisOnshoreDisclosure] =
+    Arbitrary {
+      Gen.oneOf(WhyAreYouMakingThisOnshoreDisclosure.values)
+    }
+
   implicit lazy val arbitraryMakeANotificationOrDisclosure: Arbitrary[MakeANotificationOrDisclosure] =
     Arbitrary {
       Gen.oneOf(MakeANotificationOrDisclosure.values.toSeq)
