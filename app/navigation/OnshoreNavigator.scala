@@ -20,9 +20,8 @@ import javax.inject.{Inject, Singleton}
 import play.api.mvc.Call
 import controllers.onshore.routes
 import pages._
-import models.{CarelessPriorTo, CheckMode, DeliberatePriorTo, Mode, NormalMode, ReasonableExcusePriorTo, RelatesTo, TaxYearStarting, UserAnswers}
+import models.{CheckMode, Mode, NormalMode, RelatesTo, UserAnswers}
 import models.WhyAreYouMakingThisOnshoreDisclosure._
-import models.YourLegalInterpretation._
 import models.WhereDidTheUndeclaredIncomeOrGainIncluded._
 
 @Singleton

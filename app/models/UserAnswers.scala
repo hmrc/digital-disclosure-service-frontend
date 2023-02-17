@@ -126,6 +126,8 @@ final case class UserAnswers(
     yearSet.collect{case TaxYearStarting(y) => TaxYearStarting(y)}.toSeq.sorted
   }
 
+  def inverselySortedOnshoreTaxYears: Option[Seq[OnshoreYearStarting]] = None
+
 }
 
 object UserAnswers {
