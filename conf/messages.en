@@ -1669,12 +1669,12 @@ whereDidTheUndeclaredIncomeOrGainIncluded.change.hidden = WhereDidTheUndeclaredI
 
 offerLetter.individual.title = Your offer
 offerLetter.individual.heading = Your offer
-offerLetter.company.title = Your company‘s offer
-offerLetter.company.heading = Your company‘s offer
-offerLetter.llp.title = Your limited liability partnership‘s offer
-offerLetter.llp.heading = Your limited liability partnership‘s offer
-offerLetter.estate.title = Your estate‘s offer
-offerLetter.estate.heading = Your estate‘s offer
+offerLetter.company.title = Your company’s offer
+offerLetter.company.heading = Your company’s offer
+offerLetter.llp.title = Your limited liability partnership’s offer
+offerLetter.llp.heading = Your limited liability partnership’s offer
+offerLetter.estate.title = Your estate’s offer
+offerLetter.estate.heading = Your estate’s offer
 offerLetter.trust.title = Your trust’s offer
 offerLetter.trust.heading = Your trust’s offer
 
