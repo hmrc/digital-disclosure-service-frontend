@@ -35,7 +35,7 @@ class SubmittedController @Inject()(
 
   def onPageLoad(reference: String): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-      val taxYearExists = request.userAnswers.get(TaxYearLiabilitiesPage).isEmpty
+      val taxYearExists = request.userAnswers.get(TaxYearLiabilitiesPage).forall(_.isEmpty)
       val caseReferenceExists = request.userAnswers.get(LetterReferencePage).isDefined
       Ok(view(caseReferenceExists, taxYearExists, reference))
   }
