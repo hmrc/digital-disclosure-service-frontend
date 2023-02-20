@@ -18,8 +18,10 @@ package controllers.offshore
 
 import controllers.actions._
 import forms.WhyAreYouMakingThisDisclosureFormProvider
+import models.WhyAreYouMakingThisDisclosure.{DeliberateInaccurateReturn, DeliberatelyDidNotFile, DeliberatelyDidNotNotify, DidNotNotifyHasExcuse, InaccurateReturnWithCare, NotFileHasExcuse}
+
 import javax.inject.Inject
-import models.{Mode, UserAnswers, RelatesTo}
+import models.{Mode, RelatesTo, UserAnswers, WhyAreYouMakingThisDisclosure}
 import navigation.OffshoreNavigator
 import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -28,6 +30,7 @@ import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.offshore.WhyAreYouMakingThisDisclosureView
 
+import scala.collection.immutable.Set
 import scala.concurrent.{ExecutionContext, Future}
 
 class WhyAreYouMakingThisDisclosureController @Inject()(
@@ -68,11 +71,14 @@ class WhyAreYouMakingThisDisclosureController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode, areTheyTheIndividual, entity))),
 
-        value =>
+        value => {
+          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(WhyAreYouMakingThisDisclosurePage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(WhyAreYouMakingThisDisclosurePage, mode, updatedAnswers))
+            clearedPages <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+            _ <- sessionService.set(clearedPages)
+          } yield Redirect(navigator.nextPage(WhyAreYouMakingThisDisclosurePage, mode, clearedPages, hasValueChanged))
+        }
       )
   }
 
@@ -82,4 +88,30 @@ class WhyAreYouMakingThisDisclosureController @Inject()(
       case _ => false
     }
   }
+
+  def changedPages(answers: UserAnswers, value: Set[WhyAreYouMakingThisDisclosure]): (List[QuestionPage[_]], Boolean) = {
+    answers.get(WhyAreYouMakingThisDisclosurePage) match {
+      case Some(reasons) if reasons != value => (getPages(value), true)
+      case _ => (Nil, false)
+    }
+  }
+
+  private def getPages(reasons: Set[WhyAreYouMakingThisDisclosure]): List[QuestionPage[_]] = {
+
+    case class ClearingCondition(selections: Set[WhyAreYouMakingThisDisclosure], pagesToClear: List[QuestionPage[_]]) {
+      def isConditionMet(reasons: Set[WhyAreYouMakingThisDisclosure]): Boolean = reasons.intersect(selections).isEmpty
+    }
+
+    val deliberate = ClearingCondition(Set(DeliberatelyDidNotNotify, DeliberateInaccurateReturn, DeliberatelyDidNotFile), List(ContractualDisclosureFacilityPage))
+    val didNotNotify = ClearingCondition(Set(DidNotNotifyHasExcuse), List(WhatIsYourReasonableExcusePage))
+    val inaccurate = ClearingCondition(Set(InaccurateReturnWithCare), List(WhatReasonableCareDidYouTakePage))
+    val notFiled = ClearingCondition(Set(NotFileHasExcuse), List(WhatIsYourReasonableExcuseForNotFilingReturnPage))
+
+    val conditions = List(deliberate, didNotNotify, inaccurate, notFiled)
+
+    conditions.foldLeft[List[QuestionPage[_]]](List()){
+      (cleared, condition) => if(condition.isConditionMet(reasons)) cleared ++ condition.pagesToClear else cleared
+    }
+  }
+
 }

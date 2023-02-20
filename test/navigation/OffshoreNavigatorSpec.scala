@@ -18,6 +18,8 @@ package navigation
 
 import base.SpecBase
 import controllers.offshore.routes
+import models.RelatesTo.AnIndividual
+import models.WhyAreYouMakingThisDisclosure.{DeliberateInaccurateReturn, DeliberatelyDidNotFile, DeliberatelyDidNotNotify, DidNotNotifyHasExcuse, InaccurateReturnWithCare, NotFileHasExcuse}
 import pages._
 import models._
 import models.YourLegalInterpretation._
@@ -419,6 +421,32 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextPage(CountriesOrTerritoriesPage, CheckMode, userAnswers) mustBe routes.CheckYourAnswersController.onPageLoad
       }
 
+      "must go from WhyAreYouMakingThisDisclosurePage to ContractualDisclosureFacilityController if the user selected DeliberatelyDidNotNotify in WhyAreYouMakingThisDisclosure page" in {
+        val relatesTo: RelatesTo = AnIndividual
+        val reason: Set[WhyAreYouMakingThisDisclosure] = Set(DeliberatelyDidNotNotify)
+        val userAnswers = UserAnswers("id")
+          .set(RelatesToPage, relatesTo).success.value
+          .set(WhyAreYouMakingThisDisclosurePage, reason).success.value
+        navigator.nextPage(WhyAreYouMakingThisDisclosurePage, CheckMode, userAnswers) mustBe routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhyAreYouMakingThisDisclosurePage to ContractualDisclosureFacilityController if the user selected DeliberateInaccurateReturn in WhyAreYouMakingThisDisclosure page" in {
+        val relatesTo: RelatesTo = AnIndividual
+        val reason: Set[WhyAreYouMakingThisDisclosure] = Set(DeliberateInaccurateReturn)
+        val userAnswers = UserAnswers("id")
+          .set(RelatesToPage, relatesTo).success.value
+          .set(WhyAreYouMakingThisDisclosurePage, reason).success.value
+        navigator.nextPage(WhyAreYouMakingThisDisclosurePage, CheckMode, userAnswers) mustBe routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhyAreYouMakingThisDisclosurePage to ContractualDisclosureFacilityController if the user selected DeliberatelyDidNotFile in WhyAreYouMakingThisDisclosure page" in {
+        val relatesTo: RelatesTo = AnIndividual
+        val reason: Set[WhyAreYouMakingThisDisclosure] = Set(DeliberatelyDidNotFile)
+        val userAnswers = UserAnswers("id")
+          .set(RelatesToPage, relatesTo).success.value
+          .set(WhyAreYouMakingThisDisclosurePage, reason).success.value
+        navigator.nextPage(WhyAreYouMakingThisDisclosurePage, CheckMode, userAnswers) mustBe routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)
+      }
     }
   }
 
