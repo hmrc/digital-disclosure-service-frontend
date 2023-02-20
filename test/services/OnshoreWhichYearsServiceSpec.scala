@@ -22,7 +22,7 @@ import java.time.{LocalDateTime, LocalDate}
 import models.Behaviour
 import uk.gov.hmrc.time.TaxYear
 
-class OnfshoreWhichYearsServiceSpec extends SpecBase {
+class OnshoreWhichYearsServiceSpec extends SpecBase {
 
   def now = () => LocalDate.now()
   val taxYear2022 = TaxYear(2022)

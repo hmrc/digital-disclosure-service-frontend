@@ -32,6 +32,10 @@ trait ModelGenerators {
       } yield OnshoreYearStarting(year)
     }
 
+  implicit lazy val arbitraryWhatOnshoreLiabilitiesDoYouNeedToDisclose: Arbitrary[WhatOnshoreLiabilitiesDoYouNeedToDisclose] =
+    Arbitrary {
+      Gen.oneOf(WhatOnshoreLiabilitiesDoYouNeedToDisclose.values)
+    }
 
   implicit lazy val arbitraryIncomeOrGainSource: Arbitrary[IncomeOrGainSource] =
     Arbitrary {
