@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-package pages
+package forms
 
-import pages.behaviours.PageBehaviours
+import javax.inject.Inject
 
+import forms.mappings.Mappings
+import play.api.data.Form
 
-class CanYouTellUsMoreAboutTaxBeforeNineteenYearPageSpec extends PageBehaviours {
+class TaxBeforeNineteenYearsFormProvider @Inject() extends Mappings {
 
-  "CanYouTellUsMoreAboutTaxBeforeNineteenYearPage" - {
-
-    beRetrievable[String](CanYouTellUsMoreAboutTaxBeforeNineteenYearPage)
-
-    beSettable[String](CanYouTellUsMoreAboutTaxBeforeNineteenYearPage)
-
-    beRemovable[String](CanYouTellUsMoreAboutTaxBeforeNineteenYearPage)
-  }
+  def apply(year: String): Form[String] =
+    Form(
+      "value" -> text("taxBeforeNineteenYears.error.required", Seq(year))
+        .verifying(maxLength(5000, "taxBeforeNineteenYears.error.length"))
+    )
 }

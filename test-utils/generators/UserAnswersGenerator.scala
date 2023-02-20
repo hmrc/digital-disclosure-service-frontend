@@ -35,7 +35,7 @@ trait UserAnswersGenerator extends TryValues {
     arbitrary[(WhereDidTheUndeclaredIncomeOrGainPage.type, JsValue)] ::
     arbitrary[(ForeignTaxCreditPage.type, JsValue)] ::
     arbitrary[(YouHaveNotSelectedCertainTaxYearPage.type, JsValue)] ::
-    arbitrary[(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage.type, JsValue)] ::
+    arbitrary[(TaxBeforeNineteenYearsPage.type, JsValue)] ::
     arbitrary[(NotificationStartedPage.type, JsValue)] ::
     arbitrary[(YouHaveNotIncludedTheTaxYearPage.type, JsValue)] ::
     arbitrary[(CountriesOrTerritoriesPage.type, JsValue)] ::

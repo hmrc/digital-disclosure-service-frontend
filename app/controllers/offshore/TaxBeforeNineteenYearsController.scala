@@ -17,28 +17,28 @@
 package controllers.offshore
 
 import controllers.actions._
-import forms.CanYouTellUsMoreAboutTaxBeforeNineteenYearFormProvider
+import forms.TaxBeforeNineteenYearsFormProvider
 import javax.inject.Inject
 import models.{Behaviour, Mode}
 import navigation.OffshoreNavigator
-import pages.CanYouTellUsMoreAboutTaxBeforeNineteenYearPage
+import pages.TaxBeforeNineteenYearsPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.{OffshoreWhichYearsService, SessionService}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import views.html.offshore.CanYouTellUsMoreAboutTaxBeforeNineteenYearView
+import views.html.offshore.TaxBeforeNineteenYearsView
 import scala.concurrent.{ExecutionContext, Future}
 
-class CanYouTellUsMoreAboutTaxBeforeNineteenYearController @Inject()(
+class TaxBeforeNineteenYearsController @Inject()(
                                         override val messagesApi: MessagesApi,
                                         sessionService: SessionService,
                                         navigator: OffshoreNavigator,
                                         identify: IdentifierAction,
                                         getData: DataRetrievalAction,
                                         requireData: DataRequiredAction,
-                                        formProvider: CanYouTellUsMoreAboutTaxBeforeNineteenYearFormProvider,
+                                        formProvider: TaxBeforeNineteenYearsFormProvider,
                                         val controllerComponents: MessagesControllerComponents,
-                                        view: CanYouTellUsMoreAboutTaxBeforeNineteenYearView,
+                                        view: TaxBeforeNineteenYearsView,
                                         offshoreWhichYearsService: OffshoreWhichYearsService
                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
@@ -49,7 +49,7 @@ class CanYouTellUsMoreAboutTaxBeforeNineteenYearController @Inject()(
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val preparedForm = request.userAnswers.get(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage) match {
+      val preparedForm = request.userAnswers.get(TaxBeforeNineteenYearsPage) match {
         case None => form
         case Some(value) => form.fill(value)
       }
@@ -66,9 +66,9 @@ class CanYouTellUsMoreAboutTaxBeforeNineteenYearController @Inject()(
 
         value =>
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage, value))
+            updatedAnswers <- Future.fromTry(request.userAnswers.set(TaxBeforeNineteenYearsPage, value))
             _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage, mode, updatedAnswers))
+          } yield Redirect(navigator.nextPage(TaxBeforeNineteenYearsPage, mode, updatedAnswers))
       )
   }
 }

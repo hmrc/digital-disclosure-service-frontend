@@ -87,7 +87,7 @@ class DisclosureToUAServiceImpl @Inject()(
       whichYears.map(PageWithValue(WhichYearsPage, _)),
       taxBeforeFiveYears.map(PageWithValue(TaxBeforeFiveYearsPage, _)),
       taxBeforeSevenYears.map(PageWithValue(TaxBeforeSevenYearsPage, _)),
-      taxBeforeNineteenYears.map(PageWithValue(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage, _)),
+      taxBeforeNineteenYears.map(PageWithValue(TaxBeforeNineteenYearsPage, _)),
       disregardedCDF.map(PageWithValue(ContractualDisclosureFacilityPage, _)),
       taxYearLiabilities.map(PageWithValue(TaxYearLiabilitiesPage, _)),
       taxYearForeignTaxDeductions.map(PageWithValue(ForeignTaxCreditPage, _)),

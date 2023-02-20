@@ -28,22 +28,22 @@
 
 @(form: Form[_], mode: Mode, year: String)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("canYouTellUsMoreAboutTaxBeforeNineteenYear.title", year))) {
+@layout(pageTitle = title(form, messages("taxBeforeNineteenYears.title", year))) {
 
-    @formHelper(action = controllers.offshore.routes.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onSubmit(mode)) {
+    @formHelper(action = controllers.offshore.routes.TaxBeforeNineteenYearsController.onSubmit(mode)) {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
-        @heading(Text(messages("canYouTellUsMoreAboutTaxBeforeNineteenYear.heading", year)))
+        @heading(Text(messages("taxBeforeNineteenYears.heading", year)))
 
         @hmrcCharacterCount(
             CharacterCount(
                 id = "value",
                 name = "value",
                 maxLength = Some(5000), 
-                label = Label(content = messages("canYouTellUsMoreAboutTaxBeforeNineteenYear.body")),
+                label = Label(content = messages("taxBeforeNineteenYears.body")),
                 value = form("value").value,
                 errorMessage = form("value").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
             )

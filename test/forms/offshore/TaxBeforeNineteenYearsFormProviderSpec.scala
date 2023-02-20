@@ -19,14 +19,14 @@ package forms
 import forms.behaviours.StringFieldBehaviours
 import play.api.data.FormError
 
-class CanYouTellUsMoreAboutTaxBeforeNineteenYearFormProviderSpec extends StringFieldBehaviours {
+class TaxBeforeNineteenYearsFormProviderSpec extends StringFieldBehaviours {
 
-  val requiredKey = "canYouTellUsMoreAboutTaxBeforeNineteenYear.error.required"
-  val lengthKey = "canYouTellUsMoreAboutTaxBeforeNineteenYear.error.length"
+  val requiredKey = "taxBeforeNineteenYears.error.required"
+  val lengthKey = "taxBeforeNineteenYears.error.length"
   val maxLength = 5000
   val year = "2023"
 
-  val form = new CanYouTellUsMoreAboutTaxBeforeNineteenYearFormProvider()(year)
+  val form = new TaxBeforeNineteenYearsFormProvider()(year)
 
   ".value" - {
 

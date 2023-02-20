@@ -45,8 +45,8 @@ trait PageGenerators {
   implicit lazy val arbitraryYouHaveNotSelectedCertainTaxYearPage: Arbitrary[YouHaveNotSelectedCertainTaxYearPage.type] =
     Arbitrary(YouHaveNotSelectedCertainTaxYearPage)
 
-  implicit lazy val arbitraryCanYouTellUsMoreAboutTaxBeforeNineteenYearPage: Arbitrary[CanYouTellUsMoreAboutTaxBeforeNineteenYearPage.type] =
-    Arbitrary(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage)
+  implicit lazy val arbitraryTaxBeforeNineteenYearsPage: Arbitrary[TaxBeforeNineteenYearsPage.type] =
+    Arbitrary(TaxBeforeNineteenYearsPage)
 
   implicit lazy val arbitraryNotificationStartedPage: Arbitrary[NotificationStartedPage.type] =
     Arbitrary(NotificationStartedPage)
