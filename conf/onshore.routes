@@ -48,3 +48,7 @@ GET        /missing-tax-years                               controllers.onshore.
 POST       /missing-tax-years                               controllers.onshore.NotIncludedMultipleTaxYearsController.onSubmit(mode: Mode = NormalMode)
 GET        /missing-tax-years/change                        controllers.onshore.NotIncludedMultipleTaxYearsController.onPageLoad(mode: Mode = CheckMode)
 POST       /missing-tax-years/change                        controllers.onshore.NotIncludedMultipleTaxYearsController.onSubmit(mode: Mode = CheckMode)
+GET        /onshore-years                        controllers.onshore.WhichOnshoreYearsController.onPageLoad(mode: Mode = NormalMode)
+POST       /onshore-years                        controllers.onshore.WhichOnshoreYearsController.onSubmit(mode: Mode = NormalMode)
+GET        /onshore-years/change                  controllers.onshore.WhichOnshoreYearsController.onPageLoad(mode: Mode = CheckMode)
+POST       /onshore-years/change                  controllers.onshore.WhichOnshoreYearsController.onSubmit(mode: Mode = CheckMode)

@@ -25,6 +25,14 @@ import org.scalacheck.magnolia.gen
 
 trait ModelGenerators {
 
+  implicit lazy val arbitraryOnshoreYears: Arbitrary[OnshoreYears] =
+    Arbitrary {
+      for {
+        year <- Gen.choose(2002, 2032)
+      } yield OnshoreYearStarting(year)
+    }
+
+
   implicit lazy val arbitraryIncomeOrGainSource: Arbitrary[IncomeOrGainSource] =
     Arbitrary {
       Gen.oneOf(IncomeOrGainSource.values)

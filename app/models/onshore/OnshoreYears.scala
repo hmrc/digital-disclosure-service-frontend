@@ -40,6 +40,18 @@ object OnshoreYearStarting {
   implicit val format: Format[OnshoreYearStarting] =  Json.format[OnshoreYearStarting]
 }
 
+case object PriorToThreeYears extends OnshoreYears {
+  override def toString = "priorToThreeYears"
+}
+
+case object PriorToFiveYears extends OnshoreYears {
+  override def toString = "priorToFiveYears"
+}
+
+case object PriorToNineteenYears extends OnshoreYears {
+  override def toString = "priorToNineteenYears"
+}
+
 object RawOnshoreYears {
   def unapply(s: String): Option[Int] = Try(s.toInt).toOption
 }
@@ -48,10 +60,14 @@ object OnshoreYears {
 
   def fromString(str: String): Option[OnshoreYears] = {
     str match {
+      case "priorToThreeYears"        => Some(PriorToThreeYears)
+      case "priorToFiveYears"         => Some(PriorToFiveYears)
+      case "priorToNineteenYears"     => Some(PriorToNineteenYears)
       case RawOnshoreYears(year) => Some(OnshoreYearStarting(year))
       case _ => None
     }
   }
+
 
   implicit def reads: Reads[OnshoreYears] = Reads {
     case JsString(str) =>
