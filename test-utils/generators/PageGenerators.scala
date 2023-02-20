@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryWhichOnshoreYearsPage: Arbitrary[WhichOnshoreYearsPage.type] =
+    Arbitrary(WhichOnshoreYearsPage)
+
   implicit lazy val arbitraryWhatOnshoreLiabilitiesDoYouNeedToDisclosePage: Arbitrary[WhatOnshoreLiabilitiesDoYouNeedToDisclosePage.type] =
     Arbitrary(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage)
 

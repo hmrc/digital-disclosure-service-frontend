@@ -1733,6 +1733,15 @@ submitted.paragraph3 = In most cases we’ll check the disclosure and send a for
 submitted.paragraph4 = If you would like to give your feedback on how to improve this service, you can
 submitted.paragraph4.link = sign up to take part in our research (opens in new tab)
 
+whichOnshoreYears.title = Which year does this onshore disclosure relate to?
+whichOnshoreYears.heading = Which year does this onshore disclosure relate to?
+whichOnshoreYears.checkbox.hint = Select all that apply.
+whichOnshoreYears.checkYourAnswersLabel = Years this disclosure relates to
+whichOnshoreYears.error.required = Select the years this disclosure relates to
+whichOnshoreYears.change.hidden = WhichYears
+whichOnshoreYears.checkbox = 6 April {0} to 5 April {1}
+whichOnshoreYears.checkbox.any = Any tax year before 6 April {0}
+
 whatOnshoreLiabilitiesDoYouNeedToDisclose.title = What onshore liabilities do you need to disclose?
 whatOnshoreLiabilitiesDoYouNeedToDisclose.heading = What onshore liabilities do you need to disclose?
 whatOnshoreLiabilitiesDoYouNeedToDisclose.checkbox.header = Select all that apply.
