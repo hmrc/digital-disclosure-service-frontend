@@ -147,11 +147,6 @@ class OffshoreNavigator @Inject()() {
     case WhyAreYouMakingThisDisclosurePage => ua => hasChanged =>
         if (hasChanged) normalRoutes(WhyAreYouMakingThisDisclosurePage)(ua)
         else routes.CheckYourAnswersController.onPageLoad
-
-    case YourLegalInterpretationPage => ua => {
-      case true => nextPage(YourLegalInterpretationPage, NormalMode, ua)
-      case false => routes.CheckYourAnswersController.onPageLoad
-    }
     
     case WhichYearsPage => ua => hasAnswerChanged => 
       if(hasAnswerChanged) nextPage(WhichYearsPage, NormalMode, ua)
