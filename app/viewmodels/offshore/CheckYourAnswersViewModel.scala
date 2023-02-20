@@ -27,7 +27,6 @@ import play.api.i18n.Messages
 import com.google.inject.{Inject, Singleton}
 
 case class CheckYourAnswersViewModel(
-  summary: SummaryList,
   summaryList: SummaryList,
   legalInterpretationlist: SummaryList,
   taxYearLists: Seq[(Int, SummaryList)],
@@ -40,12 +39,6 @@ class CheckYourAnswersViewModelCreation @Inject() (whichYearsSummary: WhichYears
 
   def create(userAnswers: UserAnswers)(implicit messages: Messages): CheckYourAnswersViewModel = {
 
-    val summary = SummaryListViewModel(
-      rows = Seq(
-        CountriesOrTerritoriesSummary.row(userAnswers)
-      ).flatten
-    )
-
     val summaryList = SummaryListViewModel(
       rows = Seq(
         WhyAreYouMakingThisDisclosureSummary.row(userAnswers),
@@ -56,6 +49,7 @@ class CheckYourAnswersViewModelCreation @Inject() (whichYearsSummary: WhichYears
         WhatReasonableCareDidYouTakeSummary.row("yearsThisAppliesTo", userAnswers),
         WhatIsYourReasonableExcuseForNotFilingReturnSummary.row("reasonableExcuse", userAnswers),
         WhatIsYourReasonableExcuseForNotFilingReturnSummary.row("yearsThisAppliesTo", userAnswers),
+        CountriesOrTerritoriesSummary.row(userAnswers),
         whichYearsSummary.row(userAnswers),
         taxBeforeFiveYearsSummary.row(userAnswers),
         taxBeforeSevenYearsSummary.row(userAnswers),
@@ -84,7 +78,7 @@ class CheckYourAnswersViewModelCreation @Inject() (whichYearsSummary: WhichYears
       ).flatten
     )
 
-    CheckYourAnswersViewModel(summary, summaryList, legalInterpretationlist, taxYearLists, totalAmountsList, liabilitiesTotal)
+    CheckYourAnswersViewModel(summaryList, legalInterpretationlist, taxYearLists, totalAmountsList, liabilitiesTotal)
 
   }
 
@@ -104,9 +98,9 @@ class CheckYourAnswersViewModelCreation @Inject() (whichYearsSummary: WhichYears
       row(i, "taxYearLiabilities.unpaidTax.checkYourAnswersLabel", s"&pound;${liabilities.unpaidTax}", "taxYearLiabilities.unpaidTax.hidden"),
       row(i, "taxYearLiabilities.interest.checkYourAnswersLabel", s"&pound;${liabilities.interest}", "taxYearLiabilities.interest.hidden"),
       row(i, "taxYearLiabilities.penaltyRate.checkYourAnswersLabel", s"${liabilities.penaltyRate}%", "taxYearLiabilities.penaltyRate.hidden"),
-      row(i, "taxYearLiabilities.penaltyAmount.checkYourAnswersLabel", s"&pound;${penaltyAmount(liabilities)}", "taxYearLiabilities.penaltyRate.hidden"),
+      row(i, "taxYearLiabilities.penaltyAmount.checkYourAnswersLabel", messages("site.2DP", penaltyAmount(liabilities)), "taxYearLiabilities.penaltyRate.hidden"),
       row(i, "taxYearLiabilities.foreignTaxCredit.checkYourAnswersLabel", if (liabilities.foreignTaxCredit) messages("site.yes") else messages("site.no"), "taxYearLiabilities.foreignTaxCredit.hidden")
-    ) ++ foreignTaxCredit ++ Seq(row(i, "taxYearLiabilities.amountDue.checkYourAnswersLabel", s"&pound;${yearTotal(liabilities)}", "taxYearLiabilities.amountDue.hidden"))
+    ) ++ foreignTaxCredit ++ Seq(row(i, "taxYearLiabilities.amountDue.checkYourAnswersLabel", messages("site.2DP", yearTotal(liabilities)), "taxYearLiabilities.amountDue.hidden"))
 
     SummaryListViewModel(rows)
   }
@@ -122,8 +116,8 @@ class CheckYourAnswersViewModelCreation @Inject() (whichYearsSummary: WhichYears
       rows = Seq(
         totalRow("taxYearLiabilities.unpaidTax.total", s"&pound;$unpaidTaxTotal"),
         totalRow("taxYearLiabilities.interest.total", s"&pound;$interestTotal"),
-        totalRow("taxYearLiabilities.penaltyAmount.total", s"&pound;$penaltyAmountTotal"),
-        totalRow("taxYearLiabilities.amountDue.total", s"&pound;$amountDueTotal")
+        totalRow("taxYearLiabilities.penaltyAmount.total", messages("site.2DP", penaltyAmountTotal)),
+        totalRow("taxYearLiabilities.amountDue.total", messages("site.2DP", amountDueTotal))
       )
     )
   }
