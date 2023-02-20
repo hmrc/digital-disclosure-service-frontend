@@ -136,6 +136,40 @@ class OffshoreNavigator @Inject()() {
         case _ => routes.CountriesOrTerritoriesController.onPageLoad(CheckMode)
       }
 
+    case WhyAreYouMakingThisDisclosurePage => ua => hasChanged => (
+      ua.get(WhyAreYouMakingThisDisclosurePage),
+      ua.get(RelatesToPage),
+      ua.get(ContractualDisclosureFacilityPage),
+      ua.get(WhatIsYourReasonableExcusePage),
+      ua.get(WhatReasonableCareDidYouTakePage),
+      ua.get(WhatIsYourReasonableExcuseForNotFilingReturnPage),
+      hasChanged) match {
+        case (Some(value), Some(entity), None, _, _, _, true) if ( (entity != RelatesTo.AnEstate) && (
+          value.contains(DeliberatelyDidNotNotify) ||
+          value.contains(DeliberateInaccurateReturn) ||
+          value.contains(DeliberatelyDidNotFile))
+          ) => routes.ContractualDisclosureFacilityController.onPageLoad(CheckMode)
+        case (Some(value), _, _, None, _, _, true) if value.contains(DidNotNotifyHasExcuse) => routes.WhatIsYourReasonableExcuseController.onPageLoad(CheckMode)
+        case (Some(value), _, _, _, None, _, true) if value.contains(InaccurateReturnWithCare) => routes.WhatReasonableCareDidYouTakeController.onPageLoad(CheckMode)
+        case (Some(value), _, _, _, _, None, true) if value.contains(NotFileHasExcuse) => routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(CheckMode)
+        case _ => routes.CheckYourAnswersController.onPageLoad
+    }
+
+    case WhatIsYourReasonableExcusePage => ua => hasChanged  =>
+      (hasChanged, ua.get(WhyAreYouMakingThisDisclosurePage), ua.get(WhatReasonableCareDidYouTakePage), ua.get(WhatIsYourReasonableExcuseForNotFilingReturnPage)) match {
+        case (true, Some(reasonableExcuse), None, _) if reasonableExcuse.contains(InaccurateReturnWithCare) => routes.WhatReasonableCareDidYouTakeController.onPageLoad(CheckMode)
+        case (true, Some(reasonableExcuse), Some(_) , None) if reasonableExcuse.contains(NotFileHasExcuse) => routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(CheckMode)
+        case _ => routes.CheckYourAnswersController.onPageLoad
+      }
+
+    case WhatReasonableCareDidYouTakePage => ua => _ =>
+      ua.get(WhyAreYouMakingThisDisclosurePage) match {
+        case Some(value) if value.contains(NotFileHasExcuse) => routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(CheckMode)
+        case _ => routes.CheckYourAnswersController.onPageLoad
+      }
+
+    case WhatIsYourReasonableExcuseForNotFilingReturnPage => _ => _ => routes.CheckYourAnswersController.onPageLoad
+
     case YourLegalInterpretationPage => ua => {
       case true => nextPage(YourLegalInterpretationPage, NormalMode, ua)
       case false => routes.CheckYourAnswersController.onPageLoad

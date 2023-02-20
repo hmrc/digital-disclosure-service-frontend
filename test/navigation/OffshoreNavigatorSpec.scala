@@ -18,6 +18,8 @@ package navigation
 
 import base.SpecBase
 import controllers.offshore.routes
+import models.RelatesTo.AnIndividual
+import models.WhyAreYouMakingThisDisclosure.{DeliberateInaccurateReturn, DeliberatelyDidNotFile, DeliberatelyDidNotNotify, DidNotNotifyHasExcuse, InaccurateReturnWithCare, NotFileHasExcuse}
 import pages._
 import models._
 import models.YourLegalInterpretation._
@@ -398,6 +400,97 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
       "must go from CountriesOrTerritoriesPage to CYA page if the user select no" in {
         val userAnswers = UserAnswers("id").set(CountriesOrTerritoriesPage, false).success.value
         navigator.nextPage(CountriesOrTerritoriesPage, CheckMode, userAnswers) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must go from WhyAreYouMakingThisDisclosurePage to ContractualDisclosureFacilityController if the user selected DeliberatelyDidNotNotify in WhyAreYouMakingThisDisclosure page" in {
+        val relatesTo: RelatesTo = AnIndividual
+        val reason: Set[WhyAreYouMakingThisDisclosure] = Set(DeliberatelyDidNotNotify)
+        val userAnswers = UserAnswers("id")
+          .set(RelatesToPage, relatesTo).success.value
+          .set(WhyAreYouMakingThisDisclosurePage, reason).success.value
+        navigator.nextPage(WhyAreYouMakingThisDisclosurePage, CheckMode, userAnswers) mustBe routes.ContractualDisclosureFacilityController.onPageLoad(CheckMode)
+      }
+
+      "must go from WhyAreYouMakingThisDisclosurePage to ContractualDisclosureFacilityController if the user selected DeliberateInaccurateReturn in WhyAreYouMakingThisDisclosure page" in {
+        val relatesTo: RelatesTo = AnIndividual
+        val reason: Set[WhyAreYouMakingThisDisclosure] = Set(DeliberateInaccurateReturn)
+        val userAnswers = UserAnswers("id")
+          .set(RelatesToPage, relatesTo).success.value
+          .set(WhyAreYouMakingThisDisclosurePage, reason).success.value
+        navigator.nextPage(WhyAreYouMakingThisDisclosurePage, CheckMode, userAnswers) mustBe routes.ContractualDisclosureFacilityController.onPageLoad(CheckMode)
+      }
+
+      "must go from WhyAreYouMakingThisDisclosurePage to ContractualDisclosureFacilityController if the user selected DeliberatelyDidNotFile in WhyAreYouMakingThisDisclosure page" in {
+        val relatesTo: RelatesTo = AnIndividual
+        val reason: Set[WhyAreYouMakingThisDisclosure] = Set(DeliberatelyDidNotFile)
+        val userAnswers = UserAnswers("id")
+          .set(RelatesToPage, relatesTo).success.value
+          .set(WhyAreYouMakingThisDisclosurePage, reason).success.value
+        navigator.nextPage(WhyAreYouMakingThisDisclosurePage, CheckMode, userAnswers) mustBe routes.ContractualDisclosureFacilityController.onPageLoad(CheckMode)
+      }
+
+      "must go from WhyAreYouMakingThisDisclosurePage to WhatIsYourReasonableExcuseController if the user selected DidNotNotifyHasExcuse and WhatIsYourReasonableExcusePage is not filled" in {
+        val reason: Set[WhyAreYouMakingThisDisclosure] = Set(DidNotNotifyHasExcuse)
+        val userAnswers = UserAnswers("id").set(WhyAreYouMakingThisDisclosurePage, reason).success.value
+        navigator.nextPage(WhyAreYouMakingThisDisclosurePage, CheckMode, userAnswers) mustBe routes.WhatIsYourReasonableExcuseController.onPageLoad(CheckMode)
+      }
+
+      "must go from WhyAreYouMakingThisDisclosurePage to WhatReasonableCareDidYouTakeController if the user selected DidNotNotifyHasExcuse and WhyAreYouMakingThisDisclosurePage is not filled" in {
+        val reason: Set[WhyAreYouMakingThisDisclosure] = Set(InaccurateReturnWithCare)
+        val userAnswers = UserAnswers("id").set(WhyAreYouMakingThisDisclosurePage, reason).success.value
+        navigator.nextPage(WhyAreYouMakingThisDisclosurePage, CheckMode, userAnswers) mustBe routes.WhatReasonableCareDidYouTakeController.onPageLoad(CheckMode)
+      }
+
+      "must go from WhyAreYouMakingThisDisclosurePage to WhatIsYourReasonableExcuseForNotFilingReturnController if the user selected DidNotNotifyHasExcuse and WhyAreYouMakingThisDisclosurePage is not filled" in {
+        val reason: Set[WhyAreYouMakingThisDisclosure] = Set(NotFileHasExcuse)
+        val userAnswers = UserAnswers("id").set(WhyAreYouMakingThisDisclosurePage, reason).success.value
+        navigator.nextPage(WhyAreYouMakingThisDisclosurePage, CheckMode, userAnswers) mustBe routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(CheckMode)
+      }
+
+      "must go from WhyAreYouMakingThisDisclosurePage to CheckYourAnswersController if the user did not change WhyAreYouMakingThisDisclosurePage" in {
+        navigator.nextPage(WhyAreYouMakingThisDisclosurePage, CheckMode, UserAnswers("id"), false) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must go from WhyAreYouMakingThisDisclosurePage to WhatReasonableCareDidYouTakeController if the user selected NotFileHasExcuse in WhyAreYouMakingThisDisclosure page" in {
+        val reasonableCare: Set[WhyAreYouMakingThisDisclosure] = Set(InaccurateReturnWithCare)
+        val reasonNotFiling: WhatIsYourReasonableExcuseForNotFilingReturn = WhatIsYourReasonableExcuseForNotFilingReturn("reason", "2012")
+        val userAnswers = UserAnswers("id")
+          .set(WhyAreYouMakingThisDisclosurePage, reasonableCare).success.value
+          .set(WhatIsYourReasonableExcuseForNotFilingReturnPage, reasonNotFiling).success.value
+        navigator.nextPage(WhyAreYouMakingThisDisclosurePage, CheckMode, userAnswers) mustBe routes.WhatReasonableCareDidYouTakeController.onPageLoad(CheckMode)
+      }
+
+      "must go from WhyAreYouMakingThisDisclosurePage to WhatIsYourReasonableExcuseForNotFilingReturnController if the user selected NotFileHasExcuse in WhyAreYouMakingThisDisclosure page" in {
+        val reason: Set[WhyAreYouMakingThisDisclosure] = Set(NotFileHasExcuse)
+        val reasonExcuse: WhatReasonableCareDidYouTake = WhatReasonableCareDidYouTake("reason", "2012")
+        val userAnswers = UserAnswers("id")
+          .set(WhyAreYouMakingThisDisclosurePage, reason).success.value
+          .set(WhatReasonableCareDidYouTakePage, reasonExcuse).success.value
+        navigator.nextPage(WhyAreYouMakingThisDisclosurePage, CheckMode, userAnswers) mustBe routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(CheckMode)
+      }
+
+      "must go from WhyAreYouMakingThisDisclosurePage to CheckYourAnswersController" in {
+        val reason: Set[WhyAreYouMakingThisDisclosure] = Set()
+        val userAnswers = UserAnswers("id").set(WhyAreYouMakingThisDisclosurePage, reason).success.value
+        navigator.nextPage(WhyAreYouMakingThisDisclosurePage, CheckMode, userAnswers) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must go from WhatReasonableCareDidYouTakePage to WhatIsYourReasonableExcuseForNotFilingReturnController if the user selected NotFileHasExcuse in WhyAreYouMakingThisDisclosure page" in {
+        val reason:Set[WhyAreYouMakingThisDisclosure] = Set(NotFileHasExcuse)
+        val userAnswers = UserAnswers("id").set(WhyAreYouMakingThisDisclosurePage, reason).success.value
+        navigator.nextPage(WhatReasonableCareDidYouTakePage, CheckMode, userAnswers) mustBe routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(CheckMode)
+      }
+
+      "must go from WhatReasonableCareDidYouTakePage to WhatIsYourReasonableExcuseForNotFilingReturnController if the user did not selected NotFileHasExcuse in WhyAreYouMakingThisDisclosure page" in {
+        val reason:Set[WhyAreYouMakingThisDisclosure] = Set()
+        val userAnswers = UserAnswers("id").set(WhyAreYouMakingThisDisclosurePage, reason).success.value
+        navigator.nextPage(WhatReasonableCareDidYouTakePage, CheckMode, userAnswers) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must go from WhatIsYourReasonableExcuseForNotFilingReturnPage to CYA page" in {
+        val reasonableExcuse = WhatIsYourReasonableExcuseForNotFilingReturn("excuse", "2001")
+        val userAnswers = UserAnswers("id").set(WhatIsYourReasonableExcuseForNotFilingReturnPage, reasonableExcuse).success.value
+        navigator.nextPage(WhatIsYourReasonableExcuseForNotFilingReturnPage, CheckMode, userAnswers) mustBe routes.CheckYourAnswersController.onPageLoad
       }
 
     }
