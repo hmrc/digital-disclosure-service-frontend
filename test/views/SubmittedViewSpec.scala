@@ -20,31 +20,37 @@ import base.ViewSpecBase
 import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.SubmittedView
+import org.scalacheck.Arbitrary.arbitrary
+import generators.Generators
 
-class SubmittedViewSpec extends ViewSpecBase with ViewMatchers {
+class SubmittedViewSpec extends ViewSpecBase with ViewMatchers with Generators {
 
   val page: SubmittedView = inject[SubmittedView]
 
-  private def createView: Html = page(false, "reference")(request, messages)
+  val taxYearExists = arbitrary[Boolean].sample.value
+
+  private def createView: Html = page(false, taxYearExists, "reference")(request, messages)
 
   "view" should {
 
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("submitted.title"))
+      view.select("title").text() must include(if(taxYearExists) messages("submitted.nil.title") else messages("submitted.notNil.title"))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-panel__title").text() mustBe messages("submitted.heading")
+      view.getElementsByClass("govuk-panel__title").text() mustBe (if(taxYearExists) messages("submitted.nil.heading") else messages("submitted.notNil.heading"))
     }
 
     "have a first paragraph" in {
       view.getElementById("paragraph1").text() mustBe messages("submitted.paragraph1") + " " + messages("submitted.paragraph1.link") + messages("site.dot")
     }
 
-    "have a second paragraph" in {
-      view.getElementById("paragraph2").text() mustBe messages("submitted.paragraph2") + " " + messages("submitted.paragraph2.link") + messages("site.dot")
+    if(!taxYearExists){
+      "have a second paragraph" in {
+        view.getElementById("paragraph2").text() mustBe messages("submitted.paragraph2") + " " + messages("submitted.paragraph2.link") + messages("site.dot")
+      }
     }
 
     "have a third paragraph" in {

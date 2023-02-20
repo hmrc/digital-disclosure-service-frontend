@@ -79,7 +79,7 @@ class YourLegalInterpretationController @Inject()(
   def changedPages(userAnswers: UserAnswers, newValue: Set[YourLegalInterpretation]): (List[QuestionPage[_]], Boolean) =
     userAnswers.get(YourLegalInterpretationPage) match {
       case Some(oldValue) if (newValue.contains(NoExclusion)) => (List(UnderWhatConsiderationPage, HowMuchTaxHasNotBeenIncludedPage), true)
-      case Some(oldValue) if (oldValue.contains(AnotherIssue) && !newValue.contains(AnotherIssue)) => (List(UnderWhatConsiderationPage), false)
+      case Some(oldValue) if (oldValue.contains(AnotherIssue) && !newValue.contains(AnotherIssue)) => (List(UnderWhatConsiderationPage), true)
       case Some(oldValue) if (oldValue != newValue) => (Nil, true)
       case _ => (Nil, false)
     }

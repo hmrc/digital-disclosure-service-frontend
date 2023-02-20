@@ -47,7 +47,7 @@ class WhyAreYouMakingThisDisclosureViewSpec extends ViewSpecBase with ViewMatche
     }
 
     "contain first paragraph" in {
-      view.getElementById("first-paragraph").text() mustBe messages("whyAreYouMakingThisDisclosure.paragraph.first")
+      view.getElementById("first-paragraph").text() mustBe messages("whyAreYouMakingThisDisclosure.paragraph.first.you")
     }
 
     "contain second paragraph" in {

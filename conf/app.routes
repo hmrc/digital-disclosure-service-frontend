@@ -6,6 +6,8 @@
 
 ->          /offshore                                    offshore.Routes
 
+->          /onshore                                     onshore.Routes
+
 ->          /other-liabilities                           otherLiabilities.Routes   
 
 ->          /reason                                      reason.Routes

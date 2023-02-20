@@ -26,13 +26,11 @@
     govukSummaryList: GovukSummaryList
 )
 
-@(viewModel: CheckYourAnswersViewModel)(implicit request: Request[_], messages: Messages)
+@(viewModel: CheckYourAnswersViewModel, taxYearExists: Boolean)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = titleNoForm(messages("checkYourAnswers.offshore.title"))) {
 
     @heading(Text(messages("checkYourAnswers.offshore.heading")))
-
-    @govukSummaryList(viewModel.summary)
 
     @subheading(Text(messages("checkYourAnswers.offshore.subheading.reason")), "govuk-heading-m")
     @govukSummaryList(viewModel.summaryList)
@@ -45,31 +43,32 @@
     @subheading(Text(messages("checkYourAnswers.offshore.total.heading")), "govuk-heading-m")
     @govukSummaryList(viewModel.totalAmountsList)
 
-    <h2 class="govuk-heading-m">@messages("checkYourAnswers.yourLegalInterpretation.heading")</h2>
-    @govukSummaryList(viewModel.legalInterpretationlist)
+    @if(taxYearExists){
+        <h2 class="govuk-heading-m">@messages("checkYourAnswers.yourLegalInterpretation.heading")</h2>
+        @govukSummaryList(viewModel.legalInterpretationlist)
+    
+        @heading(Text(messages("checkYourAnswers.offshore.offer.heading")), "govuk-heading-m")
+        @paragraph(id = Some("offer-paragraph-1"), content = Text(messages("checkYourAnswers.offshore.offer.paragraph1", viewModel.liabilitiesTotal)))
+        @paragraph(id = Some("offer-paragraph-2"), content = Text(messages("checkYourAnswers.offshore.offer.paragraph2")))
 
-    @heading(Text(messages("checkYourAnswers.offshore.offer.heading")), "govuk-heading-m")
-    @paragraph(id = Some("offer-paragraph-1"), content = Text(messages("checkYourAnswers.offshore.offer.paragraph1", viewModel.liabilitiesTotal)))
-    @paragraph(id = Some("offer-paragraph-2"), content = Text(messages("checkYourAnswers.offshore.offer.paragraph2")))
+        @heading(Text(messages("checkYourAnswers.offshore.fullAmount.heading")), "govuk-heading-m")
 
-    @heading(Text(messages("checkYourAnswers.offshore.fullAmount.heading")), "govuk-heading-m")
-
-    @paragraph(
-        id = Some("fullAmount-paragraph-1"), 
-        content = HtmlContent(
-            messages("checkYourAnswers.offshore.fullAmount.paragraph1") +
-            link(
-                id = "fullAmount-paragraph-link", 
-                text = messages("checkYourAnswers.offshore.fullAmount.link"), 
-                newTab = true, 
-                call = Call("GET", "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure#general-information")
-            ) +
-            messages("site.dot")
+        @paragraph(
+            id = Some("fullAmount-paragraph-1"), 
+            content = HtmlContent(
+                messages("checkYourAnswers.offshore.fullAmount.paragraph1") +
+                link(
+                    id = "fullAmount-paragraph-link", 
+                    text = messages("checkYourAnswers.offshore.fullAmount.link"), 
+                    newTab = true, 
+                    call = Call("GET", "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure#general-information")
+                ) +
+                messages("site.dot")
+            )
         )
-    )
-    @paragraph(id = Some("fullAmount-paragraph-2"), content = Text(messages("checkYourAnswers.offshore.fullAmount.paragraph2")))
-    @paragraph(id = Some("fullAmount-paragraph-3"), content = Text(messages("checkYourAnswers.offshore.fullAmount.paragraph3")))
-
+        @paragraph(id = Some("fullAmount-paragraph-2"), content = Text(messages("checkYourAnswers.offshore.fullAmount.paragraph2")))
+        @paragraph(id = Some("fullAmount-paragraph-3"), content = Text(messages("checkYourAnswers.offshore.fullAmount.paragraph3")))
+    }    
     @govukButton(
         ButtonViewModel(messages("site.continue"))
             .withAttribute("id","continue")

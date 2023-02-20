@@ -37,7 +37,8 @@ class UAToDisclosureServiceImpl @Inject()(
       personalDetails = notificationService.userAnswersToPersonalDetails(userAnswers),
       offshoreLiabilities = uaToOffshoreLiabilities(userAnswers),
       otherLiabilities = uaToOtherLiabilities(userAnswers),
-      reasonForDisclosingNow = uaToReasonForDisclosingNow(userAnswers)
+      reasonForDisclosingNow = uaToReasonForDisclosingNow(userAnswers),
+      offerAmount = userAnswers.get(OfferLetterPage)
     )
   
   def uaToOtherLiabilities(userAnswers: UserAnswers): OtherLiabilities = 
@@ -60,8 +61,12 @@ class UAToDisclosureServiceImpl @Inject()(
       taxBeforeFiveYears = userAnswers.get(TaxBeforeFiveYearsPage),
       taxBeforeSevenYears = userAnswers.get(TaxBeforeSevenYearsPage),
       taxBeforeNineteenYears = userAnswers.get(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage),
+      disregardedCDF = userAnswers.get(ContractualDisclosureFacilityPage),
       taxYearLiabilities = userAnswers.get(TaxYearLiabilitiesPage),
+      taxYearForeignTaxDeductions = userAnswers.get(ForeignTaxCreditPage),
       countryOfYourOffshoreLiability = userAnswers.get(CountryOfYourOffshoreLiabilityPage),
+      incomeSource = userAnswers.get(WhereDidTheUndeclaredIncomeOrGainIncludedPage),
+      otherIncomeSource = userAnswers.get(WhereDidTheUndeclaredIncomeOrGainPage),
       legalInterpretation = userAnswers.get(YourLegalInterpretationPage),
       otherInterpretation = userAnswers.get(UnderWhatConsiderationPage),
       notIncludedDueToInterpretation = userAnswers.get(HowMuchTaxHasNotBeenIncludedPage),

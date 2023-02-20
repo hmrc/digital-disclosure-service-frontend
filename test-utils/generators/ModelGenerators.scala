@@ -25,6 +25,16 @@ import org.scalacheck.magnolia.gen
 
 trait ModelGenerators {
 
+  implicit lazy val arbitraryWhatOnshoreLiabilitiesDoYouNeedToDisclose: Arbitrary[WhatOnshoreLiabilitiesDoYouNeedToDisclose] =
+    Arbitrary {
+      Gen.oneOf(WhatOnshoreLiabilitiesDoYouNeedToDisclose.values)
+    }
+
+  implicit lazy val arbitraryIncomeOrGainSource: Arbitrary[IncomeOrGainSource] =
+    Arbitrary {
+      Gen.oneOf(IncomeOrGainSource.values)
+    }
+
   implicit lazy val arbitraryWhereDidTheUndeclaredIncomeOrGainIncluded: Arbitrary[WhereDidTheUndeclaredIncomeOrGainIncluded] =
     Arbitrary {
       Gen.oneOf(WhereDidTheUndeclaredIncomeOrGainIncluded.values)
@@ -151,9 +161,45 @@ trait ModelGenerators {
       } yield WhatReasonableCareDidYouTake(reasonableCare, yearsThisAppliesTo)
     }
 
+
+
+
+  implicit lazy val arbitraryReasonableExcuseOnshore: Arbitrary[ReasonableExcuseOnshore] =
+    Arbitrary {
+      for {
+        excuse <- arbitrary[String]
+        years <- arbitrary[String]
+      } yield ReasonableExcuseOnshore(excuse, years)
+    }
+    
+  implicit lazy val arbitraryReasonableExcuseForNotFilingOnshore: Arbitrary[ReasonableExcuseForNotFilingOnshore] =
+    Arbitrary {
+      for {
+        reasonableExcuse <- arbitrary[String]
+        yearsThisAppliesTo <- arbitrary[String]
+      } yield ReasonableExcuseForNotFilingOnshore(reasonableExcuse, yearsThisAppliesTo)
+    }
+
+  implicit lazy val arbitraryReasonableCareOnshore: Arbitrary[ReasonableCareOnshore] =
+    Arbitrary {
+      for {
+        reasonableCare <- arbitrary[String]
+        yearsThisAppliesTo <- arbitrary[String]
+      } yield ReasonableCareOnshore(reasonableCare, yearsThisAppliesTo)
+    }
+
+
+
+
+
   implicit lazy val arbitraryWhyAreYouMakingThisDisclosure: Arbitrary[WhyAreYouMakingThisDisclosure] =
     Arbitrary {
       Gen.oneOf(WhyAreYouMakingThisDisclosure.values)
+    }
+
+  implicit lazy val arbitraryWhyAreYouMakingThisOnshoreDisclosure: Arbitrary[WhyAreYouMakingThisOnshoreDisclosure] =
+    Arbitrary {
+      Gen.oneOf(WhyAreYouMakingThisOnshoreDisclosure.values)
     }
 
   implicit lazy val arbitraryMakeANotificationOrDisclosure: Arbitrary[MakeANotificationOrDisclosure] =

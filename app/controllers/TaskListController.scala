@@ -91,8 +91,8 @@ class TaskListController @Inject()(
   private[controllers] def buildOnshoreLiabilitieDetailRow(implicit messages: Messages): TaskListRow = {
     val firstPage = None
     val isSectionComplete = false
-    val completeLink = routes.TaskListController.onPageLoad
-    val incompleteLink = routes.TaskListController.onPageLoad
+    val completeLink = controllers.onshore.routes.WhyAreYouMakingThisOnshoreDisclosureController.onPageLoad(NormalMode)
+    val incompleteLink = controllers.onshore.routes.WhyAreYouMakingThisOnshoreDisclosureController.onPageLoad(NormalMode)
 
     buildRow("onshore-liabilities", "third", isSectionComplete, firstPage.isDefined, completeLink, incompleteLink)
   }

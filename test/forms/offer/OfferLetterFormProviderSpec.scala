@@ -16,10 +16,10 @@
 
 package forms
 
-import forms.behaviours.IntFieldBehaviours
+import forms.behaviours.BigIntFieldBehaviours
 import play.api.data.FormError
 
-class OfferLetterFormProviderSpec extends IntFieldBehaviours {
+class OfferLetterFormProviderSpec extends BigIntFieldBehaviours {
 
   val form = new OfferLetterFormProvider()()
 
@@ -27,10 +27,10 @@ class OfferLetterFormProviderSpec extends IntFieldBehaviours {
 
     val fieldName = "value"
 
-    val minimum = 0
-    val maximum = Int.MaxValue
+    val minimum = BigInt(0)
+    val maximum = BigInt("999999999999999999999999")
 
-    val validDataGenerator = intsInRangeWithCommas(minimum, maximum)
+    val validDataGenerator = bigintsInRange(minimum, maximum)
 
     behave like fieldThatBindsValidData(
       form,
@@ -38,14 +38,14 @@ class OfferLetterFormProviderSpec extends IntFieldBehaviours {
       validDataGenerator
     )
 
-    behave like intField(
+    behave like bigintField(
       form,
       fieldName,
       nonNumericError  = FormError(fieldName, "offerLetter.error.nonNumeric"),
       wholeNumberError = FormError(fieldName, "offerLetter.error.wholeNumber")
     )
 
-    behave like intFieldWithRange(
+    behave like bigintFieldWithRange(
       form,
       fieldName,
       minimum       = minimum,

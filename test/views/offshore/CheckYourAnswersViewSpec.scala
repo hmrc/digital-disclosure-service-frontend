@@ -59,14 +59,13 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
   val viewModel = CheckYourAnswersViewModel(
     SummaryListViewModel(rows = Nil),
     SummaryListViewModel(rows = Nil),
-    SummaryListViewModel(rows = Nil),
     Nil,
     totalRows,
     0
   )
   val page: CheckYourAnswersView = inject[CheckYourAnswersView]
 
-  private def createView: Html = page(viewModel)(request, messages)
+  private def createView: Html = page(viewModel, true)(request, messages)
 
   "view" should {
 

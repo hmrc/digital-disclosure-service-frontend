@@ -47,12 +47,12 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
           ),
           SummaryListRowViewModel(
             key     = Key(Text(messages("taxYearLiabilities.penaltyAmount.total"))),
-            value   = ValueViewModel(HtmlContent("&pound;0")),
+            value   = ValueViewModel(HtmlContent(messages("site.2DP", 0))),
             actions = Nil
           ),
           SummaryListRowViewModel(
             key     = Key(Text(messages("taxYearLiabilities.amountDue.total"))),
-            value   = ValueViewModel(HtmlContent("&pound;0")),
+            value   = ValueViewModel(HtmlContent(messages("site.2DP", 0))),
             actions = Nil
           )
         )
@@ -62,7 +62,6 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       implicit val mess = messages(application)
 
       val viewmodel = CheckYourAnswersViewModel(
-        SummaryListViewModel(rows = Nil),
         SummaryListViewModel(rows = Nil),
         SummaryListViewModel(rows = Nil),
         Nil,
@@ -78,7 +77,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         val view = application.injector.instanceOf[CheckYourAnswersView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(viewmodel)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(viewmodel, false)(request, messages(application)).toString
       }
     }
   }

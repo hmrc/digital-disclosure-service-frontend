@@ -1,0 +1,76 @@
+@*
+ * Copyright 2023 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@this(
+    layout: templates.Layout,
+    formHelper: FormWithCSRF,
+    govukErrorSummary: GovukErrorSummary,
+    govukWarningText: GovukWarningText,
+    govukRadios: GovukRadios,
+    govukButton: GovukButton,
+    heading: components.heading,
+    paragraph: components.paragraph,
+    link: components.link,
+    tasklistLink: components.tasklistLink
+)
+
+@(form: Form[_], mode: Mode, entity: RelatesTo)(implicit request: Request[_], messages: Messages)
+
+@layout(pageTitle = title(form, messages("contractualDisclosureFacility.title"))) {
+
+    @formHelper(action = controllers.onshore.routes.CDFOnshoreController.onSubmit(mode), 'autoComplete -> "off") {
+
+        @if(form.errors.nonEmpty) {
+            @govukErrorSummary(ErrorSummaryViewModel(form))
+        }
+
+        @heading(Text(messages("contractualDisclosureFacility.heading")))
+
+        @paragraph(
+            id = Some("body"),
+            content = HtmlContent(
+                messages(s"contractualDisclosureFacility.${entity}.body.first") +
+                link(id = "guidance-link-first", text = messages(s"contractualDisclosureFacility.${entity}.link.first"), newTab = true, call = Call("GET", "https://www.gov.uk/guidance/admitting-tax-fraud-the-contractual-disclosure-facility-cdf")) +
+                messages("site.dot") +
+                messages(s"contractualDisclosureFacility.${entity}.body.second") +
+                link(id = "guidance-link-second", text = messages(s"contractualDisclosureFacility.${entity}.link.second"), newTab = true, call = Call("GET", "https://www.gov.uk/government/publications/voluntary-disclosure-contractual-disclosure-facility-cdf1")) +
+                messages("site.dot")
+            )
+        )
+
+        @if(Seq(RelatesTo.ACompany, RelatesTo.ALimitedLiabilityPartnership, RelatesTo.ATrust).contains(entity)) {
+            @paragraph(id = Some("third-body"), content = Text(messages(s"contractualDisclosureFacility.${entity}.body.third")))
+        }
+
+        @if(Seq(RelatesTo.ACompany, RelatesTo.ALimitedLiabilityPartnership, RelatesTo.ATrust, RelatesTo.AnIndividual).contains(entity)) {
+            @govukWarningText(WarningText(content = messages(s"contractualDisclosureFacility.${entity}.warningText")))
+        }   
+
+        @govukRadios(
+            RadiosViewModel.yesNoNotInline(
+                field  = form("value"),
+                legend = LegendViewModel(messages(s"contractualDisclosureFacility.${entity}.label")).withCssClass("govuk-fieldset__legend--m"),
+                messagePrefix = "contractualDisclosureFacility"
+            )
+        )
+
+        @govukButton(
+            ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
+        )
+    }
+
+    @tasklistLink()
+}

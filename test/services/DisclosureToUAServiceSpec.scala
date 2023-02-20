@@ -26,6 +26,7 @@ import pages._
 import models._
 import org.scalatest.TryValues
 import java.time.{LocalDateTime, Instant}
+import config.Country
 
 class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues {
 
@@ -89,22 +90,26 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
       val yearsSet: Set[OffshoreYears] = Set(TaxYearStarting(2012))
       val interpretationSet: Set[YourLegalInterpretation] = Set(YourLegalInterpretation.AnotherIssue)
       val offshoreLiabilities = OffshoreLiabilities(
-        Some(whySet), 
-        Some(WhatIsYourReasonableExcuse("Some excuse", "Some years")), 
-        Some(WhatReasonableCareDidYouTake("Some excuse", "Some years")), 
-        Some(WhatIsYourReasonableExcuseForNotFilingReturn("Some excuse", "Some years")), 
-        Some(yearsSet), 
-        Some("Some Value"),
-        Some("Some Value"),
-        Some("Some liabilities"),
-        Some("Some liabilities"),
-        Some("Some liabilities"),
-        Some(Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities))),
-        Some(Map()),
-        Some(interpretationSet),
-        Some("Some interpretation"),
-        Some(HowMuchTaxHasNotBeenIncluded.TenThousandOrLess),
-        Some(TheMaximumValueOfAllAssets.Below500k)
+        behaviour = Some(whySet), 
+        excuseForNotNotifying = Some(WhatIsYourReasonableExcuse("Some excuse", "Some years")), 
+        reasonableCare = Some(WhatReasonableCareDidYouTake("Some excuse", "Some years")), 
+        excuseForNotFiling = Some(WhatIsYourReasonableExcuseForNotFilingReturn("Some excuse", "Some years")), 
+        whichYears = Some(yearsSet), 
+        youHaveNotIncludedTheTaxYear = Some("Some value"),
+        youHaveNotSelectedCertainTaxYears = Some("Some value"),
+        taxBeforeFiveYears = Some("Some liabilities"),
+        taxBeforeSevenYears = Some("Some liabilities"),
+        taxBeforeNineteenYears = Some("Some liabilities"),
+        disregardedCDF = Some(true),
+        taxYearLiabilities = Some(Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities))),
+        taxYearForeignTaxDeductions = Some(Map("2012" -> BigInt(123))),
+        countryOfYourOffshoreLiability = Some(Map("GBR" -> Country("GBR", "United Kingdom"))),
+        incomeSource = Some(Set(WhereDidTheUndeclaredIncomeOrGainIncluded.Dividends)),
+        otherIncomeSource = Some("Some income"),
+        legalInterpretation = Some(interpretationSet),
+        otherInterpretation = Some("Some interpretation"),
+        notIncludedDueToInterpretation = Some(HowMuchTaxHasNotBeenIncluded.TenThousandOrLess),
+        maximumValueOfAssets = Some(TheMaximumValueOfAllAssets.Below500k)
       )
       val updatedUserAnswers = sut.offshoreLiabilitiesToUa(offshoreLiabilities, emptyUA).success.value
       updatedUserAnswers.get(WhyAreYouMakingThisDisclosurePage)                      shouldEqual Some(whySet)
@@ -117,7 +122,12 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
       updatedUserAnswers.get(TaxBeforeFiveYearsPage)                                 shouldEqual Some("Some liabilities")
       updatedUserAnswers.get(TaxBeforeSevenYearsPage)                                shouldEqual Some("Some liabilities")
       updatedUserAnswers.get(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage)         shouldEqual Some("Some liabilities") 
+      updatedUserAnswers.get(ContractualDisclosureFacilityPage)                      shouldEqual Some(true)
       updatedUserAnswers.get(TaxYearLiabilitiesPage)                                 shouldEqual Some(Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities)))
+      updatedUserAnswers.get(ForeignTaxCreditPage)                                   shouldEqual Some(Map("2012" -> BigInt(123)))
+      updatedUserAnswers.get(CountryOfYourOffshoreLiabilityPage)                     shouldEqual Some(Map("GBR" -> Country("GBR", "United Kingdom")))
+      updatedUserAnswers.get(WhereDidTheUndeclaredIncomeOrGainIncludedPage)          shouldEqual Some(Set(WhereDidTheUndeclaredIncomeOrGainIncluded.Dividends))
+      updatedUserAnswers.get(WhereDidTheUndeclaredIncomeOrGainPage)                  shouldEqual Some("Some income")
       updatedUserAnswers.get(YourLegalInterpretationPage)                            shouldEqual Some(interpretationSet)
       updatedUserAnswers.get(UnderWhatConsiderationPage)                             shouldEqual Some("Some interpretation")
       updatedUserAnswers.get(HowMuchTaxHasNotBeenIncludedPage)                       shouldEqual Some(HowMuchTaxHasNotBeenIncluded.TenThousandOrLess)

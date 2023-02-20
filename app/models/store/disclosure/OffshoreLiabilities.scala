@@ -31,20 +31,35 @@ final case class OffshoreLiabilities(
   taxBeforeFiveYears: Option[String] = None,
   taxBeforeSevenYears: Option[String] = None,
   taxBeforeNineteenYears: Option[String] = None,
+  disregardedCDF: Option[Boolean] = None,
   taxYearLiabilities: Option[Map[String, TaxYearWithLiabilities]] = None,
+  taxYearForeignTaxDeductions: Option[Map[String, BigInt]] = None,
   countryOfYourOffshoreLiability: Option[Map[String, Country]] = None,
+  incomeSource: Option[Set[WhereDidTheUndeclaredIncomeOrGainIncluded]] = None,
+  otherIncomeSource: Option[String] = None,
   legalInterpretation: Option[Set[YourLegalInterpretation]] = None,
   otherInterpretation: Option[String] = None,
   notIncludedDueToInterpretation: Option[HowMuchTaxHasNotBeenIncluded] = None,
   maximumValueOfAssets: Option[TheMaximumValueOfAllAssets] = None
 ) {
-  def isComplete = this match {
-    case OffshoreLiabilities(Some(_), _, _, _, Some(years), _, _, _, _, _, Some(reasonableExcusePriorTo), _, _, _, _, _) if years == Set(ReasonableExcusePriorTo) => true
-    case OffshoreLiabilities(Some(_), _, _, _, Some(years), _, _, _, _, _, Some(carelessPriorTo), _, _, _, _, _) if years == Set(CarelessPriorTo) => true
-    case OffshoreLiabilities(Some(_), _, _, _, Some(years), _, _, _, _, _, Some(deliberatePriorTo), _, _, _, _, _) if years == Set(DeliberatePriorTo) => true
-    case OffshoreLiabilities(Some(_), _, _, _, Some(years), _, _, _, _, _, _, Some(_), _, _, _, Some(_)) => true
-    case _ => false
+  def isComplete = isCompleteForNilDisclosure || isCompleteForFullDisclosure
+
+  def isCompleteForNilDisclosure: Boolean = {
+    val yearsIsSetForNil = whichYears.map(years => (years == Set(ReasonableExcusePriorTo) || years == Set(CarelessPriorTo) || years == Set(DeliberatePriorTo))).getOrElse(false)
+    val descriptionOfYearsBeforeIsDefined = taxBeforeFiveYears.isDefined || taxBeforeSevenYears.isDefined || taxBeforeNineteenYears.isDefined
+    (yearsIsSetForNil && behaviour.isDefined && descriptionOfYearsBeforeIsDefined )
   }
+
+  def isCompleteForFullDisclosure: Boolean = {
+    behaviour.isDefined &&
+    whichYears.isDefined &&
+    taxYearLiabilities.isDefined &&
+    countryOfYourOffshoreLiability.isDefined &&
+    incomeSource.isDefined &&
+    legalInterpretation.isDefined &&
+    maximumValueOfAssets.isDefined
+  }
+
 }
 
 object OffshoreLiabilities {
