@@ -72,7 +72,7 @@ class TaxBeforeFiveYearsOnshoreControllerSpec extends SpecBase with MockitoSugar
         val result = route(application, request).value
 
         val service = application.injector.instanceOf[OnshoreWhichYearsService]
-        val year = service.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString
+        val year = service.getEarliestYearByBehaviour(Behaviour.Careless).toString
         
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(form(year), NormalMode, year)(request, messages(application)).toString
@@ -91,7 +91,7 @@ class TaxBeforeFiveYearsOnshoreControllerSpec extends SpecBase with MockitoSugar
         val result = route(application, request).value
 
         val service = application.injector.instanceOf[OnshoreWhichYearsService]
-        val year = service.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString
+        val year = service.getEarliestYearByBehaviour(Behaviour.Careless).toString
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(form(year).fill(""), NormalMode, year)(request, messages(application)).toString
@@ -133,7 +133,7 @@ class TaxBeforeFiveYearsOnshoreControllerSpec extends SpecBase with MockitoSugar
             .withFormUrlEncodedBody(("value", ""))
 
         val service = application.injector.instanceOf[OnshoreWhichYearsService]
-        val year = service.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString
+        val year = service.getEarliestYearByBehaviour(Behaviour.Careless).toString
 
         val boundForm = form(year).bind(Map("value" -> ""))
 
