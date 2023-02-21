@@ -83,3 +83,8 @@ GET        /corporation-tax-liabilities/:i                  controllers.onshore.
 POST       /corporation-tax-liabilities/:i                  controllers.onshore.CorporationTaxLiabilityController.onSubmit(i: Int, mode: Mode = NormalMode)
 GET        /corporation-tax-liabilities/:i/change           controllers.onshore.CorporationTaxLiabilityController.onPageLoad(i: Int, mode: Mode = CheckMode)
 POST       /corporation-tax-liabilities/:i/change           controllers.onshore.CorporationTaxLiabilityController.onSubmit(i: Int, mode: Mode = CheckMode)
+
+GET        /basic-rate-tax-reduction-amount/:i                  controllers.onshore.ResidentialReductionController.onPageLoad(i: Int, mode: Mode = NormalMode)
+POST       /basic-rate-tax-reduction-amount/:i                  controllers.onshore.ResidentialReductionController.onSubmit(i: Int, mode: Mode = NormalMode)
+GET        /basic-rate-tax-reduction-amount/:i/change                        controllers.onshore.ResidentialReductionController.onPageLoad(i: Int, mode: Mode = CheckMode)
+POST       /basic-rate-tax-reduction-amount/:i/change                        controllers.onshore.ResidentialReductionController.onSubmit(i: Int, mode: Mode = CheckMode)
