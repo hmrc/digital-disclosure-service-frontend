@@ -42,7 +42,7 @@ class SubmittedControllerSpec extends SpecBase {
 
       val userAnswers = (for {
         ua <- UserAnswers("id").set(TaxYearLiabilitiesPage, Map("2021" -> TaxYearWithLiabilities(TaxYearStarting(2021), answer)))
-        updatedUa <- ua.set(LetterReferencePage, "CSFF-12345")  
+        updatedUa <- ua.set(WhatIsTheCaseReferencePage, "CSFF-12345")  
       } yield updatedUa).success.value 
       
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
