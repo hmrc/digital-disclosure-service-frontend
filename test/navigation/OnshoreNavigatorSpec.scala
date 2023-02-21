@@ -159,6 +159,74 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
       "must go from WhatOnshoreLiabilitiesDoYouNeedToDisclose to WhichOnshoreYearsController when selected any other option(s)" in {
         navigator.nextPage(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, NormalMode, UserAnswers("id")) mustBe routes.WhichOnshoreYearsController.onPageLoad(NormalMode)
       }
+
+      "must go from WhichOnshoreYearsPage to TaxBeforeThreeYearsOnshoreController when selected option PriorToThreeYears" in {
+        val set: Set[OnshoreYears] = Set(PriorToThreeYears)
+        val userAnswers = UserAnswers("id").set(WhichOnshoreYearsPage, set).success.value
+        navigator.nextPage(WhichOnshoreYearsPage, NormalMode, userAnswers) mustBe routes.TaxBeforeThreeYearsOnshoreController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhichOnshoreYearsPage to TaxBeforeFiveYearsOnshoreController when selected option PriorToFiveYears" in {
+        val set: Set[OnshoreYears] = Set(PriorToFiveYears)
+        val userAnswers = UserAnswers("id").set(WhichOnshoreYearsPage, set).success.value
+        navigator.nextPage(WhichOnshoreYearsPage, NormalMode, userAnswers) mustBe routes.TaxBeforeFiveYearsOnshoreController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhichOnshoreYearsPage to TaxBeforeNineteenYearsController when selected option PriorToNineteenYears" in {
+        val set: Set[OnshoreYears] = Set(PriorToNineteenYears)
+        val userAnswers = UserAnswers("id").set(WhichOnshoreYearsPage, set).success.value
+        navigator.nextPage(WhichOnshoreYearsPage, NormalMode, userAnswers) mustBe routes.TaxBeforeNineteenYearsOnshoreController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhichOnshoreYearsPage to NotIncludedSingleTaxYearController when not selected an entire interval" in {
+        val year = current.back(1).startYear
+        val year2 = current.back(3).startYear
+        val set: Set[OnshoreYears] = Set(OnshoreYearStarting(year), OnshoreYearStarting(year2))
+        val userAnswers = UserAnswers("id").set(WhichOnshoreYearsPage, set).success.value
+        navigator.nextPage(WhichOnshoreYearsPage, NormalMode, userAnswers) mustBe routes.NotIncludedSingleTaxYearController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhichOnshoreYearsPage to NotIncludedMultipleTaxYearsController when multiple intervals are missing" in {
+        val year = current.back(1).startYear
+        val year2 = current.back(3).startYear
+        val year3 = current.back(5).startYear
+        val set: Set[OnshoreYears] = Set(OnshoreYearStarting(year), OnshoreYearStarting(year2), OnshoreYearStarting(year3))
+        val userAnswers = UserAnswers("id").set(WhichOnshoreYearsPage, set).success.value
+        navigator.nextPage(WhichOnshoreYearsPage, NormalMode, userAnswers) mustBe routes.NotIncludedMultipleTaxYearsController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhichOnshoreYearsPage to OnshoreTaxYearLiabilitiesController" in {
+        val year = current.back(1).startYear
+        val set: Set[OnshoreYears] = Set(OnshoreYearStarting(year))
+        val userAnswers = UserAnswers("id").set(WhichOnshoreYearsPage, set).success.value
+        navigator.nextPage(WhichOnshoreYearsPage, NormalMode, userAnswers) mustBe routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
+      }
+    }
+
+    "nextTaxYearLiabilitiesPage" - {
+
+      "must go to ResidentialReductionController with the current index when the residential reduction is set to true" in {
+        val set: Set[OnshoreYears] = Set(OnshoreYearStarting(2012))
+        val userAnswers = UserAnswers("id").set(WhichOnshoreYearsPage, set).success.value
+        navigator.nextTaxYearLiabilitiesPage(0, true, NormalMode, userAnswers, false) mustBe routes.ResidentialReductionController.onPageLoad(0, NormalMode)
+      }
+
+      "must increment the index and take the user to the tax year liability page when there more years in the which years list" in {
+        val whichYears: Set[OnshoreYears] = Set(OnshoreYearStarting(2021), OnshoreYearStarting(2020), OnshoreYearStarting(2019), OnshoreYearStarting(2018))
+        val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichOnshoreYearsPage, whichYears).success.value
+
+        navigator.nextTaxYearLiabilitiesPage(0, false, NormalMode, userAnswersWithTaxYears) mustBe routes.OnshoreTaxYearLiabilitiesController.onPageLoad(1, NormalMode)
+        navigator.nextTaxYearLiabilitiesPage(1, false, NormalMode, userAnswersWithTaxYears) mustBe routes.OnshoreTaxYearLiabilitiesController.onPageLoad(2, NormalMode)
+        navigator.nextTaxYearLiabilitiesPage(2, false, NormalMode, userAnswersWithTaxYears) mustBe routes.OnshoreTaxYearLiabilitiesController.onPageLoad(3, NormalMode)
+      }
+
+      "must take the user to the next page when there are no more years in the which years list" in {
+        val whichYears: Set[OnshoreYears] = Set(OnshoreYearStarting(2021), OnshoreYearStarting(2020), OnshoreYearStarting(2019), OnshoreYearStarting(2018))
+        val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichOnshoreYearsPage, whichYears).success.value
+
+        navigator.nextTaxYearLiabilitiesPage(3, false, NormalMode, userAnswersWithTaxYears) mustBe routes.IncomeOrGainSourceController.onPageLoad(NormalMode)
+      }
+
     }
 
     "in Check mode" - {
