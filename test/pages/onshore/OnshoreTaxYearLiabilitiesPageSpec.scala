@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-package navigation
+package pages
 
-import play.api.mvc.Call
-import pages._
-import models.{Mode, UserAnswers}
+import pages.behaviours.PageBehaviours
+import models.OnshoreTaxYearWithLiabilities
 
-class FakeOnshoreNavigator(desiredRoute: Call) extends OnshoreNavigator {
+class OnshoreTaxYearLiabilitiesPageSpec extends PageBehaviours {
 
-  override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasChanged:Boolean = true): Call =
-    desiredRoute
+  "TaxYearLiabilitiesPage" - {
 
-  override def nextTaxYearLiabilitiesPage(currentIndex: Int, deduction: Boolean, mode: Mode, userAnswers: UserAnswers, hasAnswerChanged: Boolean = false): Call = 
-    desiredRoute
+    beRetrievable[Map[String, OnshoreTaxYearWithLiabilities]](OnshoreTaxYearLiabilitiesPage)
 
+    beSettable[Map[String, OnshoreTaxYearWithLiabilities]](OnshoreTaxYearLiabilitiesPage)
+
+    beRemovable[Map[String, OnshoreTaxYearWithLiabilities]](OnshoreTaxYearLiabilitiesPage)
+  }
 }

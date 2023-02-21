@@ -1,0 +1,176 @@
+@*
+ * Copyright 2023 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import viewmodels.InputWidth._
+@import uk.gov.hmrc.hmrcfrontend.views.html.components.CharacterCount
+
+@this(
+    layout: templates.Layout,
+    formHelper: FormWithCSRF,
+    govukErrorSummary: GovukErrorSummary,
+    govukInput: GovukInput,
+    govukButton: GovukButton,
+    govukRadios: GovukRadios,
+    heading: components.heading,
+    paragraph: components.paragraph,
+    tasklistLink: components.tasklistLink,
+    hmrcCharacterCount: HmrcCharacterCount,
+    link: components.link
+)
+
+@(form: Form[_], mode: Mode, index: Int, startYear: Int, taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose])(implicit request: Request[_], messages: Messages)
+
+@layout(pageTitle = title(form, messages("onshoreTaxYearLiabilities.title", startYear.toString, (startYear+1).toString))) {
+
+    @formHelper(action = controllers.onshore.routes.OnshoreTaxYearLiabilitiesController.onSubmit(index, mode)) {
+
+        @if(form.errors.nonEmpty) {
+            @govukErrorSummary(ErrorSummaryViewModel(form))
+        }
+
+        @heading(Text(messages("onshoreTaxYearLiabilities.heading", startYear.toString, (startYear+1).toString)))
+
+        @paragraph(
+            id = Some("guidance"),
+            content = HtmlContent(
+                messages("onshoreTaxYearLiabilities.body") + " " +
+                link(id = "guidance-link", text = messages("onshoreTaxYearLiabilities.link"), newTab = true, call = Call("GET", "https://www.gov.uk/guidance/worldwide-disclosure-facility-make-a-disclosure"))
+                + messages("site.dot")
+            )
+        )
+
+        @if(taxTypes.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.DirectorLoan) && taxTypes.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.CorporationTax)) {
+            @paragraph(id = Some("corporation-director"), content = Text(messages("onshoreTaxYearLiabilities.ctAndDirector")))
+        } else if (taxTypes.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.DirectorLoan)) {
+            @paragraph(id = Some("director"), content = Text(messages("onshoreTaxYearLiabilities.director")))
+        } else if (taxTypes.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.CorporationTax)) {
+            @paragraph(id = Some("corporation"), content = Text(messages("onshoreTaxYearLiabilities.ct")))
+        }
+
+        @if(taxTypes.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.NonBusinessIncome)) {
+            @govukInput(
+                InputViewModel(
+                    field = form("nonBusinessIncome"),
+                    label = LabelViewModel(messages("onshoreTaxYearLiabilities.nonBusinessIncome.question", (startYear+1).toString)).withCssClass("govuk-label--m")
+                )
+                .withPoundPrefix
+                .asNumeric()
+                .withWidth(Fixed10)
+            )
+        }
+
+        @if(taxTypes.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.BusinessIncome)) {
+            @govukInput(
+                InputViewModel(
+                    field = form("businessIncome"),
+                    label = LabelViewModel(messages("onshoreTaxYearLiabilities.businessIncome.question", (startYear+1).toString)).withCssClass("govuk-label--m")
+                )
+                .withPoundPrefix
+                .asNumeric()
+                .withWidth(Fixed10)
+            )
+        }
+
+        @if(taxTypes.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)) {
+            @govukInput(
+                InputViewModel(
+                    field = form("lettingIncome"),
+                    label = LabelViewModel(messages("onshoreTaxYearLiabilities.lettingIncome.question", (startYear+1).toString)).withCssClass("govuk-label--m")
+                )
+                .withPoundPrefix
+                .asNumeric()
+                .withWidth(Fixed10)
+            )
+        }
+
+        @if(taxTypes.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.Gains)) {
+            @govukInput(
+                InputViewModel(
+                    field = form("gains"),
+                    label = LabelViewModel(messages("onshoreTaxYearLiabilities.gains.question", (startYear+1).toString)).withCssClass("govuk-label--m")
+                )
+                .withPoundPrefix
+                .asNumeric()
+                .withWidth(Fixed10)
+            )
+        }
+
+        @govukInput(
+            InputViewModel(
+                field = form("unpaidTax"),
+                label = LabelViewModel(messages("onshoreTaxYearLiabilities.unpaidTax.question", (startYear+1).toString)).withCssClass("govuk-label--m")
+            )
+            .withPoundPrefix
+            .asNumeric()
+            .withWidth(Fixed10)
+        )
+
+        @govukInput(
+            InputViewModel(
+                field = form("niContributions"),
+                label = LabelViewModel(messages("onshoreTaxYearLiabilities.niContributions.question", (startYear+1).toString)).withCssClass("govuk-label--m")
+            )
+            .withPoundPrefix
+            .asNumeric()
+            .withWidth(Fixed10)
+        )
+
+        @govukInput(
+            InputViewModel(
+                field = form("interest"),
+                label = LabelViewModel(messages("onshoreTaxYearLiabilities.interest.question", (startYear+1).toString)).withCssClass("govuk-label--m")
+            )
+            .withPoundPrefix
+            .withHint(Hint(content = Text(messages("onshoreTaxYearLiabilities.interest.hint"))))
+            .asNumeric()
+            .withWidth(Fixed10)
+        )
+
+        @govukInput(
+            InputViewModel(
+                field = form("penaltyRate"),
+                label = LabelViewModel(messages("onshoreTaxYearLiabilities.penaltyRate.question", (startYear+1).toString)).withCssClass("govuk-label--m")
+            )
+            .withSuffix(PrefixOrSuffix(content = Text("%")))
+            .withHint(Hint(content = Text(messages("onshoreTaxYearLiabilities.penaltyRate.hint"))))
+            .asNumeric()
+            .withWidth(Fixed10)
+        )
+
+        @hmrcCharacterCount(
+            CharacterCount(
+                id = "penaltyRateReason",
+                name = "penaltyRateReason",
+                maxLength = Some(5000), 
+                label = Label(content = messages("onshoreTaxYearLiabilities.penaltyRateReason.question")).withCssClass("govuk-label--m"),
+                value = form("penaltyRateReason").value,
+                errorMessage = form("penaltyRateReason").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
+            )
+        )
+
+        @govukRadios(
+            RadiosViewModel.yesNo(
+                field = form("residentialTaxReduction"),
+                legend = LegendViewModel(messages("onshoreTaxYearLiabilities.residentialTaxReduction.question")).withCssClass("govuk-fieldset__legend--m")
+            )
+        )
+
+        @govukButton(
+            ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
+        )
+    }
+    @tasklistLink()
+}

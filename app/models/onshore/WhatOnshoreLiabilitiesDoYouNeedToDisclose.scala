@@ -26,19 +26,19 @@ sealed trait WhatOnshoreLiabilitiesDoYouNeedToDisclose
 
 object WhatOnshoreLiabilitiesDoYouNeedToDisclose extends Enumerable.Implicits {
 
-  case object Businessincomeliabilities extends WithName("businessIncomeLiabilities") with WhatOnshoreLiabilitiesDoYouNeedToDisclose
-  case object Capitalgainstaxliabilities extends WithName("capitalGainsTaxLiabilities") with WhatOnshoreLiabilitiesDoYouNeedToDisclose
-  case object CorporationTaxLiabilities extends WithName("company.corporationTaxLiabilities") with WhatOnshoreLiabilitiesDoYouNeedToDisclose
-  case object DirectorLoanLiabilities extends WithName("company.directorLoanLiabilities") with WhatOnshoreLiabilitiesDoYouNeedToDisclose
-  case object LettingIncomeFromResidential extends WithName("lettingIncomeFromResidential") with WhatOnshoreLiabilitiesDoYouNeedToDisclose
+  case object BusinessIncome extends WithName("businessIncomeLiabilities") with WhatOnshoreLiabilitiesDoYouNeedToDisclose
+  case object Gains extends WithName("capitalGainsTaxLiabilities") with WhatOnshoreLiabilitiesDoYouNeedToDisclose
+  case object CorporationTax extends WithName("company.corporationTaxLiabilities") with WhatOnshoreLiabilitiesDoYouNeedToDisclose
+  case object DirectorLoan extends WithName("company.directorLoanLiabilities") with WhatOnshoreLiabilitiesDoYouNeedToDisclose
+  case object LettingIncome extends WithName("lettingIncomeFromResidential") with WhatOnshoreLiabilitiesDoYouNeedToDisclose
   case object NonBusinessIncome extends WithName("nonBusinessIncome") with WhatOnshoreLiabilitiesDoYouNeedToDisclose
 
   val values: Seq[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Seq(
-    Businessincomeliabilities,
-    Capitalgainstaxliabilities,
-    CorporationTaxLiabilities,
-    DirectorLoanLiabilities,
-    LettingIncomeFromResidential,
+    BusinessIncome,
+    Gains,
+    CorporationTax,
+    DirectorLoan,
+    LettingIncome,
     NonBusinessIncome
   )
 
