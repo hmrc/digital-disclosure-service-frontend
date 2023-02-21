@@ -20,7 +20,7 @@ import javax.inject.{Inject, Singleton}
 import play.api.mvc.Call
 import controllers.onshore.routes
 import pages._
-import models.{CheckMode, Mode, NormalMode, RelatesTo, UserAnswers}
+import models.{CheckMode, Mode, NormalMode, RelatesTo, UserAnswers, OnshoreYearStarting}
 import models.WhyAreYouMakingThisOnshoreDisclosure._
 import models.WhereDidTheUndeclaredIncomeOrGainIncluded._
 
@@ -63,6 +63,19 @@ class OnshoreNavigator @Inject()() {
     case ReasonableExcuseForNotFilingOnshorePage => _ => routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
 
     case WhatOnshoreLiabilitiesDoYouNeedToDisclosePage => _ => routes.WhichOnshoreYearsController.onPageLoad(NormalMode)
+
+    case WhichOnshoreYearsPage => ua => {
+      val missingYearsCount = ua.inverselySortedOnshoreTaxYears.map(ty => OnshoreYearStarting.findMissingYears(ty.toList).size).getOrElse(0)
+      (ua.get(WhichOnshoreYearsPage), missingYearsCount) match {
+        // case (Some(years), 0) if years.contains(ReasonableExcusePriorTo) => routes.TaxBeforeFiveYearsController.onPageLoad(NormalMode)
+        // case (Some(years), 0) if years.contains(CarelessPriorTo) => routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode)
+        // case (Some(years), 0) if years.contains(DeliberatePriorTo) => routes.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onPageLoad(NormalMode)
+        case (Some(_), 1) => routes.NotIncludedSingleTaxYearController.onPageLoad(NormalMode)
+        case (Some(_), _) => routes.NotIncludedMultipleTaxYearsController.onPageLoad(NormalMode)
+        //This should go to onshore liabilities 
+        case (_, _) => controllers.routes.IndexController.onPageLoad
+      }
+    }
 
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
