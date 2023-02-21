@@ -64,15 +64,16 @@ class OffshoreNavigator @Inject()() {
     case WhatIsYourReasonableExcuseForNotFilingReturnPage => _ => routes.WhichYearsController.onPageLoad(NormalMode)
 
     case WhichYearsPage => ua => {
-      val missingYearsCount = ua.inverselySortedOffshoreTaxYears.map(ty => TaxYearStarting.findMissingYears(ty.toList).size)
-      (ua.get(WhichYearsPage), missingYearsCount, ua.get(CountryOfYourOffshoreLiabilityPage)) match {
-        case (Some(years), Some(0), Some(countryMap)) if years.contains(ReasonableExcusePriorTo) => routes.TaxBeforeFiveYearsController.onPageLoad(NormalMode)
-        case (Some(years), Some(0), Some(countryMap)) if years.contains(CarelessPriorTo) => routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode)
-        case (Some(years), Some(0), Some(countryMap)) if years.contains(DeliberatePriorTo) => routes.TaxBeforeNineteenYearsController.onPageLoad(NormalMode)
-        case (Some(_), Some(0), Some(countryMap)) if !countryMap.isEmpty => routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
-        case (Some(_), Some(1), Some(countryMap)) => routes.YouHaveNotIncludedTheTaxYearController.onPageLoad(NormalMode)
-        case (Some(_), Some(_), Some(countryMap)) => routes.YouHaveNotSelectedCertainTaxYearController.onPageLoad(NormalMode)
-        case (_, _, _) => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
+      val missingYearsCount = ua.inverselySortedOffshoreTaxYears.map(ty => TaxYearStarting.findMissingYears(ty.toList).size).getOrElse(0)
+      val countryMapEmpty = ua.get(CountryOfYourOffshoreLiabilityPage).getOrElse(Map()).isEmpty
+      (ua.get(WhichYearsPage), missingYearsCount) match {
+        case (Some(years), 0) if years.contains(ReasonableExcusePriorTo) => routes.TaxBeforeFiveYearsController.onPageLoad(NormalMode)
+        case (Some(years), 0) if years.contains(CarelessPriorTo) => routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode)
+        case (Some(years), 0) if years.contains(DeliberatePriorTo) => routes.TaxBeforeNineteenYearsController.onPageLoad(NormalMode)
+        case (_, 0) if !countryMapEmpty => routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
+        case (_, 0) => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
+        case (_, 1) => routes.YouHaveNotIncludedTheTaxYearController.onPageLoad(NormalMode)
+        case (_, _) => routes.YouHaveNotSelectedCertainTaxYearController.onPageLoad(NormalMode)
       }
     }
 

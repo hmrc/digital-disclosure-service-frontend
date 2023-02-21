@@ -236,40 +236,28 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
 
       "must go from WhichYearsPage to TaxBeforeFiveYearsController when selected option ReasonableExcusePriorTo" in {
         val set: Set[OffshoreYears] = Set(ReasonableExcusePriorTo)
-        val countryCode = "AFG"
-        val countriesMap = Map(countryCode -> Country(countryCode, "Afghanistan"))
         val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
-        val updatedUserAnswers = userAnswers.set(CountryOfYourOffshoreLiabilityPage, countriesMap).success.value
-        navigator.nextPage(WhichYearsPage, NormalMode, updatedUserAnswers) mustBe routes.TaxBeforeFiveYearsController.onPageLoad(NormalMode)
+        navigator.nextPage(WhichYearsPage, NormalMode, userAnswers) mustBe routes.TaxBeforeFiveYearsController.onPageLoad(NormalMode)
       }
 
-      "must go from WhichYearsPage to TaxBeforeSevenYearsController when selected option ReasonableExcusePriorTo" in {
+      "must go from WhichYearsPage to TaxBeforeSevenYearsController when selected option CarelessPriorTo" in {
         val set: Set[OffshoreYears] = Set(CarelessPriorTo)
-        val countryCode = "AFG"
-        val countriesMap = Map(countryCode -> Country(countryCode, "Afghanistan"))
         val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
-        val updatedUserAnswers = userAnswers.set(CountryOfYourOffshoreLiabilityPage, countriesMap).success.value
-        navigator.nextPage(WhichYearsPage, NormalMode, updatedUserAnswers) mustBe routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode)
+        navigator.nextPage(WhichYearsPage, NormalMode, userAnswers) mustBe routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode)
       }
 
       "must go from WhichYearsPage to TaxBeforeNineteenYearsController when selected option ReasonableExcusePriorTo" in {
         val set: Set[OffshoreYears] = Set(DeliberatePriorTo)
-        val countryCode = "AFG"
-        val countriesMap = Map(countryCode -> Country(countryCode, "Afghanistan"))
         val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
-        val updatedUserAnswers = userAnswers.set(CountryOfYourOffshoreLiabilityPage, countriesMap).success.value
-        navigator.nextPage(WhichYearsPage, NormalMode, updatedUserAnswers) mustBe routes.TaxBeforeNineteenYearsController.onPageLoad(NormalMode)
+        navigator.nextPage(WhichYearsPage, NormalMode, userAnswers) mustBe routes.TaxBeforeNineteenYearsController.onPageLoad(NormalMode)
       }
 
       "must go from WhichYearsPage to YouHaveNotIncludedTheTaxYearController when not selected an entire interval" in {
         val year = current.back(1).startYear
         val year2 = current.back(3).startYear
         val set: Set[OffshoreYears] = Set(TaxYearStarting(year), TaxYearStarting(year2))
-        val countryCode = "AFG"
-        val countriesMap = Map(countryCode -> Country(countryCode, "Afghanistan"))
         val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
-        val updatedUserAnswers = userAnswers.set(CountryOfYourOffshoreLiabilityPage, countriesMap).success.value
-        navigator.nextPage(WhichYearsPage, NormalMode, updatedUserAnswers) mustBe routes.YouHaveNotIncludedTheTaxYearController.onPageLoad(NormalMode)
+        navigator.nextPage(WhichYearsPage, NormalMode, userAnswers) mustBe routes.YouHaveNotIncludedTheTaxYearController.onPageLoad(NormalMode)
       }
 
       "must go from WhichYearsPage to YouHaveNotIncludedTheTaxYearController when multiple intervals are missing" in {
@@ -284,7 +272,7 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextPage(WhichYearsPage, NormalMode, updatedUserAnswers) mustBe routes.YouHaveNotSelectedCertainTaxYearController.onPageLoad(NormalMode)
       }
 
-      "must go from WhichYearsPage to CountriesOrTerritoriesController when selected option ReasonableExcusePriorTo" in {
+      "must go from WhichYearsPage to CountriesOrTerritoriesController" in {
         val year = current.back(1).startYear
         val set: Set[OffshoreYears] = Set(TaxYearStarting(year))
         val countryCode = "AFG"
