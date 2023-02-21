@@ -18,6 +18,8 @@ package navigation
 
 import base.SpecBase
 import controllers.offshore.routes
+import models.RelatesTo.AnIndividual
+import models.WhyAreYouMakingThisDisclosure.{DeliberateInaccurateReturn, DeliberatelyDidNotFile, DeliberatelyDidNotNotify, DidNotNotifyHasExcuse, InaccurateReturnWithCare, NotFileHasExcuse}
 import pages._
 import models._
 import models.YourLegalInterpretation._
@@ -244,10 +246,10 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextPage(WhichYearsPage, NormalMode, userAnswers) mustBe routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode)
       }
 
-      "must go from WhichYearsPage to CanYouTellUsMoreAboutTaxBeforeNineteenYearController when selected option DeliberatePriorTo" in {
+      "must go from WhichYearsPage to TaxBeforeNineteenYearsController when selected option ReasonableExcusePriorTo" in {
         val set: Set[OffshoreYears] = Set(DeliberatePriorTo)
         val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
-        navigator.nextPage(WhichYearsPage, NormalMode, userAnswers) mustBe routes.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onPageLoad(NormalMode)
+        navigator.nextPage(WhichYearsPage, NormalMode, userAnswers) mustBe routes.TaxBeforeNineteenYearsController.onPageLoad(NormalMode)
       }
 
       "must go from WhichYearsPage to YouHaveNotIncludedTheTaxYearController when not selected an entire interval" in {
@@ -306,17 +308,17 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextPage(TaxBeforeSevenYearsPage, NormalMode, userAnswers) mustBe routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
       }
 
-      "must go from CanYouTellUsMoreAboutTaxBeforeNineteenYearPage to MakingNilDisclosureController when only selected option DeliberatePriorTo" in {
+      "must go from TaxBeforeNineteenYearsPage to MakingNilDisclosureController when only selected option DeliberatePriorTo" in {
         val set: Set[OffshoreYears] = Set(DeliberatePriorTo)
         val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
-        navigator.nextPage(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage, NormalMode, userAnswers) mustBe controllers.routes.MakingNilDisclosureController.onPageLoad
+        navigator.nextPage(TaxBeforeNineteenYearsPage, NormalMode, userAnswers) mustBe controllers.routes.MakingNilDisclosureController.onPageLoad
       }
 
-      "must go from CanYouTellUsMoreAboutTaxBeforeNineteenYearPage to CountryOfYourOffshoreLiabilityController when selected more than one TaxYear option including DeliberatePriorTo" in {
+      "must go from TaxBeforeNineteenYearsPage to CountryOfYourOffshoreLiabilityController when selected more than one TaxYear option including DeliberatePriorTo" in {
         val year = current.back(1).startYear
         val set: Set[OffshoreYears] = Set(DeliberatePriorTo, TaxYearStarting(year))
         val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
-        navigator.nextPage(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage, NormalMode, userAnswers) mustBe routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
+        navigator.nextPage(TaxBeforeNineteenYearsPage, NormalMode, userAnswers) mustBe routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
       }
 
       "must go from YouHaveNotIncludedTheTaxYearPage to CountryOfYourOffshoreLiabilityController" in {
@@ -407,6 +409,32 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextPage(CountriesOrTerritoriesPage, CheckMode, userAnswers) mustBe routes.CheckYourAnswersController.onPageLoad
       }
 
+      "must go from WhyAreYouMakingThisDisclosurePage to ContractualDisclosureFacilityController if the user selected DeliberatelyDidNotNotify in WhyAreYouMakingThisDisclosure page" in {
+        val relatesTo: RelatesTo = AnIndividual
+        val reason: Set[WhyAreYouMakingThisDisclosure] = Set(DeliberatelyDidNotNotify)
+        val userAnswers = UserAnswers("id")
+          .set(RelatesToPage, relatesTo).success.value
+          .set(WhyAreYouMakingThisDisclosurePage, reason).success.value
+        navigator.nextPage(WhyAreYouMakingThisDisclosurePage, CheckMode, userAnswers) mustBe routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhyAreYouMakingThisDisclosurePage to ContractualDisclosureFacilityController if the user selected DeliberateInaccurateReturn in WhyAreYouMakingThisDisclosure page" in {
+        val relatesTo: RelatesTo = AnIndividual
+        val reason: Set[WhyAreYouMakingThisDisclosure] = Set(DeliberateInaccurateReturn)
+        val userAnswers = UserAnswers("id")
+          .set(RelatesToPage, relatesTo).success.value
+          .set(WhyAreYouMakingThisDisclosurePage, reason).success.value
+        navigator.nextPage(WhyAreYouMakingThisDisclosurePage, CheckMode, userAnswers) mustBe routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhyAreYouMakingThisDisclosurePage to ContractualDisclosureFacilityController if the user selected DeliberatelyDidNotFile in WhyAreYouMakingThisDisclosure page" in {
+        val relatesTo: RelatesTo = AnIndividual
+        val reason: Set[WhyAreYouMakingThisDisclosure] = Set(DeliberatelyDidNotFile)
+        val userAnswers = UserAnswers("id")
+          .set(RelatesToPage, relatesTo).success.value
+          .set(WhyAreYouMakingThisDisclosurePage, reason).success.value
+        navigator.nextPage(WhyAreYouMakingThisDisclosurePage, CheckMode, userAnswers) mustBe routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)
+      }
     }
   }
 

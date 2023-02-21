@@ -69,7 +69,7 @@ class OffshoreNavigator @Inject()() {
       (ua.get(WhichYearsPage), missingYearsCount) match {
         case (Some(years), 0) if years.contains(ReasonableExcusePriorTo) => routes.TaxBeforeFiveYearsController.onPageLoad(NormalMode)
         case (Some(years), 0) if years.contains(CarelessPriorTo) => routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode)
-        case (Some(years), 0) if years.contains(DeliberatePriorTo) => routes.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onPageLoad(NormalMode)
+        case (Some(years), 0) if years.contains(DeliberatePriorTo) => routes.TaxBeforeNineteenYearsController.onPageLoad(NormalMode)
         case (_, 0) if !countryMapEmpty => routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
         case (_, 0) => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
         case (_, 1) => routes.YouHaveNotIncludedTheTaxYearController.onPageLoad(NormalMode)
@@ -101,7 +101,7 @@ class OffshoreNavigator @Inject()() {
       case (_, _) => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
     }
 
-    case CanYouTellUsMoreAboutTaxBeforeNineteenYearPage => ua => (ua.get(WhichYearsPage), ua.get(CountryOfYourOffshoreLiabilityPage)) match {
+    case TaxBeforeNineteenYearsPage => ua => (ua.get(WhichYearsPage), ua.get(CountryOfYourOffshoreLiabilityPage)) match {
       case (Some(whichYear), _) if whichYear.contains(DeliberatePriorTo) && whichYear.size == 1 => controllers.routes.MakingNilDisclosureController.onPageLoad
       case (Some(_), Some(countryMap)) if !countryMap.isEmpty => routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
       case (_, _) => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
@@ -145,10 +145,9 @@ class OffshoreNavigator @Inject()() {
         case _ => routes.CountriesOrTerritoriesController.onPageLoad(CheckMode)
       }
 
-    case YourLegalInterpretationPage => ua => {
-      case true => nextPage(YourLegalInterpretationPage, NormalMode, ua)
-      case false => routes.CheckYourAnswersController.onPageLoad
-    }
+    case WhyAreYouMakingThisDisclosurePage => ua => hasChanged =>
+        if (hasChanged) normalRoutes(WhyAreYouMakingThisDisclosurePage)(ua)
+        else routes.CheckYourAnswersController.onPageLoad
     
     case WhichYearsPage => ua => hasAnswerChanged => 
       if(hasAnswerChanged) nextPage(WhichYearsPage, NormalMode, ua)

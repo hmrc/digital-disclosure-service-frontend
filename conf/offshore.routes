@@ -91,10 +91,10 @@ POST       /missing-tax-year                 controllers.offshore.YouHaveNotIncl
 GET        /missing-tax-year/change          controllers.offshore.YouHaveNotIncludedTheTaxYearController.onPageLoad(mode: Mode = CheckMode)
 POST       /missing-tax-year/change          controllers.offshore.YouHaveNotIncludedTheTaxYearController.onSubmit(mode: Mode = CheckMode)
 
-GET        /tax-before-nineteen-years                       controllers.offshore.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onPageLoad(mode: Mode = NormalMode)
-POST       /tax-before-nineteen-years                       controllers.offshore.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onSubmit(mode: Mode = NormalMode)
-GET        /tax-before-nineteen-years/change                controllers.offshore.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onPageLoad(mode: Mode = CheckMode)
-POST       /tax-before-nineteen-years/change                controllers.offshore.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onSubmit(mode: Mode = CheckMode)
+GET        /tax-before-nineteen-years                       controllers.offshore.TaxBeforeNineteenYearsController.onPageLoad(mode: Mode = NormalMode)
+POST       /tax-before-nineteen-years                       controllers.offshore.TaxBeforeNineteenYearsController.onSubmit(mode: Mode = NormalMode)
+GET        /tax-before-nineteen-years/change                controllers.offshore.TaxBeforeNineteenYearsController.onPageLoad(mode: Mode = CheckMode)
+POST       /tax-before-nineteen-years/change                controllers.offshore.TaxBeforeNineteenYearsController.onSubmit(mode: Mode = CheckMode)
 
 GET        /missing-tax-years                               controllers.offshore.YouHaveNotSelectedCertainTaxYearController.onPageLoad(mode: Mode = NormalMode)
 POST       /missing-tax-years                               controllers.offshore.YouHaveNotSelectedCertainTaxYearController.onSubmit(mode: Mode = NormalMode)

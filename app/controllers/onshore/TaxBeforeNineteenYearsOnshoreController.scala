@@ -14,42 +14,42 @@
  * limitations under the License.
  */
 
-package controllers.offshore
+package controllers.onshore
 
 import controllers.actions._
-import forms.CanYouTellUsMoreAboutTaxBeforeNineteenYearFormProvider
+import forms.TaxBeforeNineteenYearsOnshoreFormProvider
 import javax.inject.Inject
 import models.{Behaviour, Mode}
-import navigation.OffshoreNavigator
-import pages.CanYouTellUsMoreAboutTaxBeforeNineteenYearPage
+import navigation.OnshoreNavigator
+import pages.TaxBeforeNineteenYearsOnshorePage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import services.{OffshoreWhichYearsService, SessionService}
+import services.{OnshoreWhichYearsService, SessionService}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import views.html.offshore.CanYouTellUsMoreAboutTaxBeforeNineteenYearView
+import views.html.onshore.TaxBeforeNineteenYearsOnshoreView
 import scala.concurrent.{ExecutionContext, Future}
 
-class CanYouTellUsMoreAboutTaxBeforeNineteenYearController @Inject()(
+class TaxBeforeNineteenYearsOnshoreController @Inject()(
                                         override val messagesApi: MessagesApi,
                                         sessionService: SessionService,
-                                        navigator: OffshoreNavigator,
+                                        navigator: OnshoreNavigator,
                                         identify: IdentifierAction,
                                         getData: DataRetrievalAction,
                                         requireData: DataRequiredAction,
-                                        formProvider: CanYouTellUsMoreAboutTaxBeforeNineteenYearFormProvider,
+                                        formProvider: TaxBeforeNineteenYearsOnshoreFormProvider,
                                         val controllerComponents: MessagesControllerComponents,
-                                        view: CanYouTellUsMoreAboutTaxBeforeNineteenYearView,
-                                        offshoreWhichYearsService: OffshoreWhichYearsService
+                                        view: TaxBeforeNineteenYearsOnshoreView,
+                                        onshoreWhichYearsService: OnshoreWhichYearsService
                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  val year = offshoreWhichYearsService.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
+  val year = onshoreWhichYearsService.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
 
   val form = formProvider(year)
 
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val preparedForm = request.userAnswers.get(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage) match {
+      val preparedForm = request.userAnswers.get(TaxBeforeNineteenYearsOnshorePage) match {
         case None => form
         case Some(value) => form.fill(value)
       }
@@ -66,9 +66,9 @@ class CanYouTellUsMoreAboutTaxBeforeNineteenYearController @Inject()(
 
         value =>
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage, value))
+            updatedAnswers <- Future.fromTry(request.userAnswers.set(TaxBeforeNineteenYearsOnshorePage, value))
             _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage, mode, updatedAnswers))
+          } yield Redirect(navigator.nextPage(TaxBeforeNineteenYearsOnshorePage, mode, updatedAnswers))
       )
   }
 }

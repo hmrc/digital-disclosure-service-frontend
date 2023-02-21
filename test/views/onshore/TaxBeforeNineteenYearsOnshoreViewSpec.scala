@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package views.offshore
+package views.onshore
 
 import base.ViewSpecBase
-import forms.CanYouTellUsMoreAboutTaxBeforeNineteenYearFormProvider
+import forms.TaxBeforeNineteenYearsOnshoreFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
-import views.html.offshore.CanYouTellUsMoreAboutTaxBeforeNineteenYearView
+import views.html.onshore.TaxBeforeNineteenYearsOnshoreView
 import models.NormalMode
 
-class CanYouTellUsMoreAboutTaxBeforeNineteenYearViewSpec extends ViewSpecBase with ViewMatchers {
+class TaxBeforeNineteenYearsOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
 
   val year = "2023"
-  val form = new CanYouTellUsMoreAboutTaxBeforeNineteenYearFormProvider()(year)
-  val page: CanYouTellUsMoreAboutTaxBeforeNineteenYearView = inject[CanYouTellUsMoreAboutTaxBeforeNineteenYearView]
+  val form = new TaxBeforeNineteenYearsOnshoreFormProvider()(year)
+  val page: TaxBeforeNineteenYearsOnshoreView = inject[TaxBeforeNineteenYearsOnshoreView]
   private def createView: Html = page(form, NormalMode, year)(request, messages)
 
   "view" should {
@@ -35,15 +35,15 @@ class CanYouTellUsMoreAboutTaxBeforeNineteenYearViewSpec extends ViewSpecBase wi
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("canYouTellUsMoreAboutTaxBeforeNineteenYear.title", year))
+      view.select("title").text() must include(messages("taxBeforeNineteenYears.title", year))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("canYouTellUsMoreAboutTaxBeforeNineteenYear.heading", year)
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("taxBeforeNineteenYears.heading", year)
     }
 
     "contain body" in {
-      view.getElementsByClass("govuk-label").text() mustBe messages("canYouTellUsMoreAboutTaxBeforeNineteenYear.body")
+      view.getElementsByClass("govuk-label").text() mustBe messages("taxBeforeNineteenYears.body")
     }
 
     "display the continue button" in {

@@ -17,53 +17,63 @@
 package controllers
 
 import base.SpecBase
-import forms.CanYouTellUsMoreAboutTaxBeforeNineteenYearFormProvider
+import forms.TaxBeforeFiveYearsOnshoreFormProvider
 import models.{Behaviour, NormalMode, UserAnswers}
-import navigation.{FakeOffshoreNavigator, OffshoreNavigator}
+import navigation.{FakeOnshoreNavigator, OnshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.CanYouTellUsMoreAboutTaxBeforeNineteenYearPage
+import pages.TaxBeforeFiveYearsOnshorePage
 import play.api.inject.bind
+import play.api.libs.json.Json
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.{OffshoreWhichYearsService, SessionService}
-import views.html.offshore.CanYouTellUsMoreAboutTaxBeforeNineteenYearView
+import services.{OnshoreWhichYearsService, SessionService}
+import views.html.onshore.TaxBeforeFiveYearsOnshoreView
 import uk.gov.hmrc.time.CurrentTaxYear
 import java.time.LocalDate
 
 import scala.concurrent.Future
 
-class CanYouTellUsMoreAboutTaxBeforeNineteenYearControllerSpec extends SpecBase with MockitoSugar with CurrentTaxYear {
+class TaxBeforeFiveYearsOnshoreControllerSpec extends SpecBase with MockitoSugar with CurrentTaxYear {
 
   def onwardRoute = Call("GET", "/foo")
 
   def now = () => LocalDate.now()
 
-  val formProvider = new CanYouTellUsMoreAboutTaxBeforeNineteenYearFormProvider()
+  val formProvider = new TaxBeforeFiveYearsOnshoreFormProvider()
   def form(year: String) = {
     formProvider(year)
   }
 
-  lazy val canYouTellUsMoreAboutTaxBeforeNineteenYearRoute = offshore.routes.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onPageLoad(NormalMode).url
+  lazy val taxBeforeFiveYearsOnshoreRoute = onshore.routes.TaxBeforeFiveYearsOnshoreController.onPageLoad(NormalMode).url
 
-  "CanYouTellUsMoreAboutTaxBeforeNineteenYear Controller" - {
+  val userAnswers = UserAnswers(
+    userAnswersId,
+    Json.obj(
+      TaxBeforeFiveYearsOnshorePage.toString -> Json.obj(
+        "taxBeforeFiveYearsOnshore" -> "value 1"
+      )
+    ).toString
+  )
+
+  "TaxBeforeFiveYearsOnshore Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, canYouTellUsMoreAboutTaxBeforeNineteenYearRoute)
+        val request = FakeRequest(GET, taxBeforeFiveYearsOnshoreRoute)
+
+        val view = application.injector.instanceOf[TaxBeforeFiveYearsOnshoreView]
 
         val result = route(application, request).value
 
-        val view = application.injector.instanceOf[CanYouTellUsMoreAboutTaxBeforeNineteenYearView]
-
-        val service = application.injector.instanceOf[OffshoreWhichYearsService]
-        val year = service.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
-
+        val service = application.injector.instanceOf[OnshoreWhichYearsService]
+        val year = service.getEarliestYearByBehaviour(Behaviour.Careless).toString
+        
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(form(year), NormalMode, year)(request, messages(application)).toString
       }
@@ -71,23 +81,20 @@ class CanYouTellUsMoreAboutTaxBeforeNineteenYearControllerSpec extends SpecBase 
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage, "answer").success.value
-
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, canYouTellUsMoreAboutTaxBeforeNineteenYearRoute)
+        val request = FakeRequest(GET, taxBeforeFiveYearsOnshoreRoute)
 
-        val view = application.injector.instanceOf[CanYouTellUsMoreAboutTaxBeforeNineteenYearView]
-
-
-        val service = application.injector.instanceOf[OffshoreWhichYearsService]
-        val year = service.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
+        val view = application.injector.instanceOf[TaxBeforeFiveYearsOnshoreView]
 
         val result = route(application, request).value
 
+        val service = application.injector.instanceOf[OnshoreWhichYearsService]
+        val year = service.getEarliestYearByBehaviour(Behaviour.Careless).toString
+
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form(year).fill("answer"), NormalMode, year)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form(year).fill(""), NormalMode, year)(request, messages(application)).toString
       }
     }
 
@@ -100,14 +107,14 @@ class CanYouTellUsMoreAboutTaxBeforeNineteenYearControllerSpec extends SpecBase 
       val application =
         applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
           .overrides(
-            bind[OffshoreNavigator].toInstance(new FakeOffshoreNavigator(onwardRoute))
+            bind[OnshoreNavigator].toInstance(new FakeOnshoreNavigator(onwardRoute))
           )
           .build()
 
       running(application) {
         val request =
-          FakeRequest(POST, canYouTellUsMoreAboutTaxBeforeNineteenYearRoute)
-            .withFormUrlEncodedBody(("value", "answer"))
+          FakeRequest(POST, taxBeforeFiveYearsOnshoreRoute)
+            .withFormUrlEncodedBody(("value", "value 1"))
 
         val result = route(application, request).value
 
@@ -122,15 +129,15 @@ class CanYouTellUsMoreAboutTaxBeforeNineteenYearControllerSpec extends SpecBase 
 
       running(application) {
         val request =
-          FakeRequest(POST, canYouTellUsMoreAboutTaxBeforeNineteenYearRoute)
+          FakeRequest(POST, taxBeforeFiveYearsOnshoreRoute)
             .withFormUrlEncodedBody(("value", ""))
 
-        val service = application.injector.instanceOf[OffshoreWhichYearsService]
-        val year = service.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
+        val service = application.injector.instanceOf[OnshoreWhichYearsService]
+        val year = service.getEarliestYearByBehaviour(Behaviour.Careless).toString
 
         val boundForm = form(year).bind(Map("value" -> ""))
 
-        val view = application.injector.instanceOf[CanYouTellUsMoreAboutTaxBeforeNineteenYearView]
+        val view = application.injector.instanceOf[TaxBeforeFiveYearsOnshoreView]
 
         val result = route(application, request).value
 
@@ -144,7 +151,7 @@ class CanYouTellUsMoreAboutTaxBeforeNineteenYearControllerSpec extends SpecBase 
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val request = FakeRequest(GET, canYouTellUsMoreAboutTaxBeforeNineteenYearRoute)
+        val request = FakeRequest(GET, taxBeforeFiveYearsOnshoreRoute)
 
         val result = route(application, request).value
 
@@ -159,8 +166,8 @@ class CanYouTellUsMoreAboutTaxBeforeNineteenYearControllerSpec extends SpecBase 
 
       running(application) {
         val request =
-          FakeRequest(POST, canYouTellUsMoreAboutTaxBeforeNineteenYearRoute)
-            .withFormUrlEncodedBody(("value", "answer"))
+          FakeRequest(POST, taxBeforeFiveYearsOnshoreRoute)
+            .withFormUrlEncodedBody(("value", "value 1"))
 
         val result = route(application, request).value
 
