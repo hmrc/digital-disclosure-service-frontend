@@ -1,0 +1,130 @@
+@*
+ * Copyright 2023 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import viewmodels.InputWidth._
+@import uk.gov.hmrc.hmrcfrontend.views.html.components.CharacterCount
+
+@this(
+    layout: templates.Layout,
+    formHelper: FormWithCSRF,
+    govukErrorSummary: GovukErrorSummary,
+    govukDateInput: GovukDateInput,
+    govukInput: GovukInput,
+    govukButton: GovukButton,
+    heading: components.heading,
+    subheading: components.subheading,
+    hmrcCharacterCount: HmrcCharacterCount,
+    paragraph: components.paragraph,
+    link: components.link,
+    tasklistLink: components.tasklistLink
+)
+
+@(form: Form[_], mode: Mode, i: Int)(implicit request: Request[_], messages: Messages)
+
+@layout(pageTitle = title(form, messages("corporationTaxLiability.title", i))) {
+
+    @formHelper(action = controllers.onshore.routes.CorporationTaxLiabilityController.onSubmit(i, mode), 'autoComplete -> "off") {
+
+        @if(form.errors.nonEmpty) {
+            @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value.day")))
+        }
+
+        @heading(Text(messages("corporationTaxLiability.heading", i)))  
+        
+        @paragraph(
+            id = Some("body"),
+            content = HtmlContent(
+                messages("corporationTaxLiability.body") +
+                link(id = "guidance-link", text = messages("corporationTaxLiability.body.link"), newTab = true, call = Call("GET", "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure")) +
+                messages("site.dot")
+            )
+        )
+
+        @paragraph(
+            id = Some("inset-body"), 
+            classes = "govuk-inset-text", 
+            content = HtmlContent(messages("corporationTaxLiability.insetBody"))
+        )
+
+        @subheading(Text(messages("corporationTaxLiability.subheading", i)), "govuk-heading-m")
+
+        @govukDateInput(
+            DateViewModel(
+                form   = form,
+                id     = "periodEnd",
+                legend = LegendViewModel(messages("corporationTaxLiability.periodEnd")).withCssClass("govuk-label--s")
+            )
+            .withHint(HintViewModel(messages("corporationTaxLiability.periodEnd.hint")))
+        )
+
+        @govukInput(
+            InputViewModel(
+                field = form("howMuchIncome"),
+                label = LabelViewModel(messages("corporationTaxLiability.howMuchIncome")).withCssClass("govuk-label--s")
+            )
+            .withPoundPrefix
+            .asNumeric()
+            .withWidth(Fixed10)
+        )
+
+        @govukInput(
+            InputViewModel(
+                field = form("howMuchUnpaid"),
+                label = LabelViewModel(messages("corporationTaxLiability.howMuchUnpaid")).withCssClass("govuk-label--s")
+            )
+            .withPoundPrefix
+            .asNumeric()
+            .withWidth(Fixed10)
+        )
+
+        @govukInput(
+            InputViewModel(
+                field = form("howMuchInterest"),
+                label = LabelViewModel(messages("corporationTaxLiability.howMuchInterest")).withCssClass("govuk-label--s")
+            )
+            .withPoundPrefix
+            .asNumeric()
+            .withWidth(Fixed10)
+        )
+
+        @govukInput(
+            InputViewModel(
+                field = form("penaltyRate"),
+                label = LabelViewModel(messages("corporationTaxLiability.penaltyRate")).withCssClass("govuk-label--s")
+            )
+            .withSuffix(PrefixOrSuffix(content = Text("%")))
+            .asNumeric()
+            .withWidth(Fixed10)
+            .withHint(Hint(content = Text(messages("corporationTaxLiability.penaltyRate.hint"))))
+        )
+
+        @hmrcCharacterCount(
+            CharacterCount(
+                id = "penaltyRateReason",
+                name = "penaltyRateReason",
+                maxLength = Some(5000),
+                label = Label(content = messages("corporationTaxLiability.penaltyRateReason")).withCssClass("govuk-label--s"),
+                value = form("penaltyRateReason").value,
+                errorMessage = form("penaltyRateReason").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
+            )
+        )
+
+        @govukButton(
+            ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
+        )
+    }
+    @tasklistLink()
+}

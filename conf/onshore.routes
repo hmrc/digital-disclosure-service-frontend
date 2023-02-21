@@ -78,3 +78,8 @@ GET        /onshore-liabilities/:i                      controllers.onshore.Onsh
 POST       /onshore-liabilities/:i                      controllers.onshore.OnshoreTaxYearLiabilitiesController.onSubmit(i: Int, mode: Mode = NormalMode)
 GET        /onshore-liabilities/:i/change               controllers.onshore.OnshoreTaxYearLiabilitiesController.onPageLoad(i: Int, mode: Mode = CheckMode)
 POST       /onshore-liabilities/:i/change               controllers.onshore.OnshoreTaxYearLiabilitiesController.onSubmit(i: Int, mode: Mode = CheckMode)
+
+GET        /corporation-tax-liabilities/:i                  controllers.onshore.CorporationTaxLiabilityController.onPageLoad(i: Int, mode: Mode = NormalMode)
+POST       /corporation-tax-liabilities/:i                  controllers.onshore.CorporationTaxLiabilityController.onSubmit(i: Int, mode: Mode = NormalMode)
+GET        /corporation-tax-liabilities/:i/change           controllers.onshore.CorporationTaxLiabilityController.onPageLoad(i: Int, mode: Mode = CheckMode)
+POST       /corporation-tax-liabilities/:i/change           controllers.onshore.CorporationTaxLiabilityController.onSubmit(i: Int, mode: Mode = CheckMode)
