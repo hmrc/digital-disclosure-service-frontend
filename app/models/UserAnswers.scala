@@ -22,7 +22,7 @@ import uk.gov.hmrc.mongo.play.json.formats.MongoJavatimeFormats
 import models.store._
 import java.time.Instant
 import scala.util.{Failure, Success, Try}
-import pages.WhichYearsPage
+import pages.{WhichYearsPage, WhichOnshoreYearsPage}
 
 final case class UserAnswers(
                               id: String,
@@ -126,7 +126,9 @@ final case class UserAnswers(
     yearSet.collect{case TaxYearStarting(y) => TaxYearStarting(y)}.toSeq.sorted
   }
 
-  def inverselySortedOnshoreTaxYears: Option[Seq[OnshoreYearStarting]] = None
+  def inverselySortedOnshoreTaxYears: Option[Seq[OnshoreYearStarting]] = get(WhichOnshoreYearsPage).map{ yearSet =>
+    yearSet.collect{case OnshoreYearStarting(y) => OnshoreYearStarting(y)}.toSeq.sorted
+  }
 
 }
 

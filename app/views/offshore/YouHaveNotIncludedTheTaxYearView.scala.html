@@ -46,7 +46,7 @@
                 id = "value",
                 name = "value",
                 maxLength = Some(500), 
-                label = Label(content = messages("youHaveNotIncludedTheTaxYear.label")).withCssClass("govuk-label govuk-label--l"),
+                label = Label(content = messages("youHaveNotIncludedTheTaxYear.label")).withCssClass("govuk-label govuk-label--m"),
                 value = form("value").value,
                 errorMessage = form("value").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
             )
