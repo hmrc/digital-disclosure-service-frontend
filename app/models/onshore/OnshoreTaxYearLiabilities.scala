@@ -14,18 +14,23 @@
  * limitations under the License.
  */
 
-package navigation
+package models
 
-import play.api.mvc.Call
-import pages._
-import models.{Mode, UserAnswers}
+import play.api.libs.json._
 
-class FakeOnshoreNavigator(desiredRoute: Call) extends OnshoreNavigator {
+final case class OnshoreTaxYearLiabilities(
+  nonBusinessIncome: Option[BigInt],
+  businessIncome: Option[BigInt],
+  lettingIncome: Option[BigInt],
+  gains: Option[BigInt],
+  unpaidTax: BigInt,
+  niContributions: BigInt,
+  interest: BigInt,
+  penaltyRate: Int,
+  penaltyRateReason: String,
+  residentialTaxReduction: Option[Boolean]
+)
 
-  override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasChanged:Boolean = true): Call =
-    desiredRoute
-
-  override def nextTaxYearLiabilitiesPage(currentIndex: Int, deduction: Boolean, mode: Mode, userAnswers: UserAnswers, hasAnswerChanged: Boolean = false): Call = 
-    desiredRoute
-
+object OnshoreTaxYearLiabilities {
+  implicit val format = Json.format[OnshoreTaxYearLiabilities]
 }

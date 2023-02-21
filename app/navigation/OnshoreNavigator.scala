@@ -70,10 +70,10 @@ class OnshoreNavigator @Inject()() {
         // case (Some(years), 0) if years.contains(ReasonableExcusePriorTo) => routes.TaxBeforeFiveYearsController.onPageLoad(NormalMode)
         // case (Some(years), 0) if years.contains(CarelessPriorTo) => routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode)
         // case (Some(years), 0) if years.contains(DeliberatePriorTo) => routes.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onPageLoad(NormalMode)
+        case (Some(_), 0) => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
         case (Some(_), 1) => routes.NotIncludedSingleTaxYearController.onPageLoad(NormalMode)
         case (Some(_), _) => routes.NotIncludedMultipleTaxYearsController.onPageLoad(NormalMode)
-        //This should go to onshore liabilities 
-        case (_, _) => controllers.routes.IndexController.onPageLoad
+        case (_, _) => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
       }
     }
 
@@ -89,6 +89,14 @@ class OnshoreNavigator @Inject()() {
       normalRoutes(page)(userAnswers)
     case CheckMode =>
       checkRouteMap(page)(userAnswers)(hasAnswerChanged)
+  }
+
+  def nextTaxYearLiabilitiesPage(currentIndex: Int, deduction: Boolean, mode: Mode, userAnswers: UserAnswers, hasAnswerChanged: Boolean = false): Call =
+    (mode, userAnswers.inverselySortedOnshoreTaxYears) match {
+    //case (NormalMode, _) => if (deduction) routes.ForeignTaxCreditController.onPageLoad(currentIndex, NormalMode)
+    case (NormalMode, Some(years)) if ((years.size - 1) > currentIndex) => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(currentIndex + 1, NormalMode)
+    //TODO next page
+    case (_, _) => controllers.routes.IndexController.onPageLoad
   }
 
 }

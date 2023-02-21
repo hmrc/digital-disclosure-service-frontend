@@ -73,3 +73,8 @@ GET        /tax-before-nineteen-years                       controllers.onshore.
 POST       /tax-before-nineteen-years                       controllers.onshore.TaxBeforeNineteenYearsOnshoreController.onSubmit(mode: Mode = NormalMode)
 GET        /tax-before-nineteen-years/change                controllers.onshore.TaxBeforeNineteenYearsOnshoreController.onPageLoad(mode: Mode = CheckMode)
 POST       /tax-before-nineteen-years/change                controllers.onshore.TaxBeforeNineteenYearsOnshoreController.onSubmit(mode: Mode = CheckMode)
+
+GET        /onshore-liabilities/:i                      controllers.onshore.OnshoreTaxYearLiabilitiesController.onPageLoad(i: Int, mode: Mode = NormalMode)
+POST       /onshore-liabilities/:i                      controllers.onshore.OnshoreTaxYearLiabilitiesController.onSubmit(i: Int, mode: Mode = NormalMode)
+GET        /onshore-liabilities/:i/change               controllers.onshore.OnshoreTaxYearLiabilitiesController.onPageLoad(i: Int, mode: Mode = CheckMode)
+POST       /onshore-liabilities/:i/change               controllers.onshore.OnshoreTaxYearLiabilitiesController.onSubmit(i: Int, mode: Mode = CheckMode)
