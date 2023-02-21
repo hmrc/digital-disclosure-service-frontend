@@ -147,6 +147,28 @@ trait AddressLookupRequestHelper {
                             "confirmEstateAddress.heading")
   }
 
+  def lookupRequestForRentalAddress(timeout: Int, baseUrl: String, 
+                                    redirectUrl: String, 
+                                    proposalListLimit: Int, 
+                                    languageTranslationEnabled: Boolean,
+                                    addressIndex: Int)(implicit messages: Messages): AddressLookupRequest = {
+
+    lookupRequestForAddress(timeout, baseUrl, redirectUrl, proposalListLimit, languageTranslationEnabled,
+                            "yourCountryLookup.title", 
+                            "yourCountryLookup.heading",
+                            "yourCountryLookup.hint",
+                            messages("addressLookup.rental.title", addressIndex+1), 
+                            messages("addressLookup.rental.heading", addressIndex+1),
+                            Some("addressLookup.rental.body"),
+                            messages("selectAddress.rental.title", addressIndex+1), 
+                            messages("selectAddress.rental.heading", addressIndex+1),
+                            messages("editAddress.rental.title", addressIndex+1), 
+                            messages("editAddress.rental.heading", addressIndex+1),
+                            "confirmAddress.rental.title", 
+                            "confirmAddress.rental.heading",
+                            true)
+  }
+
   def lookupRequestForAddress(timeout: Int, baseUrl: String, 
                               redirectUrl: String, 
                               proposalListLimit: Int,
@@ -162,7 +184,8 @@ trait AddressLookupRequestHelper {
                               editAddressTitle: String, 
                               editAddressHeading: String,
                               confirmAddressTitle: String, 
-                              confirmAddressHeading: String)(implicit messages: Messages): AddressLookupRequest = {
+                              confirmAddressHeading: String,
+                              ukMode: Boolean = false)(implicit messages: Messages): AddressLookupRequest = {
 
     val selectPageConfig = SelectPageConfig(proposalListLimit = proposalListLimit)
     val timeoutConfig = TimeoutConfig(timeoutAmount = timeout, timeoutUrl = controllers.auth.routes.AuthController.signOut.url, timeoutKeepAliveUrl = Some(routes.KeepAliveController.keepAlive.url))
@@ -175,7 +198,8 @@ trait AddressLookupRequestHelper {
       disableTranslations = !languageTranslationEnabled,
       selectPageConfig = Some(selectPageConfig),
       includeHMRCBranding = Some(false),
-      timeoutConfig = Some(timeoutConfig)
+      timeoutConfig = Some(timeoutConfig),
+      ukMode = Some(ukMode)
     )
 
     val appLevelLabels = AppLevelLabels(messages("service.name"))
