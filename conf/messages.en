@@ -1760,3 +1760,59 @@ whatOnshoreLiabilitiesDoYouNeedToDisclose.nonBusinessIncome.hint = This may incl
 whatOnshoreLiabilitiesDoYouNeedToDisclose.checkYourAnswersLabel = What onshore liabilities do you need to disclose?
 whatOnshoreLiabilitiesDoYouNeedToDisclose.error.required = Select the liabilities you need to disclose
 whatOnshoreLiabilitiesDoYouNeedToDisclose.change.hidden = WhatOnshoreLiabilitiesDoYouNeedToDisclose
+
+directorLoanAccountLiabilities.title = Onshore director’s loan account liabilities {0}
+directorLoanAccountLiabilities.heading = Onshore director’s loan account liabilities {0}
+directorLoanAccountLiabilities.body = You now need to enter the income, tax, penalties and interest you owe for each accounting year for the director’s loan liabilities, rounding down to the nearest pound. You can
+directorLoanAccountLiabilities.link = find information on how to calculate these figures in the guidance on how to make a voluntary disclosure (opens in new tab)
+
+directorLoanAccountLiabilities.name.question = What is the name of director?
+directorLoanAccountLiabilities.name.required = Enter the name of the director
+directorLoanAccountLiabilities.name.invalid = The director's name must be between 1 and 30 characters
+directorLoanAccountLiabilities.name.checkYourAnswersLabel = Name
+
+directorLoanAccountLiabilities.periodEnd.label = When does the accounting period end for this director’s loan liability?
+directorLoanAccountLiabilities.periodEnd.hint = For example 31 3 2002
+directorLoanAccountLiabilities.periodEnd.checkYourAnswersLabel = Period End
+directorLoanAccountLiabilities.periodEnd.error.required.all = Enter the accounting period end date
+directorLoanAccountLiabilities.periodEnd.error.required.two = Accounting period end date must include a {0} and a {1}
+directorLoanAccountLiabilities.periodEnd.error.required = Accounting period end date must include a {0}
+directorLoanAccountLiabilities.periodEnd.error.invalid = Enter the accounting period end date in the right format
+directorLoanAccountLiabilities.periodEnd.error.invalidDay = Enter a real date – a month can have up to 31 days
+directorLoanAccountLiabilities.periodEnd.error.invalidMonth = Enter a real date – there are only 12 months in a year
+directorLoanAccountLiabilities.periodEnd.error.invalidFuture = Date must be in the past
+directorLoanAccountLiabilities.periodEnd.error.invalidPastDate = The accounting period must be after the year 1849
+
+directorLoanAccountLiabilities.overdrawn.question = How much were you overdrawn by in this accounting period that you have not previously disclosed?
+directorLoanAccountLiabilities.overdrawn.error.required = Enter the amount you were overdrawn by in this account period, in pounds
+directorLoanAccountLiabilities.overdrawn.error.wholeNumber = The amount you were overdrawn by must not include pence, like 1000 or 1567
+directorLoanAccountLiabilities.overdrawn.error.nonNumeric = The amount you were overdrawn by must be an amount of money, like 1200
+directorLoanAccountLiabilities.overdrawn.error.outOfRange = The amount you were overdrawn by must be 0 or more
+directorLoanAccountLiabilities.overdrawn.checkYourAnswersLabel = Overdrawn
+
+directorLoanAccountLiabilities.unpaidTax.question = How much unpaid tax is due for this accounting period?
+directorLoanAccountLiabilities.unpaidTax.error.required = Enter the amount of unpaid tax due for this accounting period, in pounds
+directorLoanAccountLiabilities.unpaidTax.error.wholeNumber = The amount of chargeable transfers must not include pence, like 1000 or 1567
+directorLoanAccountLiabilities.unpaidTax.error.nonNumeric = The amount of unpaid tax due must be an amount of money, like 1200
+directorLoanAccountLiabilities.unpaidTax.error.outOfRange = The amount of unpaid tax due must be 0 or more
+directorLoanAccountLiabilities.unpaidTax.checkYourAnswersLabel = Unpaid Tax
+
+directorLoanAccountLiabilities.interest.question = How much interest is due for this accounting period?
+directorLoanAccountLiabilities.interest.error.required = Enter the amount of interest due for this accounting period, in pounds
+directorLoanAccountLiabilities.interest.error.wholeNumber = The amount of interest must not include pence, like 1000 or 1567
+directorLoanAccountLiabilities.interest.error.nonNumeric = The amount of interest must be an amount of money, like 1200
+directorLoanAccountLiabilities.interest.error.outOfRange = The amount of chargeable transfers must be 0 or more
+directorLoanAccountLiabilities.interest.checkYourAnswersLabel = Interest
+
+directorLoanAccountLiabilities.penaltyRate.question = What is your penalty rate for the tax due for this accounting period?
+directorLoanAccountLiabilities.penaltyRate.error.required = Enter your penalty rate as a percentage
+directorLoanAccountLiabilities.penaltyRate.error.wholeNumber = The penalty rate must be a number, like 100
+directorLoanAccountLiabilities.penaltyRate.error.nonNumeric = The penalty rate must be a number, like 100
+directorLoanAccountLiabilities.penaltyRate.error.outOfRange = The penalty rate must be between 0 and 200
+directorLoanAccountLiabilities.penaltyRate.checkYourAnswersLabel = Penalty Rate
+
+directorLoanAccountLiabilities.penaltyRateReason.question = What is the reason for the penalty rate you have chosen?
+directorLoanAccountLiabilities.penaltyRateReason.error.required = Enter the reason for the penalty rate you have chosen
+directorLoanAccountLiabilities.penaltyRateReason.error.length = The reason for the penalty rate must be between 1 and 5,000 characters
+directorLoanAccountLiabilities.penaltyRateReason.checkYourAnswersLabel = Penalty Rate Reason
+

@@ -58,3 +58,8 @@ GET        /what-do-you-need-to-disclose                    controllers.onshore.
 POST       /what-do-you-need-to-disclose                    controllers.onshore.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onSubmit(mode: Mode = NormalMode)
 GET        /what-do-you-need-to-disclose/change             controllers.onshore.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(mode: Mode = CheckMode)
 POST       /what-do-you-need-to-disclose/change             controllers.onshore.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onSubmit(mode: Mode = CheckMode)
+
+GET        /director-loan-liabilities/:i                      controllers.onshore.DirectorLoanAccountLiabilitiesController.onPageLoad(i:Int, mode: Mode = NormalMode)
+POST       /director-loan-liabilities/:i                      controllers.onshore.DirectorLoanAccountLiabilitiesController.onSubmit(i:Int, mode: Mode = NormalMode)
+GET        /director-loan-liabilities/:i/change               controllers.onshore.DirectorLoanAccountLiabilitiesController.onPageLoad(i:Int, mode: Mode = CheckMode)
+POST       /director-loan-liabilities/:i/change               controllers.onshore.DirectorLoanAccountLiabilitiesController.onSubmit(i:Int, mode: Mode = CheckMode)

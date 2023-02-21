@@ -25,6 +25,14 @@ import org.scalacheck.magnolia.gen
 
 trait ModelGenerators {
 
+  implicit lazy val arbitraryDirectorLoanAccountLiabilities: Arbitrary[DirectorLoanAccountLiabilities] =
+    Arbitrary {
+      for {
+        field1 <- arbitrary[String]
+        field2 <- arbitrary[String]
+      } yield DirectorLoanAccountLiabilities(field1, field2)
+    }
+
   implicit lazy val arbitraryOnshoreYears: Arbitrary[OnshoreYears] =
     Arbitrary {
       for {
