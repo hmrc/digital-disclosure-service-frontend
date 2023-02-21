@@ -19,9 +19,9 @@ package controllers.reference
 import controllers.actions._
 import forms.DoYouHaveACaseReferenceFormProvider
 import javax.inject.Inject
-import models.Mode
+import models.{Mode, UserAnswers}
 import navigation.ReferenceNavigator
-import pages.DoYouHaveACaseReferencePage
+import pages.{DoYouHaveACaseReferencePage, WhatIsTheCaseReferencePage, QuestionPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -62,11 +62,24 @@ class DoYouHaveACaseReferenceController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
-        value =>
+        value => {
+
+          val pagesToBeClear = userAnswerChanged(request.userAnswers, value)
+
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(DoYouHaveACaseReferencePage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(DoYouHaveACaseReferencePage, mode, updatedAnswers))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToBeClear))
+            _              <- sessionService.set(clearedAnswers)
+          } yield Redirect(navigator.nextPage(DoYouHaveACaseReferencePage, mode, clearedAnswers))
+        }
       )
+  }
+
+  def userAnswerChanged(userAnswers: UserAnswers, newValue: Boolean): List[QuestionPage[_]] = {
+    val caseReference = userAnswers.get(WhatIsTheCaseReferencePage)
+    (newValue, caseReference) match {
+      case (false, Some(_)) => List(WhatIsTheCaseReferencePage)
+      case _ => Nil
+    }
   }
 }
