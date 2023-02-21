@@ -93,7 +93,7 @@ class OnshoreNavigator @Inject()() {
 
   def nextTaxYearLiabilitiesPage(currentIndex: Int, deduction: Boolean, mode: Mode, userAnswers: UserAnswers, hasAnswerChanged: Boolean = false): Call =
     (mode, userAnswers.inverselySortedOnshoreTaxYears) match {
-    //case (NormalMode, _) => if (deduction) routes.ForeignTaxCreditController.onPageLoad(currentIndex, NormalMode)
+    case (NormalMode, _) if (deduction) => routes.ResidentialReductionController.onPageLoad(currentIndex, NormalMode)
     case (NormalMode, Some(years)) if ((years.size - 1) > currentIndex) => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(currentIndex + 1, NormalMode)
     //TODO next page
     case (_, _) => controllers.routes.IndexController.onPageLoad
