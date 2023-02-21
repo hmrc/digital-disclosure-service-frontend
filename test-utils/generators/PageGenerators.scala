@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryResidentialReductionPage: Arbitrary[ResidentialReductionPage.type] =
+    Arbitrary(ResidentialReductionPage)
+
   implicit lazy val arbitraryWhichOnshoreYearsPage: Arbitrary[WhichOnshoreYearsPage.type] =
     Arbitrary(WhichOnshoreYearsPage)
 
