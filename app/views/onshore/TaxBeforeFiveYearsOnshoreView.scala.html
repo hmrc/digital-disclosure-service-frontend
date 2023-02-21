@@ -15,12 +15,14 @@
  *@
 
 @import uk.gov.hmrc.hmrcfrontend.views.html.components.CharacterCount
+@import viewmodels.InputWidth._
 
 @this(
     layout: templates.Layout,
     formHelper: FormWithCSRF,
     govukErrorSummary: GovukErrorSummary,
     hmrcCharacterCount: HmrcCharacterCount,
+    govukInput: GovukInput,
     govukButton: GovukButton,
     heading: components.heading,
     tasklistLink: components.tasklistLink
@@ -28,22 +30,22 @@
 
 @(form: Form[_], mode: Mode, year: String)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("canYouTellUsMoreAboutTaxBeforeNineteenYear.title", year))) {
+@layout(pageTitle = title(form, messages("taxBeforeFiveYears.title", year))) {
 
-    @formHelper(action = controllers.offshore.routes.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onSubmit(mode)) {
+    @formHelper(action = controllers.onshore.routes.TaxBeforeFiveYearsOnshoreController.onSubmit(mode)) {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
-        @heading(Text(messages("canYouTellUsMoreAboutTaxBeforeNineteenYear.heading", year)))
+        @heading(Text(messages("taxBeforeFiveYears.heading", year)))
 
         @hmrcCharacterCount(
             CharacterCount(
                 id = "value",
                 name = "value",
                 maxLength = Some(5000), 
-                label = Label(content = messages("canYouTellUsMoreAboutTaxBeforeNineteenYear.body")),
+                label = Label(content = messages("taxBeforeFiveYears.taxBeforeFiveYears")),
                 value = form("value").value,
                 errorMessage = form("value").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
             )

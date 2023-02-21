@@ -98,10 +98,10 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
 
     "return the correct view for a TaxBeforeNineteenYearSummary is populated" in {
       val year = yearsService.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
-      val ua = UserAnswers("id").set(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage, "test").success.value
+      val ua = UserAnswers("id").set(TaxBeforeNineteenYearsPage, "test").success.value
       val viewModel = sut.create(ua)
       val summaryList = viewModel.summaryList
-      summaryList.rows(0).key mustEqual Key(Text(mess("canYouTellUsMoreAboutTaxBeforeNineteenYear.checkYourAnswersLabel", year)))
+      summaryList.rows(0).key mustEqual Key(Text(mess("taxBeforeNineteenYears.checkYourAnswersLabel", year)))
     }
 
     "return the correct view for a TheMaximumValueOfAllAssetsSummary is populated" in {

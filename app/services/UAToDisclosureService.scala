@@ -60,7 +60,7 @@ class UAToDisclosureServiceImpl @Inject()(
       youHaveNotSelectedCertainTaxYears = userAnswers.get(YouHaveNotSelectedCertainTaxYearPage),
       taxBeforeFiveYears = userAnswers.get(TaxBeforeFiveYearsPage),
       taxBeforeSevenYears = userAnswers.get(TaxBeforeSevenYearsPage),
-      taxBeforeNineteenYears = userAnswers.get(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage),
+      taxBeforeNineteenYears = userAnswers.get(TaxBeforeNineteenYearsPage),
       disregardedCDF = userAnswers.get(ContractualDisclosureFacilityPage),
       taxYearLiabilities = userAnswers.get(TaxYearLiabilitiesPage),
       taxYearForeignTaxDeductions = userAnswers.get(ForeignTaxCreditPage),

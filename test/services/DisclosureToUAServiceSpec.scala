@@ -121,7 +121,7 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
       updatedUserAnswers.get(YouHaveNotSelectedCertainTaxYearPage)                   shouldEqual None
       updatedUserAnswers.get(TaxBeforeFiveYearsPage)                                 shouldEqual Some("Some liabilities")
       updatedUserAnswers.get(TaxBeforeSevenYearsPage)                                shouldEqual Some("Some liabilities")
-      updatedUserAnswers.get(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage)         shouldEqual Some("Some liabilities") 
+      updatedUserAnswers.get(TaxBeforeNineteenYearsPage)                             shouldEqual Some("Some liabilities") 
       updatedUserAnswers.get(ContractualDisclosureFacilityPage)                      shouldEqual Some(true)
       updatedUserAnswers.get(TaxYearLiabilitiesPage)                                 shouldEqual Some(Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities)))
       updatedUserAnswers.get(ForeignTaxCreditPage)                                   shouldEqual Some(Map("2012" -> BigInt(123)))

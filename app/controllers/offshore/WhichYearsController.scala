@@ -118,7 +118,7 @@ class WhichYearsController @Inject()(
     val missingYearPageList = if (missingYearsCount == 0) List(YouHaveNotIncludedTheTaxYearPage, YouHaveNotSelectedCertainTaxYearPage) else Nil
     val reasonableExcusePriorToList = if (!newValue.contains(ReasonableExcusePriorTo)) List(TaxBeforeFiveYearsPage) else Nil
     val carelessPriorToList = if (!newValue.contains(CarelessPriorTo)) List(TaxBeforeSevenYearsPage) else Nil
-    val deliberatePriorToList = if (!newValue.contains(DeliberatePriorTo)) List(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage) else Nil
+    val deliberatePriorToList = if (!newValue.contains(DeliberatePriorTo)) List(TaxBeforeNineteenYearsPage) else Nil
 
     val pagesToClear = missingYearPageList ::: reasonableExcusePriorToList ::: carelessPriorToList ::: deliberatePriorToList
     val hasChanged = (Some(newValue) != userAnswers.get(WhichYearsPage)) || !areYearsMissing(userAnswers, newValue)

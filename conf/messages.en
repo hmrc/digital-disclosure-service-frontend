@@ -1613,13 +1613,13 @@ youHaveNotIncludedTheTaxYear.error.required = Enter your reason for not includin
 youHaveNotIncludedTheTaxYear.error.length = Your reason for not including the tax year ending {0} must be between 1 and 500 characters
 youHaveNotIncludedTheTaxYear.change.hidden = YouHaveNotIncludedTheTaxYear
 
-canYouTellUsMoreAboutTaxBeforeNineteenYear.title = Can you tell us more about any tax owed before 6 April {0}?
-canYouTellUsMoreAboutTaxBeforeNineteenYear.heading = Can you tell us more about any tax owed before 6 April {0}?
-canYouTellUsMoreAboutTaxBeforeNineteenYear.body = Provide the amount, when it was owed, and where the income or gain came from. Do not include these figures in this disclosure’s calculations. The person reviewing the disclosure may ask you further questions about this, if needed.
-canYouTellUsMoreAboutTaxBeforeNineteenYear.checkYourAnswersLabel = Tax owed before 6 April {0}
-canYouTellUsMoreAboutTaxBeforeNineteenYear.error.required = Enter information about the tax owed before 6 April {0}
-canYouTellUsMoreAboutTaxBeforeNineteenYear.error.length = The information about the tax owed must be between 1 and 5,000 characters
-canYouTellUsMoreAboutTaxBeforeNineteenYear.change.hidden = CanYouTellUsMoreAboutTaxBeforeNineteenYear
+taxBeforeNineteenYears.title = Can you tell us more about any tax owed before 6 April {0}?
+taxBeforeNineteenYears.heading = Can you tell us more about any tax owed before 6 April {0}?
+taxBeforeNineteenYears.body = Provide the amount, when it was owed, and where the income or gain came from. Do not include these figures in this disclosure’s calculations. The person reviewing the disclosure may ask you further questions about this, if needed.
+taxBeforeNineteenYears.checkYourAnswersLabel = Tax owed before 6 April {0}
+taxBeforeNineteenYears.error.required = Enter information about the tax owed before 6 April {0}
+taxBeforeNineteenYears.error.length = The information about the tax owed must be between 1 and 5,000 characters
+taxBeforeNineteenYears.change.hidden = TaxBeforeNineteenYears
 
 youHaveNotSelectedCertainTaxYear.title = You have not selected certain years
 youHaveNotSelectedCertainTaxYear.heading = You have not selected certain years
@@ -1760,3 +1760,11 @@ whatOnshoreLiabilitiesDoYouNeedToDisclose.nonBusinessIncome.hint = This may incl
 whatOnshoreLiabilitiesDoYouNeedToDisclose.checkYourAnswersLabel = What onshore liabilities do you need to disclose?
 whatOnshoreLiabilitiesDoYouNeedToDisclose.error.required = Select the liabilities you need to disclose
 whatOnshoreLiabilitiesDoYouNeedToDisclose.change.hidden = WhatOnshoreLiabilitiesDoYouNeedToDisclose
+
+taxBeforeThreeYears.title = Can you tell us more about any tax owed before 6 April {0}?
+taxBeforeThreeYears.heading = Can you tell us more about any tax owed before 6 April {0}?
+taxBeforeThreeYears.taxBeforeThreeYears = Provide the amount, when it was owed, and where the income or gain came from. Do not include these figures in this disclosure’s calculations. The person reviewing this disclosure may ask you further questions about this, if needed.
+taxBeforeThreeYears.checkYourAnswersLabel = Tax owed before 6 April {0}
+taxBeforeThreeYears.error.required = Enter information about the tax owed before 6 April {0}
+taxBeforeThreeYears.error.length = The information about the tax owed must be between 1 and 5,000 characters
+taxBeforeThreeYears.taxBeforeThreeYears.change.hidden = TaxBeforeThreeYears

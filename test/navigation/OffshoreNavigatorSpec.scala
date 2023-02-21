@@ -252,13 +252,13 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextPage(WhichYearsPage, NormalMode, updatedUserAnswers) mustBe routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode)
       }
 
-      "must go from WhichYearsPage to CanYouTellUsMoreAboutTaxBeforeNineteenYearController when selected option ReasonableExcusePriorTo" in {
+      "must go from WhichYearsPage to TaxBeforeNineteenYearsController when selected option ReasonableExcusePriorTo" in {
         val set: Set[OffshoreYears] = Set(DeliberatePriorTo)
         val countryCode = "AFG"
         val countriesMap = Map(countryCode -> Country(countryCode, "Afghanistan"))
         val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
         val updatedUserAnswers = userAnswers.set(CountryOfYourOffshoreLiabilityPage, countriesMap).success.value
-        navigator.nextPage(WhichYearsPage, NormalMode, updatedUserAnswers) mustBe routes.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onPageLoad(NormalMode)
+        navigator.nextPage(WhichYearsPage, NormalMode, updatedUserAnswers) mustBe routes.TaxBeforeNineteenYearsController.onPageLoad(NormalMode)
       }
 
       "must go from WhichYearsPage to YouHaveNotIncludedTheTaxYearController when not selected an entire interval" in {
@@ -320,17 +320,17 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextPage(TaxBeforeSevenYearsPage, NormalMode, userAnswers) mustBe routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
       }
 
-      "must go from CanYouTellUsMoreAboutTaxBeforeNineteenYearPage to MakingNilDisclosureController when only selected option DeliberatePriorTo" in {
+      "must go from TaxBeforeNineteenYearsPage to MakingNilDisclosureController when only selected option DeliberatePriorTo" in {
         val set: Set[OffshoreYears] = Set(DeliberatePriorTo)
         val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
-        navigator.nextPage(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage, NormalMode, userAnswers) mustBe controllers.routes.MakingNilDisclosureController.onPageLoad
+        navigator.nextPage(TaxBeforeNineteenYearsPage, NormalMode, userAnswers) mustBe controllers.routes.MakingNilDisclosureController.onPageLoad
       }
 
-      "must go from CanYouTellUsMoreAboutTaxBeforeNineteenYearPage to CountryOfYourOffshoreLiabilityController when selected more than one TaxYear option including DeliberatePriorTo" in {
+      "must go from TaxBeforeNineteenYearsPage to CountryOfYourOffshoreLiabilityController when selected more than one TaxYear option including DeliberatePriorTo" in {
         val year = current.back(1).startYear
         val set: Set[OffshoreYears] = Set(DeliberatePriorTo, TaxYearStarting(year))
         val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
-        navigator.nextPage(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage, NormalMode, userAnswers) mustBe routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
+        navigator.nextPage(TaxBeforeNineteenYearsPage, NormalMode, userAnswers) mustBe routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
       }
 
       "must go from YouHaveNotIncludedTheTaxYearPage to CountryOfYourOffshoreLiabilityController" in {
