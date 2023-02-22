@@ -40,6 +40,7 @@
                 field = form("value"),
                 label = LabelViewModel(messages("residentialReduction.heading", year)).asPageHeading()
             )
+            .withPoundPrefix
             .asNumeric()
             .withWidth(Fixed10)
         )
