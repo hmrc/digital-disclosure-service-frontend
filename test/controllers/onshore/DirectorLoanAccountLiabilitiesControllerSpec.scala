@@ -18,20 +18,20 @@ package controllers
 
 import base.SpecBase
 import forms.DirectorLoanAccountLiabilitiesFormProvider
-import models.{NormalMode, DirectorLoanAccountLiabilities, UserAnswers}
+import models.{DirectorLoanAccountLiabilities, NormalMode, UserAnswers}
 import navigation.{FakeOnshoreNavigator, OnshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages.DirectorLoanAccountLiabilitiesPage
 import play.api.inject.bind
-import play.api.libs.json.Json
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
 import views.html.onshore.DirectorLoanAccountLiabilitiesView
 
+import java.time.{LocalDate, ZoneOffset}
 import scala.concurrent.Future
 
 class DirectorLoanAccountLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
@@ -41,17 +41,21 @@ class DirectorLoanAccountLiabilitiesControllerSpec extends SpecBase with Mockito
   val formProvider = new DirectorLoanAccountLiabilitiesFormProvider()
   val form = formProvider()
 
-  lazy val directorLoanAccountLiabilitiesRoute = onshore.routes.DirectorLoanAccountLiabilitiesController.onPageLoad(NormalMode).url
+  val index = 0
 
-  val userAnswers = UserAnswers(
-    userAnswersId,
-    Json.obj(
-      DirectorLoanAccountLiabilitiesPage.toString -> Json.obj(
-        "field1" -> "value 1",
-        "field2" -> "value 2"
-      )
-    )
+  lazy val directorLoanAccountLiabilitiesRoute = onshore.routes.DirectorLoanAccountLiabilitiesController.onPageLoad(index, NormalMode).url
+
+  val answer = DirectorLoanAccountLiabilities(
+    name = "a Name",
+    periodEnd = LocalDate.now(ZoneOffset.UTC).minusDays(1),
+    overdrawn = BigInt(1000),
+    unpaidTax = BigInt(1000),
+    interest = BigInt(1000),
+    penaltyRate = 20,
+    penaltyRateReason = "Reason"
   )
+
+  val userAnswers = UserAnswers(userAnswersId).set(DirectorLoanAccountLiabilitiesPage, Set(answer)).success.value
 
   "DirectorLoanAccountLiabilities Controller" - {
 
@@ -67,7 +71,7 @@ class DirectorLoanAccountLiabilitiesControllerSpec extends SpecBase with Mockito
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode, index)(request, messages(application)).toString
       }
     }
 
@@ -83,7 +87,7 @@ class DirectorLoanAccountLiabilitiesControllerSpec extends SpecBase with Mockito
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(DirectorLoanAccountLiabilities("value 1", "value 2")), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(answer), NormalMode, index)(request, messages(application)).toString
       }
     }
 
@@ -103,7 +107,17 @@ class DirectorLoanAccountLiabilitiesControllerSpec extends SpecBase with Mockito
       running(application) {
         val request =
           FakeRequest(POST, directorLoanAccountLiabilitiesRoute)
-            .withFormUrlEncodedBody(("field1", "value 1"), ("field2", "value 2"))
+            .withFormUrlEncodedBody(
+              ("name", "name"),
+              ("periodEnd.day", "1"),
+              ("periodEnd.month", "12"),
+              ("periodEnd.year", "2012"),
+              ("overdrawn", "1000"),
+              ("unpaidTax", "1000"),
+              ("interest", "1000"),
+              ("penaltyRate", "20"),
+              ("penaltyRateReason", "reason")
+            )
 
         val result = route(application, request).value
 
@@ -128,7 +142,7 @@ class DirectorLoanAccountLiabilitiesControllerSpec extends SpecBase with Mockito
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode, index)(request, messages(application)).toString
       }
     }
 

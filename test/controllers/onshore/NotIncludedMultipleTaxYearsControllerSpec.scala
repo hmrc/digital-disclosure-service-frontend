@@ -18,12 +18,12 @@ package controllers
 
 import base.SpecBase
 import forms.NotIncludedMultipleTaxYearsFormProvider
-import models.{NormalMode, OnshoreYearStarting, OnshoreYears}
+import models.NormalMode
 import navigation.{FakeOnshoreNavigator, OnshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.{NotIncludedMultipleTaxYearsPage}
+import pages.NotIncludedMultipleTaxYearsPage
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest

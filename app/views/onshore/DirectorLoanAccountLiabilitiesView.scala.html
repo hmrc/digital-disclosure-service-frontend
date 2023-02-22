@@ -32,7 +32,7 @@
 
 @(form: Form[_], mode: Mode, index: Int)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("directorLoanAccountLiabilities.title", index))) {
+@layout(pageTitle = title(form, messages("directorLoanAccountLiabilities.title", index + 1))) {
 
     @formHelper(action = controllers.onshore.routes.DirectorLoanAccountLiabilitiesController.onSubmit(index, mode), 'autoComplete -> "off") {
 
@@ -41,7 +41,7 @@
         }
 
 
-        @heading(Text(messages("directorLoanAccountLiabilities.heading", index)))
+        @heading(Text(messages("directorLoanAccountLiabilities.heading", index + 1)))
 
         @paragraph(
           id = Some("guidance"),

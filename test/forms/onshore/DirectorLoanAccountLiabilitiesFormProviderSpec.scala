@@ -16,19 +16,21 @@
 
 package forms
 
-import forms.behaviours.StringFieldBehaviours
+import forms.behaviours.{BigIntFieldBehaviours, IntFieldBehaviours, PeriodEndBehaviours, StringFieldBehaviours}
 import play.api.data.FormError
 
-class DirectorLoanAccountLiabilitiesFormProviderSpec extends StringFieldBehaviours {
+import java.time.{LocalDate, ZoneOffset}
+
+class DirectorLoanAccountLiabilitiesFormProviderSpec extends PeriodEndBehaviours with IntFieldBehaviours with BigIntFieldBehaviours with StringFieldBehaviours {
 
   val form = new DirectorLoanAccountLiabilitiesFormProvider()()
 
-  ".field1" - {
+  ".name" - {
 
-    val fieldName = "field1"
-    val requiredKey = "directorLoanAccountLiabilities.error.field1.required"
-    val lengthKey = "directorLoanAccountLiabilities.error.field1.length"
-    val maxLength = 100
+    val fieldName = "name"
+    val requiredKey = "directorLoanAccountLiabilities.name.required"
+    val lengthKey = "directorLoanAccountLiabilities.name.invalid"
+    val maxLength = 30
 
     behave like fieldThatBindsValidData(
       form,
@@ -50,12 +52,81 @@ class DirectorLoanAccountLiabilitiesFormProviderSpec extends StringFieldBehaviou
     )
   }
 
-  ".field2" - {
+   Seq(
+      "overdrawn",
+      "unpaidTax",
+      "interest"
+    ).foreach { fieldName =>
+      s"$fieldName" - {
+        val minimum = BigInt(0)
+        val maximum = BigInt("999999999999999999999999")
 
-    val fieldName = "field2"
-    val requiredKey = "directorLoanAccountLiabilities.error.field2.required"
-    val lengthKey = "directorLoanAccountLiabilities.error.field2.length"
-    val maxLength = 100
+        val validDataGenerator = bigintsInRange(minimum, maximum)
+
+        behave like fieldThatBindsValidData(
+          form,
+          fieldName,
+          validDataGenerator
+        )
+
+        behave like bigintField(
+          form,
+          fieldName,
+          nonNumericError  = FormError(fieldName, s"directorLoanAccountLiabilities.$fieldName.error.nonNumeric"),
+          wholeNumberError = FormError(fieldName, s"directorLoanAccountLiabilities.$fieldName.error.wholeNumber")
+        )
+
+        behave like mandatoryField(
+          form,
+          fieldName,
+          requiredError = FormError(fieldName, s"directorLoanAccountLiabilities.$fieldName.error.required")
+        )
+      }
+    }
+
+  ".penaltyRate" - {
+    val minimum = 0
+    val maximum = 200
+
+    val fieldName = "penaltyRate"
+
+    val validDataGenerator = intsInRangeWithCommas(minimum, maximum)
+
+    behave like fieldThatBindsValidData(
+      form,
+      fieldName,
+      validDataGenerator
+    )
+
+    behave like intField(
+      form,
+      fieldName,
+      nonNumericError = FormError(fieldName, s"directorLoanAccountLiabilities.penaltyRate.error.nonNumeric"),
+      wholeNumberError = FormError(fieldName, s"directorLoanAccountLiabilities.penaltyRate.error.wholeNumber")
+    )
+
+    behave like intFieldWithRange(
+      form,
+      fieldName,
+      minimum = minimum,
+      maximum = maximum,
+      expectedError = FormError(fieldName, s"directorLoanAccountLiabilities.penaltyRate.error.outOfRange", Seq(minimum, maximum))
+    )
+
+    behave like mandatoryField(
+      form,
+      fieldName,
+      requiredError = FormError(fieldName, s"directorLoanAccountLiabilities.penaltyRate.error.required")
+    )
+  }
+
+  ".penaltyRateReason" - {
+
+    val fieldName = "penaltyRateReason"
+    val maxLength = 5000
+
+    val lengthKey = "directorLoanAccountLiabilities.penaltyRateReason.error.length"
+    val requiredKey = "directorLoanAccountLiabilities.penaltyRateReason.error.required"
 
     behave like fieldThatBindsValidData(
       form,
@@ -75,5 +146,34 @@ class DirectorLoanAccountLiabilitiesFormProviderSpec extends StringFieldBehaviou
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+  }
+
+  ".periodEnd" - {
+
+    val fieldName = "periodEnd"
+
+    val data = Map(
+      s"name" -> "name",
+      s"periodEnd.day" -> "1",
+      s"periodEnd.month" -> "1",
+      s"periodEnd.year" -> LocalDate.now(ZoneOffset.UTC).minusDays(1).getYear.toString,
+      s"overdrawn" -> "100",
+      s"unpaidTax" -> "100",
+      s"interest" -> "100",
+      s"penaltyRate" -> "100",
+      s"penaltyRateReason" -> "reason"
+    )
+
+    periodEndField(form, "directorLoanAccountLiabilities", data)
+
+    periodEndFieldCheckingMaxDay(form, data, FormError(fieldName + ".day", "directorLoanAccountLiabilities.periodEnd.error.invalidDay"))
+
+    periodEndFieldCheckingMaxMonth(form, data, FormError(fieldName + ".month", "directorLoanAccountLiabilities.periodEnd.error.invalidMonth"))
+
+    periodEndFieldInFuture(form, data, FormError(fieldName, "directorLoanAccountLiabilities.periodEnd.error.invalidFuture"))
+
+    periodEndFieldWithMin(form, data, FormError(fieldName, "directorLoanAccountLiabilities.periodEnd.error.invalidPastDate"))
+
+
   }
 }
