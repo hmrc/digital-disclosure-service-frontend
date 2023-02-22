@@ -14,20 +14,22 @@
  * limitations under the License.
  */
 
-package pages
+package models
 
-import models.CorporationTaxLiability
-import pages.behaviours.PageBehaviours
+import play.api.libs.json._
 
-class CorporationTaxLiabilityPageSpec extends PageBehaviours {
+import java.time.LocalDate
 
-  "CorporationTaxLiabilityPage" - {
-    
-    beRetrievable[Set[CorporationTaxLiability]](CorporationTaxLiabilityPage)
+case class DirectorLoanAccountLiabilities (
+  name: String,
+  periodEnd: LocalDate,
+  overdrawn: BigInt,
+  unpaidTax: BigInt,
+  interest: BigInt,
+  penaltyRate: Int,
+  penaltyRateReason: String
+)
 
-    beSettable[Set[CorporationTaxLiability]](CorporationTaxLiabilityPage)
-
-    beRemovable[Set[CorporationTaxLiability]](CorporationTaxLiabilityPage)
-
-  }
+object DirectorLoanAccountLiabilities {
+  implicit val format = Json.format[DirectorLoanAccountLiabilities]
 }

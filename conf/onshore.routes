@@ -90,3 +90,8 @@ GET        /basic-rate-tax-reduction-amount/:i/change                        con
 POST       /basic-rate-tax-reduction-amount/:i/change                        controllers.onshore.ResidentialReductionController.onSubmit(i: Int, mode: Mode = CheckMode)
 
 GET        /you-are-making-nil-disclosure                    controllers.onshore.MakingNilDisclosureController.onPageLoad
+
+GET        /director-loan-liabilities/:i                      controllers.onshore.DirectorLoanAccountLiabilitiesController.onPageLoad(i:Int, mode: Mode = NormalMode)
+POST       /director-loan-liabilities/:i                      controllers.onshore.DirectorLoanAccountLiabilitiesController.onSubmit(i:Int, mode: Mode = NormalMode)
+GET        /director-loan-liabilities/:i/change               controllers.onshore.DirectorLoanAccountLiabilitiesController.onPageLoad(i:Int, mode: Mode = CheckMode)
+POST       /director-loan-liabilities/:i/change               controllers.onshore.DirectorLoanAccountLiabilitiesController.onSubmit(i:Int, mode: Mode = CheckMode)

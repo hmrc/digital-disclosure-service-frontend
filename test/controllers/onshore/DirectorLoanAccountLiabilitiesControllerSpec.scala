@@ -16,79 +16,78 @@
 
 package controllers
 
-import java.time.{LocalDate, ZoneOffset}
-
 import base.SpecBase
-import forms.CorporationTaxLiabilityFormProvider
-import models.{NormalMode, UserAnswers, CorporationTaxLiability}
+import forms.DirectorLoanAccountLiabilitiesFormProvider
+import models.{DirectorLoanAccountLiabilities, NormalMode, UserAnswers}
 import navigation.{FakeOnshoreNavigator, OnshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.CorporationTaxLiabilityPage
+import pages.DirectorLoanAccountLiabilitiesPage
 import play.api.inject.bind
-import play.api.mvc.{AnyContentAsEmpty, Call}
+import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
-import views.html.onshore.CorporationTaxLiabilityView
+import views.html.onshore.DirectorLoanAccountLiabilitiesView
 
+import java.time.{LocalDate, ZoneOffset}
 import scala.concurrent.Future
 
-class CorporationTaxLiabilityControllerSpec extends SpecBase with MockitoSugar {
-
-  val formProvider = new CorporationTaxLiabilityFormProvider()
-  private def form = formProvider()
+class DirectorLoanAccountLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  val validAnswer = LocalDate.now(ZoneOffset.UTC)
+  val formProvider = new DirectorLoanAccountLiabilitiesFormProvider()
+  val form = formProvider()
 
-  lazy val corporationTaxLiabilityRoute = onshore.routes.CorporationTaxLiabilityController.onPageLoad(0, NormalMode).url
+  val index = 0
 
-  override val emptyUserAnswers = UserAnswers(userAnswersId)
+  lazy val directorLoanAccountLiabilitiesRoute = onshore.routes.DirectorLoanAccountLiabilitiesController.onPageLoad(index, NormalMode).url
 
-  val answer = CorporationTaxLiability(
-    periodEnd = LocalDate.now(ZoneOffset.UTC),
-    howMuchIncome = BigInt(100),
-    howMuchUnpaid = BigInt(100),
-    howMuchInterest = BigInt(100),
-    penaltyRate = 5,
+  val answer = DirectorLoanAccountLiabilities(
+    name = "a Name",
+    periodEnd = LocalDate.now(ZoneOffset.UTC).minusDays(1),
+    overdrawn = BigInt(1000),
+    unpaidTax = BigInt(1000),
+    interest = BigInt(1000),
+    penaltyRate = 20,
     penaltyRateReason = "Reason"
   )
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
-    FakeRequest(GET, corporationTaxLiabilityRoute)
+  val userAnswers = UserAnswers(userAnswersId).set(DirectorLoanAccountLiabilitiesPage, Set(answer)).success.value
 
-  "CorporationTaxLiability Controller" - {
+  "DirectorLoanAccountLiabilities Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       running(application) {
-        val result = route(application, getRequest).value
+        val request = FakeRequest(GET, directorLoanAccountLiabilitiesRoute)
 
-        val view = application.injector.instanceOf[CorporationTaxLiabilityView]
+        val view = application.injector.instanceOf[DirectorLoanAccountLiabilitiesView]
+
+        val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode, 0)(getRequest, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode, index)(request, messages(application)).toString
       }
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
-      
-      val userAnswers = UserAnswers(userAnswersId).set(CorporationTaxLiabilityPage, Set(answer)).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
-        val view = application.injector.instanceOf[CorporationTaxLiabilityView]
+        val request = FakeRequest(GET, directorLoanAccountLiabilitiesRoute)
 
-        val result = route(application, getRequest).value
+        val view = application.injector.instanceOf[DirectorLoanAccountLiabilitiesView]
+
+        val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(answer), NormalMode, 0)(getRequest, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(answer), NormalMode, index)(request, messages(application)).toString
       }
     }
 
@@ -107,16 +106,17 @@ class CorporationTaxLiabilityControllerSpec extends SpecBase with MockitoSugar {
 
       running(application) {
         val request =
-          FakeRequest(POST, corporationTaxLiabilityRoute)
+          FakeRequest(POST, directorLoanAccountLiabilitiesRoute)
             .withFormUrlEncodedBody(
+              ("name", "name"),
               ("periodEnd.day", "1"),
               ("periodEnd.month", "12"),
               ("periodEnd.year", "2012"),
-              ("howMuchIncome" , "100"),
-              ("howMuchUnpaid" , "100"),
-              ("howMuchInterest" , "100"),
-              ("penaltyRate" , "5"),
-              ("penaltyRateReason" , "Reason")
+              ("overdrawn", "1000"),
+              ("unpaidTax", "1000"),
+              ("interest", "1000"),
+              ("penaltyRate", "20"),
+              ("penaltyRateReason", "reason")
             )
 
         val result = route(application, request).value
@@ -130,19 +130,19 @@ class CorporationTaxLiabilityControllerSpec extends SpecBase with MockitoSugar {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val request =
-        FakeRequest(POST, corporationTaxLiabilityRoute)
-          .withFormUrlEncodedBody(("value", "invalid value"))
-
       running(application) {
+        val request =
+          FakeRequest(POST, directorLoanAccountLiabilitiesRoute)
+            .withFormUrlEncodedBody(("value", "invalid value"))
+
         val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[CorporationTaxLiabilityView]
+        val view = application.injector.instanceOf[DirectorLoanAccountLiabilitiesView]
 
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, 0)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode, index)(request, messages(application)).toString
       }
     }
 
@@ -151,7 +151,9 @@ class CorporationTaxLiabilityControllerSpec extends SpecBase with MockitoSugar {
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val result = route(application, getRequest).value
+        val request = FakeRequest(GET, directorLoanAccountLiabilitiesRoute)
+
+        val result = route(application, request).value
 
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
@@ -164,8 +166,8 @@ class CorporationTaxLiabilityControllerSpec extends SpecBase with MockitoSugar {
 
       running(application) {
         val request =
-          FakeRequest(POST, corporationTaxLiabilityRoute)
-            .withFormUrlEncodedBody(("howMuchIncome", "100"), ("field2", "value 2"))
+          FakeRequest(POST, directorLoanAccountLiabilitiesRoute)
+            .withFormUrlEncodedBody(("field1", "value 1"), ("field2", "value 2"))
 
         val result = route(application, request).value
 
@@ -173,6 +175,5 @@ class CorporationTaxLiabilityControllerSpec extends SpecBase with MockitoSugar {
         redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
       }
     }
-  
   }
 }

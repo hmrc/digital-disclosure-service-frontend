@@ -16,18 +16,17 @@
 
 package pages
 
-import models.CorporationTaxLiability
+import models.DirectorLoanAccountLiabilities
 import pages.behaviours.PageBehaviours
 
-class CorporationTaxLiabilityPageSpec extends PageBehaviours {
+class DirectorLoanAccountLiabilitiesPageSpec extends PageBehaviours {
 
-  "CorporationTaxLiabilityPage" - {
-    
-    beRetrievable[Set[CorporationTaxLiability]](CorporationTaxLiabilityPage)
+  "DirectorLoanAccountLiabilitiesPage" - {
 
-    beSettable[Set[CorporationTaxLiability]](CorporationTaxLiabilityPage)
+    beRetrievable[Set[DirectorLoanAccountLiabilities]](DirectorLoanAccountLiabilitiesPage)
 
-    beRemovable[Set[CorporationTaxLiability]](CorporationTaxLiabilityPage)
+    beSettable[Set[DirectorLoanAccountLiabilities]](DirectorLoanAccountLiabilitiesPage)
 
+    beRemovable[Set[DirectorLoanAccountLiabilities]](DirectorLoanAccountLiabilitiesPage)
   }
 }

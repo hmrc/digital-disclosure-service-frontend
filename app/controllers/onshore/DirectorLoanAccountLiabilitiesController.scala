@@ -17,37 +17,37 @@
 package controllers.onshore
 
 import controllers.actions._
-import forms.CorporationTaxLiabilityFormProvider
+import forms.DirectorLoanAccountLiabilitiesFormProvider
+
 import javax.inject.Inject
 import models.Mode
 import navigation.OnshoreNavigator
-import pages.CorporationTaxLiabilityPage
+import pages.DirectorLoanAccountLiabilitiesPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import views.html.onshore.CorporationTaxLiabilityView
+import views.html.onshore.DirectorLoanAccountLiabilitiesView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class CorporationTaxLiabilityController @Inject()(
-                                        override val messagesApi: MessagesApi,
-                                        sessionService: SessionService,
-                                        navigator: OnshoreNavigator,
-                                        identify: IdentifierAction,
-                                        getData: DataRetrievalAction,
-                                        requireData: DataRequiredAction,
-                                        formProvider: CorporationTaxLiabilityFormProvider,
-                                        val controllerComponents: MessagesControllerComponents,
-                                        view: CorporationTaxLiabilityView
-                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class DirectorLoanAccountLiabilitiesController @Inject()(
+                                      override val messagesApi: MessagesApi,
+                                      sessionService: SessionService,
+                                      navigator: OnshoreNavigator,
+                                      identify: IdentifierAction,
+                                      getData: DataRetrievalAction,
+                                      requireData: DataRequiredAction,
+                                      formProvider: DirectorLoanAccountLiabilitiesFormProvider,
+                                      val controllerComponents: MessagesControllerComponents,
+                                      view: DirectorLoanAccountLiabilitiesView
+                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  def form = formProvider()
+  val form = formProvider()
 
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-
-      val preparedForm = request.userAnswers.getByIndex(CorporationTaxLiabilityPage, i) match {
+      val preparedForm = request.userAnswers.getByIndex(DirectorLoanAccountLiabilitiesPage, i) match {
         case None => form
         case Some(value) => form.fill(value)
       }
@@ -57,16 +57,15 @@ class CorporationTaxLiabilityController @Inject()(
 
   def onSubmit(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
       form.bindFromRequest().fold(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode, i))),
-
-        value =>
+        value => {
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.addToSet(CorporationTaxLiabilityPage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(CorporationTaxLiabilityPage, mode, updatedAnswers))
+            updatedAnswers <- Future.fromTry(request.userAnswers.addToSet(DirectorLoanAccountLiabilitiesPage, value))
+            _ <- sessionService.set(updatedAnswers)
+          } yield Redirect(navigator.nextPage(DirectorLoanAccountLiabilitiesPage, mode, updatedAnswers))
+        }
       )
   }
 }

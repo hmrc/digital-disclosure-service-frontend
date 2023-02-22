@@ -16,18 +16,12 @@
 
 package pages
 
-import models.CorporationTaxLiability
-import pages.behaviours.PageBehaviours
+import models.DirectorLoanAccountLiabilities
+import play.api.libs.json.JsPath
 
-class CorporationTaxLiabilityPageSpec extends PageBehaviours {
+case object DirectorLoanAccountLiabilitiesPage extends QuestionPage[Set[DirectorLoanAccountLiabilities]] {
 
-  "CorporationTaxLiabilityPage" - {
-    
-    beRetrievable[Set[CorporationTaxLiability]](CorporationTaxLiabilityPage)
+  override def path: JsPath = JsPath \ toString
 
-    beSettable[Set[CorporationTaxLiability]](CorporationTaxLiabilityPage)
-
-    beRemovable[Set[CorporationTaxLiability]](CorporationTaxLiabilityPage)
-
-  }
+  override def toString: String = "directorLoanAccountLiabilities"
 }

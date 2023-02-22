@@ -30,7 +30,6 @@ import models.store._
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 import scala.concurrent.ExecutionContext.Implicits.global
-import pages.LetterReferencePage
 
 class NotificationSubmissionServiceSpec extends AnyWordSpec with ScalaFutures
     with TryValues with Matchers with MockitoSugar  {
