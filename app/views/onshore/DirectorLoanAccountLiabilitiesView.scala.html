@@ -27,7 +27,8 @@
     heading: components.heading,
     paragraph: components.paragraph,
     hmrcCharacterCount: HmrcCharacterCount,
-    link: components.link
+    link: components.link,
+    tasklistLink: components.tasklistLink
 )
 
 @(form: Form[_], mode: Mode, index: Int)(implicit request: Request[_], messages: Messages)
@@ -123,4 +124,5 @@
             ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
         )
     }
+    @tasklistLink()
 }

@@ -29,7 +29,6 @@ class CorporationTaxLiabilityFormProviderSpec extends PeriodEndBehaviours with I
     val fieldName = "periodEnd"
 
     val data = Map(
-      s"name" -> "name",
       s"periodEnd.day" -> "1",
       s"periodEnd.month" -> "1",
       s"periodEnd.year" -> LocalDate.now(ZoneOffset.UTC).minusDays(1).getYear.toString,
