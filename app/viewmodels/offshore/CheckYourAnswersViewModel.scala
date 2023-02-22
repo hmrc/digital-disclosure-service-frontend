@@ -35,7 +35,7 @@ case class CheckYourAnswersViewModel(
 )
 
 @Singleton
-class CheckYourAnswersViewModelCreation @Inject() (whichYearsSummary: WhichYearsSummary, taxBeforeFiveYearsSummary: TaxBeforeFiveYearsSummary, taxBeforeSevenYearsSummary: TaxBeforeSevenYearsSummary, taxBeforeNineteenYearSummary: CanYouTellUsMoreAboutTaxBeforeNineteenYearSummary) {
+class CheckYourAnswersViewModelCreation @Inject() (whichYearsSummary: WhichYearsSummary, taxBeforeFiveYearsSummary: TaxBeforeFiveYearsSummary, taxBeforeSevenYearsSummary: TaxBeforeSevenYearsSummary, taxBeforeNineteenYearSummary: TaxBeforeNineteenYearsSummary) {
 
   def create(userAnswers: UserAnswers)(implicit messages: Messages): CheckYourAnswersViewModel = {
 

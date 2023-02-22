@@ -69,13 +69,11 @@ class NotIncludedSingleTaxYearController @Inject()(
       val missingYears = OnshoreYearStarting.findMissingYears(years.toList)
       missingYears match {
         case head :: Nil => f(userAnswers, mode, head, firstYear, lastYear) 
-        case head :: tail => Future.successful(Redirect(controllers.onshore.routes.NotIncludedMultipleTaxYearsController.onPageLoad(NormalMode).url))
-        //TODO this needs to go the next page in the journey
-        case Nil => Future.successful(Redirect(controllers.routes.IndexController.onPageLoad.url))
+        case head :: tail => Future.successful(Redirect(controllers.onshore.routes.NotIncludedMultipleTaxYearsController.onPageLoad(mode).url))
+        case Nil => Future.successful(Redirect(navigator.nextPage(NotIncludedSingleTaxYearPage, mode, userAnswers)))
       }
     } 
-    //TODO this needs to go the which years page
-    result.getOrElse(Future.successful(Redirect(controllers.routes.IndexController.onPageLoad.url))) 
+    result.getOrElse(Future.successful(Redirect(controllers.onshore.routes.WhichOnshoreYearsController.onPageLoad(mode).url))) 
   }
 
   def displayPage(userAnswers: UserAnswers, mode: Mode, missingYear: OnshoreYearStarting, firstYear: OnshoreYearStarting, lastYear: OnshoreYearStarting)(implicit request: DataRequest[_]): Future[Result] = {

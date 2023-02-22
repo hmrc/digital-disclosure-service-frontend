@@ -59,6 +59,31 @@ POST       /what-do-you-need-to-disclose                    controllers.onshore.
 GET        /what-do-you-need-to-disclose/change             controllers.onshore.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(mode: Mode = CheckMode)
 POST       /what-do-you-need-to-disclose/change             controllers.onshore.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onSubmit(mode: Mode = CheckMode)
 
+GET        /tax-before-three-years                          controllers.onshore.TaxBeforeThreeYearsOnshoreController.onPageLoad(mode: Mode = NormalMode)
+POST       /tax-before-three-years                          controllers.onshore.TaxBeforeThreeYearsOnshoreController.onSubmit(mode: Mode = NormalMode)
+GET        /tax-before-three-years/change                   controllers.onshore.TaxBeforeThreeYearsOnshoreController.onPageLoad(mode: Mode = CheckMode)
+POST       /tax-before-three-years/change                   controllers.onshore.TaxBeforeThreeYearsOnshoreController.onSubmit(mode: Mode = CheckMode)
+
+GET        /tax-before-five-years                           controllers.onshore.TaxBeforeFiveYearsOnshoreController.onPageLoad(mode: Mode = NormalMode)
+POST       /tax-before-five-years                           controllers.onshore.TaxBeforeFiveYearsOnshoreController.onSubmit(mode: Mode = NormalMode)
+GET        /tax-before-five-years/change                    controllers.onshore.TaxBeforeFiveYearsOnshoreController.onPageLoad(mode: Mode = CheckMode)
+POST       /tax-before-five-years/change                    controllers.onshore.TaxBeforeFiveYearsOnshoreController.onSubmit(mode: Mode = CheckMode)
+
+GET        /tax-before-nineteen-years                       controllers.onshore.TaxBeforeNineteenYearsOnshoreController.onPageLoad(mode: Mode = NormalMode)
+POST       /tax-before-nineteen-years                       controllers.onshore.TaxBeforeNineteenYearsOnshoreController.onSubmit(mode: Mode = NormalMode)
+GET        /tax-before-nineteen-years/change                controllers.onshore.TaxBeforeNineteenYearsOnshoreController.onPageLoad(mode: Mode = CheckMode)
+POST       /tax-before-nineteen-years/change                controllers.onshore.TaxBeforeNineteenYearsOnshoreController.onSubmit(mode: Mode = CheckMode)
+
+GET        /onshore-liabilities/:i                      controllers.onshore.OnshoreTaxYearLiabilitiesController.onPageLoad(i: Int, mode: Mode = NormalMode)
+POST       /onshore-liabilities/:i                      controllers.onshore.OnshoreTaxYearLiabilitiesController.onSubmit(i: Int, mode: Mode = NormalMode)
+GET        /onshore-liabilities/:i/change               controllers.onshore.OnshoreTaxYearLiabilitiesController.onPageLoad(i: Int, mode: Mode = CheckMode)
+POST       /onshore-liabilities/:i/change               controllers.onshore.OnshoreTaxYearLiabilitiesController.onSubmit(i: Int, mode: Mode = CheckMode)
+
+GET        /basic-rate-tax-reduction-amount/:i                  controllers.onshore.ResidentialReductionController.onPageLoad(i: Int, mode: Mode = NormalMode)
+POST       /basic-rate-tax-reduction-amount/:i                  controllers.onshore.ResidentialReductionController.onSubmit(i: Int, mode: Mode = NormalMode)
+GET        /basic-rate-tax-reduction-amount/:i/change                        controllers.onshore.ResidentialReductionController.onPageLoad(i: Int, mode: Mode = CheckMode)
+POST       /basic-rate-tax-reduction-amount/:i/change                        controllers.onshore.ResidentialReductionController.onSubmit(i: Int, mode: Mode = CheckMode)
+
 GET        /director-loan-liabilities/:i                      controllers.onshore.DirectorLoanAccountLiabilitiesController.onPageLoad(i:Int, mode: Mode = NormalMode)
 POST       /director-loan-liabilities/:i                      controllers.onshore.DirectorLoanAccountLiabilitiesController.onSubmit(i:Int, mode: Mode = NormalMode)
 GET        /director-loan-liabilities/:i/change               controllers.onshore.DirectorLoanAccountLiabilitiesController.onPageLoad(i:Int, mode: Mode = CheckMode)

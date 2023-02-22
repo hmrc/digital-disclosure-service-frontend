@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryResidentialReductionPage: Arbitrary[ResidentialReductionPage.type] =
+    Arbitrary(ResidentialReductionPage)
+
   implicit lazy val arbitraryDirectorLoanAccountLiabilitiesPage: Arbitrary[DirectorLoanAccountLiabilitiesPage.type] =
     Arbitrary(DirectorLoanAccountLiabilitiesPage)
 
@@ -48,8 +51,11 @@ trait PageGenerators {
   implicit lazy val arbitraryYouHaveNotSelectedCertainTaxYearPage: Arbitrary[YouHaveNotSelectedCertainTaxYearPage.type] =
     Arbitrary(YouHaveNotSelectedCertainTaxYearPage)
 
-  implicit lazy val arbitraryCanYouTellUsMoreAboutTaxBeforeNineteenYearPage: Arbitrary[CanYouTellUsMoreAboutTaxBeforeNineteenYearPage.type] =
-    Arbitrary(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage)
+  implicit lazy val arbitraryTaxBeforeNineteenYearsPage: Arbitrary[TaxBeforeNineteenYearsPage.type] =
+    Arbitrary(TaxBeforeNineteenYearsPage)
+
+  implicit lazy val arbitraryTaxBeforeNineteenYearsOnshorePage: Arbitrary[TaxBeforeNineteenYearsOnshorePage.type] =
+    Arbitrary(TaxBeforeNineteenYearsOnshorePage)
 
   implicit lazy val arbitraryNotificationStartedPage: Arbitrary[NotificationStartedPage.type] =
     Arbitrary(NotificationStartedPage)
@@ -126,8 +132,14 @@ trait PageGenerators {
   implicit lazy val arbitraryTaxBeforeSevenYearsPage: Arbitrary[TaxBeforeSevenYearsPage.type] =
     Arbitrary(TaxBeforeSevenYearsPage)
 
+  implicit lazy val arbitraryTaxBeforeThreeYearsOnshorePage: Arbitrary[TaxBeforeThreeYearsOnshorePage.type] =
+    Arbitrary(TaxBeforeThreeYearsOnshorePage)
+
   implicit lazy val arbitraryTaxBeforeFiveYearsPage: Arbitrary[TaxBeforeFiveYearsPage.type] =
     Arbitrary(TaxBeforeFiveYearsPage)
+
+  implicit lazy val arbitraryTaxBeforeFiveYearsOnshorePage: Arbitrary[TaxBeforeFiveYearsOnshorePage.type] =
+    Arbitrary(TaxBeforeFiveYearsOnshorePage)
 
   implicit lazy val arbitraryTaxYearLiabilitiesPage: Arbitrary[TaxYearLiabilitiesPage.type] =
     Arbitrary(TaxYearLiabilitiesPage)

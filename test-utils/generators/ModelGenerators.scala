@@ -148,6 +148,35 @@ trait ModelGenerators {
       }
     }
 
+  implicit lazy val abitraryOnshoreTaxYearWithLiabilities: Arbitrary[OnshoreTaxYearWithLiabilities] =
+    Arbitrary {
+      for {
+        year <- Gen.choose(2002, 2032)
+        income <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
+        capitalGains <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
+        unpaidTax <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
+        niContributions <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
+        interest <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
+        penaltyRate <- arbitrary[Int]
+        penaltyRateReason <- arbitrary[String]
+        deduction <- arbitrary[Boolean]
+      } yield {
+        val taxYearLiabilities = OnshoreTaxYearLiabilities(
+          Some(income),
+          Some(income),
+          Some(income),
+          Some(capitalGains),
+          unpaidTax,
+          niContributions,
+          interest,
+          penaltyRate,
+          penaltyRateReason,
+          Some(deduction)
+        )
+        OnshoreTaxYearWithLiabilities(OnshoreYearStarting(year), taxYearLiabilities)
+      }
+    }
+
   implicit lazy val arbitraryYourLegalInterpretation: Arbitrary[YourLegalInterpretation] =
     Arbitrary {
       Gen.oneOf(YourLegalInterpretation.values)

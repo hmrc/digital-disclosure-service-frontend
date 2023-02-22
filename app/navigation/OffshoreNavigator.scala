@@ -64,15 +64,16 @@ class OffshoreNavigator @Inject()() {
     case WhatIsYourReasonableExcuseForNotFilingReturnPage => _ => routes.WhichYearsController.onPageLoad(NormalMode)
 
     case WhichYearsPage => ua => {
-      val missingYearsCount = ua.inverselySortedOffshoreTaxYears.map(ty => TaxYearStarting.findMissingYears(ty.toList).size)
-      (ua.get(WhichYearsPage), missingYearsCount, ua.get(CountryOfYourOffshoreLiabilityPage)) match {
-        case (Some(years), Some(0), Some(countryMap)) if years.contains(ReasonableExcusePriorTo) => routes.TaxBeforeFiveYearsController.onPageLoad(NormalMode)
-        case (Some(years), Some(0), Some(countryMap)) if years.contains(CarelessPriorTo) => routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode)
-        case (Some(years), Some(0), Some(countryMap)) if years.contains(DeliberatePriorTo) => routes.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onPageLoad(NormalMode)
-        case (Some(_), Some(0), Some(countryMap)) if !countryMap.isEmpty => routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
-        case (Some(_), Some(1), Some(countryMap)) => routes.YouHaveNotIncludedTheTaxYearController.onPageLoad(NormalMode)
-        case (Some(_), Some(_), Some(countryMap)) => routes.YouHaveNotSelectedCertainTaxYearController.onPageLoad(NormalMode)
-        case (_, _, _) => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
+      val missingYearsCount = ua.inverselySortedOffshoreTaxYears.map(ty => TaxYearStarting.findMissingYears(ty.toList).size).getOrElse(0)
+      val countryMapEmpty = ua.get(CountryOfYourOffshoreLiabilityPage).getOrElse(Map()).isEmpty
+      (ua.get(WhichYearsPage), missingYearsCount) match {
+        case (_, 1) => routes.YouHaveNotIncludedTheTaxYearController.onPageLoad(NormalMode)
+        case (_, count) if count > 1 => routes.YouHaveNotSelectedCertainTaxYearController.onPageLoad(NormalMode)
+        case (Some(years), _) if years.contains(ReasonableExcusePriorTo) => routes.TaxBeforeFiveYearsController.onPageLoad(NormalMode)
+        case (Some(years), _) if years.contains(CarelessPriorTo) => routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode)
+        case (Some(years), _) if years.contains(DeliberatePriorTo) => routes.TaxBeforeNineteenYearsController.onPageLoad(NormalMode)
+        case (_, 0) if !countryMapEmpty => routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
+        case (_, 0) => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
       }
     }
 
@@ -100,7 +101,7 @@ class OffshoreNavigator @Inject()() {
       case (_, _) => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
     }
 
-    case CanYouTellUsMoreAboutTaxBeforeNineteenYearPage => ua => (ua.get(WhichYearsPage), ua.get(CountryOfYourOffshoreLiabilityPage)) match {
+    case TaxBeforeNineteenYearsPage => ua => (ua.get(WhichYearsPage), ua.get(CountryOfYourOffshoreLiabilityPage)) match {
       case (Some(whichYear), _) if whichYear.contains(DeliberatePriorTo) && whichYear.size == 1 => controllers.routes.MakingNilDisclosureController.onPageLoad
       case (Some(_), Some(countryMap)) if !countryMap.isEmpty => routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
       case (_, _) => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
@@ -114,15 +115,23 @@ class OffshoreNavigator @Inject()() {
       case _ => routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
     }
 
-    case YouHaveNotIncludedTheTaxYearPage => ua => ua.get(CountryOfYourOffshoreLiabilityPage) match {
-      case Some(countryMap) if !countryMap.isEmpty => routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
-      case _ => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
-    }
+    case YouHaveNotIncludedTheTaxYearPage => ua => 
+      (ua.get(WhichYearsPage), ua.get(CountryOfYourOffshoreLiabilityPage)) match {
+        case (Some(years), _) if years.contains(ReasonableExcusePriorTo) => routes.TaxBeforeFiveYearsController.onPageLoad(NormalMode)
+        case (Some(years), _) if years.contains(CarelessPriorTo) => routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode)
+        case (Some(years), _) if years.contains(DeliberatePriorTo) => routes.TaxBeforeNineteenYearsController.onPageLoad(NormalMode)
+        case (_, Some(countryMap)) if !countryMap.isEmpty => routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
+        case _ => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
+      }
 
-    case YouHaveNotSelectedCertainTaxYearPage => ua => ua.get(CountryOfYourOffshoreLiabilityPage) match {
-      case Some(countryMap) if !countryMap.isEmpty => routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
-      case _ => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
-    }
+    case YouHaveNotSelectedCertainTaxYearPage => ua => 
+      (ua.get(WhichYearsPage), ua.get(CountryOfYourOffshoreLiabilityPage)) match {
+        case (Some(years), _) if years.contains(ReasonableExcusePriorTo) => routes.TaxBeforeFiveYearsController.onPageLoad(NormalMode)
+        case (Some(years), _) if years.contains(CarelessPriorTo) => routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode)
+        case (Some(years), _) if years.contains(DeliberatePriorTo) => routes.TaxBeforeNineteenYearsController.onPageLoad(NormalMode)
+        case (_, Some(countryMap)) if !countryMap.isEmpty => routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
+        case _ => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
+      }
 
     case WhereDidTheUndeclaredIncomeOrGainIncludedPage => ua => ua.get(WhereDidTheUndeclaredIncomeOrGainIncludedPage) match {
       case Some(value) if(value.contains(SomewhereElse)) => routes.WhereDidTheUndeclaredIncomeOrGainController.onPageLoad(NormalMode)
@@ -147,11 +156,6 @@ class OffshoreNavigator @Inject()() {
     case WhyAreYouMakingThisDisclosurePage => ua => hasChanged =>
         if (hasChanged) normalRoutes(WhyAreYouMakingThisDisclosurePage)(ua)
         else routes.CheckYourAnswersController.onPageLoad
-
-    case YourLegalInterpretationPage => ua => {
-      case true => nextPage(YourLegalInterpretationPage, NormalMode, ua)
-      case false => routes.CheckYourAnswersController.onPageLoad
-    }
     
     case WhichYearsPage => ua => hasAnswerChanged => 
       if(hasAnswerChanged) nextPage(WhichYearsPage, NormalMode, ua)

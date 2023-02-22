@@ -20,7 +20,7 @@ import javax.inject.{Inject, Singleton}
 import play.api.mvc.Call
 import controllers.onshore.routes
 import pages._
-import models.{CheckMode, Mode, NormalMode, RelatesTo, UserAnswers}
+import models._
 import models.WhyAreYouMakingThisOnshoreDisclosure._
 import models.WhereDidTheUndeclaredIncomeOrGainIncluded._
 
@@ -62,9 +62,24 @@ class OnshoreNavigator @Inject()() {
 
     case ReasonableExcuseForNotFilingOnshorePage => _ => routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
 
-    case WhatOnshoreLiabilitiesDoYouNeedToDisclosePage => _ => routes.WhichOnshoreYearsController.onPageLoad(NormalMode)
+    case WhatOnshoreLiabilitiesDoYouNeedToDisclosePage => ua => ua.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage) match {
+      case Some(taxTypes) if taxTypes.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome) => controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
+      case _ => routes.WhichOnshoreYearsController.onPageLoad(NormalMode)
+    }
 
-    case _ => _ => controllers.routes.IndexController.onPageLoad
+    case WhichOnshoreYearsPage => ua => {
+      val missingYearsCount = ua.inverselySortedOnshoreTaxYears.map(ty => OnshoreYearStarting.findMissingYears(ty.toList).size).getOrElse(0)
+      (ua.get(WhichOnshoreYearsPage), missingYearsCount) match {
+        case (Some(_), 1) => routes.NotIncludedSingleTaxYearController.onPageLoad(NormalMode)
+        case (Some(_), count) if count > 1  => routes.NotIncludedMultipleTaxYearsController.onPageLoad(NormalMode)
+        case (Some(years), _) if years.contains(PriorToThreeYears) => routes.TaxBeforeThreeYearsOnshoreController.onPageLoad(NormalMode)
+        case (Some(years), _) if years.contains(PriorToFiveYears) => routes.TaxBeforeFiveYearsOnshoreController.onPageLoad(NormalMode)
+        case (Some(years), _) if years.contains(PriorToNineteenYears) => routes.TaxBeforeNineteenYearsOnshoreController.onPageLoad(NormalMode)
+        case (_, _) => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
+      }
+    }
+
+    case _ => _ => controllers.routes.TaskListController.onPageLoad
   }
 
   private val checkRouteMap: Page => UserAnswers => Boolean => Call = {
@@ -76,6 +91,13 @@ class OnshoreNavigator @Inject()() {
       normalRoutes(page)(userAnswers)
     case CheckMode =>
       checkRouteMap(page)(userAnswers)(hasAnswerChanged)
+  }
+
+  def nextTaxYearLiabilitiesPage(currentIndex: Int, deduction: Boolean, mode: Mode, userAnswers: UserAnswers, hasAnswerChanged: Boolean = false): Call =
+    (mode, userAnswers.inverselySortedOnshoreTaxYears) match {
+    case (NormalMode, _) if (deduction) => routes.ResidentialReductionController.onPageLoad(currentIndex, NormalMode)
+    case (NormalMode, Some(years)) if ((years.size - 1) > currentIndex) => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(currentIndex + 1, NormalMode)
+    case (_, _) => routes.IncomeOrGainSourceController.onPageLoad(mode)
   }
 
 }

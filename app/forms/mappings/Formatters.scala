@@ -102,7 +102,6 @@ trait Formatters {
         baseFormatter.unbind(key, value.toString)
     }
 
-
   private[mappings] def enumerableFormatter[A](requiredKey: String, invalidKey: String, args: Seq[String] = Seq.empty)(implicit ev: Enumerable[A]): Formatter[A] =
     new Formatter[A] {
 

@@ -90,7 +90,7 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
         PageWithValue(YouHaveNotSelectedCertainTaxYearPage, "Some value"),
         PageWithValue(TaxBeforeFiveYearsPage, "Some liabilities"),
         PageWithValue(TaxBeforeSevenYearsPage, "Some liabilities"),
-        PageWithValue(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage, "Some liabilities"),
+        PageWithValue(TaxBeforeNineteenYearsPage, "Some liabilities"),
         PageWithValue(ContractualDisclosureFacilityPage, true),
         PageWithValue(TaxYearLiabilitiesPage, Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities))),
         PageWithValue(ForeignTaxCreditPage, Map("2012" -> BigInt(123))),

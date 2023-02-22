@@ -84,7 +84,7 @@ class IndexViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "have a sixth paragraph" in {
-      view.getElementById("sixth-paragraph").text() mustBe messages("index.guidance.paragraph.sixth") + messages("index.guidance.paragraph.sixth.link")
+      view.getElementById("sixth-paragraph").text() mustBe messages("index.guidance.paragraph.sixth") + messages("index.guidance.paragraph.sixth.link") + messages("site.dot")
     }
 
     "have a sixth paragraph guidance link" in {

@@ -16,7 +16,6 @@
 
 package forms.behaviours
 
-import models.DirectorLoanAccountLiabilities
 import org.scalacheck.Gen
 import play.api.data.{Form, FormError}
 

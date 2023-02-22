@@ -28,6 +28,7 @@ trait UserAnswersGenerator extends TryValues {
 
   val generators: Seq[Gen[(QuestionPage[_], JsValue)]] =
     arbitrary[(DirectorLoanAccountLiabilitiesPage.type, JsValue)] ::
+    arbitrary[(ResidentialReductionPage.type, JsValue)] ::
     arbitrary[(WhichOnshoreYearsPage.type, JsValue)] ::
     arbitrary[(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage.type, JsValue)] ::
     arbitrary[(WhereDidTheUndeclaredIncomeOrGainIncludedPage.type, JsValue)] ::
@@ -36,7 +37,8 @@ trait UserAnswersGenerator extends TryValues {
     arbitrary[(WhereDidTheUndeclaredIncomeOrGainPage.type, JsValue)] ::
     arbitrary[(ForeignTaxCreditPage.type, JsValue)] ::
     arbitrary[(YouHaveNotSelectedCertainTaxYearPage.type, JsValue)] ::
-    arbitrary[(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage.type, JsValue)] ::
+    arbitrary[(TaxBeforeNineteenYearsPage.type, JsValue)] ::
+    arbitrary[(TaxBeforeNineteenYearsOnshorePage.type, JsValue)] ::
     arbitrary[(NotificationStartedPage.type, JsValue)] ::
     arbitrary[(YouHaveNotIncludedTheTaxYearPage.type, JsValue)] ::
     arbitrary[(CountriesOrTerritoriesPage.type, JsValue)] ::
@@ -62,7 +64,9 @@ trait UserAnswersGenerator extends TryValues {
     arbitrary[(HowMuchTaxHasNotBeenIncludedPage.type, JsValue)] ::
     arbitrary[(UnderWhatConsiderationPage.type, JsValue)] ::
     arbitrary[(TaxBeforeSevenYearsPage.type, JsValue)] ::
+    arbitrary[(TaxBeforeThreeYearsOnshorePage.type, JsValue)] ::
     arbitrary[(TaxBeforeFiveYearsPage.type, JsValue)] ::
+    arbitrary[(TaxBeforeFiveYearsOnshorePage.type, JsValue)] ::
     arbitrary[(TaxYearLiabilitiesPage.type, JsValue)] ::
     arbitrary[(YourLegalInterpretationPage.type, JsValue)] ::
     arbitrary[(CountryOfYourOffshoreLiabilityPage.type, JsValue)] ::

@@ -75,8 +75,8 @@ class TaxYearLiabilitiesController @Inject()(
             val taxYearWithLiabilities = TaxYearWithLiabilities(TaxYearStarting(year), value)
             val (clearedAnswers, hasValueChanged) = changedPages(request.userAnswers, year.toString, value)
             for {
-              aaaa <- Future.fromTry(clearedAnswers)
-              updatedAnswers <- Future.fromTry(aaaa.setByKey(TaxYearLiabilitiesPage, year.toString, taxYearWithLiabilities))
+              userAnswers <- Future.fromTry(clearedAnswers)
+              updatedAnswers <- Future.fromTry(userAnswers.setByKey(TaxYearLiabilitiesPage, year.toString, taxYearWithLiabilities))
               _              <- sessionService.set(updatedAnswers)
             } yield Redirect(navigator.nextTaxYearLiabilitiesPage(i, value.foreignTaxCredit, mode, updatedAnswers, hasValueChanged))
           }

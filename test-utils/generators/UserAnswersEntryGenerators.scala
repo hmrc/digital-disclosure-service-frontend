@@ -24,6 +24,14 @@ import play.api.libs.json.{JsValue, Json}
 
 trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
 
+  implicit lazy val arbitraryResidentialReductionUserAnswersEntry: Arbitrary[(ResidentialReductionPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[ResidentialReductionPage.type]
+        value <- arbitrary[Int].map(Json.toJson(_))
+      } yield (page, value)
+    }
+
   implicit lazy val arbitraryDirectorLoanAccountLiabilitiesUserAnswersEntry: Arbitrary[(DirectorLoanAccountLiabilitiesPage.type, JsValue)] =
     Arbitrary {
       for {
@@ -96,10 +104,18 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
       } yield (page, value)
     }
 
-  implicit lazy val arbitraryCanYouTellUsMoreAboutTaxBeforeNineteenYearUserAnswersEntry: Arbitrary[(CanYouTellUsMoreAboutTaxBeforeNineteenYearPage.type, JsValue)] =
+  implicit lazy val arbitraryTaxBeforeNineteenYearsUserAnswersEntry: Arbitrary[(TaxBeforeNineteenYearsPage.type, JsValue)] =
     Arbitrary {
       for {
-        page  <- arbitrary[CanYouTellUsMoreAboutTaxBeforeNineteenYearPage.type]
+        page  <- arbitrary[TaxBeforeNineteenYearsPage.type]
+        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryTaxBeforeNineteenYearsOnshoreUserAnswersEntry: Arbitrary[(TaxBeforeNineteenYearsOnshorePage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[TaxBeforeNineteenYearsOnshorePage.type]
         value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
       } yield (page, value)
     }  
@@ -304,6 +320,14 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
       } yield (page, value)
     }
 
+  implicit lazy val arbitraryTaxBeforeThreeYearsOnshoreUserAnswersEntry: Arbitrary[(TaxBeforeThreeYearsOnshorePage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[TaxBeforeThreeYearsOnshorePage.type]
+        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
+      } yield (page, value)
+    }
+
   implicit lazy val arbitraryTaxYearLiabilitiesUserAnswersEntry: Arbitrary[(TaxYearLiabilitiesPage.type, JsValue)] =
     Arbitrary {
       for {
@@ -316,6 +340,14 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
     Arbitrary {
       for {
         page  <- arbitrary[TaxBeforeFiveYearsPage.type]
+        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
+       } yield (page, value)
+    }
+
+  implicit lazy val arbitraryTaxBeforeFiveYearsOnshoreUserAnswersEntry: Arbitrary[(TaxBeforeFiveYearsOnshorePage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[TaxBeforeFiveYearsOnshorePage.type]
         value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
        } yield (page, value)
     }
