@@ -20,7 +20,7 @@ import javax.inject.{Inject, Singleton}
 import play.api.mvc.Call
 import controllers.onshore.routes
 import pages._
-import models.{CheckMode, Mode, NormalMode, RelatesTo, UserAnswers, OnshoreYearStarting}
+import models._
 import models.WhyAreYouMakingThisOnshoreDisclosure._
 import models.WhereDidTheUndeclaredIncomeOrGainIncluded._
 
@@ -67,9 +67,9 @@ class OnshoreNavigator @Inject()() {
     case WhichOnshoreYearsPage => ua => {
       val missingYearsCount = ua.inverselySortedOnshoreTaxYears.map(ty => OnshoreYearStarting.findMissingYears(ty.toList).size).getOrElse(0)
       (ua.get(WhichOnshoreYearsPage), missingYearsCount) match {
-        // case (Some(years), 0) if years.contains(ReasonableExcusePriorTo) => routes.TaxBeforeFiveYearsController.onPageLoad(NormalMode)
-        // case (Some(years), 0) if years.contains(CarelessPriorTo) => routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode)
-        // case (Some(years), 0) if years.contains(DeliberatePriorTo) => routes.CanYouTellUsMoreAboutTaxBeforeNineteenYearController.onPageLoad(NormalMode)
+        case (Some(years), 0) if years.contains(PriorToThreeYears) => routes.TaxBeforeThreeYearsOnshoreController.onPageLoad(NormalMode)
+        case (Some(years), 0) if years.contains(PriorToFiveYears) => routes.TaxBeforeFiveYearsOnshoreController.onPageLoad(NormalMode)
+        case (Some(years), 0) if years.contains(PriorToNineteenYears) => routes.TaxBeforeNineteenYearsOnshoreController.onPageLoad(NormalMode)
         case (Some(_), 0) => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
         case (Some(_), 1) => routes.NotIncludedSingleTaxYearController.onPageLoad(NormalMode)
         case (Some(_), _) => routes.NotIncludedMultipleTaxYearsController.onPageLoad(NormalMode)
@@ -95,8 +95,7 @@ class OnshoreNavigator @Inject()() {
     (mode, userAnswers.inverselySortedOnshoreTaxYears) match {
     case (NormalMode, _) if (deduction) => routes.ResidentialReductionController.onPageLoad(currentIndex, NormalMode)
     case (NormalMode, Some(years)) if ((years.size - 1) > currentIndex) => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(currentIndex + 1, NormalMode)
-    //TODO next page
-    case (_, _) => controllers.routes.IndexController.onPageLoad
+    case (_, _) => routes.IncomeOrGainSourceController.onPageLoad(mode)
   }
 
 }
