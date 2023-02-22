@@ -166,7 +166,7 @@ trait AddressLookupRequestHelper {
                             messages("editAddress.rental.heading", addressIndex+1),
                             "confirmAddress.rental.title", 
                             "confirmAddress.rental.heading",
-                            true)
+                            Some(true))
   }
 
   def lookupRequestForAddress(timeout: Int, baseUrl: String, 
@@ -185,7 +185,7 @@ trait AddressLookupRequestHelper {
                               editAddressHeading: String,
                               confirmAddressTitle: String, 
                               confirmAddressHeading: String,
-                              ukMode: Boolean = false)(implicit messages: Messages): AddressLookupRequest = {
+                              ukMode: Option[Boolean] = None)(implicit messages: Messages): AddressLookupRequest = {
 
     val selectPageConfig = SelectPageConfig(proposalListLimit = proposalListLimit)
     val timeoutConfig = TimeoutConfig(timeoutAmount = timeout, timeoutUrl = controllers.auth.routes.AuthController.signOut.url, timeoutKeepAliveUrl = Some(routes.KeepAliveController.keepAlive.url))
@@ -199,7 +199,7 @@ trait AddressLookupRequestHelper {
       selectPageConfig = Some(selectPageConfig),
       includeHMRCBranding = Some(false),
       timeoutConfig = Some(timeoutConfig),
-      ukMode = Some(ukMode)
+      ukMode = ukMode
     )
 
     val appLevelLabels = AppLevelLabels(messages("service.name"))
