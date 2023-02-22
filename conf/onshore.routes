@@ -79,10 +79,17 @@ POST       /onshore-liabilities/:i                      controllers.onshore.Onsh
 GET        /onshore-liabilities/:i/change               controllers.onshore.OnshoreTaxYearLiabilitiesController.onPageLoad(i: Int, mode: Mode = CheckMode)
 POST       /onshore-liabilities/:i/change               controllers.onshore.OnshoreTaxYearLiabilitiesController.onSubmit(i: Int, mode: Mode = CheckMode)
 
+GET        /corporation-tax-liabilities/:i                  controllers.onshore.CorporationTaxLiabilityController.onPageLoad(i: Int, mode: Mode = NormalMode)
+POST       /corporation-tax-liabilities/:i                  controllers.onshore.CorporationTaxLiabilityController.onSubmit(i: Int, mode: Mode = NormalMode)
+GET        /corporation-tax-liabilities/:i/change           controllers.onshore.CorporationTaxLiabilityController.onPageLoad(i: Int, mode: Mode = CheckMode)
+POST       /corporation-tax-liabilities/:i/change           controllers.onshore.CorporationTaxLiabilityController.onSubmit(i: Int, mode: Mode = CheckMode)
+
 GET        /basic-rate-tax-reduction-amount/:i                  controllers.onshore.ResidentialReductionController.onPageLoad(i: Int, mode: Mode = NormalMode)
 POST       /basic-rate-tax-reduction-amount/:i                  controllers.onshore.ResidentialReductionController.onSubmit(i: Int, mode: Mode = NormalMode)
 GET        /basic-rate-tax-reduction-amount/:i/change                        controllers.onshore.ResidentialReductionController.onPageLoad(i: Int, mode: Mode = CheckMode)
 POST       /basic-rate-tax-reduction-amount/:i/change                        controllers.onshore.ResidentialReductionController.onSubmit(i: Int, mode: Mode = CheckMode)
+
+GET        /you-are-making-nil-disclosure                    controllers.onshore.MakingNilDisclosureController.onPageLoad
 
 GET        /director-loan-liabilities/:i                      controllers.onshore.DirectorLoanAccountLiabilitiesController.onPageLoad(i:Int, mode: Mode = NormalMode)
 POST       /director-loan-liabilities/:i                      controllers.onshore.DirectorLoanAccountLiabilitiesController.onSubmit(i:Int, mode: Mode = NormalMode)

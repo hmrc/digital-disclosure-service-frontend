@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package views
+package views.offshore
 
 import base.ViewSpecBase
 import play.twirl.api.Html
 import support.ViewMatchers
-import views.html.MakingNilDisclosureView
+import views.html.offshore.MakingNilDisclosureView
 import models.RelatesTo
 
 class MakingNilDisclosureViewSpec extends ViewSpecBase with ViewMatchers {

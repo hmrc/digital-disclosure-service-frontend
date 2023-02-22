@@ -14,13 +14,21 @@
  * limitations under the License.
  */
 
-package pages
+package models
 
-import play.api.libs.json.JsPath
+import play.api.libs.json._
 
-case object TaxBeforeNineteenYearsOnshorePage extends QuestionPage[String] {
+import java.time.LocalDate
 
-  override def path: JsPath = JsPath \ toString
+case class CorporationTaxLiability (
+  periodEnd: LocalDate,
+  howMuchIncome: BigInt,
+  howMuchUnpaid: BigInt,
+  howMuchInterest: BigInt,
+  penaltyRate: Int,
+  penaltyRateReason: String
+)
 
-  override def toString: String = "taxBeforeNineteenYearsOnshore"
+object CorporationTaxLiability {
+  implicit val format = Json.format[CorporationTaxLiability]
 }

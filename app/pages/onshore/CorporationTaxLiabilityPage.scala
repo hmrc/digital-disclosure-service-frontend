@@ -16,11 +16,13 @@
 
 package pages
 
+import models.CorporationTaxLiability
+
 import play.api.libs.json.JsPath
 
-case object TaxBeforeNineteenYearsOnshorePage extends QuestionPage[String] {
+case object CorporationTaxLiabilityPage extends QuestionPage[Set[CorporationTaxLiability]] {
 
   override def path: JsPath = JsPath \ toString
 
-  override def toString: String = "taxBeforeNineteenYearsOnshore"
+  override def toString: String = "corporationTaxLiability"
 }

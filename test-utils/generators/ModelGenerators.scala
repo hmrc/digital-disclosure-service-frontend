@@ -22,6 +22,7 @@ import models._
 import models.address._
 import org.scalacheck.magnolia.Typeclass
 import org.scalacheck.magnolia.gen
+import java.time.LocalDate
 
 import java.time.{LocalDate, ZoneOffset}
 
@@ -357,5 +358,17 @@ trait ModelGenerators {
     Arbitrary {
       genAddress
     }
+
+  implicit lazy val arbitraryCorporationTaxLiability: Arbitrary[CorporationTaxLiability] =
+    Arbitrary {
+      for {
+        periodEnd <- arbitrary[LocalDate]
+        howMuchIncome <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
+        howMuchUnpaid <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
+        howMuchInterest <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
+        penaltyRate <- Gen.choose(1, 200)
+        penaltyRateReason <- arbitrary[String]
+      } yield CorporationTaxLiability(periodEnd, howMuchIncome, howMuchUnpaid, howMuchInterest, penaltyRate, penaltyRateReason)
+    }  
 
 }

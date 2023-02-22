@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.onshore
 
 import controllers.actions._
 import javax.inject.Inject
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import views.html.MakingNilDisclosureView
+import views.html.onshore.MakingNilDisclosureView
 import models.{UserAnswers, RelatesTo}
-import models.WhyAreYouMakingThisDisclosure._
-import pages.{AreYouTheIndividualPage, RelatesToPage, WhyAreYouMakingThisDisclosurePage}
+import models.WhyAreYouMakingThisOnshoreDisclosure._
+import pages.{AreYouTheIndividualPage, RelatesToPage, WhyAreYouMakingThisOnshoreDisclosurePage}
 
 class MakingNilDisclosureController @Inject()(
                                        override val messagesApi: MessagesApi,
@@ -46,12 +46,12 @@ class MakingNilDisclosureController @Inject()(
   }
 
   def numberOfYears(ua: UserAnswers): Int = {
-    ua.get(WhyAreYouMakingThisDisclosurePage) match {
+    ua.get(WhyAreYouMakingThisOnshoreDisclosurePage) match {
       case Some(value) => 
         if (value.contains(DidNotNotifyNoExcuse) || value.contains(DeliberatelyDidNotNotify) || value.contains(DeliberateInaccurateReturn) || value.contains(DeliberatelyDidNotFile)) 20
-        else if (value.contains(InaccurateReturnNoCare)) 8
-        else 6
-      case None => 6     
+        else if (value.contains(InaccurateReturnNoCare)) 6
+        else 4
+      case None => 4    
     }
   }
 
