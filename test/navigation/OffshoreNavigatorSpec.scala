@@ -19,7 +19,7 @@ package navigation
 import base.SpecBase
 import controllers.offshore.routes
 import models.RelatesTo.AnIndividual
-import models.WhyAreYouMakingThisDisclosure.{DeliberateInaccurateReturn, DeliberatelyDidNotFile, DeliberatelyDidNotNotify, DidNotNotifyHasExcuse, InaccurateReturnWithCare, NotFileHasExcuse}
+import models.WhyAreYouMakingThisDisclosure.{DeliberateInaccurateReturn, DeliberatelyDidNotFile, DeliberatelyDidNotNotify}
 import pages._
 import models._
 import models.YourLegalInterpretation._

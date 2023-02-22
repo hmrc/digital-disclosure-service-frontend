@@ -23,7 +23,23 @@ import models.address._
 import org.scalacheck.magnolia.Typeclass
 import org.scalacheck.magnolia.gen
 
+import java.time.{LocalDate, ZoneOffset}
+
+
 trait ModelGenerators {
+
+  implicit lazy val arbitraryDirectorLoanAccountLiabilities: Arbitrary[DirectorLoanAccountLiabilities] =
+    Arbitrary {
+      for {
+        name <- arbitrary[String]
+        periodEnd = LocalDate.now(ZoneOffset.UTC).minusDays(1)
+        overdrawn <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
+        unpaidTax <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
+        interest <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
+        penaltyRate <- Gen.choose(0, 200)
+        penaltyRateReason <- arbitrary[String]
+      } yield DirectorLoanAccountLiabilities(name, periodEnd, overdrawn, unpaidTax, interest, penaltyRate, penaltyRateReason)
+    }
 
   implicit lazy val arbitraryOnshoreYears: Arbitrary[OnshoreYears] =
     Arbitrary {

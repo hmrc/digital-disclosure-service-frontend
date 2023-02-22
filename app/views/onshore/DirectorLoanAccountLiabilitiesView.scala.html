@@ -1,0 +1,126 @@
+@*
+ * Copyright 2023 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import viewmodels.InputWidth._
+@import uk.gov.hmrc.hmrcfrontend.views.html.components.CharacterCount
+
+@this(
+    layout: templates.Layout,
+    formHelper: FormWithCSRF,
+    govukErrorSummary: GovukErrorSummary,
+    govukInput: GovukInput,
+    govukDateInput: GovukDateInput,
+    govukButton: GovukButton,
+    heading: components.heading,
+    paragraph: components.paragraph,
+    hmrcCharacterCount: HmrcCharacterCount,
+    link: components.link
+)
+
+@(form: Form[_], mode: Mode, index: Int)(implicit request: Request[_], messages: Messages)
+
+@layout(pageTitle = title(form, messages("directorLoanAccountLiabilities.title", index + 1))) {
+
+    @formHelper(action = controllers.onshore.routes.DirectorLoanAccountLiabilitiesController.onSubmit(index, mode), 'autoComplete -> "off") {
+
+        @if(form.errors.nonEmpty) {
+            @govukErrorSummary(ErrorSummaryViewModel(form))
+        }
+
+
+        @heading(Text(messages("directorLoanAccountLiabilities.heading", index + 1)))
+
+        @paragraph(
+          id = Some("guidance"),
+          content = HtmlContent(
+            messages("directorLoanAccountLiabilities.body") + " " +
+            link(id = "guidance-link", text = messages("directorLoanAccountLiabilities.link"), newTab = true, call = Call("GET", "https://www.gov.uk/guidance/worldwide-disclosure-facility-make-a-disclosure")) +
+            messages("site.dot")
+          )
+        )
+
+        @govukInput(
+            InputViewModel(
+                field = form("name"),
+                label = LabelViewModel(messages("directorLoanAccountLiabilities.name.question")).withCssClass("govuk-label--m")
+            ).withWidth(Full)
+        )
+
+        @govukDateInput(
+            DateViewModel(
+                form   = form,
+                id     = "periodEnd",
+                legend = LegendViewModel(messages("directorLoanAccountLiabilities.periodEnd.label")).withCssClass("govuk-label--m")
+            )
+            .withHint(HintViewModel(messages("directorLoanAccountLiabilities.periodEnd.hint")))
+        )
+
+        @govukInput(
+            InputViewModel(
+                field = form("overdrawn"),
+                label = LabelViewModel(messages("directorLoanAccountLiabilities.overdrawn.question")).withCssClass("govuk-label--m")
+            )
+            .withPoundPrefix
+            .asNumeric()
+            .withWidth(Fixed10)
+        )
+
+        @govukInput(
+            InputViewModel(
+                field = form("unpaidTax"),
+                label = LabelViewModel(messages("directorLoanAccountLiabilities.unpaidTax.question")).withCssClass("govuk-label--m")
+            )
+            .withPoundPrefix
+            .asNumeric()
+            .withWidth(Fixed10)
+        )
+
+        @govukInput(
+            InputViewModel(
+                field = form("interest"),
+                label = LabelViewModel(messages("directorLoanAccountLiabilities.interest.question")).withCssClass("govuk-label--m")
+            )
+            .withPoundPrefix
+            .asNumeric()
+            .withWidth(Fixed10)
+        )
+
+        @govukInput(
+            InputViewModel(
+                field = form("penaltyRate"),
+                label = LabelViewModel(messages("directorLoanAccountLiabilities.penaltyRate.question")).withCssClass("govuk-label--m")
+            )
+            .withSuffix(PrefixOrSuffix(content = Text("%")))
+            .asNumeric()
+            .withWidth(Fixed10)
+        )
+
+        @hmrcCharacterCount(
+            CharacterCount(
+                id = "penaltyRateReason",
+                name = "penaltyRateReason",
+                maxLength = Some(5000),
+                label = Label(content = messages("directorLoanAccountLiabilities.penaltyRateReason.question")).withCssClass("govuk-label--m"),
+                value = form("penaltyRateReason").value,
+                errorMessage = form("penaltyRateReason").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
+            )
+        )
+
+        @govukButton(
+            ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
+        )
+    }
+}
