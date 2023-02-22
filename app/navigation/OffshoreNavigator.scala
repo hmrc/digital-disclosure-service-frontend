@@ -67,13 +67,13 @@ class OffshoreNavigator @Inject()() {
       val missingYearsCount = ua.inverselySortedOffshoreTaxYears.map(ty => TaxYearStarting.findMissingYears(ty.toList).size).getOrElse(0)
       val countryMapEmpty = ua.get(CountryOfYourOffshoreLiabilityPage).getOrElse(Map()).isEmpty
       (ua.get(WhichYearsPage), missingYearsCount) match {
-        case (Some(years), 0) if years.contains(ReasonableExcusePriorTo) => routes.TaxBeforeFiveYearsController.onPageLoad(NormalMode)
-        case (Some(years), 0) if years.contains(CarelessPriorTo) => routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode)
-        case (Some(years), 0) if years.contains(DeliberatePriorTo) => routes.TaxBeforeNineteenYearsController.onPageLoad(NormalMode)
+        case (_, 1) => routes.YouHaveNotIncludedTheTaxYearController.onPageLoad(NormalMode)
+        case (_, count) if count > 1 => routes.YouHaveNotSelectedCertainTaxYearController.onPageLoad(NormalMode)
+        case (Some(years), _) if years.contains(ReasonableExcusePriorTo) => routes.TaxBeforeFiveYearsController.onPageLoad(NormalMode)
+        case (Some(years), _) if years.contains(CarelessPriorTo) => routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode)
+        case (Some(years), _) if years.contains(DeliberatePriorTo) => routes.TaxBeforeNineteenYearsController.onPageLoad(NormalMode)
         case (_, 0) if !countryMapEmpty => routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
         case (_, 0) => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
-        case (_, 1) => routes.YouHaveNotIncludedTheTaxYearController.onPageLoad(NormalMode)
-        case (_, _) => routes.YouHaveNotSelectedCertainTaxYearController.onPageLoad(NormalMode)
       }
     }
 
@@ -115,15 +115,23 @@ class OffshoreNavigator @Inject()() {
       case _ => routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
     }
 
-    case YouHaveNotIncludedTheTaxYearPage => ua => ua.get(CountryOfYourOffshoreLiabilityPage) match {
-      case Some(countryMap) if !countryMap.isEmpty => routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
-      case _ => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
-    }
+    case YouHaveNotIncludedTheTaxYearPage => ua => 
+      (ua.get(WhichYearsPage), ua.get(CountryOfYourOffshoreLiabilityPage)) match {
+        case (Some(years), _) if years.contains(ReasonableExcusePriorTo) => routes.TaxBeforeFiveYearsController.onPageLoad(NormalMode)
+        case (Some(years), _) if years.contains(CarelessPriorTo) => routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode)
+        case (Some(years), _) if years.contains(DeliberatePriorTo) => routes.TaxBeforeNineteenYearsController.onPageLoad(NormalMode)
+        case (_, Some(countryMap)) if !countryMap.isEmpty => routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
+        case _ => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
+      }
 
-    case YouHaveNotSelectedCertainTaxYearPage => ua => ua.get(CountryOfYourOffshoreLiabilityPage) match {
-      case Some(countryMap) if !countryMap.isEmpty => routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
-      case _ => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
-    }
+    case YouHaveNotSelectedCertainTaxYearPage => ua => 
+      (ua.get(WhichYearsPage), ua.get(CountryOfYourOffshoreLiabilityPage)) match {
+        case (Some(years), _) if years.contains(ReasonableExcusePriorTo) => routes.TaxBeforeFiveYearsController.onPageLoad(NormalMode)
+        case (Some(years), _) if years.contains(CarelessPriorTo) => routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode)
+        case (Some(years), _) if years.contains(DeliberatePriorTo) => routes.TaxBeforeNineteenYearsController.onPageLoad(NormalMode)
+        case (_, Some(countryMap)) if !countryMap.isEmpty => routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
+        case _ => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
+      }
 
     case WhereDidTheUndeclaredIncomeOrGainIncludedPage => ua => ua.get(WhereDidTheUndeclaredIncomeOrGainIncludedPage) match {
       case Some(value) if(value.contains(SomewhereElse)) => routes.WhereDidTheUndeclaredIncomeOrGainController.onPageLoad(NormalMode)

@@ -70,17 +70,16 @@ class OnshoreNavigator @Inject()() {
     case WhichOnshoreYearsPage => ua => {
       val missingYearsCount = ua.inverselySortedOnshoreTaxYears.map(ty => OnshoreYearStarting.findMissingYears(ty.toList).size).getOrElse(0)
       (ua.get(WhichOnshoreYearsPage), missingYearsCount) match {
-        case (Some(years), 0) if years.contains(PriorToThreeYears) => routes.TaxBeforeThreeYearsOnshoreController.onPageLoad(NormalMode)
-        case (Some(years), 0) if years.contains(PriorToFiveYears) => routes.TaxBeforeFiveYearsOnshoreController.onPageLoad(NormalMode)
-        case (Some(years), 0) if years.contains(PriorToNineteenYears) => routes.TaxBeforeNineteenYearsOnshoreController.onPageLoad(NormalMode)
-        case (Some(_), 0) => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
         case (Some(_), 1) => routes.NotIncludedSingleTaxYearController.onPageLoad(NormalMode)
-        case (Some(_), _) => routes.NotIncludedMultipleTaxYearsController.onPageLoad(NormalMode)
+        case (Some(_), count) if count > 1  => routes.NotIncludedMultipleTaxYearsController.onPageLoad(NormalMode)
+        case (Some(years), _) if years.contains(PriorToThreeYears) => routes.TaxBeforeThreeYearsOnshoreController.onPageLoad(NormalMode)
+        case (Some(years), _) if years.contains(PriorToFiveYears) => routes.TaxBeforeFiveYearsOnshoreController.onPageLoad(NormalMode)
+        case (Some(years), _) if years.contains(PriorToNineteenYears) => routes.TaxBeforeNineteenYearsOnshoreController.onPageLoad(NormalMode)
         case (_, _) => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
       }
     }
 
-    case _ => _ => controllers.routes.IndexController.onPageLoad
+    case _ => _ => controllers.routes.TaskListController.onPageLoad
   }
 
   private val checkRouteMap: Page => UserAnswers => Boolean => Call = {
