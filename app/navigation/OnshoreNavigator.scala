@@ -62,7 +62,10 @@ class OnshoreNavigator @Inject()() {
 
     case ReasonableExcuseForNotFilingOnshorePage => _ => routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
 
-    case WhatOnshoreLiabilitiesDoYouNeedToDisclosePage => _ => routes.WhichOnshoreYearsController.onPageLoad(NormalMode)
+    case WhatOnshoreLiabilitiesDoYouNeedToDisclosePage => ua => ua.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage) match {
+      case Some(taxTypes) if taxTypes.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome) => controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
+      case _ => routes.WhichOnshoreYearsController.onPageLoad(NormalMode)
+    }
 
     case WhichOnshoreYearsPage => ua => {
       val missingYearsCount = ua.inverselySortedOnshoreTaxYears.map(ty => OnshoreYearStarting.findMissingYears(ty.toList).size).getOrElse(0)

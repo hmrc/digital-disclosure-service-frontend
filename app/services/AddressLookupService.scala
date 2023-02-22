@@ -69,6 +69,11 @@ class AddressLookupServiceImpl @Inject()(connector: AddressLookupConnector, addr
     initialiseAddressLookup(request)
   }
 
+  def getRentalAddressLookupRedirect(redirectUrl: Call, index: Int)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL] =  {
+    val request = lookupRequestForRentalAddress(config.timeout, config.host, redirectUrl.url, addressConfig.addressesShowLimit, languageTranslationEnabled = config.languageTranslationEnabled, addressIndex = index)
+    initialiseAddressLookup(request)
+  }
+
   private[services] def initialiseAddressLookup(request: AddressLookupRequest)(implicit hc: HeaderCarrier): EitherT[Future, Error, URL] = {
     connector
       .initialise(request)
@@ -135,5 +140,6 @@ trait AddressLookupService {
   def getLLPAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL]
   def getTrustAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL]
   def getEstateAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL]
+  def getRentalAddressLookupRedirect(redirectUrl: Call, index: Int)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL]
   def retrieveUserAddress(addressId: UUID)(implicit hc: HeaderCarrier): EitherT[Future, Error, Address]
 }

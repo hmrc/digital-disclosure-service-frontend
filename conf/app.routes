@@ -14,6 +14,8 @@
 
 ->          /reference                                   reference.Routes
 
+->          /letting                                     letting.Routes
+
 GET         /pdf                                         controllers.PdfGenerationController.generate
 
 GET         /                                            controllers.IndexController.onPageLoad

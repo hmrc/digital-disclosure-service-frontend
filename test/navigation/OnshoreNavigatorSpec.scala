@@ -201,6 +201,12 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         val userAnswers = UserAnswers("id").set(WhichOnshoreYearsPage, set).success.value
         navigator.nextPage(WhichOnshoreYearsPage, NormalMode, userAnswers) mustBe routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
       }
+
+      "must go from WhatOnshoreLiabilitiesDoYouNeedToDisclose to the letting section when letting is selected" in {
+        val set: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)
+        val userAnswers = UserAnswers("id").set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, set).success.value
+        navigator.nextPage(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, NormalMode, userAnswers) mustBe controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
+      }
     }
 
     "nextTaxYearLiabilitiesPage" - {
