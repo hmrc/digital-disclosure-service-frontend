@@ -65,7 +65,6 @@ POST       /offshore-liabilities-tax-not-included           controllers.offshore
 GET        /offshore-liabilities-tax-not-included/change    controllers.offshore.HowMuchTaxHasNotBeenIncludedController.onPageLoad(mode: Mode = CheckMode)
 POST       /offshore-liabilities-tax-not-included/change    controllers.offshore.HowMuchTaxHasNotBeenIncludedController.onSubmit(mode: Mode = CheckMode)
 
-
 GET        /offshore-liabilities-summary                    controllers.offshore.CheckYourAnswersController.onPageLoad
 
 GET        /offshore-liabilities-maximum-value-of-assets              controllers.offshore.TheMaximumValueOfAllAssetsController.onPageLoad(mode: Mode = NormalMode)
@@ -115,3 +114,5 @@ GET        /where-the-income-came-from                       controllers.offshor
 POST       /where-the-income-came-from                       controllers.offshore.WhereDidTheUndeclaredIncomeOrGainIncludedController.onSubmit(mode: Mode = NormalMode)
 GET        /where-the-income-came-from/change                controllers.offshore.WhereDidTheUndeclaredIncomeOrGainIncludedController.onPageLoad(mode: Mode = CheckMode)
 POST       /where-the-income-came-from/change                controllers.offshore.WhereDidTheUndeclaredIncomeOrGainIncludedController.onSubmit(mode: Mode = CheckMode)
+
+GET        /you-are-making-nil-disclosure                    controllers.offshore.MakingNilDisclosureController.onPageLoad

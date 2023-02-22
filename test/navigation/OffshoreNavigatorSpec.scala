@@ -285,7 +285,7 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
       "must go from TaxBeforeFiveYearsPage to MakingNilDisclosureController when only selected option ReasonableExcusePriorTo" in {
         val set: Set[OffshoreYears] = Set(ReasonableExcusePriorTo)
         val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
-        navigator.nextPage(TaxBeforeFiveYearsPage, NormalMode, userAnswers) mustBe controllers.routes.MakingNilDisclosureController.onPageLoad
+        navigator.nextPage(TaxBeforeFiveYearsPage, NormalMode, userAnswers) mustBe routes.MakingNilDisclosureController.onPageLoad
       }
 
       "must go from TaxBeforeFiveYearsPage to CountryOfYourOffshoreLiabilityController when selected more than one TaxYear option including ReasonableExcusePriorTo" in {
@@ -298,7 +298,7 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
       "must go from TaxBeforeSevenYearsPage to MakingNilDisclosureController when only selected option CarelessPriorTo" in {
         val set: Set[OffshoreYears] = Set(CarelessPriorTo)
         val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
-        navigator.nextPage(TaxBeforeSevenYearsPage, NormalMode, userAnswers) mustBe controllers.routes.MakingNilDisclosureController.onPageLoad
+        navigator.nextPage(TaxBeforeSevenYearsPage, NormalMode, userAnswers) mustBe routes.MakingNilDisclosureController.onPageLoad
       }
 
       "must go from TaxBeforeSevenYearsPage to CountryOfYourOffshoreLiabilityController when selected more than one TaxYear option including CarelessPriorTo" in {
@@ -311,7 +311,7 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
       "must go from TaxBeforeNineteenYearsPage to MakingNilDisclosureController when only selected option DeliberatePriorTo" in {
         val set: Set[OffshoreYears] = Set(DeliberatePriorTo)
         val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
-        navigator.nextPage(TaxBeforeNineteenYearsPage, NormalMode, userAnswers) mustBe controllers.routes.MakingNilDisclosureController.onPageLoad
+        navigator.nextPage(TaxBeforeNineteenYearsPage, NormalMode, userAnswers) mustBe routes.MakingNilDisclosureController.onPageLoad
       }
 
       "must go from TaxBeforeNineteenYearsPage to CountryOfYourOffshoreLiabilityController when selected more than one TaxYear option including DeliberatePriorTo" in {

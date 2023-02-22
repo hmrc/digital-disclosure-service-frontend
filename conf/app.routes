@@ -39,8 +39,6 @@ POST        /using-this-service                          controllers.MakeANotifi
 
 GET         /disclosure-list-of-tasks                    controllers.TaskListController.onPageLoad
 
-GET         /you-are-making-nil-disclosure               controllers.MakingNilDisclosureController.onPageLoad
-
 GET         /make-a-disclosure                           controllers.NotificationSubmittedController.onPageLoad
 POST        /make-a-disclosure                           controllers.NotificationSubmittedController.onSubmit
 

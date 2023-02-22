@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.onshore
 
 import base.SpecBase
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import views.html.MakingNilDisclosureView
-import models.{RelatesTo, WhyAreYouMakingThisDisclosure, UserAnswers}
-import pages.{AreYouTheIndividualPage, WhyAreYouMakingThisDisclosurePage}
+import views.html.onshore.MakingNilDisclosureView
+import models.{RelatesTo, WhyAreYouMakingThisOnshoreDisclosure, UserAnswers}
+import pages.{AreYouTheIndividualPage, WhyAreYouMakingThisOnshoreDisclosurePage}
 
 class MakingNilDisclosureControllerSpec extends SpecBase {
 
@@ -33,10 +33,10 @@ class MakingNilDisclosureControllerSpec extends SpecBase {
       val entity = RelatesTo.AnIndividual
       val years = 20
 
-      val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DidNotNotifyNoExcuse)
+      val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyNoExcuse)
       val userAnswers = (for{
         ua <- UserAnswers(userAnswersId).set(AreYouTheIndividualPage, areTheyTheIndividual)
-        updatedUa <- ua.set(WhyAreYouMakingThisDisclosurePage, set)
+        updatedUa <- ua.set(WhyAreYouMakingThisOnshoreDisclosurePage, set)
       } yield updatedUa).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()

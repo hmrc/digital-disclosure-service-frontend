@@ -88,3 +88,5 @@ GET        /basic-rate-tax-reduction-amount/:i                  controllers.onsh
 POST       /basic-rate-tax-reduction-amount/:i                  controllers.onshore.ResidentialReductionController.onSubmit(i: Int, mode: Mode = NormalMode)
 GET        /basic-rate-tax-reduction-amount/:i/change                        controllers.onshore.ResidentialReductionController.onPageLoad(i: Int, mode: Mode = CheckMode)
 POST       /basic-rate-tax-reduction-amount/:i/change                        controllers.onshore.ResidentialReductionController.onSubmit(i: Int, mode: Mode = CheckMode)
+
+GET        /you-are-making-nil-disclosure                    controllers.onshore.MakingNilDisclosureController.onPageLoad

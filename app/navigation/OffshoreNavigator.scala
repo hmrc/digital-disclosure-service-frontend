@@ -90,19 +90,19 @@ class OffshoreNavigator @Inject()() {
     case TheMaximumValueOfAllAssetsPage => _ => routes.CheckYourAnswersController.onPageLoad
 
     case TaxBeforeFiveYearsPage => ua => (ua.get(WhichYearsPage), ua.get(CountryOfYourOffshoreLiabilityPage)) match {
-      case (Some(whichYear), _) if whichYear.contains(ReasonableExcusePriorTo) && whichYear.size == 1 => controllers.routes.MakingNilDisclosureController.onPageLoad
+      case (Some(whichYear), _) if whichYear.contains(ReasonableExcusePriorTo) && whichYear.size == 1 => routes.MakingNilDisclosureController.onPageLoad
       case (Some(_), Some(countryMap)) if !countryMap.isEmpty => routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
       case (_, _) => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
     }
 
     case TaxBeforeSevenYearsPage => ua => (ua.get(WhichYearsPage), ua.get(CountryOfYourOffshoreLiabilityPage)) match {
-      case (Some(whichYear), _) if whichYear.contains(CarelessPriorTo) && whichYear.size == 1 => controllers.routes.MakingNilDisclosureController.onPageLoad
+      case (Some(whichYear), _) if whichYear.contains(CarelessPriorTo) && whichYear.size == 1 => routes.MakingNilDisclosureController.onPageLoad
       case (Some(_), Some(countryMap)) if !countryMap.isEmpty => routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
       case (_, _) => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
     }
 
     case TaxBeforeNineteenYearsPage => ua => (ua.get(WhichYearsPage), ua.get(CountryOfYourOffshoreLiabilityPage)) match {
-      case (Some(whichYear), _) if whichYear.contains(DeliberatePriorTo) && whichYear.size == 1 => controllers.routes.MakingNilDisclosureController.onPageLoad
+      case (Some(whichYear), _) if whichYear.contains(DeliberatePriorTo) && whichYear.size == 1 => routes.MakingNilDisclosureController.onPageLoad
       case (Some(_), Some(countryMap)) if !countryMap.isEmpty => routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
       case (_, _) => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
     }
