@@ -409,6 +409,41 @@ class AddressLookupServiceSpec
       }
     }
 
+    "triggering a lookup for a rental address" - {
+
+      "succeed receiving user redirect URL" in {
+        val locationUrl = new URL("http://someUrl:1234/redirect")
+
+        mockInitiateAddressLookupResponse(rentalLookupRequest)(
+          Right(HttpResponse(ACCEPTED, Json.obj(), headers = Map(LOCATION -> Seq(locationUrl.toString))))
+        )
+
+        val response = await(addressLookupService.getRentalAddressLookupRedirect(addressUpdateCall, 0).value)
+        response.isLeft must be(false)
+      }
+
+      "fail having no request accepted" in {
+        mockInitiateAddressLookupResponse(rentalLookupRequest)(
+          Right(HttpResponse(INTERNAL_SERVER_ERROR, Json.obj().toString()))
+        )
+
+        await(addressLookupService.getRentalAddressLookupRedirect(addressUpdateCall, 0).value).left.value must be(
+          Error("The request was refused by the Address Lookup Service")
+        )
+      }
+
+      "fail having no location header provided" in {
+        mockInitiateAddressLookupResponse(rentalLookupRequest)(
+          Right(HttpResponse(ACCEPTED, Json.obj().toString()))
+        )
+
+        await(addressLookupService.getRentalAddressLookupRedirect(addressUpdateCall, 0).value).left.value must be(
+          Error("The Address Lookup Service user redirect URL is missing in the header")
+        )
+      }
+    }
+
+
     "retrieving address" - {
 
       "succeed having valid address ID" in forAll { (id: UUID, address: Address) =>

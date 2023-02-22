@@ -383,4 +383,64 @@ trait AddressLookupHelper {
       AddressLookupRequest(2, addressLookupOptions, labels)
     }
 
+    def rentalLookupRequest(implicit messages: Messages) = {
+      val selectPageConfig = SelectPageConfig(proposalListLimit = 15)
+      val timeoutConfig = TimeoutConfig(timeoutAmount = 900, timeoutUrl = controllers.auth.routes.AuthController.signOut.url, timeoutKeepAliveUrl = Some(routes.KeepAliveController.keepAlive.url))
+      val addressLookupOptions = AddressLookupOptions(
+        continueUrl = "host1.com/redirect",
+        serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
+        signOutHref = Some(s"host1.com${controllers.auth.routes.AuthController.signOut.url}"),
+        showPhaseBanner = Some(true),
+        alphaPhase = false,
+        disableTranslations = true,
+        selectPageConfig = Some(selectPageConfig),
+        includeHMRCBranding = Some(false),
+        timeoutConfig = Some(timeoutConfig),
+        ukMode = Some(true)
+      )
+
+      val appLevelLabels = AppLevelLabels(messages("service.name"))
+      val countryPickerLabels = CountryPickerLabels(
+        messages("yourCountryLookup.title"), 
+        messages("yourCountryLookup.heading"),
+        messages("yourCountryLookup.hint"),
+        messages("site.continue")
+      )
+      val lookupPageLabels = LookupPageLabels(
+        messages("addressLookup.rental.title", 1), 
+        messages("addressLookup.rental.heading", 1),
+        messages("site.continue"),
+        Some(messages("addressLookup.rental.body"))
+      )
+      val selectPageLabels = SelectPageLabels(
+        messages("selectAddress.rental.title", 1), 
+        messages("selectAddress.rental.heading", 1)
+      )
+      val editPageLabels = EditPageLabels(
+        messages("editAddress.rental.title", 1), 
+        messages("editAddress.rental.heading", 1)
+      )
+      val confirmPageLabels = ConfirmPageLabels(
+        messages("confirmAddress.rental.title"), 
+        messages("confirmAddress.rental.heading")
+      )
+      val internationalLabels = InternationalLabels(
+        lookupPageLabels, 
+        selectPageLabels, 
+        editPageLabels, 
+        confirmPageLabels
+      )
+      val englishLabels = LabelsByLanguage(
+        appLevelLabels, 
+        countryPickerLabels, 
+        lookupPageLabels, 
+        selectPageLabels, 
+        editPageLabels, 
+        confirmPageLabels,
+        internationalLabels
+      )
+      val labels = AddressLookupLabels(englishLabels)
+      AddressLookupRequest(2, addressLookupOptions, labels)
+    }
+
 }

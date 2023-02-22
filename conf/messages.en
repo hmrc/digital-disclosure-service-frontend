@@ -1895,3 +1895,15 @@ residentialReduction.error.required = Enter the amount of residential finance co
 residentialReduction.error.wholeNumber = he amount of residential finance costs must not include pence, like 1000 or 1567
 residentialReduction.error.outOfRange = The amount of residential finance costs must be 0 or more
 residentialReduction.change.hidden = ResidentialReduction
+
+addressLookup.rental.title = What is the postcode and property name or number of property {0}?
+addressLookup.rental.heading = What is the postcode and property name or number of property {0}?
+addressLookup.rental.body = For letting properties outside the UK, you will need to submit a separate offshore disclosure instead. 
+selectAddress.rental.title = Choose the address of property {0}
+selectAddress.rental.heading = Choose the address of property {0}
+editAddress.rental.title = What is the address of property {0}?
+editAddress.rental.heading = What is the address of property {0}?
+confirmAddress.rental.title = Is this the correct address?
+confirmAddress.rental.heading = Is this the correct address?
+rentalAddress.checkYourAnswersLabel = Address {0}
+rentalAddress.change.hidden = Address {0}
