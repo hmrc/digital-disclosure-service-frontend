@@ -14,14 +14,25 @@
  * limitations under the License.
  */
 
-package pages
+package forms
 
-import play.api.libs.json.JsPath
-import models.address.Address
+import java.time.{LocalDate, ZoneOffset}
 
-case object RentalAddressLookupPage extends QuestionPage[Address] {
+import forms.behaviours.DateBehaviours
 
-  override def path: JsPath = JsPath \ toString
+class PropertyFirstLetOutFormProviderSpec extends DateBehaviours {
 
-  override def toString: String = "rentalAddressLookup"
+  val form = new PropertyFirstLetOutFormProvider()()
+
+  ".value" - {
+
+    val validData = datesBetween(
+      min = LocalDate.of(2000, 1, 1),
+      max = LocalDate.now(ZoneOffset.UTC)
+    )
+
+    behave like dateField(form, "value", validData)
+
+    behave like mandatoryDateField(form, "value", "propertyFirstLetOut.error.required.all")
+  }
 }

@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryPropertyFirstLetOutPage: Arbitrary[PropertyFirstLetOutPage.type] =
+    Arbitrary(PropertyFirstLetOutPage)
+
   implicit lazy val arbitraryCorporationTaxLiabilityPage: Arbitrary[CorporationTaxLiabilityPage.type] =
     Arbitrary(CorporationTaxLiabilityPage)
     

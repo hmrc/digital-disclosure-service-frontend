@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
-package pages
+package models
 
-import play.api.libs.json.JsPath
 import models.address.Address
+import java.time.LocalDate
+import play.api.libs.json._
 
-case object RentalAddressLookupPage extends QuestionPage[Address] {
+final case class LettingProperty(
+  address: Option[Address] = None,
+  dateFirstLetOut: Option[LocalDate] = None
+)
 
-  override def path: JsPath = JsPath \ toString
-
-  override def toString: String = "rentalAddressLookup"
+object LettingProperty {
+  implicit val format = Json.format[LettingProperty]
 }

@@ -19,7 +19,7 @@ package navigation
 import javax.inject.{Inject, Singleton}
 import play.api.mvc.Call
 import controllers.onshore.routes
-import models.WhatOnshoreLiabilitiesDoYouNeedToDisclose.{CorporationTax, DirectorLoan}
+import models.WhatOnshoreLiabilitiesDoYouNeedToDisclose.{CorporationTax, DirectorLoan, LettingIncome}
 import pages._
 import models._
 import models.WhyAreYouMakingThisOnshoreDisclosure._
@@ -70,12 +70,14 @@ class OnshoreNavigator @Inject()() {
 
     case WhichOnshoreYearsPage => ua => {
       val missingYearsCount = ua.inverselySortedOnshoreTaxYears.map(ty => OnshoreYearStarting.findMissingYears(ty.toList).size).getOrElse(0)
+      val lettingsChosen = ua.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage).getOrElse(Set()).contains(LettingIncome)
       (ua.get(WhichOnshoreYearsPage), missingYearsCount) match {
         case (Some(_), 1) => routes.NotIncludedSingleTaxYearController.onPageLoad(NormalMode)
         case (Some(_), count) if count > 1  => routes.NotIncludedMultipleTaxYearsController.onPageLoad(NormalMode)
         case (Some(years), _) if years.contains(PriorToThreeYears) => routes.TaxBeforeThreeYearsOnshoreController.onPageLoad(NormalMode)
         case (Some(years), _) if years.contains(PriorToFiveYears) => routes.TaxBeforeFiveYearsOnshoreController.onPageLoad(NormalMode)
         case (Some(years), _) if years.contains(PriorToNineteenYears) => routes.TaxBeforeNineteenYearsOnshoreController.onPageLoad(NormalMode)
+        case (_, _) if lettingsChosen => controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
         case (_, _) => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
       }
     }

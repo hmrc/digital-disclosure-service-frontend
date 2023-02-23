@@ -45,6 +45,33 @@ final case class UserAnswers(
     cleanupPage(page, updatedData)
   }
 
+  def getBySeqIndex[A](page: Gettable[Seq[A]], index: Int)(implicit rds: Reads[A]): Option[A] = {
+    val path = page.path \ index
+    get(path)
+  }
+
+  def setBySeqIndex[A](page: Settable[Seq[A]], index: Int, value: A)(implicit writes: Writes[A]): Try[UserAnswers] = {
+    val path = page.path \ index
+    val updatedData = set(path, value)
+    cleanupPage(page, updatedData)
+  }
+
+  def addToSeq[A](page: Settable[Seq[A]], value: A)(implicit writes:Writes[A], rds: Reads[A]): Try[UserAnswers] = {
+    val path = page.path
+    val data = get[Seq[A]](path)
+    val updatedData = data match {
+      case Some(valueSet:Seq[A]) => set(path, valueSet :+ value)
+      case _ => set(path, Seq(value))
+    }
+    cleanupPage(page, updatedData)
+  }
+
+  def removeBySeqIndex[A](page: Settable[Seq[A]], index: Int): Try[UserAnswers] = {
+    val path = page.path \ index
+    val updatedData = remove(path)
+    cleanupPage(page, updatedData)
+  }
+
   def getByIndex[A](page: Gettable[Set[A]], index: Int)(implicit rds: Reads[A]): Option[A] = {
     val path = page.path \ index
     get(path)

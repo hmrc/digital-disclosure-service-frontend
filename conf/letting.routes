@@ -2,3 +2,8 @@ GET        /rental-address/lookup/:i                             controllers.let
 GET        /rental-address/retrieve/:i                           controllers.letting.RentalAddressLookupController.retrieveConfirmedAddress(i: Int, mode: Mode = NormalMode, id: Option[UUID] ?= None)
 GET        /rental-address/lookup/:i/change                      controllers.letting.RentalAddressLookupController.lookupAddress(i: Int, mode: Mode = CheckMode)
 GET        /rental-address/retrieve/:i/change                    controllers.letting.RentalAddressLookupController.retrieveConfirmedAddress(i: Int, mode: Mode = CheckMode, id: Option[UUID] ?= None)
+
+GET        /letting-property-start-letting/:i                    controllers.letting.PropertyFirstLetOutController.onPageLoad(i: Int, mode: Mode = NormalMode)
+POST       /letting-property-start-letting/:i                    controllers.letting.PropertyFirstLetOutController.onSubmit(i: Int, mode: Mode = NormalMode)
+GET        /letting-property-start-letting/:i/change             controllers.letting.PropertyFirstLetOutController.onPageLoad(i: Int, mode: Mode = CheckMode)
+POST       /letting-property-start-letting/:i/change             controllers.letting.PropertyFirstLetOutController.onSubmit(i: Int, mode: Mode = CheckMode)

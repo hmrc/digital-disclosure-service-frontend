@@ -16,12 +16,13 @@
 
 package pages
 
-import play.api.libs.json.JsPath
-import models.address.Address
+import java.time.LocalDate
 
-case object RentalAddressLookupPage extends QuestionPage[Address] {
+import play.api.libs.json.JsPath
+
+case object PropertyFirstLetOutPage extends QuestionPage[LocalDate] {
 
   override def path: JsPath = JsPath \ toString
 
-  override def toString: String = "rentalAddressLookup"
+  override def toString: String = "propertyFirstLetOut"
 }

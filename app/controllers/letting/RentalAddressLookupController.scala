@@ -19,9 +19,9 @@ package controllers.letting
 import java.util.UUID
 import controllers.actions._
 import javax.inject.Inject
-import models.Mode
+import models.{Mode, LettingProperty}
 import navigation.LettingNavigator
-import pages.RentalAddressLookupPage
+import pages.{RentalAddressLookupPage, LettingPropertyPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -70,9 +70,16 @@ class RentalAddressLookupController @Inject()(
         logger.error(s"Error updating Address Lookup address: $e") 
         Future.failed(e.throwable.getOrElse(new Exception(e.message)))
       },
-      address => for {
-        updatedAnswers <- Future.fromTry(request.userAnswers.setByIndex(RentalAddressLookupPage, i, address))
-        _              <- sessionService.set(updatedAnswers)
-      } yield Redirect(navigator.nextPage(RentalAddressLookupPage, i, mode, updatedAnswers))
+      {address =>
+        val updatedLettingProperty = request.userAnswers.getBySeqIndex(LettingPropertyPage, i)
+          .getOrElse(LettingProperty())
+          .copy(address = Some(address))
+
+        for {
+          updatedAnswers <- Future.fromTry(request.userAnswers.setBySeqIndex(LettingPropertyPage, i, updatedLettingProperty))
+          _              <- sessionService.set(updatedAnswers)
+        } yield Redirect(navigator.nextPage(RentalAddressLookupPage, i, mode, updatedAnswers))
+      }
     ).flatten
+    
 }

@@ -17,11 +17,11 @@
 package pages
 
 import play.api.libs.json.JsPath
-import models.address.Address
+import models.LettingProperty
 
-case object RentalAddressLookupPage extends QuestionPage[Address] {
+case object LettingPropertyPage extends QuestionPage[Seq[LettingProperty]] {
 
   override def path: JsPath = JsPath \ toString
 
-  override def toString: String = "rentalAddressLookup"
+  override def toString: String = "lettingProperty"
 }

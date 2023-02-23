@@ -16,12 +16,23 @@
 
 package pages
 
-import play.api.libs.json.JsPath
-import models.address.Address
+import java.time.LocalDate
 
-case object RentalAddressLookupPage extends QuestionPage[Address] {
+import org.scalacheck.Arbitrary
+import pages.behaviours.PageBehaviours
 
-  override def path: JsPath = JsPath \ toString
+class PropertyFirstLetOutPageSpec extends PageBehaviours {
 
-  override def toString: String = "rentalAddressLookup"
+  "PropertyFirstLetOutPage" - {
+
+    implicit lazy val arbitraryLocalDate: Arbitrary[LocalDate] = Arbitrary {
+      datesBetween(LocalDate.of(1900, 1, 1), LocalDate.of(2100, 1, 1))
+    }
+
+    beRetrievable[LocalDate](PropertyFirstLetOutPage)
+
+    beSettable[LocalDate](PropertyFirstLetOutPage)
+
+    beRemovable[LocalDate](PropertyFirstLetOutPage)
+  }
 }
