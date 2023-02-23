@@ -51,7 +51,7 @@ class CorporationTaxLiabilityViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain sub header" in {
-      view.getElementsByClass("govuk-heading-m").text() mustBe messages("corporationTaxLiability.subheading", 0)
+      view.getElementsByClass("govuk-heading-m").text() mustBe messages("corporationTaxLiability.subheading", 1)
     }
 
     "contain day, month & year" in {
