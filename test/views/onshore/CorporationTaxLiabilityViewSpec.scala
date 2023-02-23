@@ -35,11 +35,11 @@ class CorporationTaxLiabilityViewSpec extends ViewSpecBase with ViewMatchers {
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("corporationTaxLiability.title", 0))
+      view.select("title").text() must include(messages("corporationTaxLiability.title", 1))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("corporationTaxLiability.heading", 0)
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("corporationTaxLiability.heading", 1)
     }
 
     "contain a body" in {

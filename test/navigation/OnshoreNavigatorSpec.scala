@@ -18,6 +18,7 @@ package navigation
 
 import base.SpecBase
 import controllers.onshore.routes
+import models.WhatOnshoreLiabilitiesDoYouNeedToDisclose.{CorporationTax, DirectorLoan}
 import pages._
 import models._
 import models.YourLegalInterpretation._
@@ -202,10 +203,22 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextPage(WhichOnshoreYearsPage, NormalMode, userAnswers) mustBe routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
       }
 
-      "must go from WhatOnshoreLiabilitiesDoYouNeedToDisclose to the letting section when letting is selected" in {
-        val set: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)
+      "must go from WhatOnshoreLiabilitiesDoYouNeedToDisclose to the CorporationTaxLiabilityController when CorporationTax is selected" in {
+        val set: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set(CorporationTax)
         val userAnswers = UserAnswers("id").set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, set).success.value
-        navigator.nextPage(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, NormalMode, userAnswers) mustBe controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
+        navigator.nextPage(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, NormalMode, userAnswers) mustBe routes.CorporationTaxLiabilityController.onPageLoad(0, NormalMode)
+      }
+
+      "must go from WhatOnshoreLiabilitiesDoYouNeedToDisclose to DirectorLoanAccountLiabilitiesController when DirectorLoan is selected" in {
+        val set: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set(DirectorLoan)
+        val userAnswers = UserAnswers("id").set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, set).success.value
+        navigator.nextPage(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, NormalMode, userAnswers) mustBe routes.DirectorLoanAccountLiabilitiesController.onPageLoad(0, NormalMode)
+      }
+
+      "must go from WhatOnshoreLiabilitiesDoYouNeedToDisclose to WhichOnshoreYearsController when the user has not selected CorporationTax or DirectorLoan" in {
+        val set: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set()
+        val userAnswers = UserAnswers("id").set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, set).success.value
+        navigator.nextPage(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, NormalMode, userAnswers) mustBe routes.WhichOnshoreYearsController.onPageLoad(NormalMode)
       }
     }
 
