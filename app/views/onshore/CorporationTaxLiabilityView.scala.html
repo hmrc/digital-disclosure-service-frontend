@@ -59,7 +59,7 @@
             content = HtmlContent(messages("corporationTaxLiability.insetBody"))
         )
 
-        @subheading(Text(messages("corporationTaxLiability.subheading", i)), "govuk-heading-m")
+        @subheading(Text(messages("corporationTaxLiability.subheading", i + 1)), "govuk-heading-m")
 
         @govukDateInput(
             DateViewModel(
