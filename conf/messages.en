@@ -1966,3 +1966,15 @@ directorLoanAccountLiabilities.penaltyRateReason.question = What is the reason f
 directorLoanAccountLiabilities.penaltyRateReason.error.required = Enter the reason for the penalty rate you have chosen
 directorLoanAccountLiabilities.penaltyRateReason.error.length = The reason for the penalty rate must be between 1 and 5,000 characters
 directorLoanAccountLiabilities.penaltyRateReason.checkYourAnswersLabel = Penalty Rate Reason
+
+propertyFirstLetOut.title = When was property {0} first let out?
+propertyFirstLetOut.heading = When was property {0} first let out?
+propertyFirstLetOut.hint = For example, 20 3 1970
+propertyFirstLetOut.checkYourAnswersLabel = PropertyFirstLetOut
+propertyFirstLetOut.error.required.all = Enter the date of when this property was first let out"
+propertyFirstLetOut.error.required.two = Date must include {0} and {1}
+propertyFirstLetOut.error.required = Date must include a {0}
+propertyFirstLetOut.error.invalidDay = Enter a real date – a month can have up to 31 days
+propertyFirstLetOut.error.invalidMonth = Enter a real date – there are only 12 months in a year
+propertyFirstLetOut.error.invalid = Enter the date in the right format
+propertyFirstLetOut.change.hidden = PropertyFirstLetOut

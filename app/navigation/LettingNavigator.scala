@@ -26,6 +26,7 @@ import models._
 class LettingNavigator @Inject()() {
 
   private val normalRoutes: Page => Int => UserAnswers => Call = {
+    case RentalAddressLookupPage => i => _ => routes.PropertyFirstLetOutController.onPageLoad(i, NormalMode)
     case _ => _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
