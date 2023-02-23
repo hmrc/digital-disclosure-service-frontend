@@ -34,7 +34,7 @@
 
 @(form: Form[_], mode: Mode, i: Int)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("corporationTaxLiability.title", i))) {
+@layout(pageTitle = title(form, messages("corporationTaxLiability.title", i + 1))) {
 
     @formHelper(action = controllers.onshore.routes.CorporationTaxLiabilityController.onSubmit(i, mode), 'autoComplete -> "off") {
 
@@ -42,7 +42,7 @@
             @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value.day")))
         }
 
-        @heading(Text(messages("corporationTaxLiability.heading", i)))  
+        @heading(Text(messages("corporationTaxLiability.heading", i + 1)))
         
         @paragraph(
             id = Some("body"),

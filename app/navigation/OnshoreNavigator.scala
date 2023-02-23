@@ -19,10 +19,10 @@ package navigation
 import javax.inject.{Inject, Singleton}
 import play.api.mvc.Call
 import controllers.onshore.routes
+import models.WhatOnshoreLiabilitiesDoYouNeedToDisclose.{CorporationTax, DirectorLoan}
 import pages._
 import models._
 import models.WhyAreYouMakingThisOnshoreDisclosure._
-import models.WhereDidTheUndeclaredIncomeOrGainIncluded._
 
 @Singleton
 class OnshoreNavigator @Inject()() {
@@ -63,7 +63,8 @@ class OnshoreNavigator @Inject()() {
     case ReasonableExcuseForNotFilingOnshorePage => _ => routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
 
     case WhatOnshoreLiabilitiesDoYouNeedToDisclosePage => ua => ua.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage) match {
-      case Some(taxTypes) if taxTypes.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome) => controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
+      case Some(taxTypes) if taxTypes.contains(CorporationTax) => routes.CorporationTaxLiabilityController.onPageLoad(0, NormalMode)
+      case Some(taxTypes) if taxTypes.contains(DirectorLoan) => routes.DirectorLoanAccountLiabilitiesController.onPageLoad(0, NormalMode)
       case _ => routes.WhichOnshoreYearsController.onPageLoad(NormalMode)
     }
 
@@ -77,6 +78,11 @@ class OnshoreNavigator @Inject()() {
         case (Some(years), _) if years.contains(PriorToNineteenYears) => routes.TaxBeforeNineteenYearsOnshoreController.onPageLoad(NormalMode)
         case (_, _) => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
       }
+    }
+
+    case WhatOnshoreLiabilitiesDoYouNeedToDisclosePage => ua => ua.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage) match {
+
+      case _ => controllers.routes.IndexController.onPageLoad
     }
 
     case _ => _ => controllers.routes.TaskListController.onPageLoad

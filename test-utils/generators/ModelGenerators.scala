@@ -22,8 +22,6 @@ import models._
 import models.address._
 import org.scalacheck.magnolia.Typeclass
 import org.scalacheck.magnolia.gen
-import java.time.LocalDate
-
 import java.time.{LocalDate, ZoneOffset}
 
 
