@@ -1977,4 +1977,6 @@ propertyFirstLetOut.error.required = Date must include a {0}
 propertyFirstLetOut.error.invalidDay = Enter a real date – a month can have up to 31 days
 propertyFirstLetOut.error.invalidMonth = Enter a real date – there are only 12 months in a year
 propertyFirstLetOut.error.invalid = Enter the date in the right format
+propertyFirstLetOut.error.invalidPastDate = The date must be after the year 1849
+propertyFirstLetOut.error.invalidFutureDate = Date must be in the past
 propertyFirstLetOut.change.hidden = PropertyFirstLetOut
