@@ -28,18 +28,18 @@ class PropertyStoppedBeingLetOutViewSpec extends ViewSpecBase with ViewMatchers 
   val form = new PropertyStoppedBeingLetOutFormProvider()()
   val page: PropertyStoppedBeingLetOutView = inject[PropertyStoppedBeingLetOutView]
 
-  private def createView: Html = page(form, 0, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode)(request, messages)
 
   "view" should {
 
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("propertyStoppedBeingLetOut.title", 1))
+      view.select("title").text() must include(messages("propertyStoppedBeingLetOut.title"))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("propertyStoppedBeingLetOut.heading", 1)
+      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("propertyStoppedBeingLetOut.heading")
     }
 
     "have yes" in {

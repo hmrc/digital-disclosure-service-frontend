@@ -17,16 +17,16 @@
 package views.letting
 
 import base.ViewSpecBase
-import forms.PropertyStoppedBeingLetOutFormProvider
+import forms.PropertyIsNoLongerBeingLetOutFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
-import views.html.letting.PropertyStoppedBeingLetOutView
+import views.html.letting.PropertyIsNoLongerBeingLetOutView
 import models.NormalMode
 
-class PropertyStoppedBeingLetOutViewSpec extends ViewSpecBase with ViewMatchers {
+class PropertyIsNoLongerBeingLetOutViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new PropertyStoppedBeingLetOutFormProvider()()
-  val page: PropertyStoppedBeingLetOutView = inject[PropertyStoppedBeingLetOutView]
+  val form = new PropertyIsNoLongerBeingLetOutFormProvider()()
+  val page: PropertyIsNoLongerBeingLetOutView = inject[PropertyIsNoLongerBeingLetOutView]
 
   private def createView: Html = page(form, NormalMode)(request, messages)
 
@@ -35,19 +35,11 @@ class PropertyStoppedBeingLetOutViewSpec extends ViewSpecBase with ViewMatchers 
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("propertyStoppedBeingLetOut.title"))
+      view.select("title").text() must include(messages("propertyIsNoLongerBeingLetOut.title"))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("propertyStoppedBeingLetOut.heading")
-    }
-
-    "have yes" in {
-      view.getElementsByClass("govuk-radios__label").first().text() mustBe messages("propertyStoppedBeingLetOut.yes")
-    }
-
-    "have no" in {
-      view.getElementsByClass("govuk-radios__label").last().text() mustBe messages("propertyStoppedBeingLetOut.no")
+      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("propertyIsNoLongerBeingLetOut.heading")
     }
 
     "display the continue button" in {

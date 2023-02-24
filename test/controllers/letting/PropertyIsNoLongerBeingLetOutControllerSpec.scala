@@ -1,64 +1,77 @@
 package controllers
 
+import java.time.{LocalDate, ZoneOffset}
+
 import base.SpecBase
-import forms.PropertyStoppedBeingLetOutFormProvider
+import forms.PropertyIsNoLongerBeingLetOutFormProvider
 import models.{NormalMode, UserAnswers}
 import navigation.{FakeLettingNavigator, LettingNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.PropertyStoppedBeingLetOutPage
+import pages.PropertyIsNoLongerBeingLetOutPage
 import play.api.inject.bind
-import play.api.mvc.Call
+import play.api.mvc.{AnyContentAsEmpty, AnyContentAsFormUrlEncoded, Call}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
-import views.html.letting.PropertyStoppedBeingLetOutView
+import views.html.letting.PropertyIsNoLongerBeingLetOutView
 
 import scala.concurrent.Future
 
-class PropertyStoppedBeingLetOutControllerSpec extends SpecBase with MockitoSugar {
+class PropertyIsNoLongerBeingLetOutControllerSpec extends SpecBase with MockitoSugar {
+
+  val formProvider = new PropertyIsNoLongerBeingLetOutFormProvider()
+  private def form = formProvider()
 
   def onwardRoute = Call("GET", "/foo")
 
-  val formProvider = new PropertyStoppedBeingLetOutFormProvider()
-  val form = formProvider()
+  val validAnswer = LocalDate.now(ZoneOffset.UTC)
 
-  lazy val propertyStoppedBeingLetOutRoute = letting.routes.PropertyStoppedBeingLetOutController.onPageLoad(NormalMode).url
+  lazy val propertyIsNoLongerBeingLetOutRoute = letting.routes.PropertyIsNoLongerBeingLetOutController.onPageLoad(NormalMode).url
 
-  "PropertyStoppedBeingLetOut Controller" - {
+  override val emptyUserAnswers = UserAnswers(userAnswersId)
+
+  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+    FakeRequest(GET, propertyIsNoLongerBeingLetOutRoute)
+
+  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+    FakeRequest(POST, propertyIsNoLongerBeingLetOutRoute)
+      .withFormUrlEncodedBody(
+        "value.day"   -> validAnswer.getDayOfMonth.toString,
+        "value.month" -> validAnswer.getMonthValue.toString,
+        "value.year"  -> validAnswer.getYear.toString
+      )
+
+  "PropertyIsNoLongerBeingLetOut Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, propertyStoppedBeingLetOutRoute)
+        val result = route(application, getRequest).value
 
-        val result = route(application, request).value
-
-        val view = application.injector.instanceOf[PropertyStoppedBeingLetOutView]
+        val view = application.injector.instanceOf[PropertyIsNoLongerBeingLetOutView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode)(getRequest, messages(application)).toString
       }
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(PropertyStoppedBeingLetOutPage, true).success.value
+      val userAnswers = UserAnswers(userAnswersId).set(PropertyIsNoLongerBeingLetOutPage, validAnswer).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, propertyStoppedBeingLetOutRoute)
+        val view = application.injector.instanceOf[PropertyIsNoLongerBeingLetOutView]
 
-        val view = application.injector.instanceOf[PropertyStoppedBeingLetOutView]
-
-        val result = route(application, request).value
+        val result = route(application, getRequest).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(true), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(validAnswer), NormalMode)(getRequest, messages(application)).toString
       }
     }
 
@@ -76,11 +89,7 @@ class PropertyStoppedBeingLetOutControllerSpec extends SpecBase with MockitoSuga
           .build()
 
       running(application) {
-        val request =
-          FakeRequest(POST, propertyStoppedBeingLetOutRoute)
-            .withFormUrlEncodedBody(("value", "true"))
-
-        val result = route(application, request).value
+        val result = route(application, postRequest).value
 
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual onwardRoute.url
@@ -91,14 +100,14 @@ class PropertyStoppedBeingLetOutControllerSpec extends SpecBase with MockitoSuga
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
+      val request =
+        FakeRequest(POST, propertyIsNoLongerBeingLetOutRoute)
+          .withFormUrlEncodedBody(("value", "invalid value"))
+
       running(application) {
-        val request =
-          FakeRequest(POST, propertyStoppedBeingLetOutRoute)
-            .withFormUrlEncodedBody(("value", ""))
+        val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val boundForm = form.bind(Map("value" -> ""))
-
-        val view = application.injector.instanceOf[PropertyStoppedBeingLetOutView]
+        val view = application.injector.instanceOf[PropertyIsNoLongerBeingLetOutView]
 
         val result = route(application, request).value
 
@@ -112,9 +121,7 @@ class PropertyStoppedBeingLetOutControllerSpec extends SpecBase with MockitoSuga
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val request = FakeRequest(GET, propertyStoppedBeingLetOutRoute)
-
-        val result = route(application, request).value
+        val result = route(application, getRequest).value
 
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
@@ -126,11 +133,7 @@ class PropertyStoppedBeingLetOutControllerSpec extends SpecBase with MockitoSuga
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val request =
-          FakeRequest(POST, propertyStoppedBeingLetOutRoute)
-            .withFormUrlEncodedBody(("value", "true"))
-
-        val result = route(application, request).value
+        val result = route(application, postRequest).value
 
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url

@@ -2014,3 +2014,21 @@ propertyStoppedBeingLetOut.error.required = Select yes if this property has stop
 propertyStoppedBeingLetOut.change.hidden = PropertyStoppedBeingLetOut
 propertyStoppedBeingLetOut.yes = Yes
 propertyStoppedBeingLetOut.no = No
+
+propertyIsNoLongerBeingLetOut.title = PropertyIsNoLongerBeingLetOut
+propertyIsNoLongerBeingLetOut.heading = PropertyIsNoLongerBeingLetOut
+propertyIsNoLongerBeingLetOut.hint = For example, 12 11 2007
+propertyIsNoLongerBeingLetOut.checkYourAnswersLabel = PropertyIsNoLongerBeingLetOut
+propertyIsNoLongerBeingLetOut.error.required.all = Enter the propertyIsNoLongerBeingLetOut
+propertyIsNoLongerBeingLetOut.error.required.two = The propertyIsNoLongerBeingLetOut must include {0} and {1}
+propertyIsNoLongerBeingLetOut.error.required = The propertyIsNoLongerBeingLetOut must include {0}
+propertyIsNoLongerBeingLetOut.error.invalid = Enter a real PropertyIsNoLongerBeingLetOut
+propertyIsNoLongerBeingLetOut.change.hidden = PropertyIsNoLongerBeingLetOut
+
+propertyStoppedBeingLetOut.title = propertyStoppedBeingLetOut
+propertyStoppedBeingLetOut.heading = propertyStoppedBeingLetOut
+propertyStoppedBeingLetOut.checkYourAnswersLabel = propertyStoppedBeingLetOut
+propertyStoppedBeingLetOut.error.required = Select yes if propertyStoppedBeingLetOut
+propertyStoppedBeingLetOut.change.hidden = PropertyStoppedBeingLetOut
+propertyStoppedBeingLetOut.yes = Yes
+propertyStoppedBeingLetOut.no = No

@@ -32,6 +32,22 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
       } yield (page, value)
     }
 
+  implicit lazy val arbitraryPropertyIsNoLongerBeingLetOutUserAnswersEntry: Arbitrary[(PropertyIsNoLongerBeingLetOutPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[PropertyIsNoLongerBeingLetOutPage.type]
+        value <- arbitrary[Int].map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryPropertyStoppedBeingLetOutUserAnswersEntry: Arbitrary[(PropertyStoppedBeingLetOutPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[PropertyStoppedBeingLetOutPage.type]
+        value <- arbitrary[Boolean].map(Json.toJson(_))
+      } yield (page, value)
+    }
+
   implicit lazy val arbitraryPropertyFirstLetOutUserAnswersEntry: Arbitrary[(PropertyFirstLetOutPage.type, JsValue)] =
     Arbitrary {
       for {

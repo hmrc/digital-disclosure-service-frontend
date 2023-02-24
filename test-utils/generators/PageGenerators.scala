@@ -24,6 +24,12 @@ trait PageGenerators {
   implicit lazy val arbitraryPropertyStoppedBeingLetOutPage: Arbitrary[PropertyStoppedBeingLetOutPage.type] =
     Arbitrary(PropertyStoppedBeingLetOutPage)
 
+  implicit lazy val arbitraryPropertyIsNoLongerBeingLetOutPage: Arbitrary[PropertyIsNoLongerBeingLetOutPage.type] =
+    Arbitrary(PropertyIsNoLongerBeingLetOutPage)
+
+  implicit lazy val arbitraryPropertyStoppedBeingLetOutPage: Arbitrary[PropertyStoppedBeingLetOutPage.type] =
+    Arbitrary(PropertyStoppedBeingLetOutPage)
+
   implicit lazy val arbitraryPropertyFirstLetOutPage: Arbitrary[PropertyFirstLetOutPage.type] =
     Arbitrary(PropertyFirstLetOutPage)
 
