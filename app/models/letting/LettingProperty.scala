@@ -26,7 +26,8 @@ final case class LettingProperty(
   stoppedBeingLetOut: Option[Boolean] = None,
   noLongerBeingLetOut: Option[NoLongerBeingLetOut] = None,
   fhl: Option[Boolean] = None,
-  isJointOwnership: Option[Boolean] = None
+  isJointOwnership: Option[Boolean] = None,
+  isMortgageOnProperty: Option[Boolean] = None
 )
 
 object LettingProperty {

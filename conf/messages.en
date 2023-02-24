@@ -2056,3 +2056,11 @@ jointlyOwnedProperty.no = No
 jointlyOwnedProperty.checkYourAnswersLabel = jointlyOwnedProperty
 jointlyOwnedProperty.error.required = Select yes if the property was jointly owned with another person
 jointlyOwnedProperty.change.hidden = JointlyOwnedProperty
+
+didYouHaveAMortgageOnProperty.title = At the time of letting, did you have a mortgage on property {0}?
+didYouHaveAMortgageOnProperty.heading = At the time of letting, did you have a mortgage on property {0}?
+didYouHaveAMortgageOnProperty.yes = Yes
+didYouHaveAMortgageOnProperty.no = No
+didYouHaveAMortgageOnProperty.checkYourAnswersLabel = didYouHaveAMortgageOnProperty
+didYouHaveAMortgageOnProperty.error.required = Select yes if you had a mortgage on this property
+didYouHaveAMortgageOnProperty.change.hidden = DidYouHaveAMortgageOnProperty

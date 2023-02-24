@@ -27,3 +27,8 @@ GET        /letting-property-own-another-person/:i              controllers.lett
 POST       /letting-property-own-another-person/:i              controllers.letting.JointlyOwnedPropertyController.onSubmit(i:Int, mode: Mode = NormalMode)
 GET        /letting-property-own-another-person/:i/change       controllers.letting.JointlyOwnedPropertyController.onPageLoad(i:Int, mode: Mode = CheckMode)
 POST       /letting-property-own-another-person/:i/change       controllers.letting.JointlyOwnedPropertyController.onSubmit(i:Int, mode: Mode = CheckMode)
+
+GET        /letting-property-did-you-have-mortgage/:i           controllers.letting.DidYouHaveAMortgageOnPropertyController.onPageLoad(i:Int, mode: Mode = NormalMode)
+POST       /letting-property-did-you-have-mortgage/:i           controllers.letting.DidYouHaveAMortgageOnPropertyController.onSubmit(i:Int, mode: Mode = NormalMode)
+GET        /letting-property-did-you-have-mortgage/:i/change    controllers.letting.DidYouHaveAMortgageOnPropertyController.onPageLoad(i:Int, mode: Mode = CheckMode)
+POST       /letting-property-did-you-have-mortgage/:i/change    controllers.letting.DidYouHaveAMortgageOnPropertyController.onSubmit(i:Int, mode: Mode = CheckMode)
