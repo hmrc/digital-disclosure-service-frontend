@@ -35,7 +35,7 @@ class JointlyOwnedPropertyViewSpec extends ViewSpecBase with ViewMatchers {
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("jointlyOwnedProperty.title"))
+      view.select("title").text() must include(messages("jointlyOwnedProperty.title", 1))
     }
 
     "contain header" in {
