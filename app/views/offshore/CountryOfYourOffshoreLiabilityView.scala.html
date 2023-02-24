@@ -43,11 +43,10 @@
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
-        @heading(Text(messages(s"countryOfYourOffshoreLiability.heading")))
-
         @govukSelect(Select(
             id = "country",
             name = "country",
+            label = Label(content = Text(messages("countryOfYourOffshoreLiability.heading"))).asPageHeading(),
             items = Seq(SelectItem(value = Some(" "), text = "", attributes = Map("label" -> " "))) ++
                     countries.countries.map(country =>
                         SelectItem(
