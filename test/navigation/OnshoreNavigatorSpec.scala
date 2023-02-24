@@ -236,6 +236,24 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextPage(NotIncludedSingleTaxYearPage, NormalMode, userAnswers.success.value) mustBe routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
       }
 
+      "must go from NotIncludedSingleTaxYearPage to TaxBeforeThreeYearsOnshoreController" in {
+        val set: Set[OnshoreYears] = Set(PriorToThreeYears)
+        val userAnswers = UserAnswers("id").set(WhichOnshoreYearsPage, set).success.value
+        navigator.nextPage(NotIncludedSingleTaxYearPage, NormalMode, userAnswers) mustBe routes.TaxBeforeThreeYearsOnshoreController.onPageLoad(NormalMode)
+      }
+
+      "must go from NotIncludedSingleTaxYearPage to TaxBeforeFiveYearsOnshoreController" in {
+        val set: Set[OnshoreYears] = Set(PriorToFiveYears)
+        val userAnswers = UserAnswers("id").set(WhichOnshoreYearsPage, set).success.value
+        navigator.nextPage(NotIncludedSingleTaxYearPage, NormalMode, userAnswers) mustBe routes.TaxBeforeFiveYearsOnshoreController.onPageLoad(NormalMode)
+      }
+
+      "must go from NotIncludedSingleTaxYearPage to TaxBeforeNineteenYearsOnshoreController" in {
+        val set: Set[OnshoreYears] = Set(PriorToNineteenYears)
+        val userAnswers = UserAnswers("id").set(WhichOnshoreYearsPage, set).success.value
+        navigator.nextPage(NotIncludedSingleTaxYearPage, NormalMode, userAnswers) mustBe routes.TaxBeforeNineteenYearsOnshoreController.onPageLoad(NormalMode)
+      }
+
       "must go from NotIncludedMultipleTaxYearsPage to RentalAddressLookupController" in {
         val year = current.back(1).startYear
         val setOfOnshoreYears: Set[OnshoreYears] = Set(OnshoreYearStarting(year))
@@ -256,6 +274,24 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
           ua2 <- ua1.set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
           } yield ua2
         navigator.nextPage(NotIncludedMultipleTaxYearsPage, NormalMode, userAnswers.success.value) mustBe routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
+      }
+
+      "must go from NotIncludedMultipleTaxYearsPage to TaxBeforeThreeYearsOnshoreController" in {
+        val set: Set[OnshoreYears] = Set(PriorToThreeYears)
+        val userAnswers = UserAnswers("id").set(WhichOnshoreYearsPage, set).success.value
+        navigator.nextPage(NotIncludedMultipleTaxYearsPage, NormalMode, userAnswers) mustBe routes.TaxBeforeThreeYearsOnshoreController.onPageLoad(NormalMode)
+      }
+
+      "must go from NotIncludedMultipleTaxYearsPage to TaxBeforeFiveYearsOnshoreController" in {
+        val set: Set[OnshoreYears] = Set(PriorToFiveYears)
+        val userAnswers = UserAnswers("id").set(WhichOnshoreYearsPage, set).success.value
+        navigator.nextPage(NotIncludedMultipleTaxYearsPage, NormalMode, userAnswers) mustBe routes.TaxBeforeFiveYearsOnshoreController.onPageLoad(NormalMode)
+      }
+
+      "must go from NotIncludedMultipleTaxYearsPage to TaxBeforeNineteenYearsOnshoreController" in {
+        val set: Set[OnshoreYears] = Set(PriorToNineteenYears)
+        val userAnswers = UserAnswers("id").set(WhichOnshoreYearsPage, set).success.value
+        navigator.nextPage(NotIncludedMultipleTaxYearsPage, NormalMode, userAnswers) mustBe routes.TaxBeforeNineteenYearsOnshoreController.onPageLoad(NormalMode)
       }
 
       "must go from TaxBeforeThreeYearsOnshorePage to RentalAddressLookupController" in {
