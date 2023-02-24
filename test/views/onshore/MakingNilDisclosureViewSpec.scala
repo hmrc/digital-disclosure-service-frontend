@@ -50,8 +50,7 @@ class MakingNilDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "have a continue link" in {
-      view.getElementById("continue").attr("href") mustBe controllers.offshore.routes.CheckYourAnswersController.onPageLoad.url
-      //TODO replace line with -> controllers.onshore.routes.CheckYourAnswersController.onPageLoad.url
+      view.getElementById("continue").attr("href") mustBe controllers.onshore.routes.CheckYourAnswersController.onPageLoad.url
     }
 
     "have a task list link" in {
