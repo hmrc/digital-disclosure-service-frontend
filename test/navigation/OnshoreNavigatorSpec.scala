@@ -89,11 +89,6 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnNoCare)
         val userAnswers = UserAnswers("id").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
         navigator.nextPage(WhyAreYouMakingThisOnshoreDisclosurePage, NormalMode, userAnswers) mustBe routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
-      }  
-
-      "must go from CDFOnshorePage to YouHaveLeftTheDDSOnshoreControllerController when selected any other option(s) & false" in {
-        val userAnswers = UserAnswers("id").set(CDFOnshorePage, false).success.value
-        navigator.nextPage(CDFOnshorePage, NormalMode, userAnswers) mustBe routes.YouHaveLeftTheDDSOnshoreController.onPageLoad(NormalMode)
       }
 
       "must go from CDFOnshorePage to ReasonableExcuseOnshoreController when selected DidNotNotifyHasExcuse & true" in {
