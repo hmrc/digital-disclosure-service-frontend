@@ -91,6 +91,11 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextPage(WhyAreYouMakingThisOnshoreDisclosurePage, NormalMode, userAnswers) mustBe routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
       }
 
+      "must go from CDFOnshorePage to YouHaveLeftTheDDSOnshoreControllerController when selected any other option(s) & false" in {
+        val userAnswers = UserAnswers("id").set(CDFOnshorePage, false).success.value
+        navigator.nextPage(CDFOnshorePage, NormalMode, userAnswers) mustBe routes.YouHaveLeftTheDDSOnshoreController.onPageLoad(NormalMode)
+      }
+
       "must go from CDFOnshorePage to ReasonableExcuseOnshoreController when selected DidNotNotifyHasExcuse & true" in {
         val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHasExcuse)
         val userAnswers = for {
@@ -352,7 +357,7 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
           } yield ua2
         navigator.nextPage(TaxBeforeFiveYearsOnshorePage, NormalMode, userAnswers.success.value) mustBe routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
       }
-      
+
       "must go from TaxBeforeNineteenYearsOnshorePage to RentalAddressLookupController" in {
         val year = current.back(1).startYear
         val setOfOnshoreYears: Set[OnshoreYears] = Set(OnshoreYearStarting(year))

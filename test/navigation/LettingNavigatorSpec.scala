@@ -36,9 +36,6 @@ class LettingNavigatorSpec extends SpecBase {
         navigator.nextPage(UnknownPage, 0, NormalMode, UserAnswers("id")) mustBe controllers.routes.IndexController.onPageLoad
       }
 
-      //case RentalAddressLookupPage => i => _ => routes.PropertyFirstLetOutController.onPageLoad(i, NormalMode)
-      //    case PropertyFirstLetOutPage => i => _ =>  routes.PropertyStoppedBeingLetOutController.onPageLoad(i, NormalMode)
-
       "must go from RentalAddressLookupPage to PropertyFirstLetOutController" in {
         val index = 0
         val lettingProperty = LettingProperty(dateFirstLetOut = Some(LocalDate.now().minusDays(1)))
