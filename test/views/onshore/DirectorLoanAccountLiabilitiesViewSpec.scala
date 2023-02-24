@@ -44,6 +44,10 @@ class DirectorLoanAccountLiabilitiesViewSpec extends ViewSpecBase with ViewMatch
       view.getElementsByClass("govuk-heading-xl").text() mustBe messages("directorLoanAccountLiabilities.heading", index + 1)
     }
 
+    "contain inset text" in {
+      view.getElementById("inset-body").text() mustBe s"${messages("directorLoanAccountLiabilities.inset")}"
+    }
+
     "contain the name question" in {
       view.getElementsByClass("govuk-label--m").get(0).text() mustBe messages("directorLoanAccountLiabilities.name.question")
     }
