@@ -14,19 +14,17 @@
  * limitations under the License.
  */
 
-package models
+package forms
 
-import models.address.Address
-import java.time.LocalDate
-import play.api.libs.json._
+import javax.inject.Inject
 
-final case class LettingProperty(
-  address: Option[Address] = None,
-  dateFirstLetOut: Option[LocalDate] = None,
-  stoppedBeingLetOut: Option[Boolean] = None,
-  wasFurnished: Option[Boolean] = None
-)
+import forms.mappings.Mappings
+import play.api.data.Form
 
-object LettingProperty {
-  implicit val format = Json.format[LettingProperty]
+class WasPropertyFurnishedFormProvider @Inject() extends Mappings {
+
+  def apply(): Form[Boolean] =
+    Form(
+      "value" -> boolean("wasPropertyFurnished.error.required")
+    )
 }

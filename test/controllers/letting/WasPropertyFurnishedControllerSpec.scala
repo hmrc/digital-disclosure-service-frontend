@@ -1,64 +1,84 @@
+/*
+ * Copyright 2023 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package controllers
 
 import base.SpecBase
-import forms.PropertyStoppedBeingLetOutFormProvider
-import models.{NormalMode, UserAnswers}
+import forms.WasPropertyFurnishedFormProvider
+import models.{LettingProperty, NormalMode, UserAnswers}
 import navigation.{FakeLettingNavigator, LettingNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.PropertyStoppedBeingLetOutPage
+import pages.LettingPropertyPage
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
-import views.html.letting.PropertyStoppedBeingLetOutView
+import views.html.letting.WasPropertyFurnishedView
 
 import scala.concurrent.Future
 
-class PropertyStoppedBeingLetOutControllerSpec extends SpecBase with MockitoSugar {
+class WasPropertyFurnishedControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  val formProvider = new PropertyStoppedBeingLetOutFormProvider()
+  val formProvider = new WasPropertyFurnishedFormProvider()
   val form = formProvider()
+  val index = 0
 
-  lazy val propertyStoppedBeingLetOutRoute = letting.routes.PropertyStoppedBeingLetOutController.onPageLoad(NormalMode).url
+  lazy val wasPropertyFurnishedRoute = letting.routes.WasPropertyFurnishedController.onPageLoad(index, NormalMode).url
 
-  "PropertyStoppedBeingLetOut Controller" - {
+  "WasPropertyFurnished Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, propertyStoppedBeingLetOutRoute)
+        val request = FakeRequest(GET, wasPropertyFurnishedRoute)
 
         val result = route(application, request).value
 
-        val view = application.injector.instanceOf[PropertyStoppedBeingLetOutView]
+        val view = application.injector.instanceOf[WasPropertyFurnishedView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, index, NormalMode)(request, messages(application)).toString
       }
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(PropertyStoppedBeingLetOutPage, true).success.value
+      val lettingProperty = LettingProperty(wasFurnished = Some(true))
+
+      val userAnswers = UserAnswers(userAnswersId)
+        .setBySeqIndex(LettingPropertyPage, index, lettingProperty).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, propertyStoppedBeingLetOutRoute)
+        val request = FakeRequest(GET, wasPropertyFurnishedRoute)
 
-        val view = application.injector.instanceOf[PropertyStoppedBeingLetOutView]
+        val view = application.injector.instanceOf[WasPropertyFurnishedView]
 
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(true), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(true), index, NormalMode)(request, messages(application)).toString
       }
     }
 
@@ -77,7 +97,7 @@ class PropertyStoppedBeingLetOutControllerSpec extends SpecBase with MockitoSuga
 
       running(application) {
         val request =
-          FakeRequest(POST, propertyStoppedBeingLetOutRoute)
+          FakeRequest(POST, wasPropertyFurnishedRoute)
             .withFormUrlEncodedBody(("value", "true"))
 
         val result = route(application, request).value
@@ -93,17 +113,17 @@ class PropertyStoppedBeingLetOutControllerSpec extends SpecBase with MockitoSuga
 
       running(application) {
         val request =
-          FakeRequest(POST, propertyStoppedBeingLetOutRoute)
+          FakeRequest(POST, wasPropertyFurnishedRoute)
             .withFormUrlEncodedBody(("value", ""))
 
         val boundForm = form.bind(Map("value" -> ""))
 
-        val view = application.injector.instanceOf[PropertyStoppedBeingLetOutView]
+        val view = application.injector.instanceOf[WasPropertyFurnishedView]
 
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, index, NormalMode)(request, messages(application)).toString
       }
     }
 
@@ -112,7 +132,7 @@ class PropertyStoppedBeingLetOutControllerSpec extends SpecBase with MockitoSuga
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val request = FakeRequest(GET, propertyStoppedBeingLetOutRoute)
+        val request = FakeRequest(GET, wasPropertyFurnishedRoute)
 
         val result = route(application, request).value
 
@@ -127,7 +147,7 @@ class PropertyStoppedBeingLetOutControllerSpec extends SpecBase with MockitoSuga
 
       running(application) {
         val request =
-          FakeRequest(POST, propertyStoppedBeingLetOutRoute)
+          FakeRequest(POST, wasPropertyFurnishedRoute)
             .withFormUrlEncodedBody(("value", "true"))
 
         val result = route(application, request).value

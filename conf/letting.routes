@@ -12,3 +12,8 @@ GET        /letting-property-has-letting-stopped/:i              controllers.let
 POST       /letting-property-has-letting-stopped/:i              controllers.letting.PropertyStoppedBeingLetOutController.onSubmit(i:Int, mode: Mode = NormalMode)
 GET        /letting-property-has-letting-stopped/:i/change       controllers.letting.PropertyStoppedBeingLetOutController.onPageLoad(i:Int, mode: Mode = CheckMode)
 POST       /letting-property-has-letting-stopped/:i/change       controllers.letting.PropertyStoppedBeingLetOutController.onSubmit(i:Int, mode: Mode = CheckMode)
+
+GET        /letting-property-furnished/:i                        controllers.letting.WasPropertyFurnishedController.onPageLoad(i: Int, mode: Mode = NormalMode)
+POST       /letting-property-furnished/:i                        controllers.letting.WasPropertyFurnishedController.onSubmit(i: Int, mode: Mode = NormalMode)
+GET        /letting-property-furnished/:i/change                 controllers.letting.WasPropertyFurnishedController.onPageLoad(i: Int, mode: Mode = CheckMode)
+POST       /letting-property-furnished/:i/change                 controllers.letting.WasPropertyFurnishedController.onSubmit(i: Int, mode: Mode = CheckMode)

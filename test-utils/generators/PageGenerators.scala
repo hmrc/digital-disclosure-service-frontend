@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryWasPropertyFurnishedPage: Arbitrary[WasPropertyFurnishedPage.type] =
+    Arbitrary(WasPropertyFurnishedPage)
+
   implicit lazy val arbitraryPropertyStoppedBeingLetOutPage: Arbitrary[PropertyStoppedBeingLetOutPage.type] =
     Arbitrary(PropertyStoppedBeingLetOutPage)
 

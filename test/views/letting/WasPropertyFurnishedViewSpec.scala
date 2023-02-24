@@ -17,37 +17,38 @@
 package views.letting
 
 import base.ViewSpecBase
-import forms.PropertyStoppedBeingLetOutFormProvider
+import forms.WasPropertyFurnishedFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
-import views.html.letting.PropertyStoppedBeingLetOutView
+import views.html.letting.WasPropertyFurnishedView
 import models.NormalMode
 
-class PropertyStoppedBeingLetOutViewSpec extends ViewSpecBase with ViewMatchers {
+class WasPropertyFurnishedViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new PropertyStoppedBeingLetOutFormProvider()()
-  val page: PropertyStoppedBeingLetOutView = inject[PropertyStoppedBeingLetOutView]
+  val form = new WasPropertyFurnishedFormProvider()()
+  val page: WasPropertyFurnishedView = inject[WasPropertyFurnishedView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  val index = 0
+  private def createView: Html = page(form, index, NormalMode)(request, messages)
 
   "view" should {
 
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("propertyStoppedBeingLetOut.title"))
+      view.select("title").text() must include(messages("wasPropertyFurnished.title", index + 1))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("propertyStoppedBeingLetOut.heading")
+      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("wasPropertyFurnished.heading", index + 1)
     }
 
     "have yes" in {
-      view.getElementsByClass("govuk-radios__label").first().text() mustBe messages("propertyStoppedBeingLetOut.yes")
+      view.getElementsByClass("govuk-radios__label").first().text() mustBe messages("wasPropertyFurnished.yes")
     }
 
     "have no" in {
-      view.getElementsByClass("govuk-radios__label").last().text() mustBe messages("propertyStoppedBeingLetOut.no")
+      view.getElementsByClass("govuk-radios__label").last().text() mustBe messages("wasPropertyFurnished.no")
     }
 
     "display the continue button" in {
