@@ -1988,6 +1988,8 @@ propertyFirstLetOut.error.required = Date must include a {0}
 propertyFirstLetOut.error.invalidDay = Enter a real date – a month can have up to 31 days
 propertyFirstLetOut.error.invalidMonth = Enter a real date – there are only 12 months in a year
 propertyFirstLetOut.error.invalid = Enter the date in the right format
+propertyFirstLetOut.error.invalidPastDate = The date must be after the year 1849
+propertyFirstLetOut.error.invalidFutureDate = Date must be in the past
 propertyFirstLetOut.change.hidden = PropertyFirstLetOut
 
 checkYourAnswers.onshore.title = Onshore liabilities summary
@@ -2003,3 +2005,4 @@ checkYourAnswers.onshore.fullAmount.link = calling the helpline (opens in new ta
 checkYourAnswers.onshore.fullAmount.paragraph2 = When you phone, we’ll want to talk to you about your current financial position so we can tell you what we think you should pay and when.
 checkYourAnswers.onshore.fullAmount.paragraph3 = If you cannot pay the full amount do not submit your disclosure or payment until you’ve spoken to us.
 checkYourAnswers.onshore.total.heading = What you owe in total for onshore liabilities
+

@@ -42,7 +42,7 @@ class PropertyFirstLetOutControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  val validAnswer = LocalDate.now(ZoneOffset.UTC)
+  val validAnswer = LocalDate.now(ZoneOffset.UTC).minusDays(1)
 
   lazy val propertyFirstLetOutRoute = letting.routes.PropertyFirstLetOutController.onPageLoad(0, NormalMode).url
 
