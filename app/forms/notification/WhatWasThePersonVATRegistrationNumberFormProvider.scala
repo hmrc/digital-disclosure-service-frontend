@@ -26,6 +26,7 @@ class WhatWasThePersonVATRegistrationNumberFormProvider @Inject() extends Mappin
   def apply(): Form[String] =
     Form(
       "value" -> text("whatWasThePersonVATRegistrationNumber.error.required")
+        .transform[String](_.filterNot(_.isWhitespace), identity)
         .verifying(validVAT(9, "whatWasThePersonVATRegistrationNumber.error"))
     )
 }

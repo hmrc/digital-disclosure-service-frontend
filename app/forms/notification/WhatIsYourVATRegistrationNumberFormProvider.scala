@@ -28,6 +28,7 @@ class WhatIsYourVATRegistrationNumberFormProvider @Inject() extends Mappings {
   def apply(): Form[String] =
     Form(
       "value" -> text("whatIsYourVATRegistrationNumber.error.required")
+        .transform[String](_.filterNot(_.isWhitespace), identity)
         .verifying(validVAT(length, "whatIsYourVATRegistrationNumber.error.invalid"))
     )
 }

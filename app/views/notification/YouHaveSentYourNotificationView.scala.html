@@ -20,6 +20,7 @@
         govukPanel: GovukPanel,
         paragraph: components.paragraph,
         heading: components.heading,
+        subheading: components.subheading,
         downloadLink: components.downloadLink
 )
 
@@ -59,7 +60,7 @@
             messages("site.dot")
     ))
 
-    @heading(Text(messages("youHaveSentYourNotification.paragraph.header")), classes = "govuk-heading-m")
+    @subheading(Text(messages("youHaveSentYourNotification.paragraph.header")), classes = "govuk-heading-m")
 
     @paragraph(id = Some("second-paragraph"), 
         content = isCaseReferenceAvailable match {
