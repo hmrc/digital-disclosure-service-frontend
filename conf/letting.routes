@@ -7,3 +7,8 @@ GET        /letting-property-start-letting/:i                    controllers.let
 POST       /letting-property-start-letting/:i                    controllers.letting.PropertyFirstLetOutController.onSubmit(i: Int, mode: Mode = NormalMode)
 GET        /letting-property-start-letting/:i/change             controllers.letting.PropertyFirstLetOutController.onPageLoad(i: Int, mode: Mode = CheckMode)
 POST       /letting-property-start-letting/:i/change             controllers.letting.PropertyFirstLetOutController.onSubmit(i: Int, mode: Mode = CheckMode)
+
+GET        /letting-property-has-letting-stopped/:i              controllers.letting.PropertyStoppedBeingLetOutController.onPageLoad(i:Int, mode: Mode = NormalMode)
+POST       /letting-property-has-letting-stopped/:i              controllers.letting.PropertyStoppedBeingLetOutController.onSubmit(i:Int, mode: Mode = NormalMode)
+GET        /letting-property-has-letting-stopped/:i/change       controllers.letting.PropertyStoppedBeingLetOutController.onPageLoad(i:Int, mode: Mode = CheckMode)
+POST       /letting-property-has-letting-stopped/:i/change       controllers.letting.PropertyStoppedBeingLetOutController.onSubmit(i:Int, mode: Mode = CheckMode)

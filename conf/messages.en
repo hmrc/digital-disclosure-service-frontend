@@ -2006,3 +2006,10 @@ checkYourAnswers.onshore.fullAmount.paragraph2 = When you phone, we’ll want to
 checkYourAnswers.onshore.fullAmount.paragraph3 = If you cannot pay the full amount do not submit your disclosure or payment until you’ve spoken to us.
 checkYourAnswers.onshore.total.heading = What you owe in total for onshore liabilities
 
+propertyStoppedBeingLetOut.title = Has property {0} stopped being let out?
+propertyStoppedBeingLetOut.heading = Has property {0} stopped being let out?
+propertyStoppedBeingLetOut.checkYourAnswersLabel = propertyStoppedBeingLetOut
+propertyStoppedBeingLetOut.error.required = Select yes if this property has stopped being let out
+propertyStoppedBeingLetOut.change.hidden = PropertyStoppedBeingLetOut
+propertyStoppedBeingLetOut.yes = Yes
+propertyStoppedBeingLetOut.no = No
