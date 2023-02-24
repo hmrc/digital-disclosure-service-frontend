@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryJointlyOwnedPropertyPage: Arbitrary[JointlyOwnedPropertyPage.type] =
+    Arbitrary(JointlyOwnedPropertyPage)
+
   implicit lazy val arbitraryFHLPage: Arbitrary[FHLPage.type] =
     Arbitrary(FHLPage)
 

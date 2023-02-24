@@ -2048,3 +2048,11 @@ fhl.no = No
 fhl.checkYourAnswersLabel = Furnished Holiday Let
 fhl.error.required = Select yes if the property met the qualifying criteria to be treated as a FHL
 fhl.change.hidden = FHL
+
+jointlyOwnedProperty.title = At the time of letting, was property {0} jointly owned with another person?
+jointlyOwnedProperty.heading = At the time of letting, was property {0} jointly owned with another person?
+jointlyOwnedProperty.yes = Yes
+jointlyOwnedProperty.no = No
+jointlyOwnedProperty.checkYourAnswersLabel = jointlyOwnedProperty
+jointlyOwnedProperty.error.required = Select yes if the property was jointly owned with another person
+jointlyOwnedProperty.change.hidden = JointlyOwnedProperty
