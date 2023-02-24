@@ -49,7 +49,7 @@ class CountryOfYourOffshoreLiabilityViewSpec extends ViewSpecBase with ViewMatch
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("countryOfYourOffshoreLiability.heading")
+      view.getElementsByClass("govuk-label--xl").text() mustBe messages("countryOfYourOffshoreLiability.heading")
     }
 
     "display the select element and the first must be empty" in {
