@@ -22,6 +22,7 @@
     govukCheckboxes: GovukCheckboxes,
     govukButton: GovukButton,
     heading: components.heading,
+    subheading: components.subheading,
     tasklistLink: components.tasklistLink 
 )
 
@@ -37,7 +38,7 @@
         
         @heading(Text(messages("yourLegalInterpretation.heading")))
 
-        @heading(
+        @subheading(
             Text(messages("yourLegalInterpretation.second.heading")),
             classes = "govuk-heading-m"
         )

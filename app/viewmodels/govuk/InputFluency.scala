@@ -51,6 +51,18 @@ trait InputFluency {
         .withAutocomplete("email")
         .withSpellcheck(on = false)
 
+    def asTelephone(): Input =
+      input
+        .withInputType("tel")
+        .withAutocomplete("tel")
+        .withSpellcheck(on = false)
+
+    def asName(): Input =
+      input
+        .withAutocomplete("name")
+        .withSpellcheck(on = false)
+
+
     def asNumeric(): Input =
       input
         .withInputMode("numeric")

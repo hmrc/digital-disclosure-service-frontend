@@ -43,6 +43,7 @@
                 field = form("value"),
                 label = LabelViewModel(messages("yourPhoneNumber.label")),
             )
+            .asTelephone
             .withHint(Hint(content = Text(messages("yourPhoneNumber.hint"))))
             .withWidth(Full)
         )
