@@ -53,6 +53,12 @@
           )
         )
 
+        @paragraph(
+            id = Some("inset-body"),
+            classes = "govuk-inset-text",
+            content = HtmlContent(messages("directorLoanAccountLiabilities.inset"))
+        )
+
         @govukInput(
             InputViewModel(
                 field = form("name"),
