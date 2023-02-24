@@ -14,31 +14,35 @@
  * limitations under the License.
  *@
 
+@import viewmodels.InputWidth._
+
 @this(
     layout: templates.Layout,
     formHelper: FormWithCSRF,
     govukErrorSummary: GovukErrorSummary,
-    govukRadios: GovukRadios,
+    govukInput: GovukInput,
     govukButton: GovukButton,
     tasklistLink: components.tasklistLink
 )
 
 @(form: Form[_], i: Int, mode: Mode)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("didYouHaveAMortgageOnProperty.title", i+1))) {
+@layout(pageTitle = title(form, messages("whatWasThePercentageIncomeYouReceivedFromProperty.title", i+1))) {
 
-    @formHelper(action = controllers.letting.routes.DidYouHaveAMortgageOnPropertyController.onSubmit(i, mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.letting.routes.WhatWasThePercentageIncomeYouReceivedFromPropertyController.onSubmit(i, mode), 'autoComplete -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
-        @govukRadios(
-            RadiosViewModel.yesNoNotInline(
+        @govukInput(
+            InputViewModel(
                 field = form("value"),
-                legend = LegendViewModel(messages("didYouHaveAMortgageOnProperty.heading", i+1)).asPageHeading(),
-                messagePrefix = "didYouHaveAMortgageOnProperty"
+                label = LabelViewModel(messages("whatWasThePercentageIncomeYouReceivedFromProperty.heading", i+1)).asPageHeading()
             )
+            .withSuffix(PrefixOrSuffix(content = Text("%")))
+            .asNumeric()
+            .withWidth(Fixed10)
         )
 
         @govukButton(

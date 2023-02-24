@@ -17,7 +17,7 @@
 package controllers
 
 import base.SpecBase
-import forms.DidYouHaveAMortgageOnPropertyFormProvider
+import forms.WhatWasThePercentageIncomeYouReceivedFromPropertyFormProvider
 import models.{NormalMode, UserAnswers, LettingProperty}
 import navigation.{FakeLettingNavigator, LettingNavigator}
 import org.mockito.ArgumentMatchers.any
@@ -29,31 +29,33 @@ import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
-import views.html.letting.DidYouHaveAMortgageOnPropertyView
+import views.html.letting.WhatWasThePercentageIncomeYouReceivedFromPropertyView
 
 import scala.concurrent.Future
 
-class DidYouHaveAMortgageOnPropertyControllerSpec extends SpecBase with MockitoSugar {
+class WhatWasThePercentageIncomeYouReceivedFromPropertyControllerSpec extends SpecBase with MockitoSugar {
+
+  val formProvider = new WhatWasThePercentageIncomeYouReceivedFromPropertyFormProvider()
+  val form = formProvider()
 
   def onwardRoute = Call("GET", "/foo")
 
-  val formProvider = new DidYouHaveAMortgageOnPropertyFormProvider()
-  val form = formProvider()
+  val validAnswer = 1
 
-  lazy val didYouHaveAMortgageOnPropertyRoute = letting.routes.DidYouHaveAMortgageOnPropertyController.onPageLoad(0, NormalMode).url
+  lazy val whatWasThePercentageIncomeYouReceivedFromPropertyRoute = letting.routes.WhatWasThePercentageIncomeYouReceivedFromPropertyController.onPageLoad(0, NormalMode).url
 
-  "DidYouHaveAMortgageOnProperty Controller" - {
+  "WhatWasThePercentageIncomeYouReceivedFromProperty Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, didYouHaveAMortgageOnPropertyRoute)
+        val request = FakeRequest(GET, whatWasThePercentageIncomeYouReceivedFromPropertyRoute)
 
         val result = route(application, request).value
 
-        val view = application.injector.instanceOf[DidYouHaveAMortgageOnPropertyView]
+        val view = application.injector.instanceOf[WhatWasThePercentageIncomeYouReceivedFromPropertyView]
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(form, 0, NormalMode)(request, messages(application)).toString
@@ -62,7 +64,7 @@ class DidYouHaveAMortgageOnPropertyControllerSpec extends SpecBase with MockitoS
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val lettingProperty = LettingProperty(isMortgageOnProperty = Some(true))
+      val lettingProperty = LettingProperty(percentageIncomeOnProperty = Some(1))
 
       val userAnswers = UserAnswers(userAnswersId)
         .setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
@@ -70,14 +72,14 @@ class DidYouHaveAMortgageOnPropertyControllerSpec extends SpecBase with MockitoS
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, didYouHaveAMortgageOnPropertyRoute)
+        val request = FakeRequest(GET, whatWasThePercentageIncomeYouReceivedFromPropertyRoute)
 
-        val view = application.injector.instanceOf[DidYouHaveAMortgageOnPropertyView]
+        val view = application.injector.instanceOf[WhatWasThePercentageIncomeYouReceivedFromPropertyView]
 
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(true), 0, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(validAnswer), 0, NormalMode)(request, messages(application)).toString
       }
     }
 
@@ -96,8 +98,8 @@ class DidYouHaveAMortgageOnPropertyControllerSpec extends SpecBase with MockitoS
 
       running(application) {
         val request =
-          FakeRequest(POST, didYouHaveAMortgageOnPropertyRoute)
-            .withFormUrlEncodedBody(("value", "true"))
+          FakeRequest(POST, whatWasThePercentageIncomeYouReceivedFromPropertyRoute)
+            .withFormUrlEncodedBody(("value", validAnswer.toString))
 
         val result = route(application, request).value
 
@@ -112,12 +114,12 @@ class DidYouHaveAMortgageOnPropertyControllerSpec extends SpecBase with MockitoS
 
       running(application) {
         val request =
-          FakeRequest(POST, didYouHaveAMortgageOnPropertyRoute)
-            .withFormUrlEncodedBody(("value", ""))
+          FakeRequest(POST, whatWasThePercentageIncomeYouReceivedFromPropertyRoute)
+            .withFormUrlEncodedBody(("value", "invalid value"))
 
-        val boundForm = form.bind(Map("value" -> ""))
+        val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[DidYouHaveAMortgageOnPropertyView]
+        val view = application.injector.instanceOf[WhatWasThePercentageIncomeYouReceivedFromPropertyView]
 
         val result = route(application, request).value
 
@@ -131,7 +133,7 @@ class DidYouHaveAMortgageOnPropertyControllerSpec extends SpecBase with MockitoS
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val request = FakeRequest(GET, didYouHaveAMortgageOnPropertyRoute)
+        val request = FakeRequest(GET, whatWasThePercentageIncomeYouReceivedFromPropertyRoute)
 
         val result = route(application, request).value
 
@@ -146,12 +148,13 @@ class DidYouHaveAMortgageOnPropertyControllerSpec extends SpecBase with MockitoS
 
       running(application) {
         val request =
-          FakeRequest(POST, didYouHaveAMortgageOnPropertyRoute)
-            .withFormUrlEncodedBody(("value", "true"))
+          FakeRequest(POST, whatWasThePercentageIncomeYouReceivedFromPropertyRoute)
+            .withFormUrlEncodedBody(("value", validAnswer.toString))
 
         val result = route(application, request).value
 
         status(result) mustEqual SEE_OTHER
+
         redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
       }
     }

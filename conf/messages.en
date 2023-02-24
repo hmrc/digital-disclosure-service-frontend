@@ -2064,3 +2064,12 @@ didYouHaveAMortgageOnProperty.no = No
 didYouHaveAMortgageOnProperty.checkYourAnswersLabel = didYouHaveAMortgageOnProperty
 didYouHaveAMortgageOnProperty.error.required = Select yes if you had a mortgage on this property
 didYouHaveAMortgageOnProperty.change.hidden = DidYouHaveAMortgageOnProperty
+
+whatWasThePercentageIncomeYouReceivedFromProperty.title = What was the percentage share of the income you received from property {0}?
+whatWasThePercentageIncomeYouReceivedFromProperty.heading = What was the percentage share of the income you received from property {0}?
+whatWasThePercentageIncomeYouReceivedFromProperty.checkYourAnswersLabel = WhatWasThePercentageIncomeYouReceivedFromProperty
+whatWasThePercentageIncomeYouReceivedFromProperty.error.nonNumeric = The percentage must be a number, like 50
+whatWasThePercentageIncomeYouReceivedFromProperty.error.required = Enter the percentage share of the income you received
+whatWasThePercentageIncomeYouReceivedFromProperty.error.wholeNumber = The percentage must be a number, like 50
+whatWasThePercentageIncomeYouReceivedFromProperty.error.outOfRange = The percentage share of the income must be between 1 and 100
+whatWasThePercentageIncomeYouReceivedFromProperty.change.hidden = WhatWasThePercentageIncomeYouReceivedFromProperty

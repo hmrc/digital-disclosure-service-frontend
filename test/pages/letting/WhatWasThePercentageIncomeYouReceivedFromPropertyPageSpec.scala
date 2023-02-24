@@ -18,14 +18,14 @@ package pages
 
 import pages.behaviours.PageBehaviours
 
-class DidYouHaveAMortgageOnPropertyPageSpec extends PageBehaviours {
+class WhatWasThePercentageIncomeYouReceivedFromPropertyPageSpec extends PageBehaviours {
 
-  "DidYouHaveAMortgageOnPropertyPage" - {
+  "WhatWasThePercentageIncomeYouReceivedFromPropertyPage" - {
 
-    beRetrievable[Boolean](DidYouHaveAMortgageOnPropertyPage)
+    beRetrievable[Int](WhatWasThePercentageIncomeYouReceivedFromPropertyPage)
 
-    beSettable[Boolean](DidYouHaveAMortgageOnPropertyPage)
+    beSettable[Int](WhatWasThePercentageIncomeYouReceivedFromPropertyPage)
 
-    beRemovable[Boolean](DidYouHaveAMortgageOnPropertyPage)
+    beRemovable[Int](WhatWasThePercentageIncomeYouReceivedFromPropertyPage)
   }
 }

@@ -16,16 +16,11 @@
 
 package pages
 
-import pages.behaviours.PageBehaviours
+import play.api.libs.json.JsPath
 
-class DidYouHaveAMortgageOnPropertyPageSpec extends PageBehaviours {
+case object WhatWasThePercentageIncomeYouReceivedFromPropertyPage extends QuestionPage[Int] {
 
-  "DidYouHaveAMortgageOnPropertyPage" - {
+  override def path: JsPath = JsPath \ toString
 
-    beRetrievable[Boolean](DidYouHaveAMortgageOnPropertyPage)
-
-    beSettable[Boolean](DidYouHaveAMortgageOnPropertyPage)
-
-    beRemovable[Boolean](DidYouHaveAMortgageOnPropertyPage)
-  }
+  override def toString: String = "whatWasThePercentageIncomeYouReceivedFromProperty"
 }

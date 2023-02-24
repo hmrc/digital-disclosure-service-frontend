@@ -14,18 +14,20 @@
  * limitations under the License.
  */
 
-package pages
+package forms
 
-import pages.behaviours.PageBehaviours
+import forms.mappings.Mappings
+import javax.inject.Inject
+import play.api.data.Form
 
-class DidYouHaveAMortgageOnPropertyPageSpec extends PageBehaviours {
+class WhatWasThePercentageIncomeYouReceivedFromPropertyFormProvider @Inject() extends Mappings {
 
-  "DidYouHaveAMortgageOnPropertyPage" - {
-
-    beRetrievable[Boolean](DidYouHaveAMortgageOnPropertyPage)
-
-    beSettable[Boolean](DidYouHaveAMortgageOnPropertyPage)
-
-    beRemovable[Boolean](DidYouHaveAMortgageOnPropertyPage)
-  }
+  def apply(): Form[Int] =
+    Form(
+      "value" -> int(
+        "whatWasThePercentageIncomeYouReceivedFromProperty.error.required",
+        "whatWasThePercentageIncomeYouReceivedFromProperty.error.wholeNumber",
+        "whatWasThePercentageIncomeYouReceivedFromProperty.error.nonNumeric")
+          .verifying(inRange(1, 100, "whatWasThePercentageIncomeYouReceivedFromProperty.error.outOfRange"))
+    )
 }

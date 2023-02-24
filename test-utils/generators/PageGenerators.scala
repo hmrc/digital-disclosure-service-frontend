@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryWhatWasThePercentageIncomeYouReceivedFromPropertyPage: Arbitrary[WhatWasThePercentageIncomeYouReceivedFromPropertyPage.type] =
+    Arbitrary(WhatWasThePercentageIncomeYouReceivedFromPropertyPage)
+
   implicit lazy val arbitraryDidYouHaveAMortgageOnPropertyPage: Arbitrary[DidYouHaveAMortgageOnPropertyPage.type] =
     Arbitrary(DidYouHaveAMortgageOnPropertyPage)
 

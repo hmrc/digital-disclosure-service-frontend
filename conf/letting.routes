@@ -32,3 +32,8 @@ GET        /letting-property-did-you-have-mortgage/:i           controllers.lett
 POST       /letting-property-did-you-have-mortgage/:i           controllers.letting.DidYouHaveAMortgageOnPropertyController.onSubmit(i:Int, mode: Mode = NormalMode)
 GET        /letting-property-did-you-have-mortgage/:i/change    controllers.letting.DidYouHaveAMortgageOnPropertyController.onPageLoad(i:Int, mode: Mode = CheckMode)
 POST       /letting-property-did-you-have-mortgage/:i/change    controllers.letting.DidYouHaveAMortgageOnPropertyController.onSubmit(i:Int, mode: Mode = CheckMode)
+
+GET        /letting-property-percentage-share/:i                controllers.letting.WhatWasThePercentageIncomeYouReceivedFromPropertyController.onPageLoad(i:Int, mode: Mode = NormalMode)
+POST       /letting-property-percentage-share/:i                controllers.letting.WhatWasThePercentageIncomeYouReceivedFromPropertyController.onSubmit(i:Int, mode: Mode = NormalMode)
+GET        /letting-property-percentage-share/:i/change         controllers.letting.WhatWasThePercentageIncomeYouReceivedFromPropertyController.onPageLoad(i:Int, mode: Mode = CheckMode)
+POST       /letting-property-percentage-share/:i/change         controllers.letting.WhatWasThePercentageIncomeYouReceivedFromPropertyController.onSubmit(i:Int, mode: Mode = CheckMode)
