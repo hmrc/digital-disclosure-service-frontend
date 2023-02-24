@@ -28,6 +28,7 @@ class WhatIsTheIndividualsVATRegistrationNumberFormProvider @Inject() extends Ma
   def apply(): Form[String] =
     Form(
       "value" -> text("whatIsTheIndividualsVATRegistrationNumber.error.required")
+        .transform[String](_.filterNot(_.isWhitespace), identity)
         .verifying(validVAT(length, "whatIsTheIndividualsVATRegistrationNumber.error.invalid"))
     )
 }
