@@ -203,6 +203,193 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextPage(WhichOnshoreYearsPage, NormalMode, userAnswers) mustBe routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
       }
 
+      "must go from WhichOnshoreYearsPage to RentalAddressLookupController" in {
+        val year = current.back(1).startYear
+        val setOfOnshoreYears: Set[OnshoreYears] = Set(OnshoreYearStarting(year))
+        val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)
+        val userAnswers = for {
+          ua1 <- UserAnswers("id").set(WhichOnshoreYearsPage, setOfOnshoreYears)
+          ua2 <- ua1.set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
+          } yield ua2
+        navigator.nextPage(WhichOnshoreYearsPage, NormalMode, userAnswers.success.value) mustBe controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
+      }
+
+      "must go from NotIncludedSingleTaxYearPage to RentalAddressLookupController" in {
+        val year = current.back(1).startYear
+        val setOfOnshoreYears: Set[OnshoreYears] = Set(OnshoreYearStarting(year))
+        val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)
+        val userAnswers = for {
+          ua1 <- UserAnswers("id").set(WhichOnshoreYearsPage, setOfOnshoreYears)
+          ua2 <- ua1.set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
+          } yield ua2
+        navigator.nextPage(NotIncludedSingleTaxYearPage, NormalMode, userAnswers.success.value) mustBe controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
+      }
+
+      "must go from NotIncludedSingleTaxYearPage to OnshoreTaxYearLiabilitiesController" in {
+        val year = current.back(1).startYear
+        val setOfOnshoreYears: Set[OnshoreYears] = Set(OnshoreYearStarting(year))
+        val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set()
+        val userAnswers = for {
+          ua1 <- UserAnswers("id").set(WhichOnshoreYearsPage, setOfOnshoreYears)
+          ua2 <- ua1.set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
+          } yield ua2
+        navigator.nextPage(NotIncludedSingleTaxYearPage, NormalMode, userAnswers.success.value) mustBe routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
+      }
+
+      "must go from NotIncludedSingleTaxYearPage to TaxBeforeThreeYearsOnshoreController" in {
+        val set: Set[OnshoreYears] = Set(PriorToThreeYears)
+        val userAnswers = UserAnswers("id").set(WhichOnshoreYearsPage, set).success.value
+        navigator.nextPage(NotIncludedSingleTaxYearPage, NormalMode, userAnswers) mustBe routes.TaxBeforeThreeYearsOnshoreController.onPageLoad(NormalMode)
+      }
+
+      "must go from NotIncludedSingleTaxYearPage to TaxBeforeFiveYearsOnshoreController" in {
+        val set: Set[OnshoreYears] = Set(PriorToFiveYears)
+        val userAnswers = UserAnswers("id").set(WhichOnshoreYearsPage, set).success.value
+        navigator.nextPage(NotIncludedSingleTaxYearPage, NormalMode, userAnswers) mustBe routes.TaxBeforeFiveYearsOnshoreController.onPageLoad(NormalMode)
+      }
+
+      "must go from NotIncludedSingleTaxYearPage to TaxBeforeNineteenYearsOnshoreController" in {
+        val set: Set[OnshoreYears] = Set(PriorToNineteenYears)
+        val userAnswers = UserAnswers("id").set(WhichOnshoreYearsPage, set).success.value
+        navigator.nextPage(NotIncludedSingleTaxYearPage, NormalMode, userAnswers) mustBe routes.TaxBeforeNineteenYearsOnshoreController.onPageLoad(NormalMode)
+      }
+
+      "must go from NotIncludedMultipleTaxYearsPage to RentalAddressLookupController" in {
+        val year = current.back(1).startYear
+        val setOfOnshoreYears: Set[OnshoreYears] = Set(OnshoreYearStarting(year))
+        val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)
+        val userAnswers = for {
+          ua1 <- UserAnswers("id").set(WhichOnshoreYearsPage, setOfOnshoreYears)
+          ua2 <- ua1.set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
+          } yield ua2
+        navigator.nextPage(NotIncludedMultipleTaxYearsPage, NormalMode, userAnswers.success.value) mustBe controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
+      }
+
+      "must go from NotIncludedMultipleTaxYearsPage to OnshoreTaxYearLiabilitiesController" in {
+        val year = current.back(1).startYear
+        val setOfOnshoreYears: Set[OnshoreYears] = Set(OnshoreYearStarting(year))
+        val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set()
+        val userAnswers = for {
+          ua1 <- UserAnswers("id").set(WhichOnshoreYearsPage, setOfOnshoreYears)
+          ua2 <- ua1.set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
+          } yield ua2
+        navigator.nextPage(NotIncludedMultipleTaxYearsPage, NormalMode, userAnswers.success.value) mustBe routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
+      }
+
+      "must go from NotIncludedMultipleTaxYearsPage to TaxBeforeThreeYearsOnshoreController" in {
+        val set: Set[OnshoreYears] = Set(PriorToThreeYears)
+        val userAnswers = UserAnswers("id").set(WhichOnshoreYearsPage, set).success.value
+        navigator.nextPage(NotIncludedMultipleTaxYearsPage, NormalMode, userAnswers) mustBe routes.TaxBeforeThreeYearsOnshoreController.onPageLoad(NormalMode)
+      }
+
+      "must go from NotIncludedMultipleTaxYearsPage to TaxBeforeFiveYearsOnshoreController" in {
+        val set: Set[OnshoreYears] = Set(PriorToFiveYears)
+        val userAnswers = UserAnswers("id").set(WhichOnshoreYearsPage, set).success.value
+        navigator.nextPage(NotIncludedMultipleTaxYearsPage, NormalMode, userAnswers) mustBe routes.TaxBeforeFiveYearsOnshoreController.onPageLoad(NormalMode)
+      }
+
+      "must go from NotIncludedMultipleTaxYearsPage to TaxBeforeNineteenYearsOnshoreController" in {
+        val set: Set[OnshoreYears] = Set(PriorToNineteenYears)
+        val userAnswers = UserAnswers("id").set(WhichOnshoreYearsPage, set).success.value
+        navigator.nextPage(NotIncludedMultipleTaxYearsPage, NormalMode, userAnswers) mustBe routes.TaxBeforeNineteenYearsOnshoreController.onPageLoad(NormalMode)
+      }
+
+      "must go from TaxBeforeThreeYearsOnshorePage to RentalAddressLookupController" in {
+        val year = current.back(1).startYear
+        val setOfOnshoreYears: Set[OnshoreYears] = Set(OnshoreYearStarting(year))
+        val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)
+        val userAnswers = for {
+          ua1 <- UserAnswers("id").set(WhichOnshoreYearsPage, setOfOnshoreYears)
+          ua2 <- ua1.set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
+          } yield ua2
+        navigator.nextPage(TaxBeforeThreeYearsOnshorePage, NormalMode, userAnswers.success.value) mustBe controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
+      }
+
+      "must go from TaxBeforeThreeYearsOnshorePage to MakingNilDisclosureController" in {
+        val setOfOnshoreYears: Set[OnshoreYears] = Set(PriorToThreeYears)
+        val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set()
+        val userAnswers = for {
+          ua1 <- UserAnswers("id").set(WhichOnshoreYearsPage, setOfOnshoreYears)
+          ua2 <- ua1.set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
+          } yield ua2
+        navigator.nextPage(TaxBeforeThreeYearsOnshorePage, NormalMode, userAnswers.success.value) mustBe routes.MakingNilDisclosureController.onPageLoad
+      }
+
+      "must go from TaxBeforeThreeYearsOnshorePage to OnshoreTaxYearLiabilitiesController" in {
+        val year = current.back(1).startYear
+        val setOfOnshoreYears: Set[OnshoreYears] = Set(OnshoreYearStarting(year))
+        val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set()
+        val userAnswers = for {
+          ua1 <- UserAnswers("id").set(WhichOnshoreYearsPage, setOfOnshoreYears)
+          ua2 <- ua1.set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
+          } yield ua2
+        navigator.nextPage(TaxBeforeThreeYearsOnshorePage, NormalMode, userAnswers.success.value) mustBe routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
+      }
+
+      "must go from TaxBeforeFiveYearsOnshorePage to RentalAddressLookupController" in {
+        val year = current.back(1).startYear
+        val setOfOnshoreYears: Set[OnshoreYears] = Set(OnshoreYearStarting(year))
+        val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)
+        val userAnswers = for {
+          ua1 <- UserAnswers("id").set(WhichOnshoreYearsPage, setOfOnshoreYears)
+          ua2 <- ua1.set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
+          } yield ua2
+        navigator.nextPage(TaxBeforeFiveYearsOnshorePage, NormalMode, userAnswers.success.value) mustBe controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
+      }
+
+      "must go from TaxBeforeFiveYearsOnshorePage to MakingNilDisclosureController" in {
+        val setOfOnshoreYears: Set[OnshoreYears] = Set(PriorToFiveYears)
+        val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set()
+        val userAnswers = for {
+          ua1 <- UserAnswers("id").set(WhichOnshoreYearsPage, setOfOnshoreYears)
+          ua2 <- ua1.set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
+          } yield ua2
+        navigator.nextPage(TaxBeforeFiveYearsOnshorePage, NormalMode, userAnswers.success.value) mustBe routes.MakingNilDisclosureController.onPageLoad
+      }
+
+      "must go from TaxBeforeFiveYearsOnshorePage to OnshoreTaxYearLiabilitiesController" in {
+        val year = current.back(1).startYear
+        val setOfOnshoreYears: Set[OnshoreYears] = Set(OnshoreYearStarting(year))
+        val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set()
+        val userAnswers = for {
+          ua1 <- UserAnswers("id").set(WhichOnshoreYearsPage, setOfOnshoreYears)
+          ua2 <- ua1.set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
+          } yield ua2
+        navigator.nextPage(TaxBeforeFiveYearsOnshorePage, NormalMode, userAnswers.success.value) mustBe routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
+      }
+      
+      "must go from TaxBeforeNineteenYearsOnshorePage to RentalAddressLookupController" in {
+        val year = current.back(1).startYear
+        val setOfOnshoreYears: Set[OnshoreYears] = Set(OnshoreYearStarting(year))
+        val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)
+        val userAnswers = for {
+          ua1 <- UserAnswers("id").set(WhichOnshoreYearsPage, setOfOnshoreYears)
+          ua2 <- ua1.set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
+          } yield ua2
+        navigator.nextPage(TaxBeforeNineteenYearsOnshorePage, NormalMode, userAnswers.success.value) mustBe controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
+      }
+
+      "must go from TaxBeforeNineteenYearsOnshorePage to MakingNilDisclosureController" in {
+        val setOfOnshoreYears: Set[OnshoreYears] = Set(PriorToNineteenYears)
+        val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set()
+        val userAnswers = for {
+          ua1 <- UserAnswers("id").set(WhichOnshoreYearsPage, setOfOnshoreYears)
+          ua2 <- ua1.set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
+          } yield ua2
+        navigator.nextPage(TaxBeforeNineteenYearsOnshorePage, NormalMode, userAnswers.success.value) mustBe routes.MakingNilDisclosureController.onPageLoad
+      }
+
+      "must go from TaxBeforeNineteenYearsOnshorePage to OnshoreTaxYearLiabilitiesController" in {
+        val year = current.back(1).startYear
+        val setOfOnshoreYears: Set[OnshoreYears] = Set(OnshoreYearStarting(year))
+        val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set()
+        val userAnswers = for {
+          ua1 <- UserAnswers("id").set(WhichOnshoreYearsPage, setOfOnshoreYears)
+          ua2 <- ua1.set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
+          } yield ua2
+        navigator.nextPage(TaxBeforeNineteenYearsOnshorePage, NormalMode, userAnswers.success.value) mustBe routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
+      }
+
       "must go from WhatOnshoreLiabilitiesDoYouNeedToDisclose to the CorporationTaxLiabilityController when CorporationTax is selected" in {
         val set: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set(CorporationTax)
         val userAnswers = UserAnswers("id").set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, set).success.value
