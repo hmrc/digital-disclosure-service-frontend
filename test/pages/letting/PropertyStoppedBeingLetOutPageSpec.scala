@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package models
+package pages
 
-import models.address.Address
-import java.time.LocalDate
-import play.api.libs.json._
+import pages.behaviours.PageBehaviours
 
-final case class LettingProperty(
-  address: Option[Address] = None,
-  dateFirstLetOut: Option[LocalDate] = None,
-  stoppedBeingLetOut: Option[Boolean] = None
-)
+class PropertyStoppedBeingLetOutPageSpec extends PageBehaviours {
 
-object LettingProperty {
-  implicit val format = Json.format[LettingProperty]
+  "PropertyStoppedBeingLetOutPage" - {
+
+    beRetrievable[Boolean](PropertyStoppedBeingLetOutPage)
+
+    beSettable[Boolean](PropertyStoppedBeingLetOutPage)
+
+    beRemovable[Boolean](PropertyStoppedBeingLetOutPage)
+  }
 }

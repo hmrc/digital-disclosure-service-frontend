@@ -1978,3 +1978,11 @@ propertyFirstLetOut.error.invalidDay = Enter a real date – a month can have up
 propertyFirstLetOut.error.invalidMonth = Enter a real date – there are only 12 months in a year
 propertyFirstLetOut.error.invalid = Enter the date in the right format
 propertyFirstLetOut.change.hidden = PropertyFirstLetOut
+
+propertyStoppedBeingLetOut.title = Has property {0} stopped being let out?
+propertyStoppedBeingLetOut.heading = Has property {0} stopped being let out?
+propertyStoppedBeingLetOut.checkYourAnswersLabel = propertyStoppedBeingLetOut
+propertyStoppedBeingLetOut.error.required = Select yes if this property has stopped being let out
+propertyStoppedBeingLetOut.change.hidden = PropertyStoppedBeingLetOut
+propertyStoppedBeingLetOut.yes = Yes
+propertyStoppedBeingLetOut.no = No
