@@ -38,7 +38,7 @@
 
     @paragraph(id = Some("third-paragraph"), content = Text(messages("makingNilOnshoreDisclosure.body.third")))
 
-    @link(id = "continue", classes = "govuk-button", text = messages("site.saveAndContinue"), newTab = false, call = Call("GET", controllers.offshore.routes.CheckYourAnswersController.onPageLoad.url))
+    @link(id = "continue", classes = "govuk-button", text = messages("site.saveAndContinue"), newTab = false, call = Call("GET", controllers.onshore.routes.CheckYourAnswersController.onPageLoad.url))
     @tasklistLink()
     
 }

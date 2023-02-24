@@ -82,6 +82,49 @@ class OnshoreNavigator @Inject()() {
       }
     }
 
+    case NotIncludedSingleTaxYearPage => ua => {
+      val lettingsChosen = ua.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage).getOrElse(Set()).contains(LettingIncome)
+      ua.get(WhichOnshoreYearsPage) match {
+        case Some(years) if lettingsChosen => controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
+        case Some(years) => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
+      }
+    }
+
+    case NotIncludedMultipleTaxYearsPage => ua => {
+      val lettingsChosen = ua.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage).getOrElse(Set()).contains(LettingIncome)
+      ua.get(WhichOnshoreYearsPage) match {
+        case Some(years) if lettingsChosen => controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
+        case Some(years) => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
+      }
+    }
+
+    case TaxBeforeThreeYearsOnshorePage => ua => {
+      val lettingsChosen = ua.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage).getOrElse(Set()).contains(LettingIncome)
+      ua.get(WhichOnshoreYearsPage) match {
+        case Some(years) if lettingsChosen => controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
+        case Some(years) if years.contains(PriorToThreeYears) && years.size == 1 => routes.MakingNilDisclosureController.onPageLoad
+        case _ => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
+      }
+    }
+
+    case TaxBeforeFiveYearsOnshorePage => ua => {
+      val lettingsChosen = ua.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage).getOrElse(Set()).contains(LettingIncome)
+      ua.get(WhichOnshoreYearsPage) match {
+        case Some(years) if lettingsChosen => controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
+        case Some(years) if years.contains(PriorToFiveYears) && years.size == 1 => routes.MakingNilDisclosureController.onPageLoad
+        case _ => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
+      }
+    }
+
+    case TaxBeforeNineteenYearsOnshorePage => ua => {
+      val lettingsChosen = ua.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage).getOrElse(Set()).contains(LettingIncome)
+      ua.get(WhichOnshoreYearsPage) match {
+        case Some(years) if lettingsChosen => controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
+        case Some(years) if years.contains(PriorToNineteenYears) && years.size == 1 => routes.MakingNilDisclosureController.onPageLoad
+        case _ => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
+      }
+    }
+
     case WhatOnshoreLiabilitiesDoYouNeedToDisclosePage => ua => ua.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage) match {
       case _ => controllers.routes.IndexController.onPageLoad
     }
