@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryFHLPage: Arbitrary[FHLPage.type] =
+    Arbitrary(FHLPage)
+
   implicit lazy val arbitraryPropertyIsNoLongerBeingLetOutPage: Arbitrary[PropertyIsNoLongerBeingLetOutPage.type] =
     Arbitrary(PropertyIsNoLongerBeingLetOutPage)
 

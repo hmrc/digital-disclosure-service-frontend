@@ -17,3 +17,8 @@ GET        /letting-property-number-letting-stopped/:i              controllers.
 POST       /letting-property-number-letting-stopped/:i              controllers.letting.PropertyIsNoLongerBeingLetOutController.onSubmit(i:Int, mode: Mode = NormalMode)
 GET        /letting-property-number-letting-stopped/:i/change       controllers.letting.PropertyIsNoLongerBeingLetOutController.onPageLoad(i:Int, mode: Mode = CheckMode)
 POST       /letting-property-number-letting-stopped/:i/change       controllers.letting.PropertyIsNoLongerBeingLetOutController.onSubmit(i:Int, mode: Mode = CheckMode)
+
+GET        /letting-property-number-fhl/:i                             controllers.letting.FHLController.onPageLoad(i:Int, mode: Mode = NormalMode)
+POST       /letting-property-number-fhl/:i                             controllers.letting.FHLController.onSubmit(i:Int, mode: Mode = NormalMode)
+GET        /letting-property-number-fhl/:i/change                      controllers.letting.FHLController.onPageLoad(i:Int, mode: Mode = CheckMode)
+POST       /letting-property-number-fhl/:i/change                      controllers.letting.FHLController.onSubmit(i:Int, mode: Mode = CheckMode)

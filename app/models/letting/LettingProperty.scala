@@ -24,7 +24,8 @@ final case class LettingProperty(
   address: Option[Address] = None,
   dateFirstLetOut: Option[LocalDate] = None,
   stoppedBeingLetOut: Option[Boolean] = None,
-  noLongerBeingLetOut: Option[NoLongerBeingLetOut] = None
+  noLongerBeingLetOut: Option[NoLongerBeingLetOut] = None,
+  fhl: Option[Boolean] = None
 )
 
 object LettingProperty {
