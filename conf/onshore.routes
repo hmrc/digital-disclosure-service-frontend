@@ -95,3 +95,5 @@ GET        /director-loan-liabilities/:i                      controllers.onshor
 POST       /director-loan-liabilities/:i                      controllers.onshore.DirectorLoanAccountLiabilitiesController.onSubmit(i:Int, mode: Mode = NormalMode)
 GET        /director-loan-liabilities/:i/change               controllers.onshore.DirectorLoanAccountLiabilitiesController.onPageLoad(i:Int, mode: Mode = CheckMode)
 POST       /director-loan-liabilities/:i/change               controllers.onshore.DirectorLoanAccountLiabilitiesController.onSubmit(i:Int, mode: Mode = CheckMode)
+
+GET        /onshore-liabilities-summary                    controllers.onshore.CheckYourAnswersController.onPageLoad

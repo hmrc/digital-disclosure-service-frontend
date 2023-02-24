@@ -16,7 +16,7 @@
 
 package forms
 
-import java.time.LocalDate
+import java.time.{LocalDate, Month}
 
 import forms.mappings.Mappings
 import javax.inject.Inject
@@ -33,6 +33,7 @@ class PropertyFirstLetOutFormProvider @Inject() extends Mappings {
         requiredKey    = "propertyFirstLetOut.error.required",
         invalidDayKey    = "propertyFirstLetOut.error.invalidDay",
         invalidMonthKey  = "propertyFirstLetOut.error.invalidMonth"
-      )
+      ).verifying(minDate(LocalDate.of(1850, Month.JANUARY, 1), "propertyFirstLetOut.error.invalidPastDate"))
+       .verifying(maxDate(LocalDate.now().minusDays(1), "propertyFirstLetOut.error.invalidFutureDate"))
     )
 }

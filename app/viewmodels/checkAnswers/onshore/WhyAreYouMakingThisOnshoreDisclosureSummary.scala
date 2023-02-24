@@ -40,18 +40,18 @@ object WhyAreYouMakingThisOnshoreDisclosureSummary  {
         val value = ValueViewModel(
           HtmlContent(Text(
             answers.map {
-              answer => HtmlFormat.escape(messages(if(areTheyTheIndividual) s"WhyAreYouMakingThisOnshoreDisclosure.you.$answer" else s"WhyAreYouMakingThisOnshoreDisclosure.${entity}.$answer")).toString
+              answer => HtmlFormat.escape(messages(if(areTheyTheIndividual) s"whyAreYouMakingThisDisclosure.you.$answer" else s"whyAreYouMakingThisDisclosure.${entity}.$answer")).toString
             }
             .mkString("<br>")
           ).withEllipsisOverflow(150).value)
         )
 
         SummaryListRowViewModel(
-          key     = "WhyAreYouMakingThisOnshoreDisclosure.checkYourAnswersLabel",
+          key     = "whyAreYouMakingThisDisclosure.checkYourAnswersLabel",
           value   = value,
           actions = Seq(
             ActionItemViewModel("site.change", routes.WhyAreYouMakingThisOnshoreDisclosureController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("WhyAreYouMakingThisOnshoreDisclosure.change.hidden"))
+              .withVisuallyHiddenText(messages("whyAreYouMakingThisDisclosure.change.hidden"))
           )
         )
     }
