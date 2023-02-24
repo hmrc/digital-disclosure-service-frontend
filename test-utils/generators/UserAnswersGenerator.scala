@@ -27,7 +27,6 @@ trait UserAnswersGenerator extends TryValues {
   self: Generators =>
 
   val generators: Seq[Gen[(QuestionPage[_], JsValue)]] =
-    arbitrary[(PropertyStoppedBeingLetOutPage.type, JsValue)] ::
     arbitrary[(PropertyIsNoLongerBeingLetOutPage.type, JsValue)] ::
     arbitrary[(PropertyStoppedBeingLetOutPage.type, JsValue)] ::
     arbitrary[(PropertyFirstLetOutPage.type, JsValue)] ::

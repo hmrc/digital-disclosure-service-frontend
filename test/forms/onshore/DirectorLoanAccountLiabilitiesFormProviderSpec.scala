@@ -166,13 +166,13 @@ class DirectorLoanAccountLiabilitiesFormProviderSpec extends PeriodEndBehaviours
 
     periodEndField(form, "directorLoanAccountLiabilities", data)
 
-    periodEndFieldCheckingMaxDay(form, data, FormError(fieldName + ".day", "directorLoanAccountLiabilities.periodEnd.error.invalidDay"))
+    periodEndFieldCheckingMaxDay(form, fieldName, data, FormError(fieldName + ".day", "directorLoanAccountLiabilities.periodEnd.error.invalidDay"))
 
-    periodEndFieldCheckingMaxMonth(form, data, FormError(fieldName + ".month", "directorLoanAccountLiabilities.periodEnd.error.invalidMonth"))
+    periodEndFieldCheckingMaxMonth(form, fieldName, data, FormError(fieldName + ".month", "directorLoanAccountLiabilities.periodEnd.error.invalidMonth"))
 
-    periodEndFieldInFuture(form, data, FormError(fieldName, "directorLoanAccountLiabilities.periodEnd.error.invalidFuture"))
+    periodEndFieldInFuture(form, fieldName, data, FormError(fieldName, "directorLoanAccountLiabilities.periodEnd.error.invalidFuture"))
 
-    periodEndFieldWithMin(form, data, FormError(fieldName, "directorLoanAccountLiabilities.periodEnd.error.invalidPastDate"))
+    periodEndFieldWithMin(form, fieldName, data, FormError(fieldName, "directorLoanAccountLiabilities.periodEnd.error.invalidPastDate"))
 
 
   }

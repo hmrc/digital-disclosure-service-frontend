@@ -13,12 +13,7 @@ POST       /letting-property-has-letting-stopped/:i              controllers.let
 GET        /letting-property-has-letting-stopped/:i/change       controllers.letting.PropertyStoppedBeingLetOutController.onPageLoad(i:Int, mode: Mode = CheckMode)
 POST       /letting-property-has-letting-stopped/:i/change       controllers.letting.PropertyStoppedBeingLetOutController.onSubmit(i:Int, mode: Mode = CheckMode)
 
-GET        /letting-property-number-letting-stopped              controllers.letting.PropertyIsNoLongerBeingLetOutController.onPageLoad(mode: Mode = NormalMode)
-POST       /letting-property-number-letting-stopped              controllers.letting.PropertyIsNoLongerBeingLetOutController.onSubmit(mode: Mode = NormalMode)
-GET        /letting-property-number-letting-stopped/change       controllers.letting.PropertyIsNoLongerBeingLetOutController.onPageLoad(mode: Mode = CheckMode)
-POST       /letting-property-number-letting-stopped/change       controllers.letting.PropertyIsNoLongerBeingLetOutController.onSubmit(mode: Mode = CheckMode)
-
-GET        /letting-property-has-letting-stopped                 controllers.letting.PropertyStoppedBeingLetOutController.onPageLoad(mode: Mode = NormalMode)
-POST       /letting-property-has-letting-stopped                 controllers.letting.PropertyStoppedBeingLetOutController.onSubmit(mode: Mode = NormalMode)
-GET        /letting-property-has-letting-stopped/change          controllers.letting.PropertyStoppedBeingLetOutController.onPageLoad(mode: Mode = CheckMode)
-POST       /letting-property-has-letting-stopped/change          controllers.letting.PropertyStoppedBeingLetOutController.onSubmit(mode: Mode = CheckMode)
+GET        /letting-property-number-letting-stopped/:i              controllers.letting.PropertyIsNoLongerBeingLetOutController.onPageLoad(i:Int, mode: Mode = NormalMode)
+POST       /letting-property-number-letting-stopped/:i              controllers.letting.PropertyIsNoLongerBeingLetOutController.onSubmit(i:Int, mode: Mode = NormalMode)
+GET        /letting-property-number-letting-stopped/:i/change       controllers.letting.PropertyIsNoLongerBeingLetOutController.onPageLoad(i:Int, mode: Mode = CheckMode)
+POST       /letting-property-number-letting-stopped/:i/change       controllers.letting.PropertyIsNoLongerBeingLetOutController.onSubmit(i:Int, mode: Mode = CheckMode)

@@ -28,23 +28,45 @@ class PropertyIsNoLongerBeingLetOutViewSpec extends ViewSpecBase with ViewMatche
   val form = new PropertyIsNoLongerBeingLetOutFormProvider()()
   val page: PropertyIsNoLongerBeingLetOutView = inject[PropertyIsNoLongerBeingLetOutView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, 0, NormalMode)(request, messages)
 
   "view" should {
 
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("propertyIsNoLongerBeingLetOut.title"))
+      view.select("title").text() must include(messages("propertyIsNoLongerBeingLetOut.title", 1))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("propertyIsNoLongerBeingLetOut.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("propertyIsNoLongerBeingLetOut.heading", 1)
+    }
+
+    "contain inset text" in {
+      view.getElementById("inset-body").text() mustBe messages("propertyIsNoLongerBeingLetOut.insetBody")
+    }
+
+    "contain the stopDate question" in {
+      view.getElementsByClass("govuk-label--s").get(0).text() mustBe messages("propertyIsNoLongerBeingLetOut.stopDate")
+    }
+
+    "contain day, month & year" in {
+      view.getElementsByClass("govuk-date-input__item").get(0).text() mustBe messages("date.day")
+      view.getElementsByClass("govuk-date-input__item").get(1).text() mustBe messages("date.month")
+      view.getElementsByClass("govuk-date-input__item").get(2).text() mustBe messages("date.year")
+    }
+
+    "contain the whatHasHappenedToProperty question" in {
+      view.getElementsByClass("govuk-label--s").get(1).text() mustBe messages("propertyIsNoLongerBeingLetOut.whatHasHappenedToProperty")
     }
 
     "display the continue button" in {
       view.getElementsByClass("govuk-button").first() must haveId ("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
+    }
+
+    "have a task list link" in {
+      view.getElementById("task-list-link").attr("href") mustBe controllers.routes.TaskListController.onPageLoad.url
     }
 
   }

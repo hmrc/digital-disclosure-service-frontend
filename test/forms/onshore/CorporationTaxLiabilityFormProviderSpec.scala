@@ -41,13 +41,13 @@ class CorporationTaxLiabilityFormProviderSpec extends PeriodEndBehaviours with I
 
     periodEndField(form, "corporationTaxLiability", data)
 
-    periodEndFieldCheckingMaxDay(form, data, FormError(fieldName + ".day", "corporationTaxLiability.periodEnd.error.invalidDay"))
+    periodEndFieldCheckingMaxDay(form, fieldName, data, FormError(fieldName + ".day", "corporationTaxLiability.periodEnd.error.invalidDay"))
 
-    periodEndFieldCheckingMaxMonth(form, data, FormError(fieldName + ".month", "corporationTaxLiability.periodEnd.error.invalidMonth"))
+    periodEndFieldCheckingMaxMonth(form, fieldName, data, FormError(fieldName + ".month", "corporationTaxLiability.periodEnd.error.invalidMonth"))
 
-    periodEndFieldInFuture(form, data, FormError(fieldName, "corporationTaxLiability.periodEnd.error.invalidFutureDate"))
+    periodEndFieldInFuture(form, fieldName, data, FormError(fieldName, "corporationTaxLiability.periodEnd.error.invalidFutureDate"))
 
-    periodEndFieldWithMin(form, data, FormError(fieldName, "corporationTaxLiability.periodEnd.error.invalidPastDate"))
+    periodEndFieldWithMin(form, fieldName, data, FormError(fieldName, "corporationTaxLiability.periodEnd.error.invalidPastDate"))
 
 
   }

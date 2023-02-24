@@ -37,9 +37,9 @@ trait PeriodEndBehaviours extends FieldBehaviours {
           validPeriodEnd =>
 
             val periodEnd = Map(
-              "periodEnd.day" -> validPeriodEnd.getDayOfMonth.toString,
-              "periodEnd.month" -> validPeriodEnd.getMonthValue.toString,
-              "periodEnd.year" -> validPeriodEnd.getYear.toString
+              s"$key.day" -> validPeriodEnd.getDayOfMonth.toString,
+              s"$key.month" -> validPeriodEnd.getMonthValue.toString,
+              s"$key.year" -> validPeriodEnd.getYear.toString
             )
 
             val data = validData ++ periodEnd
@@ -55,9 +55,9 @@ trait PeriodEndBehaviours extends FieldBehaviours {
           validPeriodEnd =>
 
             val validPeriodEndWithSpaces = Map(
-              "periodEnd.day" -> s" ${validPeriodEnd.getDayOfMonth.toString} ",
-              "periodEnd.month" -> s" ${validPeriodEnd.getMonthValue.toString} ",
-              "periodEnd.year" -> s" ${validPeriodEnd.getYear.toString} "
+              s"$key.day" -> s" ${validPeriodEnd.getDayOfMonth.toString} ",
+              s"$key.month" -> s" ${validPeriodEnd.getMonthValue.toString} ",
+              s"$key.year" -> s" ${validPeriodEnd.getYear.toString} "
             )
 
             val data = validData ++ validPeriodEndWithSpaces
@@ -68,7 +68,7 @@ trait PeriodEndBehaviours extends FieldBehaviours {
       }
   }
 
-  def periodEndFieldCheckingMaxDay(form: Form[_], validData: Map[String, String], formError: FormError): Unit = {
+  def periodEndFieldCheckingMaxDay(form: Form[_], key: String, validData: Map[String, String], formError: FormError): Unit = {
 
     "check maximum day value" in {
 
@@ -76,9 +76,9 @@ trait PeriodEndBehaviours extends FieldBehaviours {
         (validPeriodEnd, day) =>
 
           val periodEnd = Map(
-            "periodEnd.day" -> day.toString,
-            "periodEnd.month" -> validPeriodEnd.getMonthValue.toString,
-            "periodEnd.year" -> validPeriodEnd.getYear.toString
+            s"$key.day" -> day.toString,
+            s"$key.month" -> validPeriodEnd.getMonthValue.toString,
+            s"$key.year" -> validPeriodEnd.getYear.toString
           )
 
           val data = validData ++ periodEnd
@@ -90,7 +90,7 @@ trait PeriodEndBehaviours extends FieldBehaviours {
     }
   }
 
-  def periodEndFieldCheckingMaxMonth(form: Form[_], validData: Map[String, String], formError: FormError): Unit = {
+  def periodEndFieldCheckingMaxMonth(form: Form[_], key: String, validData: Map[String, String], formError: FormError): Unit = {
 
     "check maximum month value" in {
 
@@ -98,9 +98,9 @@ trait PeriodEndBehaviours extends FieldBehaviours {
         (validPeriodEnd, invalidMonth) =>
 
           val periodEnd = Map(
-            "periodEnd.day" -> validPeriodEnd.getDayOfMonth.toString,
-            "periodEnd.month" -> invalidMonth.toString,
-            "periodEnd.year" -> validPeriodEnd.getYear.toString
+            s"$key.day" -> validPeriodEnd.getDayOfMonth.toString,
+            s"$key.month" -> invalidMonth.toString,
+            s"$key.year" -> validPeriodEnd.getYear.toString
           )
 
           val data = validData ++ periodEnd
@@ -112,7 +112,7 @@ trait PeriodEndBehaviours extends FieldBehaviours {
     }
   }
 
-  def periodEndFieldInFuture(form: Form[_], validData: Map[String, String], formError: FormError): Unit = {
+  def periodEndFieldInFuture(form: Form[_], key: String, validData: Map[String, String], formError: FormError): Unit = {
 
     "check maximum year value" in {
 
@@ -122,7 +122,7 @@ trait PeriodEndBehaviours extends FieldBehaviours {
         yearInFuture =>
 
           val data = validData + (
-            s"periodEnd.year" -> yearInFuture.toString
+            s"$key.year" -> yearInFuture.toString
             )
 
           val result = form.bind(data)
@@ -132,7 +132,7 @@ trait PeriodEndBehaviours extends FieldBehaviours {
     }
   }
 
-  def periodEndFieldWithMin(form: Form[_], validData: Map[String, String], formError: FormError): Unit = {
+  def periodEndFieldWithMin(form: Form[_], key: String, validData: Map[String, String], formError: FormError): Unit = {
 
     "check minimum year value" in {
 
@@ -142,7 +142,7 @@ trait PeriodEndBehaviours extends FieldBehaviours {
         year =>
 
           val data = validData + (
-            s"periodEnd.year" -> year.toString
+            s"$key.year" -> year.toString
           )
 
           val result = form.bind(data)
