@@ -2107,3 +2107,11 @@ wasALettingAgentUsedToManageProperty.error.required = Select yes if a letting ag
 wasALettingAgentUsedToManageProperty.change.hidden = WasALettingAgentUsedToManageProperty
 wasALettingAgentUsedToManageProperty.yes = Yes
 wasALettingAgentUsedToManageProperty.no = No
+
+areYouAMemberOfAnyLandlordAssociations.title = Are you a member of any landlord associations?
+areYouAMemberOfAnyLandlordAssociations.heading = Are you a member of any landlord associations?
+areYouAMemberOfAnyLandlordAssociations.checkYourAnswersLabel = areYouAMemberOfAnyLandlordAssociations
+areYouAMemberOfAnyLandlordAssociations.error.required = Select yes if you are a member of any landlord associations
+areYouAMemberOfAnyLandlordAssociations.change.hidden = AreYouAMemberOfAnyLandlordAssociations
+areYouAMemberOfAnyLandlordAssociations.yes = Yes
+areYouAMemberOfAnyLandlordAssociations.no = No

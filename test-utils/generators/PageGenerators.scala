@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryAreYouAMemberOfAnyLandlordAssociationsPage: Arbitrary[AreYouAMemberOfAnyLandlordAssociationsPage.type] =
+    Arbitrary(AreYouAMemberOfAnyLandlordAssociationsPage)
+
   implicit lazy val arbitraryWasALettingAgentUsedToManagePropertyPage: Arbitrary[WasALettingAgentUsedToManagePropertyPage.type] =
     Arbitrary(WasALettingAgentUsedToManagePropertyPage)
 
