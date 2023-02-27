@@ -29,6 +29,27 @@ class LettingNavigator @Inject()() {
     case RentalAddressLookupPage => i => _ => routes.PropertyFirstLetOutController.onPageLoad(i, NormalMode)
     case PropertyFirstLetOutPage => i => _ =>  routes.PropertyStoppedBeingLetOutController.onPageLoad(i, NormalMode)
 
+    case PropertyStoppedBeingLetOutPage => i => ua => ua.getBySeqIndex(LettingPropertyPage, i).flatMap(_.stoppedBeingLetOut) match {
+      case Some(true) => routes.PropertyIsNoLongerBeingLetOutController.onPageLoad(i, NormalMode)
+      case _ => routes.WasPropertyFurnishedController.onPageLoad(i, NormalMode)
+    }
+
+    case PropertyIsNoLongerBeingLetOutPage => i => _ => routes.WasPropertyFurnishedController.onPageLoad(i, NormalMode)
+
+    case WasPropertyFurnishedPage => i => ua => ua.getBySeqIndex(LettingPropertyPage, i).flatMap(_.wasFurnished) match {
+      case Some(true) => routes.FHLController.onPageLoad(i, NormalMode)
+      case _ => routes.JointlyOwnedPropertyController.onPageLoad(i, NormalMode)
+    }
+
+    case FHLPage => i => _ => routes.JointlyOwnedPropertyController.onPageLoad(i, NormalMode)
+
+    case JointlyOwnedPropertyPage => i => ua => ua.getBySeqIndex(LettingPropertyPage, i).flatMap(_.isJointOwnership) match {
+      case Some(true) => routes.WhatWasThePercentageIncomeYouReceivedFromPropertyController.onPageLoad(i, NormalMode)
+      case _ => routes.DidYouHaveAMortgageOnPropertyController.onPageLoad(i, NormalMode)
+    }
+
+    case WhatWasThePercentageIncomeYouReceivedFromPropertyPage => i => _ => routes.DidYouHaveAMortgageOnPropertyController.onPageLoad(i, NormalMode)
+
     case _ => _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
