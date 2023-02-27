@@ -1,0 +1,33 @@
+@this(
+    layout: templates.Layout,
+    formHelper: FormWithCSRF,
+    govukErrorSummary: GovukErrorSummary,
+    govukRadios: GovukRadios,
+    govukButton: GovukButton,
+    tasklistLink: components.tasklistLink
+)
+
+@(form: Form[_], i: Int, mode: Mode)(implicit request: Request[_], messages: Messages)
+
+@layout(pageTitle = title(form, messages("didTheLettingAgentCollectRentOnYourBehalf.title"))) {
+
+    @formHelper(action = controllers.letting.routes.DidTheLettingAgentCollectRentOnYourBehalfController.onSubmit(i, mode), 'autoComplete -> "off") {
+
+        @if(form.errors.nonEmpty) {
+            @govukErrorSummary(ErrorSummaryViewModel(form))
+        }
+
+        @govukRadios(
+            RadiosViewModel.yesNoNotInline(
+                field = form("value"),
+                legend = LegendViewModel(messages("didTheLettingAgentCollectRentOnYourBehalf.heading")).asPageHeading(),
+                messagePrefix = "didTheLettingAgentCollectRentOnYourBehalf"
+            )
+        )
+
+        @govukButton(
+            ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
+        )
+    }
+    @tasklistLink()
+}
