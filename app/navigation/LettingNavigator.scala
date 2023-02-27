@@ -50,6 +50,13 @@ class LettingNavigator @Inject()() {
 
     case WhatWasThePercentageIncomeYouReceivedFromPropertyPage => i => _ => routes.DidYouHaveAMortgageOnPropertyController.onPageLoad(i, NormalMode)
 
+    case WhatTypeOfMortgageDidYouHavePage => i => ua => ua.getBySeqIndex(LettingPropertyPage, i).flatMap(_.typeOfMortgage) match {
+      case Some(TypeOfMortgageDidYouHave.Other) => routes.WhatWasTheTypeOfMortgageController.onPageLoad(i, NormalMode)
+      case _ => routes.DidYouHaveAMortgageOnPropertyController.onPageLoad(i, NormalMode)
+    }
+
+    case WhatWasTheTypeOfMortgagePage => i => _ => routes.DidYouHaveAMortgageOnPropertyController.onPageLoad(i, NormalMode)
+
     case _ => _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
