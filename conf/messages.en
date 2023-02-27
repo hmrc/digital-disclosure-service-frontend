@@ -2082,3 +2082,10 @@ wasPropertyFurnished.error.required = Select yes if the property was furnished
 wasPropertyFurnished.change.hidden = WasPropertyFurnished
 wasPropertyFurnished.yes = Yes
 wasPropertyFurnished.no = No
+
+whatWasTheTypeOfMortgage.title = whatWasTheTypeOfMortgage
+whatWasTheTypeOfMortgage.heading = whatWasTheTypeOfMortgage
+whatWasTheTypeOfMortgage.checkYourAnswersLabel = whatWasTheTypeOfMortgage
+whatWasTheTypeOfMortgage.error.required = Enter whatWasTheTypeOfMortgage
+whatWasTheTypeOfMortgage.error.length = WhatWasTheTypeOfMortgage must be 500 characters or less
+whatWasTheTypeOfMortgage.change.hidden = WhatWasTheTypeOfMortgage
