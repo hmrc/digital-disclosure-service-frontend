@@ -16,24 +16,24 @@
 
 package forms
 
-import forms.behaviours.BooleanFieldBehaviours
+import forms.behaviours.OptionFieldBehaviours
+import models.TypeOfMortgageDidYouHave
 import play.api.data.FormError
 
-class WasALettingAgentUsedToManagePropertyFormProviderSpec extends BooleanFieldBehaviours {
+class WhatTypeOfMortgageDidYouHaveFormProviderSpec extends OptionFieldBehaviours {
 
-  val requiredKey = "wasALettingAgentUsedToManageProperty.error.required"
-  val invalidKey = "error.boolean"
-
-  val form = new WasALettingAgentUsedToManagePropertyFormProvider()()
+  val form = new WhatTypeOfMortgageDidYouHaveFormProvider()()
 
   ".value" - {
 
     val fieldName = "value"
+    val requiredKey = "whatTypeOfMortgageDidYouHave.error.required"
 
-    behave like booleanField(
+    behave like optionsField[TypeOfMortgageDidYouHave](
       form,
       fieldName,
-      invalidError = FormError(fieldName, invalidKey)
+      validValues  = TypeOfMortgageDidYouHave.values,
+      invalidError = FormError(fieldName, "error.invalid")
     )
 
     behave like mandatoryField(

@@ -62,7 +62,7 @@ class WhatWasTheTypeOfMortgageControllerSpec extends SpecBase with MockitoSugar 
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val lettingProperty = LettingProperty(typeOfMortgage = Some("answer"))
+      val lettingProperty = LettingProperty(otherTypeOfMortgage = Some("answer"))
 
       val userAnswers = UserAnswers(userAnswersId)
         .setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value

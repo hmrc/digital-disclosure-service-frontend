@@ -16,11 +16,12 @@
 
 package pages
 
+import models.TypeOfMortgageDidYouHave
 import play.api.libs.json.JsPath
 
-case object WasALettingAgentUsedToManagePropertyPage extends QuestionPage[Boolean] {
+case object WhatTypeOfMortgageDidYouHavePage extends QuestionPage[TypeOfMortgageDidYouHave] {
 
   override def path: JsPath = JsPath \ toString
 
-  override def toString: String = "wasALettingAgentUsedToManageProperty"
+  override def toString: String = "whatTypeOfMortgageDidYouHave"
 }

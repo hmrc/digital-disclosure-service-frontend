@@ -47,7 +47,7 @@ class WhatWasTheTypeOfMortgageController @Inject()(
   def onPageLoad(i:Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val preparedForm = request.userAnswers.getBySeqIndex(LettingPropertyPage, i).flatMap(_.typeOfMortgage) match {
+      val preparedForm = request.userAnswers.getBySeqIndex(LettingPropertyPage, i).flatMap(_.otherTypeOfMortgage) match {
         case None => form
         case Some(value) => form.fill(value)
       }
@@ -65,7 +65,7 @@ class WhatWasTheTypeOfMortgageController @Inject()(
         { value =>
           val updatedLettingProperty = request.userAnswers.getBySeqIndex(LettingPropertyPage, i)
             .getOrElse(LettingProperty())
-            .copy(typeOfMortgage = Some(value))
+            .copy(otherTypeOfMortgage = Some(value))
 
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.setBySeqIndex(LettingPropertyPage, i, updatedLettingProperty))

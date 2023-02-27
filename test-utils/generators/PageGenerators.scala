@@ -27,6 +27,9 @@ trait PageGenerators {
   implicit lazy val arbitraryWhatWasTheTypeOfMortgagePage: Arbitrary[WhatWasTheTypeOfMortgagePage.type] =
     Arbitrary(WhatWasTheTypeOfMortgagePage)
 
+  implicit lazy val arbitraryWhatTypeOfMortgageDidYouHavePage: Arbitrary[WhatTypeOfMortgageDidYouHavePage.type] =
+    Arbitrary(WhatTypeOfMortgageDidYouHavePage)
+
   implicit lazy val arbitraryWasPropertyFurnishedPage: Arbitrary[WasPropertyFurnishedPage.type] =
     Arbitrary(WasPropertyFurnishedPage)
 

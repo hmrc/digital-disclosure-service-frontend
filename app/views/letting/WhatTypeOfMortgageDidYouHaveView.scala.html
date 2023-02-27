@@ -25,19 +25,19 @@
 
 @(form: Form[_], i: Int, mode: Mode)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("wasALettingAgentUsedToManageProperty.title", i+1))) {
+@layout(pageTitle = title(form, messages("whatTypeOfMortgageDidYouHave.title", i + 1))) {
 
-    @formHelper(action = controllers.letting.routes.WasALettingAgentUsedToManagePropertyController.onSubmit(i, mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.letting.routes.WhatTypeOfMortgageDidYouHaveController.onSubmit(i, mode), 'autoComplete -> "off") {
 
         @if(form.errors.nonEmpty) {
-            @govukErrorSummary(ErrorSummaryViewModel(form))
+            @govukErrorSummary(ErrorSummaryViewModel(form,  errorLinkOverrides = Map("value" -> "value_0")))
         }
 
         @govukRadios(
-            RadiosViewModel.yesNoNotInline(
-                field = form("value"),
-                legend = LegendViewModel(messages("wasALettingAgentUsedToManageProperty.heading", i+1)).asPageHeading(),
-                messagePrefix = "wasALettingAgentUsedToManageProperty"
+            RadiosViewModel(
+                field  = form("value"),
+                legend = LegendViewModel(messages("whatTypeOfMortgageDidYouHave.heading", i + 1)).asPageHeading(),
+                items  = TypeOfMortgageDidYouHave.options
             )
         )
 
@@ -45,5 +45,6 @@
             ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
         )
     }
+
     @tasklistLink()
 }

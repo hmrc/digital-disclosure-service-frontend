@@ -14,13 +14,18 @@
  * limitations under the License.
  */
 
-package pages
+package forms
 
-import play.api.libs.json.JsPath
+import javax.inject.Inject
 
-case object WasALettingAgentUsedToManagePropertyPage extends QuestionPage[Boolean] {
+import forms.mappings.Mappings
+import play.api.data.Form
+import models.TypeOfMortgageDidYouHave
 
-  override def path: JsPath = JsPath \ toString
+class WhatTypeOfMortgageDidYouHaveFormProvider @Inject() extends Mappings {
 
-  override def toString: String = "wasALettingAgentUsedToManageProperty"
+  def apply(): Form[TypeOfMortgageDidYouHave] =
+    Form(
+      "value" -> enumerable[TypeOfMortgageDidYouHave]("whatTypeOfMortgageDidYouHave.error.required")
+    )
 }

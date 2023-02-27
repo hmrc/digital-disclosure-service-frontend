@@ -18,26 +18,32 @@ package viewmodels.checkAnswers
 
 import controllers.letting.routes
 import models.{CheckMode, UserAnswers}
-import pages.WasALettingAgentUsedToManagePropertyPage
+import pages.WhatTypeOfMortgageDidYouHavePage
 import play.api.i18n.Messages
+import play.twirl.api.HtmlFormat
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object WasALettingAgentUsedToManagePropertySummary  {
+object WhatTypeOfMortgageDidYouHaveSummary  {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(WasALettingAgentUsedToManagePropertyPage).map {
+    answers.get(WhatTypeOfMortgageDidYouHavePage).map {
       answer =>
 
-        val value = if (answer) "wasALettingAgentUsedToManageProperty.yes" else "wasALettingAgentUsedToManageProperty.no"
+        val value = ValueViewModel(
+          HtmlContent(
+            HtmlFormat.escape(messages(s"whatTypeOfMortgageDidYouHave.$answer"))
+          )
+        )
 
         SummaryListRowViewModel(
-          key     = "wasALettingAgentUsedToManageProperty.checkYourAnswersLabel",
-          value   = ValueViewModel(value),
+          key     = "whatTypeOfMortgageDidYouHave.checkYourAnswersLabel",
+          value   = value,
           actions = Seq(
-            ActionItemViewModel("site.change", routes.WasALettingAgentUsedToManagePropertyController.onPageLoad(0, CheckMode).url)
-              .withVisuallyHiddenText(messages("wasALettingAgentUsedToManageProperty.change.hidden"))
+            ActionItemViewModel("site.change", routes.WhatTypeOfMortgageDidYouHaveController.onPageLoad(0, CheckMode).url)
+              .withVisuallyHiddenText(messages("whatTypeOfMortgageDidYouHave.change.hidden"))
           )
         )
     }

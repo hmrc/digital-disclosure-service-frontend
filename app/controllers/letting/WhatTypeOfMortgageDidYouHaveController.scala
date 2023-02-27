@@ -17,37 +17,38 @@
 package controllers.letting
 
 import controllers.actions._
-import forms.WasALettingAgentUsedToManagePropertyFormProvider
+import forms.WhatTypeOfMortgageDidYouHaveFormProvider
+
 import javax.inject.Inject
-import models.{Mode, LettingProperty}
+import models.{LettingProperty, Mode}
 import navigation.LettingNavigator
-import pages.{WasALettingAgentUsedToManagePropertyPage, LettingPropertyPage}
+import pages.{LettingPropertyPage, WhatTypeOfMortgageDidYouHavePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import views.html.letting.WasALettingAgentUsedToManagePropertyView
+import views.html.letting.WhatTypeOfMortgageDidYouHaveView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class WasALettingAgentUsedToManagePropertyController @Inject()(
-                                         override val messagesApi: MessagesApi,
-                                         sessionService: SessionService,
-                                         navigator: LettingNavigator,
-                                         identify: IdentifierAction,
-                                         getData: DataRetrievalAction,
-                                         requireData: DataRequiredAction,
-                                         formProvider: WasALettingAgentUsedToManagePropertyFormProvider,
-                                         val controllerComponents: MessagesControllerComponents,
-                                         view: WasALettingAgentUsedToManagePropertyView
-                                 )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class WhatTypeOfMortgageDidYouHaveController @Inject()(
+                                       override val messagesApi: MessagesApi,
+                                       sessionService: SessionService,
+                                       navigator: LettingNavigator,
+                                       identify: IdentifierAction,
+                                       getData: DataRetrievalAction,
+                                       requireData: DataRequiredAction,
+                                       formProvider: WhatTypeOfMortgageDidYouHaveFormProvider,
+                                       val controllerComponents: MessagesControllerComponents,
+                                       view: WhatTypeOfMortgageDidYouHaveView
+                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
 
   def onPageLoad(i:Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val preparedForm = request.userAnswers.getBySeqIndex(LettingPropertyPage, i).flatMap(_.wasPropertyManagerByAgent) match {
+      val preparedForm = request.userAnswers.getBySeqIndex(LettingPropertyPage, i).flatMap(_.typeOfMortgage) match {
         case None => form
         case Some(value) => form.fill(value)
       }
@@ -62,15 +63,15 @@ class WasALettingAgentUsedToManagePropertyController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, i, mode))),
 
-        value => {
+        { value =>
           val updatedLettingProperty = request.userAnswers.getBySeqIndex(LettingPropertyPage, i)
             .getOrElse(LettingProperty())
-            .copy(wasPropertyManagerByAgent = Some(value))
+            .copy(typeOfMortgage = Some(value))
 
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.setBySeqIndex(LettingPropertyPage, i, updatedLettingProperty))
             _ <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(WasALettingAgentUsedToManagePropertyPage, i, mode, updatedAnswers))
+          } yield Redirect(navigator.nextPage(WhatTypeOfMortgageDidYouHavePage, i, mode, updatedAnswers))
         }
       )
   }
