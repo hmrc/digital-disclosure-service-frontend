@@ -2115,3 +2115,11 @@ areYouAMemberOfAnyLandlordAssociations.error.required = Select yes if you are a 
 areYouAMemberOfAnyLandlordAssociations.change.hidden = AreYouAMemberOfAnyLandlordAssociations
 areYouAMemberOfAnyLandlordAssociations.yes = Yes
 areYouAMemberOfAnyLandlordAssociations.no = No
+
+didTheLettingAgentCollectRentOnYourBehalf.title = Did the letting agent collect rent on your behalf?
+didTheLettingAgentCollectRentOnYourBehalf.heading = Did the letting agent collect rent on your behalf?
+didTheLettingAgentCollectRentOnYourBehalf.checkYourAnswersLabel = didTheLettingAgentCollectRentOnYourBehalf
+didTheLettingAgentCollectRentOnYourBehalf.error.required = Select yes if the letting agent collected rent on your behalf
+didTheLettingAgentCollectRentOnYourBehalf.change.hidden = DidTheLettingAgentCollectRentOnYourBehalf
+didTheLettingAgentCollectRentOnYourBehalf.yes = Yes
+didTheLettingAgentCollectRentOnYourBehalf.no = No

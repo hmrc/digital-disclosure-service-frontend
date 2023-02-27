@@ -57,3 +57,8 @@ GET        /letting-property-use-letting-agent/:i                controllers.let
 POST       /letting-property-use-letting-agent/:i                controllers.letting.WasALettingAgentUsedToManagePropertyController.onSubmit(i: Int, mode: Mode = NormalMode)
 GET        /letting-property-use-letting-agent/:i/change         controllers.letting.WasALettingAgentUsedToManagePropertyController.onPageLoad(i: Int, mode: Mode = CheckMode)
 POST       /letting-property-use-letting-agent/:i/change         controllers.letting.WasALettingAgentUsedToManagePropertyController.onSubmit(i: Int, mode: Mode = CheckMode)
+
+GET        /letting-property-agent-collect-rent/:i               controllers.letting.DidTheLettingAgentCollectRentOnYourBehalfController.onPageLoad(i: Int, mode: Mode = NormalMode)
+POST       /letting-property-agent-collect-rent/:i               controllers.letting.DidTheLettingAgentCollectRentOnYourBehalfController.onSubmit(i: Int, mode: Mode = NormalMode)
+GET        /letting-property-agent-collect-rent/:i/change        controllers.letting.DidTheLettingAgentCollectRentOnYourBehalfController.onPageLoad(i: Int, mode: Mode = CheckMode)
+POST       /letting-property-agent-collect-rent/:i/change        controllers.letting.DidTheLettingAgentCollectRentOnYourBehalfController.onSubmit(i: Int, mode: Mode = CheckMode)
