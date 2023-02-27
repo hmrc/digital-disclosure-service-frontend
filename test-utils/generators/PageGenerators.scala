@@ -21,6 +21,21 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryWhatWasThePercentageIncomeYouReceivedFromPropertyPage: Arbitrary[WhatWasThePercentageIncomeYouReceivedFromPropertyPage.type] =
+    Arbitrary(WhatWasThePercentageIncomeYouReceivedFromPropertyPage)
+
+  implicit lazy val arbitraryDidYouHaveAMortgageOnPropertyPage: Arbitrary[DidYouHaveAMortgageOnPropertyPage.type] =
+    Arbitrary(DidYouHaveAMortgageOnPropertyPage)
+
+  implicit lazy val arbitraryJointlyOwnedPropertyPage: Arbitrary[JointlyOwnedPropertyPage.type] =
+    Arbitrary(JointlyOwnedPropertyPage)
+
+  implicit lazy val arbitraryFHLPage: Arbitrary[FHLPage.type] =
+    Arbitrary(FHLPage)
+
+  implicit lazy val arbitraryPropertyIsNoLongerBeingLetOutPage: Arbitrary[PropertyIsNoLongerBeingLetOutPage.type] =
+    Arbitrary(PropertyIsNoLongerBeingLetOutPage)
+
   implicit lazy val arbitraryPropertyStoppedBeingLetOutPage: Arbitrary[PropertyStoppedBeingLetOutPage.type] =
     Arbitrary(PropertyStoppedBeingLetOutPage)
 

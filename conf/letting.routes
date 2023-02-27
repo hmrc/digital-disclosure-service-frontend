@@ -12,3 +12,28 @@ GET        /letting-property-has-letting-stopped/:i              controllers.let
 POST       /letting-property-has-letting-stopped/:i              controllers.letting.PropertyStoppedBeingLetOutController.onSubmit(i:Int, mode: Mode = NormalMode)
 GET        /letting-property-has-letting-stopped/:i/change       controllers.letting.PropertyStoppedBeingLetOutController.onPageLoad(i:Int, mode: Mode = CheckMode)
 POST       /letting-property-has-letting-stopped/:i/change       controllers.letting.PropertyStoppedBeingLetOutController.onSubmit(i:Int, mode: Mode = CheckMode)
+
+GET        /letting-property-letting-stopped/:i              controllers.letting.PropertyIsNoLongerBeingLetOutController.onPageLoad(i:Int, mode: Mode = NormalMode)
+POST       /letting-property-letting-stopped/:i              controllers.letting.PropertyIsNoLongerBeingLetOutController.onSubmit(i:Int, mode: Mode = NormalMode)
+GET        /letting-property-letting-stopped/:i/change       controllers.letting.PropertyIsNoLongerBeingLetOutController.onPageLoad(i:Int, mode: Mode = CheckMode)
+POST       /letting-property-letting-stopped/:i/change       controllers.letting.PropertyIsNoLongerBeingLetOutController.onSubmit(i:Int, mode: Mode = CheckMode)
+
+GET        /letting-property-fhl/:i                             controllers.letting.FHLController.onPageLoad(i:Int, mode: Mode = NormalMode)
+POST       /letting-property-fhl/:i                             controllers.letting.FHLController.onSubmit(i:Int, mode: Mode = NormalMode)
+GET        /letting-property-fhl/:i/change                      controllers.letting.FHLController.onPageLoad(i:Int, mode: Mode = CheckMode)
+POST       /letting-property-fhl/:i/change                      controllers.letting.FHLController.onSubmit(i:Int, mode: Mode = CheckMode)
+
+GET        /letting-property-own-another-person/:i              controllers.letting.JointlyOwnedPropertyController.onPageLoad(i:Int, mode: Mode = NormalMode)
+POST       /letting-property-own-another-person/:i              controllers.letting.JointlyOwnedPropertyController.onSubmit(i:Int, mode: Mode = NormalMode)
+GET        /letting-property-own-another-person/:i/change       controllers.letting.JointlyOwnedPropertyController.onPageLoad(i:Int, mode: Mode = CheckMode)
+POST       /letting-property-own-another-person/:i/change       controllers.letting.JointlyOwnedPropertyController.onSubmit(i:Int, mode: Mode = CheckMode)
+
+GET        /letting-property-did-you-have-mortgage/:i           controllers.letting.DidYouHaveAMortgageOnPropertyController.onPageLoad(i:Int, mode: Mode = NormalMode)
+POST       /letting-property-did-you-have-mortgage/:i           controllers.letting.DidYouHaveAMortgageOnPropertyController.onSubmit(i:Int, mode: Mode = NormalMode)
+GET        /letting-property-did-you-have-mortgage/:i/change    controllers.letting.DidYouHaveAMortgageOnPropertyController.onPageLoad(i:Int, mode: Mode = CheckMode)
+POST       /letting-property-did-you-have-mortgage/:i/change    controllers.letting.DidYouHaveAMortgageOnPropertyController.onSubmit(i:Int, mode: Mode = CheckMode)
+
+GET        /letting-property-percentage-share/:i                controllers.letting.WhatWasThePercentageIncomeYouReceivedFromPropertyController.onPageLoad(i:Int, mode: Mode = NormalMode)
+POST       /letting-property-percentage-share/:i                controllers.letting.WhatWasThePercentageIncomeYouReceivedFromPropertyController.onSubmit(i:Int, mode: Mode = NormalMode)
+GET        /letting-property-percentage-share/:i/change         controllers.letting.WhatWasThePercentageIncomeYouReceivedFromPropertyController.onPageLoad(i:Int, mode: Mode = CheckMode)
+POST       /letting-property-percentage-share/:i/change         controllers.letting.WhatWasThePercentageIncomeYouReceivedFromPropertyController.onSubmit(i:Int, mode: Mode = CheckMode)

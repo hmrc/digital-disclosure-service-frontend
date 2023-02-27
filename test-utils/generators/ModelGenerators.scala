@@ -369,4 +369,12 @@ trait ModelGenerators {
       } yield CorporationTaxLiability(periodEnd, howMuchIncome, howMuchUnpaid, howMuchInterest, penaltyRate, penaltyRateReason)
     }  
 
+  implicit lazy val arbitraryNoLongerBeingLetOut: Arbitrary[NoLongerBeingLetOut] =
+    Arbitrary {
+      for {
+        stopDate <- arbitrary[LocalDate]
+        whatHasHappenedToProperty <- arbitrary[String]
+      } yield NoLongerBeingLetOut(stopDate, whatHasHappenedToProperty)
+    }    
+
 }

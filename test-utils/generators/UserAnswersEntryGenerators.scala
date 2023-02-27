@@ -24,6 +24,46 @@ import play.api.libs.json.{JsValue, Json}
 
 trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
 
+  implicit lazy val arbitraryWhatWasThePercentageIncomeYouReceivedFromPropertyUserAnswersEntry: Arbitrary[(WhatWasThePercentageIncomeYouReceivedFromPropertyPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[WhatWasThePercentageIncomeYouReceivedFromPropertyPage.type]
+        value <- arbitrary[Int].map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryDidYouHaveAMortgageOnPropertyUserAnswersEntry: Arbitrary[(DidYouHaveAMortgageOnPropertyPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[DidYouHaveAMortgageOnPropertyPage.type]
+        value <- arbitrary[Boolean].map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryJointlyOwnedPropertyUserAnswersEntry: Arbitrary[(JointlyOwnedPropertyPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[JointlyOwnedPropertyPage.type]
+        value <- arbitrary[Boolean].map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryFHLUserAnswersEntry: Arbitrary[(FHLPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[FHLPage.type]
+        value <- arbitrary[Boolean].map(Json.toJson(_))
+      } yield (page, value)
+    }
+
+  implicit lazy val arbitraryPropertyIsNoLongerBeingLetOutUserAnswersEntry: Arbitrary[(PropertyIsNoLongerBeingLetOutPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[PropertyIsNoLongerBeingLetOutPage.type]
+        value <- arbitrary[NoLongerBeingLetOut].map(Json.toJson(_))
+      } yield (page, value)
+    }
+
   implicit lazy val arbitraryPropertyStoppedBeingLetOutUserAnswersEntry: Arbitrary[(PropertyStoppedBeingLetOutPage.type, JsValue)] =
     Arbitrary {
       for {
