@@ -32,6 +32,14 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
       } yield (page, value)
     }
 
+  implicit lazy val arbitraryWasALettingAgentUsedToManagePropertyUserAnswersEntry: Arbitrary[(WasALettingAgentUsedToManagePropertyPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[WasALettingAgentUsedToManagePropertyPage.type]
+        value <- arbitrary[Boolean].map(Json.toJson(_))
+      } yield (page, value)
+    }
+
   implicit lazy val arbitraryWhatWasTheTypeOfMortgageUserAnswersEntry: Arbitrary[(WhatWasTheTypeOfMortgagePage.type, JsValue)] =
     Arbitrary {
       for {

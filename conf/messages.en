@@ -2099,3 +2099,11 @@ whatWasTheTypeOfMortgage.checkYourAnswersLabel = whatWasTheTypeOfMortgage
 whatWasTheTypeOfMortgage.error.required = Enter the type of mortgage you had
 whatWasTheTypeOfMortgage.error.length = The type of mortgage must be between 1 and 500 characters
 whatWasTheTypeOfMortgage.change.hidden = WhatWasTheTypeOfMortgage
+
+wasALettingAgentUsedToManageProperty.title = Was a letting agent used to let out or manage property {0}?
+wasALettingAgentUsedToManageProperty.heading = Was a letting agent used to let out or manage property {0}?
+wasALettingAgentUsedToManageProperty.checkYourAnswersLabel = wasALettingAgentUsedToManageProperty
+wasALettingAgentUsedToManageProperty.error.required = Select yes if a letting agent was used to let out or manage this property
+wasALettingAgentUsedToManageProperty.change.hidden = WasALettingAgentUsedToManageProperty
+wasALettingAgentUsedToManageProperty.yes = Yes
+wasALettingAgentUsedToManageProperty.no = No
