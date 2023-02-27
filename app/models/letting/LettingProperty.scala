@@ -28,7 +28,8 @@ final case class LettingProperty(
   fhl: Option[Boolean] = None,
   isJointOwnership: Option[Boolean] = None,
   isMortgageOnProperty: Option[Boolean] = None,
-  percentageIncomeOnProperty: Option[Int] = None
+  percentageIncomeOnProperty: Option[Int] = None,
+  wasFurnished: Option[Boolean] = None
 )
 
 object LettingProperty {

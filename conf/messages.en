@@ -2073,3 +2073,11 @@ whatWasThePercentageIncomeYouReceivedFromProperty.error.required = Enter the per
 whatWasThePercentageIncomeYouReceivedFromProperty.error.wholeNumber = The percentage must be a number, like 50
 whatWasThePercentageIncomeYouReceivedFromProperty.error.outOfRange = The percentage share of the income must be between 1 and 100
 whatWasThePercentageIncomeYouReceivedFromProperty.change.hidden = WhatWasThePercentageIncomeYouReceivedFromProperty
+
+wasPropertyFurnished.title = At the time of letting, was property {0} furnished?
+wasPropertyFurnished.heading = At the time of letting, was property {0} furnished?
+wasPropertyFurnished.checkYourAnswersLabel = wasPropertyFurnished
+wasPropertyFurnished.error.required = Select yes if the property was furnished
+wasPropertyFurnished.change.hidden = WasPropertyFurnished
+wasPropertyFurnished.yes = Yes
+wasPropertyFurnished.no = No
