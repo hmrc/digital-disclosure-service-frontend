@@ -17,10 +17,11 @@
 package navigation
 
 import base.SpecBase
-import models.{LettingProperty, NoLongerBeingLetOut, NormalMode, UserAnswers}
+import models.{LettingProperty, NoLongerBeingLetOut, NormalMode, TypeOfMortgageDidYouHave, UserAnswers}
 import pages._
 import controllers.letting.routes
 import org.scalacheck.Arbitrary.arbitrary
+
 import java.time.LocalDate
 
 class LettingNavigatorSpec extends SpecBase {
@@ -113,6 +114,34 @@ class LettingNavigatorSpec extends SpecBase {
         val lettingProperty = LettingProperty(percentageIncomeOnProperty = Some(5))
         val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
         navigator.nextPage(WhatWasThePercentageIncomeYouReceivedFromPropertyPage, index, NormalMode, ua) mustBe routes.DidYouHaveAMortgageOnPropertyController.onPageLoad(index, NormalMode)
+      }
+
+      "must go from WhatTypeOfMortgageDidYouHavePage to DidYouHaveAMortgageOnPropertyController when CapitalRepayment is selected" in {
+        val index = 0
+        val lettingProperty = LettingProperty(typeOfMortgage = Some(TypeOfMortgageDidYouHave.CapitalRepayment))
+        val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
+        navigator.nextPage(WhatTypeOfMortgageDidYouHavePage, index, NormalMode, ua) mustBe routes.DidYouHaveAMortgageOnPropertyController.onPageLoad(index, NormalMode)
+      }
+
+      "must go from WhatTypeOfMortgageDidYouHavePage to DidYouHaveAMortgageOnPropertyController when InterestOnly is selected" in {
+        val index = 0
+        val lettingProperty = LettingProperty(typeOfMortgage = Some(TypeOfMortgageDidYouHave.InterestOnly))
+        val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
+        navigator.nextPage(WhatTypeOfMortgageDidYouHavePage, index, NormalMode, ua) mustBe routes.DidYouHaveAMortgageOnPropertyController.onPageLoad(index, NormalMode)
+      }
+
+      "must go from WhatTypeOfMortgageDidYouHavePage to DidYouHaveAMortgageOnPropertyController when Other is selected" in {
+        val index = 0
+        val lettingProperty = LettingProperty(typeOfMortgage = Some(TypeOfMortgageDidYouHave.Other))
+        val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
+        navigator.nextPage(WhatTypeOfMortgageDidYouHavePage, index, NormalMode, ua) mustBe routes.WhatWasTheTypeOfMortgageController.onPageLoad(index, NormalMode)
+      }
+
+      "must go from WhatWasTheTypeOfMortgagePage to DidYouHaveAMortgageOnPropertyController" in {
+        val index = 0
+        val lettingProperty = LettingProperty(otherTypeOfMortgage = Some("type"))
+        val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
+        navigator.nextPage(WhatWasTheTypeOfMortgagePage, index, NormalMode, ua) mustBe routes.DidYouHaveAMortgageOnPropertyController.onPageLoad(index, NormalMode)
       }
 
     }
