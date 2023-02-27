@@ -49,7 +49,7 @@ class WasALettingAgentUsedToManagePropertyControllerSpec extends SpecBase with M
       val lettingProperty = LettingProperty(wasPropertyManagerByAgent = Some(true))
 
       val userAnswers = UserAnswers(userAnswersId)
-        .setBySeqIndex(LettingPropertyPage, index, lettingProperty).success.value
+        .setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
