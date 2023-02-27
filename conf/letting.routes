@@ -38,7 +38,12 @@ POST       /letting-property-percentage-share/:i                controllers.lett
 GET        /letting-property-percentage-share/:i/change         controllers.letting.WhatWasThePercentageIncomeYouReceivedFromPropertyController.onPageLoad(i:Int, mode: Mode = CheckMode)
 POST       /letting-property-percentage-share/:i/change         controllers.letting.WhatWasThePercentageIncomeYouReceivedFromPropertyController.onSubmit(i:Int, mode: Mode = CheckMode)
 
-GET        /letting-property-furnished/:i                        controllers.letting.WasPropertyFurnishedController.onPageLoad(i: Int, mode: Mode = NormalMode)
-POST       /letting-property-furnished/:i                        controllers.letting.WasPropertyFurnishedController.onSubmit(i: Int, mode: Mode = NormalMode)
-GET        /letting-property-furnished/:i/change                 controllers.letting.WasPropertyFurnishedController.onPageLoad(i: Int, mode: Mode = CheckMode)
-POST       /letting-property-furnished/:i/change                 controllers.letting.WasPropertyFurnishedController.onSubmit(i: Int, mode: Mode = CheckMode)
+GET        /letting-property-furnished/:i                       controllers.letting.WasPropertyFurnishedController.onPageLoad(i: Int, mode: Mode = NormalMode)
+POST       /letting-property-furnished/:i                       controllers.letting.WasPropertyFurnishedController.onSubmit(i: Int, mode: Mode = NormalMode)
+GET        /letting-property-furnished/:i/change                controllers.letting.WasPropertyFurnishedController.onPageLoad(i: Int, mode: Mode = CheckMode)
+POST       /letting-property-furnished/:i/change                controllers.letting.WasPropertyFurnishedController.onSubmit(i: Int, mode: Mode = CheckMode)
+
+GET        /letting-property-mortgage-type/:i                   controllers.letting.WhatTypeOfMortgageDidYouHaveController.onPageLoad(i: Int, mode: Mode = NormalMode)
+POST       /letting-property-mortgage-type/:i                   controllers.letting.WhatTypeOfMortgageDidYouHaveController.onSubmit(i: Int, mode: Mode = NormalMode)
+GET        /letting-property-mortgage-type/:i/change            controllers.letting.WhatTypeOfMortgageDidYouHaveController.onPageLoad(i: Int, mode: Mode = CheckMode)
+POST       /letting-property-mortgage-type/:i/change            controllers.letting.WhatTypeOfMortgageDidYouHaveController.onSubmit(i: Int, mode: Mode = CheckMode)

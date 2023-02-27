@@ -48,32 +48,37 @@ class DirectorLoanAccountLiabilitiesViewSpec extends ViewSpecBase with ViewMatch
       view.getElementById("inset-body").text() mustBe s"${messages("directorLoanAccountLiabilities.inset")}"
     }
 
+    "contain the sub header" in {
+      view.getElementsByClass("govuk-label--m").first().text() mustBe messages("directorLoanAccountLiabilities.subHeader", index + 1)
+    }
+
+
     "contain the name question" in {
-      view.getElementsByClass("govuk-label--m").get(0).text() mustBe messages("directorLoanAccountLiabilities.name.question")
+      view.getElementsByClass("govuk-label--s").get(0).text() mustBe messages("directorLoanAccountLiabilities.name.question")
     }
 
     "contain the periodEnd question" in {
-      view.getElementsByClass("govuk-label--m").get(1).text() mustBe messages("directorLoanAccountLiabilities.periodEnd.label")
+      view.getElementsByClass("govuk-label--s").get(1).text() mustBe messages("directorLoanAccountLiabilities.periodEnd.label")
     }
 
     "contain the overdrawn question" in {
-      view.getElementsByClass("govuk-label--m").get(2).text() mustBe messages("directorLoanAccountLiabilities.overdrawn.question")
+      view.getElementsByClass("govuk-label--s").get(2).text() mustBe messages("directorLoanAccountLiabilities.overdrawn.question")
     }
 
     "contain the unpaidTax question" in {
-      view.getElementsByClass("govuk-label--m").get(3).text() mustBe messages("directorLoanAccountLiabilities.unpaidTax.question")
+      view.getElementsByClass("govuk-label--s").get(3).text() mustBe messages("directorLoanAccountLiabilities.unpaidTax.question")
     }
 
     "contain the interest question" in {
-      view.getElementsByClass("govuk-label--m").get(4).text() mustBe messages("directorLoanAccountLiabilities.interest.question")
+      view.getElementsByClass("govuk-label--s").get(4).text() mustBe messages("directorLoanAccountLiabilities.interest.question")
     }
 
     "contain the penaltyRate question" in {
-      view.getElementsByClass("govuk-label--m").get(5).text() mustBe messages("directorLoanAccountLiabilities.penaltyRate.question")
+      view.getElementsByClass("govuk-label--s").get(5).text() mustBe messages("directorLoanAccountLiabilities.penaltyRate.question")
     }
 
     "contain the penalty rate reason question" in {
-      view.getElementsByClass("govuk-label--m").get(6).text() mustBe messages("directorLoanAccountLiabilities.penaltyRateReason.question")
+      view.getElementsByClass("govuk-label--s").get(6).text() mustBe messages("directorLoanAccountLiabilities.penaltyRateReason.question")
     }
 
     "display the continue button" in {

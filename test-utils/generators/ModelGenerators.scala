@@ -27,6 +27,11 @@ import java.time.{LocalDate, ZoneOffset}
 
 trait ModelGenerators {
 
+  implicit lazy val arbitraryWhatTypeOfMortgageDidYouHave: Arbitrary[TypeOfMortgageDidYouHave] =
+    Arbitrary {
+      Gen.oneOf(TypeOfMortgageDidYouHave.values.toSeq)
+    }
+
   implicit lazy val arbitraryDirectorLoanAccountLiabilities: Arbitrary[DirectorLoanAccountLiabilities] =
     Arbitrary {
       for {
