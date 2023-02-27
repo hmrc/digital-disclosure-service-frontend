@@ -47,3 +47,8 @@ GET        /letting-property-other-mortgage-type/:i              controllers.let
 POST       /letting-property-other-mortgage-type/:i              controllers.letting.WhatWasTheTypeOfMortgageController.onSubmit(i: Int, mode: Mode = NormalMode)
 GET        /letting-property-other-mortgage-type/:i/change       controllers.letting.WhatWasTheTypeOfMortgageController.onPageLoad(i: Int, mode: Mode = CheckMode)
 POST       /letting-property-other-mortgage-type/:i/change       controllers.letting.WhatWasTheTypeOfMortgageController.onSubmit(i: Int, mode: Mode = CheckMode)
+
+GET        /letting-property-use-letting-agent/:i                controllers.letting.WasALettingAgentUsedToManagePropertyController.onPageLoad(i: Int, mode: Mode = NormalMode)
+POST       /letting-property-use-letting-agent/:i                controllers.letting.WasALettingAgentUsedToManagePropertyController.onSubmit(i: Int, mode: Mode = NormalMode)
+GET        /letting-property-use-letting-agent/:i/change         controllers.letting.WasALettingAgentUsedToManagePropertyController.onPageLoad(i: Int, mode: Mode = CheckMode)
+POST       /letting-property-use-letting-agent/:i/change         controllers.letting.WasALettingAgentUsedToManagePropertyController.onSubmit(i: Int, mode: Mode = CheckMode)
