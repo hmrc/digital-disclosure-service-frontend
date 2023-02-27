@@ -1,13 +1,29 @@
+/*
+ * Copyright 2023 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package controllers
 
 import base.SpecBase
 import forms.WhatWasTheTypeOfMortgageFormProvider
-import models.{NormalMode, UserAnswers}
+import models.{NormalMode, UserAnswers, LettingProperty}
 import navigation.{FakeLettingNavigator, LettingNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.WhatWasTheTypeOfMortgagePage
+import pages.LettingPropertyPage
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -24,7 +40,7 @@ class WhatWasTheTypeOfMortgageControllerSpec extends SpecBase with MockitoSugar 
   val formProvider = new WhatWasTheTypeOfMortgageFormProvider()
   val form = formProvider()
 
-  lazy val whatWasTheTypeOfMortgageRoute = letting.routes.WhatWasTheTypeOfMortgageController.onPageLoad(NormalMode).url
+  lazy val whatWasTheTypeOfMortgageRoute = letting.routes.WhatWasTheTypeOfMortgageController.onPageLoad(0, NormalMode).url
 
   "WhatWasTheTypeOfMortgage Controller" - {
 
@@ -40,13 +56,16 @@ class WhatWasTheTypeOfMortgageControllerSpec extends SpecBase with MockitoSugar 
         val view = application.injector.instanceOf[WhatWasTheTypeOfMortgageView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, 0, NormalMode)(request, messages(application)).toString
       }
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(WhatWasTheTypeOfMortgagePage, "answer").success.value
+      val lettingProperty = LettingProperty(typeOfMortgage = Some("answer"))
+
+      val userAnswers = UserAnswers(userAnswersId)
+        .setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -58,7 +77,7 @@ class WhatWasTheTypeOfMortgageControllerSpec extends SpecBase with MockitoSugar 
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill("answer"), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill("answer"), 0, NormalMode)(request, messages(application)).toString
       }
     }
 
@@ -103,7 +122,7 @@ class WhatWasTheTypeOfMortgageControllerSpec extends SpecBase with MockitoSugar 
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, 0, NormalMode)(request, messages(application)).toString
       }
     }
 

@@ -28,23 +28,27 @@ class WhatWasTheTypeOfMortgageViewSpec extends ViewSpecBase with ViewMatchers {
   val form = new WhatWasTheTypeOfMortgageFormProvider()()
   val page: WhatWasTheTypeOfMortgageView = inject[WhatWasTheTypeOfMortgageView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, 0, NormalMode)(request, messages)
 
   "view" should {
 
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("whatWasTheTypeOfMortgage.title"))
+      view.select("title").text() must include(messages("whatWasTheTypeOfMortgage.title", 1))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-label--xl").text() mustBe messages("whatWasTheTypeOfMortgage.heading")
+      view.getElementsByClass("govuk-label--xl").text() mustBe messages("whatWasTheTypeOfMortgage.heading", 1)
     }
 
     "display the continue button" in {
       view.getElementsByClass("govuk-button").first() must haveId ("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
+    }
+
+    "have a task list link" in {
+      view.getElementById("task-list-link").attr("href") mustBe controllers.routes.TaskListController.onPageLoad.url
     }
 
   }
