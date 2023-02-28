@@ -2123,3 +2123,10 @@ didTheLettingAgentCollectRentOnYourBehalf.error.required = Select yes if the let
 didTheLettingAgentCollectRentOnYourBehalf.change.hidden = DidTheLettingAgentCollectRentOnYourBehalf
 didTheLettingAgentCollectRentOnYourBehalf.yes = Yes
 didTheLettingAgentCollectRentOnYourBehalf.no = No
+
+whichLandlordAssociationsAreYouAMemberOf.title = Which landlord associations are you a member of?
+whichLandlordAssociationsAreYouAMemberOf.heading = Which landlord associations are you a member of?
+whichLandlordAssociationsAreYouAMemberOf.checkYourAnswersLabel = whichLandlordAssociationsAreYouAMemberOf
+whichLandlordAssociationsAreYouAMemberOf.error.required = Enter the landlord associations you a member of
+whichLandlordAssociationsAreYouAMemberOf.error.length = The name of the landlord associations must be between 1 and 500 characters
+whichLandlordAssociationsAreYouAMemberOf.change.hidden = WhichLandlordAssociationsAreYouAMemberOf
