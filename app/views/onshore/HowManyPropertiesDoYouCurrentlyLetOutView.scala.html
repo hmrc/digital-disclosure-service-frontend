@@ -14,11 +14,13 @@
  * limitations under the License.
  *@
 
+@import viewmodels.InputWidth._
+
 @this(
     layout: templates.Layout,
     formHelper: FormWithCSRF,
     govukErrorSummary: GovukErrorSummary,
-    govukTextarea: GovukTextarea,
+    govukInput: GovukInput,
     govukButton: GovukButton,
     tasklistLink: components.tasklistLink
 )
@@ -33,14 +35,12 @@
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
-        @govukTextarea(
-            Textarea(
-                name = "value",    
-                id = "value",
-                value = form("value").value,
-                label = Label(content = messages("howManyProperties.heading")).asPageHeading(),
-                errorMessage = form("value").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
+        @govukInput(
+            InputViewModel(
+                field = form("value"),
+                label = LabelViewModel(messages("howManyProperties.heading")).asPageHeading(),
             )
+            .withWidth(Full)
         )
 
         @govukButton(
