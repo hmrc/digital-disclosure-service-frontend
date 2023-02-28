@@ -19,14 +19,14 @@ package pages
 import pages.behaviours.PageBehaviours
 
 
-class WhichLandlordAssociationsAreYouAMemberOfPageSpec extends PageBehaviours {
+class HowManyPropertiesDoYouCurrentlyLetOutPageSpec extends PageBehaviours {
 
-  "WhichLandlordAssociationsAreYouAMemberOfPage" - {
+  "HowManyPropertiesDoYouCurrentlyLetOutPage" - {
 
-    beRetrievable[String](WhichLandlordAssociationsAreYouAMemberOfPage)
+    beRetrievable[String](HowManyPropertiesDoYouCurrentlyLetOutPage)
 
-    beSettable[String](WhichLandlordAssociationsAreYouAMemberOfPage)
+    beSettable[String](HowManyPropertiesDoYouCurrentlyLetOutPage)
 
-    beRemovable[String](WhichLandlordAssociationsAreYouAMemberOfPage)
+    beRemovable[String](HowManyPropertiesDoYouCurrentlyLetOutPage)
   }
 }

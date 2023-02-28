@@ -14,19 +14,31 @@
  * limitations under the License.
  */
 
-package pages
+package forms
 
-import pages.behaviours.PageBehaviours
+import forms.behaviours.FieldBehaviours
+import play.api.data.FormError
 
+class HowManyPropertiesDoYouCurrentlyLetOutFormProviderSpec extends FieldBehaviours {
 
-class WhichLandlordAssociationsAreYouAMemberOfPageSpec extends PageBehaviours {
+  val requiredKey = "howManyProperties.error.required"
 
-  "WhichLandlordAssociationsAreYouAMemberOfPage" - {
+  val form = new HowManyPropertiesDoYouCurrentlyLetOutFormProvider()()
 
-    beRetrievable[String](WhichLandlordAssociationsAreYouAMemberOfPage)
+  ".value" - {
 
-    beSettable[String](WhichLandlordAssociationsAreYouAMemberOfPage)
+    val fieldName = "value"
 
-    beRemovable[String](WhichLandlordAssociationsAreYouAMemberOfPage)
+    behave like fieldThatBindsValidData(
+      form,
+      fieldName,
+      "some value"
+    )
+
+    behave like mandatoryField(
+      form,
+      fieldName,
+      requiredError = FormError(fieldName, requiredKey)
+    )
   }
 }

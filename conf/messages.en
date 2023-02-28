@@ -2130,3 +2130,9 @@ whichLandlordAssociations.checkYourAnswersLabel = whichLandlordAssociations
 whichLandlordAssociations.error.required = Enter the landlord associations you a member of
 whichLandlordAssociations.error.length = The name of the landlord associations must be between 1 and 500 characters
 whichLandlordAssociations.change.hidden = WhichLandlordAssociationsAreYouAMemberOf
+
+howManyProperties.title = How many properties do you currently let out?
+howManyProperties.heading = How many properties do you currently let out?
+howManyProperties.checkYourAnswersLabel = howManyProperties
+howManyProperties.error.required = Enter the amount of properties you currently let out
+howManyProperties.change.hidden = HowManyPropertiesDoYouCurrentlyLetOut

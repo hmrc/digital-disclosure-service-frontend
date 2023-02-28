@@ -14,19 +14,17 @@
  * limitations under the License.
  */
 
-package pages
+package forms
 
-import pages.behaviours.PageBehaviours
+import javax.inject.Inject
 
+import forms.mappings.Mappings
+import play.api.data.Form
 
-class WhichLandlordAssociationsAreYouAMemberOfPageSpec extends PageBehaviours {
+class HowManyPropertiesDoYouCurrentlyLetOutFormProvider @Inject() extends Mappings {
 
-  "WhichLandlordAssociationsAreYouAMemberOfPage" - {
-
-    beRetrievable[String](WhichLandlordAssociationsAreYouAMemberOfPage)
-
-    beSettable[String](WhichLandlordAssociationsAreYouAMemberOfPage)
-
-    beRemovable[String](WhichLandlordAssociationsAreYouAMemberOfPage)
-  }
+  def apply(): Form[String] =
+    Form(
+      "value" -> text("howManyProperties.error.required")
+    )
 }

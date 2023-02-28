@@ -16,17 +16,11 @@
 
 package pages
 
-import pages.behaviours.PageBehaviours
+import play.api.libs.json.JsPath
 
+case object HowManyPropertiesDoYouCurrentlyLetOutPage extends QuestionPage[String] {
 
-class WhichLandlordAssociationsAreYouAMemberOfPageSpec extends PageBehaviours {
+  override def path: JsPath = JsPath \ toString
 
-  "WhichLandlordAssociationsAreYouAMemberOfPage" - {
-
-    beRetrievable[String](WhichLandlordAssociationsAreYouAMemberOfPage)
-
-    beSettable[String](WhichLandlordAssociationsAreYouAMemberOfPage)
-
-    beRemovable[String](WhichLandlordAssociationsAreYouAMemberOfPage)
-  }
+  override def toString: String = "howManyProperties"
 }
