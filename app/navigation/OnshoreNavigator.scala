@@ -159,6 +159,11 @@ class OnshoreNavigator @Inject()() {
 
     case OtherIncomeOrGainSourcePage => _ => routes.CheckYourAnswersController.onPageLoad
 
+    case AreYouAMemberOfAnyLandlordAssociationsPage => ua => ua.get(AreYouAMemberOfAnyLandlordAssociationsPage) match {
+      case Some(true) => routes.WhichLandlordAssociationsAreYouAMemberOfController.onPageLoad(NormalMode)
+      case _ => routes.HowManyPropertiesDoYouCurrentlyLetOutController.onPageLoad(NormalMode)
+    }
+
     case _ => _ => controllers.routes.TaskListController.onPageLoad
   }
 
