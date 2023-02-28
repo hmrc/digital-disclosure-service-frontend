@@ -112,3 +112,5 @@ GET        /how-many-properties                         controllers.onshore.HowM
 POST       /how-many-properties                         controllers.onshore.HowManyPropertiesDoYouCurrentlyLetOutController.onSubmit(mode: Mode = NormalMode)
 GET        /how-many-properties/change                  controllers.onshore.HowManyPropertiesDoYouCurrentlyLetOutController.onPageLoad(mode: Mode = CheckMode)
 POST       /how-many-properties/change                  controllers.onshore.HowManyPropertiesDoYouCurrentlyLetOutController.onSubmit(mode: Mode = CheckMode)
+
+GET        /no-onshore-liabilities                      controllers.onshore.YouHaveNoOnshoreLiabilitiesToDiscloseController.onPageLoad
