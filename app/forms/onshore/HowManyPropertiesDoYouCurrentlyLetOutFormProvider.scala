@@ -14,22 +14,17 @@
  * limitations under the License.
  */
 
-package models.address
+package forms
 
-import play.api.libs.json.Json
-import play.api.libs.json.OFormat
+import javax.inject.Inject
 
-final case class EditPageLabels(
-  title: String,
-  heading: String,
-  line1Label: String = "Address line 1",
-  line2Label: String = "Address line 2 (optional)",
-  line3Label: String = "Address line 3 (optional)",
-  townLabel: String = "Town or city",
-  postcodeLabel: String = "Postcode (optional)",
-  countryLabel: String = "Country"
-)
+import forms.mappings.Mappings
+import play.api.data.Form
 
-object EditPageLabels {
-  implicit val format: OFormat[EditPageLabels] = Json.format[EditPageLabels]
+class HowManyPropertiesDoYouCurrentlyLetOutFormProvider @Inject() extends Mappings {
+
+  def apply(): Form[String] =
+    Form(
+      "value" -> text("howManyProperties.error.required")
+    )
 }

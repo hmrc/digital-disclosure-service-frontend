@@ -14,22 +14,13 @@
  * limitations under the License.
  */
 
-package models.address
+package pages
 
-import play.api.libs.json.Json
-import play.api.libs.json.OFormat
+import play.api.libs.json.JsPath
 
-final case class EditPageLabels(
-  title: String,
-  heading: String,
-  line1Label: String = "Address line 1",
-  line2Label: String = "Address line 2 (optional)",
-  line3Label: String = "Address line 3 (optional)",
-  townLabel: String = "Town or city",
-  postcodeLabel: String = "Postcode (optional)",
-  countryLabel: String = "Country"
-)
+case object WhichLandlordAssociationsAreYouAMemberOfPage extends QuestionPage[String] {
 
-object EditPageLabels {
-  implicit val format: OFormat[EditPageLabels] = Json.format[EditPageLabels]
+  override def path: JsPath = JsPath \ toString
+
+  override def toString: String = "whichLandlordAssociations"
 }

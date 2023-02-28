@@ -14,22 +14,31 @@
  * limitations under the License.
  */
 
-package models.address
+package forms
 
-import play.api.libs.json.Json
-import play.api.libs.json.OFormat
+import forms.behaviours.FieldBehaviours
+import play.api.data.FormError
 
-final case class EditPageLabels(
-  title: String,
-  heading: String,
-  line1Label: String = "Address line 1",
-  line2Label: String = "Address line 2 (optional)",
-  line3Label: String = "Address line 3 (optional)",
-  townLabel: String = "Town or city",
-  postcodeLabel: String = "Postcode (optional)",
-  countryLabel: String = "Country"
-)
+class HowManyPropertiesDoYouCurrentlyLetOutFormProviderSpec extends FieldBehaviours {
 
-object EditPageLabels {
-  implicit val format: OFormat[EditPageLabels] = Json.format[EditPageLabels]
+  val requiredKey = "howManyProperties.error.required"
+
+  val form = new HowManyPropertiesDoYouCurrentlyLetOutFormProvider()()
+
+  ".value" - {
+
+    val fieldName = "value"
+
+    behave like fieldThatBindsValidData(
+      form,
+      fieldName,
+      "some value"
+    )
+
+    behave like mandatoryField(
+      form,
+      fieldName,
+      requiredError = FormError(fieldName, requiredKey)
+    )
+  }
 }
