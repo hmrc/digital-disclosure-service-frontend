@@ -21,7 +21,13 @@ import play.api.libs.json.OFormat
 
 final case class EditPageLabels(
   title: String,
-  heading: String
+  heading: String,
+  line1Label: String = "Address line 1",
+  line2Label: String = "Address line 2 (optional)",
+  line3Label: String = "Address line 3 (optional)",
+  townLabel: String = "Town or city",
+  postcodeLabel: String = "Postcode (optional)",
+  countryLabel: String = "Country"
 )
 
 object EditPageLabels {
