@@ -22,5 +22,5 @@ case object WhichLandlordAssociationsAreYouAMemberOfPage extends QuestionPage[St
 
   override def path: JsPath = JsPath \ toString
 
-  override def toString: String = "whichLandlordAssociationsAreYouAMemberOf"
+  override def toString: String = "whichLandlordAssociations"
 }
