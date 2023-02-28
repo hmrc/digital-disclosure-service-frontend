@@ -5,8 +5,8 @@ import play.api.data.FormError
 
 class WhichLandlordAssociationsAreYouAMemberOfFormProviderSpec extends StringFieldBehaviours {
 
-  val requiredKey = "whichLandlordAssociationsAreYouAMemberOf.error.required"
-  val lengthKey = "whichLandlordAssociationsAreYouAMemberOf.error.length"
+  val requiredKey = "whichLandlordAssociations.error.required"
+  val lengthKey = "whichLandlordAssociations.error.length"
   val maxLength = 500
 
   val form = new WhichLandlordAssociationsAreYouAMemberOfFormProvider()()

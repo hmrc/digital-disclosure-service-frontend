@@ -35,11 +35,11 @@ class WhichLandlordAssociationsAreYouAMemberOfViewSpec extends ViewSpecBase with
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("whichLandlordAssociationsAreYouAMemberOf.title"))
+      view.select("title").text() must include(messages("whichLandlordAssociations.title"))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-label--xl").text() mustBe messages("whichLandlordAssociationsAreYouAMemberOf.heading")
+      view.getElementsByClass("govuk-label--xl").text() mustBe messages("whichLandlordAssociations.heading")
     }
 
     "display the continue button" in {

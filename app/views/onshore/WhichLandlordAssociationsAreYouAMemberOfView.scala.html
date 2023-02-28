@@ -27,7 +27,7 @@
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("whichLandlordAssociationsAreYouAMemberOf.title"))) {
+@layout(pageTitle = title(form, messages("whichLandlordAssociations.title"))) {
 
     @formHelper(action = controllers.onshore.routes.WhichLandlordAssociationsAreYouAMemberOfController.onSubmit(mode)) {
 
@@ -40,7 +40,7 @@
                 id = "value",
                 name = "value",
                 maxLength = Some(500), 
-                label = Label(content = messages("whichLandlordAssociationsAreYouAMemberOf.heading")).asPageHeading(),
+                label = Label(content = messages("whichLandlordAssociations.heading")).asPageHeading(),
                 value = form("value").value,
                 errorMessage = form("value").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
             )

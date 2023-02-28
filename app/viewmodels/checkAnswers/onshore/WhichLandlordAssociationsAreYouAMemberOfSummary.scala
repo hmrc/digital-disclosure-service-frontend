@@ -32,11 +32,11 @@ object WhichLandlordAssociationsAreYouAMemberOfSummary  {
       answer =>
 
         SummaryListRowViewModel(
-          key     = "whichLandlordAssociationsAreYouAMemberOf.checkYourAnswersLabel",
+          key     = "whichLandlordAssociations.checkYourAnswersLabel",
           value   = ValueViewModel(HtmlFormat.escape(answer).toString),
           actions = Seq(
             ActionItemViewModel("site.change", routes.WhichLandlordAssociationsAreYouAMemberOfController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("whichLandlordAssociationsAreYouAMemberOf.change.hidden"))
+              .withVisuallyHiddenText(messages("whichLandlordAssociations.change.hidden"))
           )
         )
     }

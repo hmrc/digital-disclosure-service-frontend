@@ -25,7 +25,7 @@ class WhichLandlordAssociationsAreYouAMemberOfFormProvider @Inject() extends Map
 
   def apply(): Form[String] =
     Form(
-      "value" -> text("whichLandlordAssociationsAreYouAMemberOf.error.required")
-        .verifying(maxLength(500, "whichLandlordAssociationsAreYouAMemberOf.error.length"))
+      "value" -> text("whichLandlordAssociations.error.required")
+        .verifying(maxLength(500, "whichLandlordAssociations.error.length"))
     )
 }
