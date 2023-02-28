@@ -116,32 +116,46 @@ class LettingNavigatorSpec extends SpecBase {
         navigator.nextPage(WhatWasThePercentageIncomeYouReceivedFromPropertyPage, index, NormalMode, ua) mustBe routes.DidYouHaveAMortgageOnPropertyController.onPageLoad(index, NormalMode)
       }
 
-      "must go from WhatTypeOfMortgageDidYouHavePage to DidYouHaveAMortgageOnPropertyController when CapitalRepayment is selected" in {
+      "must go from DidYouHaveAMortgageOnPropertyPage to WhatTypeOfMortgageDidYouHaveController when Yes is selected" in {
+        val index = 0
+        val lettingProperty = LettingProperty(isMortgageOnProperty = Some(true))
+        val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
+        navigator.nextPage(DidYouHaveAMortgageOnPropertyPage, index, NormalMode, ua) mustBe routes.WhatTypeOfMortgageDidYouHaveController.onPageLoad(index, NormalMode)
+      }
+
+      "must go from DidYouHaveAMortgageOnPropertyPage to DidTheLettingAgentCollectRentOnYourBehalfController when No is selected" in {
+        val index = 0
+        val lettingProperty = LettingProperty(isMortgageOnProperty = Some(false))
+        val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
+        navigator.nextPage(DidYouHaveAMortgageOnPropertyPage, index, NormalMode, ua) mustBe routes.DidTheLettingAgentCollectRentOnYourBehalfController.onPageLoad(index, NormalMode)
+      }
+
+      "must go from WhatTypeOfMortgageDidYouHavePage to DidTheLettingAgentCollectRentOnYourBehalfController when CapitalRepayment is selected" in {
         val index = 0
         val lettingProperty = LettingProperty(typeOfMortgage = Some(TypeOfMortgageDidYouHave.CapitalRepayment))
         val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
-        navigator.nextPage(WhatTypeOfMortgageDidYouHavePage, index, NormalMode, ua) mustBe routes.DidYouHaveAMortgageOnPropertyController.onPageLoad(index, NormalMode)
+        navigator.nextPage(WhatTypeOfMortgageDidYouHavePage, index, NormalMode, ua) mustBe routes.DidTheLettingAgentCollectRentOnYourBehalfController.onPageLoad(index, NormalMode)
       }
 
-      "must go from WhatTypeOfMortgageDidYouHavePage to DidYouHaveAMortgageOnPropertyController when InterestOnly is selected" in {
+      "must go from WhatTypeOfMortgageDidYouHavePage to DidTheLettingAgentCollectRentOnYourBehalfController when InterestOnly is selected" in {
         val index = 0
         val lettingProperty = LettingProperty(typeOfMortgage = Some(TypeOfMortgageDidYouHave.InterestOnly))
         val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
-        navigator.nextPage(WhatTypeOfMortgageDidYouHavePage, index, NormalMode, ua) mustBe routes.DidYouHaveAMortgageOnPropertyController.onPageLoad(index, NormalMode)
+        navigator.nextPage(WhatTypeOfMortgageDidYouHavePage, index, NormalMode, ua) mustBe routes.DidTheLettingAgentCollectRentOnYourBehalfController.onPageLoad(index, NormalMode)
       }
 
-      "must go from WhatTypeOfMortgageDidYouHavePage to DidYouHaveAMortgageOnPropertyController when Other is selected" in {
+      "must go from WhatTypeOfMortgageDidYouHavePage to WhatWasTheTypeOfMortgageController when Other is selected" in {
         val index = 0
         val lettingProperty = LettingProperty(typeOfMortgage = Some(TypeOfMortgageDidYouHave.Other))
         val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
         navigator.nextPage(WhatTypeOfMortgageDidYouHavePage, index, NormalMode, ua) mustBe routes.WhatWasTheTypeOfMortgageController.onPageLoad(index, NormalMode)
       }
 
-      "must go from WhatWasTheTypeOfMortgagePage to DidYouHaveAMortgageOnPropertyController" in {
+      "must go from WhatWasTheTypeOfMortgagePage to DidTheLettingAgentCollectRentOnYourBehalfController" in {
         val index = 0
         val lettingProperty = LettingProperty(otherTypeOfMortgage = Some("type"))
         val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
-        navigator.nextPage(WhatWasTheTypeOfMortgagePage, index, NormalMode, ua) mustBe routes.DidYouHaveAMortgageOnPropertyController.onPageLoad(index, NormalMode)
+        navigator.nextPage(WhatWasTheTypeOfMortgagePage, index, NormalMode, ua) mustBe routes.DidTheLettingAgentCollectRentOnYourBehalfController.onPageLoad(index, NormalMode)
       }
 
     }
