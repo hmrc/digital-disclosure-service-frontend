@@ -467,6 +467,17 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         val userAnswers = UserAnswers("id").set(IncomeOrGainSourcePage, set).success.value
         navigator.nextPage(IncomeOrGainSourcePage, NormalMode, userAnswers) mustBe routes.CheckYourAnswersController.onPageLoad
       }
+
+      "must go from AreYouAMemberOfAnyLandlordAssociationsPage to WhichLandlordAssociationsAreYouAMemberOfController" in {
+        val userAnswers = UserAnswers("id").set(AreYouAMemberOfAnyLandlordAssociationsPage, true).success.value
+        navigator.nextPage(AreYouAMemberOfAnyLandlordAssociationsPage, NormalMode, userAnswers) mustBe routes.WhichLandlordAssociationsAreYouAMemberOfController.onPageLoad(NormalMode)
+      }
+
+      "must go from AreYouAMemberOfAnyLandlordAssociationsPage to HowManyPropertiesDoYouCurrentlyLetOutController" in {
+        val userAnswers = UserAnswers("id").set(AreYouAMemberOfAnyLandlordAssociationsPage, false).success.value
+        navigator.nextPage(AreYouAMemberOfAnyLandlordAssociationsPage, NormalMode, userAnswers) mustBe routes.HowManyPropertiesDoYouCurrentlyLetOutController.onPageLoad(NormalMode)
+      }
+
     }
 
     "nextTaxYearLiabilitiesPage" - {

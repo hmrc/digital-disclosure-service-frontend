@@ -883,7 +883,7 @@ whatWasThePersonNINO.heading = What was the person’s National Insurance number
 whatWasThePersonNINO.label = This is on their payslip, P60 or tax return.
 whatWasThePersonNINO.hint = For example, ‘QQ123456A’.
 whatWasThePersonNINO.checkYourAnswersLabel = What was the person’s National Insurance number?
-whatWasThePersonNINO.error.required = Enter the Person’s National Insurance number
+whatWasThePersonNINO.error.required = Enter the person’s National Insurance number
 whatWasThePersonNINO.error = Enter the person’s National Insurance number in the right format
 whatWasThePersonNINO.change.hidden = What was the person’s National Insurance number?
 
