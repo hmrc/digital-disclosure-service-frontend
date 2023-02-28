@@ -102,3 +102,5 @@ GET        /landlord-associations                         controllers.onshore.Ar
 POST       /landlord-associations                         controllers.onshore.AreYouAMemberOfAnyLandlordAssociationsController.onSubmit(mode: Mode = NormalMode)
 GET        /landlord-associations/change                 controllers.onshore.AreYouAMemberOfAnyLandlordAssociationsController.onPageLoad(mode: Mode = CheckMode)
 POST       /landlord-associations/change                 controllers.onshore.AreYouAMemberOfAnyLandlordAssociationsController.onSubmit(mode: Mode = CheckMode)
+
+GET        /no-offshore-liabilities                       controllers.onshore.YouHaveNoOffshoreLiabilitiesController.onPageLoad
