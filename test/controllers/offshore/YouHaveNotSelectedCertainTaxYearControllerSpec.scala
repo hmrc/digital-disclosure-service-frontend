@@ -41,7 +41,7 @@ class YouHaveNotSelectedCertainTaxYearControllerSpec extends SpecBase with Mocki
   val form = formProvider()
 
   val selectedYears = List(TaxYearStarting(2021), TaxYearStarting(2019), TaxYearStarting(2017))
-  val notSelectedYears = List(TaxYearStarting(2018), TaxYearStarting(2020))
+  val notSelectedYears = List(TaxYearStarting(2020), TaxYearStarting(2018))
 
   lazy val youHaveNotSelectedCertainTaxYearRoute = offshore.routes.YouHaveNotSelectedCertainTaxYearController.onPageLoad(NormalMode).url
 

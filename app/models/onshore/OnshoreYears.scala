@@ -33,7 +33,7 @@ object OnshoreYearStarting {
       case (head :: tail) :+ last => 
         val yearsBetweenFirstAndLast = Range(head, last)
         val missingYearsAsInts = yearsBetweenFirstAndLast.filterNot{int => yearList.contains(OnshoreYearStarting(int))}
-        missingYearsAsInts.map(OnshoreYearStarting(_)).toList
+        missingYearsAsInts.map(OnshoreYearStarting(_)).sorted(Ordering[OnshoreYearStarting]).toList
       case _ => Nil
     }
 

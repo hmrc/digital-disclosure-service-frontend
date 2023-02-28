@@ -33,7 +33,7 @@ object TaxYearStarting {
       case (head :: tail) :+ last => 
         val yearsBetweenFirstAndLast = Range(head, last)
         val missingYearsAsInts = yearsBetweenFirstAndLast.filterNot{int => yearList.contains(TaxYearStarting(int))}
-        missingYearsAsInts.map(TaxYearStarting(_)).toList
+        missingYearsAsInts.map(TaxYearStarting(_)).sorted(Ordering[TaxYearStarting]).toList
       case _ => Nil
     }
 

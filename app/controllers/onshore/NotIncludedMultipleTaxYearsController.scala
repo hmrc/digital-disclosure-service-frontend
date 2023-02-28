@@ -61,8 +61,8 @@ class NotIncludedMultipleTaxYearsController @Inject()(
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
 
-      val selectedYears = Nil
-      val notSelectedYears = Nil
+      val selectedYears = request.userAnswers.inverselySortedOnshoreTaxYears.toList.flatten
+      val notSelectedYears = OnshoreYearStarting.findMissingYears(selectedYears)
       
       form.bindFromRequest().fold(
         formWithErrors =>
