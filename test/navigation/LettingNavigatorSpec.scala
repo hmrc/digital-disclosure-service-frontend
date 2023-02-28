@@ -17,10 +17,11 @@
 package navigation
 
 import base.SpecBase
-import models.{LettingProperty, NoLongerBeingLetOut, NormalMode, UserAnswers}
+import models.{LettingProperty, NoLongerBeingLetOut, NormalMode, TypeOfMortgageDidYouHave, UserAnswers}
 import pages._
 import controllers.letting.routes
 import org.scalacheck.Arbitrary.arbitrary
+
 import java.time.LocalDate
 
 class LettingNavigatorSpec extends SpecBase {
@@ -113,6 +114,48 @@ class LettingNavigatorSpec extends SpecBase {
         val lettingProperty = LettingProperty(percentageIncomeOnProperty = Some(5))
         val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
         navigator.nextPage(WhatWasThePercentageIncomeYouReceivedFromPropertyPage, index, NormalMode, ua) mustBe routes.DidYouHaveAMortgageOnPropertyController.onPageLoad(index, NormalMode)
+      }
+
+      "must go from DidYouHaveAMortgageOnPropertyPage to WhatTypeOfMortgageDidYouHaveController when Yes is selected" in {
+        val index = 0
+        val lettingProperty = LettingProperty(isMortgageOnProperty = Some(true))
+        val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
+        navigator.nextPage(DidYouHaveAMortgageOnPropertyPage, index, NormalMode, ua) mustBe routes.WhatTypeOfMortgageDidYouHaveController.onPageLoad(index, NormalMode)
+      }
+
+      "must go from DidYouHaveAMortgageOnPropertyPage to DidTheLettingAgentCollectRentOnYourBehalfController when No is selected" in {
+        val index = 0
+        val lettingProperty = LettingProperty(isMortgageOnProperty = Some(false))
+        val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
+        navigator.nextPage(DidYouHaveAMortgageOnPropertyPage, index, NormalMode, ua) mustBe routes.DidTheLettingAgentCollectRentOnYourBehalfController.onPageLoad(index, NormalMode)
+      }
+
+      "must go from WhatTypeOfMortgageDidYouHavePage to DidTheLettingAgentCollectRentOnYourBehalfController when CapitalRepayment is selected" in {
+        val index = 0
+        val lettingProperty = LettingProperty(typeOfMortgage = Some(TypeOfMortgageDidYouHave.CapitalRepayment))
+        val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
+        navigator.nextPage(WhatTypeOfMortgageDidYouHavePage, index, NormalMode, ua) mustBe routes.DidTheLettingAgentCollectRentOnYourBehalfController.onPageLoad(index, NormalMode)
+      }
+
+      "must go from WhatTypeOfMortgageDidYouHavePage to DidTheLettingAgentCollectRentOnYourBehalfController when InterestOnly is selected" in {
+        val index = 0
+        val lettingProperty = LettingProperty(typeOfMortgage = Some(TypeOfMortgageDidYouHave.InterestOnly))
+        val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
+        navigator.nextPage(WhatTypeOfMortgageDidYouHavePage, index, NormalMode, ua) mustBe routes.DidTheLettingAgentCollectRentOnYourBehalfController.onPageLoad(index, NormalMode)
+      }
+
+      "must go from WhatTypeOfMortgageDidYouHavePage to WhatWasTheTypeOfMortgageController when Other is selected" in {
+        val index = 0
+        val lettingProperty = LettingProperty(typeOfMortgage = Some(TypeOfMortgageDidYouHave.Other))
+        val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
+        navigator.nextPage(WhatTypeOfMortgageDidYouHavePage, index, NormalMode, ua) mustBe routes.WhatWasTheTypeOfMortgageController.onPageLoad(index, NormalMode)
+      }
+
+      "must go from WhatWasTheTypeOfMortgagePage to DidTheLettingAgentCollectRentOnYourBehalfController" in {
+        val index = 0
+        val lettingProperty = LettingProperty(otherTypeOfMortgage = Some("type"))
+        val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
+        navigator.nextPage(WhatWasTheTypeOfMortgagePage, index, NormalMode, ua) mustBe routes.DidTheLettingAgentCollectRentOnYourBehalfController.onPageLoad(index, NormalMode)
       }
 
     }

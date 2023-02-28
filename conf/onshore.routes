@@ -97,3 +97,8 @@ GET        /director-loan-liabilities/:i/change               controllers.onshor
 POST       /director-loan-liabilities/:i/change               controllers.onshore.DirectorLoanAccountLiabilitiesController.onSubmit(i:Int, mode: Mode = CheckMode)
 
 GET        /onshore-liabilities-summary                    controllers.onshore.CheckYourAnswersController.onPageLoad
+
+GET        /landlord-associations                         controllers.onshore.AreYouAMemberOfAnyLandlordAssociationsController.onPageLoad(mode: Mode = NormalMode)
+POST       /landlord-associations                         controllers.onshore.AreYouAMemberOfAnyLandlordAssociationsController.onSubmit(mode: Mode = NormalMode)
+GET        /landlord-associations/change                 controllers.onshore.AreYouAMemberOfAnyLandlordAssociationsController.onPageLoad(mode: Mode = CheckMode)
+POST       /landlord-associations/change                 controllers.onshore.AreYouAMemberOfAnyLandlordAssociationsController.onSubmit(mode: Mode = CheckMode)

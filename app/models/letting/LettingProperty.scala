@@ -32,7 +32,8 @@ final case class LettingProperty(
   wasFurnished: Option[Boolean] = None,
   typeOfMortgage: Option[TypeOfMortgageDidYouHave] = None,
   otherTypeOfMortgage: Option[String] = None,
-  wasPropertyManagerByAgent: Option[Boolean] = None
+  wasPropertyManagerByAgent: Option[Boolean] = None,
+  didTheLettingAgentCollectRentOnYourBehalf: Option[Boolean] = None
 )
 
 object LettingProperty {
