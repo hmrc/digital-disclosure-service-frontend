@@ -16,11 +16,10 @@
 
 package forms
 
-import forms.behaviours.StringFieldBehaviours
-import org.scalacheck.Arbitrary.arbitrary
+import forms.behaviours.FieldBehaviours
 import play.api.data.FormError
 
-class HowManyPropertiesDoYouCurrentlyLetOutFormProviderSpec extends StringFieldBehaviours {
+class HowManyPropertiesDoYouCurrentlyLetOutFormProviderSpec extends FieldBehaviours {
 
   val requiredKey = "howManyProperties.error.required"
 
@@ -33,7 +32,7 @@ class HowManyPropertiesDoYouCurrentlyLetOutFormProviderSpec extends StringFieldB
     behave like fieldThatBindsValidData(
       form,
       fieldName,
-      arbitrary[String]
+      "some value"
     )
 
     behave like mandatoryField(
