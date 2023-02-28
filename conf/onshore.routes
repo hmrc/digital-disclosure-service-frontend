@@ -107,3 +107,8 @@ GET        /which-landlord-associations                  controllers.onshore.Whi
 POST       /which-landlord-associations                  controllers.onshore.WhichLandlordAssociationsAreYouAMemberOfController.onSubmit(mode: Mode = NormalMode)
 GET        /which-landlord-associations/change           controllers.onshore.WhichLandlordAssociationsAreYouAMemberOfController.onPageLoad(mode: Mode = CheckMode)
 POST       /which-landlord-associations/change           controllers.onshore.WhichLandlordAssociationsAreYouAMemberOfController.onSubmit(mode: Mode = CheckMode)
+
+GET        /how-many-properties                         controllers.onshore.HowManyPropertiesDoYouCurrentlyLetOutController.onPageLoad(mode: Mode = NormalMode)
+POST       /how-many-properties                         controllers.onshore.HowManyPropertiesDoYouCurrentlyLetOutController.onSubmit(mode: Mode = NormalMode)
+GET        /how-many-properties/change                  controllers.onshore.HowManyPropertiesDoYouCurrentlyLetOutController.onPageLoad(mode: Mode = CheckMode)
+POST       /how-many-properties/change                  controllers.onshore.HowManyPropertiesDoYouCurrentlyLetOutController.onSubmit(mode: Mode = CheckMode)

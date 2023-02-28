@@ -17,43 +17,43 @@
 package controllers
 
 import base.SpecBase
-import forms.WhichLandlordAssociationsAreYouAMemberOfFormProvider
+import forms.HowManyPropertiesDoYouCurrentlyLetOutFormProvider
 import models.{NormalMode, UserAnswers}
 import navigation.{FakeOnshoreNavigator, OnshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.WhichLandlordAssociationsAreYouAMemberOfPage
+import pages.HowManyPropertiesDoYouCurrentlyLetOutPage
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
-import views.html.onshore.WhichLandlordAssociationsAreYouAMemberOfView
+import views.html.onshore.HowManyPropertiesDoYouCurrentlyLetOutView
 
 import scala.concurrent.Future
 
-class WhichLandlordAssociationsAreYouAMemberOfControllerSpec extends SpecBase with MockitoSugar {
+class HowManyPropertiesDoYouCurrentlyLetOutControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  val formProvider = new WhichLandlordAssociationsAreYouAMemberOfFormProvider()
+  val formProvider = new HowManyPropertiesDoYouCurrentlyLetOutFormProvider()
   val form = formProvider()
 
-  lazy val whichLandlordAssociationsAreYouAMemberOfRoute = onshore.routes.WhichLandlordAssociationsAreYouAMemberOfController.onPageLoad(NormalMode).url
+  lazy val howManyPropertiesDoYouCurrentlyLetOutRoute = onshore.routes.HowManyPropertiesDoYouCurrentlyLetOutController.onPageLoad(NormalMode).url
 
-  "WhichLandlordAssociationsAreYouAMemberOf Controller" - {
+  "HowManyPropertiesDoYouCurrentlyLetOut Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, whichLandlordAssociationsAreYouAMemberOfRoute)
+        val request = FakeRequest(GET, howManyPropertiesDoYouCurrentlyLetOutRoute)
 
         val result = route(application, request).value
 
-        val view = application.injector.instanceOf[WhichLandlordAssociationsAreYouAMemberOfView]
+        val view = application.injector.instanceOf[HowManyPropertiesDoYouCurrentlyLetOutView]
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
@@ -62,14 +62,14 @@ class WhichLandlordAssociationsAreYouAMemberOfControllerSpec extends SpecBase wi
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(WhichLandlordAssociationsAreYouAMemberOfPage, "answer").success.value
+      val userAnswers = UserAnswers(userAnswersId).set(HowManyPropertiesDoYouCurrentlyLetOutPage, "answer").success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, whichLandlordAssociationsAreYouAMemberOfRoute)
+        val request = FakeRequest(GET, howManyPropertiesDoYouCurrentlyLetOutRoute)
 
-        val view = application.injector.instanceOf[WhichLandlordAssociationsAreYouAMemberOfView]
+        val view = application.injector.instanceOf[HowManyPropertiesDoYouCurrentlyLetOutView]
 
         val result = route(application, request).value
 
@@ -93,7 +93,7 @@ class WhichLandlordAssociationsAreYouAMemberOfControllerSpec extends SpecBase wi
 
       running(application) {
         val request =
-          FakeRequest(POST, whichLandlordAssociationsAreYouAMemberOfRoute)
+          FakeRequest(POST, howManyPropertiesDoYouCurrentlyLetOutRoute)
             .withFormUrlEncodedBody(("value", "answer"))
 
         val result = route(application, request).value
@@ -109,12 +109,12 @@ class WhichLandlordAssociationsAreYouAMemberOfControllerSpec extends SpecBase wi
 
       running(application) {
         val request =
-          FakeRequest(POST, whichLandlordAssociationsAreYouAMemberOfRoute)
+          FakeRequest(POST, howManyPropertiesDoYouCurrentlyLetOutRoute)
             .withFormUrlEncodedBody(("value", ""))
 
         val boundForm = form.bind(Map("value" -> ""))
 
-        val view = application.injector.instanceOf[WhichLandlordAssociationsAreYouAMemberOfView]
+        val view = application.injector.instanceOf[HowManyPropertiesDoYouCurrentlyLetOutView]
 
         val result = route(application, request).value
 
@@ -128,7 +128,7 @@ class WhichLandlordAssociationsAreYouAMemberOfControllerSpec extends SpecBase wi
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val request = FakeRequest(GET, whichLandlordAssociationsAreYouAMemberOfRoute)
+        val request = FakeRequest(GET, howManyPropertiesDoYouCurrentlyLetOutRoute)
 
         val result = route(application, request).value
 
@@ -143,7 +143,7 @@ class WhichLandlordAssociationsAreYouAMemberOfControllerSpec extends SpecBase wi
 
       running(application) {
         val request =
-          FakeRequest(POST, whichLandlordAssociationsAreYouAMemberOfRoute)
+          FakeRequest(POST, howManyPropertiesDoYouCurrentlyLetOutRoute)
             .withFormUrlEncodedBody(("value", "answer"))
 
         val result = route(application, request).value
