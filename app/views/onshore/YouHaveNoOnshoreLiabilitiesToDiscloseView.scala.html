@@ -1,0 +1,46 @@
+@*
+ * Copyright 2023 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@this(
+    layout: templates.Layout,
+    govukButton: GovukButton,
+    heading: components.heading,
+    paragraph: components.paragraph,
+    link: components.link,
+    tasklistLink: components.tasklistLink
+)
+
+@(areTheyTheIndividual: Boolean, entity: RelatesTo, numberOfYears: Int)(implicit request: Request[_], messages: Messages)
+
+@layout(pageTitle = titleNoForm(if(areTheyTheIndividual) messages("haveNoOnshoreLiabilities.agent.title") else  messages("haveNoOnshoreLiabilities.entity.title"))) {
+
+    @heading(Text(if(areTheyTheIndividual) messages("haveNoOnshoreLiabilities.agent.heading") else  messages("haveNoOnshoreLiabilities.entity.heading")))
+
+    @paragraph(
+        id = Some("body"), 
+        content = HtmlContent(
+            if(areTheyTheIndividual) {
+            messages("haveNoOnshoreLiabilities.you.body", numberOfYears)
+            } else {
+                messages(s"haveNoOnshoreLiabilities.${entity}.body", numberOfYears)
+            }
+        )
+    )
+
+    @link(id = "continue", classes = "govuk-button", text = messages("site.saveAndContinue"), newTab = false, call = Call("GET", controllers.onshore.routes.CheckYourAnswersController.onPageLoad.url))
+
+    @tasklistLink()       
+}
