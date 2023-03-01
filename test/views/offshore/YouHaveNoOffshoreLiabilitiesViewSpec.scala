@@ -26,7 +26,6 @@ class YouHaveNoOffshoreLiabilitiesViewSpec extends ViewSpecBase with ViewMatcher
 
   val page: YouHaveNoOffshoreLiabilitiesView = inject[YouHaveNoOffshoreLiabilitiesView]
 
-  // entityIndividual: String, entity:RelatesTo, numberOfYears:Int
   val entityIndividual = "other"
   val entity = RelatesTo.ACompany
   val numberOfYears = 20
@@ -52,6 +51,7 @@ class YouHaveNoOffshoreLiabilitiesViewSpec extends ViewSpecBase with ViewMatcher
     "display the continue button" in {
       view.getElementsByClass("govuk-button").first() must haveId ("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
+      view.getElementsByClass("govuk-button").attr("href") mustBe controllers.offshore.routes.CheckYourAnswersController.onPageLoad.url
     }
 
   }
