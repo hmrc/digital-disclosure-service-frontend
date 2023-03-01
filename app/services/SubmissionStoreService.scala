@@ -56,5 +56,6 @@ class SubmissionStoreServiceImpl @Inject()(
 trait SubmissionStoreService {
   def setSubmission(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Result]
   def getSubmission(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Option[Submission]]
+  def getAllSubmissions(userId: String)(implicit hc: HeaderCarrier): Future[Seq[Submission]]
   def deleteSubmission(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Result]
 }

@@ -30,6 +30,7 @@ class UAToNotificationServiceImpl extends UAToNotificationService {
       userId = userAnswers.id,
       submissionId = userAnswers.submissionId,
       lastUpdated = userAnswers.lastUpdated,
+      created = userAnswers.created,
       metadata = userAnswers.metadata,
       personalDetails = userAnswersToPersonalDetails(userAnswers)
     )

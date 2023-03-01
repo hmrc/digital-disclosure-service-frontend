@@ -30,6 +30,7 @@ final case class UserAnswers(
                               submissionType: SubmissionType = SubmissionType.Notification,
                               data: JsObject = Json.obj(),
                               lastUpdated: Instant = Instant.now,
+                              created: Instant = Instant.now,
                               metadata: Metadata = Metadata()
                             ) {
 
@@ -161,7 +162,7 @@ final case class UserAnswers(
 
 object UserAnswers {
 
-  val defaultSubmissionId = "Individual"
+  val defaultSubmissionId = "default"
 
   val reads: Reads[UserAnswers] = {
 
@@ -173,6 +174,7 @@ object UserAnswers {
       (__ \ "submissionType").read[SubmissionType] and
       (__ \ "data").read[JsObject] and
       (__ \ "lastUpdated").read(MongoJavatimeFormats.instantFormat) and
+      (__ \ "created").read(MongoJavatimeFormats.instantFormat) and
       (__ \ "metadata").read[Metadata]
     ) (UserAnswers.apply _)
   }
@@ -187,6 +189,7 @@ object UserAnswers {
       (__ \ "submissionType").write[SubmissionType] and
       (__ \ "data").write[JsObject] and
       (__ \ "lastUpdated").write(MongoJavatimeFormats.instantFormat) and
+      (__ \ "created").write(MongoJavatimeFormats.instantFormat) and
       (__ \ "metadata").write[Metadata] 
     ) (unlift(UserAnswers.unapply))
   }

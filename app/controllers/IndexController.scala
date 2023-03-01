@@ -45,11 +45,15 @@ class IndexController @Inject()(
 
     if (appConfig.fullDisclosureJourneyEnabled) {
 
-      for {
-        uaOpt  <- sessionService.getIndividualUserAnswers(request.userId, UserAnswers.defaultSubmissionId)
-        url    = navigator.indexNextPage(uaOpt).url
-        _      = uaOpt.map(sessionService.set)
-      } yield Ok(view(url))
+      if (request.isAgent) 
+        Future.successful(Ok(view(controllers.routes.CaseManagementController.onPageLoad.url)))
+      else {
+        for {
+          uaOpt  <- sessionService.getIndividualUserAnswers(request.userId, UserAnswers.defaultSubmissionId)
+          url    = navigator.indexNextPage(uaOpt).url
+          _      = uaOpt.map(sessionService.set)
+        } yield Ok(view(url))
+      }
 
     } else {
 
