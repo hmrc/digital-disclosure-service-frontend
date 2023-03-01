@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package views.onshore
+package views.offshore
 
 import base.ViewSpecBase
+import models.RelatesTo
 import play.twirl.api.Html
 import support.ViewMatchers
-import views.html.onshore.YouHaveNoOffshoreLiabilitiesView
-import models.RelatesTo
+import views.html.offshore.YouHaveNoOffshoreLiabilitiesView
 
 class YouHaveNoOffshoreLiabilitiesViewSpec extends ViewSpecBase with ViewMatchers {
 
