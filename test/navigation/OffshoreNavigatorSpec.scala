@@ -282,6 +282,18 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextPage(WhichYearsPage, NormalMode, updatedUserAnswers) mustBe routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
       }
 
+      "must go from TaxBeforeFiveYearsPage to YouHaveNoOffshoreLiabilitiesController when only selected option ReasonableExcusePriorTo and selected both Onshore and Offshore liabilities" in {
+        val set: Set[OffshoreYears] = Set(ReasonableExcusePriorTo)
+        val userAnswers = for {
+          uaYears <- UserAnswers("id").set(WhichYearsPage, set)
+          uaOnshore <- uaYears.set(OnshoreLiabilitiesPage, true)
+          uaOffshore <- uaOnshore.set(OffshoreLiabilitiesPage, true)
+        } yield uaOffshore
+
+        val userAnswersValue = userAnswers.success.value
+        navigator.nextPage(TaxBeforeFiveYearsPage, NormalMode, userAnswersValue) mustBe routes.YouHaveNoOffshoreLiabilitiesController.onPageLoad
+      }
+
       "must go from TaxBeforeFiveYearsPage to MakingNilDisclosureController when only selected option ReasonableExcusePriorTo" in {
         val set: Set[OffshoreYears] = Set(ReasonableExcusePriorTo)
         val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
@@ -295,6 +307,18 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextPage(TaxBeforeFiveYearsPage, NormalMode, userAnswers) mustBe routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
       }
 
+      "must go from TaxBeforeSevenYearsPage to YouHaveNoOffshoreLiabilitiesController when only selected option CarelessPriorTo and selected both Onshore and Offshore liabilities" in {
+        val set: Set[OffshoreYears] = Set(CarelessPriorTo)
+        val userAnswers = for {
+          uaYears <- UserAnswers("id").set(WhichYearsPage, set)
+          uaOnshore <- uaYears.set(OnshoreLiabilitiesPage, true)
+          uaOffshore <- uaOnshore.set(OffshoreLiabilitiesPage, true)
+        } yield uaOffshore
+
+        val userAnswersValue = userAnswers.success.value
+        navigator.nextPage(TaxBeforeSevenYearsPage, NormalMode, userAnswersValue) mustBe routes.YouHaveNoOffshoreLiabilitiesController.onPageLoad
+      }
+
       "must go from TaxBeforeSevenYearsPage to MakingNilDisclosureController when only selected option CarelessPriorTo" in {
         val set: Set[OffshoreYears] = Set(CarelessPriorTo)
         val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
@@ -306,6 +330,18 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         val set: Set[OffshoreYears] = Set(CarelessPriorTo, TaxYearStarting(year))
         val userAnswers = UserAnswers("id").set(WhichYearsPage, set).success.value
         navigator.nextPage(TaxBeforeSevenYearsPage, NormalMode, userAnswers) mustBe routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
+      }
+
+      "must go from TaxBeforeNineteenYearsPage to YouHaveNoOffshoreLiabilitiesController when only selected option DeliberatePriorTo and selected both Onshore and Offshore liabilities" in {
+        val set: Set[OffshoreYears] = Set(DeliberatePriorTo)
+        val userAnswers = for {
+          uaYears <- UserAnswers("id").set(WhichYearsPage, set)
+          uaOnshore <- uaYears.set(OnshoreLiabilitiesPage, true)
+          uaOffshore <- uaOnshore.set(OffshoreLiabilitiesPage, true)
+        } yield uaOffshore
+
+        val userAnswersValue = userAnswers.success.value
+        navigator.nextPage(TaxBeforeNineteenYearsPage, NormalMode, userAnswersValue) mustBe routes.YouHaveNoOffshoreLiabilitiesController.onPageLoad
       }
 
       "must go from TaxBeforeNineteenYearsPage to MakingNilDisclosureController when only selected option DeliberatePriorTo" in {

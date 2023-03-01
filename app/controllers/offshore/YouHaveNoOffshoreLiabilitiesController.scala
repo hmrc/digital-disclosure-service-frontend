@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package controllers.onshore
+package controllers.offshore
 
 import controllers.actions._
-import models.WhyAreYouMakingThisOnshoreDisclosure._
+import models.WhyAreYouMakingThisDisclosure._
 import models.{RelatesTo, UserAnswers}
-import pages.{AreYouTheIndividualPage, RelatesToPage, WhyAreYouMakingThisOnshoreDisclosurePage}
-
-import javax.inject.Inject
+import pages.{AreYouTheIndividualPage, RelatesToPage, WhyAreYouMakingThisDisclosurePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import views.html.onshore.YouHaveNoOffshoreLiabilitiesView
+import views.html.offshore.YouHaveNoOffshoreLiabilitiesView
+
+import javax.inject.Inject
 
 class YouHaveNoOffshoreLiabilitiesController @Inject()(
                                        override val messagesApi: MessagesApi,
@@ -53,7 +53,7 @@ class YouHaveNoOffshoreLiabilitiesController @Inject()(
   }
 
   def getNumberOfYears(userAnswers: UserAnswers): Int = {
-    userAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage) match {
+    userAnswers.get(WhyAreYouMakingThisDisclosurePage) match {
       case Some(value) if value.intersect(Set(
         DidNotNotifyHasExcuse,
         DeliberatelyDidNotNotify,

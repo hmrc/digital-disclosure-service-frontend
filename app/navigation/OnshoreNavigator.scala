@@ -148,10 +148,6 @@ class OnshoreNavigator @Inject()() {
       }
     }
 
-    case WhatOnshoreLiabilitiesDoYouNeedToDisclosePage => ua => ua.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage) match {
-      case _ => controllers.routes.IndexController.onPageLoad
-    }
-
     case IncomeOrGainSourcePage => ua => ua.get(IncomeOrGainSourcePage) match {
       case Some(value) if value.contains(IncomeOrGainSource.SomewhereElse) => routes.OtherIncomeOrGainSourceController.onPageLoad(NormalMode)
       case _ => routes.CheckYourAnswersController.onPageLoad

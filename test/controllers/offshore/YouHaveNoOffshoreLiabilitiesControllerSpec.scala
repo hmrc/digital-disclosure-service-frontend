@@ -17,11 +17,11 @@
 package controllers
 
 import base.SpecBase
-import models.{RelatesTo, UserAnswers, WhyAreYouMakingThisOnshoreDisclosure}
-import pages.{AreYouTheIndividualPage, RelatesToPage, WhyAreYouMakingThisOnshoreDisclosurePage}
+import models.{RelatesTo, UserAnswers, WhyAreYouMakingThisDisclosure}
+import pages.{AreYouTheIndividualPage, RelatesToPage, WhyAreYouMakingThisDisclosurePage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import views.html.onshore.YouHaveNoOffshoreLiabilitiesView
+import views.html.offshore.YouHaveNoOffshoreLiabilitiesView
 
 class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
 
@@ -33,22 +33,22 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
       val areTheyTheIndividual = true
       val entity = RelatesTo.AnIndividual
       val years = 20
-      val reasons: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(
-        WhyAreYouMakingThisOnshoreDisclosure.DeliberateInaccurateReturn,
-        WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnNoCare,
-        WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnWithCare
+      val reasons: Set[WhyAreYouMakingThisDisclosure] = Set(
+        WhyAreYouMakingThisDisclosure.DeliberateInaccurateReturn,
+        WhyAreYouMakingThisDisclosure.InaccurateReturnNoCare,
+        WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare
       )
 
       val userAnswers = (for {
         uaEntity <- UserAnswers(userAnswersId).set(RelatesToPage, entity)
         uaIndividual <- uaEntity.set(AreYouTheIndividualPage, areTheyTheIndividual)
-        updatedUa <- uaIndividual.set(WhyAreYouMakingThisOnshoreDisclosurePage, reasons)
+        updatedUa <- uaIndividual.set(WhyAreYouMakingThisDisclosurePage, reasons)
       } yield updatedUa).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, onshore.routes.YouHaveNoOffshoreLiabilitiesController.onPageLoad.url)
+        val request = FakeRequest(GET, offshore.routes.YouHaveNoOffshoreLiabilitiesController.onPageLoad.url)
 
         val result = route(application, request).value
 
@@ -65,22 +65,22 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
       val areTheyTheIndividual = false
       val entity = RelatesTo.AnIndividual
       val years = 20
-      val reasons: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(
-        WhyAreYouMakingThisOnshoreDisclosure.DeliberateInaccurateReturn,
-        WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnNoCare,
-        WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnWithCare
+      val reasons: Set[WhyAreYouMakingThisDisclosure] = Set(
+        WhyAreYouMakingThisDisclosure.DeliberateInaccurateReturn,
+        WhyAreYouMakingThisDisclosure.InaccurateReturnNoCare,
+        WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare
       )
 
       val userAnswers = (for {
         uaEntity <- UserAnswers(userAnswersId).set(RelatesToPage, entity)
         uaIndividual <- uaEntity.set(AreYouTheIndividualPage, areTheyTheIndividual)
-        updatedUa <- uaIndividual.set(WhyAreYouMakingThisOnshoreDisclosurePage, reasons)
+        updatedUa <- uaIndividual.set(WhyAreYouMakingThisDisclosurePage, reasons)
       } yield updatedUa).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, onshore.routes.YouHaveNoOffshoreLiabilitiesController.onPageLoad.url)
+        val request = FakeRequest(GET, offshore.routes.YouHaveNoOffshoreLiabilitiesController.onPageLoad.url)
 
         val result = route(application, request).value
 
@@ -98,22 +98,22 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
       val areTheyTheIndividual = false
       val entity = RelatesTo.ACompany
       val years = 20
-      val reasons: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(
-        WhyAreYouMakingThisOnshoreDisclosure.DeliberateInaccurateReturn,
-        WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnNoCare,
-        WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnWithCare
+      val reasons: Set[WhyAreYouMakingThisDisclosure] = Set(
+        WhyAreYouMakingThisDisclosure.DeliberateInaccurateReturn,
+        WhyAreYouMakingThisDisclosure.InaccurateReturnNoCare,
+        WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare
       )
 
       val userAnswers = (for {
         uaEntity <- UserAnswers(userAnswersId).set(RelatesToPage, entity)
         uaIndividual <- uaEntity.set(AreYouTheIndividualPage, areTheyTheIndividual)
-        updatedUa <- uaIndividual.set(WhyAreYouMakingThisOnshoreDisclosurePage, reasons)
+        updatedUa <- uaIndividual.set(WhyAreYouMakingThisDisclosurePage, reasons)
       } yield updatedUa).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, onshore.routes.YouHaveNoOffshoreLiabilitiesController.onPageLoad.url)
+        val request = FakeRequest(GET, offshore.routes.YouHaveNoOffshoreLiabilitiesController.onPageLoad.url)
 
         val result = route(application, request).value
 
@@ -131,21 +131,21 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
       val areTheyTheIndividual = false
       val entity = RelatesTo.ACompany
       val years = 8
-      val reasons: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(
-        WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnNoCare,
-        WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnWithCare
+      val reasons: Set[WhyAreYouMakingThisDisclosure] = Set(
+        WhyAreYouMakingThisDisclosure.InaccurateReturnNoCare,
+        WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare
       )
 
       val userAnswers = (for {
         uaEntity <- UserAnswers(userAnswersId).set(RelatesToPage, entity)
         uaIndividual <- uaEntity.set(AreYouTheIndividualPage, areTheyTheIndividual)
-        updatedUa <- uaIndividual.set(WhyAreYouMakingThisOnshoreDisclosurePage, reasons)
+        updatedUa <- uaIndividual.set(WhyAreYouMakingThisDisclosurePage, reasons)
       } yield updatedUa).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, onshore.routes.YouHaveNoOffshoreLiabilitiesController.onPageLoad.url)
+        val request = FakeRequest(GET, offshore.routes.YouHaveNoOffshoreLiabilitiesController.onPageLoad.url)
 
         val result = route(application, request).value
 
@@ -162,18 +162,18 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
       val areTheyTheIndividual = false
       val entity = RelatesTo.ACompany
       val years = 6
-      val reasons: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnWithCare)
+      val reasons: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare)
 
       val userAnswers = (for {
         uaEntity <- UserAnswers(userAnswersId).set(RelatesToPage, entity)
         uaIndividual <- uaEntity.set(AreYouTheIndividualPage, areTheyTheIndividual)
-        updatedUa <- uaIndividual.set(WhyAreYouMakingThisOnshoreDisclosurePage, reasons)
+        updatedUa <- uaIndividual.set(WhyAreYouMakingThisDisclosurePage, reasons)
       } yield updatedUa).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, onshore.routes.YouHaveNoOffshoreLiabilitiesController.onPageLoad.url)
+        val request = FakeRequest(GET, offshore.routes.YouHaveNoOffshoreLiabilitiesController.onPageLoad.url)
 
         val result = route(application, request).value
 

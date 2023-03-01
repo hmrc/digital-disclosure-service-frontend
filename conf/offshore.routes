@@ -116,3 +116,6 @@ GET        /where-the-income-came-from/change                controllers.offshor
 POST       /where-the-income-came-from/change                controllers.offshore.WhereDidTheUndeclaredIncomeOrGainIncludedController.onSubmit(mode: Mode = CheckMode)
 
 GET        /you-are-making-nil-disclosure                    controllers.offshore.MakingNilDisclosureController.onPageLoad
+
+GET        /no-offshore-liabilities                          controllers.offshore.YouHaveNoOffshoreLiabilitiesController.onPageLoad
+
