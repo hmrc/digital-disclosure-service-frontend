@@ -73,6 +73,23 @@ class PropertyAddedController @Inject()(
       )
   }
 
+   def remove(i:Int, mode:Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
+      implicit request =>
+
+        for {
+          updatedAnswers <- Future.fromTry(request.userAnswers.removeBySeqIndex[LettingProperty](LettingPropertyPage, i))
+          _ <- sessionService.set(updatedAnswers)
+        } yield {
+          updatedAnswers.get(LettingPropertyPage) match {
+            case Some(properties) if properties.nonEmpty => Redirect(routes.PropertyAddedController.onSubmit(mode).url)
+            case _ =>  Redirect(controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, mode).url)
+          }
+        }
+
+    }
+
+
+
   private def getProperties(userAnswers: UserAnswers, mode:Mode)(implicit messages:Messages): Seq[SummaryListRow] =
     userAnswers.get(LettingPropertyPage) match {
       case Some(value) => LettingPropertyModel.row(value, mode)

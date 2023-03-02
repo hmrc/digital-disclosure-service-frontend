@@ -20,21 +20,23 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import models.{LettingProperty, Mode}
 import play.api.i18n.Messages
+import controllers.onshore.routes
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Key, SummaryListRow}
 
 object LettingPropertyModel {
 
   def row(properties: Seq[LettingProperty], mode: Mode)(implicit messages: Messages): Seq[SummaryListRow] = {
     for {
-      property <- properties
+      i <- properties.indices
+      property = properties(i)
       address <- property.address
       postcode <- address.postcode
     } yield {
       SummaryListRowViewModel(
-        key = Key(s"${address.line1}, ${postcode}").withCssClass("govuk-!-font-weight-regular hmrc-summary-list__key"),
+        key = Key(s"${address.line1}, ${postcode}").withCssClass("govuk-!-font-weight-regular hmrc-summary-list__key govuk-summary-list__only_key"),
         value = ValueViewModel(""),
         actions = Seq(
-          ActionItemViewModel("site.remove", "http://")
+          ActionItemViewModel("site.remove", routes.PropertyAddedController.remove(i, mode).url)
             .withCssClass("summary-list-remove-link")
             .withVisuallyHiddenText(messages("propertyLetting.remove.hidden"))
         )
