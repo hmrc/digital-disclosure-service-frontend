@@ -19,14 +19,17 @@ package controllers.notification
 import controllers.actions._
 import forms.OffshoreLiabilitiesFormProvider
 import javax.inject.Inject
-import models.Mode
+import models.{Mode, UserAnswers}
+import models.store.disclosure._
+import models.store.{Notification, FullDisclosure}
 import navigation.NotificationNavigator
 import pages.OffshoreLiabilitiesPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import services.SessionService
+import services.{SessionService, UAToSubmissionService, DisclosureToUAService}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.notification.OffshoreLiabilitiesView
+import scala.util.{Try, Success, Failure}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -38,6 +41,8 @@ class OffshoreLiabilitiesController @Inject()(
                                        getData: DataRetrievalAction,
                                        requireData: DataRequiredAction,
                                        formProvider: OffshoreLiabilitiesFormProvider,
+                                       uaToSubmissionService: UAToSubmissionService,
+                                       disclosureService: DisclosureToUAService,
                                        val controllerComponents: MessagesControllerComponents,
                                        view: OffshoreLiabilitiesView
                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
@@ -64,9 +69,25 @@ class OffshoreLiabilitiesController @Inject()(
 
         value =>
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(OffshoreLiabilitiesPage, value))
+            clearedAnswers <- Future.fromTry(clearOffshoreLiabilities(request.userAnswers, value))
+            updatedAnswers <- Future.fromTry(clearedAnswers.set(OffshoreLiabilitiesPage, value))
             _              <- sessionService.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(OffshoreLiabilitiesPage, mode, updatedAnswers))
       )
+  }
+
+  def clearOffshoreLiabilities(userAnswers: UserAnswers, value: Boolean): Try[UserAnswers] = {
+    userAnswers.get(OffshoreLiabilitiesPage) match {
+      case Some(true) if (value == false) =>
+        val submission = uaToSubmissionService.uaToSubmission(userAnswers)
+        submission match {
+          case disclosure: FullDisclosure => 
+            val updatedDisclosure = disclosure.copy(offshoreLiabilities = OffshoreLiabilities())
+            disclosureService.fullDisclosureToUa(updatedDisclosure)
+          case _: Notification => 
+            Success(userAnswers)
+        }
+      case _ => Success(userAnswers) 
+    }
   }
 }

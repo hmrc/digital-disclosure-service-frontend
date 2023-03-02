@@ -102,3 +102,15 @@ GET        /landlord-associations                         controllers.onshore.Ar
 POST       /landlord-associations                         controllers.onshore.AreYouAMemberOfAnyLandlordAssociationsController.onSubmit(mode: Mode = NormalMode)
 GET        /landlord-associations/change                 controllers.onshore.AreYouAMemberOfAnyLandlordAssociationsController.onPageLoad(mode: Mode = CheckMode)
 POST       /landlord-associations/change                 controllers.onshore.AreYouAMemberOfAnyLandlordAssociationsController.onSubmit(mode: Mode = CheckMode)
+
+GET        /which-landlord-associations                  controllers.onshore.WhichLandlordAssociationsAreYouAMemberOfController.onPageLoad(mode: Mode = NormalMode)
+POST       /which-landlord-associations                  controllers.onshore.WhichLandlordAssociationsAreYouAMemberOfController.onSubmit(mode: Mode = NormalMode)
+GET        /which-landlord-associations/change           controllers.onshore.WhichLandlordAssociationsAreYouAMemberOfController.onPageLoad(mode: Mode = CheckMode)
+POST       /which-landlord-associations/change           controllers.onshore.WhichLandlordAssociationsAreYouAMemberOfController.onSubmit(mode: Mode = CheckMode)
+
+GET        /how-many-properties                         controllers.onshore.HowManyPropertiesDoYouCurrentlyLetOutController.onPageLoad(mode: Mode = NormalMode)
+POST       /how-many-properties                         controllers.onshore.HowManyPropertiesDoYouCurrentlyLetOutController.onSubmit(mode: Mode = NormalMode)
+GET        /how-many-properties/change                  controllers.onshore.HowManyPropertiesDoYouCurrentlyLetOutController.onPageLoad(mode: Mode = CheckMode)
+POST       /how-many-properties/change                  controllers.onshore.HowManyPropertiesDoYouCurrentlyLetOutController.onSubmit(mode: Mode = CheckMode)
+
+GET        /no-onshore-liabilities                      controllers.onshore.YouHaveNoOnshoreLiabilitiesToDiscloseController.onPageLoad

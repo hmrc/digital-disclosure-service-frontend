@@ -883,7 +883,7 @@ whatWasThePersonNINO.heading = What was the person’s National Insurance number
 whatWasThePersonNINO.label = This is on their payslip, P60 or tax return.
 whatWasThePersonNINO.hint = For example, ‘QQ123456A’.
 whatWasThePersonNINO.checkYourAnswersLabel = What was the person’s National Insurance number?
-whatWasThePersonNINO.error.required = Enter the Person’s National Insurance number
+whatWasThePersonNINO.error.required = Enter the person’s National Insurance number
 whatWasThePersonNINO.error = Enter the person’s National Insurance number in the right format
 whatWasThePersonNINO.change.hidden = What was the person’s National Insurance number?
 
@@ -2150,3 +2150,38 @@ caseManagement.notification.sent = Notified
 caseManagement.notification.started = Notification not sent
 caseManagement.disclosure.sent = Disclosure sent
 caseManagement.disclosure.started = Disclosure not sent
+
+whichLandlordAssociations.title = Which landlord associations are you a member of?
+whichLandlordAssociations.heading = Which landlord associations are you a member of?
+whichLandlordAssociations.checkYourAnswersLabel = whichLandlordAssociations
+whichLandlordAssociations.error.required = Enter the landlord associations you a member of
+whichLandlordAssociations.error.length = The name of the landlord associations must be between 1 and 500 characters
+whichLandlordAssociations.change.hidden = WhichLandlordAssociationsAreYouAMemberOf
+
+howManyProperties.title = How many properties do you currently let out?
+howManyProperties.heading = How many properties do you currently let out?
+howManyProperties.checkYourAnswersLabel = howManyProperties
+howManyProperties.error.required = Enter the amount of properties you currently let out
+howManyProperties.change.hidden = HowManyPropertiesDoYouCurrentlyLetOut
+
+haveNoOnshoreLiabilities.agent.title = You have no onshore liabilities to disclose
+haveNoOnshoreLiabilities.agent.heading = You have no onshore liabilities to disclose
+haveNoOnshoreLiabilities.entity.title = There are no onshore liabilities to disclose
+haveNoOnshoreLiabilities.entity.heading = There are no onshore liabilities to disclose
+haveNoOnshoreLiabilities.you.body = You only need to pay HMRC what you owe for up to {0} years. Based on the information you have given, you do not need to provide any figures or calculations for onshore liabilities.
+haveNoOnshoreLiabilities.individual.body = The individual only needs to pay HMRC what they owe for up to {0} years for onshore liabilities. Based on the information you have given, you do not need to provide any figures or calculations for onshore liabilities.
+haveNoOnshoreLiabilities.company.body = The company only needs to pay HMRC what it owes for up to {0} years for onshore liabilities. Based on the information you have given, you do not need to provide any figures or calculations for onshore liabilities.
+haveNoOnshoreLiabilities.estate.body = The estate only needs to pay HMRC what it owes for up to {0} years for onshore liabilities. Based on the information you have given, you do not need to provide any figures or calculations for onshore liabilities.
+haveNoOnshoreLiabilities.llp.body = The limited liability partnership only needs to pay HMRC what it owes for up to {0} years for onshore liabilities. Based on the information you have given, you do not need to provide any figures or calculations for onshore liabilities.
+haveNoOnshoreLiabilities.trust.body = The trust only needs to pay HMRC what it owes for up to {0} years for onshore liabilities. Based on the information you have given, you do not need to provide any figures or calculations for onshore liabilities.
+
+youHaveNoOffshoreLiabilities.iAmIndividual.title = You have no offshore liabilities to disclose
+youHaveNoOffshoreLiabilities.iAmIndividual.heading = You have no offshore liabilities to disclose
+youHaveNoOffshoreLiabilities.iAmIndividual.body = You only need to pay HMRC what you owe for up to {0} years. Based on the information you have given, you do not need to provide any figures or calculations for offshore liabilities.
+youHaveNoOffshoreLiabilities.iAmNotIndividual.title = There are no offshore liabilities to disclose
+youHaveNoOffshoreLiabilities.iAmNotIndividual.heading = There are no offshore liabilities to disclose
+youHaveNoOffshoreLiabilities.iAmNotIndividual.body = The individual only needs to pay HMRC what they owe for offshore liabilities for up to {0} years. Based on the information you have given, you do not need to provide any figures or calculations for offshore liabilities.
+youHaveNoOffshoreLiabilities.other.title = There are no offshore liabilities to disclose
+youHaveNoOffshoreLiabilities.other.heading = There are no offshore liabilities to disclose
+youHaveNoOffshoreLiabilities.other.body = The {1} only needs to pay HMRC what it owes for offshore liabilities for up to {0} years. Based on the information you have given, you do not need to provide any figures or calculations for offshore liabilities.
+

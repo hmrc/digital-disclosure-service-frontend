@@ -108,8 +108,13 @@ class OnshoreNavigator @Inject()() {
 
     case TaxBeforeThreeYearsOnshorePage => ua => {
       val lettingsChosen = ua.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage).getOrElse(Set()).contains(LettingIncome)
+      val offshoreAnswer = ua.get(OffshoreLiabilitiesPage).getOrElse(true)
+      val onshoreAnswer = ua.get(OnshoreLiabilitiesPage).getOrElse(true)
+      val offshoreOnshoreBothSelected = (offshoreAnswer && onshoreAnswer)
+
       ua.get(WhichOnshoreYearsPage) match {
         case Some(years) if lettingsChosen => controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
+        case Some(years) if years.contains(PriorToThreeYears) && years.size == 1 && offshoreOnshoreBothSelected => routes.YouHaveNoOnshoreLiabilitiesToDiscloseController.onPageLoad
         case Some(years) if years.contains(PriorToThreeYears) && years.size == 1 => routes.MakingNilDisclosureController.onPageLoad
         case _ => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
       }
@@ -117,8 +122,13 @@ class OnshoreNavigator @Inject()() {
 
     case TaxBeforeFiveYearsOnshorePage => ua => {
       val lettingsChosen = ua.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage).getOrElse(Set()).contains(LettingIncome)
+      val offshoreAnswer = ua.get(OffshoreLiabilitiesPage).getOrElse(true)
+      val onshoreAnswer = ua.get(OnshoreLiabilitiesPage).getOrElse(true)
+      val offshoreOnshoreBothSelected = (offshoreAnswer && onshoreAnswer)
+
       ua.get(WhichOnshoreYearsPage) match {
         case Some(years) if lettingsChosen => controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
+        case Some(years) if years.contains(PriorToFiveYears) && years.size == 1 && offshoreOnshoreBothSelected => routes.YouHaveNoOnshoreLiabilitiesToDiscloseController.onPageLoad
         case Some(years) if years.contains(PriorToFiveYears) && years.size == 1 => routes.MakingNilDisclosureController.onPageLoad
         case _ => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
       }
@@ -126,15 +136,16 @@ class OnshoreNavigator @Inject()() {
 
     case TaxBeforeNineteenYearsOnshorePage => ua => {
       val lettingsChosen = ua.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage).getOrElse(Set()).contains(LettingIncome)
+      val offshoreAnswer = ua.get(OffshoreLiabilitiesPage).getOrElse(true)
+      val onshoreAnswer = ua.get(OnshoreLiabilitiesPage).getOrElse(true)
+      val offshoreOnshoreBothSelected = (offshoreAnswer && onshoreAnswer)
+
       ua.get(WhichOnshoreYearsPage) match {
         case Some(years) if lettingsChosen => controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
+        case Some(years) if years.contains(PriorToNineteenYears) && years.size == 1 && offshoreOnshoreBothSelected => routes.YouHaveNoOnshoreLiabilitiesToDiscloseController.onPageLoad
         case Some(years) if years.contains(PriorToNineteenYears) && years.size == 1 => routes.MakingNilDisclosureController.onPageLoad
         case _ => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
       }
-    }
-
-    case WhatOnshoreLiabilitiesDoYouNeedToDisclosePage => ua => ua.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage) match {
-      case _ => controllers.routes.IndexController.onPageLoad
     }
 
     case IncomeOrGainSourcePage => ua => ua.get(IncomeOrGainSourcePage) match {
@@ -143,6 +154,15 @@ class OnshoreNavigator @Inject()() {
     }
 
     case OtherIncomeOrGainSourcePage => _ => routes.CheckYourAnswersController.onPageLoad
+
+    case AreYouAMemberOfAnyLandlordAssociationsPage => ua => ua.get(AreYouAMemberOfAnyLandlordAssociationsPage) match {
+      case Some(true) => routes.WhichLandlordAssociationsAreYouAMemberOfController.onPageLoad(NormalMode)
+      case _ => routes.HowManyPropertiesDoYouCurrentlyLetOutController.onPageLoad(NormalMode)
+    }
+
+    case WhichLandlordAssociationsAreYouAMemberOfPage => _ => routes.HowManyPropertiesDoYouCurrentlyLetOutController.onPageLoad(NormalMode)
+
+    case HowManyPropertiesDoYouCurrentlyLetOutPage => _ => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
 
     case _ => _ => controllers.routes.TaskListController.onPageLoad
   }
