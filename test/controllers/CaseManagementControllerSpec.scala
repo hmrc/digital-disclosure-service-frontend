@@ -28,7 +28,6 @@ import play.api.mvc.Result
 import play.api.mvc.Results.NoContent
 import models.UserAnswers
 import java.time.Instant
-import play.api.inject.bind
 
 class CaseManagementControllerSpec extends SpecBase {
 
@@ -47,9 +46,7 @@ class CaseManagementControllerSpec extends SpecBase {
         def deleteSubmission(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Result] = Future.successful(NoContent)
       }
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).overrides(
-        bind[SubmissionStoreService].toInstance(TestStoreService)
-      ).build()
+      val application = applicationBuilderWithStoreService(userAnswers = Some(emptyUserAnswers), TestStoreService).build()
 
       running(application) {
         val request = FakeRequest(GET, routes.CaseManagementController.onPageLoad.url)
@@ -62,7 +59,16 @@ class CaseManagementControllerSpec extends SpecBase {
 
     "must redirect where there are no cases to display" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      object TestStoreService extends SubmissionStoreService {
+        def setSubmission(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Result] = Future.successful(NoContent)
+        def getSubmission(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Option[Submission]] = 
+          Future.successful(None)
+        def getAllSubmissions(userId: String)(implicit hc: HeaderCarrier): Future[Seq[Submission]] = 
+          Future.successful(Nil)
+        def deleteSubmission(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Result] = Future.successful(NoContent)
+      }
+
+      val application = applicationBuilderWithStoreService(userAnswers = Some(emptyUserAnswers), TestStoreService).build()
 
       running(application) {
         val request = FakeRequest(GET, routes.CaseManagementController.onPageLoad.url)

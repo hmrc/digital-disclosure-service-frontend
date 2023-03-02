@@ -28,7 +28,7 @@ import play.api.i18n.{Messages, MessagesApi}
 import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.test.FakeRequest
-import services.{FakeSessionService, SessionService}
+import services.{SubmissionStoreService, FakeSessionService, SessionService}
 import config.{InternalAuthTokenInitialiser, NoOpInternalAuthTokenInitialiser}
 
 trait SpecBase
@@ -65,5 +65,15 @@ trait SpecBase
         bind[SessionService].toInstance(sessionService),
         bind[InternalAuthTokenInitialiser].to[NoOpInternalAuthTokenInitialiser]
       )
-      
+
+  protected def applicationBuilderWithStoreService(userAnswers: Option[UserAnswers] = None, storeService: SubmissionStoreService): GuiceApplicationBuilder =
+    new GuiceApplicationBuilder()
+      .overrides(
+        bind[DataRequiredAction].to[DataRequiredActionImpl],
+        bind[IdentifierAction].to[FakeIdentifierAction],
+        bind[DataRetrievalAction].toInstance(new FakeDataRetrievalAction(userAnswers)),
+        bind[SessionService].to[FakeSessionService],
+        bind[SubmissionStoreService].toInstance(storeService),
+        bind[InternalAuthTokenInitialiser].to[NoOpInternalAuthTokenInitialiser]
+      ) 
 }
