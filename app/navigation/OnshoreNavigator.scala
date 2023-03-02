@@ -160,6 +160,10 @@ class OnshoreNavigator @Inject()() {
       case _ => routes.HowManyPropertiesDoYouCurrentlyLetOutController.onPageLoad(NormalMode)
     }
 
+    case WhichLandlordAssociationsAreYouAMemberOfPage => _ => routes.HowManyPropertiesDoYouCurrentlyLetOutController.onPageLoad(NormalMode)
+
+    case HowManyPropertiesDoYouCurrentlyLetOutPage => _ => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
+
     case PropertyAddedPage => ua => (ua.get(PropertyAddedPage), ua.get(LettingPropertyPage)) match {
       case (Some(true), Some(properties)) => controllers.letting.routes.RentalAddressLookupController.lookupAddress(properties.size, NormalMode)
       case _ => routes.AreYouAMemberOfAnyLandlordAssociationsController.onPageLoad(NormalMode)

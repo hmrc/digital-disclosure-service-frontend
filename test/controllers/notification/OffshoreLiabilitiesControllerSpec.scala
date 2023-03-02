@@ -18,22 +18,23 @@ package controllers
 
 import base.SpecBase
 import forms.OffshoreLiabilitiesFormProvider
-import models.{NormalMode, UserAnswers}
+import models._
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.OffshoreLiabilitiesPage
+import pages._
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
 import views.html.notification.OffshoreLiabilitiesView
+import org.mockito.ArgumentMatchers.{any, refEq}
+import org.mockito.Mockito.{times, verify, when}
+import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 
 import scala.concurrent.Future
 
-class OffshoreLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
+class OffshoreLiabilitiesControllerSpec extends SpecBase with MockitoSugar with ScalaCheckPropertyChecks {
 
   def onwardRoute = Call("GET", "/foo")
 
@@ -75,6 +76,44 @@ class OffshoreLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(form.fill(true), NormalMode)(request, messages(application)).toString
+      }
+    }
+
+    "must populate the view correctly on a GET when the answer changed from Yes to No for a Disclosure" in {
+
+      val urlToTest = controllers.notification.routes.OffshoreLiabilitiesController.onPageLoad(CheckMode).url
+
+      val previousAnswer = true
+      val newAnswer = false
+
+      val userAnswers = UserAnswers("id", submissionType = SubmissionType.Disclosure)
+
+      val mockSessionService = mock[SessionService]
+      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+
+      val set: Set[WhyAreYouMakingThisDisclosure] = Set(
+        WhyAreYouMakingThisDisclosure.DeliberatelyDidNotNotify,
+        WhyAreYouMakingThisDisclosure.DeliberateInaccurateReturn,
+        WhyAreYouMakingThisDisclosure.DeliberatelyDidNotFile
+      )
+      val previousUa = for {
+        answer          <- userAnswers.set(WhyAreYouMakingThisDisclosurePage, set)
+        updatedAnswer 	<- answer.set(OffshoreLiabilitiesPage, previousAnswer)
+      } yield updatedAnswer
+
+      val expectedUa = userAnswers.set(OffshoreLiabilitiesPage, newAnswer).success.value
+
+      val application = applicationBuilderWithSessionService(userAnswers = Some(previousUa.success.value), mockSessionService).build()
+      
+      running(application) {
+        val request = FakeRequest(POST, urlToTest)
+        .withFormUrlEncodedBody(("value", newAnswer.toString))
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+
+        verify(mockSessionService, times(1)).set(refEq(expectedUa))(any())
       }
     }
 
