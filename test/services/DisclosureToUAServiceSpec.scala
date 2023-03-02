@@ -202,9 +202,12 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
     "retrieve the userId, submissionId and lastUpdated from the notification" in {
       val instant = Instant.now()
       val metadata = Metadata(reference = Some("123"), submissionTime = Some(LocalDateTime.now))
-      val expectedResult = UserAnswers(id = "This user Id", submissionId = "Some notification Id", submissionType = SubmissionType.Disclosure, lastUpdated = instant, metadata = metadata)
       val disclosure = FullDisclosure("This user Id", "Some notification Id", instant, metadata, CaseReference(), PersonalDetails(Background(), AboutYou()), OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
-      sut.initialiseUserAnswers(disclosure) shouldEqual expectedResult
+      
+      val result = sut.initialiseUserAnswers(disclosure)
+      val expectedResult = UserAnswers(id = "This user Id", submissionId = "Some notification Id", submissionType = SubmissionType.Disclosure, lastUpdated = instant, metadata = metadata, created = result.created)
+
+      result shouldEqual expectedResult
     }
   }
 

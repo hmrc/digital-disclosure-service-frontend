@@ -110,14 +110,14 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
     "check the store and where it finds nothing return None" in new Test {
       mockGetSubmission("123", UserAnswers.defaultSubmissionId)(Future.successful(None))
 
-      sut.getIndividualUserAnswers("123", "Individual").futureValue shouldEqual None
+      sut.getIndividualUserAnswers("123", "default").futureValue shouldEqual None
     }
 
     "check the store and where it finds something, convert it to a UserAnswers" in new Test {
       mockGetSubmission("123", UserAnswers.defaultSubmissionId)(Future.successful(Some(testNotification)))
       mockNotificationToUserAnswers(testNotification)(Success(userAnswers))
 
-      sut.getIndividualUserAnswers("123", "Individual").futureValue shouldEqual Some(userAnswers)
+      sut.getIndividualUserAnswers("123", "default").futureValue shouldEqual Some(userAnswers)
     }
   }
 

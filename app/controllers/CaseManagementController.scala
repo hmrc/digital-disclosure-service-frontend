@@ -46,8 +46,14 @@ class CaseManagementController @Inject()(
 
       for {
         submissionsFromStore <- submissionStoreService.getAllSubmissions(request.userId)
-        table = caseManagementService.generateCaseManagementTable(submissionsFromStore)
-      } yield Ok(view(table))
+      } yield {
+        if (submissionsFromStore.isEmpty) {
+          Redirect(controllers.routes.CaseManagementController.newCase)
+        } else {
+          val table = caseManagementService.generateCaseManagementTable(submissionsFromStore)
+          Ok(view(table))
+        }
+      }
 
   }
 

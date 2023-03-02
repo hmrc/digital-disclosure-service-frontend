@@ -17,6 +17,7 @@
 ->          /letting                                     letting.Routes
 
 GET         /pdf                                         controllers.PdfGenerationController.generate
+GET         /pdf/:id                                     controllers.PdfGenerationController.generateForSubmissionId(id: String)
 
 GET         /                                            controllers.IndexController.onPageLoad
 

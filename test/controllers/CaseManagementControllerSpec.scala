@@ -19,13 +19,48 @@ package controllers
 import base.SpecBase
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import views.html.CaseManagementView
+import services.SubmissionStoreService
+import scala.concurrent.Future
+import models.store.notification._
+import models.store._
+import uk.gov.hmrc.http.HeaderCarrier
+import play.api.mvc.Result
+import play.api.mvc.Results.NoContent
+import models.UserAnswers
+import java.time.Instant
+import play.api.inject.bind
 
 class CaseManagementControllerSpec extends SpecBase {
 
-  "CaseManagement Controller" - {
+  "onPageLoad" - {
 
-    "must return OK and the correct view for a GET" in {
+    "must return OK and the correct view where we have cases to display" in {
+
+      val submission = Notification("userId", "submissionId", Instant.now, Metadata(), PersonalDetails(Background(), AboutYou()))
+
+      object TestStoreService extends SubmissionStoreService {
+        def setSubmission(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Result] = Future.successful(NoContent)
+        def getSubmission(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Option[Submission]] = 
+          Future.successful(Some(submission))
+        def getAllSubmissions(userId: String)(implicit hc: HeaderCarrier): Future[Seq[Submission]] = 
+          Future.successful(Seq(submission))
+        def deleteSubmission(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Result] = Future.successful(NoContent)
+      }
+
+      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).overrides(
+        bind[SubmissionStoreService].toInstance(TestStoreService)
+      ).build()
+
+      running(application) {
+        val request = FakeRequest(GET, routes.CaseManagementController.onPageLoad.url)
+
+        val result = route(application, request).value
+
+        status(result) mustEqual OK
+      }
+    }
+
+    "must redirect where there are no cases to display" in {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
@@ -34,10 +69,28 @@ class CaseManagementControllerSpec extends SpecBase {
 
         val result = route(application, request).value
 
-        val view = application.injector.instanceOf[CaseManagementView]
-
-        status(result) mustEqual OK
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual controllers.routes.CaseManagementController.newCase.url
       }
     }
   }
+
+  "newCase" - {
+
+    "must redirect where there are no cases to display" in {
+
+      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+
+      running(application) {
+        val request = FakeRequest(GET, routes.CaseManagementController.newCase.url)
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual controllers.routes.MakeANotificationOrDisclosureController.onPageLoad.url
+      }
+    }
+
+  }
+
 }

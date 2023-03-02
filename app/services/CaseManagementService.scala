@@ -35,15 +35,12 @@ import play.api.i18n.Messages
 class CaseManagementServiceImpl @Inject()(link: link) extends CaseManagementService {
 
   def getRedirection(submission: Submission): Call = {
-    val status = submission match {
-      case _: FullDisclosure => if (submission.metadata.submissionTime.isDefined) SentDisclosure else StartedDisclosure
-      case _: Notification => if (submission.metadata.submissionTime.isDefined) SentNotification else StartedNotification
-    }
+    val status = getStatus(submission)
 
     status match {
       case SentNotification => controllers.routes.NotificationSubmittedController.onSubmit
       case StartedNotification => controllers.routes.NotificationStartedController.onSubmit
-      case SentDisclosure => controllers.routes.TaskListController.onPageLoad
+      case SentDisclosure => controllers.routes.PdfGenerationController.generateForSubmissionId(submission.submissionId)
       case StartedDisclosure => controllers.routes.TaskListController.onPageLoad
     }
   }

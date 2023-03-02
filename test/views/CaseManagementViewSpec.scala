@@ -20,7 +20,6 @@ import base.ViewSpecBase
 import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.CaseManagementView
-import models.NormalMode
 import uk.gov.hmrc.govukfrontend.views.viewmodels.table.{Table, HeadCell}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 
@@ -47,7 +46,13 @@ class CaseManagementViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementsByClass("govuk-heading-xl").text() mustBe messages("caseManagement.heading")
     }
 
-    "display the continue button" in {
+    "contain the opening paragraphs" in {
+      view.getElementById("first-paragraph").text() mustBe messages("caseManagement.paragraph1")
+      view.getElementById("second-paragraph").text() mustBe messages("caseManagement.paragraph2")
+      view.getElementById("third-paragraph").text() mustBe messages("caseManagement.paragraph4")
+    }
+
+    "display the create case button" in {
       view.getElementsByClass("govuk-button").first() must haveId ("create-case")
     }
 
