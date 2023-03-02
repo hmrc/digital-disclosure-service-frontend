@@ -35,7 +35,7 @@ class CheckYourAnswersController @Inject()(
                                             getData: DataRetrievalAction,
                                             requireData: DataRequiredAction,
                                             val controllerComponents: MessagesControllerComponents,
-                                            view: CheckYourAnswersView,
+                                            view: CheckYourAnswersView
                                           )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad(i: Int): Action[AnyContent] = (identify andThen getData andThen requireData) {
