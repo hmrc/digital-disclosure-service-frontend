@@ -482,6 +482,10 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextPage(WhichLandlordAssociationsAreYouAMemberOfPage, NormalMode, UserAnswers("id")) mustBe routes.HowManyPropertiesDoYouCurrentlyLetOutController.onPageLoad(NormalMode)
       }
 
+      "must go from HowManyPropertiesDoYouCurrentlyLetOutPage to OnshoreTaxYearLiabilitiesController" in {
+        navigator.nextPage(HowManyPropertiesDoYouCurrentlyLetOutPage, NormalMode, UserAnswers("id")) mustBe routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
+      }
+
     }
 
     "nextTaxYearLiabilitiesPage" - {
