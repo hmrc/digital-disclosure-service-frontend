@@ -64,7 +64,7 @@ class CaseManagementServiceImpl @Inject()(link: link) extends CaseManagementServ
         HeadCell(Text(messages("caseManagement.column.created"))),
         HeadCell(Text(messages("caseManagement.column.status"))),
         HeadCell(Text(messages("caseManagement.column.accessUntil"))),
-        HeadCell(Text(messages("caseManagement.column.access"))),
+        HeadCell(Text(messages("caseManagement.column.access")))
       )),
       attributes = Map("id" -> "case-table")
     )
