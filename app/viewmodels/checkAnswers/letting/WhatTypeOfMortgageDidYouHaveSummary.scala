@@ -17,8 +17,7 @@
 package viewmodels.checkAnswers
 
 import controllers.letting.routes
-import models.{CheckMode, UserAnswers}
-import pages.WhatTypeOfMortgageDidYouHavePage
+import models.{CheckMode, UserAnswers, LettingProperty}
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
@@ -28,8 +27,8 @@ import viewmodels.implicits._
 
 object WhatTypeOfMortgageDidYouHaveSummary  {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(WhatTypeOfMortgageDidYouHavePage).map {
+  def row(i: Int, lettingProperty: LettingProperty)(implicit messages: Messages): Option[SummaryListRow] =
+    lettingProperty.typeOfMortgage.map {
       answer =>
 
         val value = ValueViewModel(
@@ -42,7 +41,7 @@ object WhatTypeOfMortgageDidYouHaveSummary  {
           key     = "whatTypeOfMortgageDidYouHave.checkYourAnswersLabel",
           value   = value,
           actions = Seq(
-            ActionItemViewModel("site.change", routes.WhatTypeOfMortgageDidYouHaveController.onPageLoad(0, CheckMode).url)
+            ActionItemViewModel("site.change", routes.WhatTypeOfMortgageDidYouHaveController.onPageLoad(i, CheckMode).url)
               .withVisuallyHiddenText(messages("whatTypeOfMortgageDidYouHave.change.hidden"))
           )
         )
