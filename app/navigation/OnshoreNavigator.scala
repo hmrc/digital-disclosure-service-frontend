@@ -162,6 +162,8 @@ class OnshoreNavigator @Inject()() {
 
     case WhichLandlordAssociationsAreYouAMemberOfPage => _ => routes.HowManyPropertiesDoYouCurrentlyLetOutController.onPageLoad(NormalMode)
 
+    case HowManyPropertiesDoYouCurrentlyLetOutPage => _ => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
+
     case _ => _ => controllers.routes.TaskListController.onPageLoad
   }
 
