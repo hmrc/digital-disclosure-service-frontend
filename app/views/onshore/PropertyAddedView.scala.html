@@ -46,7 +46,7 @@
         @govukRadios(
             RadiosViewModel.yesNo(
                 field = form("value"),
-                legend = LegendViewModel(messages("propertyAdded.body"))
+                legend = LegendViewModel(messages("propertyAdded.body")).withCssClass("govuk-fieldset__legend--m")
             )
         )
 

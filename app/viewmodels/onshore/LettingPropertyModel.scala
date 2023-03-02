@@ -28,9 +28,10 @@ object LettingPropertyModel {
     for {
       property <- properties
       address <- property.address
+      postcode <- address.postcode
     } yield {
       SummaryListRowViewModel(
-        key = Key(s"${address.line1} ${address.postcode}"),
+        key = Key(s"${address.line1}, ${postcode}").withCssClass("govuk-!-font-weight-regular hmrc-summary-list__key"),
         value = ValueViewModel(""),
         actions = Seq(
           ActionItemViewModel("site.remove", "http://")
