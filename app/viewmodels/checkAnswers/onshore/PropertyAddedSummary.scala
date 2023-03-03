@@ -16,27 +16,28 @@
 
 package viewmodels.checkAnswers
 
-import controllers.letting.routes
-import models.{CheckMode, UserAnswers, LettingProperty}
+import controllers.onshore.routes
+import models.{CheckMode, UserAnswers}
+import pages.PropertyAddedPage
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object PropertyStoppedBeingLetOutSummary  {
+object PropertyAddedSummary  {
 
-  def row(i: Int, lettingProperty: LettingProperty)(implicit messages: Messages): Option[SummaryListRow] =
-    lettingProperty.stoppedBeingLetOut.map {
+  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
+    answers.get(PropertyAddedPage).map {
       answer =>
 
-        val value = if (answer) "propertyStoppedBeingLetOut.yes" else "propertyStoppedBeingLetOut.no"
+        val value = if (answer) "site.yes" else "site.no"
 
         SummaryListRowViewModel(
-          key     = "propertyStoppedBeingLetOut.checkYourAnswersLabel",
+          key     = "propertyAdded.checkYourAnswersLabel",
           value   = ValueViewModel(value),
           actions = Seq(
-            ActionItemViewModel("site.change", routes.PropertyStoppedBeingLetOutController.onPageLoad(i, CheckMode).url)
-              .withVisuallyHiddenText(messages("propertyStoppedBeingLetOut.change.hidden"))
+            ActionItemViewModel("site.change", routes.PropertyAddedController.onPageLoad(CheckMode).url)
+              .withVisuallyHiddenText(messages("propertyAdded.change.hidden"))
           )
         )
     }

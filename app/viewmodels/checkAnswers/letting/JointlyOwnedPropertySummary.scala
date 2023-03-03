@@ -17,8 +17,7 @@
 package viewmodels.checkAnswers
 
 import controllers.letting.routes
-import models.{CheckMode, UserAnswers}
-import pages.JointlyOwnedPropertyPage
+import models.{CheckMode, UserAnswers, LettingProperty}
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
@@ -26,8 +25,8 @@ import viewmodels.implicits._
 
 object JointlyOwnedPropertySummary  {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(JointlyOwnedPropertyPage).map {
+  def row(i: Int, lettingProperty: LettingProperty)(implicit messages: Messages): Option[SummaryListRow] =
+    lettingProperty.isJointOwnership.map {
       answer =>
 
         val value = if (answer) "jointlyOwnedProperty.yes" else "jointlyOwnedProperty.no"
@@ -36,7 +35,7 @@ object JointlyOwnedPropertySummary  {
           key     = "jointlyOwnedProperty.checkYourAnswersLabel",
           value   = ValueViewModel(value),
           actions = Seq(
-            ActionItemViewModel("site.change", routes.JointlyOwnedPropertyController.onPageLoad(0, CheckMode).url)
+            ActionItemViewModel("site.change", routes.JointlyOwnedPropertyController.onPageLoad(i, CheckMode).url)
               .withVisuallyHiddenText(messages("jointlyOwnedProperty.change.hidden"))
           )
         )

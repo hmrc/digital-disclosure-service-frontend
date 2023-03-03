@@ -114,3 +114,10 @@ GET        /how-many-properties/change                  controllers.onshore.HowM
 POST       /how-many-properties/change                  controllers.onshore.HowManyPropertiesDoYouCurrentlyLetOutController.onSubmit(mode: Mode = CheckMode)
 
 GET        /no-onshore-liabilities                      controllers.onshore.YouHaveNoOnshoreLiabilitiesToDiscloseController.onPageLoad
+
+GET        /properties-added                         controllers.onshore.PropertyAddedController.onPageLoad(mode: Mode = NormalMode)
+POST       /properties-added                         controllers.onshore.PropertyAddedController.onSubmit(mode: Mode = NormalMode)
+GET        /properties-added/change                  controllers.onshore.PropertyAddedController.onPageLoad(mode: Mode = CheckMode)
+POST       /properties-added/change                  controllers.onshore.PropertyAddedController.onSubmit(mode: Mode = CheckMode)
+GET        /properties-added/remove/:index           controllers.onshore.PropertyAddedController.remove(index:Int, mode: Mode = NormalMode)
+GET        /properties-added/remove/:index/change    controllers.onshore.PropertyAddedController.remove(index:Int, mode: Mode = CheckMode)

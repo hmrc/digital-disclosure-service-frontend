@@ -25,3 +25,5 @@ case class SummaryLists(background: SummaryList,
                         aboutTheLLPList: Option[SummaryList] = None,
                         aboutTheTrustList: Option[SummaryList] = None,
                         aboutThePersonWhoDiedList: Option[SummaryList] = None)
+
+case class LettingSummaryLists(lettingList: SummaryList)

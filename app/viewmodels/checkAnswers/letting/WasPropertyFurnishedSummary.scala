@@ -17,8 +17,7 @@
 package viewmodels.checkAnswers
 
 import controllers.letting.routes
-import models.{CheckMode, UserAnswers}
-import pages.WasPropertyFurnishedPage
+import models.{CheckMode, UserAnswers, LettingProperty}
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
@@ -26,8 +25,8 @@ import viewmodels.implicits._
 
 object WasPropertyFurnishedSummary  {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(WasPropertyFurnishedPage).map {
+  def row(i: Int, lettingProperty: LettingProperty)(implicit messages: Messages): Option[SummaryListRow] =
+    lettingProperty.wasFurnished.map {
       answer =>
 
         val value = if (answer) "wasPropertyFurnished.yes" else "wasPropertyFurnished.no"
@@ -36,7 +35,7 @@ object WasPropertyFurnishedSummary  {
           key     = "wasPropertyFurnished.checkYourAnswersLabel",
           value   = ValueViewModel(value),
           actions = Seq(
-            ActionItemViewModel("site.change", routes.WasPropertyFurnishedController.onPageLoad(0, CheckMode).url)
+            ActionItemViewModel("site.change", routes.WasPropertyFurnishedController.onPageLoad(i, CheckMode).url)
               .withVisuallyHiddenText(messages("wasPropertyFurnished.change.hidden"))
           )
         )

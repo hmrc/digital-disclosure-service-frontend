@@ -32,6 +32,8 @@
 
     @heading(Text(messages("checkYourAnswers.onshore.heading")))
 
+    @govukSummaryList(viewModel.whatOnshoreLiabilitiesDoYouNeedToDiscloseSummaryList)
+
     @subheading(Text(messages("checkYourAnswers.onshore.subheading.reason")), "govuk-heading-m")
     @govukSummaryList(viewModel.summaryList)
 

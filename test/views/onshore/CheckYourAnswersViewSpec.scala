@@ -58,6 +58,7 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
   )
   val viewModel = CheckYourAnswersViewModel(
     SummaryListViewModel(rows = Nil),
+    SummaryListViewModel(rows = Nil),
     Nil,
     totalRows,
     SummaryListViewModel(rows = Nil)

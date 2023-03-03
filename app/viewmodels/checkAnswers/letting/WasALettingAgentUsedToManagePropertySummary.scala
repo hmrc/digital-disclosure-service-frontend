@@ -17,8 +17,7 @@
 package viewmodels.checkAnswers
 
 import controllers.letting.routes
-import models.{CheckMode, UserAnswers}
-import pages.WasALettingAgentUsedToManagePropertyPage
+import models.{CheckMode, UserAnswers, LettingProperty}
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
@@ -26,8 +25,8 @@ import viewmodels.implicits._
 
 object WasALettingAgentUsedToManagePropertySummary  {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(WasALettingAgentUsedToManagePropertyPage).map {
+  def row(i: Int, lettingProperty: LettingProperty)(implicit messages: Messages): Option[SummaryListRow] =
+    lettingProperty.wasPropertyManagerByAgent.map {
       answer =>
 
         val value = if (answer) "wasALettingAgentUsedToManageProperty.yes" else "wasALettingAgentUsedToManageProperty.no"
@@ -36,7 +35,7 @@ object WasALettingAgentUsedToManagePropertySummary  {
           key     = "wasALettingAgentUsedToManageProperty.checkYourAnswersLabel",
           value   = ValueViewModel(value),
           actions = Seq(
-            ActionItemViewModel("site.change", routes.WasALettingAgentUsedToManagePropertyController.onPageLoad(0, CheckMode).url)
+            ActionItemViewModel("site.change", routes.WasALettingAgentUsedToManagePropertyController.onPageLoad(i, CheckMode).url)
               .withVisuallyHiddenText(messages("wasALettingAgentUsedToManageProperty.change.hidden"))
           )
         )

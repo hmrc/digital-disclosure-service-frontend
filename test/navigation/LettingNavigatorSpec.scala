@@ -158,6 +158,20 @@ class LettingNavigatorSpec extends SpecBase {
         navigator.nextPage(WhatWasTheTypeOfMortgagePage, index, NormalMode, ua) mustBe routes.DidTheLettingAgentCollectRentOnYourBehalfController.onPageLoad(index, NormalMode)
       }
 
+      "must go from WasALettingAgentUsedToManagePropertyPage to CheckYourAnswersController if selected yes" in {
+        val index = 0
+        val lettingProperty = LettingProperty(didTheLettingAgentCollectRentOnYourBehalf = Some(true))
+        val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
+        navigator.nextPage(DidTheLettingAgentCollectRentOnYourBehalfPage, index, NormalMode, ua) mustBe routes.CheckYourAnswersController.onPageLoad(index)
+      }
+
+      "must go from WasALettingAgentUsedToManagePropertyPage to CheckYourAnswersController if selected no" in {
+        val index = 0
+        val lettingProperty = LettingProperty(didTheLettingAgentCollectRentOnYourBehalf = Some(false))
+        val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
+        navigator.nextPage(DidTheLettingAgentCollectRentOnYourBehalfPage, index, NormalMode, ua) mustBe routes.CheckYourAnswersController.onPageLoad(index)
+      }
+
     }
   }
 

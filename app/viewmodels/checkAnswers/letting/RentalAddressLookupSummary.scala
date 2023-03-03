@@ -20,23 +20,22 @@ import controllers.letting.routes
 import models.{CheckMode, UserAnswers, LettingProperty}
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object PropertyStoppedBeingLetOutSummary  {
+object RentalAddressLookupSummary  {
 
   def row(i: Int, lettingProperty: LettingProperty)(implicit messages: Messages): Option[SummaryListRow] =
-    lettingProperty.stoppedBeingLetOut.map {
+    lettingProperty.address.map {
       answer =>
-
-        val value = if (answer) "propertyStoppedBeingLetOut.yes" else "propertyStoppedBeingLetOut.no"
-
+        
         SummaryListRowViewModel(
-          key     = "propertyStoppedBeingLetOut.checkYourAnswersLabel",
-          value   = ValueViewModel(value),
+          key     = "rentalAddress.checkYourAnswersLabel",
+          value   = ValueViewModel(HtmlContent(answer.getAddressLines.mkString("<br>"))),
           actions = Seq(
-            ActionItemViewModel("site.change", routes.PropertyStoppedBeingLetOutController.onPageLoad(i, CheckMode).url)
-              .withVisuallyHiddenText(messages("propertyStoppedBeingLetOut.change.hidden"))
+            ActionItemViewModel("site.change", routes.RentalAddressLookupController.lookupAddress(i, CheckMode).url)
+              .withVisuallyHiddenText(messages("rentalAddress.change.hidden"))
           )
         )
     }

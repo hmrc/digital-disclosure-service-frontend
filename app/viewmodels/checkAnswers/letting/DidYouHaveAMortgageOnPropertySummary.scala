@@ -17,8 +17,7 @@
 package viewmodels.checkAnswers
 
 import controllers.letting.routes
-import models.{CheckMode, UserAnswers}
-import pages.DidYouHaveAMortgageOnPropertyPage
+import models.{CheckMode, UserAnswers, LettingProperty}
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
@@ -26,8 +25,8 @@ import viewmodels.implicits._
 
 object DidYouHaveAMortgageOnPropertySummary  {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(DidYouHaveAMortgageOnPropertyPage).map {
+  def row(i: Int, lettingProperty: LettingProperty)(implicit messages: Messages): Option[SummaryListRow] =
+    lettingProperty.isMortgageOnProperty.map {
       answer =>
 
         val value = if (answer) "didYouHaveAMortgageOnProperty.yes" else "didYouHaveAMortgageOnProperty.no"
@@ -36,7 +35,7 @@ object DidYouHaveAMortgageOnPropertySummary  {
           key     = "didYouHaveAMortgageOnProperty.checkYourAnswersLabel",
           value   = ValueViewModel(value),
           actions = Seq(
-            ActionItemViewModel("site.change", routes.DidYouHaveAMortgageOnPropertyController.onPageLoad(0, CheckMode).url)
+            ActionItemViewModel("site.change", routes.DidYouHaveAMortgageOnPropertyController.onPageLoad(i, CheckMode).url)
               .withVisuallyHiddenText(messages("didYouHaveAMortgageOnProperty.change.hidden"))
           )
         )
