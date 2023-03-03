@@ -62,7 +62,7 @@ class LettingNavigator @Inject()() {
 
     case WhatWasTheTypeOfMortgagePage => i => _ => routes.DidTheLettingAgentCollectRentOnYourBehalfController.onPageLoad(i, NormalMode)
 
-    case DidTheLettingAgentCollectRentOnYourBehalfPage => i =>  _ => routes.CheckYourAnswersController.onPageLoad(i)
+    case DidTheLettingAgentCollectRentOnYourBehalfPage => i =>  _ => routes.CheckYourAnswersController.onPageLoad(i, NormalMode)
 
     case _ => _ => _ => controllers.routes.IndexController.onPageLoad
   }

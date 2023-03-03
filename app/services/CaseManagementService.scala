@@ -19,14 +19,11 @@ package services
 import com.google.inject.{Inject, Singleton, ImplementedBy}
 import models.store.{Notification, FullDisclosure, Submission}
 import java.time.format.DateTimeFormatter
-import java.time.{LocalDate, ZoneId}
+import java.time.ZoneId
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content._
 import models.store.notification._
 import play.twirl.api.HtmlFormat
-import java.util.UUID
 import play.api.mvc.Call
-import models.SubmissionType
-import scala.concurrent.{ExecutionContext, Future}
 import views.html.components.link
 import uk.gov.hmrc.govukfrontend.views.viewmodels.table.{Table, HeadCell, TableRow}
 import play.api.i18n.Messages

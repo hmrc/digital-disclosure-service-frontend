@@ -29,7 +29,7 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.{SessionService, UAToSubmissionService, DisclosureToUAService}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.notification.OffshoreLiabilitiesView
-import scala.util.{Try, Success, Failure}
+import scala.util.{Try, Success}
 
 import scala.concurrent.{ExecutionContext, Future}
 

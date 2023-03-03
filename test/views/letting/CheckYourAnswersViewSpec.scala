@@ -17,7 +17,7 @@
 package views.letting
 
 import base.ViewSpecBase
-import models.LettingSummaryLists
+import models.{LettingSummaryLists, NormalMode}
 import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.letting.CheckYourAnswersView
@@ -50,7 +50,7 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
 
   "view" should {
 
-    def createView: Html = page(list, 0)(request, messages)
+    def createView: Html = page(list, 0, NormalMode)(request, messages)
 
     val view = createView
 

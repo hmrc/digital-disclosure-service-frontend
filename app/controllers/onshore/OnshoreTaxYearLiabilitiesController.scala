@@ -20,7 +20,7 @@ import controllers.actions._
 import forms.OnshoreTaxYearLiabilitiesFormProvider
 
 import javax.inject.Inject
-import models.{Mode, NormalMode, OnshoreTaxYearLiabilities, OnshoreYearStarting, OnshoreTaxYearWithLiabilities, UserAnswers, WhatOnshoreLiabilitiesDoYouNeedToDisclose}
+import models.{Mode, NormalMode, OnshoreYearStarting, OnshoreTaxYearWithLiabilities, WhatOnshoreLiabilitiesDoYouNeedToDisclose}
 import navigation.OnshoreNavigator
 import pages.{WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, OnshoreTaxYearLiabilitiesPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -32,7 +32,6 @@ import play.api.mvc.Result
 import models.requests.DataRequest
 
 import scala.concurrent.{ExecutionContext, Future}
-import scala.util.Try
 
 class OnshoreTaxYearLiabilitiesController @Inject()(
                                         override val messagesApi: MessagesApi,

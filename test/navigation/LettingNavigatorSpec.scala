@@ -162,14 +162,14 @@ class LettingNavigatorSpec extends SpecBase {
         val index = 0
         val lettingProperty = LettingProperty(didTheLettingAgentCollectRentOnYourBehalf = Some(true))
         val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
-        navigator.nextPage(DidTheLettingAgentCollectRentOnYourBehalfPage, index, NormalMode, ua) mustBe routes.CheckYourAnswersController.onPageLoad(index)
+        navigator.nextPage(DidTheLettingAgentCollectRentOnYourBehalfPage, index, NormalMode, ua) mustBe routes.CheckYourAnswersController.onPageLoad(index, NormalMode)
       }
 
       "must go from WasALettingAgentUsedToManagePropertyPage to CheckYourAnswersController if selected no" in {
         val index = 0
         val lettingProperty = LettingProperty(didTheLettingAgentCollectRentOnYourBehalf = Some(false))
         val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
-        navigator.nextPage(DidTheLettingAgentCollectRentOnYourBehalfPage, index, NormalMode, ua) mustBe routes.CheckYourAnswersController.onPageLoad(index)
+        navigator.nextPage(DidTheLettingAgentCollectRentOnYourBehalfPage, index, NormalMode, ua) mustBe routes.CheckYourAnswersController.onPageLoad(index, NormalMode)
       }
 
     }
