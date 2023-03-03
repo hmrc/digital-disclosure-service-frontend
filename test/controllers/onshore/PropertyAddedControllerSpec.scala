@@ -24,13 +24,12 @@ import navigation.{FakeOnshoreNavigator, OnshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.{LettingPropertyPage, PropertyAddedPage}
+import pages.LettingPropertyPage
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
-import viewmodels.onshore.LettingPropertyModel
 import views.html.onshore.PropertyAddedView
 
 import scala.concurrent.Future
