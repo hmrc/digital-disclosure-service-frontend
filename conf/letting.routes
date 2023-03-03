@@ -64,3 +64,4 @@ GET        /letting-property-agent-collect-rent/:i/change        controllers.let
 POST       /letting-property-agent-collect-rent/:i/change        controllers.letting.DidTheLettingAgentCollectRentOnYourBehalfController.onSubmit(i: Int, mode: Mode = CheckMode)
 
 GET        /letting-income-summary/:i                            controllers.letting.CheckYourAnswersController.onPageLoad(i: Int, mode: Mode = NormalMode)
+GET        /letting-income-summary/:i/change                     controllers.letting.CheckYourAnswersController.onPageLoad(i: Int, mode: Mode = CheckMode)
