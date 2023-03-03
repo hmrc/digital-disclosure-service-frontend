@@ -17,8 +17,7 @@
 package viewmodels.checkAnswers
 
 import controllers.letting.routes
-import models.{CheckMode, UserAnswers}
-import pages.DidTheLettingAgentCollectRentOnYourBehalfPage
+import models.{CheckMode, UserAnswers, LettingProperty}
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
@@ -26,8 +25,8 @@ import viewmodels.implicits._
 
 object DidTheLettingAgentCollectRentOnYourBehalfSummary  {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(DidTheLettingAgentCollectRentOnYourBehalfPage).map {
+  def row(i: Int, lettingProperty: LettingProperty)(implicit messages: Messages): Option[SummaryListRow] =
+    lettingProperty.didTheLettingAgentCollectRentOnYourBehalf.map {
       answer =>
 
         val value = if (answer) "didTheLettingAgentCollectRentOnYourBehalf.yes" else "didTheLettingAgentCollectRentOnYourBehalf.no"
@@ -36,7 +35,7 @@ object DidTheLettingAgentCollectRentOnYourBehalfSummary  {
           key     = "didTheLettingAgentCollectRentOnYourBehalf.checkYourAnswersLabel",
           value   = ValueViewModel(value),
           actions = Seq(
-            ActionItemViewModel("site.change", routes.DidTheLettingAgentCollectRentOnYourBehalfController.onPageLoad(0, CheckMode).url)
+            ActionItemViewModel("site.change", routes.DidTheLettingAgentCollectRentOnYourBehalfController.onPageLoad(i, CheckMode).url)
               .withVisuallyHiddenText(messages("didTheLettingAgentCollectRentOnYourBehalf.change.hidden"))
           )
         )

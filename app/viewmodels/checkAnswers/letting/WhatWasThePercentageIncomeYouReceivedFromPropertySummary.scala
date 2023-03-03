@@ -17,8 +17,7 @@
 package viewmodels.checkAnswers
 
 import controllers.letting.routes
-import models.{CheckMode, UserAnswers}
-import pages.WhatWasThePercentageIncomeYouReceivedFromPropertyPage
+import models.{CheckMode, UserAnswers, LettingProperty}
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
@@ -26,15 +25,15 @@ import viewmodels.implicits._
 
 object WhatWasThePercentageIncomeYouReceivedFromPropertySummary  {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(WhatWasThePercentageIncomeYouReceivedFromPropertyPage).map {
+  def row(i: Int, lettingProperty: LettingProperty)(implicit messages: Messages): Option[SummaryListRow] =
+    lettingProperty.percentageIncomeOnProperty.map {
       answer =>
 
         SummaryListRowViewModel(
           key     = "whatWasThePercentageIncomeYouReceivedFromProperty.checkYourAnswersLabel",
           value   = ValueViewModel(answer.toString),
           actions = Seq(
-            ActionItemViewModel("site.change", routes.WhatWasThePercentageIncomeYouReceivedFromPropertyController.onPageLoad(0, CheckMode).url)
+            ActionItemViewModel("site.change", routes.WhatWasThePercentageIncomeYouReceivedFromPropertyController.onPageLoad(i, CheckMode).url)
               .withVisuallyHiddenText(messages("whatWasThePercentageIncomeYouReceivedFromProperty.change.hidden"))
           )
         )

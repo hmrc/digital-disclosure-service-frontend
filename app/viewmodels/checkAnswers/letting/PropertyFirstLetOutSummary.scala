@@ -19,8 +19,7 @@ package viewmodels.checkAnswers
 import java.time.format.DateTimeFormatter
 
 import controllers.letting.routes
-import models.{CheckMode, UserAnswers}
-import pages.PropertyFirstLetOutPage
+import models.{CheckMode, UserAnswers, LettingProperty}
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
@@ -28,8 +27,8 @@ import viewmodels.implicits._
 
 object PropertyFirstLetOutSummary  {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(PropertyFirstLetOutPage).map {
+  def row(i: Int, lettingProperty: LettingProperty)(implicit messages: Messages): Option[SummaryListRow] =
+    lettingProperty.dateFirstLetOut.map {
       answer =>
 
         val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
@@ -38,7 +37,7 @@ object PropertyFirstLetOutSummary  {
           key     = "propertyFirstLetOut.checkYourAnswersLabel",
           value   = ValueViewModel(answer.format(dateFormatter)),
           actions = Seq(
-            ActionItemViewModel("site.change", routes.PropertyFirstLetOutController.onPageLoad(0, CheckMode).url)
+            ActionItemViewModel("site.change", routes.PropertyFirstLetOutController.onPageLoad(i, CheckMode).url)
               .withVisuallyHiddenText(messages("propertyFirstLetOut.change.hidden"))
           )
         )

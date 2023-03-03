@@ -16,9 +16,10 @@
 
 package viewmodels.checkAnswers
 
+import java.time.format.DateTimeFormatter
+
 import controllers.letting.routes
-import models.{CheckMode, UserAnswers}
-import pages.PropertyIsNoLongerBeingLetOutPage
+import models.{CheckMode, UserAnswers, LettingProperty}
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
@@ -26,17 +27,30 @@ import viewmodels.implicits._
 
 object PropertyIsNoLongerBeingLetOutSummary  {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(PropertyIsNoLongerBeingLetOutPage).map {
+  def row(i: Int, lettingProperty: LettingProperty, fieldName: String)(implicit messages: Messages): Option[SummaryListRow] =
+    lettingProperty.noLongerBeingLetOut.map {
       answer =>
 
-        SummaryListRowViewModel(
-          key     = "propertyIsNoLongerBeingLetOut.checkYourAnswersLabel",
-          value   = ValueViewModel(""),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.PropertyIsNoLongerBeingLetOutController.onPageLoad(0, CheckMode).url)
-              .withVisuallyHiddenText(messages("propertyIsNoLongerBeingLetOut.change.hidden"))
+        if(fieldName == "stopDate") {
+          val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+
+          SummaryListRowViewModel(
+            key     = "propertyIsNoLongerBeingLetOut.stopDate.checkYourAnswersLabel",
+            value   = ValueViewModel(answer.stopDate.format(dateFormatter)),
+            actions = Seq(
+              ActionItemViewModel("site.change", routes.PropertyIsNoLongerBeingLetOutController.onPageLoad(i, CheckMode).url)
+                .withVisuallyHiddenText(messages("propertyIsNoLongerBeingLetOut.change.hidden"))
+            )
           )
-        )
+        } else {
+          SummaryListRowViewModel(
+            key     = "propertyIsNoLongerBeingLetOut.whatHasHappenedToProperty.checkYourAnswersLabel",
+            value   = ValueViewModel(answer.whatHasHappenedToProperty),
+            actions = Seq(
+              ActionItemViewModel("site.change", routes.PropertyIsNoLongerBeingLetOutController.onPageLoad(i, CheckMode).url)
+                .withVisuallyHiddenText(messages("propertyIsNoLongerBeingLetOut.change.hidden"))
+            )
+          )
+        }
     }
 }

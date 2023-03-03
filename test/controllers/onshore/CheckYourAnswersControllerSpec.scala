@@ -63,6 +63,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
       val viewmodel = CheckYourAnswersViewModel(
         SummaryListViewModel(rows = Nil),
+        SummaryListViewModel(rows = Nil),
         Nil,
         totalRows,
         SummaryListViewModel(rows = Nil)

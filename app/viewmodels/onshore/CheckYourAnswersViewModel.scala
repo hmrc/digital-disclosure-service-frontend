@@ -27,6 +27,7 @@ import play.api.i18n.Messages
 import com.google.inject.{Inject, Singleton}
 
 case class CheckYourAnswersViewModel(
+  whatOnshoreLiabilitiesDoYouNeedToDiscloseSummaryList: SummaryList,
   summaryList: SummaryList,
   taxYearLists: Seq[(Int, SummaryList)],
   totalAmountsList: SummaryList,
@@ -42,9 +43,14 @@ class CheckYourAnswersViewModelCreation @Inject() (
 
   def create(userAnswers: UserAnswers)(implicit messages: Messages): CheckYourAnswersViewModel = {
 
+    val whatOnshoreLiabilitiesDoYouNeedToDiscloseSummaryList = SummaryListViewModel(
+      rows = Seq(
+        WhatOnshoreLiabilitiesDoYouNeedToDiscloseSummary.row(userAnswers)
+      ).flatten
+    )
+
     val summaryList = SummaryListViewModel(
       rows = Seq(
-        WhatOnshoreLiabilitiesDoYouNeedToDiscloseSummary.row(userAnswers),
         WhyAreYouMakingThisOnshoreDisclosureSummary.row(userAnswers),
         CDFOnshoreSummary.row(userAnswers),
         ReasonableExcuseOnshoreSummary.row("excuse", userAnswers),
@@ -73,13 +79,12 @@ class CheckYourAnswersViewModelCreation @Inject() (
 
     val summaryList1 = SummaryListViewModel(
       rows = Seq(
-        ResidentialReductionSummary.row(userAnswers),
-        WhereDidTheUndeclaredIncomeOrGainIncludedSummary.row(userAnswers),
-        WhereDidTheUndeclaredIncomeOrGainSummary.row(userAnswers)
+        IncomeOrGainSourceSummary.row(userAnswers),
+        OtherIncomeOrGainSourceSummary.row(userAnswers)
       ).flatten
     )
 
-    CheckYourAnswersViewModel(summaryList, taxYearLists, totalAmountsList, summaryList1)
+    CheckYourAnswersViewModel(whatOnshoreLiabilitiesDoYouNeedToDiscloseSummaryList, summaryList, taxYearLists, totalAmountsList, summaryList1)
 
   }
 
@@ -123,7 +128,7 @@ class CheckYourAnswersViewModelCreation @Inject() (
         row(i, "onshoreTaxYearLiabilities.interest.checkYourAnswersLabel", s"&pound;${liabilities.interest}", "onshoreTaxYearLiabilities.interest.hidden"),
         row(i, "onshoreTaxYearLiabilities.penaltyRate.checkYourAnswersLabel", s"&pound;${liabilities.penaltyRate}", "onshoreTaxYearLiabilities.penaltyRate.hidden"),
         row(i, "onshoreTaxYearLiabilities.penaltyRateReason.checkYourAnswersLabel", s"${liabilities.penaltyRateReason}", "onshoreTaxYearLiabilities.penaltyRateReason.hidden")
-      ) ++ residentialTaxReduction
+      ) ++ residentialTaxReduction ++ ResidentialReductionSummary.row(i, userAnswers)
 
     SummaryListViewModel(rows)
   }

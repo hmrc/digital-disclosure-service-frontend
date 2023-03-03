@@ -26,15 +26,15 @@ import viewmodels.implicits._
 
 object ResidentialReductionSummary  {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(ResidentialReductionPage).map {
+  def row(i: Int, answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
+    answers.getByKey(ResidentialReductionPage, "2021").map {
       answer =>
 
         SummaryListRowViewModel(
           key     = "residentialReduction.checkYourAnswersLabel",
           value   = ValueViewModel(answer.toString),
           actions = Seq(
-            ActionItemViewModel("site.change", routes.ResidentialReductionController.onPageLoad(0, CheckMode).url)
+            ActionItemViewModel("site.change", routes.ResidentialReductionController.onPageLoad(i, CheckMode).url)
               .withVisuallyHiddenText(messages("residentialReduction.change.hidden"))
           )
         )
