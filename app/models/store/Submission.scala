@@ -25,6 +25,9 @@ sealed trait Submission {
   def userId: String
   def submissionId: String
   def lastUpdated: Instant
+  def created: Instant
+  def metadata: Metadata
+  def personalDetails: PersonalDetails
 }
 
 object Submission {
@@ -42,7 +45,8 @@ final case class FullDisclosure (
   otherLiabilities: OtherLiabilities,
   reasonForDisclosingNow: ReasonForDisclosingNow,
   customerId: Option[CustomerId] = None,
-  offerAmount: Option[BigInt] = None
+  offerAmount: Option[BigInt] = None,
+  created: Instant = Instant.now
 ) extends Submission {
 
   lazy val disclosingAboutThemselves: Boolean = personalDetails.disclosingAboutThemselves
@@ -66,10 +70,11 @@ object FullDisclosure {
 final case class Notification (
   userId: String,
   submissionId: String,
-  lastUpdated: Instant,
-  metadata: Metadata,
-  personalDetails: PersonalDetails,
-  customerId: Option[CustomerId] = None
+  lastUpdated: Instant = Instant.now,
+  metadata: Metadata = Metadata(),
+  personalDetails: PersonalDetails = PersonalDetails(Background(), AboutYou()),
+  customerId: Option[CustomerId] = None,
+  created: Instant = Instant.now
 ) extends Submission {
 
   def disclosingAboutThemselves: Boolean = personalDetails.disclosingAboutThemselves

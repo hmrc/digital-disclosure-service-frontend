@@ -17,6 +17,7 @@
 ->          /letting                                     letting.Routes
 
 GET         /pdf                                         controllers.PdfGenerationController.generate
+GET         /pdf/:id                                     controllers.PdfGenerationController.generateForSubmissionId(id: String)
 
 GET         /                                            controllers.IndexController.onPageLoad
 
@@ -49,3 +50,7 @@ GET         /your-offer                                  controllers.OfferLetter
 POST        /your-offer                                  controllers.OfferLetterController.onSubmit
 
 GET         /disclosure-submitted/:reference             controllers.SubmittedController.onPageLoad(reference)
+
+GET         /case-management                             controllers.CaseManagementController.onPageLoad
+GET         /case-management/navigate/:id                controllers.CaseManagementController.navigateToSubmission(id: String)
+GET         /case-management/new-case                    controllers.CaseManagementController.newCase

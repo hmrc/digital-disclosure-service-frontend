@@ -198,7 +198,8 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
   "uaToFullDisclosure" should {
 
     "populate FullDisclosure" in {
-      sut.uaToFullDisclosure(emptyUA) shouldEqual FullDisclosure (
+      val result = sut.uaToFullDisclosure(emptyUA) 
+      val expectedResult = FullDisclosure (
         userId = emptyUA.id,
         submissionId = emptyUA.submissionId,
         lastUpdated = emptyUA.lastUpdated,
@@ -208,8 +209,11 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
         offshoreLiabilities = OffshoreLiabilities(),
         otherLiabilities = OtherLiabilities(),
         reasonForDisclosingNow = ReasonForDisclosingNow(),
-        offerAmount = None
+        offerAmount = None,
+        created = result.created
       )
+      
+      result shouldEqual expectedResult
     }
 
   }
