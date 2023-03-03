@@ -64,7 +64,7 @@ class TaskListController @Inject()(
         Seq(buildOtherLiabilityIssueRow(fullDisclosure.otherLiabilities, fullDisclosure.personalDetails.isAnIndividual), buildTheReasonForComingForwardNowRow(fullDisclosure.reasonForDisclosingNow))
       )
       
-      Ok(view(list, notificationSectionKey, isTheUserAgent(ua), entity, fullDisclosure.isComplete, sectionsComplete(fullDisclosure)))
+      Ok(view(list, notificationSectionKey, isTheUserAgent(ua), entity, fullDisclosure.isComplete, sectionsComplete(fullDisclosure), request.isAgent))
   }
 
   private[controllers] def buildYourPersonalDetailsRow(personalDetails: PersonalDetails, entityKey: String)(implicit messages: Messages): (String, TaskListRow) = {

@@ -65,7 +65,7 @@ class TaskListViewSpec extends ViewSpecBase with ViewMatchers with Generators {
     val entity = arbitrary[RelatesTo].sample.value.toString
     val isTheUserAgent = arbitrary[Boolean].sample.value
     
-    def createView: Html = page(list, notificationSectionKey, isTheUserAgent, entity, false, 0)(request, messages)
+    def createView: Html = page(list, notificationSectionKey, isTheUserAgent, entity, false, 0, false)(request, messages)
 
     val view = createView
 
@@ -115,7 +115,7 @@ class TaskListViewSpec extends ViewSpecBase with ViewMatchers with Generators {
     val entity = arbitrary[RelatesTo].sample.value.toString
     val isTheUserAgent = arbitrary[Boolean].sample.value
     
-    def createView: Html = page(list, notificationSectionKey, isTheUserAgent, entity, true, 3)(request, messages)
+    def createView: Html = page(list, notificationSectionKey, isTheUserAgent, entity, true, 3, false)(request, messages)
 
     val view = createView
 
