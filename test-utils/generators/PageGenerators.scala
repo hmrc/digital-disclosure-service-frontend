@@ -21,6 +21,12 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryAccountingPeriodDLAddedPage: Arbitrary[AccountingPeriodDLAddedPage.type] =
+    Arbitrary(AccountingPeriodDLAddedPage)
+
+  implicit lazy val arbitraryAccountingPeriodCTAddedPage: Arbitrary[AccountingPeriodCTAddedPage.type] =
+    Arbitrary(AccountingPeriodCTAddedPage)
+
   implicit lazy val arbitraryPropertyAddedPage: Arbitrary[PropertyAddedPage.type] =
     Arbitrary(PropertyAddedPage)
 
