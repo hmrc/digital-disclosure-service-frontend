@@ -217,5 +217,30 @@ class CaseManagementServiceSpec extends ViewSpecBase {
 
   }
 
+  "getNumberOfPages" should {
+
+    val submission = Notification("userId", "submissionId", lastUpdatedInstant, Metadata(), PersonalDetails(Background(), AboutYou()), created = createdInstant)
+    def listOfNSubmissions(n: Int): Seq[Submission] = {
+      submission
+    }
+
+    "return 1 where there is 1 submission" in {
+      val submissions: Seq[Submission] = Seq()
+    }
+
+    "return 1 where there are 10 submissions" in {
+      val submissions: Seq[Submission] = Seq()
+    }
+
+    "return 2 where there are 11 submissions" in {
+      val submissions: Seq[Submission] = Seq()
+    }
+
+    "return 2 where there are 20 submissions" in {
+      val submissions: Seq[Submission] = Seq()
+    }
+
+  }
+
 
 }

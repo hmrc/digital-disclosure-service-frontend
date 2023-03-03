@@ -51,6 +51,6 @@ POST        /your-offer                                  controllers.OfferLetter
 
 GET         /disclosure-submitted/:reference             controllers.SubmittedController.onPageLoad(reference)
 
-GET         /case-management                             controllers.CaseManagementController.onPageLoad
+GET         /case-management/cases/:paginationIndex      controllers.CaseManagementController.onPageLoad(paginationIndex: Int)
 GET         /case-management/navigate/:id                controllers.CaseManagementController.navigateToSubmission(id: String)
 GET         /case-management/new-case                    controllers.CaseManagementController.newCase

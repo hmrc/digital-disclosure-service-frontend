@@ -19,20 +19,20 @@ package services
 import com.google.inject.{Inject, Singleton, ImplementedBy}
 import models.store.{Notification, FullDisclosure, Submission}
 import java.time.format.DateTimeFormatter
-import java.time.{LocalDate, ZoneId}
+import java.time.ZoneId
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content._
 import models.store.notification._
 import play.twirl.api.HtmlFormat
-import java.util.UUID
 import play.api.mvc.Call
-import models.SubmissionType
-import scala.concurrent.{ExecutionContext, Future}
 import views.html.components.link
 import uk.gov.hmrc.govukfrontend.views.viewmodels.table.{Table, HeadCell, TableRow}
+import uk.gov.hmrc.govukfrontend.views.viewmodels.pagination.{Pagination, PaginationItem, PaginationLink}
 import play.api.i18n.Messages
 
 @Singleton
 class CaseManagementServiceImpl @Inject()(link: link) extends CaseManagementService {
+
+  val ROWS_ON_PAGE = 10
 
   def getRedirection(submission: Submission): Call = {
     val status = getStatus(submission)
@@ -45,9 +45,16 @@ class CaseManagementServiceImpl @Inject()(link: link) extends CaseManagementServ
     }
   }
 
-  def generateCaseManagementTable(submissions: Seq[Submission])(implicit messages: Messages): Table = {
-    val rows = submissionsToRows(submissions)
-    createTable(rows)
+  def getNumberOfPages(submissions: Seq[Submission]): Int = submissions.grouped(ROWS_ON_PAGE).size
+
+  def generateCaseManagementTable(paginationIndex: Int, submissions: Seq[Submission])(implicit messages: Messages): Option[Table] = {
+    val paginatedSubmissions: Seq[Seq[Submission]] = submissions.grouped(ROWS_ON_PAGE).toSeq
+    val currentPage: Option[Seq[Submission]] = paginatedSubmissions.lift(paginationIndex-1)
+
+    currentPage.map{ pageSubmissions => 
+      val rows = submissionsToRows(pageSubmissions)
+      createTable(rows)
+    }
   }
 
   def submissionsToRows(submissions: Seq[Submission])(implicit messages: Messages): Seq[Seq[TableRow]] = {
@@ -55,7 +62,7 @@ class CaseManagementServiceImpl @Inject()(link: link) extends CaseManagementServ
     sorted.map(storeEntryToTableRow)
   }
 
-  def createTable(rows: Seq[Seq[TableRow]])(implicit messages: Messages): Table = 
+  def createTable(rows: Seq[Seq[TableRow]])(implicit messages: Messages): Table =
     Table(
       rows = rows,
       head = Some(Seq(
@@ -144,12 +151,62 @@ class CaseManagementServiceImpl @Inject()(link: link) extends CaseManagementServ
     date.format(dateFormatter)
   } 
 
+  def generatePagination(paginationIndex: Int, numberOfPages: Int)(implicit messages: Messages): Option[Pagination] = 
+    if (numberOfPages < 2) None
+    else Some(Pagination(
+      items = Some(generatePaginationItems(paginationIndex, numberOfPages)),
+      previous = generatePreviousLink(paginationIndex, numberOfPages),
+      next = generateNextLink(paginationIndex, numberOfPages),
+      landmarkLabel = None,
+      classes = "",
+      attributes = Map.empty
+    ))
+
+  def generatePaginationItems(paginationIndex: Int, numberOfPages: Int): Seq[PaginationItem] = {
+    Range.inclusive(1, numberOfPages).map( pageIndex =>
+      PaginationItem(
+        href = controllers.routes.CaseManagementController.onPageLoad(pageIndex).url,
+        number = Some(pageIndex.toString),
+        visuallyHiddenText = None,
+        current = Some(pageIndex == paginationIndex),
+        ellipsis = None,
+        attributes = Map.empty
+      )
+    )
+  }
+
+  def generatePreviousLink(paginationIndex: Int, numberOfPages: Int)(implicit messages: Messages): Option[PaginationLink] = {
+    if (paginationIndex == 1) None
+    else {
+      Some(PaginationLink(
+        href = controllers.routes.CaseManagementController.onPageLoad(paginationIndex-1).url,
+        text = Some(messages("caseManagement.pagination.previous")),
+        labelText = Some(messages("caseManagement.pagination.previous.hidden")),
+        attributes = Map.empty
+      ))
+    }
+  }
+
+  def generateNextLink(paginationIndex: Int, numberOfPages: Int)(implicit messages: Messages): Option[PaginationLink] = {
+    if (paginationIndex == numberOfPages) None
+    else {
+      Some(PaginationLink(
+        href = controllers.routes.CaseManagementController.onPageLoad(paginationIndex+1).url,
+        text = Some(messages("caseManagement.pagination.next")),
+        labelText = Some(messages("caseManagement.pagination.next.hidden")),
+        attributes = Map.empty
+      ))
+    }
+  }
+
 }
 
 @ImplementedBy(classOf[CaseManagementServiceImpl])
 trait CaseManagementService {
   def getRedirection(submission: Submission): Call
-  def generateCaseManagementTable(submissions: Seq[Submission])(implicit messages: Messages): Table
+  def generateCaseManagementTable(paginationIndex: Int, submissions: Seq[Submission])(implicit messages: Messages): Option[Table]
+  def getNumberOfPages(submissions: Seq[Submission]): Int
+  def generatePagination(paginationIndex: Int, numberOfPages: Int)(implicit messages: Messages): Option[Pagination]
 }
 
 sealed trait CaseStatus 

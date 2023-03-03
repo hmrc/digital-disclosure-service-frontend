@@ -41,7 +41,7 @@ class CaseManagementController @Inject()(
                                        view: CaseManagementView
                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoad: Action[AnyContent] = (identify andThen getData).async {
+  def onPageLoad(paginationIndex: Int): Action[AnyContent] = (identify andThen getData).async {
     implicit request =>
 
       for {
@@ -50,8 +50,14 @@ class CaseManagementController @Inject()(
         if (submissionsFromStore.isEmpty) {
           Redirect(controllers.routes.CaseManagementController.newCase)
         } else {
-          val table = caseManagementService.generateCaseManagementTable(submissionsFromStore)
-          Ok(view(table))
+          val numberOfPages = caseManagementService.getNumberOfPages(submissionsFromStore)
+          val pagination = caseManagementService.generatePagination(paginationIndex, numberOfPages)
+
+          caseManagementService.generateCaseManagementTable(paginationIndex, submissionsFromStore)
+            .fold(
+              Redirect(controllers.routes.CaseManagementController.onPageLoad(1)))(
+              table => Ok(view(table, pagination))
+          )
         }
       }
 
