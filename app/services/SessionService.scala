@@ -23,6 +23,7 @@ import com.google.inject.{Inject, Singleton, ImplementedBy}
 import repositories.SessionRepository
 import cats.implicits._
 import play.api.Logging
+import java.time.Instant
 
 @Singleton
 class SessionServiceImpl @Inject()(
@@ -37,7 +38,7 @@ class SessionServiceImpl @Inject()(
   def newSession(userId: String, submissionId: String, submissionType: SubmissionType)(implicit hc: HeaderCarrier): Future[UserAnswers] =
     for {
       uaOpt  <- getIndividualUserAnswers(userId, submissionId)
-      ua     = uaOpt.getOrElse(UserAnswers(id = userId, submissionId = submissionId, submissionType = submissionType))
+      ua     = uaOpt.getOrElse(UserAnswers(id = userId, submissionId = submissionId, submissionType = submissionType, created = Instant.now))
       result <- set(ua)
     } yield ua
 
@@ -57,7 +58,7 @@ class SessionServiceImpl @Inject()(
     for {
       _ <- submissionStoreService.deleteSubmission(id, submissionId)
       _ <- sessionRepository.clear(id)
-      ua = UserAnswers(id, submissionId, submissionType)
+      ua = UserAnswers(id, submissionId, submissionType, created = Instant.now)
       _ <- set(ua)
     } yield ua
   }

@@ -32,6 +32,7 @@ class UAToDisclosureServiceImpl @Inject()(
       userId = userAnswers.id,
       submissionId = userAnswers.submissionId,
       lastUpdated = userAnswers.lastUpdated,
+      created = userAnswers.created,
       metadata = userAnswers.metadata,
       caseReference = uaToCaseReference(userAnswers),
       personalDetails = notificationService.userAnswersToPersonalDetails(userAnswers),

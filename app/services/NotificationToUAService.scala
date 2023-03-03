@@ -59,6 +59,7 @@ class NotificationToUAServiceImpl extends NotificationToUAService {
       submissionId = submissionId, 
       submissionType = SubmissionType.Notification, 
       lastUpdated = lastUpdated,
+      created = created,
       metadata = notification.metadata
     )
   }

@@ -234,8 +234,10 @@ class NotificationToUAServiceSpec extends AnyWordSpec with Matchers with TryValu
     "retrieve the userId, submissionId and lastUpdated from the notification" in {
       val instant = Instant.now()
       val metadata = Metadata(reference = Some("123"), submissionTime = Some(LocalDateTime.now))
-      val expectedResult = UserAnswers(id = "This user Id", submissionId = "Some notification Id", lastUpdated = instant, metadata = metadata)
       val notification = Notification("This user Id", "Some notification Id", instant, metadata, PersonalDetails(Background(), AboutYou()))
+
+      val result = sut.initialiseUserAnswers(notification)
+      val expectedResult = UserAnswers(id = "This user Id", submissionId = "Some notification Id", lastUpdated = instant, metadata = metadata, created = result.created)
       sut.initialiseUserAnswers(notification) shouldEqual expectedResult
     }
   }

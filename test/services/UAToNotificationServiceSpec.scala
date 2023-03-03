@@ -36,7 +36,7 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
   val testNotification = Notification("userId", "submissionId", instant, metadata, PersonalDetails(Background(), AboutYou()))
   val address = Address("line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GBR"))
   val emptyUA = UserAnswers("id")
-  val userAnswers = UserAnswers("userId", "submissionId", lastUpdated = instant, metadata = metadata)
+  val userAnswers = UserAnswers("userId", "submissionId", lastUpdated = instant, metadata = metadata, created = testNotification.created)
 
   "userAnswersToNotification" should {
     val result = sut.userAnswersToNotification(userAnswers)
