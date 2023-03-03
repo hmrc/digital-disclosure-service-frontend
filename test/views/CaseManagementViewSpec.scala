@@ -32,7 +32,7 @@ class CaseManagementViewSpec extends ViewSpecBase with ViewMatchers {
     head = Some(Seq(HeadCell(Text("Some header")))),
     attributes = Map("id" -> "case-table")
   )
-  private def createView: Html = page(table)(request, messages)
+  private def createView: Html = page(table, None)(request, messages)
 
   "view" should {
 

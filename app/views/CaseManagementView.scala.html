@@ -19,10 +19,11 @@
         govukButton: GovukButton,
         paragraph: components.paragraph,
         link: components.link,
-        govukTable: GovukTable
+        govukTable: GovukTable,
+        govukPagination: GovukPagination
 )
 
-@(caseTable: Table)(implicit request: Request[_], messages: Messages)
+@(caseTable: Table, pagination: Option[Pagination])(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = titleNoForm(messages("caseManagement.title")), fullWidth = true) {
 
@@ -34,5 +35,7 @@
 
     @link(id = "create-case", classes = "govuk-button", text = messages("caseManagement.button"), newTab = false, call = Call("GET", controllers.routes.CaseManagementController.newCase.url))
 
+    @pagination.map(p => govukPagination(p))
     @govukTable(caseTable)
+    @pagination.map(p => govukPagination(p))
 }

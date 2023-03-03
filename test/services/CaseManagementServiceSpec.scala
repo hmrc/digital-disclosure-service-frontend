@@ -25,6 +25,7 @@ import models.store.notification._
 import models.store.disclosure._
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content._
 import uk.gov.hmrc.govukfrontend.views.viewmodels.table.TableRow
+import uk.gov.hmrc.govukfrontend.views.viewmodels.pagination.{PaginationItem, PaginationLink}
 
 class CaseManagementServiceSpec extends ViewSpecBase {
 
@@ -217,5 +218,197 @@ class CaseManagementServiceSpec extends ViewSpecBase {
 
   }
 
+  "getNumberOfPages" should {
+
+    val submission = Notification("userId", "submissionId", lastUpdatedInstant, Metadata(), PersonalDetails(Background(), AboutYou()), created = createdInstant)
+    def listOfNSubmissions(n: Int): Seq[Submission] = Range.inclusive(1, n).map(_ => submission).toSeq
+
+    "return 1 where there is 1 submission" in {
+      val submissions: Seq[Submission] = listOfNSubmissions(1)
+      sut.getNumberOfPages(submissions) mustEqual 1
+    }
+
+    "return 1 where there are 10 submissions" in {
+      val submissions: Seq[Submission] = listOfNSubmissions(10)
+      sut.getNumberOfPages(submissions) mustEqual 1
+    }
+
+    "return 2 where there are 11 submissions" in {
+      val submissions: Seq[Submission] = listOfNSubmissions(11)
+      sut.getNumberOfPages(submissions) mustEqual 2
+    }
+
+    "return 2 where there are 20 submissions" in {
+      val submissions: Seq[Submission] = listOfNSubmissions(20)
+      sut.getNumberOfPages(submissions) mustEqual 2
+    }
+
+    "return 3 where there are 21 submissions" in {
+      val submissions: Seq[Submission] = listOfNSubmissions(21)
+      sut.getNumberOfPages(submissions) mustEqual 3
+    }
+
+    "return 3 where there are 30 submissions" in {
+      val submissions: Seq[Submission] = listOfNSubmissions(30)
+      sut.getNumberOfPages(submissions) mustEqual 3
+    }
+
+    "return 10 where there are 100 submissions" in {
+      val submissions: Seq[Submission] = listOfNSubmissions(100)
+      sut.getNumberOfPages(submissions) mustEqual 10
+    }
+
+  }
+
+  "generateNextLink" should {
+
+    "return None where we're at the final page" in {
+      sut.generateNextLink(1, 1) mustEqual None
+      sut.generateNextLink(2, 2) mustEqual None
+      sut.generateNextLink(3, 3) mustEqual None
+    }
+
+    "return a Next link where we are on the first page of multiple" in {
+      val expectedLink = Some(PaginationLink(
+        href = controllers.routes.CaseManagementController.onPageLoad(2).url,
+        text = Some(messages("caseManagement.pagination.next")),
+        labelText = Some(messages("caseManagement.pagination.next.hidden")),
+        attributes = Map.empty
+      ))
+      sut.generateNextLink(1, 3) mustEqual expectedLink
+    }
+
+    "return a Next link where we are on the second page of multiple" in {
+      val expectedLink = Some(PaginationLink(
+        href = controllers.routes.CaseManagementController.onPageLoad(3).url,
+        text = Some(messages("caseManagement.pagination.next")),
+        labelText = Some(messages("caseManagement.pagination.next.hidden")),
+        attributes = Map.empty
+      ))
+      sut.generateNextLink(2, 3) mustEqual expectedLink
+    }
+
+    "return a Next link where we are many pages in" in {
+      val expectedLink = Some(PaginationLink(
+        href = controllers.routes.CaseManagementController.onPageLoad(6).url,
+        text = Some(messages("caseManagement.pagination.next")),
+        labelText = Some(messages("caseManagement.pagination.next.hidden")),
+        attributes = Map.empty
+      ))
+      sut.generateNextLink(5, 6) mustEqual expectedLink
+    }
+
+  }
+
+  "generatePreviousLink" should {
+
+    "return None where we're on the first page" in {
+      sut.generatePreviousLink(1, 1) mustEqual None
+      sut.generatePreviousLink(1, 2) mustEqual None
+      sut.generatePreviousLink(1, 3) mustEqual None
+      sut.generatePreviousLink(1, 10) mustEqual None
+    }
+
+    "return a Previous link where we are on the second page of three" in {
+      val expectedLink = Some(PaginationLink(
+        href = controllers.routes.CaseManagementController.onPageLoad(1).url,
+        text = Some(messages("caseManagement.pagination.previous")),
+        labelText = Some(messages("caseManagement.pagination.previous.hidden")),
+        attributes = Map.empty
+      ))
+      sut.generatePreviousLink(2, 3) mustEqual expectedLink
+    }
+
+    "return a Previous link where we are on the final page of three" in {
+      val expectedLink = Some(PaginationLink(
+        href = controllers.routes.CaseManagementController.onPageLoad(2).url,
+        text = Some(messages("caseManagement.pagination.previous")),
+        labelText = Some(messages("caseManagement.pagination.previous.hidden")),
+        attributes = Map.empty
+      ))
+      sut.generatePreviousLink(3, 3) mustEqual expectedLink
+    }
+
+    "return a Previous link where we are many pages in" in {
+      val expectedLink = Some(PaginationLink(
+        href = controllers.routes.CaseManagementController.onPageLoad(4).url,
+        text = Some(messages("caseManagement.pagination.previous")),
+        labelText = Some(messages("caseManagement.pagination.previous.hidden")),
+        attributes = Map.empty
+      ))
+      sut.generatePreviousLink(5, 6) mustEqual expectedLink
+    }
+
+  }
+
+  "generatePaginationItems" should {
+
+    def createItem(index: Int, isCurrent: Boolean) = PaginationItem(
+      href = controllers.routes.CaseManagementController.onPageLoad(index).url,
+      number = Some(index.toString),
+      visuallyHiddenText = None,
+      current = Some(isCurrent),
+      ellipsis = None,
+      attributes = Map.empty
+    )
+
+    "generate numbers from 1 to the total number of pages, highlighting the current page - for 1 page" in {
+      sut.generatePaginationItems(1, 1) mustEqual Seq(createItem(1, true))
+    }
+
+    "generate numbers from 1 to the total number of pages, highlighting the current page - for 3 pages" in {
+      val expectedItems = Seq(
+        createItem(1, false),
+        createItem(2, true),
+        createItem(3, false)
+      )
+      sut.generatePaginationItems(2, 3) mustEqual expectedItems
+    }
+
+    "generate numbers from 1 to the total number of pages, highlighting the current page - for 6 pages" in {
+      val expectedItems = Seq(
+        createItem(1, false),
+        createItem(2, false),
+        createItem(3, false),
+        createItem(4, true),
+        createItem(5, false),
+        createItem(6, false)
+      )
+      sut.generatePaginationItems(4, 6) mustEqual expectedItems
+    }
+
+    "generate numbers from 1 to the total number of pages, highlighting the current page - for 10 pages" in {
+      val expectedItems = Seq(
+        createItem(1, false),
+        createItem(2, false),
+        createItem(3, false),
+        createItem(4, false),
+        createItem(5, false),
+        createItem(6, false),        
+        createItem(7, false),
+        createItem(8, false),
+        createItem(9, true),
+        createItem(10, false)
+      )
+      sut.generatePaginationItems(9, 10) mustEqual expectedItems
+    }
+
+  }
+
+  "generatePagination" should {
+
+    "return None where there is only 1 page" in {
+      sut.generatePagination(1, 1) mustEqual None
+    }
+
+    "return Some where there is more than 1 page" in {
+      sut.generatePagination(2, 5).isDefined mustEqual true
+    }
+
+    "return Some where there is many pages" in {
+      sut.generatePagination(10, 10).isDefined mustEqual true
+    }  
+
+  }
 
 }

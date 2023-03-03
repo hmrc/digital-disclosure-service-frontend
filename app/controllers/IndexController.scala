@@ -46,7 +46,7 @@ class IndexController @Inject()(
     if (appConfig.fullDisclosureJourneyEnabled) {
 
       if (request.isAgent) 
-        Future.successful(Ok(view(controllers.routes.CaseManagementController.onPageLoad.url)))
+        Future.successful(Ok(view(controllers.routes.CaseManagementController.onPageLoad(1).url)))
       else {
         for {
           uaOpt  <- sessionService.getIndividualUserAnswers(request.userId, UserAnswers.defaultSubmissionId)

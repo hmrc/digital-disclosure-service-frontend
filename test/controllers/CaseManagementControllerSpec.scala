@@ -49,7 +49,7 @@ class CaseManagementControllerSpec extends SpecBase {
       val application = applicationBuilderWithStoreService(userAnswers = Some(emptyUserAnswers), TestStoreService).build()
 
       running(application) {
-        val request = FakeRequest(GET, routes.CaseManagementController.onPageLoad.url)
+        val request = FakeRequest(GET, routes.CaseManagementController.onPageLoad(1).url)
 
         val result = route(application, request).value
 
@@ -71,7 +71,7 @@ class CaseManagementControllerSpec extends SpecBase {
       val application = applicationBuilderWithStoreService(userAnswers = Some(emptyUserAnswers), TestStoreService).build()
 
       running(application) {
-        val request = FakeRequest(GET, routes.CaseManagementController.onPageLoad.url)
+        val request = FakeRequest(GET, routes.CaseManagementController.onPageLoad(1).url)
 
         val result = route(application, request).value
 
