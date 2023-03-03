@@ -20,7 +20,7 @@
     link: components.link
 )
 
-@(list: LettingSummaryLists, i: Int)(implicit request: Request[_], messages: Messages)
+@(list: LettingSummaryLists, i: Int, mode: Mode)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = titleNoForm(messages("checkYourAnswers.letting.title", i+1))) {
 
@@ -28,6 +28,6 @@
 
     @govukSummaryList(list.lettingList.withAttribute("id","letting-list"))
 
-    @link(id = "continue", classes = "govuk-button", text = messages("site.continue"), newTab = false, call = Call("GET", controllers.routes.TaskListController.onPageLoad.url))
+    @link(id = "continue", classes = "govuk-button", text = messages("site.continue"), newTab = false, call = Call("GET", controllers.onshore.routes.PropertyAddedController.onPageLoad(mode).url))
 
 }

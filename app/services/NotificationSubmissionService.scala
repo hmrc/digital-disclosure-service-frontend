@@ -22,7 +22,6 @@ import models.store.Metadata
 import connectors.DigitalDisclosureServiceConnector
 import com.google.inject.{Inject, Singleton, ImplementedBy}
 import models.UserAnswers
-import pages.LetterReferencePage
 
 @Singleton
 class NotificationSubmissionServiceImpl @Inject()(

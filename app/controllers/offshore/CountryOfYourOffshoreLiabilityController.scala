@@ -21,7 +21,7 @@ import controllers.actions._
 import forms.CountryOfYourOffshoreLiabilityFormProvider
 
 import javax.inject.Inject
-import models.{Mode, UserAnswers}
+import models.Mode
 import navigation.OffshoreNavigator
 import pages.CountryOfYourOffshoreLiabilityPage
 import play.api.data.Form
@@ -32,7 +32,6 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.offshore.CountryOfYourOffshoreLiabilityView
 
 import scala.concurrent.{ExecutionContext, Future}
-import scala.util.Try
 
 class CountryOfYourOffshoreLiabilityController @Inject()(
                                         override val messagesApi: MessagesApi,

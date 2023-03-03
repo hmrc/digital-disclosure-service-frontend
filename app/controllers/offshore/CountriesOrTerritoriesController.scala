@@ -21,7 +21,7 @@ import controllers.actions._
 import forms.CountriesOrTerritoriesFormProvider
 
 import javax.inject.Inject
-import models.{Mode, NormalMode, UserAnswers}
+import models.{Mode, UserAnswers}
 import navigation.OffshoreNavigator
 import pages.{CountriesOrTerritoriesPage, CountryOfYourOffshoreLiabilityPage}
 import play.api.i18n.{I18nSupport, Messages, MessagesApi}

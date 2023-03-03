@@ -22,7 +22,7 @@ import play.api.test.Helpers._
 import viewmodels.govuk.SummaryListFluency
 import views.html.letting.CheckYourAnswersView
 import viewmodels.checkAnswers._
-import models.{LettingProperty, NoLongerBeingLetOut, UserAnswers, LettingSummaryLists, TypeOfMortgageDidYouHave}
+import models.{LettingProperty, NoLongerBeingLetOut, UserAnswers, LettingSummaryLists, TypeOfMortgageDidYouHave, NormalMode}
 import models.address.Address
 import pages.LettingPropertyPage
 import play.api.i18n.Messages
@@ -40,7 +40,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       implicit val mess = messages(application)
 
       running(application) {
-        val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad(0).url)
+        val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad(0, NormalMode).url)
 
         val result = route(application, request).value
 
@@ -49,7 +49,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         val list = LettingSummaryLists(lettingList)
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(list, 0)(request, mess).toString
+        contentAsString(result) mustEqual view(list, 0, NormalMode)(request, mess).toString
       }
     }
 
@@ -58,7 +58,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad(0).url)
+        val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad(0, NormalMode).url)
 
         val result = route(application, request).value
 
@@ -73,14 +73,14 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       val list = summaryList(mess)
 
       running(application) {
-        val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad(0).url)
+        val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad(0, NormalMode).url)
 
         val result = route(application, request).value
 
         val view = application.injector.instanceOf[CheckYourAnswersView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(list, 0)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(list, 0, NormalMode)(request, messages(application)).toString
       }
     }
 

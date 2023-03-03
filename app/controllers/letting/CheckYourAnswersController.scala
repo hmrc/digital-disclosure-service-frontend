@@ -18,7 +18,7 @@ package controllers.letting
 
 import com.google.inject.Inject
 import controllers.actions.{DataRequiredAction, DataRetrievalAction, IdentifierAction}
-import models.{LettingSummaryLists, LettingProperty}
+import models.{Mode, LettingSummaryLists, LettingProperty}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
@@ -38,7 +38,7 @@ class CheckYourAnswersController @Inject()(
                                             view: CheckYourAnswersView
                                           )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoad(i: Int): Action[AnyContent] = (identify andThen getData andThen requireData) {
+  def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
       val ua = request.userAnswers
@@ -68,6 +68,6 @@ class CheckYourAnswersController @Inject()(
         lettingList
       )
       
-      Ok(view(list, i))
+      Ok(view(list, i, mode))
   }
 }

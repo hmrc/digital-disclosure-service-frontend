@@ -19,7 +19,7 @@ package controllers.onshore
 import controllers.actions._
 import forms.NotIncludedSingleTaxYearFormProvider
 import javax.inject.Inject
-import models.{Mode, NormalMode, UserAnswers, OnshoreYearStarting}
+import models.{Mode, UserAnswers, OnshoreYearStarting}
 import models.requests.DataRequest
 import play.api.mvc.Result
 import navigation.OnshoreNavigator

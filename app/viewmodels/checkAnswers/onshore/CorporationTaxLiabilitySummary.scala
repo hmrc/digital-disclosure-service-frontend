@@ -16,8 +16,6 @@
 
 package viewmodels.checkAnswers
 
-import java.time.format.DateTimeFormatter
-
 import controllers.onshore.routes
 import models.{CheckMode, UserAnswers}
 import pages.CorporationTaxLiabilityPage

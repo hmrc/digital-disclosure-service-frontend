@@ -21,7 +21,7 @@ import javax.inject.Inject
 import forms.mappings.Mappings
 import play.api.data.{Form, Mapping}
 import play.api.data.Forms._
-import play.api.data.validation.{Constraint, Constraints, Invalid, Valid, ValidationError}
+import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 import models.{OnshoreTaxYearLiabilities, WhatOnshoreLiabilitiesDoYouNeedToDisclose}
 
 class OnshoreTaxYearLiabilitiesFormProvider @Inject() extends Mappings  {
