@@ -28,6 +28,7 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.MakeANotificationOrDisclosureView
+import java.time.Instant
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -60,7 +61,7 @@ class MakeANotificationOrDisclosureController @Inject()(
           val newSubmissionType = if (value == MakeANotification) SubmissionType.Notification else SubmissionType.Disclosure
           val updatedAnswers = request.userAnswers match {
             case Some(ua) => ua.copy(submissionType = newSubmissionType)
-            case None => UserAnswers(request.userId, UserAnswers.defaultSubmissionId, newSubmissionType)
+            case None => UserAnswers(request.userId, UserAnswers.defaultSubmissionId, newSubmissionType, created = Instant.now)
           }
 
           for {

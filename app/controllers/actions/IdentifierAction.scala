@@ -43,11 +43,9 @@ class AuthenticatedIdentifierAction @Inject()(
 
     implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
 
-    authorised(Agent or Organisation or ConfidenceLevel.L250).retrieve(Retrievals.internalId) {
-      _.map {
-        internalId => block(IdentifierRequest(request, internalId))
-      }.getOrElse(throw new UnauthorizedException("Unable to retrieve internal Id"))
-    } recover {
+    authorised(Agent).retrieve(Retrievals.internalId)(processAuthorisation(_, request, block, true))
+    .recoverWith {_ => authorised(Organisation or ConfidenceLevel.L250).retrieve(Retrievals.internalId)(processAuthorisation(_, request, block, false))}
+    .recover {
       case _: NoActiveSession =>
         Redirect(config.loginUrl, Map("continue" -> Seq(config.loginContinueUrl)))
       case _: InsufficientConfidenceLevel =>
@@ -56,6 +54,13 @@ class AuthenticatedIdentifierAction @Inject()(
         Redirect(routes.UnauthorisedController.onPageLoad)
     }
   }
+
+  def processAuthorisation[A](internalIdOpt: Option[String], request: Request[A], block: IdentifierRequest[A] => Future[Result], isAgent: Boolean) = {
+    internalIdOpt.map {
+      internalId => block(IdentifierRequest(request, internalId, isAgent))
+    }.getOrElse(throw new UnauthorizedException("Unable to retrieve internal Id"))
+  }
+
 }
 
 class SessionIdentifierAction @Inject()(
@@ -69,7 +74,7 @@ class SessionIdentifierAction @Inject()(
 
     hc.sessionId match {
       case Some(session) =>
-        block(IdentifierRequest(request, session.value))
+        block(IdentifierRequest(request, session.value, false))
       case None =>
         Future.successful(Redirect(routes.JourneyRecoveryController.onPageLoad()))
     }

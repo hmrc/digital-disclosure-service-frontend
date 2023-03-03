@@ -20,10 +20,11 @@ import controllers.actions._
 import javax.inject.Inject
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Result, ResponseHeader, Action, AnyContent, MessagesControllerComponents}
-import services.SubmissionPDFService
+import services.{SubmissionStoreService, SubmissionPDFService, SubmissionToUAService}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 import play.api.http.HttpEntity
+import models.store.Notification
 
 class PdfGenerationController @Inject()(
                                        override val messagesApi: MessagesApi,
@@ -31,6 +32,8 @@ class PdfGenerationController @Inject()(
                                        identify: IdentifierAction,
                                        getData: DataRetrievalAction,
                                        requireData: DataRequiredAction,
+                                       submissionStoreService: SubmissionStoreService,
+                                       submissionToUAService: SubmissionToUAService,
                                        val controllerComponents: MessagesControllerComponents
                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
@@ -43,6 +46,21 @@ class PdfGenerationController @Inject()(
         body = HttpEntity.Strict(byteString, Some("application/pdf"))
       )
     }
+  }
+
+  def generateForSubmissionId(id: String): Action[AnyContent] = (identify andThen getData).async {
+    implicit request =>
+
+    for {
+      submissionOpt <- submissionStoreService.getSubmission(request.userId, id)
+      submission = submissionOpt.getOrElse(Notification(request.userId, id))
+      userAnswers <- Future.fromTry(submissionToUAService.submissionToUa(submission))
+      byteString <- pdfService.generatePdf(userAnswers)
+    } yield Result(
+      header = ResponseHeader(200, Map.empty),
+      body = HttpEntity.Strict(byteString, Some("application/pdf"))
+    )
+
   }
 
 }

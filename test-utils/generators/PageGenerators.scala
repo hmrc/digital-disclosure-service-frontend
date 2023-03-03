@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryPropertyAddedPage: Arbitrary[PropertyAddedPage.type] =
+    Arbitrary(PropertyAddedPage)
+
   implicit lazy val arbitraryHowManyPropertiesDoYouCurrentlyLetOutPage: Arbitrary[HowManyPropertiesDoYouCurrentlyLetOutPage.type] =
     Arbitrary(HowManyPropertiesDoYouCurrentlyLetOutPage)
 

@@ -14,11 +14,32 @@
  * limitations under the License.
  */
 
-package models.requests
+package forms
 
-import play.api.mvc.{Request, WrappedRequest}
-import models.UserAnswers
+import forms.behaviours.BooleanFieldBehaviours
+import play.api.data.FormError
 
-case class OptionalDataRequest[A] (request: Request[A], userId: String, userAnswers: Option[UserAnswers], isAgent: Boolean) extends WrappedRequest[A](request)
+class PropertyAddedFormProviderSpec extends BooleanFieldBehaviours {
 
-case class DataRequest[A] (request: Request[A], userId: String, userAnswers: UserAnswers) extends WrappedRequest[A](request)
+  val requiredKey = "propertyAdded.error.required"
+  val invalidKey = "error.boolean"
+
+  val form = new PropertyAddedFormProvider()()
+
+  ".value" - {
+
+    val fieldName = "value"
+
+    behave like booleanField(
+      form,
+      fieldName,
+      invalidError = FormError(fieldName, invalidKey)
+    )
+
+    behave like mandatoryField(
+      form,
+      fieldName,
+      requiredError = FormError(fieldName, requiredKey)
+    )
+  }
+}

@@ -14,11 +14,18 @@
  * limitations under the License.
  */
 
-package models.requests
+package pages
 
-import play.api.mvc.{Request, WrappedRequest}
-import models.UserAnswers
+import pages.behaviours.PageBehaviours
 
-case class OptionalDataRequest[A] (request: Request[A], userId: String, userAnswers: Option[UserAnswers], isAgent: Boolean) extends WrappedRequest[A](request)
+class PropertyAddedPageSpec extends PageBehaviours {
 
-case class DataRequest[A] (request: Request[A], userId: String, userAnswers: UserAnswers) extends WrappedRequest[A](request)
+  "PropertyAddedPage" - {
+
+    beRetrievable[Boolean](PropertyAddedPage)
+
+    beSettable[Boolean](PropertyAddedPage)
+
+    beRemovable[Boolean](PropertyAddedPage)
+  }
+}

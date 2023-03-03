@@ -34,7 +34,7 @@ class DataRetrievalActionImpl @Inject()(
     implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
 
     sessionService.getSession(request.userId).map {
-      OptionalDataRequest(request.request, request.userId, _)
+      OptionalDataRequest(request.request, request.userId, _, request.isAgent)
     }
   }
 }
