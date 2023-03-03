@@ -55,7 +55,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         val list = SummaryLists(backgroundList, aboutYouList, aboutTheIndividualList, aboutTheCompanyList, aboutThePersonWhoDiedList)
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(list, true, true)(request, mess).toString
+        contentAsString(result) mustEqual view(list, true, true, false)(request, mess).toString
       }
     }
 
@@ -86,7 +86,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         val view = application.injector.instanceOf[CheckYourAnswersView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(list, true, true)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(list, true, true, false)(request, messages(application)).toString
       }
     }
 

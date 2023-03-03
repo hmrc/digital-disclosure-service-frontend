@@ -25,10 +25,11 @@
     govukButton: GovukButton,
     subheading: components.subheading,
     downloadLink: components.downloadLink,
-    link: components.link
+    link: components.link,
+    caseManagementLink: components.caseManagementLink
 )
 
-@(list: TaskListViewModel, notificationSectionKey: String, isTheUserAgent: Boolean, entity: String, isAllTaskCompleted: Boolean, sectionsComplete: Int)(implicit request: Request[_], messages: Messages)
+@(list: TaskListViewModel, notificationSectionKey: String, isTheUserAgent: Boolean, entity: String, isAllTaskCompleted: Boolean, sectionsComplete: Int, ggAgentAccount: Boolean)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = titleNoForm(messages("taskList.title"))) {
 
@@ -43,6 +44,10 @@
         }
         @paragraph(id = Some("second-paragraph"), content = Text(messages("taskList.paragraph.second", sectionsComplete)))
         @paragraph(id = Some("third-paragraph"), content = Text(messages("taskList.paragraph.third")))
+
+        @if(ggAgentAccount){
+            @caseManagementLink()
+        }
 
         <ol class="app-task-list">
             @task("1.", messages(notificationSectionKey), list.personalDetailsTask)

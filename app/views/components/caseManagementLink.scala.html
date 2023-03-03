@@ -1,4 +1,4 @@
-/*
+@*
  * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,13 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *@
 
-package models.requests
+@this(
+    paragraph: components.paragraph,
+    link: components.link
+)
 
-import play.api.mvc.{Request, WrappedRequest}
-import models.UserAnswers
+@()(implicit messages: Messages)
 
-case class OptionalDataRequest[A] (request: Request[A], userId: String, userAnswers: Option[UserAnswers], isAgent: Boolean) extends WrappedRequest[A](request)
-
-case class DataRequest[A] (request: Request[A], userId: String, userAnswers: UserAnswers, isAgent: Boolean) extends WrappedRequest[A](request)
+@paragraph(
+    content = HtmlContent(
+        link(
+            id = "case-management-link", 
+            text = messages("site.caseManagement"), 
+            newTab = false, 
+            call = Call("GET", controllers.routes.CaseManagementController.onPageLoad(1).url)
+        )
+    )
+)

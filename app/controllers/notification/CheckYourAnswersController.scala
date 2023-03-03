@@ -177,7 +177,7 @@ class CheckYourAnswersController @Inject()(
       val isTheEntity = isTheUserTheEntity(request.userAnswers)
 
       val isNotification = (request.userAnswers.submissionType == SubmissionType.Notification)
-      Ok(view(list, isTheEntity, isNotification))
+      Ok(view(list, isTheEntity, isNotification, request.isAgent))
   }
 
   def onSubmit: Action[AnyContent] = (identify andThen getData andThen requireData).async {

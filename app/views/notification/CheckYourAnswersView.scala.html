@@ -20,10 +20,11 @@
     govukButton: GovukButton,
     formHelper: FormWithCSRF,
     downloadLink: components.downloadLink,
-    link: components.link
+    link: components.link,
+    caseManagementLink: components.caseManagementLink
 )
 
-@(list: SummaryLists, isTheEntity: Boolean, isNotification: Boolean)(implicit request: Request[_], messages: Messages)
+@(list: SummaryLists, isTheEntity: Boolean, isNotification: Boolean, ggAgentAccount: Boolean)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = titleNoForm(messages("checkYourAnswers.title"))) {
 
@@ -63,6 +64,11 @@
         @govukSummaryList(list.aboutYou.withAttribute("id", "about-you-list"))
 
         @if(isNotification){
+
+            @if(ggAgentAccount){
+                @caseManagementLink()
+            }
+
             <h2 class="govuk-heading-l">@messages("notificationCYA.send.heading")</h2>
 
             <p class="govuk-body" id="first-paragraph">@messages("notificationCYA.body1")</p>
