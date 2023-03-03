@@ -134,14 +134,14 @@ class LettingNavigatorSpec extends SpecBase {
         val index = 0
         val lettingProperty = LettingProperty(typeOfMortgage = Some(TypeOfMortgageDidYouHave.CapitalRepayment))
         val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
-        navigator.nextPage(WhatTypeOfMortgageDidYouHavePage, index, NormalMode, ua) mustBe routes.DidTheLettingAgentCollectRentOnYourBehalfController.onPageLoad(index, NormalMode)
+        navigator.nextPage(WhatTypeOfMortgageDidYouHavePage, index, NormalMode, ua) mustBe routes.WasALettingAgentUsedToManagePropertyController.onPageLoad(index, NormalMode)
       }
 
       "must go from WhatTypeOfMortgageDidYouHavePage to DidTheLettingAgentCollectRentOnYourBehalfController when InterestOnly is selected" in {
         val index = 0
         val lettingProperty = LettingProperty(typeOfMortgage = Some(TypeOfMortgageDidYouHave.InterestOnly))
         val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
-        navigator.nextPage(WhatTypeOfMortgageDidYouHavePage, index, NormalMode, ua) mustBe routes.DidTheLettingAgentCollectRentOnYourBehalfController.onPageLoad(index, NormalMode)
+        navigator.nextPage(WhatTypeOfMortgageDidYouHavePage, index, NormalMode, ua) mustBe routes.WasALettingAgentUsedToManagePropertyController.onPageLoad(index, NormalMode)
       }
 
       "must go from WhatTypeOfMortgageDidYouHavePage to WhatWasTheTypeOfMortgageController when Other is selected" in {
@@ -155,17 +155,31 @@ class LettingNavigatorSpec extends SpecBase {
         val index = 0
         val lettingProperty = LettingProperty(otherTypeOfMortgage = Some("type"))
         val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
-        navigator.nextPage(WhatWasTheTypeOfMortgagePage, index, NormalMode, ua) mustBe routes.DidTheLettingAgentCollectRentOnYourBehalfController.onPageLoad(index, NormalMode)
+        navigator.nextPage(WhatWasTheTypeOfMortgagePage, index, NormalMode, ua) mustBe routes.WasALettingAgentUsedToManagePropertyController.onPageLoad(index, NormalMode)
       }
 
       "must go from WasALettingAgentUsedToManagePropertyPage to CheckYourAnswersController if selected yes" in {
+        val index = 0
+        val lettingProperty = LettingProperty(wasPropertyManagerByAgent = Some(true))
+        val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
+        navigator.nextPage(WasALettingAgentUsedToManagePropertyPage, index, NormalMode, ua) mustBe routes.DidTheLettingAgentCollectRentOnYourBehalfController.onPageLoad(index, NormalMode)
+      }
+
+      "must go from WasALettingAgentUsedToManagePropertyPage to CheckYourAnswersController if selected no" in {
+        val index = 0
+        val lettingProperty = LettingProperty(wasPropertyManagerByAgent = Some(false))
+        val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
+        navigator.nextPage(WasALettingAgentUsedToManagePropertyPage, index, NormalMode, ua) mustBe routes.CheckYourAnswersController.onPageLoad(index, NormalMode)
+      }
+
+      "must go from DidTheLettingAgentCollectRentOnYourBehalfPage to CheckYourAnswersController if selected yes" in {
         val index = 0
         val lettingProperty = LettingProperty(didTheLettingAgentCollectRentOnYourBehalf = Some(true))
         val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
         navigator.nextPage(DidTheLettingAgentCollectRentOnYourBehalfPage, index, NormalMode, ua) mustBe routes.CheckYourAnswersController.onPageLoad(index, NormalMode)
       }
 
-      "must go from WasALettingAgentUsedToManagePropertyPage to CheckYourAnswersController if selected no" in {
+      "must go from DidTheLettingAgentCollectRentOnYourBehalfPage to CheckYourAnswersController if selected no" in {
         val index = 0
         val lettingProperty = LettingProperty(didTheLettingAgentCollectRentOnYourBehalf = Some(false))
         val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
