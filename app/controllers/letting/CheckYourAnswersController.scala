@@ -27,8 +27,6 @@ import views.html.letting.CheckYourAnswersView
 import viewmodels.checkAnswers._
 import pages.LettingPropertyPage
 
-import scala.concurrent.ExecutionContext
-
 class CheckYourAnswersController @Inject()(
                                             override val messagesApi: MessagesApi,
                                             identify: IdentifierAction,
@@ -36,7 +34,7 @@ class CheckYourAnswersController @Inject()(
                                             requireData: DataRequiredAction,
                                             val controllerComponents: MessagesControllerComponents,
                                             view: CheckYourAnswersView
-                                          )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+                                          ) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>

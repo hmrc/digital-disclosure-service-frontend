@@ -19,49 +19,50 @@ package views.onshore
 import base.ViewSpecBase
 import controllers.onshore.routes
 import forms.AccountingPeriodDLAddedFormProvider
-import models.address.{Address, Country}
 import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.onshore.AccountingPeriodDLAddedView
-import models.{LettingProperty, NormalMode}
-import viewmodels.onshore.LettingPropertyModel
+import models.{DirectorLoanAccountLiabilities, NormalMode}
+import viewmodels.onshore.DirectorLoanAccountLiabilityModel
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class AccountingPeriodDLAddedViewSpec extends ViewSpecBase with ViewMatchers {
 
   val form = new AccountingPeriodDLAddedFormProvider()()
-  val page: AccountingPeriodDLAddedView = injeDL[AccountingPeriodDLAddedView]
+  val page: AccountingPeriodDLAddedView = inject[AccountingPeriodDLAddedView]
 
-  val postcode1 = "AA111AA"
-  val address1: Address = Address(
-    line1 = "Line 1",
-    postcode = Some(postcode1),
-    line2 = None,
-    line3 = None,
-    line4 = None,
-    country = Country("AA")
+  val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+
+  val directorLoanAccountLiabilities: DirectorLoanAccountLiabilities = DirectorLoanAccountLiabilities(
+    name = "Some Name 1",
+    periodEnd = LocalDate.now(),
+    overdrawn = BigInt(1),
+    unpaidTax = BigInt(1),
+    interest = BigInt(1),
+    penaltyRate = 1,
+    penaltyRateReason = "Some reason"
   )
-  val property1 = LettingProperty(address = Some(address1))
 
-  val postcode2 = "BB222BB"
-  val address2: Address = Address(
-    line1 = "Line 2",
-    postcode = Some(postcode2),
-    line2 = None,
-    line3 = None,
-    line4 = None,
-    country = Country("AA")
+  val directorLoanAccountLiabilities2: DirectorLoanAccountLiabilities = DirectorLoanAccountLiabilities(
+    name = "Some Name 2",
+    periodEnd = LocalDate.now(),
+    overdrawn = BigInt(2),
+    unpaidTax = BigInt(2),
+    interest = BigInt(2),
+    penaltyRate = 2,
+    penaltyRateReason = "Some reason"
   )
-  val property2 = LettingProperty(address = Some(address2))
 
-  "view for a single property" should {
+  "view for a single account period end date" should {
 
-    val propertiesSummaries = LettingPropertyModel.row(Seq(property1), NormalMode)
+    val directorLoanAccountLiabilitiesSummaries = DirectorLoanAccountLiabilityModel.row(Set(directorLoanAccountLiabilities), NormalMode)
 
-    def createView: Html = page(form, propertiesSummaries, NormalMode)(request, messages)
+    def createView: Html = page(form, directorLoanAccountLiabilitiesSummaries, NormalMode)(request, messages)
     val view = createView
 
     "have title" in {
-      view.seleDL("title").text() must include(messages("accountingPeriodDLAdded.title.single"))
+      view.select("title").text() must include(messages("accountingPeriodDLAdded.title.single"))
     }
 
     "contain header" in {
@@ -69,7 +70,7 @@ class AccountingPeriodDLAddedViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain summary row" in {
-      view.getElementsByClass("govuk-summary-list__only_key").text() mustBe s"${address1.line1}, $postcode1"
+      view.getElementsByClass("govuk-summary-list__only_key").text() mustBe s"Ending ${directorLoanAccountLiabilities.periodEnd.format(dateFormatter)}"
     }
 
     "contain remove link" in {
@@ -86,14 +87,14 @@ class AccountingPeriodDLAddedViewSpec extends ViewSpecBase with ViewMatchers {
 
   "view for a multiple properties" should {
 
-    val propertiesSummaries = LettingPropertyModel.row(Seq(property1, property2), NormalMode)
+    val directorLoanAccountLiabilitiesSummaries = DirectorLoanAccountLiabilityModel.row(Set(directorLoanAccountLiabilities, directorLoanAccountLiabilities2), NormalMode)
 
-    def createView: Html = page(form, propertiesSummaries, NormalMode)(request, messages)
+    def createView: Html = page(form, directorLoanAccountLiabilitiesSummaries, NormalMode)(request, messages)
 
     val view = createView
 
     "have title" in {
-      view.seleDL("title").text() must include(messages("accountingPeriodDLAdded.title.multi", 2))
+      view.select("title").text() must include(messages("accountingPeriodDLAdded.title.multi", 2))
     }
 
     "contain header" in {
@@ -101,8 +102,8 @@ class AccountingPeriodDLAddedViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain summary row" in {
-      view.getElementsByClass("govuk-summary-list__only_key").first().text() mustBe s"${address1.line1}, $postcode1"
-      view.getElementsByClass("govuk-summary-list__only_key").last().text() mustBe s"${address2.line1}, $postcode2"
+      view.getElementsByClass("govuk-summary-list__only_key").first().text() mustBe s"Ending ${directorLoanAccountLiabilities.periodEnd.format(dateFormatter)}"
+      view.getElementsByClass("govuk-summary-list__only_key").last().text() mustBe s"Ending ${directorLoanAccountLiabilities2.periodEnd.format(dateFormatter)}"
     }
 
     "contain remove link" in {

@@ -21,12 +21,13 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryList
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
-import viewmodels.checkAnswers._
 import pages.DirectorLoanAccountLiabilitiesPage
 import play.api.i18n.Messages
+import java.time.format.DateTimeFormatter
 
 case class DirectorLoanAccountLiabilitiesSummaryViewModel (
-  directorLoanAccountLiabilitiesList: Seq[(Int, SummaryList)]
+  directorLoanAccountLiabilitiesList: Seq[(Int, SummaryList)],
+  totalAmountsList: SummaryList
 )
 
 class DirectorLoanAccountLiabilitiesSummaryViewModelCreation {
@@ -35,26 +36,28 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelCreation {
 
     val directorLoanAccountLiabilities = userAnswers.get(DirectorLoanAccountLiabilitiesPage).getOrElse(Set())
 
-    val directorLoanAccountLiabilitiesList: Seq[(Int, SummaryList)] = directorLoanAccountLiabilities.zipWithIndex.map { 
+    val directorLoanAccountLiabilitiesList: Seq[(Int, SummaryList)] = (directorLoanAccountLiabilities.zipWithIndex.map { 
       case (directorLoanAccountLiability, i) => (i+1, directorLoanAccountLiabilitiesToSummaryList(i, directorLoanAccountLiability))
-    }
+    }).toSeq
 
-    DirectorLoanAccountLiabilitiesSummaryViewModel(directorLoanAccountLiabilitiesList)
+    val totalAmountsList = totalAmountsSummaryList(directorLoanAccountLiabilities)
+
+    DirectorLoanAccountLiabilitiesSummaryViewModel(directorLoanAccountLiabilitiesList, totalAmountsList)
   }
 
   def directorLoanAccountLiabilitiesToSummaryList(i: Int, directorLoanAccountLiability: DirectorLoanAccountLiabilities)(implicit messages: Messages): SummaryList = {
     val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
-    val rows = Seq(
-      row(i, "directorLoanAccountLiability.name.checkYourAnswersLabel", s"${directorLoanAccountLiability.name}", "directorLoanAccountLiability.name.hidden"),
-      row(i, "directorLoanAccountLiability.periodEnd.checkYourAnswersLabel", s"${directorLoanAccountLiability.periodEnd.format(dateFormatter)}", "directorLoanAccountLiability.periodEnd.hidden"),
-      row(i, "directorLoanAccountLiability.overdrawn.checkYourAnswersLabel", s"&pound;${directorLoanAccountLiability.overdrawn}", "directorLoanAccountLiability.overdrawn.hidden"),
-      row(i, "directorLoanAccountLiability.unpaidTax.checkYourAnswersLabel", s"&pound;${directorLoanAccountLiability.unpaidTax}", "directorLoanAccountLiability.unpaidTax.hidden"),
-      row(i, "directorLoanAccountLiability.interest.checkYourAnswersLabel", s"${directorLoanAccountLiability.interest}%", "directorLoanAccountLiability.interest.hidden"),
-      row(i, "directorLoanAccountLiability.penaltyRate.checkYourAnswersLabel", s"&pound;${directorLoanAccountLiability.penaltyRate}", "directorLoanAccountLiability.penaltyRate.hidden"),
-      row(i, "directorLoanAccountLiability.penaltyRateReason.checkYourAnswersLabel", s"${directorLoanAccountLiability.penaltyRateReason}", "directorLoanAccountLiability.penaltyRateReason.hidden")
+    SummaryListViewModel(
+      rows = Seq(
+        row(i, "directorLoanAccountLiabilities.name.checkYourAnswersLabel", s"${directorLoanAccountLiability.name}", "directorLoanAccountLiability.name.hidden"),
+        row(i, "directorLoanAccountLiabilities.periodEnd.checkYourAnswersLabel", s"${directorLoanAccountLiability.periodEnd.format(dateFormatter)}", "directorLoanAccountLiability.periodEnd.hidden"),
+        row(i, "directorLoanAccountLiabilities.overdrawn.checkYourAnswersLabel", s"&pound;${directorLoanAccountLiability.overdrawn}", "directorLoanAccountLiability.overdrawn.hidden"),
+        row(i, "directorLoanAccountLiabilities.unpaidTax.checkYourAnswersLabel", s"&pound;${directorLoanAccountLiability.unpaidTax}", "directorLoanAccountLiability.unpaidTax.hidden"),
+        row(i, "directorLoanAccountLiabilities.interest.checkYourAnswersLabel", s"&pound;${directorLoanAccountLiability.interest}", "directorLoanAccountLiability.interest.hidden"),
+        row(i, "directorLoanAccountLiabilities.penaltyRate.checkYourAnswersLabel", s"&pound;${directorLoanAccountLiability.penaltyRate}", "directorLoanAccountLiability.penaltyRate.hidden"),
+        row(i, "directorLoanAccountLiabilities.penaltyRateReason.checkYourAnswersLabel", s"${directorLoanAccountLiability.penaltyRateReason}", "directorLoanAccountLiability.penaltyRateReason.hidden")
+      )
     )
-
-    SummaryListViewModel(rows)
   }
 
   def row(i: Int, label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
@@ -65,6 +68,36 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelCreation {
         ActionItemViewModel("site.change", controllers.onshore.routes.DirectorLoanAccountLiabilitiesController.onPageLoad(i, CheckMode).url)
           .withVisuallyHiddenText(messages(hiddenLabel))
       )
+    )
+  }
+
+  def totalAmountsSummaryList(directorLoanAccountLiabilities: Set[DirectorLoanAccountLiabilities])(implicit messages: Messages): SummaryList = {
+    val unpaidTaxTotal = directorLoanAccountLiabilities.map(_.unpaidTax).sum
+    val interestTotal = directorLoanAccountLiabilities.map(_.interest).sum
+    val penaltyRateTotal = directorLoanAccountLiabilities.map(_.penaltyRate).sum
+    val penaltyAmountTotal = directorLoanAccountLiabilities.map(penaltyAmount).sum
+    val amountDueTotal = unpaidTaxTotal + interestTotal + penaltyRateTotal + penaltyAmountTotal
+
+    SummaryListViewModel(
+      rows = Seq(
+        totalRow("checkYourAnswers.dl.total.taxDue", s"&pound;${unpaidTaxTotal}"),
+        totalRow("checkYourAnswers.dl.total.interestDue", s"&pound;${interestTotal}"),
+        totalRow("checkYourAnswers.dl.total.penaltyRate", s"&pound;${penaltyRateTotal}"),
+        totalRow("checkYourAnswers.dl.total.penaltyAmount", s"&pound;${penaltyAmountTotal}"),
+        totalRow("checkYourAnswers.dl.total.totalAmountDue", s"&pound;${amountDueTotal}")
+      )
+    )
+  }
+
+  def penaltyAmount(directorLoanAccountLiabilities: DirectorLoanAccountLiabilities): BigInt = {
+    (BigInt(directorLoanAccountLiabilities.penaltyRate) * directorLoanAccountLiabilities.unpaidTax) /100
+  }
+
+  def totalRow(label: String, value: String)(implicit messages: Messages) = {
+    SummaryListRowViewModel(
+      key     = label,
+      value   = ValueViewModel(HtmlContent(value)),
+      actions = Nil
     )
   }
 }

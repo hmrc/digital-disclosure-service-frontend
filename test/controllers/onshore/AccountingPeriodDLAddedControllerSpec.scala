@@ -18,18 +18,19 @@ package controllers
 
 import base.SpecBase
 import forms.AccountingPeriodDLAddedFormProvider
-import models.{NormalMode, UserAnswers}
+import models.{NormalMode, UserAnswers, DirectorLoanAccountLiabilities}
 import navigation.{FakeOnshoreNavigator, OnshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.AccountingPeriodDLAddedPage
+import pages.DirectorLoanAccountLiabilitiesPage
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
 import views.html.onshore.AccountingPeriodDLAddedView
+import java.time.LocalDate
 
 import scala.concurrent.Future
 
@@ -41,6 +42,8 @@ class AccountingPeriodDLAddedControllerSpec extends SpecBase with MockitoSugar {
   val form = formProvider()
 
   lazy val accountingPeriodDLAddedRoute = onshore.routes.AccountingPeriodDLAddedController.onPageLoad(NormalMode).url
+
+  val periodEndDates = Seq.empty
 
   "AccountingPeriodDLAdded Controller" - {
 
@@ -56,25 +59,7 @@ class AccountingPeriodDLAddedControllerSpec extends SpecBase with MockitoSugar {
         val view = application.injector.instanceOf[AccountingPeriodDLAddedView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
-      }
-    }
-
-    "must populate the view correctly on a GET when the question has previously been answered" in {
-
-      val userAnswers = UserAnswers(userAnswersId).set(AccountingPeriodDLAddedPage, true).success.value
-
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
-
-      running(application) {
-        val request = FakeRequest(GET, accountingPeriodDLAddedRoute)
-
-        val view = application.injector.instanceOf[AccountingPeriodDLAddedView]
-
-        val result = route(application, request).value
-
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(true), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, periodEndDates, NormalMode)(request, messages(application)).toString
       }
     }
 
@@ -119,7 +104,7 @@ class AccountingPeriodDLAddedControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, periodEndDates, NormalMode)(request, messages(application)).toString
       }
     }
 
@@ -150,6 +135,76 @@ class AccountingPeriodDLAddedControllerSpec extends SpecBase with MockitoSugar {
 
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
+      }
+    }
+
+    "must redirect to the director’s loan account liability page if remove method is called and there are no more details" in {
+      val removeDLRoute = onshore.routes.AccountingPeriodDLAddedController.remove(0, NormalMode).url
+
+      val mockSessionService = mock[SessionService]
+
+      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+
+      val application =
+        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
+          .overrides(
+            bind[OnshoreNavigator].toInstance(new FakeOnshoreNavigator(onwardRoute))
+          )
+          .build()
+
+      running(application) {
+        val request = FakeRequest(GET, removeDLRoute)
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual onshore.routes.DirectorLoanAccountLiabilitiesController.onPageLoad(0, NormalMode).url
+      }
+    }
+
+    "must redirect to the same page if remove method is called and there are still details" in {
+      val removeDLRoute = onshore.routes.AccountingPeriodDLAddedController.remove(0, NormalMode).url
+
+      val mockSessionService = mock[SessionService]
+
+      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+
+      val directorLoanAccountLiabilities: DirectorLoanAccountLiabilities = DirectorLoanAccountLiabilities(
+        name = "Some Name 1",
+        periodEnd = LocalDate.now(),
+        overdrawn = BigInt(0),
+        unpaidTax = BigInt(0),
+        interest = BigInt(0),
+        penaltyRate = 0,
+        penaltyRateReason = "Some reason"
+      )
+
+      val directorLoanAccountLiabilities2: DirectorLoanAccountLiabilities = DirectorLoanAccountLiabilities(
+        name = "Some Name 2",
+        periodEnd = LocalDate.now(),
+        overdrawn = BigInt(0),
+        unpaidTax = BigInt(0),
+        interest = BigInt(0),
+        penaltyRate = 0,
+        penaltyRateReason = "Some reason"
+      )
+
+      val userAnswers = UserAnswers("id").set(DirectorLoanAccountLiabilitiesPage, Set(directorLoanAccountLiabilities, directorLoanAccountLiabilities2)).success.value
+
+      val application =
+        applicationBuilderWithSessionService(userAnswers = Some(userAnswers), mockSessionService)
+          .overrides(
+            bind[OnshoreNavigator].toInstance(new FakeOnshoreNavigator(onwardRoute))
+          )
+          .build()
+
+      running(application) {
+        val request = FakeRequest(GET, removeDLRoute)
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual onshore.routes.AccountingPeriodDLAddedController.onPageLoad(NormalMode).url
       }
     }
   }

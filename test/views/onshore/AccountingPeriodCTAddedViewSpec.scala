@@ -19,45 +19,44 @@ package views.onshore
 import base.ViewSpecBase
 import controllers.onshore.routes
 import forms.AccountingPeriodCTAddedFormProvider
-import models.address.{Address, Country}
 import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.onshore.AccountingPeriodCTAddedView
-import models.{LettingProperty, NormalMode}
-import viewmodels.onshore.LettingPropertyModel
+import models.{CorporationTaxLiability, NormalMode}
+import viewmodels.onshore.CorporationTaxLiabilityModel
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class AccountingPeriodCTAddedViewSpec extends ViewSpecBase with ViewMatchers {
 
   val form = new AccountingPeriodCTAddedFormProvider()()
   val page: AccountingPeriodCTAddedView = inject[AccountingPeriodCTAddedView]
 
-  val postcode1 = "AA111AA"
-  val address1: Address = Address(
-    line1 = "Line 1",
-    postcode = Some(postcode1),
-    line2 = None,
-    line3 = None,
-    line4 = None,
-    country = Country("AA")
+  val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+
+  val corporationTaxLiability: CorporationTaxLiability = CorporationTaxLiability(
+    periodEnd = LocalDate.now(),
+    howMuchIncome = BigInt(1),
+    howMuchUnpaid = BigInt(1),
+    howMuchInterest = BigInt(1),
+    penaltyRate = 1,
+    penaltyRateReason = "Some reason"
   )
-  val property1 = LettingProperty(address = Some(address1))
 
-  val postcode2 = "BB222BB"
-  val address2: Address = Address(
-    line1 = "Line 2",
-    postcode = Some(postcode2),
-    line2 = None,
-    line3 = None,
-    line4 = None,
-    country = Country("AA")
+  val corporationTaxLiability2: CorporationTaxLiability = CorporationTaxLiability(
+    periodEnd = LocalDate.now(),
+    howMuchIncome = BigInt(2),
+    howMuchUnpaid = BigInt(2),
+    howMuchInterest = BigInt(2),
+    penaltyRate = 2,
+    penaltyRateReason = "Some reason"
   )
-  val property2 = LettingProperty(address = Some(address2))
 
-  "view for a single property" should {
+  "view for a single corporation tax liability" should {
 
-    val propertiesSummaries = LettingPropertyModel.row(Seq(property1), NormalMode)
+    val corporationTaxLiabilitiesSummaries = CorporationTaxLiabilityModel.row(Set(corporationTaxLiability), NormalMode)
 
-    def createView: Html = page(form, propertiesSummaries, NormalMode)(request, messages)
+    def createView: Html = page(form, corporationTaxLiabilitiesSummaries, NormalMode)(request, messages)
     val view = createView
 
     "have title" in {
@@ -69,7 +68,7 @@ class AccountingPeriodCTAddedViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain summary row" in {
-      view.getElementsByClass("govuk-summary-list__only_key").text() mustBe s"${address1.line1}, $postcode1"
+      view.getElementsByClass("govuk-summary-list__only_key").text() mustBe s"Ending ${corporationTaxLiability.periodEnd.format(dateFormatter)}"
     }
 
     "contain remove link" in {
@@ -84,11 +83,11 @@ class AccountingPeriodCTAddedViewSpec extends ViewSpecBase with ViewMatchers {
 
   }
 
-  "view for a multiple properties" should {
+  "view for a multiple corporation tax liability" should {
 
-    val propertiesSummaries = LettingPropertyModel.row(Seq(property1, property2), NormalMode)
+    val corporationTaxLiabilitiesSummaries = CorporationTaxLiabilityModel.row(Set(corporationTaxLiability, corporationTaxLiability2), NormalMode)
 
-    def createView: Html = page(form, propertiesSummaries, NormalMode)(request, messages)
+    def createView: Html = page(form, corporationTaxLiabilitiesSummaries, NormalMode)(request, messages)
 
     val view = createView
 
@@ -101,8 +100,8 @@ class AccountingPeriodCTAddedViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain summary row" in {
-      view.getElementsByClass("govuk-summary-list__only_key").first().text() mustBe s"${address1.line1}, $postcode1"
-      view.getElementsByClass("govuk-summary-list__only_key").last().text() mustBe s"${address2.line1}, $postcode2"
+      view.getElementsByClass("govuk-summary-list__only_key").first().text() mustBe s"Ending ${corporationTaxLiability.periodEnd.format(dateFormatter)}"
+      view.getElementsByClass("govuk-summary-list__only_key").last().text() mustBe s"Ending ${corporationTaxLiability2.periodEnd.format(dateFormatter)}"
     }
 
     "contain remove link" in {

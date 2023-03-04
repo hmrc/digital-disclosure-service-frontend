@@ -174,6 +174,8 @@ class OnshoreNavigator @Inject()() {
       case _ => routes.AreYouAMemberOfAnyLandlordAssociationsController.onPageLoad(NormalMode)
     }
 
+    case DirectorLoanAccountLiabilitiesPage => ua => routes.DirectorLoanAccountLiabilitiesSummaryController.onPageLoad(NormalMode)
+
     case AccountingPeriodDLAddedPage => ua => (ua.get(AccountingPeriodDLAddedPage), ua.get(DirectorLoanAccountLiabilitiesPage)) match {
       case (Some(true), Some(directorLoanAccountLiabilities)) => routes.DirectorLoanAccountLiabilitiesController.onPageLoad(directorLoanAccountLiabilities.size, NormalMode)
       case _ => routes.AreYouAMemberOfAnyLandlordAssociationsController.onPageLoad(NormalMode)

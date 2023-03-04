@@ -19,6 +19,7 @@
 @this(
     layout: templates.Layout,
     heading: components.heading,
+    subheading: components.subheading,
     govukSummaryList: GovukSummaryList,
     link: components.link
 )
@@ -30,9 +31,13 @@
     @heading(Text(messages("checkYourAnswers.dl.heading")))
 
     @viewModel.directorLoanAccountLiabilitiesList.map { case (i, list) =>
-        @subheading(Text(messages("checkYourAnswers.dl.subheading", i), "govuk-heading-m"))
+        @subheading(Text(messages("checkYourAnswers.dl.subheading", i)), "govuk-heading-m", Some("subheading-dl"))
         @govukSummaryList(list.withAttribute("id", s"dl-list-$i"))
     }
+
+    @subheading(Text(messages("checkYourAnswers.dl.total.heading")), "govuk-heading-m")
+    @subheading(Text(messages("checkYourAnswers.dl.total.subheading")), "govuk-heading-m")
+    @govukSummaryList(viewModel.totalAmountsList)
 
     @link(id = "continue", classes = "govuk-button", text = messages("site.continue"), newTab = false, call = Call("GET", controllers.onshore.routes.AccountingPeriodDLAddedController.onPageLoad(mode).url))
 
