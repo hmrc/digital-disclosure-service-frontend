@@ -169,16 +169,18 @@ class OnshoreNavigator @Inject()() {
       case _ => routes.AreYouAMemberOfAnyLandlordAssociationsController.onPageLoad(NormalMode)
     }
 
+    //TODO: Need to fix..
     case AccountingPeriodCTAddedPage => ua => (ua.get(AccountingPeriodCTAddedPage), ua.get(CorporationTaxLiabilityPage)) match {
       case (Some(true), Some(corporationTaxLiabilities)) => routes.CorporationTaxLiabilityController.onPageLoad(corporationTaxLiabilities.size, NormalMode)
-      case _ => routes.AreYouAMemberOfAnyLandlordAssociationsController.onPageLoad(NormalMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad
     }
 
     case DirectorLoanAccountLiabilitiesPage => ua => routes.DirectorLoanAccountLiabilitiesSummaryController.onPageLoad(NormalMode)
 
-    case AccountingPeriodDLAddedPage => ua => (ua.get(AccountingPeriodDLAddedPage), ua.get(DirectorLoanAccountLiabilitiesPage)) match {
-      case (Some(true), Some(directorLoanAccountLiabilities)) => routes.DirectorLoanAccountLiabilitiesController.onPageLoad(directorLoanAccountLiabilities.size, NormalMode)
-      case _ => routes.AreYouAMemberOfAnyLandlordAssociationsController.onPageLoad(NormalMode)
+    case AccountingPeriodDLAddedPage => ua => (ua.get(AccountingPeriodDLAddedPage), ua.get(DirectorLoanAccountLiabilitiesPage), ua.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage)) match {
+      case (Some(true), Some(directorLoanAccountLiabilities), _) => routes.DirectorLoanAccountLiabilitiesController.onPageLoad(directorLoanAccountLiabilities.size, NormalMode)
+      case (_, _, Some(taxTypes)) if(requiresTaxYears(taxTypes)) => routes.WhichOnshoreYearsController.onPageLoad(NormalMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad
     }
 
     case _ => _ => controllers.routes.TaskListController.onPageLoad
@@ -200,6 +202,10 @@ class OnshoreNavigator @Inject()() {
     case (NormalMode, _) if (deduction) => routes.ResidentialReductionController.onPageLoad(currentIndex, NormalMode)
     case (NormalMode, Some(years)) if ((years.size - 1) > currentIndex) => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(currentIndex + 1, NormalMode)
     case (_, _) => routes.IncomeOrGainSourceController.onPageLoad(mode)
+  }
+
+  def requiresTaxYears(taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]) = {
+    taxTypes.filterNot(_ == CorporationTax).filterNot(_ == DirectorLoan).size > 0
   }
 
 }

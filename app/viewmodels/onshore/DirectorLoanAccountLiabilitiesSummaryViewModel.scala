@@ -55,7 +55,8 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelCreation {
         row(i, "directorLoanAccountLiabilities.unpaidTax.checkYourAnswersLabel", s"&pound;${directorLoanAccountLiability.unpaidTax}", "directorLoanAccountLiability.unpaidTax.hidden"),
         row(i, "directorLoanAccountLiabilities.interest.checkYourAnswersLabel", s"&pound;${directorLoanAccountLiability.interest}", "directorLoanAccountLiability.interest.hidden"),
         row(i, "directorLoanAccountLiabilities.penaltyRate.checkYourAnswersLabel", s"&pound;${directorLoanAccountLiability.penaltyRate}", "directorLoanAccountLiability.penaltyRate.hidden"),
-        row(i, "directorLoanAccountLiabilities.penaltyRateReason.checkYourAnswersLabel", s"${directorLoanAccountLiability.penaltyRateReason}", "directorLoanAccountLiability.penaltyRateReason.hidden")
+        row(i, "directorLoanAccountLiabilities.penaltyRateReason.checkYourAnswersLabel", s"${directorLoanAccountLiability.penaltyRateReason}", "directorLoanAccountLiability.penaltyRateReason.hidden"),
+        row(i, "checkYourAnswers.dl.total.heading", s"${directorLoanAccountLiability.penaltyRateReason}", "directorLoanAccountLiability.penaltyRateReason.hidden")
       )
     )
   }

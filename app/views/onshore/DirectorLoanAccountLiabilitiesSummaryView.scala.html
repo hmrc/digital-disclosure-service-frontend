@@ -35,7 +35,6 @@
         @govukSummaryList(list.withAttribute("id", s"dl-list-$i"))
     }
 
-    @subheading(Text(messages("checkYourAnswers.dl.total.heading")), "govuk-heading-m")
     @subheading(Text(messages("checkYourAnswers.dl.total.subheading")), "govuk-heading-m")
     @govukSummaryList(viewModel.totalAmountsList)
 
