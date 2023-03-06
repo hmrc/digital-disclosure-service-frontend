@@ -37,26 +37,30 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelCreation {
     val directorLoanAccountLiabilities = userAnswers.get(DirectorLoanAccountLiabilitiesPage).getOrElse(Set())
 
     val directorLoanAccountLiabilitiesList: Seq[(Int, SummaryList)] = (directorLoanAccountLiabilities.zipWithIndex.map { 
-      case (directorLoanAccountLiability, i) => (i+1, directorLoanAccountLiabilitiesToSummaryList(i, directorLoanAccountLiability))
+      case (dLLiability, i) => (i+1, directorLoanAccountLiabilitiesToSummaryList(i, dLLiability))
     }).toSeq
 
-    val totalAmountsList = totalAmountsSummaryList(directorLoanAccountLiabilities)
+    val totalAmountsList = totalAmountsSummaryList(directorLoanAccountLiabilities.toSeq)
 
     DirectorLoanAccountLiabilitiesSummaryViewModel(directorLoanAccountLiabilitiesList, totalAmountsList)
   }
 
-  def directorLoanAccountLiabilitiesToSummaryList(i: Int, directorLoanAccountLiability: DirectorLoanAccountLiabilities)(implicit messages: Messages): SummaryList = {
+  def directorLoanAccountLiabilitiesToSummaryList(i: Int, dLLiability: DirectorLoanAccountLiabilities)(implicit messages: Messages): SummaryList = {
     val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+
+    val amountDueTotal = BigDecimal(dLLiability.unpaidTax) + BigDecimal(dLLiability.interest) + penaltyAmount(dLLiability)
+
     SummaryListViewModel(
       rows = Seq(
-        row(i, "directorLoanAccountLiabilities.name.checkYourAnswersLabel", s"${directorLoanAccountLiability.name}", "directorLoanAccountLiability.name.hidden"),
-        row(i, "directorLoanAccountLiabilities.periodEnd.checkYourAnswersLabel", s"${directorLoanAccountLiability.periodEnd.format(dateFormatter)}", "directorLoanAccountLiability.periodEnd.hidden"),
-        row(i, "directorLoanAccountLiabilities.overdrawn.checkYourAnswersLabel", s"&pound;${directorLoanAccountLiability.overdrawn}", "directorLoanAccountLiability.overdrawn.hidden"),
-        row(i, "directorLoanAccountLiabilities.unpaidTax.checkYourAnswersLabel", s"&pound;${directorLoanAccountLiability.unpaidTax}", "directorLoanAccountLiability.unpaidTax.hidden"),
-        row(i, "directorLoanAccountLiabilities.interest.checkYourAnswersLabel", s"&pound;${directorLoanAccountLiability.interest}", "directorLoanAccountLiability.interest.hidden"),
-        row(i, "directorLoanAccountLiabilities.penaltyRate.checkYourAnswersLabel", s"&pound;${directorLoanAccountLiability.penaltyRate}", "directorLoanAccountLiability.penaltyRate.hidden"),
-        row(i, "directorLoanAccountLiabilities.penaltyRateReason.checkYourAnswersLabel", s"${directorLoanAccountLiability.penaltyRateReason}", "directorLoanAccountLiability.penaltyRateReason.hidden"),
-        row(i, "checkYourAnswers.dl.total.heading", s"${directorLoanAccountLiability.penaltyRateReason}", "directorLoanAccountLiability.penaltyRateReason.hidden")
+        row(i, "directorLoanAccountLiabilities.name.checkYourAnswersLabel", s"${dLLiability.name}", "dLLiability.name.hidden"),
+        row(i, "directorLoanAccountLiabilities.periodEnd.checkYourAnswersLabel", s"${dLLiability.periodEnd.format(dateFormatter)}", "dLLiability.periodEnd.hidden"),
+        row(i, "directorLoanAccountLiabilities.overdrawn.checkYourAnswersLabel", s"&pound;${dLLiability.overdrawn}", "dLLiability.overdrawn.hidden"),
+        row(i, "directorLoanAccountLiabilities.unpaidTax.checkYourAnswersLabel", s"&pound;${dLLiability.unpaidTax}", "dLLiability.unpaidTax.hidden"),
+        row(i, "directorLoanAccountLiabilities.interest.checkYourAnswersLabel", s"&pound;${dLLiability.interest}", "dLLiability.interest.hidden"),
+        row(i, "directorLoanAccountLiabilities.penaltyRate.checkYourAnswersLabel", s"&pound;${dLLiability.penaltyRate}", "dLLiability.penaltyRate.hidden"),
+        totalRow("checkYourAnswers.dl.total.penaltyAmount", messages("site.2DP", penaltyAmount(dLLiability))),
+        row(i, "directorLoanAccountLiabilities.penaltyRateReason.checkYourAnswersLabel", s"${dLLiability.penaltyRateReason}", "dLLiability.penaltyRateReason.hidden"),
+        totalRow("checkYourAnswers.dl.total.heading", messages("site.2DP", amountDueTotal))
       )
     )
   }
@@ -72,26 +76,24 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelCreation {
     )
   }
 
-  def totalAmountsSummaryList(directorLoanAccountLiabilities: Set[DirectorLoanAccountLiabilities])(implicit messages: Messages): SummaryList = {
+  def totalAmountsSummaryList(directorLoanAccountLiabilities: Seq[DirectorLoanAccountLiabilities])(implicit messages: Messages): SummaryList = {
     val unpaidTaxTotal = directorLoanAccountLiabilities.map(_.unpaidTax).sum
     val interestTotal = directorLoanAccountLiabilities.map(_.interest).sum
-    val penaltyRateTotal = directorLoanAccountLiabilities.map(_.penaltyRate).sum
     val penaltyAmountTotal = directorLoanAccountLiabilities.map(penaltyAmount).sum
-    val amountDueTotal = unpaidTaxTotal + interestTotal + penaltyRateTotal + penaltyAmountTotal
+    val amountDueTotal = BigDecimal(unpaidTaxTotal) + BigDecimal(interestTotal) + penaltyAmountTotal
 
     SummaryListViewModel(
       rows = Seq(
         totalRow("checkYourAnswers.dl.total.taxDue", s"&pound;${unpaidTaxTotal}"),
         totalRow("checkYourAnswers.dl.total.interestDue", s"&pound;${interestTotal}"),
-        totalRow("checkYourAnswers.dl.total.penaltyRate", s"&pound;${penaltyRateTotal}"),
-        totalRow("checkYourAnswers.dl.total.penaltyAmount", s"&pound;${penaltyAmountTotal}"),
-        totalRow("checkYourAnswers.dl.total.totalAmountDue", s"&pound;${amountDueTotal}")
+        totalRow("checkYourAnswers.dl.total.penaltyAmount", messages("site.2DP", penaltyAmountTotal)),
+        totalRow("checkYourAnswers.dl.total.totalAmountDue", messages("site.2DP", amountDueTotal))
       )
     )
   }
 
-  def penaltyAmount(directorLoanAccountLiabilities: DirectorLoanAccountLiabilities): BigInt = {
-    (BigInt(directorLoanAccountLiabilities.penaltyRate) * directorLoanAccountLiabilities.unpaidTax) /100
+  def penaltyAmount(directorLoanAccountLiabilities: DirectorLoanAccountLiabilities): BigDecimal = {
+    (BigDecimal(directorLoanAccountLiabilities.penaltyRate) * BigDecimal(directorLoanAccountLiabilities.unpaidTax)) / 100
   }
 
   def totalRow(label: String, value: String)(implicit messages: Messages) = {
