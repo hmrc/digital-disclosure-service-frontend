@@ -18,7 +18,7 @@ package navigation
 
 import base.SpecBase
 import controllers.onshore.routes
-import models.WhatOnshoreLiabilitiesDoYouNeedToDisclose.{CorporationTax, DirectorLoan}
+import models.WhatOnshoreLiabilitiesDoYouNeedToDisclose.{CorporationTax, DirectorLoan, BusinessIncome}
 import pages._
 import models._
 import models.YourLegalInterpretation._
@@ -484,6 +484,63 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
 
       "must go from HowManyPropertiesDoYouCurrentlyLetOutPage to OnshoreTaxYearLiabilitiesController" in {
         navigator.nextPage(HowManyPropertiesDoYouCurrentlyLetOutPage, NormalMode, UserAnswers("id")) mustBe routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
+      }
+
+      "must go from DirectorLoanAccountLiabilitiesPage to DirectorLoanAccountLiabilitiesSummaryController" in {
+        navigator.nextPage(DirectorLoanAccountLiabilitiesPage, NormalMode, UserAnswers("id")) mustBe routes.DirectorLoanAccountLiabilitiesSummaryController.onPageLoad(NormalMode)
+      }
+
+      "must go from AccountingPeriodDLAddedPage to DirectorLoanAccountLiabilitiesController" in {
+
+        val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set()
+
+        val directorLoanAccountLiabilities: DirectorLoanAccountLiabilities = DirectorLoanAccountLiabilities(
+          name = "Some Name 1",
+          periodEnd = LocalDate.now(),
+          overdrawn = BigInt(0),
+          unpaidTax = BigInt(0),
+          interest = BigInt(0),
+          penaltyRate = 0,
+          penaltyRateReason = "Some reason"
+        )
+
+        val set: Set[DirectorLoanAccountLiabilities] = Set(directorLoanAccountLiabilities)
+
+        val userAnswers = for {
+          ua1 <- UserAnswers("id").set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
+          ua2 <- ua1.set(DirectorLoanAccountLiabilitiesPage, set)
+          ua3 <- ua2.set(AccountingPeriodDLAddedPage, true)
+        } yield ua3
+        
+        navigator.nextPage(AccountingPeriodDLAddedPage, NormalMode, userAnswers.success.value) mustBe routes.DirectorLoanAccountLiabilitiesController.onPageLoad(set.size, NormalMode)
+      }
+
+      "must go from AccountingPeriodDLAddedPage to WhichOnshoreYearsController" in {
+
+        val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set(DirectorLoan, BusinessIncome)
+        val set: Set[DirectorLoanAccountLiabilities] = Set()
+
+        val userAnswers = for {
+          ua1 <- UserAnswers("id").set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
+          ua2 <- ua1.set(DirectorLoanAccountLiabilitiesPage, set)
+          ua3 <- ua2.set(AccountingPeriodDLAddedPage, false)
+        } yield ua3
+        
+        navigator.nextPage(AccountingPeriodDLAddedPage, NormalMode, userAnswers.success.value) mustBe routes.WhichOnshoreYearsController.onPageLoad(NormalMode)
+      }
+
+      "must go from AccountingPeriodDLAddedPage to CheckYourAnswersController" in {
+
+        val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set()
+        val set: Set[DirectorLoanAccountLiabilities] = Set()
+
+        val userAnswers = for {
+          ua1 <- UserAnswers("id").set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
+          ua2 <- ua1.set(DirectorLoanAccountLiabilitiesPage, set)
+          ua3 <- ua2.set(AccountingPeriodDLAddedPage, false)
+        } yield ua3
+        
+        navigator.nextPage(AccountingPeriodDLAddedPage, NormalMode, userAnswers.success.value) mustBe routes.CheckYourAnswersController.onPageLoad
       }
 
     }

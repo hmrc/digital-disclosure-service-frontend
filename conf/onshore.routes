@@ -121,3 +121,20 @@ GET        /properties-added/change                  controllers.onshore.Propert
 POST       /properties-added/change                  controllers.onshore.PropertyAddedController.onSubmit(mode: Mode = CheckMode)
 GET        /properties-added/remove/:index           controllers.onshore.PropertyAddedController.remove(index:Int, mode: Mode = NormalMode)
 GET        /properties-added/remove/:index/change    controllers.onshore.PropertyAddedController.remove(index:Int, mode: Mode = CheckMode)
+
+GET        /corporation-tax-accounting-periods                          controllers.onshore.AccountingPeriodCTAddedController.onPageLoad(mode: Mode = NormalMode)
+POST       /corporation-tax-accounting-periods                          controllers.onshore.AccountingPeriodCTAddedController.onSubmit(mode: Mode = NormalMode)
+GET        /corporation-tax-accounting-periods/change                   controllers.onshore.AccountingPeriodCTAddedController.onPageLoad(mode: Mode = CheckMode)
+POST       /corporation-tax-accounting-periods/change                   controllers.onshore.AccountingPeriodCTAddedController.onSubmit(mode: Mode = CheckMode)
+GET        /corporation-tax-accounting-periods/remove/:index            controllers.onshore.AccountingPeriodCTAddedController.remove(index:Int, mode: Mode = NormalMode)
+GET        /corporation-tax-accounting-periods/remove/:index/change     controllers.onshore.AccountingPeriodCTAddedController.remove(index:Int, mode: Mode = CheckMode)
+
+GET        /director-loans-accounting-periods                           controllers.onshore.AccountingPeriodDLAddedController.onPageLoad(mode: Mode = NormalMode)
+POST       /director-loans-accounting-periods                           controllers.onshore.AccountingPeriodDLAddedController.onSubmit(mode: Mode = NormalMode)
+GET        /director-loans-accounting-periods/change                    controllers.onshore.AccountingPeriodDLAddedController.onPageLoad(mode: Mode = CheckMode)
+POST       /director-loans-accounting-periods/change                    controllers.onshore.AccountingPeriodDLAddedController.onSubmit(mode: Mode = CheckMode)
+GET        /director-loans-accounting-periods/remove/:index             controllers.onshore.AccountingPeriodDLAddedController.remove(index:Int, mode: Mode = NormalMode)
+GET        /director-loans-accounting-periods/remove/:index/change      controllers.onshore.AccountingPeriodDLAddedController.remove(index:Int, mode: Mode = CheckMode)
+
+GET        /director-loan-summary                                       controllers.onshore.DirectorLoanAccountLiabilitiesSummaryController.onPageLoad(mode: Mode = NormalMode)
+GET        /director-loan-summary/change                                controllers.onshore.DirectorLoanAccountLiabilitiesSummaryController.onPageLoad(mode: Mode = CheckMode)
