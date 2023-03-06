@@ -58,6 +58,7 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelCreation {
         row(i, "directorLoanAccountLiabilities.unpaidTax.checkYourAnswersLabel", s"&pound;${dLLiability.unpaidTax}", "dLLiability.unpaidTax.hidden"),
         row(i, "directorLoanAccountLiabilities.interest.checkYourAnswersLabel", s"&pound;${dLLiability.interest}", "dLLiability.interest.hidden"),
         row(i, "directorLoanAccountLiabilities.penaltyRate.checkYourAnswersLabel", s"&pound;${dLLiability.penaltyRate}", "dLLiability.penaltyRate.hidden"),
+        totalRow("checkYourAnswers.dl.total.penaltyAmount", messages("site.2DP", penaltyAmount(dLLiability))),
         row(i, "directorLoanAccountLiabilities.penaltyRateReason.checkYourAnswersLabel", s"${dLLiability.penaltyRateReason}", "dLLiability.penaltyRateReason.hidden"),
         totalRow("checkYourAnswers.dl.total.heading", messages("site.2DP", amountDueTotal))
       )

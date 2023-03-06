@@ -25,6 +25,7 @@ import viewmodels.govuk.summarylist._
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import org.scalacheck.Arbitrary.arbitrary
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class DirectorLoanAccountLiabilitiesSummaryViewModelSpec extends SpecBase with ScalaCheckPropertyChecks {
 
@@ -52,6 +53,47 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelSpec extends SpecBase with S
             val ua = UserAnswers("id")
             val viewModel = sut.create(ua)
             viewModel.directorLoanAccountLiabilitiesList mustEqual Nil
+        }
+
+        "return the director loan account section if user have added one or more accounting details" in {
+
+            val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+
+            val directorLoanAccountLiabilities = DirectorLoanAccountLiabilities (
+                name = "name",
+                periodEnd = LocalDate.now(),
+                overdrawn = BigInt(0),
+                unpaidTax = BigInt(0),
+                interest = BigInt(0),
+                penaltyRate = 0,
+                penaltyRateReason = "reason"
+            )
+
+            val summaryList = sut.directorLoanAccountLiabilitiesToSummaryList(0, directorLoanAccountLiabilities)
+
+            summaryList.rows(0).key mustEqual Key(Text(mess("directorLoanAccountLiabilities.name.checkYourAnswersLabel")))
+            summaryList.rows(0).value mustEqual ValueViewModel(HtmlContent("name"))  
+
+            summaryList.rows(1).key mustEqual Key(Text(mess("directorLoanAccountLiabilities.periodEnd.checkYourAnswersLabel")))
+            summaryList.rows(1).value mustEqual ValueViewModel(HtmlContent(directorLoanAccountLiabilities.periodEnd.format(dateFormatter)))  
+
+            summaryList.rows(2).key mustEqual Key(Text(mess("directorLoanAccountLiabilities.overdrawn.checkYourAnswersLabel")))
+            summaryList.rows(2).value mustEqual ValueViewModel(HtmlContent(s"&pound;0"))  
+
+            summaryList.rows(3).key mustEqual Key(Text(mess("directorLoanAccountLiabilities.unpaidTax.checkYourAnswersLabel")))
+            summaryList.rows(3).value mustEqual ValueViewModel(HtmlContent(s"&pound;0"))
+
+            summaryList.rows(4).key mustEqual Key(Text(mess("directorLoanAccountLiabilities.interest.checkYourAnswersLabel")))
+            summaryList.rows(4).value mustEqual ValueViewModel(HtmlContent(s"&pound;0"))
+
+            summaryList.rows(5).key mustEqual Key(Text(mess("directorLoanAccountLiabilities.penaltyRate.checkYourAnswersLabel")))
+            summaryList.rows(5).value mustEqual ValueViewModel(HtmlContent(s"&pound;0"))
+
+            summaryList.rows(6).key mustEqual Key(Text(mess("checkYourAnswers.dl.total.penaltyAmount")))
+            summaryList.rows(6).value mustEqual ValueViewModel(HtmlContent(s"£0.00"))
+
+            summaryList.rows(7).key mustEqual Key(Text(mess("directorLoanAccountLiabilities.penaltyRateReason.checkYourAnswersLabel")))
+            summaryList.rows(7).value mustEqual ValueViewModel(HtmlContent("reason"))  
         }
 
         "return an empty total section where the director loan account pages isn't populated" in {
