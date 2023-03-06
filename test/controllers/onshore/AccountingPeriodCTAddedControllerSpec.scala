@@ -18,19 +18,17 @@ package controllers
 
 import base.SpecBase
 import forms.AccountingPeriodCTAddedFormProvider
-import models.{NormalMode, UserAnswers, CorporationTaxLiability}
+import models.NormalMode
 import navigation.{FakeOnshoreNavigator, OnshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.CorporationTaxLiabilityPage
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
 import views.html.onshore.AccountingPeriodCTAddedView
-import java.time.LocalDate
 
 import scala.concurrent.Future
 
