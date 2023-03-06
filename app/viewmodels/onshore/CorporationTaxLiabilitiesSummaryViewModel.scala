@@ -44,17 +44,17 @@ object CorporationTaxLiabilitiesSummaryViewModelCreation {
     CorporationTaxLiabilitiesSummaryViewModel(corporationTaxLiabilitiesList, totalAmountsList)
   }
 
-  private def corporationTaxLiabilityToSummaryList(i: Int, liability: CorporationTaxLiability)(implicit messages: Messages):SummaryList = {
+   def corporationTaxLiabilityToSummaryList(i: Int, liability: CorporationTaxLiability)(implicit messages: Messages):SummaryList = {
     val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
 
     SummaryListViewModel(
       rows = Seq(
         row(i, "corporationTaxLiability.periodEnd.checkYourAnswersLabel", s"${liability.periodEnd.format(dateFormatter)}", "corporationTaxLiability.periodEnd.hidden"),
-        row(i, "corporationTaxLiability.howMuchIncome.checkYourAnswersLabel", s"${liability.howMuchIncome}", "corporationTaxLiability.howMuchIncome.hidden"),
-        row(i, "corporationTaxLiability.howMuchUnpaid.checkYourAnswersLabel", s"${liability.howMuchUnpaid}", "corporationTaxLiability.howMuchUnpaid.hidden"),
-        row(i, "corporationTaxLiability.howMuchInterest.checkYourAnswersLabel", s"${liability.howMuchInterest}", "corporationTaxLiability.howMuchInterest.hidden"),
-        row(i, "corporationTaxLiability.penaltyRate.checkYourAnswersLabel", s"${liability.penaltyRate}", "corporationTaxLiability.penaltyRate.hidden"),
-        row(i, "corporationTaxLiability.penaltyAmount.checkYourAnswersLabel", s"${penaltyAmount(liability)}", "corporationTaxLiability.penaltyAmount.hidden"),
+        row(i, "corporationTaxLiability.howMuchIncome.checkYourAnswersLabel", s"&pound;${liability.howMuchIncome}", "corporationTaxLiability.howMuchIncome.hidden"),
+        row(i, "corporationTaxLiability.howMuchUnpaid.checkYourAnswersLabel", s"&pound;${liability.howMuchUnpaid}", "corporationTaxLiability.howMuchUnpaid.hidden"),
+        row(i, "corporationTaxLiability.howMuchInterest.checkYourAnswersLabel", s"&pound;${liability.howMuchInterest}", "corporationTaxLiability.howMuchInterest.hidden"),
+        row(i, "corporationTaxLiability.penaltyRate.checkYourAnswersLabel", s"${liability.penaltyRate}%", "corporationTaxLiability.penaltyRate.hidden"),
+        row(i, "corporationTaxLiability.penaltyAmount.checkYourAnswersLabel", messages("site.2DP", penaltyAmount(liability)), "corporationTaxLiability.penaltyAmount.hidden"),
         row(i, "corporationTaxLiability.penaltyRateReason.checkYourAnswersLabel", s"${liability.penaltyRateReason}", "corporationTaxLiability.penaltyRateReason.hidden"),
       )
     )
@@ -88,7 +88,7 @@ object CorporationTaxLiabilitiesSummaryViewModelCreation {
     )
   }
 
-  private def penaltyAmount(corporationTaxLiability: CorporationTaxLiability): BigDecimal = {
+  def penaltyAmount(corporationTaxLiability: CorporationTaxLiability): BigDecimal = {
     (BigDecimal(corporationTaxLiability.penaltyRate) * BigDecimal(corporationTaxLiability.howMuchUnpaid)) / 100
   }
 

@@ -18,11 +18,12 @@ package controllers
 
 import base.SpecBase
 import forms.AccountingPeriodCTAddedFormProvider
-import models.NormalMode
+import models.{CorporationTaxLiability, NormalMode, UserAnswers}
 import navigation.{FakeOnshoreNavigator, OnshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
+import pages.CorporationTaxLiabilityPage
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -30,6 +31,7 @@ import play.api.test.Helpers._
 import services.SessionService
 import views.html.onshore.AccountingPeriodCTAddedView
 
+import java.time.LocalDate
 import scala.concurrent.Future
 
 class AccountingPeriodCTAddedControllerSpec extends SpecBase with MockitoSugar {
@@ -160,50 +162,48 @@ class AccountingPeriodCTAddedControllerSpec extends SpecBase with MockitoSugar {
       }
     }
 
-    //TODO: Need to add navigation for this test..
-    
-    // "must redirect to the same page if remove method is called and there are still details" in {
-    //   val removeDLRoute = onshore.routes.AccountingPeriodCTAddedController.remove(0, NormalMode).url
+     "must redirect to the same page if remove method is called and there are still details" in {
+       val removeDLRoute = onshore.routes.AccountingPeriodCTAddedController.remove(0, NormalMode).url
 
-    //   val mockSessionService = mock[SessionService]
+       val mockSessionService = mock[SessionService]
 
-    //   when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
 
-    //   val corporationTaxLiability: CorporationTaxLiability = CorporationTaxLiability(
-    //     periodEnd = LocalDate.now(),
-    //     howMuchIncome = BigInt(0),
-    //     howMuchUnpaid = BigInt(0),
-    //     howMuchInterest = BigInt(0),
-    //     penaltyRate = 0,
-    //     penaltyRateReason = "Some reason"
-    //   )
+       val corporationTaxLiability: CorporationTaxLiability = CorporationTaxLiability(
+         periodEnd = LocalDate.now(),
+         howMuchIncome = BigInt(0),
+         howMuchUnpaid = BigInt(0),
+         howMuchInterest = BigInt(0),
+         penaltyRate = 0,
+         penaltyRateReason = "Some reason"
+       )
 
-    //   val corporationTaxLiability2: CorporationTaxLiability = CorporationTaxLiability(
-    //     periodEnd = LocalDate.now(),
-    //     howMuchIncome = BigInt(0),
-    //     howMuchUnpaid = BigInt(0),
-    //     howMuchInterest = BigInt(0),
-    //     penaltyRate = 0,
-    //     penaltyRateReason = "Some reason"
-    //   )
+       val corporationTaxLiability2: CorporationTaxLiability = CorporationTaxLiability(
+         periodEnd = LocalDate.now().minusDays(1),
+         howMuchIncome = BigInt(0),
+         howMuchUnpaid = BigInt(0),
+         howMuchInterest = BigInt(0),
+         penaltyRate = 0,
+         penaltyRateReason = "Some reason"
+       )
 
-    //   val userAnswers = UserAnswers("id").set(CorporationTaxLiabilityPage, Set(corporationTaxLiability, corporationTaxLiability2)).success.value
+       val userAnswers = UserAnswers("id").set(CorporationTaxLiabilityPage, Set(corporationTaxLiability, corporationTaxLiability2)).success.value
 
-    //   val application =
-    //     applicationBuilderWithSessionService(userAnswers = Some(userAnswers), mockSessionService)
-    //       .overrides(
-    //         bind[OnshoreNavigator].toInstance(new FakeOnshoreNavigator(onwardRoute))
-    //       )
-    //       .build()
+       val application =
+         applicationBuilderWithSessionService(userAnswers = Some(userAnswers), mockSessionService)
+           .overrides(
+             bind[OnshoreNavigator].toInstance(new FakeOnshoreNavigator(onwardRoute))
+           )
+           .build()
 
-    //   running(application) {
-    //     val request = FakeRequest(GET, removeDLRoute)
+       running(application) {
+         val request = FakeRequest(GET, removeDLRoute)
 
-    //     val result = route(application, request).value
+         val result = route(application, request).value
 
-    //     status(result) mustEqual SEE_OTHER
-    //     redirectLocation(result).value mustEqual onshore.routes.AccountingPeriodCTAddedController.onPageLoad(NormalMode).url
-    //   }
-    // }
+         status(result) mustEqual SEE_OTHER
+         redirectLocation(result).value mustEqual onshore.routes.AccountingPeriodCTAddedController.onPageLoad(NormalMode).url
+       }
+     }
   }
 }
