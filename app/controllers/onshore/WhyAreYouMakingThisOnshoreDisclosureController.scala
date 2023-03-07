@@ -19,7 +19,7 @@ package controllers.onshore
 import controllers.actions._
 import forms.WhyAreYouMakingThisOnshoreDisclosureFormProvider
 import javax.inject.Inject
-import models.WhyAreYouMakingThisOnshoreDisclosure.{DidNotNotifyHasExcuse, InaccurateReturnWithCare, NotFileHasExcuse, InaccurateReturnNoCare, DidNotNotifyNoExcuse, DeliberatelyDidNotNotify, DeliberateInaccurateReturn, DeliberatelyDidNotFile}
+import models.WhyAreYouMakingThisOnshoreDisclosure.{DidNotNotifyHasExcuse, InaccurateReturnWithCare, NotFileHasExcuse, DeliberatelyDidNotNotify, DeliberateInaccurateReturn, DeliberatelyDidNotFile}
 import models.{Mode, UserAnswers, RelatesTo, WhyAreYouMakingThisOnshoreDisclosure}
 import navigation.OnshoreNavigator
 import pages._

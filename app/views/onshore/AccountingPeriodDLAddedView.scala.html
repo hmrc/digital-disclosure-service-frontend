@@ -14,7 +14,7 @@
  * limitations under the License.
  *@
 
-@import viewmodels.{SummaryListRowNoValue, SummaryListNoValue}
+@import viewmodels._
 @import components.summaryListNoValue
 
 @this(
@@ -43,7 +43,7 @@
         } else {
             @heading(Text(messages("accountingPeriodDLAdded.heading.multi", periodEndDates.size)))
         }
-
+        
         @summaryListNoValue(SummaryListNoValue(periodEndDates))
 
         @govukRadios(

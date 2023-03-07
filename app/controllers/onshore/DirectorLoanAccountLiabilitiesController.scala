@@ -62,7 +62,7 @@ class DirectorLoanAccountLiabilitiesController @Inject()(
           Future.successful(BadRequest(view(formWithErrors, mode, i))),
         value => {
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.addToSet(DirectorLoanAccountLiabilitiesPage, value))
+            updatedAnswers <- Future.fromTry(request.userAnswers.setByIndex(DirectorLoanAccountLiabilitiesPage, i, value))
             _ <- sessionService.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(DirectorLoanAccountLiabilitiesPage, mode, updatedAnswers))
         }

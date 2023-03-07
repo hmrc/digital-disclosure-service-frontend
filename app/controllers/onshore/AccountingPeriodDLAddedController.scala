@@ -25,7 +25,6 @@ import pages.{AccountingPeriodDLAddedPage, DirectorLoanAccountLiabilitiesPage}
 import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
-import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import viewmodels.onshore.DirectorLoanAccountLiabilityModel
 import viewmodels.SummaryListRowNoValue

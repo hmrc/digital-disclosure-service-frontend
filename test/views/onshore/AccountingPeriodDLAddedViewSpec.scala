@@ -70,12 +70,12 @@ class AccountingPeriodDLAddedViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain summary row" in {
-      view.getElementsByClass("govuk-summary-list__only_key").text() mustBe s"Ending ${directorLoanAccountLiabilities.periodEnd.format(dateFormatter)}"
+      view.getElementsByClass("govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key").text() mustBe s"Ending ${directorLoanAccountLiabilities.periodEnd.format(dateFormatter)}"
     }
 
-    "contain remove link" in {
-      view.getElementsByClass("summary-list-remove-link").first().text() must include(messages("site.remove"))
-      view.getElementsByClass("summary-list-remove-link").last().text() must include(messages("site.remove"))
+    "contain change/remove link" in {
+      view.getElementsByClass("govuk-link").get(2).text() must include(messages("site.change"))
+      view.getElementsByClass("govuk-link").get(3).text() must include(messages("site.remove"))
     }
 
     "display the continue button" in {
@@ -102,15 +102,15 @@ class AccountingPeriodDLAddedViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain summary row" in {
-      view.getElementsByClass("govuk-summary-list__only_key").first().text() mustBe s"Ending ${directorLoanAccountLiabilities.periodEnd.format(dateFormatter)}"
-      view.getElementsByClass("govuk-summary-list__only_key").last().text() mustBe s"Ending ${directorLoanAccountLiabilities2.periodEnd.format(dateFormatter)}"
+      view.getElementsByClass("govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key").first().text() mustBe s"Ending ${directorLoanAccountLiabilities.periodEnd.format(dateFormatter)}"
+      view.getElementsByClass("govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key").last().text() mustBe s"Ending ${directorLoanAccountLiabilities2.periodEnd.format(dateFormatter)}"
     }
 
     "contain remove link" in {
-      view.getElementsByClass("summary-list-remove-link").first().text() must include(messages("site.remove"))
-      view.getElementsByClass("summary-list-remove-link").first().attr("href") mustBe routes.AccountingPeriodDLAddedController.remove(0, NormalMode).url
-      view.getElementsByClass("summary-list-remove-link").last().text() must include(messages("site.remove"))
-      view.getElementsByClass("summary-list-remove-link").last().attr("href") mustBe routes.AccountingPeriodDLAddedController.remove(1, NormalMode).url
+      view.getElementsByClass("govuk-link").get(2).text() must include(messages("site.change"))
+      view.getElementsByClass("govuk-link").get(2).attr("href") mustBe routes.DirectorLoanAccountLiabilitiesController.onPageLoad(0, NormalMode).url
+      view.getElementsByClass("govuk-link").get(3).text() must include(messages("site.remove"))
+      view.getElementsByClass("govuk-link").get(3).attr("href") mustBe routes.AccountingPeriodDLAddedController.remove(0, NormalMode).url
     }
 
     "display the continue button" in {

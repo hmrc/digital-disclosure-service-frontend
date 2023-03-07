@@ -21,8 +21,7 @@
 @(params: SummaryListNoValue)
 @import params._
 
-@summaryList = {
-  <dl class="@uk.gov.hmrc.hmrcfrontend.views.html.components.toClasses("govuk-summary-list", classes)"@uk.gov.hmrc.hmrcfrontend.views.html.components.toAttributes(attributes)>
+<dl class="@uk.gov.hmrc.hmrcfrontend.views.html.components.toClasses("govuk-summary-list", classes)"@uk.gov.hmrc.hmrcfrontend.views.html.components.toAttributes(attributes)>
   @for(row <- rows) {
     <div class="@uk.gov.hmrc.hmrcfrontend.views.html.components.toClasses("govuk-summary-list__row", "govuk-summary-list__row--no-actions".when(anyRowHasActions && row.actions.isEmpty), row.classes)">
       <dt class="@uk.gov.hmrc.hmrcfrontend.views.html.components.toClasses("govuk-summary-list__key", row.key.classes)">
@@ -40,7 +39,7 @@
     </div>
   }
   </dl>
-}
+
 
 @actionLink(action: ActionItem) = {<a class="@uk.gov.hmrc.hmrcfrontend.views.html.components.toClasses("govuk-link", action.classes)" href="@action.href"@uk.gov.hmrc.hmrcfrontend.views.html.components.toAttributes(action.attributes)>
   @actionContent(action)</a>}

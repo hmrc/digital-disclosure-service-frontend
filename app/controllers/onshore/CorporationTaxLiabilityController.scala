@@ -64,7 +64,7 @@ class CorporationTaxLiabilityController @Inject()(
 
         value =>
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.addToSet(CorporationTaxLiabilityPage, value))
+            updatedAnswers <- Future.fromTry(request.userAnswers.setByIndex(CorporationTaxLiabilityPage, i, value))
             _              <- sessionService.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(CorporationTaxLiabilityPage, mode, updatedAnswers))
       )

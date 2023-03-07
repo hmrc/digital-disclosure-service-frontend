@@ -17,30 +17,40 @@
 package viewmodels.onshore
 
 import java.time.format.DateTimeFormatter
-
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
+import viewmodels.SummaryListRowNoValue
 import models.{CorporationTaxLiability, Mode}
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 import play.api.i18n.Messages
 import controllers.onshore.routes
-import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Key, SummaryListRow}
+import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Actions, ActionItem, Key}
 
 object CorporationTaxLiabilityModel {
 
   val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
 
-  def row(corporationTaxLiabilities: Set[CorporationTaxLiability], mode: Mode)(implicit messages: Messages): Seq[SummaryListRow] = {
+  def row(corporationTaxLiabilities: Set[CorporationTaxLiability], mode: Mode)(implicit messages: Messages): Seq[SummaryListRowNoValue] = {
     (for {
       (corporationTaxLiability, i) <- corporationTaxLiabilities.zipWithIndex
     } yield {
-      SummaryListRowViewModel(
-        key = Key(s"Ending ${corporationTaxLiability.periodEnd.format(dateFormatter)}").withCssClass("govuk-!-font-weight-regular hmrc-summary-list__key"),
-        value = ValueViewModel(""),
-        actions = Seq(
-          ActionItemViewModel("site.change", routes.CorporationTaxLiabilityController.onPageLoad(i, mode).url)
-            .withVisuallyHiddenText(messages("corporationTaxLiability.change.hidden")),
-          ActionItemViewModel("site.remove", routes.AccountingPeriodCTAddedController.remove(i, mode).url)
-            .withVisuallyHiddenText(messages("corporationTaxLiability.remove.hidden"))
+      SummaryListRowNoValue(
+        key = Key(s"Ending ${corporationTaxLiability.periodEnd.format(dateFormatter)}", "govuk-!-font-weight-regular hmrc-summary-list__key"),
+        actions = Some(
+          Actions(items =
+            Seq( 
+              ActionItem(
+                href = routes.CorporationTaxLiabilityController.onPageLoad(i, mode).url,
+                content = Text(messages("site.change")),
+                visuallyHiddenText = Some(messages("corporationTaxLiability.change.hidden"))
+              ),
+              ActionItem(
+                href = routes.AccountingPeriodCTAddedController.remove(i, mode).url,
+                content = Text(messages("site.remove")),
+                visuallyHiddenText = Some(messages("corporationTaxLiability.remove.hidden"))
+              )
+            )
+          )
         )
       )
     }).toSeq

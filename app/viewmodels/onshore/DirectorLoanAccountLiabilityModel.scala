@@ -22,9 +22,10 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import viewmodels.SummaryListRowNoValue
 import models.{DirectorLoanAccountLiabilities, Mode}
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 import play.api.i18n.Messages
 import controllers.onshore.routes
-import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Actions, ActionItem, Key, SummaryListRow}
+import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Actions, ActionItem, Key}
 
 object DirectorLoanAccountLiabilityModel {
 
@@ -35,16 +36,18 @@ object DirectorLoanAccountLiabilityModel {
       (directorLoanAccountLiability, i) <- directorLoanAccountLiabilities.zipWithIndex
     } yield {
       SummaryListRowNoValue(
-        key = Key(s"Ending ${directorLoanAccountLiability.periodEnd.format(dateFormatter)}").withCssClass("govuk-!-font-weight-regular hmrc-summary-list__key"),
+        key = Key(s"Ending ${directorLoanAccountLiability.periodEnd.format(dateFormatter)}", "govuk-!-font-weight-regular hmrc-summary-list__key"),
         actions = Some(
           Actions(items =
             Seq( 
               ActionItem(
                 href = routes.DirectorLoanAccountLiabilitiesController.onPageLoad(i, mode).url,
+                content = Text(messages("site.change")),
                 visuallyHiddenText = Some(messages("directorLoanAccountLiabilities.change.hidden"))
               ),
               ActionItem(
                 href = routes.AccountingPeriodDLAddedController.remove(i, mode).url,
+                content = Text(messages("site.remove")),
                 visuallyHiddenText = Some(messages("directorLoanAccountLiabilities.remove.hidden"))
               )
             )

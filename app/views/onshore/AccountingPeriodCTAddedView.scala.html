@@ -14,18 +14,21 @@
  * limitations under the License.
  *@
 
+@import viewmodels._
+@import components.summaryListNoValue
+ 
 @this(
     layout: templates.Layout,
     heading: components.heading,
     tasklistLink: components.tasklistLink,
     formHelper: FormWithCSRF,
     govukErrorSummary: GovukErrorSummary,
-    govukSummaryList: GovukSummaryList,
+    summaryListNoValue: components.summaryListNoValue,
     govukRadios: GovukRadios,
     govukButton: GovukButton
 )
 
-@(form: Form[_], periodEndDates: Seq[SummaryListRow], mode: Mode)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], periodEndDates: Seq[SummaryListRowNoValue], mode: Mode)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = title(form, if (periodEndDates.size == 1) messages("accountingPeriodCTAdded.title.single") else messages("accountingPeriodCTAdded.title.multi", periodEndDates.size))) {
 
@@ -41,7 +44,7 @@
             @heading(Text(messages("accountingPeriodCTAdded.heading.multi", periodEndDates.size)))
         }
 
-        @govukSummaryList(SummaryList(rows = periodEndDates))
+        @summaryListNoValue(SummaryListNoValue(periodEndDates))
 
         @govukRadios(
             RadiosViewModel.yesNo(
