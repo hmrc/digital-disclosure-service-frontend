@@ -189,7 +189,7 @@ class OnshoreNavigator @Inject()() {
   }
 
   private val checkRouteMap: Page => UserAnswers => Boolean => Call = {
-    case _ => _ => _ => controllers.routes.IndexController.onPageLoad
+    case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
   def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasAnswerChanged: Boolean = true): Call = mode match {
@@ -201,9 +201,10 @@ class OnshoreNavigator @Inject()() {
 
   def nextTaxYearLiabilitiesPage(currentIndex: Int, deduction: Boolean, mode: Mode, userAnswers: UserAnswers, hasAnswerChanged: Boolean = false): Call =
     (mode, userAnswers.inverselySortedOnshoreTaxYears) match {
-    case (NormalMode, _) if (deduction) => routes.ResidentialReductionController.onPageLoad(currentIndex, NormalMode)
+    case (_, _) if (deduction) => routes.ResidentialReductionController.onPageLoad(currentIndex, mode)
     case (NormalMode, Some(years)) if ((years.size - 1) > currentIndex) => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(currentIndex + 1, NormalMode)
-    case (_, _) => routes.IncomeOrGainSourceController.onPageLoad(mode)
+    case (NormalMode, _) => routes.IncomeOrGainSourceController.onPageLoad(mode)
+    case (_, _) => routes.CheckYourAnswersController.onPageLoad
   }
 
   def requiresTaxYears(taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]) = {

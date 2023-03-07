@@ -569,6 +569,22 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextTaxYearLiabilitiesPage(3, false, NormalMode, userAnswersWithTaxYears) mustBe routes.IncomeOrGainSourceController.onPageLoad(NormalMode)
       }
 
+      "must take the user to CheckYourAnswersController when in Check mode and no changes are made" in {
+        val whichYears: Set[OnshoreYears] = Set(OnshoreYearStarting(2021), OnshoreYearStarting(2020), OnshoreYearStarting(2019), OnshoreYearStarting(2018))
+        val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichOnshoreYearsPage, whichYears).success.value
+
+        navigator.nextTaxYearLiabilitiesPage(3, false, CheckMode, userAnswersWithTaxYears) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must take the user to ResidentialReductionController when in Check mode and changes are made and deduction is true" in {
+        val currentIndex = 0
+        val hasChanged = true
+        val deduction = true
+        val whichYears: Set[OnshoreYears] = Set(OnshoreYearStarting(2021), OnshoreYearStarting(2020), OnshoreYearStarting(2019), OnshoreYearStarting(2018))
+        val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichOnshoreYearsPage, whichYears).success.value
+
+        navigator.nextTaxYearLiabilitiesPage(currentIndex, deduction, CheckMode, userAnswersWithTaxYears, hasChanged) mustBe routes.ResidentialReductionController.onPageLoad(currentIndex, CheckMode)
+      }
     }
 
     "in Check mode" - {
@@ -576,7 +592,7 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
       "must go from a page that doesn't exist in the edit route map to CheckYourAnswers" in {
 
         case object UnknownPage extends Page
-        navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe controllers.routes.IndexController.onPageLoad
+        navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad
       }
     }
 

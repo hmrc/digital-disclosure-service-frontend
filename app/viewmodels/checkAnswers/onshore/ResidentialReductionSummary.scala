@@ -26,8 +26,8 @@ import viewmodels.implicits._
 
 object ResidentialReductionSummary  {
 
-  def row(i: Int, answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.getByKey(ResidentialReductionPage, "2021").map {
+  def row(i: Int, year:String, answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
+    answers.getByKey(ResidentialReductionPage, year).map {
       answer =>
 
         SummaryListRowViewModel(

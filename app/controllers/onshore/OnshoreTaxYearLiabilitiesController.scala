@@ -20,9 +20,9 @@ import controllers.actions._
 import forms.OnshoreTaxYearLiabilitiesFormProvider
 
 import javax.inject.Inject
-import models.{Mode, NormalMode, OnshoreYearStarting, OnshoreTaxYearWithLiabilities, WhatOnshoreLiabilitiesDoYouNeedToDisclose}
+import models.{Mode, NormalMode, OnshoreTaxYearLiabilities, OnshoreTaxYearWithLiabilities, OnshoreYearStarting, UserAnswers, WhatOnshoreLiabilitiesDoYouNeedToDisclose}
 import navigation.OnshoreNavigator
-import pages.{WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, OnshoreTaxYearLiabilitiesPage}
+import pages.{OnshoreTaxYearLiabilitiesPage, ResidentialReductionPage, WhatOnshoreLiabilitiesDoYouNeedToDisclosePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -32,6 +32,7 @@ import play.api.mvc.Result
 import models.requests.DataRequest
 
 import scala.concurrent.{ExecutionContext, Future}
+import scala.util.Try
 
 class OnshoreTaxYearLiabilitiesController @Inject()(
                                         override val messagesApi: MessagesApi,
@@ -57,7 +58,6 @@ class OnshoreTaxYearLiabilitiesController @Inject()(
         case None => form(taxTypes)
         case Some(value) => form(taxTypes).fill(value.taxYearLiabilities)
       }
-
       Ok(view(preparedForm, mode, i, year, taxTypes))
     }
 
@@ -76,10 +76,12 @@ class OnshoreTaxYearLiabilitiesController @Inject()(
           },
           value => {
             val taxYearWithLiabilities = OnshoreTaxYearWithLiabilities(OnshoreYearStarting(year), value)
+            val (clearedAnswers, hasValueChanged) = changedPages(request.userAnswers, year.toString, value)
             for {
-              updatedAnswers <- Future.fromTry(request.userAnswers.setByKey(OnshoreTaxYearLiabilitiesPage, year.toString, taxYearWithLiabilities))
-              _              <- sessionService.set(updatedAnswers)
-            } yield Redirect(navigator.nextTaxYearLiabilitiesPage(i, value.residentialTaxReduction.getOrElse(false), mode, updatedAnswers, false))
+              userAnswers <- Future.fromTry(clearedAnswers)
+              updatedAnswers  <- Future.fromTry(userAnswers.setByKey(OnshoreTaxYearLiabilitiesPage, year.toString, taxYearWithLiabilities))
+              _               <- sessionService.set(updatedAnswers)
+            } yield Redirect(navigator.nextTaxYearLiabilitiesPage(i, value.residentialTaxReduction.getOrElse(false), mode, updatedAnswers, hasValueChanged))
           }
         )
       }
@@ -99,6 +101,13 @@ class OnshoreTaxYearLiabilitiesController @Inject()(
     }
   }
 
-  
-
+  def changedPages(userAnswers: UserAnswers, year: String, newAnswer: OnshoreTaxYearLiabilities): (Try[UserAnswers], Boolean) = {
+    userAnswers.getByKey(OnshoreTaxYearLiabilitiesPage, year) match {
+      case Some(taxYear) if taxYear.taxYearLiabilities.residentialTaxReduction.getOrElse(false) && !newAnswer.residentialTaxReduction.getOrElse(false) =>
+        (userAnswers.removeByKey(ResidentialReductionPage, year), false)
+      case Some(taxYear) if !taxYear.taxYearLiabilities.residentialTaxReduction.getOrElse(false) && newAnswer.residentialTaxReduction.getOrElse(false) =>
+        (Try{userAnswers}, true)
+      case _ => (Try{userAnswers}, false)
+    }
+  }
 }
