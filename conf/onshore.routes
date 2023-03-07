@@ -138,3 +138,6 @@ GET        /director-loans-accounting-periods/remove/:index/change      controll
 
 GET        /director-loan-summary                                       controllers.onshore.DirectorLoanAccountLiabilitiesSummaryController.onPageLoad(mode: Mode = NormalMode)
 GET        /director-loan-summary/change                                controllers.onshore.DirectorLoanAccountLiabilitiesSummaryController.onPageLoad(mode: Mode = CheckMode)
+
+GET        /corporation-tax-summary                                     controllers.onshore.CorporationTaxSummaryController.onPageLoad(mode: Mode = NormalMode)
+GET        /corporation-tax-summary/change                              controllers.onshore.CorporationTaxSummaryController.onPageLoad(mode: Mode = CheckMode)
