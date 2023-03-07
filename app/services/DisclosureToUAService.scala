@@ -49,7 +49,8 @@ class DisclosureToUAServiceImpl @Inject()(
       submissionType = SubmissionType.Disclosure, 
       lastUpdated = lastUpdated,
       created = created,
-      metadata = metadata
+      metadata = metadata,
+      madeDeclaration = madeDeclaration
     )
   }
 

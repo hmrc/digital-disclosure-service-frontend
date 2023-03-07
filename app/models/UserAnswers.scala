@@ -31,7 +31,8 @@ final case class UserAnswers(
                               data: JsObject = Json.obj(),
                               lastUpdated: Instant = Instant.now,
                               created: Instant = Instant.now,
-                              metadata: Metadata = Metadata()
+                              metadata: Metadata = Metadata(),
+                              madeDeclaration: Boolean = false
                             ) {
 
   def get[A](page: Gettable[A])(implicit rds: Reads[A]): Option[A] = get(page.path)
@@ -175,7 +176,8 @@ object UserAnswers {
       (__ \ "data").read[JsObject] and
       (__ \ "lastUpdated").read(MongoJavatimeFormats.instantFormat) and
       (__ \ "created").read(MongoJavatimeFormats.instantFormat) and
-      (__ \ "metadata").read[Metadata]
+      (__ \ "metadata").read[Metadata]and
+      (__ \ "declaration").read[Boolean]
     ) (UserAnswers.apply _)
   }
 
@@ -190,7 +192,8 @@ object UserAnswers {
       (__ \ "data").write[JsObject] and
       (__ \ "lastUpdated").write(MongoJavatimeFormats.instantFormat) and
       (__ \ "created").write(MongoJavatimeFormats.instantFormat) and
-      (__ \ "metadata").write[Metadata] 
+      (__ \ "metadata").write[Metadata] and
+      (__ \ "declaration").write[Boolean] 
     ) (unlift(UserAnswers.unapply))
   }
 
