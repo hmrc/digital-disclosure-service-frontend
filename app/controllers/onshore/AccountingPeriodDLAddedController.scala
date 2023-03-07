@@ -28,6 +28,7 @@ import services.SessionService
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import viewmodels.onshore.DirectorLoanAccountLiabilityModel
+import viewmodels.SummaryListRowNoValue
 import views.html.onshore.AccountingPeriodDLAddedView
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -85,7 +86,7 @@ class AccountingPeriodDLAddedController @Inject()(
       }
   }
 
-  private def getPeriodEndDates(userAnswers: UserAnswers, mode: Mode)(implicit messages:Messages): Seq[SummaryListRow] = {
+  private def getPeriodEndDates(userAnswers: UserAnswers, mode: Mode)(implicit messages:Messages): Seq[SummaryListRowNoValue] = {
     userAnswers.get(DirectorLoanAccountLiabilitiesPage) match {
       case Some(directorLoanAccountLiabilities) => DirectorLoanAccountLiabilityModel.row(directorLoanAccountLiabilities, mode)
       case _ => Seq()

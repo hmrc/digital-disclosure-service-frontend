@@ -34,11 +34,12 @@ object CorporationTaxLiabilityModel {
       (corporationTaxLiability, i) <- corporationTaxLiabilities.zipWithIndex
     } yield {
       SummaryListRowViewModel(
-        key = Key(s"Ending ${corporationTaxLiability.periodEnd.format(dateFormatter)}").withCssClass("govuk-!-font-weight-regular hmrc-summary-list__key govuk-summary-list__only_key"),
+        key = Key(s"Ending ${corporationTaxLiability.periodEnd.format(dateFormatter)}").withCssClass("govuk-!-font-weight-regular hmrc-summary-list__key"),
         value = ValueViewModel(""),
         actions = Seq(
+          ActionItemViewModel("site.change", routes.CorporationTaxLiabilityController.onPageLoad(i, mode).url)
+            .withVisuallyHiddenText(messages("corporationTaxLiability.change.hidden")),
           ActionItemViewModel("site.remove", routes.AccountingPeriodCTAddedController.remove(i, mode).url)
-            .withCssClass("summary-list-remove-link")
             .withVisuallyHiddenText(messages("corporationTaxLiability.remove.hidden"))
         )
       )
