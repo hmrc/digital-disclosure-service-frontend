@@ -39,7 +39,7 @@ object CorporationTaxLiabilityModel {
         actions = Seq(
           ActionItemViewModel("site.remove", routes.AccountingPeriodCTAddedController.remove(i, mode).url)
             .withCssClass("summary-list-remove-link")
-            .withVisuallyHiddenText(messages("propertyLetting.remove.hidden"))
+            .withVisuallyHiddenText(messages("corporationTaxLiability.remove.hidden"))
         )
       )
     }).toSeq

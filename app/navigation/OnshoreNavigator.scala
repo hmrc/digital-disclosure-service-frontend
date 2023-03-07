@@ -177,6 +177,8 @@ class OnshoreNavigator @Inject()() {
 
     case DirectorLoanAccountLiabilitiesPage => ua => routes.DirectorLoanAccountLiabilitiesSummaryController.onPageLoad(NormalMode)
 
+    case CorporationTaxLiabilityPage => ua => routes.CorporationTaxSummaryController.onPageLoad(NormalMode)
+
     case AccountingPeriodDLAddedPage => ua => (ua.get(AccountingPeriodDLAddedPage), ua.get(DirectorLoanAccountLiabilitiesPage), ua.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage)) match {
       case (Some(true), Some(directorLoanAccountLiabilities), _) => routes.DirectorLoanAccountLiabilitiesController.onPageLoad(directorLoanAccountLiabilities.size, NormalMode)
       case (_, _, Some(taxTypes)) if(requiresTaxYears(taxTypes)) => routes.WhichOnshoreYearsController.onPageLoad(NormalMode)

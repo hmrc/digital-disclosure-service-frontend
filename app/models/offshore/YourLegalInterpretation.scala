@@ -18,6 +18,8 @@ package models
 
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.checkboxes.CheckboxItem
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
+import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 import viewmodels.govuk.checkbox._
 
@@ -52,8 +54,15 @@ object YourLegalInterpretation extends Enumerable.Implicits {
   def checkboxItems(implicit messages: Messages): Seq[CheckboxItem] = {
     val checkboxes = values.zipWithIndex.map {
       case (value, index) =>
+
+        val content = value match {
+          case TheTransferOfAssets => messages(s"yourLegalInterpretation.${value.toString}") + "<a id='${value.toString}' class='govuk-link govuk-link--no-visited-state' target='_blank' rel='noopener noreferrer' href='https://www.gov.uk/government/publications/income-and-benefits-from-transfers-of-assets-abroad-and-income-from-non-resident-trusts-hs262-self-assessment-helpsheet'>" + messages(s"yourLegalInterpretation.${value.toString}.link")+ "</a>"
+          case WhetherIncomeShouldBeTaxed => messages(s"yourLegalInterpretation.${value.toString}") + "<a id='${value.toString}' class='govuk-link govuk-link--no-visited-state' target='_blank' rel='noopener noreferrer' href='https://www.gov.uk/government/publications/trusts-and-settlements-income-treated-as-the-settlors-hs270-self-assessment-helpsheet'>" + messages(s"yourLegalInterpretation.${value.toString}.link")+ "</a>"
+          case _ => messages(s"yourLegalInterpretation.${value.toString}") 
+        }
+
         CheckboxItemViewModel(
-          content = Text(messages(s"yourLegalInterpretation.${value.toString}")),
+          content = HtmlContent(content),
           fieldId = "value",
           index   = index,
           value   = value.toString
@@ -63,7 +72,7 @@ object YourLegalInterpretation extends Enumerable.Implicits {
     val divider = CheckboxItem(divider = Some("or"))   
 
     checkboxes.dropRight(1) :+ divider :+ checkboxes.last  
-  }  
+  }
 
   implicit val enumerable: Enumerable[YourLegalInterpretation] =
     Enumerable(values.map(v => v.toString -> v): _*)

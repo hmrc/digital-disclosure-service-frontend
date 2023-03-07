@@ -55,10 +55,10 @@ class YourLegalInterpretationViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementsByClass("govuk-checkboxes__item").get(1).text() mustBe messages("yourLegalInterpretation.yourDomicileStatus")
       view.getElementsByClass("govuk-checkboxes__item").get(2).text() mustBe messages("yourLegalInterpretation.theRemittanceBasis")
       view.getElementsByClass("govuk-checkboxes__item").get(3).text() mustBe messages("yourLegalInterpretation.howIncomeArisingInATrust")
-      view.getElementsByClass("govuk-checkboxes__item").get(4).text() mustBe messages("yourLegalInterpretation.theTransferOfAssets")
+      view.getElementsByClass("govuk-checkboxes__item").get(4).text() mustBe messages("yourLegalInterpretation.theTransferOfAssets") + messages("yourLegalInterpretation.theTransferOfAssets.link")
       view.getElementsByClass("govuk-checkboxes__item").get(5).text() mustBe messages("yourLegalInterpretation.howIncomeArisingInAnOffshore")
       view.getElementsByClass("govuk-checkboxes__item").get(6).text() mustBe messages("yourLegalInterpretation.inheritanceTaxIssues")
-      view.getElementsByClass("govuk-checkboxes__item").get(7).text() mustBe messages("yourLegalInterpretation.whetherIncomeShouldBeTaxed")
+      view.getElementsByClass("govuk-checkboxes__item").get(7).text() mustBe messages("yourLegalInterpretation.whetherIncomeShouldBeTaxed") + messages("yourLegalInterpretation.whetherIncomeShouldBeTaxed.link")
       view.getElementsByClass("govuk-checkboxes__item").get(8).text() mustBe messages("yourLegalInterpretation.anotherIssue")
       view.getElementsByClass("govuk-checkboxes__item").get(9).text() mustBe messages("yourLegalInterpretation.noExclusion")
     }
