@@ -194,7 +194,6 @@ class OnshoreNavigator @Inject()() {
         if (hasChanged) normalRoutes(WhyAreYouMakingThisOnshoreDisclosurePage)(ua)
         else routes.CheckYourAnswersController.onPageLoad
     
-    case _ => _ => _ => controllers.routes.IndexController.onPageLoad
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
