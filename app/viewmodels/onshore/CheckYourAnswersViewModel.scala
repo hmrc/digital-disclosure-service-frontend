@@ -113,7 +113,11 @@ class CheckYourAnswersViewModelCreation @Inject() (
     } 
 
     val residentialTaxReduction = userAnswers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage) match {
-      case Some(value) if(value.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)) => Seq(row(i, "onshoreTaxYearLiabilities.residentialTaxReduction.checkYourAnswersLabel", s"${liabilities.residentialTaxReduction.getOrElse(true)}", "onshoreTaxYearLiabilities.residentialTaxReduction.hidden"))
+      case Some(value) if(value.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)) => Seq(row(i,
+        "onshoreTaxYearLiabilities.residentialTaxReduction.checkYourAnswersLabel",
+        s"${if(liabilities.residentialTaxReduction.getOrElse(false)) messages("site.yes") else messages("site.no")}",
+        "onshoreTaxYearLiabilities.residentialTaxReduction.hidden")
+      )
       case _ => Nil
     }
 
@@ -128,7 +132,7 @@ class CheckYourAnswersViewModelCreation @Inject() (
         row(i, "onshoreTaxYearLiabilities.interest.checkYourAnswersLabel", s"&pound;${liabilities.interest}", "onshoreTaxYearLiabilities.interest.hidden"),
         row(i, "onshoreTaxYearLiabilities.penaltyRate.checkYourAnswersLabel", s"&pound;${liabilities.penaltyRate}", "onshoreTaxYearLiabilities.penaltyRate.hidden"),
         row(i, "onshoreTaxYearLiabilities.penaltyRateReason.checkYourAnswersLabel", s"${liabilities.penaltyRateReason}", "onshoreTaxYearLiabilities.penaltyRateReason.hidden")
-      ) ++ residentialTaxReduction ++ ResidentialReductionSummary.row(i, userAnswers)
+      ) ++ residentialTaxReduction ++ ResidentialReductionSummary.row(i, yearWithLiabilites.taxYear.toString, userAnswers)
 
     SummaryListViewModel(rows)
   }
