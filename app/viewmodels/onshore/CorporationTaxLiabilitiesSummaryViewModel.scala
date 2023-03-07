@@ -55,7 +55,7 @@ object CorporationTaxLiabilitiesSummaryViewModelCreation {
         row(i, "corporationTaxLiability.howMuchInterest.checkYourAnswersLabel", s"&pound;${liability.howMuchInterest}", "corporationTaxLiability.howMuchInterest.hidden"),
         row(i, "corporationTaxLiability.penaltyRate.checkYourAnswersLabel", s"${liability.penaltyRate}%", "corporationTaxLiability.penaltyRate.hidden"),
         row(i, "corporationTaxLiability.penaltyAmount.checkYourAnswersLabel", messages("site.2DP", penaltyAmount(liability)), "corporationTaxLiability.penaltyAmount.hidden"),
-        row(i, "corporationTaxLiability.penaltyRateReason.checkYourAnswersLabel", s"${liability.penaltyRateReason}", "corporationTaxLiability.penaltyRateReason.hidden"),
+        row(i, "corporationTaxLiability.penaltyRateReason.checkYourAnswersLabel", s"${liability.penaltyRateReason}", "corporationTaxLiability.penaltyRateReason.hidden")
       )
     )
   }
