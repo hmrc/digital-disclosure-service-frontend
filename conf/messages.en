@@ -1065,9 +1065,12 @@ taskList.add.sectionTitle.fifth = Confirm if you have other liability issues or 
 taskList.edit.sectionTitle.fifth = Edit other liability issues
 taskList.add.sectionTitle.sixth = Add the reason for coming forward now
 taskList.edit.sectionTitle.sixth = Edit the reason for coming forward now
+taskList.add.sectionTitle.declaration = Make your declaration
+taskList.edit.sectionTitle.declaration = Review your declaration
 taskList.status.notStarted = Not started
 taskList.status.inProgress = In Progress
 taskList.status.completed = Completed
+taskList.status.cantStart = Cannot start
 taskList.agent.paragraph.forth = When you select ‘Save and continue’, you will be asked to make a formal offer of the amount you will pay HMRC. You will have the opportunity to save a copy of the full disclosure and offer.
 taskList.individual.paragraph.forth = When you select ‘Save and continue’, you will be asked to make a formal offer of the amount you will pay HMRC. You will have the opportunity to save a copy of the full disclosure and offer to send to the individual that this disclosure relates to for their agreement.
 taskList.company.paragraph.forth = When you select ‘Save and continue’, you will be asked to make a formal offer of the amount you will pay HMRC. You will have the opportunity to save a copy of the full disclosure and offer to send to the company that this disclosure relates to for their agreement.
@@ -2239,6 +2242,16 @@ checkYourAnswers.dl.total.interestDue = Interest due
 checkYourAnswers.dl.total.penaltyRate = Penalty rate
 checkYourAnswers.dl.total.penaltyAmount = Penalty amount
 checkYourAnswers.dl.total.totalAmountDue = Total amount due
+
+declaration.title = Your declaration
+declaration.heading = Your declaration
+declaration.inset = If you have the correct authority to complete this disclosure on someone else’s behalf, you are confirming this declaration on their behalf and with their agreement.
+declaration.paragraph = By completing this disclosure you confirm you:
+
+declaration.bullet1 = have read the guidance and acknowledge that penalties are due
+declaration.bullet2 = understand that you are expected to make a full, correct and complete disclosure and you intend to do so
+declaration.bullet3 = acknowledge that a deliberately false disclosure could result in a prosecution
+declaration.button = I confirm
 
 checkYourAnswers.ct.title = Review onshore Corporation Tax liabilities
 checkYourAnswers.ct.heading = Review onshore Corporation Tax liabilities

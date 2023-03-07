@@ -67,21 +67,30 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
           link = controllers.reference.routes.DoYouHaveACaseReferenceController.onPageLoad(NormalMode)
         )
 
+        val declarationTask = TaskListRow(
+          id = "declaration-task-list",
+          sectionTitle = mess("taskList.add.sectionTitle.declaration"),
+          status = mess("taskList.status.notStarted"),
+          link = controllers.routes.DeclarationController.onPageLoad
+        )
+
         val otherLiabilitiesTask = TaskListRow(
           id = "other-liability-issues-task-list",
           sectionTitle = mess("taskList.add.sectionTitle.fifth"),
           status = mess("taskList.status.notStarted"),
-          link = controllers.otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(NormalMode)
+          link = controllers.otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(NormalMode),
+          madeDeclaration = false
         )
 
         val reasonTask = TaskListRow(
           id = "reason-for-coming-forward-now-task-list",
           sectionTitle = mess("taskList.add.sectionTitle.sixth"),
           status = mess("taskList.status.notStarted"),
-          link = reason.routes.WhyAreYouMakingADisclosureController.onPageLoad(NormalMode)
+          link = reason.routes.WhyAreYouMakingADisclosureController.onPageLoad(NormalMode),
+          madeDeclaration = false
         )
         
-        val list = TaskListViewModel(Seq(personalDetailsTask), Seq(caseReferenceTask), Seq(otherLiabilitiesTask, reasonTask))
+        val list = TaskListViewModel(Seq(personalDetailsTask), Seq(caseReferenceTask, declarationTask), Seq(otherLiabilitiesTask, reasonTask))
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(list, notificationSectionKey, isTheUserAgent, entity, isAllTaskCompleted, tasksComplete, false)(request, messages(application)).toString
@@ -237,7 +246,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         status = mess("taskList.status.notStarted"),
         link = controllers.offshore.routes.WhyAreYouMakingThisDisclosureController.onPageLoad(NormalMode)
       )
-      val actualTask = sut.buildOffshoreLiabilitiesDetailRow(model) 
+      val actualTask = sut.buildOffshoreLiabilitiesDetailRow(model, true) 
 
       actualTask mustEqual expectedTask    
 
@@ -253,7 +262,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         status = mess("taskList.status.inProgress"),
         link = controllers.offshore.routes.WhyAreYouMakingThisDisclosureController.onPageLoad(NormalMode)
       )
-      val actualTask = sut.buildOffshoreLiabilitiesDetailRow(model) 
+      val actualTask = sut.buildOffshoreLiabilitiesDetailRow(model, true) 
 
       actualTask mustEqual expectedTask  
     }
@@ -286,7 +295,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         status = mess("taskList.status.completed"),
         link = controllers.offshore.routes.CheckYourAnswersController.onPageLoad
       )
-      val actualTask = sut.buildOffshoreLiabilitiesDetailRow(model) 
+      val actualTask = sut.buildOffshoreLiabilitiesDetailRow(model, true) 
 
       actualTask mustEqual expectedTask    
     }
@@ -303,7 +312,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         status = mess("taskList.status.notStarted"),
         link = controllers.otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(NormalMode)
       )
-      val actualTask = sut.buildOtherLiabilityIssueRow(model, false) 
+      val actualTask = sut.buildOtherLiabilityIssueRow(model, false, true) 
 
       actualTask mustEqual expectedTask    
 
@@ -319,7 +328,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         status = mess("taskList.status.inProgress"),
         link = controllers.otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(NormalMode)
       )
-      val actualTask = sut.buildOtherLiabilityIssueRow(model, false) 
+      val actualTask = sut.buildOtherLiabilityIssueRow(model, false, true) 
 
       actualTask mustEqual expectedTask  
     }
@@ -334,7 +343,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         status = mess("taskList.status.completed"),
         link = controllers.otherLiabilities.routes.CheckYourAnswersController.onPageLoad
       )
-      val actualTask = sut.buildOtherLiabilityIssueRow(model, false) 
+      val actualTask = sut.buildOtherLiabilityIssueRow(model, false, true) 
 
       actualTask mustEqual expectedTask    
     }
@@ -351,7 +360,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         status = mess("taskList.status.notStarted"),
         link = reason.routes.WhyAreYouMakingADisclosureController.onPageLoad(NormalMode)
       )
-      val actualTask = sut.buildTheReasonForComingForwardNowRow(model) 
+      val actualTask = sut.buildTheReasonForComingForwardNowRow(model, true) 
 
       actualTask mustEqual expectedTask    
 
@@ -367,7 +376,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         status = mess("taskList.status.inProgress"),
         link = reason.routes.WhyAreYouMakingADisclosureController.onPageLoad(NormalMode)
       )
-      val actualTask = sut.buildTheReasonForComingForwardNowRow(model) 
+      val actualTask = sut.buildTheReasonForComingForwardNowRow(model, true) 
 
       actualTask mustEqual expectedTask  
     }
@@ -392,9 +401,10 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         status = mess("taskList.status.completed"),
         link = controllers.reason.routes.CheckYourAnswersController.onPageLoad
       )
-      val actualTask = sut.buildTheReasonForComingForwardNowRow(model) 
+      val actualTask = sut.buildTheReasonForComingForwardNowRow(model, true) 
 
       actualTask mustEqual expectedTask    
     }
   }
+
 }

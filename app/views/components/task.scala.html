@@ -18,7 +18,7 @@
 
 @this()
 
-@(number: String, title: String, taskList: Seq[TaskListRow])
+@(number: String, title: String, taskList: Seq[TaskListRow])(implicit messages: Messages)
 <li>
     <h2 class="app-task-list__section">
         <span class="app-task-list__section-number">@number</span>
@@ -28,11 +28,21 @@
         @taskList.map { row =>   
         <li class="app-task-list__item">
             <span class="app-task-list__task-name">
-                <a href="@row.link.url">
+                @if(row.madeDeclaration) {
+                    <a href="@row.link.url">
+                        @row.sectionTitle
+                    </a>
+                } else {
                     @row.sectionTitle
-                </a>
+                }
             </span>
-            <span class="hmrc-status-tag" id="@row.id">@row.status</span>
+            <span class="hmrc-status-tag" id="@row.id">
+                @if(row.madeDeclaration) {
+                    @row.status 
+                } else {
+                    @messages("taskList.status.cantStart")
+                }
+            </span>
         </li>
         }
     </ul>

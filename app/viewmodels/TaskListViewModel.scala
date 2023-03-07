@@ -19,12 +19,15 @@ package viewmodels
 import play.api.mvc.Call
 
 final case class TaskListViewModel (
-    personalDetailsTask: Seq[TaskListRow], 
-    liabilitiesInformation: Seq[TaskListRow], 
-    additionalInformation: Seq[TaskListRow])
+  personalDetailsTask: Seq[TaskListRow], 
+  liabilitiesInformation: Seq[TaskListRow], 
+  additionalInformation: Seq[TaskListRow]
+)
 
 final case class TaskListRow (
-    id: String, 
-    sectionTitle: String, 
-    status: String, 
-    link: Call)
+  id: String, 
+  sectionTitle: String, 
+  status: String, 
+  link: Call,
+  madeDeclaration: Boolean = true
+)

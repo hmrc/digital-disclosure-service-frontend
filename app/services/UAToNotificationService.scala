@@ -32,7 +32,8 @@ class UAToNotificationServiceImpl extends UAToNotificationService {
       lastUpdated = userAnswers.lastUpdated,
       created = userAnswers.created,
       metadata = userAnswers.metadata,
-      personalDetails = userAnswersToPersonalDetails(userAnswers)
+      personalDetails = userAnswersToPersonalDetails(userAnswers),
+      madeDeclaration = userAnswers.madeDeclaration
     )
 
   def userAnswersToPersonalDetails(userAnswers: UserAnswers): PersonalDetails = {
