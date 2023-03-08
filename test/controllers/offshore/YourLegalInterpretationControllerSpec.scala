@@ -18,7 +18,7 @@ package controllers
 
 import base.SpecBase
 import forms.YourLegalInterpretationFormProvider
-import models.{NormalMode, YourLegalInterpretation, UserAnswers}
+import models.{NormalMode, YourLegalInterpretation, UserAnswers, YourLegalInterpretationCheckboxes}
 import navigation.{FakeOffshoreNavigator, OffshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
@@ -48,6 +48,8 @@ class YourLegalInterpretationControllerSpec extends SpecBase with MockitoSugar {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
+      val items = application.injector.instanceOf[YourLegalInterpretationCheckboxes]
+
       running(application) {
         val request = FakeRequest(GET, yourLegalInterpretationRoute)
 
@@ -57,7 +59,7 @@ class YourLegalInterpretationControllerSpec extends SpecBase with MockitoSugar {
 
         status(result) mustEqual OK
 
-        contentAsString(result) mustEqual view(form, NormalMode, Seq.empty)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode, items.checkboxItems(messages(application)))(request, messages(application)).toString
       }
     }
 
@@ -67,6 +69,8 @@ class YourLegalInterpretationControllerSpec extends SpecBase with MockitoSugar {
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
+      val items = application.injector.instanceOf[YourLegalInterpretationCheckboxes]
+
       running(application) {
         val request = FakeRequest(GET, yourLegalInterpretationRoute)
 
@@ -75,7 +79,7 @@ class YourLegalInterpretationControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(YourLegalInterpretation.values.toSet), NormalMode, Seq.empty)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(YourLegalInterpretation.values.toSet), NormalMode, items.checkboxItems(messages(application)))(request, messages(application)).toString
       }
     }
 
@@ -108,6 +112,8 @@ class YourLegalInterpretationControllerSpec extends SpecBase with MockitoSugar {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
+      val items = application.injector.instanceOf[YourLegalInterpretationCheckboxes]
+
       running(application) {
         val request =
           FakeRequest(POST, yourLegalInterpretationRoute)
@@ -120,7 +126,7 @@ class YourLegalInterpretationControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, Seq.empty)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode, items.checkboxItems(messages(application)))(request, messages(application)).toString
       }
     }
 

@@ -19,8 +19,6 @@ package models
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.checkboxes.CheckboxItem
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
-import play.twirl.api.HtmlFormat
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 import viewmodels.govuk.checkbox._
 import views.html.components.link
 import play.api.mvc.Call
@@ -66,8 +64,8 @@ class YourLegalInterpretationCheckboxes @Inject() (link: link) {
       case (value, index) =>
 
         val content = value match {
-          case YourLegalInterpretation.TheTransferOfAssets => messages(s"yourLegalInterpretation.${value.toString}") + link(s"${value.toString}", messages(s"yourLegalInterpretation.${value.toString}.link"), Call("GET", "https://www.gov.uk/government/publications/income-and-benefits-from-transfers-of-assets-abroad-and-income-from-non-resident-trusts-hs262-self-assessment-helpsheet"), true).toString
-          case YourLegalInterpretation.WhetherIncomeShouldBeTaxed => messages(s"yourLegalInterpretation.${value.toString}") + link(s"${value.toString}", messages(s"yourLegalInterpretation.${value.toString}.link"), Call("GET", "https://www.gov.uk/government/publications/trusts-and-settlements-income-treated-as-the-settlors-hs270-self-assessment-helpsheet"), true).toString
+          case YourLegalInterpretation.TheTransferOfAssets => messages(s"yourLegalInterpretation.${value.toString}.first") + messages(s"yourLegalInterpretation.${value.toString}.second") +link(s"${value.toString}", messages(s"yourLegalInterpretation.${value.toString}.link"), Call("GET", "https://www.gov.uk/government/publications/income-and-benefits-from-transfers-of-assets-abroad-and-income-from-non-resident-trusts-hs262-self-assessment-helpsheet"), true).toString
+          case YourLegalInterpretation.WhetherIncomeShouldBeTaxed => messages(s"yourLegalInterpretation.${value.toString}.first") + messages(s"yourLegalInterpretation.${value.toString}.second") + link(s"${value.toString}", messages(s"yourLegalInterpretation.${value.toString}.link"), Call("GET", "https://www.gov.uk/government/publications/trusts-and-settlements-income-treated-as-the-settlors-hs270-self-assessment-helpsheet"), true).toString
           case _ => messages(s"yourLegalInterpretation.${value.toString}") 
         }
 

@@ -21,14 +21,15 @@ import forms.YourLegalInterpretationFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.offshore.YourLegalInterpretationView
-import models.NormalMode
+import models.{NormalMode, YourLegalInterpretationCheckboxes}
 
 class YourLegalInterpretationViewSpec extends ViewSpecBase with ViewMatchers {
 
   val form = new YourLegalInterpretationFormProvider()()
   val page: YourLegalInterpretationView = inject[YourLegalInterpretationView]
+  val items = inject[YourLegalInterpretationCheckboxes]
 
-  private def createView: Html = page(form, NormalMode, Seq.empty)(request, messages)
+  private def createView: Html = page(form, NormalMode, items.checkboxItems)(request, messages)
 
   "view" should {
 
@@ -51,10 +52,10 @@ class YourLegalInterpretationViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementsByClass("govuk-checkboxes__item").get(1).text() mustBe messages("yourLegalInterpretation.yourDomicileStatus")
       view.getElementsByClass("govuk-checkboxes__item").get(2).text() mustBe messages("yourLegalInterpretation.theRemittanceBasis")
       view.getElementsByClass("govuk-checkboxes__item").get(3).text() mustBe messages("yourLegalInterpretation.howIncomeArisingInATrust")
-      view.getElementsByClass("govuk-checkboxes__item").get(4).text() mustBe messages("yourLegalInterpretation.theTransferOfAssets") + messages("yourLegalInterpretation.theTransferOfAssets.link")
+      view.getElementsByClass("govuk-checkboxes__item").get(4).text() mustBe messages("yourLegalInterpretation.theTransferOfAssets.first") + messages("yourLegalInterpretation.theTransferOfAssets.second") + messages("yourLegalInterpretation.theTransferOfAssets.link")
       view.getElementsByClass("govuk-checkboxes__item").get(5).text() mustBe messages("yourLegalInterpretation.howIncomeArisingInAnOffshore")
       view.getElementsByClass("govuk-checkboxes__item").get(6).text() mustBe messages("yourLegalInterpretation.inheritanceTaxIssues")
-      view.getElementsByClass("govuk-checkboxes__item").get(7).text() mustBe messages("yourLegalInterpretation.whetherIncomeShouldBeTaxed") + messages("yourLegalInterpretation.whetherIncomeShouldBeTaxed.link")
+      view.getElementsByClass("govuk-checkboxes__item").get(7).text() mustBe messages("yourLegalInterpretation.whetherIncomeShouldBeTaxed.first") + messages("yourLegalInterpretation.whetherIncomeShouldBeTaxed.second") + messages("yourLegalInterpretation.whetherIncomeShouldBeTaxed.link")
       view.getElementsByClass("govuk-checkboxes__item").get(8).text() mustBe messages("yourLegalInterpretation.anotherIssue")
       view.getElementsByClass("govuk-checkboxes__item").get(9).text() mustBe messages("yourLegalInterpretation.noExclusion")
     }

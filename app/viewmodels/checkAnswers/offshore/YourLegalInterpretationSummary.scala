@@ -17,7 +17,7 @@
 package viewmodels.checkAnswers
 
 import controllers.offshore.routes
-import models.{CheckMode, UserAnswers}
+import models.{CheckMode, UserAnswers, YourLegalInterpretation}
 import pages.YourLegalInterpretationPage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
@@ -34,8 +34,12 @@ object YourLegalInterpretationSummary  {
 
         val value = ValueViewModel(
           HtmlContent(
-            answers.map {
-              answer => HtmlFormat.escape(messages(s"yourLegalInterpretation.$answer")).toString
+            answers.map { answer =>
+              answer match {
+                case YourLegalInterpretation.TheTransferOfAssets => HtmlFormat.escape(messages(s"yourLegalInterpretation.$answer.first")).toString
+                case YourLegalInterpretation.WhetherIncomeShouldBeTaxed => HtmlFormat.escape(messages(s"yourLegalInterpretation.$answer.first")).toString
+                case _ => HtmlFormat.escape(messages(s"yourLegalInterpretation.$answer")).toString 
+              }  
             }
             .mkString(",<br>")
           )
