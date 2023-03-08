@@ -22,7 +22,6 @@
     govukCheckboxes: GovukCheckboxes,
     govukButton: GovukButton,
     heading: components.heading,
-    subheading: components.subheading,
     paragraph: components.paragraph,
     tasklistLink: components.tasklistLink 
 )
@@ -40,7 +39,7 @@
         @heading(Text(messages("yourLegalInterpretation.heading")))
 
         @govukWarningText(WarningText(content = messages("yourLegalInterpretation.warning")))
-        
+
         @govukCheckboxes(
             CheckboxesViewModel(
                 form   = form,
