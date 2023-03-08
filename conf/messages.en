@@ -1921,8 +1921,8 @@ corporationTaxLiability.penaltyRateReason.checkYourAnswersLabel = Reason for pen
 corporationTaxLiability.penaltyRateReason.hidden = Reason for penalty rate
 corporationTaxLiability.penaltyAmount.checkYourAnswersLabel = Penalty amount
 corporationTaxLiability.penaltyAmount.hidden = Penalty amount
-corporationTaxLiability.change.hidden = 'Accounting period with '
-corporationTaxLiability.remove.hidden = 'Accounting period with '
+corporationTaxLiability.change.hidden = 'Accounting period ending '
+corporationTaxLiability.remove.hidden = 'Accounting period ending '
 
 residentialReduction.title = How much residential finance costs were used to calculate the tax reduction for the tax year ending {0}, in pounds?
 residentialReduction.heading = How much residential finance costs were used to calculate the tax reduction for the tax year ending {0}, in pounds?
@@ -2013,8 +2013,8 @@ directorLoanAccountLiabilities.penaltyRateReason.error.required = Enter the reas
 directorLoanAccountLiabilities.penaltyRateReason.error.length = The reason for the penalty rate must be between 1 and 5,000 characters
 directorLoanAccountLiabilities.penaltyRateReason.checkYourAnswersLabel = Penalty rate reason
 directorLoanAccountLiabilities.penaltyRateReason.hidden = Penalty rate reason
-directorLoanAccountLiabilities.change.hidden = 'Accounting period with '
-directorLoanAccountLiabilities.remove.hidden = 'Accounting period with '
+directorLoanAccountLiabilities.change.hidden = 'Accounting period ending '
+directorLoanAccountLiabilities.remove.hidden = 'Accounting period ending '
 
 propertyFirstLetOut.title = When was property {0} first let out?
 propertyFirstLetOut.heading = When was property {0} first let out?
