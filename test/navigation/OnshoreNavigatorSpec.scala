@@ -624,6 +624,14 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
       }
     }
 
+    "must go from DirectorLoanAccountLiabilitiesPage to DirectorLoanAccountLiabilitiesSummaryController" in {
+      navigator.nextPage(DirectorLoanAccountLiabilitiesPage, CheckMode, UserAnswers("id")) mustBe routes.DirectorLoanAccountLiabilitiesSummaryController.onPageLoad(NormalMode)
+    }
+
+    "must go from CorporationTaxLiabilityPage to CorporationTaxSummaryController" in {
+      navigator.nextPage(CorporationTaxLiabilityPage, CheckMode, UserAnswers("id")) mustBe routes.CorporationTaxSummaryController.onPageLoad(NormalMode)
+    }
+
   }
 
 }
