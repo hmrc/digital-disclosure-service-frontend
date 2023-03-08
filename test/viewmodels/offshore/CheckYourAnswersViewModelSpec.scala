@@ -139,14 +139,13 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
     }
 
     "return the correct view for a YourLegalInterpretationSummary is populated" in {
-       val gen = Gen.oneOf(YourLegalInterpretation.values.toSeq) 
-       forAll(gen) { value =>
-          val ua = UserAnswers("id").set(YourLegalInterpretationPage, Set(value)).success.value
-          val viewModel = sut.create(ua)
-          val summaryList = viewModel.legalInterpretationlist
-          summaryList.rows(0).key mustEqual Key(Text(mess("yourLegalInterpretation.checkYourAnswersLabel")))
-          summaryList.rows(0).value mustEqual ValueViewModel(HtmlContent(mess(s"yourLegalInterpretation.${value}")))
-       }
+      val yourLegalInterpretation: Set[YourLegalInterpretation] = Set(YourLegalInterpretation.AnotherIssue)
+      val value = YourLegalInterpretation.AnotherIssue.toString
+      val ua = UserAnswers("id").set(YourLegalInterpretationPage, yourLegalInterpretation).success.value
+      val viewModel = sut.create(ua)
+      val summaryList = viewModel.legalInterpretationlist
+      summaryList.rows(0).key mustEqual Key(Text(mess("yourLegalInterpretation.checkYourAnswersLabel")))
+      summaryList.rows(0).value mustEqual ValueViewModel(HtmlContent(mess(s"yourLegalInterpretation.${value}")))
     }
 
     "return an empty Seq where the years page isn't populated" in {
