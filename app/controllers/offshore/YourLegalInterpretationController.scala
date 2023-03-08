@@ -20,7 +20,7 @@ import controllers.actions._
 import forms.YourLegalInterpretationFormProvider
 import javax.inject.Inject
 import navigation.OffshoreNavigator
-import models.{Mode, UserAnswers, YourLegalInterpretation}
+import models.{Mode, UserAnswers, YourLegalInterpretation, YourLegalInterpretationCheckboxes}
 import models.YourLegalInterpretation._
 import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -39,6 +39,7 @@ class YourLegalInterpretationController @Inject()(
                                         getData: DataRetrievalAction,
                                         requireData: DataRequiredAction,
                                         formProvider: YourLegalInterpretationFormProvider,
+                                        checkbox: YourLegalInterpretationCheckboxes,
                                         val controllerComponents: MessagesControllerComponents,
                                         view: YourLegalInterpretationView
                                       )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
@@ -53,7 +54,7 @@ class YourLegalInterpretationController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      Ok(view(preparedForm, mode, checkbox.checkboxItems))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -61,7 +62,7 @@ class YourLegalInterpretationController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, checkbox.checkboxItems))),
 
         value => {
 

@@ -28,7 +28,7 @@ class YourLegalInterpretationViewSpec extends ViewSpecBase with ViewMatchers {
   val form = new YourLegalInterpretationFormProvider()()
   val page: YourLegalInterpretationView = inject[YourLegalInterpretationView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode, Seq.empty)(request, messages)
 
   "view" should {
 

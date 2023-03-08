@@ -22,6 +22,9 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 import viewmodels.govuk.checkbox._
+import views.html.components.link
+import play.api.mvc.Call
+import com.google.inject.{Inject, Singleton}
 
 sealed trait YourLegalInterpretation
 
@@ -51,13 +54,20 @@ object YourLegalInterpretation extends Enumerable.Implicits {
     NoExclusion
   )
 
+  implicit val enumerable: Enumerable[YourLegalInterpretation] =
+    Enumerable(values.map(v => v.toString -> v): _*)
+}
+
+@Singleton
+class YourLegalInterpretationCheckboxes @Inject() (link: link) {
+
   def checkboxItems(implicit messages: Messages): Seq[CheckboxItem] = {
-    val checkboxes = values.zipWithIndex.map {
+    val checkboxes = YourLegalInterpretation.values.zipWithIndex.map {
       case (value, index) =>
 
         val content = value match {
-          case TheTransferOfAssets => messages(s"yourLegalInterpretation.${value.toString}") + "<a id='${value.toString}' class='govuk-link govuk-link--no-visited-state' target='_blank' rel='noopener noreferrer' href='https://www.gov.uk/government/publications/income-and-benefits-from-transfers-of-assets-abroad-and-income-from-non-resident-trusts-hs262-self-assessment-helpsheet'>" + messages(s"yourLegalInterpretation.${value.toString}.link")+ "</a>"
-          case WhetherIncomeShouldBeTaxed => messages(s"yourLegalInterpretation.${value.toString}") + "<a id='${value.toString}' class='govuk-link govuk-link--no-visited-state' target='_blank' rel='noopener noreferrer' href='https://www.gov.uk/government/publications/trusts-and-settlements-income-treated-as-the-settlors-hs270-self-assessment-helpsheet'>" + messages(s"yourLegalInterpretation.${value.toString}.link")+ "</a>"
+          case YourLegalInterpretation.TheTransferOfAssets => messages(s"yourLegalInterpretation.${value.toString}") + link(s"${value.toString}", messages(s"yourLegalInterpretation.${value.toString}.link"), Call("GET", "https://www.gov.uk/government/publications/income-and-benefits-from-transfers-of-assets-abroad-and-income-from-non-resident-trusts-hs262-self-assessment-helpsheet"), true).toString
+          case YourLegalInterpretation.WhetherIncomeShouldBeTaxed => messages(s"yourLegalInterpretation.${value.toString}") + link(s"${value.toString}", messages(s"yourLegalInterpretation.${value.toString}.link"), Call("GET", "https://www.gov.uk/government/publications/trusts-and-settlements-income-treated-as-the-settlors-hs270-self-assessment-helpsheet"), true).toString
           case _ => messages(s"yourLegalInterpretation.${value.toString}") 
         }
 
@@ -73,7 +83,4 @@ object YourLegalInterpretation extends Enumerable.Implicits {
 
     checkboxes.dropRight(1) :+ divider :+ checkboxes.last  
   }
-
-  implicit val enumerable: Enumerable[YourLegalInterpretation] =
-    Enumerable(values.map(v => v.toString -> v): _*)
 }
