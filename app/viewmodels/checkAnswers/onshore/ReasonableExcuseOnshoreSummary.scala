@@ -46,7 +46,7 @@ object ReasonableExcuseOnshoreSummary  {
             ),
             actions = Seq(
               ActionItemViewModel("site.change", routes.ReasonableExcuseOnshoreController.onPageLoad(CheckMode).url)
-                .withVisuallyHiddenText(messages("whatIsYourReasonableExcuse.change.hidden"))
+                .withVisuallyHiddenText(messages("whatIsYourReasonableExcuse.excuse.change.hidden"))
             )
           )
         } else {
@@ -55,7 +55,7 @@ object ReasonableExcuseOnshoreSummary  {
             value   = ValueViewModel(HtmlContent(HtmlFormat.escape(answer.years).toString)),
             actions = Seq(
               ActionItemViewModel("site.change", routes.ReasonableExcuseOnshoreController.onPageLoad(CheckMode).url)
-                .withVisuallyHiddenText(messages("whatIsYourReasonableExcuse.change.hidden"))
+                .withVisuallyHiddenText(messages("whatIsYourReasonableExcuse.years.change.hidden"))
             )
           )
         }

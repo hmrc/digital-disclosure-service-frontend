@@ -41,7 +41,7 @@ class TaxBeforeNineteenYearsSummary @Inject() (offshoreWhichYearsService: Offsho
           value   = ValueViewModel(HtmlFormat.escape(answer).toString),
           actions = Seq(
             ActionItemViewModel("site.change", routes.TaxBeforeNineteenYearsController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("taxBeforeNineteenYears.change.hidden"))
+              .withVisuallyHiddenText(messages("taxBeforeNineteenYears.change.hidden", year))
           )
         )
     }

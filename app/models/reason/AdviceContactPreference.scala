@@ -37,7 +37,7 @@ object AdviceContactPreference extends Enumerable.Implicits {
       RadioItem(
         content = Text(messages(s"adviceGiven.contact.${value.toString}")),
         value   = Some(value.toString),
-        id      = Some(s"contact_$index")
+        id      = Some(s"contact")
       )
   }
 
