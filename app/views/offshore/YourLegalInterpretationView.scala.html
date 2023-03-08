@@ -44,15 +44,9 @@
             CheckboxesViewModel(
                 form   = form,
                 name   = "value",
-<<<<<<< HEAD
-                legend = LegendViewModel(messages("yourLegalInterpretation.checkbox.header")).withCssClass("govuk-hint"),
-                items  = checkboxItems
-            )
-=======
                 legend = LegendViewModel(messages("yourLegalInterpretation.second.heading")).withCssClass("govuk-fieldset__legend--m"),
-                items  = YourLegalInterpretation.checkboxItems
+                items  = checkboxItems
             ).withHint(Hint(content = Text(messages("yourLegalInterpretation.checkbox.header"))))
->>>>>>> 5d6728f2ce412e717179d4b2778ab877aa2b6945
         )
 
         @govukButton(
