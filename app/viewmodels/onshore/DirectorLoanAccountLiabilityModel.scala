@@ -43,12 +43,12 @@ object DirectorLoanAccountLiabilityModel {
               ActionItem(
                 href = routes.DirectorLoanAccountLiabilitiesController.onPageLoad(i, mode).url,
                 content = Text(messages("site.change")),
-                visuallyHiddenText = Some(messages("directorLoanAccountLiabilities.change.hidden"))
+                visuallyHiddenText = Some(messages("directorLoanAccountLiabilities.change.hidden") + directorLoanAccountLiability.periodEnd.format(dateFormatter))
               ),
               ActionItem(
                 href = routes.AccountingPeriodDLAddedController.remove(i, mode).url,
                 content = Text(messages("site.remove")),
-                visuallyHiddenText = Some(messages("directorLoanAccountLiabilities.remove.hidden"))
+                visuallyHiddenText = Some(messages("directorLoanAccountLiabilities.remove.hidden") + directorLoanAccountLiability.periodEnd.format(dateFormatter))
               )
             )
           )

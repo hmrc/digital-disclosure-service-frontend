@@ -22,7 +22,7 @@
     govukCheckboxes: GovukCheckboxes,
     govukButton: GovukButton,
     heading: components.heading,
-    subheading: components.subheading,
+    paragraph: components.paragraph,
     tasklistLink: components.tasklistLink 
 )
 
@@ -38,20 +38,21 @@
         
         @heading(Text(messages("yourLegalInterpretation.heading")))
 
-        @subheading(
-            Text(messages("yourLegalInterpretation.second.heading")),
-            classes = "govuk-heading-m"
-        )
-
         @govukWarningText(WarningText(content = messages("yourLegalInterpretation.warning")))
 
         @govukCheckboxes(
             CheckboxesViewModel(
                 form   = form,
                 name   = "value",
+<<<<<<< HEAD
                 legend = LegendViewModel(messages("yourLegalInterpretation.checkbox.header")).withCssClass("govuk-hint"),
                 items  = checkboxItems
             )
+=======
+                legend = LegendViewModel(messages("yourLegalInterpretation.second.heading")).withCssClass("govuk-fieldset__legend--m"),
+                items  = YourLegalInterpretation.checkboxItems
+            ).withHint(Hint(content = Text(messages("yourLegalInterpretation.checkbox.header"))))
+>>>>>>> 5d6728f2ce412e717179d4b2778ab877aa2b6945
         )
 
         @govukButton(

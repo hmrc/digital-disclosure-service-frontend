@@ -42,10 +42,6 @@ class YourLegalInterpretationViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementsByClass("govuk-heading-xl").text() mustBe messages("yourLegalInterpretation.heading")
     }
 
-    "contain second header" in {
-      view.getElementsByClass("govuk-heading-m").text() mustBe messages("yourLegalInterpretation.second.heading")
-    }
-
     "contain warning" in {
       view.getElementsByClass("govuk-warning-text").text() mustBe "! " + messages("yourLegalInterpretation.warning")
     }

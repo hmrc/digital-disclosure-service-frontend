@@ -46,7 +46,7 @@ object ReasonableCareOnshoreSummary  {
             ),
             actions = Seq(
               ActionItemViewModel("site.change", routes.ReasonableCareOnshoreController.onPageLoad(CheckMode).url)
-                .withVisuallyHiddenText(messages("whatReasonableCareDidYouTake.change.hidden"))
+                .withVisuallyHiddenText(messages("whatReasonableCareDidYouTake.reasonableCare.change.hidden"))
             )
           )
         } else {
@@ -55,7 +55,7 @@ object ReasonableCareOnshoreSummary  {
             value   = ValueViewModel(HtmlContent(HtmlFormat.escape(answer.yearsThisAppliesTo).toString)),
             actions = Seq(
               ActionItemViewModel("site.change", routes.ReasonableCareOnshoreController.onPageLoad(CheckMode).url)
-                .withVisuallyHiddenText(messages("whatReasonableCareDidYouTake.change.hidden"))
+                .withVisuallyHiddenText(messages("whatReasonableCareDidYouTake.yearsThisAppliesTo.change.hidden"))
             )
           )
         }

@@ -39,7 +39,7 @@
     @formHelper(action = controllers.reason.routes.AdviceGivenController.onSubmit(mode), 'autoComplete -> "off") {
 
         @if(form.errors.nonEmpty) {
-            @govukErrorSummary(ErrorSummaryViewModel(form))
+            @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("contact" -> "contact_0")))
         }
 
         @heading(Text(messages("adviceGiven.heading")))
@@ -55,15 +55,11 @@
             )
         )
 
-        @subheading(Text(messages("adviceGiven.date")), "govuk-heading-m")
-
-        @paragraph(id = Some("date-paragraph"), content = Text(messages("adviceGiven.date.paragraph")))
-
         @govukDateInput(
             MonthYearViewModel(
                 form   = form,
                 id     = "date",
-                legend = LegendViewModel(messages("adviceGiven.date")).withCssClass("govuk-visually-hidden")
+                legend = LegendViewModel(messages("adviceGiven.date")).withCssClass("govuk-fieldset__legend--m"),
             ).withHint(Hint(content = Text(messages("adviceGiven.date.hint"))))
         )
 
