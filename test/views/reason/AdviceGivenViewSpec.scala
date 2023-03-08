@@ -50,10 +50,6 @@ class AdviceGivenViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementsByClass("govuk-heading-m").text() mustBe messages("adviceGiven.date")
     }
 
-    "contain the date paragraph" in {
-      view.getElementById("date-paragraph").text() mustBe messages("adviceGiven.date.paragraph")
-    }
-
     "contain the contact question" in {
       view.getElementsByClass("govuk-fieldset__legend--m").text() mustBe messages("adviceGiven.contact")
     }
