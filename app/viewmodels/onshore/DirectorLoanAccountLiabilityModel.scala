@@ -20,26 +20,38 @@ import java.time.format.DateTimeFormatter
 
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
+import viewmodels.SummaryListRowNoValue
 import models.{DirectorLoanAccountLiabilities, Mode}
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 import play.api.i18n.Messages
 import controllers.onshore.routes
-import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Key, SummaryListRow}
+import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Actions, ActionItem, Key}
 
 object DirectorLoanAccountLiabilityModel {
 
   val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
 
-  def row(directorLoanAccountLiabilities: Set[DirectorLoanAccountLiabilities], mode: Mode)(implicit messages: Messages): Seq[SummaryListRow] = {
+  def row(directorLoanAccountLiabilities: Set[DirectorLoanAccountLiabilities], mode: Mode)(implicit messages: Messages): Seq[SummaryListRowNoValue] = {
     (for {
       (directorLoanAccountLiability, i) <- directorLoanAccountLiabilities.zipWithIndex
     } yield {
-      SummaryListRowViewModel(
-        key = Key(s"Ending ${directorLoanAccountLiability.periodEnd.format(dateFormatter)}").withCssClass("govuk-!-font-weight-regular hmrc-summary-list__key govuk-summary-list__only_key"),
-        value = ValueViewModel(""),
-        actions = Seq(
-          ActionItemViewModel("site.remove", routes.AccountingPeriodDLAddedController.remove(i, mode).url)
-            .withCssClass("summary-list-remove-link")
-            .withVisuallyHiddenText(messages("propertyLetting.remove.hidden"))
+      SummaryListRowNoValue(
+        key = Key(s"Ending ${directorLoanAccountLiability.periodEnd.format(dateFormatter)}", "govuk-!-font-weight-regular hmrc-summary-list__key"),
+        actions = Some(
+          Actions(items =
+            Seq( 
+              ActionItem(
+                href = routes.DirectorLoanAccountLiabilitiesController.onPageLoad(i, mode).url,
+                content = Text(messages("site.change")),
+                visuallyHiddenText = Some(messages("directorLoanAccountLiabilities.change.hidden"))
+              ),
+              ActionItem(
+                href = routes.AccountingPeriodDLAddedController.remove(i, mode).url,
+                content = Text(messages("site.remove")),
+                visuallyHiddenText = Some(messages("directorLoanAccountLiabilities.remove.hidden"))
+              )
+            )
+          )
         )
       )
     }).toSeq

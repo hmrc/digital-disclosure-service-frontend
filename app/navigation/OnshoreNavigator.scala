@@ -189,6 +189,11 @@ class OnshoreNavigator @Inject()() {
   }
 
   private val checkRouteMap: Page => UserAnswers => Boolean => Call = {
+
+    case WhyAreYouMakingThisOnshoreDisclosurePage => ua => hasChanged =>
+        if (hasChanged) normalRoutes(WhyAreYouMakingThisOnshoreDisclosurePage)(ua)
+        else routes.CheckYourAnswersController.onPageLoad
+    
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 

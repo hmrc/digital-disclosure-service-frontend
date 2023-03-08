@@ -19,6 +19,8 @@ package navigation
 import base.SpecBase
 import controllers.onshore.routes
 import models.WhatOnshoreLiabilitiesDoYouNeedToDisclose.{CorporationTax, DirectorLoan, BusinessIncome}
+import models.WhyAreYouMakingThisOnshoreDisclosure.{DeliberateInaccurateReturn, DeliberatelyDidNotFile, DeliberatelyDidNotNotify}
+import models.RelatesTo.AnIndividual
 import pages._
 import models._
 import models.YourLegalInterpretation._
@@ -590,9 +592,35 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
     "in Check mode" - {
 
       "must go from a page that doesn't exist in the edit route map to CheckYourAnswers" in {
-
         case object UnknownPage extends Page
         navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must go from WhyAreYouMakingThisOnshoreDisclosurePage to CDFOnshoreController if the user selected DeliberatelyDidNotNotify in WhyAreYouMakingThisOnshoreDisclosure page" in {
+        val relatesTo: RelatesTo = AnIndividual
+        val reason: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(DeliberatelyDidNotNotify)
+        val userAnswers = UserAnswers("id")
+          .set(RelatesToPage, relatesTo).success.value
+          .set(WhyAreYouMakingThisOnshoreDisclosurePage, reason).success.value
+        navigator.nextPage(WhyAreYouMakingThisOnshoreDisclosurePage, CheckMode, userAnswers) mustBe routes.CDFOnshoreController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhyAreYouMakingThisOnshoreDisclosurePage to CDFOnshoreController if the user selected DeliberateInaccurateReturn in WhyAreYouMakingThisOnshoreDisclosure page" in {
+        val relatesTo: RelatesTo = AnIndividual
+        val reason: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(DeliberateInaccurateReturn)
+        val userAnswers = UserAnswers("id")
+          .set(RelatesToPage, relatesTo).success.value
+          .set(WhyAreYouMakingThisOnshoreDisclosurePage, reason).success.value
+        navigator.nextPage(WhyAreYouMakingThisOnshoreDisclosurePage, CheckMode, userAnswers) mustBe routes.CDFOnshoreController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhyAreYouMakingThisOnshoreDisclosurePage to CDFOnshoreController if the user selected DeliberatelyDidNotFile in WhyAreYouMakingThisOnshoreDisclosure page" in {
+        val relatesTo: RelatesTo = AnIndividual
+        val reason: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(DeliberatelyDidNotFile)
+        val userAnswers = UserAnswers("id")
+          .set(RelatesToPage, relatesTo).success.value
+          .set(WhyAreYouMakingThisOnshoreDisclosurePage, reason).success.value
+        navigator.nextPage(WhyAreYouMakingThisOnshoreDisclosurePage, CheckMode, userAnswers) mustBe routes.CDFOnshoreController.onPageLoad(NormalMode)
       }
     }
 
