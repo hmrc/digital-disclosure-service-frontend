@@ -49,7 +49,7 @@ object DidYouReceiveTaxCreditSummary  {
           value   = value,
           actions = Seq(
             ActionItemViewModel("site.change", routes.DidYouReceiveTaxCreditController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("didYouReceiveTaxCredit.change.hidden"))
+              .withVisuallyHiddenText(messages(if(areTheyTheIndividual) s"didYouReceiveTaxCredit.you.hidden" else s"didYouReceiveTaxCredit.${entity}.hidden"))
           )
         )
     }

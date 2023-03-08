@@ -32,8 +32,8 @@ object CountryModels {
         value = ValueViewModel(""),
         actions = Seq(
           ActionItemViewModel("site.remove", routes.CountriesOrTerritoriesController.remove(country.alpha3, mode).url)
-            .withCssClass("summary-list-remove-link")
-            .withVisuallyHiddenText(messages("countriesOrTerritories.remove.hidden"))
+            .withVisuallyHiddenText(country.name)
+
         )
       )
     }.toSeq
