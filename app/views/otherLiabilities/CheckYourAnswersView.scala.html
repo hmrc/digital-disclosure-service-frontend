@@ -28,6 +28,6 @@
 
     @govukSummaryList(list.otherLiabilitiesList.withAttribute("id","other-liabilities-list"))
 
-    @buttonLink(id = "govuk-button", classes = "govuk-button", text = messages("site.continue"), newTab = false, call = Call("GET", controllers.routes.TaskListController.onPageLoad.url))
+    @buttonLink(id = "govuk-button", text = messages("site.continue"), call = Call("GET", controllers.routes.TaskListController.onPageLoad.url))
 
 }

@@ -28,6 +28,6 @@
 
     @govukSummaryList(list.lettingList.withAttribute("id","letting-list"))
 
-    @buttonLink(id = "continue", classes = "govuk-button", text = messages("site.continue"), newTab = false, call = Call("GET", controllers.onshore.routes.PropertyAddedController.onPageLoad(mode).url))
+    @buttonLink(id = "continue", text = messages("site.continue"), call = Call("GET", controllers.onshore.routes.PropertyAddedController.onPageLoad(mode).url))
 
 }

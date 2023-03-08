@@ -39,6 +39,6 @@
         @govukSummaryList(list.withAttribute("id","advice-list"))
     }
 
-    @buttonLink(id = "continue", classes = "govuk-button", text = messages("site.continue"), newTab = false, call = Call("GET", controllers.routes.TaskListController.onPageLoad.url))
+    @buttonLink(id = "continue", text = messages("site.continue"), call = Call("GET", controllers.routes.TaskListController.onPageLoad.url))
     
 }

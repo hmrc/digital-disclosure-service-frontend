@@ -84,7 +84,7 @@
                 )
             )
 
-            @buttonLink(id = "continue", classes = "govuk-button", text = messages("site.saveAndContinue"), newTab = false, call = Call("GET", controllers.routes.OfferLetterController.onPageLoad.url))
+            @buttonLink(id = "continue", text = messages("site.saveAndContinue"), call = Call("GET", controllers.routes.OfferLetterController.onPageLoad.url))
         }
     }
 }
