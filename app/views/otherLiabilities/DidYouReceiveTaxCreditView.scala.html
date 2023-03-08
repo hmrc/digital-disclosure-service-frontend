@@ -42,7 +42,9 @@
         @govukRadios(
             RadiosViewModel.yesNoNotInline(
                 field  = form("value"),
-                legend = LegendViewModel(messages("didYouReceiveTaxCredit.heading")).withCssClass("govuk-visually-hidden"),
+                legend = LegendViewModel(
+                    if(areTheyTheIndividual) messages("didYouReceiveTaxCredit.agent.heading") else messages(s"didYouReceiveTaxCredit.${entity}.heading")
+                    ).withCssClass("govuk-visually-hidden"),
                 messagePrefix = "didYouReceiveTaxCredit"
             )
         )

@@ -22,7 +22,7 @@
         heading: components.heading,
         subheading: components.subheading,
         govukSummaryList: GovukSummaryList,
-        link: components.link
+        buttonLink: components.buttonLink
 )
 
 @(viewModel: CheckYourAnswersViewModel)(implicit request: Request[_], messages: Messages)
@@ -39,6 +39,6 @@
         @govukSummaryList(list.withAttribute("id","advice-list"))
     }
 
-    @link(id = "continue", classes = "govuk-button", text = messages("site.continue"), newTab = false, call = Call("GET", controllers.routes.TaskListController.onPageLoad.url))
+    @buttonLink(id = "continue", classes = "govuk-button", text = messages("site.continue"), newTab = false, call = Call("GET", controllers.routes.TaskListController.onPageLoad.url))
     
 }

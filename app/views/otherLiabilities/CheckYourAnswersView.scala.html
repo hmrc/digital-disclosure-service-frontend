@@ -17,7 +17,7 @@
 @this(
     layout: templates.Layout,
     govukSummaryList: GovukSummaryList,
-    link: components.link
+    buttonLink: components.buttonLink,
 )
 
 @(list: OtherLiabilitiesSummaryLists)(implicit request: Request[_], messages: Messages)
@@ -28,6 +28,6 @@
 
     @govukSummaryList(list.otherLiabilitiesList.withAttribute("id","other-liabilities-list"))
 
-    @link(id = "govuk-button", classes = "govuk-button", text = messages("site.continue"), newTab = false, call = Call("GET", controllers.routes.TaskListController.onPageLoad.url))
+    @buttonLink(id = "govuk-button", classes = "govuk-button", text = messages("site.continue"), newTab = false, call = Call("GET", controllers.routes.TaskListController.onPageLoad.url))
 
 }

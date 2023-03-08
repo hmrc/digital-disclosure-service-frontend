@@ -25,6 +25,7 @@
     govukButton: GovukButton,
     subheading: components.subheading,
     downloadLink: components.downloadLink,
+    buttonLink: components.buttonLink,
     link: components.link,
     caseManagementLink: components.caseManagementLink
 )
@@ -83,7 +84,7 @@
                 )
             )
 
-            @link(id = "continue", classes = "govuk-button", text = messages("site.saveAndContinue"), newTab = false, call = Call("GET", controllers.routes.OfferLetterController.onPageLoad.url))
+            @buttonLink(id = "continue", classes = "govuk-button", text = messages("site.saveAndContinue"), newTab = false, call = Call("GET", controllers.routes.OfferLetterController.onPageLoad.url))
         }
     }
 }
