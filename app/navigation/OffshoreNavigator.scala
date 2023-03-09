@@ -186,6 +186,10 @@ class OffshoreNavigator @Inject()() {
       if(hasAnswerChanged) nextPage(YourLegalInterpretationPage, NormalMode, ua)
       else routes.CheckYourAnswersController.onPageLoad
 
+    case WhereDidTheUndeclaredIncomeOrGainIncludedPage => ua => hasAnswerChanged => 
+      if(hasAnswerChanged) nextPage(WhereDidTheUndeclaredIncomeOrGainIncludedPage, NormalMode, ua)
+      else routes.CheckYourAnswersController.onPageLoad   
+
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
