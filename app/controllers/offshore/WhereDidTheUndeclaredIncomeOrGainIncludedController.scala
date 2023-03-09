@@ -19,9 +19,10 @@ package controllers.offshore
 import controllers.actions._
 import forms.WhereDidTheUndeclaredIncomeOrGainIncludedFormProvider
 import javax.inject.Inject
-import models.Mode
+import models.{Mode, UserAnswers, WhereDidTheUndeclaredIncomeOrGainIncluded}
+import models.WhereDidTheUndeclaredIncomeOrGainIncluded._
 import navigation.OffshoreNavigator
-import pages.WhereDidTheUndeclaredIncomeOrGainIncludedPage
+import pages.{WhereDidTheUndeclaredIncomeOrGainIncludedPage, QuestionPage, WhereDidTheUndeclaredIncomeOrGainPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -62,11 +63,25 @@ class WhereDidTheUndeclaredIncomeOrGainIncludedController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
-        value =>
+        value => {
+
+          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
+
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(WhereDidTheUndeclaredIncomeOrGainIncludedPage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(WhereDidTheUndeclaredIncomeOrGainIncludedPage, mode, updatedAnswers))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+            _              <- sessionService.set(clearedAnswers)
+          } yield Redirect(navigator.nextPage(WhereDidTheUndeclaredIncomeOrGainIncludedPage, mode, clearedAnswers, hasValueChanged))
+        }
       )
   }
+
+def changedPages(userAnswers: UserAnswers, newValue: Set[WhereDidTheUndeclaredIncomeOrGainIncluded]): (List[QuestionPage[_]], Boolean) =
+    userAnswers.get(WhereDidTheUndeclaredIncomeOrGainIncludedPage) match {
+      case Some(oldValue) if (!oldValue.contains(SomewhereElse) && newValue.contains(SomewhereElse)) => (Nil, true)
+      case Some(oldValue) if (oldValue.contains(SomewhereElse) && !newValue.contains(SomewhereElse)) => (List(WhereDidTheUndeclaredIncomeOrGainPage), true)
+      case Some(oldValue) if (oldValue != newValue) => (Nil, true)
+      case _ => (Nil, false)
+    }
 }
+

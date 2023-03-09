@@ -19,9 +19,10 @@ package controllers.onshore
 import controllers.actions._
 import forms.IncomeOrGainSourceFormProvider
 import javax.inject.Inject
-import models.Mode
+import models.{Mode, UserAnswers, IncomeOrGainSource}
+import models.IncomeOrGainSource._
 import navigation.OnshoreNavigator
-import pages.IncomeOrGainSourcePage
+import pages.{IncomeOrGainSourcePage, QuestionPage, OtherIncomeOrGainSourcePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -62,11 +63,24 @@ class IncomeOrGainSourceController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
-        value =>
+        value => {
+
+          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
+
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(IncomeOrGainSourcePage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(IncomeOrGainSourcePage, mode, updatedAnswers))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+            _              <- sessionService.set(clearedAnswers)
+          } yield Redirect(navigator.nextPage(IncomeOrGainSourcePage, mode, clearedAnswers, hasValueChanged))
+        }
       )
   }
+
+  def changedPages(userAnswers: UserAnswers, newValue: Set[IncomeOrGainSource]): (List[QuestionPage[_]], Boolean) =
+    userAnswers.get(IncomeOrGainSourcePage) match {
+      case Some(oldValue) if (!oldValue.contains(SomewhereElse) && newValue.contains(SomewhereElse)) => (Nil, true)
+      case Some(oldValue) if (oldValue.contains(SomewhereElse) && !newValue.contains(SomewhereElse)) => (List(OtherIncomeOrGainSourcePage), true)
+      case Some(oldValue) if (oldValue != newValue) => (Nil, true)
+      case _ => (Nil, false)
+    }
 }
