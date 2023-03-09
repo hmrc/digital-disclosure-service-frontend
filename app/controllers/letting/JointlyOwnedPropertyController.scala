@@ -19,9 +19,9 @@ package controllers.letting
 import controllers.actions._
 import forms.JointlyOwnedPropertyFormProvider
 import javax.inject.Inject
-import models.{Mode, LettingProperty}
+import models.{Mode, LettingProperty, UserAnswers}
 import navigation.LettingNavigator
-import pages.{JointlyOwnedPropertyPage, LettingPropertyPage}
+import pages.{JointlyOwnedPropertyPage, LettingPropertyPage, QuestionPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -63,15 +63,26 @@ class JointlyOwnedPropertyController @Inject()(
           Future.successful(BadRequest(view(formWithErrors, i, mode))),
 
         { value =>
-          val updatedLettingProperty = request.userAnswers.getBySeqIndex(LettingPropertyPage, i)
+
+          val lettingProperty = request.userAnswers.getBySeqIndex(LettingPropertyPage, i)
             .getOrElse(LettingProperty())
             .copy(isJointOwnership = Some(value))
+
+          val (updatedLettingProperty, hasValueChanged) = changedPages(lettingProperty, request.userAnswers, value, i)  
 
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.setBySeqIndex(LettingPropertyPage, i, updatedLettingProperty))
             _ <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(JointlyOwnedPropertyPage, i, mode, updatedAnswers))
+          } yield Redirect(navigator.nextPage(JointlyOwnedPropertyPage, i, mode, updatedAnswers, hasValueChanged))
         }
       )
+  }
+
+  def changedPages(updatedLettingProperty: LettingProperty, userAnswers: UserAnswers, value: Boolean, index: Int): (LettingProperty, Boolean) = {
+    userAnswers.getBySeqIndex(LettingPropertyPage, index).flatMap(_.isJointOwnership) match {
+      case Some(true) if value != true  => (updatedLettingProperty.copy(percentageIncomeOnProperty = None), false)
+      case Some(false) if value != false => (updatedLettingProperty, true)
+      case _ => (updatedLettingProperty, false)
+    }
   }
 }
