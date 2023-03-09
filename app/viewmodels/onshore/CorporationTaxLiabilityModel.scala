@@ -17,7 +17,6 @@
 package viewmodels.onshore
 
 import java.time.format.DateTimeFormatter
-import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import viewmodels.SummaryListRowNoValue
 import models.{CorporationTaxLiability, Mode}
@@ -30,7 +29,7 @@ object CorporationTaxLiabilityModel {
 
   val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
 
-  def row(corporationTaxLiabilities: Set[CorporationTaxLiability], mode: Mode)(implicit messages: Messages): Seq[SummaryListRowNoValue] = {
+  def row(corporationTaxLiabilities: Seq[CorporationTaxLiability], mode: Mode)(implicit messages: Messages): Seq[SummaryListRowNoValue] = {
     (for {
       (corporationTaxLiability, i) <- corporationTaxLiabilities.zipWithIndex
     } yield {

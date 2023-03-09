@@ -33,11 +33,11 @@ case class CorporationTaxLiabilitiesSummaryViewModel (
 
 object CorporationTaxLiabilitiesSummaryViewModelCreation {
   def create(userAnswers: UserAnswers)(implicit messages: Messages): CorporationTaxLiabilitiesSummaryViewModel = {
-    val corporationTaxLiabilities = userAnswers.get(CorporationTaxLiabilityPage).getOrElse(Set())
+    val corporationTaxLiabilities = userAnswers.get(CorporationTaxLiabilityPage).getOrElse(Seq())
 
-    val corporationTaxLiabilitiesList: Seq[(Int, SummaryList)] = (corporationTaxLiabilities.zipWithIndex.map {
-      case (corporationTaxLiability, i) => (i+1, corporationTaxLiabilityToSummaryList(i, corporationTaxLiability))
-    }).toSeq
+    val corporationTaxLiabilitiesList: Seq[(Int, SummaryList)] = corporationTaxLiabilities.zipWithIndex.map {
+      case (corporationTaxLiability, i) => (i + 1, corporationTaxLiabilityToSummaryList(i, corporationTaxLiability))
+    }
 
     val totalAmountsList = totalAmountsSummaryList(corporationTaxLiabilities)
 
@@ -74,7 +74,7 @@ object CorporationTaxLiabilitiesSummaryViewModelCreation {
     )
   }
 
-  private def totalAmountsSummaryList(corporationTaxLiabilities: Set[CorporationTaxLiability])(implicit messages: Messages): SummaryList = {
+  private def totalAmountsSummaryList(corporationTaxLiabilities: Seq[CorporationTaxLiability])(implicit messages: Messages): SummaryList = {
 
     val unpaidTaxTotal = corporationTaxLiabilities.map(_.howMuchUnpaid).sum
     val interestTotal = corporationTaxLiabilities.map(_.howMuchInterest).sum

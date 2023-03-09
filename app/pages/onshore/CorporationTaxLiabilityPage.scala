@@ -20,7 +20,7 @@ import models.CorporationTaxLiability
 
 import play.api.libs.json.JsPath
 
-case object CorporationTaxLiabilityPage extends QuestionPage[Set[CorporationTaxLiability]] {
+case object CorporationTaxLiabilityPage extends QuestionPage[Seq[CorporationTaxLiability]] {
 
   override def path: JsPath = JsPath \ toString
 
