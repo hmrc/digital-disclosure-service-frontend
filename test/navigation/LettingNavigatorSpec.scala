@@ -17,7 +17,7 @@
 package navigation
 
 import base.SpecBase
-import models.{LettingProperty, NoLongerBeingLetOut, NormalMode, TypeOfMortgageDidYouHave, UserAnswers}
+import models.{LettingProperty, NoLongerBeingLetOut, NormalMode, CheckMode, TypeOfMortgageDidYouHave, UserAnswers}
 import pages._
 import controllers.letting.routes
 import org.scalacheck.Arbitrary.arbitrary
@@ -187,6 +187,52 @@ class LettingNavigatorSpec extends SpecBase {
       }
 
     }
+  }
+
+  "in Check mode" - {
+
+    "must go from JointlyOwnedPropertyPage to WhatWasThePercentageIncomeYouReceivedFromPropertyController if answer changed to Yes" in {
+      val index = 0
+      val lettingProperty = LettingProperty(isJointOwnership = Some(true))
+      val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
+      navigator.nextPage(JointlyOwnedPropertyPage, index, CheckMode, ua, true) mustBe routes.WhatWasThePercentageIncomeYouReceivedFromPropertyController.onPageLoad(index, CheckMode)
+    }
+
+    "must go from JointlyOwnedPropertyPage to CheckYourAnswersController if answer changed to No" in {
+      val index = 0
+      val lettingProperty = LettingProperty(isJointOwnership = Some(false))
+      val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
+      navigator.nextPage(JointlyOwnedPropertyPage, index, CheckMode, ua, false) mustBe routes.CheckYourAnswersController.onPageLoad(index, CheckMode)
+    }
+
+    "must go from WasPropertyFurnishedPage to FHLController if answer changed to Yes" in {
+      val index = 0
+      val lettingProperty = LettingProperty(wasFurnished = Some(true))
+      val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
+      navigator.nextPage(WasPropertyFurnishedPage, index, CheckMode, ua, true) mustBe routes.FHLController.onPageLoad(index, CheckMode)
+    }
+
+    "must go from WasPropertyFurnishedPage to CheckYourAnswersController if answer changed to No" in {
+      val index = 0
+      val lettingProperty = LettingProperty(wasFurnished = Some(false))
+      val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
+      navigator.nextPage(WasPropertyFurnishedPage, index, CheckMode, ua, false) mustBe routes.CheckYourAnswersController.onPageLoad(index, CheckMode)
+    }
+
+    "must go from PropertyStoppedBeingLetOutPage to PropertyIsNoLongerBeingLetOutController if answer changed to Yes" in {
+      val index = 0
+      val lettingProperty = LettingProperty(stoppedBeingLetOut = Some(true))
+      val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
+      navigator.nextPage(PropertyStoppedBeingLetOutPage, index, CheckMode, ua, true) mustBe routes.PropertyIsNoLongerBeingLetOutController.onPageLoad(index, CheckMode)
+    }
+
+    "must go from PropertyStoppedBeingLetOutPage to CheckYourAnswersController if answer changed to No" in {
+      val index = 0
+      val lettingProperty = LettingProperty(stoppedBeingLetOut = Some(false))
+      val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
+      navigator.nextPage(PropertyStoppedBeingLetOutPage, index, CheckMode, ua, false) mustBe routes.CheckYourAnswersController.onPageLoad(index, CheckMode)
+    }
+
   }
 
 }
