@@ -44,6 +44,7 @@ class YouHaveNoOffshoreLiabilitiesController @Inject()(
       val entityString = (entity, isIndividual) match {
         case (RelatesTo.AnIndividual, true) => "iAmIndividual"
         case (RelatesTo.AnIndividual, false) => "iAmNotIndividual"
+        case (RelatesTo.ALimitedLiabilityPartnership, _ ) => "llp"
         case _ => "other"
       }
       val numberOfYears = getNumberOfYears(request.userAnswers)

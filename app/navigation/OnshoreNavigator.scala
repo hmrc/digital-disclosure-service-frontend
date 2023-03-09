@@ -193,6 +193,14 @@ class OnshoreNavigator @Inject()() {
     case WhyAreYouMakingThisOnshoreDisclosurePage => ua => hasChanged =>
         if (hasChanged) normalRoutes(WhyAreYouMakingThisOnshoreDisclosurePage)(ua)
         else routes.CheckYourAnswersController.onPageLoad
+
+    case DirectorLoanAccountLiabilitiesPage => _ => _ => routes.DirectorLoanAccountLiabilitiesSummaryController.onPageLoad(NormalMode)
+
+    case CorporationTaxLiabilityPage => _ => _ => routes.CorporationTaxSummaryController.onPageLoad(NormalMode)   
+
+    case IncomeOrGainSourcePage => ua => hasAnswerChanged => 
+      if(hasAnswerChanged) nextPage(IncomeOrGainSourcePage, NormalMode, ua)
+      else routes.CheckYourAnswersController.onPageLoad 
     
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }

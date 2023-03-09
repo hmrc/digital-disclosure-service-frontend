@@ -187,7 +187,7 @@ class AccountingPeriodCTAddedControllerSpec extends SpecBase with MockitoSugar {
          penaltyRateReason = "Some reason"
        )
 
-       val userAnswers = UserAnswers("id").set(CorporationTaxLiabilityPage, Set(corporationTaxLiability, corporationTaxLiability2)).success.value
+       val userAnswers = UserAnswers("id").set(CorporationTaxLiabilityPage, Seq(corporationTaxLiability, corporationTaxLiability2)).success.value
 
        val application =
          applicationBuilderWithSessionService(userAnswers = Some(userAnswers), mockSessionService)

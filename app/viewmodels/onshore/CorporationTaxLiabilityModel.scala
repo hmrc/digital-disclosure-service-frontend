@@ -17,7 +17,6 @@
 package viewmodels.onshore
 
 import java.time.format.DateTimeFormatter
-import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import viewmodels.SummaryListRowNoValue
 import models.{CorporationTaxLiability, Mode}
@@ -30,7 +29,7 @@ object CorporationTaxLiabilityModel {
 
   val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
 
-  def row(corporationTaxLiabilities: Set[CorporationTaxLiability], mode: Mode)(implicit messages: Messages): Seq[SummaryListRowNoValue] = {
+  def row(corporationTaxLiabilities: Seq[CorporationTaxLiability], mode: Mode)(implicit messages: Messages): Seq[SummaryListRowNoValue] = {
     (for {
       (corporationTaxLiability, i) <- corporationTaxLiabilities.zipWithIndex
     } yield {
@@ -42,12 +41,12 @@ object CorporationTaxLiabilityModel {
               ActionItem(
                 href = routes.CorporationTaxLiabilityController.onPageLoad(i, mode).url,
                 content = Text(messages("site.change")),
-                visuallyHiddenText = Some(messages("corporationTaxLiability.change.hidden"))
+                visuallyHiddenText = Some(messages("corporationTaxLiability.change.hidden") + corporationTaxLiability.periodEnd.format(dateFormatter))
               ),
               ActionItem(
                 href = routes.AccountingPeriodCTAddedController.remove(i, mode).url,
                 content = Text(messages("site.remove")),
-                visuallyHiddenText = Some(messages("corporationTaxLiability.remove.hidden"))
+                visuallyHiddenText = Some(messages("corporationTaxLiability.remove.hidden") + corporationTaxLiability.periodEnd.format(dateFormatter))
               )
             )
           )

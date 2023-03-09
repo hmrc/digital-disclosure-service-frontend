@@ -47,7 +47,7 @@ class CorporationTaxLiabilityController @Inject()(
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val preparedForm = request.userAnswers.getByIndex(CorporationTaxLiabilityPage, i) match {
+      val preparedForm = request.userAnswers.getBySeqIndex(CorporationTaxLiabilityPage, i) match {
         case None => form
         case Some(value) => form.fill(value)
       }
@@ -64,7 +64,7 @@ class CorporationTaxLiabilityController @Inject()(
 
         value =>
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.setByIndex(CorporationTaxLiabilityPage, i, value))
+            updatedAnswers <- Future.fromTry(request.userAnswers.setBySeqIndex(CorporationTaxLiabilityPage, i, value))
             _              <- sessionService.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(CorporationTaxLiabilityPage, mode, updatedAnswers))
       )

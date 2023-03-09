@@ -20,7 +20,7 @@
     govukButton: GovukButton,
     formHelper: FormWithCSRF,
     downloadLink: components.downloadLink,
-    link: components.link,
+    buttonLink: components.buttonLink,
     caseManagementLink: components.caseManagementLink
 )
 
@@ -88,7 +88,7 @@
                 ButtonViewModel(messages("notificationCYA.send.button")).withAttribute("id","send-button")
             )
         } else {
-            @link(id = "continue", classes = "govuk-button", text = messages("site.continue"), newTab = false, call = Call("GET", controllers.routes.TaskListController.onPageLoad.url))
+            @buttonLink(id = "continue", text = messages("site.continue"), call = Call("GET", controllers.routes.TaskListController.onPageLoad.url))
         }
     }
 }

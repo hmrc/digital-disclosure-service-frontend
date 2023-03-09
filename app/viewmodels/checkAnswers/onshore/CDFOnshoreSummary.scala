@@ -16,8 +16,7 @@
 
 package viewmodels.checkAnswers
 
-import controllers.onshore.routes
-import models.{CheckMode, UserAnswers}
+import models.UserAnswers
 import pages.CDFOnshorePage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
@@ -43,10 +42,7 @@ object CDFOnshoreSummary  {
         SummaryListRowViewModel(
           key     = "contractualDisclosureFacility.checkYourAnswersLabel",
           value   = value,
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.CDFOnshoreController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("contractualDisclosureFacility.change.hidden"))
-          )
+          actions = Nil
         )
     }
 }

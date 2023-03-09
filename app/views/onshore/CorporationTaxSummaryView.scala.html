@@ -21,7 +21,7 @@
      heading: components.heading,
      subheading: components.subheading,
      govukSummaryList: GovukSummaryList,
-     link: components.link
+     buttonLink: components.buttonLink
 )
 
 @(viewModel: CorporationTaxLiabilitiesSummaryViewModel, mode: Mode)(implicit request: Request[_], messages: Messages)
@@ -38,6 +38,6 @@
  @subheading(Text(messages("checkYourAnswers.ct.total.subheading")), "govuk-heading-m")
  @govukSummaryList(viewModel.totalAmountsList)
 
- @link(id = "continue", classes = "govuk-button", text = messages("site.continue"), newTab = false, call = Call("GET", controllers.onshore.routes.AccountingPeriodCTAddedController.onPageLoad(mode).url))
+ @buttonLink(id = "continue", text = messages("site.continue"), call = Call("GET", controllers.onshore.routes.AccountingPeriodCTAddedController.onPageLoad(mode).url))
 
 }

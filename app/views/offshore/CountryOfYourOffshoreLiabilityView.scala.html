@@ -56,8 +56,10 @@
                         )
                     ),
             formGroupClasses = "autocomplete-wrapper",
-            attributes = Map("data-non-uk-countries" -> "")
+            attributes = Map("data-non-uk-countries" -> ""),
+            errorMessage = form("country").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
         ))
+
 
         @govukButton(
             ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")

@@ -46,7 +46,7 @@ object WhatIsYourReasonableExcuseForNotFilingReturnSummary  {
             ),
             actions = Seq(
               ActionItemViewModel("site.change", routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(CheckMode).url)
-                .withVisuallyHiddenText(messages("whatIsYourReasonableExcuseForNotFilingReturn.change.hidden"))
+                .withVisuallyHiddenText(messages("whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.change.hidden"))
             )
           )
         } else {
@@ -55,7 +55,7 @@ object WhatIsYourReasonableExcuseForNotFilingReturnSummary  {
             value   = ValueViewModel(HtmlContent(HtmlFormat.escape(answer.yearsThisAppliesTo).toString)),
             actions = Seq(
               ActionItemViewModel("site.change", routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(CheckMode).url)
-                .withVisuallyHiddenText(messages("whatIsYourReasonableExcuseForNotFilingReturn.change.hidden"))
+                .withVisuallyHiddenText(messages("whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo.change.hidden"))
             )
           )
         }

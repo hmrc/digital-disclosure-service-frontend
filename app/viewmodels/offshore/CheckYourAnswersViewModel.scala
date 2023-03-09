@@ -31,7 +31,8 @@ case class CheckYourAnswersViewModel(
   legalInterpretationlist: SummaryList,
   taxYearLists: Seq[(Int, SummaryList)],
   totalAmountsList: SummaryList,
-  liabilitiesTotal: BigDecimal
+  liabilitiesTotal: BigDecimal,
+  summaryList1: SummaryList
 )
 
 @Singleton
@@ -78,7 +79,14 @@ class CheckYourAnswersViewModelCreation @Inject() (whichYearsSummary: WhichYears
       ).flatten
     )
 
-    CheckYourAnswersViewModel(summaryList, legalInterpretationlist, taxYearLists, totalAmountsList, liabilitiesTotal)
+    val summaryList1 = SummaryListViewModel(
+      rows = Seq(
+        WhereDidTheUndeclaredIncomeOrGainIncludedSummary.row(userAnswers),
+        WhereDidTheUndeclaredIncomeOrGainSummary.row(userAnswers)
+      ).flatten
+    )
+
+    CheckYourAnswersViewModel(summaryList, legalInterpretationlist, taxYearLists, totalAmountsList, liabilitiesTotal, summaryList1)
 
   }
 
@@ -98,9 +106,9 @@ class CheckYourAnswersViewModelCreation @Inject() (whichYearsSummary: WhichYears
       row(i, "taxYearLiabilities.unpaidTax.checkYourAnswersLabel", s"&pound;${liabilities.unpaidTax}", "taxYearLiabilities.unpaidTax.hidden"),
       row(i, "taxYearLiabilities.interest.checkYourAnswersLabel", s"&pound;${liabilities.interest}", "taxYearLiabilities.interest.hidden"),
       row(i, "taxYearLiabilities.penaltyRate.checkYourAnswersLabel", s"${liabilities.penaltyRate}%", "taxYearLiabilities.penaltyRate.hidden"),
-      row(i, "taxYearLiabilities.penaltyAmount.checkYourAnswersLabel", messages("site.2DP", penaltyAmount(liabilities)), "taxYearLiabilities.penaltyRate.hidden"),
+      totalRow("taxYearLiabilities.penaltyAmount.checkYourAnswersLabel", messages("site.2DP", penaltyAmount(liabilities))),
       row(i, "taxYearLiabilities.foreignTaxCredit.checkYourAnswersLabel", if (liabilities.foreignTaxCredit) messages("site.yes") else messages("site.no"), "taxYearLiabilities.foreignTaxCredit.hidden")
-    ) ++ foreignTaxCredit ++ Seq(row(i, "taxYearLiabilities.amountDue.checkYourAnswersLabel", messages("site.2DP", yearTotal(liabilities)), "taxYearLiabilities.amountDue.hidden"))
+    ) ++ foreignTaxCredit ++ Seq(totalRow("taxYearLiabilities.amountDue.checkYourAnswersLabel", messages("site.2DP", yearTotal(liabilities))))
 
     SummaryListViewModel(rows)
   }
