@@ -31,6 +31,7 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
 import views.html.onshore.PropertyAddedView
+import viewmodels.onshore.LettingPropertyModel
 
 import scala.concurrent.Future
 
@@ -50,7 +51,19 @@ class PropertyAddedControllerSpec extends SpecBase with MockitoSugar {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+
+      val address: Address = Address(
+        line1 = "Line 1",
+        postcode = Some("AA112AA"),
+        line2 = None,
+        line3 = None,
+        line4 = None,
+        country = Country("AA")
+      )
+      val property = LettingProperty(address = Some(address))
+      val userAnswers = UserAnswers("id").addToSeq(LettingPropertyPage, property).success.value
+  
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
         val request = FakeRequest(GET, propertyAddedRoute)
@@ -59,8 +72,24 @@ class PropertyAddedControllerSpec extends SpecBase with MockitoSugar {
 
         val view = application.injector.instanceOf[PropertyAddedView]
 
+        val properties = LettingPropertyModel.row(Seq(property), NormalMode)(messages(application))
+
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(form, properties, NormalMode)(request, messages(application)).toString
+      }
+    }
+
+    "must redirect to the Property Address page if no property has been inserted" in {
+
+      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+
+      running(application) {
+        val request = FakeRequest(GET, propertyAddedRoute)
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode).url
       }
     }
 

@@ -50,9 +50,10 @@ class PropertyAddedController @Inject()(
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val properties = getProperties(request.userAnswers, mode)
-
-      Ok(view(form, properties, mode))
+      getProperties(request.userAnswers, mode) match {
+        case properties if properties.nonEmpty => Ok(view(form, properties, mode))
+        case _ => Redirect(controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, mode).url)
+      }
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
