@@ -56,7 +56,7 @@ class TaskListController @Inject()(
       val entityKey = if (fullDisclosure.disclosingAboutThemselves) "agent" else entity
       
       val (notificationSectionKey, personalDetailsRow) = buildYourPersonalDetailsRow(fullDisclosure.personalDetails, entityKey)
-      val liabilitiesRows = buildLiabilitiesInformationRow(fullDisclosure.personalDetails.background, fullDisclosure.offshoreLiabilities, ua.madeDeclaration)
+      val liabilitiesRows = buildLiabilitiesInformationRow(fullDisclosure.personalDetails.background, fullDisclosure.onshoreLiabilities, fullDisclosure.offshoreLiabilities, ua.madeDeclaration)
 
       val list = TaskListViewModel(
         Seq(personalDetailsRow),
@@ -96,10 +96,11 @@ class TaskListController @Inject()(
     buildRow("declaration", "declaration", madeDeclaration, madeDeclaration, declarationLink, declarationLink)
   }
 
-  private[controllers] def buildOnshoreLiabilitieDetailRow(madeDeclaration: Boolean)(implicit messages: Messages): TaskListRow = {
-    val firstPage = None
-    val isSectionComplete = false
-    val completeLink = controllers.onshore.routes.WhyAreYouMakingThisOnshoreDisclosureController.onPageLoad(NormalMode)
+  private[controllers] def buildOnshoreLiabilitiesDetailRow(onshoreLiabilities: Option[OnshoreLiabilities], madeDeclaration: Boolean)(implicit messages: Messages): TaskListRow = {
+    val liabilities = onshoreLiabilities.getOrElse(OnshoreLiabilities())
+    val firstPage = liabilities.behaviour
+    val isSectionComplete = liabilities.isComplete
+    val completeLink = controllers.onshore.routes.CheckYourAnswersController.onPageLoad
     val incompleteLink = controllers.onshore.routes.WhyAreYouMakingThisOnshoreDisclosureController.onPageLoad(NormalMode)
 
     buildRow("onshore-liabilities", "third", isSectionComplete, firstPage.isDefined, completeLink, incompleteLink, madeDeclaration)
@@ -147,12 +148,12 @@ class TaskListController @Inject()(
 
   private[controllers] def getOperationKey(isSectionComplete: Boolean, isFirstPageDefined: Boolean) = if (isSectionComplete || isFirstPageDefined) "edit" else "add"
   
-  private[controllers] def buildLiabilitiesInformationRow(background: Background, offshoreLiabilities: OffshoreLiabilities, madeDeclaration: Boolean)(implicit messages: Messages): Seq[TaskListRow] = {
+  private[controllers] def buildLiabilitiesInformationRow(background: Background, onshoreLiabilities: Option[OnshoreLiabilities], offshoreLiabilities: OffshoreLiabilities, madeDeclaration: Boolean)(implicit messages: Messages): Seq[TaskListRow] = {
     (background.offshoreLiabilities, background.onshoreLiabilities) match {
-      case (Some(true),  Some(true))  => Seq(buildOnshoreLiabilitieDetailRow(madeDeclaration), buildOffshoreLiabilitiesDetailRow(offshoreLiabilities, madeDeclaration))
+      case (Some(true),  Some(true))  => Seq(buildOnshoreLiabilitiesDetailRow(onshoreLiabilities, madeDeclaration), buildOffshoreLiabilitiesDetailRow(offshoreLiabilities, madeDeclaration))
       case (Some(true),  _)           => Seq(buildOffshoreLiabilitiesDetailRow(offshoreLiabilities, madeDeclaration))
-      case (_,           Some(true))  => Seq(buildOnshoreLiabilitieDetailRow(madeDeclaration))
-      case (Some(false), _)           => Seq(buildOnshoreLiabilitieDetailRow(madeDeclaration))
+      case (_,           Some(true))  => Seq(buildOnshoreLiabilitiesDetailRow(onshoreLiabilities, madeDeclaration))
+      case (Some(false), _)           => Seq(buildOnshoreLiabilitiesDetailRow(onshoreLiabilities, madeDeclaration))
       case (_,           _)           => Nil
     }
   }
@@ -171,7 +172,7 @@ class TaskListController @Inject()(
   private[controllers] def sectionsComplete(fullDisclosure: FullDisclosure): Int = {
     import fullDisclosure._
     val section1Complete = personalDetails.isComplete
-    val section2Complete = caseReference.isComplete && (!disclosingOffshoreLiabilities || offshoreLiabilities.isComplete)
+    val section2Complete = caseReference.isComplete && (!disclosingOffshoreLiabilities || offshoreLiabilities.isComplete) && (!disclosingOnshoreLiabilities || onshoreLiabilities.getOrElse(OnshoreLiabilities()).isComplete)
     val section3Complete = otherLiabilities.isComplete(personalDetails.isAnIndividual) && reasonForDisclosingNow.isComplete
     List(section1Complete, section2Complete, section3Complete).count(identity)
   }
