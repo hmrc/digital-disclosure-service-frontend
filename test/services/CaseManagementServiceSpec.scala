@@ -92,12 +92,12 @@ class CaseManagementServiceSpec extends ViewSpecBase {
 
   "getStatus" should {
     "return SentDisclosure where it's a disclosure and has been sent" in {
-      val submission = FullDisclosure("123", "123", Instant.now(), Metadata(reference = Some("SomeRef"), submissionTime = Some(submittedDateTime)), CaseReference(), PersonalDetails(Background(), AboutYou()), OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
+      val submission = FullDisclosure("123", "123", Instant.now(), Metadata(reference = Some("SomeRef"), submissionTime = Some(submittedDateTime)), CaseReference(), PersonalDetails(Background(), AboutYou()), None, OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
       sut.getStatus(submission) mustEqual SentDisclosure
     }
 
     "return StartedDisclosure where it's a disclosure and has not been sent" in {
-      val submission = FullDisclosure("123", "123", Instant.now(), Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
+      val submission = FullDisclosure("123", "123", Instant.now(), Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), None, OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
       sut.getStatus(submission) mustEqual StartedDisclosure
     }
 
@@ -179,12 +179,12 @@ class CaseManagementServiceSpec extends ViewSpecBase {
 
   "getRedirection" should {
     "return SentDisclosure where it's a disclosure and has been sent" in {
-      val submission = FullDisclosure("123", "123", Instant.now(), Metadata(reference = Some("SomeRef"), submissionTime = Some(submittedDateTime)), CaseReference(), PersonalDetails(Background(), AboutYou()), OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
+      val submission = FullDisclosure("123", "123", Instant.now(), Metadata(reference = Some("SomeRef"), submissionTime = Some(submittedDateTime)), CaseReference(), PersonalDetails(Background(), AboutYou()), None, OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
       sut.getRedirection(submission) mustEqual controllers.routes.PdfGenerationController.generateForSubmissionId("123")
     }
 
     "return StartedDisclosure where it's a disclosure and has not been sent" in {
-      val submission = FullDisclosure("123", "123", Instant.now(), Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
+      val submission = FullDisclosure("123", "123", Instant.now(), Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), None, OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
       sut.getRedirection(submission) mustEqual controllers.routes.TaskListController.onPageLoad
     }
 
@@ -203,7 +203,7 @@ class CaseManagementServiceSpec extends ViewSpecBase {
     "generate the row" in {
       val expectedCreatedDate = LocalDateTime.of(1990,8,23, 0, 0).format(dateFormatter)
       val expectedDate = LocalDateTime.of(2012,1,31, 0, 0).format(dateFormatter)
-      val submission = FullDisclosure("123", "123", lastUpdatedInstant, Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow(), created = createdInstant)
+      val submission = FullDisclosure("123", "123", lastUpdatedInstant, Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), None, OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow(), created = createdInstant)
       val expected = Seq(
         TableRow(HtmlContent(messages("caseManagement.incomplete"))),
         TableRow(Text(messages("caseManagement.incomplete"))),

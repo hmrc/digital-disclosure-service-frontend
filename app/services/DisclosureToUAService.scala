@@ -35,7 +35,8 @@ class DisclosureToUAServiceImpl @Inject()(
       uaWithCaseRef         <- caseReferenceToUa(fullDisclosure.caseReference, userAnswers)
       uaWithPersonalDetails <- notificationService.personalDetailsToUserAnswers(fullDisclosure.personalDetails, uaWithCaseRef)
       uaWithOffshore        <- offshoreLiabilitiesToUa(fullDisclosure.offshoreLiabilities, uaWithPersonalDetails)
-      uaWithOther           <- otherLiabilitiesToUa(fullDisclosure.otherLiabilities, uaWithOffshore)
+      uaWithOnshore         <- onshoreLiabilitiesToUa(fullDisclosure.onshoreLiabilities, uaWithOffshore)
+      uaWithOther           <- otherLiabilitiesToUa(fullDisclosure.otherLiabilities, uaWithOnshore)
       updatedUa             <- reasonForDisclosingNowToUa(fullDisclosure.reasonForDisclosingNow, uaWithOther)
     } yield updatedUa
   }
@@ -87,6 +88,8 @@ class DisclosureToUAServiceImpl @Inject()(
       reasonableCare.map(PageWithValue(WhatReasonableCareDidYouTakePage, _)),
       excuseForNotFiling.map(PageWithValue(WhatIsYourReasonableExcuseForNotFilingReturnPage, _)),
       whichYears.map(PageWithValue(WhichYearsPage, _)),
+      youHaveNotIncludedTheTaxYear.map(PageWithValue(YouHaveNotIncludedTheTaxYearPage, _)),
+      youHaveNotSelectedCertainTaxYears.map(PageWithValue(YouHaveNotSelectedCertainTaxYearPage, _)),
       taxBeforeFiveYears.map(PageWithValue(TaxBeforeFiveYearsPage, _)),
       taxBeforeSevenYears.map(PageWithValue(TaxBeforeSevenYearsPage, _)),
       taxBeforeNineteenYears.map(PageWithValue(TaxBeforeNineteenYearsPage, _)),
@@ -100,6 +103,40 @@ class DisclosureToUAServiceImpl @Inject()(
       otherInterpretation.map(PageWithValue(UnderWhatConsiderationPage, _)),
       notIncludedDueToInterpretation.map(PageWithValue(HowMuchTaxHasNotBeenIncludedPage, _)),
       maximumValueOfAssets.map(PageWithValue(TheMaximumValueOfAllAssetsPage, _))
+    ).flatten
+    
+    PageWithValue.pagesToUserAnswers(pages, userAnswers)
+  }
+
+  def onshoreLiabilitiesToUa(onshoreLiabilities: Option[OnshoreLiabilities], userAnswers: UserAnswers): Try[UserAnswers] = {
+
+    val liabilities = onshoreLiabilities.getOrElse(OnshoreLiabilities())
+
+    import liabilities._
+
+    val pages = List(
+      behaviour.map(PageWithValue(WhyAreYouMakingThisOnshoreDisclosurePage, _)),
+      excuseForNotNotifying.map(PageWithValue(ReasonableExcuseOnshorePage, _)),
+      reasonableCare.map(PageWithValue(ReasonableCareOnshorePage, _)),
+      excuseForNotFiling.map(PageWithValue(ReasonableExcuseForNotFilingOnshorePage, _)),
+      whatLiabilities.map(PageWithValue(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, _)),
+      whichYears.map(PageWithValue(WhichOnshoreYearsPage, _)),
+      youHaveNotIncludedTheTaxYear.map(PageWithValue(NotIncludedSingleTaxYearPage, _)),
+      youHaveNotSelectedCertainTaxYears.map(PageWithValue(NotIncludedMultipleTaxYearsPage, _)),
+      taxBeforeThreeYears.map(PageWithValue(TaxBeforeThreeYearsOnshorePage, _)),
+      taxBeforeFiveYears.map(PageWithValue(TaxBeforeFiveYearsOnshorePage, _)),
+      taxBeforeNineteenYears.map(PageWithValue(TaxBeforeNineteenYearsOnshorePage, _)),
+      disregardedCDF.map(PageWithValue(CDFOnshorePage, _)),
+      taxYearLiabilities.map(PageWithValue(OnshoreTaxYearLiabilitiesPage, _)),
+      lettingDeductions.map(PageWithValue(ResidentialReductionPage, _)),
+      incomeSource.map(PageWithValue(IncomeOrGainSourcePage, _)),
+      otherIncomeSource.map(PageWithValue(OtherIncomeOrGainSourcePage, _)),
+      lettingProperties.map(PageWithValue(LettingPropertyPage, _)),
+      memberOfLandlordAssociations.map(PageWithValue(AreYouAMemberOfAnyLandlordAssociationsPage, _)),
+      landlordAssociations.map(PageWithValue(WhichLandlordAssociationsAreYouAMemberOfPage, _)),
+      howManyProperties.map(PageWithValue(HowManyPropertiesDoYouCurrentlyLetOutPage, _)),
+      corporationTaxLiabilities.map(PageWithValue(CorporationTaxLiabilityPage, _)),
+      directorLoanAccountLiabilities.map(PageWithValue(DirectorLoanAccountLiabilitiesPage, _))
     ).flatten
     
     PageWithValue.pagesToUserAnswers(pages, userAnswers)

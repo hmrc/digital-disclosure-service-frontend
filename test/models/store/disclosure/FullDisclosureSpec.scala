@@ -71,47 +71,47 @@ class FullDisclosureSpec extends AnyFreeSpec with Matchers with OptionValues {
   "isComplete" - {
 
     "must return true where they are an individual and all sections are complete" in {
-      val fullDisclosure = FullDisclosure("userId", "submissionId", instant, Metadata(), completedCaseReference, completedIndPersonalDetails, completedOfffshoreLiabilities, completedIndOtherLiabilities, completedReasonForDisclosingNow)
+      val fullDisclosure = FullDisclosure("userId", "submissionId", instant, Metadata(), completedCaseReference, completedIndPersonalDetails, None, completedOfffshoreLiabilities, completedIndOtherLiabilities, completedReasonForDisclosingNow)
       fullDisclosure.isComplete mustBe true
     }
 
     "must return true where they are not an individual and all sections are complete" in {
-      val fullDisclosure = FullDisclosure("userId", "submissionId", instant, Metadata(), completedCaseReference, completedLLPPersonalDetails, completedOfffshoreLiabilities, completedLLPOtherLiabilities, completedReasonForDisclosingNow)
+      val fullDisclosure = FullDisclosure("userId", "submissionId", instant, Metadata(), completedCaseReference, completedLLPPersonalDetails, None, completedOfffshoreLiabilities, completedLLPOtherLiabilities, completedReasonForDisclosingNow)
       fullDisclosure.isComplete mustBe true
     }
 
     "must return false where the ReasonForDisclosingNow section is not complete" in {
-      val fullDisclosure = FullDisclosure("userId", "submissionId", instant, Metadata(), completedCaseReference, completedLLPPersonalDetails, completedOfffshoreLiabilities, completedLLPOtherLiabilities, ReasonForDisclosingNow())
+      val fullDisclosure = FullDisclosure("userId", "submissionId", instant, Metadata(), completedCaseReference, completedLLPPersonalDetails, None, completedOfffshoreLiabilities, completedLLPOtherLiabilities, ReasonForDisclosingNow())
       fullDisclosure.isComplete mustBe false
     }
 
     "must return false where the OffshoreLiabilities section is not complete" in {
-      val fullDisclosure = FullDisclosure("userId", "submissionId", instant, Metadata(), completedCaseReference, completedLLPPersonalDetails, OffshoreLiabilities(), completedLLPOtherLiabilities, completedReasonForDisclosingNow)
+      val fullDisclosure = FullDisclosure("userId", "submissionId", instant, Metadata(), completedCaseReference, completedLLPPersonalDetails, None, OffshoreLiabilities(), completedLLPOtherLiabilities, completedReasonForDisclosingNow)
       fullDisclosure.isComplete mustBe false
     }
 
     "must return false where the user is an individual and other liabilities isn't complete for an individual" in {
-      val fullDisclosure = FullDisclosure("userId", "submissionId", instant, Metadata(), completedCaseReference, completedIndPersonalDetails, completedOfffshoreLiabilities, completedLLPOtherLiabilities, completedReasonForDisclosingNow)
+      val fullDisclosure = FullDisclosure("userId", "submissionId", instant, Metadata(), completedCaseReference, completedIndPersonalDetails, None, completedOfffshoreLiabilities, completedLLPOtherLiabilities, completedReasonForDisclosingNow)
       fullDisclosure.isComplete mustBe false
     }
 
     "must return false where the personal details section is not complete" in {
-      val fullDisclosure = FullDisclosure("userId", "submissionId", instant, Metadata(), completedCaseReference, PersonalDetails(Background(), AboutYou()), completedOfffshoreLiabilities, completedIndOtherLiabilities, completedReasonForDisclosingNow)
+      val fullDisclosure = FullDisclosure("userId", "submissionId", instant, Metadata(), completedCaseReference, PersonalDetails(Background(), AboutYou()), None, completedOfffshoreLiabilities, completedIndOtherLiabilities, completedReasonForDisclosingNow)
       fullDisclosure.isComplete mustBe false
     }
 
     "must return false where the OtherLiabilities section is not complete" in {
-      val fullDisclosure = FullDisclosure("userId", "submissionId", instant, Metadata(), completedCaseReference, completedIndPersonalDetails, completedOfffshoreLiabilities, OtherLiabilities(), completedReasonForDisclosingNow)
+      val fullDisclosure = FullDisclosure("userId", "submissionId", instant, Metadata(), completedCaseReference, completedIndPersonalDetails, None, completedOfffshoreLiabilities, OtherLiabilities(), completedReasonForDisclosingNow)
       fullDisclosure.isComplete mustBe false
     }
 
     "must return false where the CaseReference section is not complete" in {
-      val fullDisclosure = FullDisclosure("userId", "submissionId", instant, Metadata(), CaseReference(), completedIndPersonalDetails, completedOfffshoreLiabilities, completedIndOtherLiabilities, completedReasonForDisclosingNow)
+      val fullDisclosure = FullDisclosure("userId", "submissionId", instant, Metadata(), CaseReference(), completedIndPersonalDetails, None, completedOfffshoreLiabilities, completedIndOtherLiabilities, completedReasonForDisclosingNow)
       fullDisclosure.isComplete mustBe false
     }
 
     "must return false where they have not answered all necessary questions" in {
-      val fullDisclosure = FullDisclosure("userId", "submissionId", instant, Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
+      val fullDisclosure = FullDisclosure("userId", "submissionId", instant, Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), None, OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
       fullDisclosure.isComplete mustBe false
     }
 

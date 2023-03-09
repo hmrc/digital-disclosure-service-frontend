@@ -29,7 +29,7 @@ class UAToSubmissionServiceSpec extends AnyWordSpec with Matchers with TryValues
 
   val emptyUA = UserAnswers("id")
 
-  val fullDisclosure = FullDisclosure("userId", "submissionId", Instant.now, Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
+  val fullDisclosure = FullDisclosure("userId", "submissionId", Instant.now, Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), None, OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
   val notification = Notification("id", "submissionId", Instant.now, Metadata(), PersonalDetails(Background(), AboutYou(), None, None, None, None, None), None)
 
   object TestNotificationService extends UAToNotificationService {
