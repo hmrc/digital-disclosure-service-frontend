@@ -59,7 +59,7 @@ final case class OnshoreLiabilities(
     (!typesOfTax.contains(CorporationTax) || corporationTaxLiabilities.isDefined) && 
     (!typesOfTax.contains(DirectorLoan) || directorLoanAccountLiabilities.isDefined) && 
     (!typesOfTax.contains(LettingIncome) || lettingQuestionsAnswered) && 
-    ((!typesOfTax.contains(CorporationTax) && !typesOfTax.contains(DirectorLoan)) || taxYearQuestionsAnswered)
+    (!(typesOfTax.contains(CorporationTax) && typesOfTax.contains(DirectorLoan)) || taxYearQuestionsAnswered)
 
   }
 

@@ -407,4 +407,73 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
     }
   }
 
+  "buildOnshoreLiabilitiesDetailRow" - {
+    "should display Not Started when the section isn't complete" in {
+      
+      val model = Some(OnshoreLiabilities())
+      
+      val expectedTask = TaskListRow(
+        id = "onshore-liabilities-task-list",
+        sectionTitle = mess("taskList.add.sectionTitle.third"),
+        status = mess("taskList.status.notStarted"),
+        link = controllers.onshore.routes.WhyAreYouMakingThisOnshoreDisclosureController.onPageLoad(NormalMode)
+      )
+      val actualTask = sut.buildOnshoreLiabilitiesDetailRow(model, true) 
+
+      actualTask mustEqual expectedTask    
+
+    }
+
+    "should display In Progress when the section has been started but isn't complete" in {
+    
+      val model = Some(OnshoreLiabilities(behaviour = Some(Set())))
+      
+      val expectedTask = TaskListRow(
+        id = "onshore-liabilities-task-list",
+        sectionTitle = mess("taskList.edit.sectionTitle.third"),
+        status = mess("taskList.status.inProgress"),
+        link = controllers.onshore.routes.WhyAreYouMakingThisOnshoreDisclosureController.onPageLoad(NormalMode)
+      )
+      val actualTask = sut.buildOnshoreLiabilitiesDetailRow(model, true) 
+
+      actualTask mustEqual expectedTask  
+    }
+
+    "should display Completed when the section is complete" in {
+
+      val whySet: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHasExcuse)
+      val corporationTax = Seq(CorporationTaxLiability (
+        periodEnd = LocalDate.now,
+        howMuchIncome = BigInt(2000),
+        howMuchUnpaid = BigInt(2000),
+        howMuchInterest = BigInt(2000),
+        penaltyRate = 123,
+        penaltyRateReason = "Some reason"
+      ))
+      val model = Some(OnshoreLiabilities(
+        behaviour = Some(whySet),
+        whatLiabilities = Some(Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.CorporationTax)),
+        whichYears = None, 
+        taxYearLiabilities = None,
+        incomeSource = None,
+        lettingProperties = None,
+        memberOfLandlordAssociations = None,
+        landlordAssociations = None,
+        howManyProperties = None,
+        corporationTaxLiabilities = Some(corporationTax),
+        directorLoanAccountLiabilities = None
+      ))
+
+      val expectedTask = TaskListRow(
+        id = "onshore-liabilities-task-list",
+        sectionTitle = mess("taskList.edit.sectionTitle.third"),
+        status = mess("taskList.status.completed"),
+        link = controllers.onshore.routes.CheckYourAnswersController.onPageLoad
+      )
+      val actualTask = sut.buildOnshoreLiabilitiesDetailRow(model, true) 
+
+      actualTask mustEqual expectedTask    
+    }
+  }
+
 }

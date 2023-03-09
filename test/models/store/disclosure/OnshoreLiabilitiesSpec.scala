@@ -22,6 +22,7 @@ import org.scalatest.OptionValues
 import models._
 import models.store.disclosure._
 import models.store._
+import java.time.LocalDate
 
 class OnshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues {
 
@@ -37,7 +38,7 @@ class OnshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues
     residentialTaxReduction = Some(false)
   )
   val whySet: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHasExcuse)
-  val corporationTax = Set(CorporationTaxLiability (
+  val corporationTax = Seq(CorporationTaxLiability (
     periodEnd = date,
     howMuchIncome = BigInt(2000),
     howMuchUnpaid = BigInt(2000),
@@ -75,7 +76,7 @@ class OnshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues
     "must return true where they have selected all types of tax" in {
       val onshoreLiabilities = OnshoreLiabilities(
         behaviour = Some(whySet),
-        whatLiabilities = Some(WhatOnshoreLiabilitiesDoYouNeedToDisclose.values),
+        whatLiabilities = Some(WhatOnshoreLiabilitiesDoYouNeedToDisclose.values.toSet),
         whichYears = Some(Set(OnshoreYearStarting(2012))), 
         taxYearLiabilities = Some(Map("2012" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2012), liabilities))),
         incomeSource = Some(Set(IncomeOrGainSource.Dividends)),
