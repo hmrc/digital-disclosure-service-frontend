@@ -450,18 +450,35 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         penaltyRate = 123,
         penaltyRateReason = "Some reason"
       ))
+      // val model = Some(OnshoreLiabilities(
+      //   behaviour = Some(whySet),
+      //   whatLiabilities = Some(Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.CorporationTax)),
+      //   whichYears = None, 
+      //   taxYearLiabilities = None,
+      //   incomeSource = None,
+      //   lettingProperties = None,
+      //   memberOfLandlordAssociations = None,
+      //   landlordAssociations = None,
+      //   howManyProperties = None,
+      //   corporationTaxLiabilities = Some(corporationTax),
+      //   directorLoanAccountLiabilities = None
+      // ))
+      val liabilities = OnshoreTaxYearLiabilities(
+        lettingIncome = Some(BigInt(2000)),
+        gains = Some(BigInt(2000)),
+        unpaidTax = BigInt(2000),
+        niContributions = BigInt(2000),
+        interest = BigInt(2000),
+        penaltyRate = 12,
+        penaltyRateReason = "Reason",
+        residentialTaxReduction = Some(false)
+      )
       val model = Some(OnshoreLiabilities(
         behaviour = Some(whySet),
-        whatLiabilities = Some(Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.CorporationTax)),
-        whichYears = None, 
-        taxYearLiabilities = None,
-        incomeSource = None,
-        lettingProperties = None,
-        memberOfLandlordAssociations = None,
-        landlordAssociations = None,
-        howManyProperties = None,
-        corporationTaxLiabilities = Some(corporationTax),
-        directorLoanAccountLiabilities = None
+        whatLiabilities = Some(Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.BusinessIncome)),
+        whichYears = Some(Set(OnshoreYearStarting(2012))), 
+        taxYearLiabilities = Some(Map("2012" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2012), liabilities))),
+        incomeSource = Some(Set(IncomeOrGainSource.Dividends))
       ))
 
       val expectedTask = TaskListRow(

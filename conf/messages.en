@@ -1059,6 +1059,7 @@ taskList.heading.third = Provide additional information
 taskList.add.sectionTitle.second = Add case reference
 taskList.edit.sectionTitle.second = Edit case reference
 taskList.add.sectionTitle.third = Add onshore liability details
+taskList.edit.sectionTitle.third = Edit onshore liability details
 taskList.add.sectionTitle.forth = Add offshore liability details
 taskList.edit.sectionTitle.forth = Edit offshore liability details
 taskList.add.sectionTitle.fifth = Confirm if you have other liability issues or not

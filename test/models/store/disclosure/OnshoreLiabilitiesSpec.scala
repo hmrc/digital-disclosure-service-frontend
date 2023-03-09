@@ -142,6 +142,17 @@ class OnshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues
       onshoreLiabilities.isComplete mustBe true
     }
 
+    "must return true where they have only selected business income" in {
+      val onshoreLiabilities = OnshoreLiabilities(
+        behaviour = Some(whySet),
+        whatLiabilities = Some(Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.BusinessIncome)),
+        whichYears = Some(Set(OnshoreYearStarting(2012))), 
+        taxYearLiabilities = Some(Map("2012" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2012), liabilities))),
+        incomeSource = Some(Set(IncomeOrGainSource.Dividends))
+      )
+      onshoreLiabilities.isComplete mustBe true
+    }
+
     "must return false where they have not answered all necessary questions" in {
       val onshoreLiabilities = OnshoreLiabilities()
       onshoreLiabilities.isComplete mustBe false
