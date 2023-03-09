@@ -18,6 +18,7 @@ package models.store.disclosure
 
 import play.api.libs.json.{Json, OFormat}
 import models._
+import models.WhatOnshoreLiabilitiesDoYouNeedToDisclose._
 
 final case class OnshoreLiabilities(
   behaviour: Option[Set[WhyAreYouMakingThisOnshoreDisclosure]] = None,
@@ -43,7 +44,25 @@ final case class OnshoreLiabilities(
   corporationTaxLiabilities: Option[Set[CorporationTaxLiability]] = None,
   directorLoanAccountLiabilities: Option[Set[DirectorLoanAccountLiabilities]] = None
 ) {
-  def isComplete = false
+
+  def isComplete: Boolean = {
+
+    val typesOfTax = whatLiabilities.getOrElse(Set())
+    val years = whichYears.getOrElse(Set())
+    val isNilDisclosure = years == Set(PriorToThreeYears) || years == Set(PriorToFiveYears) || years == Set(PriorToNineteenYears)
+
+    val taxYearQuestionsAnswered = whichYears.isDefined && (isNilDisclosure || (taxYearLiabilities.isDefined && incomeSource.isDefined))
+    val lettingQuestionsAnswered = lettingProperties.isDefined && memberOfLandlordAssociations.isDefined && howManyProperties.isDefined
+
+    behaviour.isDefined &&
+    whatLiabilities.isDefined &&
+    (!typesOfTax.contains(CorporationTax) || corporationTaxLiabilities.isDefined) && 
+    (!typesOfTax.contains(DirectorLoan) || directorLoanAccountLiabilities.isDefined) && 
+    (!typesOfTax.contains(LettingIncome) || lettingQuestionsAnswered) && 
+    ((!typesOfTax.contains(CorporationTax) && !typesOfTax.contains(DirectorLoan)) || taxYearQuestionsAnswered)
+
+  }
+
 }
 
 object OnshoreLiabilities {

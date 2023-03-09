@@ -96,10 +96,10 @@ class TaskListController @Inject()(
     buildRow("declaration", "declaration", madeDeclaration, madeDeclaration, declarationLink, declarationLink)
   }
 
-  private[controllers] def buildOnshoreLiabilitieDetailRow(madeDeclaration: Boolean)(implicit messages: Messages): TaskListRow = {
-    val firstPage = None
-    val isSectionComplete = false
-    val completeLink = controllers.onshore.routes.WhyAreYouMakingThisOnshoreDisclosureController.onPageLoad(NormalMode)
+  private[controllers] def buildOnshoreLiabilitieDetailRow(onshoreLiabilities: OnshoreLiabilities, madeDeclaration: Boolean)(implicit messages: Messages): TaskListRow = {
+    val firstPage = onshoreLiabilities.behaviour
+    val isSectionComplete = onshoreLiabilities.isComplete
+    val completeLink = controllers.onshore.routes.CheckYourAnswersController.onPageLoad
     val incompleteLink = controllers.onshore.routes.WhyAreYouMakingThisOnshoreDisclosureController.onPageLoad(NormalMode)
 
     buildRow("onshore-liabilities", "third", isSectionComplete, firstPage.isDefined, completeLink, incompleteLink, madeDeclaration)
@@ -171,7 +171,7 @@ class TaskListController @Inject()(
   private[controllers] def sectionsComplete(fullDisclosure: FullDisclosure): Int = {
     import fullDisclosure._
     val section1Complete = personalDetails.isComplete
-    val section2Complete = caseReference.isComplete && (!disclosingOffshoreLiabilities || offshoreLiabilities.isComplete)
+    val section2Complete = caseReference.isComplete && (!disclosingOffshoreLiabilities || offshoreLiabilities.isComplete) && (!disclosingOnshoreLiabilities || onshoreLiabilities.isComplete)
     val section3Complete = otherLiabilities.isComplete(personalDetails.isAnIndividual) && reasonForDisclosingNow.isComplete
     List(section1Complete, section2Complete, section3Complete).count(identity)
   }
