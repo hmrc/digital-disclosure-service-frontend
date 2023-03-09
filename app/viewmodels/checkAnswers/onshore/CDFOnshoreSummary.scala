@@ -43,10 +43,7 @@ object CDFOnshoreSummary  {
         SummaryListRowViewModel(
           key     = "contractualDisclosureFacility.checkYourAnswersLabel",
           value   = value,
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.CDFOnshoreController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("contractualDisclosureFacility.change.hidden"))
-          )
+          actions = Nil
         )
     }
 }
