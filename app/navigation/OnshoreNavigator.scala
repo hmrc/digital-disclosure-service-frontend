@@ -169,9 +169,10 @@ class OnshoreNavigator @Inject()() {
       case _ => routes.AreYouAMemberOfAnyLandlordAssociationsController.onPageLoad(NormalMode)
     }
 
-    //TODO: Need to fix..
-    case AccountingPeriodCTAddedPage => ua => (ua.get(AccountingPeriodCTAddedPage), ua.get(CorporationTaxLiabilityPage)) match {
-      case (Some(true), Some(corporationTaxLiabilities)) => routes.CorporationTaxLiabilityController.onPageLoad(corporationTaxLiabilities.size, NormalMode)
+    case AccountingPeriodCTAddedPage => ua => (ua.get(AccountingPeriodCTAddedPage), ua.get(CorporationTaxLiabilityPage), ua.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage)) match {
+      case (Some(true), Some(corporationTaxLiabilities), _) => routes.CorporationTaxLiabilityController.onPageLoad(corporationTaxLiabilities.size, NormalMode)
+      case (Some(false), _, Some(taxTypes)) if taxTypes.contains(DirectorLoan) => routes.DirectorLoanAccountLiabilitiesController.onPageLoad(0, NormalMode)
+      case (_, _, Some(taxTypes)) if(requiresTaxYears(taxTypes)) => routes.WhichOnshoreYearsController.onPageLoad(NormalMode)
       case _ => routes.CheckYourAnswersController.onPageLoad
     }
 
