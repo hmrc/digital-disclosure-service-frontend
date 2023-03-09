@@ -21,7 +21,7 @@ import forms.JointlyOwnedPropertyFormProvider
 import javax.inject.Inject
 import models.{Mode, LettingProperty, UserAnswers}
 import navigation.LettingNavigator
-import pages.{JointlyOwnedPropertyPage, LettingPropertyPage, QuestionPage}
+import pages.{JointlyOwnedPropertyPage, LettingPropertyPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -68,7 +68,7 @@ class JointlyOwnedPropertyController @Inject()(
             .getOrElse(LettingProperty())
             .copy(isJointOwnership = Some(value))
 
-          val (updatedLettingProperty, hasValueChanged) = changedPages(lettingProperty, request.userAnswers, value, i)  
+          val (updatedLettingProperty, hasValueChanged) = updateLettingProperty(lettingProperty, request.userAnswers, value, i)  
 
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.setBySeqIndex(LettingPropertyPage, i, updatedLettingProperty))
@@ -78,11 +78,11 @@ class JointlyOwnedPropertyController @Inject()(
       )
   }
 
-  def changedPages(updatedLettingProperty: LettingProperty, userAnswers: UserAnswers, value: Boolean, index: Int): (LettingProperty, Boolean) = {
+  def updateLettingProperty(lettingProperty: LettingProperty, userAnswers: UserAnswers, value: Boolean, index: Int): (LettingProperty, Boolean) = {
     userAnswers.getBySeqIndex(LettingPropertyPage, index).flatMap(_.isJointOwnership) match {
-      case Some(true) if value != true  => (updatedLettingProperty.copy(percentageIncomeOnProperty = None), false)
-      case Some(false) if value != false => (updatedLettingProperty, true)
-      case _ => (updatedLettingProperty, false)
+      case Some(true) if value != true  => (lettingProperty.copy(percentageIncomeOnProperty = None), false)
+      case Some(false) if value != false => (lettingProperty, true)
+      case _ => (lettingProperty, false)
     }
   }
 }
