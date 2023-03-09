@@ -20,7 +20,7 @@ import controllers.actions._
 import forms.WasPropertyFurnishedFormProvider
 
 import javax.inject.Inject
-import models.{LettingProperty, Mode}
+import models.{LettingProperty, Mode, UserAnswers}
 import navigation.LettingNavigator
 import pages.{LettingPropertyPage, WasPropertyFurnishedPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -64,15 +64,25 @@ class WasPropertyFurnishedController @Inject()(
           Future.successful(BadRequest(view(formWithErrors, i, mode))),
 
         value => {
-          val updatedLettingProperty = request.userAnswers.getBySeqIndex(LettingPropertyPage, i)
+          val lettingProperty = request.userAnswers.getBySeqIndex(LettingPropertyPage, i)
             .getOrElse(LettingProperty())
             .copy(wasFurnished = Some(value))
+
+          val (updatedLettingProperty, hasValueChanged) = updateLettingProperty(lettingProperty, request.userAnswers, value, i)  
 
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.setBySeqIndex(LettingPropertyPage, i, updatedLettingProperty))
             _ <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(WasPropertyFurnishedPage, i, mode, updatedAnswers))
+          } yield Redirect(navigator.nextPage(WasPropertyFurnishedPage, i, mode, updatedAnswers, hasValueChanged))
         }
       )
+  }
+
+  def updateLettingProperty(lettingProperty: LettingProperty, userAnswers: UserAnswers, value: Boolean, index: Int): (LettingProperty, Boolean) = {
+    userAnswers.getBySeqIndex(LettingPropertyPage, index).flatMap(_.wasFurnished) match {
+      case Some(true) if value != true  => (lettingProperty.copy(fhl = None), false)
+      case Some(false) if value != false => (lettingProperty, true)
+      case _ => (lettingProperty, false)
+    }
   }
 }

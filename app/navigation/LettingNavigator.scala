@@ -72,15 +72,28 @@ class LettingNavigator @Inject()() {
     case _ => _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
-  private val checkRouteMap: Page => UserAnswers => Boolean => Call = {
-    case _ => _ => _ => controllers.routes.IndexController.onPageLoad
+  private val checkRouteMap: Page => Int => UserAnswers => Boolean => Call = {
+
+    case JointlyOwnedPropertyPage => i => ua => hasChanged =>
+      if(hasChanged) routes.WhatWasThePercentageIncomeYouReceivedFromPropertyController.onPageLoad(i, CheckMode)
+      else routes.CheckYourAnswersController.onPageLoad(i, CheckMode)
+
+    case WasPropertyFurnishedPage => i => ua => hasChanged =>
+      if(hasChanged) routes.FHLController.onPageLoad(i, CheckMode)
+      else routes.CheckYourAnswersController.onPageLoad(i, CheckMode) 
+
+    case PropertyStoppedBeingLetOutPage => i => ua => hasChanged =>
+      if(hasChanged) routes.PropertyIsNoLongerBeingLetOutController.onPageLoad(i, CheckMode)
+      else routes.CheckYourAnswersController.onPageLoad(i, CheckMode)
+
+    case _ => i => _ => _ => routes.CheckYourAnswersController.onPageLoad(i, CheckMode)
   }
 
   def nextPage(page: Page, i: Int, mode: Mode, userAnswers: UserAnswers, hasAnswerChanged: Boolean = true): Call = mode match {
     case NormalMode =>
       normalRoutes(page)(i)(userAnswers)
     case CheckMode =>
-      checkRouteMap(page)(userAnswers)(hasAnswerChanged)
+      checkRouteMap(page)(i)(userAnswers)(hasAnswerChanged)
   }
 
 }
