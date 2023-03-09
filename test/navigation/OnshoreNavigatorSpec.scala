@@ -545,6 +545,46 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextPage(AccountingPeriodDLAddedPage, NormalMode, userAnswers.success.value) mustBe routes.CheckYourAnswersController.onPageLoad
       }
 
+      "must go from AccountingPeriodCTAddedPage to WhichOnshoreYearsController" in {
+
+        val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set(CorporationTax, BusinessIncome)
+
+        val userAnswers = for {
+          ua1 <- UserAnswers("id").set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
+          ua2 <- ua1.set(CorporationTaxLiabilityPage, Seq())
+          ua3 <- ua2.set(AccountingPeriodCTAddedPage, false)
+        } yield ua3
+        
+        navigator.nextPage(AccountingPeriodCTAddedPage, NormalMode, userAnswers.success.value) mustBe routes.WhichOnshoreYearsController.onPageLoad(NormalMode)
+      }
+
+      "must go from AccountingPeriodCTAddedPage to Director Loans" in {
+
+        val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set(CorporationTax, DirectorLoan)
+
+        val userAnswers = for {
+          ua1 <- UserAnswers("id").set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
+          ua2 <- ua1.set(CorporationTaxLiabilityPage, Seq())
+          ua3 <- ua2.set(AccountingPeriodCTAddedPage, false)
+        } yield ua3
+        
+        navigator.nextPage(AccountingPeriodCTAddedPage, NormalMode, userAnswers.success.value) mustBe routes.DirectorLoanAccountLiabilitiesController.onPageLoad(0, NormalMode)
+      }
+
+      "must go from AccountingPeriodCTAddedPage to CheckYourAnswersController" in {
+
+        val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set()
+
+        val userAnswers = for {
+          ua1 <- UserAnswers("id").set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
+          ua2 <- ua1.set(CorporationTaxLiabilityPage, Seq())
+          ua3 <- ua2.set(AccountingPeriodCTAddedPage, false)
+        } yield ua3
+        
+        navigator.nextPage(AccountingPeriodCTAddedPage, NormalMode, userAnswers.success.value) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+
     }
 
     "nextTaxYearLiabilitiesPage" - {
