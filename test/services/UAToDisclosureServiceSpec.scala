@@ -216,7 +216,7 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
       )
       val whySet: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHasExcuse)
       val yearsSet: Set[OnshoreYears] = Set(OnshoreYearStarting(2012))
-      val corporationTax = Set(CorporationTaxLiability (
+      val corporationTax = Seq(CorporationTaxLiability (
         periodEnd = date,
         howMuchIncome = BigInt(2000),
         howMuchUnpaid = BigInt(2000),
