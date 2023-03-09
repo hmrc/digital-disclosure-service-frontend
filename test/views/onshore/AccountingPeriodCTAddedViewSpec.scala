@@ -54,7 +54,7 @@ class AccountingPeriodCTAddedViewSpec extends ViewSpecBase with ViewMatchers {
 
   "view for a single corporation tax liability" should {
 
-    val corporationTaxLiabilitiesSummaries = CorporationTaxLiabilityModel.row(Set(corporationTaxLiability), NormalMode)
+    val corporationTaxLiabilitiesSummaries = CorporationTaxLiabilityModel.row(Seq(corporationTaxLiability), NormalMode)
 
     def createView: Html = page(form, corporationTaxLiabilitiesSummaries, NormalMode)(request, messages)
     val view = createView
@@ -85,7 +85,7 @@ class AccountingPeriodCTAddedViewSpec extends ViewSpecBase with ViewMatchers {
 
   "view for a multiple corporation tax liability" should {
 
-    val corporationTaxLiabilitiesSummaries = CorporationTaxLiabilityModel.row(Set(corporationTaxLiability, corporationTaxLiability2), NormalMode)
+    val corporationTaxLiabilitiesSummaries = CorporationTaxLiabilityModel.row(Seq(corporationTaxLiability, corporationTaxLiability2), NormalMode)
 
     def createView: Html = page(form, corporationTaxLiabilitiesSummaries, NormalMode)(request, messages)
 

@@ -25,7 +25,6 @@ import pages.{AccountingPeriodCTAddedPage, CorporationTaxLiabilityPage}
 import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
-import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import viewmodels.onshore.CorporationTaxLiabilityModel
 import viewmodels.SummaryListRowNoValue
@@ -76,7 +75,7 @@ class AccountingPeriodCTAddedController @Inject()(
     implicit request =>
 
       for {
-        updatedAnswers <- Future.fromTry(request.userAnswers.removeByIndex[CorporationTaxLiability](CorporationTaxLiabilityPage, i))
+        updatedAnswers <- Future.fromTry(request.userAnswers.removeBySeqIndex[CorporationTaxLiability](CorporationTaxLiabilityPage, i))
         _              <- sessionService.set(updatedAnswers)
       } yield {
         updatedAnswers.get(CorporationTaxLiabilityPage) match {

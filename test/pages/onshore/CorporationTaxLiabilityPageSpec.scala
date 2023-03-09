@@ -23,11 +23,11 @@ class CorporationTaxLiabilityPageSpec extends PageBehaviours {
 
   "CorporationTaxLiabilityPage" - {
     
-    beRetrievable[Set[CorporationTaxLiability]](CorporationTaxLiabilityPage)
+    beRetrievable[Seq[CorporationTaxLiability]](CorporationTaxLiabilityPage)
 
-    beSettable[Set[CorporationTaxLiability]](CorporationTaxLiabilityPage)
+    beSettable[Seq[CorporationTaxLiability]](CorporationTaxLiabilityPage)
 
-    beRemovable[Set[CorporationTaxLiability]](CorporationTaxLiabilityPage)
+    beRemovable[Seq[CorporationTaxLiability]](CorporationTaxLiabilityPage)
 
   }
 }
