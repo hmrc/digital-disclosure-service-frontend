@@ -45,7 +45,7 @@ class AuditServiceSpec extends AnyWordSpec with Matchers with MockitoSugar {
 
     "call connector passing the disclosure with audit type DisclosureSubmission" in {
       implicit val hc = HeaderCarrier()
-      val testDisclosure = FullDisclosure("123", "123", Instant.now(), Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
+      val testDisclosure = FullDisclosure("123", "123", Instant.now(), Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), None, OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
       sut.auditDisclosureSubmission(testDisclosure)
       verify(mockConnector).sendExplicitAudit(refEq("DisclosureSubmission"), refEq(testDisclosure))(any(), any(), any())
     }

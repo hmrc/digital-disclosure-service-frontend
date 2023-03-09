@@ -19,9 +19,9 @@ package models
 import play.api.libs.json._
 
 final case class OnshoreTaxYearLiabilities(
-  nonBusinessIncome: Option[BigInt],
-  businessIncome: Option[BigInt],
-  lettingIncome: Option[BigInt],
+  nonBusinessIncome: Option[BigInt] = None,
+  businessIncome: Option[BigInt] = None,
+  lettingIncome: Option[BigInt] = None,
   gains: Option[BigInt],
   unpaidTax: BigInt,
   niContributions: BigInt,

@@ -52,7 +52,7 @@ class SubmissionToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
     }
 
     "call the disclosure service if a notification is passed in" in {
-      val fullDisclosure = FullDisclosure("userId", "submissionId", Instant.now, Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
+      val fullDisclosure = FullDisclosure("userId", "submissionId", Instant.now, Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), None, OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
       sut.submissionToUa(fullDisclosure).success.value shouldEqual disclosureUa
     }
   }

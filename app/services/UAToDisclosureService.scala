@@ -37,6 +37,7 @@ class UAToDisclosureServiceImpl @Inject()(
       caseReference = uaToCaseReference(userAnswers),
       personalDetails = notificationService.userAnswersToPersonalDetails(userAnswers),
       offshoreLiabilities = uaToOffshoreLiabilities(userAnswers),
+      onshoreLiabilities = uaToOnshoreLiabilities(userAnswers),
       otherLiabilities = uaToOtherLiabilities(userAnswers),
       reasonForDisclosingNow = uaToReasonForDisclosingNow(userAnswers),
       offerAmount = userAnswers.get(OfferLetterPage),
@@ -74,6 +75,32 @@ class UAToDisclosureServiceImpl @Inject()(
       notIncludedDueToInterpretation = userAnswers.get(HowMuchTaxHasNotBeenIncludedPage),
       maximumValueOfAssets = userAnswers.get(TheMaximumValueOfAllAssetsPage)
     )
+
+  def uaToOnshoreLiabilities(userAnswers: UserAnswers): Option[OnshoreLiabilities] = 
+    Some(OnshoreLiabilities(
+      behaviour = userAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage),
+      excuseForNotNotifying = userAnswers.get(ReasonableExcuseOnshorePage),
+      reasonableCare = userAnswers.get(ReasonableCareOnshorePage),
+      excuseForNotFiling = userAnswers.get(ReasonableExcuseForNotFilingOnshorePage),
+      whatLiabilities = userAnswers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage),
+      whichYears = userAnswers.get(WhichOnshoreYearsPage),
+      youHaveNotIncludedTheTaxYear = userAnswers.get(NotIncludedSingleTaxYearPage),
+      youHaveNotSelectedCertainTaxYears = userAnswers.get(NotIncludedMultipleTaxYearsPage),
+      taxBeforeThreeYears = userAnswers.get(TaxBeforeThreeYearsOnshorePage),
+      taxBeforeFiveYears = userAnswers.get(TaxBeforeFiveYearsOnshorePage),
+      taxBeforeNineteenYears = userAnswers.get(TaxBeforeNineteenYearsOnshorePage),
+      disregardedCDF = userAnswers.get(CDFOnshorePage),
+      taxYearLiabilities = userAnswers.get(OnshoreTaxYearLiabilitiesPage),
+      lettingDeductions = userAnswers.get(ResidentialReductionPage),
+      incomeSource = userAnswers.get(IncomeOrGainSourcePage),
+      otherIncomeSource = userAnswers.get(OtherIncomeOrGainSourcePage),
+      lettingProperties = userAnswers.get(LettingPropertyPage),
+      memberOfLandlordAssociations = userAnswers.get(AreYouAMemberOfAnyLandlordAssociationsPage),
+      landlordAssociations = userAnswers.get(WhichLandlordAssociationsAreYouAMemberOfPage),
+      howManyProperties = userAnswers.get(HowManyPropertiesDoYouCurrentlyLetOutPage),
+      corporationTaxLiabilities = userAnswers.get(CorporationTaxLiabilityPage),
+      directorLoanAccountLiabilities = userAnswers.get(DirectorLoanAccountLiabilitiesPage)
+    ))
 
   def uaToReasonForDisclosingNow(userAnswers: UserAnswers): ReasonForDisclosingNow = 
     ReasonForDisclosingNow(

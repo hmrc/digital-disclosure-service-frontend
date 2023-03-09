@@ -25,6 +25,7 @@ import models.store.disclosure._
 import pages._
 import models._
 import config.Country
+import java.time.LocalDate
 
 class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues {
 
@@ -195,6 +196,114 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
 
   }
 
+  "uaToOnshoreLiabilities" should {
+
+    "populate OnshoreLiabilities with nothing if nothing is set" in {
+      sut.uaToOnshoreLiabilities(emptyUA) shouldEqual Some(OnshoreLiabilities())
+    }
+
+    "populate OnshoreLiabilities with everything that is set" in {
+      val date = LocalDate.now
+      val liabilities = OnshoreTaxYearLiabilities(
+        lettingIncome = Some(BigInt(2000)),
+        gains = Some(BigInt(2000)),
+        unpaidTax = BigInt(2000),
+        niContributions = BigInt(2000),
+        interest = BigInt(2000),
+        penaltyRate = 12,
+        penaltyRateReason = "Reason",
+        residentialTaxReduction = Some(false)
+      )
+      val whySet: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHasExcuse)
+      val yearsSet: Set[OnshoreYears] = Set(OnshoreYearStarting(2012))
+      val corporationTax = Set(CorporationTaxLiability (
+        periodEnd = date,
+        howMuchIncome = BigInt(2000),
+        howMuchUnpaid = BigInt(2000),
+        howMuchInterest = BigInt(2000),
+        penaltyRate = 123,
+        penaltyRateReason = "Some reason"
+      ))
+      val directorLoan = Set(DirectorLoanAccountLiabilities (
+        name = "Name",
+        periodEnd = date,
+        overdrawn = BigInt(2000),
+        unpaidTax = BigInt(2000),
+        interest = BigInt(2000),
+        penaltyRate = 123,
+        penaltyRateReason = "Some reason"
+      ))
+      val lettingProperty = Seq(LettingProperty(
+        address = None,
+        dateFirstLetOut = Some(date),
+        stoppedBeingLetOut = Some(true),
+        noLongerBeingLetOut = None,
+        fhl = Some(false),
+        isJointOwnership = Some(true),
+        isMortgageOnProperty = Some(false),
+        percentageIncomeOnProperty = Some(123),
+        wasFurnished = Some(false),
+        typeOfMortgage = None,
+        otherTypeOfMortgage = Some("Some mortgage"),
+        wasPropertyManagerByAgent = Some(true),
+        didTheLettingAgentCollectRentOnYourBehalf = Some(false)
+      ))
+      val whichLiabilitiesSet: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.BusinessIncome)
+      val incomeSet: Set[IncomeOrGainSource] = Set(IncomeOrGainSource.Dividends)
+      val pages = List(
+        PageWithValue(WhyAreYouMakingThisOnshoreDisclosurePage, whySet),
+        PageWithValue(ReasonableExcuseOnshorePage, ReasonableExcuseOnshore("Some excuse", "Some years")),
+        PageWithValue(ReasonableCareOnshorePage, ReasonableCareOnshore("Some excuse", "Some years")),
+        PageWithValue(ReasonableExcuseForNotFilingOnshorePage, ReasonableExcuseForNotFilingOnshore("Some excuse", "Some years")),
+        PageWithValue(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, whichLiabilitiesSet),
+        PageWithValue(WhichOnshoreYearsPage, yearsSet),
+        PageWithValue(NotIncludedSingleTaxYearPage, "Not included year"),
+        PageWithValue(NotIncludedMultipleTaxYearsPage, "Not included years"),
+        PageWithValue(TaxBeforeThreeYearsOnshorePage, "Some liabilities 1"),
+        PageWithValue(TaxBeforeFiveYearsOnshorePage, "Some liabilities 2"),
+        PageWithValue(TaxBeforeNineteenYearsOnshorePage, "Some liabilities 3"),
+        PageWithValue(CDFOnshorePage, true),
+        PageWithValue(OnshoreTaxYearLiabilitiesPage, Map("2012" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2012), liabilities))),
+        PageWithValue(ResidentialReductionPage, Map("2012" -> BigInt(123))),
+        PageWithValue(IncomeOrGainSourcePage, incomeSet),
+        PageWithValue(OtherIncomeOrGainSourcePage, "Some income"),
+        PageWithValue(LettingPropertyPage, lettingProperty),
+        PageWithValue(AreYouAMemberOfAnyLandlordAssociationsPage, true),
+        PageWithValue(WhichLandlordAssociationsAreYouAMemberOfPage, "Some associations"),
+        PageWithValue(HowManyPropertiesDoYouCurrentlyLetOutPage, "Some properties"),
+        PageWithValue(CorporationTaxLiabilityPage, corporationTax),
+        PageWithValue(DirectorLoanAccountLiabilitiesPage, directorLoan),
+      )
+      val userAnswers = PageWithValue.pagesToUserAnswers(pages, emptyUA).success.value
+      val expected = OnshoreLiabilities(
+        behaviour = Some(whySet), 
+        excuseForNotNotifying = Some(ReasonableExcuseOnshore("Some excuse", "Some years")), 
+        reasonableCare = Some(ReasonableCareOnshore("Some excuse", "Some years")), 
+        excuseForNotFiling = Some(ReasonableExcuseForNotFilingOnshore("Some excuse", "Some years")), 
+        whatLiabilities = Some(whichLiabilitiesSet),
+        whichYears = Some(yearsSet), 
+        youHaveNotIncludedTheTaxYear = Some("Not included year"),
+        youHaveNotSelectedCertainTaxYears = Some("Not included years"),
+        taxBeforeThreeYears = Some("Some liabilities 1"),
+        taxBeforeFiveYears = Some("Some liabilities 2"),
+        taxBeforeNineteenYears = Some("Some liabilities 3"),
+        disregardedCDF = Some(true),
+        taxYearLiabilities = Some(Map("2012" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2012), liabilities))),
+        lettingDeductions = Some(Map("2012" -> BigInt(123))),
+        incomeSource = Some(incomeSet),
+        otherIncomeSource = Some("Some income"),
+        lettingProperties = Some(lettingProperty),
+        memberOfLandlordAssociations = Some(true),
+        landlordAssociations = Some("Some associations"),
+        howManyProperties = Some("Some properties"),
+        corporationTaxLiabilities = Some(corporationTax),
+        directorLoanAccountLiabilities = Some(directorLoan)
+      )
+      sut.uaToOnshoreLiabilities(userAnswers) shouldEqual Some(expected)
+    }
+
+  }
+
   "uaToFullDisclosure" should {
 
     "populate FullDisclosure" in {
@@ -206,6 +315,7 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
         metadata = emptyUA.metadata,
         caseReference = CaseReference(),
         personalDetails = PersonalDetails(Background(), AboutYou()),
+        onshoreLiabilities = Some(OnshoreLiabilities()),
         offshoreLiabilities = OffshoreLiabilities(),
         otherLiabilities = OtherLiabilities(),
         reasonForDisclosingNow = ReasonForDisclosingNow(),

@@ -137,7 +137,7 @@ class DigitalDisclosureServiceConnectorSpec extends AnyFreeSpec with Matchers wi
     val hc = HeaderCarrier()
     val url = "/digital-disclosure-service/disclosure/submit"
 
-    val testDisclosure = FullDisclosure("123", "123", Instant.now(), Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
+    val testDisclosure = FullDisclosure("123", "123", Instant.now(), Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), None, OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
 
     "must return an ID when the store responds with ACCEPTED" in {
 
@@ -184,7 +184,7 @@ class DigitalDisclosureServiceConnectorSpec extends AnyFreeSpec with Matchers wi
     val hc = HeaderCarrier()
     val url = "/digital-disclosure-service/disclosure/pdf"
 
-    val testDisclosure = FullDisclosure("123", "123", Instant.now(), Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
+    val testDisclosure = FullDisclosure("123", "123", Instant.now(), Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), None, OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
 
     val testBodyString = "Some body"
     val testBody = ByteString("Some body".getBytes)
