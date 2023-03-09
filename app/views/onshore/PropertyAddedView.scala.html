@@ -14,6 +14,9 @@
  * limitations under the License.
  *@
 
+@import viewmodels._
+@import components.summaryListNoValue
+
 @this(
     layout: templates.Layout,
     heading: components.heading,
@@ -21,11 +24,12 @@
     formHelper: FormWithCSRF,
     govukErrorSummary: GovukErrorSummary,
     govukSummaryList: GovukSummaryList,
+    summaryListNoValue: components.summaryListNoValue,
     govukRadios: GovukRadios,
     govukButton: GovukButton
 )
 
-@(form: Form[_], properties:Seq[SummaryListRow], mode: Mode)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], properties:Seq[SummaryListRowNoValue], mode: Mode)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = title(form, if (properties.size == 1) messages("propertyAdded.title.single")  else messages("propertyAdded.title.multi", properties.size))) {
 
@@ -41,7 +45,7 @@
             @heading(Text(messages("propertyAdded.heading.multi", properties.size)))
         }
 
-        @govukSummaryList(SummaryList(rows = properties))
+        @summaryListNoValue(SummaryListNoValue(properties))
 
         @govukRadios(
             RadiosViewModel.yesNo(

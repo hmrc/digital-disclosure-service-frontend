@@ -17,30 +17,34 @@
 package viewmodels.onshore
 
 import viewmodels.govuk.summarylist._
+import viewmodels.SummaryListRowNoValue
 import viewmodels.implicits._
 import models.{LettingProperty, Mode}
 import play.api.i18n.Messages
 import controllers.onshore.routes
-import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Key, SummaryListRow}
+import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Actions, ActionItem,Key}
 
 object LettingPropertyModel {
 
-  def row(properties: Seq[LettingProperty], mode: Mode)(implicit messages: Messages): Seq[SummaryListRow] = {
+  def row(properties: Seq[LettingProperty], mode: Mode)(implicit messages: Messages): Seq[SummaryListRowNoValue] = {
     for {
       i <- properties.indices
       property = properties(i)
       address <- property.address
       postcode <- address.postcode
     } yield {
-      SummaryListRowViewModel(
-        key = Key(s"${address.line1}, ${postcode}").withCssClass("govuk-!-font-weight-regular hmrc-summary-list__key govuk-summary-list__only_key"),
-        value = ValueViewModel(""),
-        actions = Seq(
+      SummaryListRowNoValue(
+        key = Key(s"${address.line1}, ${postcode}").withCssClass("govuk-!-font-weight-regular hmrc-summary-list__key"),
+        actions =  Some(
+          Actions(items = Seq(
+          ActionItemViewModel("site.change", controllers.letting.routes.CheckYourAnswersController.onPageLoad(i, mode).url)
+            .withCssClass("summary-list-change-link")
+            .withVisuallyHiddenText(messages("propertyLetting.change.hidden")),
           ActionItemViewModel("site.remove", routes.PropertyAddedController.remove(i, mode).url)
-            .withCssClass("summary-list-remove-link")
-            .withVisuallyHiddenText(messages("propertyLetting.remove.hidden"))
+              .withCssClass("summary-list-remove-link")
+              .withVisuallyHiddenText(messages("propertyLetting.remove.hidden"))
         )
-      )
+      )))
     }
   }
 }

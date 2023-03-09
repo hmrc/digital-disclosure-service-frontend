@@ -26,10 +26,11 @@ import pages.{LettingPropertyPage, PropertyAddedPage}
 import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
-import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import viewmodels.onshore.LettingPropertyModel
 import views.html.onshore.PropertyAddedView
+import viewmodels.SummaryListRowNoValue
+
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -91,7 +92,7 @@ class PropertyAddedController @Inject()(
 
 
 
-  private def getProperties(userAnswers: UserAnswers, mode:Mode)(implicit messages:Messages): Seq[SummaryListRow] =
+  private def getProperties(userAnswers: UserAnswers, mode:Mode)(implicit messages:Messages): Seq[SummaryListRowNoValue] =
     userAnswers.get(LettingPropertyPage) match {
       case Some(value) => LettingPropertyModel.row(value, mode)
       case _ => Seq()
