@@ -28,6 +28,7 @@ class WhatWasThePersonUTRFormProvider @Inject() extends Mappings {
   def apply(): Form[String] =
     Form(
       "value" -> text("whatWasThePersonUTR.error.required")
+        .transform[String](_.filterNot(_.isWhitespace), identity)
         .verifying(validUTR(length, "whatWasThePersonUTR.error"))
     )
 }

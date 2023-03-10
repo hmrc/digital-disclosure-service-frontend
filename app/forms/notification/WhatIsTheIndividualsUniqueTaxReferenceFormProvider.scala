@@ -28,6 +28,7 @@ class WhatIsTheIndividualsUniqueTaxReferenceFormProvider @Inject() extends Mappi
   def apply(): Form[String] =
     Form(
       "value" -> text("whatIsTheIndividualsUniqueTaxReference.error.required")
+        .transform[String](_.filterNot(_.isWhitespace), identity)
         .verifying(validUTR(length, "whatIsTheIndividualsUniqueTaxReference.error.invalid"))
     )
 }
