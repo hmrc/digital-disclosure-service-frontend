@@ -52,7 +52,6 @@ object CorporationTaxLiabilitiesSummaryViewModelCreation {
 
     SummaryListViewModel(
       rows = Seq(
-        // row(i, "corporationTaxLiability.periodEnd.checkYourAnswersLabel", s"${liability.periodEnd.format(dateFormatter)}", "corporationTaxLiability.periodEnd.hidden"),
         row(i, "corporationTaxLiability.howMuchIncome.checkYourAnswersLabel", s"&pound;${liability.howMuchIncome}", "corporationTaxLiability.howMuchIncome.hidden"),
         row(i, "corporationTaxLiability.howMuchUnpaid.checkYourAnswersLabel", s"&pound;${liability.howMuchUnpaid}", "corporationTaxLiability.howMuchUnpaid.hidden"),
         row(i, "corporationTaxLiability.howMuchInterest.checkYourAnswersLabel", s"&pound;${liability.howMuchInterest}", "corporationTaxLiability.howMuchInterest.hidden"),
