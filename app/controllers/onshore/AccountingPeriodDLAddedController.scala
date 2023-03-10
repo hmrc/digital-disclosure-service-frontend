@@ -75,7 +75,7 @@ class AccountingPeriodDLAddedController @Inject()(
     implicit request =>
 
       for {
-        updatedAnswers <- Future.fromTry(request.userAnswers.removeByIndex[DirectorLoanAccountLiabilities](DirectorLoanAccountLiabilitiesPage, i))
+        updatedAnswers <- Future.fromTry(request.userAnswers.removeBySeqIndex[DirectorLoanAccountLiabilities](DirectorLoanAccountLiabilitiesPage, i))
         _              <- sessionService.set(updatedAnswers)
       } yield {
         updatedAnswers.get(DirectorLoanAccountLiabilitiesPage) match {

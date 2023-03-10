@@ -23,7 +23,7 @@ import navigation.Navigator
 import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import services.{DisclosureSubmissionService, SessionService}
+import services.{DisclosureSubmissionService, SessionService, UAToDisclosureService}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.OfferLetterView
 import viewmodels.offshore.CheckYourAnswersViewModelCreation
@@ -31,6 +31,7 @@ import models.UserAnswers
 import models.address.Address
 import play.api.i18n.Messages
 import models.RelatesTo._
+import viewmodels.TotalAmounts
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -44,7 +45,7 @@ class OfferLetterController @Inject()(
                                         formProvider: OfferLetterFormProvider,
                                         val controllerComponents: MessagesControllerComponents,
                                         view: OfferLetterView,
-                                        viewModelCreation: CheckYourAnswersViewModelCreation,
+                                        uaToDisclosureService: UAToDisclosureService,
                                         submissionService: DisclosureSubmissionService
                                       )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
@@ -60,7 +61,8 @@ class OfferLetterController @Inject()(
 
       val name = getEntityName(request.userAnswers)
       val addressLines = getAddressLines(request.userAnswers)
-      val totalAmount = viewModelCreation.create(request.userAnswers).liabilitiesTotal.toInt
+      val disclosure = uaToDisclosureService.uaToFullDisclosure(request.userAnswers)
+      val totalAmount = TotalAmounts(disclosure).amountDueTotal.toInt
       val entityKey = getEntityKey(request.userAnswers)
       Ok(view(preparedForm, name, addressLines, totalAmount, entityKey, getAgentName(request.userAnswers)))
   }
@@ -72,7 +74,8 @@ class OfferLetterController @Inject()(
         formWithErrors => {
           val name = getEntityName(request.userAnswers)
           val addressLines = getAddressLines(request.userAnswers)
-          val totalAmount = viewModelCreation.create(request.userAnswers).liabilitiesTotal.toInt
+          val disclosure = uaToDisclosureService.uaToFullDisclosure(request.userAnswers)
+          val totalAmount = TotalAmounts(disclosure).amountDueTotal.toInt
           val entityKey = getEntityKey(request.userAnswers)
           Future.successful(BadRequest(view(formWithErrors, name, addressLines, totalAmount, entityKey, getAgentName(request.userAnswers))))}
         ,

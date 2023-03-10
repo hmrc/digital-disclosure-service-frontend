@@ -295,7 +295,7 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
         penaltyRate = 123,
         penaltyRateReason = "Some reason"
       ))
-      val directorLoan = Set(DirectorLoanAccountLiabilities (
+      val directorLoan = Seq(DirectorLoanAccountLiabilities (
         name = "Name",
         periodEnd = date,
         overdrawn = BigInt(2000),

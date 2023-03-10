@@ -47,7 +47,7 @@ class DirectorLoanAccountLiabilitiesController @Inject()(
 
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-      val preparedForm = request.userAnswers.getByIndex(DirectorLoanAccountLiabilitiesPage, i) match {
+      val preparedForm = request.userAnswers.getBySeqIndex(DirectorLoanAccountLiabilitiesPage, i) match {
         case None => form
         case Some(value) => form.fill(value)
       }
@@ -62,7 +62,7 @@ class DirectorLoanAccountLiabilitiesController @Inject()(
           Future.successful(BadRequest(view(formWithErrors, mode, i))),
         value => {
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.setByIndex(DirectorLoanAccountLiabilitiesPage, i, value))
+            updatedAnswers <- Future.fromTry(request.userAnswers.setBySeqIndex(DirectorLoanAccountLiabilitiesPage, i, value))
             _ <- sessionService.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(DirectorLoanAccountLiabilitiesPage, mode, updatedAnswers))
         }
