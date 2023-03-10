@@ -26,10 +26,11 @@ import pages.{LettingPropertyPage, PropertyAddedPage}
 import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
-import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import viewmodels.onshore.LettingPropertyModel
 import views.html.onshore.PropertyAddedView
+import viewmodels.SummaryListRowNoValue
+
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -50,9 +51,10 @@ class PropertyAddedController @Inject()(
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val properties = getProperties(request.userAnswers, mode)
-
-      Ok(view(form, properties, mode))
+      getProperties(request.userAnswers, mode) match {
+        case properties if properties.nonEmpty => Ok(view(form, properties, mode))
+        case _ => Redirect(controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, mode).url)
+      }
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -90,7 +92,7 @@ class PropertyAddedController @Inject()(
 
 
 
-  private def getProperties(userAnswers: UserAnswers, mode:Mode)(implicit messages:Messages): Seq[SummaryListRow] =
+  private def getProperties(userAnswers: UserAnswers, mode:Mode)(implicit messages:Messages): Seq[SummaryListRowNoValue] =
     userAnswers.get(LettingPropertyPage) match {
       case Some(value) => LettingPropertyModel.row(value, mode)
       case _ => Seq()

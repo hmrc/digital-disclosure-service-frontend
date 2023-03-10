@@ -69,7 +69,7 @@ class PropertyAddedViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain summary row" in {
-      view.getElementsByClass("govuk-summary-list__only_key").text() mustBe s"${address1.line1}, $postcode1"
+      view.getElementsByClass("hmrc-summary-list__key").text() mustBe s"${address1.line1}, $postcode1"
     }
 
     "contain remove link" in {
@@ -101,8 +101,8 @@ class PropertyAddedViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain summary row" in {
-      view.getElementsByClass("govuk-summary-list__only_key").first().text() mustBe s"${address1.line1}, $postcode1"
-      view.getElementsByClass("govuk-summary-list__only_key").last().text() mustBe s"${address2.line1}, $postcode2"
+      view.getElementsByClass("hmrc-summary-list__key").first().text() mustBe s"${address1.line1}, $postcode1"
+      view.getElementsByClass("hmrc-summary-list__key").last().text() mustBe s"${address2.line1}, $postcode2"
     }
 
     "contain remove link" in {
