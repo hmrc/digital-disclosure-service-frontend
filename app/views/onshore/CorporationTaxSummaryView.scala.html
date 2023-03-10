@@ -20,6 +20,7 @@
      layout: templates.Layout,
      heading: components.heading,
      subheading: components.subheading,
+     smallheading: components.smallheading,
      govukSummaryList: GovukSummaryList,
      buttonLink: components.buttonLink
 )
@@ -30,8 +31,9 @@
 
  @heading(Text(messages("checkYourAnswers.ct.heading")))
 
- @viewModel.corporationTaxLiabilitiesList.map { case (i, list) =>
+ @viewModel.corporationTaxLiabilitiesList.map { case (i, accountEnding, list) =>
   @subheading(Text(messages("checkYourAnswers.ct.subheading", i)), "govuk-heading-m", Some("subheading-ct"))
+  @smallheading(content = Text(messages("corporationTaxLiability.periodEnd.checkYourAnswersLabel", accountEnding)), id = Some("smallheading-ct"))
   @govukSummaryList(list.withAttribute("id", s"dl-list-$i"))
  }
 

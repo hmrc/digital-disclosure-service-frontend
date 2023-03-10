@@ -22,7 +22,7 @@ import viewmodels.implicits._
 import models.{LettingProperty, Mode}
 import play.api.i18n.Messages
 import controllers.onshore.routes
-import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Actions, ActionItem,Key}
+import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Actions, Key}
 
 object LettingPropertyModel {
 
