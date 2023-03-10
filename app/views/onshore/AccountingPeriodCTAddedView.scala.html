@@ -20,6 +20,7 @@
 @this(
     layout: templates.Layout,
     heading: components.heading,
+    paragraph: components.paragraph,
     tasklistLink: components.tasklistLink,
     formHelper: FormWithCSRF,
     govukErrorSummary: GovukErrorSummary,
@@ -46,10 +47,12 @@
 
         @summaryListNoValue(SummaryListNoValue(periodEndDates))
 
+        @paragraph(id = Some("body"), classes = "govuk-fieldset__legend--m", content = Text(messages("accountingPeriodCTAdded.body")))
+
         @govukRadios(
             RadiosViewModel.yesNo(
                 field = form("value"),
-                legend = LegendViewModel(messages("accountingPeriodCTAdded.body")).withCssClass("govuk-fieldset__legend--m")
+                legend = LegendViewModel(messages("accountingPeriodCTAdded.body")).withCssClass("govuk-visually-hidden")
             )
         )
 
