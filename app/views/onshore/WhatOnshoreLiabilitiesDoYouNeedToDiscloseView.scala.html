@@ -21,6 +21,7 @@
     govukCheckboxes: GovukCheckboxes,
     govukButton: GovukButton,
     heading: components.heading,
+    paragraph: components.paragraph,
     tasklistLink: components.tasklistLink
 )
 
@@ -34,15 +35,13 @@
             @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value_0")))
         }
 
-        @heading(Text(messages("whatOnshoreLiabilitiesDoYouNeedToDisclose.heading")))
-
         @govukCheckboxes(
             CheckboxesViewModel(
                 form   = form,
                 name   = "value",
-                legend = LegendViewModel(messages("whatOnshoreLiabilitiesDoYouNeedToDisclose.checkbox.header")).withCssClass("govuk-hint"),
+                legend = LegendViewModel(messages("whatOnshoreLiabilitiesDoYouNeedToDisclose.heading")).asPageHeading(),
                 items  = WhatOnshoreLiabilitiesDoYouNeedToDisclose.checkboxItems(isUserCompany)
-            )
+            ).withHint(Hint(content = Text(messages("whatOnshoreLiabilitiesDoYouNeedToDisclose.checkbox.header"))))
         )
 
         @govukButton(

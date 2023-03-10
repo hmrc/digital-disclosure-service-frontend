@@ -44,7 +44,7 @@ class TaxBeforeFiveYearsOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain body" in {
-      view.getElementsByClass("govuk-label").text() mustBe messages("taxBeforeFiveYears.taxBeforeFiveYears")
+      view.getElementsByClass("govuk-label").text() mustBe messages("taxBeforeFiveYears.heading", year)
     }
 
     "display the continue button" in {

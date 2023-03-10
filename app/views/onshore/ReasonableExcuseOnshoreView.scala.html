@@ -15,6 +15,7 @@
  *@
 
 @import viewmodels.InputWidth._
+@import uk.gov.hmrc.hmrcfrontend.views.html.components.CharacterCount
 
 @this(
     layout: templates.Layout,
@@ -55,18 +56,30 @@
             }
         ))
 
-        @hmrcCharacterCount(uk.gov.hmrc.hmrcfrontend.views.html.components.CharacterCount(
+        @paragraph(
+            id = Some("body-excuse"), 
+            content = Text(
+                if(areTheyTheIndividual){
+                    messages("whatIsYourReasonableExcuse.you.excuse")
+                } else {
+                    messages(s"whatIsYourReasonableExcuse.${entity}.excuse")
+                }
+            )
+        )
+
+        @hmrcCharacterCount(
+            CharacterCount(
                 id = "excuse",
                 name = "excuse",
                 maxLength = Some(5000),
                 label = 
                     Label(content = 
                         if(areTheyTheIndividual){
-                            messages("whatIsYourReasonableExcuse.you.excuse")
+                            messages("whatIsYourReasonableExcuse.entity.heading")
                         } else {
-                            messages(s"whatIsYourReasonableExcuse.${entity}.excuse")
+                            messages(s"whatIsYourReasonableExcuse.agent.heading")
                         }
-                    ),
+                    ).withCssClass("govuk-visually-hidden"),
                 value = form("excuse").value,
                 errorMessage = form("excuse").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
             )

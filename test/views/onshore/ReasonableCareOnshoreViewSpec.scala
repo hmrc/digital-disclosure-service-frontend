@@ -45,7 +45,7 @@ class ReasonableCareOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain reasonableCare & yearsThisAppliesTo labels" in {
-      view.getElementsByClass("govuk-label").get(0).text() mustBe messages("whatReasonableCareDidYouTake.you.reasonableCare")
+      view.getElementById("body-reasonableCare").text() mustBe messages("whatReasonableCareDidYouTake.you.reasonableCare")
       view.getElementsByClass("govuk-label").get(1).text() mustBe messages("whatReasonableCareDidYouTake.yearsThisAppliesTo")
     }
 
@@ -82,7 +82,7 @@ class ReasonableCareOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain reasonableCare labels when you have selected onbehalf of individual agent" in {
-      view.getElementsByClass("govuk-label").get(0).text() mustBe messages(s"whatReasonableCareDidYouTake.${entity}.reasonableCare")
+      view.getElementById("body-reasonableCare").text() mustBe messages(s"whatReasonableCareDidYouTake.${entity}.reasonableCare")
     }
   }
 
@@ -104,7 +104,7 @@ class ReasonableCareOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain reasonableCare labels when you have selected AnEstate agent" in {
-      view.getElementsByClass("govuk-label").get(0).text() mustBe messages(s"whatReasonableCareDidYouTake.${entity}.reasonableCare")
+      view.getElementById("body-reasonableCare").text() mustBe messages(s"whatReasonableCareDidYouTake.${entity}.reasonableCare")
     }
   }
 
@@ -126,7 +126,7 @@ class ReasonableCareOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain reasonableCare labels when you have selected ACompany agent" in {
-      view.getElementsByClass("govuk-label").get(0).text() mustBe messages(s"whatReasonableCareDidYouTake.${entity}.reasonableCare")
+      view.getElementById("body-reasonableCare").text() mustBe messages(s"whatReasonableCareDidYouTake.${entity}.reasonableCare")
     }
   }
 
@@ -148,7 +148,7 @@ class ReasonableCareOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain reasonableCare labels when you have selected ALimitedLiabilityPartnership agent" in {
-      view.getElementsByClass("govuk-label").get(0).text() mustBe messages(s"whatReasonableCareDidYouTake.${entity}.reasonableCare")
+      view.getElementById("body-reasonableCare").text() mustBe messages(s"whatReasonableCareDidYouTake.${entity}.reasonableCare")
     }
   }
 
@@ -170,7 +170,7 @@ class ReasonableCareOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain reasonableCare labels when you have selected ATrust agent" in {
-      view.getElementsByClass("govuk-label").get(0).text() mustBe messages(s"whatReasonableCareDidYouTake.${entity}.reasonableCare")
+      view.getElementById("body-reasonableCare").text() mustBe messages(s"whatReasonableCareDidYouTake.${entity}.reasonableCare")
     }
   }
 }
