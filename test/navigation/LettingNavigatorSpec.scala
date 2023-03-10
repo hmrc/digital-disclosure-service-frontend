@@ -123,14 +123,14 @@ class LettingNavigatorSpec extends SpecBase {
         navigator.nextPage(DidYouHaveAMortgageOnPropertyPage, index, NormalMode, ua) mustBe routes.WhatTypeOfMortgageDidYouHaveController.onPageLoad(index, NormalMode)
       }
 
-      "must go from DidYouHaveAMortgageOnPropertyPage to DidTheLettingAgentCollectRentOnYourBehalfController when No is selected" in {
+      "must go from DidYouHaveAMortgageOnPropertyPage to WasALettingAgentUsedToManagePropertyController when No is selected" in {
         val index = 0
         val lettingProperty = LettingProperty(isMortgageOnProperty = Some(false))
         val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value
-        navigator.nextPage(DidYouHaveAMortgageOnPropertyPage, index, NormalMode, ua) mustBe routes.DidTheLettingAgentCollectRentOnYourBehalfController.onPageLoad(index, NormalMode)
+        navigator.nextPage(DidYouHaveAMortgageOnPropertyPage, index, NormalMode, ua) mustBe routes.WasALettingAgentUsedToManagePropertyController.onPageLoad(index, NormalMode)
       }
 
-      "must go from WhatTypeOfMortgageDidYouHavePage to DidTheLettingAgentCollectRentOnYourBehalfController when CapitalRepayment is selected" in {
+      "must go from WhatTypeOfMortgageDidYouHavePage to WasALettingAgentUsedToManagePropertyController when CapitalRepayment is selected" in {
         val index = 0
         val lettingProperty = LettingProperty(typeOfMortgage = Some(TypeOfMortgageDidYouHave.CapitalRepayment))
         val ua = UserAnswers(userAnswersId).addToSeq(LettingPropertyPage, lettingProperty).success.value

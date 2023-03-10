@@ -52,7 +52,7 @@ class LettingNavigator @Inject()() {
 
     case DidYouHaveAMortgageOnPropertyPage => i => ua => ua.getBySeqIndex(LettingPropertyPage, i).flatMap(_.isMortgageOnProperty) match {
       case Some(true) => routes.WhatTypeOfMortgageDidYouHaveController.onPageLoad(i, NormalMode)
-      case _ => routes.DidTheLettingAgentCollectRentOnYourBehalfController.onPageLoad(i, NormalMode)
+      case _ => routes.WasALettingAgentUsedToManagePropertyController.onPageLoad(i, NormalMode)
     }
 
     case WhatTypeOfMortgageDidYouHavePage => i => ua => ua.getBySeqIndex(LettingPropertyPage, i).flatMap(_.typeOfMortgage) match {
