@@ -16,6 +16,6 @@
 
 @this()
 
-@(content: Text, classes: String = "govuk-heading-l", id: Option[String] = None)
+@(content: Text, classes: String = "govuk-heading-s", id: Option[String] = None)
 
-<h2 class="@classes" @id.map{id => id="@id"}>@content.asHtml</h2>
+<h3 class="@classes" @id.map{id => id="@id"}>@content.asHtml</h3>
