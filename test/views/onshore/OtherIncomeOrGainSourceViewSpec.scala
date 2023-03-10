@@ -38,10 +38,6 @@ class OtherIncomeOrGainSourceViewSpec extends ViewSpecBase with ViewMatchers {
       view.select("title").text() must include(messages("whereDidTheUndeclaredIncomeOrGain.title"))
     }
 
-    "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whereDidTheUndeclaredIncomeOrGain.heading")
-    }
-
     "display the continue button" in {
       view.getElementsByClass("govuk-button").first() must haveId ("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")

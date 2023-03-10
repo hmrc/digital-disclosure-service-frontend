@@ -43,7 +43,7 @@ class TaxBeforeNineteenYearsOnshoreViewSpec extends ViewSpecBase with ViewMatche
     }
 
     "contain body" in {
-      view.getElementsByClass("govuk-label").text() mustBe messages("taxBeforeNineteenYears.body")
+      view.getElementsByClass("govuk-label").text() mustBe messages("taxBeforeNineteenYears.heading", year)
     }
 
     "display the continue button" in {

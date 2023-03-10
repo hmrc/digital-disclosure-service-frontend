@@ -45,7 +45,7 @@ class ReasonableExcuseForNotFilingOnshoreViewSpec extends ViewSpecBase with View
     }
 
     "contain reasonableExcuse (when you are the individual) labels" in {
-      view.getElementsByClass("govuk-label").get(0).text() mustBe messages("whatIsYourReasonableExcuseForNotFilingReturn.you.reasonableExcuse")
+      view.getElementById("body-reasonableExcuse").text() mustBe messages("whatIsYourReasonableExcuseForNotFilingReturn.you.reasonableExcuse")
     }
     "contain reasonableExcuse (when you are the agent individual) label" in {
       constructLabel(RelatesTo.AnIndividual)
@@ -112,7 +112,7 @@ class ReasonableExcuseForNotFilingOnshoreViewSpec extends ViewSpecBase with View
     def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
     val view = createView
 
-    view.getElementsByClass("govuk-label").get(0).text() mustBe messages(s"whatIsYourReasonableExcuseForNotFilingReturn.${entity}.reasonableExcuse")
+    view.getElementById("body-reasonableExcuse").text() mustBe messages(s"whatIsYourReasonableExcuseForNotFilingReturn.${entity}.reasonableExcuse")
   }
 
 }
