@@ -28,6 +28,7 @@ class WhatIsYourUniqueTaxReferenceFormProvider @Inject() extends Mappings {
   def apply(): Form[String] =
     Form(
       "value" -> text("whatIsYourUniqueTaxReference.error.required")
+        .transform[String](_.filterNot(_.isWhitespace), identity)
         .verifying(validUTR(length, "whatIsYourUniqueTaxReference.error.invalid"))
     )
 }
