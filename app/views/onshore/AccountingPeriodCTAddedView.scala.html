@@ -47,12 +47,10 @@
 
         @summaryListNoValue(SummaryListNoValue(periodEndDates))
 
-        @paragraph(id = Some("body"), classes = "govuk-fieldset__legend--m", content = Text(messages("accountingPeriodCTAdded.body")))
-
         @govukRadios(
             RadiosViewModel.yesNo(
                 field = form("value"),
-                legend = LegendViewModel(messages("accountingPeriodCTAdded.body")).withCssClass("govuk-visually-hidden")
+                legend = LegendViewModel(messages("accountingPeriodCTAdded.question")).withCssClass("govuk-fieldset__legend--m")
             )
         )
 
