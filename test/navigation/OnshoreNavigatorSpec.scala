@@ -506,7 +506,7 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
           penaltyRateReason = "Some reason"
         )
 
-        val set: Set[DirectorLoanAccountLiabilities] = Set(directorLoanAccountLiabilities)
+        val set: Seq[DirectorLoanAccountLiabilities] = Seq(directorLoanAccountLiabilities)
 
         val userAnswers = for {
           ua1 <- UserAnswers("id").set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
@@ -520,7 +520,7 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
       "must go from AccountingPeriodDLAddedPage to WhichOnshoreYearsController" in {
 
         val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set(DirectorLoan, BusinessIncome)
-        val set: Set[DirectorLoanAccountLiabilities] = Set()
+        val set: Seq[DirectorLoanAccountLiabilities] = Seq()
 
         val userAnswers = for {
           ua1 <- UserAnswers("id").set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
@@ -534,7 +534,7 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
       "must go from AccountingPeriodDLAddedPage to CheckYourAnswersController" in {
 
         val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set()
-        val set: Set[DirectorLoanAccountLiabilities] = Set()
+        val set: Seq[DirectorLoanAccountLiabilities] = Seq()
 
         val userAnswers = for {
           ua1 <- UserAnswers("id").set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)

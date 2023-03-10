@@ -1866,6 +1866,7 @@ onshoreTaxYearLiabilities.amountDue.checkYourAnswersLabel = Amount due for tax y
 onshoreTaxYearLiabilities.penaltyAmount.checkYourAnswersLabel = Penalty amount
 
 onshoreTaxYearLiabilities.unpaidTax.total = Amount due for tax year
+onshoreTaxYearLiabilities.niContributions.total = Total National Insurance contributions due
 onshoreTaxYearLiabilities.interest.total = Total interest due
 onshoreTaxYearLiabilities.penaltyAmount.total = Penalty amount
 onshoreTaxYearLiabilities.amountDue.total = Total amount to pay HMRC for onshore liabilities

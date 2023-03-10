@@ -55,7 +55,7 @@ class DirectorLoanAccountLiabilitiesControllerSpec extends SpecBase with Mockito
     penaltyRateReason = "Reason"
   )
 
-  val userAnswers = UserAnswers(userAnswersId).set(DirectorLoanAccountLiabilitiesPage, Set(answer)).success.value
+  val userAnswers = UserAnswers(userAnswersId).set(DirectorLoanAccountLiabilitiesPage, Seq(answer)).success.value
 
   "DirectorLoanAccountLiabilities Controller" - {
 

@@ -23,10 +23,10 @@ class DirectorLoanAccountLiabilitiesPageSpec extends PageBehaviours {
 
   "DirectorLoanAccountLiabilitiesPage" - {
 
-    beRetrievable[Set[DirectorLoanAccountLiabilities]](DirectorLoanAccountLiabilitiesPage)
+    beRetrievable[Seq[DirectorLoanAccountLiabilities]](DirectorLoanAccountLiabilitiesPage)
 
-    beSettable[Set[DirectorLoanAccountLiabilities]](DirectorLoanAccountLiabilitiesPage)
+    beSettable[Seq[DirectorLoanAccountLiabilities]](DirectorLoanAccountLiabilitiesPage)
 
-    beRemovable[Set[DirectorLoanAccountLiabilities]](DirectorLoanAccountLiabilitiesPage)
+    beRemovable[Seq[DirectorLoanAccountLiabilities]](DirectorLoanAccountLiabilitiesPage)
   }
 }

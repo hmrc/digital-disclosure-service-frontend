@@ -31,7 +31,7 @@ object DirectorLoanAccountLiabilityModel {
 
   val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
 
-  def row(directorLoanAccountLiabilities: Set[DirectorLoanAccountLiabilities], mode: Mode)(implicit messages: Messages): Seq[SummaryListRowNoValue] = {
+  def row(directorLoanAccountLiabilities: Seq[DirectorLoanAccountLiabilities], mode: Mode)(implicit messages: Messages): Seq[SummaryListRowNoValue] = {
     (for {
       (directorLoanAccountLiability, i) <- directorLoanAccountLiabilities.zipWithIndex
     } yield {
