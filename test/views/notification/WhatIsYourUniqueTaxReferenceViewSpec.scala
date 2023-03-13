@@ -43,7 +43,11 @@ class WhatIsYourUniqueTaxReferenceViewSpec extends ViewSpecBase with ViewMatcher
     }
 
     "have a label" in {
-      view.getElementsByClass("govuk-label").text() mustBe messages("whatIsYourUniqueTaxReference.body")
+      view.getElementsByClass("govuk-label").text() mustBe messages("whatIsYourUniqueTaxReference.heading")
+    }
+
+    "have a body" in {
+      view.getElementById("label").text() mustBe messages("whatIsYourUniqueTaxReference.body")
     }
 
     "have a hint" in {

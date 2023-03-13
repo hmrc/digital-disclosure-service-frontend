@@ -19,6 +19,7 @@
 @this(
     layout: templates.Layout,
     heading: components.heading,
+    paragraph: components.paragraph,
     tasklistLink: components.tasklistLink,
     formHelper: FormWithCSRF,
     govukErrorSummary: GovukErrorSummary,
@@ -38,10 +39,12 @@
 
         @heading(Text(messages("whatIsTheCaseReference.heading")))
 
+        @paragraph(id = Some("body"), content = Text(messages("whatIsTheCaseReference.body")))
+
         @govukInput(
             InputViewModel(
                 field = form("value"),
-                label = LabelViewModel(messages("whatIsTheCaseReference.body"))
+                label = LabelViewModel(messages("whatIsTheCaseReference.heading")).withCssClass("govuk-visually-hidden")
             )
             .withHint(Hint(content = Text(messages("whatIsTheCaseReference.hint"))))
             .withWidth(Full)

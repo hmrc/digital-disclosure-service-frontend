@@ -43,7 +43,11 @@ class WhatIsIndividualsNationalInsuranceNumberViewSpec extends ViewSpecBase with
     }
 
     "have a label" in {
-      view.getElementsByClass("govuk-label").text() mustBe messages("whatIsIndividualsNINO.label")
+      view.getElementsByClass("govuk-label").text() mustBe messages("whatIsIndividualsNINO.heading")
+    }
+
+    "have a body" in {
+      view.getElementById("body").text() mustBe messages("whatIsIndividualsNINO.label")
     }
 
     "have a hint" in {

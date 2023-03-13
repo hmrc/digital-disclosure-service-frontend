@@ -43,7 +43,11 @@ class WhatWasThePersonUTRViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "have a body" in {
-      view.getElementsByClass("govuk-label").text() mustBe messages("whatWasThePersonUTR.body")
+      view.getElementById("label").text() mustBe messages("whatWasThePersonUTR.body")
+    }
+
+    "have a label" in {
+      view.getElementsByClass("govuk-label").text() mustBe messages("whatWasThePersonUTR.heading")
     }
 
     "have a hint" in {

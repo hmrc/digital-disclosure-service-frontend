@@ -44,9 +44,13 @@ class WhatIsYourReasonableExcuseViewSpec extends ViewSpecBase with ViewMatchers 
       view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsYourReasonableExcuse.entity.heading")
     }
 
-    "contain label" in {
-      view.getElementsByClass("govuk-label").first().text() mustBe messages("whatIsYourReasonableExcuse.you.excuse")
+    "contain labels" in {
+      view.getElementsByClass("govuk-label").first().text() mustBe messages("whatIsYourReasonableExcuse.entity.heading")
       view.getElementsByClass("govuk-label").last().text() mustBe messages("whatIsYourReasonableExcuse.years")
+    }
+
+    "contain body" in {
+      view.getElementById("label").text() mustBe messages("whatIsYourReasonableExcuse.you.excuse")
     }
 
     "contain hints" in {
@@ -80,8 +84,12 @@ class WhatIsYourReasonableExcuseViewSpec extends ViewSpecBase with ViewMatchers 
       view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsYourReasonableExcuse.agent.heading")
     }
 
-    "contain reasonableCare labels when you have selected onbehalf of individual agent" in {
-      view.getElementsByClass("govuk-label").get(0).text() mustBe messages(s"whatIsYourReasonableExcuse.${entity}.excuse")
+    "contain reasonableCare labels when you have selected on behalf of individual agent" in {
+      view.getElementsByClass("govuk-label").get(0).text() mustBe messages(s"whatIsYourReasonableExcuse.agent.heading")
+    }
+
+    "contain reasonableCare body when you have selected on behalf of individual agent" in {
+      view.getElementById("label").text() mustBe messages(s"whatIsYourReasonableExcuse.${entity}.excuse")
     }
   }
 
@@ -103,7 +111,11 @@ class WhatIsYourReasonableExcuseViewSpec extends ViewSpecBase with ViewMatchers 
     }
 
     "contain reasonableCare labels when you have selected AnEstate agent" in {
-      view.getElementsByClass("govuk-label").get(0).text() mustBe messages(s"whatIsYourReasonableExcuse.${entity}.excuse")
+      view.getElementsByClass("govuk-label").get(0).text() mustBe messages(s"whatIsYourReasonableExcuse.agent.heading")
+    }
+
+    "contain reasonableCare body when you have selected AnEstate agent" in {
+      view.getElementById("label").text() mustBe messages(s"whatIsYourReasonableExcuse.${entity}.excuse")
     }
   }
 
@@ -125,7 +137,11 @@ class WhatIsYourReasonableExcuseViewSpec extends ViewSpecBase with ViewMatchers 
     }
 
     "contain reasonableCare labels when you have selected ACompany agent" in {
-      view.getElementsByClass("govuk-label").get(0).text() mustBe messages(s"whatIsYourReasonableExcuse.${entity}.excuse")
+      view.getElementsByClass("govuk-label").get(0).text() mustBe messages(s"whatIsYourReasonableExcuse.agent.heading")
+    }
+
+    "contain reasonableCare body when you have selected ACompany agent" in {
+      view.getElementById("label").text() mustBe messages(s"whatIsYourReasonableExcuse.${entity}.excuse")
     }
   }
 
@@ -147,7 +163,11 @@ class WhatIsYourReasonableExcuseViewSpec extends ViewSpecBase with ViewMatchers 
     }
 
     "contain reasonableCare labels when you have selected ALimitedLiabilityPartnership agent" in {
-      view.getElementsByClass("govuk-label").get(0).text() mustBe messages(s"whatIsYourReasonableExcuse.${entity}.excuse")
+      view.getElementsByClass("govuk-label").get(0).text() mustBe messages(s"whatIsYourReasonableExcuse.agent.heading")
+    }
+
+    "contain reasonableCare body when you have selected ALimitedLiabilityPartnership agent" in {
+      view.getElementById("label").text() mustBe messages(s"whatIsYourReasonableExcuse.${entity}.excuse")
     }
   }
 
@@ -169,7 +189,11 @@ class WhatIsYourReasonableExcuseViewSpec extends ViewSpecBase with ViewMatchers 
     }
 
     "contain reasonableCare labels when you have selected ATrust agent" in {
-      view.getElementsByClass("govuk-label").get(0).text() mustBe messages(s"whatIsYourReasonableExcuse.${entity}.excuse")
+      view.getElementsByClass("govuk-label").get(0).text() mustBe messages(s"whatIsYourReasonableExcuse.agent.heading")
+    }
+
+    "contain reasonableCare body when you have selected ATrust agent" in {
+      view.getElementById("label").text() mustBe messages(s"whatIsYourReasonableExcuse.${entity}.excuse")
     }
   }
 

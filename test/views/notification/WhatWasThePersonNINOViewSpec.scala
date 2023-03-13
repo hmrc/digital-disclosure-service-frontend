@@ -42,8 +42,12 @@ class WhatWasThePersonNINOViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatWasThePersonNINO.heading")
     }
 
+    "have a label" in {
+      view.getElementsByClass("govuk-label").text() mustBe messages("whatWasThePersonNINO.heading")
+    }
+
     "have a body" in {
-      view.getElementsByClass("govuk-label").text() mustBe messages("whatWasThePersonNINO.label")
+      view.getElementById("label").text() mustBe messages("whatWasThePersonNINO.label")
     }
 
     "have a hint" in {

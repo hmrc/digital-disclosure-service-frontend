@@ -42,8 +42,12 @@ class LetterReferenceViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementsByClass("govuk-heading-xl").text() mustBe messages("letterReference.heading")
     }
 
+    "contain label" in {
+      view.getElementsByClass("govuk-label").text() mustBe messages("letterReference.heading")
+    }
+
     "contain body" in {
-      view.getElementsByClass("govuk-label").text() mustBe messages("letterReference.body")
+      view.getElementById("body").text() mustBe messages("letterReference.body")
     }
 
     "contain hint" in {

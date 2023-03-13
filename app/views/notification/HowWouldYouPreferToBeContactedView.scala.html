@@ -20,6 +20,7 @@
     govukErrorSummary: GovukErrorSummary,
     govukCheckboxes: GovukCheckboxes,
     govukButton: GovukButton,
+    paragraph: components.paragraph,
     heading: components.heading
 )
 
@@ -35,11 +36,16 @@
 
         @heading(Text(messages("howWouldYouPreferToBeContacted.heading")))
 
+        @paragraph(
+            id = Some("body"),
+            content = HtmlContent(messages("howWouldYouPreferToBeContacted.body"))
+        )
+
         @govukCheckboxes(
             CheckboxesViewModel(
                 form   = form,
                 name   = "value",
-                legend = LegendViewModel(messages("howWouldYouPreferToBeContacted.body")),
+                legend = LegendViewModel(messages("howWouldYouPreferToBeContacted.heading")).withCssClass("govuk-visually-hidden"),
                 items  = HowWouldYouPreferToBeContacted.checkboxItems,
             ).withHint(Hint(content = Text(messages("howWouldYouPreferToBeContacted.hint"))))
         )

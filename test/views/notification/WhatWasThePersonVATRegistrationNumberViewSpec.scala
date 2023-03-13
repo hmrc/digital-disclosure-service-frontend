@@ -42,8 +42,12 @@ class WhatWasThePersonVATRegistrationNumberViewSpec extends ViewSpecBase with Vi
       view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatWasThePersonVATRegistrationNumber.heading")
     }
 
+    "have a label" in {
+      view.getElementsByClass("govuk-label").text() mustBe messages("whatWasThePersonVATRegistrationNumber.heading")
+    }
+
     "have a body" in {
-      view.getElementsByClass("govuk-label").text() mustBe messages("whatWasThePersonVATRegistrationNumber.body")
+      view.getElementById("label").text() mustBe messages("whatWasThePersonVATRegistrationNumber.body")
     }
 
     "have a hint" in {

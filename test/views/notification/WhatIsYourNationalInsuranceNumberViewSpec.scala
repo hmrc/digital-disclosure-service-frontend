@@ -43,7 +43,11 @@ class WhatIsYourNationalInsuranceNumberViewSpec extends ViewSpecBase with ViewMa
     }
 
     "have a label" in {
-      view.getElementsByClass("govuk-label").text() mustBe messages("whatIsYourNationalInsuranceNumber.label")
+      view.getElementsByClass("govuk-label").text() mustBe messages("whatIsYourNationalInsuranceNumber.heading")
+    }
+
+    "have a body" in {
+      view.getElementById("label").text() mustBe messages("whatIsYourNationalInsuranceNumber.label")
     }
 
     "have a hint" in {
