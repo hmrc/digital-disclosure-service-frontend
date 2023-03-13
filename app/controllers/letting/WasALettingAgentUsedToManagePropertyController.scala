@@ -19,7 +19,7 @@ package controllers.letting
 import controllers.actions._
 import forms.WasALettingAgentUsedToManagePropertyFormProvider
 import javax.inject.Inject
-import models.{Mode, LettingProperty}
+import models.{Mode, LettingProperty, UserAnswers}
 import navigation.LettingNavigator
 import pages.{WasALettingAgentUsedToManagePropertyPage, LettingPropertyPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -63,15 +63,25 @@ class WasALettingAgentUsedToManagePropertyController @Inject()(
           Future.successful(BadRequest(view(formWithErrors, i, mode))),
 
         value => {
-          val updatedLettingProperty = request.userAnswers.getBySeqIndex(LettingPropertyPage, i)
+          val lettingProperty = request.userAnswers.getBySeqIndex(LettingPropertyPage, i)
             .getOrElse(LettingProperty())
             .copy(wasPropertyManagerByAgent = Some(value))
+
+          val (updatedLettingProperty, hasValueChanged) = updateLettingProperty(lettingProperty, request.userAnswers, value, i)  
 
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.setBySeqIndex(LettingPropertyPage, i, updatedLettingProperty))
             _ <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(WasALettingAgentUsedToManagePropertyPage, i, mode, updatedAnswers))
+          } yield Redirect(navigator.nextPage(WasALettingAgentUsedToManagePropertyPage, i, mode, updatedAnswers, hasValueChanged))
         }
       )
+  }
+
+  def updateLettingProperty(lettingProperty: LettingProperty, userAnswers: UserAnswers, value: Boolean, index: Int): (LettingProperty, Boolean) = {
+    userAnswers.getBySeqIndex(LettingPropertyPage, index).flatMap(_.wasPropertyManagerByAgent) match {
+      case Some(true) if value != true  => (lettingProperty.copy(didTheLettingAgentCollectRentOnYourBehalf = None), false)
+      case Some(false) if value != false => (lettingProperty, true)
+      case _ => (lettingProperty, false)
+    }
   }
 }
