@@ -43,7 +43,11 @@ class WhatWasTheNameOfThePersonWhoDiedViewSpec extends ViewSpecBase with ViewMat
     }
 
     "contain label" in {
-      view.getElementsByClass("govuk-label").text() mustBe messages("whatWasTheNameOfThePersonWhoDied.label")
+      view.getElementsByClass("govuk-label").text() mustBe messages("whatWasTheNameOfThePersonWhoDied.heading")
+    }
+
+    "contain body" in {
+      view.getElementById("label").text() mustBe messages("whatWasTheNameOfThePersonWhoDied.label")
     }
 
     "have a text input" in {

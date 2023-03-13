@@ -27,6 +27,7 @@
     govukTextarea: GovukTextarea,
     govukButton: GovukButton,
     heading: components.heading,
+    paragraph: components.paragraph,
     tasklistLink: components.tasklistLink
 )
 
@@ -51,7 +52,17 @@
             } else {
                 messages("whatReasonableCareDidYouTake.agent.heading")
             }
-        ))    
+        ))
+
+        @paragraph(
+            id = Some("label"),
+            content = Text(
+                if(areTheyTheIndividual){
+                    messages("whatReasonableCareDidYouTake.you.reasonableCare")
+                } else {
+                    messages(s"whatReasonableCareDidYouTake.${entity}.reasonableCare")
+                })
+        )
 
         @hmrcCharacterCount(
             CharacterCount(
@@ -59,10 +70,10 @@
                 name = "reasonableCare",
                 maxLength = Some(5000), 
                 label = Label(content = if(areTheyTheIndividual){
-                                messages("whatReasonableCareDidYouTake.you.reasonableCare")
-                              } else {
-                                messages(s"whatReasonableCareDidYouTake.${entity}.reasonableCare")
-                              }),
+                                messages("whatReasonableCareDidYouTake.entity.heading")
+                            } else {
+                                messages("whatReasonableCareDidYouTake.agent.heading")
+                            }).withCssClass("govuk-visually-hidden"),
                 value = form("reasonableCare").value,
                 errorMessage = form("reasonableCare").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
             )

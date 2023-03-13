@@ -43,9 +43,9 @@
             CheckboxesViewModel(
                 form   = form,
                 name   = "value",
-                legend = LegendViewModel(messages("otherLiabilityIssues.checkbox.header")).withCssClass("govuk-hint"),
+                legend = LegendViewModel(messages("otherLiabilityIssues.heading")).withCssClass("govuk-visually-hidden"),
                 items  = OtherLiabilityIssues.checkboxItems
-            )
+            ).withHint(Hint(content = Text(messages("otherLiabilityIssues.checkbox.header"))))
         )
 
         @govukButton(

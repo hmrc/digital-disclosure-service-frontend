@@ -42,8 +42,12 @@ class WhatIsYourVATRegistrationNumberViewSpec extends ViewSpecBase with ViewMatc
       view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsYourVATRegistrationNumber.heading")
     }
 
+    "have a body" in {
+      view.getElementById("label").text() mustBe messages("whatIsYourVATRegistrationNumber.label")
+    }
+
     "have a label" in {
-      view.getElementsByClass("govuk-label").text() mustBe messages("whatIsYourVATRegistrationNumber.label")
+      view.getElementsByClass("govuk-label").text() mustBe messages("whatIsYourVATRegistrationNumber.heading")
     }
 
     "have a hint" in {

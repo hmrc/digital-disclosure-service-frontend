@@ -42,8 +42,12 @@ class HowWouldYouPreferToBeContactedViewSpec extends ViewSpecBase with ViewMatch
       view.getElementsByClass("govuk-heading-xl").text() mustBe messages("howWouldYouPreferToBeContacted.heading")
     }
 
+    "have a label" in {
+      view.getElementsByClass("govuk-fieldset__legend").text() mustBe messages("howWouldYouPreferToBeContacted.heading")
+    }
+
     "have a body" in {
-      view.getElementsByClass("govuk-fieldset__legend").text() mustBe messages("howWouldYouPreferToBeContacted.body")
+      view.getElementById("body").text() mustBe messages("howWouldYouPreferToBeContacted.body")
     }
 
     "contain hint" in {

@@ -43,8 +43,12 @@ class TaxBeforeFiveYearsViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementsByClass("govuk-heading-xl").text() mustBe messages("taxBeforeFiveYears.heading", year)
     }
 
+    "contain label" in {
+      view.getElementsByClass("govuk-label").text() mustBe messages("taxBeforeFiveYears.heading", year)
+    }
+
     "contain body" in {
-      view.getElementsByClass("govuk-label").text() mustBe messages("taxBeforeFiveYears.taxBeforeFiveYears")
+      view.getElementById("label").text() mustBe messages("taxBeforeFiveYears.taxBeforeFiveYears")
     }
 
     "display the continue button" in {

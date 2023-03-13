@@ -44,7 +44,7 @@
         @govukInput(
             InputViewModel(
                 field = form("value"),
-                label = LabelViewModel(messages("whatTelephoneNumberCanWeContactYouWith.body")).withCssClass("govuk-visually-hidden")
+                label = LabelViewModel(messages("whatTelephoneNumberCanWeContactYouWith.heading")).withCssClass("govuk-visually-hidden")
             )
             .asTelephone
             .withHint(Hint(content = Text(messages("whatTelephoneNumberCanWeContactYouWith.hint"))))

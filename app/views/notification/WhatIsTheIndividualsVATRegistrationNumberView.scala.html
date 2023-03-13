@@ -22,7 +22,8 @@
     govukErrorSummary: GovukErrorSummary,
     govukInput: GovukInput,
     govukButton: GovukButton,
-    heading: components.heading
+    heading: components.heading,
+    paragraph: components.paragraph
 )
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
@@ -37,10 +38,15 @@
 
         @heading(Text(messages("whatIsTheIndividualsVATRegistrationNumber.heading")))
 
+        @paragraph(
+            id = Some("label"),
+            content = HtmlContent(messages("whatIsTheIndividualsVATRegistrationNumber.label"))
+        )
+
         @govukInput(
             InputViewModel(
                 field = form("value"),
-                label = LabelViewModel(messages("whatIsTheIndividualsVATRegistrationNumber.label"))
+                label = LabelViewModel(messages("whatIsTheIndividualsVATRegistrationNumber.heading")).withCssClass("govuk-visually-hidden")
             )
             .withHint(Hint(content = Text(messages("whatIsTheIndividualsVATRegistrationNumber.hint"))))
             .withWidth(Full)

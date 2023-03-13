@@ -43,7 +43,11 @@ class WhatIsTheCompanyRegistrationNumberViewSpec extends ViewSpecBase with ViewM
     }
 
     "have a label" in {
-      view.getElementsByClass("govuk-label").text() mustBe messages("whatIsTheCompanyRegistrationNumber.label")
+      view.getElementsByClass("govuk-label").text() mustBe messages("whatIsTheCompanyRegistrationNumber.heading")
+    }
+
+    "have a body" in {
+      view.getElementById("body").text() mustBe messages("whatIsTheCompanyRegistrationNumber.label")
     }
 
     "have a hint" in {

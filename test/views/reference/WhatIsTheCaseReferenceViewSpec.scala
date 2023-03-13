@@ -43,7 +43,11 @@ class WhatIsTheCaseReferenceViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain body" in {
-      view.getElementsByClass("govuk-label").text() mustBe messages("whatIsTheCaseReference.body")
+      view.getElementById("body").text() mustBe messages("whatIsTheCaseReference.body")
+    }
+
+    "contain label" in {
+      view.getElementsByClass("govuk-label").text() mustBe messages("whatIsTheCaseReference.heading")
     }
 
     "contain hint" in {
