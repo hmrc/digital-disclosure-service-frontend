@@ -41,6 +41,11 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
             actions = Nil
           ),
           SummaryListRowViewModel(
+            key     = Key(Text(messages("onshoreTaxYearLiabilities.niContributions.total"))),
+            value   = ValueViewModel(HtmlContent("&pound;0")),
+            actions = Nil
+          ),
+          SummaryListRowViewModel(
             key     = Key(Text(messages("onshoreTaxYearLiabilities.interest.total"))),
             value   = ValueViewModel(HtmlContent("&pound;0")),
             actions = Nil

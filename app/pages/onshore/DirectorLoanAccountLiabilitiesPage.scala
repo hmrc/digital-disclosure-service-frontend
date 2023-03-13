@@ -19,7 +19,7 @@ package pages
 import models.DirectorLoanAccountLiabilities
 import play.api.libs.json.JsPath
 
-case object DirectorLoanAccountLiabilitiesPage extends QuestionPage[Set[DirectorLoanAccountLiabilities]] {
+case object DirectorLoanAccountLiabilitiesPage extends QuestionPage[Seq[DirectorLoanAccountLiabilities]] {
 
   override def path: JsPath = JsPath \ toString
 

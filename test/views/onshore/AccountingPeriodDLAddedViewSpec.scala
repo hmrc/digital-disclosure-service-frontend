@@ -56,7 +56,7 @@ class AccountingPeriodDLAddedViewSpec extends ViewSpecBase with ViewMatchers {
 
   "view for a single account period end date" should {
 
-    val directorLoanAccountLiabilitiesSummaries = DirectorLoanAccountLiabilityModel.row(Set(directorLoanAccountLiabilities), NormalMode)
+    val directorLoanAccountLiabilitiesSummaries = DirectorLoanAccountLiabilityModel.row(Seq(directorLoanAccountLiabilities), NormalMode)
 
     def createView: Html = page(form, directorLoanAccountLiabilitiesSummaries, NormalMode)(request, messages)
     val view = createView
@@ -87,7 +87,7 @@ class AccountingPeriodDLAddedViewSpec extends ViewSpecBase with ViewMatchers {
 
   "view for a multiple properties" should {
 
-    val directorLoanAccountLiabilitiesSummaries = DirectorLoanAccountLiabilityModel.row(Set(directorLoanAccountLiabilities, directorLoanAccountLiabilities2), NormalMode)
+    val directorLoanAccountLiabilitiesSummaries = DirectorLoanAccountLiabilityModel.row(Seq(directorLoanAccountLiabilities, directorLoanAccountLiabilities2), NormalMode)
 
     def createView: Html = page(form, directorLoanAccountLiabilitiesSummaries, NormalMode)(request, messages)
 

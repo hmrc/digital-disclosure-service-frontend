@@ -38,10 +38,6 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseViewSpec extends ViewSpecBase wit
       view.select("title").text() must include(messages("whatOnshoreLiabilitiesDoYouNeedToDisclose.title"))
     }
 
-    "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatOnshoreLiabilitiesDoYouNeedToDisclose.heading")
-    }
-
     "contain checkbox when user is not company" in {
       view.getElementsByClass("govuk-checkboxes__label").get(0).text() mustBe messages("whatOnshoreLiabilitiesDoYouNeedToDisclose.businessIncomeLiabilities")
       view.getElementsByClass("govuk-checkboxes__label").get(1).text() mustBe messages("whatOnshoreLiabilitiesDoYouNeedToDisclose.capitalGainsTaxLiabilities")

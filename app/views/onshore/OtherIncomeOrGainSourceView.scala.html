@@ -22,8 +22,6 @@
     govukErrorSummary: GovukErrorSummary,
     hmrcCharacterCount: HmrcCharacterCount,
     govukButton: GovukButton,
-    heading: components.heading,
-    paragraph: components.paragraph,
     tasklistLink: components.tasklistLink
 )
 
@@ -37,14 +35,12 @@
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
-        @heading(Text(messages("whereDidTheUndeclaredIncomeOrGain.heading")))
-
         @hmrcCharacterCount(
             CharacterCount(
                 id = "value",
                 name = "value",
                 maxLength = Some(5000), 
-                label = Label(content = messages("whereDidTheUndeclaredIncomeOrGain.heading")).withCssClass("govuk-visually-hidden"),
+                label = Label(content = messages("whereDidTheUndeclaredIncomeOrGain.heading")).asPageHeading(),
                 value = form("value").value,
                 errorMessage = form("value").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
             )

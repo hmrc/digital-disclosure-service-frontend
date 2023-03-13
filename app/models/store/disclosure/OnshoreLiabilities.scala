@@ -42,7 +42,7 @@ final case class OnshoreLiabilities(
   landlordAssociations: Option[String] = None,
   howManyProperties: Option[String] = None,
   corporationTaxLiabilities: Option[Seq[CorporationTaxLiability]] = None,
-  directorLoanAccountLiabilities: Option[Set[DirectorLoanAccountLiabilities]] = None
+  directorLoanAccountLiabilities: Option[Seq[DirectorLoanAccountLiabilities]] = None
 ) {
 
   def isComplete: Boolean = {

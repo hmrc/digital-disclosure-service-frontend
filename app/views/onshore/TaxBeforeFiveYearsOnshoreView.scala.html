@@ -25,6 +25,7 @@
     govukInput: GovukInput,
     govukButton: GovukButton,
     heading: components.heading,
+    paragraph: components.paragraph,
     tasklistLink: components.tasklistLink
 )
 
@@ -40,12 +41,14 @@
 
         @heading(Text(messages("taxBeforeFiveYears.heading", year)))
 
+        @paragraph(id = Some("body"), content = Text(messages("taxBeforeFiveYears.taxBeforeFiveYears")))
+
         @hmrcCharacterCount(
             CharacterCount(
                 id = "value",
                 name = "value",
                 maxLength = Some(5000), 
-                label = Label(content = messages("taxBeforeFiveYears.taxBeforeFiveYears")),
+                label = Label(content = messages("taxBeforeFiveYears.heading", year)).withCssClass("govuk-visually-hidden"),
                 value = form("value").value,
                 errorMessage = form("value").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
             )

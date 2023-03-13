@@ -54,6 +54,17 @@
             }
         ))
 
+        @paragraph(
+            id = Some("body-reasonableExcuse"), 
+            content = Text(
+                if(areTheyTheIndividual){
+                    messages("whatIsYourReasonableExcuseForNotFilingReturn.you.reasonableExcuse")
+                } else {
+                    messages(s"whatIsYourReasonableExcuseForNotFilingReturn.${entity}.reasonableExcuse")
+                }
+            )
+        )
+
         @hmrcCharacterCount(
             CharacterCount(
                 id = "reasonableExcuse",
@@ -62,11 +73,11 @@
                 label = Label(
                     content = 
                         if(areTheyTheIndividual){
-                            messages("whatIsYourReasonableExcuseForNotFilingReturn.you.reasonableExcuse")
+                            messages("whatIsYourReasonableExcuseForNotFilingReturn.entity.heading")
                         } else {
-                        messages(s"whatIsYourReasonableExcuseForNotFilingReturn.${entity}.reasonableExcuse")
+                        messages(s"whatIsYourReasonableExcuseForNotFilingReturn.agent.heading")
                         }
-                    ),
+                    ).withCssClass("govuk-visually-hidden"),
                 value = form("reasonableExcuse").value,
                 errorMessage = form("reasonableExcuse").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
             )

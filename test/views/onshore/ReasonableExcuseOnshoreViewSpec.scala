@@ -45,7 +45,7 @@ class ReasonableExcuseOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain label" in {
-      view.getElementsByClass("govuk-label").first().text() mustBe messages("whatIsYourReasonableExcuse.you.excuse")
+      view.getElementById("body-excuse").text() mustBe messages("whatIsYourReasonableExcuse.you.excuse")
       view.getElementsByClass("govuk-label").last().text() mustBe messages("whatIsYourReasonableExcuse.years")
     }
 
@@ -81,7 +81,7 @@ class ReasonableExcuseOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain reasonableCare labels when you have selected onbehalf of individual agent" in {
-      view.getElementsByClass("govuk-label").get(0).text() mustBe messages(s"whatIsYourReasonableExcuse.${entity}.excuse")
+      view.getElementById("body-excuse").text() mustBe messages(s"whatIsYourReasonableExcuse.${entity}.excuse")
     }
   }
 
@@ -103,7 +103,7 @@ class ReasonableExcuseOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain reasonableCare labels when you have selected AnEstate agent" in {
-      view.getElementsByClass("govuk-label").get(0).text() mustBe messages(s"whatIsYourReasonableExcuse.${entity}.excuse")
+      view.getElementById("body-excuse").text() mustBe messages(s"whatIsYourReasonableExcuse.${entity}.excuse")
     }
   }
 
@@ -125,7 +125,7 @@ class ReasonableExcuseOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain reasonableCare labels when you have selected ACompany agent" in {
-      view.getElementsByClass("govuk-label").get(0).text() mustBe messages(s"whatIsYourReasonableExcuse.${entity}.excuse")
+      view.getElementById("body-excuse").text() mustBe messages(s"whatIsYourReasonableExcuse.${entity}.excuse")
     }
   }
 
@@ -147,7 +147,7 @@ class ReasonableExcuseOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain reasonableCare labels when you have selected ALimitedLiabilityPartnership agent" in {
-      view.getElementsByClass("govuk-label").get(0).text() mustBe messages(s"whatIsYourReasonableExcuse.${entity}.excuse")
+      view.getElementById("body-excuse").text() mustBe messages(s"whatIsYourReasonableExcuse.${entity}.excuse")
     }
   }
 
@@ -169,7 +169,7 @@ class ReasonableExcuseOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain reasonableCare labels when you have selected ATrust agent" in {
-      view.getElementsByClass("govuk-label").get(0).text() mustBe messages(s"whatIsYourReasonableExcuse.${entity}.excuse")
+      view.getElementById("body-excuse").text() mustBe messages(s"whatIsYourReasonableExcuse.${entity}.excuse")
     }
   }
 

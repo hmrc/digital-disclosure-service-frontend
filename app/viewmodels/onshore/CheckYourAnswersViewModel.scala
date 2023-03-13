@@ -17,6 +17,9 @@
 package viewmodels.onshore
 
 import models._
+import models.store.FullDisclosure
+import models.store.disclosure.OnshoreLiabilities
+import viewmodels.TotalAmounts
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryList
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import viewmodels.govuk.summarylist._
@@ -25,6 +28,7 @@ import viewmodels.checkAnswers._
 import pages.{OnshoreTaxYearLiabilitiesPage, WhatOnshoreLiabilitiesDoYouNeedToDisclosePage}
 import play.api.i18n.Messages
 import com.google.inject.{Inject, Singleton}
+import services.UAToDisclosureService
 
 case class CheckYourAnswersViewModel(
   whatOnshoreLiabilitiesDoYouNeedToDiscloseSummaryList: SummaryList,
@@ -39,7 +43,8 @@ class CheckYourAnswersViewModelCreation @Inject() (
                           whichYearsSummary: WhichOnshoreYearsSummary,
                           taxBeforeFiveYearsSummary: TaxBeforeFiveYearsOnshoreSummary,
                           taxBeforeSevenYearsSummary: TaxBeforeThreeYearsOnshoreSummary,
-                          taxBeforeNineteenYearSummary: TaxBeforeNineteenYearsOnshoreSummary) {
+                          taxBeforeNineteenYearSummary: TaxBeforeNineteenYearsOnshoreSummary,
+                          uaToDisclosureService: UAToDisclosureService) {
 
   def create(userAnswers: UserAnswers)(implicit messages: Messages): CheckYourAnswersViewModel = {
 
@@ -75,7 +80,8 @@ class CheckYourAnswersViewModelCreation @Inject() (
       (yearWithLiabilites.taxYear.startYear, taxYearWithLiabilitiesToSummaryList(i, yearWithLiabilites, userAnswers))
     }
 
-    val totalAmountsList = totalAmountsSummaryList(taxYears)
+    val disclosure = uaToDisclosureService.uaToFullDisclosure(userAnswers)
+    val totalAmountsList = totalAmountsSummaryList(disclosure)
 
     val summaryList1 = SummaryListViewModel(
       rows = Seq(
@@ -139,19 +145,17 @@ class CheckYourAnswersViewModelCreation @Inject() (
     SummaryListViewModel(rows)
   }
 
-  def totalAmountsSummaryList(taxYears: Seq[OnshoreTaxYearWithLiabilities])(implicit messages: Messages): SummaryList = {
-    val taxYearLiabilities = taxYears.map(_.taxYearLiabilities)
-    val unpaidTaxTotal = taxYearLiabilities.map(_.unpaidTax).sum
-    val interestTotal = taxYearLiabilities.map(_.interest).sum
-    val penaltyAmountTotal = taxYearLiabilities.map(penaltyAmount).sum
-    val amountDueTotal = taxYearLiabilities.map(yearTotal(_)).sum
+  def totalAmountsSummaryList(disclosure: FullDisclosure)(implicit messages: Messages): SummaryList = {
+    
+    val totals = TotalAmounts.getOnshoreTotals(disclosure.onshoreLiabilities.getOrElse(OnshoreLiabilities()))
 
     SummaryListViewModel(
       rows = Seq(
-        totalRow("onshoreTaxYearLiabilities.unpaidTax.total", s"&pound;$unpaidTaxTotal"),
-        totalRow("onshoreTaxYearLiabilities.interest.total", s"&pound;$interestTotal"),
-        totalRow("onshoreTaxYearLiabilities.penaltyAmount.total", messages("site.2DP", penaltyAmountTotal)),
-        totalRow("onshoreTaxYearLiabilities.amountDue.total", messages("site.2DP", amountDueTotal))
+        totalRow("onshoreTaxYearLiabilities.unpaidTax.total", s"&pound;${totals.unpaidTaxTotal}"),
+        totalRow("onshoreTaxYearLiabilities.niContributions.total", s"&pound;${totals.niContributionsTotal}"),
+        totalRow("onshoreTaxYearLiabilities.interest.total", s"&pound;${totals.interestTotal}"),
+        totalRow("onshoreTaxYearLiabilities.penaltyAmount.total", messages("site.2DP", totals.penaltyAmountTotal)),
+        totalRow("onshoreTaxYearLiabilities.amountDue.total", messages("site.2DP", totals.amountDueTotal))
       )
     )
   }
