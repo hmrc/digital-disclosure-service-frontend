@@ -20,7 +20,7 @@ import controllers.actions._
 import forms.WhatTypeOfMortgageDidYouHaveFormProvider
 
 import javax.inject.Inject
-import models.{LettingProperty, Mode}
+import models.{LettingProperty, Mode, TypeOfMortgageDidYouHave, UserAnswers}
 import navigation.LettingNavigator
 import pages.{LettingPropertyPage, WhatTypeOfMortgageDidYouHavePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -64,15 +64,25 @@ class WhatTypeOfMortgageDidYouHaveController @Inject()(
           Future.successful(BadRequest(view(formWithErrors, i, mode))),
 
         { value =>
-          val updatedLettingProperty = request.userAnswers.getBySeqIndex(LettingPropertyPage, i)
+          val lettingProperty = request.userAnswers.getBySeqIndex(LettingPropertyPage, i)
             .getOrElse(LettingProperty())
             .copy(typeOfMortgage = Some(value))
+
+          val (updatedLettingProperty, hasValueChanged) = updateLettingProperty(lettingProperty, request.userAnswers, value, i)
 
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.setBySeqIndex(LettingPropertyPage, i, updatedLettingProperty))
             _ <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(WhatTypeOfMortgageDidYouHavePage, i, mode, updatedAnswers))
+          } yield Redirect(navigator.nextPage(WhatTypeOfMortgageDidYouHavePage, i, mode, updatedAnswers, hasValueChanged))
         }
       )
+  }
+
+  def updateLettingProperty(lettingProperty: LettingProperty, userAnswers: UserAnswers, value: TypeOfMortgageDidYouHave, index: Int): (LettingProperty, Boolean) = {
+    userAnswers.getBySeqIndex(LettingPropertyPage, index).flatMap(_.typeOfMortgage) match {
+      case Some(TypeOfMortgageDidYouHave.Other) if (value != TypeOfMortgageDidYouHave.Other) => (lettingProperty.copy(otherTypeOfMortgage = None), false)
+      case Some(existingValue) if (value == existingValue) => (lettingProperty, false)
+      case _ => (lettingProperty, true)
+    }
   }
 }

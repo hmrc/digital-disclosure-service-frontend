@@ -86,6 +86,21 @@ class LettingNavigator @Inject()() {
       if(hasChanged) routes.PropertyIsNoLongerBeingLetOutController.onPageLoad(i, CheckMode)
       else routes.CheckYourAnswersController.onPageLoad(i, CheckMode)
 
+    case DidYouHaveAMortgageOnPropertyPage => i => ua => hasChanged => ua.getBySeqIndex(LettingPropertyPage, i).flatMap(_.isMortgageOnProperty) match {
+      case Some(true) if(hasChanged) => routes.WhatTypeOfMortgageDidYouHaveController.onPageLoad(i, CheckMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad(i, CheckMode)
+    }
+
+    case WhatTypeOfMortgageDidYouHavePage => i => ua => hasChanged => ua.getBySeqIndex(LettingPropertyPage, i).flatMap(_.typeOfMortgage) match {
+      case Some(TypeOfMortgageDidYouHave.Other) if(hasChanged) => routes.WhatWasTheTypeOfMortgageController.onPageLoad(i, CheckMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad(i, CheckMode)
+    }
+
+    case WasALettingAgentUsedToManagePropertyPage => i => ua => hasChanged => ua.getBySeqIndex(LettingPropertyPage, i).flatMap(_.wasPropertyManagerByAgent) match {
+      case Some(true) if(hasChanged) => routes.DidTheLettingAgentCollectRentOnYourBehalfController.onPageLoad(i, CheckMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad(i, CheckMode)
+    } 
+
     case _ => i => _ => _ => routes.CheckYourAnswersController.onPageLoad(i, CheckMode)
   }
 

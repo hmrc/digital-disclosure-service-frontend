@@ -19,7 +19,7 @@ package controllers.onshore
 import controllers.actions._
 import forms.WhyAreYouMakingThisOnshoreDisclosureFormProvider
 import javax.inject.Inject
-import models.WhyAreYouMakingThisOnshoreDisclosure.{DidNotNotifyHasExcuse, InaccurateReturnWithCare, NotFileHasExcuse, DeliberatelyDidNotNotify, DeliberateInaccurateReturn, DeliberatelyDidNotFile}
+import models.WhyAreYouMakingThisOnshoreDisclosure.{DidNotNotifyHasExcuse, InaccurateReturnWithCare, InaccurateReturnNoCare, NotFileHasExcuse, DidNotNotifyNoExcuse, DeliberatelyDidNotNotify, DeliberateInaccurateReturn, DeliberatelyDidNotFile}
 import models.{Mode, UserAnswers, RelatesTo, WhyAreYouMakingThisOnshoreDisclosure}
 import navigation.OnshoreNavigator
 import pages._
@@ -100,12 +100,15 @@ class WhyAreYouMakingThisOnshoreDisclosureController @Inject()(
       def isConditionMet(reasons: Set[WhyAreYouMakingThisOnshoreDisclosure]): Boolean = reasons.intersect(selections).isEmpty
     }
 
-    val deliberate = ClearingCondition(Set(DeliberatelyDidNotNotify, DeliberateInaccurateReturn, DeliberatelyDidNotFile), List(CDFOnshorePage))
+    val deliberate = ClearingCondition(Set(DidNotNotifyNoExcuse, DeliberatelyDidNotNotify, DeliberateInaccurateReturn, DeliberatelyDidNotFile), List(CDFOnshorePage, TaxBeforeNineteenYearsOnshorePage))
     val didNotNotify = ClearingCondition(Set(DidNotNotifyHasExcuse), List(ReasonableExcuseOnshorePage))
     val inaccurate = ClearingCondition(Set(InaccurateReturnWithCare), List(ReasonableCareOnshorePage))
     val notFiled = ClearingCondition(Set(NotFileHasExcuse), List(ReasonableExcuseForNotFilingOnshorePage))
 
-    val conditions = List(deliberate, didNotNotify, inaccurate, notFiled)
+    val taxBeforeThreeYears = ClearingCondition(Set(DidNotNotifyHasExcuse, InaccurateReturnWithCare, NotFileHasExcuse), List(TaxBeforeThreeYearsOnshorePage))
+    val taxBeforeFiveYears = ClearingCondition(Set(InaccurateReturnNoCare), List(TaxBeforeFiveYearsOnshorePage))
+
+    val conditions = List(deliberate, didNotNotify, inaccurate, notFiled, taxBeforeThreeYears, taxBeforeFiveYears)
 
     conditions.foldLeft[List[QuestionPage[_]]](List()){
       (cleared, condition) => if(condition.isConditionMet(reasons)) cleared ++ condition.pagesToClear else cleared
