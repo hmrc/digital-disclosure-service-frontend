@@ -40,7 +40,7 @@ class CorporationTaxLiabilityFormProvider @Inject() extends Mappings {
           invalidDayKey    = "corporationTaxLiability.periodEnd.error.invalidDay",
           invalidMonthKey  = "corporationTaxLiability.periodEnd.error.invalidMonth"
         )
-        .verifying(minDate(LocalDate.of(1850, Month.JANUARY, 1), "corporationTaxLiability.periodEnd.error.invalidPastDate"))
+        .verifying(minDate(LocalDate.now().minusYears(20), "corporationTaxLiability.periodEnd.error.invalidPastDate"))
         .verifying(maxDate(LocalDate.now().minusDays(1), "corporationTaxLiability.periodEnd.error.invalidFutureDate")),
 
         "howMuchIncome" -> bigint(

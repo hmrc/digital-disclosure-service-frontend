@@ -41,7 +41,7 @@ class DirectorLoanAccountLiabilitiesFormProvider @Inject() extends Mappings {
          "directorLoanAccountLiabilities.periodEnd.error.invalidDay",
          "directorLoanAccountLiabilities.periodEnd.error.invalidMonth")
          .verifying(maxDate(LocalDate.now().minusDays(1), "directorLoanAccountLiabilities.periodEnd.error.invalidFuture"))
-         .verifying(minDate(LocalDate.of(1850, Month.JANUARY, 1), "directorLoanAccountLiabilities.periodEnd.error.invalidPastDate")),
+         .verifying(minDate(LocalDate.now().minusYears(20), "directorLoanAccountLiabilities.periodEnd.error.invalidPastDate")),
 
       "overdrawn" -> bigint(
         "directorLoanAccountLiabilities.overdrawn.error.required",
