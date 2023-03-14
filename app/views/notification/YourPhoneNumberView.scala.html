@@ -21,8 +21,7 @@
     formHelper: FormWithCSRF,
     govukErrorSummary: GovukErrorSummary,
     govukInput: GovukInput,
-    govukButton: GovukButton,
-    heading: components.heading
+    govukButton: GovukButton
 )
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
@@ -35,12 +34,10 @@
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
-        @heading(Text(messages("yourPhoneNumber.heading")))
-
         @govukInput(
             InputViewModel(
                 field = form("value"),
-                label = LabelViewModel(messages("yourPhoneNumber.heading")).withCssClass("govuk-visually-hidden"),
+                label = LabelViewModel(messages("yourPhoneNumber.question"))
             )
             .asTelephone
             .withHint(Hint(content = Text(messages("yourPhoneNumber.hint"))))
