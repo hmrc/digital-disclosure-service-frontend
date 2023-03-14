@@ -51,7 +51,7 @@ class NotificationNavigator @Inject()() {
         case None => routes.AreYouTheIndividualController.onPageLoad(NormalMode)
       }
 
-    case OnshoreLiabilitiesPage => ua => onshoreLiabilitiesRouting(ua)
+    case OnshoreLiabilitiesPage => ua => routes.IncomeOrGainSourceController.onPageLoad(NormalMode)
     
     case OffshoreLiabilitiesPage => ua => ua.get(OffshoreLiabilitiesPage) match {
       case Some(true) => routes.OnshoreLiabilitiesController.onPageLoad(NormalMode)
@@ -170,7 +170,7 @@ class NotificationNavigator @Inject()() {
 
     case WhatIsTheNameOfTheOrganisationYouRepresentPage => _ => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
 
-    case OnlyOnshoreLiabilitiesPage => ua => onshoreLiabilitiesRouting(ua)
+    case OnlyOnshoreLiabilitiesPage => ua => routes.IncomeOrGainSourceController.onPageLoad(NormalMode)
 
     case WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage => _ => routes.WhatIsTheCompanyRegistrationNumberController.onPageLoad(NormalMode)
 
@@ -233,6 +233,13 @@ class NotificationNavigator @Inject()() {
     case WhatWasThePersonUTRPage => _ => routes.EstateAddressLookupController.lookupAddress(NormalMode)
 
     case EstateAddressLookupPage => _ => routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
+
+    case IncomeOrGainSourcePage => ua => ua.get(IncomeOrGainSourcePage) match {
+      case Some(value) if value.contains(IncomeOrGainSource.SomewhereElse) => routes.OtherIncomeOrGainSourceController.onPageLoad(NormalMode)
+      case _ => aboutSectionRouting(ua)
+    }
+
+    case OtherIncomeOrGainSourcePage => ua => aboutSectionRouting(ua)
 
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
@@ -335,6 +342,11 @@ class NotificationNavigator @Inject()() {
       case _ => routes.CheckYourAnswersController.onPageLoad
     }
 
+    case IncomeOrGainSourcePage => ua => hasAnswerChanged => ua.get(IncomeOrGainSourcePage) match {
+      case Some(value) if value.contains(IncomeOrGainSource.SomewhereElse) && hasAnswerChanged => routes.OtherIncomeOrGainSourceController.onPageLoad(CheckMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad
+    }
+
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
@@ -347,7 +359,7 @@ class NotificationNavigator @Inject()() {
 
   def submitPage(userAnswers: UserAnswers, reference: String): Call = routes.YouHaveSentYourNotificationController.onPageLoad(reference)
 
-  def onshoreLiabilitiesRouting(userAnswers: UserAnswers): Call = {
+  def aboutSectionRouting(userAnswers: UserAnswers): Call = {
     val relatesToPage = userAnswers.get(RelatesToPage)
     val areYouTheIndividualPage = userAnswers.get(AreYouTheIndividualPage)
 

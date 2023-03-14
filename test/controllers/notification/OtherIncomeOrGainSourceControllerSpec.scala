@@ -17,95 +17,84 @@
 package controllers
 
 import base.SpecBase
-import config.{Countries, Country}
-import forms.CountryOfYourOffshoreLiabilityFormProvider
+import forms.OtherIncomeOrGainSourceFormProvider
 import models.{NormalMode, UserAnswers}
-import navigation.{FakeOffshoreNavigator, OffshoreNavigator}
+import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.CountryOfYourOffshoreLiabilityPage
-import play.api.Environment
+import pages.OtherIncomeOrGainSourcePage
 import play.api.inject.bind
 import play.api.mvc.Call
-import play.api.test.{FakeRequest, Injecting}
+import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
-import views.html.offshore.CountryOfYourOffshoreLiabilityView
+import views.html.notification.OtherIncomeOrGainSourceView
 
 import scala.concurrent.Future
 
-class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with Injecting with MockitoSugar {
+class OtherIncomeOrGainSourceControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  val countryCode = "AFG"
-  val country = Country(countryCode, "Afghanistan")
-  val countriesMap = Map(countryCode -> Country(countryCode, "Afghanistan"))
-  val userAnswers = UserAnswers(userAnswersId).set(CountryOfYourOffshoreLiabilityPage, countriesMap).success.value
-  val app = applicationBuilder(userAnswers = Some(userAnswers)).build()
+  val formProvider = new OtherIncomeOrGainSourceFormProvider()
+  val form = formProvider()
 
-  lazy val countryOfYourOffshoreLiabilityRoute = offshore.routes.CountryOfYourOffshoreLiabilityController.onPageLoad(Some(countryCode), NormalMode).url
+  lazy val whereDidTheUndeclaredIncomeOrGainRoute = notification.routes.OtherIncomeOrGainSourceController.onPageLoad(NormalMode).url
 
-  "CountryOfYourOffshoreLiability Controller" - {
+  "OtherIncomeOrGainSource Controller" - {
 
     "must return OK and the correct view for a GET" in {
-      lazy val env: Environment = inject[Environment]
-      val countries = new Countries(env)
 
-      val formProvider = new CountryOfYourOffshoreLiabilityFormProvider(countries)
-      val form = formProvider()
+      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      running(app) {
-        val request = FakeRequest(GET, countryOfYourOffshoreLiabilityRoute)
+      running(application) {
+        val request = FakeRequest(GET, whereDidTheUndeclaredIncomeOrGainRoute)
 
-        val result = route(app, request).value
+        val result = route(application, request).value
 
-        val view = app.injector.instanceOf[CountryOfYourOffshoreLiabilityView]
+        val view = application.injector.instanceOf[OtherIncomeOrGainSourceView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(app)).toString
+        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
       }
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      lazy val env: Environment = inject[Environment]
-      val countries = new Countries(env)
+      val userAnswers = UserAnswers(userAnswersId).set(OtherIncomeOrGainSourcePage, "answer").success.value
 
-      val formProvider = new CountryOfYourOffshoreLiabilityFormProvider(countries)
-      val form = formProvider()
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val app = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      running(application) {
+        val request = FakeRequest(GET, whereDidTheUndeclaredIncomeOrGainRoute)
 
-      running(app) {
-        val request = FakeRequest(GET, countryOfYourOffshoreLiabilityRoute)
+        val view = application.injector.instanceOf[OtherIncomeOrGainSourceView]
 
-        val view = app.injector.instanceOf[CountryOfYourOffshoreLiabilityView]
-
-        val result = route(app, request).value
+        val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(country), NormalMode)(request, messages(app)).toString
+        contentAsString(result) mustEqual view(form.fill("answer"), NormalMode)(request, messages(application)).toString
       }
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
       val mockSessionService = mock[SessionService]
+
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
 
       val application =
         applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
           .overrides(
-            bind[OffshoreNavigator].toInstance(new FakeOffshoreNavigator(onwardRoute))
+            bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
           )
           .build()
 
       running(application) {
         val request =
-          FakeRequest(POST, countryOfYourOffshoreLiabilityRoute)
-            .withFormUrlEncodedBody(("country", "AFG"))
+          FakeRequest(POST, whereDidTheUndeclaredIncomeOrGainRoute)
+            .withFormUrlEncodedBody(("value", "answer"))
 
         val result = route(application, request).value
 
@@ -115,21 +104,17 @@ class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with Injecti
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
-      lazy val env: Environment = inject[Environment]
-      val countries = new Countries(env)
 
-      val formProvider = new CountryOfYourOffshoreLiabilityFormProvider(countries)
-      val form = formProvider()
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       running(application) {
         val request =
-          FakeRequest(POST, countryOfYourOffshoreLiabilityRoute)
-            .withFormUrlEncodedBody(("country", ""))
+          FakeRequest(POST, whereDidTheUndeclaredIncomeOrGainRoute)
+            .withFormUrlEncodedBody(("value", ""))
 
-        val boundForm = form.bind(Map("country" -> ""))
+        val boundForm = form.bind(Map("value" -> ""))
 
-        val view = application.injector.instanceOf[CountryOfYourOffshoreLiabilityView]
+        val view = application.injector.instanceOf[OtherIncomeOrGainSourceView]
 
         val result = route(application, request).value
 
@@ -143,7 +128,7 @@ class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with Injecti
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val request = FakeRequest(GET, countryOfYourOffshoreLiabilityRoute)
+        val request = FakeRequest(GET, whereDidTheUndeclaredIncomeOrGainRoute)
 
         val result = route(application, request).value
 
@@ -158,8 +143,8 @@ class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with Injecti
 
       running(application) {
         val request =
-          FakeRequest(POST, countryOfYourOffshoreLiabilityRoute)
-            .withFormUrlEncodedBody(("country", "answer"))
+          FakeRequest(POST, whereDidTheUndeclaredIncomeOrGainRoute)
+            .withFormUrlEncodedBody(("value", "answer"))
 
         val result = route(application, request).value
 

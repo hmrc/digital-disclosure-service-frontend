@@ -121,9 +121,8 @@ class NotificationNavigatorSpec extends SpecBase {
         }
       }
 
-      testOnshoreLiabilitiesRouting(OnshoreLiabilitiesPage)
-
-      testOnshoreLiabilitiesRouting(OnlyOnshoreLiabilitiesPage)
+      testAboutSectionRouting(IncomeOrGainSourcePage)
+      testAboutSectionRouting(OtherIncomeOrGainSourcePage)
 
       "must go from the WhatIsYourFullName page to the YourPhoneNumber controller when the user enter name" in {
         val ua = UserAnswers("id").set(WhatIsYourFullNamePage, "test").success.value
@@ -554,6 +553,18 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(HowWouldYouPreferToBeContactedPage, NormalMode, ua) mustBe routes.YourEmailAddressController.onPageLoad(NormalMode)
       }
 
+      "must go from IncomeOrGainSourcePage to OtherIncomeOrGainSourceController when the user has selected SomewhereElse" in {
+        val set: Set[IncomeOrGainSource] = Set(IncomeOrGainSource.SomewhereElse)
+        val userAnswers = UserAnswers("id").set(IncomeOrGainSourcePage, set).success.value
+        navigator.nextPage(IncomeOrGainSourcePage, NormalMode, userAnswers) mustBe routes.OtherIncomeOrGainSourceController.onPageLoad(NormalMode)
+      }
+
+      "must go from IncomeOrGainSourcePage to OtherIncomeOrGainSourceController when the user has selected a combination of SomewhereElse with other answers" in {
+        val set: Set[IncomeOrGainSource] = Set(IncomeOrGainSource.SomewhereElse, IncomeOrGainSource.PropertyIncome, IncomeOrGainSource.SelfEmploymentIncome)
+        val userAnswers = UserAnswers("id").set(IncomeOrGainSourcePage, set).success.value
+        navigator.nextPage(IncomeOrGainSourcePage, NormalMode, userAnswers) mustBe routes.OtherIncomeOrGainSourceController.onPageLoad(NormalMode)
+      }
+
     }
 
     "in Check mode" - {
@@ -793,7 +804,7 @@ class NotificationNavigatorSpec extends SpecBase {
     }
   }
 
-  def testOnshoreLiabilitiesRouting(page: Page) = {
+  def testAboutSectionRouting(page: Page) = {
     s"must go from $page to the WhatIsYourFullName page when the user is the individual" in {
       val userAnswers = for {
         uaWithOnshore <- UserAnswers("id").set(RelatesToPage, RelatesTo.AnIndividual)

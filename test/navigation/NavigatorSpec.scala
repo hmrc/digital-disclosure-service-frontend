@@ -52,6 +52,7 @@ class NavigatorSpec extends SpecBase {
       "must go from the NotificationStarted page to the Notification CYA controller when they selected to continue and the notification is complete" in {
         val address = Address("line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GBR"))
         val contactSet: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Email)
+        val incomeSet: Set[IncomeOrGainSource] = Set(IncomeOrGainSource.Dividends)
         val completedNotificationUA = (for {
           ua1 <- UserAnswers(id = "id", submissionType = SubmissionType.Notification).set(ReceivedALetterPage, true)
           ua2 <- ua1.set(ReceivedALetterPage, false)
@@ -64,7 +65,8 @@ class NavigatorSpec extends SpecBase {
           ua9 <- ua8.set(WhatIsYourFullNamePage, "My name")
           ua10 <- ua9.set(HowWouldYouPreferToBeContactedPage, contactSet)
           ua11 <- ua10.set(YourEmailAddressPage, "My email")
-          finalUa <- ua11.set(YourAddressLookupPage, address)
+          ua12 <- ua11.set(IncomeOrGainSourcePage, incomeSet)
+          finalUa <- ua12.set(YourAddressLookupPage, address)
         } yield finalUa).success.value
 
         navigator.nextPage(NotificationStartedPage, completedNotificationUA) mustBe routes.CheckYourAnswersController.onPageLoad

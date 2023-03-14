@@ -72,7 +72,9 @@ class NotificationToUAServiceImpl extends NotificationToUAService {
       haveYouReceivedALetter.map(PageWithValue(ReceivedALetterPage, _)),
       letterReferenceNumber.map(PageWithValue(LetterReferencePage, _)),
       areYouRepresetingAnOrganisation.map(PageWithValue(AreYouRepresentingAnOrganisationPage, _)),
-      organisationName.map(PageWithValue(WhatIsTheNameOfTheOrganisationYouRepresentPage, _))
+      organisationName.map(PageWithValue(WhatIsTheNameOfTheOrganisationYouRepresentPage, _)),
+      incomeSource.map(PageWithValue(IncomeOrGainSourcePage, _)),
+      otherIncomeSource.map(PageWithValue(OtherIncomeOrGainSourcePage, _))
     ).flatten
 
     val disclosureEntityPages = background.disclosureEntity.map(de => entityPagesWithValues(de)).getOrElse(Nil)

@@ -14,27 +14,27 @@
  * limitations under the License.
  */
 
-package controllers.onshore
+package controllers.notification
 
 import controllers.actions._
 import forms.IncomeOrGainSourceFormProvider
 import javax.inject.Inject
 import models.{Mode, UserAnswers, IncomeOrGainSource}
 import models.IncomeOrGainSource._
-import navigation.OnshoreNavigator
+import navigation.NotificationNavigator
 import pages.{IncomeOrGainSourcePage, QuestionPage, OtherIncomeOrGainSourcePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import views.html.onshore.IncomeOrGainSourceView
+import views.html.notification.IncomeOrGainSourceView
 
 import scala.concurrent.{ExecutionContext, Future}
 
 class IncomeOrGainSourceController @Inject()(
                                         override val messagesApi: MessagesApi,
                                         sessionService: SessionService,
-                                        navigator: OnshoreNavigator,
+                                        navigator: NotificationNavigator,
                                         identify: IdentifierAction,
                                         getData: DataRetrievalAction,
                                         requireData: DataRequiredAction,

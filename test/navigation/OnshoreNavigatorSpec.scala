@@ -452,24 +452,6 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextPage(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, NormalMode, userAnswers) mustBe routes.WhichOnshoreYearsController.onPageLoad(NormalMode)
       }
 
-      "must go from IncomeOrGainSourcePage to OtherIncomeOrGainSourceController when the user has selected SomewhereElse" in {
-        val set: Set[IncomeOrGainSource] = Set(IncomeOrGainSource.SomewhereElse)
-        val userAnswers = UserAnswers("id").set(IncomeOrGainSourcePage, set).success.value
-        navigator.nextPage(IncomeOrGainSourcePage, NormalMode, userAnswers) mustBe routes.OtherIncomeOrGainSourceController.onPageLoad(NormalMode)
-      }
-
-      "must go from IncomeOrGainSourcePage to OtherIncomeOrGainSourceController when the user has selected a combination of SomewhereElse with other answers" in {
-        val set: Set[IncomeOrGainSource] = Set(IncomeOrGainSource.SomewhereElse, IncomeOrGainSource.PropertyIncome, IncomeOrGainSource.SelfEmploymentIncome)
-        val userAnswers = UserAnswers("id").set(IncomeOrGainSourcePage, set).success.value
-        navigator.nextPage(IncomeOrGainSourcePage, NormalMode, userAnswers) mustBe routes.OtherIncomeOrGainSourceController.onPageLoad(NormalMode)
-      }
-
-      "must go from IncomeOrGainSourcePage to OtherIncomeOrGainSourceController when the user has not selected SomewhereElse" in {
-        val set: Set[IncomeOrGainSource] = Set(IncomeOrGainSource.PropertyIncome, IncomeOrGainSource.SelfEmploymentIncome)
-        val userAnswers = UserAnswers("id").set(IncomeOrGainSourcePage, set).success.value
-        navigator.nextPage(IncomeOrGainSourcePage, NormalMode, userAnswers) mustBe routes.CheckYourAnswersController.onPageLoad
-      }
-
       "must go from AreYouAMemberOfAnyLandlordAssociationsPage to WhichLandlordAssociationsAreYouAMemberOfController" in {
         val userAnswers = UserAnswers("id").set(AreYouAMemberOfAnyLandlordAssociationsPage, true).success.value
         navigator.nextPage(AreYouAMemberOfAnyLandlordAssociationsPage, NormalMode, userAnswers) mustBe routes.WhichLandlordAssociationsAreYouAMemberOfController.onPageLoad(NormalMode)
@@ -608,7 +590,7 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         val whichYears: Set[OnshoreYears] = Set(OnshoreYearStarting(2021), OnshoreYearStarting(2020), OnshoreYearStarting(2019), OnshoreYearStarting(2018))
         val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichOnshoreYearsPage, whichYears).success.value
 
-        navigator.nextTaxYearLiabilitiesPage(3, false, NormalMode, userAnswersWithTaxYears) mustBe routes.IncomeOrGainSourceController.onPageLoad(NormalMode)
+        navigator.nextTaxYearLiabilitiesPage(3, false, NormalMode, userAnswersWithTaxYears) mustBe routes.CheckYourAnswersController.onPageLoad
       }
 
       "must take the user to CheckYourAnswersController when in Check mode and no changes are made" in {

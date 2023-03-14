@@ -29,7 +29,7 @@
 
 @layout(pageTitle = title(form, messages("whereDidTheUndeclaredIncomeOrGain.title"))) {
 
-    @formHelper(action = controllers.onshore.routes.OtherIncomeOrGainSourceController.onSubmit(mode)) {
+    @formHelper(action = controllers.notification.routes.OtherIncomeOrGainSourceController.onSubmit(mode)) {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))

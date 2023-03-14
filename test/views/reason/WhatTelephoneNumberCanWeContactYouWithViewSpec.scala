@@ -39,7 +39,7 @@ class WhatTelephoneNumberCanWeContactYouWithViewSpec extends ViewSpecBase with V
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatTelephoneNumberCanWeContactYouWith.heading")
+      view.getElementsByClass("govuk-label").text() mustBe messages("whatTelephoneNumberCanWeContactYouWith.heading")
     }
 
     "contain hint" in {

@@ -22,6 +22,7 @@ import play.api.data.FormError
 class YourPhoneNumberFormProviderSpec extends PhoneNumberBehaviours {
 
   val requiredKey = "yourPhoneNumber.error.required"
+  val validFormatKey = "yourPhoneNumber.error.validFormat"
 
   val form = new YourPhoneNumberFormProvider()()
 
@@ -42,7 +43,7 @@ class YourPhoneNumberFormProviderSpec extends PhoneNumberBehaviours {
     behave like invalidPhoneNumberBindsInvalidData(
       form,
       fieldName,
-      invalidFormError = FormError(fieldName, requiredKey)
+      invalidFormError = FormError(fieldName, validFormatKey)
     )
 
     behave like mandatoryField(

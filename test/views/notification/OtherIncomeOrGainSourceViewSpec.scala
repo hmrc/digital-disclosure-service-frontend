@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package views.onshore
+package views.notification
 
 import base.ViewSpecBase
-import forms.IncomeOrGainSourceFormProvider
+import forms.OtherIncomeOrGainSourceFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
-import views.html.onshore.IncomeOrGainSourceView
+import views.html.notification.OtherIncomeOrGainSourceView
 import models.NormalMode
 
-class IncomeOrGainSourceViewSpec extends ViewSpecBase with ViewMatchers {
+class OtherIncomeOrGainSourceViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new IncomeOrGainSourceFormProvider()()
-  val page: IncomeOrGainSourceView = inject[IncomeOrGainSourceView]
+  val form = new OtherIncomeOrGainSourceFormProvider()()
+  val page: OtherIncomeOrGainSourceView = inject[OtherIncomeOrGainSourceView]
 
   private def createView: Html = page(form, NormalMode)(request, messages)
 
@@ -35,11 +35,7 @@ class IncomeOrGainSourceViewSpec extends ViewSpecBase with ViewMatchers {
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("whereDidTheUndeclaredIncomeOrGainIncluded.title"))
-    }
-
-    "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("whereDidTheUndeclaredIncomeOrGainIncluded.heading")
+      view.select("title").text() must include(messages("whereDidTheUndeclaredIncomeOrGain.title"))
     }
 
     "display the continue button" in {
@@ -50,6 +46,7 @@ class IncomeOrGainSourceViewSpec extends ViewSpecBase with ViewMatchers {
     "have a task list link" in {
       view.getElementById("task-list-link").attr("href") mustBe controllers.routes.TaskListController.onPageLoad.url
     }
+
   }
 
 }
