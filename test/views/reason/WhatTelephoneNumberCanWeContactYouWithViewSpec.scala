@@ -42,10 +42,6 @@ class WhatTelephoneNumberCanWeContactYouWithViewSpec extends ViewSpecBase with V
       view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatTelephoneNumberCanWeContactYouWith.heading")
     }
 
-    "contain body" in {
-      view.getElementById("body").text() mustBe messages("whatTelephoneNumberCanWeContactYouWith.body")
-    }
-
     "contain hint" in {
       view.getElementsByClass("govuk-hint").text() mustBe messages("whatTelephoneNumberCanWeContactYouWith.hint")
     }
