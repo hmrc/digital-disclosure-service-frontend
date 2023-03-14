@@ -636,6 +636,8 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextPage(WhyAreYouMakingThisOnshoreDisclosurePage, CheckMode, userAnswers) mustBe routes.CDFOnshoreController.onPageLoad(NormalMode)
       }
 
+
+
       "must go from WhyAreYouMakingThisOnshoreDisclosurePage to CDFOnshoreController if the user selected DeliberatelyDidNotFile in WhyAreYouMakingThisOnshoreDisclosure page" in {
         val relatesTo: RelatesTo = AnIndividual
         val reason: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(DeliberatelyDidNotFile)

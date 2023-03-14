@@ -18,10 +18,12 @@ package controllers.onshore
 
 import controllers.actions._
 import forms.WhatOnshoreLiabilitiesDoYouNeedToDiscloseFormProvider
+import models.WhatOnshoreLiabilitiesDoYouNeedToDisclose._
+
 import javax.inject.Inject
-import models.{Mode, UserAnswers, RelatesTo}
+import models.{Mode, RelatesTo, UserAnswers, WhatOnshoreLiabilitiesDoYouNeedToDisclose}
 import navigation.OnshoreNavigator
-import pages.{WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, RelatesToPage}
+import pages.{CorporationTaxLiabilityPage, DirectorLoanAccountLiabilitiesPage, LettingPropertyPage, OnshoreTaxYearLiabilitiesPage, QuestionPage, RelatesToPage, TaxBeforeFiveYearsOnshorePage, TaxBeforeSevenYearsPage, WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, WhichOnshoreYearsPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -66,11 +68,14 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode, isUserCompany))),
 
-        value =>
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, mode, updatedAnswers))
+        value => {
+          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, value))
+              clearedPages <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+              _ <- sessionService.set(clearedPages)
+            } yield Redirect(navigator.nextPage(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, mode, updatedAnswers, hasValueChanged))
+        }
       )
   }
 
@@ -78,6 +83,30 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseController @Inject()(
     userAnswers.get(RelatesToPage) match {
       case Some(RelatesTo.ACompany) => true
       case _ => false
+    }
+  }
+
+  def changedPages(answers: UserAnswers, value: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]): (List[QuestionPage[_]], Boolean) = {
+    answers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage) match {
+      case Some(liability) if liability != value => (getPages(value), true)
+      case _ => (Nil, false)
+    }
+  }
+
+  private def getPages(liabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]): List[QuestionPage[_]] = {
+    case class ClearingCondition(selections: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose], pagesToClear: List[QuestionPage[_]]) {
+      def isConditionMet(liabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]): Boolean = liabilities.intersect(selections).isEmpty
+    }
+
+    val nonCompany = ClearingCondition(Set(BusinessIncome, Gains, NonBusinessIncome, LettingIncome), List(WhichOnshoreYearsPage, OnshoreTaxYearLiabilitiesPage, TaxBeforeFiveYearsOnshorePage, TaxBeforeSevenYearsPage, TaxBeforeFiveYearsOnshorePage))
+    val corporationTax = ClearingCondition(Set(CorporationTax), List(CorporationTaxLiabilityPage))
+    val directorLoan = ClearingCondition(Set(DirectorLoan), List(DirectorLoanAccountLiabilitiesPage))
+    val lettingIncome = ClearingCondition(Set(LettingIncome), List(LettingPropertyPage))
+
+    val conditions = List(nonCompany, corporationTax, directorLoan, lettingIncome)
+
+    conditions.foldLeft[List[QuestionPage[_]]](List()){
+      (cleared, condition) => if(condition.isConditionMet(liabilities)) cleared ++ condition.pagesToClear else cleared
     }
   }
 }

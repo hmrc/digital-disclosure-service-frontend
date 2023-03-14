@@ -18,12 +18,12 @@ package controllers
 
 import base.SpecBase
 import forms.WhatOnshoreLiabilitiesDoYouNeedToDiscloseFormProvider
-import models.{NormalMode, WhatOnshoreLiabilitiesDoYouNeedToDisclose, UserAnswers}
+import models.{CheckMode, NormalMode, RelatesTo, UserAnswers, WhatOnshoreLiabilitiesDoYouNeedToDisclose}
 import navigation.{FakeOnshoreNavigator, OnshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.WhatOnshoreLiabilitiesDoYouNeedToDisclosePage
+import pages.{RelatesToPage, WhatOnshoreLiabilitiesDoYouNeedToDisclosePage}
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -38,6 +38,7 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseControllerSpec extends SpecBase w
   def onwardRoute = Call("GET", "/foo")
 
   lazy val whatOnshoreLiabilitiesDoYouNeedToDiscloseRoute = onshore.routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode).url
+  lazy val whatOnshoreLiabilitiesDoYouNeedToDiscloseRouteChange = onshore.routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(CheckMode).url
 
   val formProvider = new WhatOnshoreLiabilitiesDoYouNeedToDiscloseFormProvider()
   val form = formProvider()
@@ -152,6 +153,90 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseControllerSpec extends SpecBase w
 
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
+      }
+    }
+
+    "must redirect to the summary page if no changes are made" in {
+
+      val previousAnswers = UserAnswers(userAnswersId).addToSet(
+        WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, WhatOnshoreLiabilitiesDoYouNeedToDisclose.values.head
+      ).success.value
+
+      val application = applicationBuilder(userAnswers = Some(previousAnswers)).build()
+
+      running(application) {
+        val request =
+          FakeRequest(POST, whatOnshoreLiabilitiesDoYouNeedToDiscloseRouteChange)
+            .withFormUrlEncodedBody(("value[0]", WhatOnshoreLiabilitiesDoYouNeedToDisclose.values.head.toString))
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual controllers.onshore.routes.CheckYourAnswersController.onPageLoad.url
+      }
+    }
+
+    "must redirect to Corporation Tax Page in Normal Mode if there was a change and the disclosure was for a Company " in {
+
+      val previousAnswers = UserAnswers(userAnswersId).addToSet(
+        WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, WhatOnshoreLiabilitiesDoYouNeedToDisclose.values.head
+      ).success.value
+        .set(RelatesToPage, RelatesTo.ACompany).success.value
+
+      val application = applicationBuilder(userAnswers = Some(previousAnswers)).build()
+
+      running(application) {
+        val request =
+          FakeRequest(POST, whatOnshoreLiabilitiesDoYouNeedToDiscloseRouteChange)
+            .withFormUrlEncodedBody(("value[0]", WhatOnshoreLiabilitiesDoYouNeedToDisclose.CorporationTax.toString))
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual controllers.onshore.routes.CorporationTaxLiabilityController.onPageLoad(0, NormalMode).url
+      }
+    }
+
+
+    "must redirect to Director's Loan Page in Normal Mode if there was a change, the Corporation Tax is not selected and the disclosure was for a Company" in {
+
+      val previousAnswers = UserAnswers(userAnswersId).addToSet(
+        WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, WhatOnshoreLiabilitiesDoYouNeedToDisclose.values.head
+      ).success.value
+        .set(RelatesToPage, RelatesTo.ACompany).success.value
+
+      val application = applicationBuilder(userAnswers = Some(previousAnswers)).build()
+
+      running(application) {
+        val request =
+          FakeRequest(POST, whatOnshoreLiabilitiesDoYouNeedToDiscloseRouteChange)
+            .withFormUrlEncodedBody(("value[0]", WhatOnshoreLiabilitiesDoYouNeedToDisclose.DirectorLoan.toString))
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual controllers.onshore.routes.DirectorLoanAccountLiabilitiesController.onPageLoad(0, NormalMode).url
+      }
+    }
+
+    "must redirect to Which Onshore Year Page in Normal Mode if there was a change, and Director's Loan or Corporation Tax are selected" in {
+
+      val previousAnswers = UserAnswers(userAnswersId).addToSet(
+        WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, WhatOnshoreLiabilitiesDoYouNeedToDisclose.CorporationTax
+      ).success.value
+        .set(RelatesToPage, RelatesTo.ACompany).success.value
+
+      val application = applicationBuilder(userAnswers = Some(previousAnswers)).build()
+
+      running(application) {
+        val request =
+          FakeRequest(POST, whatOnshoreLiabilitiesDoYouNeedToDiscloseRouteChange)
+            .withFormUrlEncodedBody(("value[0]", WhatOnshoreLiabilitiesDoYouNeedToDisclose.BusinessIncome.toString))
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual controllers.onshore.routes.WhichOnshoreYearsController.onPageLoad(NormalMode).url
       }
     }
   }

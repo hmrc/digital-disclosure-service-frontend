@@ -188,9 +188,17 @@ class OnshoreNavigator @Inject()() {
         if (hasChanged) normalRoutes(WhyAreYouMakingThisOnshoreDisclosurePage)(ua)
         else routes.CheckYourAnswersController.onPageLoad
 
+    case WhatOnshoreLiabilitiesDoYouNeedToDisclosePage => ua => hasChanged =>
+      if(hasChanged) normalRoutes(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage)(ua)
+      else routes.CheckYourAnswersController.onPageLoad
+
     case DirectorLoanAccountLiabilitiesPage => _ => _ => routes.DirectorLoanAccountLiabilitiesSummaryController.onPageLoad(NormalMode)
 
-    case CorporationTaxLiabilityPage => _ => _ => routes.CorporationTaxSummaryController.onPageLoad(NormalMode)   
+    case CorporationTaxLiabilityPage => _ => _ => routes.CorporationTaxSummaryController.onPageLoad(NormalMode)
+
+    case IncomeOrGainSourcePage => ua => hasAnswerChanged => 
+      if(hasAnswerChanged) nextPage(IncomeOrGainSourcePage, NormalMode, ua)
+      else routes.CheckYourAnswersController.onPageLoad 
     
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
@@ -204,8 +212,9 @@ class OnshoreNavigator @Inject()() {
 
   def nextTaxYearLiabilitiesPage(currentIndex: Int, deduction: Boolean, mode: Mode, userAnswers: UserAnswers, hasAnswerChanged: Boolean = false): Call =
     (mode, userAnswers.inverselySortedOnshoreTaxYears) match {
-    case (_, _) if (deduction) => routes.ResidentialReductionController.onPageLoad(currentIndex, mode)
+    case (NormalMode, _) if (deduction) => routes.ResidentialReductionController.onPageLoad(currentIndex, mode)
     case (NormalMode, Some(years)) if ((years.size - 1) > currentIndex) => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(currentIndex + 1, NormalMode)
+    case (CheckMode, _) if (deduction && hasAnswerChanged) => routes.ResidentialReductionController.onPageLoad(currentIndex, mode)
     case (_, _) => routes.CheckYourAnswersController.onPageLoad
   }
 
