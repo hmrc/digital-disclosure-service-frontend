@@ -43,8 +43,6 @@
     @subheading(Text(messages("checkYourAnswers.offshore.total.heading")), "govuk-heading-m")
     @govukSummaryList(viewModel.totalAmountsList)
 
-    @govukSummaryList(viewModel.summaryList1)
-
     @if(taxYearExists){
         <h2 class="govuk-heading-m">@messages("checkYourAnswers.yourLegalInterpretation.heading")</h2>
         @govukSummaryList(viewModel.legalInterpretationlist)

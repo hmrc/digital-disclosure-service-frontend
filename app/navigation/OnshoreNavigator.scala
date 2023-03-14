@@ -148,13 +148,6 @@ class OnshoreNavigator @Inject()() {
       }
     }
 
-    case IncomeOrGainSourcePage => ua => ua.get(IncomeOrGainSourcePage) match {
-      case Some(value) if value.contains(IncomeOrGainSource.SomewhereElse) => routes.OtherIncomeOrGainSourceController.onPageLoad(NormalMode)
-      case _ => routes.CheckYourAnswersController.onPageLoad
-    }
-
-    case OtherIncomeOrGainSourcePage => _ => routes.CheckYourAnswersController.onPageLoad
-
     case AreYouAMemberOfAnyLandlordAssociationsPage => ua => ua.get(AreYouAMemberOfAnyLandlordAssociationsPage) match {
       case Some(true) => routes.WhichLandlordAssociationsAreYouAMemberOfController.onPageLoad(NormalMode)
       case _ => routes.HowManyPropertiesDoYouCurrentlyLetOutController.onPageLoad(NormalMode)
@@ -198,10 +191,6 @@ class OnshoreNavigator @Inject()() {
     case DirectorLoanAccountLiabilitiesPage => _ => _ => routes.DirectorLoanAccountLiabilitiesSummaryController.onPageLoad(NormalMode)
 
     case CorporationTaxLiabilityPage => _ => _ => routes.CorporationTaxSummaryController.onPageLoad(NormalMode)   
-
-    case IncomeOrGainSourcePage => ua => hasAnswerChanged => 
-      if(hasAnswerChanged) nextPage(IncomeOrGainSourcePage, NormalMode, ua)
-      else routes.CheckYourAnswersController.onPageLoad 
     
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
@@ -217,7 +206,6 @@ class OnshoreNavigator @Inject()() {
     (mode, userAnswers.inverselySortedOnshoreTaxYears) match {
     case (_, _) if (deduction) => routes.ResidentialReductionController.onPageLoad(currentIndex, mode)
     case (NormalMode, Some(years)) if ((years.size - 1) > currentIndex) => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(currentIndex + 1, NormalMode)
-    case (NormalMode, _) => routes.IncomeOrGainSourceController.onPageLoad(mode)
     case (_, _) => routes.CheckYourAnswersController.onPageLoad
   }
 

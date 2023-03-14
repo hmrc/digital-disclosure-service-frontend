@@ -35,8 +35,6 @@ final case class OnshoreLiabilities(
   disregardedCDF: Option[Boolean] = None,
   taxYearLiabilities: Option[Map[String, OnshoreTaxYearWithLiabilities]] = None,
   lettingDeductions: Option[Map[String, BigInt]] = None,
-  incomeSource: Option[Set[IncomeOrGainSource]] = None,
-  otherIncomeSource: Option[String] = None,
   lettingProperties: Option[Seq[LettingProperty]] = None,
   memberOfLandlordAssociations: Option[Boolean] = None,
   landlordAssociations: Option[String] = None,
@@ -51,7 +49,7 @@ final case class OnshoreLiabilities(
     val years = whichYears.getOrElse(Set())
     val isNilDisclosure = years == Set(PriorToThreeYears) || years == Set(PriorToFiveYears) || years == Set(PriorToNineteenYears)
 
-    val taxYearQuestionsAnswered = whichYears.isDefined && (isNilDisclosure || (taxYearLiabilities.isDefined && incomeSource.isDefined))
+    val taxYearQuestionsAnswered = whichYears.isDefined && (isNilDisclosure || taxYearLiabilities.isDefined)
     val lettingQuestionsAnswered = lettingProperties.isDefined && memberOfLandlordAssociations.isDefined && howManyProperties.isDefined
 
     behaviour.isDefined &&

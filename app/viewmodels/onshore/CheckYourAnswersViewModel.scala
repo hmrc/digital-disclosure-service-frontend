@@ -34,8 +34,7 @@ case class CheckYourAnswersViewModel(
   whatOnshoreLiabilitiesDoYouNeedToDiscloseSummaryList: SummaryList,
   summaryList: SummaryList,
   taxYearLists: Seq[(Int, SummaryList)],
-  totalAmountsList: SummaryList,
-  summaryList1: SummaryList
+  totalAmountsList: SummaryList
 )
 
 @Singleton
@@ -83,14 +82,7 @@ class CheckYourAnswersViewModelCreation @Inject() (
     val disclosure = uaToDisclosureService.uaToFullDisclosure(userAnswers)
     val totalAmountsList = totalAmountsSummaryList(disclosure)
 
-    val summaryList1 = SummaryListViewModel(
-      rows = Seq(
-        IncomeOrGainSourceSummary.row(userAnswers),
-        OtherIncomeOrGainSourceSummary.row(userAnswers)
-      ).flatten
-    )
-
-    CheckYourAnswersViewModel(whatOnshoreLiabilitiesDoYouNeedToDiscloseSummaryList, summaryList, taxYearLists, totalAmountsList, summaryList1)
+    CheckYourAnswersViewModel(whatOnshoreLiabilitiesDoYouNeedToDiscloseSummaryList, summaryList, taxYearLists, totalAmountsList)
 
   }
 

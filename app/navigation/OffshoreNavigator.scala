@@ -23,7 +23,6 @@ import pages._
 import models.{CarelessPriorTo, CheckMode, DeliberatePriorTo, Mode, NormalMode, ReasonableExcusePriorTo, RelatesTo, TaxYearStarting, UserAnswers}
 import models.WhyAreYouMakingThisDisclosure._
 import models.YourLegalInterpretation._
-import models.WhereDidTheUndeclaredIncomeOrGainIncluded._
 
 @Singleton
 class OffshoreNavigator @Inject()() {
@@ -154,13 +153,6 @@ class OffshoreNavigator @Inject()() {
         case _ => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
       }
 
-    case WhereDidTheUndeclaredIncomeOrGainIncludedPage => ua => ua.get(WhereDidTheUndeclaredIncomeOrGainIncludedPage) match {
-      case Some(value) if(value.contains(SomewhereElse)) => routes.WhereDidTheUndeclaredIncomeOrGainController.onPageLoad(NormalMode)
-      case _ => routes.YourLegalInterpretationController.onPageLoad(NormalMode)
-    }
-
-    case WhereDidTheUndeclaredIncomeOrGainPage => _ => routes.YourLegalInterpretationController.onPageLoad(NormalMode)
-
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
@@ -186,10 +178,6 @@ class OffshoreNavigator @Inject()() {
       if(hasAnswerChanged) nextPage(YourLegalInterpretationPage, NormalMode, ua)
       else routes.CheckYourAnswersController.onPageLoad
 
-    case WhereDidTheUndeclaredIncomeOrGainIncludedPage => ua => hasAnswerChanged => 
-      if(hasAnswerChanged) nextPage(WhereDidTheUndeclaredIncomeOrGainIncludedPage, NormalMode, ua)
-      else routes.CheckYourAnswersController.onPageLoad   
-
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
@@ -204,7 +192,7 @@ class OffshoreNavigator @Inject()() {
     (mode, foreignTaxCreditReduction, userAnswers.inverselySortedOffshoreTaxYears, hasAnswerChanged) match {
     case (NormalMode, true, _, _) => routes.ForeignTaxCreditController.onPageLoad(currentIndex, NormalMode)
     case (NormalMode, _, Some(years), _) if ((years.size - 1) > currentIndex) => routes.TaxYearLiabilitiesController.onPageLoad(currentIndex + 1, NormalMode)
-    case (NormalMode, _, _, _) => routes.WhereDidTheUndeclaredIncomeOrGainIncludedController.onPageLoad(NormalMode)
+    case (NormalMode, _, _, _) => routes.YourLegalInterpretationController.onPageLoad(NormalMode)
     case (CheckMode, _, _, true) => routes.ForeignTaxCreditController.onPageLoad(currentIndex, CheckMode)
     case (CheckMode, _, _, _) => checkRouteMap(TaxYearLiabilitiesPage)(userAnswers)(hasAnswerChanged)
   }

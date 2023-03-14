@@ -117,6 +117,7 @@ class IndexControllerSpec extends SpecBase with Generators {
 
   val address = Address("line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GBR"))
   val contactSet: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Email)
+  val incomeSet: Set[IncomeOrGainSource] = Set(IncomeOrGainSource.Dividends)
   val completeUserAnswers = (for {
     ua1 <- UserAnswers("id").set(ReceivedALetterPage, true)
     ua2 <- ua1.set(ReceivedALetterPage, false)
@@ -129,6 +130,7 @@ class IndexControllerSpec extends SpecBase with Generators {
     ua9 <- ua8.set(WhatIsYourFullNamePage, "My name")
     ua10 <- ua9.set(HowWouldYouPreferToBeContactedPage, contactSet)
     ua11 <- ua10.set(YourEmailAddressPage, "My email")
-    finalUa <- ua11.set(YourAddressLookupPage, address)
+    ua12 <- ua11.set(IncomeOrGainSourcePage, incomeSet)
+    finalUa <- ua12.set(YourAddressLookupPage, address)
   } yield finalUa).success.value
 }

@@ -126,6 +126,7 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
     }
 
     "populate background with everything that is set" in {
+      val incomeSet: Set[IncomeOrGainSource] = Set(IncomeOrGainSource.Dividends)
       val pages = List(
         PageWithValue(ReceivedALetterPage, true),
         PageWithValue(LetterReferencePage, "Some ref"),
@@ -134,7 +135,9 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
         PageWithValue(OffshoreLiabilitiesPage, true),
         PageWithValue(OnshoreLiabilitiesPage, false), 
         PageWithValue(RelatesToPage, RelatesTo.AnIndividual), 
-        PageWithValue(AreYouTheIndividualPage, true)
+        PageWithValue(AreYouTheIndividualPage, true),
+        PageWithValue(IncomeOrGainSourcePage, incomeSet),
+        PageWithValue(OtherIncomeOrGainSourcePage, "Some income")
       )
       val userAnswers = PageWithValue.pagesToUserAnswers(pages, emptyUA).success.value
       val expectedBackground = Background(
@@ -144,7 +147,9 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
         Some(true),
         Some("Some org"),
         Some(true),
-        Some(false)
+        Some(false),
+        incomeSource = Some(incomeSet),
+        otherIncomeSource = Some("Some income"),
       )
       sut.userAnswersToBackground(userAnswers) shouldEqual expectedBackground
     }

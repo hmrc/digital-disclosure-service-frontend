@@ -14,39 +14,31 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.hmrcfrontend.views.html.components.CharacterCount
-
 @this(
     layout: templates.Layout,
     formHelper: FormWithCSRF,
     govukErrorSummary: GovukErrorSummary,
-    hmrcCharacterCount: HmrcCharacterCount,
+    govukCheckboxes: GovukCheckboxes,
     govukButton: GovukButton,
-    heading: components.heading,
-    paragraph: components.paragraph,
     tasklistLink: components.tasklistLink
 )
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("whereDidTheUndeclaredIncomeOrGain.title"))) {
+@layout(pageTitle = title(form, messages("whereDidTheUndeclaredIncomeOrGainIncluded.title"))) {
 
-    @formHelper(action = controllers.offshore.routes.WhereDidTheUndeclaredIncomeOrGainController.onSubmit(mode)) {
+    @formHelper(action = controllers.notification.routes.IncomeOrGainSourceController.onSubmit(mode), 'autoComplete -> "off") {
 
         @if(form.errors.nonEmpty) {
-            @govukErrorSummary(ErrorSummaryViewModel(form))
+            @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value_0")))
         }
 
-        @heading(Text(messages("whereDidTheUndeclaredIncomeOrGain.heading")))
-
-        @hmrcCharacterCount(
-            CharacterCount(
-                id = "value",
-                name = "value",
-                maxLength = Some(5000), 
-                label = Label(content = messages("whereDidTheUndeclaredIncomeOrGain.heading")).withCssClass("govuk-visually-hidden"),
-                value = form("value").value,
-                errorMessage = form("value").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
+        @govukCheckboxes(
+            CheckboxesViewModel(
+                form   = form,
+                name   = "value",
+                legend = LegendViewModel(messages("whereDidTheUndeclaredIncomeOrGainIncluded.heading")).asPageHeading(),
+                items  = IncomeOrGainSource.checkboxItems
             )
         )
 
@@ -54,5 +46,4 @@
             ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
         )
     }
-    @tasklistLink()
 }
