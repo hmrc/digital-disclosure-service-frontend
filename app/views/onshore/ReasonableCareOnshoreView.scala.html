@@ -83,7 +83,7 @@
         @govukInput(
             InputViewModel(
                 field = form("yearsThisAppliesTo"),
-                label = LabelViewModel(messages("whatReasonableCareDidYouTake.yearsThisAppliesTo"))
+                label = LabelViewModel(messages("whatReasonableCareDidYouTake.yearsThisAppliesTo")).withCssClass("govuk-label--m")
             )
             .withHint(Hint(content = Text(messages("whatReasonableCareDidYouTake.yearsThisAppliesTo.hint"))))
             .withWidth(Full)

@@ -86,7 +86,7 @@
         @govukInput(
             InputViewModel(
                 field = form("yearsThisAppliesTo"),
-                label = LabelViewModel(messages("whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo"))
+                label = LabelViewModel(messages("whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo")).withCssClass("govuk-label--m")
             )
             .withHint(Hint(content = Text(messages("whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo.hint"))))
             .withWidth(Full)
