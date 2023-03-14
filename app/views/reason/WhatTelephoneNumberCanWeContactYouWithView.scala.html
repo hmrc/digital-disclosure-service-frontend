@@ -22,7 +22,6 @@
     govukErrorSummary: GovukErrorSummary,
     govukInput: GovukInput,
     govukButton: GovukButton,
-    paragraph: components.paragraph,
     heading: components.heading,
     tasklistLink: components.tasklistLink
 )
@@ -38,8 +37,6 @@
         }
 
         @heading(Text(messages("whatTelephoneNumberCanWeContactYouWith.heading")))
-
-        @paragraph(id = Some("body"), content = Text(messages("whatTelephoneNumberCanWeContactYouWith.body")))
 
         @govukInput(
             InputViewModel(

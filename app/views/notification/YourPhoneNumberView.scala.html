@@ -22,8 +22,7 @@
     govukErrorSummary: GovukErrorSummary,
     govukInput: GovukInput,
     govukButton: GovukButton,
-    heading: components.heading,
-    paragraph: components.paragraph
+    heading: components.heading
 )
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
@@ -37,11 +36,6 @@
         }
 
         @heading(Text(messages("yourPhoneNumber.heading")))
-
-        @paragraph(
-            id = Some("label"),
-            content = HtmlContent(messages("yourPhoneNumber.label"))
-        )
 
         @govukInput(
             InputViewModel(

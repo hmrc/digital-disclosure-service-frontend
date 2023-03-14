@@ -453,9 +453,8 @@ yourEmailAddress.change.hidden = Your email address
 yourPhoneNumber.title = What is your telephone number?
 yourPhoneNumber.heading = What is your telephone number?
 yourPhoneNumber.checkYourAnswersLabel = Your telephone number
-yourPhoneNumber.label = If this is a UK landline or an overseas number, you must include the area or dialling code.
-yourPhoneNumber.hint = For example, 01642 123456, 07777 777777 or +33 1 2345 6788.
-yourPhoneNumber.error.required = Enter your telephone number in the right format
+yourPhoneNumber.hint = If this is a UK landline or an overseas number, you must include the area or dialling code.
+yourPhoneNumber.error.required = Enter your telephone number, like 01642 123456, 07777 777777 or +33 1 2345 6788.
 yourPhoneNumber.change.hidden = Your telephone number
 
 whatIsYourDateOfBirth.title = What is your date of birth?
@@ -1564,11 +1563,10 @@ checkYourAnswers.reason.section2.heading = About the advice given
 
 whatTelephoneNumberCanWeContactYouWith.title = What telephone number can we contact you with?
 whatTelephoneNumberCanWeContactYouWith.heading = What telephone number can we contact you with?
-whatTelephoneNumberCanWeContactYouWith.body = If this is a UK landline or an overseas number, you must include the area or dialing code.
-whatTelephoneNumberCanWeContactYouWith.hint = For example, 01642 123456, 07777 777777 or +33 1 2345 6788.
+whatTelephoneNumberCanWeContactYouWith.hint = If this is a UK landline or an overseas number, you must include the area or dialing code.
 whatTelephoneNumberCanWeContactYouWith.checkYourAnswersLabel = Telephone number
 whatTelephoneNumberCanWeContactYouWith.error.required = Enter your telephone number
-whatTelephoneNumberCanWeContactYouWith.error.validFormat = Enter your telephone number in the right format
+whatTelephoneNumberCanWeContactYouWith.error.validFormat = Enter your telephone number, like 01642 123456, 07777 777777 or +33 1 2345 6788.
 whatTelephoneNumberCanWeContactYouWith.change.hidden = Telephone number
 
 doYouHaveACaseReference.title = Do you have a case reference?

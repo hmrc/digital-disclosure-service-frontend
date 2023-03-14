@@ -46,10 +46,6 @@ class YourPhoneNumberViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementsByClass("govuk-label").text() mustBe messages("yourPhoneNumber.heading")
     }
 
-    "have a body" in {
-      view.getElementById("label").text() mustBe messages("yourPhoneNumber.label")
-    }
-
     "have a hint" in {
       view.getElementsByClass("govuk-hint").text() mustBe messages("yourPhoneNumber.hint")
     }
