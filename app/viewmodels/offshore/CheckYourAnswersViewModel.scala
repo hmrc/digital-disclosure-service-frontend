@@ -31,8 +31,7 @@ case class CheckYourAnswersViewModel(
   legalInterpretationlist: SummaryList,
   taxYearLists: Seq[(Int, SummaryList)],
   totalAmountsList: SummaryList,
-  liabilitiesTotal: BigDecimal,
-  summaryList1: SummaryList
+  liabilitiesTotal: BigDecimal
 )
 
 @Singleton
@@ -79,14 +78,7 @@ class CheckYourAnswersViewModelCreation @Inject() (whichYearsSummary: WhichYears
       ).flatten
     )
 
-    val summaryList1 = SummaryListViewModel(
-      rows = Seq(
-        WhereDidTheUndeclaredIncomeOrGainIncludedSummary.row(userAnswers),
-        WhereDidTheUndeclaredIncomeOrGainSummary.row(userAnswers)
-      ).flatten
-    )
-
-    CheckYourAnswersViewModel(summaryList, legalInterpretationlist, taxYearLists, totalAmountsList, liabilitiesTotal, summaryList1)
+    CheckYourAnswersViewModel(summaryList, legalInterpretationlist, taxYearLists, totalAmountsList, liabilitiesTotal)
 
   }
 

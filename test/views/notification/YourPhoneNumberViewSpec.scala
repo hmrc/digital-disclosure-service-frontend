@@ -38,16 +38,8 @@ class YourPhoneNumberViewSpec extends ViewSpecBase with ViewMatchers {
       view.select("title").text() must include(messages("yourPhoneNumber.title"))
     }
 
-    "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("yourPhoneNumber.heading")
-    }
-
-    "have a label" in {
-      view.getElementsByClass("govuk-label").text() mustBe messages("yourPhoneNumber.heading")
-    }
-
-    "have a body" in {
-      view.getElementById("label").text() mustBe messages("yourPhoneNumber.label")
+    "have a question" in {
+      view.getElementsByClass("govuk-label").text() mustBe messages("yourPhoneNumber.question")
     }
 
     "have a hint" in {

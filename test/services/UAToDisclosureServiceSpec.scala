@@ -80,7 +80,6 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
       val whySet: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse)
       val yearsSet: Set[OffshoreYears] = Set(TaxYearStarting(2012))
       val interpretationSet: Set[YourLegalInterpretation] = Set(YourLegalInterpretation.AnotherIssue)
-      val incomeSourceSet: Set[WhereDidTheUndeclaredIncomeOrGainIncluded] = Set(WhereDidTheUndeclaredIncomeOrGainIncluded.Dividends)
       val pages = List(
         PageWithValue(WhyAreYouMakingThisDisclosurePage, whySet),
         PageWithValue(WhatIsYourReasonableExcusePage, WhatIsYourReasonableExcuse("Some excuse", "Some years")),
@@ -96,8 +95,6 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
         PageWithValue(TaxYearLiabilitiesPage, Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities))),
         PageWithValue(ForeignTaxCreditPage, Map("2012" -> BigInt(123))),
         PageWithValue(CountryOfYourOffshoreLiabilityPage, Map("GBR" -> Country("GBR", "United Kingdom"))),
-        PageWithValue(WhereDidTheUndeclaredIncomeOrGainIncludedPage, incomeSourceSet),
-        PageWithValue(WhereDidTheUndeclaredIncomeOrGainPage, "Some income"),
         PageWithValue(YourLegalInterpretationPage, interpretationSet),
         PageWithValue(UnderWhatConsiderationPage, "Some interpretation"),
         PageWithValue(HowMuchTaxHasNotBeenIncludedPage, HowMuchTaxHasNotBeenIncluded.TenThousandOrLess),
@@ -119,8 +116,6 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
         taxYearLiabilities = Some(Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities))),
         taxYearForeignTaxDeductions = Some(Map("2012" -> BigInt(123))),
         countryOfYourOffshoreLiability = Some(Map("GBR" -> Country("GBR", "United Kingdom"))),
-        incomeSource = Some(Set(WhereDidTheUndeclaredIncomeOrGainIncluded.Dividends)),
-        otherIncomeSource = Some("Some income"),
         legalInterpretation = Some(interpretationSet),
         otherInterpretation = Some("Some interpretation"),
         notIncludedDueToInterpretation = Some(HowMuchTaxHasNotBeenIncluded.TenThousandOrLess),
@@ -249,7 +244,6 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
         didTheLettingAgentCollectRentOnYourBehalf = Some(false)
       ))
       val whichLiabilitiesSet: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.BusinessIncome)
-      val incomeSet: Set[IncomeOrGainSource] = Set(IncomeOrGainSource.Dividends)
       val pages = List(
         PageWithValue(WhyAreYouMakingThisOnshoreDisclosurePage, whySet),
         PageWithValue(ReasonableExcuseOnshorePage, ReasonableExcuseOnshore("Some excuse", "Some years")),
@@ -265,8 +259,6 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
         PageWithValue(CDFOnshorePage, true),
         PageWithValue(OnshoreTaxYearLiabilitiesPage, Map("2012" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2012), liabilities))),
         PageWithValue(ResidentialReductionPage, Map("2012" -> BigInt(123))),
-        PageWithValue(IncomeOrGainSourcePage, incomeSet),
-        PageWithValue(OtherIncomeOrGainSourcePage, "Some income"),
         PageWithValue(LettingPropertyPage, lettingProperty),
         PageWithValue(AreYouAMemberOfAnyLandlordAssociationsPage, true),
         PageWithValue(WhichLandlordAssociationsAreYouAMemberOfPage, "Some associations"),
@@ -290,8 +282,6 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
         disregardedCDF = Some(true),
         taxYearLiabilities = Some(Map("2012" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2012), liabilities))),
         lettingDeductions = Some(Map("2012" -> BigInt(123))),
-        incomeSource = Some(incomeSet),
-        otherIncomeSource = Some("Some income"),
         lettingProperties = Some(lettingProperty),
         memberOfLandlordAssociations = Some(true),
         landlordAssociations = Some("Some associations"),

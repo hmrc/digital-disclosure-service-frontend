@@ -22,8 +22,10 @@ import play.api.data.FormError
 class YourEmailAddressFormProviderSpec extends EmailBehaviours{
 
   val requiredKey = "yourEmailAddress.error.required"
+  val validFormatKey = "yourEmailAddress.error.validFormat"
   val lengthKey = "yourEmailAddress.error.length"
   val maxLength = 320
+
 
   val form = new YourEmailAddressFormProvider()()
 
@@ -45,7 +47,7 @@ class YourEmailAddressFormProviderSpec extends EmailBehaviours{
     behave like emailBindsInvalidData(
       form,
       fieldName,
-      validError = FormError(fieldName, requiredKey, Seq())
+      validError = FormError(fieldName, validFormatKey, Seq())
     )
 
     behave like mandatoryField(

@@ -199,14 +199,6 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
         value <- arbitrary[WhatOnshoreLiabilitiesDoYouNeedToDisclose].map(Json.toJson(_))
       } yield (page, value)
     }
-
-  implicit lazy val arbitraryWhereDidTheUndeclaredIncomeOrGainIncludedUserAnswersEntry: Arbitrary[(WhereDidTheUndeclaredIncomeOrGainIncludedPage.type, JsValue)] =
-    Arbitrary {
-      for {
-        page  <- arbitrary[WhereDidTheUndeclaredIncomeOrGainIncludedPage.type]
-        value <- arbitrary[WhereDidTheUndeclaredIncomeOrGainIncluded].map(Json.toJson(_))
-        } yield (page, value)
-    }
     
   implicit lazy val arbitraryOfferLetterUserAnswersEntry: Arbitrary[(OfferLetterPage.type, JsValue)] =
     Arbitrary {
@@ -221,14 +213,6 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
       for {
         page  <- arbitrary[WhichTelephoneNumberCanWeContactYouWithPage.type]
         value <- arbitrary[WhichTelephoneNumberCanWeContactYouWith].map(Json.toJson(_))
-      } yield (page, value)
-    }
-
-  implicit lazy val arbitraryWhereDidTheUndeclaredIncomeOrGainUserAnswersEntry: Arbitrary[(WhereDidTheUndeclaredIncomeOrGainPage.type, JsValue)] =
-    Arbitrary {
-      for {
-        page  <- arbitrary[WhereDidTheUndeclaredIncomeOrGainPage.type]
-        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
       } yield (page, value)
     }
 

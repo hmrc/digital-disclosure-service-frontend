@@ -79,7 +79,6 @@ class OnshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues
         whatLiabilities = Some(WhatOnshoreLiabilitiesDoYouNeedToDisclose.values.toSet),
         whichYears = Some(Set(OnshoreYearStarting(2012))), 
         taxYearLiabilities = Some(Map("2012" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2012), liabilities))),
-        incomeSource = Some(Set(IncomeOrGainSource.Dividends)),
         lettingProperties = Some(lettingProperty),
         memberOfLandlordAssociations = Some(true),
         landlordAssociations = Some("Some associations"),
@@ -97,7 +96,6 @@ class OnshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues
         whatLiabilities = Some(Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.CorporationTax)),
         whichYears = None, 
         taxYearLiabilities = None,
-        incomeSource = None,
         lettingProperties = None,
         memberOfLandlordAssociations = None,
         landlordAssociations = None,
@@ -114,7 +112,6 @@ class OnshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues
         whatLiabilities = Some(Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.DirectorLoan)),
         whichYears = None, 
         taxYearLiabilities = None,
-        incomeSource = None,
         lettingProperties = None,
         memberOfLandlordAssociations = None,
         landlordAssociations = None,
@@ -131,7 +128,6 @@ class OnshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues
         whatLiabilities = Some(Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)),
         whichYears = None, 
         taxYearLiabilities = None,
-        incomeSource = None,
         lettingProperties = Some(lettingProperty),
         memberOfLandlordAssociations = Some(true),
         landlordAssociations = Some("Some associations"),
@@ -147,8 +143,7 @@ class OnshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues
         behaviour = Some(whySet),
         whatLiabilities = Some(Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.BusinessIncome)),
         whichYears = Some(Set(OnshoreYearStarting(2012))), 
-        taxYearLiabilities = Some(Map("2012" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2012), liabilities))),
-        incomeSource = Some(Set(IncomeOrGainSource.Dividends))
+        taxYearLiabilities = Some(Map("2012" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2012), liabilities)))
       )
       onshoreLiabilities.isComplete mustBe true
     }

@@ -49,10 +49,8 @@ trait UserAnswersGenerator extends TryValues {
     arbitrary[(ResidentialReductionPage.type, JsValue)] ::
     arbitrary[(WhichOnshoreYearsPage.type, JsValue)] ::
     arbitrary[(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage.type, JsValue)] ::
-    arbitrary[(WhereDidTheUndeclaredIncomeOrGainIncludedPage.type, JsValue)] ::
     arbitrary[(OfferLetterPage.type, JsValue)] ::
     arbitrary[(WhichTelephoneNumberCanWeContactYouWithPage.type, JsValue)] ::
-    arbitrary[(WhereDidTheUndeclaredIncomeOrGainPage.type, JsValue)] ::
     arbitrary[(ForeignTaxCreditPage.type, JsValue)] ::
     arbitrary[(YouHaveNotSelectedCertainTaxYearPage.type, JsValue)] ::
     arbitrary[(TaxBeforeNineteenYearsPage.type, JsValue)] ::

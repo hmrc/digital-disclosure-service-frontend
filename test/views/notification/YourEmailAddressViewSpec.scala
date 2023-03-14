@@ -39,7 +39,7 @@ class YourEmailAddressViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-label--xl").text() mustBe messages("yourEmailAddress.heading")
+      view.getElementsByClass("govuk-label").text() mustBe messages("yourEmailAddress.question")
     }
 
     "contain hint" in {

@@ -17,6 +17,7 @@
 package models.store.notification
 
 import play.api.libs.json.{Json, OFormat}
+import models.IncomeOrGainSource
 
 final case class Background (
   haveYouReceivedALetter: Option[Boolean] = None,
@@ -25,10 +26,12 @@ final case class Background (
   areYouRepresetingAnOrganisation: Option[Boolean] = None,
   organisationName: Option[String] = None,
   offshoreLiabilities: Option[Boolean] = None,
-  onshoreLiabilities: Option[Boolean] = None  
+  onshoreLiabilities: Option[Boolean] = None,  
+  incomeSource: Option[Set[IncomeOrGainSource]] = None,
+  otherIncomeSource: Option[String] = None
 ) {
   def isComplete = this match {
-    case Background(Some(receivedLetter), _, Some(_), _, _, Some(offshore), _) => 
+    case Background(Some(receivedLetter), _, Some(_), _, _, Some(offshore), _, Some(source), _) => 
       ( (!receivedLetter || letterReferenceNumber.isDefined) && (!offshore || onshoreLiabilities.isDefined) )
     case _ => false
   }
