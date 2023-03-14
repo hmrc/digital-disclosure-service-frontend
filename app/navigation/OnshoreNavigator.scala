@@ -212,9 +212,9 @@ class OnshoreNavigator @Inject()() {
 
   def nextTaxYearLiabilitiesPage(currentIndex: Int, deduction: Boolean, mode: Mode, userAnswers: UserAnswers, hasAnswerChanged: Boolean = false): Call =
     (mode, userAnswers.inverselySortedOnshoreTaxYears) match {
-    case (_, _) if (deduction && hasAnswerChanged) => routes.ResidentialReductionController.onPageLoad(currentIndex, mode)
+    case (NormalMode, _) if (deduction) => routes.ResidentialReductionController.onPageLoad(currentIndex, mode)
     case (NormalMode, Some(years)) if ((years.size - 1) > currentIndex) => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(currentIndex + 1, NormalMode)
-    case (NormalMode, _) => controllers.notification.routes.IncomeOrGainSourceController.onPageLoad(NormalMode)
+    case (CheckMode, _) if (deduction && hasAnswerChanged) => routes.ResidentialReductionController.onPageLoad(currentIndex, mode)
     case (_, _) => routes.CheckYourAnswersController.onPageLoad
   }
 
