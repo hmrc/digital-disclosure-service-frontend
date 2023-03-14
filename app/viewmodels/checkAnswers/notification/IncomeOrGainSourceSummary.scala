@@ -16,9 +16,9 @@
 
 package viewmodels.checkAnswers
 
-import controllers.offshore.routes
+import controllers.notification.routes
 import models.{CheckMode, UserAnswers}
-import pages.WhereDidTheUndeclaredIncomeOrGainIncludedPage
+import pages.IncomeOrGainSourcePage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
@@ -26,10 +26,10 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object WhereDidTheUndeclaredIncomeOrGainIncludedSummary  {
+object IncomeOrGainSourceSummary  {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(WhereDidTheUndeclaredIncomeOrGainIncludedPage).map {
+    answers.get(IncomeOrGainSourcePage).map {
       answers =>
 
         val value = ValueViewModel(
@@ -45,7 +45,7 @@ object WhereDidTheUndeclaredIncomeOrGainIncludedSummary  {
           key     = "whereDidTheUndeclaredIncomeOrGainIncluded.checkYourAnswersLabel",
           value   = value,
           actions = Seq(
-            ActionItemViewModel("site.change", routes.WhereDidTheUndeclaredIncomeOrGainIncludedController.onPageLoad(CheckMode).url)
+            ActionItemViewModel("site.change", routes.IncomeOrGainSourceController.onPageLoad(CheckMode).url)
               .withVisuallyHiddenText(messages("whereDidTheUndeclaredIncomeOrGainIncluded.change.hidden"))
           )
         )

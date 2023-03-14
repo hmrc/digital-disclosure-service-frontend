@@ -17,32 +17,32 @@
 package controllers
 
 import base.SpecBase
-import forms.WhereDidTheUndeclaredIncomeOrGainIncludedFormProvider
-import models.{NormalMode, WhereDidTheUndeclaredIncomeOrGainIncluded, UserAnswers}
-import navigation.{FakeOffshoreNavigator, OffshoreNavigator}
+import forms.IncomeOrGainSourceFormProvider
+import models.{NormalMode, IncomeOrGainSource, UserAnswers}
+import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.WhereDidTheUndeclaredIncomeOrGainIncludedPage
+import pages.IncomeOrGainSourcePage
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
-import views.html.offshore.WhereDidTheUndeclaredIncomeOrGainIncludedView
+import views.html.notification.IncomeOrGainSourceView
 
 import scala.concurrent.Future
 
-class WhereDidTheUndeclaredIncomeOrGainIncludedControllerSpec extends SpecBase with MockitoSugar {
+class IncomeOrGainSourceControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val whereDidTheUndeclaredIncomeOrGainIncludedRoute = offshore.routes.WhereDidTheUndeclaredIncomeOrGainIncludedController.onPageLoad(NormalMode).url
+  lazy val whereDidTheUndeclaredIncomeOrGainIncludedRoute = notification.routes.IncomeOrGainSourceController.onPageLoad(NormalMode).url
 
-  val formProvider = new WhereDidTheUndeclaredIncomeOrGainIncludedFormProvider()
+  val formProvider = new IncomeOrGainSourceFormProvider()
   val form = formProvider()
 
-  "WhereDidTheUndeclaredIncomeOrGainIncluded Controller" - {
+  "IncomeOrGainSource Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
@@ -53,7 +53,7 @@ class WhereDidTheUndeclaredIncomeOrGainIncludedControllerSpec extends SpecBase w
 
         val result = route(application, request).value
 
-        val view = application.injector.instanceOf[WhereDidTheUndeclaredIncomeOrGainIncludedView]
+        val view = application.injector.instanceOf[IncomeOrGainSourceView]
 
         status(result) mustEqual OK
 
@@ -63,19 +63,19 @@ class WhereDidTheUndeclaredIncomeOrGainIncludedControllerSpec extends SpecBase w
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(WhereDidTheUndeclaredIncomeOrGainIncludedPage, WhereDidTheUndeclaredIncomeOrGainIncluded.values.toSet).success.value
+      val userAnswers = UserAnswers(userAnswersId).set(IncomeOrGainSourcePage, IncomeOrGainSource.values.toSet).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
         val request = FakeRequest(GET, whereDidTheUndeclaredIncomeOrGainIncludedRoute)
 
-        val view = application.injector.instanceOf[WhereDidTheUndeclaredIncomeOrGainIncludedView]
+        val view = application.injector.instanceOf[IncomeOrGainSourceView]
 
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(WhereDidTheUndeclaredIncomeOrGainIncluded.values.toSet), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(IncomeOrGainSource.values.toSet), NormalMode)(request, messages(application)).toString
       }
     }
 
@@ -88,14 +88,14 @@ class WhereDidTheUndeclaredIncomeOrGainIncludedControllerSpec extends SpecBase w
       val application =
         applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
           .overrides(
-            bind[OffshoreNavigator].toInstance(new FakeOffshoreNavigator(onwardRoute))
+            bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
           )
           .build()
 
       running(application) {
         val request =
           FakeRequest(POST, whereDidTheUndeclaredIncomeOrGainIncludedRoute)
-            .withFormUrlEncodedBody(("value[0]", WhereDidTheUndeclaredIncomeOrGainIncluded.values.head.toString))
+            .withFormUrlEncodedBody(("value[0]", IncomeOrGainSource.values.head.toString))
 
         val result = route(application, request).value
 
@@ -115,7 +115,7 @@ class WhereDidTheUndeclaredIncomeOrGainIncludedControllerSpec extends SpecBase w
 
         val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[WhereDidTheUndeclaredIncomeOrGainIncludedView]
+        val view = application.injector.instanceOf[IncomeOrGainSourceView]
 
         val result = route(application, request).value
 
@@ -145,7 +145,7 @@ class WhereDidTheUndeclaredIncomeOrGainIncludedControllerSpec extends SpecBase w
       running(application) {
         val request =
           FakeRequest(POST, whereDidTheUndeclaredIncomeOrGainIncludedRoute)
-            .withFormUrlEncodedBody(("value[0]", WhereDidTheUndeclaredIncomeOrGainIncluded.values.head.toString))
+            .withFormUrlEncodedBody(("value[0]", IncomeOrGainSource.values.head.toString))
 
         val result = route(application, request).value
 

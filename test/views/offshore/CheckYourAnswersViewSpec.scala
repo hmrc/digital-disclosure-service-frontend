@@ -61,8 +61,7 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
     SummaryListViewModel(rows = Nil),
     Nil,
     totalRows,
-    0,
-    SummaryListViewModel(rows = Nil)
+    0
   )
   val page: CheckYourAnswersView = inject[CheckYourAnswersView]
 

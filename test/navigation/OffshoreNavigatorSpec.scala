@@ -365,22 +365,6 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextPage(YouHaveNotSelectedCertainTaxYearPage, NormalMode, UserAnswers("id")) mustBe routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
       }
 
-      "must go from WhereDidTheUndeclaredIncomeOrGainIncludedPage to WhereDidTheUndeclaredIncomeOrGainController when selected 'SomewhereElse'" in {
-        val set: Set[WhereDidTheUndeclaredIncomeOrGainIncluded] = Set(WhereDidTheUndeclaredIncomeOrGainIncluded.SomewhereElse)
-        val userAnswers = UserAnswers("id").set(WhereDidTheUndeclaredIncomeOrGainIncludedPage, set).success.value
-        navigator.nextPage(WhereDidTheUndeclaredIncomeOrGainIncludedPage, NormalMode, userAnswers) mustBe routes.WhereDidTheUndeclaredIncomeOrGainController.onPageLoad(NormalMode)
-      }
-
-      "must go from WhereDidTheUndeclaredIncomeOrGainIncludedPage to YourLegalInterpretationController when selected other then 'SomewhereElse'" in {
-        val set: Set[WhereDidTheUndeclaredIncomeOrGainIncluded] = Set(WhereDidTheUndeclaredIncomeOrGainIncluded.Interest)
-        val userAnswers = UserAnswers("id").set(WhereDidTheUndeclaredIncomeOrGainIncludedPage, set).success.value
-        navigator.nextPage(WhereDidTheUndeclaredIncomeOrGainIncludedPage, NormalMode, userAnswers) mustBe routes.YourLegalInterpretationController.onPageLoad(NormalMode)
-      }
-
-      "must go from WhereDidTheUndeclaredIncomeOrGainPage to YourLegalInterpretationController" in {
-        navigator.nextPage(WhereDidTheUndeclaredIncomeOrGainPage, NormalMode, UserAnswers("id")) mustBe routes.YourLegalInterpretationController.onPageLoad(NormalMode)
-      }
-
     }
 
     "in Check mode" - {
@@ -421,7 +405,7 @@ class OffshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2020), TaxYearStarting(2019), TaxYearStarting(2018))
         val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value
 
-        navigator.nextTaxYearLiabilitiesPage(3, false, NormalMode, userAnswersWithTaxYears) mustBe routes.WhereDidTheUndeclaredIncomeOrGainIncludedController.onPageLoad(NormalMode)
+        navigator.nextTaxYearLiabilitiesPage(3, false, NormalMode, userAnswersWithTaxYears) mustBe routes.YourLegalInterpretationController.onPageLoad(NormalMode)
       }
 
       "must take the user to the foreign tax credit page where the param is true" in {

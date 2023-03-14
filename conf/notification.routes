@@ -267,3 +267,13 @@ GET        /contact-preference                        controllers.notification.H
 POST       /contact-preference                        controllers.notification.HowWouldYouPreferToBeContactedController.onSubmit(mode: Mode = NormalMode)
 GET        /contact-preference/change                  controllers.notification.HowWouldYouPreferToBeContactedController.onPageLoad(mode: Mode = CheckMode)
 POST       /contact-preference/change                  controllers.notification.HowWouldYouPreferToBeContactedController.onSubmit(mode: Mode = CheckMode)
+
+GET        /where-the-income-came-from                       controllers.notification.IncomeOrGainSourceController.onPageLoad(mode: Mode = NormalMode)
+POST       /where-the-income-came-from                       controllers.notification.IncomeOrGainSourceController.onSubmit(mode: Mode = NormalMode)
+GET        /where-the-income-came-from/change                controllers.notification.IncomeOrGainSourceController.onPageLoad(mode: Mode = CheckMode)
+POST       /where-the-income-came-from/change                controllers.notification.IncomeOrGainSourceController.onSubmit(mode: Mode = CheckMode)
+
+GET        /where-else-the-income-came-from                  controllers.notification.OtherIncomeOrGainSourceController.onPageLoad(mode: Mode = NormalMode)
+POST       /where-else-the-income-came-from                  controllers.notification.OtherIncomeOrGainSourceController.onSubmit(mode: Mode = NormalMode)
+GET        /where-else-the-income-came-from/change           controllers.notification.OtherIncomeOrGainSourceController.onPageLoad(mode: Mode = CheckMode)
+POST       /where-else-the-income-came-from/change           controllers.notification.OtherIncomeOrGainSourceController.onSubmit(mode: Mode = CheckMode)

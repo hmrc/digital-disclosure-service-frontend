@@ -86,18 +86,12 @@ trait PageGenerators {
 
   implicit lazy val arbitraryWhatOnshoreLiabilitiesDoYouNeedToDisclosePage: Arbitrary[WhatOnshoreLiabilitiesDoYouNeedToDisclosePage.type] =
     Arbitrary(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage)
-
-  implicit lazy val arbitraryWhereDidTheUndeclaredIncomeOrGainIncludedPage: Arbitrary[WhereDidTheUndeclaredIncomeOrGainIncludedPage.type] =
-    Arbitrary(WhereDidTheUndeclaredIncomeOrGainIncludedPage)
     
   implicit lazy val arbitraryOfferLetterPage: Arbitrary[OfferLetterPage.type] =
     Arbitrary(OfferLetterPage)
 
   implicit lazy val arbitraryWhichTelephoneNumberCanWeContactYouWithPage: Arbitrary[WhichTelephoneNumberCanWeContactYouWithPage.type] =
     Arbitrary(WhichTelephoneNumberCanWeContactYouWithPage)
-
-  implicit lazy val arbitraryWhereDidTheUndeclaredIncomeOrGainPage: Arbitrary[WhereDidTheUndeclaredIncomeOrGainPage.type] =
-    Arbitrary(WhereDidTheUndeclaredIncomeOrGainPage)
 
   implicit lazy val arbitraryForeignTaxCreditPage: Arbitrary[ForeignTaxCreditPage.type] =
     Arbitrary(ForeignTaxCreditPage)

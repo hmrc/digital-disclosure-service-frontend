@@ -62,11 +62,6 @@ trait ModelGenerators {
       Gen.oneOf(IncomeOrGainSource.values)
     }
 
-  implicit lazy val arbitraryWhereDidTheUndeclaredIncomeOrGainIncluded: Arbitrary[WhereDidTheUndeclaredIncomeOrGainIncluded] =
-    Arbitrary {
-      Gen.oneOf(WhereDidTheUndeclaredIncomeOrGainIncluded.values)
-    }
-
   implicit lazy val arbitraryWhichTelephoneNumberCanWeContactYouWith: Arbitrary[WhichTelephoneNumberCanWeContactYouWith] =
     Arbitrary {
       Gen.oneOf(WhichTelephoneNumberCanWeContactYouWith.values.toSeq)

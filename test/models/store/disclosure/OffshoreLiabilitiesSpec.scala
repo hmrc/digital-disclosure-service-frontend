@@ -41,7 +41,6 @@ class OffshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValue
         whichYears = Some(Set(TaxYearStarting(2012))),
         taxYearLiabilities = Some(Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities))),
         countryOfYourOffshoreLiability = Some(Map()),
-        incomeSource = Some(Set(WhereDidTheUndeclaredIncomeOrGainIncluded.Dividends)),
         legalInterpretation = Some(Set(YourLegalInterpretation.NoExclusion)),
         maximumValueOfAssets = Some(TheMaximumValueOfAllAssets.Below500k)
       )
@@ -73,7 +72,6 @@ class OffshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValue
         taxBeforeNineteenYears = Some("Some liabilities"),
         taxYearLiabilities = Some(Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities))),
         countryOfYourOffshoreLiability = Some(Map()),
-        incomeSource = Some(Set(WhereDidTheUndeclaredIncomeOrGainIncluded.Dividends)),
         legalInterpretation = Some(Set(YourLegalInterpretation.AnotherIssue)),
         otherInterpretation = Some("Some interpretation"),
         notIncludedDueToInterpretation = Some(HowMuchTaxHasNotBeenIncluded.TenThousandOrLess),

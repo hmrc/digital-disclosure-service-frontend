@@ -66,7 +66,9 @@ class UAToNotificationServiceImpl extends UAToNotificationService {
       areYouRepresetingAnOrganisation = userAnswers.get(AreYouRepresentingAnOrganisationPage),
       organisationName = userAnswers.get(WhatIsTheNameOfTheOrganisationYouRepresentPage),
       offshoreLiabilities = offshore,
-      onshoreLiabilities = onshore
+      onshoreLiabilities = onshore,
+      incomeSource = userAnswers.get(IncomeOrGainSourcePage),
+      otherIncomeSource = userAnswers.get(OtherIncomeOrGainSourcePage)
     )
   }
 

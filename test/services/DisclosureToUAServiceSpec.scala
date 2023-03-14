@@ -104,8 +104,6 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
         taxYearLiabilities = Some(Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities))),
         taxYearForeignTaxDeductions = Some(Map("2012" -> BigInt(123))),
         countryOfYourOffshoreLiability = Some(Map("GBR" -> Country("GBR", "United Kingdom"))),
-        incomeSource = Some(Set(WhereDidTheUndeclaredIncomeOrGainIncluded.Dividends)),
-        otherIncomeSource = Some("Some income"),
         legalInterpretation = Some(interpretationSet),
         otherInterpretation = Some("Some interpretation"),
         notIncludedDueToInterpretation = Some(HowMuchTaxHasNotBeenIncluded.TenThousandOrLess),
@@ -126,8 +124,6 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
       updatedUserAnswers.get(TaxYearLiabilitiesPage)                                 shouldEqual Some(Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities)))
       updatedUserAnswers.get(ForeignTaxCreditPage)                                   shouldEqual Some(Map("2012" -> BigInt(123)))
       updatedUserAnswers.get(CountryOfYourOffshoreLiabilityPage)                     shouldEqual Some(Map("GBR" -> Country("GBR", "United Kingdom")))
-      updatedUserAnswers.get(WhereDidTheUndeclaredIncomeOrGainIncludedPage)          shouldEqual Some(Set(WhereDidTheUndeclaredIncomeOrGainIncluded.Dividends))
-      updatedUserAnswers.get(WhereDidTheUndeclaredIncomeOrGainPage)                  shouldEqual Some("Some income")
       updatedUserAnswers.get(YourLegalInterpretationPage)                            shouldEqual Some(interpretationSet)
       updatedUserAnswers.get(UnderWhatConsiderationPage)                             shouldEqual Some("Some interpretation")
       updatedUserAnswers.get(HowMuchTaxHasNotBeenIncludedPage)                       shouldEqual Some(HowMuchTaxHasNotBeenIncluded.TenThousandOrLess)
@@ -263,8 +259,6 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
       updatedUserAnswers.get(CDFOnshorePage)                                                 shouldEqual None
       updatedUserAnswers.get(OnshoreTaxYearLiabilitiesPage)                                  shouldEqual None
       updatedUserAnswers.get(ResidentialReductionPage)                                       shouldEqual None
-      updatedUserAnswers.get(IncomeOrGainSourcePage)                                         shouldEqual None
-      updatedUserAnswers.get(OtherIncomeOrGainSourcePage)                                    shouldEqual None
       updatedUserAnswers.get(LettingPropertyPage)                                            shouldEqual None
       updatedUserAnswers.get(AreYouAMemberOfAnyLandlordAssociationsPage)                     shouldEqual None
       updatedUserAnswers.get(WhichLandlordAssociationsAreYouAMemberOfPage)                   shouldEqual None
@@ -335,8 +329,6 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
         disregardedCDF = Some(true),
         taxYearLiabilities = Some(Map("2012" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2012), liabilities))),
         lettingDeductions = Some(Map("2012" -> BigInt(123))),
-        incomeSource = Some(Set(IncomeOrGainSource.Dividends)),
-        otherIncomeSource = Some("Some income"),
         lettingProperties = Some(lettingProperty),
         memberOfLandlordAssociations = Some(true),
         landlordAssociations = Some("Some associations"),
@@ -360,8 +352,6 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
       updatedUserAnswers.get(CDFOnshorePage)                                                 shouldEqual Some(true)
       updatedUserAnswers.get(OnshoreTaxYearLiabilitiesPage)                                  shouldEqual Some(Map("2012" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2012), liabilities)))
       updatedUserAnswers.get(ResidentialReductionPage)                                       shouldEqual Some(Map("2012" -> BigInt(123)))
-      updatedUserAnswers.get(IncomeOrGainSourcePage)                                         shouldEqual Some(Set(IncomeOrGainSource.Dividends))
-      updatedUserAnswers.get(OtherIncomeOrGainSourcePage)                                    shouldEqual Some("Some income")
       updatedUserAnswers.get(LettingPropertyPage)                                            shouldEqual Some(lettingProperty)
       updatedUserAnswers.get(AreYouAMemberOfAnyLandlordAssociationsPage)                     shouldEqual Some(true)
       updatedUserAnswers.get(WhichLandlordAssociationsAreYouAMemberOfPage)                   shouldEqual Some("Some associations")

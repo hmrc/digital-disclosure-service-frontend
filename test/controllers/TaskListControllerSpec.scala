@@ -170,7 +170,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
     }
 
     "should display Completed when the section is complete" in {
-      val completedBackground = Background(Some(false), None, Some(DisclosureEntity(Individual, Some(true))), Some(false), None, Some(true), Some(false))
+      val completedBackground = Background(Some(false), None, Some(DisclosureEntity(Individual, Some(true))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)), None)
       val aboutYou = AboutYou(Some("name"), None, Some("email"), Some(LocalDate.now), Some("mainOccupation"), Some(ContactPreferences(Set(Email))), Some(No), None, Some(No), None, Some(No), None, Some(address))
       val personalDetails = PersonalDetails(completedBackground, aboutYou, None, None, None, None, None)
       
@@ -178,7 +178,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         id = "personal-detail-task-list",
         sectionTitle = mess("taskList.edit.sectionTitle.first.company"),
         status = mess("taskList.status.completed"),
-        link = controllers.notification.routes.CheckYourAnswersController.onPageLoad
+        link = controllers.notification.routes.CheckYourAnswersController.onPageLoad,
       )
       val expectedSectionKey = "taskList.edit.heading.first.company"
       val (actualKey, actualTask) = sut.buildYourPersonalDetailsRow(personalDetails, "company") 
@@ -284,7 +284,6 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         whichYears = Some(Set(TaxYearStarting(2012))),
         taxYearLiabilities = Some(Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities))),
         countryOfYourOffshoreLiability = Some(Map()),
-        incomeSource = Some(Set(WhereDidTheUndeclaredIncomeOrGainIncluded.Dividends)),
         legalInterpretation = Some(Set(YourLegalInterpretation.NoExclusion)),
         maximumValueOfAssets = Some(TheMaximumValueOfAllAssets.Below500k)
       )
@@ -457,8 +456,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         behaviour = Some(whySet),
         whatLiabilities = Some(Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.BusinessIncome)),
         whichYears = Some(Set(OnshoreYearStarting(2012))), 
-        taxYearLiabilities = Some(Map("2012" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2012), liabilities))),
-        incomeSource = Some(Set(IncomeOrGainSource.Dividends))
+        taxYearLiabilities = Some(Map("2012" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2012), liabilities)))
       ))
 
       val expectedTask = TaskListRow(

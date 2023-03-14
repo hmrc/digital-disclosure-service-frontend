@@ -215,7 +215,9 @@ class NotificationToUAServiceSpec extends AnyWordSpec with Matchers with TryValu
         organisationName = Some("Some other name"),
         offshoreLiabilities = Some(true),
         onshoreLiabilities = Some(false),
-        disclosureEntity = Some(DisclosureEntity(Individual, Some(false)))
+        disclosureEntity = Some(DisclosureEntity(Individual, Some(false))),
+        incomeSource = Some(Set(IncomeOrGainSource.Dividends)),
+        otherIncomeSource = Some("Some income"),
       )
       val updatedUserAnswers = sut.backgroundToUserAnswers(background, emptyUA).success.value
       updatedUserAnswers.get(ReceivedALetterPage)                             shouldEqual Some(false)
@@ -226,6 +228,9 @@ class NotificationToUAServiceSpec extends AnyWordSpec with Matchers with TryValu
       updatedUserAnswers.get(OnshoreLiabilitiesPage)                          shouldEqual Some(false)
       updatedUserAnswers.get(RelatesToPage)                                   shouldEqual Some(RelatesTo.AnIndividual)
       updatedUserAnswers.get(AreYouTheIndividualPage)                         shouldEqual Some(false)
+      updatedUserAnswers.get(IncomeOrGainSourcePage)                          shouldEqual Some(Set(IncomeOrGainSource.Dividends))
+      updatedUserAnswers.get(OtherIncomeOrGainSourcePage)                     shouldEqual Some("Some income")
+      
     }
 
   }
