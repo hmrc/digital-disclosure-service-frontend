@@ -1636,7 +1636,7 @@ youHaveNotIncludedTheTaxYear.label = Why are you not including this year in the 
 youHaveNotIncludedTheTaxYear.checkYourAnswersLabel = Reason for not including {0}
 youHaveNotIncludedTheTaxYear.error.required = Enter your reason for not including the tax year ending {0}
 youHaveNotIncludedTheTaxYear.error.length = Your reason for not including the tax year ending {0} must be between 1 and 500 characters
-youHaveNotIncludedTheTaxYear.change.hidden = YouHaveNotIncludedTheTaxYear
+youHaveNotIncludedTheTaxYear.change.hidden = Reason for not including {0}
 
 taxBeforeNineteenYears.title = Can you tell us more about any tax owed before 6 April {0}?
 taxBeforeNineteenYears.heading = Can you tell us more about any tax owed before 6 April {0}?
