@@ -2248,9 +2248,9 @@ propertyAdded.title.multi = You have added {0} properties
 propertyAdded.heading.single = You have added 1 property
 propertyAdded.heading.multi = You have added {0} properties
 propertyAdded.body = Do you need to add another property?
-propertyAdded.checkYourAnswersLabel = propertyAdded
+propertyAdded.checkYourAnswersLabel = Properties added
 propertyAdded.error.required = Select yes if you want to add another property
-propertyAdded.change.hidden = PropertyAdded
+propertyAdded.change.hidden = Properties added
 
 accountingPeriodCTAdded.title.single = You have added 1 accounting period
 accountingPeriodCTAdded.title.multi = You have added {0} accounting periods

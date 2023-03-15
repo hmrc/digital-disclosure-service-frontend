@@ -18,7 +18,7 @@ package viewmodels.checkAnswers
 
 import controllers.onshore.routes
 import models.{CheckMode, UserAnswers}
-import pages.PropertyAddedPage
+import pages.LettingPropertyPage
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
@@ -26,19 +26,25 @@ import viewmodels.implicits._
 
 object PropertyAddedSummary  {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(PropertyAddedPage).map {
-      answer =>
-
-        val value = if (answer) "site.yes" else "site.no"
-
-        SummaryListRowViewModel(
-          key     = "propertyAdded.checkYourAnswersLabel",
-          value   = ValueViewModel(value),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.PropertyAddedController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("propertyAdded.change.hidden"))
-          )
+  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] = {
+    answers.get(LettingPropertyPage).map { properties =>
+      val addressLines = for {
+        i <- properties.indices
+        property = properties(i)
+        address <- property.address
+        postcode <- address.postcode
+      } yield {
+        s"${address.line1} ${address.postcode.getOrElse("")}"
+      }
+      
+      SummaryListRowViewModel(
+        key     = "propertyAdded.checkYourAnswersLabel",
+        value   = ValueViewModel(addressLines.mkString(", ")),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.PropertyAddedController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("propertyAdded.change.hidden"))
         )
+      )
     }
+  }
 }
