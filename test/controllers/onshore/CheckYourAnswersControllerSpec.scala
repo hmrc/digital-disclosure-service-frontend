@@ -20,7 +20,7 @@ import base.SpecBase
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.html.onshore.CheckYourAnswersView
-import viewmodels.onshore.CheckYourAnswersViewModel
+import viewmodels.onshore.{CheckYourAnswersViewModel, CorporationTaxLiabilitiesSummaryViewModel, DirectorLoanAccountLiabilitiesSummaryViewModel}
 import viewmodels.govuk.SummaryListFluency
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist._
@@ -68,9 +68,11 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
       val viewmodel = CheckYourAnswersViewModel(
         SummaryListViewModel(rows = Nil),
-        SummaryListViewModel(rows = Nil),
         Nil,
-        totalRows
+        CorporationTaxLiabilitiesSummaryViewModel(Nil, SummaryListViewModel(rows = Nil), SummaryListViewModel(rows = Nil)),
+        DirectorLoanAccountLiabilitiesSummaryViewModel(Nil, SummaryListViewModel(rows = Nil), SummaryListViewModel(rows = Nil)),
+        totalRows,
+        BigDecimal(0)
       )
 
       running(application) {

@@ -27,22 +27,27 @@ import java.time.format.DateTimeFormatter
 
 case class DirectorLoanAccountLiabilitiesSummaryViewModel (
   directorLoanAccountLiabilitiesList: Seq[(Int, SummaryList)],
+  accountEndingsSummaryList: SummaryList,
   totalAmountsList: SummaryList
 )
 
 class DirectorLoanAccountLiabilitiesSummaryViewModelCreation {
 
+  val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+
   def create(userAnswers: UserAnswers)(implicit messages: Messages): DirectorLoanAccountLiabilitiesSummaryViewModel = {
 
-    val directorLoanAccountLiabilities = userAnswers.get(DirectorLoanAccountLiabilitiesPage).getOrElse(Set())
+    val directorLoanAccountLiabilities: Seq[DirectorLoanAccountLiabilities] = userAnswers.get(DirectorLoanAccountLiabilitiesPage).getOrElse(Seq())
 
-    val directorLoanAccountLiabilitiesList: Seq[(Int, SummaryList)] = (directorLoanAccountLiabilities.zipWithIndex.map { 
-      case (dLLiability, i) => (i+1, directorLoanAccountLiabilitiesToSummaryList(i, dLLiability))
-    }).toSeq
+    val directorLoanAccountLiabilitiesList: Seq[(Int, SummaryList)] = directorLoanAccountLiabilities.zipWithIndex.map {
+      case (dLLiability, i) => (i + 1, directorLoanAccountLiabilitiesToSummaryList(i, dLLiability))
+    }
 
-    val totalAmountsList = totalAmountsSummaryList(directorLoanAccountLiabilities.toSeq)
+    val totalAmountsList = totalAmountsSummaryList(directorLoanAccountLiabilities)
 
-    DirectorLoanAccountLiabilitiesSummaryViewModel(directorLoanAccountLiabilitiesList, totalAmountsList)
+    val accountEndingsSummary = accountEndingsSummaryList(directorLoanAccountLiabilities)
+
+    DirectorLoanAccountLiabilitiesSummaryViewModel(directorLoanAccountLiabilitiesList, accountEndingsSummary, totalAmountsList)
   }
 
   def directorLoanAccountLiabilitiesToSummaryList(i: Int, dLLiability: DirectorLoanAccountLiabilities)(implicit messages: Messages): SummaryList = {
@@ -74,6 +79,21 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelCreation {
           .withVisuallyHiddenText(messages(hiddenLabel))
       )
     )
+  }
+
+  private def accountEndingsSummaryList(directorLoans: Seq[DirectorLoanAccountLiabilities])(implicit messages: Messages): SummaryList = {
+
+  val periodEnding = directorLoans.map(ct => ct.periodEnd.format(dateFormatter)).mkString(", ")
+
+      SummaryListViewModel( rows = Seq(
+        SummaryListRowViewModel(
+          key = "checkYourAnswers.onshore.dl.subheading",
+          value = ValueViewModel(HtmlContent(periodEnding)),
+          actions = Seq(
+            ActionItemViewModel("site.change", controllers.onshore.routes.AccountingPeriodDLAddedController.onPageLoad(CheckMode).url)
+              .withVisuallyHiddenText(messages("checkYourAnswers.onshore.dl.hidden"))
+          )
+      )))
   }
 
   def totalAmountsSummaryList(directorLoanAccountLiabilities: Seq[DirectorLoanAccountLiabilities])(implicit messages: Messages): SummaryList = {
