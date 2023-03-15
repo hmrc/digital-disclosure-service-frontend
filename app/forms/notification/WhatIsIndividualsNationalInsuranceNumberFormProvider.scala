@@ -27,6 +27,6 @@ class WhatIsIndividualsNationalInsuranceNumberFormProvider @Inject() extends Map
     Form(
       "value" -> text("whatIsIndividualsNINO.error.required")
         .transform[String](_.filterNot(_.isWhitespace), identity)
-        .verifying(validNino("whatIsIndividualsNINO.error.invalid"))
+        .verifying(validNino("whatIsIndividualsNINO.error.invalidFormat", "whatIsIndividualsNINO.error.notReal"))
     )
 }

@@ -22,7 +22,7 @@ import play.api.data.FormError
 class WhatIsIndividualsNationalInsuranceNumberFormProviderSpec extends NationalInsuranceBehaviours {
 
   val requiredKey = "whatIsIndividualsNINO.error.required"
-  val invalidKey = "whatIsIndividualsNINO.error.invalid"
+  val invalidKey = "whatIsIndividualsNINO.error.invalidFormat"
   val maxLength = 10
 
   val form = new WhatIsIndividualsNationalInsuranceNumberFormProvider()()
