@@ -31,10 +31,10 @@ object LettingPropertyModel {
       i <- properties.indices
       property = properties(i)
       address <- property.address
-      postcode <- address.postcode
     } yield {
+      val addressLines = Seq(Some(address.line1), address.postcode).flatten.mkString(", ")
       SummaryListRowNoValue(
-        key = Key(s"${address.line1}, ${postcode}").withCssClass("govuk-!-font-weight-regular hmrc-summary-list__key"),
+        key = Key(addressLines).withCssClass("govuk-!-font-weight-regular hmrc-summary-list__key"),
         actions =  Some(
           Actions(items = Seq(
           ActionItemViewModel("site.change", controllers.letting.routes.CheckYourAnswersController.onPageLoad(i, mode).url)
