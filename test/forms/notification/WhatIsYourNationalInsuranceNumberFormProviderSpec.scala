@@ -23,7 +23,8 @@ class WhatIsYourNationalInsuranceNumberFormProviderSpec extends NationalInsuranc
 
   val form = new WhatIsYourNationalInsuranceNumberFormProvider()()
 
-  val requiredKey = "whatIsYourNationalInsuranceNumber.error.invalid"
+  val requiredKey = "whatIsYourNationalInsuranceNumber.error.required"
+  val invalidFormatKey = "whatIsYourNationalInsuranceNumber.error.invalidFormat"
   val maxLength = 10
 
   ".value" - {
@@ -38,7 +39,13 @@ class WhatIsYourNationalInsuranceNumberFormProviderSpec extends NationalInsuranc
     behave like nationalInsuraceNumberBindsInvalidData(
       form,
       fieldName,
-      validError = FormError(fieldName, requiredKey, Seq())
+      validError = FormError(fieldName, invalidFormatKey, Seq())
+    )
+
+    behave like mandatoryField(
+      form,
+      fieldName,
+      requiredError = FormError(fieldName, requiredKey)
     )
   }
 }

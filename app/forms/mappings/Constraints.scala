@@ -147,13 +147,20 @@ trait Constraints {
     EmailAddress.isValid(email) && email.split('@')(1).contains('.')
   }
 
-  protected def validNino(errorKey: String): Constraint[String] =
+  protected def validNino(invalidFormat: String, notReal: String): Constraint[String] =
     Constraint {
       case str if Nino.isValid(str.toUpperCase()) =>
         Valid
+      case str if checkValidNinoFormat(str) =>
+        Invalid(notReal)
       case _ =>
-        Invalid(errorKey)
+        Invalid(invalidFormat)
     }
+
+  private def checkValidNinoFormat(str: String): Boolean = {
+    val pattern = "^[a-zA-Z]{2}\\d{6}[a-zA-Z]$"
+    pattern.r.findFirstMatchIn(str.replaceAll("\\s", "")).isDefined
+  }  
 
   protected def validUTR(length: Int, errorKey: String): Constraint[String] =
     Constraint {

@@ -27,7 +27,6 @@ class WhatWasThePersonNINOFormProvider @Inject() extends Mappings {
     Form(
       "value" -> text("whatWasThePersonNINO.error.required")
         .transform[String](_.filterNot(_.isWhitespace), identity)
-        .verifying(validNino("whatWasThePersonNINO.error"))
-
+        .verifying(validNino("whatWasThePersonNINO.error.invalidFormat", "whatWasThePersonNINO.error.notReal"))
     )
 }

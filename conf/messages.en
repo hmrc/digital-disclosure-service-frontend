@@ -496,7 +496,8 @@ whatIsYourNationalInsuranceNumber.label = This is on your payslip, P60 or tax re
 whatIsYourNationalInsuranceNumber.hint = For example, ‘QQ123456A’.
 whatIsYourNationalInsuranceNumber.checkYourAnswersLabel = Your National Insurance number
 whatIsYourNationalInsuranceNumber.error.required = Enter your National Insurance number
-whatIsYourNationalInsuranceNumber.error.invalid = Enter your National Insurance number in the right format
+whatIsYourNationalInsuranceNumber.error.invalidFormat = Enter your National Insurance number in the right format
+whatIsYourNationalInsuranceNumber.error.notReal = Enter a real National Insurance number
 whatIsYourNationalInsuranceNumber.change.hidden = Your National Insurance number
 
 whatIsYourVATRegistrationNumber.title = What is your VAT registration number?
@@ -619,7 +620,8 @@ whatIsIndividualsNINO.label = This is on your payslip, P60 or tax return.
 whatIsIndividualsNINO.hint = For example, ‘QQ123456A’.
 whatIsIndividualsNINO.checkYourAnswersLabel = Individual’s National Insurance number
 whatIsIndividualsNINO.error.required = Enter the individual’s National Insurance number
-whatIsIndividualsNINO.error.invalid = Enter a valid National Insurance number
+whatIsIndividualsNINO.error.invalidFormat = Enter the individual’s National Insurance number in the right format
+whatIsIndividualsNINO.error.notReal = Enter a real National Insurance number
 whatIsIndividualsNINO.change.hidden = Individual’s National Insurance number
 
 isTheIndividualRegisteredForVAT.title = Is the individual registered for VAT, as far as you’re aware?
@@ -886,7 +888,8 @@ whatWasThePersonNINO.label = This is on their payslip, P60 or tax return.
 whatWasThePersonNINO.hint = For example, ‘QQ123456A’.
 whatWasThePersonNINO.checkYourAnswersLabel = What was the person’s National Insurance number?
 whatWasThePersonNINO.error.required = Enter the person’s National Insurance number
-whatWasThePersonNINO.error = Enter the person’s National Insurance number in the right format
+whatWasThePersonNINO.error.invalidFormat = Enter the person’s National Insurance number in the right format
+whatWasThePersonNINO.error.notReal = Enter a real National Insurance number
 whatWasThePersonNINO.change.hidden = What was the person’s National Insurance number?
 
 wasThePersonRegisteredForVAT.title = Was the person registered for VAT, as far as you’re aware?
