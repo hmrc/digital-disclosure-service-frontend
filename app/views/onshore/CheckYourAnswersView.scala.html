@@ -23,6 +23,7 @@
     subheading: components.subheading,
     paragraph: components.paragraph,
     link: components.link,
+    smallheading: components.smallheading,
     govukSummaryList: GovukSummaryList
 )
 
@@ -32,8 +33,6 @@
 
     @heading(Text(messages("checkYourAnswers.onshore.heading")))
 
-    @govukSummaryList(viewModel.whatOnshoreLiabilitiesDoYouNeedToDiscloseSummaryList)
-
     @subheading(Text(messages("checkYourAnswers.onshore.subheading.reason")), "govuk-heading-m")
     @govukSummaryList(viewModel.summaryList)
 
@@ -42,8 +41,45 @@
         @govukSummaryList(list.withAttribute("id", s"tax-year-list-$year"))
     }
 
+    @if(viewModel.corporationTax.corporationTaxLiabilitiesList.nonEmpty){
+        @subheading(Text(messages("checkYourAnswers.onshore.ct.heading")), "govuk-heading-m")
+        @govukSummaryList(viewModel.corporationTax.accountEndingsSummaryList)
+        @govukSummaryList(viewModel.corporationTax.totalAmountsList)
+    }
+
+    @if(viewModel.directorLoan.directorLoanAccountLiabilitiesList.nonEmpty) {
+        @subheading(Text(messages("checkYourAnswers.onshore.dl.heading")), "govuk-heading-m")
+        @govukSummaryList(viewModel.directorLoan.accountEndingsSummaryList)
+        @govukSummaryList(viewModel.directorLoan.totalAmountsList)
+    }
+
+
     @subheading(Text(messages("checkYourAnswers.onshore.total.heading")), "govuk-heading-m")
     @govukSummaryList(viewModel.totalAmountsList)
+
+
+
+    @subheading(Text(messages("checkYourAnswers.offshore.offer.heading")), "govuk-heading-m")
+    @paragraph(id = Some("offer-paragraph-1"), content = Text(messages("checkYourAnswers.offshore.offer.paragraph1", viewModel.liabilitiesTotal)))
+    @paragraph(id = Some("offer-paragraph-2"), content = Text(messages("checkYourAnswers.offshore.offer.paragraph2")))
+
+    @subheading(Text(messages("checkYourAnswers.offshore.fullAmount.heading")), "govuk-heading-m")
+
+    @paragraph(
+        id = Some("fullAmount-paragraph-1"),
+        content = HtmlContent(
+            messages("checkYourAnswers.offshore.fullAmount.paragraph1") +
+                    link(
+                        id = "fullAmount-paragraph-link",
+                        text = messages("checkYourAnswers.offshore.fullAmount.link"),
+                        newTab = true,
+                        call = Call("GET", "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure#general-information")
+                    ) +
+                    messages("site.dot")
+        )
+    )
+    @paragraph(id = Some("fullAmount-paragraph-2"), content = Text(messages("checkYourAnswers.offshore.fullAmount.paragraph2")))
+    @paragraph(id = Some("fullAmount-paragraph-3"), content = Text(messages("checkYourAnswers.offshore.fullAmount.paragraph3")))
     
     @govukButton(
         ButtonViewModel(messages("site.continue"))
