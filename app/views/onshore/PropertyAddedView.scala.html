@@ -48,9 +48,10 @@
         @summaryListNoValue(SummaryListNoValue(properties))
 
         @govukRadios(
-            RadiosViewModel.yesNo(
+            RadiosViewModel.yesNoNotInline(
                 field = form("value"),
-                legend = LegendViewModel(messages("propertyAdded.body")).withCssClass("govuk-fieldset__legend--m")
+                legend = LegendViewModel(messages("propertyAdded.body")).withCssClass("govuk-fieldset__legend--m"),
+                messagePrefix = "site"
             )
         )
 

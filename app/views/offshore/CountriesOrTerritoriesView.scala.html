@@ -45,9 +45,10 @@
         @govukSummaryList(SummaryList(rows = countries))
 
         @govukRadios(
-            RadiosViewModel.yesNo(
+            RadiosViewModel.yesNoNotInline(
                 field = form("value"),
-                legend = LegendViewModel(messages("countriesOrTerritories.label")).withCssClass("govuk-fieldset__legend--m")
+                legend = LegendViewModel(messages("countriesOrTerritories.label")).withCssClass("govuk-fieldset__legend--m"),
+                messagePrefix = "site"
             )
         )
 
