@@ -23,7 +23,7 @@
         link: components.link
 )
 
-@(url: String)(implicit request: Request[_], messages: Messages)
+@(url: String, isDisclosure: Boolean)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = titleNoForm(messages("onlyOnshoreLiabilities.title"))) {
 

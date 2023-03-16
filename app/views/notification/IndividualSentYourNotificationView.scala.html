@@ -22,7 +22,7 @@
         heading: components.heading
 )
 
-@()(implicit request: Request[_], messages: Messages)
+@(isDisclosure: Boolean)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = titleNoForm(messages("individualSentYourNotification.title"))) {
 

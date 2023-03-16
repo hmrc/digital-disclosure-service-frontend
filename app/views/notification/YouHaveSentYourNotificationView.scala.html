@@ -24,7 +24,7 @@
         downloadLink: components.downloadLink
 )
 
-@(isCaseReferenceAvailable: Boolean, referenceNumber: String, isTheEntity: Boolean)(implicit request: Request[_], messages: Messages)
+@(isCaseReferenceAvailable: Boolean, referenceNumber: String, isTheEntity: Boolean, isDisclosure: Boolean)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = titleNoForm(isTheEntity match {
                                     case true => messages("youHaveSentYourNotification.title.entity") 
