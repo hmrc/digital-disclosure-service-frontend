@@ -19,13 +19,13 @@ package viewmodels.onshore
 import models._
 import models.store.FullDisclosure
 import models.store.disclosure.OnshoreLiabilities
-import viewmodels.{SummaryListRowNoValue, TotalAmounts}
+import viewmodels.TotalAmounts
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryList
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import viewmodels.checkAnswers._
-import pages.{CorporationTaxLiabilityPage, OnshoreTaxYearLiabilitiesPage, WhatOnshoreLiabilitiesDoYouNeedToDisclosePage}
+import pages.{OnshoreTaxYearLiabilitiesPage, WhatOnshoreLiabilitiesDoYouNeedToDisclosePage}
 import play.api.i18n.Messages
 import com.google.inject.{Inject, Singleton}
 import services.UAToDisclosureService
@@ -65,7 +65,8 @@ class CheckYourAnswersViewModelCreation @Inject() (
         NotIncludedMultipleTaxYearsSummary.row(userAnswers),
         taxBeforeFiveYearsSummary.row(userAnswers),
         taxBeforeSevenYearsSummary.row(userAnswers),
-        taxBeforeNineteenYearSummary.row(userAnswers)
+        taxBeforeNineteenYearSummary.row(userAnswers),
+        PropertyAddedSummary.row(userAnswers)
       ).flatten
     )
 
