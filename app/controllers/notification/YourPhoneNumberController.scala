@@ -52,7 +52,7 @@ class YourPhoneNumberController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -60,7 +60,7 @@ class YourPhoneNumberController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
 
         value =>
           for {
@@ -69,4 +69,6 @@ class YourPhoneNumberController @Inject()(
           } yield Redirect(navigator.nextPage(YourPhoneNumberPage, mode, updatedAnswers))
       )
   }
+
+  
 }

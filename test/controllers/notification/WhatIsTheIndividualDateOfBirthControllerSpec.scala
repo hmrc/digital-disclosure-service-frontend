@@ -71,7 +71,7 @@ class WhatIsTheIndividualDateOfBirthControllerSpec extends SpecBase with Mockito
         val view = application.injector.instanceOf[WhatIsTheIndividualDateOfBirthView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(getRequest, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode, false)(getRequest, messages(application)).toString
       }
     }
 
@@ -87,7 +87,7 @@ class WhatIsTheIndividualDateOfBirthControllerSpec extends SpecBase with Mockito
         val result = route(application, getRequest).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(validAnswer), NormalMode)(getRequest, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(validAnswer), NormalMode, false)(getRequest, messages(application)).toString
       }
     }
 
@@ -128,7 +128,7 @@ class WhatIsTheIndividualDateOfBirthControllerSpec extends SpecBase with Mockito
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode, false)(request, messages(application)).toString
       }
     }
 

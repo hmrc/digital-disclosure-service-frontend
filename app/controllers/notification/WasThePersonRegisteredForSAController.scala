@@ -21,6 +21,7 @@ import forms.WasThePersonRegisteredForSAFormProvider
 
 import javax.inject.Inject
 import models.{Mode, UserAnswers, WasThePersonRegisteredForSA}
+
 import navigation.NotificationNavigator
 import pages.{QuestionPage, WasThePersonRegisteredForSAPage, WhatWasThePersonUTRPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -53,7 +54,7 @@ class WasThePersonRegisteredForSAController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -61,7 +62,7 @@ class WasThePersonRegisteredForSAController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
 
         value => {
           val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
@@ -80,4 +81,6 @@ class WasThePersonRegisteredForSAController @Inject()(
       case Some(existingValue) if value != existingValue => (Nil, true)
       case _ => (Nil, false)
     }
+
+  
 }

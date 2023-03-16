@@ -21,6 +21,7 @@ import forms.IncomeOrGainSourceFormProvider
 import javax.inject.Inject
 import models.{Mode, UserAnswers, IncomeOrGainSource}
 import models.IncomeOrGainSource._
+
 import navigation.NotificationNavigator
 import pages.{IncomeOrGainSourcePage, QuestionPage, OtherIncomeOrGainSourcePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -53,7 +54,7 @@ class IncomeOrGainSourceController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -61,7 +62,7 @@ class IncomeOrGainSourceController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
 
         value => {
 
@@ -83,4 +84,6 @@ class IncomeOrGainSourceController @Inject()(
       case Some(oldValue) if (oldValue != newValue) => (Nil, true)
       case _ => (Nil, false)
     }
+
+    
 }

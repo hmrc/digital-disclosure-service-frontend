@@ -20,7 +20,8 @@ import controllers.actions._
 import forms.WhatWasThePersonOccupationFormProvider
 
 import javax.inject.Inject
-import models.Mode
+import models.{Mode, UserAnswers}
+
 import navigation.NotificationNavigator
 import pages.WhatWasThePersonOccupationPage
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -53,7 +54,7 @@ class WhatWasThePersonOccupationController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -61,7 +62,7 @@ class WhatWasThePersonOccupationController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
 
         value =>
           for {
@@ -70,4 +71,6 @@ class WhatWasThePersonOccupationController @Inject()(
           } yield Redirect(navigator.nextPage(WhatWasThePersonOccupationPage, mode, updatedAnswers))
       )
   }
+
+  
 }

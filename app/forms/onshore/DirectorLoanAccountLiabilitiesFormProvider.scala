@@ -22,7 +22,7 @@ import models.DirectorLoanAccountLiabilities
 import play.api.data.Form
 import play.api.data.Forms._
 
-import java.time.{LocalDate, Month}
+import java.time.LocalDate
 
 class DirectorLoanAccountLiabilitiesFormProvider @Inject() extends Mappings {
 

@@ -26,6 +26,7 @@ import views.html.notification.OnlyOnshoreLiabilitiesView
 import pages._
 import models._
 
+
 class OnlyOnshoreLiabilitiesController @Inject()(
                                        override val messagesApi: MessagesApi,
                                        identify: IdentifierAction,
@@ -38,6 +39,8 @@ class OnlyOnshoreLiabilitiesController @Inject()(
 
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-      Ok(view(navigator.nextPage(OnlyOnshoreLiabilitiesPage, mode, request.userAnswers).url.toString))
+      Ok(view(navigator.nextPage(OnlyOnshoreLiabilitiesPage, mode, request.userAnswers).url.toString, request.userAnswers.isDisclosure))
   }
+
+  
 }

@@ -23,6 +23,8 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.notification.IndividualSentYourNotificationView
 
+import models.UserAnswers
+
 class IndividualSentYourNotificationController @Inject()(
                                        override val messagesApi: MessagesApi,
                                        identify: IdentifierAction,
@@ -34,6 +36,8 @@ class IndividualSentYourNotificationController @Inject()(
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-      Ok(view())
+      Ok(view(request.userAnswers.isDisclosure))
   }
+
+  
 }

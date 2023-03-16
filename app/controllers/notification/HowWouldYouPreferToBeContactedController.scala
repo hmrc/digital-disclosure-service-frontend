@@ -22,6 +22,7 @@ import models.HowWouldYouPreferToBeContacted.{Email, Telephone}
 
 import javax.inject.Inject
 import models.{HowWouldYouPreferToBeContacted, Mode, UserAnswers}
+
 import navigation.NotificationNavigator
 import pages.{HowWouldYouPreferToBeContactedPage, QuestionPage, YourEmailAddressPage, YourPhoneNumberPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -54,7 +55,7 @@ class HowWouldYouPreferToBeContactedController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -62,7 +63,7 @@ class HowWouldYouPreferToBeContactedController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
 
         value => {
           val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
@@ -86,6 +87,7 @@ class HowWouldYouPreferToBeContactedController @Inject()(
         (pages, true)
       case _ => (Nil, false)
     }
-
   }
+
+  
 }

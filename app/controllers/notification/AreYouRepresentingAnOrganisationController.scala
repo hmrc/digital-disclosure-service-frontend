@@ -21,6 +21,7 @@ import forms.AreYouRepresentingAnOrganisationFormProvider
 
 import javax.inject.Inject
 import models.{CheckMode, Mode, UserAnswers}
+
 import navigation.NotificationNavigator
 import pages.{AreYouRepresentingAnOrganisationPage, QuestionPage, WhatIsTheNameOfTheOrganisationYouRepresentPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -53,7 +54,7 @@ class AreYouRepresentingAnOrganisationController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -61,7 +62,7 @@ class AreYouRepresentingAnOrganisationController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
 
         value => {
           val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value, mode)
@@ -82,4 +83,6 @@ class AreYouRepresentingAnOrganisationController @Inject()(
       case _ => (Nil, false)
     }
   }
+
+  
 }

@@ -28,7 +28,7 @@ class AreYouRepresentingAnOrganisationViewSpec extends ViewSpecBase with ViewMat
   val form = new AreYouRepresentingAnOrganisationFormProvider()()
   val page: AreYouRepresentingAnOrganisationView = inject[AreYouRepresentingAnOrganisationView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode, false)(request, messages)
 
   "view" should {
 

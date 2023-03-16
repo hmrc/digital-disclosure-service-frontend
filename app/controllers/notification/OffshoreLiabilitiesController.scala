@@ -22,6 +22,7 @@ import javax.inject.Inject
 import models.{Mode, UserAnswers}
 import models.store.disclosure._
 import models.store.{Notification, FullDisclosure}
+
 import navigation.NotificationNavigator
 import pages.OffshoreLiabilitiesPage
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -57,7 +58,7 @@ class OffshoreLiabilitiesController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -65,7 +66,7 @@ class OffshoreLiabilitiesController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
 
         value =>
           for {
@@ -90,4 +91,6 @@ class OffshoreLiabilitiesController @Inject()(
       case _ => Success(userAnswers) 
     }
   }
+
+  
 }

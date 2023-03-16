@@ -21,10 +21,11 @@
     formHelper: FormWithCSRF,
     govukErrorSummary: GovukErrorSummary,
     govukInput: GovukInput,
-    govukButton: GovukButton
+    govukButton: GovukButton,
+    tasklistLink: components.tasklistLink
 )
 
-@(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], mode: Mode, isDisclosure: Boolean)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = title(form, messages("whatIsYourMainOccupation.title"))) {
 
@@ -46,5 +47,8 @@
         @govukButton(
             ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
         )
+    }
+    @if(isDisclosure){
+        @tasklistLink()
     }
 }

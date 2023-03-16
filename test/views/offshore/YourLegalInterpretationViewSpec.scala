@@ -44,7 +44,7 @@ class YourLegalInterpretationViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain warning" in {
-      view.getElementsByClass("govuk-warning-text").text() mustBe "! " + messages("yourLegalInterpretation.warning")
+      view.getElementsByClass("govuk-warning-text").text() mustBe "! Warning " + messages("yourLegalInterpretation.warning")
     }
 
     "contain checkboxes" in {

@@ -28,7 +28,7 @@ class AreYouRegisteredForVATViewSpec extends ViewSpecBase with ViewMatchers {
   val form = new AreYouRegisteredForVATFormProvider()()
   val page: AreYouRegisteredForVATView = inject[AreYouRegisteredForVATView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode, false)(request, messages)
 
   "view" should {
 

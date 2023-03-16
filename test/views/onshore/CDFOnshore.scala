@@ -62,7 +62,7 @@ class CDFOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain warning text" in {
-      view.getElementsByClass("govuk-warning-text").text() mustBe "! " + messages(s"contractualDisclosureFacility.${entity}.warningText")
+      view.getElementsByClass("govuk-warning-text").text() mustBe "! Warning " + messages(s"contractualDisclosureFacility.${entity}.warningText")
     }
 
     "contain label" in {

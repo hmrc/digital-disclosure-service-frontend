@@ -19,10 +19,11 @@
         govukButton: GovukButton,
         govukPanel: GovukPanel,
         paragraph: components.paragraph,
-        heading: components.heading
+        heading: components.heading,
+        tasklistLink: components.tasklistLink
 )
 
-@()(implicit request: Request[_], messages: Messages)
+@(isDisclosure: Boolean)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = titleNoForm(messages("individualSentYourNotification.title"))) {
 
@@ -45,4 +46,8 @@
      id = Some("second-paragraph"),
      content = Text(messages("individualSentYourNotification.paragraph.second"))
     )
+
+    @if(isDisclosure){
+        @tasklistLink()
+    }
 }
