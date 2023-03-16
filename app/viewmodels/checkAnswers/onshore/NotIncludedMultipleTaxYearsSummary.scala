@@ -18,7 +18,7 @@ package viewmodels.checkAnswers
 
 import controllers.onshore.routes
 import models.{CheckMode, OnshoreYearStarting, UserAnswers}
-import pages.{NotIncludedMultipleTaxYearsPage, WhichOnshoreYearsPage}
+import pages.NotIncludedMultipleTaxYearsPage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
