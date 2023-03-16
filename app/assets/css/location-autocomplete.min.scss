@@ -160,3 +160,9 @@
 .govuk-form-group--error .autocomplete__wrapper input {
     border: 2px solid $govuk-error-colour;
 }
+
+.autocomplete__wrapper,
+.autocomplete__input,
+.autocomplete__hint {
+  @include govuk-font($size: 19);
+}
