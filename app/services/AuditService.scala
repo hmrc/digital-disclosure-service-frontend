@@ -29,7 +29,7 @@ class AuditServiceImpl @Inject()(
 
   val NOTIFICATION_AUDIT_TYPE = "NotificationSubmission"
   val DISCLOSURE_AUDIT_TYPE = "DisclosureSubmission"
-
+  
   def auditNotificationSubmission(notification: Notification)(implicit hc: HeaderCarrier): Unit = connector.sendExplicitAudit(NOTIFICATION_AUDIT_TYPE, notification)
   def auditDisclosureSubmission(disclosure: FullDisclosure)(implicit hc: HeaderCarrier): Unit = connector.sendExplicitAudit(DISCLOSURE_AUDIT_TYPE, disclosure)
 
