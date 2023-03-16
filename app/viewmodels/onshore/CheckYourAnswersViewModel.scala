@@ -157,11 +157,13 @@ class CheckYourAnswersViewModelCreation @Inject() (
   }
 
   def penaltyAmount(taxYearLiabilities: OnshoreTaxYearLiabilities): BigDecimal = {
-    (BigDecimal(taxYearLiabilities.penaltyRate) * BigDecimal(taxYearLiabilities.unpaidTax)) /100
+    val unpaidAmount = BigDecimal(taxYearLiabilities.unpaidTax) + BigDecimal(taxYearLiabilities.niContributions)
+    (BigDecimal(taxYearLiabilities.penaltyRate) * unpaidAmount) /100
   }
   
   def yearTotal(taxYearLiabilities: OnshoreTaxYearLiabilities): BigDecimal = {
-    BigDecimal(taxYearLiabilities.unpaidTax) + penaltyAmount(taxYearLiabilities) + BigDecimal(taxYearLiabilities.interest)
+    val unpaidAmount = BigDecimal(taxYearLiabilities.unpaidTax) + BigDecimal(taxYearLiabilities.niContributions)
+    unpaidAmount + penaltyAmount(taxYearLiabilities) + BigDecimal(taxYearLiabilities.interest)
   }
 
   def row(i: Int,label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
