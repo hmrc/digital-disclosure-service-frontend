@@ -21,7 +21,8 @@
     formHelper: FormWithCSRF,
     govukErrorSummary: GovukErrorSummary,
     govukInput: GovukInput,
-    govukButton: GovukButton
+    govukButton: GovukButton,
+    tasklistLink: components.tasklistLink
 )
 
 @(form: Form[_], mode: Mode, isDisclosure: Boolean)(implicit request: Request[_], messages: Messages)
