@@ -56,7 +56,7 @@ class WhatWasThePersonVATRegistrationNumberControllerSpec extends SpecBase with 
         val view = application.injector.instanceOf[WhatWasThePersonVATRegistrationNumberView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode, false)(request, messages(application)).toString
       }
     }
 
@@ -74,7 +74,7 @@ class WhatWasThePersonVATRegistrationNumberControllerSpec extends SpecBase with 
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill("answer"), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill("answer"), NormalMode, false)(request, messages(application)).toString
       }
     }
 
@@ -121,7 +121,7 @@ class WhatWasThePersonVATRegistrationNumberControllerSpec extends SpecBase with 
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode, false)(request, messages(application)).toString
       }
     }
 

@@ -28,7 +28,7 @@ class WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutViewSpec extends ViewSpec
   val form = new WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutFormProvider()()
   val page: WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutView = inject[WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode, false)(request, messages)
 
   "view" should {
 

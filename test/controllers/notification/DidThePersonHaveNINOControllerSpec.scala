@@ -55,7 +55,7 @@ class DidThePersonHaveNINOControllerSpec extends ControllerSpecBase  {
         val view = application.injector.instanceOf[DidThePersonHaveNINOView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode, false)(request, messages(application)).toString
       }
     }
 
@@ -73,7 +73,7 @@ class DidThePersonHaveNINOControllerSpec extends ControllerSpecBase  {
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(DidThePersonHaveNINO.values.head), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(DidThePersonHaveNINO.values.head), NormalMode, false)(request, messages(application)).toString
       }
     }
 
@@ -153,7 +153,7 @@ class DidThePersonHaveNINOControllerSpec extends ControllerSpecBase  {
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode, false)(request, messages(application)).toString
       }
     }
 

@@ -37,7 +37,7 @@ class IndividualSentYourNotificationControllerSpec extends SpecBase {
         val view = application.injector.instanceOf[IndividualSentYourNotificationView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view()(request, messages(application)).toString
+        contentAsString(result) mustEqual view(false)(request, messages(application)).toString
       }
     }
   }

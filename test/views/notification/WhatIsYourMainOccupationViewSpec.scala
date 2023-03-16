@@ -28,7 +28,7 @@ class WhatIsYourMainOccupationViewSpec extends ViewSpecBase with ViewMatchers {
   val form = new WhatIsYourMainOccupationFormProvider()()
   val page: WhatIsYourMainOccupationView = inject[WhatIsYourMainOccupationView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode, false)(request, messages)
 
   "view" should {
 

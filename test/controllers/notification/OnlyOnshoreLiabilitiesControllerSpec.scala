@@ -56,7 +56,7 @@ class OnlyOnshoreLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
         val view = application.injector.instanceOf[OnlyOnshoreLiabilitiesView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(onwardRoute.url)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(onwardRoute.url, false)(request, messages(application)).toString
       }
     }
   }

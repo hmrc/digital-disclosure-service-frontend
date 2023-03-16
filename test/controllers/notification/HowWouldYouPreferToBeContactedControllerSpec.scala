@@ -57,7 +57,7 @@ class HowWouldYouPreferToBeContactedControllerSpec extends SpecBase with Mockito
 
         status(result) mustEqual OK
 
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode, false)(request, messages(application)).toString
       }
     }
 
@@ -75,7 +75,7 @@ class HowWouldYouPreferToBeContactedControllerSpec extends SpecBase with Mockito
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(HowWouldYouPreferToBeContacted.values.toSet), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(HowWouldYouPreferToBeContacted.values.toSet), NormalMode, false)(request, messages(application)).toString
       }
     }
 
@@ -120,7 +120,7 @@ class HowWouldYouPreferToBeContactedControllerSpec extends SpecBase with Mockito
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode, false)(request, messages(application)).toString
       }
     }
 
