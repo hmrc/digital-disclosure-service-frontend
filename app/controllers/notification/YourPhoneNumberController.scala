@@ -69,4 +69,11 @@ class YourPhoneNumberController @Inject()(
           } yield Redirect(navigator.nextPage(YourPhoneNumberPage, mode, updatedAnswers))
       )
   }
+
+  def isDisclosure(userAnswers: UserAnswers): Boolean = {
+    userAnswers.submissionType match {
+      case Disclosure => true
+      case _ => false
+    }
+  }
 }

@@ -69,4 +69,11 @@ class WhatIsTheLLPNameController @Inject()(
           } yield Redirect(navigator.nextPage(WhatIsTheLLPNamePage, mode, updatedAnswers))
       )
   }
+
+  def isDisclosure(userAnswers: UserAnswers): Boolean = {
+    userAnswers.submissionType match {
+      case Disclosure => true
+      case _ => false
+    }
+  }
 }

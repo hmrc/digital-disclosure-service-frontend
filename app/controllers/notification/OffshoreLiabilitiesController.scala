@@ -90,4 +90,11 @@ class OffshoreLiabilitiesController @Inject()(
       case _ => Success(userAnswers) 
     }
   }
+
+  def isDisclosure(userAnswers: UserAnswers): Boolean = {
+    userAnswers.submissionType match {
+      case Disclosure => true
+      case _ => false
+    }
+  }
 }

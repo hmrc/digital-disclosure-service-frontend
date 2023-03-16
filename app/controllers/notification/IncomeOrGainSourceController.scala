@@ -83,4 +83,11 @@ class IncomeOrGainSourceController @Inject()(
       case Some(oldValue) if (oldValue != newValue) => (Nil, true)
       case _ => (Nil, false)
     }
+
+  def isDisclosure(userAnswers: UserAnswers): Boolean = {
+    userAnswers.submissionType match {
+      case Disclosure => true
+      case _ => false
+    }
+  }  
 }

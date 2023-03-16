@@ -51,4 +51,11 @@ class YouHaveSentYourNotificationController @Inject()(
       case RelatesTo.AnEstate => userAnswers.get(AreYouTheExecutorOfTheEstatePage)
     }).getOrElse(true)
   }
+
+  def isDisclosure(userAnswers: UserAnswers): Boolean = {
+    userAnswers.submissionType match {
+      case Disclosure => true
+      case _ => false
+    }
+  }
 }

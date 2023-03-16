@@ -82,4 +82,11 @@ class DoYouHaveNationalInsuranceNumberController @Inject()(
       case Some(existingValue) if value != existingValue => (Nil, true)
       case _ => (Nil, false)
     }
+
+  def isDisclosure(userAnswers: UserAnswers): Boolean = {
+    userAnswers.submissionType match {
+      case Disclosure => true
+      case _ => false
+    }
+  }  
 }

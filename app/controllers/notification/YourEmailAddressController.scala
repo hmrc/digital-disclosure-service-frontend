@@ -69,4 +69,11 @@ class YourEmailAddressController @Inject()(
           } yield Redirect(navigator.nextPage(YourEmailAddressPage, mode, updatedAnswers))
       )
   }
+
+  def isDisclosure(userAnswers: UserAnswers): Boolean = {
+    userAnswers.submissionType match {
+      case Disclosure => true
+      case _ => false
+    }
+  }
 }

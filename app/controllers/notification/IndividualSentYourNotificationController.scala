@@ -36,4 +36,11 @@ class IndividualSentYourNotificationController @Inject()(
     implicit request =>
       Ok(view())
   }
+
+  def isDisclosure(userAnswers: UserAnswers): Boolean = {
+    userAnswers.submissionType match {
+      case Disclosure => true
+      case _ => false
+    }
+  }
 }

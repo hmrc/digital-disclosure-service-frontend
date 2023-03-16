@@ -69,4 +69,11 @@ class WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutController @Inject()(
           } yield Redirect(navigator.nextPage(WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage, mode, updatedAnswers))
       )
   }
+
+  def isDisclosure(userAnswers: UserAnswers): Boolean = {
+    userAnswers.submissionType match {
+      case Disclosure => true
+      case _ => false
+    }
+  }
 }

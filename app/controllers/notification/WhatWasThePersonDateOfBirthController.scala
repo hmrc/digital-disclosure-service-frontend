@@ -69,4 +69,11 @@ class WhatWasThePersonDateOfBirthController @Inject()(
           } yield Redirect(navigator.nextPage(WhatWasThePersonDateOfBirthPage, mode, updatedAnswers))
       )
   }
+
+  def isDisclosure(userAnswers: UserAnswers): Boolean = {
+    userAnswers.submissionType match {
+      case Disclosure => true
+      case _ => false
+    }
+  }
 }

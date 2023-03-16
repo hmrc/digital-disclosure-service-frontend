@@ -69,4 +69,11 @@ class OtherIncomeOrGainSourceController @Inject()(
           } yield Redirect(navigator.nextPage(OtherIncomeOrGainSourcePage, mode, updatedAnswers))
       )
   }
+
+  def isDisclosure(userAnswers: UserAnswers): Boolean = {
+    userAnswers.submissionType match {
+      case Disclosure => true
+      case _ => false
+    }
+  }
 }

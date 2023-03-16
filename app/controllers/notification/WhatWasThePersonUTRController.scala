@@ -69,4 +69,11 @@ class WhatWasThePersonUTRController @Inject()(
           } yield Redirect(navigator.nextPage(WhatWasThePersonUTRPage, mode, updatedAnswers))
       )
   }
+
+  def isDisclosure(userAnswers: UserAnswers): Boolean = {
+    userAnswers.submissionType match {
+      case Disclosure => true
+      case _ => false
+    }
+  }
 }

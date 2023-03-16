@@ -69,4 +69,11 @@ class WhatIsTheIndividualOccupationController @Inject()(
           } yield Redirect(navigator.nextPage(WhatIsTheIndividualOccupationPage, mode, updatedAnswers))
       )
   }
+
+  def isDisclosure(userAnswers: UserAnswers): Boolean = {
+    userAnswers.submissionType match {
+      case Disclosure => true
+      case _ => false
+    }
+  }
 }

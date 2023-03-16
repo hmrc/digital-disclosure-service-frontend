@@ -86,4 +86,11 @@ class AreYouTheIndividualController @Inject()(
         aboutYouPages ::: aboutIndividualPages ::: areYouTheOrganisationPages
       case _ => Nil
     }
+
+  def isDisclosure(userAnswers: UserAnswers): Boolean = {
+    userAnswers.submissionType match {
+      case Disclosure => true
+      case _ => false
+    }
+  }  
 }
