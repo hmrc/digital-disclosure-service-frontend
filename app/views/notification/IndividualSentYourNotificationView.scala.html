@@ -45,4 +45,8 @@
      id = Some("second-paragraph"),
      content = Text(messages("individualSentYourNotification.paragraph.second"))
     )
+
+    @if(isDisclosure){
+        @tasklistLink()
+    }
 }

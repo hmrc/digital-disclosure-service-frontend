@@ -26,7 +26,6 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.{DisclosureSubmissionService, SessionService, UAToDisclosureService}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.OfferLetterView
-import viewmodels.offshore.CheckYourAnswersViewModelCreation
 import models.UserAnswers
 import models.address.Address
 import play.api.i18n.Messages

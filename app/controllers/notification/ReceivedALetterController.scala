@@ -20,6 +20,7 @@ import controllers.actions._
 import forms.ReceivedALetterFormProvider
 import javax.inject.Inject
 import models._
+import models.SubmissionType._
 import navigation.NotificationNavigator
 import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -51,8 +52,8 @@ class ReceivedALetterController @Inject()(
         case None => form
         case Some(value) => form.fill(value)
       }
-
-      Ok(view(preparedForm, mode))
+      
+      Ok(view(preparedForm, mode, isDisclosure(request.userAnswers)))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -60,7 +61,7 @@ class ReceivedALetterController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, isDisclosure(request.userAnswers)))),
 
         value => { 
           
@@ -83,6 +84,13 @@ class ReceivedALetterController @Inject()(
         (List(LetterReferencePage), false)
       case _ =>
         (Nil, false) 
+    }
+  }
+
+  def isDisclosure(userAnswers: UserAnswers): Boolean = {
+    userAnswers.submissionType match {
+      case Disclosure => true
+      case _ => false
     }
   }
 }

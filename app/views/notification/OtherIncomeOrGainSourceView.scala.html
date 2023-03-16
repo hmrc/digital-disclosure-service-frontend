@@ -50,5 +50,7 @@
             ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
         )
     }
-    @tasklistLink()
+    @if(isDisclosure){
+        @tasklistLink()
+    }
 }

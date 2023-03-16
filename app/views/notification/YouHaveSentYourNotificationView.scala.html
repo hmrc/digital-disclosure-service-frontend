@@ -68,4 +68,8 @@
             case false => Text(messages("youHaveSentYourNotification.paragraph.second.generatedRef"))
         }
     )
+
+    @if(isDisclosure){
+        @tasklistLink()
+    }
 }
