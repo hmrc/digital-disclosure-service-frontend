@@ -31,10 +31,12 @@ import com.google.inject.{Inject, Singleton}
 import services.UAToDisclosureService
 
 case class CheckYourAnswersViewModel(
-  whatOnshoreLiabilitiesDoYouNeedToDiscloseSummaryList: SummaryList,
   summaryList: SummaryList,
   taxYearLists: Seq[(Int, SummaryList)],
-  totalAmountsList: SummaryList
+  corporationTax: CorporationTaxLiabilitiesSummaryViewModel,
+  directorLoan: DirectorLoanAccountLiabilitiesSummaryViewModel,
+  totalAmountsList: SummaryList,
+  liabilitiesTotal: BigDecimal
 )
 
 @Singleton
@@ -47,14 +49,9 @@ class CheckYourAnswersViewModelCreation @Inject() (
 
   def create(userAnswers: UserAnswers)(implicit messages: Messages): CheckYourAnswersViewModel = {
 
-    val whatOnshoreLiabilitiesDoYouNeedToDiscloseSummaryList = SummaryListViewModel(
-      rows = Seq(
-        WhatOnshoreLiabilitiesDoYouNeedToDiscloseSummary.row(userAnswers)
-      ).flatten
-    )
-
     val summaryList = SummaryListViewModel(
       rows = Seq(
+        WhatOnshoreLiabilitiesDoYouNeedToDiscloseSummary.row(userAnswers),
         WhyAreYouMakingThisOnshoreDisclosureSummary.row(userAnswers),
         CDFOnshoreSummary.row(userAnswers),
         ReasonableExcuseOnshoreSummary.row("excuse", userAnswers),
@@ -64,9 +61,12 @@ class CheckYourAnswersViewModelCreation @Inject() (
         ReasonableExcuseForNotFilingOnshoreSummary.row("reasonableExcuse", userAnswers),
         ReasonableExcuseForNotFilingOnshoreSummary.row("yearsThisAppliesTo", userAnswers),
         whichYearsSummary.row(userAnswers),
+        NotIncludedSingleTaxYearSummary.row(userAnswers),
+        NotIncludedMultipleTaxYearsSummary.row(userAnswers),
         taxBeforeFiveYearsSummary.row(userAnswers),
         taxBeforeSevenYearsSummary.row(userAnswers),
-        taxBeforeNineteenYearSummary.row(userAnswers)
+        taxBeforeNineteenYearSummary.row(userAnswers),
+        PropertyAddedSummary.row(userAnswers)
       ).flatten
     )
 
@@ -79,11 +79,15 @@ class CheckYourAnswersViewModelCreation @Inject() (
       (yearWithLiabilites.taxYear.startYear, taxYearWithLiabilitiesToSummaryList(i, yearWithLiabilites, userAnswers))
     }
 
+    val corporationTaxLiabilities = CorporationTaxLiabilitiesSummaryViewModelCreation.create(userAnswers)
+    val directorLoanAccountLiabilities = new DirectorLoanAccountLiabilitiesSummaryViewModelCreation().create(userAnswers)
+
     val disclosure = uaToDisclosureService.uaToFullDisclosure(userAnswers)
     val totalAmountsList = totalAmountsSummaryList(disclosure)
 
-    CheckYourAnswersViewModel(whatOnshoreLiabilitiesDoYouNeedToDiscloseSummaryList, summaryList, taxYearLists, totalAmountsList)
+    val liabilitiesTotal = TotalAmounts.getOnshoreTotals(disclosure.onshoreLiabilities.getOrElse(OnshoreLiabilities())).amountDueTotal
 
+    CheckYourAnswersViewModel(summaryList, taxYearLists, corporationTaxLiabilities, directorLoanAccountLiabilities, totalAmountsList, liabilitiesTotal)
   }
 
   def taxYearWithLiabilitiesToSummaryList(i: Int, yearWithLiabilites: OnshoreTaxYearWithLiabilities, userAnswers: UserAnswers)(implicit messages: Messages): SummaryList = {

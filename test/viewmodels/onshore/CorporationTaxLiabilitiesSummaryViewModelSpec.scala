@@ -26,7 +26,6 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Key
 import viewmodels.govuk.summarylist._
 
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 class CorporationTaxLiabilitiesSummaryViewModelSpec extends SpecBase with ScalaCheckPropertyChecks {
 

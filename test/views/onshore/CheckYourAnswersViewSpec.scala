@@ -21,7 +21,7 @@ import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.onshore.CheckYourAnswersView
 import models.UserAnswers
-import viewmodels.onshore.CheckYourAnswersViewModel
+import viewmodels.onshore.{CheckYourAnswersViewModel, CorporationTaxLiabilitiesSummaryViewModel, DirectorLoanAccountLiabilitiesSummaryViewModel}
 import viewmodels.govuk.SummaryListFluency
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist._
@@ -58,9 +58,11 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
   )
   val viewModel = CheckYourAnswersViewModel(
     SummaryListViewModel(rows = Nil),
-    SummaryListViewModel(rows = Nil),
     Nil,
-    totalRows
+    CorporationTaxLiabilitiesSummaryViewModel(Nil, SummaryListViewModel(rows = Nil), SummaryListViewModel(rows = Nil)),
+    DirectorLoanAccountLiabilitiesSummaryViewModel(Nil, SummaryListViewModel(rows = Nil), SummaryListViewModel(rows = Nil)),
+    totalRows,
+    BigDecimal(0)
   )
   val page: CheckYourAnswersView = inject[CheckYourAnswersView]
 

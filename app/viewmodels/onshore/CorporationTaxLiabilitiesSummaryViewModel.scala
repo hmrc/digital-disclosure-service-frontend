@@ -21,13 +21,14 @@ import pages.CorporationTaxLiabilityPage
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import play.api.i18n.Messages
-import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryList
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
+import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{SummaryList, SummaryListRow}
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.{HtmlContent, Text}
 
 import java.time.format.DateTimeFormatter
 
 case class CorporationTaxLiabilitiesSummaryViewModel (
   corporationTaxLiabilitiesList: Seq[(Int, String, SummaryList)],
+  accountEndingsSummaryList: SummaryList,
   totalAmountsList: SummaryList
 )
 
@@ -41,9 +42,11 @@ object CorporationTaxLiabilitiesSummaryViewModelCreation {
       case (corporationTaxLiability, i) => (i + 1, s"${corporationTaxLiability.periodEnd.format(dateFormatter)}", corporationTaxLiabilityToSummaryList(i, corporationTaxLiability))
     }
 
+    val accountEndings = accountEndingsSummaryList(corporationTaxLiabilities)
+
     val totalAmountsList = totalAmountsSummaryList(corporationTaxLiabilities)
 
-    CorporationTaxLiabilitiesSummaryViewModel(corporationTaxLiabilitiesList, totalAmountsList)
+    CorporationTaxLiabilitiesSummaryViewModel(corporationTaxLiabilitiesList, accountEndings, totalAmountsList)
   }
 
    def corporationTaxLiabilityToSummaryList(i: Int, liability: CorporationTaxLiability)(implicit messages: Messages):SummaryList = {
@@ -72,6 +75,21 @@ object CorporationTaxLiabilitiesSummaryViewModelCreation {
           .withVisuallyHiddenText(messages(hiddenLabel))
       )
     )
+  }
+
+  private def accountEndingsSummaryList(corporationTaxLiabilities: Seq[CorporationTaxLiability])(implicit messages: Messages): SummaryList = {
+
+    val periodEnding = corporationTaxLiabilities.map(ct => ct.periodEnd.format(dateFormatter)).mkString(", ")
+
+    SummaryListViewModel( rows = Seq(
+      SummaryListRowViewModel(
+        key = "checkYourAnswers.onshore.ct.subheading",
+        value = ValueViewModel(HtmlContent(periodEnding)),
+        actions = Seq(
+          ActionItemViewModel("site.change", controllers.onshore.routes.AccountingPeriodCTAddedController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("checkYourAnswers.onshore.ct.hidden"))
+        )
+    )))
   }
 
   private def totalAmountsSummaryList(corporationTaxLiabilities: Seq[CorporationTaxLiability])(implicit messages: Messages): SummaryList = {
