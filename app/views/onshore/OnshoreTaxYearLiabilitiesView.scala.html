@@ -163,9 +163,10 @@
 
         @if(taxTypes.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)) {
             @govukRadios(
-                RadiosViewModel.yesNo(
+                RadiosViewModel.yesNoNotInline(
                     field = form("residentialTaxReduction"),
-                    legend = LegendViewModel(messages("onshoreTaxYearLiabilities.residentialTaxReduction.question")).withCssClass("govuk-fieldset__legend--m")
+                    legend = LegendViewModel(messages("onshoreTaxYearLiabilities.residentialTaxReduction.question")).withCssClass("govuk-fieldset__legend--m"),
+                    messagePrefix = "site"
                 )
             )
         }

@@ -125,9 +125,10 @@
         )
 
         @govukRadios(
-            RadiosViewModel.yesNo(
+            RadiosViewModel.yesNoNotInline(
                 field = form("foreignTaxCredit"),
-                legend = LegendViewModel(messages("taxYearLiabilities.foreignTaxCredit.question")).withCssClass("govuk-fieldset__legend--m")
+                legend = LegendViewModel(messages("taxYearLiabilities.foreignTaxCredit.question")).withCssClass("govuk-fieldset__legend--m"),
+                messagePrefix = "site"
             )
         )
 

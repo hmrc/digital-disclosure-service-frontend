@@ -34,9 +34,10 @@
         }
 
         @govukRadios(
-            RadiosViewModel.yesNo(
+            RadiosViewModel.yesNoNotInline(
                 field = form("value"),
-                legend = LegendViewModel(messages("adviceBusinessesOrOrg.heading")).asPageHeading()
+                legend = LegendViewModel(messages("adviceBusinessesOrOrg.heading")).asPageHeading(),
+                messagePrefix = "site"
             )
         )
 
