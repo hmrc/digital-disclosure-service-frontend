@@ -199,7 +199,11 @@ class OnshoreNavigator @Inject()() {
     case IncomeOrGainSourcePage => ua => hasAnswerChanged => 
       if(hasAnswerChanged) nextPage(IncomeOrGainSourcePage, NormalMode, ua)
       else routes.CheckYourAnswersController.onPageLoad 
-    
+
+    case WhichOnshoreYearsPage => ua => hasAnswerChanged =>
+      if(hasAnswerChanged) nextPage(WhichOnshoreYearsPage, NormalMode, ua)
+      else routes.CheckYourAnswersController.onPageLoad
+
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
