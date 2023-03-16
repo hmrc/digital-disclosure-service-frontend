@@ -21,7 +21,7 @@ import forms.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutFormProv
 
 import javax.inject.Inject
 import models.{Mode, UserAnswers}
-import models.SubmissionType._
+
 import navigation.NotificationNavigator
 import pages.{AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, AreYouRepresentingAnOrganisationPage, QuestionPage, WhatIsTheNameOfTheOrganisationYouRepresentPage}
 import play.api.i18n.{I18nSupport, MessagesApi}

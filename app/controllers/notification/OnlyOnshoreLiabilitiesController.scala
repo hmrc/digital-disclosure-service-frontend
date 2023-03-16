@@ -25,7 +25,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.notification.OnlyOnshoreLiabilitiesView
 import pages._
 import models._
-import models.SubmissionType._
+
 
 class OnlyOnshoreLiabilitiesController @Inject()(
                                        override val messagesApi: MessagesApi,

@@ -21,7 +21,7 @@ import forms.IncomeOrGainSourceFormProvider
 import javax.inject.Inject
 import models.{Mode, UserAnswers, IncomeOrGainSource}
 import models.IncomeOrGainSource._
-import models.SubmissionType._
+
 import navigation.NotificationNavigator
 import pages.{IncomeOrGainSourcePage, QuestionPage, OtherIncomeOrGainSourcePage}
 import play.api.i18n.{I18nSupport, MessagesApi}

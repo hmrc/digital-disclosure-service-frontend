@@ -20,7 +20,7 @@ import controllers.actions._
 import forms.DoesTheIndividualHaveNationalInsuranceNumberFormProvider
 import javax.inject.Inject
 import models._
-import models.SubmissionType._
+
 import navigation.NotificationNavigator
 import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}

@@ -24,7 +24,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.notification.YouHaveSentYourNotificationView
 import pages._
 import models.{UserAnswers, RelatesTo}
-import models.SubmissionType._
+
 
 class YouHaveSentYourNotificationController @Inject()(
                                        override val messagesApi: MessagesApi,

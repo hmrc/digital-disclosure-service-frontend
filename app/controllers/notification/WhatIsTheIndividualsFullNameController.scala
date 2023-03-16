@@ -20,7 +20,7 @@ import controllers.actions._
 import forms.WhatIsTheIndividualsFullNameFormProvider
 import javax.inject.Inject
 import models.{Mode, UserAnswers}
-import models.SubmissionType._
+
 import navigation.NotificationNavigator
 import pages.WhatIsTheIndividualsFullNamePage
 import play.api.i18n.{I18nSupport, MessagesApi}

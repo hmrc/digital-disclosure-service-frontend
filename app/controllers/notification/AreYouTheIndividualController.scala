@@ -21,7 +21,7 @@ import forms.AreYouTheIndividualFormProvider
 
 import javax.inject.Inject
 import models.{Mode, UserAnswers}
-import models.SubmissionType._
+
 import navigation.NotificationNavigator
 import pages.notification.SectionPages
 import pages.{AreYouTheIndividualPage, QuestionPage}

@@ -20,7 +20,7 @@ import controllers.actions._
 import forms.WhatIsTheLLPNameFormProvider
 import javax.inject.Inject
 import models.{Mode, UserAnswers}
-import models.SubmissionType._
+
 import navigation.NotificationNavigator
 import pages.WhatIsTheLLPNamePage
 import play.api.i18n.{I18nSupport, MessagesApi}

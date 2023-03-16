@@ -21,7 +21,7 @@ import forms.DidThePersonHaveNINOFormProvider
 
 import javax.inject.Inject
 import models._
-import models.SubmissionType._
+
 import pages._
 import navigation.NotificationNavigator
 import play.api.i18n.{I18nSupport, MessagesApi}

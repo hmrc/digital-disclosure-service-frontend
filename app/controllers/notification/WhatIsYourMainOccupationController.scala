@@ -20,7 +20,7 @@ import controllers.actions._
 import forms.WhatIsYourMainOccupationFormProvider
 import javax.inject.Inject
 import models.{Mode, UserAnswers}
-import models.SubmissionType._
+
 import navigation.NotificationNavigator
 import pages.WhatIsYourMainOccupationPage
 import play.api.i18n.{I18nSupport, MessagesApi}

@@ -160,7 +160,7 @@ final case class UserAnswers(
     yearSet.collect{case OnshoreYearStarting(y) => OnshoreYearStarting(y)}.toSeq.sorted
   }
 
-   
+  def isDisclosure: Boolean = submissionType == Disclosure   
 
 }
 

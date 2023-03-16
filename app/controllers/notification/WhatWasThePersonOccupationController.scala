@@ -21,7 +21,7 @@ import forms.WhatWasThePersonOccupationFormProvider
 
 import javax.inject.Inject
 import models.{Mode, UserAnswers}
-import models.SubmissionType._
+
 import navigation.NotificationNavigator
 import pages.WhatWasThePersonOccupationPage
 import play.api.i18n.{I18nSupport, MessagesApi}
