@@ -51,6 +51,8 @@ class CheckYourAnswersViewModelCreation @Inject() (whichYearsSummary: WhichYears
         WhatIsYourReasonableExcuseForNotFilingReturnSummary.row("yearsThisAppliesTo", userAnswers),
         CountriesOrTerritoriesSummary.row(userAnswers),
         whichYearsSummary.row(userAnswers),
+        YouHaveNotIncludedTheTaxYearSummary.row(userAnswers),
+        YouHaveNotSelectedCertainTaxYearSummary.row(userAnswers),
         taxBeforeFiveYearsSummary.row(userAnswers),
         taxBeforeSevenYearsSummary.row(userAnswers),
         taxBeforeNineteenYearSummary.row(userAnswers)

@@ -21,8 +21,8 @@ import pages.CorporationTaxLiabilityPage
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import play.api.i18n.Messages
-import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{SummaryList, SummaryListRow}
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.{HtmlContent, Text}
+import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryList
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 
 import java.time.format.DateTimeFormatter
 
