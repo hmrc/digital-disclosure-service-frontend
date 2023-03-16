@@ -53,7 +53,7 @@ class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController @Inj
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      Ok(view(preparedForm, mode, isDisclosure(request.userAnswers)))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -61,7 +61,7 @@ class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController @Inj
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, isDisclosure(request.userAnswers)))),
 
         value => {
 

@@ -39,7 +39,7 @@ class YouHaveSentYourNotificationController @Inject()(
       val caseReferenceExists = request.userAnswers.get(LetterReferencePage).isDefined
       val isTheEntity = isTheUserTheEntity(request.userAnswers)
 
-      Ok(view(caseReferenceExists, reference, isTheEntity))
+      Ok(view(caseReferenceExists, reference, isTheEntity, isDisclosure(request.userAnswers)))
   }
 
   def isTheUserTheEntity(userAnswers: UserAnswers): Boolean = {
