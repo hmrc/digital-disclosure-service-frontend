@@ -28,7 +28,7 @@ class AreYouTheExecutorOfTheEstateViewSpec extends ViewSpecBase with ViewMatcher
   val form = new AreYouTheExecutorOfTheEstateFormProvider()()
   val page: AreYouTheExecutorOfTheEstateView = inject[AreYouTheExecutorOfTheEstateView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode, false)(request, messages)
 
   "view" should {
 

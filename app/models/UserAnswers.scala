@@ -20,6 +20,7 @@ import play.api.libs.json._
 import queries.{Gettable, Settable}
 import uk.gov.hmrc.mongo.play.json.formats.MongoJavatimeFormats
 import models.store._
+import models.SubmissionType.Disclosure
 import java.time.Instant
 import scala.util.{Failure, Success, Try}
 import pages.{WhichYearsPage, WhichOnshoreYearsPage}
@@ -158,6 +159,8 @@ final case class UserAnswers(
   def inverselySortedOnshoreTaxYears: Option[Seq[OnshoreYearStarting]] = get(WhichOnshoreYearsPage).map{ yearSet =>
     yearSet.collect{case OnshoreYearStarting(y) => OnshoreYearStarting(y)}.toSeq.sorted
   }
+
+  def isDisclosure: Boolean = submissionType == Disclosure   
 
 }
 

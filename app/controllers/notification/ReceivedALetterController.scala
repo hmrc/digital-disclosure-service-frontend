@@ -20,6 +20,7 @@ import controllers.actions._
 import forms.ReceivedALetterFormProvider
 import javax.inject.Inject
 import models._
+
 import navigation.NotificationNavigator
 import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -51,8 +52,8 @@ class ReceivedALetterController @Inject()(
         case None => form
         case Some(value) => form.fill(value)
       }
-
-      Ok(view(preparedForm, mode))
+      
+      Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -60,7 +61,7 @@ class ReceivedALetterController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
 
         value => { 
           
@@ -85,4 +86,6 @@ class ReceivedALetterController @Inject()(
         (Nil, false) 
     }
   }
+
+  
 }

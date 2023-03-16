@@ -28,7 +28,7 @@ class DoYouHaveNationalInsuranceNumberViewSpec extends ViewSpecBase with ViewMat
   val form = new DoYouHaveNationalInsuranceNumberFormProvider()()
   val page: DoYouHaveNationalInsuranceNumberView = inject[DoYouHaveNationalInsuranceNumberView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode, false)(request, messages)
 
   "view" should {
 

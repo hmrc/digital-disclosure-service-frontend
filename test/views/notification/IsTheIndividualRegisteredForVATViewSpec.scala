@@ -28,7 +28,7 @@ class IsTheIndividualRegisteredForVATViewSpec extends ViewSpecBase with ViewMatc
   val form = new IsTheIndividualRegisteredForVATFormProvider()()
   val page: IsTheIndividualRegisteredForVATView = inject[IsTheIndividualRegisteredForVATView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode, false)(request, messages)
 
   "view" should {
 

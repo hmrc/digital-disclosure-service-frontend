@@ -20,10 +20,11 @@
         bulletList: components.bulletList,
         heading: components.heading,
         paragraph: components.paragraph,
-        link: components.link
+        link: components.link,
+        tasklistLink: components.tasklistLink
 )
 
-@(url: String)(implicit request: Request[_], messages: Messages)
+@(url: String, isDisclosure: Boolean)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = titleNoForm(messages("onlyOnshoreLiabilities.title"))) {
 
@@ -52,4 +53,8 @@
                 .withAttribute("id","continue")
                 .asLink(url)
     )
+
+    @if(isDisclosure){
+        @tasklistLink()
+    }
 }

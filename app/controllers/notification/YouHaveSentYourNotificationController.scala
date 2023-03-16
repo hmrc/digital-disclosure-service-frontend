@@ -25,6 +25,7 @@ import views.html.notification.YouHaveSentYourNotificationView
 import pages._
 import models.{UserAnswers, RelatesTo}
 
+
 class YouHaveSentYourNotificationController @Inject()(
                                        override val messagesApi: MessagesApi,
                                        identify: IdentifierAction,
@@ -39,7 +40,7 @@ class YouHaveSentYourNotificationController @Inject()(
       val caseReferenceExists = request.userAnswers.get(LetterReferencePage).isDefined
       val isTheEntity = isTheUserTheEntity(request.userAnswers)
 
-      Ok(view(caseReferenceExists, reference, isTheEntity))
+      Ok(view(caseReferenceExists, reference, isTheEntity, request.userAnswers.isDisclosure))
   }
 
   def isTheUserTheEntity(userAnswers: UserAnswers): Boolean = {
@@ -51,4 +52,6 @@ class YouHaveSentYourNotificationController @Inject()(
       case RelatesTo.AnEstate => userAnswers.get(AreYouTheExecutorOfTheEstatePage)
     }).getOrElse(true)
   }
+
+  
 }

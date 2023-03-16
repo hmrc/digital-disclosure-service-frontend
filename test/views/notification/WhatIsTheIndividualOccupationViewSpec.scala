@@ -28,7 +28,7 @@ class WhatIsTheIndividualOccupationViewSpec extends ViewSpecBase with ViewMatche
   val form = new WhatIsTheIndividualOccupationFormProvider()()
   val page: WhatIsTheIndividualOccupationView = inject[WhatIsTheIndividualOccupationView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode, false)(request, messages)
 
   "view" should {
 

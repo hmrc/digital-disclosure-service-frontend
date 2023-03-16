@@ -28,7 +28,7 @@ class AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutViewSpec extends ViewSp
   val form = new AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutFormProvider()()
   val page: AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutView = inject[AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode, false)(request, messages)
 
   "view" should {
 

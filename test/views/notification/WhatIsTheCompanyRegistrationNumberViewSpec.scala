@@ -28,7 +28,7 @@ class WhatIsTheCompanyRegistrationNumberViewSpec extends ViewSpecBase with ViewM
   val form = new WhatIsTheCompanyRegistrationNumberFormProvider()()
   val page: WhatIsTheCompanyRegistrationNumberView = inject[WhatIsTheCompanyRegistrationNumberView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode, false)(request, messages)
 
   "view" should {
 

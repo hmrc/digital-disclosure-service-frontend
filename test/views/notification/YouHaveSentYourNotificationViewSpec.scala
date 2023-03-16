@@ -26,7 +26,7 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
   val page: YouHaveSentYourNotificationView = inject[YouHaveSentYourNotificationView]
 
   "view" should {
-    def createView: Html = page(true, "CFSS-1234567" ,true)(request, messages)
+    def createView: Html = page(true, "CFSS-1234567" ,true, false)(request, messages)
     val view = createView
 
     "have title for entity" in {
@@ -55,7 +55,7 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
   }
 
   "view" should {
-    def createView: Html = page(true, "CFSS-1234567" ,false)(request, messages)
+    def createView: Html = page(true, "CFSS-1234567", false, false)(request, messages)
     val view = createView
 
     "have title for agent" in {
@@ -84,7 +84,7 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
   }
 
   "view" should {
-    def createView: Html = page(false, "CFSS-1234567" ,true)(request, messages)
+    def createView: Html = page(false, "CFSS-1234567", true, false)(request, messages)
     val view = createView
 
     "contain green box body text for entity with generated reference number" in {
@@ -97,7 +97,7 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
   }
 
   "view" should {
-    def createView: Html = page(false, "CFSS-1234567" ,false)(request, messages)
+    def createView: Html = page(false, "CFSS-1234567", false, false)(request, messages)
     val view = createView
 
     "contain green box body text for agent with generated reference number" in {

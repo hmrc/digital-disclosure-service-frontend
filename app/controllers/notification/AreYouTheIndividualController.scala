@@ -21,6 +21,7 @@ import forms.AreYouTheIndividualFormProvider
 
 import javax.inject.Inject
 import models.{Mode, UserAnswers}
+
 import navigation.NotificationNavigator
 import pages.notification.SectionPages
 import pages.{AreYouTheIndividualPage, QuestionPage}
@@ -54,7 +55,7 @@ class AreYouTheIndividualController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -62,7 +63,7 @@ class AreYouTheIndividualController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
         value => {
           val changedPages = whatHasChanged(request.userAnswers, value)
           val hasChanged = changedPages.nonEmpty
@@ -86,4 +87,6 @@ class AreYouTheIndividualController @Inject()(
         aboutYouPages ::: aboutIndividualPages ::: areYouTheOrganisationPages
       case _ => Nil
     }
+
+    
 }

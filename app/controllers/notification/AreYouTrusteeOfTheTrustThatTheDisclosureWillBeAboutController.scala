@@ -21,6 +21,7 @@ import forms.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutFormProvider
 
 import javax.inject.Inject
 import models.{Mode, UserAnswers}
+
 import navigation.NotificationNavigator
 import pages.{AreYouRepresentingAnOrganisationPage, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, QuestionPage, WhatIsTheNameOfTheOrganisationYouRepresentPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -53,7 +54,7 @@ class AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -61,7 +62,7 @@ class AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
 
         value => {
           val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
@@ -84,4 +85,6 @@ class AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController @Inject()(
         case _ => (Nil, false)
       }
   }
+
+  
 }

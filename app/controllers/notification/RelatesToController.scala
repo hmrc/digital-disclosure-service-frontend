@@ -20,6 +20,7 @@ import controllers.actions._
 import forms.RelatesToFormProvider
 import javax.inject.Inject
 import models._
+
 import navigation.NotificationNavigator
 import pages._
 import pages.notification.SectionPages
@@ -53,7 +54,7 @@ class RelatesToController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -61,7 +62,7 @@ class RelatesToController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
 
         value => {
 
@@ -85,4 +86,6 @@ class RelatesToController @Inject()(
     case Some(RelatesTo.AnIndividual) => allEntityPages ::: aboutYouPages
     case Some(relatesTo) => allEntityPages
   }
+
+  
 }

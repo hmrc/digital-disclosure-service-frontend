@@ -19,7 +19,8 @@ package controllers.notification
 import controllers.actions._
 import forms.WhatIsTheIndividualsFullNameFormProvider
 import javax.inject.Inject
-import models.Mode
+import models.{Mode, UserAnswers}
+
 import navigation.NotificationNavigator
 import pages.WhatIsTheIndividualsFullNamePage
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -52,7 +53,7 @@ class WhatIsTheIndividualsFullNameController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -60,7 +61,7 @@ class WhatIsTheIndividualsFullNameController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
 
         value =>
           for {
@@ -69,4 +70,6 @@ class WhatIsTheIndividualsFullNameController @Inject()(
           } yield Redirect(navigator.nextPage(WhatIsTheIndividualsFullNamePage, mode, updatedAnswers))
       )
   }
+
+  
 }

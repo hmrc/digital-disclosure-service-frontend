@@ -25,7 +25,7 @@ class IndividualSentYourNotificationViewSpec extends ViewSpecBase with ViewMatch
 
   val page: IndividualSentYourNotificationView = inject[IndividualSentYourNotificationView]
 
-  private def createView: Html = page()(request, messages)
+  private def createView: Html = page(false)(request, messages)
 
   "view" should {
 

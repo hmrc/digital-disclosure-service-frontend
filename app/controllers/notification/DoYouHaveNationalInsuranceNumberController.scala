@@ -21,6 +21,7 @@ import forms.DoYouHaveNationalInsuranceNumberFormProvider
 
 import javax.inject.Inject
 import models.{DoYouHaveNationalInsuranceNumber, Mode, UserAnswers}
+
 import navigation.NotificationNavigator
 import pages.{DoYouHaveNationalInsuranceNumberPage, QuestionPage, WhatIsYourNationalInsuranceNumberPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -53,7 +54,7 @@ class DoYouHaveNationalInsuranceNumberController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -61,7 +62,7 @@ class DoYouHaveNationalInsuranceNumberController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
 
         value => {
           val (pagesToClear, hasChanged) = changedPages(request.userAnswers, value)
@@ -82,4 +83,6 @@ class DoYouHaveNationalInsuranceNumberController @Inject()(
       case Some(existingValue) if value != existingValue => (Nil, true)
       case _ => (Nil, false)
     }
+
+    
 }

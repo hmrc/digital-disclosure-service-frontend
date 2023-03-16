@@ -18,7 +18,6 @@ package viewmodels.onshore
 
 import java.time.format.DateTimeFormatter
 
-import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import viewmodels.SummaryListRowNoValue
 import models.{DirectorLoanAccountLiabilities, Mode}
