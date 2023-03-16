@@ -39,8 +39,8 @@ class OnlyOnshoreLiabilitiesController @Inject()(
 
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-      Ok(view(navigator.nextPage(OnlyOnshoreLiabilitiesPage, mode, request.userAnswers).url.toString, isDisclosure(request.userAnswers)))
+      Ok(view(navigator.nextPage(OnlyOnshoreLiabilitiesPage, mode, request.userAnswers).url.toString, request.userAnswers.isDisclosure))
   }
 
-  def isDisclosure(userAnswers: UserAnswers): Boolean = userAnswers.submissionType == Disclosure
+  
 }

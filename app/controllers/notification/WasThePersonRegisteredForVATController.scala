@@ -53,7 +53,7 @@ class WasThePersonRegisteredForVATController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode, isDisclosure(request.userAnswers)))
+      Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -61,7 +61,7 @@ class WasThePersonRegisteredForVATController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, isDisclosure(request.userAnswers)))),
+          Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
 
         value => {
           val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
@@ -81,6 +81,6 @@ class WasThePersonRegisteredForVATController @Inject()(
       case _ => (Nil, false)
     }
 
-  def isDisclosure(userAnswers: UserAnswers): Boolean = userAnswers.submissionType == Disclosure
+  
 
 }

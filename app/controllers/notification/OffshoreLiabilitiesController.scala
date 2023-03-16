@@ -58,7 +58,7 @@ class OffshoreLiabilitiesController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode, isDisclosure(request.userAnswers)))
+      Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -66,7 +66,7 @@ class OffshoreLiabilitiesController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, isDisclosure(request.userAnswers)))),
+          Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
 
         value =>
           for {
@@ -92,5 +92,5 @@ class OffshoreLiabilitiesController @Inject()(
     }
   }
 
-  def isDisclosure(userAnswers: UserAnswers): Boolean = userAnswers.submissionType == Disclosure
+  
 }

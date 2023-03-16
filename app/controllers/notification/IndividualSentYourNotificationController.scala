@@ -36,8 +36,8 @@ class IndividualSentYourNotificationController @Inject()(
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-      Ok(view(isDisclosure(request.userAnswers)))
+      Ok(view(request.userAnswers.isDisclosure))
   }
 
-  def isDisclosure(userAnswers: UserAnswers): Boolean = userAnswers.submissionType == Disclosure
+  
 }

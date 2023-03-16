@@ -55,7 +55,7 @@ class AreYouTheIndividualController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode, isDisclosure(request.userAnswers)))
+      Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -63,7 +63,7 @@ class AreYouTheIndividualController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, isDisclosure(request.userAnswers)))),
+          Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
         value => {
           val changedPages = whatHasChanged(request.userAnswers, value)
           val hasChanged = changedPages.nonEmpty
@@ -88,5 +88,5 @@ class AreYouTheIndividualController @Inject()(
       case _ => Nil
     }
 
-  def isDisclosure(userAnswers: UserAnswers): Boolean = userAnswers.submissionType == Disclosure  
+    
 }
