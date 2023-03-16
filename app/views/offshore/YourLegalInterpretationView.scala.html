@@ -38,7 +38,7 @@
         
         @heading(Text(messages("yourLegalInterpretation.heading")))
 
-        @govukWarningText(WarningText(content = messages("yourLegalInterpretation.warning")))
+        @govukWarningText(WarningText(iconFallbackText = messages("warning.fallback"), content = messages("yourLegalInterpretation.warning")))
 
         @govukCheckboxes(
             CheckboxesViewModel(

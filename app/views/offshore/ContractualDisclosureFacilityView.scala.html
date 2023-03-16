@@ -56,7 +56,7 @@
         }
 
         @if(Seq(RelatesTo.ACompany, RelatesTo.ALimitedLiabilityPartnership, RelatesTo.ATrust, RelatesTo.AnIndividual).contains(entity)) {
-            @govukWarningText(WarningText(content = messages(s"contractualDisclosureFacility.${entity}.warningText")))
+            @govukWarningText(WarningText(iconFallbackText = messages("warning.fallback"), content = messages(s"contractualDisclosureFacility.${entity}.warningText")))
         }   
 
         @govukRadios(
