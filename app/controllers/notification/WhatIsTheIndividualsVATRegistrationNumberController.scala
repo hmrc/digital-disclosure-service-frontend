@@ -19,7 +19,7 @@ package controllers.notification
 import controllers.actions._
 import forms.WhatIsTheIndividualsVATRegistrationNumberFormProvider
 import javax.inject.Inject
-import models.Mode
+import models.{Mode, UserAnswers}
 import models.SubmissionType._
 import navigation.NotificationNavigator
 import pages.WhatIsTheIndividualsVATRegistrationNumberPage
