@@ -21,6 +21,7 @@ import forms.AreYouRepresentingAnOrganisationFormProvider
 
 import javax.inject.Inject
 import models.{CheckMode, Mode, UserAnswers}
+import models.SubmissionType._
 import navigation.NotificationNavigator
 import pages.{AreYouRepresentingAnOrganisationPage, QuestionPage, WhatIsTheNameOfTheOrganisationYouRepresentPage}
 import play.api.i18n.{I18nSupport, MessagesApi}

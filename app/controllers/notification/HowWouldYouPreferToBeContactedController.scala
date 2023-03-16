@@ -22,6 +22,7 @@ import models.HowWouldYouPreferToBeContacted.{Email, Telephone}
 
 import javax.inject.Inject
 import models.{HowWouldYouPreferToBeContacted, Mode, UserAnswers}
+import models.SubmissionType._
 import navigation.NotificationNavigator
 import pages.{HowWouldYouPreferToBeContactedPage, QuestionPage, YourEmailAddressPage, YourPhoneNumberPage}
 import play.api.i18n.{I18nSupport, MessagesApi}

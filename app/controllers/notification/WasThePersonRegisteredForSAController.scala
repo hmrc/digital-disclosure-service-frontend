@@ -21,6 +21,7 @@ import forms.WasThePersonRegisteredForSAFormProvider
 
 import javax.inject.Inject
 import models.{Mode, UserAnswers, WasThePersonRegisteredForSA}
+import models.SubmissionType._
 import navigation.NotificationNavigator
 import pages.{QuestionPage, WasThePersonRegisteredForSAPage, WhatWasThePersonUTRPage}
 import play.api.i18n.{I18nSupport, MessagesApi}

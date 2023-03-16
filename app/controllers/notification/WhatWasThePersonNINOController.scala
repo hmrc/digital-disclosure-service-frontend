@@ -20,6 +20,7 @@ import controllers.actions._
 import forms.WhatWasThePersonNINOFormProvider
 import javax.inject.Inject
 import models.Mode
+import models.SubmissionType._
 import navigation.NotificationNavigator
 import pages.WhatWasThePersonNINOPage
 import play.api.i18n.{I18nSupport, MessagesApi}

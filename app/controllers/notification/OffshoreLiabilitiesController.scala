@@ -22,6 +22,7 @@ import javax.inject.Inject
 import models.{Mode, UserAnswers}
 import models.store.disclosure._
 import models.store.{Notification, FullDisclosure}
+import models.SubmissionType._
 import navigation.NotificationNavigator
 import pages.OffshoreLiabilitiesPage
 import play.api.i18n.{I18nSupport, MessagesApi}

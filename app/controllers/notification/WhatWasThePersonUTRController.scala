@@ -20,6 +20,7 @@ import controllers.actions._
 import forms.WhatWasThePersonUTRFormProvider
 import javax.inject.Inject
 import models.Mode
+import models.SubmissionType._
 import navigation.NotificationNavigator
 import pages.WhatWasThePersonUTRPage
 import play.api.i18n.{I18nSupport, MessagesApi}

@@ -20,6 +20,7 @@ import controllers.actions._
 import forms.WhatIsTheIndividualDateOfBirthFormProvider
 import javax.inject.Inject
 import models.Mode
+import models.SubmissionType._
 import navigation.NotificationNavigator
 import pages.WhatIsTheIndividualDateOfBirthPage
 import play.api.i18n.{I18nSupport, MessagesApi}
