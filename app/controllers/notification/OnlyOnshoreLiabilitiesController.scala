@@ -42,10 +42,5 @@ class OnlyOnshoreLiabilitiesController @Inject()(
       Ok(view(navigator.nextPage(OnlyOnshoreLiabilitiesPage, mode, request.userAnswers).url.toString, isDisclosure(request.userAnswers)))
   }
 
-  def isDisclosure(userAnswers: UserAnswers): Boolean = {
-    userAnswers.submissionType match {
-      case Disclosure => true
-      case _ => false
-    }
-  }
+  def isDisclosure(userAnswers: UserAnswers): Boolean = userAnswers.submissionType == Disclosure
 }

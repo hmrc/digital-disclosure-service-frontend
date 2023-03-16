@@ -87,10 +87,5 @@ class RelatesToController @Inject()(
     case Some(relatesTo) => allEntityPages
   }
 
-  def isDisclosure(userAnswers: UserAnswers): Boolean = {
-    userAnswers.submissionType match {
-      case Disclosure => true
-      case _ => false
-    }
-  }
+  def isDisclosure(userAnswers: UserAnswers): Boolean = userAnswers.submissionType == Disclosure
 }

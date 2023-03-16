@@ -87,10 +87,5 @@ class ReceivedALetterController @Inject()(
     }
   }
 
-  def isDisclosure(userAnswers: UserAnswers): Boolean = {
-    userAnswers.submissionType match {
-      case Disclosure => true
-      case _ => false
-    }
-  }
+  def isDisclosure(userAnswers: UserAnswers): Boolean = userAnswers.submissionType == Disclosure
 }
