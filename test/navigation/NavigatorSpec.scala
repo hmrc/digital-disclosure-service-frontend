@@ -82,6 +82,11 @@ class NavigatorSpec extends SpecBase {
         navigator.nextPage(NotificationStartedPage, ua) mustBe controllers.routes.TaskListController.onPageLoad
       }
 
+      "must go from NotificationSubmittedPage to the task list" in {
+        val ua = UserAnswers(id = "id", submissionType = SubmissionType.Disclosure)
+        navigator.nextPage(NotificationSubmittedPage, ua) mustBe controllers.routes.TaskListController.onPageLoad
+      }
+
     }
 
     "indexNextPage" - {
