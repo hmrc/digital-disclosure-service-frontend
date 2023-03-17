@@ -47,9 +47,10 @@
         @summaryListNoValue(SummaryListNoValue(periodEndDates))
 
         @govukRadios(
-            RadiosViewModel.yesNo(
+            RadiosViewModel.yesNoNotInline(
                 field = form("value"),
-                legend = LegendViewModel(messages("accountingPeriodDLAdded.question")).withCssClass("govuk-fieldset__legend--m")
+                legend = LegendViewModel(messages("accountingPeriodDLAdded.question")).withCssClass("govuk-fieldset__legend--m"),
+                messagePrefix = "site"
             )
         )
 
