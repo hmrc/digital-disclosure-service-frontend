@@ -54,8 +54,6 @@ final case class FullDisclosure (
 
   lazy val disclosingAboutThemselves: Boolean = personalDetails.disclosingAboutThemselves
 
-  lazy val isSubmitted: Boolean = metadata.submissionTime.isDefined
-
   lazy val disclosingOffshoreLiabilities: Boolean = personalDetails.background.offshoreLiabilities.getOrElse(false)
   lazy val disclosingOnshoreLiabilities: Boolean = personalDetails.background.onshoreLiabilities.getOrElse(false)
 
@@ -84,8 +82,6 @@ final case class Notification (
 ) extends Submission {
 
   def disclosingAboutThemselves: Boolean = personalDetails.disclosingAboutThemselves
-
-  def isSubmitted: Boolean = metadata.submissionTime.isDefined
 
   def isComplete: Boolean = personalDetails.isComplete
 } 

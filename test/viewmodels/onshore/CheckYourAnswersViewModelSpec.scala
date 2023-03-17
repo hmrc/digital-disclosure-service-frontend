@@ -26,7 +26,6 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryList
 import viewmodels.govuk.summarylist._
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import org.scalacheck.Arbitrary.arbitrary
-import pages.{WhichOnshoreYearsPage, OnshoreTaxYearLiabilitiesPage}
 import uk.gov.hmrc.time.CurrentTaxYear
 import java.time.LocalDate
 import services.OnshoreWhichYearsService
@@ -120,6 +119,81 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
         val firstSummaryList = viewModel.taxYearLists(0)._2
         checkSummaryRows(firstSummaryList, taxYearWithLiabilities)
 
+      }
+    }
+
+    "create" - {
+      "return rows for all populated data" in {
+        val date = LocalDate.now
+        val liabilities = OnshoreTaxYearLiabilities(
+          lettingIncome = Some(BigInt(2000)),
+          gains = Some(BigInt(2000)),
+          unpaidTax = BigInt(2000),
+          niContributions = BigInt(2000),
+          interest = BigInt(2000),
+          penaltyRate = 12,
+          penaltyRateReason = "Reason",
+          residentialTaxReduction = Some(false)
+        )
+        val whySet: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHasExcuse)
+        val yearsSet: Set[OnshoreYears] = Set(OnshoreYearStarting(2012))
+        val corporationTax = Seq(CorporationTaxLiability (
+          periodEnd = date,
+          howMuchIncome = BigInt(2000),
+          howMuchUnpaid = BigInt(2000),
+          howMuchInterest = BigInt(2000),
+          penaltyRate = 123,
+          penaltyRateReason = "Some reason"
+        ))
+        val directorLoan = Seq(DirectorLoanAccountLiabilities (
+          name = "Name",
+          periodEnd = date,
+          overdrawn = BigInt(2000),
+          unpaidTax = BigInt(2000),
+          interest = BigInt(2000),
+          penaltyRate = 123,
+          penaltyRateReason = "Some reason"
+        ))
+        val lettingProperty = Seq(LettingProperty(
+          address = None,
+          dateFirstLetOut = Some(date),
+          stoppedBeingLetOut = Some(true),
+          noLongerBeingLetOut = None,
+          fhl = Some(false),
+          isJointOwnership = Some(true),
+          isMortgageOnProperty = Some(false),
+          percentageIncomeOnProperty = Some(123),
+          wasFurnished = Some(false),
+          typeOfMortgage = None,
+          otherTypeOfMortgage = Some("Some mortgage"),
+          wasPropertyManagerByAgent = Some(true),
+          didTheLettingAgentCollectRentOnYourBehalf = Some(false)
+        ))
+        val whichLiabilitiesSet: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.BusinessIncome)
+        val pages = List(
+          PageWithValue(WhyAreYouMakingThisOnshoreDisclosurePage, whySet),
+          PageWithValue(ReasonableExcuseOnshorePage, ReasonableExcuseOnshore("Some excuse", "Some years")),
+          PageWithValue(ReasonableCareOnshorePage, ReasonableCareOnshore("Some excuse", "Some years")),
+          PageWithValue(ReasonableExcuseForNotFilingOnshorePage, ReasonableExcuseForNotFilingOnshore("Some excuse", "Some years")),
+          PageWithValue(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, whichLiabilitiesSet),
+          PageWithValue(WhichOnshoreYearsPage, yearsSet),
+          PageWithValue(NotIncludedSingleTaxYearPage, "Not included year"),
+          PageWithValue(NotIncludedMultipleTaxYearsPage, "Not included years"),
+          PageWithValue(TaxBeforeThreeYearsOnshorePage, "Some liabilities 1"),
+          PageWithValue(TaxBeforeFiveYearsOnshorePage, "Some liabilities 2"),
+          PageWithValue(TaxBeforeNineteenYearsOnshorePage, "Some liabilities 3"),
+          PageWithValue(CDFOnshorePage, true),
+          PageWithValue(OnshoreTaxYearLiabilitiesPage, Map("2012" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2012), liabilities))),
+          PageWithValue(ResidentialReductionPage, Map("2012" -> BigInt(123))),
+          PageWithValue(LettingPropertyPage, lettingProperty),
+          PageWithValue(AreYouAMemberOfAnyLandlordAssociationsPage, true),
+          PageWithValue(WhichLandlordAssociationsAreYouAMemberOfPage, "Some associations"),
+          PageWithValue(HowManyPropertiesDoYouCurrentlyLetOutPage, "Some properties"),
+          PageWithValue(CorporationTaxLiabilityPage, corporationTax),
+          PageWithValue(DirectorLoanAccountLiabilitiesPage, directorLoan),
+        )
+        val userAnswers = PageWithValue.pagesToUserAnswers(pages, UserAnswers("id")).success.value
+        sut.create(userAnswers).liabilitiesTotal mustEqual 19400
       }
     }
 
