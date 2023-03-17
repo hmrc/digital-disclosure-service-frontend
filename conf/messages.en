@@ -2216,6 +2216,7 @@ howManyProperties.title = How many properties do you currently let out?
 howManyProperties.heading = How many properties do you currently let out?
 howManyProperties.checkYourAnswersLabel = howManyProperties
 howManyProperties.error.required = Enter the amount of properties you currently let out
+howManyProperties.error.nonNumeric = The amount of properties you currently let out must be a whole number, like 2
 howManyProperties.change.hidden = HowManyPropertiesDoYouCurrentlyLetOut
 
 haveNoOnshoreLiabilities.agent.title = You have no onshore liabilities to disclose

@@ -22,6 +22,7 @@ import play.api.data.FormError
 class HowManyPropertiesDoYouCurrentlyLetOutFormProviderSpec extends FieldBehaviours {
 
   val requiredKey = "howManyProperties.error.required"
+  val nonNumericKey = "howManyProperties.error.nonNumeric"
 
   val form = new HowManyPropertiesDoYouCurrentlyLetOutFormProvider()()
 
@@ -29,11 +30,15 @@ class HowManyPropertiesDoYouCurrentlyLetOutFormProviderSpec extends FieldBehavio
 
     val fieldName = "value"
 
-    behave like fieldThatBindsValidData(
-      form,
-      fieldName,
-      "some value"
-    )
+    "bind valid data" in {
+
+      forAll(nonNumerics -> "validDataItem") {
+        dataItem: String =>
+          val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
+          result.value.value mustBe dataItem
+          result.errors mustBe Seq(FormError(fieldName, nonNumericKey))
+      }
+    }
 
     behave like mandatoryField(
       form,
