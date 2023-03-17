@@ -29,6 +29,13 @@ import akka.util.ByteString
 import services.SubmissionPDFService
 import scala.concurrent.Future
 import models.UserAnswers
+import uk.gov.hmrc.http.HeaderCarrier
+import models.store.notification._
+import models.store._
+import services.SubmissionStoreService
+import java.time.Instant
+import play.api.mvc.Result
+import play.api.mvc.Results.NoContent
 
 class PdfGenerationControllerSpec extends SpecBase with MockitoSugar {
 
@@ -52,7 +59,18 @@ class PdfGenerationControllerSpec extends SpecBase with MockitoSugar {
       }
 
       "for generateForSubmissionId" in {
-        val application = applicationBuilder(userAnswers = Some(UserAnswers("id", "submissionId"))).overrides(
+
+        val submission = Notification("userId", "submissionId", Instant.now, Metadata(), PersonalDetails(Background(), AboutYou()))
+        object TestStoreService extends SubmissionStoreService {
+          def setSubmission(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Result] = Future.successful(NoContent)
+          def getSubmission(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Option[Submission]] = 
+            Future.successful(Some(submission))
+          def getAllSubmissions(userId: String)(implicit hc: HeaderCarrier): Future[Seq[Submission]] = 
+            Future.successful(Seq(submission))
+          def deleteSubmission(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Result] = Future.successful(NoContent)
+        }
+
+        val application = applicationBuilderWithStoreService(userAnswers = Some(UserAnswers("id", "submissionId")), TestStoreService).overrides(
           bind[SubmissionPDFService].toInstance(mockService)
         ).build()
         
