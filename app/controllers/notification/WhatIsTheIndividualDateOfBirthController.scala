@@ -19,8 +19,7 @@ package controllers.notification
 import controllers.actions._
 import forms.WhatIsTheIndividualDateOfBirthFormProvider
 import javax.inject.Inject
-import models.{Mode, UserAnswers}
-
+import models.Mode
 import navigation.NotificationNavigator
 import pages.WhatIsTheIndividualDateOfBirthPage
 import play.api.i18n.{I18nSupport, MessagesApi}

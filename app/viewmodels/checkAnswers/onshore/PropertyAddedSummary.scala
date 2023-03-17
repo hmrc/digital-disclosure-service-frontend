@@ -32,8 +32,7 @@ object PropertyAddedSummary  {
         i <- properties.indices
         property = properties(i)
         address <- property.address
-        postcode <- address.postcode
-      } yield {
+       } yield {
         s"${address.line1} ${address.postcode.getOrElse("")}"
       }
       

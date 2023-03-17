@@ -186,6 +186,12 @@ trait Constraints {
     }
   }
 
+  protected def validDigits(errorKey: String): Constraint[String] =
+    Constraint {
+      case number if number.forall(_.isDigit) => Valid
+      case _ => Invalid(errorKey)
+    }
+
   protected def allOrNoneCheckboxConstraint[A](errorKey: String, singleOption: A): Constraint[Set[A]] = 
     Constraint { 
       s => {

@@ -26,5 +26,6 @@ class HowManyPropertiesDoYouCurrentlyLetOutFormProvider @Inject() extends Mappin
   def apply(): Form[String] =
     Form(
       "value" -> text("howManyProperties.error.required")
+      .verifying(validDigits("howManyProperties.error.nonNumeric"))
     )
 }

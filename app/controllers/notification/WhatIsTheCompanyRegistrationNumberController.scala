@@ -19,8 +19,7 @@ package controllers.notification
 import controllers.actions._
 import forms.WhatIsTheCompanyRegistrationNumberFormProvider
 import javax.inject.Inject
-import models.{Mode, UserAnswers}
-
+import models.Mode
 import navigation.NotificationNavigator
 import pages.WhatIsTheCompanyRegistrationNumberPage
 import play.api.i18n.{I18nSupport, MessagesApi}
