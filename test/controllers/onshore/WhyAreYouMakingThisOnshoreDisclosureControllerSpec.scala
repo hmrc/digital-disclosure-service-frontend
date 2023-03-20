@@ -30,6 +30,7 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
 import views.html.onshore.WhyAreYouMakingThisOnshoreDisclosureView
+import controllers.onshore.WhyAreYouMakingThisOnshoreDisclosureController
 
 import scala.concurrent.Future
 
@@ -181,6 +182,37 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
         redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
       }
     }
+  }
+
+  "getPages" - {
+
+    "return deliberate pages when a deliberate option was not selected" in {
+      val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(
+        WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHasExcuse, 
+        WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnWithCare,
+        WhyAreYouMakingThisOnshoreDisclosure.NotFileHasExcuse,
+        WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnNoCare
+      )
+      val expectedPages = List(CDFOnshorePage, TaxBeforeNineteenYearsOnshorePage)
+      WhyAreYouMakingThisOnshoreDisclosureController.getPages(set) mustEqual expectedPages
+    }
+
+    "return tax before five years page when all options other than InaccurateReturnNoCare was selected" in {
+      val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(
+        WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnNoCare
+      )
+      val expectedPages = List(CDFOnshorePage, TaxBeforeNineteenYearsOnshorePage, ReasonableExcuseOnshorePage, ReasonableCareOnshorePage, ReasonableExcuseForNotFilingOnshorePage, TaxBeforeThreeYearsOnshorePage)
+      WhyAreYouMakingThisOnshoreDisclosureController.getPages(set) mustEqual expectedPages
+    }
+
+    "return all pages other than the deliberate ones where only a deliberate excuse is now selected" in {
+      val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(
+        WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyNoExcuse
+      )
+      val expectedPages = List(ReasonableExcuseOnshorePage, ReasonableCareOnshorePage, ReasonableExcuseForNotFilingOnshorePage, TaxBeforeThreeYearsOnshorePage, TaxBeforeFiveYearsOnshorePage)
+      WhyAreYouMakingThisOnshoreDisclosureController.getPages(set) mustEqual expectedPages
+    }
+
   }
 
   def isTheUserTheIndividual(userAnswers: UserAnswers): Boolean = {

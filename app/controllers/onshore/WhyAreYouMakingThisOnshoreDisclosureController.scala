@@ -89,16 +89,16 @@ class WhyAreYouMakingThisOnshoreDisclosureController @Inject()(
 
   def changedPages(answers: UserAnswers, value: Set[WhyAreYouMakingThisOnshoreDisclosure]): (List[QuestionPage[_]], Boolean) = {
     answers.get(WhyAreYouMakingThisOnshoreDisclosurePage) match {
-      case Some(reasons) if reasons != value => (getPages(value), true)
+      case Some(reasons) if reasons != value => (WhyAreYouMakingThisOnshoreDisclosureController.getPages(value), true)
       case _ => (Nil, false)
     }
   }
 
-  private def getPages(reasons: Set[WhyAreYouMakingThisOnshoreDisclosure]): List[QuestionPage[_]] = {
+}
 
-    case class ClearingCondition(selections: Set[WhyAreYouMakingThisOnshoreDisclosure], pagesToClear: List[QuestionPage[_]]) {
-      def isConditionMet(reasons: Set[WhyAreYouMakingThisOnshoreDisclosure]): Boolean = reasons.intersect(selections).isEmpty
-    }
+object WhyAreYouMakingThisOnshoreDisclosureController {
+
+  def getPages(reasons: Set[WhyAreYouMakingThisOnshoreDisclosure]): List[QuestionPage[_]] = {
 
     val deliberate = ClearingCondition(Set(DidNotNotifyNoExcuse, DeliberatelyDidNotNotify, DeliberateInaccurateReturn, DeliberatelyDidNotFile), List(CDFOnshorePage, TaxBeforeNineteenYearsOnshorePage))
     val didNotNotify = ClearingCondition(Set(DidNotNotifyHasExcuse), List(ReasonableExcuseOnshorePage))
@@ -115,4 +115,8 @@ class WhyAreYouMakingThisOnshoreDisclosureController @Inject()(
     }
   }
 
+}
+
+case class ClearingCondition(selections: Set[WhyAreYouMakingThisOnshoreDisclosure], pagesToClear: List[QuestionPage[_]]) {
+  def isConditionMet(reasons: Set[WhyAreYouMakingThisOnshoreDisclosure]): Boolean = reasons.intersect(selections).isEmpty
 }

@@ -121,6 +121,14 @@ class NotificationNavigatorSpec extends SpecBase {
         }
       }
 
+      "must go from the OnshoreLiabilitiesPage to the IncomeOrGainSourceController" in {
+        navigator.nextPage(OnshoreLiabilitiesPage, NormalMode, UserAnswers("id")) mustBe routes.IncomeOrGainSourceController.onPageLoad(NormalMode)
+      }
+
+      "must go from the OnlyOnshoreLiabilitiesPage to the IncomeOrGainSourceController" in {
+        navigator.nextPage(OnlyOnshoreLiabilitiesPage, NormalMode, UserAnswers("id")) mustBe routes.IncomeOrGainSourceController.onPageLoad(NormalMode)
+      }
+
       testAboutSectionRouting(IncomeOrGainSourcePage)
       testAboutSectionRouting(OtherIncomeOrGainSourcePage)
 

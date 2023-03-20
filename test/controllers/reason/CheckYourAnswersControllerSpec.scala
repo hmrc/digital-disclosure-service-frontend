@@ -22,6 +22,9 @@ import play.api.test.Helpers._
 import views.html.reason.CheckYourAnswersView
 import viewmodels.reason.CheckYourAnswersViewModel
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist._
+import models._
+import pages._
+import viewmodels.checkAnswers._
 
 class CheckYourAnswersControllerSpec extends SpecBase {
 
@@ -42,6 +45,56 @@ class CheckYourAnswersControllerSpec extends SpecBase {
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(viewModel)(request, messages(application)).toString
+      }
+    }
+
+    "must return OK and the correct view for a GET where all the pages are populated" in {
+
+      val reasonSet: Set[WhyAreYouMakingADisclosure] = Set(WhyAreYouMakingADisclosure.GovUkGuidance)
+      val pages = List(
+        PageWithValue(WhyAreYouMakingADisclosurePage, reasonSet),
+        PageWithValue(WhatIsTheReasonForMakingADisclosureNowPage, "Some other"),
+        PageWithValue(WhyNotBeforeNowPage, "Some reason"),
+        PageWithValue(DidSomeoneGiveYouAdviceNotDeclareTaxPage, true),
+        PageWithValue(PersonWhoGaveAdvicePage, "Some guy"),
+        PageWithValue(AdviceBusinessesOrOrgPage, true),
+        PageWithValue(AdviceBusinessNamePage, "Some business"),
+        PageWithValue(AdviceProfessionPage, "Some profession"),
+        PageWithValue(AdviceGivenPage, AdviceGiven("Some advice", MonthYear(12, 2012), AdviceContactPreference.No)),
+        PageWithValue(WhichEmailAddressCanWeContactYouWithPage, WhichEmailAddressCanWeContactYouWith.values.head),
+        PageWithValue(WhichTelephoneNumberCanWeContactYouWithPage, WhichTelephoneNumberCanWeContactYouWith.values.head),
+        PageWithValue(WhatEmailAddressCanWeContactYouWithPage, "Email"),
+        PageWithValue(WhatTelephoneNumberCanWeContactYouWithPage, "Telephone"),
+      )
+      val ua = PageWithValue.pagesToUserAnswers(pages, emptyUserAnswers).success.value
+
+      val application = applicationBuilder(userAnswers = Some(ua)).build()
+      implicit val mess = messages(application)
+
+      val rows = Seq(
+        WhyAreYouMakingADisclosureSummary.row(ua),
+        WhatIsTheReasonForMakingADisclosureNowSummary.row(ua),
+        WhyNotBeforeNowSummary.row(ua),
+        DidSomeoneGiveYouAdviceNotDeclareTaxSummary.row(ua)
+      ).flatten
+      val adviceRows = SummaryList(rows = Seq(PersonWhoGaveAdviceSummary.row(ua),
+        AdviceBusinessesOrOrgSummary.row(ua),
+        AdviceBusinessNameSummary.row(ua),
+        AdviceProfessionSummary.row(ua),
+        WhatEmailAddressCanWeContactYouWithSummary.row(ua),
+        WhatTelephoneNumberCanWeContactYouWithSummary.row(ua)
+      ).flatten)
+
+      val viewModel = CheckYourAnswersViewModel(SummaryList(rows = rows), Some(adviceRows))
+
+      running(application) {
+        val request = FakeRequest(GET, controllers.reason.routes.CheckYourAnswersController.onPageLoad.url)
+
+        val result = route(application, request).value
+
+        val view = application.injector.instanceOf[CheckYourAnswersView]
+
+        status(result) mustEqual OK
       }
     }
   }

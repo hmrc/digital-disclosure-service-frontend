@@ -23,7 +23,8 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.offshore.CheckYourAnswersView
 import viewmodels.offshore.CheckYourAnswersViewModelCreation
-import pages.TaxYearLiabilitiesPage
+import pages.{TaxYearLiabilitiesPage, OffshoreLiabilitiesPage, OnshoreLiabilitiesPage}
+import models.UserAnswers
 
 class CheckYourAnswersController @Inject()(
                                        override val messagesApi: MessagesApi,
@@ -40,6 +41,10 @@ class CheckYourAnswersController @Inject()(
 
       val viewModel = viewModelCreation.create(request.userAnswers)
       val taxYearExists = request.userAnswers.get(TaxYearLiabilitiesPage).forall(_.isEmpty)
-      Ok(view(viewModel, !taxYearExists))
+      Ok(view(viewModel, !taxYearExists, isOnshoreOffshoreLiabilitiesPresent(request.userAnswers)))
+  }
+
+  def isOnshoreOffshoreLiabilitiesPresent(userAnswers: UserAnswers): Boolean = {
+    (userAnswers.get(OffshoreLiabilitiesPage).isDefined && userAnswers.get(OnshoreLiabilitiesPage).isDefined)
   }
 }

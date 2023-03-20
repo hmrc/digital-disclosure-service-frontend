@@ -94,7 +94,7 @@ class HowManyPropertiesDoYouCurrentlyLetOutControllerSpec extends SpecBase with 
       running(application) {
         val request =
           FakeRequest(POST, howManyPropertiesDoYouCurrentlyLetOutRoute)
-            .withFormUrlEncodedBody(("value", "answer"))
+            .withFormUrlEncodedBody(("value", "2"))
 
         val result = route(application, request).value
 
