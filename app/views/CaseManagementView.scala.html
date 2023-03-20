@@ -18,7 +18,7 @@
         layout: templates.Layout,
         govukButton: GovukButton,
         paragraph: components.paragraph,
-        link: components.link,
+        buttonLink: components.buttonLink,
         govukTable: GovukTable,
         govukPagination: GovukPagination
 )
@@ -33,7 +33,7 @@
     @paragraph(id = Some("second-paragraph"), content = Text(messages("caseManagement.paragraph2")))
     @paragraph(id = Some("third-paragraph"), content = Text(messages("caseManagement.paragraph4")))
 
-    @link(id = "create-case", classes = "govuk-button", text = messages("caseManagement.button"), newTab = false, call = Call("GET", controllers.routes.CaseManagementController.newCase.url))
+    @buttonLink(id = "create-case", text = messages("caseManagement.button"), call = Call("GET", controllers.routes.CaseManagementController.newCase.url))
 
     @pagination.map(p => govukPagination(p))
     @govukTable(caseTable)

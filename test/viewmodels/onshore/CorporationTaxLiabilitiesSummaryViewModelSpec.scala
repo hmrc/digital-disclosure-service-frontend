@@ -64,23 +64,23 @@ class CorporationTaxLiabilitiesSummaryViewModelSpec extends SpecBase with ScalaC
 
       val summaryList = CorporationTaxLiabilitiesSummaryViewModelCreation.corporationTaxLiabilityToSummaryList(0, corporationTaxLiability)
 
-      summaryList.rows(0).key mustEqual Key(Text(mess("corporationTaxLiability.howMuchIncome.checkYourAnswersLabel")))
-      summaryList.rows(0).value mustEqual ValueViewModel(HtmlContent(s"&pound;0"))
-
-      summaryList.rows(1).key mustEqual Key(Text(mess("corporationTaxLiability.howMuchUnpaid.checkYourAnswersLabel")))
+      summaryList.rows(1).key mustEqual Key(Text(mess("corporationTaxLiability.howMuchIncome.checkYourAnswersLabel")))
       summaryList.rows(1).value mustEqual ValueViewModel(HtmlContent(s"&pound;0"))
 
-      summaryList.rows(2).key mustEqual Key(Text(mess("corporationTaxLiability.howMuchInterest.checkYourAnswersLabel")))
+      summaryList.rows(2).key mustEqual Key(Text(mess("corporationTaxLiability.howMuchUnpaid.checkYourAnswersLabel")))
       summaryList.rows(2).value mustEqual ValueViewModel(HtmlContent(s"&pound;0"))
 
-      summaryList.rows(3).key mustEqual Key(Text(mess("corporationTaxLiability.penaltyRate.checkYourAnswersLabel")))
-      summaryList.rows(3).value mustEqual ValueViewModel(HtmlContent(s"0%"))
+      summaryList.rows(3).key mustEqual Key(Text(mess("corporationTaxLiability.howMuchInterest.checkYourAnswersLabel")))
+      summaryList.rows(3).value mustEqual ValueViewModel(HtmlContent(s"&pound;0"))
 
-      summaryList.rows(4).key mustEqual Key(Text(mess("checkYourAnswers.ct.total.penaltyAmount")))
-      summaryList.rows(4).value mustEqual ValueViewModel(HtmlContent(s"£0.00"))
+      summaryList.rows(4).key mustEqual Key(Text(mess("corporationTaxLiability.penaltyRate.checkYourAnswersLabel")))
+      summaryList.rows(4).value mustEqual ValueViewModel(HtmlContent(s"0%"))
 
-      summaryList.rows(5).key mustEqual Key(Text(mess("corporationTaxLiability.penaltyRateReason.checkYourAnswersLabel")))
-      summaryList.rows(5).value mustEqual ValueViewModel(HtmlContent("reason"))
+      summaryList.rows(5).key mustEqual Key(Text(mess("checkYourAnswers.ct.total.penaltyAmount")))
+      summaryList.rows(5).value mustEqual ValueViewModel(HtmlContent(s"£0.00"))
+
+      summaryList.rows(6).key mustEqual Key(Text(mess("corporationTaxLiability.penaltyRateReason.checkYourAnswersLabel")))
+      summaryList.rows(6).value mustEqual ValueViewModel(HtmlContent("reason"))
 
 
     }

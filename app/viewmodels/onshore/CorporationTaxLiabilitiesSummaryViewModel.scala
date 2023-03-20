@@ -27,7 +27,7 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import java.time.format.DateTimeFormatter
 
 case class CorporationTaxLiabilitiesSummaryViewModel (
-  corporationTaxLiabilitiesList: Seq[(Int, String, SummaryList)],
+  corporationTaxLiabilitiesList: Seq[(Int, SummaryList)],
   accountEndingsSummaryList: SummaryList,
   totalAmountsList: SummaryList
 )
@@ -38,8 +38,8 @@ object CorporationTaxLiabilitiesSummaryViewModelCreation {
   def create(userAnswers: UserAnswers)(implicit messages: Messages): CorporationTaxLiabilitiesSummaryViewModel = {
     val corporationTaxLiabilities = userAnswers.get(CorporationTaxLiabilityPage).getOrElse(Seq())
 
-    val corporationTaxLiabilitiesList: Seq[(Int, String, SummaryList)] = corporationTaxLiabilities.zipWithIndex.map {
-      case (corporationTaxLiability, i) => (i + 1, s"${corporationTaxLiability.periodEnd.format(dateFormatter)}", corporationTaxLiabilityToSummaryList(i, corporationTaxLiability))
+    val corporationTaxLiabilitiesList: Seq[(Int, SummaryList)] = corporationTaxLiabilities.zipWithIndex.map {
+      case (corporationTaxLiability, i) => (i + 1, corporationTaxLiabilityToSummaryList(i, corporationTaxLiability))
     }
 
     val accountEndings = accountEndingsSummaryList(corporationTaxLiabilities)
@@ -51,10 +51,13 @@ object CorporationTaxLiabilitiesSummaryViewModelCreation {
 
    def corporationTaxLiabilityToSummaryList(i: Int, liability: CorporationTaxLiability)(implicit messages: Messages):SummaryList = {
 
+    val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+
     val amountDueTotal = BigDecimal(liability.howMuchUnpaid) + BigDecimal(liability.howMuchInterest) + penaltyAmount(liability)
 
     SummaryListViewModel(
       rows = Seq(
+        row(i, "corporationTaxLiability.periodEnd.checkYourAnswersLabel", s"${liability.periodEnd.format(dateFormatter)}", "corporationTaxLiability.periodEnd.hidden"),
         row(i, "corporationTaxLiability.howMuchIncome.checkYourAnswersLabel", s"&pound;${liability.howMuchIncome}", "corporationTaxLiability.howMuchIncome.hidden"),
         row(i, "corporationTaxLiability.howMuchUnpaid.checkYourAnswersLabel", s"&pound;${liability.howMuchUnpaid}", "corporationTaxLiability.howMuchUnpaid.hidden"),
         row(i, "corporationTaxLiability.howMuchInterest.checkYourAnswersLabel", s"&pound;${liability.howMuchInterest}", "corporationTaxLiability.howMuchInterest.hidden"),
