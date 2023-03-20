@@ -102,6 +102,7 @@ class WhichOnshoreYearsController @Inject()(
     val missingYearsCount = userAnswers.inverselySortedOnshoreTaxYears.map(ty => OnshoreYearStarting.findMissingYears(ty.toList).size).getOrElse(0)
 
     val missingYearPageList = if (missingYearsCount == 0) List(NotIncludedSingleTaxYearPage, NotIncludedMultipleTaxYearsPage) else Nil
+
     val priorToList = if (newValue.intersect(Set[OnshoreYears](PriorToFiveYears, PriorToThreeYears, PriorToNineteenYears)).isEmpty) {
       List(TaxBeforeThreeYearsOnshorePage, TaxBeforeFiveYearsPage, TaxBeforeNineteenYearsPage)
     } else { Nil }

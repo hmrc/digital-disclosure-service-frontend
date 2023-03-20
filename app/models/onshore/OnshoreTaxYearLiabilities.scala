@@ -22,7 +22,7 @@ final case class OnshoreTaxYearLiabilities(
   nonBusinessIncome: Option[BigInt] = None,
   businessIncome: Option[BigInt] = None,
   lettingIncome: Option[BigInt] = None,
-  gains: Option[BigInt],
+  gains: Option[BigInt] = None,
   unpaidTax: BigInt,
   niContributions: BigInt,
   interest: BigInt,
