@@ -90,7 +90,11 @@ class CaseManagementServiceImpl @Inject()(link: link) extends CaseManagementServ
       TableRow(Text(getCreatedDate(submission))),
       TableRow(Text(messages(statusKey))),
       TableRow(Text(getAccessUntilDate(submission))),
-      TableRow(HtmlContent(link(s"access-$reference", messages(accessKey), controllers.routes.CaseManagementController.navigateToSubmission(submission.submissionId))))
+      TableRow(HtmlContent(link(
+        s"access-$reference", messages(accessKey),
+        controllers.routes.CaseManagementController.navigateToSubmission(submission.submissionId),
+        showId = false)
+      ))
     )
   }
 

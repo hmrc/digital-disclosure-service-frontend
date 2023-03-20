@@ -16,6 +16,6 @@
 
 @this()
 
-@(id: String, text: String, call: Call, newTab: Boolean = false, classes: String = "govuk-link govuk-link--no-visited-state")
+@(id: String, text: String, call: Call, newTab: Boolean = false, classes: String = "govuk-link govuk-link--no-visited-state", showId:Boolean = true)
 
-<a class="@classes" href="@call" @if(newTab) { target="_blank" rel="noopener noreferrer" } id="@id">@text</a>
+<a class="@classes" href="@call" @if(newTab) { target="_blank" rel="noopener noreferrer" } @if(showId) { id="@id" }>@text</a>
