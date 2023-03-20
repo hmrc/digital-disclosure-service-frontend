@@ -636,7 +636,51 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextPage(WhyAreYouMakingThisOnshoreDisclosurePage, CheckMode, userAnswers) mustBe routes.CDFOnshoreController.onPageLoad(NormalMode)
       }
 
+      "must go from WhichOnshoreYearsPage to TaxBeforeThreeYearsOnshoreController when selected option PriorToThreeYears and something has changed" in {
+        val set: Set[OnshoreYears] = Set(PriorToThreeYears)
+        val userAnswers = UserAnswers("id").set(WhichOnshoreYearsPage, set).success.value
+        navigator.nextPage(WhichOnshoreYearsPage, CheckMode, userAnswers) mustBe routes.TaxBeforeThreeYearsOnshoreController.onPageLoad(NormalMode)
+      }
 
+      "must go from WhichOnshoreYearsPage to TaxBeforeFiveYearsOnshoreController when selected option PriorToFiveYears and something has changed" in {
+        val set: Set[OnshoreYears] = Set(PriorToFiveYears)
+        val userAnswers = UserAnswers("id").set(WhichOnshoreYearsPage, set).success.value
+        navigator.nextPage(WhichOnshoreYearsPage, CheckMode, userAnswers) mustBe routes.TaxBeforeFiveYearsOnshoreController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhichOnshoreYearsPage to TaxBeforeNineteenYearsController when selected option PriorToNineteenYears and something has changed" in {
+        val set: Set[OnshoreYears] = Set(PriorToNineteenYears)
+        val userAnswers = UserAnswers("id").set(WhichOnshoreYearsPage, set).success.value
+        navigator.nextPage(WhichOnshoreYearsPage, CheckMode, userAnswers) mustBe routes.TaxBeforeNineteenYearsOnshoreController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhichOnshoreYearsPage to NotIncludedSingleTaxYearController when not selected an entire interval and something has changed" in {
+        val year = current.back(1).startYear
+        val year2 = current.back(3).startYear
+        val set: Set[OnshoreYears] = Set(OnshoreYearStarting(year), OnshoreYearStarting(year2))
+        val userAnswers = UserAnswers("id").set(WhichOnshoreYearsPage, set).success.value
+        navigator.nextPage(WhichOnshoreYearsPage, CheckMode, userAnswers) mustBe routes.NotIncludedSingleTaxYearController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhichOnshoreYearsPage to NotIncludedMultipleTaxYearsController when multiple intervals are missing and something has changed" in {
+        val year = current.back(1).startYear
+        val year2 = current.back(3).startYear
+        val year3 = current.back(5).startYear
+        val set: Set[OnshoreYears] = Set(OnshoreYearStarting(year), OnshoreYearStarting(year2), OnshoreYearStarting(year3))
+        val userAnswers = UserAnswers("id").set(WhichOnshoreYearsPage, set).success.value
+        navigator.nextPage(WhichOnshoreYearsPage, CheckMode, userAnswers) mustBe routes.NotIncludedMultipleTaxYearsController.onPageLoad(NormalMode)
+      }
+
+      "must go from WhichOnshoreYearsPage to OnshoreTaxYearLiabilitiesController and something has changed" in {
+        val year = current.back(1).startYear
+        val set: Set[OnshoreYears] = Set(OnshoreYearStarting(year))
+        val userAnswers = UserAnswers("id").set(WhichOnshoreYearsPage, set).success.value
+        navigator.nextPage(WhichOnshoreYearsPage, CheckMode, userAnswers) mustBe routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
+      }
+
+      "must go from WhichOnshoreYearsPage to CheckYourAnswersController if something has changed" in {
+        navigator.nextPage(WhichOnshoreYearsPage, CheckMode, UserAnswers("id"), hasAnswerChanged = false) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
 
       "must go from WhyAreYouMakingThisOnshoreDisclosurePage to CDFOnshoreController if the user selected DeliberatelyDidNotFile in WhyAreYouMakingThisOnshoreDisclosure page" in {
         val relatesTo: RelatesTo = AnIndividual

@@ -18,12 +18,12 @@ package controllers
 
 import base.SpecBase
 import forms.WhichOnshoreYearsFormProvider
-import models.{WhyAreYouMakingThisOnshoreDisclosure, NormalMode, OnshoreYears, UserAnswers, Behaviour, OnshoreYearStarting}
+import models.{Behaviour, CheckMode, NormalMode, OnshoreTaxYearLiabilities, OnshoreTaxYearWithLiabilities, OnshoreYearStarting, OnshoreYears, UserAnswers, WhyAreYouMakingThisOnshoreDisclosure}
 import navigation.{FakeOnshoreNavigator, OnshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.{WhyAreYouMakingThisOnshoreDisclosurePage, WhichOnshoreYearsPage}
+import pages.{OnshoreTaxYearLiabilitiesPage, WhichOnshoreYearsPage, WhyAreYouMakingThisOnshoreDisclosurePage}
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -39,6 +39,7 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
   def onwardRoute = Call("GET", "/foo")
 
   lazy val whichOnshoreYearsRoute = onshore.routes.WhichOnshoreYearsController.onPageLoad(NormalMode).url
+  lazy val whichOnshoreYearsCheckModeRoute = onshore.routes.WhichOnshoreYearsController.onPageLoad(CheckMode).url
 
   val formProvider = new WhichOnshoreYearsFormProvider()
   val form = formProvider()
@@ -50,8 +51,8 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
     implicit val mess = messages(application)
     val service = application.injector.instanceOf[OnshoreWhichYearsService]
 
-    "return 19"  - {
-    
+    "return 19" - {
+
       "when a deliberate behaviour is selected alongside other values" in {
         val userAnswers = UserAnswers(userAnswersId).set(WhyAreYouMakingThisOnshoreDisclosurePage, WhyAreYouMakingThisOnshoreDisclosure.values.toSet).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Deliberate)
@@ -83,8 +84,8 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
 
     }
 
-    "return 5"  - {
-    
+    "return 5" - {
+
       "when InaccurateReturnNoCare is selected alongside other values" in {
         val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(
           WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnNoCare,
@@ -104,8 +105,8 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
 
     }
 
-    "return 3"  - {
-    
+    "return 3" - {
+
       "when all other values are selected" in {
         val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(
           WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHasExcuse,
@@ -254,6 +255,242 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
 
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
+      }
+    }
+  }
+
+  "WhichOnshoreYears CheckMode Controller" - {
+    "must redirect to CheckYourAnswer page if no changes are made" in {
+      val year = 2021
+      val yearStarting = OnshoreYearStarting(year)
+      val previousValue: Set[OnshoreYears] = Set(yearStarting)
+
+      val onshoreTaxYearLiabilities = OnshoreTaxYearLiabilities(
+        unpaidTax = BigInt(0),
+        niContributions = BigInt(0),
+        interest = BigInt(0),
+        penaltyRate = 0,
+        penaltyRateReason = "reason",
+        residentialTaxReduction = Some(false)
+      )
+      val onshoreTaxYearWithLiabilities = OnshoreTaxYearWithLiabilities(taxYear = yearStarting, taxYearLiabilities = onshoreTaxYearLiabilities)
+      val userAnswers = UserAnswers(userAnswersId).set(WhichOnshoreYearsPage, previousValue).success.value
+        .set(OnshoreTaxYearLiabilitiesPage, Map(year.toString -> onshoreTaxYearWithLiabilities)).success.value
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+      running(application) {
+        val request =
+          FakeRequest(POST, whichOnshoreYearsCheckModeRoute)
+            .withFormUrlEncodedBody(("value[0]", year.toString))
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual onshore.routes.CheckYourAnswersController.onPageLoad.url
+      }
+    }
+
+    "must redirect to OnshoreTaxYearLiabilitiesController if changes are made and there are no missing year or no 'before certain year' selected" in {
+        val previousYear = 2021
+        val newYear = 2022
+
+        val yearStarting = OnshoreYearStarting(previousYear)
+        val previousValue: Set[OnshoreYears] = Set(yearStarting)
+
+        val onshoreTaxYearLiabilities = OnshoreTaxYearLiabilities(
+          unpaidTax = BigInt(0),
+          niContributions = BigInt(0),
+          interest = BigInt(0),
+          penaltyRate = 0,
+          penaltyRateReason = "reason",
+          residentialTaxReduction = Some(false)
+        )
+        val onshoreTaxYearWithLiabilities = OnshoreTaxYearWithLiabilities(taxYear = yearStarting, taxYearLiabilities = onshoreTaxYearLiabilities)
+        val userAnswers = UserAnswers(userAnswersId).set(WhichOnshoreYearsPage, previousValue).success.value
+          .set(OnshoreTaxYearLiabilitiesPage, Map(previousYear.toString -> onshoreTaxYearWithLiabilities)).success.value
+
+        val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+        running(application) {
+          val request =
+            FakeRequest(POST, whichOnshoreYearsCheckModeRoute)
+              .withFormUrlEncodedBody(("value[0]", newYear.toString))
+
+          val result = route(application, request).value
+
+          status(result) mustEqual SEE_OTHER
+          redirectLocation(result).value mustEqual onshore.routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode).url
+        }
+     }
+
+    "must redirect to NotIncludedSingleTaxYearController if changes are made and there is one missing year and no 'before certain year' selected" in {
+      val previousYears1 = 2022
+      val previousYears2 = 2021
+      val newYear2 = 2020
+
+      val yearStarting1 = OnshoreYearStarting(previousYears1)
+      val yearStarting2 = OnshoreYearStarting(previousYears2)
+      val previousValue: Set[OnshoreYears] = Set(yearStarting1, yearStarting2)
+
+      val onshoreTaxYearLiabilities = OnshoreTaxYearLiabilities(
+        unpaidTax = BigInt(0),
+        niContributions = BigInt(0),
+        interest = BigInt(0),
+        penaltyRate = 0,
+        penaltyRateReason = "reason",
+        residentialTaxReduction = Some(false)
+      )
+
+      val onshoreTaxYearWithLiabilities1 = OnshoreTaxYearWithLiabilities(taxYear = yearStarting1, taxYearLiabilities = onshoreTaxYearLiabilities)
+      val onshoreTaxYearWithLiabilities2 = OnshoreTaxYearWithLiabilities(taxYear = yearStarting2, taxYearLiabilities = onshoreTaxYearLiabilities)
+      val userAnswers = UserAnswers(userAnswersId).set(WhichOnshoreYearsPage, previousValue).success.value
+        .set(OnshoreTaxYearLiabilitiesPage, Map(
+          previousYears1.toString -> onshoreTaxYearWithLiabilities1,
+          previousYears2.toString -> onshoreTaxYearWithLiabilities2
+        )).success.value
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+      running(application) {
+        val request =
+          FakeRequest(POST, whichOnshoreYearsCheckModeRoute)
+            .withFormUrlEncodedBody(("value[0]", previousYears1.toString), ("value[1]", newYear2.toString))
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual onshore.routes.NotIncludedSingleTaxYearController.onPageLoad(NormalMode).url
+      }
+    }
+
+
+    "must redirect to TaxBeforeThreeYearsOnshoreController if changes are made and 'before three year' is selected" in {
+      val previousYears1 = 2022
+      val previousYears2 = 2021
+      val newYear2 = "priorToThreeYears"
+
+      val yearStarting1 = OnshoreYearStarting(previousYears1)
+      val yearStarting2 = OnshoreYearStarting(previousYears2)
+      val previousValue: Set[OnshoreYears] = Set(yearStarting1, yearStarting2)
+
+      val onshoreTaxYearLiabilities = OnshoreTaxYearLiabilities(
+        unpaidTax = BigInt(0),
+        niContributions = BigInt(0),
+        interest = BigInt(0),
+        penaltyRate = 0,
+        penaltyRateReason = "reason",
+        residentialTaxReduction = Some(false)
+      )
+
+      val onshoreTaxYearWithLiabilities1 = OnshoreTaxYearWithLiabilities(taxYear = yearStarting1, taxYearLiabilities = onshoreTaxYearLiabilities)
+      val onshoreTaxYearWithLiabilities2 = OnshoreTaxYearWithLiabilities(taxYear = yearStarting2, taxYearLiabilities = onshoreTaxYearLiabilities)
+      val userAnswers = UserAnswers(userAnswersId).set(WhichOnshoreYearsPage, previousValue).success.value
+        .set(OnshoreTaxYearLiabilitiesPage, Map(
+          previousYears1.toString -> onshoreTaxYearWithLiabilities1,
+          previousYears2.toString -> onshoreTaxYearWithLiabilities2
+        )).success.value
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+      running(application) {
+        val request =
+          FakeRequest(POST, whichOnshoreYearsCheckModeRoute)
+            .withFormUrlEncodedBody(
+              ("value[0]", previousYears1.toString),
+              ("value[1]", newYear2)
+        )
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual onshore.routes.TaxBeforeThreeYearsOnshoreController.onPageLoad(NormalMode).url
+      }
+    }
+
+    "must redirect to TaxBeforeFiveYearsOnshoreController if changes are made and 'before five year' is selected" in {
+      val previousYears1 = 2022
+      val previousYears2 = 2021
+      val newYear2 = "priorToFiveYears"
+
+      val yearStarting1 = OnshoreYearStarting(previousYears1)
+      val yearStarting2 = OnshoreYearStarting(previousYears2)
+      val previousValue: Set[OnshoreYears] = Set(yearStarting1, yearStarting2)
+
+      val onshoreTaxYearLiabilities = OnshoreTaxYearLiabilities(
+        unpaidTax = BigInt(0),
+        niContributions = BigInt(0),
+        interest = BigInt(0),
+        penaltyRate = 0,
+        penaltyRateReason = "reason",
+        residentialTaxReduction = Some(false)
+      )
+
+      val onshoreTaxYearWithLiabilities1 = OnshoreTaxYearWithLiabilities(taxYear = yearStarting1, taxYearLiabilities = onshoreTaxYearLiabilities)
+      val onshoreTaxYearWithLiabilities2 = OnshoreTaxYearWithLiabilities(taxYear = yearStarting2, taxYearLiabilities = onshoreTaxYearLiabilities)
+      val userAnswers = UserAnswers(userAnswersId).set(WhichOnshoreYearsPage, previousValue).success.value
+        .set(OnshoreTaxYearLiabilitiesPage, Map(
+          previousYears1.toString -> onshoreTaxYearWithLiabilities1,
+          previousYears2.toString -> onshoreTaxYearWithLiabilities2
+        )).success.value
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+      running(application) {
+        val request =
+          FakeRequest(POST, whichOnshoreYearsCheckModeRoute)
+            .withFormUrlEncodedBody(
+              ("value[0]", previousYears1.toString),
+              ("value[1]", newYear2)
+            )
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual onshore.routes.TaxBeforeFiveYearsOnshoreController.onPageLoad(NormalMode).url
+      }
+    }
+
+    "must redirect to TaxBeforeNineteenYearsOnshoreController if changes are made and 'before nineteen year' is selected" in {
+      val previousYears1 = 2022
+      val previousYears2 = 2021
+      val newYear2 = "priorToNineteenYears"
+
+      val yearStarting1 = OnshoreYearStarting(previousYears1)
+      val yearStarting2 = OnshoreYearStarting(previousYears2)
+      val previousValue: Set[OnshoreYears] = Set(yearStarting1, yearStarting2)
+
+      val onshoreTaxYearLiabilities = OnshoreTaxYearLiabilities(
+        unpaidTax = BigInt(0),
+        niContributions = BigInt(0),
+        interest = BigInt(0),
+        penaltyRate = 0,
+        penaltyRateReason = "reason",
+        residentialTaxReduction = Some(false)
+      )
+
+      val onshoreTaxYearWithLiabilities1 = OnshoreTaxYearWithLiabilities(taxYear = yearStarting1, taxYearLiabilities = onshoreTaxYearLiabilities)
+      val onshoreTaxYearWithLiabilities2 = OnshoreTaxYearWithLiabilities(taxYear = yearStarting2, taxYearLiabilities = onshoreTaxYearLiabilities)
+      val userAnswers = UserAnswers(userAnswersId).set(WhichOnshoreYearsPage, previousValue).success.value
+        .set(OnshoreTaxYearLiabilitiesPage, Map(
+          previousYears1.toString -> onshoreTaxYearWithLiabilities1,
+          previousYears2.toString -> onshoreTaxYearWithLiabilities2
+        )).success.value
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+      running(application) {
+        val request =
+          FakeRequest(POST, whichOnshoreYearsCheckModeRoute)
+            .withFormUrlEncodedBody(
+              ("value[0]", previousYears1.toString),
+              ("value[1]", newYear2)
+            )
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual onshore.routes.TaxBeforeNineteenYearsOnshoreController.onPageLoad(NormalMode).url
       }
     }
   }

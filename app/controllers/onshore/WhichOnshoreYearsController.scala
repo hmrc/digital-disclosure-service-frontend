@@ -18,10 +18,11 @@ package controllers.onshore
 
 import controllers.actions._
 import forms.WhichOnshoreYearsFormProvider
+
 import javax.inject.Inject
-import models.{UserAnswers, Behaviour, Mode}
+import models._
 import navigation.OnshoreNavigator
-import pages.WhichOnshoreYearsPage
+import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.{OnshoreWhichYearsService, SessionService}
@@ -29,9 +30,9 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.onshore.WhichOnshoreYearsView
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.checkboxes.CheckboxItem
-import pages.WhyAreYouMakingThisOnshoreDisclosurePage
 
 import scala.concurrent.{ExecutionContext, Future}
+import scala.util.{Success, Try}
 
 class WhichOnshoreYearsController @Inject()(
                                         override val messagesApi: MessagesApi,
@@ -66,11 +67,18 @@ class WhichOnshoreYearsController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode, populateChecklist(request.userAnswers)))),
 
-        value =>
+        value => {
+          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
+
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(WhichOnshoreYearsPage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(WhichOnshoreYearsPage, mode, updatedAnswers))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+            filteredAnswers <- Future.fromTry(filterDeselectedYears(value, clearedAnswers))
+            _ <- sessionService.set(filteredAnswers)
+          } yield {
+            Redirect(navigator.nextPage(WhichOnshoreYearsPage, mode, filteredAnswers, hasValueChanged))
+          }
+        }
       )
   }
 
@@ -79,15 +87,51 @@ class WhichOnshoreYearsController @Inject()(
     import models.WhyAreYouMakingThisOnshoreDisclosure._
  
     val behaviour = ua.get(WhyAreYouMakingThisOnshoreDisclosurePage) match {
-      case Some(value) if (value.contains(DidNotNotifyNoExcuse) || 
-          value.contains(DeliberatelyDidNotNotify) || 
-          value.contains(DeliberateInaccurateReturn) || 
+      case Some(value) if (value.contains(DidNotNotifyNoExcuse) ||
+          value.contains(DeliberatelyDidNotNotify) ||
+          value.contains(DeliberateInaccurateReturn) ||
           value.contains(DeliberatelyDidNotFile)) =>  Behaviour.Deliberate
-      case Some(value) if (value.contains(InaccurateReturnNoCare)) => Behaviour.Careless      
-      case _ => Behaviour.ReasonableExcuse 
+      case Some(value) if (value.contains(InaccurateReturnNoCare)) => Behaviour.Careless
+      case _ => Behaviour.ReasonableExcuse
     }
 
     onshoreWhichYearsService.checkboxItems(behaviour)
+  }
+
+  def changedPages(userAnswers: UserAnswers, newValue: Set[OnshoreYears]): (List[QuestionPage[_]], Boolean) = {
+    val missingYearsCount = userAnswers.inverselySortedOnshoreTaxYears.map(ty => OnshoreYearStarting.findMissingYears(ty.toList).size).getOrElse(0)
+
+    val missingYearPageList = if (missingYearsCount == 0) List(NotIncludedSingleTaxYearPage, NotIncludedMultipleTaxYearsPage) else Nil
+
+    val priorToList = if (newValue.intersect(Set[OnshoreYears](PriorToFiveYears, PriorToThreeYears, PriorToNineteenYears)).isEmpty) {
+      List(TaxBeforeThreeYearsOnshorePage, TaxBeforeFiveYearsPage, TaxBeforeNineteenYearsPage)
+    } else { Nil }
+
+    val pagesToClear = missingYearPageList ::: priorToList
+    val hasChanged = !userAnswers.get(WhichOnshoreYearsPage).contains(newValue) || !areYearsMissing(userAnswers, newValue)
+
+    (pagesToClear, hasChanged)
+  }
+
+  def filterDeselectedYears(newValue: Set[OnshoreYears], ua: UserAnswers): Try[UserAnswers] = {
+    val offshoreTaxYears = newValue.collect { case OnshoreYearStarting(y) => OnshoreYearStarting(y) }.toSeq
+    updateLiabilitiesPage(offshoreTaxYears, ua)
+  }
+
+  def updateLiabilitiesPage(newTaxYears: Seq[OnshoreYearStarting], ua: UserAnswers): Try[UserAnswers] =
+    ua.get(OnshoreTaxYearLiabilitiesPage)
+      .fold[Try[UserAnswers]](Success(ua))(liabilities => updateTaxYearLiabilities(newTaxYears, ua, liabilities))
+
+  def updateTaxYearLiabilities(newTaxYears: Seq[OnshoreYearStarting], ua: UserAnswers, liabilities: Map[String, OnshoreTaxYearWithLiabilities]): Try[UserAnswers] = {
+    val taxYearsAsStrings = newTaxYears.map(_.toString)
+    val newLiabilities = liabilities.filter { case (year, _) => taxYearsAsStrings.contains(year) }
+    ua.set(OnshoreTaxYearLiabilitiesPage, newLiabilities)
+  }
+
+  def areYearsMissing(userAnswers: UserAnswers, newValue: Set[OnshoreYears]) = {
+    val onshoreTaxYears = newValue.collect { case OnshoreYearStarting(y) => OnshoreYearStarting(y) }.toSeq
+    val liabilitiesMap = userAnswers.get(OnshoreTaxYearLiabilitiesPage).getOrElse(Map.empty)
+    onshoreTaxYears.forall(year => liabilitiesMap.contains(year.toString))
   }
 
 }
