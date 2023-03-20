@@ -636,9 +636,6 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
         navigator.nextPage(WhyAreYouMakingThisOnshoreDisclosurePage, CheckMode, userAnswers) mustBe routes.CDFOnshoreController.onPageLoad(NormalMode)
       }
 
-
-      //////////////////////////
-
       "must go from WhichOnshoreYearsPage to TaxBeforeThreeYearsOnshoreController when selected option PriorToThreeYears and something has changed" in {
         val set: Set[OnshoreYears] = Set(PriorToThreeYears)
         val userAnswers = UserAnswers("id").set(WhichOnshoreYearsPage, set).success.value
