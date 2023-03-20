@@ -210,7 +210,7 @@ class CaseManagementServiceSpec extends ViewSpecBase {
         TableRow(Text(expectedCreatedDate)),
         TableRow(Text(messages("caseManagement.disclosure.started"))),
         TableRow(Text(expectedDate)),
-        TableRow(HtmlContent(linkHtml(s"access-${messages("caseManagement.incomplete")}", messages("caseManagement.access.edit"), controllers.routes.CaseManagementController.navigateToSubmission("123"))))
+        TableRow(HtmlContent(linkHtml(s"access-${messages("caseManagement.incomplete")}", messages("caseManagement.access.edit"), controllers.routes.CaseManagementController.navigateToSubmission("123"), showId = false)))
       )
       sut.storeEntryToTableRow(submission) mustEqual expected
 
