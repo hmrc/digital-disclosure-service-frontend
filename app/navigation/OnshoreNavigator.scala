@@ -16,6 +16,8 @@
 
 package navigation
 
+import com.google.inject.ImplementedBy
+
 import javax.inject.{Inject, Singleton}
 import play.api.mvc.Call
 import controllers.onshore.routes
@@ -23,9 +25,10 @@ import models.WhatOnshoreLiabilitiesDoYouNeedToDisclose.{CorporationTax, Directo
 import pages._
 import models._
 import models.WhyAreYouMakingThisOnshoreDisclosure._
+import services.UAToDisclosureService
 
 @Singleton
-class OnshoreNavigator @Inject()() {
+class OnshoreNavigatorImpl @Inject()(uaToDisclosure: UAToDisclosureService) extends OnshoreNavigator {
 
   private val normalRoutes: Page => UserAnswers => Call = {
 
@@ -204,6 +207,11 @@ class OnshoreNavigator @Inject()() {
       if(hasAnswerChanged) nextPage(WhichOnshoreYearsPage, NormalMode, ua)
       else routes.CheckYourAnswersController.onPageLoad
 
+    case PropertyAddedPage => ua => _ => uaToDisclosure.uaToFullDisclosure(ua).onshoreLiabilities match {
+      case Some(onshoreLiabilities) if onshoreLiabilities.isComplete => routes.CheckYourAnswersController.onPageLoad
+      case _ => nextPage(PropertyAddedPage, NormalMode, ua, false)
+    }
+
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
@@ -222,8 +230,15 @@ class OnshoreNavigator @Inject()() {
     case (_, _) => routes.CheckYourAnswersController.onPageLoad
   }
 
-  def requiresTaxYears(taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]) = {
+  private def requiresTaxYears(taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]) = {
     taxTypes.filterNot(_ == CorporationTax).filterNot(_ == DirectorLoan).size > 0
   }
 
 }
+
+@ImplementedBy(classOf[OnshoreNavigatorImpl])
+trait OnshoreNavigator {
+  def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasAnswerChanged: Boolean = true): Call
+  def nextTaxYearLiabilitiesPage(currentIndex: Int, deduction: Boolean, mode: Mode, userAnswers: UserAnswers, hasAnswerChanged: Boolean = false): Call
+}
+
