@@ -18,7 +18,6 @@ package navigation
 
 import base.SpecBase
 import controllers.onshore.routes
-import generators.ModelGenerators
 import models.WhatOnshoreLiabilitiesDoYouNeedToDisclose.{BusinessIncome, CorporationTax, DirectorLoan}
 import models.WhyAreYouMakingThisOnshoreDisclosure.{DeliberateInaccurateReturn, DeliberatelyDidNotFile, DeliberatelyDidNotNotify}
 import models.RelatesTo.AnIndividual
