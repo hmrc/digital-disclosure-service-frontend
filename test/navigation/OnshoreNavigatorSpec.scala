@@ -18,19 +18,26 @@ package navigation
 
 import base.SpecBase
 import controllers.onshore.routes
-import models.WhatOnshoreLiabilitiesDoYouNeedToDisclose.{CorporationTax, DirectorLoan, BusinessIncome}
+import models.WhatOnshoreLiabilitiesDoYouNeedToDisclose.{BusinessIncome, CorporationTax, DirectorLoan}
 import models.WhyAreYouMakingThisOnshoreDisclosure.{DeliberateInaccurateReturn, DeliberatelyDidNotFile, DeliberatelyDidNotNotify}
 import models.RelatesTo.AnIndividual
 import pages._
 import models._
 import models.YourLegalInterpretation._
+import models.store.{FullDisclosure, Metadata}
+import models.store.disclosure.{CaseReference, OffshoreLiabilities, OnshoreLiabilities, OtherLiabilities, ReasonForDisclosingNow}
+import models.store.notification.{AboutYou, Background, PersonalDetails}
+import org.mockito.ArgumentMatchers.any
+import org.mockito.MockitoSugar
+import services.UAToDisclosureService
 import uk.gov.hmrc.time.CurrentTaxYear
 
-import java.time.LocalDate
+import java.time.{Instant, LocalDate}
 
-class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
+class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear with MockitoSugar {
 
-  val navigator = new OnshoreNavigator
+  val uaToDisclosureService = mock[UAToDisclosureService]
+  val navigator = new OnshoreNavigatorImpl(uaToDisclosureService)
 
   def now = () => LocalDate.now()
 
@@ -700,6 +707,49 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear {
       navigator.nextPage(CorporationTaxLiabilityPage, CheckMode, UserAnswers("id")) mustBe routes.CorporationTaxSummaryController.onPageLoad(NormalMode)
     }
 
+
+    "must go from PropertyAddedPage to AreYouAMemberOfAnyLandlordAssociationsController if no is selected and the section is not completed" in {
+      val fullDisclosure = getFullDisclosure()
+      when(uaToDisclosureService.uaToFullDisclosure(any())).thenReturn(fullDisclosure)
+
+      val ua = UserAnswers("id").set(PropertyAddedPage, false).success.value
+      navigator.nextPage(PropertyAddedPage, CheckMode, ua) mustBe routes.AreYouAMemberOfAnyLandlordAssociationsController.onPageLoad(NormalMode)
+     }
+
+    "must go from PropertyAddedPage to CheckYourAnswersController if no is selected and the section is completed" in {
+      val fullDisclosure = getFullDisclosure(onshoreCompleted = true)
+      when(uaToDisclosureService.uaToFullDisclosure(any())).thenReturn(fullDisclosure)
+
+      val ua = UserAnswers("id").set(PropertyAddedPage, false).success.value
+      navigator.nextPage(PropertyAddedPage, CheckMode, ua) mustBe routes.CheckYourAnswersController.onPageLoad
+    }
+
+    "must go from PropertyAddedPage to CheckYourAnswersController if yes is selected and the section is completed" in {
+      val fullDisclosure = getFullDisclosure(onshoreCompleted = true)
+      when(uaToDisclosureService.uaToFullDisclosure(any())).thenReturn(fullDisclosure)
+
+      val ua = UserAnswers("id").set(PropertyAddedPage, true).success.value
+      navigator.nextPage(PropertyAddedPage, CheckMode, ua) mustBe routes.CheckYourAnswersController.onPageLoad
+    }
+
+  }
+
+  private def getFullDisclosure(onshoreCompleted:Boolean = false): FullDisclosure = {
+    val whatLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = if(onshoreCompleted) Set() else Set(CorporationTax)
+    val onshoreLiabilities = OnshoreLiabilities(behaviour = Some(Set()), whatLiabilities = Some(whatLiabilities))
+
+    FullDisclosure(
+      submissionId = "",
+      lastUpdated = Instant.now(),
+      metadata = Metadata(),
+      caseReference = CaseReference(),
+      personalDetails = PersonalDetails(Background(), AboutYou()),
+      onshoreLiabilities = Some(onshoreLiabilities),
+      offshoreLiabilities = OffshoreLiabilities(),
+      otherLiabilities = OtherLiabilities(),
+      reasonForDisclosingNow = ReasonForDisclosingNow(),
+      userId = ""
+    )
   }
 
 }
