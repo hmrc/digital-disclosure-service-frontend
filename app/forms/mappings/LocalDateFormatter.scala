@@ -82,7 +82,7 @@ private[mappings] class LocalDateFormatter(
       field =>
         field -> data.get(s"$key.$field").filter(_.nonEmpty)
     }.toMap
-
+    
     lazy val missingFields = fields
       .withFilter(_._2.isEmpty)
       .map(_._1)
@@ -92,9 +92,9 @@ private[mappings] class LocalDateFormatter(
       case 3 =>
         formatDate(key, data)
       case 2 =>
-        Left(List(FormError(key, requiredKey, missingFields ++ args)))
+        Left(missingFields.map(field => FormError(s"$key.$field", requiredKey, missingFields ++ args)))
       case 1 =>
-        Left(List(FormError(key, twoRequiredKey, missingFields ++ args)))
+        Left(missingFields.map(field => FormError(s"$key.$field", twoRequiredKey, missingFields ++ args)))
       case _ =>
         Left(List(FormError(key, allRequiredKey, args)))
     }
