@@ -724,12 +724,12 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear with MockitoSuga
       navigator.nextPage(PropertyAddedPage, CheckMode, ua) mustBe routes.CheckYourAnswersController.onPageLoad
     }
 
-    "must go from PropertyAddedPage to CheckYourAnswersController if yes is selected and the section is completed" in {
+    "must go from PropertyAddedPage to AreYouAMemberOfAnyLandlordAssociationsController if yes is selected and the section is completed" in {
       val fullDisclosure = getFullDisclosure(onshoreCompleted = true)
       when(uaToDisclosureService.uaToFullDisclosure(any())).thenReturn(fullDisclosure)
 
       val ua = UserAnswers("id").set(PropertyAddedPage, true).success.value
-      navigator.nextPage(PropertyAddedPage, CheckMode, ua) mustBe routes.CheckYourAnswersController.onPageLoad
+      navigator.nextPage(PropertyAddedPage, CheckMode, ua) mustBe routes.AreYouAMemberOfAnyLandlordAssociationsController.onPageLoad(NormalMode)
     }
 
   }
