@@ -23,6 +23,7 @@ import javax.inject.Inject
 import models._
 import navigation.OnshoreNavigator
 import pages._
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.{OnshoreWhichYearsService, SessionService}
@@ -45,7 +46,7 @@ class WhichOnshoreYearsController @Inject()(
                                         val controllerComponents: MessagesControllerComponents,
                                         view: WhichOnshoreYearsView,
                                         onshoreWhichYearsService: OnshoreWhichYearsService
-                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with Logging {
 
   val form = formProvider()
 
@@ -103,9 +104,11 @@ class WhichOnshoreYearsController @Inject()(
 
     val missingYearPageList = if (missingYearsCount == 0) List(NotIncludedSingleTaxYearPage, NotIncludedMultipleTaxYearsPage) else Nil
 
-    val priorToList = if (newValue.intersect(Set[OnshoreYears](PriorToFiveYears, PriorToThreeYears, PriorToNineteenYears)).isEmpty) {
-      List(TaxBeforeThreeYearsOnshorePage, TaxBeforeFiveYearsPage, TaxBeforeNineteenYearsPage)
-    } else { Nil }
+    val priorToList = newValue.intersect(Set[OnshoreYears](PriorToFiveYears, PriorToThreeYears, PriorToNineteenYears)).size match {
+      case 0 => List(TaxBeforeThreeYearsOnshorePage, TaxBeforeFiveYearsOnshorePage, TaxBeforeNineteenYearsOnshorePage)
+      case 1 => List(LettingPropertyPage)
+      case _ => Nil
+    }
 
     val pagesToClear = missingYearPageList ::: priorToList
     val hasChanged = !userAnswers.get(WhichOnshoreYearsPage).contains(newValue) || !areYearsMissing(userAnswers, newValue)
