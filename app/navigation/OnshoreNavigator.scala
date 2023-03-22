@@ -207,9 +207,20 @@ class OnshoreNavigatorImpl @Inject()(uaToDisclosure: UAToDisclosureService) exte
       if(hasAnswerChanged) nextPage(WhichOnshoreYearsPage, NormalMode, ua)
       else routes.CheckYourAnswersController.onPageLoad
 
-    case PropertyAddedPage => ua => _ => uaToDisclosure.uaToFullDisclosure(ua).onshoreLiabilities match {
-      case Some(onshoreLiabilities) if onshoreLiabilities.isComplete => routes.CheckYourAnswersController.onPageLoad
-      case _ => nextPage(PropertyAddedPage, NormalMode, ua, false)
+    case PropertyAddedPage => ua => _ => (ua.get(PropertyAddedPage), uaToDisclosure.uaToFullDisclosure(ua).onshoreLiabilities) match {
+      case (Some(true), _) => nextPage(PropertyAddedPage, NormalMode, ua)
+      case (Some(false), Some(onshoreLiabilities)) if onshoreLiabilities.isComplete => routes.CheckYourAnswersController.onPageLoad
+      case _ => nextPage(PropertyAddedPage, NormalMode, ua)
+    }
+
+    case AccountingPeriodCTAddedPage => ua => _ => ua.get(AccountingPeriodCTAddedPage) match {
+      case Some(true) => nextPage(AccountingPeriodCTAddedPage, NormalMode, ua)
+      case _ => routes.CheckYourAnswersController.onPageLoad
+    }
+
+    case AccountingPeriodDLAddedPage => ua => _ => ua.get(AccountingPeriodDLAddedPage) match {
+      case Some(true) => nextPage(AccountingPeriodDLAddedPage, NormalMode, ua)
+      case _ => routes.CheckYourAnswersController.onPageLoad
     }
 
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
