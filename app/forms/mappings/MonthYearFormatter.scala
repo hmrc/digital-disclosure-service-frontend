@@ -87,10 +87,11 @@ private[mappings] class MonthYearFormatter(
       case 2 =>
         formatDate(key, data)
       case 1 =>
-        Left(List(FormError(key, requiredKey, missingFields ++ args)))
+        Left(missingFields.map(field => FormError(s"$key.$field", requiredKey, missingFields ++ args)))
       case _ =>
         Left(List(FormError(key, allRequiredKey, args)))
     }
+
   }
 
   def defaultKey[A](key: String, either: Either[Seq[FormError], A]): Either[Seq[FormError], A] = {
