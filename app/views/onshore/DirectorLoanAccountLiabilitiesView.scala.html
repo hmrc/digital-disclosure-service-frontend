@@ -38,9 +38,8 @@
     @formHelper(action = controllers.onshore.routes.DirectorLoanAccountLiabilitiesController.onSubmit(index, mode), 'autoComplete -> "off") {
 
         @if(form.errors.nonEmpty) {
-            @govukErrorSummary(ErrorSummaryViewModel(form))
+            @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("periodEnd" -> "periodEnd.day")))
         }
-
 
         @heading(Text(messages("directorLoanAccountLiabilities.heading", index + 1)))
 

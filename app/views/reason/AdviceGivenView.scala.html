@@ -39,7 +39,7 @@
     @formHelper(action = controllers.reason.routes.AdviceGivenController.onSubmit(mode), 'autoComplete -> "off") {
 
         @if(form.errors.nonEmpty) {
-            @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("contact" -> "contact_0")))
+            @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("contact" -> "contact_0", "date" -> "date.month")))
         }
 
         @heading(Text(messages("adviceGiven.heading")))
