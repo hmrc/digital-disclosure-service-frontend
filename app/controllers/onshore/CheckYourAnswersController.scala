@@ -45,6 +45,9 @@ class CheckYourAnswersController @Inject()(
   }
 
   def isOnshoreOffshoreLiabilitiesPresent(userAnswers: UserAnswers): Boolean = {
-    (userAnswers.get(OffshoreLiabilitiesPage).isDefined && userAnswers.get(OnshoreLiabilitiesPage).isDefined)
+    (userAnswers.get(OffshoreLiabilitiesPage), userAnswers.get(OnshoreLiabilitiesPage)) match {
+      case (Some(true), Some(true)) => true
+      case _ => false
+    }
   } 
 }
