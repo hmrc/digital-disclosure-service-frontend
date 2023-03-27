@@ -105,9 +105,9 @@ class CaseManagementServiceImpl @Inject()(visuallyHiddenContent: visuallyHiddenC
 
   private def getVisuallyHiddenText(submission: Submission, status: CaseStatus, ref: String)(implicit messages: Messages):String =
     getReferenceOption(submission) match {
-      case Some(reference) if status == SentNotification => s"Make a disclosure for $reference"
-      case Some(reference) => s"Edit reference $reference"
-      case _ => s"Edit case created on ${getCreatedDate(submission)}"
+      case Some(reference) if status == SentNotification => messages("caseManagement.hidden.make.disclosure", reference) // s"Make a disclosure for $reference"
+      case Some(reference) => messages("caseManagement.hidden.edit.reference", reference) //s"Edit reference $reference"
+      case _ => messages("caseManagement.hidden.edit.no.reference", getCreatedDate(submission))//s"Edit case created on ${getCreatedDate(submission)}"
     }
 
   def getReference(submission: Submission)(implicit messages: Messages): String = getReferenceOption(submission).getOrElse(messages("caseManagement.incomplete"))
