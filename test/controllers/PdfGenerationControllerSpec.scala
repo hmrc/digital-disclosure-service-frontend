@@ -19,11 +19,9 @@ package controllers
 import base.SpecBase
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.bootstrap.binders.RedirectUrl
-import views.html.{JourneyRecoveryContinueView, JourneyRecoveryStartAgainView}
 import org.mockito.ArgumentMatchers.any
 import play.api.inject.bind
-import org.mockito.Mockito.{never, times, verify, when}
+import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import akka.util.ByteString
 import services.SubmissionPDFService

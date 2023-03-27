@@ -71,28 +71,10 @@ class CheckYourAnswersControllerSpec extends SpecBase {
       val application = applicationBuilder(userAnswers = Some(ua)).build()
       implicit val mess = messages(application)
 
-      val rows = Seq(
-        WhyAreYouMakingADisclosureSummary.row(ua),
-        WhatIsTheReasonForMakingADisclosureNowSummary.row(ua),
-        WhyNotBeforeNowSummary.row(ua),
-        DidSomeoneGiveYouAdviceNotDeclareTaxSummary.row(ua)
-      ).flatten
-      val adviceRows = SummaryList(rows = Seq(PersonWhoGaveAdviceSummary.row(ua),
-        AdviceBusinessesOrOrgSummary.row(ua),
-        AdviceBusinessNameSummary.row(ua),
-        AdviceProfessionSummary.row(ua),
-        WhatEmailAddressCanWeContactYouWithSummary.row(ua),
-        WhatTelephoneNumberCanWeContactYouWithSummary.row(ua)
-      ).flatten)
-
-      val viewModel = CheckYourAnswersViewModel(SummaryList(rows = rows), Some(adviceRows))
-
       running(application) {
         val request = FakeRequest(GET, controllers.reason.routes.CheckYourAnswersController.onPageLoad.url)
 
         val result = route(application, request).value
-
-        val view = application.injector.instanceOf[CheckYourAnswersView]
 
         status(result) mustEqual OK
       }
