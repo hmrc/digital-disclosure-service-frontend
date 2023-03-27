@@ -162,8 +162,9 @@ class OnshoreNavigatorImpl @Inject()(uaToDisclosure: UAToDisclosureService) exte
 
     case HowManyPropertiesDoYouCurrentlyLetOutPage => _ => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
 
-    case PropertyAddedPage => ua => (ua.get(PropertyAddedPage), ua.get(LettingPropertyPage)) match {
-      case (Some(true), Some(properties)) => controllers.letting.routes.RentalAddressLookupController.lookupAddress(properties.size, NormalMode)
+    case PropertyAddedPage => ua => (ua.get(PropertyAddedPage), ua.get(LettingPropertyPage), uaToDisclosure.uaToFullDisclosure(ua).onshoreLiabilities) match {
+      case (Some(true), Some(properties), _) => controllers.letting.routes.RentalAddressLookupController.lookupAddress(properties.size, NormalMode)
+      case (Some(false), _, Some(onshoreLiabilities)) if onshoreLiabilities.isComplete => routes.CheckYourAnswersController.onPageLoad
       case _ => routes.AreYouAMemberOfAnyLandlordAssociationsController.onPageLoad(NormalMode)
     }
 
