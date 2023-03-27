@@ -1,5 +1,4 @@
 # Add all the application routes to the app.routes file
-->         /digital-disclosure                                       app.Routes
 ->         /tell-hmrc-about-underpaid-tax-from-previous-years        app.Routes
 ->         /                                                         health.Routes
 
