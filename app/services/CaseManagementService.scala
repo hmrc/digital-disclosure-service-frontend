@@ -24,13 +24,13 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.content._
 import models.store.notification._
 import play.twirl.api.HtmlFormat
 import play.api.mvc.Call
-import views.html.components.link
+import views.html.components.visuallyHiddenContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.table.{Table, HeadCell, TableRow}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.pagination.{Pagination, PaginationItem, PaginationLink}
 import play.api.i18n.Messages
 
 @Singleton
-class CaseManagementServiceImpl @Inject()(link: link) extends CaseManagementService {
+class CaseManagementServiceImpl @Inject()(visuallyHiddenContent: visuallyHiddenContent) extends CaseManagementService {
 
   val ROWS_ON_PAGE = 10
 
@@ -73,7 +73,10 @@ class CaseManagementServiceImpl @Inject()(link: link) extends CaseManagementServ
         HeadCell(Text(messages("caseManagement.column.accessUntil"))),
         HeadCell(Text(messages("caseManagement.column.access")))
       )),
-      attributes = Map("id" -> "case-table")
+      firstCellIsHeader = true,
+      attributes = Map("id" -> "case-table"),
+      caption = Some(messages("caseManagement.caption")),
+      captionClasses = "govuk-heading-l"
     )
 
   def storeEntryToTableRow(submission: Submission)(implicit messages: Messages): Seq[TableRow] = {
@@ -83,6 +86,7 @@ class CaseManagementServiceImpl @Inject()(link: link) extends CaseManagementServ
     val accessKey = getAccessKey(status)
 
     val reference = getReference(submission)
+    val hiddenText = getVisuallyHiddenText(submission, status, reference)
 
     Seq(
       TableRow(HtmlContent(HtmlFormat.escape(reference))),
@@ -90,22 +94,31 @@ class CaseManagementServiceImpl @Inject()(link: link) extends CaseManagementServ
       TableRow(Text(getCreatedDate(submission))),
       TableRow(Text(messages(statusKey))),
       TableRow(Text(getAccessUntilDate(submission))),
-      TableRow(HtmlContent(link(
+      TableRow(HtmlContent(visuallyHiddenContent(
         s"access-$reference", messages(accessKey),
         controllers.routes.CaseManagementController.navigateToSubmission(submission.submissionId),
-        showId = false)
+        showId = false,
+        visuallyHiddenText = hiddenText)
       ))
     )
   }
 
-  def getReference(submission: Submission)(implicit messages: Messages): String = 
+  private def getVisuallyHiddenText(submission: Submission, status: CaseStatus, ref: String)(implicit messages: Messages):String =
+    getReferenceOption(submission) match {
+      case Some(reference) if status == SentNotification => s"Make a disclosure for $reference"
+      case Some(reference) => s"Edit reference $reference"
+      case _ => s"Edit case created on ${getCreatedDate(submission)}"
+    }
+
+  def getReference(submission: Submission)(implicit messages: Messages): String = getReferenceOption(submission).getOrElse(messages("caseManagement.incomplete"))
+  def getReferenceOption(submission: Submission)(implicit messages: Messages): Option[String] =
     submission.personalDetails.background.disclosureEntity.flatMap(_ match {
       case DisclosureEntity(Individual, _) => submission.personalDetails.aboutTheIndividual.flatMap(_.fullName).orElse(submission.personalDetails.aboutYou.fullName)
       case DisclosureEntity(Estate, _) => submission.personalDetails.aboutTheEstate.flatMap(_.fullName)
       case DisclosureEntity(Company, _) => submission.personalDetails.aboutTheCompany.flatMap(_.name)
       case DisclosureEntity(LLP, _) => submission.personalDetails.aboutTheLLP.flatMap(_.name)
       case DisclosureEntity(Trust, _) => submission.personalDetails.aboutTheTrust.flatMap(_.name)
-    }).getOrElse(messages("caseManagement.incomplete"))
+    })
 
   def getCaseType(submission: Submission)(implicit messages: Messages): Content = {
     val offshoreAnswer = submission.personalDetails.background.offshoreLiabilities
