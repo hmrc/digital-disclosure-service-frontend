@@ -17,7 +17,7 @@
 package services
 
 import base.ViewSpecBase
-import views.html.components.visuallyHiddenContent
+import views.html.components.linkWithVisuallyHiddenContent
 import java.time.{Instant, LocalDate, ZoneId, LocalDateTime}
 import java.time.format.DateTimeFormatter
 import models.store._
@@ -31,8 +31,8 @@ class CaseManagementServiceSpec extends ViewSpecBase {
 
   val dateFormatter = DateTimeFormatter.ofPattern("d MMM yyyy HH:mma")
 
-  val visuallyHiddenContent = inject[visuallyHiddenContent]
-  val sut = new CaseManagementServiceImpl(visuallyHiddenContent)
+  val linkWithVisuallyHiddenContent = inject[linkWithVisuallyHiddenContent]
+  val sut = new CaseManagementServiceImpl(linkWithVisuallyHiddenContent)
 
   val createdInstant = LocalDate.of(1990, 8, 23).atStartOfDay.atZone(ZoneId.systemDefault).toInstant
   val lastUpdatedInstant = LocalDate.of(2012, 1, 1).atStartOfDay.atZone(ZoneId.systemDefault).toInstant
@@ -211,7 +211,7 @@ class CaseManagementServiceSpec extends ViewSpecBase {
         TableRow(Text(messages("caseManagement.disclosure.started"))),
         TableRow(Text(expectedDate)),
         TableRow(HtmlContent(
-          visuallyHiddenContent(
+          linkWithVisuallyHiddenContent(
             id = s"access-${messages("caseManagement.incomplete")}",
             text = messages("caseManagement.access.edit"),
             call = controllers.routes.CaseManagementController.navigateToSubmission("123"),

@@ -24,13 +24,13 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.content._
 import models.store.notification._
 import play.twirl.api.HtmlFormat
 import play.api.mvc.Call
-import views.html.components.visuallyHiddenContent
+import views.html.components.linkWithVisuallyHiddenContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.table.{Table, HeadCell, TableRow}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.pagination.{Pagination, PaginationItem, PaginationLink}
 import play.api.i18n.Messages
 
 @Singleton
-class CaseManagementServiceImpl @Inject()(visuallyHiddenContent: visuallyHiddenContent) extends CaseManagementService {
+class CaseManagementServiceImpl @Inject()(linkWithVisuallyHiddenContent: linkWithVisuallyHiddenContent) extends CaseManagementService {
 
   val ROWS_ON_PAGE = 10
 
@@ -94,7 +94,7 @@ class CaseManagementServiceImpl @Inject()(visuallyHiddenContent: visuallyHiddenC
       TableRow(Text(getCreatedDate(submission))),
       TableRow(Text(messages(statusKey))),
       TableRow(Text(getAccessUntilDate(submission))),
-      TableRow(HtmlContent(visuallyHiddenContent(
+      TableRow(HtmlContent(linkWithVisuallyHiddenContent(
         s"access-$reference", messages(accessKey),
         controllers.routes.CaseManagementController.navigateToSubmission(submission.submissionId),
         showId = false,
