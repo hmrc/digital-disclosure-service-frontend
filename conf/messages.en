@@ -456,7 +456,7 @@ yourEmailAddress.change.hidden = Your email address
 yourPhoneNumber.title = What is your telephone number?
 yourPhoneNumber.question = What is your telephone number?
 yourPhoneNumber.checkYourAnswersLabel = Your telephone number
-yourPhoneNumber.hint = If this is a UK landline or an overseas number, you must include the area or dialing code.
+yourPhoneNumber.hint = If this is a UK landline or an overseas number, you must include the area or dialling code.
 yourPhoneNumber.error.required = Enter your telephone number
 yourPhoneNumber.error.validFormat = Enter your telephone number, like 01642 123456, 07777 777777 or +33 1 2345 6788.
 yourPhoneNumber.change.hidden = Your telephone number
@@ -1571,7 +1571,7 @@ checkYourAnswers.reason.section2.heading = About the advice given
 
 whatTelephoneNumberCanWeContactYouWith.title = What telephone number can we contact you with?
 whatTelephoneNumberCanWeContactYouWith.heading = What telephone number can we contact you with?
-whatTelephoneNumberCanWeContactYouWith.hint = If this is a UK landline or an overseas number, you must include the area or dialing code.
+whatTelephoneNumberCanWeContactYouWith.hint = If this is a UK landline or an overseas number, you must include the area or dialling code.
 whatTelephoneNumberCanWeContactYouWith.checkYourAnswersLabel = Telephone number
 whatTelephoneNumberCanWeContactYouWith.error.required = Enter your telephone number
 whatTelephoneNumberCanWeContactYouWith.error.validFormat = Enter your telephone number, like 01642 123456, 07777 777777 or +33 1 2345 6788.
