@@ -92,8 +92,11 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         
         val list = TaskListViewModel(Seq(personalDetailsTask), Seq(caseReferenceTask, declarationTask), Seq(otherLiabilitiesTask, reasonTask))
 
+        val title = mess("taskList.title")
+        val heading = mess("taskList.heading")
+
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(list, notificationSectionKey, isTheUserAgent, entity, isAllTaskCompleted, tasksComplete, false)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(list, notificationSectionKey, isTheUserAgent, entity, isAllTaskCompleted, tasksComplete, false, title, heading)(request, messages(application)).toString
       }
     }
 

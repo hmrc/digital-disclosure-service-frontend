@@ -20,8 +20,6 @@ import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
 import models._
-import models.store.disclosure._
-import models.store._
 import java.time.LocalDate
 
 class OnshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues {
