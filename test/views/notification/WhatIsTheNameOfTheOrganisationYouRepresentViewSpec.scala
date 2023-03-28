@@ -43,7 +43,7 @@ class WhatIsTheNameOfTheOrganisationYouRepresentViewSpec extends ViewSpecBase wi
     }
 
     "have a text input" in {
-      view.getElementsByClass("govuk-input").first must haveClass("govuk-!-width-full")
+      view.getElementsByClass("govuk-input").first must haveClass("govuk-input--width-50")
     }
 
     "display the continue button" in {

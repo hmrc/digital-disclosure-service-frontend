@@ -55,7 +55,7 @@ class WhatWasThePersonVATRegistrationNumberViewSpec extends ViewSpecBase with Vi
     }
 
     "have a text input" in {
-      view.getElementsByClass("govuk-input").first must haveClass("govuk-!-width-full")
+      view.getElementsByClass("govuk-input").first must haveClass("govuk-input--width-10")
     }
 
     "display the continue button" in {
