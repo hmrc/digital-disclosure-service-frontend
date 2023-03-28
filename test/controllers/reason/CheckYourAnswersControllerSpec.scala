@@ -24,7 +24,6 @@ import viewmodels.reason.CheckYourAnswersViewModel
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist._
 import models._
 import pages._
-import viewmodels.checkAnswers._
 
 class CheckYourAnswersControllerSpec extends SpecBase {
 
@@ -69,7 +68,6 @@ class CheckYourAnswersControllerSpec extends SpecBase {
       val ua = PageWithValue.pagesToUserAnswers(pages, emptyUserAnswers).success.value
 
       val application = applicationBuilder(userAnswers = Some(ua)).build()
-      implicit val mess = messages(application)
 
       running(application) {
         val request = FakeRequest(GET, controllers.reason.routes.CheckYourAnswersController.onPageLoad.url)

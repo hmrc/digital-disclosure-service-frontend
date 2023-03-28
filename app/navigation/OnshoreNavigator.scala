@@ -168,10 +168,11 @@ class OnshoreNavigatorImpl @Inject()(uaToDisclosure: UAToDisclosureService) exte
       case _ => routes.AreYouAMemberOfAnyLandlordAssociationsController.onPageLoad(NormalMode)
     }
 
-    case AccountingPeriodCTAddedPage => ua => (ua.get(AccountingPeriodCTAddedPage), ua.get(CorporationTaxLiabilityPage), ua.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage)) match {
-      case (Some(true), Some(corporationTaxLiabilities), _) => routes.CorporationTaxLiabilityController.onPageLoad(corporationTaxLiabilities.size, NormalMode)
-      case (Some(false), _, Some(taxTypes)) if taxTypes.contains(DirectorLoan) => routes.DirectorLoanAccountLiabilitiesController.onPageLoad(0, NormalMode)
-      case (_, _, Some(taxTypes)) if(requiresTaxYears(taxTypes)) => routes.WhichOnshoreYearsController.onPageLoad(NormalMode)
+    case AccountingPeriodCTAddedPage => ua => (ua.get(AccountingPeriodCTAddedPage), ua.get(CorporationTaxLiabilityPage), ua.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage), uaToDisclosure.uaToFullDisclosure(ua).onshoreLiabilities) match {
+      case (Some(true), Some(corporationTaxLiabilities), _, _) => routes.CorporationTaxLiabilityController.onPageLoad(corporationTaxLiabilities.size, NormalMode)
+      case (Some(false), _, _, Some(onshoreLiabilities)) if onshoreLiabilities.isComplete => routes.CheckYourAnswersController.onPageLoad
+      case (Some(false), _, Some(taxTypes), _) if taxTypes.contains(DirectorLoan) => routes.DirectorLoanAccountLiabilitiesController.onPageLoad(0, NormalMode)
+      case (_, _, Some(taxTypes), _) if(requiresTaxYears(taxTypes)) => routes.WhichOnshoreYearsController.onPageLoad(NormalMode)
       case _ => routes.CheckYourAnswersController.onPageLoad
     }
 
@@ -179,9 +180,10 @@ class OnshoreNavigatorImpl @Inject()(uaToDisclosure: UAToDisclosureService) exte
 
     case CorporationTaxLiabilityPage => ua => routes.CorporationTaxSummaryController.onPageLoad(NormalMode)
 
-    case AccountingPeriodDLAddedPage => ua => (ua.get(AccountingPeriodDLAddedPage), ua.get(DirectorLoanAccountLiabilitiesPage), ua.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage)) match {
-      case (Some(true), Some(directorLoanAccountLiabilities), _) => routes.DirectorLoanAccountLiabilitiesController.onPageLoad(directorLoanAccountLiabilities.size, NormalMode)
-      case (_, _, Some(taxTypes)) if(requiresTaxYears(taxTypes)) => routes.WhichOnshoreYearsController.onPageLoad(NormalMode)
+    case AccountingPeriodDLAddedPage => ua => (ua.get(AccountingPeriodDLAddedPage), ua.get(DirectorLoanAccountLiabilitiesPage), ua.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage), uaToDisclosure.uaToFullDisclosure(ua).onshoreLiabilities) match {
+      case (Some(true), Some(directorLoanAccountLiabilities), _, _) => routes.DirectorLoanAccountLiabilitiesController.onPageLoad(directorLoanAccountLiabilities.size, NormalMode)
+      case (Some(false), _, _, Some(onshoreLiabilities)) if onshoreLiabilities.isComplete => routes.CheckYourAnswersController.onPageLoad
+      case (Some(false), _, Some(taxTypes), _) if(requiresTaxYears(taxTypes)) => routes.WhichOnshoreYearsController.onPageLoad(NormalMode)
       case _ => routes.CheckYourAnswersController.onPageLoad
     }
 
