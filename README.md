@@ -22,7 +22,7 @@ The easiest way to set up required microservices is to use Service Manager and t
 `sm --start DDS_ALL`
 
 ### Accessing the service
-The service will then be available via `http://localhost:15003/digital-disclosure`. This will redirect you to the auth stub. Users who are signed up with an Individual GG account will have to have a confidence level of 250 to access the service. You can set this in the stub along with a NINO, or you can continue and you will be redirect to the IV Uplift stub which will allow you to uplift your stubbed user to level 250.
+The service will then be available via `http://localhost:15003/tell-hmrc-about-underpaid-tax-from-previous-years`. This will redirect you to the auth stub. Users who are signed up with an Individual GG account will have to have a confidence level of 250 to access the service. You can set this in the stub along with a NINO, or you can continue and you will be redirect to the IV Uplift stub which will allow you to uplift your stubbed user to level 250.
 
 ## Testing the application
 This repository contains unit tests for the service. In order to run them, simply execute:

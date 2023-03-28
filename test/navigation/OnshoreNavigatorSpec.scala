@@ -573,6 +573,34 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear with MockitoSuga
         navigator.nextPage(AccountingPeriodCTAddedPage, NormalMode, userAnswers.success.value) mustBe routes.CheckYourAnswersController.onPageLoad
       }
 
+      "must go from PropertyAddedPage to RentalAddressLookupController" in {
+        val fullDisclosure = getFullDisclosure()
+        when(uaToDisclosureService.uaToFullDisclosure(any())).thenReturn(fullDisclosure)
+
+        val lettingProperty = LettingProperty()
+
+        val userAnswers = for {
+          ua1 <- UserAnswers("id").set(PropertyAddedPage, true)
+          ua2 =  ua1.addToSeq(LettingPropertyPage, lettingProperty).success.value
+          } yield ua2
+        navigator.nextPage(PropertyAddedPage, NormalMode, userAnswers.success.value) mustBe controllers.letting.routes.RentalAddressLookupController.lookupAddress(1, NormalMode)
+      }
+
+      "must go from PropertyAddedPage to AreYouAMemberOfAnyLandlordAssociationsController if no is selected and the section is not completed" in {
+        val fullDisclosure = getFullDisclosure()
+        when(uaToDisclosureService.uaToFullDisclosure(any())).thenReturn(fullDisclosure)
+
+        val ua = UserAnswers("id").set(PropertyAddedPage, false).success.value
+        navigator.nextPage(PropertyAddedPage, CheckMode, ua) mustBe routes.AreYouAMemberOfAnyLandlordAssociationsController.onPageLoad(NormalMode)
+      }
+
+      "must go from PropertyAddedPage to CheckYourAnswersController if no is selected and the section is completed" in {
+        val fullDisclosure = getFullDisclosure(onshoreCompleted = true)
+        when(uaToDisclosureService.uaToFullDisclosure(any())).thenReturn(fullDisclosure)
+
+        val ua = UserAnswers("id").set(PropertyAddedPage, false).success.value
+        navigator.nextPage(PropertyAddedPage, CheckMode, ua) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
 
     }
 
