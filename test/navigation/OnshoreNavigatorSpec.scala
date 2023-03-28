@@ -483,6 +483,9 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear with MockitoSuga
 
       "must go from AccountingPeriodDLAddedPage to DirectorLoanAccountLiabilitiesController" in {
 
+        val fullDisclosure = getFullDisclosure()
+        when(uaToDisclosureService.uaToFullDisclosure(any())).thenReturn(fullDisclosure)
+
         val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set()
 
         val directorLoanAccountLiabilities: DirectorLoanAccountLiabilities = DirectorLoanAccountLiabilities(
