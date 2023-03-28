@@ -30,13 +30,13 @@
     caseManagementLink: components.caseManagementLink
 )
 
-@(list: TaskListViewModel, notificationSectionKey: String, isTheUserAgent: Boolean, entity: String, isAllTaskCompleted: Boolean, sectionsComplete: Int, ggAgentAccount: Boolean)(implicit request: Request[_], messages: Messages)
+@(list: TaskListViewModel, notificationSectionKey: String, isTheUserAgent: Boolean, entity: String, isAllTaskCompleted: Boolean, sectionsComplete: Int, ggAgentAccount: Boolean, title:String, heading:String)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = titleNoForm(messages("taskList.title"))) {
+@layout(pageTitle = titleNoForm(title)) {
 
     @formHelper(action = controllers.routes.TaskListController.onPageLoad) {
 
-        <h1 class="govuk-heading-l">@messages("taskList.heading")</h1>
+        <h1 class="govuk-heading-l">@heading</h1>
 
         @if(isAllTaskCompleted) {
             @paragraph(id = Some("first-paragraph"), classes = "govuk-heading-s govuk-!-margin-bottom-2", content = Text(messages("taskList.paragraph.first.complete")))

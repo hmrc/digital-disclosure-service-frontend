@@ -105,13 +105,13 @@ class CaseManagementServiceImpl @Inject()(linkWithVisuallyHiddenContent: linkWit
 
   private def getVisuallyHiddenText(submission: Submission, status: CaseStatus, ref: String)(implicit messages: Messages):String =
     getReferenceOption(submission) match {
-      case Some(reference) if status == SentNotification => messages("caseManagement.hidden.make.disclosure", reference) // s"Make a disclosure for $reference"
-      case Some(reference) => messages("caseManagement.hidden.edit.reference", reference) //s"Edit reference $reference"
-      case _ => messages("caseManagement.hidden.edit.no.reference", getCreatedDate(submission))//s"Edit case created on ${getCreatedDate(submission)}"
+      case Some(reference) if status == SentNotification => messages("caseManagement.hidden.make.disclosure", reference)
+      case Some(reference) => messages("caseManagement.hidden.edit.reference", reference)
+      case _ => messages("caseManagement.hidden.edit.no.reference", getCreatedDate(submission))
     }
 
   def getReference(submission: Submission)(implicit messages: Messages): String = getReferenceOption(submission).getOrElse(messages("caseManagement.incomplete"))
-  def getReferenceOption(submission: Submission)(implicit messages: Messages): Option[String] =
+  def getReferenceOption(submission: Submission): Option[String] =
     submission.personalDetails.background.disclosureEntity.flatMap(_ match {
       case DisclosureEntity(Individual, _) => submission.personalDetails.aboutTheIndividual.flatMap(_.fullName).orElse(submission.personalDetails.aboutYou.fullName)
       case DisclosureEntity(Estate, _) => submission.personalDetails.aboutTheEstate.flatMap(_.fullName)

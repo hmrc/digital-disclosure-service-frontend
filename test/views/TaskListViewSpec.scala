@@ -46,8 +46,8 @@ class TaskListViewSpec extends ViewSpecBase with ViewMatchers with Generators {
 
   val testRow3 = TaskListRow(
     id = "task-list", 
-    sectionTitle = "Section Title", 
-    status = "Not Started", 
+    sectionTitle = "Section Title",
+    status = "Not Started",
     link = routes.TaskListController.onPageLoad
   )
 
@@ -64,8 +64,11 @@ class TaskListViewSpec extends ViewSpecBase with ViewMatchers with Generators {
     
     val entity = arbitrary[RelatesTo].sample.value.toString
     val isTheUserAgent = arbitrary[Boolean].sample.value
+
+    val title = messages("taskList.title")
+    val heading = messages("taskList.heading")
     
-    def createView: Html = page(list, notificationSectionKey, isTheUserAgent, entity, false, 0, false)(request, messages)
+    def createView: Html = page(list, notificationSectionKey, isTheUserAgent, entity, false, 0, false, title, heading)(request, messages)
 
     val view = createView
 
@@ -114,8 +117,11 @@ class TaskListViewSpec extends ViewSpecBase with ViewMatchers with Generators {
     
     val entity = arbitrary[RelatesTo].sample.value.toString
     val isTheUserAgent = arbitrary[Boolean].sample.value
-    
-    def createView: Html = page(list, notificationSectionKey, isTheUserAgent, entity, true, 3, false)(request, messages)
+
+    val title = messages("taskList.title")
+    val heading = messages("taskList.heading")
+
+    def createView: Html = page(list, notificationSectionKey, isTheUserAgent, entity, true, 3, false, title, heading)(request, messages)
 
     val view = createView
 

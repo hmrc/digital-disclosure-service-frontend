@@ -17,34 +17,36 @@
 package controllers
 
 import controllers.actions._
+
 import javax.inject.Inject
-import models.{NormalMode, UserAnswers, RelatesTo}
+import models.{NormalMode, RelatesTo, UserAnswers}
 import models.store.FullDisclosure
 import models.store.notification._
 import models.store.disclosure._
-import navigation.Navigator
 import pages._
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import services.{UAToNotificationService, SessionService, UAToDisclosureService}
+import services.{UAToDisclosureService, UAToSubmissionService}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.TaskListView
 import viewmodels.{TaskListRow, TaskListViewModel}
 import play.api.i18n.Messages
 import play.api.mvc.Call
 
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+
 class TaskListController @Inject()(
                                         override val messagesApi: MessagesApi,
-                                        sessionService: SessionService,
-                                        navigator: Navigator,
                                         identify: IdentifierAction,
                                         getData: DataRetrievalAction,
                                         requireData: DataRequiredAction,
-                                        uaToNotificationService: UAToNotificationService,
                                         uaToDisclosureService: UAToDisclosureService,
+                                        uaToSubmissionService: UAToSubmissionService,
                                         val controllerComponents: MessagesControllerComponents,
                                         view: TaskListView
-                                    ) extends FrontendBaseController with I18nSupport {
+                                    ) extends FrontendBaseController with I18nSupport with Logging {
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
@@ -65,8 +67,11 @@ class TaskListController @Inject()(
           buildTheReasonForComingForwardNowRow(fullDisclosure.reasonForDisclosingNow, ua.madeDeclaration)
         )
       )
-      
-      Ok(view(list, notificationSectionKey, isTheUserAgent(ua), entity, fullDisclosure.isComplete, sectionsComplete(fullDisclosure), request.isAgent))
+      val isUserAgent = request.isAgent
+
+      val title = getTitle(isUserAgent, "title", ua)
+      val heading = getTitle(isUserAgent, "heading", ua)
+      Ok(view(list, notificationSectionKey, isTheUserAgent(ua), entity, fullDisclosure.isComplete, sectionsComplete(fullDisclosure), request.isAgent, title, heading))
   }
 
   private[controllers] def buildYourPersonalDetailsRow(personalDetails: PersonalDetails, entityKey: String)(implicit messages: Messages): (String, TaskListRow) = {
@@ -184,4 +189,29 @@ class TaskListController @Inject()(
       else "taskList.status.notStarted"
     )
 
-}
+
+  private[controllers] def getTitle(isAgent:Boolean, section:String, userAnswers: UserAnswers)(implicit messages: Messages): String = {
+    val taskListSection = s"taskList.$section"
+    if(!isAgent) {
+      messages(taskListSection)
+    }else {
+      val submission = uaToSubmissionService.uaToSubmission(userAnswers)
+      val reference = submission.personalDetails.background.disclosureEntity.flatMap {
+        case DisclosureEntity(Individual, _) =>
+          submission.personalDetails.aboutTheIndividual.flatMap(_.fullName).orElse(submission.personalDetails.aboutYou.fullName)
+        case DisclosureEntity(Estate, _) => submission.personalDetails.aboutTheEstate.flatMap(_.fullName)
+        case DisclosureEntity(Company, _) => submission.personalDetails.aboutTheCompany.flatMap(_.name)
+        case DisclosureEntity(LLP, _) => submission.personalDetails.aboutTheLLP.flatMap(_.name)
+        case DisclosureEntity(Trust, _) => submission.personalDetails.aboutTheTrust.flatMap(_.name)
+      }
+
+      reference match {
+        case Some(ref) => messages(s"taskList.$section.reference", ref)
+        case _ =>
+          val date = submission.created.atZone(ZoneId.systemDefault).toLocalDateTime
+          val dateFormatter = DateTimeFormatter.ofPattern("d MMM yyyy HH:mma")
+          messages(s"taskList.$section.no.reference", date.format(dateFormatter))
+      }
+    }
+  }
+ }
