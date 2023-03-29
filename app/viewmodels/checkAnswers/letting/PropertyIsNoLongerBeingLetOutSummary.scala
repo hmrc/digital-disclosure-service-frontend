@@ -39,7 +39,7 @@ object PropertyIsNoLongerBeingLetOutSummary  {
             value   = ValueViewModel(answer.stopDate.format(dateFormatter)),
             actions = Seq(
               ActionItemViewModel("site.change", routes.PropertyIsNoLongerBeingLetOutController.onPageLoad(i, CheckMode).url)
-                .withVisuallyHiddenText(messages("propertyIsNoLongerBeingLetOut.change.hidden"))
+                .withVisuallyHiddenText(messages("propertyIsNoLongerBeingLetOut.stopDate.hidden"))
             )
           )
         } else {
@@ -48,7 +48,7 @@ object PropertyIsNoLongerBeingLetOutSummary  {
             value   = ValueViewModel(answer.whatHasHappenedToProperty),
             actions = Seq(
               ActionItemViewModel("site.change", routes.PropertyIsNoLongerBeingLetOutController.onPageLoad(i, CheckMode).url)
-                .withVisuallyHiddenText(messages("propertyIsNoLongerBeingLetOut.change.hidden"))
+                .withVisuallyHiddenText(messages("propertyIsNoLongerBeingLetOut.whatHasHappenedToProperty.hidden"))
             )
           )
         }
