@@ -26,6 +26,7 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import services.OnshoreWhichYearsService
 import com.google.inject.{Inject, Singleton}
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 
 @Singleton
 class TaxBeforeThreeYearsOnshoreSummary @Inject() (onshoreWhichYearsService: OnshoreWhichYearsService)  {
@@ -38,7 +39,7 @@ class TaxBeforeThreeYearsOnshoreSummary @Inject() (onshoreWhichYearsService: Ons
 
       SummaryListRowViewModel(
         key     = messages("taxBeforeThreeYears.checkYourAnswersLabel", year),
-        value   = ValueViewModel(HtmlFormat.escape(answer).toString),
+        value   = ValueViewModel(HtmlContent(HtmlFormat.escape(answer))),
         actions = Seq(
           ActionItemViewModel("site.change", routes.TaxBeforeThreeYearsOnshoreController.onPageLoad(CheckMode).url)
             .withVisuallyHiddenText(messages("taxBeforeThreeYears.change.hidden", year))

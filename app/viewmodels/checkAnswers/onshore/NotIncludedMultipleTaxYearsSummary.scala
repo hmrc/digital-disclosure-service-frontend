@@ -24,6 +24,7 @@ import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 
 object NotIncludedMultipleTaxYearsSummary  {
 
@@ -35,7 +36,7 @@ object NotIncludedMultipleTaxYearsSummary  {
       val yearsNotIncluded = OnshoreYearStarting.findMissingYears(years.toList).map(_.startYear + 1).mkString(", ")
       SummaryListRowViewModel(
         key     = messages("youHaveNotSelectedCertainTaxYear.checkYourAnswersLabel", yearsNotIncluded),
-        value   = ValueViewModel(HtmlFormat.escape(notIncluded).toString),
+        value   = ValueViewModel(HtmlContent(HtmlFormat.escape(notIncluded))),
         actions = Seq(
           ActionItemViewModel("site.change", routes.NotIncludedMultipleTaxYearsController.onPageLoad(CheckMode).url)
             .withVisuallyHiddenText(messages("youHaveNotSelectedCertainTaxYear.change.hidden"))

@@ -24,6 +24,7 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
+import play.twirl.api.HtmlFormat
 
 object LLPAddressLookupSummary  {
 
@@ -33,7 +34,7 @@ object LLPAddressLookupSummary  {
 
         SummaryListRowViewModel(
           key     = "llpAddressLookup.checkYourAnswersLabel",
-          value   = ValueViewModel(HtmlContent(answer.getAddressLines.mkString("<br>"))),
+          value   = ValueViewModel(HtmlContent(answer.getAddressLines.map(HtmlFormat.escape).mkString("<br>"))),
           actions = Seq(
             ActionItemViewModel("site.change", routes.LLPAddressLookupController.lookupAddress(CheckMode).url)
               .withVisuallyHiddenText(messages("llpAddressLookup.change.hidden"))
