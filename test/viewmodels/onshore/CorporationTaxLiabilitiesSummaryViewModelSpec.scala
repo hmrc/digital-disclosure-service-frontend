@@ -77,7 +77,7 @@ class CorporationTaxLiabilitiesSummaryViewModelSpec extends SpecBase with ScalaC
       summaryList.rows(4).value mustEqual ValueViewModel(HtmlContent(s"0%"))
 
       summaryList.rows(5).key mustEqual Key(Text(mess("checkYourAnswers.ct.total.penaltyAmount")))
-      summaryList.rows(5).value mustEqual ValueViewModel(HtmlContent(s"£0.00"))
+      summaryList.rows(5).value mustEqual ValueViewModel(HtmlContent(s"&pound;0.00"))
 
       summaryList.rows(6).key mustEqual Key(Text(mess("corporationTaxLiability.penaltyRateReason.checkYourAnswersLabel")))
       summaryList.rows(6).value mustEqual ValueViewModel(HtmlContent("reason"))
@@ -96,10 +96,10 @@ class CorporationTaxLiabilitiesSummaryViewModelSpec extends SpecBase with ScalaC
         viewModel.totalAmountsList.rows(1).value mustEqual ValueViewModel(HtmlContent(s"&pound;0"))
 
         viewModel.totalAmountsList.rows(2).key mustEqual Key(Text(mess("checkYourAnswers.ct.total.penaltyAmount")))
-        viewModel.totalAmountsList.rows(2).value mustEqual ValueViewModel(HtmlContent(s"£0.00"))
+        viewModel.totalAmountsList.rows(2).value mustEqual ValueViewModel(HtmlContent(s"&pound;0.00"))
 
         viewModel.totalAmountsList.rows(3).key mustEqual Key(Text(mess("checkYourAnswers.ct.total.totalAmountDue")))
-        viewModel.totalAmountsList.rows(3).value mustEqual ValueViewModel(HtmlContent(s"£0.00"))
+        viewModel.totalAmountsList.rows(3).value mustEqual ValueViewModel(HtmlContent(s"&pound;0.00"))
     }
   }
 }

@@ -14,7 +14,7 @@ site.startAgain = Start again
 site.signIn = Sign in
 site.govuk = GOV.UK
 site.dot = .
-site.2DP = £{0,number,#,##0.00}
+site.2DP = {0,number,#,##0.00}
 
 date.day = Day
 date.month = Month

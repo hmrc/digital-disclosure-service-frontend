@@ -23,6 +23,7 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
+import play.twirl.api.HtmlFormat
 
 object RentalAddressLookupSummary  {
 
@@ -32,7 +33,7 @@ object RentalAddressLookupSummary  {
         
         SummaryListRowViewModel(
           key     = "rentalAddress.checkYourAnswersLabel",
-          value   = ValueViewModel(HtmlContent(answer.getAddressLines.mkString("<br>"))),
+          value   = ValueViewModel(HtmlContent(answer.getAddressLines.map(HtmlFormat.escape).mkString("<br>"))),
           actions = Seq(
             ActionItemViewModel("site.change", routes.RentalAddressLookupController.lookupAddress(i, CheckMode).url)
               .withVisuallyHiddenText(messages("rentalAddress.change.hidden"))

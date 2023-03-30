@@ -23,6 +23,7 @@ import viewmodels.implicits._
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryList
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
+import viewmodels.RowHelper
 
 import java.time.format.DateTimeFormatter
 
@@ -32,7 +33,7 @@ case class CorporationTaxLiabilitiesSummaryViewModel (
   totalAmountsList: SummaryList
 )
 
-object CorporationTaxLiabilitiesSummaryViewModelCreation {
+object CorporationTaxLiabilitiesSummaryViewModelCreation extends RowHelper {
   val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
 
   def create(userAnswers: UserAnswers)(implicit messages: Messages): CorporationTaxLiabilitiesSummaryViewModel = {
@@ -58,24 +59,13 @@ object CorporationTaxLiabilitiesSummaryViewModelCreation {
     SummaryListViewModel(
       rows = Seq(
         row(i, "corporationTaxLiability.periodEnd.checkYourAnswersLabel", s"${liability.periodEnd.format(dateFormatter)}", "corporationTaxLiability.periodEnd.hidden"),
-        row(i, "corporationTaxLiability.howMuchIncome.checkYourAnswersLabel", s"&pound;${liability.howMuchIncome}", "corporationTaxLiability.howMuchIncome.hidden"),
-        row(i, "corporationTaxLiability.howMuchUnpaid.checkYourAnswersLabel", s"&pound;${liability.howMuchUnpaid}", "corporationTaxLiability.howMuchUnpaid.hidden"),
-        row(i, "corporationTaxLiability.howMuchInterest.checkYourAnswersLabel", s"&pound;${liability.howMuchInterest}", "corporationTaxLiability.howMuchInterest.hidden"),
+        poundRow(i, "corporationTaxLiability.howMuchIncome.checkYourAnswersLabel", s"${liability.howMuchIncome}", "corporationTaxLiability.howMuchIncome.hidden"),
+        poundRow(i, "corporationTaxLiability.howMuchUnpaid.checkYourAnswersLabel", s"${liability.howMuchUnpaid}", "corporationTaxLiability.howMuchUnpaid.hidden"),
+        poundRow(i, "corporationTaxLiability.howMuchInterest.checkYourAnswersLabel", s"${liability.howMuchInterest}", "corporationTaxLiability.howMuchInterest.hidden"),
         row(i, "corporationTaxLiability.penaltyRate.checkYourAnswersLabel", s"${liability.penaltyRate}%", "corporationTaxLiability.penaltyRate.hidden"),
         totalRow("corporationTaxLiability.penaltyAmount.checkYourAnswersLabel", messages("site.2DP", penaltyAmount(liability))),
         row(i, "corporationTaxLiability.penaltyRateReason.checkYourAnswersLabel", s"${liability.penaltyRateReason}", "corporationTaxLiability.penaltyRateReason.hidden"),
         totalRow("corporationTaxLiability.ct.total.heading", messages("site.2DP", amountDueTotal))
-      )
-    )
-  }
-
-  private def row(i: Int, label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
-    SummaryListRowViewModel(
-      key     = label,
-      value   = ValueViewModel(HtmlContent(value)),
-      actions = Seq(
-        ActionItemViewModel("site.change", controllers.onshore.routes.CorporationTaxLiabilityController.onPageLoad(i, CheckMode).url)
-          .withVisuallyHiddenText(messages(hiddenLabel))
       )
     )
   }
@@ -104,8 +94,8 @@ object CorporationTaxLiabilitiesSummaryViewModelCreation {
 
     SummaryListViewModel(
      rows = Seq(
-       totalRow("checkYourAnswers.ct.total.taxDue", s"&pound;${unpaidTaxTotal}"),
-       totalRow("checkYourAnswers.ct.total.interestDue", s"&pound;${interestTotal}"),
+       totalRow("checkYourAnswers.ct.total.taxDue", s"${unpaidTaxTotal}"),
+       totalRow("checkYourAnswers.ct.total.interestDue", s"${interestTotal}"),
        totalRow("checkYourAnswers.ct.total.penaltyAmount", messages("site.2DP", penaltyAmountTotal)),
        totalRow("checkYourAnswers.ct.total.totalAmountDue", messages("site.2DP", amountDueTotal))
      )
@@ -116,12 +106,5 @@ object CorporationTaxLiabilitiesSummaryViewModelCreation {
     (BigDecimal(corporationTaxLiability.penaltyRate) * BigDecimal(corporationTaxLiability.howMuchUnpaid)) / 100
   }
 
-  private def totalRow(label: String, value: String)(implicit messages: Messages) = {
-    SummaryListRowViewModel(
-      key     = label,
-      value   = ValueViewModel(HtmlContent(value)),
-      actions = Nil
-    )
-  }
 }
 

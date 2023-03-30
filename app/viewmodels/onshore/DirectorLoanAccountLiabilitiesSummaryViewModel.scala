@@ -24,6 +24,7 @@ import viewmodels.implicits._
 import pages.DirectorLoanAccountLiabilitiesPage
 import play.api.i18n.Messages
 import java.time.format.DateTimeFormatter
+import viewmodels.RowHelper
 
 case class DirectorLoanAccountLiabilitiesSummaryViewModel (
   directorLoanAccountLiabilitiesList: Seq[(Int, SummaryList)],
@@ -31,7 +32,7 @@ case class DirectorLoanAccountLiabilitiesSummaryViewModel (
   totalAmountsList: SummaryList
 )
 
-class DirectorLoanAccountLiabilitiesSummaryViewModelCreation {
+class DirectorLoanAccountLiabilitiesSummaryViewModelCreation extends RowHelper {
 
   val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
 
@@ -59,24 +60,13 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelCreation {
       rows = Seq(
         row(i, "directorLoanAccountLiabilities.name.checkYourAnswersLabel", s"${dLLiability.name}", "directorLoanAccountLiabilities.name.hidden"),
         row(i, "directorLoanAccountLiabilities.periodEnd.checkYourAnswersLabel", s"${dLLiability.periodEnd.format(dateFormatter)}", "directorLoanAccountLiabilities.periodEnd.hidden"),
-        row(i, "directorLoanAccountLiabilities.overdrawn.checkYourAnswersLabel", s"&pound;${dLLiability.overdrawn}", "directorLoanAccountLiabilities.overdrawn.hidden"),
-        row(i, "directorLoanAccountLiabilities.unpaidTax.checkYourAnswersLabel", s"&pound;${dLLiability.unpaidTax}", "directorLoanAccountLiabilities.unpaidTax.hidden"),
-        row(i, "directorLoanAccountLiabilities.interest.checkYourAnswersLabel", s"&pound;${dLLiability.interest}", "directorLoanAccountLiabilities.interest.hidden"),
+        poundRow(i, "directorLoanAccountLiabilities.overdrawn.checkYourAnswersLabel", s"${dLLiability.overdrawn}", "directorLoanAccountLiabilities.overdrawn.hidden"),
+        poundRow(i, "directorLoanAccountLiabilities.unpaidTax.checkYourAnswersLabel", s"${dLLiability.unpaidTax}", "directorLoanAccountLiabilities.unpaidTax.hidden"),
+        poundRow(i, "directorLoanAccountLiabilities.interest.checkYourAnswersLabel", s"${dLLiability.interest}", "directorLoanAccountLiabilities.interest.hidden"),
         row(i, "directorLoanAccountLiabilities.penaltyRate.checkYourAnswersLabel", s"${dLLiability.penaltyRate}%", "directorLoanAccountLiabilities.penaltyRate.hidden"),
         totalRow("checkYourAnswers.dl.total.penaltyAmount", messages("site.2DP", penaltyAmount(dLLiability))),
         row(i, "directorLoanAccountLiabilities.penaltyRateReason.checkYourAnswersLabel", s"${dLLiability.penaltyRateReason}", "directorLoanAccountLiabilities.penaltyRateReason.hidden"),
         totalRow("checkYourAnswers.dl.total.heading", messages("site.2DP", amountDueTotal))
-      )
-    )
-  }
-
-  def row(i: Int, label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
-    SummaryListRowViewModel(
-      key     = label,
-      value   = ValueViewModel(HtmlContent(value)),
-      actions = Seq(
-        ActionItemViewModel("site.change", controllers.onshore.routes.DirectorLoanAccountLiabilitiesController.onPageLoad(i, CheckMode).url)
-          .withVisuallyHiddenText(messages(hiddenLabel))
       )
     )
   }
@@ -104,8 +94,8 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelCreation {
 
     SummaryListViewModel(
       rows = Seq(
-        totalRow("checkYourAnswers.dl.total.taxDue", s"&pound;${unpaidTaxTotal}"),
-        totalRow("checkYourAnswers.dl.total.interestDue", s"&pound;${interestTotal}"),
+        totalRow("checkYourAnswers.dl.total.taxDue", s"${unpaidTaxTotal}"),
+        totalRow("checkYourAnswers.dl.total.interestDue", s"${interestTotal}"),
         totalRow("checkYourAnswers.dl.total.penaltyAmount", messages("site.2DP", penaltyAmountTotal)),
         totalRow("checkYourAnswers.dl.total.totalAmountDue", messages("site.2DP", amountDueTotal))
       )
@@ -116,11 +106,4 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelCreation {
     (BigDecimal(directorLoanAccountLiabilities.penaltyRate) * BigDecimal(directorLoanAccountLiabilities.unpaidTax)) / 100
   }
 
-  def totalRow(label: String, value: String)(implicit messages: Messages) = {
-    SummaryListRowViewModel(
-      key     = label,
-      value   = ValueViewModel(HtmlContent(value)),
-      actions = Nil
-    )
-  }
 }

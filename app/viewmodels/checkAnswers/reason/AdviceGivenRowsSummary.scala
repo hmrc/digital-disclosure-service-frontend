@@ -42,7 +42,7 @@ object AdviceGivenRowsSummary  {
   def adviceGivenRow(adviceGiven: String)(implicit messages: Messages): SummaryListRow =
     SummaryListRowViewModel(
       key     = "adviceGiven.adviceGiven.checkYourAnswersLabel",
-      value   = ValueViewModel(HtmlFormat.escape(adviceGiven).toString),
+      value   = ValueViewModel(HtmlContent(HtmlFormat.escape(adviceGiven))),
       actions = Seq(
         ActionItemViewModel("site.change", routes.AdviceGivenController.onPageLoad(CheckMode).url)
           .withVisuallyHiddenText(messages("adviceGiven.adviceGiven.change.hidden"))

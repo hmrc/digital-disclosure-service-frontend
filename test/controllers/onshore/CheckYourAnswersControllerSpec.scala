@@ -52,12 +52,12 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
           ),
           SummaryListRowViewModel(
             key     = Key(Text(messages("onshoreTaxYearLiabilities.penaltyAmount.total"))),
-            value   = ValueViewModel(HtmlContent(messages("site.2DP", 0))),
+            value   = ValueViewModel(HtmlContent(s"&pound;${messages("site.2DP", 0)}")),
             actions = Nil
           ),
           SummaryListRowViewModel(
             key     = Key(Text(messages("onshoreTaxYearLiabilities.amountDue.total"))),
-            value   = ValueViewModel(HtmlContent(messages("site.2DP", 0))),
+            value   = ValueViewModel(HtmlContent(s"&pound;${messages("site.2DP", 0)}")),
             actions = Nil
           )
         )

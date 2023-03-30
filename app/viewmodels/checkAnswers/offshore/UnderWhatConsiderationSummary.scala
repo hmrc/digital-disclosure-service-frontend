@@ -24,6 +24,7 @@ import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 
 object UnderWhatConsiderationSummary  {
 
@@ -33,7 +34,7 @@ object UnderWhatConsiderationSummary  {
 
         SummaryListRowViewModel(
           key     = "underWhatConsideration.checkYourAnswersLabel",
-          value   = ValueViewModel(HtmlFormat.escape(answer).toString),
+          value   = ValueViewModel(HtmlContent(HtmlFormat.escape(answer))),
           actions = Seq(
             ActionItemViewModel("site.change", routes.UnderWhatConsiderationController.onPageLoad(CheckMode).url)
               .withVisuallyHiddenText(messages("underWhatConsideration.change.hidden"))

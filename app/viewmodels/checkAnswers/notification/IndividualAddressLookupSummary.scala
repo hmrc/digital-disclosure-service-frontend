@@ -24,6 +24,7 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
+import play.twirl.api.HtmlFormat
 
 object IndividualAddressLookupSummary  {
 
@@ -33,7 +34,7 @@ object IndividualAddressLookupSummary  {
 
         SummaryListRowViewModel(
           key     = "individualAddressLookup.checkYourAnswersLabel",
-          value   = ValueViewModel(HtmlContent(answer.getAddressLines.mkString("<br>"))),
+          value   = ValueViewModel(HtmlContent(answer.getAddressLines.map(HtmlFormat.escape).mkString("<br>"))),
           actions = Seq(
             ActionItemViewModel("site.change", routes.IndividualAddressLookupController.lookupAddress(CheckMode).url)
               .withVisuallyHiddenText(messages("individualAddressLookup.change.hidden"))
