@@ -25,8 +25,10 @@ import play.api.mvc._
 import uk.gov.hmrc.auth.core.AffinityGroup.{Agent, Organisation}
 import uk.gov.hmrc.auth.core._
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals
+import uk.gov.hmrc.auth.core.retrieve._
 import uk.gov.hmrc.http.{HeaderCarrier, UnauthorizedException}
 import uk.gov.hmrc.play.http.HeaderCarrierConverter
+import models._
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -41,10 +43,20 @@ class AuthenticatedIdentifierAction @Inject()(
 
   override def invokeBlock[A](request: Request[A], block: IdentifierRequest[A] => Future[Result]): Future[Result] = {
 
+    import Retrievals._
+
     implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
 
-    authorised(Agent).retrieve(Retrievals.internalId)(processAuthorisation(_, request, block, true))
-    .recoverWith {_ => authorised(Organisation or ConfidenceLevel.L250).retrieve(Retrievals.internalId)(processAuthorisation(_, request, block, false))}
+    authorised(Agent).retrieve(internalId and externalId and allEnrolments){
+      case internalId ~ externalId ~ enrolments => 
+        val customerId = getAgentCustomerId(externalId, enrolments)
+        processAuthorisation(internalId, request, block, true, customerId)
+    }
+    .recoverWith {_ => authorised(Organisation or ConfidenceLevel.L250).retrieve(internalId and externalId and allEnrolments){
+      case internalId ~ externalId ~ enrolments => 
+        val customerId = getCustomerId(externalId, enrolments)
+        processAuthorisation(internalId, request, block, false, customerId)
+    }}
     .recover {
       case _: NoActiveSession =>
         Redirect(config.loginUrl, Map("continue" -> Seq(config.loginContinueUrl)))
@@ -55,28 +67,26 @@ class AuthenticatedIdentifierAction @Inject()(
     }
   }
 
-  def processAuthorisation[A](internalIdOpt: Option[String], request: Request[A], block: IdentifierRequest[A] => Future[Result], isAgent: Boolean) = {
+  def getAgentCustomerId(externalId: Option[String], enrolments: Enrolments): Option[CustomerId] = {
+    val arnOpt: Option[ARN] = enrolments.getEnrolment("HMRC-AS-AGENT").flatMap(_.getIdentifier("AgentReferenceNumber").map(enrol => ARN(enrol.value)))
+    val externalIdOpt = externalId.map(ExternalId(_))
+    
+    List(arnOpt, externalIdOpt).flatten.headOption
+  }
+
+  def getCustomerId(externalId: Option[String], enrolments: Enrolments): Option[CustomerId] = {
+    val ninoOpt: Option[NINO] = enrolments.getEnrolment("HMRC-NI").flatMap(_.getIdentifier("nino").map(enrol => NINO(enrol.value)))
+    val sautrOpt: Option[SAUTR] = enrolments.getEnrolment("IR-SA").flatMap(_.getIdentifier("UTR").map(enrol => SAUTR(enrol.value)))
+    val ctutrOpt: Option[CAUTR] = enrolments.getEnrolment("IR-CT").flatMap(_.getIdentifier("UTR").map(enrol => CAUTR(enrol.value)))
+    val externalIdOpt = externalId.map(ExternalId(_))
+
+    List(ninoOpt, sautrOpt, ctutrOpt, externalIdOpt).flatten.headOption
+  }
+
+  def processAuthorisation[A](internalIdOpt: Option[String], request: Request[A], block: IdentifierRequest[A] => Future[Result], isAgent: Boolean, customerId: Option[CustomerId]) = {
     internalIdOpt.map {
-      internalId => block(IdentifierRequest(request, internalId, isAgent))
+      internalId => block(IdentifierRequest(request, internalId, isAgent, customerId))
     }.getOrElse(throw new UnauthorizedException("Unable to retrieve internal Id"))
   }
 
-}
-
-class SessionIdentifierAction @Inject()(
-                                         val parser: BodyParsers.Default
-                                       )
-                                       (implicit val executionContext: ExecutionContext) extends IdentifierAction {
-
-  override def invokeBlock[A](request: Request[A], block: IdentifierRequest[A] => Future[Result]): Future[Result] = {
-
-    implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
-
-    hc.sessionId match {
-      case Some(session) =>
-        block(IdentifierRequest(request, session.value, false))
-      case None =>
-        Future.successful(Redirect(routes.JourneyRecoveryController.onPageLoad()))
-    }
-  }
 }

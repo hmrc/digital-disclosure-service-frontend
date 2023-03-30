@@ -19,6 +19,7 @@ package services
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalamock.scalatest.MockFactory
+import models.NINO
 import models.store._
 import models.store.notification._
 import org.scalatest.concurrent.ScalaFutures
@@ -82,7 +83,7 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
       mockGetSubmission("123", UserAnswers.defaultSubmissionId)(Future.successful(None))
       (repo.set(_: UserAnswers)).expects(*).returning(Future.successful(true))
       (storeService.setSubmission(_: UserAnswers)(_: HeaderCarrier)).expects(*, *).returning(Future.successful(Ok))
-      val result = sut.newSession("123", UserAnswers.defaultSubmissionId, SubmissionType.Notification)
+      val result = sut.newSession("123", UserAnswers.defaultSubmissionId, SubmissionType.Notification, Some(NINO("AB123456C")))
       Thread.sleep(150)
       result.futureValue shouldBe a[UserAnswers]
     }
@@ -93,7 +94,7 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
       (repo.set(_: UserAnswers)).expects(userAnswers).returning(Future.successful(true))
       (storeService.setSubmission(_: UserAnswers)(_: HeaderCarrier)).expects(userAnswers, *).returning(Future.successful(Ok))
 
-      sut.newSession("123", UserAnswers.defaultSubmissionId, SubmissionType.Notification).futureValue shouldBe a[UserAnswers]
+      sut.newSession("123", UserAnswers.defaultSubmissionId, SubmissionType.Notification, Some(NINO("AB123456C"))).futureValue shouldBe a[UserAnswers]
     }
 
     "check the store and where it finds something which has been submitted, default and set that default in the session and store" in new Test {
@@ -102,7 +103,7 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
       (repo.set(_: UserAnswers)).expects(*).returning(Future.successful(true))
       (storeService.setSubmission(_: UserAnswers)(_: HeaderCarrier)).expects(*, *).returning(Future.successful(Ok))
 
-      sut.newSession("123", UserAnswers.defaultSubmissionId, SubmissionType.Notification).futureValue shouldBe a[UserAnswers]
+      sut.newSession("123", UserAnswers.defaultSubmissionId, SubmissionType.Notification, Some(NINO("AB123456C"))).futureValue shouldBe a[UserAnswers]
     }
   }
 

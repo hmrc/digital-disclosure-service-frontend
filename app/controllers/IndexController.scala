@@ -43,54 +43,16 @@ class IndexController @Inject()(
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData).async { implicit request =>
 
-    if (appConfig.fullDisclosureJourneyEnabled) {
-
-      if (request.isAgent) 
-        Future.successful(Ok(view(controllers.routes.CaseManagementController.onPageLoad(1).url)))
-      else {
-        for {
-          uaOpt  <- sessionService.getIndividualUserAnswers(request.userId, UserAnswers.defaultSubmissionId)
-          url    = navigator.indexNextPage(uaOpt).url
-          _      = uaOpt.map(sessionService.set)
-        } yield Ok(view(url))
-      }
-
-    } else {
-
+    if (request.isAgent) 
+      Future.successful(Ok(view(controllers.routes.CaseManagementController.onPageLoad(1).url)))
+    else {
       for {
-        ua <- retrieveUserAnswers(request.userId, request.userAnswers)
-        updatedUa <- renewNotificationIfSubmitted(request.userId, appConfig.fullDisclosureJourneyEnabled, ua)
-      } yield {
-
-        val notification = dataService.userAnswersToNotification(updatedUa)
-
-        val url = 
-          if (notification.isComplete) controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
-          else controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url
-        
-        Ok(view(url))
-      }
+        uaOpt  <- sessionService.getIndividualUserAnswers(request.userId, UserAnswers.defaultSubmissionId)
+        url    = navigator.indexNextPage(uaOpt).url
+        _      = uaOpt.map(sessionService.set)
+      } yield Ok(view(url))
     }
 
-  }
-
-  def renewNotificationIfSubmitted(userId: String, fullDisclosureJourneyEnabled: Boolean, userAnswers: UserAnswers)(implicit hc: HeaderCarrier) = {
-    if (!fullDisclosureJourneyEnabled) {
-      val notification = dataService.userAnswersToNotification(userAnswers)
-      if (notification.metadata.submissionTime.isDefined)
-        sessionService.clearAndRestartSessionAndDraft(userId, UserAnswers.defaultSubmissionId, SubmissionType.Notification)
-      else 
-        Future.successful(userAnswers)
-    } else Future.successful(userAnswers)
-  }
-
-  def retrieveUserAnswers(userId: String, userAnswers: Option[UserAnswers])(implicit hc: HeaderCarrier): Future[UserAnswers] = {
-    userAnswers match {
-      case Some(ua) => 
-        Future.successful(ua)
-      case None => 
-        sessionService.newSession(userId, UserAnswers.defaultSubmissionId, SubmissionType.Notification)
-    }
   }
   
 }

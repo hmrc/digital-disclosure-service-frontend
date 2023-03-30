@@ -16,6 +16,7 @@
 
 package models.store
 
+import models.CustomerId
 import java.time.Instant
 import models.store.notification._
 import models.store.disclosure._

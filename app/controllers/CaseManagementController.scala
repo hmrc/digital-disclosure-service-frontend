@@ -67,7 +67,7 @@ class CaseManagementController @Inject()(
     implicit request =>
 
       for {
-        _ <- sessionService.newSession(request.userId, UUID.randomUUID().toString, SubmissionType.Notification)
+        _ <- sessionService.newSession(request.userId, UUID.randomUUID().toString, SubmissionType.Notification, request.customerId)
       } yield Redirect(controllers.routes.MakeANotificationOrDisclosureController.onPageLoad)
 
   }

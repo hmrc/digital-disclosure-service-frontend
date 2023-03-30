@@ -61,7 +61,8 @@ class NotificationToUAServiceImpl extends NotificationToUAService {
       lastUpdated = lastUpdated,
       created = created,
       metadata = notification.metadata,
-      madeDeclaration = notification.madeDeclaration
+      madeDeclaration = notification.madeDeclaration,
+      customerId = notification.customerId
     )
   }
 
