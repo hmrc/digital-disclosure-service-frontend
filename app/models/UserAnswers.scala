@@ -33,7 +33,8 @@ final case class UserAnswers(
                               lastUpdated: Instant = Instant.now,
                               created: Instant = Instant.now,
                               metadata: Metadata = Metadata(),
-                              madeDeclaration: Boolean = false
+                              madeDeclaration: Boolean = false,
+                              customerId: Option[CustomerId] = None
                             ) {
 
   def get[A](page: Gettable[A])(implicit rds: Reads[A]): Option[A] = get(page.path)
@@ -180,7 +181,8 @@ object UserAnswers {
       (__ \ "lastUpdated").read(MongoJavatimeFormats.instantFormat) and
       (__ \ "created").read(MongoJavatimeFormats.instantFormat) and
       (__ \ "metadata").read[Metadata]and
-      (__ \ "declaration").read[Boolean]
+      (__ \ "declaration").read[Boolean] and
+      (__ \ "customerId").readNullable[CustomerId]
     ) (UserAnswers.apply _)
   }
 
@@ -196,7 +198,8 @@ object UserAnswers {
       (__ \ "lastUpdated").write(MongoJavatimeFormats.instantFormat) and
       (__ \ "created").write(MongoJavatimeFormats.instantFormat) and
       (__ \ "metadata").write[Metadata] and
-      (__ \ "declaration").write[Boolean] 
+      (__ \ "declaration").write[Boolean] and
+      (__ \ "customerId").writeNullable[CustomerId]
     ) (unlift(UserAnswers.unapply))
   }
 

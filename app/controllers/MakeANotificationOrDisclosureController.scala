@@ -60,8 +60,8 @@ class MakeANotificationOrDisclosureController @Inject()(
         value => {
           val newSubmissionType = if (value == MakeANotification) SubmissionType.Notification else SubmissionType.Disclosure
           val updatedAnswers = request.userAnswers match {
-            case Some(ua) => ua.copy(submissionType = newSubmissionType)
-            case None => UserAnswers(request.userId, UserAnswers.defaultSubmissionId, newSubmissionType, created = Instant.now)
+            case Some(ua) => ua.copy(submissionType = newSubmissionType, customerId = request.customerId)
+            case None => UserAnswers(request.userId, UserAnswers.defaultSubmissionId, newSubmissionType, created = Instant.now, customerId = request.customerId)
           }
 
           for {

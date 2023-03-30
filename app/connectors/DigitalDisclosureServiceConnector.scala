@@ -50,7 +50,7 @@ class DigitalDisclosureServiceConnectorImpl @Inject() (
 
   private val clientAuthToken = configuration.get[String]("internal-auth.token")
 
-  def submitNotification(notification: Notification)(implicit hc: HeaderCarrier): Future[String] =
+  def submitNotification(notification: Notification)(implicit hc: HeaderCarrier): Future[String] = 
     retry {
       httpClient
         .post(url"$baseUrl/notification/submit")

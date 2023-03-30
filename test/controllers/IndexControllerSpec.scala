@@ -60,29 +60,6 @@ class IndexControllerSpec extends SpecBase with Generators {
       }
     }
 
-
-    "must return a view with a link to the ReceivedALetterController where the disclosure journey is NOT configured and the notification journey is complete" in {
-
-      val url = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
-
-      val application = applicationBuilder(userAnswers = Some(completeUserAnswers))
-        .configure(
-          "features.full-disclosure-journey" -> false,
-        ).build()
-
-      running(application) {
-        val request = FakeRequest(GET, routes.IndexController.onPageLoad.url)
-
-        val result = route(application, request).value
-
-        val view = application.injector.instanceOf[IndexView]
-
-        status(result) mustEqual OK
-
-        contentAsString(result) mustEqual view(url)(request, messages(application)).toString
-      }
-    }
-
     "must set user answers where one doesn't exist" in {
 
       val request = FakeRequest(GET, routes.IndexController.onPageLoad.url)

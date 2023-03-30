@@ -35,10 +35,10 @@ class SessionServiceImpl @Inject()(
   def getSession(userId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] =
     sessionRepository.get(userId)
 
-  def newSession(userId: String, submissionId: String, submissionType: SubmissionType)(implicit hc: HeaderCarrier): Future[UserAnswers] =
+  def newSession(userId: String, submissionId: String, submissionType: SubmissionType, customerId: Option[CustomerId])(implicit hc: HeaderCarrier): Future[UserAnswers] =
     for {
       uaOpt  <- getIndividualUserAnswers(userId, submissionId)
-      ua     = uaOpt.getOrElse(UserAnswers(id = userId, submissionId = submissionId, submissionType = submissionType, created = Instant.now))
+      ua     = uaOpt.getOrElse(UserAnswers(id = userId, submissionId = submissionId, submissionType = submissionType, created = Instant.now, customerId = customerId))
       result <- set(ua)
     } yield ua
 
@@ -71,7 +71,7 @@ class SessionServiceImpl @Inject()(
 @ImplementedBy(classOf[SessionServiceImpl])
 trait SessionService {
   def getSession(userId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] 
-  def newSession(userId: String, submissionId: String, submissionType: SubmissionType)(implicit hc: HeaderCarrier): Future[UserAnswers]
+  def newSession(userId: String, submissionId: String, submissionType: SubmissionType, customerId: Option[CustomerId])(implicit hc: HeaderCarrier): Future[UserAnswers]
   def set(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Boolean]
   def clear(id: String): Future[Boolean]
   def keepAlive(id: String): Future[Boolean]

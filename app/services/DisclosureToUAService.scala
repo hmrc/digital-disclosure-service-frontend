@@ -51,7 +51,8 @@ class DisclosureToUAServiceImpl @Inject()(
       lastUpdated = lastUpdated,
       created = created,
       metadata = metadata,
-      madeDeclaration = madeDeclaration
+      madeDeclaration = madeDeclaration,
+      customerId = customerId
     )
   }
 

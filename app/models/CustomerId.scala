@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package models.store
+package models
 
 import play.api.libs.json.{Json, OFormat}
 
@@ -39,6 +39,11 @@ object SAUTR {
 final case class ARN(id: String) extends CustomerId
 object ARN {
   implicit val format: OFormat[ARN] = Json.format[ARN]
+}
+
+final case class ExternalId(id: String) extends CustomerId
+object ExternalId {
+  implicit val format: OFormat[ExternalId] = Json.format[ExternalId]
 }
 
 object CustomerId {

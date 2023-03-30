@@ -41,7 +41,8 @@ class UAToDisclosureServiceImpl @Inject()(
       otherLiabilities = uaToOtherLiabilities(userAnswers),
       reasonForDisclosingNow = uaToReasonForDisclosingNow(userAnswers),
       offerAmount = userAnswers.get(OfferLetterPage),
-      madeDeclaration = userAnswers.madeDeclaration
+      madeDeclaration = userAnswers.madeDeclaration,
+      customerId = userAnswers.customerId
     )
   
   def uaToOtherLiabilities(userAnswers: UserAnswers): OtherLiabilities = 
