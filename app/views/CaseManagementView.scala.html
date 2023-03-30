@@ -36,6 +36,8 @@
     @buttonLink(id = "create-case", text = messages("caseManagement.button"), call = Call("GET", controllers.routes.CaseManagementController.newCase.url))
 
     @pagination.map(p => govukPagination(p))
+    <div style="overflow-x: auto;" tabindex="0" role="region" aria-label="@messages("caseManagement.caption")">
     @govukTable(caseTable)
+    </div>
     @pagination.map(p => govukPagination(p))
 }
