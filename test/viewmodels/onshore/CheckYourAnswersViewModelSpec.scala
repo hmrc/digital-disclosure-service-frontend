@@ -210,7 +210,7 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
     summaryList.rows(2).value mustEqual ValueViewModel(HtmlContent(s"&pound;${onshoreTaxYearLiabilities.taxYearLiabilities.interest}"))
 
     summaryList.rows(3).key mustEqual Key(Text(mess("onshoreTaxYearLiabilities.penaltyRate.checkYourAnswersLabel")))
-    summaryList.rows(3).value mustEqual ValueViewModel(HtmlContent(s"&pound;${onshoreTaxYearLiabilities.taxYearLiabilities.penaltyRate}"))    
+    summaryList.rows(3).value mustEqual ValueViewModel(HtmlContent(s"${onshoreTaxYearLiabilities.taxYearLiabilities.penaltyRate}%"))    
   }
   
 }

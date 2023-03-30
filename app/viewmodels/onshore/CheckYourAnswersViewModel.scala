@@ -29,6 +29,7 @@ import pages.{OnshoreTaxYearLiabilitiesPage, WhatOnshoreLiabilitiesDoYouNeedToDi
 import play.api.i18n.Messages
 import com.google.inject.{Inject, Singleton}
 import services.UAToDisclosureService
+import viewmodels.RowHelper
 
 case class CheckYourAnswersViewModel(
   summaryList: SummaryList,
@@ -45,7 +46,7 @@ class CheckYourAnswersViewModelCreation @Inject() (
                           taxBeforeFiveYearsSummary: TaxBeforeFiveYearsOnshoreSummary,
                           taxBeforeSevenYearsSummary: TaxBeforeThreeYearsOnshoreSummary,
                           taxBeforeNineteenYearSummary: TaxBeforeNineteenYearsOnshoreSummary,
-                          uaToDisclosureService: UAToDisclosureService) {
+                          uaToDisclosureService: UAToDisclosureService) extends RowHelper {
 
   def create(userAnswers: UserAnswers)(implicit messages: Messages): CheckYourAnswersViewModel = {
 
@@ -95,22 +96,22 @@ class CheckYourAnswersViewModelCreation @Inject() (
     val liabilities = yearWithLiabilites.taxYearLiabilities
 
     val nonBusinessIncome = userAnswers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage) match {
-      case Some(value) if(value.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.NonBusinessIncome)) => Seq(row(i, "onshoreTaxYearLiabilities.nonBusinessIncome.checkYourAnswersLabel", s"&pound;${liabilities.nonBusinessIncome.getOrElse(0)}", "onshoreTaxYearLiabilities.nonBusinessIncome.hidden"))
+      case Some(value) if(value.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.NonBusinessIncome)) => Seq(poundRow(i, "onshoreTaxYearLiabilities.nonBusinessIncome.checkYourAnswersLabel", s"${liabilities.nonBusinessIncome.getOrElse(0)}", "onshoreTaxYearLiabilities.nonBusinessIncome.hidden"))
       case _ => Nil
     }
 
     val businessIncome = userAnswers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage) match {
-      case Some(value) if(value.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.BusinessIncome)) => Seq(row(i, "onshoreTaxYearLiabilities.businessIncome.checkYourAnswersLabel", s"&pound;${liabilities.businessIncome.getOrElse(0)}", "onshoreTaxYearLiabilities.businessIncome.hidden"))
+      case Some(value) if(value.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.BusinessIncome)) => Seq(poundRow(i, "onshoreTaxYearLiabilities.businessIncome.checkYourAnswersLabel", s"${liabilities.businessIncome.getOrElse(0)}", "onshoreTaxYearLiabilities.businessIncome.hidden"))
       case _ => Nil
     }
 
     val lettingIncome = userAnswers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage) match {
-      case Some(value) if(value.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)) => Seq(row(i, "onshoreTaxYearLiabilities.lettingIncome.checkYourAnswersLabel", s"&pound;${liabilities.lettingIncome.getOrElse(0)}", "onshoreTaxYearLiabilities.lettingIncome.hidden"))
+      case Some(value) if(value.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)) => Seq(poundRow(i, "onshoreTaxYearLiabilities.lettingIncome.checkYourAnswersLabel", s"${liabilities.lettingIncome.getOrElse(0)}", "onshoreTaxYearLiabilities.lettingIncome.hidden"))
       case _ => Nil
     }
 
     val gains = userAnswers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage) match {
-      case Some(value) if(value.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.Gains)) => Seq(row(i, "onshoreTaxYearLiabilities.gains.checkYourAnswersLabel", s"&pound;${liabilities.gains.getOrElse(0)}", "onshoreTaxYearLiabilities.gains.hidden"))
+      case Some(value) if(value.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.Gains)) => Seq(poundRow(i, "onshoreTaxYearLiabilities.gains.checkYourAnswersLabel", s"${liabilities.gains.getOrElse(0)}", "onshoreTaxYearLiabilities.gains.hidden"))
       case _ => Nil
     } 
 
@@ -129,10 +130,10 @@ class CheckYourAnswersViewModelCreation @Inject() (
       businessIncome ++
       nonBusinessIncome ++
       Seq(
-        row(i, "onshoreTaxYearLiabilities.unpaidTax.checkYourAnswersLabel", s"&pound;${liabilities.unpaidTax}", "onshoreTaxYearLiabilities.unpaidTax.hidden"),
-        row(i, "onshoreTaxYearLiabilities.niContributions.checkYourAnswersLabel", s"&pound;${liabilities.niContributions}", "onshoreTaxYearLiabilities.niContributions.hidden"),
-        row(i, "onshoreTaxYearLiabilities.interest.checkYourAnswersLabel", s"&pound;${liabilities.interest}", "onshoreTaxYearLiabilities.interest.hidden"),
-        row(i, "onshoreTaxYearLiabilities.penaltyRate.checkYourAnswersLabel", s"&pound;${liabilities.penaltyRate}", "onshoreTaxYearLiabilities.penaltyRate.hidden"),
+        poundRow(i, "onshoreTaxYearLiabilities.unpaidTax.checkYourAnswersLabel", s"${liabilities.unpaidTax}", "onshoreTaxYearLiabilities.unpaidTax.hidden"),
+        poundRow(i, "onshoreTaxYearLiabilities.niContributions.checkYourAnswersLabel", s"${liabilities.niContributions}", "onshoreTaxYearLiabilities.niContributions.hidden"),
+        poundRow(i, "onshoreTaxYearLiabilities.interest.checkYourAnswersLabel", s"${liabilities.interest}", "onshoreTaxYearLiabilities.interest.hidden"),
+        row(i, "onshoreTaxYearLiabilities.penaltyRate.checkYourAnswersLabel", s"${liabilities.penaltyRate}%", "onshoreTaxYearLiabilities.penaltyRate.hidden"),
         totalRow("onshoreTaxYearLiabilities.penaltyAmount.checkYourAnswersLabel", messages("site.2DP", penaltyAmount(liabilities))),
         totalRow("onshoreTaxYearLiabilities.amountDue.checkYourAnswersLabel", messages("site.2DP", yearTotal(liabilities))),
         row(i, "onshoreTaxYearLiabilities.penaltyRateReason.checkYourAnswersLabel", s"${liabilities.penaltyRateReason}", "onshoreTaxYearLiabilities.penaltyRateReason.hidden")
@@ -147,9 +148,9 @@ class CheckYourAnswersViewModelCreation @Inject() (
 
     SummaryListViewModel(
       rows = Seq(
-        totalRow("onshoreTaxYearLiabilities.unpaidTax.total", s"&pound;${totals.unpaidTaxTotal}"),
-        totalRow("onshoreTaxYearLiabilities.niContributions.total", s"&pound;${totals.niContributionsTotal}"),
-        totalRow("onshoreTaxYearLiabilities.interest.total", s"&pound;${totals.interestTotal}"),
+        totalRow("onshoreTaxYearLiabilities.unpaidTax.total", s"${totals.unpaidTaxTotal}"),
+        totalRow("onshoreTaxYearLiabilities.niContributions.total", s"${totals.niContributionsTotal}"),
+        totalRow("onshoreTaxYearLiabilities.interest.total", s"${totals.interestTotal}"),
         totalRow("onshoreTaxYearLiabilities.penaltyAmount.total", messages("site.2DP", totals.penaltyAmountTotal)),
         totalRow("onshoreTaxYearLiabilities.amountDue.total", messages("site.2DP", totals.amountDueTotal))
       )
@@ -164,25 +165,6 @@ class CheckYourAnswersViewModelCreation @Inject() (
   def yearTotal(taxYearLiabilities: OnshoreTaxYearLiabilities): BigDecimal = {
     val unpaidAmount = BigDecimal(taxYearLiabilities.unpaidTax) + BigDecimal(taxYearLiabilities.niContributions)
     unpaidAmount + penaltyAmount(taxYearLiabilities) + BigDecimal(taxYearLiabilities.interest)
-  }
-
-  def row(i: Int,label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
-    SummaryListRowViewModel(
-      key     = label,
-      value   = ValueViewModel(HtmlContent(value)),
-      actions = Seq(
-        ActionItemViewModel("site.change", controllers.onshore.routes.OnshoreTaxYearLiabilitiesController.onPageLoad(i, CheckMode).url)
-          .withVisuallyHiddenText(messages(hiddenLabel))
-      )
-    )
-  }
-
-  def totalRow(label: String, value: String)(implicit messages: Messages) = {
-    SummaryListRowViewModel(
-      key     = label,
-      value   = ValueViewModel(HtmlContent(value)),
-      actions = Nil
-    )
   }
 
 }

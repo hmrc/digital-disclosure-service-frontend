@@ -90,7 +90,7 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelSpec extends SpecBase with S
             summaryList.rows(5).value mustEqual ValueViewModel(HtmlContent(s"0%"))
 
             summaryList.rows(6).key mustEqual Key(Text(mess("checkYourAnswers.dl.total.penaltyAmount")))
-            summaryList.rows(6).value mustEqual ValueViewModel(HtmlContent(s"£0.00"))
+            summaryList.rows(6).value mustEqual ValueViewModel(HtmlContent(s"&pound;0.00"))
 
             summaryList.rows(7).key mustEqual Key(Text(mess("directorLoanAccountLiabilities.penaltyRateReason.checkYourAnswersLabel")))
             summaryList.rows(7).value mustEqual ValueViewModel(HtmlContent("reason"))  
@@ -107,10 +107,10 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelSpec extends SpecBase with S
             viewModel.totalAmountsList.rows(1).value mustEqual ValueViewModel(HtmlContent(s"&pound;0"))  
 
             viewModel.totalAmountsList.rows(2).key mustEqual Key(Text(mess("checkYourAnswers.dl.total.penaltyAmount")))
-            viewModel.totalAmountsList.rows(2).value mustEqual ValueViewModel(HtmlContent(s"£0.00"))  
+            viewModel.totalAmountsList.rows(2).value mustEqual ValueViewModel(HtmlContent(s"&pound;0.00"))  
 
             viewModel.totalAmountsList.rows(3).key mustEqual Key(Text(mess("checkYourAnswers.dl.total.totalAmountDue")))
-            viewModel.totalAmountsList.rows(3).value mustEqual ValueViewModel(HtmlContent(s"£0.00"))  
+            viewModel.totalAmountsList.rows(3).value mustEqual ValueViewModel(HtmlContent(s"&pound;0.00"))  
         }    
     }
 }

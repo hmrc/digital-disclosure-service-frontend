@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.offshore
 
 import base.SpecBase
 import play.api.test.FakeRequest
@@ -47,12 +47,12 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
           ),
           SummaryListRowViewModel(
             key     = Key(Text(messages("taxYearLiabilities.penaltyAmount.total"))),
-            value   = ValueViewModel(HtmlContent(messages("site.2DP", 0))),
+            value   = ValueViewModel(HtmlContent(s"&pound;${messages("site.2DP", 0)}")),
             actions = Nil
           ),
           SummaryListRowViewModel(
             key     = Key(Text(messages("taxYearLiabilities.amountDue.total"))),
-            value   = ValueViewModel(HtmlContent(messages("site.2DP", 0))),
+            value   = ValueViewModel(HtmlContent(s"&pound;${messages("site.2DP", 0)}")),
             actions = Nil
           )
         )
@@ -70,7 +70,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       )
 
       running(application) {
-        val request = FakeRequest(GET, offshore.routes.CheckYourAnswersController.onPageLoad.url)
+        val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad.url)
 
         val result = route(application, request).value
 
