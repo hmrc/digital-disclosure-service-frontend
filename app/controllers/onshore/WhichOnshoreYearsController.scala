@@ -102,7 +102,9 @@ class WhichOnshoreYearsController @Inject()(
   def changedPages(userAnswers: UserAnswers, newValue: Set[OnshoreYears]): (List[QuestionPage[_]], Boolean) = {
     val missingYearsCount = userAnswers.inverselySortedOnshoreTaxYears.map(ty => OnshoreYearStarting.findMissingYears(ty.toList).size).getOrElse(0)
 
-    val missingYearPageList = if (missingYearsCount == 0) List(NotIncludedSingleTaxYearPage, NotIncludedMultipleTaxYearsPage) else Nil
+    val hasChanged = !userAnswers.get(WhichOnshoreYearsPage).contains(newValue) || !areYearsMissing(userAnswers, newValue)
+
+    val missingYearPageList = if (hasChanged) List(NotIncludedSingleTaxYearPage, NotIncludedMultipleTaxYearsPage) else Nil
 
     val priorToList = newValue.intersect(Set[OnshoreYears](PriorToFiveYears, PriorToThreeYears, PriorToNineteenYears)).size match {
       case 0 => List(TaxBeforeThreeYearsOnshorePage, TaxBeforeFiveYearsOnshorePage, TaxBeforeNineteenYearsOnshorePage)
@@ -111,8 +113,6 @@ class WhichOnshoreYearsController @Inject()(
     }
 
     val pagesToClear = missingYearPageList ::: priorToList
-    val hasChanged = !userAnswers.get(WhichOnshoreYearsPage).contains(newValue) || !areYearsMissing(userAnswers, newValue)
-
     (pagesToClear, hasChanged)
   }
 
