@@ -156,7 +156,7 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
 
         status(result) mustEqual OK
 
-        contentAsString(result) mustEqual view(form, NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse))(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse), false, false)(request, messages(application)).toString
       }
     }
 
@@ -177,7 +177,7 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(previousValue), NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse))(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(previousValue), NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse), false, false)(request, messages(application)).toString
       }
     }
 
@@ -224,7 +224,7 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse))(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse), false, false)(request, messages(application)).toString
       }
     }
 

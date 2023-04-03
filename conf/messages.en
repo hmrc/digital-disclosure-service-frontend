@@ -1771,6 +1771,9 @@ submitted.paragraph4.link = sign up to take part in our research (opens in new t
 
 whichOnshoreYears.title = Which year does this onshore disclosure relate to?
 whichOnshoreYears.heading = Which year does this onshore disclosure relate to?
+whichOnshoreYears.ct.insetBody = As you have already provided information for your Corporation Tax liabilities, this relates to your remaining onshore liabilities only.
+whichOnshoreYears.dl.insetBody = As you have already provided information for your director loan account liabilities, this relates to your remaining onshore liabilities only.
+whichOnshoreYears.insetBody = As you have already provided information for your Corporation Tax and director loan account liabilities, this relates to your remaining onshore liabilities only.
 whichOnshoreYears.checkbox.hint = Select all that apply.
 whichOnshoreYears.checkYourAnswersLabel = Years this disclosure relates to
 whichOnshoreYears.error.required = Select the years this disclosure relates to

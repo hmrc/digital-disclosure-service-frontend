@@ -20,10 +20,12 @@
     govukErrorSummary: GovukErrorSummary,
     govukCheckboxes: GovukCheckboxes,
     govukButton: GovukButton,
+    heading: components.heading,
+    paragraph: components.paragraph,
     tasklistLink: components.tasklistLink
 )
 
-@(form: Form[_], mode: Mode, checkboxItems: Seq[CheckboxItem])(implicit request: Request[_], messages: Messages)
+@(form: Form[_], mode: Mode, checkboxItems: Seq[CheckboxItem], isCTCompleted: Boolean, isDLCompleted: Boolean)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = title(form, messages("whichOnshoreYears.title"))) {
 
@@ -33,11 +35,24 @@
             @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value_0")))
         }
 
+        @heading(Text(messages("whichOnshoreYears.heading")))
+
+        @if(isCTCompleted && isDLCompleted) {
+            @paragraph(id = Some("inset-body"), classes = "govuk-inset-text", content = HtmlContent(messages("whichOnshoreYears.insetBody")))
+        } else {
+            @if(isCTCompleted) {
+                @paragraph(id = Some("inset-body"), classes = "govuk-inset-text", content = HtmlContent(messages("whichOnshoreYears.ct.insetBody")))
+            }
+            @if(isDLCompleted) {
+                @paragraph(id = Some("inset-body"), classes = "govuk-inset-text", content = HtmlContent(messages("whichOnshoreYears.dl.insetBody")))
+            }
+        }
+
         @govukCheckboxes(
             CheckboxesViewModel(
                 form   = form,
                 name   = "value",
-                legend = LegendViewModel(messages("whichOnshoreYears.heading")).asPageHeading(),
+                legend = LegendViewModel(messages("whichOnshoreYears.heading")).withCssClass("govuk-visually-hidden"),
                 items  = checkboxItems
             ).withHint(Hint(content = Text(messages("whichOnshoreYears.checkbox.hint"))))
         )
