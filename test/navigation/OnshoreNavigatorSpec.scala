@@ -212,7 +212,7 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear with MockitoSuga
         navigator.nextPage(WhichOnshoreYearsPage, NormalMode, userAnswers) mustBe routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
       }
 
-      "must go from WhichOnshoreYearsPage to RentalAddressLookupController" in {
+      "must go from WhichOnshoreYearsPage to PropertyAddedController" in {
         val year = current.back(1).startYear
         val setOfOnshoreYears: Set[OnshoreYears] = Set(OnshoreYearStarting(year))
         val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)
@@ -220,10 +220,10 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear with MockitoSuga
           ua1 <- UserAnswers("id").set(WhichOnshoreYearsPage, setOfOnshoreYears)
           ua2 <- ua1.set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
           } yield ua2
-        navigator.nextPage(WhichOnshoreYearsPage, NormalMode, userAnswers.success.value) mustBe controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
+        navigator.nextPage(WhichOnshoreYearsPage, NormalMode, userAnswers.success.value) mustBe routes.PropertyAddedController.onPageLoad(NormalMode)
       }
 
-      "must go from NotIncludedSingleTaxYearPage to RentalAddressLookupController" in {
+      "must go from NotIncludedSingleTaxYearPage to PropertyAddedController" in {
         val year = current.back(1).startYear
         val setOfOnshoreYears: Set[OnshoreYears] = Set(OnshoreYearStarting(year))
         val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)
@@ -231,7 +231,7 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear with MockitoSuga
           ua1 <- UserAnswers("id").set(WhichOnshoreYearsPage, setOfOnshoreYears)
           ua2 <- ua1.set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
           } yield ua2
-        navigator.nextPage(NotIncludedSingleTaxYearPage, NormalMode, userAnswers.success.value) mustBe controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
+        navigator.nextPage(NotIncludedSingleTaxYearPage, NormalMode, userAnswers.success.value) mustBe routes.PropertyAddedController.onPageLoad(NormalMode)
       }
 
       "must go from NotIncludedSingleTaxYearPage to OnshoreTaxYearLiabilitiesController" in {
@@ -263,7 +263,7 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear with MockitoSuga
         navigator.nextPage(NotIncludedSingleTaxYearPage, NormalMode, userAnswers) mustBe routes.TaxBeforeNineteenYearsOnshoreController.onPageLoad(NormalMode)
       }
 
-      "must go from NotIncludedMultipleTaxYearsPage to RentalAddressLookupController" in {
+      "must go from NotIncludedMultipleTaxYearsPage to PropertyAddedController" in {
         val year = current.back(1).startYear
         val setOfOnshoreYears: Set[OnshoreYears] = Set(OnshoreYearStarting(year))
         val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)
@@ -271,7 +271,7 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear with MockitoSuga
           ua1 <- UserAnswers("id").set(WhichOnshoreYearsPage, setOfOnshoreYears)
           ua2 <- ua1.set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
           } yield ua2
-        navigator.nextPage(NotIncludedMultipleTaxYearsPage, NormalMode, userAnswers.success.value) mustBe controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
+        navigator.nextPage(NotIncludedMultipleTaxYearsPage, NormalMode, userAnswers.success.value) mustBe routes.PropertyAddedController.onPageLoad(NormalMode)
       }
 
       "must go from NotIncludedMultipleTaxYearsPage to OnshoreTaxYearLiabilitiesController" in {
@@ -303,7 +303,7 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear with MockitoSuga
         navigator.nextPage(NotIncludedMultipleTaxYearsPage, NormalMode, userAnswers) mustBe routes.TaxBeforeNineteenYearsOnshoreController.onPageLoad(NormalMode)
       }
 
-      "must go from TaxBeforeThreeYearsOnshorePage to RentalAddressLookupController" in {
+      "must go from TaxBeforeThreeYearsOnshorePage to PropertyAddedController" in {
         val year = current.back(1).startYear
         val setOfOnshoreYears: Set[OnshoreYears] = Set(OnshoreYearStarting(year))
         val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)
@@ -311,7 +311,7 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear with MockitoSuga
           ua1 <- UserAnswers("id").set(WhichOnshoreYearsPage, setOfOnshoreYears)
           ua2 <- ua1.set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
           } yield ua2
-        navigator.nextPage(TaxBeforeThreeYearsOnshorePage, NormalMode, userAnswers.success.value) mustBe controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
+        navigator.nextPage(TaxBeforeThreeYearsOnshorePage, NormalMode, userAnswers.success.value) mustBe routes.PropertyAddedController.onPageLoad(NormalMode)
       }
 
       "must go from TaxBeforeThreeYearsOnshorePage to YouHaveNoOnshoreLiabilitiesToDiscloseController" in {
@@ -349,7 +349,7 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear with MockitoSuga
         navigator.nextPage(TaxBeforeThreeYearsOnshorePage, NormalMode, userAnswers.success.value) mustBe routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
       }
 
-      "must go from TaxBeforeFiveYearsOnshorePage to RentalAddressLookupController" in {
+      "must go from TaxBeforeFiveYearsOnshorePage to PropertyAddedController" in {
         val year = current.back(1).startYear
         val setOfOnshoreYears: Set[OnshoreYears] = Set(OnshoreYearStarting(year))
         val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)
@@ -357,7 +357,7 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear with MockitoSuga
           ua1 <- UserAnswers("id").set(WhichOnshoreYearsPage, setOfOnshoreYears)
           ua2 <- ua1.set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
           } yield ua2
-        navigator.nextPage(TaxBeforeFiveYearsOnshorePage, NormalMode, userAnswers.success.value) mustBe controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
+        navigator.nextPage(TaxBeforeFiveYearsOnshorePage, NormalMode, userAnswers.success.value) mustBe routes.PropertyAddedController.onPageLoad(NormalMode)
       }
 
       "must go from TaxBeforeFiveYearsOnshorePage to YouHaveNoOnshoreLiabilitiesToDiscloseController" in {
@@ -395,7 +395,7 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear with MockitoSuga
         navigator.nextPage(TaxBeforeFiveYearsOnshorePage, NormalMode, userAnswers.success.value) mustBe routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
       }
 
-      "must go from TaxBeforeNineteenYearsOnshorePage to RentalAddressLookupController" in {
+      "must go from TaxBeforeNineteenYearsOnshorePage to PropertyAddedController" in {
         val year = current.back(1).startYear
         val setOfOnshoreYears: Set[OnshoreYears] = Set(OnshoreYearStarting(year))
         val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)
@@ -403,7 +403,7 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear with MockitoSuga
           ua1 <- UserAnswers("id").set(WhichOnshoreYearsPage, setOfOnshoreYears)
           ua2 <- ua1.set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
           } yield ua2
-        navigator.nextPage(TaxBeforeNineteenYearsOnshorePage, NormalMode, userAnswers.success.value) mustBe controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
+        navigator.nextPage(TaxBeforeNineteenYearsOnshorePage, NormalMode, userAnswers.success.value) mustBe routes.PropertyAddedController.onPageLoad(NormalMode)
       }
 
       "must go from TaxBeforeNineteenYearsOnshorePage to YouHaveNoOnshoreLiabilitiesToDiscloseController" in {

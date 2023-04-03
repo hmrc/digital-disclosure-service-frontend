@@ -82,7 +82,6 @@ class OnshoreNavigatorImpl @Inject()(uaToDisclosure: UAToDisclosureService) exte
         case (Some(years), _) if years.contains(PriorToFiveYears) => routes.TaxBeforeFiveYearsOnshoreController.onPageLoad(NormalMode)
         case (Some(years), _) if years.contains(PriorToNineteenYears) => routes.TaxBeforeNineteenYearsOnshoreController.onPageLoad(NormalMode)
         case (_, _) if lettingsChosen => routes.PropertyAddedController.onPageLoad(NormalMode)
-        // case (_, _) if lettingsChosen => controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
         case (_, _) => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
       }
     }
@@ -93,7 +92,6 @@ class OnshoreNavigatorImpl @Inject()(uaToDisclosure: UAToDisclosureService) exte
         case Some(years) if years.contains(PriorToThreeYears) => routes.TaxBeforeThreeYearsOnshoreController.onPageLoad(NormalMode)
         case Some(years) if years.contains(PriorToFiveYears) => routes.TaxBeforeFiveYearsOnshoreController.onPageLoad(NormalMode)
         case Some(years) if years.contains(PriorToNineteenYears) => routes.TaxBeforeNineteenYearsOnshoreController.onPageLoad(NormalMode)
-        // case Some(years) if lettingsChosen => controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
         case Some(years) if lettingsChosen => routes.PropertyAddedController.onPageLoad(NormalMode)
         case Some(years) => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
         case _ => routes.NotIncludedSingleTaxYearController.onPageLoad(NormalMode)
@@ -106,7 +104,6 @@ class OnshoreNavigatorImpl @Inject()(uaToDisclosure: UAToDisclosureService) exte
         case Some(years) if years.contains(PriorToThreeYears) => routes.TaxBeforeThreeYearsOnshoreController.onPageLoad(NormalMode)
         case Some(years) if years.contains(PriorToFiveYears) => routes.TaxBeforeFiveYearsOnshoreController.onPageLoad(NormalMode)
         case Some(years) if years.contains(PriorToNineteenYears) => routes.TaxBeforeNineteenYearsOnshoreController.onPageLoad(NormalMode)
-        // case Some(years) if lettingsChosen => controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
         case Some(years) if lettingsChosen => routes.PropertyAddedController.onPageLoad(NormalMode)
         case Some(years) => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
         case _ => routes.NotIncludedMultipleTaxYearsController.onPageLoad(NormalMode)
@@ -122,7 +119,6 @@ class OnshoreNavigatorImpl @Inject()(uaToDisclosure: UAToDisclosureService) exte
       ua.get(WhichOnshoreYearsPage) match {
         case Some(years) if years.contains(PriorToThreeYears) && years.size == 1 && offshoreOnshoreBothSelected => routes.YouHaveNoOnshoreLiabilitiesToDiscloseController.onPageLoad
         case Some(years) if years.contains(PriorToThreeYears) && years.size == 1 => routes.MakingNilDisclosureController.onPageLoad
-        // case Some(years) if lettingsChosen => controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
         case Some(years) if lettingsChosen => routes.PropertyAddedController.onPageLoad(NormalMode)
         case _ => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
       }
@@ -137,7 +133,6 @@ class OnshoreNavigatorImpl @Inject()(uaToDisclosure: UAToDisclosureService) exte
       ua.get(WhichOnshoreYearsPage) match {
         case Some(years) if years.contains(PriorToFiveYears) && years.size == 1 && offshoreOnshoreBothSelected => routes.YouHaveNoOnshoreLiabilitiesToDiscloseController.onPageLoad
         case Some(years) if years.contains(PriorToFiveYears) && years.size == 1 => routes.MakingNilDisclosureController.onPageLoad
-        // case Some(years) if lettingsChosen => controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
         case Some(years) if lettingsChosen => routes.PropertyAddedController.onPageLoad(NormalMode)
         case _ => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
       }
@@ -152,7 +147,6 @@ class OnshoreNavigatorImpl @Inject()(uaToDisclosure: UAToDisclosureService) exte
       ua.get(WhichOnshoreYearsPage) match {
         case Some(years) if years.contains(PriorToNineteenYears) && years.size == 1 && offshoreOnshoreBothSelected => routes.YouHaveNoOnshoreLiabilitiesToDiscloseController.onPageLoad
         case Some(years) if years.contains(PriorToNineteenYears) && years.size == 1 => routes.MakingNilDisclosureController.onPageLoad
-        // case Some(years) if lettingsChosen => controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode)
         case Some(years) if lettingsChosen => routes.PropertyAddedController.onPageLoad(NormalMode)
         case _ => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
       }
@@ -173,9 +167,9 @@ class OnshoreNavigatorImpl @Inject()(uaToDisclosure: UAToDisclosureService) exte
       }.toSet
 
       val keySet = ua.get(OnshoreTaxYearLiabilitiesPage).getOrElse(Map.empty).keySet
-      val remainingYears = missingYears.intersect(keySet).size
+      val yearsStillToComplete = missingYears.intersect(keySet).size
 
-      (ua.get(PropertyAddedPage), ua.get(LettingPropertyPage), uaToDisclosure.uaToFullDisclosure(ua).onshoreLiabilities, remainingYears) match {
+      (ua.get(PropertyAddedPage), ua.get(LettingPropertyPage), uaToDisclosure.uaToFullDisclosure(ua).onshoreLiabilities, yearsStillToComplete) match {
         case (Some(true), Some(properties), _, _) => controllers.letting.routes.RentalAddressLookupController.lookupAddress(properties.size, NormalMode)
         case (Some(false), _, Some(onshoreLiabilities), 0) if onshoreLiabilities.isComplete => routes.CheckYourAnswersController.onPageLoad
         case (Some(false), _, Some(onshoreLiabilities), _) if onshoreLiabilities.isComplete => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
@@ -222,10 +216,6 @@ class OnshoreNavigatorImpl @Inject()(uaToDisclosure: UAToDisclosureService) exte
     case IncomeOrGainSourcePage => ua => hasAnswerChanged => 
       if(hasAnswerChanged) nextPage(IncomeOrGainSourcePage, NormalMode, ua)
       else routes.CheckYourAnswersController.onPageLoad 
-
-    // case WhichOnshoreYearsPage => ua => hasAnswerChanged =>
-    //   if(hasAnswerChanged) nextPage(WhichOnshoreYearsPage, NormalMode, ua)
-    //   else routes.CheckYourAnswersController.onPageLoad
 
     case WhichOnshoreYearsPage => ua => hasAnswerChanged => {
       val missingYearsCount = ua.inverselySortedOnshoreTaxYears.map(ty => OnshoreYearStarting.findMissingYears(ty.toList).size).getOrElse(0)
