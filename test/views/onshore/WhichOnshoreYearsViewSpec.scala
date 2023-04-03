@@ -36,7 +36,7 @@ class WhichOnshoreYearsViewSpec extends ViewSpecBase with ViewMatchers with Curr
   "view" should {
 
     val checkboxes = service.checkboxItems(Behaviour.Deliberate)
-    def createView: Html = page(form, NormalMode, checkboxes)(request, messages)
+    def createView: Html = page(form, NormalMode, checkboxes, true, true)(request, messages)
     val view = createView
 
     "have title" in {
@@ -44,12 +44,16 @@ class WhichOnshoreYearsViewSpec extends ViewSpecBase with ViewMatchers with Curr
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("whichOnshoreYears.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whichOnshoreYears.heading")
     }
 
     "display the continue button" in {
       view.getElementsByClass("govuk-button").first() must haveId ("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
+    }
+
+    "display the inset-body" in {
+      view.getElementById("inset-body").text() mustBe messages("whichOnshoreYears.insetBody")
     }
 
     "contain checkboxes" in {

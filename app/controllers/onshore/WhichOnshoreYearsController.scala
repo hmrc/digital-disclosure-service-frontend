@@ -58,15 +58,21 @@ class WhichOnshoreYearsController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode, populateChecklist(request.userAnswers)))
+      val isCTCompleted = request.userAnswers.get(CorporationTaxLiabilityPage).getOrElse(Seq()).nonEmpty
+      val isDLCompleted = request.userAnswers.get(DirectorLoanAccountLiabilitiesPage).getOrElse(Seq()).nonEmpty
+
+      Ok(view(preparedForm, mode, populateChecklist(request.userAnswers), isCTCompleted, isDLCompleted))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
 
+      val isCTCompleted = request.userAnswers.get(CorporationTaxLiabilityPage).getOrElse(Seq()).nonEmpty
+      val isDLCompleted = request.userAnswers.get(DirectorLoanAccountLiabilitiesPage).getOrElse(Seq()).nonEmpty
+
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, populateChecklist(request.userAnswers)))),
+          Future.successful(BadRequest(view(formWithErrors, mode, populateChecklist(request.userAnswers), isCTCompleted, isDLCompleted))),
 
         value => {
           val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
