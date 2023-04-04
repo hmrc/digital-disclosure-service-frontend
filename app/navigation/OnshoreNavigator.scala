@@ -178,9 +178,9 @@ class OnshoreNavigatorImpl @Inject()(uaToDisclosure: UAToDisclosureService) exte
 
     case AccountingPeriodCTAddedPage => ua => (ua.get(AccountingPeriodCTAddedPage), ua.get(CorporationTaxLiabilityPage), ua.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage), uaToDisclosure.uaToFullDisclosure(ua).onshoreLiabilities) match {
       case (Some(true), Some(corporationTaxLiabilities), _, _) => routes.CorporationTaxLiabilityController.onPageLoad(corporationTaxLiabilities.size, NormalMode)
-      case (Some(false), _, _, Some(onshoreLiabilities)) if onshoreLiabilities.isComplete => routes.CheckYourAnswersController.onPageLoad
       case (Some(false), _, Some(taxTypes), _) if taxTypes.contains(DirectorLoan) => routes.DirectorLoanAccountLiabilitiesController.onPageLoad(0, NormalMode)
-      case (_, _, Some(taxTypes), _) if(requiresTaxYears(taxTypes)) => routes.WhichOnshoreYearsController.onPageLoad(NormalMode)
+      case (Some(false), _, Some(taxTypes), _) if(requiresTaxYears(taxTypes)) => routes.WhichOnshoreYearsController.onPageLoad(NormalMode)
+      case (Some(false), _, _, Some(onshoreLiabilities)) if onshoreLiabilities.isComplete => routes.CheckYourAnswersController.onPageLoad
       case _ => routes.CheckYourAnswersController.onPageLoad
     }
 
@@ -190,8 +190,8 @@ class OnshoreNavigatorImpl @Inject()(uaToDisclosure: UAToDisclosureService) exte
 
     case AccountingPeriodDLAddedPage => ua => (ua.get(AccountingPeriodDLAddedPage), ua.get(DirectorLoanAccountLiabilitiesPage), ua.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage), uaToDisclosure.uaToFullDisclosure(ua).onshoreLiabilities) match {
       case (Some(true), Some(directorLoanAccountLiabilities), _, _) => routes.DirectorLoanAccountLiabilitiesController.onPageLoad(directorLoanAccountLiabilities.size, NormalMode)
-      case (Some(false), _, _, Some(onshoreLiabilities)) if onshoreLiabilities.isComplete => routes.CheckYourAnswersController.onPageLoad
       case (Some(false), _, Some(taxTypes), _) if(requiresTaxYears(taxTypes)) => routes.WhichOnshoreYearsController.onPageLoad(NormalMode)
+      case (Some(false), _, _, Some(onshoreLiabilities)) if onshoreLiabilities.isComplete => routes.CheckYourAnswersController.onPageLoad
       case _ => routes.CheckYourAnswersController.onPageLoad
     }
 
