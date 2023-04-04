@@ -29,9 +29,10 @@ import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
+import viewmodels.onshore.CorporationTaxLiabilityModel
 import views.html.onshore.AccountingPeriodCTAddedView
 
-import java.time.LocalDate
+import java.time.{LocalDate, ZoneOffset}
 import scala.concurrent.Future
 
 class AccountingPeriodCTAddedControllerSpec extends SpecBase with MockitoSugar {
@@ -43,13 +44,23 @@ class AccountingPeriodCTAddedControllerSpec extends SpecBase with MockitoSugar {
 
   lazy val accountingPeriodCTAddedRoute = onshore.routes.AccountingPeriodCTAddedController.onPageLoad(NormalMode).url
 
-  val periodEndDates = Seq.empty
+  val answer = Seq(CorporationTaxLiability(
+    periodEnd = LocalDate.now(ZoneOffset.UTC),
+    howMuchIncome = BigInt(100),
+    howMuchUnpaid = BigInt(100),
+    howMuchInterest = BigInt(100),
+    penaltyRate = 5,
+    penaltyRateReason = "Reason"
+  ))
+
+  val userAnswers = UserAnswers(userAnswersId).set(CorporationTaxLiabilityPage, answer).success.value
+
 
   "AccountingPeriodCTAdded Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
         val request = FakeRequest(GET, accountingPeriodCTAddedRoute)
@@ -57,6 +68,8 @@ class AccountingPeriodCTAddedControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         val view = application.injector.instanceOf[AccountingPeriodCTAddedView]
+
+        val periodEndDates = CorporationTaxLiabilityModel.row(answer, NormalMode)(messages(application))
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(form, periodEndDates, NormalMode)(request, messages(application)).toString
@@ -100,6 +113,8 @@ class AccountingPeriodCTAddedControllerSpec extends SpecBase with MockitoSugar {
         val boundForm = form.bind(Map("value" -> ""))
 
         val view = application.injector.instanceOf[AccountingPeriodCTAddedView]
+
+        val periodEndDates = CorporationTaxLiabilityModel.row(answer, NormalMode)(messages(application))
 
         val result = route(application, request).value
 
