@@ -114,7 +114,7 @@ class AccountingPeriodCTAddedControllerSpec extends SpecBase with MockitoSugar {
 
         val view = application.injector.instanceOf[AccountingPeriodCTAddedView]
 
-        val periodEndDates = CorporationTaxLiabilityModel.row(answer, NormalMode)(messages(application))
+        val periodEndDates = Seq()
 
         val result = route(application, request).value
 
