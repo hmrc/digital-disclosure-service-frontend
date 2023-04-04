@@ -18,7 +18,7 @@ package controllers
 
 import base.SpecBase
 import forms.AccountingPeriodDLAddedFormProvider
-import models.{NormalMode, UserAnswers, DirectorLoanAccountLiabilities}
+import models.{DirectorLoanAccountLiabilities, NormalMode, UserAnswers}
 import navigation.{FakeOnshoreNavigator, OnshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
@@ -29,9 +29,10 @@ import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
+import viewmodels.onshore.DirectorLoanAccountLiabilityModel
 import views.html.onshore.AccountingPeriodDLAddedView
-import java.time.LocalDate
 
+import java.time.{LocalDate, ZoneOffset}
 import scala.concurrent.Future
 
 class AccountingPeriodDLAddedControllerSpec extends SpecBase with MockitoSugar {
@@ -43,13 +44,24 @@ class AccountingPeriodDLAddedControllerSpec extends SpecBase with MockitoSugar {
 
   lazy val accountingPeriodDLAddedRoute = onshore.routes.AccountingPeriodDLAddedController.onPageLoad(NormalMode).url
 
-  val periodEndDates = Seq.empty
+  val answer = Seq(DirectorLoanAccountLiabilities(
+    name = "a Name",
+    periodEnd = LocalDate.now(ZoneOffset.UTC).minusDays(1),
+    overdrawn = BigInt(1000),
+    unpaidTax = BigInt(1000),
+    interest = BigInt(1000),
+    penaltyRate = 20,
+    penaltyRateReason = "Reason"
+  ))
+
+  val userAnswers = UserAnswers(userAnswersId).set(DirectorLoanAccountLiabilitiesPage, answer).success.value
+
 
   "AccountingPeriodDLAdded Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
         val request = FakeRequest(GET, accountingPeriodDLAddedRoute)
@@ -57,6 +69,8 @@ class AccountingPeriodDLAddedControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         val view = application.injector.instanceOf[AccountingPeriodDLAddedView]
+
+        val periodEndDates = DirectorLoanAccountLiabilityModel.row(answer, NormalMode)(messages(application))
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(form, periodEndDates, NormalMode)(request, messages(application)).toString
@@ -102,6 +116,8 @@ class AccountingPeriodDLAddedControllerSpec extends SpecBase with MockitoSugar {
         val view = application.injector.instanceOf[AccountingPeriodDLAddedView]
 
         val result = route(application, request).value
+
+        val periodEndDates = Seq.empty
 
         status(result) mustEqual BAD_REQUEST
         contentAsString(result) mustEqual view(boundForm, periodEndDates, NormalMode)(request, messages(application)).toString

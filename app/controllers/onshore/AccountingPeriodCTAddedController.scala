@@ -49,9 +49,10 @@ class AccountingPeriodCTAddedController @Inject()(
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val periodEndDates = getPeriodEndDates(request.userAnswers, mode)
-
-      Ok(view(form, periodEndDates, mode))
+      getPeriodEndDates(request.userAnswers, mode) match {
+        case periodEndDates if periodEndDates.isEmpty => Redirect(routes.CorporationTaxLiabilityController.onPageLoad(0, mode).url)
+        case periodEndDates => Ok(view(form, periodEndDates, mode))
+      }
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
