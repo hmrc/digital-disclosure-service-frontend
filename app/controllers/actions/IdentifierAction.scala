@@ -47,14 +47,14 @@ class AuthenticatedIdentifierAction @Inject()(
 
     implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
 
-    authorised(Agent).retrieve(internalId and externalId and allEnrolments){
-      case internalId ~ externalId ~ enrolments => 
-        val customerId = getAgentCustomerId(externalId, enrolments)
+    authorised(Agent).retrieve(internalId and allEnrolments){
+      case internalId ~ enrolments =>
+        val customerId = getAgentCustomerId(enrolments)
         processAuthorisation(internalId, request, block, true, customerId)
     }
-    .recoverWith {_ => authorised(Organisation or ConfidenceLevel.L250).retrieve(internalId and externalId and allEnrolments){
-      case internalId ~ externalId ~ enrolments => 
-        val customerId = getCustomerId(externalId, enrolments)
+    .recoverWith {_ => authorised(Organisation or ConfidenceLevel.L250).retrieve(internalId and allEnrolments){
+      case internalId ~ enrolments =>
+        val customerId = getCustomerId(enrolments)
         processAuthorisation(internalId, request, block, false, customerId)
     }}
     .recover {
@@ -67,20 +67,15 @@ class AuthenticatedIdentifierAction @Inject()(
     }
   }
 
-  def getAgentCustomerId(externalId: Option[String], enrolments: Enrolments): Option[CustomerId] = {
-    val arnOpt: Option[ARN] = enrolments.getEnrolment("HMRC-AS-AGENT").flatMap(_.getIdentifier("AgentReferenceNumber").map(enrol => ARN(enrol.value)))
-    val externalIdOpt = externalId.map(ExternalId(_))
-    
-    List(arnOpt, externalIdOpt).flatten.headOption
+  def getAgentCustomerId(enrolments: Enrolments): Option[CustomerId] = {
+    enrolments.getEnrolment("HMRC-AS-AGENT").flatMap(_.getIdentifier("AgentReferenceNumber").map(enrol => ARN(enrol.value)))
   }
 
-  def getCustomerId(externalId: Option[String], enrolments: Enrolments): Option[CustomerId] = {
+  def getCustomerId(enrolments: Enrolments): Option[CustomerId] = {
     val ninoOpt: Option[NINO] = enrolments.getEnrolment("HMRC-NI").flatMap(_.getIdentifier("nino").map(enrol => NINO(enrol.value)))
     val sautrOpt: Option[SAUTR] = enrolments.getEnrolment("IR-SA").flatMap(_.getIdentifier("UTR").map(enrol => SAUTR(enrol.value)))
     val ctutrOpt: Option[CAUTR] = enrolments.getEnrolment("IR-CT").flatMap(_.getIdentifier("UTR").map(enrol => CAUTR(enrol.value)))
-    val externalIdOpt = externalId.map(ExternalId(_))
-
-    List(ninoOpt, sautrOpt, ctutrOpt, externalIdOpt).flatten.headOption
+    List(ninoOpt, sautrOpt, ctutrOpt).flatten.headOption
   }
 
   def processAuthorisation[A](internalIdOpt: Option[String], request: Request[A], block: IdentifierRequest[A] => Future[Result], isAgent: Boolean, customerId: Option[CustomerId]) = {
