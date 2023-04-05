@@ -39,11 +39,11 @@ class WhatIsYourFullNameViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsYourFullName.heading")
+      view.getElementsByClass("govuk-label--xl").text() mustBe messages("whatIsYourFullName.heading")
     }
 
-    "have a body text" in {
-      view.getElementById("body").text() mustBe messages("whatIsYourFullName.body")
+    "have a hint text" in {
+      view.getElementsByClass("govuk-hint").text() mustBe messages("whatIsYourFullName.hint")
     }
 
     "have a text input" in {

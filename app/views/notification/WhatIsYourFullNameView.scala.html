@@ -22,8 +22,6 @@
     govukErrorSummary: GovukErrorSummary,
     govukInput: GovukInput,
     govukButton: GovukButton,
-    paragraph: components.paragraph,
-    heading: components.heading,
     tasklistLink: components.tasklistLink
 )
 
@@ -37,17 +35,14 @@
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
-        @heading(Text(messages("whatIsYourFullName.heading")))
-
-        @paragraph(id = Some("body"), content = Text(messages("whatIsYourFullName.body")))
-
         @govukInput(
             InputViewModel(
                 field = form("value"),
-                label = LabelViewModel(messages("whatIsYourFullName.heading")).withCssClass("govuk-visually-hidden")
+                label = LabelViewModel(messages("whatIsYourFullName.heading")).asPageHeading()
             )
             .asName
             .withWidth(Fixed30)
+            .withHint(Hint(content = Text(messages("whatIsYourFullName.hint"))))
         )
 
         @govukButton(
