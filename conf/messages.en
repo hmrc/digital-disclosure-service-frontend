@@ -438,7 +438,7 @@ onlyOnshoreLiabilities.paragraph.third = or your income does not fall into the o
 
 whatIsYourFullName.title = What is your full name?
 whatIsYourFullName.heading = What is your full name?
-whatIsYourFullName.body = This should be as it’s written on official documents such as your passport or driving licence.
+whatIsYourFullName.hint = This should be as it’s written on official documents such as your passport or driving licence.
 whatIsYourFullName.checkYourAnswersLabel = Your full name
 whatIsYourFullName.error.required = Enter your full name
 whatIsYourFullName.error.length = Full name must be between 1 and 30 characters
