@@ -124,8 +124,8 @@ class OnshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues
       val onshoreLiabilities = OnshoreLiabilities(
         behaviour = Some(whySet),
         whatLiabilities = Some(Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)),
-        whichYears = None, 
-        taxYearLiabilities = None,
+        whichYears = Some(Set(OnshoreYearStarting(2012))), 
+        taxYearLiabilities = Some(Map("2012" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2012), liabilities))),
         lettingProperties = Some(lettingProperty),
         memberOfLandlordAssociations = Some(true),
         landlordAssociations = Some("Some associations"),
