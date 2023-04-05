@@ -767,7 +767,24 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear with MockitoSuga
 
   private def getFullDisclosure(onshoreCompleted:Boolean = false): FullDisclosure = {
     val whatLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = if(onshoreCompleted) Set() else Set(CorporationTax)
-    val onshoreLiabilities = OnshoreLiabilities(behaviour = Some(Set()), whatLiabilities = Some(whatLiabilities))
+
+    val liabilities = OnshoreTaxYearLiabilities(
+      lettingIncome = Some(BigInt(2000)),
+      gains = Some(BigInt(2000)),
+      unpaidTax = BigInt(2000),
+      niContributions = BigInt(2000),
+      interest = BigInt(2000),
+      penaltyRate = 12,
+      penaltyRateReason = "Reason",
+      residentialTaxReduction = Some(false)
+    )
+
+    val onshoreLiabilities = OnshoreLiabilities(
+      behaviour = Some(Set()), 
+      whatLiabilities = Some(whatLiabilities),
+      whichYears = Some(Set(OnshoreYearStarting(2012))), 
+      taxYearLiabilities = Some(Map("2012" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2012), liabilities)))
+    )
 
     FullDisclosure(
       submissionId = "",
