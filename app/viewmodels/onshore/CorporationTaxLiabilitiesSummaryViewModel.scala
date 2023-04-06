@@ -58,13 +58,13 @@ object CorporationTaxLiabilitiesSummaryViewModelCreation extends RowHelper {
 
     SummaryListViewModel(
       rows = Seq(
-        row(i, "corporationTaxLiability.periodEnd.checkYourAnswersLabel", s"${liability.periodEnd.format(dateFormatter)}", "corporationTaxLiability.periodEnd.hidden"),
-        poundRow(i, "corporationTaxLiability.howMuchIncome.checkYourAnswersLabel", s"${liability.howMuchIncome}", "corporationTaxLiability.howMuchIncome.hidden"),
-        poundRow(i, "corporationTaxLiability.howMuchUnpaid.checkYourAnswersLabel", s"${liability.howMuchUnpaid}", "corporationTaxLiability.howMuchUnpaid.hidden"),
-        poundRow(i, "corporationTaxLiability.howMuchInterest.checkYourAnswersLabel", s"${liability.howMuchInterest}", "corporationTaxLiability.howMuchInterest.hidden"),
-        row(i, "corporationTaxLiability.penaltyRate.checkYourAnswersLabel", s"${liability.penaltyRate}%", "corporationTaxLiability.penaltyRate.hidden"),
+        rowCase(i, "corporationTaxLiability.periodEnd.checkYourAnswersLabel", s"${liability.periodEnd.format(dateFormatter)}", "corporationTaxLiability.periodEnd.hidden", CT),
+        poundRowCase(i, "corporationTaxLiability.howMuchIncome.checkYourAnswersLabel", s"${liability.howMuchIncome}", "corporationTaxLiability.howMuchIncome.hidden", CT),
+        poundRowCase(i, "corporationTaxLiability.howMuchUnpaid.checkYourAnswersLabel", s"${liability.howMuchUnpaid}", "corporationTaxLiability.howMuchUnpaid.hidden", CT),
+        poundRowCase(i, "corporationTaxLiability.howMuchInterest.checkYourAnswersLabel", s"${liability.howMuchInterest}", "corporationTaxLiability.howMuchInterest.hidden", CT),
+        rowCase(i, "corporationTaxLiability.penaltyRate.checkYourAnswersLabel", s"${liability.penaltyRate}%", "corporationTaxLiability.penaltyRate.hidden", CT),
         totalRow("corporationTaxLiability.penaltyAmount.checkYourAnswersLabel", messages("site.2DP", penaltyAmount(liability))),
-        row(i, "corporationTaxLiability.penaltyRateReason.checkYourAnswersLabel", s"${liability.penaltyRateReason}", "corporationTaxLiability.penaltyRateReason.hidden"),
+        rowCase(i, "corporationTaxLiability.penaltyRateReason.checkYourAnswersLabel", s"${liability.penaltyRateReason}", "corporationTaxLiability.penaltyRateReason.hidden", CT),
         totalRow("corporationTaxLiability.ct.total.heading", messages("site.2DP", amountDueTotal))
       )
     )

@@ -21,9 +21,7 @@ import models.store.FullDisclosure
 import models.store.disclosure.OnshoreLiabilities
 import viewmodels.TotalAmounts
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryList
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import viewmodels.govuk.summarylist._
-import viewmodels.implicits._
 import viewmodels.checkAnswers._
 import pages.{OnshoreTaxYearLiabilitiesPage, WhatOnshoreLiabilitiesDoYouNeedToDisclosePage}
 import play.api.i18n.Messages
@@ -96,30 +94,30 @@ class CheckYourAnswersViewModelCreation @Inject() (
     val liabilities = yearWithLiabilites.taxYearLiabilities
 
     val nonBusinessIncome = userAnswers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage) match {
-      case Some(value) if(value.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.NonBusinessIncome)) => Seq(poundRow(i, "onshoreTaxYearLiabilities.nonBusinessIncome.checkYourAnswersLabel", s"${liabilities.nonBusinessIncome.getOrElse(0)}", "onshoreTaxYearLiabilities.nonBusinessIncome.hidden"))
+      case Some(value) if(value.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.NonBusinessIncome)) => Seq(poundRowCase(i, "onshoreTaxYearLiabilities.nonBusinessIncome.checkYourAnswersLabel", s"${liabilities.nonBusinessIncome.getOrElse(0)}", "onshoreTaxYearLiabilities.nonBusinessIncome.hidden", ONSHORE))
       case _ => Nil
     }
 
     val businessIncome = userAnswers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage) match {
-      case Some(value) if(value.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.BusinessIncome)) => Seq(poundRow(i, "onshoreTaxYearLiabilities.businessIncome.checkYourAnswersLabel", s"${liabilities.businessIncome.getOrElse(0)}", "onshoreTaxYearLiabilities.businessIncome.hidden"))
+      case Some(value) if(value.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.BusinessIncome)) => Seq(poundRowCase(i, "onshoreTaxYearLiabilities.businessIncome.checkYourAnswersLabel", s"${liabilities.businessIncome.getOrElse(0)}", "onshoreTaxYearLiabilities.businessIncome.hidden", ONSHORE))
       case _ => Nil
     }
 
     val lettingIncome = userAnswers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage) match {
-      case Some(value) if(value.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)) => Seq(poundRow(i, "onshoreTaxYearLiabilities.lettingIncome.checkYourAnswersLabel", s"${liabilities.lettingIncome.getOrElse(0)}", "onshoreTaxYearLiabilities.lettingIncome.hidden"))
+      case Some(value) if(value.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)) => Seq(poundRowCase(i, "onshoreTaxYearLiabilities.lettingIncome.checkYourAnswersLabel", s"${liabilities.lettingIncome.getOrElse(0)}", "onshoreTaxYearLiabilities.lettingIncome.hidden", ONSHORE))
       case _ => Nil
     }
 
     val gains = userAnswers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage) match {
-      case Some(value) if(value.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.Gains)) => Seq(poundRow(i, "onshoreTaxYearLiabilities.gains.checkYourAnswersLabel", s"${liabilities.gains.getOrElse(0)}", "onshoreTaxYearLiabilities.gains.hidden"))
+      case Some(value) if(value.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.Gains)) => Seq(poundRowCase(i, "onshoreTaxYearLiabilities.gains.checkYourAnswersLabel", s"${liabilities.gains.getOrElse(0)}", "onshoreTaxYearLiabilities.gains.hidden", ONSHORE))
       case _ => Nil
     } 
 
     val residentialTaxReduction = userAnswers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage) match {
-      case Some(value) if(value.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)) => Seq(row(i,
+      case Some(value) if(value.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)) => Seq(rowCase(i,
         "onshoreTaxYearLiabilities.residentialTaxReduction.checkYourAnswersLabel",
         s"${if(liabilities.residentialTaxReduction.getOrElse(false)) messages("site.yes") else messages("site.no")}",
-        "onshoreTaxYearLiabilities.residentialTaxReduction.hidden")
+        "onshoreTaxYearLiabilities.residentialTaxReduction.hidden", ONSHORE)
       )
       case _ => Nil
     }
@@ -130,13 +128,13 @@ class CheckYourAnswersViewModelCreation @Inject() (
       businessIncome ++
       nonBusinessIncome ++
       Seq(
-        poundRow(i, "onshoreTaxYearLiabilities.unpaidTax.checkYourAnswersLabel", s"${liabilities.unpaidTax}", "onshoreTaxYearLiabilities.unpaidTax.hidden"),
-        poundRow(i, "onshoreTaxYearLiabilities.niContributions.checkYourAnswersLabel", s"${liabilities.niContributions}", "onshoreTaxYearLiabilities.niContributions.hidden"),
-        poundRow(i, "onshoreTaxYearLiabilities.interest.checkYourAnswersLabel", s"${liabilities.interest}", "onshoreTaxYearLiabilities.interest.hidden"),
-        row(i, "onshoreTaxYearLiabilities.penaltyRate.checkYourAnswersLabel", s"${liabilities.penaltyRate}%", "onshoreTaxYearLiabilities.penaltyRate.hidden"),
+        poundRowCase(i, "onshoreTaxYearLiabilities.unpaidTax.checkYourAnswersLabel", s"${liabilities.unpaidTax}", "onshoreTaxYearLiabilities.unpaidTax.hidden", ONSHORE),
+        poundRowCase(i, "onshoreTaxYearLiabilities.niContributions.checkYourAnswersLabel", s"${liabilities.niContributions}", "onshoreTaxYearLiabilities.niContributions.hidden", ONSHORE),
+        poundRowCase(i, "onshoreTaxYearLiabilities.interest.checkYourAnswersLabel", s"${liabilities.interest}", "onshoreTaxYearLiabilities.interest.hidden", ONSHORE),
+        rowCase(i, "onshoreTaxYearLiabilities.penaltyRate.checkYourAnswersLabel", s"${liabilities.penaltyRate}%", "onshoreTaxYearLiabilities.penaltyRate.hidden", ONSHORE),
         totalRow("onshoreTaxYearLiabilities.penaltyAmount.checkYourAnswersLabel", messages("site.2DP", penaltyAmount(liabilities))),
         totalRow("onshoreTaxYearLiabilities.amountDue.checkYourAnswersLabel", messages("site.2DP", yearTotal(liabilities))),
-        row(i, "onshoreTaxYearLiabilities.penaltyRateReason.checkYourAnswersLabel", s"${liabilities.penaltyRateReason}", "onshoreTaxYearLiabilities.penaltyRateReason.hidden")
+        rowCase(i, "onshoreTaxYearLiabilities.penaltyRateReason.checkYourAnswersLabel", s"${liabilities.penaltyRateReason}", "onshoreTaxYearLiabilities.penaltyRateReason.hidden", ONSHORE)
       ) ++ residentialTaxReduction ++ ResidentialReductionSummary.row(i, yearWithLiabilites.taxYear.toString, userAnswers)
       
     SummaryListViewModel(rows)

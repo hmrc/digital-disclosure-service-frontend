@@ -18,9 +18,7 @@ package viewmodels.offshore
 
 import models._
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryList
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import viewmodels.govuk.summarylist._
-import viewmodels.implicits._
 import viewmodels.checkAnswers._
 import pages.{ForeignTaxCreditPage, TaxYearLiabilitiesPage}
 import play.api.i18n.Messages
@@ -94,22 +92,22 @@ class CheckYourAnswersViewModelCreation @Inject()
     val liabilities = yearWithLiabilites.taxYearLiabilities
 
     val foreignTaxCredit = userAnswers.getByKey(ForeignTaxCreditPage, yearWithLiabilites.taxYear.startYear.toString) match {
-      case Some(value) => Seq(poundRow(i, "foreignTaxCredit.checkYourAnswersLabel", s"${value}", "foreignTaxCredit.hidden"))
+      case Some(value) => Seq(poundRowCase(i, "foreignTaxCredit.checkYourAnswersLabel", s"${value}", "foreignTaxCredit.hidden", OFFSHORE))
       case _ => Nil
     }
 
     val rows = Seq(
-      poundRow(i, "taxYearLiabilities.income.checkYourAnswersLabel", s"${liabilities.income}", "taxYearLiabilities.income.hidden"),
-      poundRow(i, "taxYearLiabilities.chargeableTransfers.checkYourAnswersLabel", s"${liabilities.chargeableTransfers}", "taxYearLiabilities.chargeableTransfers.hidden"),
-      poundRow(i, "taxYearLiabilities.capitalGains.checkYourAnswersLabel", s"${liabilities.capitalGains}", "taxYearLiabilities.capitalGains.hidden"),
-      poundRow(i, "taxYearLiabilities.unpaidTax.checkYourAnswersLabel", s"${liabilities.unpaidTax}", "taxYearLiabilities.unpaidTax.hidden"),
-      poundRow(i, "taxYearLiabilities.interest.checkYourAnswersLabel", s"${liabilities.interest}", "taxYearLiabilities.interest.hidden"),
-      row(i, "taxYearLiabilities.penaltyRate.checkYourAnswersLabel", s"${liabilities.penaltyRate}%", "taxYearLiabilities.penaltyRate.hidden"),
+      poundRowCase(i, "taxYearLiabilities.income.checkYourAnswersLabel", s"${liabilities.income}", "taxYearLiabilities.income.hidden", OFFSHORE),
+      poundRowCase(i, "taxYearLiabilities.chargeableTransfers.checkYourAnswersLabel", s"${liabilities.chargeableTransfers}", "taxYearLiabilities.chargeableTransfers.hidden", OFFSHORE),
+      poundRowCase(i, "taxYearLiabilities.capitalGains.checkYourAnswersLabel", s"${liabilities.capitalGains}", "taxYearLiabilities.capitalGains.hidden", OFFSHORE),
+      poundRowCase(i, "taxYearLiabilities.unpaidTax.checkYourAnswersLabel", s"${liabilities.unpaidTax}", "taxYearLiabilities.unpaidTax.hidden", OFFSHORE),
+      poundRowCase(i, "taxYearLiabilities.interest.checkYourAnswersLabel", s"${liabilities.interest}", "taxYearLiabilities.interest.hidden", OFFSHORE),
+      rowCase(i, "taxYearLiabilities.penaltyRate.checkYourAnswersLabel", s"${liabilities.penaltyRate}%", "taxYearLiabilities.penaltyRate.hidden", OFFSHORE),
       totalRow("taxYearLiabilities.penaltyAmount.checkYourAnswersLabel", messages("site.2DP", penaltyAmount(liabilities))),
-      row(i, "taxYearLiabilities.foreignTaxCredit.checkYourAnswersLabel", if (liabilities.foreignTaxCredit) messages("site.yes") else messages("site.no"), "taxYearLiabilities.foreignTaxCredit.hidden")
+      rowCase(i, "taxYearLiabilities.foreignTaxCredit.checkYourAnswersLabel", if (liabilities.foreignTaxCredit) messages("site.yes") else messages("site.no"), "taxYearLiabilities.foreignTaxCredit.hidden", OFFSHORE)
     ) ++ foreignTaxCredit ++ Seq(
       totalRow("taxYearLiabilities.amountDue.checkYourAnswersLabel", messages("site.2DP", yearTotal(liabilities))),
-      row(i, "onshoreTaxYearLiabilities.penaltyRateReason.checkYourAnswersLabel", s"${liabilities.penaltyRateReason}", "onshoreTaxYearLiabilities.penaltyRateReason.hidden")
+      rowCase(i, "onshoreTaxYearLiabilities.penaltyRateReason.checkYourAnswersLabel", s"${liabilities.penaltyRateReason}", "onshoreTaxYearLiabilities.penaltyRateReason.hidden", OFFSHORE)
     )
 
     SummaryListViewModel(rows)
