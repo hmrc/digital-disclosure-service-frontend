@@ -24,8 +24,31 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import models.CheckMode
 
 trait RowHelper {
+
+  val ONSHORE = "onshore"
+  val OFFSHORE = "offshore"
+  val CT = "corporationTax"
+  val DL = "directorLoan"
   
-  def poundRow(i: Int,label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
+  def poundRowCase(i: Int,label: String, value: String, hiddenLabel: String, section: String)(implicit messages: Messages) = {
+    section match {
+      case ONSHORE => onshorePoundRow(i: Int,label: String, value: String, hiddenLabel: String)
+      case OFFSHORE => offshorePoundRow(i: Int,label: String, value: String, hiddenLabel: String)
+      case CT => ctPoundRow(i: Int,label: String, value: String, hiddenLabel: String)
+      case DL => dlPoundRow(i: Int,label: String, value: String, hiddenLabel: String)
+    }
+  }
+
+  def rowCase(i: Int,label: String, value: String, hiddenLabel: String, section: String)(implicit messages: Messages) = {
+    section match {
+      case ONSHORE => onshoreRow(i: Int,label: String, value: String, hiddenLabel: String)
+      case OFFSHORE => offshoreRow(i: Int,label: String, value: String, hiddenLabel: String)
+      case CT => ctRow(i: Int,label: String, value: String, hiddenLabel: String)
+      case DL => dlRow(i: Int,label: String, value: String, hiddenLabel: String)
+    }
+  }
+
+  def onshorePoundRow(i: Int,label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
     SummaryListRowViewModel(
       key     = label,
       value   = ValueViewModel(HtmlContent(s"&pound;$value")),
@@ -36,12 +59,78 @@ trait RowHelper {
     )
   }
 
-  def row(i: Int,label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
+  def offshorePoundRow(i: Int,label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
+    SummaryListRowViewModel(
+      key     = label,
+      value   = ValueViewModel(HtmlContent(s"&pound;$value")),
+      actions = Seq(
+        ActionItemViewModel("site.change", controllers.offshore.routes.TaxYearLiabilitiesController.onPageLoad(i, CheckMode).url)
+          .withVisuallyHiddenText(messages(hiddenLabel))
+      )
+    )
+  }
+
+  def ctPoundRow(i: Int,label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
+    SummaryListRowViewModel(
+      key     = label,
+      value   = ValueViewModel(HtmlContent(s"&pound;$value")),
+      actions = Seq(
+        ActionItemViewModel("site.change", controllers.onshore.routes.CorporationTaxLiabilityController.onPageLoad(i, CheckMode).url)
+          .withVisuallyHiddenText(messages(hiddenLabel))
+      )
+    )
+  }
+
+  def dlPoundRow(i: Int,label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
+    SummaryListRowViewModel(
+      key     = label,
+      value   = ValueViewModel(HtmlContent(s"&pound;$value")),
+      actions = Seq(
+        ActionItemViewModel("site.change", controllers.onshore.routes.DirectorLoanAccountLiabilitiesController.onPageLoad(i, CheckMode).url)
+          .withVisuallyHiddenText(messages(hiddenLabel))
+      )
+    )
+  }
+
+  def onshoreRow(i: Int,label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
+    SummaryListRowViewModel(
+      key     = label,
+      value   = ValueViewModel(HtmlContent(HtmlFormat.escape(value))),
+      actions = Seq(
+        ActionItemViewModel("site.change", controllers.onshore.routes.OnshoreTaxYearLiabilitiesController.onPageLoad(i, CheckMode).url)
+          .withVisuallyHiddenText(messages(hiddenLabel))
+      )
+    )
+  }
+
+  def offshoreRow(i: Int,label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
     SummaryListRowViewModel(
       key     = label,
       value   = ValueViewModel(HtmlContent(HtmlFormat.escape(value))),
       actions = Seq(
         ActionItemViewModel("site.change", controllers.offshore.routes.TaxYearLiabilitiesController.onPageLoad(i, CheckMode).url)
+          .withVisuallyHiddenText(messages(hiddenLabel))
+      )
+    )
+  }
+
+  def ctRow(i: Int,label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
+    SummaryListRowViewModel(
+      key     = label,
+      value   = ValueViewModel(HtmlContent(HtmlFormat.escape(value))),
+      actions = Seq(
+        ActionItemViewModel("site.change", controllers.onshore.routes.CorporationTaxLiabilityController.onPageLoad(i, CheckMode).url)
+          .withVisuallyHiddenText(messages(hiddenLabel))
+      )
+    )
+  }
+
+  def dlRow(i: Int,label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
+    SummaryListRowViewModel(
+      key     = label,
+      value   = ValueViewModel(HtmlContent(HtmlFormat.escape(value))),
+      actions = Seq(
+        ActionItemViewModel("site.change", controllers.onshore.routes.DirectorLoanAccountLiabilitiesController.onPageLoad(i, CheckMode).url)
           .withVisuallyHiddenText(messages(hiddenLabel))
       )
     )

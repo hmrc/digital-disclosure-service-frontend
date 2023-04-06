@@ -58,14 +58,14 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelCreation extends RowHelper {
 
     SummaryListViewModel(
       rows = Seq(
-        row(i, "directorLoanAccountLiabilities.name.checkYourAnswersLabel", s"${dLLiability.name}", "directorLoanAccountLiabilities.name.hidden"),
-        row(i, "directorLoanAccountLiabilities.periodEnd.checkYourAnswersLabel", s"${dLLiability.periodEnd.format(dateFormatter)}", "directorLoanAccountLiabilities.periodEnd.hidden"),
-        poundRow(i, "directorLoanAccountLiabilities.overdrawn.checkYourAnswersLabel", s"${dLLiability.overdrawn}", "directorLoanAccountLiabilities.overdrawn.hidden"),
-        poundRow(i, "directorLoanAccountLiabilities.unpaidTax.checkYourAnswersLabel", s"${dLLiability.unpaidTax}", "directorLoanAccountLiabilities.unpaidTax.hidden"),
-        poundRow(i, "directorLoanAccountLiabilities.interest.checkYourAnswersLabel", s"${dLLiability.interest}", "directorLoanAccountLiabilities.interest.hidden"),
-        row(i, "directorLoanAccountLiabilities.penaltyRate.checkYourAnswersLabel", s"${dLLiability.penaltyRate}%", "directorLoanAccountLiabilities.penaltyRate.hidden"),
+        rowCase(i, "directorLoanAccountLiabilities.name.checkYourAnswersLabel", s"${dLLiability.name}", "directorLoanAccountLiabilities.name.hidden", DL),
+        rowCase(i, "directorLoanAccountLiabilities.periodEnd.checkYourAnswersLabel", s"${dLLiability.periodEnd.format(dateFormatter)}", "directorLoanAccountLiabilities.periodEnd.hidden", DL),
+        poundRowCase(i, "directorLoanAccountLiabilities.overdrawn.checkYourAnswersLabel", s"${dLLiability.overdrawn}", "directorLoanAccountLiabilities.overdrawn.hidden", DL),
+        poundRowCase(i, "directorLoanAccountLiabilities.unpaidTax.checkYourAnswersLabel", s"${dLLiability.unpaidTax}", "directorLoanAccountLiabilities.unpaidTax.hidden", DL),
+        poundRowCase(i, "directorLoanAccountLiabilities.interest.checkYourAnswersLabel", s"${dLLiability.interest}", "directorLoanAccountLiabilities.interest.hidden", DL),
+        rowCase(i, "directorLoanAccountLiabilities.penaltyRate.checkYourAnswersLabel", s"${dLLiability.penaltyRate}%", "directorLoanAccountLiabilities.penaltyRate.hidden", DL),
         totalRow("checkYourAnswers.dl.total.penaltyAmount", messages("site.2DP", penaltyAmount(dLLiability))),
-        row(i, "directorLoanAccountLiabilities.penaltyRateReason.checkYourAnswersLabel", s"${dLLiability.penaltyRateReason}", "directorLoanAccountLiabilities.penaltyRateReason.hidden"),
+        rowCase(i, "directorLoanAccountLiabilities.penaltyRateReason.checkYourAnswersLabel", s"${dLLiability.penaltyRateReason}", "directorLoanAccountLiabilities.penaltyRateReason.hidden", DL),
         totalRow("checkYourAnswers.dl.total.heading", messages("site.2DP", amountDueTotal))
       )
     )
