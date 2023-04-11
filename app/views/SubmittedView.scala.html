@@ -22,12 +22,12 @@
         link: components.link
 )
 
-@(isCaseReferenceAvailable: Boolean, taxYearExists: Boolean, referenceNumber: String)(implicit request: Request[_], messages: Messages)
+@(isCaseReferenceAvailable: Boolean, isNilDisclosure: Boolean, referenceNumber: String)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = titleNoForm(if(taxYearExists) messages("submitted.nil.title") else messages("submitted.notNil.title")), showBackLink = false) {
+@layout(pageTitle = titleNoForm(if(isNilDisclosure) messages("submitted.nil.title") else messages("submitted.notNil.title")), showBackLink = false) {
     
     @govukPanel(Panel( 
-        title = if(taxYearExists) messages("submitted.nil.heading") else messages("submitted.notNil.heading"),
+        title = if(isNilDisclosure) messages("submitted.nil.heading") else messages("submitted.notNil.heading"),
         content = isCaseReferenceAvailable match {
             case true => HtmlContent(messages("submitted.caseRef") +"<br>"+ referenceNumber)
             case false => HtmlContent(messages("submitted.submissionRef") +"<br>"+ referenceNumber)
@@ -47,7 +47,7 @@
         )
     )
     
-    @if(!taxYearExists) {
+    @if(!isNilDisclosure) {
         @paragraph(
             id = Some("paragraph2"), 
             content = HtmlContent(
