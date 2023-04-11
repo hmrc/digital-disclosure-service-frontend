@@ -23,6 +23,7 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.SubmittedView
 import pages.{WhatIsTheCaseReferencePage, TaxYearLiabilitiesPage, OnshoreTaxYearLiabilitiesPage, CorporationTaxLiabilityPage, DirectorLoanAccountLiabilitiesPage}
+import models.UserAnswers
 
 class SubmittedController @Inject()(
                                        override val messagesApi: MessagesApi,
@@ -35,14 +36,17 @@ class SubmittedController @Inject()(
 
   def onPageLoad(reference: String): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-      val offshoreTaxYearExists = request.userAnswers.get(TaxYearLiabilitiesPage).forall(_.isEmpty)
-      val onshoreTaxYearExists = request.userAnswers.get(OnshoreTaxYearLiabilitiesPage).forall(_.isEmpty)
-      val ctExists = (request.userAnswers.get(CorporationTaxLiabilityPage).getOrElse(Set()).size == 0)
-      val dlExists = (request.userAnswers.get(DirectorLoanAccountLiabilitiesPage).getOrElse(Set()).size == 0)
-
-      val isNilDisclosure = offshoreTaxYearExists && onshoreTaxYearExists && ctExists && dlExists
-
+      val isNilDisclosure = isAllLiabilitiesEmpty(request.userAnswers)
       val caseReferenceExists = request.userAnswers.get(WhatIsTheCaseReferencePage).isDefined
       Ok(view(caseReferenceExists, isNilDisclosure, reference))
+  }
+
+  def isAllLiabilitiesEmpty(ua: UserAnswers): Boolean = {
+    val offshoreTaxYearEmpty = ua.get(TaxYearLiabilitiesPage).forall(_.isEmpty)
+    val onshoreTaxYearEmpty = ua.get(OnshoreTaxYearLiabilitiesPage).forall(_.isEmpty)
+    val ctEmpty = (ua.get(CorporationTaxLiabilityPage).getOrElse(Set()).size == 0)
+    val dlEmpty = (ua.get(DirectorLoanAccountLiabilitiesPage).getOrElse(Set()).size == 0)
+    
+    offshoreTaxYearEmpty && onshoreTaxYearEmpty && ctEmpty && dlEmpty
   }
 }
