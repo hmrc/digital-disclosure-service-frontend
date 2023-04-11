@@ -63,8 +63,11 @@ class FrontendAppConfig @Inject() (configuration: Configuration) {
     val upliftUri: String = configuration.get[String]("identity-verification-frontend.uplift-uri")
     val origin: String = configuration.get[String]("identity-verification-frontend.origin")
     val confidenceLevel: Int = configuration.get[Int]("identity-verification-frontend.target-confidence-level")
-    val successUrl: String = host + controllers.routes.IndexController.onPageLoad.url
-    val failureUrl: String = host + controllers.routes.UnauthorisedController.onPageLoad.url
+
+    val local: Boolean = configuration.get[Boolean]("identity-verification-frontend.local")
+
+    val successUrl: String = if (local) host + controllers.routes.IndexController.onPageLoad.url else controllers.routes.IndexController.onPageLoad.url
+    val failureUrl: String = if (local) host + controllers.routes.UnauthorisedController.onPageLoad.url else controllers.routes.UnauthorisedController.onPageLoad.url
 
     s"$identityVerificationFrontendBaseUrl$upliftUri?origin=$origin&confidenceLevel=$confidenceLevel&completionURL=$successUrl&failureURL=$failureUrl"
   }
