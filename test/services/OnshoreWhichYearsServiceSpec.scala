@@ -25,9 +25,9 @@ import uk.gov.hmrc.time.TaxYear
 class OnshoreWhichYearsServiceSpec extends SpecBase {
 
   def now = () => LocalDate.now()
-  val taxYear2022 = TaxYear(2022)
   val taxYear2023 = TaxYear(2023)
-  val taxYear2028 = TaxYear(2028)
+  val taxYear2024 = TaxYear(2024)
+  val taxYear2029 = TaxYear(2029)
 
   case class FakeTimeService(year: Int) extends TimeService {
     def now: LocalDateTime = LocalDateTime.of(year, 4, 6, 0, 0, 0, 0)
@@ -39,79 +39,98 @@ class OnshoreWhichYearsServiceSpec extends SpecBase {
 
   "OnshoreWhichYearsServiceSpec" - {
 
-    val service = new OnshoreWhichYearsServiceImpl(FakeTimeService(2022))
+    val service = new OnshoreWhichYearsServiceImpl(FakeTimeService(2023))
 
     "must create a checkbox for none of these years row" in {
-      val checkbox = service.createDeliberatePriorToCheckbox(19, taxYear2022)
-      checkbox.content mustEqual Text(mess(s"whichOnshoreYears.checkbox.any", s"${taxYear2022.back(19).startYear}"))
+      val checkbox = service.createDeliberatePriorToCheckbox(19, taxYear2023)
+      checkbox.content mustEqual Text(mess(s"whichOnshoreYears.checkbox.any", s"${taxYear2023.back(19).startYear}"))
       checkbox.id mustEqual Some("value_19")
       checkbox.name mustEqual Some("value[19]")
       checkbox.value mustEqual "priorToNineteenYears"
     }
 
     "must create a checkbox for any prior to 5 years row" in {
-      val checkbox = service.createCarelessPriorToCheckbox(5, taxYear2022)
-      checkbox.content mustEqual Text(mess(s"whichOnshoreYears.checkbox.any", s"${taxYear2022.back(5).startYear}"))
+      val checkbox = service.createCarelessPriorToCheckbox(5, taxYear2023)
+      checkbox.content mustEqual Text(mess(s"whichOnshoreYears.checkbox.any", s"${taxYear2023.back(5).startYear}"))
       checkbox.id mustEqual Some("value_5")
       checkbox.name mustEqual Some("value[5]")
       checkbox.value mustEqual "priorToFiveYears"
     }
 
     "must create a checkbox for any prior to 3 years row" in {
-      val checkbox = service.createReasonableExcusePriorToCheckbox(3, taxYear2022)
-      checkbox.content mustEqual Text(mess(s"whichOnshoreYears.checkbox.any", s"${taxYear2022.back(3).startYear}"))
+      val checkbox = service.createReasonableExcusePriorToCheckbox(3, taxYear2023)
+      checkbox.content mustEqual Text(mess(s"whichOnshoreYears.checkbox.any", s"${taxYear2023.back(3).startYear}"))
       checkbox.id mustEqual Some("value_3")
       checkbox.name mustEqual Some("value[3]")
       checkbox.value mustEqual "priorToThreeYears"
     }
 
     "must create checkbox items for 19 years" in {
-      val checkboxItems = service.createYearCheckboxes(19, taxYear2022)
+      val checkboxItems = service.createYearCheckboxes(19, taxYear2023)
       checkboxItems.zipWithIndex.map{ 
         case (value, index) =>
-          value.content mustEqual Text(mess(s"whichOnshoreYears.checkbox", s"${taxYear2022.startYear - (index+1)}", s"${taxYear2022.finishYear - (index+1)}"))
+          value.content mustEqual Text(mess(s"whichOnshoreYears.checkbox", s"${taxYear2023.startYear - (index+2)}", s"${taxYear2023.finishYear - (index+2)}"))
           value.id mustEqual Some(s"value_${index}")
           value.name mustEqual Some(s"value[${index}]")
-          value.value mustEqual (taxYear2022.startYear - (index+1)).toString
+          value.value mustEqual (taxYear2023.startYear - (index+2)).toString
       } 
     }
 
     "must create checkbox items for 5 years" in {
-      val checkboxItems = service.createYearCheckboxes(5, taxYear2022)
+      val checkboxItems = service.createYearCheckboxes(5, taxYear2023)
       checkboxItems.zipWithIndex.map{ 
         case (value, index) =>
-          value.content mustEqual Text(mess(s"whichOnshoreYears.checkbox", s"${taxYear2022.startYear - (index+1)}", s"${taxYear2022.finishYear - (index+1)}"))
+          value.content mustEqual Text(mess(s"whichOnshoreYears.checkbox", s"${taxYear2023.startYear - (index+2)}", s"${taxYear2023.finishYear - (index+2)}"))
           value.id mustEqual Some(s"value_${index}")
           value.name mustEqual Some(s"value[${index}]")
-          value.value mustEqual (taxYear2022.startYear - (index+1)).toString
+          value.value mustEqual (taxYear2023.startYear - (index+2)).toString
       } 
     }
 
     "must create checkbox items for 3 years" in {
-      val checkboxItems = service.createYearCheckboxes(3, taxYear2022)
+      val checkboxItems = service.createYearCheckboxes(3, taxYear2023)
       checkboxItems.zipWithIndex.map{ 
         case (value, index) =>
-          value.content mustEqual Text(mess(s"whichOnshoreYears.checkbox", s"${taxYear2022.startYear - (index+1)}", s"${taxYear2022.finishYear - (index+1)}"))
+          value.content mustEqual Text(mess(s"whichOnshoreYears.checkbox", s"${taxYear2023.startYear - (index+2)}", s"${taxYear2023.finishYear - (index+2)}"))
           value.id mustEqual Some(s"value_${index}")
           value.name mustEqual Some(s"value[${index}]")
-          value.value mustEqual (taxYear2022.startYear - (index+1)).toString
+          value.value mustEqual (taxYear2023.startYear - (index+2)).toString
       } 
     }
 
   }
 
-  "for tax year 2022/2023" - {
+  "for tax year 2023/2024" - {
 
-    val service = new OnshoreWhichYearsServiceImpl(FakeTimeService(2022))
+    val service = new OnshoreWhichYearsServiceImpl(FakeTimeService(2023))
 
     "must create checkbox items for 19 years with none of these years row" in {
       val checkboxItems = service.checkboxItems(Behaviour.Deliberate)
-      val first19Elements = checkboxItems.slice(0,18)
+      val expectedList = 
+        List(
+          "2021",
+          "2020",
+          "2019",
+          "2018",
+          "2017",
+          "2016",
+          "2015",
+          "2014",
+          "2013",
+          "2012",
+          "2011",
+          "2010",
+          "2009",
+          "2008",
+          "2007",
+          "2006",
+          "2005",
+          "2004",
+          "2003",
+          "priorToNineteenYears"
+        )
 
-      first19Elements.zipWithIndex.map{ 
-        case (value, index) => value.value mustEqual (taxYear2022.startYear - (index+1)).toString
-      } 
-      checkboxItems.last.value mustEqual "priorToNineteenYears"
+      checkboxItems.map(_.value) mustEqual expectedList
     }
 
     "must create checkbox items for careless behaviour" in {
@@ -143,18 +162,37 @@ class OnshoreWhichYearsServiceSpec extends SpecBase {
     }
   }
 
-  "for tax year 2023/2024" - {
+  "for tax year 2024/2025" - {
 
-    val service = new OnshoreWhichYearsServiceImpl(FakeTimeService(2023))
+    val service = new OnshoreWhichYearsServiceImpl(FakeTimeService(2024))
 
     "must create checkbox items for 19 years with none of these years row" in {
       val checkboxItems = service.checkboxItems(Behaviour.Deliberate)
-      val first19Elements = checkboxItems.slice(0,18)
+      val expectedList = 
+        List(
+          "2022",
+          "2021",
+          "2020",
+          "2019",
+          "2018",
+          "2017",
+          "2016",
+          "2015",
+          "2014",
+          "2013",
+          "2012",
+          "2011",
+          "2010",
+          "2009",
+          "2008",
+          "2007",
+          "2006",
+          "2005",
+          "2004",
+          "priorToNineteenYears"
+        )
 
-      first19Elements.zipWithIndex.map{ 
-        case (value, index) => value.value mustEqual (taxYear2023.startYear - (index+1)).toString
-      } 
-      checkboxItems.last.value mustEqual "priorToNineteenYears"
+      checkboxItems.map(_.value) mustEqual expectedList
     }
 
     "must create checkbox items for careless behaviour" in {
@@ -186,18 +224,37 @@ class OnshoreWhichYearsServiceSpec extends SpecBase {
     }
   }
 
-  "for tax year 2028/2029" - {
+  "for tax year 2029/2030" - {
 
-    val service = new OnshoreWhichYearsServiceImpl(FakeTimeService(2028))
+    val service = new OnshoreWhichYearsServiceImpl(FakeTimeService(2029))
 
     "must create checkbox items for 19 years with none of these years row" in {
       val checkboxItems = service.checkboxItems(Behaviour.Deliberate)
-      val first19Elements = checkboxItems.slice(0,18)
+      val expectedList = 
+        List(
+          "2027",
+          "2026",
+          "2025",
+          "2024",
+          "2023",
+          "2022",
+          "2021",
+          "2020",
+          "2019",
+          "2018",
+          "2017",
+          "2016",
+          "2015",
+          "2014",
+          "2013",
+          "2012",
+          "2011",
+          "2010",
+          "2009",
+          "priorToNineteenYears"
+        )
 
-      first19Elements.zipWithIndex.map{ 
-        case (value, index) => value.value mustEqual (taxYear2028.startYear - (index+1)).toString
-      } 
-      checkboxItems.last.value mustEqual "priorToNineteenYears"
+      checkboxItems.map(_.value) mustEqual expectedList
     }
 
     "must create checkbox items for careless behaviour" in {

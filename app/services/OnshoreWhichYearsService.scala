@@ -55,12 +55,12 @@ class OnshoreWhichYearsServiceImpl @Inject() (timeService: TimeService) extends 
 
   def getEarliestYearByBehaviour(behaviour: Behaviour): Int = {
     val yearsToGoBack = getNumberOfYearsForBehaviour(behaviour)
-    current.back(yearsToGoBack).startYear
+    current.back(yearsToGoBack+1).startYear
   }
 
   def createYearCheckboxes(numberOfYears: Int, currentTaxYear: TaxYear)(implicit messages: Messages): Seq[CheckboxItem] = {
     Range.inclusive(0, numberOfYears-1).toList.map {i =>
-      val taxYear = currentTaxYear.back(i+1)
+      val taxYear = currentTaxYear.back(i+2)
       CheckboxItemViewModel(
         content = Text(messages(s"whichOnshoreYears.checkbox", s"${taxYear.startYear}", s"${taxYear.finishYear}")),
         fieldId = "value",
