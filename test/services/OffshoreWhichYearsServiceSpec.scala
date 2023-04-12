@@ -43,7 +43,7 @@ class OffshoreWhichYearsServiceSpec extends SpecBase {
 
     "must create a checkbox for none of these years row" in {
       val checkbox = service.createDeliberatePriorToCheckbox(19, taxYear2023)
-      checkbox.content mustEqual Text(mess(s"whichYears.checkbox.any", s"${taxYear2023.back(19).startYear}"))
+      checkbox.content mustEqual Text(mess(s"whichYears.checkbox.any", s"${taxYear2023.back(20).startYear}"))
       checkbox.id mustEqual Some("value_19")
       checkbox.name mustEqual Some("value[19]")
       checkbox.value mustEqual "deliberatePriorTo"
@@ -51,7 +51,7 @@ class OffshoreWhichYearsServiceSpec extends SpecBase {
 
     "must create a checkbox for any prior to 8 years row" in {
       val checkbox = service.createCarelessPriorToCheckbox(8, taxYear2023)
-      checkbox.content mustEqual Text(mess(s"whichYears.checkbox.any", s"${taxYear2023.back(8).startYear}"))
+      checkbox.content mustEqual Text(mess(s"whichYears.checkbox.any", s"${taxYear2023.back(9).startYear}"))
       checkbox.id mustEqual Some("value_8")
       checkbox.name mustEqual Some("value[8]")
       checkbox.value mustEqual "carelessPriorTo"
@@ -59,7 +59,7 @@ class OffshoreWhichYearsServiceSpec extends SpecBase {
 
     "must create a checkbox for any prior to 6 years row" in {
       val checkbox = service.createReasonableExcusePriorToCheckbox(6, taxYear2023)
-      checkbox.content mustEqual Text(mess(s"whichYears.checkbox.any", s"${taxYear2023.back(6).startYear}"))
+      checkbox.content mustEqual Text(mess(s"whichYears.checkbox.any", s"${taxYear2023.back(7).startYear}"))
       checkbox.id mustEqual Some("value_6")
       checkbox.name mustEqual Some("value[6]")
       checkbox.value mustEqual "reasonableExcusePriorTo"
