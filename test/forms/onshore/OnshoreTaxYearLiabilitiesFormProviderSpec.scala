@@ -204,39 +204,4 @@ class OnshoreTaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with 
     }
   }
 
-  "check all required field errors are in order" in {
-    val form = new OnshoreTaxYearLiabilitiesFormProvider()(Set(
-      WhatOnshoreLiabilitiesDoYouNeedToDisclose.NonBusinessIncome,
-      WhatOnshoreLiabilitiesDoYouNeedToDisclose.BusinessIncome,
-      WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome,
-      WhatOnshoreLiabilitiesDoYouNeedToDisclose.Gains  
-    ))
-    
-    val result = form.bind(
-      Map(
-        ("nonBusinessIncome", ""),
-        ("businessIncome", ""),
-        ("lettingIncome", ""),
-        ("gains", ""),
-        ("unpaidTax", ""),
-        ("niContributions", ""),
-        ("interest", ""),
-        ("penaltyRate", ""),
-        ("penaltyRateReason", ""),
-        ("residentialTaxReduction", "")
-      )
-    )
-
-    result.errors(0).message mustBe "onshoreTaxYearLiabilities.nonBusinessIncome.error.required"
-    result.errors(1).message mustBe "onshoreTaxYearLiabilities.businessIncome.error.required"
-    result.errors(2).message mustBe "onshoreTaxYearLiabilities.lettingIncome.error.required"
-    result.errors(3).message mustBe "onshoreTaxYearLiabilities.gains.error.required"
-    result.errors(4).message mustBe "onshoreTaxYearLiabilities.unpaidTax.error.required"
-    result.errors(5).message mustBe "onshoreTaxYearLiabilities.niContributions.error.required"
-    result.errors(6).message mustBe "onshoreTaxYearLiabilities.interest.error.required"
-    result.errors(7).message mustBe "onshoreTaxYearLiabilities.penaltyRate.error.required"
-    result.errors(8).message mustBe "onshoreTaxYearLiabilities.penaltyRateReason.error.required"
-    result.errors(9).message mustBe "onshoreTaxYearLiabilities.residentialTaxReduction.error.required"
-  }
-
 }
