@@ -48,7 +48,6 @@ final case class OnshoreLiabilities(
     val typesOfTax = whatLiabilities.getOrElse(Set())
     val years = whichYears.getOrElse(Set())
     val isNilDisclosure = years == Set(PriorToThreeYears) || years == Set(PriorToFiveYears) || years == Set(PriorToNineteenYears)
-    val taxYearQuestionsAnswered = whichYears.isDefined && (isNilDisclosure || (taxYearLiabilities.isDefined && (whichYears.getOrElse(Set()).size == taxYearLiabilities.getOrElse(Map.empty).size)))
     val lettingQuestionsAnswered = lettingProperties.isDefined && memberOfLandlordAssociations.isDefined && howManyProperties.isDefined
 
     behaviour.isDefined &&
@@ -56,8 +55,17 @@ final case class OnshoreLiabilities(
     (!typesOfTax.contains(CorporationTax) || (corporationTaxLiabilities.isDefined && corporationTaxLiabilities.getOrElse(Set()).size > 0)) &&
     (!typesOfTax.contains(DirectorLoan) || (directorLoanAccountLiabilities.isDefined && directorLoanAccountLiabilities.getOrElse(Set()).size > 0)) &&
     (!typesOfTax.contains(LettingIncome) || lettingQuestionsAnswered) &&
-    ((typesOfTax.contains(CorporationTax) || typesOfTax.contains(DirectorLoan)) || taxYearQuestionsAnswered)
+    ((typesOfTax.contains(CorporationTax) || typesOfTax.contains(DirectorLoan)) || isNilDisclosure || taxYearQuestionsAnswered)
   }
+
+  def taxYearQuestionsAnswered: Boolean = 
+    (whichYears, taxYearLiabilities) match {
+      case (Some(values), Some(liabilities)) => 
+        val taxYears = values.collect{case OnshoreYearStarting(y) => y.toString}.toSet
+        liabilities.keys.toSet == taxYears
+      case _ => false
+    }
+  
 }
 
 object OnshoreLiabilities {
