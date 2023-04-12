@@ -59,8 +59,7 @@ class WhichYearsViewSpec extends ViewSpecBase with ViewMatchers with CurrentTaxY
       view.getElementsByClass("govuk-checkboxes__item").get(16).text() mustBe messages(s"whichYears.checkbox", current.back(18).startYear.toString, current.back(18).finishYear.toString)
       view.getElementsByClass("govuk-checkboxes__item").get(17).text() mustBe messages(s"whichYears.checkbox", current.back(19).startYear.toString, current.back(19).finishYear.toString)
       view.getElementsByClass("govuk-checkboxes__item").get(18).text() mustBe messages(s"whichYears.checkbox", current.back(20).startYear.toString, current.back(20).finishYear.toString)
-      view.getElementsByClass("govuk-checkboxes__item").get(19).text() mustBe messages(s"whichYears.checkbox", current.back(21).startYear.toString, current.back(21).finishYear.toString)
-      view.getElementsByClass("govuk-checkboxes__item").get(20).text() mustBe messages(s"whichYears.checkbox.any", current.back(19).startYear.toString)
+      view.getElementsByClass("govuk-checkboxes__item").get(19).text() mustBe messages(s"whichYears.checkbox.any", current.back(20).startYear.toString)
     }
   }
 

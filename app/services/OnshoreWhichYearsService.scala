@@ -71,7 +71,7 @@ class OnshoreWhichYearsServiceImpl @Inject() (timeService: TimeService) extends 
   }
 
   def createReasonableExcusePriorToCheckbox(numberOfYears: Int, currentTaxYear: TaxYear)(implicit messages: Messages): CheckboxItem = {
-    val taxYear = currentTaxYear.back(numberOfYears)
+    val taxYear = currentTaxYear.back(numberOfYears+1)
     CheckboxItemViewModel(
       content = Text(messages(s"whichOnshoreYears.checkbox.any", s"${taxYear.startYear}")),
       fieldId = "value",
@@ -81,7 +81,7 @@ class OnshoreWhichYearsServiceImpl @Inject() (timeService: TimeService) extends 
   }
 
   def createCarelessPriorToCheckbox(numberOfYears: Int, currentTaxYear: TaxYear)(implicit messages: Messages): CheckboxItem = {
-    val taxYear = currentTaxYear.back(numberOfYears)
+    val taxYear = currentTaxYear.back(numberOfYears+1)
     CheckboxItemViewModel(
       content = Text(messages(s"whichOnshoreYears.checkbox.any", s"${taxYear.startYear}")),
       fieldId = "value",
@@ -91,7 +91,7 @@ class OnshoreWhichYearsServiceImpl @Inject() (timeService: TimeService) extends 
   }
 
   def createDeliberatePriorToCheckbox(numberOfYears: Int, currentTaxYear: TaxYear)(implicit messages: Messages): CheckboxItem = {
-    val taxYear = currentTaxYear.back(numberOfYears)
+    val taxYear = currentTaxYear.back(numberOfYears+1)
     CheckboxItemViewModel(
       content = Text(messages(s"whichOnshoreYears.checkbox.any", s"${taxYear.startYear}")),
       fieldId = "value",
