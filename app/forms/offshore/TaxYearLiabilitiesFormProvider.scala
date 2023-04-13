@@ -57,8 +57,7 @@ class TaxYearLiabilitiesFormProvider @Inject() extends Mappings {
       "penaltyRate" -> decimal(
         "taxYearLiabilities.penaltyRate.error.required",
         "taxYearLiabilities.penaltyRate.error.nonNumeric")
-          .verifying(minimumValue(BigDecimal(0.00), "taxYearLiabilities.penaltyRate.error.outOfRange"))
-          .verifying(maximumValue(BigDecimal(200.00), "taxYearLiabilities.penaltyRate.error.outOfRange")),
+          .verifying(inRange(BigDecimal(0.00), BigDecimal(200.00), "taxYearLiabilities.penaltyRate.error.outOfRange")),
       "penaltyRateReason" -> text("taxYearLiabilities.penaltyRateReason.error.required")
         .verifying(maxLength(5000, "taxYearLiabilities.penaltyRateReason.error.length")),
       "foreignTaxCredit" -> boolean("taxYearLiabilities.foreignTaxCredit.error.required")

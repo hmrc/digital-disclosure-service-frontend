@@ -68,9 +68,8 @@ class CorporationTaxLiabilityFormProvider @Inject() extends Mappings {
           "corporationTaxLiability.penaltyRate.error.required",
           "corporationTaxLiability.penaltyRate.error.nonNumeric"
         )
-        .verifying(minimumValue(BigDecimal(0.00), "corporationTaxLiability.penaltyRate.error.outOfRange"))
-        .verifying(maximumValue(BigDecimal(200.00), "corporationTaxLiability.penaltyRate.error.outOfRange")),
-
+        .verifying(inRange(BigDecimal(0.00), BigDecimal(200.00), "corporationTaxLiability.penaltyRate.error.outOfRange")),
+        
         "penaltyRateReason" -> text("corporationTaxLiability.penaltyRateReason.error.required")
         .verifying(maxLength(5000, "corporationTaxLiability.penaltyRateReason.error.length"))
         

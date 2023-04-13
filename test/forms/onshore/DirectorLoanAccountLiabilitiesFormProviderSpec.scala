@@ -85,8 +85,8 @@ class DirectorLoanAccountLiabilitiesFormProviderSpec extends PeriodEndBehaviours
     }
 
   ".penaltyRate" - {
-    val minimum = 0
-    val maximum = 200
+    val minimum = BigDecimal(0)
+    val maximum = BigDecimal(200)
 
     val fieldName = "penaltyRate"
 

@@ -52,8 +52,7 @@ class OnshoreTaxYearLiabilitiesFormProvider @Inject() extends Mappings  {
       "penaltyRate" -> decimal(
         "onshoreTaxYearLiabilities.penaltyRate.error.required",
         "onshoreTaxYearLiabilities.penaltyRate.error.nonNumeric")
-          .verifying(minimumValue(BigDecimal(0.00), "onshoreTaxYearLiabilities.penaltyRate.error.outOfRange"))
-          .verifying(maximumValue(BigDecimal(200.00), "onshoreTaxYearLiabilities.penaltyRate.error.outOfRange")),
+          .verifying(inRange(BigDecimal(0.00), BigDecimal(200.00), "onshoreTaxYearLiabilities.penaltyRate.error.outOfRange")),
       "penaltyRateReason" -> text("onshoreTaxYearLiabilities.penaltyRateReason.error.required")
         .verifying(maxLength(5000, "onshoreTaxYearLiabilities.penaltyRateReason.error.length")),
       "residentialTaxReduction" -> optional(boolean("onshoreTaxYearLiabilities.residentialTaxReduction.error.required"))
