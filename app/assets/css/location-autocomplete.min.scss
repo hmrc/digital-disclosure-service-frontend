@@ -1,5 +1,7 @@
 @import "lib/govuk-frontend/govuk/base";
 
+$govuk-include-default-font-face: false;
+
 .autocomplete__wrapper {
     position: relative
 }
