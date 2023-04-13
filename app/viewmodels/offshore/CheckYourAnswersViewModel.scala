@@ -131,7 +131,7 @@ class CheckYourAnswersViewModelCreation @Inject()
   }
 
   def penaltyAmount(taxYearLiabilities: TaxYearLiabilities): BigDecimal = {
-    (BigDecimal(taxYearLiabilities.penaltyRate) * BigDecimal(taxYearLiabilities.unpaidTax)) /100
+    (taxYearLiabilities.penaltyRate * BigDecimal(taxYearLiabilities.unpaidTax)) /100
   }
   
   def yearTotal(taxYearLiabilities: TaxYearLiabilities): BigDecimal = {

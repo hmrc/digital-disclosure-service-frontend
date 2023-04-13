@@ -26,7 +26,7 @@ final case class OnshoreTaxYearLiabilities(
   unpaidTax: BigInt,
   niContributions: BigInt,
   interest: BigInt,
-  penaltyRate: Int,
+  penaltyRate: BigDecimal,
   penaltyRateReason: String,
   residentialTaxReduction: Option[Boolean]
 )
