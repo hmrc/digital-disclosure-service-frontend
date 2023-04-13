@@ -103,7 +103,7 @@ object CorporationTaxLiabilitiesSummaryViewModelCreation extends RowHelper {
   }
 
   def penaltyAmount(corporationTaxLiability: CorporationTaxLiability): BigDecimal = {
-    (BigDecimal(corporationTaxLiability.penaltyRate) * BigDecimal(corporationTaxLiability.howMuchUnpaid)) / 100
+    (corporationTaxLiability.penaltyRate * BigDecimal(corporationTaxLiability.howMuchUnpaid)) / 100
   }
 
 }

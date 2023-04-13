@@ -38,7 +38,7 @@ class CorporationTaxLiabilitiesSummaryViewModelSpec extends SpecBase with ScalaC
       forAll(arbitrary[CorporationTaxLiability]) { corporationTaxLiability =>
         val penaltyRate = corporationTaxLiability.penaltyRate
         val unpaidTax = corporationTaxLiability.howMuchUnpaid
-        val expectedAmount = (BigDecimal(penaltyRate) * BigDecimal(unpaidTax)) / 100
+        val expectedAmount = (penaltyRate * BigDecimal(unpaidTax)) / 100
         CorporationTaxLiabilitiesSummaryViewModelCreation.penaltyAmount(corporationTaxLiability) mustEqual expectedAmount
       }
     }

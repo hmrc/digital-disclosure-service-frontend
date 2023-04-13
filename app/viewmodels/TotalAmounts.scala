@@ -69,11 +69,11 @@ object TotalAmounts {
     
   }
 
-  def getPenaltyAmount(penaltyRate: Int, unpaidAmount: BigInt): BigDecimal = {
-    BigDecimal(penaltyRate * unpaidAmount) /100
+  def getPenaltyAmount(penaltyRate: BigDecimal, unpaidAmount: BigInt): BigDecimal = {
+    (penaltyRate * BigDecimal(unpaidAmount)) /100
   }
   
-  def getPeriodTotal(penaltyRate: Int, unpaidAmount: BigInt, interest: BigInt): BigDecimal = {
+  def getPeriodTotal(penaltyRate: BigDecimal, unpaidAmount: BigInt, interest: BigInt): BigDecimal = {
     BigDecimal(unpaidAmount) + getPenaltyAmount(penaltyRate, unpaidAmount) + BigDecimal(interest)
   }
 
