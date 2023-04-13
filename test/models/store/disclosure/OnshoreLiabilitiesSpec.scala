@@ -136,6 +136,22 @@ class OnshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues
       onshoreLiabilities.isComplete mustBe true
     }
 
+    "must return true where they have only selected lettings but it's a nil disclosure" in {
+      val onshoreLiabilities = OnshoreLiabilities(
+        behaviour = Some(whySet),
+        whatLiabilities = Some(Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)),
+        whichYears = Some(Set(PriorToThreeYears)), 
+        taxYearLiabilities = None,
+        lettingProperties = None,
+        memberOfLandlordAssociations = Some(true),
+        landlordAssociations = Some("Some associations"),
+        howManyProperties = Some("Some number of properties"),
+        corporationTaxLiabilities = None,
+        directorLoanAccountLiabilities = None
+      )
+      onshoreLiabilities.isComplete mustBe true
+    }
+
     "must return true where they have only selected business income" in {
       val onshoreLiabilities = OnshoreLiabilities(
         behaviour = Some(whySet),

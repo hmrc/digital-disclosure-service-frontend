@@ -54,7 +54,7 @@ final case class OnshoreLiabilities(
     whatLiabilities.isDefined &&
     (!typesOfTax.contains(CorporationTax) || (corporationTaxLiabilities.isDefined && corporationTaxLiabilities.getOrElse(Set()).size > 0)) &&
     (!typesOfTax.contains(DirectorLoan) || (directorLoanAccountLiabilities.isDefined && directorLoanAccountLiabilities.getOrElse(Set()).size > 0)) &&
-    (!typesOfTax.contains(LettingIncome) || lettingQuestionsAnswered) &&
+    (!typesOfTax.contains(LettingIncome) || lettingQuestionsAnswered || isNilDisclosure) &&
     ((typesOfTax.contains(CorporationTax) || typesOfTax.contains(DirectorLoan)) || isNilDisclosure || taxYearQuestionsAnswered)
   }
 
