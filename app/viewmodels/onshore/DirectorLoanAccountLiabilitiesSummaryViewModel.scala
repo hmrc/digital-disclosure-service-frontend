@@ -103,7 +103,7 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelCreation extends RowHelper {
   }
 
   def penaltyAmount(directorLoanAccountLiabilities: DirectorLoanAccountLiabilities): BigDecimal = {
-    (BigDecimal(directorLoanAccountLiabilities.penaltyRate) * BigDecimal(directorLoanAccountLiabilities.unpaidTax)) / 100
+    (directorLoanAccountLiabilities.penaltyRate * BigDecimal(directorLoanAccountLiabilities.unpaidTax)) / 100
   }
 
 }

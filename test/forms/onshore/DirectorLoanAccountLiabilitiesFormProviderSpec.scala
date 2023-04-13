@@ -16,12 +16,12 @@
 
 package forms
 
-import forms.behaviours.{BigIntFieldBehaviours, IntFieldBehaviours, PeriodEndBehaviours, StringFieldBehaviours}
+import forms.behaviours.{BigIntFieldBehaviours, IntFieldBehaviours, PeriodEndBehaviours, BigDecimalFieldBehaviours, StringFieldBehaviours}
 import play.api.data.FormError
 
 import java.time.{LocalDate, ZoneOffset}
 
-class DirectorLoanAccountLiabilitiesFormProviderSpec extends PeriodEndBehaviours with IntFieldBehaviours with BigIntFieldBehaviours with StringFieldBehaviours {
+class DirectorLoanAccountLiabilitiesFormProviderSpec extends PeriodEndBehaviours with IntFieldBehaviours with BigIntFieldBehaviours with BigDecimalFieldBehaviours with StringFieldBehaviours {
 
   val form = new DirectorLoanAccountLiabilitiesFormProvider()()
 
@@ -90,7 +90,7 @@ class DirectorLoanAccountLiabilitiesFormProviderSpec extends PeriodEndBehaviours
 
     val fieldName = "penaltyRate"
 
-    val validDataGenerator = intsInRangeWithCommas(minimum, maximum)
+    val validDataGenerator = decimalsInRangeWithCommas(minimum, maximum)
 
     behave like fieldThatBindsValidData(
       form,
@@ -98,14 +98,13 @@ class DirectorLoanAccountLiabilitiesFormProviderSpec extends PeriodEndBehaviours
       validDataGenerator
     )
 
-    behave like intField(
+    behave like decimalField(
       form,
       fieldName,
-      nonNumericError = FormError(fieldName, s"directorLoanAccountLiabilities.penaltyRate.error.nonNumeric"),
-      wholeNumberError = FormError(fieldName, s"directorLoanAccountLiabilities.penaltyRate.error.wholeNumber")
+      nonNumericError = FormError(fieldName, s"directorLoanAccountLiabilities.penaltyRate.error.nonNumeric")
     )
 
-    behave like intFieldWithRange(
+    behave like bigdecimalFieldWithRange(
       form,
       fieldName,
       minimum = minimum,

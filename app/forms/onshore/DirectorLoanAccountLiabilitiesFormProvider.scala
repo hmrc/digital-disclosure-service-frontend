@@ -61,11 +61,11 @@ class DirectorLoanAccountLiabilitiesFormProvider @Inject() extends Mappings {
         "directorLoanAccountLiabilities.interest.error.nonNumeric")
         .verifying(inRange(BigInt(0), MAX_BIGINT, "directorLoanAccountLiabilities.interest.error.outOfRange")),
 
-      "penaltyRate" -> int(
+      "penaltyRate" -> decimal(
         "directorLoanAccountLiabilities.penaltyRate.error.required",
-        "directorLoanAccountLiabilities.penaltyRate.error.wholeNumber",
         "directorLoanAccountLiabilities.penaltyRate.error.nonNumeric")
-        .verifying(inRange(0, 200, "directorLoanAccountLiabilities.penaltyRate.error.outOfRange")),
+        .verifying(minimumValue(BigDecimal(0.00), "directorLoanAccountLiabilities.penaltyRate.error.outOfRange"))
+        .verifying(maximumValue(BigDecimal(200.00), "directorLoanAccountLiabilities.penaltyRate.error.outOfRange")),
 
       "penaltyRateReason" -> text("directorLoanAccountLiabilities.penaltyRateReason.error.required")
         .verifying(maxLength(5000, "directorLoanAccountLiabilities.penaltyRateReason.error.length"))
