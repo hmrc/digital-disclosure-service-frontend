@@ -59,6 +59,11 @@ trait Generators extends UserAnswersGenerator
     genIntersperseString(numberGen, ",")
   }
 
+  def decimalsInRangeWithCommas(min: BigDecimal, max: BigDecimal): Gen[String] = {
+    val numberGen = choose[BigDecimal](min, max).map(_.toString)
+    genIntersperseString(numberGen, ",")
+  }
+
   def intsLargerThanMaxValue: Gen[BigInt] =
     arbitrary[BigInt] suchThat(x => x > Int.MaxValue)
 
@@ -104,6 +109,17 @@ trait Generators extends UserAnswersGenerator
   def bigintsOutsideRange(min: BigInt, max: BigInt): Gen[BigInt] =
     arbitrary[BigInt] suchThat(x => x < min || x > max)
 
+  def bigdecimalsBelowZero: Gen[BigDecimal] =
+    arbitrary[BigDecimal].suchThat(_ < 0)  
+
+  def bigdecimalsBelowValue(value: BigDecimal): Gen[BigDecimal] =
+    arbitrary[BigDecimal].suchThat(decimal => (decimal * -1) < value).map(decimal => (decimal * -1))  
+
+  def bigdecimalsAboveValue(value: BigDecimal): Gen[BigDecimal] =
+    arbitrary[BigDecimal] suchThat(_ > value)  
+
+  def bigdecimalsOutsideRange(min: BigDecimal, max: BigDecimal): Gen[BigDecimal] =
+    arbitrary[BigDecimal] suchThat(x => x < min || x > max)
 
   def nonBooleans: Gen[String] =
     arbitrary[String]

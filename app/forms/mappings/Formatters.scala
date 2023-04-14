@@ -20,7 +20,7 @@ import play.api.data.FormError
 import play.api.data.format.Formatter
 import models.Enumerable
 import models.{OnshoreYears, OffshoreYears}
-
+import scala.util.{Failure, Success, Try}
 import scala.util.control.Exception.nonFatalCatch
 
 trait Formatters {
@@ -104,6 +104,28 @@ trait Formatters {
         }
 
       override def unbind(key: String, value: BigInt) =
+        baseFormatter.unbind(key, value.toString)
+    }
+
+  private[mappings] def decimalFormatter(requiredKey: String, nonNumericKey: String, args: Seq[String] = Seq.empty): Formatter[BigDecimal] =
+    new Formatter[BigDecimal] {
+
+      private val baseFormatter = stringFormatter(requiredKey, args)
+
+      override def bind(key: String, data: Map[String, String]) =
+        baseFormatter
+          .bind(key, data)
+          .right.map(
+            _.replace(",", "").replace("£", "").replace("%", "").trim
+          )
+          .right.flatMap {
+          case s =>
+            nonFatalCatch
+              .either(BigDecimal(s))
+              .left.map(_ => Seq(FormError(key, nonNumericKey, args)))
+        }
+
+      override def unbind(key: String, value: BigDecimal) =
         baseFormatter.unbind(key, value.toString)
     }
 

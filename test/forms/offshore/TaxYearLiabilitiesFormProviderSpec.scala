@@ -16,10 +16,10 @@
 
 package forms
 
-import forms.behaviours.{BigIntFieldBehaviours, IntFieldBehaviours, StringFieldBehaviours}
+import forms.behaviours.{BigIntFieldBehaviours, IntFieldBehaviours, BigDecimalFieldBehaviours, StringFieldBehaviours}
 import play.api.data.FormError
 
-class TaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with BigIntFieldBehaviours with StringFieldBehaviours {
+class TaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with BigIntFieldBehaviours with BigDecimalFieldBehaviours with StringFieldBehaviours {
 
   val form = new TaxYearLiabilitiesFormProvider()()
 
@@ -57,12 +57,12 @@ class TaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with BigIntF
   }
 
   ".penaltyRate" - {
-      val minimum = 0
-      val maximum = 200
+      val minimum = BigDecimal(0)
+      val maximum = BigDecimal(200)
 
       val fieldName = "penaltyRate"
 
-      val validDataGenerator = intsInRangeWithCommas(minimum, maximum)
+      val validDataGenerator = decimalsInRangeWithCommas(minimum, maximum)
 
       behave like fieldThatBindsValidData(
         form,
@@ -70,14 +70,13 @@ class TaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with BigIntF
         validDataGenerator
       )
 
-      behave like intField(
+      behave like decimalField(
         form,
         fieldName,
         nonNumericError  = FormError(fieldName, s"taxYearLiabilities.penaltyRate.error.nonNumeric"),
-        wholeNumberError = FormError(fieldName, s"taxYearLiabilities.penaltyRate.error.wholeNumber")
       )
 
-      behave like intFieldWithRange(
+      behave like bigdecimalFieldWithRange(
         form,
         fieldName,
         minimum       = minimum,
