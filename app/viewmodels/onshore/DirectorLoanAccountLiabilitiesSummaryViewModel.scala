@@ -25,6 +25,7 @@ import pages.DirectorLoanAccountLiabilitiesPage
 import play.api.i18n.Messages
 import java.time.format.DateTimeFormatter
 import viewmodels.RowHelper
+import scala.math.BigDecimal.RoundingMode
 
 case class DirectorLoanAccountLiabilitiesSummaryViewModel (
   directorLoanAccountLiabilitiesList: Seq[(Int, SummaryList)],
@@ -103,7 +104,7 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelCreation extends RowHelper {
   }
 
   def penaltyAmount(directorLoanAccountLiabilities: DirectorLoanAccountLiabilities): BigDecimal = {
-    (directorLoanAccountLiabilities.penaltyRate * BigDecimal(directorLoanAccountLiabilities.unpaidTax)) / 100
+    ((directorLoanAccountLiabilities.penaltyRate * BigDecimal(directorLoanAccountLiabilities.unpaidTax)) / 100).setScale(2, RoundingMode.DOWN)
   }
 
 }
