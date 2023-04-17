@@ -26,7 +26,7 @@ class OfferLetterFormProvider @Inject() extends Mappings {
 
   def apply(): Form[BigInt] =
     Form(
-      "value" -> bigint(
+      "value" -> bigintWithPound(
         "offerLetter.error.required",
         "offerLetter.error.wholeNumber",
         "offerLetter.error.nonNumeric")

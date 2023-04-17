@@ -64,6 +64,15 @@ trait Generators extends UserAnswersGenerator
     genIntersperseString(numberGen, ",")
   }
 
+  def decimalsInRangeWithCommasWithPercentage(min: BigDecimal, max: BigDecimal): Gen[String] = {
+    val numberGen = for {
+      bool  <- arbitrary[Boolean]
+      str   <- choose[BigDecimal](min, max).map(_.toString)
+      answer = if (bool) "%" + str else str
+    } yield answer
+    genIntersperseString(numberGen, ",")
+  }
+
   def intsLargerThanMaxValue: Gen[BigInt] =
     arbitrary[BigInt] suchThat(x => x > Int.MaxValue)
 
@@ -96,6 +105,12 @@ trait Generators extends UserAnswersGenerator
   def bigintsInRange(min: BigInt, max: BigInt): Gen[String] = {
     choose[BigInt](min, max).map(_.toString)
   }
+
+  def bigintsInRangeWithPound(min: BigInt, max: BigInt): Gen[String] = for {
+    bool  <- arbitrary[Boolean]
+    str   <- choose[BigInt](min, max).map(_.toString)
+    answer = if (bool) "£" + str else str
+  } yield answer
 
   def bigintsBelowZero: Gen[BigInt] =
     arbitrary[Int].suchThat(_ < 0).map(BigInt(_))

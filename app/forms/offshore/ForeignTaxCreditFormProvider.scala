@@ -26,7 +26,7 @@ class ForeignTaxCreditFormProvider @Inject() extends Mappings {
 
   def apply(): Form[BigInt] =
     Form(
-      "value" -> bigint(
+      "value" -> bigintWithPound(
         "foreignTaxCredit.error.required",
         "foreignTaxCredit.error.wholeNumber",
         "foreignTaxCredit.error.nonNumeric")

@@ -24,7 +24,7 @@ class WhatWasThePercentageIncomeYouReceivedFromPropertyFormProvider @Inject() ex
 
   def apply(): Form[Int] =
     Form(
-      "value" -> int(
+      "value" -> intWithPercentage(
         "whatWasThePercentageIncomeYouReceivedFromProperty.error.required",
         "whatWasThePercentageIncomeYouReceivedFromProperty.error.wholeNumber",
         "whatWasThePercentageIncomeYouReceivedFromProperty.error.nonNumeric")
