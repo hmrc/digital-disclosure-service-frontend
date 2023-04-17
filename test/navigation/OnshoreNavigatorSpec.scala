@@ -709,6 +709,17 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear with MockitoSuga
         navigator.nextPage(WhichOnshoreYearsPage, CheckMode, userAnswers) mustBe routes.NotIncludedMultipleTaxYearsController.onPageLoad(NormalMode)
       }
 
+      "must go from WhichOnshoreYearsPage to PropertyAddedController and something has changed and letting income selected" in {
+        val year = current.back(1).startYear
+        val set: Set[OnshoreYears] = Set(OnshoreYearStarting(year))
+        val setOfOnshoreLiabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)
+        val userAnswers = for {
+          ua1 <- UserAnswers("id").set(WhichOnshoreYearsPage, set)
+          ua2 <- ua1.set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, setOfOnshoreLiabilities)
+          } yield ua2
+        navigator.nextPage(WhichOnshoreYearsPage, CheckMode, userAnswers.success.value) mustBe routes.PropertyAddedController.onPageLoad(NormalMode)
+      }
+
       "must go from WhichOnshoreYearsPage to OnshoreTaxYearLiabilitiesController and something has changed" in {
         val year = current.back(1).startYear
         val set: Set[OnshoreYears] = Set(OnshoreYearStarting(year))

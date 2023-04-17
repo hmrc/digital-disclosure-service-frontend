@@ -218,12 +218,14 @@ class OnshoreNavigatorImpl @Inject()(uaToDisclosure: UAToDisclosureService) exte
 
     case WhichOnshoreYearsPage => ua => hasAnswerChanged => {
       val missingYearsCount = ua.inverselySortedOnshoreTaxYears.map(ty => OnshoreYearStarting.findMissingYears(ty.toList).size).getOrElse(0)
+      val lettingsChosen = ua.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage).getOrElse(Set()).contains(LettingIncome)
       (ua.get(WhichOnshoreYearsPage), missingYearsCount, hasAnswerChanged) match {
         case (Some(_), 1, true) => routes.NotIncludedSingleTaxYearController.onPageLoad(NormalMode)
         case (Some(_), count, true) if count > 1  => routes.NotIncludedMultipleTaxYearsController.onPageLoad(NormalMode)
         case (Some(years), _, true) if years.contains(PriorToThreeYears) => routes.TaxBeforeThreeYearsOnshoreController.onPageLoad(NormalMode)
         case (Some(years), _, true) if years.contains(PriorToFiveYears) => routes.TaxBeforeFiveYearsOnshoreController.onPageLoad(NormalMode)
         case (Some(years), _, true) if years.contains(PriorToNineteenYears) => routes.TaxBeforeNineteenYearsOnshoreController.onPageLoad(NormalMode)
+        case (_, _, true) if lettingsChosen => routes.PropertyAddedController.onPageLoad(NormalMode)
         case (_, _, true) => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
         case (_, _, false) => routes.CheckYourAnswersController.onPageLoad
       }
