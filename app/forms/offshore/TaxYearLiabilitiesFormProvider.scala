@@ -29,32 +29,32 @@ class TaxYearLiabilitiesFormProvider @Inject() extends Mappings {
 
   def apply(): Form[TaxYearLiabilities] = Form(
     mapping(
-      "income" -> bigint(
+      "income" -> bigintWithPound(
         "taxYearLiabilities.income.error.required",
         "taxYearLiabilities.income.error.wholeNumber",
         "taxYearLiabilities.income.error.nonNumeric")
           .verifying(inRange(BigInt(0), MAX_BIGINT, "taxYearLiabilities.income.error.outOfRange")),
-      "chargeableTransfers" -> bigint(
+      "chargeableTransfers" -> bigintWithPound(
         "taxYearLiabilities.chargeableTransfers.error.required",
         "taxYearLiabilities.chargeableTransfers.error.wholeNumber",
         "taxYearLiabilities.chargeableTransfers.error.nonNumeric")
           .verifying(inRange(BigInt(0), MAX_BIGINT, "taxYearLiabilities.chargeableTransfers.error.outOfRange")),
-      "capitalGains" -> bigint(
+      "capitalGains" -> bigintWithPound(
         "taxYearLiabilities.capitalGains.error.required",
         "taxYearLiabilities.capitalGains.error.wholeNumber",
         "taxYearLiabilities.capitalGains.error.nonNumeric")
           .verifying(inRange(BigInt(0), MAX_BIGINT, "taxYearLiabilities.capitalGains.error.outOfRange")),
-      "unpaidTax" -> bigint(
+      "unpaidTax" -> bigintWithPound(
         "taxYearLiabilities.unpaidTax.error.required",
         "taxYearLiabilities.unpaidTax.error.wholeNumber",
         "taxYearLiabilities.unpaidTax.error.nonNumeric")
           .verifying(inRange(BigInt(0), MAX_BIGINT, "taxYearLiabilities.unpaidTax.error.outOfRange")),
-      "interest" -> bigint(
+      "interest" -> bigintWithPound(
         "taxYearLiabilities.interest.error.required",
         "taxYearLiabilities.interest.error.wholeNumber",
         "taxYearLiabilities.interest.error.nonNumeric")
           .verifying(inRange(BigInt(0), MAX_BIGINT, "taxYearLiabilities.interest.error.outOfRange")),
-      "penaltyRate" -> decimal(
+      "penaltyRate" -> decimalWithPercentage(
         "taxYearLiabilities.penaltyRate.error.required",
         "taxYearLiabilities.penaltyRate.error.nonNumeric")
           .verifying(inRange(BigDecimal(0.00), BigDecimal(200.00), "taxYearLiabilities.penaltyRate.error.outOfRange")),

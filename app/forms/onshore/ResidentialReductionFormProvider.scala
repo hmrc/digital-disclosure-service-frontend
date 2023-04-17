@@ -26,7 +26,7 @@ class ResidentialReductionFormProvider @Inject() extends Mappings {
 
   def apply(): Form[BigInt] =
     Form(
-      "value" -> bigint(
+      "value" -> bigintWithPound(
         "residentialReduction.error.required",
         "residentialReduction.error.wholeNumber",
         "residentialReduction.error.nonNumeric")

@@ -43,25 +43,25 @@ class DirectorLoanAccountLiabilitiesFormProvider @Inject() extends Mappings {
          .verifying(maxDate(LocalDate.now().minusDays(1), "directorLoanAccountLiabilities.periodEnd.error.invalidFuture"))
          .verifying(minDate(LocalDate.now().minusYears(20), "directorLoanAccountLiabilities.periodEnd.error.invalidPastDate")),
 
-      "overdrawn" -> bigint(
+      "overdrawn" -> bigintWithPound(
         "directorLoanAccountLiabilities.overdrawn.error.required",
         "directorLoanAccountLiabilities.overdrawn.error.wholeNumber",
         "directorLoanAccountLiabilities.overdrawn.error.nonNumeric")
         .verifying(inRange(BigInt(0), MAX_BIGINT, "directorLoanAccountLiabilities.overdrawn.error.outOfRange")),
 
-      "unpaidTax" -> bigint(
+      "unpaidTax" -> bigintWithPound(
         "directorLoanAccountLiabilities.unpaidTax.error.required",
         "directorLoanAccountLiabilities.unpaidTax.error.wholeNumber",
         "directorLoanAccountLiabilities.unpaidTax.error.nonNumeric")
         .verifying(inRange(BigInt(0), MAX_BIGINT, "directorLoanAccountLiabilities.unpaidTax.error.outOfRange")),
 
-      "interest" -> bigint(
+      "interest" -> bigintWithPound(
         "directorLoanAccountLiabilities.interest.error.required",
         "directorLoanAccountLiabilities.interest.error.wholeNumber",
         "directorLoanAccountLiabilities.interest.error.nonNumeric")
         .verifying(inRange(BigInt(0), MAX_BIGINT, "directorLoanAccountLiabilities.interest.error.outOfRange")),
 
-      "penaltyRate" -> decimal(
+      "penaltyRate" -> decimalWithPercentage(
         "directorLoanAccountLiabilities.penaltyRate.error.required",
         "directorLoanAccountLiabilities.penaltyRate.error.nonNumeric")
         .verifying(inRange(BigDecimal(0.00), BigDecimal(200.00), "directorLoanAccountLiabilities.penaltyRate.error.outOfRange")),

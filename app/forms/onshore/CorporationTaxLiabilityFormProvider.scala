@@ -43,28 +43,28 @@ class CorporationTaxLiabilityFormProvider @Inject() extends Mappings {
         .verifying(minDate(LocalDate.now().minusYears(20), "corporationTaxLiability.periodEnd.error.invalidPastDate"))
         .verifying(maxDate(LocalDate.now().minusDays(1), "corporationTaxLiability.periodEnd.error.invalidFutureDate")),
 
-        "howMuchIncome" -> bigint(
+        "howMuchIncome" -> bigintWithPound(
           "corporationTaxLiability.howMuchIncome.error.required",
           "corporationTaxLiability.howMuchIncome.error.wholeNumber",
           "corporationTaxLiability.howMuchIncome.error.nonNumeric"
         )
         .verifying(inRange(BigInt(0), MAX_BIGINT, "corporationTaxLiability.howMuchIncome.error.outOfRange")),
 
-        "howMuchUnpaid" -> bigint(
+        "howMuchUnpaid" -> bigintWithPound(
           "corporationTaxLiability.howMuchUnpaid.error.required",
           "corporationTaxLiability.howMuchUnpaid.error.wholeNumber",
           "corporationTaxLiability.howMuchUnpaid.error.nonNumeric"
         )
         .verifying(inRange(BigInt(0), MAX_BIGINT, "corporationTaxLiability.howMuchUnpaid.error.outOfRange")),
 
-        "howMuchInterest" -> bigint(
+        "howMuchInterest" -> bigintWithPound(
           "corporationTaxLiability.howMuchInterest.error.required",
           "corporationTaxLiability.howMuchInterest.error.wholeNumber",
           "corporationTaxLiability.howMuchInterest.error.nonNumeric"
         )
         .verifying(inRange(BigInt(0), MAX_BIGINT, "corporationTaxLiability.howMuchInterest.error.outOfRange")),
 
-        "penaltyRate" -> decimal(
+        "penaltyRate" -> decimalWithPercentage(
           "corporationTaxLiability.penaltyRate.error.required",
           "corporationTaxLiability.penaltyRate.error.nonNumeric"
         )
