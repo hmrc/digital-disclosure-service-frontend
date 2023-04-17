@@ -23,14 +23,15 @@ import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen._
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import java.time.LocalDate
+import scala.math.BigDecimal.RoundingMode
 
 class TotalAmountsSpec extends AnyWordSpec with Matchers with ScalaCheckPropertyChecks {
 
   "getPenaltyAmount" should {
 
     "determine the penalty from a rate and an unpaid amount" in {
-      forAll(chooseNum[BigInt](BigInt(0), BigInt(99999999)), arbitrary[Int]) { (amount, rate) =>
-        val expectedAmount = (BigDecimal(rate) * BigDecimal(amount)) / 100
+      forAll(chooseNum[BigInt](BigInt(0), BigInt(99999999)), chooseNum[BigDecimal](BigDecimal(0), BigDecimal(200))) { (amount, rate) =>
+        val expectedAmount = ((rate * BigDecimal(amount)) / 100).setScale(2, RoundingMode.DOWN)
         TotalAmounts.getPenaltyAmount(rate, amount) shouldEqual expectedAmount
       }
     }
@@ -40,7 +41,7 @@ class TotalAmountsSpec extends AnyWordSpec with Matchers with ScalaCheckProperty
 
     "determine the penalty from a rate and an unpaid amount" in {
       forAll(chooseNum[BigInt](BigInt(0), BigInt(99999999)), arbitrary[Int], chooseNum[BigInt](BigInt(0), BigInt(99999999))) { (amount, rate, interest) =>
-        val penaltyAmount = (BigDecimal(rate) * BigDecimal(amount)) / 100
+        val penaltyAmount = (rate * BigDecimal(amount)) / 100
         val expectedAmount = penaltyAmount + BigDecimal(amount) + BigDecimal(interest)
         TotalAmounts.getPeriodTotal(rate, amount, interest) shouldEqual expectedAmount
       }
@@ -55,28 +56,28 @@ class TotalAmountsSpec extends AnyWordSpec with Matchers with ScalaCheckProperty
         DirectorLoanAccountLiabilities(
           name = "Director name1",
           periodEnd = LocalDate.of(2022, 8, 23),
-          overdrawn = BigInt(10),
-          unpaidTax = BigInt(10),
-          interest = BigInt(10),
-          penaltyRate = 10,
+          overdrawn = BigInt(1),
+          unpaidTax = BigInt(1),
+          interest = BigInt(1),
+          penaltyRate = 2.5,
           penaltyRateReason = "Some reason"
         ),
         DirectorLoanAccountLiabilities(
           name = "Director name2",
           periodEnd = LocalDate.of(2022, 8, 23),
-          overdrawn = BigInt(20),
-          unpaidTax = BigInt(20),
-          interest = BigInt(20),
-          penaltyRate = 20,
+          overdrawn = BigInt(1),
+          unpaidTax = BigInt(1),
+          interest = BigInt(1),
+          penaltyRate = 2.5,
           penaltyRateReason = "Some reason"
         )
       )
       val expectedTotals = TotalAmounts(
-        unpaidTaxTotal = BigInt(30),
+        unpaidTaxTotal = BigInt(2),
         niContributionsTotal = BigInt(0),
-        interestTotal = BigInt(30),
-        penaltyAmountTotal = BigDecimal(5),
-        amountDueTotal = BigDecimal(65)
+        interestTotal = BigInt(2),
+        penaltyAmountTotal = BigDecimal(0.04),
+        amountDueTotal = BigDecimal(4.04)
       )
       TotalAmounts.getDirectorLoanTotals(liabilities) shouldEqual expectedTotals
     }
@@ -86,19 +87,19 @@ class TotalAmountsSpec extends AnyWordSpec with Matchers with ScalaCheckProperty
         DirectorLoanAccountLiabilities(
           name = "Director name1",
           periodEnd = LocalDate.of(2022, 8, 23),
-          overdrawn = BigInt(10),
-          unpaidTax = BigInt(10),
-          interest = BigInt(10),
-          penaltyRate = 10,
+          overdrawn = BigInt(1),
+          unpaidTax = BigInt(1),
+          interest = BigInt(1),
+          penaltyRate = 2.5,
           penaltyRateReason = "Some reason"
         )
       )
       val expectedTotals = TotalAmounts(
-        unpaidTaxTotal = BigInt(10),
+        unpaidTaxTotal = BigInt(1),
         niContributionsTotal = BigInt(0),
-        interestTotal = BigInt(10),
-        penaltyAmountTotal = BigDecimal(1),
-        amountDueTotal = BigDecimal(21)
+        interestTotal = BigInt(1),
+        penaltyAmountTotal = BigDecimal(0.02),
+        amountDueTotal = BigDecimal(2.02)
       )
       TotalAmounts.getDirectorLoanTotals(liabilities) shouldEqual expectedTotals
     }
@@ -122,27 +123,27 @@ class TotalAmountsSpec extends AnyWordSpec with Matchers with ScalaCheckProperty
       val liabilities: Seq[CorporationTaxLiability] = Seq(
         CorporationTaxLiability(
           periodEnd = LocalDate.of(2022, 8, 23),
-          howMuchIncome = BigInt(10),
-          howMuchUnpaid = BigInt(10),
-          howMuchInterest = BigInt(10),
-          penaltyRate = 10,
+          howMuchIncome = BigInt(1),
+          howMuchUnpaid = BigInt(1),
+          howMuchInterest = BigInt(1),
+          penaltyRate = 2.5,
           penaltyRateReason = "Some reason"
         ),
         CorporationTaxLiability(
           periodEnd = LocalDate.of(2022, 8, 23),
-          howMuchIncome = BigInt(20),
-          howMuchUnpaid = BigInt(20),
-          howMuchInterest = BigInt(20),
-          penaltyRate = 20,
+          howMuchIncome = BigInt(1),
+          howMuchUnpaid = BigInt(1),
+          howMuchInterest = BigInt(1),
+          penaltyRate = 2.5,
           penaltyRateReason = "Some reason"
         )
       )
       val expectedTotals = TotalAmounts(
-        unpaidTaxTotal = BigInt(30),
+        unpaidTaxTotal = BigInt(2),
         niContributionsTotal = BigInt(0),
-        interestTotal = BigInt(30),
-        penaltyAmountTotal = BigDecimal(5),
-        amountDueTotal = BigDecimal(65)
+        interestTotal = BigInt(2),
+        penaltyAmountTotal = BigDecimal(0.04),
+        amountDueTotal = BigDecimal(4.04)
       )
       TotalAmounts.getCorporationTaxTotals(liabilities) shouldEqual expectedTotals
     }
@@ -151,19 +152,19 @@ class TotalAmountsSpec extends AnyWordSpec with Matchers with ScalaCheckProperty
       val liabilities: Seq[CorporationTaxLiability] = Seq(
         CorporationTaxLiability(
           periodEnd = LocalDate.of(2022, 8, 23),
-          howMuchIncome = BigInt(10),
-          howMuchUnpaid = BigInt(10),
-          howMuchInterest = BigInt(10),
-          penaltyRate = 10,
+          howMuchIncome = BigInt(1),
+          howMuchUnpaid = BigInt(1),
+          howMuchInterest = BigInt(1),
+          penaltyRate = 2.5,
           penaltyRateReason = "Some reason"
         )
       )
       val expectedTotals = TotalAmounts(
-        unpaidTaxTotal = BigInt(10),
+        unpaidTaxTotal = BigInt(1),
         niContributionsTotal = BigInt(0),
-        interestTotal = BigInt(10),
-        penaltyAmountTotal = BigDecimal(1),
-        amountDueTotal = BigDecimal(21)
+        interestTotal = BigInt(1),
+        penaltyAmountTotal = BigDecimal(0.02),
+        amountDueTotal = BigDecimal(2.02)
       )
       TotalAmounts.getCorporationTaxTotals(liabilities) shouldEqual expectedTotals
     }
@@ -187,12 +188,12 @@ class TotalAmountsSpec extends AnyWordSpec with Matchers with ScalaCheckProperty
         "2012" -> TaxYearWithLiabilities(
           TaxYearStarting(2012), 
           TaxYearLiabilities(
-            income = BigInt(10),
-            chargeableTransfers = BigInt(10),
-            capitalGains = BigInt(10),
-            unpaidTax = BigInt(10),
-            interest = BigInt(10),
-            penaltyRate = 10,
+            income = BigInt(1),
+            chargeableTransfers = BigInt(1),
+            capitalGains = BigInt(1),
+            unpaidTax = BigInt(1),
+            interest = BigInt(1),
+            penaltyRate = 2.5,
             penaltyRateReason = "Some reason",
             foreignTaxCredit = false
           )
@@ -200,23 +201,23 @@ class TotalAmountsSpec extends AnyWordSpec with Matchers with ScalaCheckProperty
         "2011" -> TaxYearWithLiabilities(
           TaxYearStarting(2011), 
           TaxYearLiabilities(
-            income = BigInt(20),
-            chargeableTransfers = BigInt(20),
-            capitalGains = BigInt(20),
-            unpaidTax = BigInt(20),
-            interest = BigInt(20),
-            penaltyRate = 20,
+            income = BigInt(1),
+            chargeableTransfers = BigInt(1),
+            capitalGains = BigInt(1),
+            unpaidTax = BigInt(1),
+            interest = BigInt(1),
+            penaltyRate = 2.5,
             penaltyRateReason = "Some reason",
             foreignTaxCredit = false
           )
         ),
       )
       val expectedTotals = TotalAmounts(
-        unpaidTaxTotal = BigInt(30),
+        unpaidTaxTotal = BigInt(2),
         niContributionsTotal = BigInt(0),
-        interestTotal = BigInt(30),
-        penaltyAmountTotal = BigDecimal(5),
-        amountDueTotal = BigDecimal(65)
+        interestTotal = BigInt(2),
+        penaltyAmountTotal = BigDecimal(0.04),
+        amountDueTotal = BigDecimal(4.04)
       )
       TotalAmounts.getOffshoreTaxYearTotals(liabilities) shouldEqual expectedTotals
     }
