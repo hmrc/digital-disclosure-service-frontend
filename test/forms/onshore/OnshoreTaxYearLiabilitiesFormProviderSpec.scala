@@ -36,7 +36,7 @@ class OnshoreTaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with 
       val minimum = BigInt(0)
       val maximum = BigInt("999999999999999999999999")
 
-      val validDataGenerator = bigintsInRange(minimum, maximum)
+      val validDataGenerator = bigintsInRangeWithPound(minimum, maximum)
 
       behave like fieldThatBindsValidData(
         formWithNoSelections,
@@ -65,7 +65,7 @@ class OnshoreTaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with 
 
       val fieldName = "penaltyRate"
 
-      val validDataGenerator = decimalsInRangeWithCommas(minimum, maximum)
+      val validDataGenerator = decimalsInRangeWithCommasWithPercentage(minimum, maximum)
 
       behave like fieldThatBindsValidData(
         formWithNoSelections,
@@ -180,7 +180,7 @@ class OnshoreTaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with 
       val minimum = BigInt(0)
       val maximum = BigInt("999999999999999999999999")
 
-      val validDataGenerator = bigintsInRange(minimum, maximum)
+      val validDataGenerator = bigintsInRangeWithPound(minimum, maximum)
 
       behave like fieldThatBindsValidData(
         form,
