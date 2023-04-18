@@ -25,6 +25,7 @@ import play.api.i18n.Messages
 import com.google.inject.{Inject, Singleton}
 import viewmodels.RowHelper
 import viewmodels.RevealFullText
+import scala.math.BigDecimal.RoundingMode
 
 case class CheckYourAnswersViewModel(
   summaryList: SummaryList,
@@ -133,7 +134,7 @@ class CheckYourAnswersViewModelCreation @Inject()
   }
 
   def penaltyAmount(taxYearLiabilities: TaxYearLiabilities): BigDecimal = {
-    (BigDecimal(taxYearLiabilities.penaltyRate) * BigDecimal(taxYearLiabilities.unpaidTax)) /100
+    ((taxYearLiabilities.penaltyRate * BigDecimal(taxYearLiabilities.unpaidTax)) /100).setScale(2, RoundingMode.DOWN)
   }
   
   def yearTotal(taxYearLiabilities: TaxYearLiabilities): BigDecimal = {

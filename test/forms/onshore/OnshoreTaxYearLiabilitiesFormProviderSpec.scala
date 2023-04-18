@@ -16,11 +16,11 @@
 
 package forms
 
-import forms.behaviours.{BigIntFieldBehaviours, IntFieldBehaviours, StringFieldBehaviours}
+import forms.behaviours.{BigIntFieldBehaviours, IntFieldBehaviours, StringFieldBehaviours, BigDecimalFieldBehaviours}
 import play.api.data.FormError
 import models.WhatOnshoreLiabilitiesDoYouNeedToDisclose
 
-class OnshoreTaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with BigIntFieldBehaviours with StringFieldBehaviours {
+class OnshoreTaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with BigIntFieldBehaviours with BigDecimalFieldBehaviours with StringFieldBehaviours {
 
   val formWithNoSelections = new OnshoreTaxYearLiabilitiesFormProvider()(Set())
   val formWithNonBusinessSelected = new OnshoreTaxYearLiabilitiesFormProvider()(Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.NonBusinessIncome))
@@ -36,7 +36,7 @@ class OnshoreTaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with 
       val minimum = BigInt(0)
       val maximum = BigInt("999999999999999999999999")
 
-      val validDataGenerator = bigintsInRange(minimum, maximum)
+      val validDataGenerator = bigintsInRangeWithPound(minimum, maximum)
 
       behave like fieldThatBindsValidData(
         formWithNoSelections,
@@ -60,12 +60,12 @@ class OnshoreTaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with 
   }
 
   ".penaltyRate" - {
-      val minimum = 0
-      val maximum = 200
+      val minimum = BigDecimal(0)
+      val maximum = BigDecimal(200)
 
       val fieldName = "penaltyRate"
 
-      val validDataGenerator = intsInRangeWithCommas(minimum, maximum)
+      val validDataGenerator = decimalsInRangeWithCommasWithPercentage(minimum, maximum)
 
       behave like fieldThatBindsValidData(
         formWithNoSelections,
@@ -73,14 +73,13 @@ class OnshoreTaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with 
         validDataGenerator
       )
 
-      behave like intField(
+      behave like decimalField(
         formWithNoSelections,
         fieldName,
-        nonNumericError  = FormError(fieldName, s"onshoreTaxYearLiabilities.penaltyRate.error.nonNumeric"),
-        wholeNumberError = FormError(fieldName, s"onshoreTaxYearLiabilities.penaltyRate.error.wholeNumber")
+        nonNumericError  = FormError(fieldName, s"onshoreTaxYearLiabilities.penaltyRate.error.nonNumeric")
       )
 
-      behave like intFieldWithRange(
+      behave like bigdecimalFieldWithRange(
         formWithNoSelections,
         fieldName,
         minimum       = minimum,
@@ -181,7 +180,7 @@ class OnshoreTaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with 
       val minimum = BigInt(0)
       val maximum = BigInt("999999999999999999999999")
 
-      val validDataGenerator = bigintsInRange(minimum, maximum)
+      val validDataGenerator = bigintsInRangeWithPound(minimum, maximum)
 
       behave like fieldThatBindsValidData(
         form,

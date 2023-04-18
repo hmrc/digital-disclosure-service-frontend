@@ -26,7 +26,7 @@ case class DirectorLoanAccountLiabilities (
   overdrawn: BigInt,
   unpaidTax: BigInt,
   interest: BigInt,
-  penaltyRate: Int,
+  penaltyRate: BigDecimal,
   penaltyRateReason: String
 )
 

@@ -17,10 +17,10 @@
 package forms
 
 import java.time.{LocalDate, ZoneOffset}
-import forms.behaviours.{PeriodEndBehaviours, IntFieldBehaviours, BigIntFieldBehaviours, StringFieldBehaviours}
+import forms.behaviours.{PeriodEndBehaviours, IntFieldBehaviours, BigIntFieldBehaviours, BigDecimalFieldBehaviours, StringFieldBehaviours}
 import play.api.data.FormError
 
-class CorporationTaxLiabilityFormProviderSpec extends PeriodEndBehaviours with IntFieldBehaviours with BigIntFieldBehaviours with StringFieldBehaviours {
+class CorporationTaxLiabilityFormProviderSpec extends PeriodEndBehaviours with IntFieldBehaviours with BigIntFieldBehaviours with BigDecimalFieldBehaviours with StringFieldBehaviours {
 
   val form = new CorporationTaxLiabilityFormProvider()()
 
@@ -61,7 +61,7 @@ class CorporationTaxLiabilityFormProviderSpec extends PeriodEndBehaviours with I
       val minimum = BigInt(0)
       val maximum = BigInt("999999999999999999999999")
 
-      val validDataGenerator = bigintsInRange(minimum, maximum)
+      val validDataGenerator = bigintsInRangeWithPound(minimum, maximum)
 
       behave like fieldThatBindsValidData(
         form,
@@ -85,12 +85,13 @@ class CorporationTaxLiabilityFormProviderSpec extends PeriodEndBehaviours with I
   }
 
   ".penaltyRate" - {
-    val minimum = 0
-    val maximum = 200
+    
+    val minimum = BigDecimal(0)
+    val maximum = BigDecimal(200)
 
     val fieldName = "penaltyRate"
 
-    val validDataGenerator = intsInRangeWithCommas(minimum, maximum)
+    val validDataGenerator = decimalsInRangeWithCommasWithPercentage(minimum, maximum)
 
     behave like fieldThatBindsValidData(
       form,
@@ -98,14 +99,13 @@ class CorporationTaxLiabilityFormProviderSpec extends PeriodEndBehaviours with I
       validDataGenerator
     )
 
-    behave like intField(
+    behave like decimalField(
       form,
       fieldName,
-      nonNumericError  = FormError(fieldName, s"corporationTaxLiability.penaltyRate.error.nonNumeric"),
-      wholeNumberError = FormError(fieldName, s"corporationTaxLiability.penaltyRate.error.wholeNumber")
+      nonNumericError  = FormError(fieldName, s"corporationTaxLiability.penaltyRate.error.nonNumeric")
     )
 
-    behave like intFieldWithRange(
+    behave like bigdecimalFieldWithRange(
       form,
       fieldName,
       minimum       = minimum,

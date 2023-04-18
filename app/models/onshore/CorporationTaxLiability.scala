@@ -25,7 +25,7 @@ case class CorporationTaxLiability (
   howMuchIncome: BigInt,
   howMuchUnpaid: BigInt,
   howMuchInterest: BigInt,
-  penaltyRate: Int,
+  penaltyRate: BigDecimal,
   penaltyRateReason: String
 )
 

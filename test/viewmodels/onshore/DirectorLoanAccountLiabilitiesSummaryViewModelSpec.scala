@@ -40,7 +40,7 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelSpec extends SpecBase with S
             forAll(arbitrary[DirectorLoanAccountLiabilities]) { directorLoanAccountLiabilities =>
                 val penaltyRate = directorLoanAccountLiabilities.penaltyRate
                 val unpaidTax = directorLoanAccountLiabilities.unpaidTax
-                val expectedAmount = (BigDecimal(penaltyRate) * BigDecimal(unpaidTax)) / 100
+                val expectedAmount = (penaltyRate * BigDecimal(unpaidTax)) / 100
                 sut.penaltyAmount(directorLoanAccountLiabilities) mustEqual expectedAmount
             }
         }

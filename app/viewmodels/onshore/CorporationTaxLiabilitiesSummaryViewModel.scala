@@ -24,7 +24,7 @@ import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryList
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import viewmodels.RowHelper
-
+import scala.math.BigDecimal.RoundingMode
 import java.time.format.DateTimeFormatter
 
 case class CorporationTaxLiabilitiesSummaryViewModel (
@@ -103,7 +103,7 @@ object CorporationTaxLiabilitiesSummaryViewModelCreation extends RowHelper {
   }
 
   def penaltyAmount(corporationTaxLiability: CorporationTaxLiability): BigDecimal = {
-    (BigDecimal(corporationTaxLiability.penaltyRate) * BigDecimal(corporationTaxLiability.howMuchUnpaid)) / 100
+    ((corporationTaxLiability.penaltyRate * BigDecimal(corporationTaxLiability.howMuchUnpaid)) / 100).setScale(2, RoundingMode.DOWN)
   }
 
 }

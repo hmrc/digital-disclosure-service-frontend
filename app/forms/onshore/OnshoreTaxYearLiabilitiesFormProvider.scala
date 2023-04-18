@@ -34,26 +34,25 @@ class OnshoreTaxYearLiabilitiesFormProvider @Inject() extends Mappings  {
       "businessIncome" -> bigintOptionalUnless("businessIncome", taxTypes.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.BusinessIncome)),
       "lettingIncome" -> bigintOptionalUnless("lettingIncome", taxTypes.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)),
       "gains" -> bigintOptionalUnless("gains", taxTypes.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.Gains)),
-      "unpaidTax" -> bigint(
+      "unpaidTax" -> bigintWithPound(
         "onshoreTaxYearLiabilities.unpaidTax.error.required",
         "onshoreTaxYearLiabilities.unpaidTax.error.wholeNumber",
         "onshoreTaxYearLiabilities.unpaidTax.error.nonNumeric")
           .verifying(inRange(BigInt(0), MAX_BIGINT, "onshoreTaxYearLiabilities.unpaidTax.error.outOfRange")),
-      "niContributions" -> bigint(
+      "niContributions" -> bigintWithPound(
         "onshoreTaxYearLiabilities.niContributions.error.required",
         "onshoreTaxYearLiabilities.niContributions.error.wholeNumber",
         "onshoreTaxYearLiabilities.niContributions.error.nonNumeric")
           .verifying(inRange(BigInt(0), MAX_BIGINT, "onshoreTaxYearLiabilities.niContributions.error.outOfRange")),
-      "interest" -> bigint(
+      "interest" -> bigintWithPound(
         "onshoreTaxYearLiabilities.interest.error.required",
         "onshoreTaxYearLiabilities.interest.error.wholeNumber",
         "onshoreTaxYearLiabilities.interest.error.nonNumeric")
           .verifying(inRange(BigInt(0), MAX_BIGINT, "onshoreTaxYearLiabilities.interest.error.outOfRange")),
-      "penaltyRate" -> int(
+      "penaltyRate" -> decimalWithPercentage(
         "onshoreTaxYearLiabilities.penaltyRate.error.required",
-        "onshoreTaxYearLiabilities.penaltyRate.error.wholeNumber",
         "onshoreTaxYearLiabilities.penaltyRate.error.nonNumeric")
-          .verifying(inRange(0, 200, "onshoreTaxYearLiabilities.penaltyRate.error.outOfRange")),
+          .verifying(inRange(BigDecimal(0.00), BigDecimal(200.00), "onshoreTaxYearLiabilities.penaltyRate.error.outOfRange")),
       "penaltyRateReason" -> text("onshoreTaxYearLiabilities.penaltyRateReason.error.required")
         .verifying(maxLength(5000, "onshoreTaxYearLiabilities.penaltyRateReason.error.length")),
       "residentialTaxReduction" -> optional(boolean("onshoreTaxYearLiabilities.residentialTaxReduction.error.required"))
@@ -63,7 +62,7 @@ class OnshoreTaxYearLiabilitiesFormProvider @Inject() extends Mappings  {
 
   def bigintOptionalUnless(field: String, isRequired: Boolean): Mapping[Option[BigInt]] = {
     optional(
-      bigint(
+      bigintWithPound(
         s"onshoreTaxYearLiabilities.$field.error.required",
         s"onshoreTaxYearLiabilities.$field.error.wholeNumber",
         s"onshoreTaxYearLiabilities.$field.error.nonNumeric")

@@ -33,12 +33,47 @@ trait Mappings extends Formatters with Constraints {
                     args: Seq[String] = Seq.empty): FieldMapping[Int] =
     of(intFormatter(requiredKey, wholeNumberKey, nonNumericKey, args))
 
+  protected def intWithPound(requiredKey: String = "error.required",
+                    wholeNumberKey: String = "error.wholeNumber",
+                    nonNumericKey: String = "error.nonNumeric",
+                    args: Seq[String] = Seq.empty): FieldMapping[Int] =
+    of(intFormatterWithPound(requiredKey, wholeNumberKey, nonNumericKey, args))
+
+  protected def intWithPercentage(requiredKey: String = "error.required",
+                    wholeNumberKey: String = "error.wholeNumber",
+                    nonNumericKey: String = "error.nonNumeric",
+                    args: Seq[String] = Seq.empty): FieldMapping[Int] =
+    of(intFormatterWithPercentage(requiredKey, wholeNumberKey, nonNumericKey, args))
+
   protected def bigint(requiredKey: String = "error.required",
                     wholeNumberKey: String = "error.wholeNumber",
                     nonNumericKey: String = "error.nonNumeric",
                     args: Seq[String] = Seq.empty): FieldMapping[BigInt] =
     of(bigintFormatter(requiredKey, wholeNumberKey, nonNumericKey, args))
 
+  protected def bigintWithPound(requiredKey: String = "error.required",
+                    wholeNumberKey: String = "error.wholeNumber",
+                    nonNumericKey: String = "error.nonNumeric",
+                    args: Seq[String] = Seq.empty): FieldMapping[BigInt] =
+    of(bigintFormatterWithPound(requiredKey, wholeNumberKey, nonNumericKey, args))
+
+  protected def bigintWithPercentage(requiredKey: String = "error.required",
+                    wholeNumberKey: String = "error.wholeNumber",
+                    nonNumericKey: String = "error.nonNumeric",
+                    args: Seq[String] = Seq.empty): FieldMapping[BigInt] =
+    of(bigintFormatterWithPercentage(requiredKey, wholeNumberKey, nonNumericKey, args))
+
+  protected def decimal(requiredKey: String = "error.required",
+                        nonNumericKey: String = "error.nonNumeric"): FieldMapping[BigDecimal] =
+    of(decimalFormatter(requiredKey, nonNumericKey))
+
+  protected def decimalWithPound(requiredKey: String = "error.required",
+                        nonNumericKey: String = "error.nonNumeric"): FieldMapping[BigDecimal] =
+    of(decimalFormatterWithPound(requiredKey, nonNumericKey))
+
+  protected def decimalWithPercentage(requiredKey: String = "error.required",
+                        nonNumericKey: String = "error.nonNumeric"): FieldMapping[BigDecimal] =
+    of(decimalFormatterWithPercentage(requiredKey, nonNumericKey))
 
   protected def boolean(requiredKey: String = "error.required",
                         invalidKey: String = "error.boolean",

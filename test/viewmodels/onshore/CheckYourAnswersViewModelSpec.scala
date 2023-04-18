@@ -46,7 +46,7 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
       forAll(arbitrary[OnshoreTaxYearWithLiabilities]) { taxYearWithLiabilities =>
         val penaltyRate = taxYearWithLiabilities.taxYearLiabilities.penaltyRate
         val unpaidTax = BigDecimal(taxYearWithLiabilities.taxYearLiabilities.unpaidTax) + BigDecimal(taxYearWithLiabilities.taxYearLiabilities.niContributions) 
-        val expectedAmount = (BigDecimal(penaltyRate) * unpaidTax) / 100
+        val expectedAmount = (penaltyRate * unpaidTax) / 100
         sut.penaltyAmount(taxYearWithLiabilities.taxYearLiabilities) mustEqual expectedAmount
       }
     }
@@ -59,7 +59,7 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
       forAll(arbitrary[OnshoreTaxYearWithLiabilities]) { taxYearWithLiabilities =>
         val penaltyRate = taxYearWithLiabilities.taxYearLiabilities.penaltyRate
         val unpaidTax: BigDecimal = BigDecimal(taxYearWithLiabilities.taxYearLiabilities.unpaidTax) + BigDecimal(taxYearWithLiabilities.taxYearLiabilities.niContributions) 
-        val penaltyAmount: BigDecimal = (BigDecimal(penaltyRate) / 100) * unpaidTax
+        val penaltyAmount: BigDecimal = (penaltyRate / 100) * unpaidTax
         val interest = taxYearWithLiabilities.taxYearLiabilities.interest
         val expectedAmount: BigDecimal = penaltyAmount + BigDecimal(interest) + unpaidTax
         sut.yearTotal(taxYearWithLiabilities.taxYearLiabilities) mustEqual expectedAmount

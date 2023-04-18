@@ -106,10 +106,7 @@ class WhichOnshoreYearsController @Inject()(
   }
 
   def changedPages(userAnswers: UserAnswers, newValue: Set[OnshoreYears]): (List[QuestionPage[_]], Boolean) = {
-    val missingYearsCount = userAnswers.inverselySortedOnshoreTaxYears.map(ty => OnshoreYearStarting.findMissingYears(ty.toList).size).getOrElse(0)
-
     val hasChanged = !userAnswers.get(WhichOnshoreYearsPage).contains(newValue) || !areYearsMissing(userAnswers, newValue)
-
     val missingYearPageList = if (hasChanged) List(NotIncludedSingleTaxYearPage, NotIncludedMultipleTaxYearsPage) else Nil
 
     val priorToList = newValue.intersect(Set[OnshoreYears](PriorToFiveYears, PriorToThreeYears, PriorToNineteenYears)).size match {
