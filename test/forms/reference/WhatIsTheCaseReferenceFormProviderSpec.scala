@@ -23,7 +23,6 @@ class WhatIsTheCaseReferenceFormProviderSpec extends CaseReferenceBehaviours {
 
   val requiredKey = "whatIsTheCaseReference.error.required"
   val formatErrorKey = "whatIsTheCaseReference.error.format"
-  val maxLength = 100
 
   val form = new WhatIsTheCaseReferenceFormProvider()()
 
