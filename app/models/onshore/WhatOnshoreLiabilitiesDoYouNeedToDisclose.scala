@@ -26,26 +26,26 @@ sealed trait WhatOnshoreLiabilitiesDoYouNeedToDisclose
 
 object WhatOnshoreLiabilitiesDoYouNeedToDisclose extends Enumerable.Implicits {
 
+  case object LettingIncome extends WithName("lettingIncomeFromResidential") with WhatOnshoreLiabilitiesDoYouNeedToDisclose
   case object BusinessIncome extends WithName("businessIncomeLiabilities") with WhatOnshoreLiabilitiesDoYouNeedToDisclose
   case object Gains extends WithName("capitalGainsTaxLiabilities") with WhatOnshoreLiabilitiesDoYouNeedToDisclose
   case object CorporationTax extends WithName("company.corporationTaxLiabilities") with WhatOnshoreLiabilitiesDoYouNeedToDisclose
   case object DirectorLoan extends WithName("company.directorLoanLiabilities") with WhatOnshoreLiabilitiesDoYouNeedToDisclose
-  case object LettingIncome extends WithName("lettingIncomeFromResidential") with WhatOnshoreLiabilitiesDoYouNeedToDisclose
   case object NonBusinessIncome extends WithName("nonBusinessIncome") with WhatOnshoreLiabilitiesDoYouNeedToDisclose
 
   val values: Seq[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Seq(
+    LettingIncome,
     BusinessIncome,
     Gains,
     CorporationTax,
     DirectorLoan,
-    LettingIncome,
     NonBusinessIncome
   )
 
   def checkboxItems(isUserCompany: Boolean)(implicit messages: Messages): Seq[CheckboxItem] = {
     val updatedValues = isUserCompany match {
       case true => values
-      case false => values.patch(2, Nil, 2)
+      case false => values.patch(3, Nil, 2)
     }
 
     updatedValues.zipWithIndex.map {

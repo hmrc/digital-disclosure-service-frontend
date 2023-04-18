@@ -39,9 +39,9 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseViewSpec extends ViewSpecBase wit
     }
 
     "contain checkbox when user is not company" in {
-      view.getElementsByClass("govuk-checkboxes__label").get(0).text() mustBe messages("whatOnshoreLiabilitiesDoYouNeedToDisclose.businessIncomeLiabilities")
-      view.getElementsByClass("govuk-checkboxes__label").get(1).text() mustBe messages("whatOnshoreLiabilitiesDoYouNeedToDisclose.capitalGainsTaxLiabilities")
-      view.getElementsByClass("govuk-checkboxes__label").get(2).text() mustBe messages("whatOnshoreLiabilitiesDoYouNeedToDisclose.lettingIncomeFromResidential")
+      view.getElementsByClass("govuk-checkboxes__label").get(0).text() mustBe messages("whatOnshoreLiabilitiesDoYouNeedToDisclose.lettingIncomeFromResidential")
+      view.getElementsByClass("govuk-checkboxes__label").get(1).text() mustBe messages("whatOnshoreLiabilitiesDoYouNeedToDisclose.businessIncomeLiabilities")
+      view.getElementsByClass("govuk-checkboxes__label").get(2).text() mustBe messages("whatOnshoreLiabilitiesDoYouNeedToDisclose.capitalGainsTaxLiabilities")
       view.getElementsByClass("govuk-checkboxes__label").get(3).text() mustBe messages("whatOnshoreLiabilitiesDoYouNeedToDisclose.nonBusinessIncome")
     }
 
@@ -63,11 +63,11 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseViewSpec extends ViewSpecBase wit
     val view = createView
 
     "contain checkbox when user is company" in {
-      view.getElementsByClass("govuk-checkboxes__label").get(0).text() mustBe messages("whatOnshoreLiabilitiesDoYouNeedToDisclose.businessIncomeLiabilities")
-      view.getElementsByClass("govuk-checkboxes__label").get(1).text() mustBe messages("whatOnshoreLiabilitiesDoYouNeedToDisclose.capitalGainsTaxLiabilities")
-      view.getElementsByClass("govuk-checkboxes__label").get(2).text() mustBe messages("whatOnshoreLiabilitiesDoYouNeedToDisclose.company.corporationTaxLiabilities")
-      view.getElementsByClass("govuk-checkboxes__label").get(3).text() mustBe messages("whatOnshoreLiabilitiesDoYouNeedToDisclose.company.directorLoanLiabilities")
-      view.getElementsByClass("govuk-checkboxes__label").get(4).text() mustBe messages("whatOnshoreLiabilitiesDoYouNeedToDisclose.lettingIncomeFromResidential")
+      view.getElementsByClass("govuk-checkboxes__label").get(0).text() mustBe messages("whatOnshoreLiabilitiesDoYouNeedToDisclose.lettingIncomeFromResidential")
+      view.getElementsByClass("govuk-checkboxes__label").get(1).text() mustBe messages("whatOnshoreLiabilitiesDoYouNeedToDisclose.businessIncomeLiabilities")
+      view.getElementsByClass("govuk-checkboxes__label").get(2).text() mustBe messages("whatOnshoreLiabilitiesDoYouNeedToDisclose.capitalGainsTaxLiabilities")
+      view.getElementsByClass("govuk-checkboxes__label").get(3).text() mustBe messages("whatOnshoreLiabilitiesDoYouNeedToDisclose.company.corporationTaxLiabilities")
+      view.getElementsByClass("govuk-checkboxes__label").get(4).text() mustBe messages("whatOnshoreLiabilitiesDoYouNeedToDisclose.company.directorLoanLiabilities")
       view.getElementsByClass("govuk-checkboxes__label").get(5).text() mustBe messages("whatOnshoreLiabilitiesDoYouNeedToDisclose.nonBusinessIncome")
     }
   }
