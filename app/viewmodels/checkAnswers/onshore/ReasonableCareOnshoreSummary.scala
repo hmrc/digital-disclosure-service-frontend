@@ -21,29 +21,23 @@ import models.{CheckMode, UserAnswers}
 import pages.ReasonableCareOnshorePage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
-import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
-import viewmodels.govuk.all.FluentText
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
+import viewmodels.RevealFullText
 
-object ReasonableCareOnshoreSummary  {
+object ReasonableCareOnshoreSummary {
 
-  def row(fieldName: String, answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
+  def row(fieldName: String, answers: UserAnswers, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
     answers.get(ReasonableCareOnshorePage).map {
       answer =>
 
         if(fieldName == "reasonableCare"){
+
           SummaryListRowViewModel(
             key     = "whatReasonableCareDidYouTake.reasonableCare.checkYourAnswersLabel",
-            value   = ValueViewModel(
-              HtmlContent(
-                Text(
-                  HtmlFormat.escape(answer.reasonableCare).toString    
-                ).withEllipsisOverflow(150).value
-              )
-            ),
+            value   = ValueViewModel(revealFullText.addRevealToText(answer.reasonableCare, "whatReasonableCareDidYouTake.reasonableCare.reveal")),
             actions = Seq(
               ActionItemViewModel("site.change", routes.ReasonableCareOnshoreController.onPageLoad(CheckMode).url)
                 .withVisuallyHiddenText(messages("whatReasonableCareDidYouTake.reasonableCare.change.hidden"))

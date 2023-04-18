@@ -21,29 +21,22 @@ import models.{CheckMode, UserAnswers}
 import pages.ReasonableExcuseForNotFilingOnshorePage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
-import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
-import viewmodels.govuk.all.FluentText
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
+import viewmodels.RevealFullText
 
-object ReasonableExcuseForNotFilingOnshoreSummary  {
+object ReasonableExcuseForNotFilingOnshoreSummary {
 
-  def row(fieldName: String, answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
+  def row(fieldName: String, answers: UserAnswers, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
     answers.get(ReasonableExcuseForNotFilingOnshorePage).map {
       answer =>
 
         if(fieldName == "reasonableExcuse") {
           SummaryListRowViewModel(
             key     = "whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.checkYourAnswersLabel",
-            value   = ValueViewModel(
-              HtmlContent(
-                Text(
-                  HtmlFormat.escape(answer.reasonableExcuse).toString    
-                ).withEllipsisOverflow(150).value
-              )
-            ),
+            value   = ValueViewModel(revealFullText.addRevealToText(answer.reasonableExcuse, "whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.reveal")),
             actions = Seq(
               ActionItemViewModel("site.change", routes.ReasonableExcuseForNotFilingOnshoreController.onPageLoad(CheckMode).url)
                 .withVisuallyHiddenText(messages("whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.change.hidden"))

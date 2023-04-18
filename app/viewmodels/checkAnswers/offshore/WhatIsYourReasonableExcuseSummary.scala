@@ -21,29 +21,22 @@ import models.{CheckMode, UserAnswers}
 import pages.WhatIsYourReasonableExcusePage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
-import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
-import viewmodels.govuk.all.FluentText
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
+import viewmodels.RevealFullText
 
-object WhatIsYourReasonableExcuseSummary  {
+object WhatIsYourReasonableExcuseSummary {
 
-  def row(fieldName: String, answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
+  def row(fieldName: String, answers: UserAnswers, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
     answers.get(WhatIsYourReasonableExcusePage).map {
       answer =>
 
         if(fieldName == "excuse"){
           SummaryListRowViewModel(
             key     = "whatIsYourReasonableExcuse.excuse.checkYourAnswersLabel",
-            value   = ValueViewModel(
-              HtmlContent(
-                Text(
-                  HtmlFormat.escape(answer.excuse).toString    
-                ).withEllipsisOverflow(150).value
-              )
-            ),
+            value   = ValueViewModel(revealFullText.addRevealToText(answer.excuse, "whatIsYourReasonableExcuse.excuse.reveal")),
             actions = Seq(
               ActionItemViewModel("site.change", routes.WhatIsYourReasonableExcuseController.onPageLoad(CheckMode).url)
                 .withVisuallyHiddenText(messages("whatIsYourReasonableExcuse.excuse.change.hidden"))
