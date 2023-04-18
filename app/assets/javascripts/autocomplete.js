@@ -14,7 +14,8 @@ $(document).ready(function() {
             selectElement: document.querySelector("select[data-non-uk-countries]"),
             showAllValues: false,
             autoselect: true,
-            defaultValue: ''
+            defaultValue: '',
+            showNoOptionsFound: false
         });
     }
 
@@ -23,7 +24,8 @@ $(document).ready(function() {
             selectElement: document.querySelector("select[data-all-countries]"),
             showAllValues: false,
             autoselect: true,
-            defaultValue: ''
+            defaultValue: '',
+            showNoOptionsFound: false
         });
     }
 
