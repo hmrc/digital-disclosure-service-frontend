@@ -19,21 +19,20 @@ package viewmodels.checkAnswers
 import controllers.letting.routes
 import models.{CheckMode, LettingProperty}
 import play.api.i18n.Messages
-import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
+import viewmodels.RevealFullText
 
 object WhatWasTheTypeOfMortgageSummary  {
 
-  def row(i: Int, lettingProperty: LettingProperty)(implicit messages: Messages): Option[SummaryListRow] =
+  def row(i: Int, lettingProperty: LettingProperty, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
     lettingProperty.otherTypeOfMortgage.map {
       answer =>
 
         SummaryListRowViewModel(
           key     = "whatWasTheTypeOfMortgage.checkYourAnswersLabel",
-          value   = ValueViewModel(HtmlContent(HtmlFormat.escape(answer))),
+          value   = ValueViewModel(revealFullText.addRevealToText(answer, "whatWasTheTypeOfMortgage.reveal", (i+1).toString)),
           actions = Seq(
             ActionItemViewModel("site.change", routes.WhatWasTheTypeOfMortgageController.onPageLoad(i, CheckMode).url)
               .withVisuallyHiddenText(messages("whatWasTheTypeOfMortgage.change.hidden"))

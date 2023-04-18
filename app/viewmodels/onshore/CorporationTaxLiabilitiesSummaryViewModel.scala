@@ -26,6 +26,8 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import viewmodels.RowHelper
 import scala.math.BigDecimal.RoundingMode
 import java.time.format.DateTimeFormatter
+import viewmodels.RevealFullText
+import com.google.inject.Inject
 
 case class CorporationTaxLiabilitiesSummaryViewModel (
   corporationTaxLiabilitiesList: Seq[(Int, SummaryList)],
@@ -33,14 +35,14 @@ case class CorporationTaxLiabilitiesSummaryViewModel (
   totalAmountsList: SummaryList
 )
 
-object CorporationTaxLiabilitiesSummaryViewModelCreation extends RowHelper {
+class CorporationTaxLiabilitiesSummaryViewModelCreation @Inject()(revealFullText: RevealFullText) extends RowHelper {
   val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
 
   def create(userAnswers: UserAnswers)(implicit messages: Messages): CorporationTaxLiabilitiesSummaryViewModel = {
     val corporationTaxLiabilities = userAnswers.get(CorporationTaxLiabilityPage).getOrElse(Seq())
 
     val corporationTaxLiabilitiesList: Seq[(Int, SummaryList)] = corporationTaxLiabilities.zipWithIndex.map {
-      case (corporationTaxLiability, i) => (i + 1, corporationTaxLiabilityToSummaryList(i, corporationTaxLiability))
+      case (corporationTaxLiability, i) => (i + 1, corporationTaxLiabilityToSummaryList(i, corporationTaxLiability, revealFullText))
     }
 
     val accountEndings = accountEndingsSummaryList(corporationTaxLiabilities)
@@ -50,7 +52,7 @@ object CorporationTaxLiabilitiesSummaryViewModelCreation extends RowHelper {
     CorporationTaxLiabilitiesSummaryViewModel(corporationTaxLiabilitiesList, accountEndings, totalAmountsList)
   }
 
-   def corporationTaxLiabilityToSummaryList(i: Int, liability: CorporationTaxLiability)(implicit messages: Messages):SummaryList = {
+  def corporationTaxLiabilityToSummaryList(i: Int, liability: CorporationTaxLiability, revealFullText: RevealFullText)(implicit messages: Messages):SummaryList = {
 
     val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
 
@@ -58,13 +60,13 @@ object CorporationTaxLiabilitiesSummaryViewModelCreation extends RowHelper {
 
     SummaryListViewModel(
       rows = Seq(
-        rowCase(i, "corporationTaxLiability.periodEnd.checkYourAnswersLabel", s"${liability.periodEnd.format(dateFormatter)}", "corporationTaxLiability.periodEnd.hidden", CT),
+        rowCase(i, "corporationTaxLiability.periodEnd.checkYourAnswersLabel", s"${liability.periodEnd.format(dateFormatter)}", "corporationTaxLiability.periodEnd.hidden", CT, revealFullText, false),
         poundRowCase(i, "corporationTaxLiability.howMuchIncome.checkYourAnswersLabel", s"${liability.howMuchIncome}", "corporationTaxLiability.howMuchIncome.hidden", CT),
         poundRowCase(i, "corporationTaxLiability.howMuchUnpaid.checkYourAnswersLabel", s"${liability.howMuchUnpaid}", "corporationTaxLiability.howMuchUnpaid.hidden", CT),
         poundRowCase(i, "corporationTaxLiability.howMuchInterest.checkYourAnswersLabel", s"${liability.howMuchInterest}", "corporationTaxLiability.howMuchInterest.hidden", CT),
-        rowCase(i, "corporationTaxLiability.penaltyRate.checkYourAnswersLabel", s"${liability.penaltyRate}%", "corporationTaxLiability.penaltyRate.hidden", CT),
+        rowCase(i, "corporationTaxLiability.penaltyRate.checkYourAnswersLabel", s"${liability.penaltyRate}%", "corporationTaxLiability.penaltyRate.hidden", CT, revealFullText, false),
         totalRow("corporationTaxLiability.penaltyAmount.checkYourAnswersLabel", messages("site.2DP", penaltyAmount(liability))),
-        rowCase(i, "corporationTaxLiability.penaltyRateReason.checkYourAnswersLabel", s"${liability.penaltyRateReason}", "corporationTaxLiability.penaltyRateReason.hidden", CT),
+        rowCase(i, "corporationTaxLiability.penaltyRateReason", s"${liability.penaltyRateReason}", "corporationTaxLiability.penaltyRateReason.hidden", CT, revealFullText, true),
         totalRow("corporationTaxLiability.ct.total.heading", messages("site.2DP", amountDueTotal))
       )
     )

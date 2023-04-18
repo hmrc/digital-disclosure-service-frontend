@@ -25,6 +25,7 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import viewmodels.onshore.CorporationTaxLiabilitiesSummaryViewModelCreation
 import views.html.onshore.CorporationTaxSummaryView
+import viewmodels.RevealFullText
 
 class CorporationTaxSummaryController @Inject()(
                                        override val messagesApi: MessagesApi,
@@ -32,13 +33,15 @@ class CorporationTaxSummaryController @Inject()(
                                        getData: DataRetrievalAction,
                                        requireData: DataRequiredAction,
                                        val controllerComponents: MessagesControllerComponents,
-                                       view: CorporationTaxSummaryView
+                                       view: CorporationTaxSummaryView,
+                                       revealFullText: RevealFullText
                                      ) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val viewModel = CorporationTaxLiabilitiesSummaryViewModelCreation.create(request.userAnswers)
+      val ctSummaryViewModelCreation = new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText)  
+      val viewModel = ctSummaryViewModelCreation.create(request.userAnswers)
       Ok(view(viewModel, mode))
   }
 }

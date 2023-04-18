@@ -22,11 +22,15 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import viewmodels.onshore.{CorporationTaxLiabilitiesSummaryViewModel, CorporationTaxLiabilitiesSummaryViewModelCreation}
 import views.html.onshore.CorporationTaxSummaryView
+import viewmodels.RevealFullText
 
 class CorporationTaxSummaryControllerSpec extends SpecBase {
 
   val mode = NormalMode
   val userAnswers = UserAnswers(userAnswersId)
+
+  val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+  val revealFullText = application.injector.instanceOf[RevealFullText]
 
   "CorporationTaxSummary Controller" - {
 
@@ -36,7 +40,7 @@ class CorporationTaxSummaryControllerSpec extends SpecBase {
 
       running(application) {
         val request = FakeRequest(GET, onshore.routes.CorporationTaxSummaryController.onPageLoad(mode).url)
-        val viewModel: CorporationTaxLiabilitiesSummaryViewModel = CorporationTaxLiabilitiesSummaryViewModelCreation.create(userAnswers)(messages(application))
+        val viewModel: CorporationTaxLiabilitiesSummaryViewModel = new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText).create(userAnswers)(messages(application))
 
         val result = route(application, request).value
 

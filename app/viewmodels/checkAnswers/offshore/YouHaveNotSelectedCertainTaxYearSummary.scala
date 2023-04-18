@@ -20,15 +20,14 @@ import controllers.offshore.routes
 import models.{CheckMode, UserAnswers, TaxYearStarting}
 import pages.YouHaveNotSelectedCertainTaxYearPage
 import play.api.i18n.Messages
-import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
+import viewmodels.RevealFullText
 
 object YouHaveNotSelectedCertainTaxYearSummary  {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
+  def row(answers: UserAnswers, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
     for {
       years <- answers.inverselySortedOffshoreTaxYears
       notIncluded <- answers.get(YouHaveNotSelectedCertainTaxYearPage)
@@ -36,7 +35,7 @@ object YouHaveNotSelectedCertainTaxYearSummary  {
       val yearsNotIncluded = TaxYearStarting.findMissingYears(years.toList).map(_.startYear + 1).mkString(", ")
       SummaryListRowViewModel(
         key     = messages("youHaveNotSelectedCertainTaxYear.checkYourAnswersLabel", yearsNotIncluded),
-        value   = ValueViewModel(HtmlContent(HtmlFormat.escape(notIncluded))),
+        value   = ValueViewModel(revealFullText.addRevealToText(notIncluded, "youHaveNotSelectedCertainTaxYear.reveal")),
         actions = Seq(
           ActionItemViewModel("site.change", routes.YouHaveNotSelectedCertainTaxYearController.onPageLoad(CheckMode).url)
             .withVisuallyHiddenText(messages("youHaveNotSelectedCertainTaxYear.change.hidden"))

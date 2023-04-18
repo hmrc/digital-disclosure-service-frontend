@@ -20,25 +20,25 @@ import controllers.notification.routes
 import models.{CheckMode, UserAnswers}
 import pages.OtherIncomeOrGainSourcePage
 import play.api.i18n.Messages
-import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
+import viewmodels.RevealFullText
 
 object OtherIncomeOrGainSourceSummary  {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
+  def row(answers: UserAnswers, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
     answers.get(OtherIncomeOrGainSourcePage).map {
       answer =>
 
         SummaryListRowViewModel(
           key     = "whereDidTheUndeclaredIncomeOrGain.checkYourAnswersLabel",
-          value   = ValueViewModel(HtmlContent(HtmlFormat.escape(answer))),
+          value   = ValueViewModel(revealFullText.addRevealToText(answer, "whereDidTheUndeclaredIncomeOrGain.reveal")),
           actions = Seq(
             ActionItemViewModel("site.change", routes.OtherIncomeOrGainSourceController.onPageLoad(CheckMode).url)
               .withVisuallyHiddenText(messages("whereDidTheUndeclaredIncomeOrGain.change.hidden"))
           )
         )
+
     }
 }

@@ -20,18 +20,17 @@ import controllers.onshore.routes
 import models.{Behaviour, CheckMode, UserAnswers}
 import pages.TaxBeforeNineteenYearsOnshorePage
 import play.api.i18n.Messages
-import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import services.OnshoreWhichYearsService
 import viewmodels.implicits._
 import com.google.inject.{Inject, Singleton}
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
+import viewmodels.RevealFullText
 
 @Singleton
 class TaxBeforeNineteenYearsOnshoreSummary @Inject() (onshoreWhichYearsService: OnshoreWhichYearsService)  {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
+  def row(answers: UserAnswers, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
     answers.get(TaxBeforeNineteenYearsOnshorePage).map {
       answer =>
 
@@ -39,7 +38,7 @@ class TaxBeforeNineteenYearsOnshoreSummary @Inject() (onshoreWhichYearsService: 
 
         SummaryListRowViewModel(
           key     = messages("taxBeforeNineteenYears.checkYourAnswersLabel", year),
-          value   = ValueViewModel(HtmlContent(HtmlFormat.escape(answer))),
+          value   = ValueViewModel(revealFullText.addRevealToText(answer, "taxBeforeNineteenYears.reveal", year)),
           actions = Seq(
             ActionItemViewModel("site.change", routes.TaxBeforeNineteenYearsOnshoreController.onPageLoad(CheckMode).url)
               .withVisuallyHiddenText(messages("taxBeforeNineteenYears.change.hidden", year))

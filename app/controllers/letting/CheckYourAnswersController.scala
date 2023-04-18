@@ -26,6 +26,7 @@ import viewmodels.govuk.summarylist._
 import views.html.letting.CheckYourAnswersView
 import viewmodels.checkAnswers._
 import pages.LettingPropertyPage
+import viewmodels.RevealFullText
 
 class CheckYourAnswersController @Inject()(
                                             override val messagesApi: MessagesApi,
@@ -33,7 +34,8 @@ class CheckYourAnswersController @Inject()(
                                             getData: DataRetrievalAction,
                                             requireData: DataRequiredAction,
                                             val controllerComponents: MessagesControllerComponents,
-                                            view: CheckYourAnswersView
+                                            view: CheckYourAnswersView,
+                                            revealFullText: RevealFullText
                                           ) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
@@ -48,15 +50,15 @@ class CheckYourAnswersController @Inject()(
           RentalAddressLookupSummary.row(i, lettingProperty),
           PropertyFirstLetOutSummary.row(i, lettingProperty),
           PropertyStoppedBeingLetOutSummary.row(i, lettingProperty),
-          PropertyIsNoLongerBeingLetOutSummary.row(i, lettingProperty, "stopDate"),
-          PropertyIsNoLongerBeingLetOutSummary.row(i, lettingProperty, "whatHasHappenedToProperty"),
+          PropertyIsNoLongerBeingLetOutSummary.row(i, lettingProperty, "stopDate", revealFullText),
+          PropertyIsNoLongerBeingLetOutSummary.row(i, lettingProperty, "whatHasHappenedToProperty", revealFullText),
           WasPropertyFurnishedSummary.row(i, lettingProperty),
           FHLSummary.row(i, lettingProperty),
           JointlyOwnedPropertySummary.row(i, lettingProperty),
           WhatWasThePercentageIncomeYouReceivedFromPropertySummary.row(i, lettingProperty),
           DidYouHaveAMortgageOnPropertySummary.row(i, lettingProperty),
           WhatTypeOfMortgageDidYouHaveSummary.row(i, lettingProperty),
-          WhatWasTheTypeOfMortgageSummary.row(i, lettingProperty),
+          WhatWasTheTypeOfMortgageSummary.row(i, lettingProperty, revealFullText),
           WasALettingAgentUsedToManagePropertySummary.row(i, lettingProperty),
           DidTheLettingAgentCollectRentOnYourBehalfSummary.row(i, lettingProperty)
         ).flatten

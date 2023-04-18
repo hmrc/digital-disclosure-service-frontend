@@ -27,22 +27,23 @@ import viewmodels.implicits._
 import java.time.format.DateTimeFormatter
 import java.time.LocalDate
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
+import viewmodels.RevealFullText
 
 object AdviceGivenRowsSummary  {
 
-  def rows(answers: UserAnswers)(implicit messages: Messages): Seq[SummaryListRow] =
+  def rows(answers: UserAnswers, revealFullText: RevealFullText)(implicit messages: Messages): Seq[SummaryListRow] =
     answers.get(AdviceGivenPage).map { answer =>
       Seq(
-        adviceGivenRow(answer.adviceGiven),
+        adviceGivenRow(answer.adviceGiven, revealFullText),
         dateRow(answer.monthYear.month, answer.monthYear.year),
         contactRow(answer.contactPreference)
       )
     }.getOrElse(Nil)
 
-  def adviceGivenRow(adviceGiven: String)(implicit messages: Messages): SummaryListRow =
+  def adviceGivenRow(adviceGiven: String, revealFullText: RevealFullText)(implicit messages: Messages): SummaryListRow =
     SummaryListRowViewModel(
       key     = "adviceGiven.adviceGiven.checkYourAnswersLabel",
-      value   = ValueViewModel(HtmlContent(HtmlFormat.escape(adviceGiven))),
+      value   = ValueViewModel(revealFullText.addRevealToText(adviceGiven, "adviceGiven.adviceGiven.reveal")),
       actions = Seq(
         ActionItemViewModel("site.change", routes.AdviceGivenController.onPageLoad(CheckMode).url)
           .withVisuallyHiddenText(messages("adviceGiven.adviceGiven.change.hidden"))
