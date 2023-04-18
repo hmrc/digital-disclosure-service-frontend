@@ -393,7 +393,7 @@ onshoreLiabilities.change.hidden = Will the disclosure be about onshore liabilit
 
 letterReference.title = What is the case reference number provided on the letter you received from HMRC?
 letterReference.heading = What is the case reference number provided on the letter you received from HMRC?
-letterReference.body = This can be found towards the top of the letter underneath the date. It begins with ‘CFSS’ or ‘CFS’ followed by 7 numbers.
+letterReference.body = This can be found towards the top of the letter underneath the date. It begins with ‘CFSS’, ‘CFSC’ or ‘CFS’ followed by 7 numbers.
 letterReference.hint = For example, CFSS-1234567 or CFS-1234567.
 letterReference.checkYourAnswersLabel = Case reference
 letterReference.error.required = Enter the case reference
@@ -1584,7 +1584,7 @@ whatTelephoneNumberCanWeContactYouWith.change.hidden = Telephone number
 
 doYouHaveACaseReference.title = Do you have a case reference?
 doYouHaveACaseReference.heading = Do you have a case reference?
-doYouHaveACaseReference.label = It begins with 'CFSS' or 'CFS' followed by 7 numbers.
+doYouHaveACaseReference.label = It begins with 'CFSS', 'CFSC' or 'CFS' followed by 7 numbers.
 doYouHaveACaseReference.checkYourAnswersLabel = Do you have a case reference?
 doYouHaveACaseReference.error.required = Select yes if you have a case reference
 doYouHaveACaseReference.change.hidden = Case reference
@@ -1593,7 +1593,7 @@ doYouHaveACaseReference.no = No
 
 whatIsTheCaseReference.title = What is the case reference?
 whatIsTheCaseReference.heading = What is the case reference?
-whatIsTheCaseReference.body = It begins with ‘CFSS’ or ‘CFS’ followed by 7 numbers.
+whatIsTheCaseReference.body = It begins with ‘CFSS’, ‘CFSC’ or ‘CFS’ followed by 7 numbers.
 whatIsTheCaseReference.hint = For example, CFSS-1234567 or CFS-1234567.
 whatIsTheCaseReference.checkYourAnswersLabel = Case reference
 whatIsTheCaseReference.error.required = Enter the case reference

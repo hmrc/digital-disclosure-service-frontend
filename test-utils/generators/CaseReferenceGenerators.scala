@@ -25,7 +25,7 @@ trait CaseReferenceGenerators {
   val numberOfDigitsReferenceNumber = 7
   val shortPrefix = "CFS"
   val longPrefix = "CFSS"
-  val caseReferenceFormatRegex = "CFS[S]?[\\s]?[-]?[0-9]{7}$"
+  val caseReferenceFormatRegex = "CFS[S|C]?[\\s]?[-]?[0-9]{7}$"
 
   def generateValidCaseReference(): Gen[String] = for {
     isWithLongPrefix <- arbitrary[Boolean]

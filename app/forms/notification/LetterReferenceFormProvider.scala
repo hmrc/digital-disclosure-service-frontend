@@ -23,7 +23,7 @@ import play.api.data.Form
 
 class LetterReferenceFormProvider @Inject() extends Mappings {
 
-  val formatRegex: String = "CFS[S]?[\\s]?[-]?[0-9]{7}$"
+  val formatRegex: String = "CFS[S|C]?[\\s]?[-]?[0-9]{7}$"
 
   def apply(): Form[String] =
     Form(
