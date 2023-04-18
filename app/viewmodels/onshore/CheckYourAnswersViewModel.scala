@@ -28,6 +28,7 @@ import play.api.i18n.Messages
 import com.google.inject.{Inject, Singleton}
 import services.UAToDisclosureService
 import viewmodels.RowHelper
+import viewmodels.RevealFullText
 
 case class CheckYourAnswersViewModel(
   summaryList: SummaryList,
@@ -44,6 +45,7 @@ class CheckYourAnswersViewModelCreation @Inject() (
                           taxBeforeFiveYearsSummary: TaxBeforeFiveYearsOnshoreSummary,
                           taxBeforeSevenYearsSummary: TaxBeforeThreeYearsOnshoreSummary,
                           taxBeforeNineteenYearSummary: TaxBeforeNineteenYearsOnshoreSummary,
+                          revealFullText: RevealFullText,
                           uaToDisclosureService: UAToDisclosureService) extends RowHelper {
 
   def create(userAnswers: UserAnswers)(implicit messages: Messages): CheckYourAnswersViewModel = {
@@ -53,12 +55,12 @@ class CheckYourAnswersViewModelCreation @Inject() (
         WhatOnshoreLiabilitiesDoYouNeedToDiscloseSummary.row(userAnswers),
         WhyAreYouMakingThisOnshoreDisclosureSummary.row(userAnswers),
         CDFOnshoreSummary.row(userAnswers),
-        ReasonableExcuseOnshoreSummary.row("excuse", userAnswers),
-        ReasonableExcuseOnshoreSummary.row("years", userAnswers),
-        ReasonableCareOnshoreSummary.row("reasonableCare", userAnswers),
-        ReasonableCareOnshoreSummary.row("yearsThisAppliesTo", userAnswers),
-        ReasonableExcuseForNotFilingOnshoreSummary.row("reasonableExcuse", userAnswers),
-        ReasonableExcuseForNotFilingOnshoreSummary.row("yearsThisAppliesTo", userAnswers),
+        ReasonableExcuseOnshoreSummary.row("excuse", userAnswers, revealFullText),
+        ReasonableExcuseOnshoreSummary.row("years", userAnswers, revealFullText),
+        ReasonableCareOnshoreSummary.row("reasonableCare", userAnswers, revealFullText),
+        ReasonableCareOnshoreSummary.row("yearsThisAppliesTo", userAnswers, revealFullText),
+        ReasonableExcuseForNotFilingOnshoreSummary.row("reasonableExcuse", userAnswers, revealFullText),
+        ReasonableExcuseForNotFilingOnshoreSummary.row("yearsThisAppliesTo", userAnswers, revealFullText),
         whichYearsSummary.row(userAnswers),
         NotIncludedSingleTaxYearSummary.row(userAnswers),
         NotIncludedMultipleTaxYearsSummary.row(userAnswers),

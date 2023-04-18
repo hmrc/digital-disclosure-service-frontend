@@ -24,6 +24,7 @@ import pages.{ForeignTaxCreditPage, TaxYearLiabilitiesPage}
 import play.api.i18n.Messages
 import com.google.inject.{Inject, Singleton}
 import viewmodels.RowHelper
+import viewmodels.RevealFullText
 
 case class CheckYourAnswersViewModel(
   summaryList: SummaryList,
@@ -38,7 +39,8 @@ class CheckYourAnswersViewModelCreation @Inject()
   (whichYearsSummary: WhichYearsSummary, 
   taxBeforeFiveYearsSummary: TaxBeforeFiveYearsSummary, 
   taxBeforeSevenYearsSummary: TaxBeforeSevenYearsSummary, 
-  taxBeforeNineteenYearSummary: TaxBeforeNineteenYearsSummary) extends RowHelper {
+  taxBeforeNineteenYearSummary: TaxBeforeNineteenYearsSummary,
+  revealFullText: RevealFullText) extends RowHelper {
 
   def create(userAnswers: UserAnswers)(implicit messages: Messages): CheckYourAnswersViewModel = {
 
@@ -46,12 +48,12 @@ class CheckYourAnswersViewModelCreation @Inject()
       rows = Seq(
         WhyAreYouMakingThisDisclosureSummary.row(userAnswers),
         ContractualDisclosureFacilitySummary.row(userAnswers),
-        WhatIsYourReasonableExcuseSummary.row("excuse", userAnswers),
-        WhatIsYourReasonableExcuseSummary.row("years", userAnswers),
-        WhatReasonableCareDidYouTakeSummary.row("reasonableCare", userAnswers),
-        WhatReasonableCareDidYouTakeSummary.row("yearsThisAppliesTo", userAnswers),
-        WhatIsYourReasonableExcuseForNotFilingReturnSummary.row("reasonableExcuse", userAnswers),
-        WhatIsYourReasonableExcuseForNotFilingReturnSummary.row("yearsThisAppliesTo", userAnswers),
+        WhatIsYourReasonableExcuseSummary.row("excuse", userAnswers, revealFullText),
+        WhatIsYourReasonableExcuseSummary.row("years", userAnswers, revealFullText),
+        WhatReasonableCareDidYouTakeSummary.row("reasonableCare", userAnswers, revealFullText),
+        WhatReasonableCareDidYouTakeSummary.row("yearsThisAppliesTo", userAnswers, revealFullText),
+        WhatIsYourReasonableExcuseForNotFilingReturnSummary.row("reasonableExcuse", userAnswers, revealFullText),
+        WhatIsYourReasonableExcuseForNotFilingReturnSummary.row("yearsThisAppliesTo", userAnswers, revealFullText),
         CountriesOrTerritoriesSummary.row(userAnswers),
         whichYearsSummary.row(userAnswers),
         YouHaveNotIncludedTheTaxYearSummary.row(userAnswers),
