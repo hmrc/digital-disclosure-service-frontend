@@ -45,7 +45,7 @@ object WhatOnshoreLiabilitiesDoYouNeedToDisclose extends Enumerable.Implicits {
   def checkboxItems(isUserCompany: Boolean)(implicit messages: Messages): Seq[CheckboxItem] = {
     val updatedValues = isUserCompany match {
       case true => values
-      case false => values.patch(2, Nil, 2)
+      case false => values.patch(3, Nil, 2)
     }
 
     updatedValues.zipWithIndex.map {
