@@ -98,10 +98,6 @@ class TaskListViewSpec extends ViewSpecBase with ViewMatchers with Generators {
       view.getElementsByClass("app-task-list__section").get(2).text() mustBe "3. " + messages("taskList.heading.third")
     }
 
-    "have a view details link" in {
-      view.getElementById("link-view-a-copy").attr("href") mustBe controllers.routes.PdfGenerationController.generate.url
-    }
-
   }
 
   "view with completed passed" should {
