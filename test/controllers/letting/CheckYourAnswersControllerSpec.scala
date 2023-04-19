@@ -27,10 +27,13 @@ import models.address.Address
 import pages.LettingPropertyPage
 import play.api.i18n.Messages
 import org.scalacheck.Arbitrary.arbitrary
-
+import viewmodels.RevealFullText
 import java.time.LocalDate
 
 class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
+
+  val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+  val revealFullText = application.injector.instanceOf[RevealFullText]
 
   "Check Your Answers Controller" - {
 
@@ -114,8 +117,8 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       val userAnswers = UserAnswers("id").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
       rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages => LettingSummaryLists(
         SummaryListViewModel(Seq(
-          PropertyIsNoLongerBeingLetOutSummary.row(0, lettingProperty, "stopDate")(messages),
-          PropertyIsNoLongerBeingLetOutSummary.row(0, lettingProperty, "whatHasHappenedToProperty")(messages)
+          PropertyIsNoLongerBeingLetOutSummary.row(0, lettingProperty, "stopDate", revealFullText)(messages),
+          PropertyIsNoLongerBeingLetOutSummary.row(0, lettingProperty, "whatHasHappenedToProperty", revealFullText)(messages)
         ).flatten)
       ))
     }
@@ -188,7 +191,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       val lettingProperty = LettingProperty(otherTypeOfMortgage = Some(arbitrary[String].sample.value))
       val userAnswers = UserAnswers("id").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
       rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages => LettingSummaryLists(
-        SummaryListViewModel(Seq(WhatWasTheTypeOfMortgageSummary.row(0, lettingProperty)(messages)).flatten)
+        SummaryListViewModel(Seq(WhatWasTheTypeOfMortgageSummary.row(0, lettingProperty, revealFullText)(messages)).flatten)
       ))
     }
 

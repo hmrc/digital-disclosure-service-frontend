@@ -31,6 +31,7 @@ import services.NotificationSubmissionService
 
 import scala.concurrent.{ExecutionContext, Future}
 import navigation.NotificationNavigator
+import viewmodels.RevealFullText
 
 class CheckYourAnswersController @Inject()(
                                             override val messagesApi: MessagesApi,
@@ -40,7 +41,8 @@ class CheckYourAnswersController @Inject()(
                                             navigator: NotificationNavigator,
                                             val controllerComponents: MessagesControllerComponents,
                                             view: CheckYourAnswersView,
-                                            notificationSubmissionService: NotificationSubmissionService
+                                            notificationSubmissionService: NotificationSubmissionService,
+                                            revealFullText: RevealFullText
                                           )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
@@ -62,7 +64,7 @@ class CheckYourAnswersController @Inject()(
           WhatIsTheNameOfTheOrganisationYouRepresentSummary.row(ua),
           LiabilitiesSummary.row(ua),
           IncomeOrGainSourceSummary.row(ua),
-          OtherIncomeOrGainSourceSummary.row(ua)
+          OtherIncomeOrGainSourceSummary.row(ua, revealFullText)
         ).flatten
       )
 

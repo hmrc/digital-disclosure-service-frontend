@@ -20,21 +20,20 @@ import controllers.reason.routes
 import models.{CheckMode, UserAnswers}
 import pages.WhyNotBeforeNowPage
 import play.api.i18n.Messages
-import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
+import viewmodels.RevealFullText
 
 object WhyNotBeforeNowSummary  {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
+  def row(answers: UserAnswers, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
     answers.get(WhyNotBeforeNowPage).map {
       answer =>
 
         SummaryListRowViewModel(
           key     = "whyNotBeforeNow.checkYourAnswersLabel",
-          value   = ValueViewModel(HtmlContent(HtmlFormat.escape(answer))),
+          value   = ValueViewModel(revealFullText.addRevealToText(answer, "whyNotBeforeNow.reveal")),
           actions = Seq(
             ActionItemViewModel("site.change", routes.WhyNotBeforeNowController.onPageLoad(CheckMode).url)
               .withVisuallyHiddenText(messages("whyNotBeforeNow.change.hidden"))

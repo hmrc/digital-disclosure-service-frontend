@@ -20,14 +20,14 @@ import controllers.onshore.routes
 import models.{CheckMode, OnshoreYearStarting, UserAnswers}
 import pages.NotIncludedSingleTaxYearPage
 import play.api.i18n.Messages
-import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
+import viewmodels.RevealFullText
 
 object NotIncludedSingleTaxYearSummary  {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
+  def row(answers: UserAnswers, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
     for {
       years <- answers.inverselySortedOnshoreTaxYears
       notIncluded <- answers.get(NotIncludedSingleTaxYearPage)
@@ -35,7 +35,7 @@ object NotIncludedSingleTaxYearSummary  {
       val yearsNotIncluded = OnshoreYearStarting.findMissingYears(years.toList).map(_.startYear + 1).mkString(", ")
       SummaryListRowViewModel(
         key = messages("youHaveNotIncludedTheTaxYear.checkYourAnswersLabel", yearsNotIncluded),
-        value = ValueViewModel(HtmlFormat.escape(notIncluded).toString),
+        value = ValueViewModel(revealFullText.addRevealToText(notIncluded, "youHaveNotIncludedTheTaxYear.reveal")),
         actions = Seq(
           ActionItemViewModel("site.change", routes.NotIncludedSingleTaxYearController.onPageLoad(CheckMode).url)
             .withVisuallyHiddenText(messages("youHaveNotIncludedTheTaxYear.change.hidden"))

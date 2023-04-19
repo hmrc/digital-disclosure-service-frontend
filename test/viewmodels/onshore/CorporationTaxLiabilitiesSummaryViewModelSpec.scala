@@ -24,13 +24,14 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Key
 import viewmodels.govuk.summarylist._
-
+import viewmodels.RevealFullText
 import java.time.LocalDate
 
 class CorporationTaxLiabilitiesSummaryViewModelSpec extends SpecBase with ScalaCheckPropertyChecks {
 
   lazy val app = applicationBuilder(Some(emptyUserAnswers)).build()
   implicit val mess = messages(app)
+  val revealFullText = app.injector.instanceOf[RevealFullText]
 
   "penaltyAmount" - {
 
@@ -39,7 +40,7 @@ class CorporationTaxLiabilitiesSummaryViewModelSpec extends SpecBase with ScalaC
         val penaltyRate = corporationTaxLiability.penaltyRate
         val unpaidTax = corporationTaxLiability.howMuchUnpaid
         val expectedAmount = (penaltyRate * BigDecimal(unpaidTax)) / 100
-        CorporationTaxLiabilitiesSummaryViewModelCreation.penaltyAmount(corporationTaxLiability) mustEqual expectedAmount
+        new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText).penaltyAmount(corporationTaxLiability) mustEqual expectedAmount
       }
     }
   }
@@ -48,7 +49,7 @@ class CorporationTaxLiabilitiesSummaryViewModelSpec extends SpecBase with ScalaC
 
     "return an empty Seq where the director loan account pages isn't populated" in {
       val ua = UserAnswers("id")
-      val viewModel = CorporationTaxLiabilitiesSummaryViewModelCreation.create(ua)
+      val viewModel = new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText).create(ua)
       viewModel.corporationTaxLiabilitiesList mustEqual Nil
     }
 
@@ -62,7 +63,7 @@ class CorporationTaxLiabilitiesSummaryViewModelSpec extends SpecBase with ScalaC
         penaltyRateReason = "reason"
       )
 
-      val summaryList = CorporationTaxLiabilitiesSummaryViewModelCreation.corporationTaxLiabilityToSummaryList(0, corporationTaxLiability)
+      val summaryList = new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText).corporationTaxLiabilityToSummaryList(0, corporationTaxLiability, revealFullText)
 
       summaryList.rows(1).key mustEqual Key(Text(mess("corporationTaxLiability.howMuchIncome.checkYourAnswersLabel")))
       summaryList.rows(1).value mustEqual ValueViewModel(HtmlContent(s"&pound;0"))
@@ -80,14 +81,14 @@ class CorporationTaxLiabilitiesSummaryViewModelSpec extends SpecBase with ScalaC
       summaryList.rows(5).value mustEqual ValueViewModel(HtmlContent(s"&pound;0.00"))
 
       summaryList.rows(6).key mustEqual Key(Text(mess("corporationTaxLiability.penaltyRateReason.checkYourAnswersLabel")))
-      summaryList.rows(6).value mustEqual ValueViewModel(HtmlContent("reason"))
+      summaryList.rows(6).value mustEqual ValueViewModel(Text("reason"))
 
 
     }
 
     "return an empty total section where the director loan account pages isn't populated" in {
         val ua = UserAnswers("id")
-        val viewModel = CorporationTaxLiabilitiesSummaryViewModelCreation.create(ua)
+        val viewModel = new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText).create(ua)
 
         viewModel.totalAmountsList.rows(0).key mustEqual Key(Text(mess("checkYourAnswers.ct.total.taxDue")))
         viewModel.totalAmountsList.rows(0).value mustEqual ValueViewModel(HtmlContent(s"&pound;0"))

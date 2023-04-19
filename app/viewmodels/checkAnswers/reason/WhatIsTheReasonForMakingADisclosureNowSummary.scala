@@ -20,21 +20,20 @@ import controllers.reason.routes
 import models.{CheckMode, UserAnswers}
 import pages.WhatIsTheReasonForMakingADisclosureNowPage
 import play.api.i18n.Messages
-import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
+import viewmodels.RevealFullText
 
 object WhatIsTheReasonForMakingADisclosureNowSummary  {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
+  def row(answers: UserAnswers, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
     answers.get(WhatIsTheReasonForMakingADisclosureNowPage).map {
       answer =>
 
         SummaryListRowViewModel(
           key     = "whatIsTheReasonForMakingADisclosureNow.checkYourAnswersLabel",
-          value   = ValueViewModel(HtmlContent(HtmlFormat.escape(answer))),
+          value   = ValueViewModel(revealFullText.addRevealToText(answer, "whatIsTheReasonForMakingADisclosureNow.reveal")),
           actions = Seq(
             ActionItemViewModel("site.change", routes.WhatIsTheReasonForMakingADisclosureNowController.onPageLoad(CheckMode).url)
               .withVisuallyHiddenText(messages("whatIsTheReasonForMakingADisclosureNow.change.hidden"))

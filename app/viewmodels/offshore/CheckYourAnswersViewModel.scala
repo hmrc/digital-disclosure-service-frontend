@@ -55,13 +55,13 @@ class CheckYourAnswersViewModelCreation @Inject()
         WhatReasonableCareDidYouTakeSummary.row("yearsThisAppliesTo", userAnswers, revealFullText),
         WhatIsYourReasonableExcuseForNotFilingReturnSummary.row("reasonableExcuse", userAnswers, revealFullText),
         WhatIsYourReasonableExcuseForNotFilingReturnSummary.row("yearsThisAppliesTo", userAnswers, revealFullText),
-        CountriesOrTerritoriesSummary.row(userAnswers),
+        CountriesOrTerritoriesSummary.row(userAnswers, revealFullText),
         whichYearsSummary.row(userAnswers),
-        YouHaveNotIncludedTheTaxYearSummary.row(userAnswers),
-        YouHaveNotSelectedCertainTaxYearSummary.row(userAnswers),
-        taxBeforeFiveYearsSummary.row(userAnswers),
-        taxBeforeSevenYearsSummary.row(userAnswers),
-        taxBeforeNineteenYearSummary.row(userAnswers)
+        YouHaveNotIncludedTheTaxYearSummary.row(userAnswers, revealFullText),
+        YouHaveNotSelectedCertainTaxYearSummary.row(userAnswers, revealFullText),
+        taxBeforeFiveYearsSummary.row(userAnswers, revealFullText),
+        taxBeforeSevenYearsSummary.row(userAnswers, revealFullText),
+        taxBeforeNineteenYearSummary.row(userAnswers, revealFullText)
       ).flatten
     )
 
@@ -80,7 +80,7 @@ class CheckYourAnswersViewModelCreation @Inject()
     val legalInterpretationlist = SummaryListViewModel(
       rows = Seq(
         YourLegalInterpretationSummary.row(userAnswers),
-        UnderWhatConsiderationSummary.row(userAnswers),
+        UnderWhatConsiderationSummary.row(userAnswers, revealFullText),
         HowMuchTaxHasNotBeenIncludedSummary.row(userAnswers),
         TheMaximumValueOfAllAssetsSummary.row(userAnswers)
       ).flatten
@@ -105,12 +105,12 @@ class CheckYourAnswersViewModelCreation @Inject()
       poundRowCase(i, "taxYearLiabilities.capitalGains.checkYourAnswersLabel", s"${liabilities.capitalGains}", "taxYearLiabilities.capitalGains.hidden", OFFSHORE),
       poundRowCase(i, "taxYearLiabilities.unpaidTax.checkYourAnswersLabel", s"${liabilities.unpaidTax}", "taxYearLiabilities.unpaidTax.hidden", OFFSHORE),
       poundRowCase(i, "taxYearLiabilities.interest.checkYourAnswersLabel", s"${liabilities.interest}", "taxYearLiabilities.interest.hidden", OFFSHORE),
-      rowCase(i, "taxYearLiabilities.penaltyRate.checkYourAnswersLabel", s"${liabilities.penaltyRate}%", "taxYearLiabilities.penaltyRate.hidden", OFFSHORE),
+      rowCase(i, "taxYearLiabilities.penaltyRate.checkYourAnswersLabel", s"${liabilities.penaltyRate}%", "taxYearLiabilities.penaltyRate.hidden", OFFSHORE, revealFullText, false),
       totalRow("taxYearLiabilities.penaltyAmount.checkYourAnswersLabel", messages("site.2DP", penaltyAmount(liabilities))),
-      rowCase(i, "taxYearLiabilities.foreignTaxCredit.checkYourAnswersLabel", if (liabilities.foreignTaxCredit) messages("site.yes") else messages("site.no"), "taxYearLiabilities.foreignTaxCredit.hidden", OFFSHORE)
+      rowCase(i, "taxYearLiabilities.foreignTaxCredit.checkYourAnswersLabel", if (liabilities.foreignTaxCredit) messages("site.yes") else messages("site.no"), "taxYearLiabilities.foreignTaxCredit.hidden", OFFSHORE, revealFullText, false)
     ) ++ foreignTaxCredit ++ Seq(
       totalRow("taxYearLiabilities.amountDue.checkYourAnswersLabel", messages("site.2DP", yearTotal(liabilities))),
-      rowCase(i, "onshoreTaxYearLiabilities.penaltyRateReason.checkYourAnswersLabel", s"${liabilities.penaltyRateReason}", "onshoreTaxYearLiabilities.penaltyRateReason.hidden", OFFSHORE)
+      rowCase(i, "onshoreTaxYearLiabilities.penaltyRateReason", s"${liabilities.penaltyRateReason}", "onshoreTaxYearLiabilities.penaltyRateReason.hidden", OFFSHORE, revealFullText, true)
     )
 
     SummaryListViewModel(rows)

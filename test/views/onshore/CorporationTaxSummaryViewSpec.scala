@@ -22,11 +22,13 @@ import support.ViewMatchers
 import views.html.onshore.CorporationTaxSummaryView
 import models.{NormalMode, UserAnswers}
 import viewmodels.onshore.{CorporationTaxLiabilitiesSummaryViewModel, CorporationTaxLiabilitiesSummaryViewModelCreation}
+import viewmodels.RevealFullText
 
 class CorporationTaxSummaryViewSpec extends ViewSpecBase with ViewMatchers {
 
   val page: CorporationTaxSummaryView = inject[CorporationTaxSummaryView]
-  val viewModel: CorporationTaxLiabilitiesSummaryViewModel = CorporationTaxLiabilitiesSummaryViewModelCreation.create(UserAnswers("id"))(messages)
+  val revealFullText = inject[RevealFullText]
+  val viewModel: CorporationTaxLiabilitiesSummaryViewModel = new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText).create(UserAnswers("id"))(messages)
 
   private def createView: Html = page(viewModel, NormalMode)(request, messages)
 

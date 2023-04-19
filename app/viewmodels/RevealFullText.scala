@@ -29,12 +29,12 @@ class RevealFullText @Inject() (revealFullText: revealFullText) {
 
   val MAX_SIZE = 150
 
-  def addRevealToText(text: String, summaryKey: String)(implicit messages: Messages): Content = {
+  def addRevealToText(text: String, summaryKey: String, arg0: String = "")(implicit messages: Messages): Content = {
     val fullText = HtmlFormat.escape(text).toString
 
     if (text.length > MAX_SIZE) {
       val shortenedText = HtmlFormat.escape(text.substring(0, MAX_SIZE) + "...").toString 
-      HtmlContent(revealFullText(shortenedText, fullText, messages(summaryKey)))
+      HtmlContent(revealFullText(shortenedText, fullText, messages(summaryKey, arg0)))
     } else {
       Text(fullText)
     }

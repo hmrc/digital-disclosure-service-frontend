@@ -27,8 +27,12 @@ import viewmodels.checkAnswers._
 import models.OtherLiabilityIssues._
 import models._
 import pages._
+import viewmodels.RevealFullText
 
 class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
+
+  val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+  val revealFullText = application.injector.instanceOf[RevealFullText]
   
   "Check Your Answers Controller" - {
 
@@ -80,14 +84,14 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       "must return OK and the correct view for a GET when DescribeTheGiftPage is populated" in {
         val ua = UserAnswers("id").set(DescribeTheGiftPage, arbitrary[String].sample.value).success.value
         rowIsDisplayedWhenPageIsPopulated(ua)(messages => OtherLiabilitiesSummaryLists(
-          SummaryListViewModel(Seq(DescribeTheGiftSummary.row(ua)(messages)).flatten) 
+          SummaryListViewModel(Seq(DescribeTheGiftSummary.row(ua, revealFullText)(messages)).flatten) 
         ))
       }
 
       "must return OK and the correct view for a GET when WhatOtherLiabilityIssuesPage is populated" in {
         val ua = UserAnswers("id").set(WhatOtherLiabilityIssuesPage, arbitrary[String].sample.value).success.value
         rowIsDisplayedWhenPageIsPopulated(ua)(messages => OtherLiabilitiesSummaryLists(
-          SummaryListViewModel(Seq(WhatOtherLiabilityIssuesSummary.row(ua)(messages)).flatten) 
+          SummaryListViewModel(Seq(WhatOtherLiabilityIssuesSummary.row(ua, revealFullText)(messages)).flatten) 
         ))
       }
 

@@ -20,21 +20,20 @@ import controllers.otherLiabilities.routes
 import models.{CheckMode, UserAnswers}
 import pages.WhatOtherLiabilityIssuesPage
 import play.api.i18n.Messages
-import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
+import viewmodels.RevealFullText
 
 object WhatOtherLiabilityIssuesSummary  {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
+  def row(answers: UserAnswers, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
     answers.get(WhatOtherLiabilityIssuesPage).map {
       answer =>
 
         SummaryListRowViewModel(
           key     = "whatOtherLiabilityIssues.checkYourAnswersLabel",
-          value   = ValueViewModel(HtmlContent(HtmlFormat.escape(answer))),
+          value   = ValueViewModel(revealFullText.addRevealToText(answer, "whatOtherLiabilityIssues.reveal")),
           actions = Seq(
             ActionItemViewModel("site.change", routes.WhatOtherLiabilityIssuesController.onPageLoad(CheckMode).url)
               .withVisuallyHiddenText(messages("whatOtherLiabilityIssues.change.hidden"))

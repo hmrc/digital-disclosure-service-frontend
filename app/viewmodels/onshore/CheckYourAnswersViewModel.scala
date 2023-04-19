@@ -44,7 +44,7 @@ case class CheckYourAnswersViewModel(
 class CheckYourAnswersViewModelCreation @Inject() (
                           whichYearsSummary: WhichOnshoreYearsSummary,
                           taxBeforeFiveYearsSummary: TaxBeforeFiveYearsOnshoreSummary,
-                          taxBeforeSevenYearsSummary: TaxBeforeThreeYearsOnshoreSummary,
+                          taxBeforeThreeYearsSummary: TaxBeforeThreeYearsOnshoreSummary,
                           taxBeforeNineteenYearSummary: TaxBeforeNineteenYearsOnshoreSummary,
                           revealFullText: RevealFullText,
                           uaToDisclosureService: UAToDisclosureService) extends RowHelper {
@@ -63,11 +63,11 @@ class CheckYourAnswersViewModelCreation @Inject() (
         ReasonableExcuseForNotFilingOnshoreSummary.row("reasonableExcuse", userAnswers, revealFullText),
         ReasonableExcuseForNotFilingOnshoreSummary.row("yearsThisAppliesTo", userAnswers, revealFullText),
         whichYearsSummary.row(userAnswers),
-        NotIncludedSingleTaxYearSummary.row(userAnswers),
-        NotIncludedMultipleTaxYearsSummary.row(userAnswers),
-        taxBeforeFiveYearsSummary.row(userAnswers),
-        taxBeforeSevenYearsSummary.row(userAnswers),
-        taxBeforeNineteenYearSummary.row(userAnswers),
+        NotIncludedSingleTaxYearSummary.row(userAnswers, revealFullText),
+        NotIncludedMultipleTaxYearsSummary.row(userAnswers, revealFullText),
+        taxBeforeFiveYearsSummary.row(userAnswers, revealFullText),
+        taxBeforeThreeYearsSummary.row(userAnswers, revealFullText),
+        taxBeforeNineteenYearSummary.row(userAnswers, revealFullText),
         PropertyAddedSummary.row(userAnswers)
       ).flatten
     )
@@ -81,8 +81,8 @@ class CheckYourAnswersViewModelCreation @Inject() (
       (yearWithLiabilites.taxYear.startYear, taxYearWithLiabilitiesToSummaryList(i, yearWithLiabilites, userAnswers))
     }
 
-    val corporationTaxLiabilities = CorporationTaxLiabilitiesSummaryViewModelCreation.create(userAnswers)
-    val directorLoanAccountLiabilities = new DirectorLoanAccountLiabilitiesSummaryViewModelCreation().create(userAnswers)
+    val corporationTaxLiabilities = new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText).create(userAnswers)
+    val directorLoanAccountLiabilities = new DirectorLoanAccountLiabilitiesSummaryViewModelCreation(revealFullText).create(userAnswers)
 
     val disclosure = uaToDisclosureService.uaToFullDisclosure(userAnswers)
     val totalAmountsList = totalAmountsSummaryList(disclosure)
@@ -120,7 +120,7 @@ class CheckYourAnswersViewModelCreation @Inject() (
       case Some(value) if(value.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)) => Seq(rowCase(i,
         "onshoreTaxYearLiabilities.residentialTaxReduction.checkYourAnswersLabel",
         s"${if(liabilities.residentialTaxReduction.getOrElse(false)) messages("site.yes") else messages("site.no")}",
-        "onshoreTaxYearLiabilities.residentialTaxReduction.hidden", ONSHORE)
+        "onshoreTaxYearLiabilities.residentialTaxReduction.hidden", ONSHORE, revealFullText, false)
       )
       case _ => Nil
     }
@@ -134,10 +134,10 @@ class CheckYourAnswersViewModelCreation @Inject() (
         poundRowCase(i, "onshoreTaxYearLiabilities.unpaidTax.checkYourAnswersLabel", s"${liabilities.unpaidTax}", "onshoreTaxYearLiabilities.unpaidTax.hidden", ONSHORE),
         poundRowCase(i, "onshoreTaxYearLiabilities.niContributions.checkYourAnswersLabel", s"${liabilities.niContributions}", "onshoreTaxYearLiabilities.niContributions.hidden", ONSHORE),
         poundRowCase(i, "onshoreTaxYearLiabilities.interest.checkYourAnswersLabel", s"${liabilities.interest}", "onshoreTaxYearLiabilities.interest.hidden", ONSHORE),
-        rowCase(i, "onshoreTaxYearLiabilities.penaltyRate.checkYourAnswersLabel", s"${liabilities.penaltyRate}%", "onshoreTaxYearLiabilities.penaltyRate.hidden", ONSHORE),
+        rowCase(i, "onshoreTaxYearLiabilities.penaltyRate.checkYourAnswersLabel", s"${liabilities.penaltyRate}%", "onshoreTaxYearLiabilities.penaltyRate.hidden", ONSHORE, revealFullText, false),
         totalRow("onshoreTaxYearLiabilities.penaltyAmount.checkYourAnswersLabel", messages("site.2DP", penaltyAmount(liabilities))),
         totalRow("onshoreTaxYearLiabilities.amountDue.checkYourAnswersLabel", messages("site.2DP", yearTotal(liabilities))),
-        rowCase(i, "onshoreTaxYearLiabilities.penaltyRateReason.checkYourAnswersLabel", s"${liabilities.penaltyRateReason}", "onshoreTaxYearLiabilities.penaltyRateReason.hidden", ONSHORE)
+        rowCase(i, "onshoreTaxYearLiabilities.penaltyRateReason", s"${liabilities.penaltyRateReason}", "onshoreTaxYearLiabilities.penaltyRateReason.hidden", ONSHORE, revealFullText, true)
       ) ++ residentialTaxReduction ++ ResidentialReductionSummary.row(i, yearWithLiabilites.taxYear.toString, userAnswers)
       
     SummaryListViewModel(rows)

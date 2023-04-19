@@ -25,6 +25,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import viewmodels.govuk.summarylist._
 import views.html.otherLiabilities.CheckYourAnswersView
 import viewmodels.checkAnswers._
+import viewmodels.RevealFullText
 
 class CheckYourAnswersController @Inject()(
                                             override val messagesApi: MessagesApi,
@@ -32,7 +33,8 @@ class CheckYourAnswersController @Inject()(
                                             getData: DataRetrievalAction,
                                             requireData: DataRequiredAction,
                                             val controllerComponents: MessagesControllerComponents,
-                                            view: CheckYourAnswersView
+                                            view: CheckYourAnswersView,
+                                            revealFullText: RevealFullText
                                           ) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
@@ -43,8 +45,8 @@ class CheckYourAnswersController @Inject()(
       val otherLiabilitiesList = SummaryListViewModel(
         rows = Seq(
           OtherLiabilityIssuesSummary.row(ua),
-          WhatOtherLiabilityIssuesSummary.row(ua),
-          DescribeTheGiftSummary.row(ua),
+          WhatOtherLiabilityIssuesSummary.row(ua, revealFullText),
+          DescribeTheGiftSummary.row(ua, revealFullText),
           DidYouReceiveTaxCreditSummary.row(ua)
         ).flatten
       )

@@ -26,11 +26,13 @@ import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import org.scalacheck.Arbitrary.arbitrary
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import viewmodels.RevealFullText
 
 class DirectorLoanAccountLiabilitiesSummaryViewModelSpec extends SpecBase with ScalaCheckPropertyChecks {
 
     lazy val app = applicationBuilder(Some(emptyUserAnswers)).build()
     implicit val mess = messages(app)
+    val revealFullText = app.injector.instanceOf[RevealFullText]
     
     val sut = app.injector.instanceOf[DirectorLoanAccountLiabilitiesSummaryViewModelCreation]
 
@@ -69,7 +71,7 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelSpec extends SpecBase with S
                 penaltyRateReason = "reason"
             )
 
-            val summaryList = sut.directorLoanAccountLiabilitiesToSummaryList(0, directorLoanAccountLiabilities)
+            val summaryList = sut.directorLoanAccountLiabilitiesToSummaryList(0, directorLoanAccountLiabilities, revealFullText)
 
             summaryList.rows(0).key mustEqual Key(Text(mess("directorLoanAccountLiabilities.name.checkYourAnswersLabel")))
             summaryList.rows(0).value mustEqual ValueViewModel(HtmlContent("name"))  
@@ -93,7 +95,7 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelSpec extends SpecBase with S
             summaryList.rows(6).value mustEqual ValueViewModel(HtmlContent(s"&pound;0.00"))
 
             summaryList.rows(7).key mustEqual Key(Text(mess("directorLoanAccountLiabilities.penaltyRateReason.checkYourAnswersLabel")))
-            summaryList.rows(7).value mustEqual ValueViewModel(HtmlContent("reason"))  
+            summaryList.rows(7).value mustEqual ValueViewModel(Text("reason"))  
         }
 
         "return an empty total section where the director loan account pages isn't populated" in {

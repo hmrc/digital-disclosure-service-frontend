@@ -26,6 +26,8 @@ import play.api.i18n.Messages
 import java.time.format.DateTimeFormatter
 import viewmodels.RowHelper
 import scala.math.BigDecimal.RoundingMode
+import viewmodels.RevealFullText
+import com.google.inject.Inject
 
 case class DirectorLoanAccountLiabilitiesSummaryViewModel (
   directorLoanAccountLiabilitiesList: Seq[(Int, SummaryList)],
@@ -33,7 +35,7 @@ case class DirectorLoanAccountLiabilitiesSummaryViewModel (
   totalAmountsList: SummaryList
 )
 
-class DirectorLoanAccountLiabilitiesSummaryViewModelCreation extends RowHelper {
+class DirectorLoanAccountLiabilitiesSummaryViewModelCreation @Inject()(revealFullText: RevealFullText) extends RowHelper {
 
   val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
 
@@ -42,7 +44,7 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelCreation extends RowHelper {
     val directorLoanAccountLiabilities: Seq[DirectorLoanAccountLiabilities] = userAnswers.get(DirectorLoanAccountLiabilitiesPage).getOrElse(Seq())
 
     val directorLoanAccountLiabilitiesList: Seq[(Int, SummaryList)] = directorLoanAccountLiabilities.zipWithIndex.map {
-      case (dLLiability, i) => (i + 1, directorLoanAccountLiabilitiesToSummaryList(i, dLLiability))
+      case (dLLiability, i) => (i + 1, directorLoanAccountLiabilitiesToSummaryList(i, dLLiability, revealFullText))
     }
 
     val totalAmountsList = totalAmountsSummaryList(directorLoanAccountLiabilities)
@@ -52,21 +54,21 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelCreation extends RowHelper {
     DirectorLoanAccountLiabilitiesSummaryViewModel(directorLoanAccountLiabilitiesList, accountEndingsSummary, totalAmountsList)
   }
 
-  def directorLoanAccountLiabilitiesToSummaryList(i: Int, dLLiability: DirectorLoanAccountLiabilities)(implicit messages: Messages): SummaryList = {
+  def directorLoanAccountLiabilitiesToSummaryList(i: Int, dLLiability: DirectorLoanAccountLiabilities, revealFullText: RevealFullText)(implicit messages: Messages): SummaryList = {
     val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
 
     val amountDueTotal = BigDecimal(dLLiability.unpaidTax) + BigDecimal(dLLiability.interest) + penaltyAmount(dLLiability)
 
     SummaryListViewModel(
       rows = Seq(
-        rowCase(i, "directorLoanAccountLiabilities.name.checkYourAnswersLabel", s"${dLLiability.name}", "directorLoanAccountLiabilities.name.hidden", DL),
-        rowCase(i, "directorLoanAccountLiabilities.periodEnd.checkYourAnswersLabel", s"${dLLiability.periodEnd.format(dateFormatter)}", "directorLoanAccountLiabilities.periodEnd.hidden", DL),
+        rowCase(i, "directorLoanAccountLiabilities.name.checkYourAnswersLabel", s"${dLLiability.name}", "directorLoanAccountLiabilities.name.hidden", DL, revealFullText, false),
+        rowCase(i, "directorLoanAccountLiabilities.periodEnd.checkYourAnswersLabel", s"${dLLiability.periodEnd.format(dateFormatter)}", "directorLoanAccountLiabilities.periodEnd.hidden", DL, revealFullText, false),
         poundRowCase(i, "directorLoanAccountLiabilities.overdrawn.checkYourAnswersLabel", s"${dLLiability.overdrawn}", "directorLoanAccountLiabilities.overdrawn.hidden", DL),
         poundRowCase(i, "directorLoanAccountLiabilities.unpaidTax.checkYourAnswersLabel", s"${dLLiability.unpaidTax}", "directorLoanAccountLiabilities.unpaidTax.hidden", DL),
         poundRowCase(i, "directorLoanAccountLiabilities.interest.checkYourAnswersLabel", s"${dLLiability.interest}", "directorLoanAccountLiabilities.interest.hidden", DL),
-        rowCase(i, "directorLoanAccountLiabilities.penaltyRate.checkYourAnswersLabel", s"${dLLiability.penaltyRate}%", "directorLoanAccountLiabilities.penaltyRate.hidden", DL),
+        rowCase(i, "directorLoanAccountLiabilities.penaltyRate.checkYourAnswersLabel", s"${dLLiability.penaltyRate}%", "directorLoanAccountLiabilities.penaltyRate.hidden", DL, revealFullText, false),
         totalRow("checkYourAnswers.dl.total.penaltyAmount", messages("site.2DP", penaltyAmount(dLLiability))),
-        rowCase(i, "directorLoanAccountLiabilities.penaltyRateReason.checkYourAnswersLabel", s"${dLLiability.penaltyRateReason}", "directorLoanAccountLiabilities.penaltyRateReason.hidden", DL),
+        rowCase(i, "directorLoanAccountLiabilities.penaltyRateReason", s"${dLLiability.penaltyRateReason}", "directorLoanAccountLiabilities.penaltyRateReason.hidden", DL, revealFullText, true),
         totalRow("checkYourAnswers.dl.total.heading", messages("site.2DP", amountDueTotal))
       )
     )

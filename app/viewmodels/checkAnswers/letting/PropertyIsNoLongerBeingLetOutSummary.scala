@@ -24,10 +24,11 @@ import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
+import viewmodels.RevealFullText
 
 object PropertyIsNoLongerBeingLetOutSummary  {
 
-  def row(i: Int, lettingProperty: LettingProperty, fieldName: String)(implicit messages: Messages): Option[SummaryListRow] =
+  def row(i: Int, lettingProperty: LettingProperty, fieldName: String, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
     lettingProperty.noLongerBeingLetOut.map {
       answer =>
 
@@ -45,7 +46,7 @@ object PropertyIsNoLongerBeingLetOutSummary  {
         } else {
           SummaryListRowViewModel(
             key     = "propertyIsNoLongerBeingLetOut.whatHasHappenedToProperty.checkYourAnswersLabel",
-            value   = ValueViewModel(answer.whatHasHappenedToProperty),
+            value   = ValueViewModel(revealFullText.addRevealToText(answer.whatHasHappenedToProperty, "propertyIsNoLongerBeingLetOut.whatHasHappenedToProperty.reveal", (i+1).toString)),
             actions = Seq(
               ActionItemViewModel("site.change", routes.PropertyIsNoLongerBeingLetOutController.onPageLoad(i, CheckMode).url)
                 .withVisuallyHiddenText(messages("propertyIsNoLongerBeingLetOut.whatHasHappenedToProperty.hidden"))

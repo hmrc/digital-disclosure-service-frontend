@@ -29,6 +29,7 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist._
 import models.UserAnswers
 import pages.DidSomeoneGiveYouAdviceNotDeclareTaxPage
 import play.api.i18n.Messages
+import viewmodels.RevealFullText
 
 class CheckYourAnswersController @Inject()(
                                        override val messagesApi: MessagesApi,
@@ -36,7 +37,8 @@ class CheckYourAnswersController @Inject()(
                                        getData: DataRetrievalAction,
                                        requireData: DataRequiredAction,
                                        val controllerComponents: MessagesControllerComponents,
-                                       view: CheckYourAnswersView
+                                       view: CheckYourAnswersView,
+                                       revealFullText: RevealFullText
                                      ) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
@@ -47,14 +49,14 @@ class CheckYourAnswersController @Inject()(
       val reasonList = SummaryListViewModel(
         rows = Seq(
           WhyAreYouMakingADisclosureSummary.row(ua),
-          WhatIsTheReasonForMakingADisclosureNowSummary.row(ua),
-          WhyNotBeforeNowSummary.row(ua),
+          WhatIsTheReasonForMakingADisclosureNowSummary.row(ua, revealFullText),
+          WhyNotBeforeNowSummary.row(ua, revealFullText),
           DidSomeoneGiveYouAdviceNotDeclareTaxSummary.row(ua)
         ).flatten
       )
 
       val adviceList: Option[SummaryList] = ua.get(DidSomeoneGiveYouAdviceNotDeclareTaxPage) match {
-        case Some(true) => Some(getAdviceList(ua))
+        case Some(true) => Some(getAdviceList(ua, revealFullText))
         case _ => None
       }
 
@@ -67,7 +69,7 @@ class CheckYourAnswersController @Inject()(
 
   }
 
-  def getAdviceList(ua: UserAnswers)(implicit messages: Messages): SummaryList = {
+  def getAdviceList(ua: UserAnswers, revealFullText: RevealFullText)(implicit messages: Messages): SummaryList = {
 
     val pageRows = Seq(
       PersonWhoGaveAdviceSummary.row(ua),
@@ -81,7 +83,7 @@ class CheckYourAnswersController @Inject()(
       WhatTelephoneNumberCanWeContactYouWithSummary.row(ua)
     ).flatten
 
-    val rows = pageRows ++ AdviceGivenRowsSummary.rows(ua) ++ contactPageRows
+    val rows = pageRows ++ AdviceGivenRowsSummary.rows(ua, revealFullText) ++ contactPageRows
 
     SummaryListViewModel(rows = rows)
   }
