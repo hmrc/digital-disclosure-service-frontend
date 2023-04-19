@@ -28,7 +28,7 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Actions, ActionIt
 
 object DirectorLoanAccountLiabilityModel {
 
-  val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+  val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
 
   def row(directorLoanAccountLiabilities: Seq[DirectorLoanAccountLiabilities], mode: Mode)(implicit messages: Messages): Seq[SummaryListRowNoValue] = {
     (for {

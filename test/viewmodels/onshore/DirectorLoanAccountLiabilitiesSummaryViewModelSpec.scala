@@ -59,7 +59,7 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelSpec extends SpecBase with S
 
         "return the director loan account section if user have added one or more accounting details" in {
 
-            val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+            val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
 
             val directorLoanAccountLiabilities = DirectorLoanAccountLiabilities (
                 name = "name",

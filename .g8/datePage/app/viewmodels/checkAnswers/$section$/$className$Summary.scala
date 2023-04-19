@@ -16,7 +16,7 @@ object $className$Summary  {
     answers.get($className$Page).map {
       answer =>
 
-        val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+        val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
 
         SummaryListRowViewModel(
           key     = "$className;format="decap"$.checkYourAnswersLabel",

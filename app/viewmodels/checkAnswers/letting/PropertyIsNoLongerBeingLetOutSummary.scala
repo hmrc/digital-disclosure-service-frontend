@@ -33,7 +33,7 @@ object PropertyIsNoLongerBeingLetOutSummary  {
       answer =>
 
         if(fieldName == "stopDate") {
-          val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+          val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
 
           SummaryListRowViewModel(
             key     = "propertyIsNoLongerBeingLetOut.stopDate.checkYourAnswersLabel",

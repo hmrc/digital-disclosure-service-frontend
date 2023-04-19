@@ -27,7 +27,7 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Actions, ActionIt
 
 object CorporationTaxLiabilityModel {
 
-  val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+  val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
 
   def row(corporationTaxLiabilities: Seq[CorporationTaxLiability], mode: Mode)(implicit messages: Messages): Seq[SummaryListRowNoValue] = {
     (for {

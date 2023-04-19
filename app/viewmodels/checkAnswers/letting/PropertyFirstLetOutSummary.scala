@@ -31,7 +31,7 @@ object PropertyFirstLetOutSummary  {
     lettingProperty.dateFirstLetOut.map {
       answer =>
 
-        val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+        val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
 
         SummaryListRowViewModel(
           key     = "propertyFirstLetOut.checkYourAnswersLabel",
