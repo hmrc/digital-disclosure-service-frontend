@@ -16,6 +16,6 @@
 
 @this()
 
-@(id: String, text: String, call: Call, newTab: Boolean = false, fileName: String = "notification.pdf", classes: String = "govuk-link govuk-link--no-visited-state")
+@(id: String, text: String, call: Call, newTab: Boolean = false, fileName: String = "notification.html", classes: String = "govuk-link govuk-link--no-visited-state")
 
 <a class="@classes" href="@call" @if(newTab) { target="_blank" rel="noopener noreferrer" } download="@fileName" id="@id">@text</a>
