@@ -32,7 +32,7 @@ object WhatIsYourDateOfBirthSummary  {
     answers.get(WhatIsYourDateOfBirthPage).map {
       answer =>
 
-        val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+        val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
 
         SummaryListRowViewModel(
           key     = "whatIsYourDateOfBirth.checkYourAnswersLabel",

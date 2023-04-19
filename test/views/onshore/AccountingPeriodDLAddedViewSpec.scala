@@ -32,7 +32,7 @@ class AccountingPeriodDLAddedViewSpec extends ViewSpecBase with ViewMatchers {
   val form = new AccountingPeriodDLAddedFormProvider()()
   val page: AccountingPeriodDLAddedView = inject[AccountingPeriodDLAddedView]
 
-  val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+  val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
 
   val directorLoanAccountLiabilities: DirectorLoanAccountLiabilities = DirectorLoanAccountLiabilities(
     name = "Some Name 1",

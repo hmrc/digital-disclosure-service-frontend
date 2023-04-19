@@ -50,7 +50,7 @@ class NotificationStartedController @Inject()(
     implicit request =>
 
     val date = request.userAnswers.lastUpdated.atZone(ZoneOffset.UTC).toLocalDate()
-    val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+    val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
     val formattedDate = date.format(dateFormatter)
     Ok(view(form, formattedDate))
   }
@@ -61,7 +61,7 @@ class NotificationStartedController @Inject()(
       form.bindFromRequest().fold(
         formWithErrors => {
           val date = request.userAnswers.lastUpdated.atZone(ZoneOffset.UTC).toLocalDate()
-          val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+          val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
           val formattedDate = date.format(dateFormatter)
           Future.successful(BadRequest(view(formWithErrors, formattedDate)))
         },

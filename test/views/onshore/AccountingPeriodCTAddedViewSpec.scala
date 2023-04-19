@@ -32,7 +32,7 @@ class AccountingPeriodCTAddedViewSpec extends ViewSpecBase with ViewMatchers {
   val form = new AccountingPeriodCTAddedFormProvider()()
   val page: AccountingPeriodCTAddedView = inject[AccountingPeriodCTAddedView]
 
-  val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+  val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
 
   val corporationTaxLiability: CorporationTaxLiability = CorporationTaxLiability(
     periodEnd = LocalDate.now(),

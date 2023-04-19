@@ -45,7 +45,7 @@ class NotificationStartedControllerSpec extends SpecBase with MockitoSugar {
 
   val instant = Instant.now()
   val date = instant.atZone(ZoneOffset.UTC).toLocalDate()
-  val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+  val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
   val formattedDate = date.format(dateFormatter)
 
   val userAnswers = emptyUserAnswers.copy(lastUpdated = instant)

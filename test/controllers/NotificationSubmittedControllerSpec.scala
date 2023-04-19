@@ -39,7 +39,7 @@ class NotificationSubmittedControllerSpec extends SpecBase {
 
       val reference = "1234"
       val time = LocalDateTime.now()
-      val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+      val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
       val formattedDate = time.format(dateFormatter)
 
       val userAnswers = UserAnswers(id = "id", submissionId = "id2", submissionType = SubmissionType.Notification, metadata = Metadata(Some(reference), Some(time)))

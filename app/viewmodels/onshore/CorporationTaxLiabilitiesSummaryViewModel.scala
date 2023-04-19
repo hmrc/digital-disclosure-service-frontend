@@ -36,7 +36,7 @@ case class CorporationTaxLiabilitiesSummaryViewModel (
 )
 
 class CorporationTaxLiabilitiesSummaryViewModelCreation @Inject()(revealFullText: RevealFullText) extends RowHelper {
-  val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+  val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
 
   def create(userAnswers: UserAnswers)(implicit messages: Messages): CorporationTaxLiabilitiesSummaryViewModel = {
     val corporationTaxLiabilities = userAnswers.get(CorporationTaxLiabilityPage).getOrElse(Seq())
@@ -54,7 +54,7 @@ class CorporationTaxLiabilitiesSummaryViewModelCreation @Inject()(revealFullText
 
   def corporationTaxLiabilityToSummaryList(i: Int, liability: CorporationTaxLiability, revealFullText: RevealFullText)(implicit messages: Messages):SummaryList = {
 
-    val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+    val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
 
     val amountDueTotal = BigDecimal(liability.howMuchUnpaid) + BigDecimal(liability.howMuchInterest) + penaltyAmount(liability)
 
