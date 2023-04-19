@@ -105,7 +105,7 @@ class CheckYourAnswersViewModelCreation @Inject()
       poundRowCase(i, "taxYearLiabilities.capitalGains.checkYourAnswersLabel", s"${liabilities.capitalGains}", "taxYearLiabilities.capitalGains.hidden", OFFSHORE),
       poundRowCase(i, "taxYearLiabilities.unpaidTax.checkYourAnswersLabel", s"${liabilities.unpaidTax}", "taxYearLiabilities.unpaidTax.hidden", OFFSHORE),
       poundRowCase(i, "taxYearLiabilities.interest.checkYourAnswersLabel", s"${liabilities.interest}", "taxYearLiabilities.interest.hidden", OFFSHORE),
-      rowCase(i, "taxYearLiabilities.penaltyRate.checkYourAnswersLabel", s"${liabilities.penaltyRate}%", "taxYearLiabilities.penaltyRate.hidden", OFFSHORE, revealFullText, false),
+      rowCase(i, "taxYearLiabilities.penaltyRate.checkYourAnswersLabel", messages("site.2DP", liabilities.penaltyRate)+"%", "taxYearLiabilities.penaltyRate.hidden", OFFSHORE, revealFullText, false),
       totalRow("taxYearLiabilities.penaltyAmount.checkYourAnswersLabel", messages("site.2DP", penaltyAmount(liabilities))),
       rowCase(i, "taxYearLiabilities.foreignTaxCredit.checkYourAnswersLabel", if (liabilities.foreignTaxCredit) messages("site.yes") else messages("site.no"), "taxYearLiabilities.foreignTaxCredit.hidden", OFFSHORE, revealFullText, false)
     ) ++ foreignTaxCredit ++ Seq(
