@@ -89,7 +89,7 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelSpec extends SpecBase with S
             summaryList.rows(4).value mustEqual ValueViewModel(HtmlContent(s"&pound;0"))
 
             summaryList.rows(5).key mustEqual Key(Text(mess("directorLoanAccountLiabilities.penaltyRate.checkYourAnswersLabel")))
-            summaryList.rows(5).value mustEqual ValueViewModel(HtmlContent(s"0%"))
+            summaryList.rows(5).value mustEqual ValueViewModel(HtmlContent(s"0.00%"))
 
             summaryList.rows(6).key mustEqual Key(Text(mess("checkYourAnswers.dl.total.penaltyAmount")))
             summaryList.rows(6).value mustEqual ValueViewModel(HtmlContent(s"&pound;0.00"))

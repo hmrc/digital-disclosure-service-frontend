@@ -66,7 +66,7 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelCreation @Inject()(revealFul
         poundRowCase(i, "directorLoanAccountLiabilities.overdrawn.checkYourAnswersLabel", s"${dLLiability.overdrawn}", "directorLoanAccountLiabilities.overdrawn.hidden", DL),
         poundRowCase(i, "directorLoanAccountLiabilities.unpaidTax.checkYourAnswersLabel", s"${dLLiability.unpaidTax}", "directorLoanAccountLiabilities.unpaidTax.hidden", DL),
         poundRowCase(i, "directorLoanAccountLiabilities.interest.checkYourAnswersLabel", s"${dLLiability.interest}", "directorLoanAccountLiabilities.interest.hidden", DL),
-        rowCase(i, "directorLoanAccountLiabilities.penaltyRate.checkYourAnswersLabel", s"${dLLiability.penaltyRate}%", "directorLoanAccountLiabilities.penaltyRate.hidden", DL, revealFullText, false),
+        rowCase(i, "directorLoanAccountLiabilities.penaltyRate.checkYourAnswersLabel", messages("site.2DP", dLLiability.penaltyRate)+"%", "directorLoanAccountLiabilities.penaltyRate.hidden", DL, revealFullText, false),
         totalRow("checkYourAnswers.dl.total.penaltyAmount", messages("site.2DP", penaltyAmount(dLLiability))),
         rowCase(i, "directorLoanAccountLiabilities.penaltyRateReason", s"${dLLiability.penaltyRateReason}", "directorLoanAccountLiabilities.penaltyRateReason.hidden", DL, revealFullText, true),
         totalRow("checkYourAnswers.dl.total.heading", messages("site.2DP", amountDueTotal))

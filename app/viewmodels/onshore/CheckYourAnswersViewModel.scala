@@ -134,7 +134,7 @@ class CheckYourAnswersViewModelCreation @Inject() (
         poundRowCase(i, "onshoreTaxYearLiabilities.unpaidTax.checkYourAnswersLabel", s"${liabilities.unpaidTax}", "onshoreTaxYearLiabilities.unpaidTax.hidden", ONSHORE),
         poundRowCase(i, "onshoreTaxYearLiabilities.niContributions.checkYourAnswersLabel", s"${liabilities.niContributions}", "onshoreTaxYearLiabilities.niContributions.hidden", ONSHORE),
         poundRowCase(i, "onshoreTaxYearLiabilities.interest.checkYourAnswersLabel", s"${liabilities.interest}", "onshoreTaxYearLiabilities.interest.hidden", ONSHORE),
-        rowCase(i, "onshoreTaxYearLiabilities.penaltyRate.checkYourAnswersLabel", s"${liabilities.penaltyRate}%", "onshoreTaxYearLiabilities.penaltyRate.hidden", ONSHORE, revealFullText, false),
+        rowCase(i, "onshoreTaxYearLiabilities.penaltyRate.checkYourAnswersLabel", messages("site.2DP", liabilities.penaltyRate)+"%", "onshoreTaxYearLiabilities.penaltyRate.hidden", ONSHORE, revealFullText, false),
         totalRow("onshoreTaxYearLiabilities.penaltyAmount.checkYourAnswersLabel", messages("site.2DP", penaltyAmount(liabilities))),
         totalRow("onshoreTaxYearLiabilities.amountDue.checkYourAnswersLabel", messages("site.2DP", yearTotal(liabilities))),
         rowCase(i, "onshoreTaxYearLiabilities.penaltyRateReason", s"${liabilities.penaltyRateReason}", "onshoreTaxYearLiabilities.penaltyRateReason.hidden", ONSHORE, revealFullText, true)

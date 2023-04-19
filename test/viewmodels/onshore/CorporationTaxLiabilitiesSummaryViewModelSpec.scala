@@ -75,7 +75,7 @@ class CorporationTaxLiabilitiesSummaryViewModelSpec extends SpecBase with ScalaC
       summaryList.rows(3).value mustEqual ValueViewModel(HtmlContent(s"&pound;0"))
 
       summaryList.rows(4).key mustEqual Key(Text(mess("corporationTaxLiability.penaltyRate.checkYourAnswersLabel")))
-      summaryList.rows(4).value mustEqual ValueViewModel(HtmlContent(s"0%"))
+      summaryList.rows(4).value mustEqual ValueViewModel(HtmlContent(s"0.00%"))
 
       summaryList.rows(5).key mustEqual Key(Text(mess("checkYourAnswers.ct.total.penaltyAmount")))
       summaryList.rows(5).value mustEqual ValueViewModel(HtmlContent(s"&pound;0.00"))

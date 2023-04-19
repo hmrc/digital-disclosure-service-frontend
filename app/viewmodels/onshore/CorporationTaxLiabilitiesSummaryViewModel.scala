@@ -64,7 +64,7 @@ class CorporationTaxLiabilitiesSummaryViewModelCreation @Inject()(revealFullText
         poundRowCase(i, "corporationTaxLiability.howMuchIncome.checkYourAnswersLabel", s"${liability.howMuchIncome}", "corporationTaxLiability.howMuchIncome.hidden", CT),
         poundRowCase(i, "corporationTaxLiability.howMuchUnpaid.checkYourAnswersLabel", s"${liability.howMuchUnpaid}", "corporationTaxLiability.howMuchUnpaid.hidden", CT),
         poundRowCase(i, "corporationTaxLiability.howMuchInterest.checkYourAnswersLabel", s"${liability.howMuchInterest}", "corporationTaxLiability.howMuchInterest.hidden", CT),
-        rowCase(i, "corporationTaxLiability.penaltyRate.checkYourAnswersLabel", s"${liability.penaltyRate}%", "corporationTaxLiability.penaltyRate.hidden", CT, revealFullText, false),
+        rowCase(i, "corporationTaxLiability.penaltyRate.checkYourAnswersLabel", messages("site.2DP", liability.penaltyRate)+"%", "corporationTaxLiability.penaltyRate.hidden", CT, revealFullText, false),
         totalRow("corporationTaxLiability.penaltyAmount.checkYourAnswersLabel", messages("site.2DP", penaltyAmount(liability))),
         rowCase(i, "corporationTaxLiability.penaltyRateReason", s"${liability.penaltyRateReason}", "corporationTaxLiability.penaltyRateReason.hidden", CT, revealFullText, true),
         totalRow("corporationTaxLiability.ct.total.heading", messages("site.2DP", amountDueTotal))
