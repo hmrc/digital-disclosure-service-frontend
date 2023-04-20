@@ -20,7 +20,6 @@ import play.api.data.FormError
 import play.api.data.format.Formatter
 import models.Enumerable
 import models.{OnshoreYears, OffshoreYears}
-import scala.util.{Failure, Success, Try}
 import scala.util.control.Exception.nonFatalCatch
 
 trait Formatters {
@@ -31,7 +30,7 @@ trait Formatters {
       data.get(key) match {
         case None                      => Left(Seq(FormError(key, errorKey, args)))
         case Some(s) if s.trim.isEmpty => Left(Seq(FormError(key, errorKey, args)))
-        case Some(s)                   => Right(s)
+        case Some(s)                   => Right(s.replace("\r", ""))
       }
 
     override def unbind(key: String, value: String): Map[String, String] =
