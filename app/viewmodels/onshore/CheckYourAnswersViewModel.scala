@@ -68,7 +68,10 @@ class CheckYourAnswersViewModelCreation @Inject() (
         taxBeforeFiveYearsSummary.row(userAnswers, revealFullText),
         taxBeforeThreeYearsSummary.row(userAnswers, revealFullText),
         taxBeforeNineteenYearSummary.row(userAnswers, revealFullText),
-        PropertyAddedSummary.row(userAnswers)
+        PropertyAddedSummary.row(userAnswers),
+        AreYouAMemberOfAnyLandlordAssociationsSummary.row(userAnswers),
+        WhichLandlordAssociationsAreYouAMemberOfSummary.row(userAnswers, revealFullText),
+        HowManyPropertiesDoYouCurrentlyLetOutSummary.row(userAnswers)
       ).flatten
     )
 

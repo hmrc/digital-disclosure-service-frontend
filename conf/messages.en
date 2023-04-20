@@ -2261,6 +2261,7 @@ caseManagement.hidden.make.disclosure = Make a disclosure for {0}
 whichLandlordAssociations.title = Which landlord associations are you a member of?
 whichLandlordAssociations.heading = Which landlord associations are you a member of?
 whichLandlordAssociations.checkYourAnswersLabel = Which landlord associations are you a member of?
+whichLandlordAssociations.reveal = Show which landlord associations are you a member of
 whichLandlordAssociations.error.required = Enter the landlord associations you a member of
 whichLandlordAssociations.error.length = The name of the landlord associations must be between 1 and 500 characters
 whichLandlordAssociations.change.hidden = Which landlord associations are you a member of?
