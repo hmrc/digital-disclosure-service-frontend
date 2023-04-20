@@ -1094,12 +1094,13 @@ taskList.paragraph.fifth = 'If you cannot pay the full amount, let us know as so
 taskList.paragraph.fifth.link = calling the helpline (opens in new tab)
 taskList.link = Download a copy of the information you have entered so far
 
-howWouldYouPreferToBeContacted.title = How would you prefer to be contacted by HMRC?
-howWouldYouPreferToBeContacted.heading = How would you prefer to be contacted by HMRC?
+howWouldYouPreferToBeContacted.title = How can HMRC contact you?
+howWouldYouPreferToBeContacted.heading = How can HMRC contact you?
 howWouldYouPreferToBeContacted.body = We will only contact you to discuss this disclosure, if needed.
 howWouldYouPreferToBeContacted.hint = Select all that apply.
 howWouldYouPreferToBeContacted.email = Email
 howWouldYouPreferToBeContacted.telephone = Telephone
+howWouldYouPreferToBeContacted.telephone.hint = This is the quickest way we can contact you about the disclosure.
 howWouldYouPreferToBeContacted.checkYourAnswersLabel = Your contact preference
 howWouldYouPreferToBeContacted.error.required = Select how you want to be contacted
 howWouldYouPreferToBeContacted.change.hidden = Your contact preference
