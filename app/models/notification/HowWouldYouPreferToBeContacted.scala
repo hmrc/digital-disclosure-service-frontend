@@ -19,6 +19,7 @@ package models
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.checkboxes.CheckboxItem
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
+import uk.gov.hmrc.govukfrontend.views.viewmodels.hint.Hint
 import viewmodels.govuk.checkbox._
 
 sealed trait HowWouldYouPreferToBeContacted
@@ -36,12 +37,13 @@ object HowWouldYouPreferToBeContacted extends Enumerable.Implicits {
   def checkboxItems(implicit messages: Messages): Seq[CheckboxItem] =
     values.zipWithIndex.map {
       case (value, index) =>
-        CheckboxItemViewModel(
+        val checkboxItem = CheckboxItemViewModel(
           content = Text(messages(s"howWouldYouPreferToBeContacted.${value.toString}")),
           fieldId = "value",
           index   = index,
           value   = value.toString
         )
+        if(value == Telephone) checkboxItem.withHint(Hint(content = Text(messages(s"howWouldYouPreferToBeContacted.telephone.hint")))) else checkboxItem
     }
 
   implicit val enumerable: Enumerable[HowWouldYouPreferToBeContacted] =

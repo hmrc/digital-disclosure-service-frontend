@@ -51,7 +51,7 @@ class HowWouldYouPreferToBeContactedViewSpec extends ViewSpecBase with ViewMatch
     }
 
     "contain hint" in {
-      view.getElementsByClass("govuk-hint").text() mustBe messages("howWouldYouPreferToBeContacted.hint")
+      view.getElementsByClass("govuk-hint").first().text() mustBe messages("howWouldYouPreferToBeContacted.hint")
     }
 
     "contain the email option" in {
@@ -60,6 +60,10 @@ class HowWouldYouPreferToBeContactedViewSpec extends ViewSpecBase with ViewMatch
 
     "contain the telephone option" in {
       view.getElementsByClass("govuk-checkboxes__label").last().text() mustBe messages("howWouldYouPreferToBeContacted.telephone")
+    }
+
+    "contain the telephone option hint" in {
+      view.getElementsByClass("govuk-checkboxes__hint").last().text() mustBe messages("howWouldYouPreferToBeContacted.telephone.hint")
     }
 
     "display the continue button" in {
