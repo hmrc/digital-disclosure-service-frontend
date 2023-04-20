@@ -106,6 +106,7 @@ class CaseManagementServiceImpl @Inject()(linkWithVisuallyHiddenContent: linkWit
   private def getVisuallyHiddenText(submission: Submission, status: CaseStatus, ref: String)(implicit messages: Messages):String =
     getReferenceOption(submission) match {
       case Some(reference) if status == SentNotification => messages("caseManagement.hidden.make.disclosure", reference)
+      case Some(reference) if status == SentDisclosure => messages("caseManagement.hidden.view.reference", reference)
       case Some(reference) => messages("caseManagement.hidden.edit.reference", reference)
       case _ => messages("caseManagement.hidden.edit.no.reference", getCreatedDate(submission))
     }
