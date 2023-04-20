@@ -2254,10 +2254,8 @@ caseManagement.notification.started = Notification not sent
 caseManagement.disclosure.sent = Disclosure sent
 caseManagement.disclosure.started = Disclosure not sent
 caseManagement.caption = Current cases
-caseManagement.hidden.edit.reference = Edit {0}
 caseManagement.hidden.edit.no.reference = Edit case created on {0}
-caseManagement.hidden.view.reference = View {0}
-caseManagement.hidden.make.disclosure = Make a disclosure for {0}
+caseManagement.hidden.make.disclosure = for {0}
 
 whichLandlordAssociations.title = Which landlord associations are you a member of?
 whichLandlordAssociations.heading = Which landlord associations are you a member of?
