@@ -156,7 +156,7 @@ trait Generators extends UserAnswersGenerator
   def stringsWithLengthBetween(minLength: Int, maxLength: Int): Gen[String] = for {
     length    <- Gen.chooseNum(minLength + 1, maxLength)
     chars     <- listOfN(length, arbitrary[Char])
-  } yield chars.mkString.replace("\r", "")
+  } yield chars.mkString
 
   def stringsExcludingCRWithLengthBetween(minLength: Int, maxLength: Int): Gen[String] = for {
     length    <- Gen.chooseNum(minLength + 1, maxLength)
