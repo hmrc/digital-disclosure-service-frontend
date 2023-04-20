@@ -146,17 +146,22 @@ trait Generators extends UserAnswersGenerator
     arbitrary[String] suchThat (_.trim.nonEmpty)
 
   def stringsWithMaxLength(maxLength: Int): Gen[String] =
-    stringsWithLengthBetween(1, maxLength)
+    stringsExcludingCRWithLengthBetween(1, maxLength)
 
   def stringsLongerThan(minLength: Int): Gen[String] = {
     val maxLength = (minLength * 2).max(100)
-    stringsWithLengthBetween(minLength, maxLength)
+    stringsExcludingCRWithLengthBetween(minLength, maxLength)
   }
 
   def stringsWithLengthBetween(minLength: Int, maxLength: Int): Gen[String] = for {
     length    <- Gen.chooseNum(minLength + 1, maxLength)
     chars     <- listOfN(length, arbitrary[Char])
   } yield chars.mkString.replace("\r", "")
+
+  def stringsExcludingCRWithLengthBetween(minLength: Int, maxLength: Int): Gen[String] = for {
+    length    <- Gen.chooseNum(minLength + 1, maxLength)
+    chars     <- listOfN(length, arbitrary[Char] suchThat (_ != '\r'))
+  } yield chars.mkString
 
   def stringsExceptSpecificValues(excluded: Seq[String]): Gen[String] =
     nonEmptyString suchThat (!excluded.contains(_))
