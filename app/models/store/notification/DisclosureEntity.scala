@@ -16,6 +16,7 @@
 
 package models.store.notification
 
+import models.AreYouTheEntity
 import play.api.libs.json._
 
 sealed trait Entity
@@ -46,7 +47,7 @@ case object Company extends Entity
 case object LLP extends Entity
 case object Trust extends Entity
 
-final case class DisclosureEntity(entity: Entity, areYouTheEntity: Option[Boolean] = None)
+final case class DisclosureEntity(entity: Entity, areYouTheEntity: Option[AreYouTheEntity] = None)
 
 object DisclosureEntity {
   implicit val format: OFormat[DisclosureEntity] = Json.format[DisclosureEntity]

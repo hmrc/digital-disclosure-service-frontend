@@ -19,7 +19,7 @@ package controllers
 import controllers.actions._
 
 import javax.inject.Inject
-import models.{NormalMode, RelatesTo, UserAnswers}
+import models.{AreYouTheEntity, NormalMode, UserAnswers}
 import models.store.FullDisclosure
 import models.store.notification._
 import models.store.disclosure._
@@ -164,12 +164,8 @@ class TaskListController @Inject()(
   }
 
   private[controllers] def isTheUserAgent(userAnswers: UserAnswers): Boolean ={
-    userAnswers.get(RelatesToPage) match {
-      case Some(RelatesTo.AnIndividual) => userAnswers.get(AreYouTheIndividualPage).getOrElse(true)
-      case Some(RelatesTo.ACompany) => userAnswers.get(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage).getOrElse(true)
-      case Some(RelatesTo.ALimitedLiabilityPartnership) => userAnswers.get(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage).getOrElse(true)
-      case Some(RelatesTo.ATrust) => userAnswers.get(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage).getOrElse(true)
-      case Some(RelatesTo.AnEstate) => userAnswers.get(AreYouTheExecutorOfTheEstatePage).getOrElse(true)
+    userAnswers.get(AreYouTheEntityPage) match {
+      case Some(AreYouTheEntity.YesIAm) => false
       case _ => true
     }
   }

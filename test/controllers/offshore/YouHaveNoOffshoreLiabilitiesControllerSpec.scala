@@ -17,8 +17,8 @@
 package controllers
 
 import base.SpecBase
-import models.{RelatesTo, UserAnswers, WhyAreYouMakingThisDisclosure}
-import pages.{AreYouTheIndividualPage, RelatesToPage, WhyAreYouMakingThisDisclosurePage}
+import models.{AreYouTheEntity, RelatesTo, UserAnswers, WhyAreYouMakingThisDisclosure}
+import pages.{AreYouTheEntityPage, RelatesToPage, WhyAreYouMakingThisDisclosurePage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.html.offshore.YouHaveNoOffshoreLiabilitiesView
@@ -30,7 +30,7 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
     "must return OK and the correct view for a GET for Individual and the user is the individual" in {
 
       val entityString = "iAmIndividual"
-      val areTheyTheIndividual = true
+      val areTheyTheIndividual = AreYouTheEntity.YesIAm
       val entity = RelatesTo.AnIndividual
       val years = 20
       val reasons: Set[WhyAreYouMakingThisDisclosure] = Set(
@@ -41,7 +41,7 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
 
       val userAnswers = (for {
         uaEntity <- UserAnswers(userAnswersId).set(RelatesToPage, entity)
-        uaIndividual <- uaEntity.set(AreYouTheIndividualPage, areTheyTheIndividual)
+        uaIndividual <- uaEntity.set(AreYouTheEntityPage, areTheyTheIndividual)
         updatedUa <- uaIndividual.set(WhyAreYouMakingThisDisclosurePage, reasons)
       } yield updatedUa).success.value
 
@@ -62,7 +62,7 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
     "must return OK and the correct view for a GET for Individual and the user is not the individual" in {
 
       val entityString = "iAmNotIndividual"
-      val areTheyTheIndividual = false
+      val areTheyTheIndividual = AreYouTheEntity.IAmAnAccountantOrTaxAgent
       val entity = RelatesTo.AnIndividual
       val years = 20
       val reasons: Set[WhyAreYouMakingThisDisclosure] = Set(
@@ -73,7 +73,7 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
 
       val userAnswers = (for {
         uaEntity <- UserAnswers(userAnswersId).set(RelatesToPage, entity)
-        uaIndividual <- uaEntity.set(AreYouTheIndividualPage, areTheyTheIndividual)
+        uaIndividual <- uaEntity.set(AreYouTheEntityPage, areTheyTheIndividual)
         updatedUa <- uaIndividual.set(WhyAreYouMakingThisDisclosurePage, reasons)
       } yield updatedUa).success.value
 
@@ -95,7 +95,7 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
     "must return OK and the correct view for a GET for an Entity different from individual" in {
 
       val entityString = "other"
-      val areTheyTheIndividual = false
+      val areTheyTheIndividual = AreYouTheEntity.IAmAnAccountantOrTaxAgent
       val entity = RelatesTo.ACompany
       val years = 20
       val reasons: Set[WhyAreYouMakingThisDisclosure] = Set(
@@ -106,7 +106,7 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
 
       val userAnswers = (for {
         uaEntity <- UserAnswers(userAnswersId).set(RelatesToPage, entity)
-        uaIndividual <- uaEntity.set(AreYouTheIndividualPage, areTheyTheIndividual)
+        uaIndividual <- uaEntity.set(AreYouTheEntityPage, areTheyTheIndividual)
         updatedUa <- uaIndividual.set(WhyAreYouMakingThisDisclosurePage, reasons)
       } yield updatedUa).success.value
 
@@ -128,7 +128,7 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
     "must return OK and the correct view with 8 years for a GET for an Entity different from individual" in {
 
       val entityString = "other"
-      val areTheyTheIndividual = false
+      val areTheyTheIndividual = AreYouTheEntity.IAmAnAccountantOrTaxAgent
       val entity = RelatesTo.ACompany
       val years = 8
       val reasons: Set[WhyAreYouMakingThisDisclosure] = Set(
@@ -138,7 +138,7 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
 
       val userAnswers = (for {
         uaEntity <- UserAnswers(userAnswersId).set(RelatesToPage, entity)
-        uaIndividual <- uaEntity.set(AreYouTheIndividualPage, areTheyTheIndividual)
+        uaIndividual <- uaEntity.set(AreYouTheEntityPage, areTheyTheIndividual)
         updatedUa <- uaIndividual.set(WhyAreYouMakingThisDisclosurePage, reasons)
       } yield updatedUa).success.value
 
@@ -159,14 +159,14 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
     "must return OK and the correct view with 6 years for a GET for an Entity different from individual" in {
 
       val entityString = "other"
-      val areTheyTheIndividual = false
+      val areTheyTheIndividual = AreYouTheEntity.IAmAnAccountantOrTaxAgent
       val entity = RelatesTo.ACompany
       val years = 6
       val reasons: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare)
 
       val userAnswers = (for {
         uaEntity <- UserAnswers(userAnswersId).set(RelatesToPage, entity)
-        uaIndividual <- uaEntity.set(AreYouTheIndividualPage, areTheyTheIndividual)
+        uaIndividual <- uaEntity.set(AreYouTheEntityPage, areTheyTheIndividual)
         updatedUa <- uaIndividual.set(WhyAreYouMakingThisDisclosurePage, reasons)
       } yield updatedUa).success.value
 

@@ -13,11 +13,6 @@ POST       /disclose-onshore-liabilities                    controllers.notifica
 GET        /disclose-onshore-liabilities/change             controllers.notification.OnshoreLiabilitiesController.onPageLoad(mode: Mode = CheckMode)
 POST       /disclose-onshore-liabilities/change             controllers.notification.OnshoreLiabilitiesController.onSubmit(mode: Mode = CheckMode)
 
-GET        /are-you-the-individual                          controllers.notification.AreYouTheIndividualController.onPageLoad(mode: Mode = NormalMode)
-POST       /are-you-the-individual                          controllers.notification.AreYouTheIndividualController.onSubmit(mode: Mode = NormalMode)
-GET        /are-you-the-individual/change                   controllers.notification.AreYouTheIndividualController.onPageLoad(mode: Mode = CheckMode)
-POST       /are-you-the-individual/change                   controllers.notification.AreYouTheIndividualController.onSubmit(mode: Mode = CheckMode)
-
 GET        /hmrc-letter-reference                           controllers.notification.LetterReferenceController.onPageLoad(mode: Mode = NormalMode)
 POST       /hmrc-letter-reference                           controllers.notification.LetterReferenceController.onSubmit(mode: Mode = NormalMode)
 GET        /hmrc-letter-reference/change                    controllers.notification.LetterReferenceController.onPageLoad(mode: Mode = CheckMode)
@@ -148,11 +143,6 @@ POST        /check-your-answers                                 controllers.noti
 
 GET        /individual-notification-submitted                   controllers.notification.IndividualSentYourNotificationController.onPageLoad
 
-GET        /are-you-an-officer                                  controllers.notification.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(mode: Mode = NormalMode)
-POST       /are-you-an-officer                                  controllers.notification.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onSubmit(mode: Mode = NormalMode)
-GET        /are-you-an-officer/change                           controllers.notification.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(mode: Mode = CheckMode)
-POST       /are-you-an-officer/change                           controllers.notification.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onSubmit(mode: Mode = CheckMode)
-
 GET        /representing-organisation                           controllers.notification.AreYouRepresentingAnOrganisationController.onPageLoad(mode: Mode = NormalMode)
 POST       /representing-organisation                           controllers.notification.AreYouRepresentingAnOrganisationController.onSubmit(mode: Mode = NormalMode)
 GET        /representing-organisation/change                    controllers.notification.AreYouRepresentingAnOrganisationController.onPageLoad(mode: Mode = CheckMode)
@@ -178,11 +168,6 @@ GET        /company-address/retrieve                            controllers.noti
 GET        /company-address/lookup/change                       controllers.notification.CompanyAddressLookupController.lookupAddress(mode: Mode = CheckMode)
 GET        /company-address/retrieve/change                     controllers.notification.CompanyAddressLookupController.retrieveConfirmedAddress(mode: Mode = CheckMode, id: Option[UUID] ?= None)
 
-GET        /are-you-a-designated-member                         controllers.notification.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(mode: Mode = NormalMode)
-POST       /are-you-a-designated-member                         controllers.notification.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onSubmit(mode: Mode = NormalMode)
-GET        /are-you-a-designated-member/change                  controllers.notification.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(mode: Mode = CheckMode)
-POST       /are-you-a-designated-member/change                  controllers.notification.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onSubmit(mode: Mode = CheckMode)
-
 GET        /llp-name                                            controllers.notification.WhatIsTheLLPNameController.onPageLoad(mode: Mode = NormalMode)
 POST       /llp-name                                            controllers.notification.WhatIsTheLLPNameController.onSubmit(mode: Mode = NormalMode)
 GET        /llp-name/change                                     controllers.notification.WhatIsTheLLPNameController.onPageLoad(mode: Mode = CheckMode)
@@ -193,11 +178,6 @@ GET        /llp-address/retrieve                                controllers.noti
 GET        /llp-address/lookup/change                           controllers.notification.LLPAddressLookupController.lookupAddress(mode: Mode = CheckMode)
 GET        /llp-address/retrieve/change                         controllers.notification.LLPAddressLookupController.retrieveConfirmedAddress(mode: Mode = CheckMode, id: Option[UUID] ?= None)
 
-GET        /are-you-a-trustee                                   controllers.notification.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(mode: Mode = NormalMode)
-POST       /are-you-a-trustee                                   controllers.notification.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onSubmit(mode: Mode = NormalMode)
-GET        /are-you-a-trustee/change                            controllers.notification.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(mode: Mode = CheckMode)
-POST       /are-you-a-trustee/change                            controllers.notification.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onSubmit(mode: Mode = CheckMode)
-
 GET        /trust-address/lookup                                controllers.notification.TrustAddressLookupController.lookupAddress(mode: Mode = NormalMode)
 GET        /trust-address/retrieve                              controllers.notification.TrustAddressLookupController.retrieveConfirmedAddress(mode: Mode = NormalMode, id: Option[UUID] ?= None)
 GET        /trust-address/lookup/change                         controllers.notification.TrustAddressLookupController.lookupAddress(mode: Mode = CheckMode)
@@ -207,11 +187,6 @@ GET        /trust-name                                          controllers.noti
 POST       /trust-name                                          controllers.notification.WhatIsTheTrustNameController.onSubmit(mode: Mode = NormalMode)
 GET        /trust-name/change                                   controllers.notification.WhatIsTheTrustNameController.onPageLoad(mode: Mode = CheckMode)
 POST       /trust-name/change                                   controllers.notification.WhatIsTheTrustNameController.onSubmit(mode: Mode = CheckMode)
-
-GET        /are-you-the-executor                                controllers.notification.AreYouTheExecutorOfTheEstateController.onPageLoad(mode: Mode = NormalMode)
-POST       /are-you-the-executor                                controllers.notification.AreYouTheExecutorOfTheEstateController.onSubmit(mode: Mode = NormalMode)
-GET        /are-you-the-executor/change                         controllers.notification.AreYouTheExecutorOfTheEstateController.onPageLoad(mode: Mode = CheckMode)
-POST       /are-you-the-executor/change                         controllers.notification.AreYouTheExecutorOfTheEstateController.onSubmit(mode: Mode = CheckMode)
 
 GET        /estates-individual-full-name                        controllers.notification.WhatWasTheNameOfThePersonWhoDiedController.onPageLoad(mode: Mode = NormalMode)
 POST       /estates-individual-full-name                        controllers.notification.WhatWasTheNameOfThePersonWhoDiedController.onSubmit(mode: Mode = NormalMode)
@@ -277,3 +252,8 @@ GET        /where-else-the-income-came-from                  controllers.notific
 POST       /where-else-the-income-came-from                  controllers.notification.OtherIncomeOrGainSourceController.onSubmit(mode: Mode = NormalMode)
 GET        /where-else-the-income-came-from/change           controllers.notification.OtherIncomeOrGainSourceController.onPageLoad(mode: Mode = CheckMode)
 POST       /where-else-the-income-came-from/change           controllers.notification.OtherIncomeOrGainSourceController.onSubmit(mode: Mode = CheckMode)
+
+GET        /are-you-the-entity                        controllers.notification.AreYouTheEntityController.onPageLoad(mode: Mode = NormalMode)
+POST       /are-you-the-entity                        controllers.notification.AreYouTheEntityController.onSubmit(mode: Mode = NormalMode)
+GET        /are-you-the-entity/change                  controllers.notification.AreYouTheEntityController.onPageLoad(mode: Mode = CheckMode)
+POST       /are-you-the-entity/change                  controllers.notification.AreYouTheEntityController.onSubmit(mode: Mode = CheckMode)

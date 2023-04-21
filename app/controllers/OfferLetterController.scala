@@ -95,15 +95,12 @@ class OfferLetterController @Inject()(
   }
 
   def getEntityName(userAnswers: UserAnswers): String = {
-    val entityQuestion = userAnswers.get(RelatesToPage) 
-    val areYouTheIndividualQuestion = userAnswers.get(AreYouTheIndividualPage)
-
-    val namePage: QuestionPage[String] = (entityQuestion, areYouTheIndividualQuestion) match {
-      case (Some(AnIndividual), Some(false)) => WhatIsTheIndividualsFullNamePage
-      case (Some(ACompany), _) => WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage
-      case (Some(ALimitedLiabilityPartnership), _) => WhatIsTheLLPNamePage
-      case (Some(ATrust), _) => WhatIsTheTrustNamePage
-      case (Some(AnEstate), _) => WhatWasTheNameOfThePersonWhoDiedPage
+    val namePage: QuestionPage[String] = userAnswers.get(RelatesToPage)  match {
+      case Some(AnIndividual) if !userAnswers.isTheUserTheIndividual => WhatIsTheIndividualsFullNamePage
+      case Some(ACompany) => WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage
+      case Some(ALimitedLiabilityPartnership) => WhatIsTheLLPNamePage
+      case Some(ATrust) => WhatIsTheTrustNamePage
+      case Some(AnEstate) => WhatWasTheNameOfThePersonWhoDiedPage
       case _ => WhatIsYourFullNamePage
     }
 
@@ -116,14 +113,13 @@ class OfferLetterController @Inject()(
 
   def getAddressLines(userAnswers: UserAnswers)(implicit messages: Messages): String = {
     val entityQuestion = userAnswers.get(RelatesToPage) 
-    val areYouTheIndividualQuestion = userAnswers.get(AreYouTheIndividualPage)
 
-    val addressPage: QuestionPage[Address] = (entityQuestion, areYouTheIndividualQuestion) match {
-      case (Some(AnIndividual), Some(false)) => IndividualAddressLookupPage
-      case (Some(ACompany), _) => CompanyAddressLookupPage
-      case (Some(ALimitedLiabilityPartnership), _) => LLPAddressLookupPage
-      case (Some(ATrust), _) => TrustAddressLookupPage
-      case (Some(AnEstate), _) => EstateAddressLookupPage
+    val addressPage: QuestionPage[Address] = entityQuestion match {
+      case Some(AnIndividual) if !userAnswers.isTheUserTheIndividual => IndividualAddressLookupPage
+      case Some(ACompany) => CompanyAddressLookupPage
+      case Some(ALimitedLiabilityPartnership) => LLPAddressLookupPage
+      case Some(ATrust) => TrustAddressLookupPage
+      case Some(AnEstate) => EstateAddressLookupPage
       case _ => YourAddressLookupPage
     }
     userAnswers.get(addressPage).map(_.getAddressLines.mkString("<br>")).getOrElse("")

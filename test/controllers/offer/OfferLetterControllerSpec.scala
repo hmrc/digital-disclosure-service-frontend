@@ -18,7 +18,7 @@ package controllers
 
 import base.SpecBase
 import forms.OfferLetterFormProvider
-import models.{RelatesTo, UserAnswers}
+import models.{AreYouTheEntity,RelatesTo, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
@@ -69,7 +69,7 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
 
       val userAnswers = (for {
         ua <- emptyUserAnswers.set(RelatesToPage, RelatesTo.AnIndividual)
-        ua2 <- ua.set(AreYouTheIndividualPage, true)
+        ua2 <- ua.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         ua3 <- ua2.set(WhatIsYourFullNamePage, "My name")
         ua4 <- ua3.set(YourAddressLookupPage, Address("my line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GB")))
       } yield ua4).success.value
@@ -92,7 +92,7 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
 
       val userAnswers = (for {
         ua <- emptyUserAnswers.set(RelatesToPage, RelatesTo.AnIndividual)
-        ua2 <- ua.set(AreYouTheIndividualPage, false)
+        ua2 <- ua.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
         ua3 <- ua2.set(WhatIsYourFullNamePage, "My name")
         ua4 <- ua3.set(IndividualAddressLookupPage, Address("ind line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GB")))
         ua5 <- ua4.set(WhatIsTheIndividualsFullNamePage, "Individual's name")

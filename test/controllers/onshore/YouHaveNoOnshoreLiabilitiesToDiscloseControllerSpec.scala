@@ -20,8 +20,8 @@ import base.SpecBase
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.html.onshore.YouHaveNoOnshoreLiabilitiesToDiscloseView
-import models.{RelatesTo, WhyAreYouMakingThisOnshoreDisclosure, UserAnswers}
-import pages.{AreYouTheIndividualPage, WhyAreYouMakingThisOnshoreDisclosurePage}
+import models.{AreYouTheEntity, RelatesTo, WhyAreYouMakingThisOnshoreDisclosure, UserAnswers}
+import pages.{AreYouTheEntityPage, WhyAreYouMakingThisOnshoreDisclosurePage}
 
 class YouHaveNoOnshoreLiabilitiesToDiscloseControllerSpec extends SpecBase {
 
@@ -30,13 +30,13 @@ class YouHaveNoOnshoreLiabilitiesToDiscloseControllerSpec extends SpecBase {
 
     "must return OK and the correct view for a GET" in {
 
-      val areTheyTheIndividual = true
+      val areTheyTheIndividual = AreYouTheEntity.YesIAm
       val entity = RelatesTo.AnIndividual
       val years = 20
 
       val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyNoExcuse)
       val userAnswers = (for{
-        ua <- UserAnswers(userAnswersId).set(AreYouTheIndividualPage, areTheyTheIndividual)
+        ua <- UserAnswers(userAnswersId).set(AreYouTheEntityPage, areTheyTheIndividual)
         updatedUa <- ua.set(WhyAreYouMakingThisOnshoreDisclosurePage, set)
       } yield updatedUa).success.value
 
@@ -50,7 +50,7 @@ class YouHaveNoOnshoreLiabilitiesToDiscloseControllerSpec extends SpecBase {
         val view = application.injector.instanceOf[YouHaveNoOnshoreLiabilitiesToDiscloseView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(areTheyTheIndividual, entity, years)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(userAnswers.isTheUserTheIndividual, entity, years)(request, messages(application)).toString
       }
     }
   }

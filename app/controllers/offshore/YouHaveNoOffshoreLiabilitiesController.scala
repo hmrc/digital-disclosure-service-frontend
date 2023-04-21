@@ -19,7 +19,7 @@ package controllers.offshore
 import controllers.actions._
 import models.WhyAreYouMakingThisDisclosure._
 import models.{RelatesTo, UserAnswers}
-import pages.{AreYouTheIndividualPage, RelatesToPage, WhyAreYouMakingThisDisclosurePage}
+import pages.{RelatesToPage, WhyAreYouMakingThisDisclosurePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
@@ -40,11 +40,10 @@ class YouHaveNoOffshoreLiabilitiesController @Inject()(
     implicit request => {
 
       val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
-      val isIndividual = request.userAnswers.get(AreYouTheIndividualPage).getOrElse(false)
-      val entityString = (entity, isIndividual) match {
-        case (RelatesTo.AnIndividual, true) => "iAmIndividual"
-        case (RelatesTo.AnIndividual, false) => "iAmNotIndividual"
-        case (RelatesTo.ALimitedLiabilityPartnership, _ ) => "llp"
+      val entityString = entity match {
+        case RelatesTo.AnIndividual if request.userAnswers.isTheUserTheIndividual => "iAmIndividual"
+        case RelatesTo.AnIndividual => "iAmNotIndividual"
+        case RelatesTo.ALimitedLiabilityPartnership => "llp"
         case _ => "other"
       }
       val numberOfYears = getNumberOfYears(request.userAnswers)

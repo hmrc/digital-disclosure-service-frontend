@@ -43,15 +43,12 @@ class UAToNotificationServiceImpl extends UAToNotificationService {
       aboutYou = userAnswersToAboutYou(userAnswers)
     )
 
-    val relatesToPage = userAnswers.get(RelatesToPage)
-    val areYouTheIndividualPage = userAnswers.get(AreYouTheIndividualPage)
-
-    (relatesToPage, areYouTheIndividualPage) match {
-      case (Some(RelatesTo.AnIndividual), Some(false)) => rawPersonalDetails.copy(aboutTheIndividual = Some(userAnswersToAboutTheIndividual(userAnswers)))
-      case (Some(RelatesTo.ACompany), _) => rawPersonalDetails.copy(aboutTheCompany = Some(userAnswersToAboutTheCompany(userAnswers)))
-      case (Some(RelatesTo.ATrust), _) => rawPersonalDetails.copy(aboutTheTrust = Some(userAnswersToAboutTheTrust(userAnswers)))
-      case (Some(RelatesTo.ALimitedLiabilityPartnership), _) => rawPersonalDetails.copy(aboutTheLLP = Some(userAnswersToAboutTheLLP(userAnswers)))
-      case (Some(RelatesTo.AnEstate), _) => rawPersonalDetails.copy(aboutTheEstate = Some(userAnswersToAboutTheEstate(userAnswers)))
+    userAnswers.get(RelatesToPage) match {
+      case Some(RelatesTo.AnIndividual) if !userAnswers.isTheUserTheIndividual => rawPersonalDetails.copy(aboutTheIndividual = Some(userAnswersToAboutTheIndividual(userAnswers)))
+      case Some(RelatesTo.ACompany) => rawPersonalDetails.copy(aboutTheCompany = Some(userAnswersToAboutTheCompany(userAnswers)))
+      case Some(RelatesTo.ATrust) => rawPersonalDetails.copy(aboutTheTrust = Some(userAnswersToAboutTheTrust(userAnswers)))
+      case Some(RelatesTo.ALimitedLiabilityPartnership) => rawPersonalDetails.copy(aboutTheLLP = Some(userAnswersToAboutTheLLP(userAnswers)))
+      case Some(RelatesTo.AnEstate) => rawPersonalDetails.copy(aboutTheEstate = Some(userAnswersToAboutTheEstate(userAnswers)))
       case _ => rawPersonalDetails
     }
   }
@@ -81,11 +78,11 @@ class UAToNotificationServiceImpl extends UAToNotificationService {
 
   def userAnswerToDisclosureEntity(userAnswers: UserAnswers): Option[DisclosureEntity] = {
     userAnswers.get(RelatesToPage).map(_ match {
-      case RelatesTo.AnIndividual => DisclosureEntity(Individual, userAnswers.get(AreYouTheIndividualPage))
-      case RelatesTo.ACompany => DisclosureEntity(Company, userAnswers.get(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage))
-      case RelatesTo.ALimitedLiabilityPartnership => DisclosureEntity(LLP, userAnswers.get(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage))
-      case RelatesTo.ATrust => DisclosureEntity(Trust, userAnswers.get(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage))      
-      case RelatesTo.AnEstate => DisclosureEntity(Estate, userAnswers.get(AreYouTheExecutorOfTheEstatePage))
+      case RelatesTo.AnIndividual => DisclosureEntity(Individual, userAnswers.get(AreYouTheEntityPage))
+      case RelatesTo.ACompany => DisclosureEntity(Company, userAnswers.get(AreYouTheEntityPage))
+      case RelatesTo.ALimitedLiabilityPartnership => DisclosureEntity(LLP, userAnswers.get(AreYouTheEntityPage))
+      case RelatesTo.ATrust => DisclosureEntity(Trust, userAnswers.get(AreYouTheEntityPage))      
+      case RelatesTo.AnEstate => DisclosureEntity(Estate, userAnswers.get(AreYouTheEntityPage))
     })
   }
 

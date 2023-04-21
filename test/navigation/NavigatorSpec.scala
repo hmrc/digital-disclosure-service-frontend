@@ -57,7 +57,7 @@ class NavigatorSpec extends SpecBase {
           ua1 <- UserAnswers(id = "id", submissionType = SubmissionType.Notification).set(ReceivedALetterPage, true)
           ua2 <- ua1.set(ReceivedALetterPage, false)
           ua3 <- ua2.set(RelatesToPage, RelatesTo.ATrust)
-          ua4 <- ua3.set(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, true)
+          ua4 <- ua3.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
           ua5 <- ua4.set(OffshoreLiabilitiesPage, true)
           ua6 <- ua5.set(OnshoreLiabilitiesPage, true)
           ua7 <- ua6.set(WhatIsTheTrustNamePage, "Some trust")

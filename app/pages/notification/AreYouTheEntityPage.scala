@@ -16,16 +16,12 @@
 
 package pages
 
-import pages.behaviours.PageBehaviours
+import models.AreYouTheEntity
+import play.api.libs.json.JsPath
 
-class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutSpec extends PageBehaviours {
+case object AreYouTheEntityPage extends QuestionPage[AreYouTheEntity] {
 
-  "AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage" - {
+  override def path: JsPath = JsPath \ toString
 
-    beRetrievable[Boolean](AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage)
-
-    beSettable[Boolean](AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage)
-
-    beRemovable[Boolean](AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage)
-  }
+  override def toString: String = "areYouTheEntity"
 }

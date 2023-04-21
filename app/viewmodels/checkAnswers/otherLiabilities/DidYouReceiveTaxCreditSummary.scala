@@ -18,7 +18,7 @@ package viewmodels.checkAnswers
 
 import controllers.otherLiabilities.routes
 import models.{CheckMode, RelatesTo, UserAnswers}
-import pages.{AreYouTheIndividualPage, RelatesToPage, DidYouReceiveTaxCreditPage}
+import pages.{RelatesToPage, DidYouReceiveTaxCreditPage}
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
@@ -40,7 +40,7 @@ object DidYouReceiveTaxCreditSummary  {
           )
         )
 
-        val areTheyTheIndividual = isTheUserTheIndividual(answers)
+        val areTheyTheIndividual = answers.isTheUserTheIndividual
         val entity = answers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
         val key = messages(if(areTheyTheIndividual) s"didYouReceiveTaxCredit.you.checkYourAnswersLabel" else s"didYouReceiveTaxCredit.${entity}.checkYourAnswersLabel")
 
@@ -54,10 +54,4 @@ object DidYouReceiveTaxCreditSummary  {
         )
     }
 
-  def isTheUserTheIndividual(userAnswers: UserAnswers): Boolean = {
-    userAnswers.get(AreYouTheIndividualPage) match {
-      case Some(true) => true
-      case _ => false
-    }
-  }
 }

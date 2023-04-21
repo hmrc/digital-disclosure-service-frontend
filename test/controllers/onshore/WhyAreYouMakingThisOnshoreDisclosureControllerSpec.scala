@@ -18,7 +18,7 @@ package controllers
 
 import base.SpecBase
 import forms.WhyAreYouMakingThisOnshoreDisclosureFormProvider
-import models.{NormalMode, WhyAreYouMakingThisOnshoreDisclosure, UserAnswers, RelatesTo}
+import models.{AreYouTheEntity, NormalMode, WhyAreYouMakingThisOnshoreDisclosure, UserAnswers, RelatesTo}
 import navigation.{FakeOnshoreNavigator, OnshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
@@ -48,11 +48,11 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
     "must return OK and the correct view for a GET" in {
 
       val userAnswers = (for {
-        userAnswer <- UserAnswers("id").set(AreYouTheIndividualPage, true)
+        userAnswer <- UserAnswers("id").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
-      val areTheyTheIndividual = isTheUserTheIndividual(userAnswers)
+      val areTheyTheIndividual = userAnswers.isTheUserTheIndividual
       val entity = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
@@ -73,12 +73,12 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = (for {
-        userAnswer <- UserAnswers("id").set(AreYouTheIndividualPage, true)
+        userAnswer <- UserAnswers("id").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
         uaWithWhyAreYouMakingThisOnshoreDisclosurePage <- uaWithRelatesToPage.set(WhyAreYouMakingThisOnshoreDisclosurePage, WhyAreYouMakingThisOnshoreDisclosure.values.toSet)
       } yield uaWithWhyAreYouMakingThisOnshoreDisclosurePage).success.value
 
-      val areTheyTheIndividual = isTheUserTheIndividual(userAnswers)
+      val areTheyTheIndividual = userAnswers.isTheUserTheIndividual
       val entity = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
@@ -98,7 +98,7 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
     "must redirect to the next page when valid data is submitted" in {
 
       val userAnswers = (for {
-        userAnswer <- UserAnswers("id").set(AreYouTheIndividualPage, true)
+        userAnswer <- UserAnswers("id").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
@@ -128,11 +128,11 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
     "must return a Bad Request and errors when invalid data is submitted" in {
 
       val userAnswers = (for {
-        userAnswer <- UserAnswers("id").set(AreYouTheIndividualPage, true)
+        userAnswer <- UserAnswers("id").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
-      val areTheyTheIndividual = isTheUserTheIndividual(userAnswers)
+      val areTheyTheIndividual = userAnswers.isTheUserTheIndividual
       val entity = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
@@ -215,10 +215,4 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
 
   }
 
-  def isTheUserTheIndividual(userAnswers: UserAnswers): Boolean = {
-    userAnswers.get(AreYouTheIndividualPage) match {
-      case Some(true) => true
-      case _ => false
-    }
-  }
 }

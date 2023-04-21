@@ -17,8 +17,8 @@
 package viewmodels.checkAnswers
 
 import controllers.notification.routes
-import models.{CheckMode, UserAnswers}
-import pages.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage
+import models.{RelatesTo, CheckMode, UserAnswers}
+import pages.{AreYouTheEntityPage, RelatesToPage}
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
@@ -26,27 +26,27 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutSummary  {
+object AreYouTheEntitySummary  {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage).map {
+  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] = {
+    val entity = answers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+    answers.get(AreYouTheEntityPage).map {
       answer =>
-
-        val answerString = if (answer) "yes" else "no"
 
         val value = ValueViewModel(
           HtmlContent(
-            HtmlFormat.escape(messages(s"areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.$answerString"))
+            HtmlFormat.escape(messages(s"areYouTheEntity.$entity.$answer"))
           )
         )
 
         SummaryListRowViewModel(
-          key     = "areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.checkYourAnswersLabel",
+          key     = s"areYouTheEntity.$entity.checkYourAnswersLabel",
           value   = value,
           actions = Seq(
-            ActionItemViewModel("site.change", routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.change.hidden"))
+            ActionItemViewModel("site.change", routes.AreYouTheEntityController.onPageLoad(CheckMode).url)
+              .withVisuallyHiddenText(messages(s"areYouTheEntity.$entity.change.hidden"))
           )
         )
     }
+  }
 }

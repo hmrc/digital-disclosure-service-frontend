@@ -17,64 +17,72 @@
 package controllers
 
 import base.SpecBase
-import forms.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutFormProvider
-import models.{NormalMode, UserAnswers}
+import forms.AreYouTheEntityFormProvider
+import models.{RelatesTo, NormalMode, AreYouTheEntity, UserAnswers}
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage
+import pages.{AreYouTheEntityPage, RelatesToPage}
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
-import views.html.notification.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutView
+import views.html.notification.AreYouTheEntityView
 
 import scala.concurrent.Future
 
-class AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutControllerSpec extends SpecBase with MockitoSugar {
+class AreYouTheEntityControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val areYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutRoute = controllers.notification.routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode).url
+  lazy val areYouTheEntityRoute = notification.routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
-  val formProvider = new AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutFormProvider()
-  val form = formProvider()
+  val formProvider = new AreYouTheEntityFormProvider()
 
-  "AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout Controller" - {
+  "AreYouTheEntity Controller" - {
 
-    "must return OK and the correct view for a GET" in {
+    RelatesTo.values.map{ entity => 
+      s"must return OK and the correct view for a $entity" in {
+        val userAnswers = UserAnswers(userAnswersId).set(RelatesToPage, entity).success.value
+        val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+        val form = formProvider(entity)
 
-      running(application) {
-        val request = FakeRequest(GET, areYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutRoute)
+        running(application) {
+          val request = FakeRequest(GET, areYouTheEntityRoute)
 
-        val result = route(application, request).value
+          val result = route(application, request).value
 
-        val view = application.injector.instanceOf[AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutView]
+          val view = application.injector.instanceOf[AreYouTheEntityView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode, false)(request, messages(application)).toString
+          status(result) mustEqual OK
+          contentAsString(result) mustEqual view(form, NormalMode, entity, false)(request, messages(application)).toString
+        }
       }
     }
 
-    "must populate the view correctly on a GET when the question has previously been answered" in {
+    RelatesTo.values.map{ entity => 
+      s"must populate the view correctly for a $entity when the question has previously been answered" in {
+        val userAnswers = (for {
+          initialUa <- UserAnswers(userAnswersId).set(AreYouTheEntityPage, AreYouTheEntity.values.head)
+          ua <- initialUa.set(RelatesToPage, entity)
+        } yield ua).success.value
+        val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val userAnswers = UserAnswers(userAnswersId).set(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, true).success.value
+        val form = formProvider(entity)
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+        running(application) {
+          val request = FakeRequest(GET, areYouTheEntityRoute)
 
-      running(application) {
-        val request = FakeRequest(GET, areYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutRoute)
+          val view = application.injector.instanceOf[AreYouTheEntityView]
 
-        val view = application.injector.instanceOf[AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutView]
+          val result = route(application, request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(true), NormalMode, false)(request, messages(application)).toString
+          status(result) mustEqual OK
+          contentAsString(result) mustEqual view(form.fill(AreYouTheEntity.values.head), NormalMode, entity, false)(request, messages(application)).toString
+        }
       }
     }
 
@@ -93,8 +101,8 @@ class AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutControllerSpec extends 
 
       running(application) {
         val request =
-          FakeRequest(POST, areYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutRoute)
-            .withFormUrlEncodedBody(("value", true.toString))
+          FakeRequest(POST, areYouTheEntityRoute)
+            .withFormUrlEncodedBody(("value", AreYouTheEntity.values.head.toString))
 
         val result = route(application, request).value
 
@@ -109,17 +117,18 @@ class AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutControllerSpec extends 
 
       running(application) {
         val request =
-          FakeRequest(POST, areYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutRoute)
+          FakeRequest(POST, areYouTheEntityRoute)
             .withFormUrlEncodedBody(("value", "invalid value"))
 
+        val form = formProvider(RelatesTo.AnIndividual)
         val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutView]
+        val view = application.injector.instanceOf[AreYouTheEntityView]
 
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, false)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode, RelatesTo.AnIndividual, false)(request, messages(application)).toString
       }
     }
 
@@ -128,7 +137,7 @@ class AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutControllerSpec extends 
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val request = FakeRequest(GET, areYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutRoute)
+        val request = FakeRequest(GET, areYouTheEntityRoute)
 
         val result = route(application, request).value
 
@@ -143,8 +152,8 @@ class AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutControllerSpec extends 
 
       running(application) {
         val request =
-          FakeRequest(POST, areYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutRoute)
-            .withFormUrlEncodedBody(("value", true.toString))
+          FakeRequest(POST, areYouTheEntityRoute)
+            .withFormUrlEncodedBody(("value", AreYouTheEntity.values.head.toString))
 
         val result = route(application, request).value
 

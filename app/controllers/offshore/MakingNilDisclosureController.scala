@@ -24,7 +24,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.offshore.MakingNilDisclosureView
 import models.{UserAnswers, RelatesTo}
 import models.WhyAreYouMakingThisDisclosure._
-import pages.{AreYouTheIndividualPage, RelatesToPage, WhyAreYouMakingThisDisclosurePage}
+import pages.{RelatesToPage, WhyAreYouMakingThisDisclosurePage}
 
 class MakingNilDisclosureController @Inject()(
                                        override val messagesApi: MessagesApi,
@@ -38,11 +38,10 @@ class MakingNilDisclosureController @Inject()(
   def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
       val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
       val years = numberOfYears(request.userAnswers)
       
-      Ok(view(areTheyTheIndividual, entity, years))
+      Ok(view(request.userAnswers.isTheUserTheIndividual, entity, years))
   }
 
   def numberOfYears(ua: UserAnswers): Int = {
@@ -55,10 +54,4 @@ class MakingNilDisclosureController @Inject()(
     }
   }
 
-  def isTheUserTheIndividual(userAnswers: UserAnswers): Boolean = {
-    userAnswers.get(AreYouTheIndividualPage) match {
-      case Some(true) => true
-      case _ => false
-    }
-  }
 }

@@ -1,0 +1,70 @@
+@*
+ * Copyright 2023 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@this(
+    layout: templates.Layout,
+    formHelper: FormWithCSRF,
+    govukErrorSummary: GovukErrorSummary,
+    govukRadios: GovukRadios,
+    govukButton: GovukButton,
+    tasklistLink: components.tasklistLink,
+    paragraph: components.paragraph,
+    link: components.link,
+    heading: components.heading
+)
+
+@(form: Form[_], mode: Mode, entity: RelatesTo, isDisclosure: Boolean)(implicit request: Request[_], messages: Messages)
+
+@layout(pageTitle = title(form, messages(s"areYouTheEntity.$entity.title"))) {
+
+    @formHelper(action = controllers.notification.routes.AreYouTheEntityController.onSubmit(mode), 'autoComplete -> "off") {
+
+        @if(form.errors.nonEmpty) {
+            @govukErrorSummary(ErrorSummaryViewModel(form,  errorLinkOverrides = Map("value" -> "value_0")))
+        }
+
+        @heading(messages(s"areYouTheEntity.$entity.heading"))
+
+        @if(entity == RelatesTo.AnEstate) {
+            @paragraph(id = Some("estate-paragraph"), content = Text(messages(s"areYouTheEntity.estate.initialParagraph")))
+        }
+
+        @paragraph(
+            id = Some("agent-paragraph"), 
+            content = HtmlContent(
+                messages(s"areYouTheEntity.$entity.body") +
+                link(id = "agent-paragraph-link", text = messages(s"areYouTheEntity.$entity.link"), newTab = true, call = Call("GET", "https://www.gov.uk/appoint-tax-agent")) +
+                messages("site.dot")
+            )
+        )
+
+        @govukRadios(
+            RadiosViewModel(
+                field  = form("value"),
+                legend = LegendViewModel(messages(s"areYouTheEntity.$entity.heading")).withCssClass("govuk-visually-hidden"),
+                items  = AreYouTheEntity.options(entity)
+            )
+        )
+
+        @govukButton(
+            ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
+        )
+    }
+
+    @if(isDisclosure){
+        @tasklistLink()
+    }
+}
