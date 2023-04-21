@@ -23,9 +23,9 @@
     tasklistLink: components.tasklistLink
 )
 
-@(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], mode: Mode, areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("areYouAMemberOfAnyLandlordAssociations.title"))) {
+@layout(pageTitle = title(form, if(areTheyTheIndividual) messages("areYouAMemberOfAnyLandlordAssociations.you.title") else messages(s"areYouAMemberOfAnyLandlordAssociations.${entity}.title"))) {
 
     @formHelper(action = controllers.onshore.routes.AreYouAMemberOfAnyLandlordAssociationsController.onSubmit(mode), 'autoComplete -> "off") {
 
@@ -36,7 +36,7 @@
         @govukRadios(
             RadiosViewModel.yesNoNotInline(
                 field = form("value"),
-                legend = LegendViewModel(messages("areYouAMemberOfAnyLandlordAssociations.heading")).asPageHeading(),
+                legend = LegendViewModel(messages(if(areTheyTheIndividual) "areYouAMemberOfAnyLandlordAssociations.you.heading" else s"areYouAMemberOfAnyLandlordAssociations.${entity}.heading")).asPageHeading(),
                 messagePrefix = "areYouAMemberOfAnyLandlordAssociations"
             )
         )

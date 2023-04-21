@@ -20,11 +20,12 @@ import javax.inject.Inject
 
 import forms.mappings.Mappings
 import play.api.data.Form
+import models.RelatesTo
 
 class AreYouAMemberOfAnyLandlordAssociationsFormProvider @Inject() extends Mappings {
 
-  def apply(): Form[Boolean] =
+  def apply(areTheyTheIndividual: Boolean, entity: RelatesTo): Form[Boolean] =
     Form(
-      "value" -> boolean("areYouAMemberOfAnyLandlordAssociations.error.required")
+      "value" -> boolean(if(areTheyTheIndividual) "areYouAMemberOfAnyLandlordAssociations.you.error.required" else s"areYouAMemberOfAnyLandlordAssociations.${entity}.error.required")
     )
 }

@@ -19,9 +19,9 @@ package controllers.onshore
 import controllers.actions._
 import forms.AreYouAMemberOfAnyLandlordAssociationsFormProvider
 import javax.inject.Inject
-import models.Mode
+import models.{Mode, RelatesTo}
 import navigation.OnshoreNavigator
-import pages.AreYouAMemberOfAnyLandlordAssociationsPage
+import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -42,25 +42,29 @@ class AreYouAMemberOfAnyLandlordAssociationsController @Inject()(
                                          view: AreYouAMemberOfAnyLandlordAssociationsView
                                  )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  val form = formProvider()
-
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
+      val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
+      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+
       val preparedForm = request.userAnswers.get(AreYouAMemberOfAnyLandlordAssociationsPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
+        case None => form(areTheyTheIndividual, entity)
+        case Some(value) => form(areTheyTheIndividual, entity).fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      Ok(view(preparedForm, mode, areTheyTheIndividual, entity))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
 
-      form.bindFromRequest().fold(
+      val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
+      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+
+      form(areTheyTheIndividual, entity).bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, areTheyTheIndividual, entity))),
 
         value =>
           for {
@@ -69,4 +73,6 @@ class AreYouAMemberOfAnyLandlordAssociationsController @Inject()(
           } yield Redirect(navigator.nextPage(AreYouAMemberOfAnyLandlordAssociationsPage, mode, updatedAnswers))
       )
   }
+
+  def form(areTheyTheIndividual: Boolean, entity: RelatesTo) = formProvider(areTheyTheIndividual, entity)
 }
