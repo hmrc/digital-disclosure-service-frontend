@@ -30,10 +30,11 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
 import views.html.notification.AreYouTheEntityView
+import pages.notification.SectionPages
 
 import scala.concurrent.Future
 
-class AreYouTheEntityControllerSpec extends SpecBase with MockitoSugar {
+class AreYouTheEntityControllerSpec extends SpecBase with MockitoSugar with SectionPages {
 
   def onwardRoute = Call("GET", "/foo")
 
@@ -163,4 +164,63 @@ class AreYouTheEntityControllerSpec extends SpecBase with MockitoSugar {
       }
     }
   }
+
+  "changedPages" - {
+
+    import controllers.notification.AreYouTheEntityController
+
+    "return nil where the answer hasn't changed" in {
+
+      val existingUserAnswers = (for {
+        ua <- UserAnswers(userAnswersId).set(RelatesToPage, RelatesTo.AnIndividual)
+        finalUa <- ua.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+      } yield finalUa).success.value
+
+      val application = applicationBuilder(userAnswers = Some(existingUserAnswers)).build()
+      val sut = application.injector.instanceOf[AreYouTheEntityController]
+
+      sut.changedPages(existingUserAnswers, AreYouTheEntity.YesIAm) mustEqual ((Nil, false))
+    }
+
+    "return about you, about the individual and organisation pages where it's an individual, the answer has changed, and it's not YesIAm" in {
+
+      val existingUserAnswers = (for {
+        ua <- UserAnswers(userAnswersId).set(RelatesToPage, RelatesTo.AnIndividual)
+        finalUa <- ua.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
+      } yield finalUa).success.value
+
+      val application = applicationBuilder(userAnswers = Some(existingUserAnswers)).build()
+      val sut = application.injector.instanceOf[AreYouTheEntityController]
+
+      sut.changedPages(existingUserAnswers, AreYouTheEntity.YesIAm) mustEqual ((aboutYouPages ::: aboutIndividualPages ::: areYouTheOrganisationPages, true))
+    }
+
+    "return about you pages where it's an individual, the answer has changed, and it used to be YesIAm" in {
+
+      val existingUserAnswers = (for {
+        ua <- UserAnswers(userAnswersId).set(RelatesToPage, RelatesTo.AnIndividual)
+        finalUa <- ua.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+      } yield finalUa).success.value
+
+      val application = applicationBuilder(userAnswers = Some(existingUserAnswers)).build()
+      val sut = application.injector.instanceOf[AreYouTheEntityController]
+
+      sut.changedPages(existingUserAnswers, AreYouTheEntity.IAmAnAccountantOrTaxAgent) mustEqual ((aboutYouPages, true))
+    }
+
+    "return areYouTheOrganisationPages where it's not an individual, the answer has changed, and it used to be IAmAnAccountantOrTaxAgent" in {
+
+      val existingUserAnswers = (for {
+        ua <- UserAnswers(userAnswersId).set(RelatesToPage, RelatesTo.ACompany)
+        finalUa <- ua.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
+      } yield finalUa).success.value
+
+      val application = applicationBuilder(userAnswers = Some(existingUserAnswers)).build()
+      val sut = application.injector.instanceOf[AreYouTheEntityController]
+
+      sut.changedPages(existingUserAnswers, AreYouTheEntity.YesIAm) mustEqual ((areYouTheOrganisationPages, true))
+    }
+
+  }
+
 }
