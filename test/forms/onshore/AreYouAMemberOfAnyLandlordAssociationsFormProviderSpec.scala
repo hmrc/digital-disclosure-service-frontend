@@ -18,13 +18,16 @@ package forms
 
 import forms.behaviours.BooleanFieldBehaviours
 import play.api.data.FormError
+import models.RelatesTo
 
 class AreYouAMemberOfAnyLandlordAssociationsFormProviderSpec extends BooleanFieldBehaviours {
 
-  val requiredKey = "areYouAMemberOfAnyLandlordAssociations.error.required"
+  val requiredKey = "areYouAMemberOfAnyLandlordAssociations.you.error.required"
   val invalidKey = "error.boolean"
-
-  val form = new AreYouAMemberOfAnyLandlordAssociationsFormProvider()()
+  val areTheyTheIndividual = true
+  val entity = RelatesTo.AnIndividual
+  
+  val form = new AreYouAMemberOfAnyLandlordAssociationsFormProvider()(areTheyTheIndividual, entity)
 
   ".value" - {
 

@@ -21,25 +21,28 @@ import forms.AreYouAMemberOfAnyLandlordAssociationsFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.onshore.AreYouAMemberOfAnyLandlordAssociationsView
-import models.NormalMode
+import models.{NormalMode, RelatesTo}
 
 class AreYouAMemberOfAnyLandlordAssociationsViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new AreYouAMemberOfAnyLandlordAssociationsFormProvider()()
+  val areTheyTheIndividual = true
+  val entity = RelatesTo.AnIndividual
+  
+  val form = new AreYouAMemberOfAnyLandlordAssociationsFormProvider()(areTheyTheIndividual, entity)
   val page: AreYouAMemberOfAnyLandlordAssociationsView = inject[AreYouAMemberOfAnyLandlordAssociationsView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
   "view" should {
 
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("areYouAMemberOfAnyLandlordAssociations.title"))
+      view.select("title").text() must include(messages("areYouAMemberOfAnyLandlordAssociations.you.title"))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("areYouAMemberOfAnyLandlordAssociations.heading")
+      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("areYouAMemberOfAnyLandlordAssociations.you.heading")
     }
 
     "have yes" in {

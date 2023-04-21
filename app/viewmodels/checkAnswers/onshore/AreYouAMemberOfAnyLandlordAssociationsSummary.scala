@@ -17,8 +17,8 @@
 package viewmodels.checkAnswers
 
 import controllers.onshore.routes
-import models.{CheckMode, UserAnswers}
-import pages.AreYouAMemberOfAnyLandlordAssociationsPage
+import models.{CheckMode, UserAnswers, RelatesTo}
+import pages.{AreYouAMemberOfAnyLandlordAssociationsPage, RelatesToPage}
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
@@ -32,13 +32,17 @@ object AreYouAMemberOfAnyLandlordAssociationsSummary  {
 
         val value = if (answer) "areYouAMemberOfAnyLandlordAssociations.yes" else "areYouAMemberOfAnyLandlordAssociations.no"
 
+        val areTheyTheIndividual = answers.isTheUserTheIndividual
+        val entity = answers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+
         SummaryListRowViewModel(
-          key     = "areYouAMemberOfAnyLandlordAssociations.checkYourAnswersLabel",
+          key     = if(areTheyTheIndividual) "areYouAMemberOfAnyLandlordAssociations.you.checkYourAnswersLabel" else s"areYouAMemberOfAnyLandlordAssociations.${entity}.checkYourAnswersLabel",
           value   = ValueViewModel(value),
           actions = Seq(
             ActionItemViewModel("site.change", routes.AreYouAMemberOfAnyLandlordAssociationsController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("areYouAMemberOfAnyLandlordAssociations.change.hidden"))
+              .withVisuallyHiddenText(messages(if(areTheyTheIndividual) "areYouAMemberOfAnyLandlordAssociations.you.change.hidden" else "areYouAMemberOfAnyLandlordAssociations.${entity}.change.hidden"))
           )
         )
     }
+  
 }

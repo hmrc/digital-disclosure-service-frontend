@@ -18,7 +18,7 @@ package controllers
 
 import base.SpecBase
 import forms.AreYouAMemberOfAnyLandlordAssociationsFormProvider
-import models.{NormalMode, UserAnswers}
+import models.{NormalMode, UserAnswers, RelatesTo}
 import navigation.{FakeOnshoreNavigator, OnshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
@@ -38,7 +38,9 @@ class AreYouAMemberOfAnyLandlordAssociationsControllerSpec extends SpecBase with
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new AreYouAMemberOfAnyLandlordAssociationsFormProvider()
-  val form = formProvider()
+  val areTheyTheIndividual = false
+  val entity = RelatesTo.AnIndividual
+  val form = formProvider(areTheyTheIndividual, entity)
 
   lazy val areYouAMemberOfAnyLandlordAssociationsRoute = onshore.routes.AreYouAMemberOfAnyLandlordAssociationsController.onPageLoad(NormalMode).url
 
@@ -56,7 +58,7 @@ class AreYouAMemberOfAnyLandlordAssociationsControllerSpec extends SpecBase with
         val view = application.injector.instanceOf[AreYouAMemberOfAnyLandlordAssociationsView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode, areTheyTheIndividual, entity)(request, messages(application)).toString
       }
     }
 
@@ -74,7 +76,7 @@ class AreYouAMemberOfAnyLandlordAssociationsControllerSpec extends SpecBase with
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(true), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(true), NormalMode, areTheyTheIndividual, entity)(request, messages(application)).toString
       }
     }
 
@@ -119,7 +121,7 @@ class AreYouAMemberOfAnyLandlordAssociationsControllerSpec extends SpecBase with
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(request, messages(application)).toString
       }
     }
 
