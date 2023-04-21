@@ -17,74 +17,60 @@
 package controllers.notification
 
 import controllers.actions._
-import forms.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutFormProvider
+import forms.AreYouTheEntityFormProvider
 import javax.inject.Inject
-import models._
-
+import models.{Mode, RelatesTo}
 import navigation.NotificationNavigator
-import pages._
+import pages.{AreYouTheEntityPage, RelatesToPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import views.html.notification.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutView
+import views.html.notification.AreYouTheEntityView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController @Inject()(
+class AreYouTheEntityController @Inject()(
                                        override val messagesApi: MessagesApi,
                                        sessionService: SessionService,
                                        navigator: NotificationNavigator,
                                        identify: IdentifierAction,
                                        getData: DataRetrievalAction,
                                        requireData: DataRequiredAction,
-                                       formProvider: AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutFormProvider,
+                                       formProvider: AreYouTheEntityFormProvider,
                                        val controllerComponents: MessagesControllerComponents,
-                                       view: AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutView
+                                       view: AreYouTheEntityView
                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
-
-  val form = formProvider()
 
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val preparedForm = request.userAnswers.get(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage) match {
+      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+      val form = formProvider(entity)
+
+      val preparedForm = request.userAnswers.get(AreYouTheEntityPage) match {
         case None => form
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
+      Ok(view(preparedForm, mode, entity, request.userAnswers.isDisclosure))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
 
+      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+      val form = formProvider(entity)
+
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
+          Future.successful(BadRequest(view(formWithErrors, mode, entity, request.userAnswers.isDisclosure))),
 
-        value =>{
-
-          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
-
+        value =>
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, value))
-            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
-            _              <- sessionService.set(clearedAnswers)
-          } yield Redirect(navigator.nextPage(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, mode, clearedAnswers, hasValueChanged))
-        }
+            updatedAnswers <- Future.fromTry(request.userAnswers.set(AreYouTheEntityPage, value))
+            _              <- sessionService.set(updatedAnswers)
+          } yield Redirect(navigator.nextPage(AreYouTheEntityPage, mode, updatedAnswers))
       )
   }
-
-  def changedPages(userAnswers: UserAnswers, newAnswer: Boolean): (List[QuestionPage[_]], Boolean) = {
-    userAnswers.get(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage) match {
-      case Some(true) if true != newAnswer =>
-        (Nil, true)
-      case Some(false) if false != newAnswer => 
-        (List(AreYouRepresentingAnOrganisationPage, WhatIsTheNameOfTheOrganisationYouRepresentPage), false) 
-      case _ => (Nil, false)
-    }
-  }
-
-  
 }

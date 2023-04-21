@@ -21,8 +21,7 @@ import forms.WhyAreYouMakingThisOnshoreDisclosureFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.onshore.WhyAreYouMakingThisOnshoreDisclosureView
-import models.{NormalMode, RelatesTo, UserAnswers}
-import pages.AreYouTheIndividualPage
+import models.{NormalMode, RelatesTo}
 
 class WhyAreYouMakingThisOnshoreDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
 
@@ -136,13 +135,6 @@ class WhyAreYouMakingThisOnshoreDisclosureViewSpec extends ViewSpecBase with Vie
 
     "contain multiple checkboxes when select ATrust" in {
       constructMessageKey(view, areTheyTheIndividual, entity)
-    }
-  }
-
-  def isTheUserTheIndividual(userAnswers: UserAnswers): Boolean = {
-    userAnswers.get(AreYouTheIndividualPage) match {
-      case Some(true) => true
-      case _ => false
     }
   }
 

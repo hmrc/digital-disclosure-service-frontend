@@ -86,11 +86,7 @@ trait SectionPages {
   )
 
   val areYouTheEntityPages: List[QuestionPage[_]] = List(
-    AreYouTheIndividualPage,
-    AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage,
-    AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage,
-    AreYouTheExecutorOfTheEstatePage,
-    AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage
+    AreYouTheEntityPage
   ) 
 
   val allEntityPages: List[QuestionPage[_]] = aboutIndividualPages ::: 

@@ -27,6 +27,7 @@ trait UserAnswersGenerator extends TryValues {
   self: Generators =>
 
   val generators: Seq[Gen[(QuestionPage[_], JsValue)]] =
+    arbitrary[(AreYouTheEntityPage.type, JsValue)] ::
     arbitrary[(AccountingPeriodDLAddedPage.type, JsValue)] ::
     arbitrary[(AccountingPeriodCTAddedPage.type, JsValue)] ::
     arbitrary[(PropertyAddedPage.type, JsValue)] ::
@@ -101,17 +102,13 @@ trait UserAnswersGenerator extends TryValues {
     arbitrary[(DidThePersonHaveNINOPage.type, JsValue)] ::
     arbitrary[(WhatWasThePersonDateOfBirthPage.type, JsValue)] ::
     arbitrary[(WhatWasThePersonOccupationPage.type, JsValue)] ::
-    arbitrary[(AreYouTheExecutorOfTheEstatePage.type, JsValue)] ::
     arbitrary[(WhatWasTheNameOfThePersonWhoDiedPage.type, JsValue)] ::
     arbitrary[(WhatIsTheTrustNamePage.type, JsValue)] ::
-    arbitrary[(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage.type, JsValue)] ::
     arbitrary[(WhatIsTheLLPNamePage.type, JsValue)] ::
-    arbitrary[(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage.type, JsValue)] ::
     arbitrary[(WhatIsTheCompanyRegistrationNumberPage.type, JsValue)] ::
     arbitrary[(WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage.type, JsValue)] ::
     arbitrary[(WhatIsTheNameOfTheOrganisationYouRepresentPage.type, JsValue)] ::
     arbitrary[(AreYouRepresentingAnOrganisationPage.type, JsValue)] ::
-    arbitrary[(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage.type, JsValue)] ::
     arbitrary[(WhatIsTheIndividualsUniqueTaxReferencePage.type, JsValue)] ::
     arbitrary[(WhatIsTheIndividualsVATRegistrationNumberPage.type, JsValue)] ::
     arbitrary[(IsTheIndividualRegisteredForSelfAssessmentPage.type, JsValue)] ::
@@ -134,7 +131,6 @@ trait UserAnswersGenerator extends TryValues {
     arbitrary[(YourPhoneNumberPage.type, JsValue)] ::
     arbitrary[(LetterReferencePage.type, JsValue)] ::
     arbitrary[(OffshoreLiabilitiesPage.type, JsValue)] ::
-    arbitrary[(AreYouTheIndividualPage.type, JsValue)] ::
     arbitrary[(OnshoreLiabilitiesPage.type, JsValue)] ::
     arbitrary[(RelatesToPage.type, JsValue)] ::
     arbitrary[(ReceivedALetterPage.type, JsValue)] ::

@@ -16,23 +16,24 @@
 
 package forms
 
-import forms.behaviours.BooleanFieldBehaviours
+import forms.behaviours.OptionFieldBehaviours
+import models.{RelatesTo, AreYouTheEntity}
 import play.api.data.FormError
 
-class AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutFormProviderSpec extends BooleanFieldBehaviours {
+class AreYouTheEntityFormProviderSpec extends OptionFieldBehaviours {
 
-  val form = new AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutFormProvider()()
+  val form = new AreYouTheEntityFormProvider()(RelatesTo.AnIndividual)
 
   ".value" - {
 
     val fieldName = "value"
-    val requiredKey = "areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.error.required"
-    val invalidKey = "error.boolean"
+    val requiredKey = "areYouTheEntity.individual.error.required"
 
-    behave like booleanField(
+    behave like optionsField[AreYouTheEntity](
       form,
       fieldName,
-      invalidError = FormError(fieldName, invalidKey)
+      validValues  = AreYouTheEntity.values,
+      invalidError = FormError(fieldName, "error.invalid")
     )
 
     behave like mandatoryField(

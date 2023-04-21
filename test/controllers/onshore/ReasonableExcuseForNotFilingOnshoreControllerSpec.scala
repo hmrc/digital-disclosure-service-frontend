@@ -18,7 +18,7 @@ package controllers
 
 import base.SpecBase
 import forms.ReasonableExcuseForNotFilingOnshoreFormProvider
-import models.{NormalMode, ReasonableExcuseForNotFilingOnshore, UserAnswers, RelatesTo}
+import models.{AreYouTheEntity, NormalMode, ReasonableExcuseForNotFilingOnshore, UserAnswers, RelatesTo}
 import navigation.{FakeOnshoreNavigator, OnshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
@@ -47,11 +47,11 @@ class ReasonableExcuseForNotFilingOnshoreControllerSpec extends SpecBase with Mo
 
     "must return OK and the correct view for a GET" in {
       val userAnswers = (for {
-        userAnswer <- UserAnswers("id").set(AreYouTheIndividualPage, true)
+        userAnswer <- UserAnswers("id").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
-      val areTheyTheIndividual = isTheUserTheIndividual(userAnswers)
+      val areTheyTheIndividual = userAnswers.isTheUserTheIndividual
       val entity = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
@@ -81,11 +81,11 @@ class ReasonableExcuseForNotFilingOnshoreControllerSpec extends SpecBase with Mo
       )
 
       val ua = (for {
-        updatedAnswer <- userAnswers.set(AreYouTheIndividualPage, true)
+        updatedAnswer <- userAnswers.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- updatedAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
-      val areTheyTheIndividual = isTheUserTheIndividual(ua)
+      val areTheyTheIndividual = ua.isTheUserTheIndividual
       val entity = ua.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       val application = applicationBuilder(userAnswers = Some(ua)).build()
@@ -105,7 +105,7 @@ class ReasonableExcuseForNotFilingOnshoreControllerSpec extends SpecBase with Mo
     "must redirect to the next page when valid data is submitted" in {
 
       val ua = (for {
-        updatedAnswer <- UserAnswers("id").set(AreYouTheIndividualPage, true)
+        updatedAnswer <- UserAnswers("id").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- updatedAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
@@ -135,11 +135,11 @@ class ReasonableExcuseForNotFilingOnshoreControllerSpec extends SpecBase with Mo
     "must return a Bad Request and errors when invalid data is submitted" in {
 
       val ua = (for {
-        updatedAnswer <- UserAnswers("id").set(AreYouTheIndividualPage, true)
+        updatedAnswer <- UserAnswers("id").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- updatedAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
-      val areTheyTheIndividual = isTheUserTheIndividual(ua)
+      val areTheyTheIndividual = ua.isTheUserTheIndividual
       val entity = ua.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       val application = applicationBuilder(userAnswers = Some(ua)).build()
@@ -191,10 +191,4 @@ class ReasonableExcuseForNotFilingOnshoreControllerSpec extends SpecBase with Mo
     }
   }
 
-  def isTheUserTheIndividual(userAnswers: UserAnswers): Boolean = {
-    userAnswers.get(AreYouTheIndividualPage) match {
-      case Some(true) => true
-      case _ => false
-    }
-  }
 }

@@ -16,16 +16,17 @@
 
 package pages
 
+import models.AreYouTheEntity
 import pages.behaviours.PageBehaviours
 
-class AreYouTheIndividualSpec extends PageBehaviours {
+class AreYouTheEntitySpec extends PageBehaviours {
 
-  "AreYouTheIndividualPage" - {
+  "AreYouTheEntityPage" - {
 
-    beRetrievable[Boolean](AreYouTheIndividualPage)
+    beRetrievable[AreYouTheEntity](AreYouTheEntityPage)
 
-    beSettable[Boolean](AreYouTheIndividualPage)
+    beSettable[AreYouTheEntity](AreYouTheEntityPage)
 
-    beRemovable[Boolean](AreYouTheIndividualPage)
+    beRemovable[AreYouTheEntity](AreYouTheEntityPage)
   }
 }

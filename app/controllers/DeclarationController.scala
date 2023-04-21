@@ -24,7 +24,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.DeclarationView
 import services.SessionService
 import scala.concurrent.ExecutionContext
-import models.{UserAnswers, RelatesTo}
+import models.{AreYouTheEntity, UserAnswers}
 import pages._
 
 class DeclarationController @Inject()(
@@ -54,14 +54,9 @@ class DeclarationController @Inject()(
   }
 
   private[controllers] def isTheUserAgent(userAnswers: UserAnswers): Boolean ={
-    val areTheyTheEntity = userAnswers.get(RelatesToPage) match {
-      case Some(RelatesTo.AnIndividual) => userAnswers.get(AreYouTheIndividualPage).getOrElse(false)
-      case Some(RelatesTo.ACompany) => userAnswers.get(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage).getOrElse(false)
-      case Some(RelatesTo.ALimitedLiabilityPartnership) => userAnswers.get(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage).getOrElse(false)
-      case Some(RelatesTo.ATrust) => userAnswers.get(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage).getOrElse(false)
-      case Some(RelatesTo.AnEstate) => userAnswers.get(AreYouTheExecutorOfTheEstatePage).getOrElse(false)
-      case _ => false
+    userAnswers.get(AreYouTheEntityPage) match {
+      case Some(AreYouTheEntity.YesIAm) => false
+      case _ => true
     }
-    !areTheyTheEntity
   }
 }

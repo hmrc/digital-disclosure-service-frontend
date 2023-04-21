@@ -18,7 +18,7 @@ package controllers
 
 import base.SpecBase
 import forms.ReasonableCareOnshoreFormProvider
-import models.{NormalMode, ReasonableCareOnshore, UserAnswers, RelatesTo}
+import models.{AreYouTheEntity, NormalMode, ReasonableCareOnshore, UserAnswers, RelatesTo}
 import navigation.{FakeOnshoreNavigator, OnshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
@@ -48,11 +48,11 @@ class ReasonableCareOnshoreControllerSpec extends SpecBase with MockitoSugar {
     "must return OK and the correct view for a GET" in {
 
       val userAnswers = (for {
-        userAnswer <- UserAnswers("id").set(AreYouTheIndividualPage, true)
+        userAnswer <- UserAnswers("id").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
-      val areTheyTheIndividual = isTheUserTheIndividual(userAnswers)
+      val areTheyTheIndividual = userAnswers.isTheUserTheIndividual
       val entity = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
@@ -82,11 +82,11 @@ class ReasonableCareOnshoreControllerSpec extends SpecBase with MockitoSugar {
       )
 
       val ua = (for {
-        updatedAnswer <- userAnswers.set(AreYouTheIndividualPage, true)
+        updatedAnswer <- userAnswers.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- updatedAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
-      val areTheyTheIndividual = isTheUserTheIndividual(ua)
+      val areTheyTheIndividual = ua.isTheUserTheIndividual
       val entity = ua.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       val application = applicationBuilder(userAnswers = Some(ua)).build()
@@ -106,7 +106,7 @@ class ReasonableCareOnshoreControllerSpec extends SpecBase with MockitoSugar {
     "must redirect to the next page when valid data is submitted" in {
 
       val ua = (for {
-        updatedAnswer <- UserAnswers("id").set(AreYouTheIndividualPage, true)
+        updatedAnswer <- UserAnswers("id").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- updatedAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
@@ -136,11 +136,11 @@ class ReasonableCareOnshoreControllerSpec extends SpecBase with MockitoSugar {
     "must return a Bad Request and errors when invalid data is submitted" in {
 
       val ua = (for {
-        updatedAnswer <- UserAnswers("id").set(AreYouTheIndividualPage, true)
+        updatedAnswer <- UserAnswers("id").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- updatedAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
-      val areTheyTheIndividual = isTheUserTheIndividual(ua)
+      val areTheyTheIndividual = ua.isTheUserTheIndividual
       val entity = ua.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       val application = applicationBuilder(userAnswers = Some(ua)).build()
@@ -192,10 +192,4 @@ class ReasonableCareOnshoreControllerSpec extends SpecBase with MockitoSugar {
     }
   }
 
-  def isTheUserTheIndividual(userAnswers: UserAnswers): Boolean = {
-    userAnswers.get(AreYouTheIndividualPage) match {
-      case Some(true) => true
-      case _ => false
-    }
-  }
 }

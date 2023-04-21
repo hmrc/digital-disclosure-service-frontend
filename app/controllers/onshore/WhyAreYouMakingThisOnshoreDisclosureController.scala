@@ -53,7 +53,7 @@ class WhyAreYouMakingThisOnshoreDisclosureController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
+      val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
       val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       Ok(view(preparedForm, mode, areTheyTheIndividual, entity))
@@ -62,7 +62,7 @@ class WhyAreYouMakingThisOnshoreDisclosureController @Inject()(
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
 
-      val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
+      val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
       val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       form.bindFromRequest().fold(
@@ -78,13 +78,6 @@ class WhyAreYouMakingThisOnshoreDisclosureController @Inject()(
           } yield Redirect(navigator.nextPage(WhyAreYouMakingThisOnshoreDisclosurePage, mode, clearedPages, hasValueChanged))
         }
       )
-  }
-
-  def isTheUserTheIndividual(userAnswers: UserAnswers): Boolean = {
-    userAnswers.get(AreYouTheIndividualPage) match {
-      case Some(true) => true
-      case _ => false
-    }
   }
 
   def changedPages(answers: UserAnswers, value: Set[WhyAreYouMakingThisOnshoreDisclosure]): (List[QuestionPage[_]], Boolean) = {

@@ -18,7 +18,7 @@ package viewmodels.checkAnswers
 
 import controllers.onshore.routes
 import models.{CheckMode, RelatesTo, UserAnswers}
-import pages.{AreYouTheIndividualPage, RelatesToPage, WhyAreYouMakingThisOnshoreDisclosurePage}
+import pages.{RelatesToPage, WhyAreYouMakingThisOnshoreDisclosurePage}
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.Aliases.Text
@@ -34,7 +34,7 @@ object WhyAreYouMakingThisOnshoreDisclosureSummary  {
     userAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage).map {
       answers =>
 
-        val areTheyTheIndividual = isTheUserTheIndividual(userAnswers)
+        val areTheyTheIndividual = userAnswers.isTheUserTheIndividual
         val entity = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
         val value = ValueViewModel(
@@ -56,10 +56,4 @@ object WhyAreYouMakingThisOnshoreDisclosureSummary  {
         )
     }
 
-  def isTheUserTheIndividual(userAnswers: UserAnswers): Boolean = {
-    userAnswers.get(AreYouTheIndividualPage) match {
-      case Some(true) => true
-      case _ => false
-    }
-  }
 }

@@ -73,7 +73,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       }
     }
 
-    def rowIsDisplayedWhenPageIsPopulated(ua: UserAnswers)(summaryList: Messages => SummaryLists) = {
+    def rowIsDisplayedWhenPageIsPopulated(ua: UserAnswers, isTheEntity: Boolean = true)(summaryList: Messages => SummaryLists) = {
       val application = applicationBuilder(userAnswers = Some(ua)).build()
       implicit val mess = messages(application)
       val list = summaryList(mess)
@@ -86,7 +86,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         val view = application.injector.instanceOf[CheckYourAnswersView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(list, true, true, false)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(list, isTheEntity, true, false)(request, messages(application)).toString
       }
     }
 
@@ -101,14 +101,6 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
     "must return OK and the correct view for a GET when LetterReferencePage is populated" in {
       val ua = UserAnswers("id").set(LetterReferencePage, arbitrary[String].sample.value).success.value
       rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(SummaryListViewModel(Seq(LetterReferenceSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), SummaryListViewModel(Seq.empty)))
-    }
-
-    "must return OK and the correct view for a GET when RelatesTo (An Individual) is populated" in {
-      val uaWithRelatesTo = UserAnswers("id").set(RelatesToPage, RelatesTo.AnIndividual).success.value
-      rowIsDisplayedWhenPageIsPopulated(uaWithRelatesTo)(messages => SummaryLists(
-        SummaryListViewModel(Seq(RelatesToSummary.row(uaWithRelatesTo)(messages), LiabilitiesSummary.row(uaWithRelatesTo)(messages)).flatten), 
-        SummaryListViewModel(Seq.empty)
-      ))
     }
 
     "must return OK and the correct view for a GET when RelatesTo (A Company) is populated" in {
@@ -144,42 +136,6 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         SummaryListViewModel(Seq(RelatesToSummary.row(uaWithRelatesTo)(messages), LiabilitiesSummary.row(uaWithRelatesTo)(messages)).flatten),
         SummaryListViewModel(Seq.empty),
         aboutTheTrustList = Some(SummaryListViewModel(Seq.empty))
-      ))
-    }
-
-    "must return OK and the correct view for a GET when AreYouTheIndividualPage with no is populated" in {
-      val ua = UserAnswers("id").set(AreYouTheIndividualPage, false).success.value
-      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
-        SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
-        SummaryListViewModel(Seq.empty),
-        Some(SummaryListViewModel(Seq.empty)) 
-      ))
-    }
-
-    "must return OK and the correct view for a GET when AreYouTheIndividualPage with yes is populated" in {
-      val ua = UserAnswers("id").set(AreYouTheIndividualPage, true).success.value
-      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
-        SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
-        SummaryListViewModel(Seq.empty),
-        None
-      ))
-    }
-
-    "must return OK and the correct view for a GET when AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage is populated" in {
-      val ua = UserAnswers("id").set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, arbitrary[Boolean].sample.value).success.value
-      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
-        SummaryListViewModel(Seq(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
-        SummaryListViewModel(Seq.empty),
-        None
-      ))
-    }
-
-    "must return OK and the correct view for a GET when AreYouTheExecutorOfTheEstatePage is populated" in {
-      val ua = UserAnswers("id").set(AreYouTheExecutorOfTheEstatePage, arbitrary[Boolean].sample.value).success.value
-      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
-        SummaryListViewModel(Seq(AreYouTheExecutorOfTheEstateSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
-        SummaryListViewModel(Seq.empty),
-        None
       ))
     }
 
@@ -305,11 +261,12 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
     "must return OK and the correct view for a GET when WhatIsTheIndividualsFullNamePage is populated" in {
       val ua = (for {
         userAnswer <- UserAnswers("id").set(WhatIsTheIndividualsFullNamePage, arbitrary[String].sample.value)
-        uaWithAreYouTheIndividualPage <- userAnswer.set(AreYouTheIndividualPage, false)
-      } yield uaWithAreYouTheIndividualPage).success.value
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
+        uaWithAreYouTheEntityPage <- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
+      } yield uaWithAreYouTheEntityPage).success.value
         
-      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
+      rowIsDisplayedWhenPageIsPopulated(ua, false)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
         aboutYou = SummaryListViewModel(Seq.empty), 
         aboutTheIndividualList = Some(SummaryListViewModel(Seq(WhatIsTheIndividualsFullNameSummary.row(ua)(messages)).flatten))
       ))
@@ -318,11 +275,12 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
     "must return OK and the correct view for a GET when WhatIsTheIndividualDateOfBirthPage is populated" in {
       val ua = (for {
         userAnswer <- UserAnswers("id").set(WhatIsTheIndividualDateOfBirthPage, arbitrary[LocalDate].sample.value)
-        uaWithAreYouTheIndividualPage <- userAnswer.set(AreYouTheIndividualPage, false)
-      } yield uaWithAreYouTheIndividualPage).success.value
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
+        uaWithAreYouTheEntityPage <- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
+      } yield uaWithAreYouTheEntityPage).success.value
         
-      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
+      rowIsDisplayedWhenPageIsPopulated(ua, false)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
         aboutYou = SummaryListViewModel(Seq.empty), 
         aboutTheIndividualList = Some(SummaryListViewModel(Seq(WhatIsTheIndividualDateOfBirthSummary.row(ua)(messages)).flatten))
       ))
@@ -331,11 +289,12 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
     "must return OK and the correct view for a GET when WhatIsTheIndividualOccupationPage is populated" in {
       val ua = (for {
         userAnswer <- UserAnswers("id").set(WhatIsTheIndividualOccupationPage, arbitrary[String].sample.value)
-        uaWithAreYouTheIndividualPage <- userAnswer.set(AreYouTheIndividualPage, false)
-      } yield uaWithAreYouTheIndividualPage).success.value
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
+        uaWithAreYouTheEntityPage <- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
+      } yield uaWithAreYouTheEntityPage).success.value
         
-      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
+      rowIsDisplayedWhenPageIsPopulated(ua, false)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
         aboutYou = SummaryListViewModel(Seq.empty), 
         aboutTheIndividualList = Some(SummaryListViewModel(Seq(WhatIsTheIndividualOccupationSummary.row(ua)(messages)).flatten))
       ))
@@ -344,11 +303,12 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
     "must return OK and the correct view for a GET when DoesTheIndividualHaveNationalInsuranceNumberPage is populated" in {
       val ua = (for {
         userAnswer <- UserAnswers("id").set(DoesTheIndividualHaveNationalInsuranceNumberPage, arbitrary[DoesTheIndividualHaveNationalInsuranceNumber].sample.value)
-        uaWithAreYouTheIndividualPage <- userAnswer.set(AreYouTheIndividualPage, false)
-      } yield uaWithAreYouTheIndividualPage).success.value
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
+        uaWithAreYouTheEntityPage <- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
+      } yield uaWithAreYouTheEntityPage).success.value
         
-      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
+      rowIsDisplayedWhenPageIsPopulated(ua, false)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
         aboutYou = SummaryListViewModel(Seq.empty), 
         aboutTheIndividualList = Some(SummaryListViewModel(Seq(DoesTheIndividualHaveNationalInsuranceNumberSummary.row(ua)(messages)).flatten))
       ))
@@ -357,11 +317,12 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
     "must return OK and the correct view for a GET when WhatIsIndividualsNationalInsuranceNumberPage is populated" in {
       val ua = (for {
         userAnswer <- UserAnswers("id").set(WhatIsIndividualsNationalInsuranceNumberPage, arbitrary[String].sample.value)
-        uaWithAreYouTheIndividualPage <- userAnswer.set(AreYouTheIndividualPage, false)
-      } yield uaWithAreYouTheIndividualPage).success.value
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
+        uaWithAreYouTheEntityPage <- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
+      } yield uaWithAreYouTheEntityPage).success.value
         
-      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
+      rowIsDisplayedWhenPageIsPopulated(ua, false)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
         aboutYou = SummaryListViewModel(Seq.empty), 
         aboutTheIndividualList = Some(SummaryListViewModel(Seq(WhatIsIndividualsNationalInsuranceNumberSummary.row(ua)(messages)).flatten))
       ))
@@ -370,11 +331,12 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
     "must return OK and the correct view for a GET when IsTheIndividualRegisteredForVATPage is populated" in {
       val ua = (for {
         userAnswer <- UserAnswers("id").set(IsTheIndividualRegisteredForVATPage, arbitrary[IsTheIndividualRegisteredForVAT].sample.value)
-        uaWithAreYouTheIndividualPage <- userAnswer.set(AreYouTheIndividualPage, false)
-      } yield uaWithAreYouTheIndividualPage).success.value
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
+        uaWithAreYouTheEntityPage <- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
+      } yield uaWithAreYouTheEntityPage).success.value
         
-      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
+      rowIsDisplayedWhenPageIsPopulated(ua, false)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
         aboutYou = SummaryListViewModel(Seq.empty), 
         aboutTheIndividualList = Some(SummaryListViewModel(Seq(IsTheIndividualRegisteredForVATSummary.row(ua)(messages)).flatten))
       ))
@@ -383,11 +345,12 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
     "must return OK and the correct view for a GET when WhatIsTheIndividualsVATRegistrationNumberPage is populated" in {
       val ua = (for {
         userAnswer <- UserAnswers("id").set(WhatIsTheIndividualsVATRegistrationNumberPage, arbitrary[String].sample.value)
-        uaWithAreYouTheIndividualPage <- userAnswer.set(AreYouTheIndividualPage, false)
-      } yield uaWithAreYouTheIndividualPage).success.value
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
+        uaWithAreYouTheEntityPage <- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
+      } yield uaWithAreYouTheEntityPage).success.value
         
-      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
+      rowIsDisplayedWhenPageIsPopulated(ua, false)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
         aboutYou = SummaryListViewModel(Seq.empty), 
         aboutTheIndividualList = Some(SummaryListViewModel(Seq(WhatIsTheIndividualsVATRegistrationNumberSummary.row(ua)(messages)).flatten))
       ))
@@ -396,11 +359,12 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
     "must return OK and the correct view for a GET when IsTheIndividualRegisteredForSelfAssessmentPage is populated" in {
       val ua = (for {
         userAnswer <- UserAnswers("id").set(IsTheIndividualRegisteredForSelfAssessmentPage, arbitrary[IsTheIndividualRegisteredForSelfAssessment].sample.value)
-        uaWithAreYouTheIndividualPage <- userAnswer.set(AreYouTheIndividualPage, false)
-      } yield uaWithAreYouTheIndividualPage).success.value
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
+        uaWithAreYouTheEntityPage <- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
+      } yield uaWithAreYouTheEntityPage).success.value
         
-      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
+      rowIsDisplayedWhenPageIsPopulated(ua, false)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
         aboutYou = SummaryListViewModel(Seq.empty), 
         aboutTheIndividualList = Some(SummaryListViewModel(Seq(IsTheIndividualRegisteredForSelfAssessmentSummary.row(ua)(messages)).flatten))
       ))
@@ -409,11 +373,12 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
     "must return OK and the correct view for a GET when WhatIsTheIndividualsUniqueTaxReferencePage is populated" in {
       val ua = (for {
         userAnswer <- UserAnswers("id").set(WhatIsTheIndividualsUniqueTaxReferencePage, arbitrary[String].sample.value)
-        uaWithAreYouTheIndividualPage <- userAnswer.set(AreYouTheIndividualPage, false)
-      } yield uaWithAreYouTheIndividualPage).success.value
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
+        uaWithAreYouTheEntityPage <- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
+      } yield uaWithAreYouTheEntityPage).success.value
         
-      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
+      rowIsDisplayedWhenPageIsPopulated(ua, false)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
         aboutYou = SummaryListViewModel(Seq.empty), 
         aboutTheIndividualList = Some(SummaryListViewModel(Seq(WhatIsTheIndividualsUniqueTaxReferenceSummary.row(ua)(messages)).flatten))
       ))
@@ -422,11 +387,12 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
     "must return OK and the correct view for a GET when IndividualAddressLookupPage is populated" in {
       val ua = (for {
         userAnswer <- UserAnswers("id").set(IndividualAddressLookupPage, arbitrary[Address].sample.value)
-        uaWithAreYouTheIndividualPage <- userAnswer.set(AreYouTheIndividualPage, false)
-      } yield uaWithAreYouTheIndividualPage).success.value
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
+        uaWithAreYouTheEntityPage <- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
+      } yield uaWithAreYouTheEntityPage).success.value
         
-      rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(AreYouTheIndividualSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
+      rowIsDisplayedWhenPageIsPopulated(ua, false)(messages => SummaryLists(
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
         aboutYou = SummaryListViewModel(Seq.empty), 
         aboutTheIndividualList = Some(SummaryListViewModel(Seq(IndividualAddressLookupSummary.row(ua)(messages)).flatten))
       ))
