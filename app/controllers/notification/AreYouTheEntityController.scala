@@ -19,14 +19,15 @@ package controllers.notification
 import controllers.actions._
 import forms.AreYouTheEntityFormProvider
 import javax.inject.Inject
-import models.{Mode, RelatesTo}
+import models.{AreYouTheEntity, UserAnswers, Mode, RelatesTo}
 import navigation.NotificationNavigator
-import pages.{AreYouTheEntityPage, RelatesToPage}
+import pages.{AreYouTheEntityPage, RelatesToPage, QuestionPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.notification.AreYouTheEntityView
+import pages.notification.SectionPages
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -40,7 +41,7 @@ class AreYouTheEntityController @Inject()(
                                        formProvider: AreYouTheEntityFormProvider,
                                        val controllerComponents: MessagesControllerComponents,
                                        view: AreYouTheEntityView
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with SectionPages {
 
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
@@ -66,11 +67,35 @@ class AreYouTheEntityController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode, entity, request.userAnswers.isDisclosure))),
 
-        value =>
+        value =>{
+          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)   
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AreYouTheEntityPage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(AreYouTheEntityPage, mode, updatedAnswers))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+            _              <- sessionService.set(clearedAnswers)
+          } yield Redirect(navigator.nextPage(AreYouTheEntityPage, mode, clearedAnswers, hasValueChanged))
+        }
       )
+  }
+
+  def changedPages(userAnswers: UserAnswers, newAnswer: AreYouTheEntity): (List[QuestionPage[_]], Boolean) = {
+
+    import RelatesTo._
+    import AreYouTheEntity._
+
+    val oldAnswer = userAnswers.get(AreYouTheEntityPage)
+
+    val answerHasChanged = Some(newAnswer) != oldAnswer
+    val isIndividual = userAnswers.get(RelatesToPage).getOrElse(AnIndividual) == AnIndividual
+
+    val pagesToClear = (oldAnswer, newAnswer) match {
+      case _ if !answerHasChanged                => Nil
+      case (_, YesIAm) if isIndividual           => aboutYouPages ::: aboutIndividualPages ::: areYouTheOrganisationPages
+      case (Some(YesIAm), _) if isIndividual     => aboutYouPages
+      case (Some(IAmAnAccountantOrTaxAgent), _)  => areYouTheOrganisationPages
+      case _                                     => Nil
+    }
+    (pagesToClear, answerHasChanged)
+
   }
 }
