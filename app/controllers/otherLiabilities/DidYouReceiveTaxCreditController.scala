@@ -19,9 +19,9 @@ package controllers.otherLiabilities
 import controllers.actions._
 import forms.DidYouReceiveTaxCreditFormProvider
 import javax.inject.Inject
-import models.{Mode, UserAnswers, RelatesTo}
+import models.{Mode, RelatesTo}
 import navigation.OtherLiabilitiesNavigator
-import pages.{DidYouReceiveTaxCreditPage, AreYouTheIndividualPage, RelatesToPage}
+import pages.{DidYouReceiveTaxCreditPage, RelatesToPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -45,7 +45,7 @@ class DidYouReceiveTaxCreditController @Inject()(
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
+      val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
       val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
       
       val preparedForm = request.userAnswers.get(DidYouReceiveTaxCreditPage) match {
@@ -59,7 +59,7 @@ class DidYouReceiveTaxCreditController @Inject()(
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
 
-      val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
+      val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
       val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       form(areTheyTheIndividual, entity).bindFromRequest().fold(
@@ -72,13 +72,6 @@ class DidYouReceiveTaxCreditController @Inject()(
             _              <- sessionService.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(DidYouReceiveTaxCreditPage, mode, updatedAnswers))
       )
-  }
-
-  def isTheUserTheIndividual(userAnswers: UserAnswers): Boolean = {
-    userAnswers.get(AreYouTheIndividualPage) match {
-      case Some(true) => true
-      case _ => false
-    }
   }
 
   def form(areTheyTheIndividual: Boolean, entity: RelatesTo) = formProvider(areTheyTheIndividual, entity)

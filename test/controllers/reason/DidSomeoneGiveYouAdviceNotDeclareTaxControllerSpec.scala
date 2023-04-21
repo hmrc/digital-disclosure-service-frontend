@@ -18,11 +18,11 @@ package controllers
 
 import base.ControllerSpecBase
 import forms.DidSomeoneGiveYouAdviceNotDeclareTaxFormProvider
-import models.{CheckMode, NormalMode, RelatesTo, UserAnswers}
+import models.{AreYouTheEntity, CheckMode, NormalMode, RelatesTo, UserAnswers}
 import navigation.{FakeReasonNavigator, ReasonNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
-import pages.{AdviceBusinessNamePage, AdviceBusinessesOrOrgPage, AdviceGivenPage, AdviceProfessionPage, AreYouTheIndividualPage, DidSomeoneGiveYouAdviceNotDeclareTaxPage, PersonWhoGaveAdvicePage, RelatesToPage, WhatEmailAddressCanWeContactYouWithPage, WhatTelephoneNumberCanWeContactYouWithPage, WhichEmailAddressCanWeContactYouWithPage, WhichTelephoneNumberCanWeContactYouWithPage}
+import pages.{AdviceBusinessNamePage, AdviceBusinessesOrOrgPage, AdviceGivenPage, AdviceProfessionPage, AreYouTheEntityPage, DidSomeoneGiveYouAdviceNotDeclareTaxPage, PersonWhoGaveAdvicePage, RelatesToPage, WhatEmailAddressCanWeContactYouWithPage, WhatTelephoneNumberCanWeContactYouWithPage, WhichEmailAddressCanWeContactYouWithPage, WhichTelephoneNumberCanWeContactYouWithPage}
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -46,11 +46,11 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxControllerSpec extends ControllerSpecB
 
     "must return OK and the correct view for a GET" in {
 
-      val areTheyTheIndividual = arbitrary[Boolean].sample.value 
+      val areTheyTheIndividual = arbitrary[AreYouTheEntity].sample.value 
       val entity = arbitrary[RelatesTo].sample.value  
 
       val userAnswers = (for {
-        ua <- UserAnswers("id").set(AreYouTheIndividualPage, areTheyTheIndividual)
+        ua <- UserAnswers("id").set(AreYouTheEntityPage, areTheyTheIndividual)
         updatedUa <- ua.set(RelatesToPage, entity)  
       } yield updatedUa).success.value  
 
@@ -64,17 +64,17 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxControllerSpec extends ControllerSpecB
         val view = application.injector.instanceOf[DidSomeoneGiveYouAdviceNotDeclareTaxView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode, areTheyTheIndividual, entity)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode, userAnswers.isTheUserTheIndividual, entity)(request, messages(application)).toString
       }
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val areTheyTheIndividual = arbitrary[Boolean].sample.value 
+      val areTheyTheIndividual = arbitrary[AreYouTheEntity].sample.value 
       val entity = arbitrary[RelatesTo].sample.value 
 
       val userAnswers = (for {
-        ua <- UserAnswers("id").set(AreYouTheIndividualPage, areTheyTheIndividual)
+        ua <- UserAnswers("id").set(AreYouTheEntityPage, areTheyTheIndividual)
         uaRelatesToPage <- ua.set(RelatesToPage, entity) 
         updatedUa <- uaRelatesToPage.set(DidSomeoneGiveYouAdviceNotDeclareTaxPage, true)
       } yield updatedUa).success.value
@@ -89,7 +89,7 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxControllerSpec extends ControllerSpecB
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(true), NormalMode, areTheyTheIndividual, entity)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(true), NormalMode, userAnswers.isTheUserTheIndividual, entity)(request, messages(application)).toString
       }
     }
 
@@ -120,11 +120,11 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxControllerSpec extends ControllerSpecB
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val areTheyTheIndividual = arbitrary[Boolean].sample.value 
+      val areTheyTheIndividual = arbitrary[AreYouTheEntity].sample.value 
       val entity = arbitrary[RelatesTo].sample.value 
 
       val userAnswers = (for {
-        ua <- UserAnswers("id").set(AreYouTheIndividualPage, areTheyTheIndividual)
+        ua <- UserAnswers("id").set(AreYouTheEntityPage, areTheyTheIndividual)
         updatedUa <- ua.set(RelatesToPage, entity) 
       } yield updatedUa).success.value
 
@@ -142,7 +142,7 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxControllerSpec extends ControllerSpecB
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode, userAnswers.isTheUserTheIndividual, entity)(request, messages(application)).toString
       }
     }
 

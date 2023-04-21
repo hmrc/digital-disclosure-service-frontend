@@ -58,9 +58,9 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
   "userAnswerToDisclosureEntity" should {
 
     "populate DisclosureEntity for an individual when are you the entity is populated" in {
-      val pages = List(PageWithValue(RelatesToPage, RelatesTo.AnIndividual), PageWithValue(AreYouTheIndividualPage, true))
+      val pages = List(PageWithValue(RelatesToPage, RelatesTo.AnIndividual), PageWithValue(AreYouTheEntityPage, AreYouTheEntity.YesIAm))
       val userAnswers = PageWithValue.pagesToUserAnswers(pages, emptyUA).success.value
-      sut.userAnswerToDisclosureEntity(userAnswers) shouldEqual Some(DisclosureEntity(Individual, Some(true)))
+      sut.userAnswerToDisclosureEntity(userAnswers) shouldEqual Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm)))
     }
 
     "populate DisclosureEntity for an individual when are you the entity is NOT populated" in {
@@ -70,9 +70,9 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
     }
 
     "populate DisclosureEntity for a Company when are you the entity is populated" in {
-      val pages = List(PageWithValue(RelatesToPage, RelatesTo.ACompany), PageWithValue(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, true))
+      val pages = List(PageWithValue(RelatesToPage, RelatesTo.ACompany), PageWithValue(AreYouTheEntityPage, AreYouTheEntity.YesIAm))
       val userAnswers = PageWithValue.pagesToUserAnswers(pages, emptyUA).success.value
-      sut.userAnswerToDisclosureEntity(userAnswers) shouldEqual Some(DisclosureEntity(Company, Some(true)))
+      sut.userAnswerToDisclosureEntity(userAnswers) shouldEqual Some(DisclosureEntity(Company, Some(AreYouTheEntity.YesIAm)))
     }
 
     "populate DisclosureEntity for anCompany when are you the entity is NOT populated" in {
@@ -82,9 +82,9 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
     }
 
     "populate DisclosureEntity for a Trust when are you the entity is populated" in {
-      val pages = List(PageWithValue(RelatesToPage, RelatesTo.ATrust), PageWithValue(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, true))
+      val pages = List(PageWithValue(RelatesToPage, RelatesTo.ATrust), PageWithValue(AreYouTheEntityPage, AreYouTheEntity.YesIAm))
       val userAnswers = PageWithValue.pagesToUserAnswers(pages, emptyUA).success.value
-      sut.userAnswerToDisclosureEntity(userAnswers) shouldEqual Some(DisclosureEntity(Trust, Some(true)))
+      sut.userAnswerToDisclosureEntity(userAnswers) shouldEqual Some(DisclosureEntity(Trust, Some(AreYouTheEntity.YesIAm)))
     }
 
     "populate DisclosureEntity for a Trust when are you the entity is NOT populated" in {
@@ -94,9 +94,9 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
     }
 
     "populate DisclosureEntity for a LLP when are you the entity is populated" in {
-      val pages = List(PageWithValue(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership), PageWithValue(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, true))
+      val pages = List(PageWithValue(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership), PageWithValue(AreYouTheEntityPage, AreYouTheEntity.YesIAm))
       val userAnswers = PageWithValue.pagesToUserAnswers(pages, emptyUA).success.value
-      sut.userAnswerToDisclosureEntity(userAnswers) shouldEqual Some(DisclosureEntity(LLP, Some(true)))
+      sut.userAnswerToDisclosureEntity(userAnswers) shouldEqual Some(DisclosureEntity(LLP, Some(AreYouTheEntity.YesIAm)))
     }
 
     "populate DisclosureEntity for a LLP when are you the entity is NOT populated" in {
@@ -106,9 +106,9 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
     }
 
     "populate DisclosureEntity for a Estate when are you the entity is populated" in {
-      val pages = List(PageWithValue(RelatesToPage, RelatesTo.AnEstate), PageWithValue(AreYouTheExecutorOfTheEstatePage, true))
+      val pages = List(PageWithValue(RelatesToPage, RelatesTo.AnEstate), PageWithValue(AreYouTheEntityPage, AreYouTheEntity.YesIAm))
       val userAnswers = PageWithValue.pagesToUserAnswers(pages, emptyUA).success.value
-      sut.userAnswerToDisclosureEntity(userAnswers) shouldEqual Some(DisclosureEntity(Estate, Some(true)))
+      sut.userAnswerToDisclosureEntity(userAnswers) shouldEqual Some(DisclosureEntity(Estate, Some(AreYouTheEntity.YesIAm)))
     }
 
     "populate DisclosureEntity for a Estate when are you the entity is NOT populated" in {
@@ -135,7 +135,7 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
         PageWithValue(OffshoreLiabilitiesPage, true),
         PageWithValue(OnshoreLiabilitiesPage, false), 
         PageWithValue(RelatesToPage, RelatesTo.AnIndividual), 
-        PageWithValue(AreYouTheIndividualPage, true),
+        PageWithValue(AreYouTheEntityPage, AreYouTheEntity.YesIAm),
         PageWithValue(IncomeOrGainSourcePage, incomeSet),
         PageWithValue(OtherIncomeOrGainSourcePage, "Some income")
       )
@@ -143,7 +143,7 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
       val expectedBackground = Background(
         Some(true),
         Some("Some ref"),
-        Some(DisclosureEntity(Individual, Some(true))),
+        Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))),
         Some(true),
         Some("Some org"),
         Some(true),
@@ -346,10 +346,10 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
     "populate AboutTheIndividual when RelatesTo is set to AnIndividual and AreYouTheIndividual is set to false" in {
       val pages = List(
         PageWithValue(RelatesToPage, RelatesTo.AnIndividual),
-        PageWithValue(AreYouTheIndividualPage, false)
+        PageWithValue(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
       )
       val ua = PageWithValue.pagesToUserAnswers(pages, userAnswers).success.value
-      val personalDetails = testNotification.personalDetails.copy(background = Background(disclosureEntity = Some(DisclosureEntity(Individual, Some(false)))), aboutTheIndividual = Some(AboutTheIndividual()))
+      val personalDetails = testNotification.personalDetails.copy(background = Background(disclosureEntity = Some(DisclosureEntity(Individual, Some(AreYouTheEntity.IAmAnAccountantOrTaxAgent)))), aboutTheIndividual = Some(AboutTheIndividual()))
       val expected = testNotification.copy(personalDetails = personalDetails)
       sut.userAnswersToNotification(ua) shouldEqual expected
     }
@@ -357,10 +357,10 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
     " dont populate AboutTheIndividual when RelatesTo is set to AnIndividual and AreYouTheIndividual is set to true" in {
       val pages = List(
         PageWithValue(RelatesToPage, RelatesTo.AnIndividual),
-        PageWithValue(AreYouTheIndividualPage, true)
+        PageWithValue(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
       )
       val ua = PageWithValue.pagesToUserAnswers(pages, userAnswers).success.value
-      val personalDetails = testNotification.personalDetails.copy(background = Background(disclosureEntity = Some(DisclosureEntity(Individual, Some(true)))), aboutTheIndividual = None)
+      val personalDetails = testNotification.personalDetails.copy(background = Background(disclosureEntity = Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm)))), aboutTheIndividual = None)
       val expected = testNotification.copy(personalDetails = personalDetails)
       sut.userAnswersToNotification(ua) shouldEqual expected
     }

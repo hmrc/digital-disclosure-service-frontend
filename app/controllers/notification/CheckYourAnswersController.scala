@@ -26,7 +26,7 @@ import viewmodels.govuk.summarylist._
 import views.html.notification.CheckYourAnswersView
 import viewmodels.checkAnswers._
 import pages._
-import models.{RelatesTo, UserAnswers}
+import models.{RelatesTo, UserAnswers, AreYouTheEntity}
 import services.NotificationSubmissionService
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -55,11 +55,7 @@ class CheckYourAnswersController @Inject()(
           ReceivedALetterSummary.row(ua),
           LetterReferenceSummary.row(ua),
           RelatesToSummary.row(ua),
-          AreYouTheIndividualSummary.row(ua),
-          AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutSummary.row(ua),
-          AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutSummary.row(ua),
-          AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutSummary.row(ua),
-          AreYouTheExecutorOfTheEstateSummary.row(ua),
+          AreYouTheEntitySummary.row(ua),
           AreYouRepresentingAnOrganisationSummary.row(ua),
           WhatIsTheNameOfTheOrganisationYouRepresentSummary.row(ua),
           LiabilitiesSummary.row(ua),
@@ -86,8 +82,8 @@ class CheckYourAnswersController @Inject()(
         ).flatten
       )
 
-      val aboutTheIndividualList = request.userAnswers.get(AreYouTheIndividualPage) match {
-        case Some(false) => 
+      val aboutTheIndividualList = request.userAnswers.get(RelatesToPage) match {
+        case Some(RelatesTo.AnIndividual) if !request.userAnswers.isTheUserTheIndividual => 
           Some(
             SummaryListViewModel(
               rows = Seq(
@@ -198,13 +194,7 @@ class CheckYourAnswersController @Inject()(
   }
 
   def isTheUserTheEntity(userAnswers: UserAnswers): Boolean = {
-    userAnswers.get(RelatesToPage).flatMap(_ match {
-      case RelatesTo.AnIndividual => userAnswers.get(AreYouTheIndividualPage)
-      case RelatesTo.ACompany => userAnswers.get(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage)
-      case RelatesTo.ALimitedLiabilityPartnership => userAnswers.get(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage)
-      case RelatesTo.ATrust => userAnswers.get(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage)  
-      case RelatesTo.AnEstate => userAnswers.get(AreYouTheExecutorOfTheEstatePage)
-    }).getOrElse(true)
+    userAnswers.get(AreYouTheEntityPage).map(_ == AreYouTheEntity.YesIAm).getOrElse(true)
   }
 
 }

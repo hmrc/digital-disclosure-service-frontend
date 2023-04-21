@@ -23,7 +23,7 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.notification.YouHaveSentYourNotificationView
 import pages._
-import models.{UserAnswers, RelatesTo}
+import models.{UserAnswers, AreYouTheEntity}
 
 
 class YouHaveSentYourNotificationController @Inject()(
@@ -44,13 +44,7 @@ class YouHaveSentYourNotificationController @Inject()(
   }
 
   def isTheUserTheEntity(userAnswers: UserAnswers): Boolean = {
-    userAnswers.get(RelatesToPage).flatMap(_ match {
-      case RelatesTo.AnIndividual => userAnswers.get(AreYouTheIndividualPage)
-      case RelatesTo.ACompany => userAnswers.get(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage)
-      case RelatesTo.ALimitedLiabilityPartnership => userAnswers.get(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage)
-      case RelatesTo.ATrust => userAnswers.get(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage)  
-      case RelatesTo.AnEstate => userAnswers.get(AreYouTheExecutorOfTheEstatePage)
-    }).getOrElse(true)
+    userAnswers.get(AreYouTheEntityPage).map(_ == AreYouTheEntity.YesIAm).getOrElse(true)
   }
 
   

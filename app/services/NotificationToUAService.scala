@@ -42,7 +42,7 @@ class NotificationToUAServiceImpl extends NotificationToUAService {
 
   def aboutTheEntityToUserAnswers(personalDetails: PersonalDetails, userAnswers: UserAnswers): Try[UserAnswers] = {
     personalDetails.background.disclosureEntity.flatMap(de => (de.entity, de.areYouTheEntity) match {
-      case (Individual, Some(false)) => personalDetails.aboutTheIndividual.map(aboutTheIndividualToUserAnswers(_, userAnswers))
+      case (Individual, Some(areYouTheEntity)) if areYouTheEntity != AreYouTheEntity.YesIAm => personalDetails.aboutTheIndividual.map(aboutTheIndividualToUserAnswers(_, userAnswers))
       case (Company, _) => personalDetails.aboutTheCompany.map(aboutTheCompanyToUserAnswers(_, userAnswers))
       case (LLP, _) => personalDetails.aboutTheLLP.map(aboutTheLLPToUserAnswers(_, userAnswers))
       case (Trust, _) => personalDetails.aboutTheTrust.map(aboutTheTrustToUserAnswers(_, userAnswers))
@@ -98,16 +98,16 @@ class NotificationToUAServiceImpl extends NotificationToUAService {
 
   def entityPagesWithValues(disclosureEntity: DisclosureEntity): List[PageWithValue[_]] = {
     disclosureEntity.entity match {
-      case Individual => entityToPageWithValue(RelatesTo.AnIndividual, AreYouTheIndividualPage, disclosureEntity.areYouTheEntity)
-      case Company => entityToPageWithValue(RelatesTo.ACompany, AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, disclosureEntity.areYouTheEntity)
-      case LLP => entityToPageWithValue(RelatesTo.ALimitedLiabilityPartnership, AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, disclosureEntity.areYouTheEntity)
-      case Trust => entityToPageWithValue(RelatesTo.ATrust, AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, disclosureEntity.areYouTheEntity)
-      case Estate => entityToPageWithValue(RelatesTo.AnEstate, AreYouTheExecutorOfTheEstatePage, disclosureEntity.areYouTheEntity)
+      case Individual => entityToPageWithValue(RelatesTo.AnIndividual, disclosureEntity.areYouTheEntity)
+      case Company => entityToPageWithValue(RelatesTo.ACompany, disclosureEntity.areYouTheEntity)
+      case LLP => entityToPageWithValue(RelatesTo.ALimitedLiabilityPartnership, disclosureEntity.areYouTheEntity)
+      case Trust => entityToPageWithValue(RelatesTo.ATrust, disclosureEntity.areYouTheEntity)
+      case Estate => entityToPageWithValue(RelatesTo.AnEstate, disclosureEntity.areYouTheEntity)
     }
   }
 
-  def entityToPageWithValue(relatesTo: RelatesTo, page: QuestionPage[Boolean], areYouTheEntity: Option[Boolean]): List[PageWithValue[_]] = {
-    List(Some(PageWithValue(RelatesToPage, relatesTo)), areYouTheEntity.map(PageWithValue(page, _))).flatten
+  def entityToPageWithValue(relatesTo: RelatesTo, areYouTheEntity: Option[AreYouTheEntity]): List[PageWithValue[_]] = {
+    List(Some(PageWithValue(RelatesToPage, relatesTo)), areYouTheEntity.map(PageWithValue(AreYouTheEntityPage, _))).flatten
   }
 
   def contactPreferencePageWithValues(contactPreferences: ContactPreferences): PageWithValue[_] = {

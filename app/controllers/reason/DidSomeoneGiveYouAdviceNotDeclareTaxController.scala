@@ -22,7 +22,7 @@ import forms.DidSomeoneGiveYouAdviceNotDeclareTaxFormProvider
 import javax.inject.Inject
 import models.{Mode, RelatesTo, UserAnswers}
 import navigation.ReasonNavigator
-import pages.{AdviceBusinessNamePage, AdviceBusinessesOrOrgPage, AdviceGivenPage, AdviceProfessionPage, AreYouTheIndividualPage, DidSomeoneGiveYouAdviceNotDeclareTaxPage, PersonWhoGaveAdvicePage, QuestionPage, RelatesToPage, WhatEmailAddressCanWeContactYouWithPage, WhatTelephoneNumberCanWeContactYouWithPage, WhichEmailAddressCanWeContactYouWithPage, WhichTelephoneNumberCanWeContactYouWithPage}
+import pages.{AdviceBusinessNamePage, AdviceBusinessesOrOrgPage, AdviceGivenPage, AdviceProfessionPage, DidSomeoneGiveYouAdviceNotDeclareTaxPage, PersonWhoGaveAdvicePage, QuestionPage, RelatesToPage, WhatEmailAddressCanWeContactYouWithPage, WhatTelephoneNumberCanWeContactYouWithPage, WhichEmailAddressCanWeContactYouWithPage, WhichTelephoneNumberCanWeContactYouWithPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -46,7 +46,7 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxController @Inject()(
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
+      val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
       val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       val preparedForm = request.userAnswers.get(DidSomeoneGiveYouAdviceNotDeclareTaxPage) match {
@@ -60,7 +60,7 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxController @Inject()(
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
 
-      val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
+      val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
       val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       form(areTheyTheIndividual, entity).bindFromRequest().fold(
@@ -76,13 +76,6 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxController @Inject()(
           } yield Redirect(navigator.nextPage(DidSomeoneGiveYouAdviceNotDeclareTaxPage, mode, clearedAnswers, hasValueChanged))
         }
       )
-  }
-
-  def isTheUserTheIndividual(userAnswers: UserAnswers): Boolean = {
-    userAnswers.get(AreYouTheIndividualPage) match {
-      case Some(true) => true
-      case _ => false
-    }
   }
 
   def form(areTheyTheIndividual: Boolean, entity: RelatesTo) = formProvider(areTheyTheIndividual, entity)

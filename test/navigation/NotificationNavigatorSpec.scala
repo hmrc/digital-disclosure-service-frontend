@@ -60,49 +60,49 @@ class NotificationNavigatorSpec extends SpecBase {
 
       "must go from the RelatesTo page to the AreYouTheIndividual controller when select an individual" in {
         UserAnswers("id").set(RelatesToPage, RelatesTo.AnIndividual) match {
-          case Success(ua) => navigator.nextPage(RelatesToPage, NormalMode, ua) mustBe routes.AreYouTheIndividualController.onPageLoad(NormalMode)
+          case Success(ua) => navigator.nextPage(RelatesToPage, NormalMode, ua) mustBe routes.AreYouTheEntityController.onPageLoad(NormalMode)
           case Failure(e) => throw e
         }
       }
 
       "must go from the RelatesTo page to the AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAbout controller when select a company" in {
         UserAnswers("id").set(RelatesToPage, RelatesTo.ACompany) match {
-          case Success(ua) => navigator.nextPage(RelatesToPage, NormalMode, ua) mustBe routes.AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode)
+          case Success(ua) => navigator.nextPage(RelatesToPage, NormalMode, ua) mustBe routes.AreYouTheEntityController.onPageLoad(NormalMode)
           case Failure(e) => throw e
         }
       }
 
       "must go from the RelatesTo page to the AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController controller when select an LLP" in {
         UserAnswers("id").set(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership) match {
-          case Success(ua) => navigator.nextPage(RelatesToPage, NormalMode, ua) mustBe routes.AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode)
+          case Success(ua) => navigator.nextPage(RelatesToPage, NormalMode, ua) mustBe routes.AreYouTheEntityController.onPageLoad(NormalMode)
           case Failure(e) => throw e
         }
       }
 
       "must go from the RelatesTo page to the AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController when select a Trust" in {
         UserAnswers("id").set(RelatesToPage, RelatesTo.ATrust) match {
-          case Success(ua) => navigator.nextPage(RelatesToPage, NormalMode, ua) mustBe routes.AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutController.onPageLoad(NormalMode)
+          case Success(ua) => navigator.nextPage(RelatesToPage, NormalMode, ua) mustBe routes.AreYouTheEntityController.onPageLoad(NormalMode)
           case Failure(e) => throw e
         }
       }
 
-      "must go from the RelatesTo page to the AreYouTheExecutorOfTheEstateController when select a Trust" in {
+      "must go from the RelatesTo page to the AreYouTheEntityController when select a Trust" in {
         UserAnswers("id").set(RelatesToPage, RelatesTo.AnEstate) match {
-          case Success(ua) => navigator.nextPage(RelatesToPage, NormalMode, ua) mustBe routes.AreYouTheExecutorOfTheEstateController.onPageLoad(NormalMode)
+          case Success(ua) => navigator.nextPage(RelatesToPage, NormalMode, ua) mustBe routes.AreYouTheEntityController.onPageLoad(NormalMode)
           case Failure(e) => throw e
         }
       }
 
-      "must go from the AreYouTheIndividual page to the OffshoreLiabilities controller when the user selects Yes" in {
-        UserAnswers("id").set(AreYouTheIndividualPage, true) match {
-          case Success(ua) => navigator.nextPage(AreYouTheIndividualPage, NormalMode, ua) mustBe routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
+      "must go from the AreYouTheEntity page to the OffshoreLiabilities controller when the user selects Yes" in {
+        UserAnswers("id").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm) match {
+          case Success(ua) => navigator.nextPage(AreYouTheEntityPage, NormalMode, ua) mustBe routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
           case Failure(e) => throw e
         }
       }
 
       "must go from the AreYouTheIndividual page to the AreYouRepresentingAnOrganisationController controller when the user selects No" in {
-        UserAnswers("id").set(AreYouTheIndividualPage, false) match {
-          case Success(ua) => navigator.nextPage(AreYouTheIndividualPage, NormalMode, ua) mustBe routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode)
+        UserAnswers("id").set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent) match {
+          case Success(ua) => navigator.nextPage(AreYouTheEntityPage, NormalMode, ua) mustBe routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode)
           case Failure(e) => throw e
         }
       }
@@ -139,8 +139,9 @@ class NotificationNavigatorSpec extends SpecBase {
 
       "must go from the YourEmailAddressPage page to the WhatIsYourDateOfBirthController controller when the user enter an email and is an individual" in {
         val userAnswers = for {
-          uaWithOnshore <- UserAnswers("id").set(YourEmailAddressPage, "test")
-            ua 	<- uaWithOnshore.set(AreYouTheIndividualPage, true)
+            uaWithEmail <- UserAnswers("id").set(YourEmailAddressPage, "test")
+            uaWithInd <- uaWithEmail.set(RelatesToPage, RelatesTo.AnIndividual)
+            ua 	<- uaWithInd.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
           } yield ua
         navigator.nextPage(YourEmailAddressPage, NormalMode, userAnswers.success.value) mustBe routes.WhatIsYourDateOfBirthController.onPageLoad(NormalMode)
       }
@@ -148,7 +149,7 @@ class NotificationNavigatorSpec extends SpecBase {
       "must go from the YourEmailAddressPage page to the YourAddressLookupController controller when the user enter an email and on behalf of individual" in {
         val userAnswers = for {
           uaWithOnshore <- UserAnswers("id").set(YourEmailAddressPage, "test")
-            ua 	<- uaWithOnshore.set(AreYouTheIndividualPage, false)
+            ua 	<- uaWithOnshore.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
           } yield ua
         navigator.nextPage(YourEmailAddressPage, NormalMode, userAnswers.success.value) mustBe routes.YourAddressLookupController.lookupAddress(NormalMode)
       }
@@ -156,7 +157,7 @@ class NotificationNavigatorSpec extends SpecBase {
       "must go from the YourEmailAddressPage page to the YourAddressLookupController controller when the user enter an email and Yes, I am an officer of the company" in {
         val userAnswers = for {
           uaWithOnshore <- UserAnswers("id").set(YourEmailAddressPage, "test")
-          ua 	<- uaWithOnshore.set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, true)
+          ua 	<- uaWithOnshore.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         } yield ua
         navigator.nextPage(YourEmailAddressPage, NormalMode, userAnswers.success.value) mustBe routes.YourAddressLookupController.lookupAddress(NormalMode)
       }
@@ -164,7 +165,7 @@ class NotificationNavigatorSpec extends SpecBase {
       "must go from the YourEmailAddressPage page to the YourAddressLookupController controller when the user enter an email and No, I will be making a disclosure on behalf of an officerl" in {
         val userAnswers = for {
           uaWithOnshore <- UserAnswers("id").set(YourEmailAddressPage, "test")
-          ua 	<- uaWithOnshore.set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, false)
+          ua 	<- uaWithOnshore.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
         } yield ua
         navigator.nextPage(YourEmailAddressPage, NormalMode, userAnswers.success.value) mustBe routes.YourAddressLookupController.lookupAddress(NormalMode)
       }
@@ -358,16 +359,9 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(YourAddressLookupPage, NormalMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad
       }
 
-      "must go from the AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage to the OffshoreLiabilitiesController when the user selects Yes, I am an officer of the company" in {
-        UserAnswers("id").set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, true) match {
-          case Success(ua) => navigator.nextPage(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, NormalMode, ua) mustBe routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
-          case Failure(e) => throw e
-        }
-      }
-
-      "must go from the AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage to the AreYouRepresentingAnOrganisationController when the user selects No, I will be making a disclosure on behalf of an officer" in {
-        UserAnswers("id").set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, false) match {
-          case Success(ua) => navigator.nextPage(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, NormalMode, ua) mustBe routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode)
+      "must go from the AreYouTheEntityPage to the AreYouRepresentingAnOrganisationController when the user selects IAmAnAccountantOrTaxAgent" in {
+        UserAnswers("id").set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent) match {
+          case Success(ua) => navigator.nextPage(AreYouTheEntityPage, NormalMode, ua) mustBe routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode)
           case Failure(e) => throw e
         }
       }
@@ -386,16 +380,9 @@ class NotificationNavigatorSpec extends SpecBase {
         }
       }
 
-      "must go from the AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage to the AreYouRepresentingAnOrganisationController when the user selects Yes" in {
-        UserAnswers("id").set(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, false) match {
-          case Success(ua) => navigator.nextPage(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, NormalMode, ua) mustBe routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode)
-          case Failure(e) => throw e
-        }
-      }
-
-      "must go from the AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage to the OffshoreLiabilitiesController when the user selects Yes" in {
-        UserAnswers("id").set(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, true) match {
-          case Success(ua) => navigator.nextPage(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, NormalMode, ua) mustBe routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
+      "must go from the AreYouTheEntityPage to the AreYouRepresentingAnOrganisationController when the user selects Yes" in {
+        UserAnswers("id").set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent) match {
+          case Success(ua) => navigator.nextPage(AreYouTheEntityPage, NormalMode, ua) mustBe routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode)
           case Failure(e) => throw e
         }
       }
@@ -420,20 +407,6 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(LLPAddressLookupPage, NormalMode, UserAnswers("id")) mustBe routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
       }
 
-      "must go from the AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage to the AreYouRepresentingAnOrganisationController when the user selects Yes" in {
-        UserAnswers("id").set(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, false) match {
-          case Success(ua) => navigator.nextPage(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, NormalMode, ua) mustBe routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode)
-          case Failure(e) => throw e
-        }
-      }
-
-      "must go from the AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage to the OffshoreLiabilitiesController when the user selects Yes" in {
-        UserAnswers("id").set(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, true) match {
-          case Success(ua) => navigator.nextPage(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, NormalMode, ua) mustBe routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
-          case Failure(e) => throw e
-        }
-      }
-
       "must go from the WhatIsTheTrustNamePage to the TrustAddressLookupController when the user enter trust name" in {
         navigator.nextPage(WhatIsTheTrustNamePage, NormalMode, UserAnswers("id")) mustBe routes.TrustAddressLookupController.lookupAddress(NormalMode)
       }
@@ -442,16 +415,9 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(TrustAddressLookupPage, NormalMode, UserAnswers("id")) mustBe routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
       }
 
-      "must go from the AreYouTheExecutorOfTheEstatePage to the AreYouRepresentingAnOrganisationController when the user selects Yes" in {
-        UserAnswers("id").set(AreYouTheExecutorOfTheEstatePage, false) match {
-          case Success(ua) => navigator.nextPage(AreYouTheExecutorOfTheEstatePage, NormalMode, ua) mustBe routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode)
-          case Failure(e) => throw e
-        }
-      }
-
-      "must go from the AreYouTheExecutorOfTheEstatePage to the OffshoreLiabilitiesController when the user selects Yes" in {
-        UserAnswers("id").set(AreYouTheExecutorOfTheEstatePage, true) match {
-          case Success(ua) => navigator.nextPage(AreYouTheExecutorOfTheEstatePage, NormalMode, ua) mustBe routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
+      "must go from the AreYouTheEntityPage to the OffshoreLiabilitiesController when the user selects Yes" in {
+        UserAnswers("id").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm) match {
+          case Success(ua) => navigator.nextPage(AreYouTheEntityPage, NormalMode, ua) mustBe routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
           case Failure(e) => throw e
         }
       }
@@ -683,19 +649,46 @@ class NotificationNavigatorSpec extends SpecBase {
         navigator.nextPage(DoesTheIndividualHaveNationalInsuranceNumberPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
       }
 
-      "must go from the AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage to CheckYourAnswers where the answer is No and has not changed" in {
-        val userAnswers = UserAnswers("id").set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, false).success.value
-        navigator.nextPage(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
+      "must go from the AreYouTheEntityPage to CheckYourAnswers where the answer is Yes and has not changed" in {
+        val userAnswers = UserAnswers("id").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm).success.value
+        navigator.nextPage(AreYouTheEntityPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
       }
 
-      "must go from the AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage to CheckYourAnswers where the answer is Yes and has not changed" in {
-        val userAnswers = UserAnswers("id").set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, true).success.value
-        navigator.nextPage(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
+      "must go from the AreYouTheEntityPage to CheckYourAnswers where the answer is No and has not changed" in {
+        val userAnswers = UserAnswers("id").set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent).success.value
+        navigator.nextPage(AreYouTheEntityPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
       }
 
-      "must go from the AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage to AreYouRepresentingAnOrganisationController where the answer is Yes and has changed to No" in {
-        val userAnswers = UserAnswers("id").set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, false).success.value
-        navigator.nextPage(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, CheckMode, userAnswers, true) mustBe routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode)
+      "must go from the AreYouTheEntityPage to AreYouRepresentingAnOrganisationController where the answer is Yes and has changed to No (non individual)" in {
+        val userAnswers = (for {
+          initialUa <- UserAnswers("id").set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
+          ua <- initialUa.set(RelatesToPage, RelatesTo.AnEstate)
+        } yield ua).success.value
+        navigator.nextPage(AreYouTheEntityPage, CheckMode, userAnswers, true) mustBe routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode)
+      }
+
+      "must go from the AreYouTheEntityPage to CheckYourAnswers where the answer is No and has changed to Yes (non individual)" in {
+        val userAnswers = (for {
+          initialUa <- UserAnswers("id").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+          ua <- initialUa.set(RelatesToPage, RelatesTo.AnEstate)
+        } yield ua).success.value
+        navigator.nextPage(AreYouTheEntityPage, CheckMode, userAnswers, true) mustBe routes.CheckYourAnswersController.onPageLoad
+      }
+
+      "must go from the AreYouTheEntityPage to AreYouRepresentingAnOrganisationController where the answer is Yes and has changed to No (individual)" in {
+        val userAnswers = (for {
+          initialUa <- UserAnswers("id").set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
+          ua <- initialUa.set(RelatesToPage, RelatesTo.AnIndividual)
+        } yield ua).success.value
+        navigator.nextPage(AreYouTheEntityPage, CheckMode, userAnswers, true) mustBe routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode)
+      }
+
+      "must go from the AreYouTheEntityPage to CheckYourAnswers where the answer is No and has changed to Yes (individual)" in {
+        val userAnswers = (for {
+          initialUa <- UserAnswers("id").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+          ua <- initialUa.set(RelatesToPage, RelatesTo.AnIndividual)
+        } yield ua).success.value
+        navigator.nextPage(AreYouTheEntityPage, CheckMode, userAnswers, true) mustBe routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
       }
 
       "must go from the AreYouRepresentingAnOrganisationPage to WhatIsTheNameOfTheOrganisationYouRepresentController where the answer is Yes" in {
@@ -706,26 +699,6 @@ class NotificationNavigatorSpec extends SpecBase {
       "must go from the AreYouRepresentingAnOrganisationPage to CheckYourAnswers where the answer is No" in {
         val userAnswers = UserAnswers("id").set(AreYouRepresentingAnOrganisationPage, false).success.value
         navigator.nextPage(AreYouRepresentingAnOrganisationPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
-      }
-
-      "must go from the AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage to CheckYourAnswers where the answer is No" in {
-        val userAnswers = UserAnswers("id").set(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, false).success.value
-        navigator.nextPage(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, CheckMode, userAnswers) mustBe routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode)
-      }
-
-      "must go from the AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage to CheckYourAnswers where the answer is Yes and has not changed" in {
-        val userAnswers = UserAnswers("id").set(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, true).success.value
-        navigator.nextPage(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
-      }
-
-      "must go from the AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage to CheckYourAnswers where the answer is No" in {
-        val userAnswers = UserAnswers("id").set(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, false).success.value
-        navigator.nextPage(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, CheckMode, userAnswers) mustBe routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode)
-      }
-
-      "must go from the AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage to CheckYourAnswers where the answer is Yes and has not changed" in {
-        val userAnswers = UserAnswers("id").set(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, true).success.value
-        navigator.nextPage(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, CheckMode, userAnswers, false) mustBe routes.CheckYourAnswersController.onPageLoad
       }
 
       "must go from the DidThePersonHaveNINOPage to WhatIsIndividualsNationalInsuranceNumberPage where the answer is YesIKnow and has changed" in {
@@ -816,7 +789,7 @@ class NotificationNavigatorSpec extends SpecBase {
     s"must go from $page to the WhatIsYourFullName page when the user is the individual" in {
       val userAnswers = for {
         uaWithOnshore <- UserAnswers("id").set(RelatesToPage, RelatesTo.AnIndividual)
-        ua 	<- uaWithOnshore.set(AreYouTheIndividualPage, true)
+        ua 	<- uaWithOnshore.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
       } yield ua
       navigator.nextPage(page, NormalMode, userAnswers.success.value) mustBe routes.WhatIsYourFullNameController.onPageLoad(NormalMode)
     }
@@ -824,7 +797,7 @@ class NotificationNavigatorSpec extends SpecBase {
     s"must go from $page to the WhatIsTheIndividualsFullName page when the user is the individual and disclosing on behalf of the individual" in {
       val userAnswers = for {
         uaWithOnshore <- UserAnswers("id").set(RelatesToPage, RelatesTo.AnIndividual)
-        ua 	<- uaWithOnshore.set(AreYouTheIndividualPage, false)
+        ua 	<- uaWithOnshore.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
       } yield ua
       navigator.nextPage(page, NormalMode, userAnswers.success.value) mustBe routes.WhatIsTheIndividualsFullNameController.onPageLoad(NormalMode) 
     }

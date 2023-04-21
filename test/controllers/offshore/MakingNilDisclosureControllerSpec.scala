@@ -20,8 +20,8 @@ import base.SpecBase
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.html.offshore.MakingNilDisclosureView
-import models.{RelatesTo, WhyAreYouMakingThisDisclosure, UserAnswers}
-import pages.{AreYouTheIndividualPage, WhyAreYouMakingThisDisclosurePage}
+import models.{AreYouTheEntity, RelatesTo, WhyAreYouMakingThisDisclosure, UserAnswers}
+import pages.{AreYouTheEntityPage, WhyAreYouMakingThisDisclosurePage}
 
 class MakingNilDisclosureControllerSpec extends SpecBase {
 
@@ -29,13 +29,13 @@ class MakingNilDisclosureControllerSpec extends SpecBase {
 
     "must return OK and the correct view for a GET" in {
 
-      val areTheyTheIndividual = true
+      val areTheyTheIndividual = AreYouTheEntity.YesIAm
       val entity = RelatesTo.AnIndividual
       val years = 20
 
       val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DidNotNotifyNoExcuse)
       val userAnswers = (for{
-        ua <- UserAnswers(userAnswersId).set(AreYouTheIndividualPage, areTheyTheIndividual)
+        ua <- UserAnswers(userAnswersId).set(AreYouTheEntityPage, areTheyTheIndividual)
         updatedUa <- ua.set(WhyAreYouMakingThisDisclosurePage, set)
       } yield updatedUa).success.value
 
@@ -49,7 +49,7 @@ class MakingNilDisclosureControllerSpec extends SpecBase {
         val view = application.injector.instanceOf[MakingNilDisclosureView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(areTheyTheIndividual, entity, years)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(userAnswers.isTheUserTheIndividual, entity, years)(request, messages(application)).toString
       }
     }
   }

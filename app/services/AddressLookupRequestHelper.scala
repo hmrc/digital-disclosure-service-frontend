@@ -260,39 +260,16 @@ trait AddressLookupRequestHelper {
     } 
   }
 
-  def getIndividualSpecificHeading(ua: UserAnswers): Option[String] = {
-    ua.get(AreYouTheIndividualPage) match {
-      case Some(false) => Some("yourAddressLookup.individual.afterHeadingText")
-      case _ => None
+  def getAgentHeading(ua: UserAnswers, agentKey: String): Option[String] = {
+    ua.get(AreYouTheEntityPage) match {
+      case Some(AreYouTheEntity.YesIAm) => None
+      case _ => Some(agentKey)
     }
   }
 
-  def getCompanySpecificHeading(ua: UserAnswers): Option[String] = {
-    ua.get(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage) match {
-      case Some(false) => Some("yourAddressLookup.company.afterHeadingText")
-      case _ => None
-    }
-  }
-
-  def getLLPSpecificHeading(ua: UserAnswers): Option[String] = {
-    ua.get(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage) match {
-      case Some(false) => Some("yourAddressLookup.llp.afterHeadingText")
-      case _ => None
-    }
-  }
-
-  def getTrustSpecificHeading(ua: UserAnswers): Option[String] = {
-    ua.get(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage) match {
-      case Some(false) => Some("yourAddressLookup.trust.afterHeadingText")
-      case _ => None
-    }
-  }
-
-  def getEstateSpecificHeading(ua: UserAnswers): Option[String] = {
-    ua.get(AreYouTheExecutorOfTheEstatePage) match {
-      case Some(false) => Some("yourAddressLookup.estate.afterHeadingText")
-      case _ => None
-    }
-  }
-
+  def getIndividualSpecificHeading(ua: UserAnswers): Option[String] = getAgentHeading(ua, "yourAddressLookup.individual.afterHeadingText")
+  def getCompanySpecificHeading(ua: UserAnswers): Option[String] = getAgentHeading(ua, "yourAddressLookup.company.afterHeadingText")
+  def getLLPSpecificHeading(ua: UserAnswers): Option[String] = getAgentHeading(ua, "yourAddressLookup.llp.afterHeadingText")
+  def getTrustSpecificHeading(ua: UserAnswers): Option[String] = getAgentHeading(ua, "yourAddressLookup.trust.afterHeadingText")
+  def getEstateSpecificHeading(ua: UserAnswers): Option[String] = getAgentHeading(ua, "yourAddressLookup.estate.afterHeadingText")
 }

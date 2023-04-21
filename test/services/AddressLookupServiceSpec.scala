@@ -143,7 +143,7 @@ class AddressLookupServiceSpec
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.AnIndividual)
-        ua 	<- uaWithRelatesToPage.set(AreYouTheIndividualPage, false)
+        ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressIndividualBodyRequest)
@@ -153,7 +153,7 @@ class AddressLookupServiceSpec
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.AnIndividual)
-        ua 	<- uaWithRelatesToPage.set(AreYouTheIndividualPage, true)
+        ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressNoBodyRequest)
@@ -163,7 +163,7 @@ class AddressLookupServiceSpec
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ACompany)
-        ua 	<- uaWithRelatesToPage.set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, false)
+        ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressCompanyBodyRequest)
@@ -173,7 +173,7 @@ class AddressLookupServiceSpec
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ACompany)
-        ua 	<- uaWithRelatesToPage.set(AreYouAnOfficerOfTheCompanyThatTheDisclosureWillBeAboutPage, true)
+        ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressNoBodyRequest)
@@ -183,7 +183,7 @@ class AddressLookupServiceSpec
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership)
-        ua 	<- uaWithRelatesToPage.set(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, false)
+        ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressLLPBodyRequest)
@@ -193,7 +193,7 @@ class AddressLookupServiceSpec
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership)
-        ua 	<- uaWithRelatesToPage.set(AreYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAboutPage, true)
+        ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressNoBodyRequest)
@@ -203,7 +203,7 @@ class AddressLookupServiceSpec
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ATrust)
-        ua 	<- uaWithRelatesToPage.set(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, false)
+        ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressTrustBodyRequest)
@@ -213,7 +213,7 @@ class AddressLookupServiceSpec
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ATrust)
-        ua 	<- uaWithRelatesToPage.set(AreYouTrusteeOfTheTrustThatTheDisclosureWillBeAboutPage, true)
+        ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressNoBodyRequest)
@@ -223,7 +223,7 @@ class AddressLookupServiceSpec
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.AnEstate)
-        ua 	<- uaWithRelatesToPage.set(AreYouTheExecutorOfTheEstatePage, false)
+        ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressEstateBodyRequest)
@@ -233,7 +233,7 @@ class AddressLookupServiceSpec
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.AnEstate)
-        ua 	<- uaWithRelatesToPage.set(AreYouTheExecutorOfTheEstatePage, true)
+        ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressNoBodyRequest)

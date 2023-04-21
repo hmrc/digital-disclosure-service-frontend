@@ -173,7 +173,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
     }
 
     "should display Completed when the section is complete" in {
-      val completedBackground = Background(Some(false), None, Some(DisclosureEntity(Individual, Some(true))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)), None)
+      val completedBackground = Background(Some(false), None, Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)), None)
       val aboutYou = AboutYou(Some("name"), None, Some("email"), Some(LocalDate.now), Some("mainOccupation"), Some(ContactPreferences(Set(Email))), Some(No), None, Some(No), None, Some(No), None, Some(address))
       val personalDetails = PersonalDetails(completedBackground, aboutYou, None, None, None, None, None)
       

@@ -23,7 +23,7 @@ import models.store._
 import models.SubmissionType.Disclosure
 import java.time.Instant
 import scala.util.{Failure, Success, Try}
-import pages.{WhichYearsPage, WhichOnshoreYearsPage}
+import pages.{WhichYearsPage, WhichOnshoreYearsPage, RelatesToPage, AreYouTheEntityPage}
 
 final case class UserAnswers(
                               id: String,
@@ -162,6 +162,13 @@ final case class UserAnswers(
   }
 
   def isDisclosure: Boolean = submissionType == Disclosure   
+
+  def isTheUserTheIndividual: Boolean = {
+    (get(RelatesToPage), get(AreYouTheEntityPage)) match {
+      case (Some(RelatesTo.AnIndividual), Some(AreYouTheEntity.YesIAm)) => true
+      case _ => false
+    }
+  }
 
 }
 

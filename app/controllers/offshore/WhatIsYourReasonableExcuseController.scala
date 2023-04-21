@@ -19,7 +19,7 @@ package controllers.offshore
 import controllers.actions._
 import forms.WhatIsYourReasonableExcuseFormProvider
 import javax.inject.Inject
-import models.{Mode, UserAnswers, RelatesTo}
+import models.{Mode, RelatesTo}
 import navigation.OffshoreNavigator
 import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -45,7 +45,7 @@ class WhatIsYourReasonableExcuseController @Inject()(
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
+      val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
       val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       val preparedForm = request.userAnswers.get(WhatIsYourReasonableExcusePage) match {
@@ -59,7 +59,7 @@ class WhatIsYourReasonableExcuseController @Inject()(
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
 
-      val areTheyTheIndividual = isTheUserTheIndividual(request.userAnswers)
+      val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
       val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       form(areTheyTheIndividual).bindFromRequest().fold(
@@ -72,13 +72,6 @@ class WhatIsYourReasonableExcuseController @Inject()(
             _              <- sessionService.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(WhatIsYourReasonableExcusePage, mode, updatedAnswers))
       )
-  }
-
-  def isTheUserTheIndividual(userAnswers: UserAnswers): Boolean = {
-    userAnswers.get(AreYouTheIndividualPage) match {
-      case Some(true) => true
-      case _ => false
-    }
   }
 
   def form(areTheyTheIndividual: Boolean) = formProvider(areTheyTheIndividual)

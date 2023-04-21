@@ -17,6 +17,7 @@
 package models.store.notification
 
 import play.api.libs.json.{Json, OFormat}
+import models.AreYouTheEntity
 
 final case class PersonalDetails(
   background: Background,
@@ -28,7 +29,7 @@ final case class PersonalDetails(
   aboutTheEstate: Option[AboutTheEstate] = None
 ) {
   lazy val disclosingAboutThemselves: Boolean = background.disclosureEntity match {
-    case Some(DisclosureEntity(Individual, Some(true))) => true
+    case Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))) => true
     case _ => false
   }
 
