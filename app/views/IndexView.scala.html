@@ -91,7 +91,7 @@
             HtmlContent(
                 messages("index.bulletList.agent.first") +
                         link(id = "bullet-link", text = messages("index.bulletList.agent.first.link"), newTab = true, call = Call("GET", "https://www.gov.uk/appoint-tax-agent")),
-            ),
+            )
         ) else Seq()
         elem ++ Seq(
             HtmlContent(
