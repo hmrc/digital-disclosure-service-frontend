@@ -36,21 +36,19 @@ class IndexController @Inject()(
                                 getData: DataRetrievalAction,
                                 view: IndexView,
                                 sessionService: SessionService,
-                                dataService: UAToNotificationService,
-                                navigator: Navigator,
-                                appConfig: FrontendAppConfig
-                               )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with Logging {
+                                navigator: Navigator
+                               )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData).async { implicit request =>
 
-    if (request.isAgent) 
-      Future.successful(Ok(view(controllers.routes.CaseManagementController.onPageLoad(1).url)))
+    if (request.isAgent)
+      Future.successful(Ok(view(controllers.routes.CaseManagementController.onPageLoad(1).url, request.isAgent)))
     else {
       for {
         uaOpt  <- sessionService.getIndividualUserAnswers(request.userId, UserAnswers.defaultSubmissionId)
         url    = navigator.indexNextPage(uaOpt).url
         _      = uaOpt.map(sessionService.set)
-      } yield Ok(view(url))
+      } yield Ok(view(url, request.isAgent))
     }
 
   }

@@ -34,7 +34,6 @@ class NotificationSubmissionServiceImpl @Inject()(
 ) extends NotificationSubmissionService {
 
   def submitNotification(userAnswers: UserAnswers)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[String] = {
-        
     val reference = referenceService.generateReference.toString
     val metadata = Metadata(reference = Some(reference), submissionTime = Some(timeService.now))
 

@@ -45,9 +45,9 @@ class DisclosureToUAServiceImpl @Inject()(
     import fullDisclosure._
 
     UserAnswers(
-      id = userId, 
-      submissionId = submissionId, 
-      submissionType = SubmissionType.Disclosure, 
+      id = userId,
+      submissionId = submissionId,
+      submissionType = SubmissionType.Disclosure,
       lastUpdated = lastUpdated,
       created = created,
       metadata = metadata,
