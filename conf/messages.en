@@ -1911,9 +1911,9 @@ onshoreTaxYearLiabilities.undeclaredIncomeOrGain.question = Where did the undecl
 onshoreTaxYearLiabilities.undeclaredIncomeOrGain.hint = For example, rental income, bank interest or dividends, and the amount of each type of income or gain, in pounds.
 onshoreTaxYearLiabilities.undeclaredIncomeOrGain.error.required = Enter where the undeclared income or gain came from
 onshoreTaxYearLiabilities.undeclaredIncomeOrGain.error.length = Details of where the undeclared income or gain came from must be between 1 and 5,000 characters
-onshoreTaxYearLiabilities.undeclaredIncomeOrGain.checkYourAnswersLabel = Where did the undeclared income or gain came from
-onshoreTaxYearLiabilities.undeclaredIncomeOrGain.reveal = Show Where did the undeclared income or gain came from
-onshoreTaxYearLiabilities.undeclaredIncomeOrGain.hidden = Where did the undeclared income or gain came from
+onshoreTaxYearLiabilities.undeclaredIncomeOrGain.checkYourAnswersLabel = Where the income came from
+onshoreTaxYearLiabilities.undeclaredIncomeOrGain.reveal = Show where the income or gain came from
+onshoreTaxYearLiabilities.undeclaredIncomeOrGain.hidden = Where the income came from
 
 onshoreTaxYearLiabilities.residentialTaxReduction.question = Did you apply a basic-rate tax reduction for any residential finance costs in your calculations?
 onshoreTaxYearLiabilities.residentialTaxReduction.error.required = Select yes if you applied a basic-rate tax reduction for any residential finance costs in your calculations
