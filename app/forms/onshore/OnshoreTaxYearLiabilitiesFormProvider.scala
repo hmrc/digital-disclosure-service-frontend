@@ -55,8 +55,7 @@ class OnshoreTaxYearLiabilitiesFormProvider @Inject() extends Mappings  {
           .verifying(inRange(BigDecimal(0.00), BigDecimal(200.00), "onshoreTaxYearLiabilities.penaltyRate.error.outOfRange")),
       "penaltyRateReason" -> text("onshoreTaxYearLiabilities.penaltyRateReason.error.required")
         .verifying(maxLength(5000, "onshoreTaxYearLiabilities.penaltyRateReason.error.length")),
-      "undeclaredIncomeOrGain" -> text("onshoreTaxYearLiabilities.undeclaredIncomeOrGain.error.required")
-        .verifying(maxLength(5000, "onshoreTaxYearLiabilities.undeclaredIncomeOrGain.error.length")),  
+      "undeclaredIncomeOrGain" -> stringOptionalUnless("undeclaredIncomeOrGain"),  
       "residentialTaxReduction" -> optional(boolean("onshoreTaxYearLiabilities.residentialTaxReduction.error.required"))
         .verifying(optionalUnless(taxTypes.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome), "onshoreTaxYearLiabilities.residentialTaxReduction.error.required"))
     )(OnshoreTaxYearLiabilities.apply)(OnshoreTaxYearLiabilities.unapply)
@@ -70,6 +69,14 @@ class OnshoreTaxYearLiabilitiesFormProvider @Inject() extends Mappings  {
         s"onshoreTaxYearLiabilities.$field.error.nonNumeric")
       .verifying(inRange(BigInt(0), MAX_BIGINT, s"onshoreTaxYearLiabilities.$field.error.outOfRange")))
     .verifying(optionalUnless(isRequired, s"onshoreTaxYearLiabilities.$field.error.required"))
+  }
+
+  def stringOptionalUnless(field: String): Mapping[Option[String]] = {
+    optional(
+      text(s"onshoreTaxYearLiabilities.$field.error.required")
+      .verifying(maxLength(5000, "onshoreTaxYearLiabilities.undeclaredIncomeOrGain.error.length"))
+    )
+    .verifying(optionalUnless(true, s"onshoreTaxYearLiabilities.$field.error.required"))
   }  
 
   def optionalUnless[A](isRequired: Boolean, errorKey: String): Constraint[Option[A]] = 

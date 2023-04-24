@@ -40,7 +40,7 @@ object AreYouAMemberOfAnyLandlordAssociationsSummary  {
           value   = ValueViewModel(value),
           actions = Seq(
             ActionItemViewModel("site.change", routes.AreYouAMemberOfAnyLandlordAssociationsController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages(if(areTheyTheIndividual) "areYouAMemberOfAnyLandlordAssociations.you.change.hidden" else "areYouAMemberOfAnyLandlordAssociations.${entity}.change.hidden"))
+              .withVisuallyHiddenText(messages(if(areTheyTheIndividual) "areYouAMemberOfAnyLandlordAssociations.you.change.hidden" else s"areYouAMemberOfAnyLandlordAssociations.${entity}.change.hidden"))
           )
         )
     }

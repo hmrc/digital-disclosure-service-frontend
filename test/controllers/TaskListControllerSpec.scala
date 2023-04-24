@@ -453,7 +453,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         interest = BigInt(2000),
         penaltyRate = 12,
         penaltyRateReason = "Reason",
-        undeclaredIncomeOrGain = "Income or gain",
+        undeclaredIncomeOrGain = Some("Income or gain"),
         residentialTaxReduction = Some(false)
       )
       val model = Some(OnshoreLiabilities(

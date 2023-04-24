@@ -176,7 +176,7 @@ trait ModelGenerators {
           interest,
           penaltyRate,
           penaltyRateReason,
-          undeclaredIncomeOrGain,
+          Some(undeclaredIncomeOrGain),
           Some(deduction)
         )
         OnshoreTaxYearWithLiabilities(OnshoreYearStarting(year), taxYearLiabilities)

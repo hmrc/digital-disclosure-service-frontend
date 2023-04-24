@@ -275,7 +275,7 @@ class TotalAmountsSpec extends AnyWordSpec with Matchers with ScalaCheckProperty
             interest = BigInt(10),
             penaltyRate = 10,
             penaltyRateReason = "Some reason",
-            undeclaredIncomeOrGain = "Income or gain",
+            undeclaredIncomeOrGain = Some("Income or gain"),
             residentialTaxReduction = Some(false)
           )
         ),
@@ -291,7 +291,7 @@ class TotalAmountsSpec extends AnyWordSpec with Matchers with ScalaCheckProperty
             interest = BigInt(20),
             penaltyRate = 20,
             penaltyRateReason = "Some reason",
-            undeclaredIncomeOrGain = "Income or gain",
+            undeclaredIncomeOrGain = Some("Income or gain"),
             residentialTaxReduction = Some(false)
           )
         )
@@ -320,7 +320,7 @@ class TotalAmountsSpec extends AnyWordSpec with Matchers with ScalaCheckProperty
             interest = BigInt(10),
             penaltyRate = 10,
             penaltyRateReason = "Some reason",
-            undeclaredIncomeOrGain = "Income or gain",
+            undeclaredIncomeOrGain = Some("Income or gain"),
             residentialTaxReduction = Some(false)
           )
         )

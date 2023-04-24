@@ -74,7 +74,7 @@ class OnshoreTaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar
         interest = BigInt(20),
         penaltyRate = 30,
         penaltyRateReason = "Reason",
-        undeclaredIncomeOrGain = "Income or gain",
+        undeclaredIncomeOrGain = Some("Income or gain"),
         residentialTaxReduction = None
       )
 
