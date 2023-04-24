@@ -55,6 +55,8 @@ class OnshoreTaxYearLiabilitiesFormProvider @Inject() extends Mappings  {
           .verifying(inRange(BigDecimal(0.00), BigDecimal(200.00), "onshoreTaxYearLiabilities.penaltyRate.error.outOfRange")),
       "penaltyRateReason" -> text("onshoreTaxYearLiabilities.penaltyRateReason.error.required")
         .verifying(maxLength(5000, "onshoreTaxYearLiabilities.penaltyRateReason.error.length")),
+      "undeclaredIncomeOrGain" -> text("onshoreTaxYearLiabilities.undeclaredIncomeOrGain.error.required")
+        .verifying(maxLength(5000, "onshoreTaxYearLiabilities.undeclaredIncomeOrGain.error.length")),  
       "residentialTaxReduction" -> optional(boolean("onshoreTaxYearLiabilities.residentialTaxReduction.error.required"))
         .verifying(optionalUnless(taxTypes.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome), "onshoreTaxYearLiabilities.residentialTaxReduction.error.required"))
     )(OnshoreTaxYearLiabilities.apply)(OnshoreTaxYearLiabilities.unapply)

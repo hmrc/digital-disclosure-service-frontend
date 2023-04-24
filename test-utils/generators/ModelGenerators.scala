@@ -163,6 +163,7 @@ trait ModelGenerators {
         interest <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
         penaltyRate <- arbitrary[Int]
         penaltyRateReason <- arbitrary[String]
+        undeclaredIncomeOrGain <- arbitrary[String]
         deduction <- arbitrary[Boolean]
       } yield {
         val taxYearLiabilities = OnshoreTaxYearLiabilities(
@@ -175,6 +176,7 @@ trait ModelGenerators {
           interest,
           penaltyRate,
           penaltyRateReason,
+          undeclaredIncomeOrGain,
           Some(deduction)
         )
         OnshoreTaxYearWithLiabilities(OnshoreYearStarting(year), taxYearLiabilities)

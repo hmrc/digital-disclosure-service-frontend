@@ -33,6 +33,7 @@ class OnshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues
     interest = BigInt(2000),
     penaltyRate = 12,
     penaltyRateReason = "Reason",
+    undeclaredIncomeOrGain = "Income or gain",
     residentialTaxReduction = Some(false)
   )
   val whySet: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHasExcuse)

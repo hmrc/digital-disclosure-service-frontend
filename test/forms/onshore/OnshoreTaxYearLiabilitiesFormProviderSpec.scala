@@ -107,6 +107,7 @@ class OnshoreTaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with 
         ("interest", "2000"),
         ("penaltyRate", "100"),
         ("penaltyRateReason", "Reason"),
+        ("undeclaredIncomeOrGain", "Undeclared Income or Gain"),
         ("residentialTaxReduction", "true")
       ))
       result.value.value.residentialTaxReduction.value mustBe true
@@ -121,6 +122,7 @@ class OnshoreTaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with 
         ("interest", "2000"),
         ("penaltyRate", "100"),
         ("penaltyRateReason", "Reason"),
+        ("undeclaredIncomeOrGain", "Undeclared Income or Gain"),
         ("residentialTaxReduction", "false")
       ))
       result.value.value.residentialTaxReduction.value mustBe false

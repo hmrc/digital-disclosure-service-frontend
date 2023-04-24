@@ -797,6 +797,7 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear with MockitoSuga
       interest = BigInt(2000),
       penaltyRate = 12,
       penaltyRateReason = "Reason",
+      undeclaredIncomeOrGain = "Income or gain",
       residentialTaxReduction = Some(false)
     )
 
