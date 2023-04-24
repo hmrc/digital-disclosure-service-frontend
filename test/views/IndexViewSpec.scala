@@ -28,7 +28,7 @@ class IndexViewSpec extends ViewSpecBase with ViewMatchers {
 
   "view" should {
 
-    def createView: Html = page(controllers.routes.MakeANotificationOrDisclosureController.onPageLoad.url)(request, messages)
+    def createView: Html = page(controllers.routes.MakeANotificationOrDisclosureController.onPageLoad.url, false)(request, messages)
 
     val view = createView
 
@@ -121,12 +121,25 @@ class IndexViewSpec extends ViewSpecBase with ViewMatchers {
 
   "view" should {
 
-    def createView: Html = page(controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url)(request, messages)
+    def createView: Html = page(controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url, false)(request, messages)
 
     val view = createView
 
     "display the start now button when full disclosure journey enabled is false" in {
       view.getElementById("start").attr("href") mustBe controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url
+    }
+  }
+
+  "view" should {
+
+    def createView: Html = page(controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url, true)(request, messages)
+
+    val view = createView
+
+    "display the right messages if the user is an agent" in {
+      view.getElementsByClass("dashed-list-item").get(2).text() mustBe messages("index.bulletList.agent.first") + messages("index.bulletList.agent.first.link")
+      view.getElementsByClass("seventh-paragraph") mustBe empty
+      view.getElementById("first-paragraph").text() mustBe messages("index.guidance.paragraph.agent.first")
     }
   }
 

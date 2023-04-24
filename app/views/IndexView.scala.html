@@ -22,7 +22,7 @@
     bulletList: components.bulletList
 )
 
-@(nextPageLink: String)(implicit request: Request[_], messages: Messages)
+@(nextPageLink: String, isAgent:Boolean)(implicit request: Request[_], messages: Messages)
 
 @layout(
     pageTitle = titleNoForm(messages("index.title")),
@@ -31,7 +31,13 @@
 
     <h1 class="govuk-heading-xl">@messages("index.heading")</h1>
 
-    <p class="govuk-body" id="first-paragraph">@messages("index.guidance.paragraph.first")</p>
+    <p class="govuk-body" id="first-paragraph">
+        @if(isAgent) {
+            @messages("index.guidance.paragraph.agent.first")
+        } else {
+            @messages("index.guidance.paragraph.first")
+        }
+    </p>
 
     <p class="govuk-body" id="second-paragraph">@messages("index.guidance.paragraph.second")</p>
 
@@ -65,27 +71,37 @@
         )
     )
 
-    @paragraph(
-        id = Some("seventh-paragraph"), 
-        content = HtmlContent(
-            messages("index.guidance.paragraph.seventh") +
-            link(id = "seventh-paragraph-link", text = messages("index.guidance.paragraph.seventh.link"), newTab = true, call = Call("GET", "https://www.gov.uk/appoint-tax-agent")) +
-            messages("index.guidance.paragraph.eighth")
+    @if(!isAgent){
+        @paragraph(
+            id = Some("seventh-paragraph"),
+            content = HtmlContent(
+                messages("index.guidance.paragraph.seventh") +
+                link(id = "seventh-paragraph-link", text = messages("index.guidance.paragraph.seventh.link"), newTab = true, call = Call("GET", "https://www.gov.uk/appoint-tax-agent")) +
+                messages("index.guidance.paragraph.eighth")
+            )
         )
-    )
+    }
 
     <h3 class="govuk-heading-s">@messages("index.heading.third")</h3>
 
     <p class="govuk-body" id="ninth-paragraph">@messages("index.guidance.paragraph.ninth")</p>
 
-    @bulletList(elements = Seq(
-        HtmlContent(
-            messages("index.bulletList.third") + 
-            link(id = "bullet-link", text = messages("index.bulletList.third.link"), newTab = true, call = Call("GET", "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure")),
-        ),
-        Text(messages("index.bulletList.forth")),
-        Text(messages("index.bulletList.fifth"))
-    ))
+    @bulletList(elements = {
+        val elem = if (isAgent) Seq(
+            HtmlContent(
+                messages("index.bulletList.agent.first") +
+                        link(id = "bullet-link", text = messages("index.bulletList.agent.first.link"), newTab = true, call = Call("GET", "https://www.gov.uk/appoint-tax-agent")),
+            ),
+        ) else Seq()
+        elem ++ Seq(
+            HtmlContent(
+                messages("index.bulletList.third") +
+                        link(id = "bullet-link", text = messages("index.bulletList.third.link"), newTab = true, call = Call("GET", "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure")),
+            ),
+            Text(messages("index.bulletList.forth")),
+            Text(messages("index.bulletList.fifth"))
+        )
+    })
 
     @govukButton(Button(  
       href = Some(nextPageLink),

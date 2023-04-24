@@ -56,7 +56,7 @@ class IndexControllerSpec extends SpecBase with Generators {
 
         status(result) mustEqual OK
 
-        contentAsString(result) mustEqual view(onwardRoute.url)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(onwardRoute.url, false)(request, messages(application)).toString
       }
     }
 
