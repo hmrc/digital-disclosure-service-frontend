@@ -48,7 +48,7 @@ class CaseManagementServiceImpl @Inject()(linkWithVisuallyHiddenContent: linkWit
   def getNumberOfPages(submissions: Seq[Submission]): Int = submissions.grouped(ROWS_ON_PAGE).size
 
   def generateCaseManagementTable(paginationIndex: Int, submissions: Seq[Submission])(implicit messages: Messages): Option[Table] = {
-    val paginatedSubmissions: Seq[Seq[Submission]] = submissions.grouped(ROWS_ON_PAGE).toSeq
+    val paginatedSubmissions: Seq[Seq[Submission]] = submissions.sortWith(_.created isAfter _.created).grouped(ROWS_ON_PAGE).toSeq
     val currentPage: Option[Seq[Submission]] = paginatedSubmissions.lift(paginationIndex-1)
 
     currentPage.map{ pageSubmissions => 
@@ -58,7 +58,7 @@ class CaseManagementServiceImpl @Inject()(linkWithVisuallyHiddenContent: linkWit
   }
 
   def submissionsToRows(submissions: Seq[Submission])(implicit messages: Messages): Seq[Seq[TableRow]] = {
-    val sorted = submissions.sortWith(_.created isAfter _.created)
+    val sorted = submissions
     sorted.map(storeEntryToTableRow)
   }
 
