@@ -774,6 +774,16 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear with MockitoSuga
       navigator.nextPage(PropertyAddedPage, CheckMode, ua) mustBe routes.AreYouAMemberOfAnyLandlordAssociationsController.onPageLoad(NormalMode)
     }
 
+    "must go from AreYouAMemberOfAnyLandlordAssociationsPage to WhichLandlordAssociationsAreYouAMemberOfController if previous answer changed from no to yes" in {
+      val ua = UserAnswers("id").set(AreYouAMemberOfAnyLandlordAssociationsPage, true).success.value
+      navigator.nextPage(AreYouAMemberOfAnyLandlordAssociationsPage, CheckMode, ua, true) mustBe routes.WhichLandlordAssociationsAreYouAMemberOfController.onPageLoad(CheckMode)
+    }
+
+    "must go from AreYouAMemberOfAnyLandlordAssociationsPage to HowManyPropertiesDoYouCurrentlyLetOutController if previous answer changed from yes to no" in {
+      val ua = UserAnswers("id").set(AreYouAMemberOfAnyLandlordAssociationsPage, false).success.value
+      navigator.nextPage(AreYouAMemberOfAnyLandlordAssociationsPage, CheckMode, ua, false) mustBe routes.HowManyPropertiesDoYouCurrentlyLetOutController.onPageLoad(CheckMode)
+    }
+
   }
 
   private def getFullDisclosure(onshoreCompleted:Boolean = false): FullDisclosure = {

@@ -19,7 +19,7 @@ package controllers.onshore
 import controllers.actions._
 import forms.AreYouAMemberOfAnyLandlordAssociationsFormProvider
 import javax.inject.Inject
-import models.{Mode, RelatesTo}
+import models.{Mode, RelatesTo, UserAnswers}
 import navigation.OnshoreNavigator
 import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -66,13 +66,25 @@ class AreYouAMemberOfAnyLandlordAssociationsController @Inject()(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode, areTheyTheIndividual, entity))),
 
-        value =>
+        value => {
+          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AreYouAMemberOfAnyLandlordAssociationsPage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(AreYouAMemberOfAnyLandlordAssociationsPage, mode, updatedAnswers))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+            _              <- sessionService.set(clearedAnswers)
+          } yield Redirect(navigator.nextPage(AreYouAMemberOfAnyLandlordAssociationsPage, mode, clearedAnswers, hasValueChanged))
+        }
       )
   }
 
   def form(areTheyTheIndividual: Boolean, entity: RelatesTo) = formProvider(areTheyTheIndividual, entity)
+
+  def changedPages(answers: UserAnswers, value: Boolean): (List[QuestionPage[_]], Boolean) = {
+    answers.get(AreYouAMemberOfAnyLandlordAssociationsPage) match {
+      case Some(true) if (value == false) => (List(WhichLandlordAssociationsAreYouAMemberOfPage), false)
+      case Some(false) if (value == true) => (Nil, true)
+      case _ => (Nil, false)
+    }
+  }
+
 }
