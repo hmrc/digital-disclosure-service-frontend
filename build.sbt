@@ -2,13 +2,13 @@ import play.sbt.routes.RoutesKeys
 import sbt.Def
 import scoverage.ScoverageKeys
 import uk.gov.hmrc.versioning.SbtGitVersioning.autoImport.majorVersion
+import uk.gov.hmrc.DefaultBuildSettings.targetJvm
 
 lazy val appName: String = "digital-disclosure-service-frontend"
 
 lazy val root = (project in file("."))
   .enablePlugins(PlayScala, SbtAutoBuildPlugin, SbtDistributablesPlugin)
   .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
-  .settings(SbtDistributablesPlugin.publishingSettings: _*)
   .settings(inConfig(Test)(testSettings): _*)
   .configs(IntegrationTest)
   .settings(inConfig(IntegrationTest)(itSettings): _*)
@@ -16,6 +16,7 @@ lazy val root = (project in file("."))
   .settings(ThisBuild / useSuperShell := false)
   .settings(
     scalaVersion := "2.13.8",
+    targetJvm    := "jvm-11",
     name := appName,
     RoutesKeys.routesImport ++= Seq(
       "models._",
