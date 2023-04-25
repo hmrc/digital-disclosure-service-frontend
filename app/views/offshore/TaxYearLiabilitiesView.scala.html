@@ -124,6 +124,18 @@
             )
         )
 
+        @hmrcCharacterCount(
+            CharacterCount(
+                id = "undeclaredIncomeOrGain",
+                name = "undeclaredIncomeOrGain",
+                maxLength = Some(5000),
+                label = Label(content = messages("taxYearLiabilities.undeclaredIncomeOrGain.question")).withCssClass("govuk-label--m"),
+                value = form("undeclaredIncomeOrGain").value,
+                errorMessage = form("undeclaredIncomeOrGain").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*)))),
+                hint = Some(Hint(content = messages("taxYearLiabilities.undeclaredIncomeOrGain.hint")))
+            )
+        )
+
         @govukRadios(
             RadiosViewModel.yesNoNotInline(
                 field = form("foreignTaxCredit"),

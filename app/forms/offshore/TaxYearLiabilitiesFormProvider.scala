@@ -17,15 +17,16 @@
 package forms
 
 import javax.inject.Inject
-
 import forms.mappings.Mappings
-import play.api.data.Form
+import play.api.data.{Form, Mapping}
 import play.api.data.Forms._
+import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 import models.TaxYearLiabilities
 
 class TaxYearLiabilitiesFormProvider @Inject() extends Mappings {
 
   val MAX_BIGINT = BigInt("999999999999999999999999")
+  val MAX_TEXT_BOX_SIZE = 5000
 
   def apply(): Form[TaxYearLiabilities] = Form(
     mapping(
@@ -59,8 +60,28 @@ class TaxYearLiabilitiesFormProvider @Inject() extends Mappings {
         "taxYearLiabilities.penaltyRate.error.nonNumeric")
           .verifying(inRange(BigDecimal(0.00), BigDecimal(200.00), "taxYearLiabilities.penaltyRate.error.outOfRange")),
       "penaltyRateReason" -> text("taxYearLiabilities.penaltyRateReason.error.required")
-        .verifying(maxLength(5000, "taxYearLiabilities.penaltyRateReason.error.length")),
-      "foreignTaxCredit" -> boolean("taxYearLiabilities.foreignTaxCredit.error.required")
+        .verifying(maxLength(MAX_TEXT_BOX_SIZE, "taxYearLiabilities.penaltyRateReason.error.length")),
+      "undeclaredIncomeOrGain" -> stringOptionalUnless("undeclaredIncomeOrGain"),
+
+  "foreignTaxCredit" -> boolean("taxYearLiabilities.foreignTaxCredit.error.required")
+
     )(TaxYearLiabilities.apply)(TaxYearLiabilities.unapply)
   )
+
+  def stringOptionalUnless(field: String): Mapping[Option[String]] = {
+    optional(
+      text(s"taxYearLiabilities.$field.error.required")
+        .verifying(maxLength(MAX_TEXT_BOX_SIZE, "taxYearLiabilities.undeclaredIncomeOrGain.error.length"))
+    )
+      .verifying(optionalUnless(true, s"taxYearLiabilities.$field.error.required"))
+  }
+
+  def optionalUnless[A](isRequired: Boolean, errorKey: String): Constraint[Option[A]] =
+    Constraint[Option[A]] { data: Option[A] =>
+      if (data.isDefined || !isRequired) {
+        Valid
+      } else {
+        Invalid(ValidationError(errorKey))
+      }
+    }
 }
