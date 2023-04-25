@@ -128,6 +128,11 @@ class CheckYourAnswersViewModelCreation @Inject() (
       case _ => Nil
     }
 
+    val undeclaredIncome = liabilities.undeclaredIncomeOrGain match {
+      case Some(value) => Seq(rowCase(i, "onshoreTaxYearLiabilities.undeclaredIncomeOrGain", s"${value}", "onshoreTaxYearLiabilities.undeclaredIncomeOrGain.hidden", ONSHORE, revealFullText, true))
+      case _ => Nil
+    }
+
     val rows = 
       lettingIncome ++
       gains ++
@@ -141,7 +146,7 @@ class CheckYourAnswersViewModelCreation @Inject() (
         totalRow("onshoreTaxYearLiabilities.penaltyAmount.checkYourAnswersLabel", messages("site.2DP", penaltyAmount(liabilities))),
         totalRow("onshoreTaxYearLiabilities.amountDue.checkYourAnswersLabel", messages("site.2DP", yearTotal(liabilities))),
         rowCase(i, "onshoreTaxYearLiabilities.penaltyRateReason", s"${liabilities.penaltyRateReason}", "onshoreTaxYearLiabilities.penaltyRateReason.hidden", ONSHORE, revealFullText, true)
-      ) ++ residentialTaxReduction ++ ResidentialReductionSummary.row(i, yearWithLiabilites.taxYear.toString, userAnswers)
+      ) ++ undeclaredIncome ++ residentialTaxReduction ++ ResidentialReductionSummary.row(i, yearWithLiabilites.taxYear.toString, userAnswers)
       
     SummaryListViewModel(rows)
   }

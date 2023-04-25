@@ -74,6 +74,7 @@ class OnshoreTaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar
         interest = BigInt(20),
         penaltyRate = 30,
         penaltyRateReason = "Reason",
+        undeclaredIncomeOrGain = Some("Income or gain"),
         residentialTaxReduction = None
       )
 
@@ -114,7 +115,8 @@ class OnshoreTaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar
               ("interest", "2000"),
               ("niContributions", "2000"),
               ("penaltyRate", "100"),
-              ("penaltyRateReason", "Reason")
+              ("penaltyRateReason", "Reason"),
+              ("undeclaredIncomeOrGain", "Undeclared Income or Gain")
             )
 
         val result = route(application, request).value

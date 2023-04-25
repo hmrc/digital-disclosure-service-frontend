@@ -271,6 +271,7 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
         interest = BigInt(0),
         penaltyRate = 0,
         penaltyRateReason = "reason",
+        undeclaredIncomeOrGain = Some("Income or gain"),
         residentialTaxReduction = Some(false)
       )
       val onshoreTaxYearWithLiabilities = OnshoreTaxYearWithLiabilities(taxYear = yearStarting, taxYearLiabilities = onshoreTaxYearLiabilities)
@@ -304,6 +305,7 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
           interest = BigInt(0),
           penaltyRate = 0,
           penaltyRateReason = "reason",
+          undeclaredIncomeOrGain = Some("Income or gain"),
           residentialTaxReduction = Some(false)
         )
         val onshoreTaxYearWithLiabilities = OnshoreTaxYearWithLiabilities(taxYear = yearStarting, taxYearLiabilities = onshoreTaxYearLiabilities)
@@ -339,6 +341,7 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
         interest = BigInt(0),
         penaltyRate = 0,
         penaltyRateReason = "reason",
+        undeclaredIncomeOrGain = Some("Income or gain"),
         residentialTaxReduction = Some(false)
       )
 
@@ -380,6 +383,7 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
         interest = BigInt(0),
         penaltyRate = 0,
         penaltyRateReason = "reason",
+        undeclaredIncomeOrGain = Some("Income or gain"),
         residentialTaxReduction = Some(false)
       )
 
@@ -423,6 +427,7 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
         interest = BigInt(0),
         penaltyRate = 0,
         penaltyRateReason = "reason",
+        undeclaredIncomeOrGain = Some("Income or gain"),
         residentialTaxReduction = Some(false)
       )
 
@@ -466,6 +471,7 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
         interest = BigInt(0),
         penaltyRate = 0,
         penaltyRateReason = "reason",
+        undeclaredIncomeOrGain = Some("Income or gain"),
         residentialTaxReduction = Some(false)
       )
 

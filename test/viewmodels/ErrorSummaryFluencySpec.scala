@@ -40,6 +40,7 @@ class ErrorSummaryFluencySpec extends SpecBase with ErrorSummaryFluency {
                 ("interest", ""),
                 ("penaltyRate", ""),
                 ("penaltyRateReason", ""),
+                ("undeclaredIncomeOrGain", ""),
                 ("residentialTaxReduction", "")
             )
         ))(message)
@@ -54,7 +55,8 @@ class ErrorSummaryFluencySpec extends SpecBase with ErrorSummaryFluency {
         errors(6) mustBe Text(message("onshoreTaxYearLiabilities.interest.error.required"))
         errors(7) mustBe Text(message("onshoreTaxYearLiabilities.penaltyRate.error.required"))
         errors(8) mustBe Text(message("onshoreTaxYearLiabilities.penaltyRateReason.error.required"))
-        errors(9) mustBe Text(message("onshoreTaxYearLiabilities.residentialTaxReduction.error.required"))
+        errors(9) mustBe Text(message("onshoreTaxYearLiabilities.undeclaredIncomeOrGain.error.required"))
+        errors(10) mustBe Text(message("onshoreTaxYearLiabilities.residentialTaxReduction.error.required"))
     }
 
 }

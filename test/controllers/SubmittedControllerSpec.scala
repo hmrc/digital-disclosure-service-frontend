@@ -99,6 +99,7 @@ class SubmittedControllerSpec extends SpecBase {
         interest = BigInt(1000),
         penaltyRate = 30,
         penaltyRateReason = "Reason",
+        undeclaredIncomeOrGain = Some("Income or gain"),
         residentialTaxReduction = Some(false)
       )
 
