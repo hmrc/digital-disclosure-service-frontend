@@ -55,7 +55,7 @@ class SessionRepositoryImpl @Inject()(
         IndexOptions()
           .name("sessionIdx")
           .unique(true)
-      ),
+      )
     ),
     replaceIndexes = true
   ) with SessionRepository {
