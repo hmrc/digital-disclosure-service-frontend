@@ -33,7 +33,7 @@ class NotificationToUAServiceSpec extends AnyWordSpec with Matchers with TryValu
 
   val testNotification = Notification("userId", "submissionId", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
 
-  val emptyUA = UserAnswers("id")
+  val emptyUA = UserAnswers("id", "session-123")
 
   "entityPagesWithValues" should {
 
@@ -241,9 +241,9 @@ class NotificationToUAServiceSpec extends AnyWordSpec with Matchers with TryValu
       val metadata = Metadata(reference = Some("123"), submissionTime = Some(LocalDateTime.now))
       val notification = Notification("This user Id", "Some notification Id", instant, metadata, PersonalDetails(Background(), AboutYou()))
 
-      val result = sut.initialiseUserAnswers(notification)
-      val expectedResult = UserAnswers(id = "This user Id", submissionId = "Some notification Id", lastUpdated = instant, metadata = metadata, created = result.created)
-      sut.initialiseUserAnswers(notification) shouldEqual expectedResult
+      val result = sut.initialiseUserAnswers("session-123", notification)
+      val expectedResult = UserAnswers(id = "This user Id", sessionId = "session-123", submissionId = "Some notification Id", lastUpdated = instant, metadata = metadata, created = result.created)
+      sut.initialiseUserAnswers("session-123", notification) shouldEqual expectedResult
     }
   }
 

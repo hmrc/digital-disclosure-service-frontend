@@ -36,7 +36,7 @@ class AuthControllerSpec extends SpecBase with MockitoSugar {
     "must clear user answers and redirect to sign out, specifying the exit survey as the continue URL" in {
 
       val mockSessionService = mock[SessionService]
-      when(mockSessionService.clear(any())) thenReturn Future.successful(true)
+      when(mockSessionService.clear(any(), any())) thenReturn Future.successful(true)
 
       val application =
         applicationBuilderWithSessionService(None, mockSessionService)
@@ -54,7 +54,7 @@ class AuthControllerSpec extends SpecBase with MockitoSugar {
 
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual expectedRedirectUrl
-        verify(mockSessionService, times(1)).clear(eqTo(userAnswersId))
+        verify(mockSessionService, times(1)).clear(eqTo(userAnswersId), any())
       }
     }
   }
@@ -64,7 +64,7 @@ class AuthControllerSpec extends SpecBase with MockitoSugar {
     "must clear users answers and redirect to sign out, specifying SignedOut as the continue URL" in {
 
       val mockSessionService = mock[SessionService]
-      when(mockSessionService.clear(any())) thenReturn Future.successful(true)
+      when(mockSessionService.clear(any(), any())) thenReturn Future.successful(true)
 
       val application =
         applicationBuilderWithSessionService(None, mockSessionService)
@@ -82,7 +82,7 @@ class AuthControllerSpec extends SpecBase with MockitoSugar {
 
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual expectedRedirectUrl
-        verify(mockSessionService, times(1)).clear(eqTo(userAnswersId))
+        verify(mockSessionService, times(1)).clear(eqTo(userAnswersId), any())
       }
     }
   }

@@ -27,15 +27,15 @@ class SubmissionToUAServiceImpl @Inject()(
   disclosureService: DisclosureToUAService
 ) extends SubmissionToUAService {
 
-  def submissionToUa(submission: Submission): Try[UserAnswers] = 
+  def submissionToUa(sessionId: String, submission: Submission): Try[UserAnswers] = 
     submission match {
-      case notification: Notification => notificationService.notificationToUserAnswers(notification)
-      case disclosure: FullDisclosure => disclosureService.fullDisclosureToUa(disclosure)
+      case notification: Notification => notificationService.notificationToUserAnswers(sessionId, notification)
+      case disclosure: FullDisclosure => disclosureService.fullDisclosureToUa(sessionId, disclosure)
     }
 
 }
 
 @ImplementedBy(classOf[SubmissionToUAServiceImpl])
 trait SubmissionToUAService {
-  def submissionToUa(submission: Submission): Try[UserAnswers]
+  def submissionToUa(sessionId: String, submission: Submission): Try[UserAnswers]
 }

@@ -43,7 +43,7 @@ class AdviceGivenControllerSpec extends SpecBase with MockitoSugar {
   lazy val adviceGivenRoute = reason.routes.AdviceGivenController.onPageLoad(NormalMode).url
 
   val adviceGiven = AdviceGiven("Advice", MonthYear(12, 2021), AdviceContactPreference.Email)
-  val userAnswers = UserAnswers(userAnswersId).set(AdviceGivenPage, adviceGiven).success.value
+  val userAnswers = UserAnswers(userAnswersId, "session-123").set(AdviceGivenPage, adviceGiven).success.value
 
   "AdviceGiven Controller" - {
 

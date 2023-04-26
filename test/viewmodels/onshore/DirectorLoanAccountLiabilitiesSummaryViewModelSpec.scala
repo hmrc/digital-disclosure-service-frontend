@@ -52,7 +52,7 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelSpec extends SpecBase with S
     "DirectorLoanAccountLiabilitiesSummaryViewModel" - {
 
         "return an empty Seq where the director loan account pages isn't populated" in {
-            val ua = UserAnswers("id")
+            val ua = UserAnswers("id", "session-123")
             val viewModel = sut.create(ua)
             viewModel.directorLoanAccountLiabilitiesList mustEqual Nil
         }
@@ -99,7 +99,7 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelSpec extends SpecBase with S
         }
 
         "return an empty total section where the director loan account pages isn't populated" in {
-            val ua = UserAnswers("id")
+            val ua = UserAnswers("id", "session-123")
             val viewModel = sut.create(ua)
 
             viewModel.totalAmountsList.rows(0).key mustEqual Key(Text(mess("checkYourAnswers.dl.total.taxDue")))

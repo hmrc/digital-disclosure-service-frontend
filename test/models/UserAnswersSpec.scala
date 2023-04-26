@@ -41,7 +41,7 @@ class UserAnswersSpec extends AnyFreeSpec with Matchers with Generators {
   "UserAnswers" - {
 
     "should set the value of an answer for a give page and get the same value" in {
-      val userAnswers = UserAnswers(id)
+      val userAnswers = UserAnswers(id, "session-123")
 
       val expectedValue = "value"
 
@@ -61,7 +61,7 @@ class UserAnswersSpec extends AnyFreeSpec with Matchers with Generators {
     "should remove a value for a given Page" in {
       val answerValue = "value"
 
-      val userAnswers = UserAnswers(id).set(TestPage, answerValue) match {
+      val userAnswers = UserAnswers(id, "session-123").set(TestPage, answerValue) match {
         case Success(ua) => ua
         case _ => fail()
       }
@@ -80,7 +80,7 @@ class UserAnswersSpec extends AnyFreeSpec with Matchers with Generators {
 
       val maxStringLength = 100
 
-      val userAnswers = pages.foldLeft(UserAnswers(id))((ua, page) => {
+      val userAnswers = pages.foldLeft(UserAnswers(id, "session-123"))((ua, page) => {
           val randomString = stringsWithMaxLength(maxStringLength).sample.get
           ua.set(page, randomString).success.value
         }
@@ -100,7 +100,7 @@ class UserAnswersSpec extends AnyFreeSpec with Matchers with Generators {
 
 
     "should get the value of an answer for a given page and index" in {
-      val userAnswers = UserAnswers(id).set(TestSeqPage, Set("123", "456", "789")).success.value
+      val userAnswers = UserAnswers(id, "session-123").set(TestSeqPage, Set("123", "456", "789")).success.value
       userAnswers.getByIndex(TestSeqPage, 0) mustBe Some("123")
       userAnswers.getByIndex(TestSeqPage, 1) mustBe Some("456")
       userAnswers.getByIndex(TestSeqPage, 2) mustBe Some("789")
@@ -108,7 +108,7 @@ class UserAnswersSpec extends AnyFreeSpec with Matchers with Generators {
     }
 
     "should set the value of an answer for a given page and index and get the same value" in {
-      val userAnswers = UserAnswers(id)
+      val userAnswers = UserAnswers(id, "session-123")
 
       val expectedValue = "value"
 
@@ -126,7 +126,7 @@ class UserAnswersSpec extends AnyFreeSpec with Matchers with Generators {
     }
 
     "should add a value to a set for a given page and get the same value" in {
-      val userAnswers = UserAnswers(id)
+      val userAnswers = UserAnswers(id, "session-123")
 
       val expectedValue = "value"
 
@@ -144,7 +144,7 @@ class UserAnswersSpec extends AnyFreeSpec with Matchers with Generators {
     }
 
     "should remove a value for a given Page" in {
-      val userAnswers = UserAnswers(id).set(TestSeqPage, Set("123", "456", "789")).success.value
+      val userAnswers = UserAnswers(id, "session-123").set(TestSeqPage, Set("123", "456", "789")).success.value
 
       val updatedUserAnswer = userAnswers.removeByIndex(TestSeqPage, 2) match {
         case Success(ua) => ua
@@ -161,7 +161,7 @@ class UserAnswersSpec extends AnyFreeSpec with Matchers with Generators {
 
 
     "should get the value of an answer for a given page and index" in {
-      val userAnswers = UserAnswers(id).set(TestMapPage, Map("1" -> "123", "2" -> "456", "3" -> "789")).success.value
+      val userAnswers = UserAnswers(id, "session-123").set(TestMapPage, Map("1" -> "123", "2" -> "456", "3" -> "789")).success.value
       userAnswers.getByKey(TestMapPage, "1") mustBe Some("123")
       userAnswers.getByKey(TestMapPage, "2") mustBe Some("456")
       userAnswers.getByKey(TestMapPage, "3") mustBe Some("789")
@@ -169,7 +169,7 @@ class UserAnswersSpec extends AnyFreeSpec with Matchers with Generators {
     }
 
     "should set the value of an answer for a given page and index and get the same value" in {
-      val userAnswers = UserAnswers(id)
+      val userAnswers = UserAnswers(id, "session-123")
 
       val expectedValue = "value"
 
@@ -187,7 +187,7 @@ class UserAnswersSpec extends AnyFreeSpec with Matchers with Generators {
     }
 
     "should remove a value for a given Page" in {
-      val userAnswers = UserAnswers(id).set(TestMapPage, Map("1" -> "123", "2" -> "456", "3" -> "789")).success.value
+      val userAnswers = UserAnswers(id, "session-123").set(TestMapPage, Map("1" -> "123", "2" -> "456", "3" -> "789")).success.value
 
       val updatedUserAnswer = userAnswers.removeByKey(TestMapPage, "3") match {
         case Success(ua) => ua
@@ -204,14 +204,14 @@ class UserAnswersSpec extends AnyFreeSpec with Matchers with Generators {
 
     "should return years from WhichYearsPage in reverse chronological order" in {
       val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2020), TaxYearStarting(2018), TaxYearStarting(2021), TaxYearStarting(2019))
-      val userAnswers = UserAnswers(id).set(WhichYearsPage, whichYears).success.value
+      val userAnswers = UserAnswers(id, "session-123").set(WhichYearsPage, whichYears).success.value
 
       userAnswers.inverselySortedOffshoreTaxYears mustBe Some(Seq(TaxYearStarting(2021), TaxYearStarting(2020), TaxYearStarting(2019), TaxYearStarting(2018)))
     }
 
     "should remove all values which aren't TaxYearStarting" in {
       val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2020), ReasonableExcusePriorTo, CarelessPriorTo, DeliberatePriorTo)
-      val userAnswers = UserAnswers(id).set(WhichYearsPage, whichYears).success.value
+      val userAnswers = UserAnswers(id, "session-123").set(WhichYearsPage, whichYears).success.value
 
       userAnswers.inverselySortedOffshoreTaxYears mustBe Some(Seq(TaxYearStarting(2020)))
     }

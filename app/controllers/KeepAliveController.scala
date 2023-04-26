@@ -36,7 +36,7 @@ class KeepAliveController @Inject()(
       request.userAnswers
         .map {
           answers =>
-            sessionService.keepAlive(answers.id).map(_ => Ok)
+            sessionService.keepAlive(answers.id, request.sessionId).map(_ => Ok)
         }
         .getOrElse(Future.successful(Ok))
   }

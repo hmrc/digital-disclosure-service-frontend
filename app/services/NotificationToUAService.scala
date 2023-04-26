@@ -26,9 +26,9 @@ import com.google.inject.{Singleton, ImplementedBy}
 @Singleton
 class NotificationToUAServiceImpl extends NotificationToUAService {
   
-  def notificationToUserAnswers(notification: Notification): Try[UserAnswers] = {
+  def notificationToUserAnswers(sessionId: String, notification: Notification): Try[UserAnswers] = {
 
-    val userAnswers = initialiseUserAnswers(notification)
+    val userAnswers = initialiseUserAnswers(sessionId, notification)
     personalDetailsToUserAnswers(notification.personalDetails, userAnswers)
 
   }
@@ -51,11 +51,12 @@ class NotificationToUAServiceImpl extends NotificationToUAService {
     }).getOrElse(Success(userAnswers))
   }
 
-  def initialiseUserAnswers(notification: Notification): UserAnswers = {
+  def initialiseUserAnswers(sessionId: String, notification: Notification): UserAnswers = {
     import notification._
 
     UserAnswers(
       id = userId, 
+      sessionId = sessionId,
       submissionId = submissionId, 
       submissionType = SubmissionType.Notification, 
       lastUpdated = lastUpdated,
@@ -230,6 +231,6 @@ class NotificationToUAServiceImpl extends NotificationToUAService {
 
 @ImplementedBy(classOf[NotificationToUAServiceImpl])
 trait NotificationToUAService {
-  def notificationToUserAnswers(notification: Notification): Try[UserAnswers] 
+  def notificationToUserAnswers(sessionId: String, notification: Notification): Try[UserAnswers] 
   def personalDetailsToUserAnswers(personalDetails: PersonalDetails, userAnswers: UserAnswers): Try[UserAnswers]
 }

@@ -65,7 +65,7 @@ class PropertyStoppedBeingLetOutControllerSpec extends SpecBase with MockitoSuga
 
       val lettingProperty = LettingProperty(stoppedBeingLetOut = Some(true))
 
-      val userAnswers = UserAnswers(userAnswersId)
+      val userAnswers = UserAnswers(userAnswersId, "session-123")
         .setBySeqIndex(LettingPropertyPage, index, lettingProperty).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()

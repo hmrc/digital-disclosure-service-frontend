@@ -28,8 +28,8 @@ class DisclosureToUAServiceImpl @Inject()(
   notificationService: NotificationToUAService
 ) extends DisclosureToUAService {
 
-  def fullDisclosureToUa(fullDisclosure: FullDisclosure): Try[UserAnswers] = {
-    val userAnswers = initialiseUserAnswers(fullDisclosure)
+  def fullDisclosureToUa(sessionId: String, fullDisclosure: FullDisclosure): Try[UserAnswers] = {
+    val userAnswers = initialiseUserAnswers(sessionId, fullDisclosure)
 
     for {
       uaWithCaseRef         <- caseReferenceToUa(fullDisclosure.caseReference, userAnswers)
@@ -41,11 +41,12 @@ class DisclosureToUAServiceImpl @Inject()(
     } yield updatedUa
   }
 
-  def initialiseUserAnswers(fullDisclosure: FullDisclosure): UserAnswers = {
+  def initialiseUserAnswers(sessionId: String, fullDisclosure: FullDisclosure): UserAnswers = {
     import fullDisclosure._
 
     UserAnswers(
       id = userId,
+      sessionId = sessionId,
       submissionId = submissionId,
       submissionType = SubmissionType.Disclosure,
       lastUpdated = lastUpdated,
@@ -165,5 +166,5 @@ class DisclosureToUAServiceImpl @Inject()(
 
 @ImplementedBy(classOf[DisclosureToUAServiceImpl])
 trait DisclosureToUAService {
-  def fullDisclosureToUa(fullDisclosure: FullDisclosure): Try[UserAnswers]
+  def fullDisclosureToUa(sessionId: String, fullDisclosure: FullDisclosure): Try[UserAnswers]
 }

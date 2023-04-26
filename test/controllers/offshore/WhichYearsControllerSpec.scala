@@ -53,31 +53,31 @@ class WhichYearsControllerSpec extends SpecBase with MockitoSugar {
     "return 19"  - {
     
       "when a deliberate behaviour is selected alongside other values" in {
-        val userAnswers = UserAnswers(userAnswersId).set(WhyAreYouMakingThisDisclosurePage, WhyAreYouMakingThisDisclosure.values.toSet).success.value
+        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, WhyAreYouMakingThisDisclosure.values.toSet).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Deliberate)
       }
 
       "when only DidNotNotifyNoExcuse is selected" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DidNotNotifyNoExcuse)
-        val userAnswers = UserAnswers(userAnswersId).set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Deliberate)
       }
 
       "when only DeliberatelyDidNotNotify is selected" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DeliberatelyDidNotNotify)
-        val userAnswers = UserAnswers(userAnswersId).set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Deliberate)
       }
 
       "when only DeliberateInaccurateReturn is selected" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DeliberateInaccurateReturn)
-        val userAnswers = UserAnswers(userAnswersId).set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Deliberate)
       }
 
       "when only DeliberatelyDidNotFile is selected" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DeliberatelyDidNotFile)
-        val userAnswers = UserAnswers(userAnswersId).set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Deliberate)
       }
 
@@ -92,13 +92,13 @@ class WhichYearsControllerSpec extends SpecBase with MockitoSugar {
           WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare,
           WhyAreYouMakingThisDisclosure.NotFileHasExcuse
         )
-        val userAnswers = UserAnswers(userAnswersId).set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Careless)
       }
 
       "when only InaccurateReturnNoCare is selected" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.InaccurateReturnNoCare)
-        val userAnswers = UserAnswers(userAnswersId).set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Careless)
       }
 
@@ -112,25 +112,25 @@ class WhichYearsControllerSpec extends SpecBase with MockitoSugar {
           WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare,
           WhyAreYouMakingThisDisclosure.NotFileHasExcuse
         )
-        val userAnswers = UserAnswers(userAnswersId).set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.ReasonableExcuse)
       }
 
       "when only DidNotNotifyHasExcuse is selected" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse)
-        val userAnswers = UserAnswers(userAnswersId).set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.ReasonableExcuse)
       }
 
       "when only InaccurateReturnWithCare is selected" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare)
-        val userAnswers = UserAnswers(userAnswersId).set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.ReasonableExcuse)
       }
 
       "when only NotFileHasExcuse is selected" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.NotFileHasExcuse)
-        val userAnswers = UserAnswers(userAnswersId).set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.ReasonableExcuse)
       }
 
@@ -162,7 +162,7 @@ class WhichYearsControllerSpec extends SpecBase with MockitoSugar {
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val previousValue: Set[OffshoreYears] = Set(TaxYearStarting(2022))
-      val userAnswers = UserAnswers(userAnswersId).set(WhichYearsPage, previousValue).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhichYearsPage, previousValue).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 

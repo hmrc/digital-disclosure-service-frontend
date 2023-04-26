@@ -61,7 +61,7 @@ class DoesTheIndividualHaveNationalInsuranceNumberControllerSpec extends Control
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(DoesTheIndividualHaveNationalInsuranceNumberPage, DoesTheIndividualHaveNationalInsuranceNumber.values.head).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123").set(DoesTheIndividualHaveNationalInsuranceNumberPage, DoesTheIndividualHaveNationalInsuranceNumber.values.head).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 

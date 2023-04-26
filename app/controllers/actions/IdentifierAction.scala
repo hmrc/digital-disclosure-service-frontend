@@ -78,9 +78,10 @@ class AuthenticatedIdentifierAction @Inject()(
     List(ninoOpt, sautrOpt, ctutrOpt).flatten.headOption
   }
 
-  def processAuthorisation[A](internalIdOpt: Option[String], request: Request[A], block: IdentifierRequest[A] => Future[Result], isAgent: Boolean, customerId: Option[CustomerId]) = {
+  def processAuthorisation[A](internalIdOpt: Option[String], request: Request[A], block: IdentifierRequest[A] => Future[Result], isAgent: Boolean, customerId: Option[CustomerId])(implicit hc: HeaderCarrier) = {
+    val sessionId = hc.sessionId.fold("-")(_.value)
     internalIdOpt.map {
-      internalId => block(IdentifierRequest(request, internalId, isAgent, customerId))
+      internalId => block(IdentifierRequest(request, internalId, sessionId, isAgent, customerId))
     }.getOrElse(throw new UnauthorizedException("Unable to retrieve internal Id"))
   }
 

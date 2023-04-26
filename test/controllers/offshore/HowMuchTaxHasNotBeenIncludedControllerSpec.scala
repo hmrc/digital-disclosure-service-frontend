@@ -62,7 +62,7 @@ class HowMuchTaxHasNotBeenIncludedControllerSpec extends SpecBase with MockitoSu
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(HowMuchTaxHasNotBeenIncludedPage, HowMuchTaxHasNotBeenIncluded.values.head).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123").set(HowMuchTaxHasNotBeenIncludedPage, HowMuchTaxHasNotBeenIncluded.values.head).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 

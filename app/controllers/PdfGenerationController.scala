@@ -54,7 +54,7 @@ class PdfGenerationController @Inject()(
     for {
       submissionOpt <- submissionStoreService.getSubmission(request.userId, id)
       submission = submissionOpt.getOrElse(Notification(request.userId, id))
-      userAnswers <- Future.fromTry(submissionToUAService.submissionToUa(submission))
+      userAnswers <- Future.fromTry(submissionToUAService.submissionToUa(request.sessionId, submission))
       byteString <- pdfService.generatePdf(userAnswers)
     } yield Result(
       header = ResponseHeader(200, Map.empty),

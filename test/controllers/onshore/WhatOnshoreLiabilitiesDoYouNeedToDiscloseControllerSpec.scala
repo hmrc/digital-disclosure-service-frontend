@@ -65,7 +65,7 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseControllerSpec extends SpecBase w
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, WhatOnshoreLiabilitiesDoYouNeedToDisclose.values.toSet).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, WhatOnshoreLiabilitiesDoYouNeedToDisclose.values.toSet).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -158,7 +158,7 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseControllerSpec extends SpecBase w
 
     "must redirect to the summary page if no changes are made" in {
 
-      val previousAnswers = UserAnswers(userAnswersId).addToSet(
+      val previousAnswers = UserAnswers(userAnswersId, "session-123").addToSet(
         WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, WhatOnshoreLiabilitiesDoYouNeedToDisclose.values.head
       ).success.value
 
@@ -178,7 +178,7 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseControllerSpec extends SpecBase w
 
     "must redirect to Corporation Tax Page in Normal Mode if there was a change and the disclosure was for a Company " in {
 
-      val previousAnswers = UserAnswers(userAnswersId).addToSet(
+      val previousAnswers = UserAnswers(userAnswersId, "session-123").addToSet(
         WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, WhatOnshoreLiabilitiesDoYouNeedToDisclose.values.head
       ).success.value
         .set(RelatesToPage, RelatesTo.ACompany).success.value
@@ -200,7 +200,7 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseControllerSpec extends SpecBase w
 
     "must redirect to Director's Loan Page in Normal Mode if there was a change, the Corporation Tax is not selected and the disclosure was for a Company" in {
 
-      val previousAnswers = UserAnswers(userAnswersId).addToSet(
+      val previousAnswers = UserAnswers(userAnswersId, "session-123").addToSet(
         WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, WhatOnshoreLiabilitiesDoYouNeedToDisclose.values.head
       ).success.value
         .set(RelatesToPage, RelatesTo.ACompany).success.value
@@ -221,7 +221,7 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseControllerSpec extends SpecBase w
 
     "must redirect to Which Onshore Year Page in Normal Mode if there was a change, and Director's Loan or Corporation Tax are selected" in {
 
-      val previousAnswers = UserAnswers(userAnswersId).addToSet(
+      val previousAnswers = UserAnswers(userAnswersId, "session-123").addToSet(
         WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, WhatOnshoreLiabilitiesDoYouNeedToDisclose.CorporationTax
       ).success.value
         .set(RelatesToPage, RelatesTo.ACompany).success.value

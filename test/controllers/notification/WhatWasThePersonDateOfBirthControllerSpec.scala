@@ -46,7 +46,7 @@ class WhatWasThePersonDateOfBirthControllerSpec extends SpecBase with MockitoSug
 
   lazy val whatWasThePersonDateOfBirthRoute = controllers.notification.routes.WhatWasThePersonDateOfBirthController.onPageLoad(NormalMode).url
 
-  override val emptyUserAnswers = UserAnswers(userAnswersId)
+  override val emptyUserAnswers = UserAnswers(userAnswersId, "session-123")
 
   def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, whatWasThePersonDateOfBirthRoute)
@@ -77,7 +77,7 @@ class WhatWasThePersonDateOfBirthControllerSpec extends SpecBase with MockitoSug
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(WhatWasThePersonDateOfBirthPage, validAnswer).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhatWasThePersonDateOfBirthPage, validAnswer).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 

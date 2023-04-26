@@ -66,7 +66,7 @@ class WhatWasThePercentageIncomeYouReceivedFromPropertyControllerSpec extends Sp
 
       val lettingProperty = LettingProperty(percentageIncomeOnProperty = Some(1))
 
-      val userAnswers = UserAnswers(userAnswersId)
+      val userAnswers = UserAnswers(userAnswersId, "session-123")
         .setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()

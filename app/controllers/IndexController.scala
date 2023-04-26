@@ -45,9 +45,9 @@ class IndexController @Inject()(
       Future.successful(Ok(view(controllers.routes.CaseManagementController.onPageLoad(1).url, request.isAgent)))
     else {
       for {
-        uaOpt  <- sessionService.getIndividualUserAnswers(request.userId, UserAnswers.defaultSubmissionId)
+        uaOpt  <- sessionService.getIndividualUserAnswers(request.userId, request.sessionId, UserAnswers.defaultSubmissionId)
         url    = navigator.indexNextPage(uaOpt).url
-        _      = uaOpt.map(sessionService.set)
+        _      <- uaOpt.map(sessionService.set).getOrElse(Future.successful(true))
       } yield Ok(view(url, request.isAgent))
     }
 

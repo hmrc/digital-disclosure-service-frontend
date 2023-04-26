@@ -142,7 +142,7 @@ class AddressLookupServiceSpec
     "triggering a lookup for your address where they are not the individual" - {
 
       val userAnswers = (for {
-        uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.AnIndividual)
+        uaWithRelatesToPage <- UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.AnIndividual)
         ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
       } yield ua).success.value
 
@@ -152,7 +152,7 @@ class AddressLookupServiceSpec
     "triggering a lookup for your address when no body text" - {
 
       val userAnswers = (for {
-        uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.AnIndividual)
+        uaWithRelatesToPage <- UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.AnIndividual)
         ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
       } yield ua).success.value
 
@@ -162,7 +162,7 @@ class AddressLookupServiceSpec
     "triggering a lookup for your address when they are not an officer of the company" - {
 
       val userAnswers = (for {
-        uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ACompany)
+        uaWithRelatesToPage <- UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.ACompany)
         ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
       } yield ua).success.value
 
@@ -172,7 +172,7 @@ class AddressLookupServiceSpec
     "triggering a lookup for your address when they are an officer of the company" - {
 
       val userAnswers = (for {
-        uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ACompany)
+        uaWithRelatesToPage <- UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.ACompany)
         ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
       } yield ua).success.value
 
@@ -182,7 +182,7 @@ class AddressLookupServiceSpec
     "triggering a lookup for your address when they are not a limited liability partnership" - {
 
       val userAnswers = (for {
-        uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership)
+        uaWithRelatesToPage <- UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership)
         ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
       } yield ua).success.value
 
@@ -192,7 +192,7 @@ class AddressLookupServiceSpec
     "triggering a lookup for your address when they are a limited liability partnership" - {
 
       val userAnswers = (for {
-        uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership)
+        uaWithRelatesToPage <- UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership)
         ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
       } yield ua).success.value
 
@@ -202,7 +202,7 @@ class AddressLookupServiceSpec
     "triggering a lookup for your address when they are not a trust" - {
 
       val userAnswers = (for {
-        uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ATrust)
+        uaWithRelatesToPage <- UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.ATrust)
         ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
       } yield ua).success.value
 
@@ -212,7 +212,7 @@ class AddressLookupServiceSpec
     "triggering a lookup for your address when they are a trust" - {
 
       val userAnswers = (for {
-        uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.ATrust)
+        uaWithRelatesToPage <- UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.ATrust)
         ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
       } yield ua).success.value
 
@@ -222,7 +222,7 @@ class AddressLookupServiceSpec
     "triggering a lookup for your address when they are not an estate" - {
 
       val userAnswers = (for {
-        uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.AnEstate)
+        uaWithRelatesToPage <- UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.AnEstate)
         ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
       } yield ua).success.value
 
@@ -232,7 +232,7 @@ class AddressLookupServiceSpec
     "triggering a lookup for your address when they are an estate" - {
 
       val userAnswers = (for {
-        uaWithRelatesToPage <- UserAnswers("id").set(RelatesToPage, RelatesTo.AnEstate)
+        uaWithRelatesToPage <- UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.AnEstate)
         ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
       } yield ua).success.value
 

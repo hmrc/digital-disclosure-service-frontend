@@ -62,7 +62,7 @@ class TheMaximumValueOfAllAssetsControllerSpec extends SpecBase with MockitoSuga
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(TheMaximumValueOfAllAssetsPage, TheMaximumValueOfAllAssets.values.head).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123").set(TheMaximumValueOfAllAssetsPage, TheMaximumValueOfAllAssets.values.head).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 

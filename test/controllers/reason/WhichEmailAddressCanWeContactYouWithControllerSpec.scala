@@ -47,7 +47,7 @@ class WhichEmailAddressCanWeContactYouWithControllerSpec extends SpecBase with M
     "must return OK and the correct view for a GET" in {
 
       val email = "test@test.com"
-      val userAnswers = UserAnswers("id").set(YourEmailAddressPage, email).success.value
+      val userAnswers = UserAnswers("id", "session-123").set(YourEmailAddressPage, email).success.value
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
@@ -66,7 +66,7 @@ class WhichEmailAddressCanWeContactYouWithControllerSpec extends SpecBase with M
 
       val email = "test@test.com"
       val userAnswers = (for {
-        ua <- UserAnswers("id").set(WhichEmailAddressCanWeContactYouWithPage, WhichEmailAddressCanWeContactYouWith.values.head)
+        ua <- UserAnswers("id", "session-123").set(WhichEmailAddressCanWeContactYouWithPage, WhichEmailAddressCanWeContactYouWith.values.head)
         updatedUa <- ua.set(YourEmailAddressPage, email)  
       } yield updatedUa).success.value  
 
@@ -113,7 +113,7 @@ class WhichEmailAddressCanWeContactYouWithControllerSpec extends SpecBase with M
 
       val email = "test@test.com"
       val userAnswers = (for {
-        ua <- UserAnswers("id").set(WhichEmailAddressCanWeContactYouWithPage, WhichEmailAddressCanWeContactYouWith.values.head)
+        ua <- UserAnswers("id", "session-123").set(WhichEmailAddressCanWeContactYouWithPage, WhichEmailAddressCanWeContactYouWith.values.head)
         updatedUa <- ua.set(YourEmailAddressPage, email)  
       } yield updatedUa).success.value 
 

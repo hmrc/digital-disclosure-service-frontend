@@ -63,7 +63,7 @@ class HowWouldYouPreferToBeContactedControllerSpec extends SpecBase with Mockito
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(HowWouldYouPreferToBeContactedPage, HowWouldYouPreferToBeContacted.values.toSet).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123").set(HowWouldYouPreferToBeContactedPage, HowWouldYouPreferToBeContacted.values.toSet).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -156,7 +156,7 @@ class HowWouldYouPreferToBeContactedControllerSpec extends SpecBase with Mockito
 
     "must redirect to YourEmailAddressPage screen in check mode if Email change to selected" in {
       val previousPreferences: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Telephone)
-      val previousAnswers = UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, previousPreferences).success.value
+      val previousAnswers = UserAnswers("id", "session-123").set(HowWouldYouPreferToBeContactedPage, previousPreferences).success.value
       val newAnswer = HowWouldYouPreferToBeContacted.Email
 
       val urlToTest = controllers.notification.routes.HowWouldYouPreferToBeContactedController.onPageLoad(CheckMode).url
@@ -176,7 +176,7 @@ class HowWouldYouPreferToBeContactedControllerSpec extends SpecBase with Mockito
 
     "must redirect to YourPhoneNumber screen in check mode if Telephone change to selected" in {
       val previousPreferences: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Email)
-      val previousAnswers = UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, previousPreferences).success.value
+      val previousAnswers = UserAnswers("id", "session-123").set(HowWouldYouPreferToBeContactedPage, previousPreferences).success.value
       val newAnswer = HowWouldYouPreferToBeContacted.Telephone
 
       val urlToTest = controllers.notification.routes.HowWouldYouPreferToBeContactedController.onPageLoad(CheckMode).url
@@ -196,7 +196,7 @@ class HowWouldYouPreferToBeContactedControllerSpec extends SpecBase with Mockito
 
     "must redirect to CheckYourAnswer screen if there are no changes in the user answer" in {
       val previousPreferences: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Email, HowWouldYouPreferToBeContacted.Telephone)
-      val previousAnswers = UserAnswers("id").set(HowWouldYouPreferToBeContactedPage, previousPreferences).success.value
+      val previousAnswers = UserAnswers("id", "session-123").set(HowWouldYouPreferToBeContactedPage, previousPreferences).success.value
 
       val newAnswerEmail: HowWouldYouPreferToBeContacted = HowWouldYouPreferToBeContacted.Email
       val newAnswerTelephone: HowWouldYouPreferToBeContacted = HowWouldYouPreferToBeContacted.Telephone
