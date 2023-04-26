@@ -29,7 +29,6 @@ import java.time.{Clock, Instant}
 import java.util.concurrent.TimeUnit
 import com.google.inject.{Inject, ImplementedBy, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
-import play.api.Logging
 
 @Singleton
 class SessionRepositoryImpl @Inject()(
@@ -59,7 +58,7 @@ class SessionRepositoryImpl @Inject()(
       ),
     ),
     replaceIndexes = true
-  ) with SessionRepository with Logging {
+  ) with SessionRepository {
 
   implicit val instantFormat: Format[Instant] = MongoJavatimeFormats.instantFormat
 
@@ -88,16 +87,6 @@ class SessionRepositoryImpl @Inject()(
   def set(answers: UserAnswers): Future[Boolean] = {
 
     val updatedAnswers = answers copy (lastUpdated = Instant.now(clock))
-
-        logger.info("-------- Session Set")
-        logger.info("-------- Session Set")
-        logger.info("-------- Session Set")
-        logger.info("-------- Session Set")
-        logger.info("-------- Session Set")
-        logger.info("-------- Session Set")
-        logger.info("-------- Session Set")
-        logger.info("-------- Session Set")
-        logger.info(s"--- sessionId: ${answers.sessionId} ---")
 
     collection
       .replaceOne(

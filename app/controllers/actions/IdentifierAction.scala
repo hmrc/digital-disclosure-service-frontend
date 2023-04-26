@@ -29,7 +29,6 @@ import uk.gov.hmrc.auth.core.retrieve._
 import uk.gov.hmrc.http.{HeaderCarrier, UnauthorizedException}
 import uk.gov.hmrc.play.http.HeaderCarrierConverter
 import models._
-import play.api.Logging
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -40,7 +39,7 @@ class AuthenticatedIdentifierAction @Inject()(
                                                config: FrontendAppConfig,
                                                val parser: BodyParsers.Default
                                              )
-                                             (implicit val executionContext: ExecutionContext) extends IdentifierAction with AuthorisedFunctions with Logging {
+                                             (implicit val executionContext: ExecutionContext) extends IdentifierAction with AuthorisedFunctions {
 
   override def invokeBlock[A](request: Request[A], block: IdentifierRequest[A] => Future[Result]): Future[Result] = {
 
@@ -81,11 +80,6 @@ class AuthenticatedIdentifierAction @Inject()(
 
   def processAuthorisation[A](internalIdOpt: Option[String], request: Request[A], block: IdentifierRequest[A] => Future[Result], isAgent: Boolean, customerId: Option[CustomerId])(implicit hc: HeaderCarrier) = {
     val sessionId = hc.sessionId.fold("-")(_.value)
-    logger.info("-------- id")
-    logger.info("-------- id")
-    logger.info("-------- id")
-    logger.info("-------- id")
-    logger.info(s"--- sessionId: $sessionId ---")
     internalIdOpt.map {
       internalId => block(IdentifierRequest(request, internalId, sessionId, isAgent, customerId))
     }.getOrElse(throw new UnauthorizedException("Unable to retrieve internal Id"))

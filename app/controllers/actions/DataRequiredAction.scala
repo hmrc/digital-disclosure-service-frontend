@@ -21,28 +21,17 @@ import controllers.routes
 import models.requests.{DataRequest, OptionalDataRequest}
 import play.api.mvc.Results.Redirect
 import play.api.mvc.{ActionRefiner, Result}
-import play.api.Logging
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class DataRequiredActionImpl @Inject()(implicit val executionContext: ExecutionContext) extends DataRequiredAction with Logging {
+class DataRequiredActionImpl @Inject()(implicit val executionContext: ExecutionContext) extends DataRequiredAction {
 
   override protected def refine[A](request: OptionalDataRequest[A]): Future[Either[Result, DataRequest[A]]] = {
 
     request.userAnswers match {
       case None =>
-        logger.info("-------- None")
-        logger.info("-------- None")
-        logger.info("-------- None")
-        logger.info("-------- None")
-        logger.info(s"--- sessionId: ${request.sessionId} ---")
         Future.successful(Left(Redirect(routes.IndexController.onPageLoad)))
       case Some(data) =>
-        logger.info("-------- Some")
-        logger.info("-------- Some")
-        logger.info("-------- Some")
-        logger.info("-------- Some")
-        logger.info(s"--- sessionId: ${request.sessionId} ---")
         Future.successful(Right(DataRequest(request.request, request.userId, request.sessionId, data, request.isAgent, request.customerId)))
     }
   }
