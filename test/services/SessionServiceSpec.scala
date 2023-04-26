@@ -42,14 +42,14 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
   val testNotification = Notification("123", "Individual", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
   val testSubmittedNotification = Notification("123", "Individual", Instant.now(), Metadata(submissionTime = Some(LocalDateTime.now)), PersonalDetails(Background(), AboutYou()))
 
-  val userAnswers = UserAnswers("123", "Individual", SubmissionType.Notification, lastUpdated = Instant.now())
-  val submittedUserAnswers = UserAnswers("123", "Individual", SubmissionType.Notification, lastUpdated = Instant.now(), metadata = Metadata(submissionTime = Some(LocalDateTime.now)))
-  val emptyUserAnswers = UserAnswers("123")
+  val userAnswers = UserAnswers("123", "session-123", "Individual", SubmissionType.Notification, lastUpdated = Instant.now())
+  val submittedUserAnswers = UserAnswers("123", "session-123", "Individual", SubmissionType.Notification, lastUpdated = Instant.now(), metadata = Metadata(submissionTime = Some(LocalDateTime.now)))
+  val emptyUserAnswers = UserAnswers("123", "session-123")
 
   "getSession" should {
     "return the same value as returned by the connector" in new Test {
       mockRepoGet("123")(Future.successful(Some(userAnswers)))
-      sut.getSession("123").futureValue shouldEqual Some(userAnswers)
+      sut.getSession("123", "session-123").futureValue shouldEqual Some(userAnswers)
     }
   }
 
@@ -65,14 +65,14 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
   "clear" should {
     "return the same value as returned by the connector" in new Test {
       mockRepoClear("123")(Future.successful(true))
-      sut.clear("123").futureValue shouldEqual true
+      sut.clear("123", "session-123").futureValue shouldEqual true
     }
   }
 
   "keepAlive" should {
     "return the same value as returned by the connector" in new Test {
       mockRepoKeepAlive("123")(Future.successful(true))
-      sut.keepAlive("123").futureValue shouldEqual true
+      sut.keepAlive("123", "session-123").futureValue shouldEqual true
     }
   }
 
@@ -83,7 +83,7 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
       mockGetSubmission("123", UserAnswers.defaultSubmissionId)(Future.successful(None))
       (repo.set(_: UserAnswers)).expects(*).returning(Future.successful(true))
       (storeService.setSubmission(_: UserAnswers)(_: HeaderCarrier)).expects(*, *).returning(Future.successful(Ok))
-      val result = sut.newSession("123", UserAnswers.defaultSubmissionId, SubmissionType.Notification, Some(NINO("AB123456C")))
+      val result = sut.newSession("123", "session-123", UserAnswers.defaultSubmissionId, SubmissionType.Notification, Some(NINO("AB123456C")))
       Thread.sleep(150)
       result.futureValue shouldBe a[UserAnswers]
     }
@@ -94,7 +94,7 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
       (repo.set(_: UserAnswers)).expects(userAnswers).returning(Future.successful(true))
       (storeService.setSubmission(_: UserAnswers)(_: HeaderCarrier)).expects(userAnswers, *).returning(Future.successful(Ok))
 
-      sut.newSession("123", UserAnswers.defaultSubmissionId, SubmissionType.Notification, Some(NINO("AB123456C"))).futureValue shouldBe a[UserAnswers]
+      sut.newSession("123", "session-123", UserAnswers.defaultSubmissionId, SubmissionType.Notification, Some(NINO("AB123456C"))).futureValue shouldBe a[UserAnswers]
     }
 
     "check the store and where it finds something which has been submitted, default and set that default in the session and store" in new Test {
@@ -103,7 +103,7 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
       (repo.set(_: UserAnswers)).expects(*).returning(Future.successful(true))
       (storeService.setSubmission(_: UserAnswers)(_: HeaderCarrier)).expects(*, *).returning(Future.successful(Ok))
 
-      sut.newSession("123", UserAnswers.defaultSubmissionId, SubmissionType.Notification, Some(NINO("AB123456C"))).futureValue shouldBe a[UserAnswers]
+      sut.newSession("123", "session-123", UserAnswers.defaultSubmissionId, SubmissionType.Notification, Some(NINO("AB123456C"))).futureValue shouldBe a[UserAnswers]
     }
   }
 
@@ -111,14 +111,14 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
     "check the store and where it finds nothing return None" in new Test {
       mockGetSubmission("123", UserAnswers.defaultSubmissionId)(Future.successful(None))
 
-      sut.getIndividualUserAnswers("123", "default").futureValue shouldEqual None
+      sut.getIndividualUserAnswers("123", "session-123", "default").futureValue shouldEqual None
     }
 
     "check the store and where it finds something, convert it to a UserAnswers" in new Test {
       mockGetSubmission("123", UserAnswers.defaultSubmissionId)(Future.successful(Some(testNotification)))
       mockNotificationToUserAnswers(testNotification)(Success(userAnswers))
 
-      sut.getIndividualUserAnswers("123", "default").futureValue shouldEqual Some(userAnswers)
+      sut.getIndividualUserAnswers("123", "session-123", "default").futureValue shouldEqual Some(userAnswers)
     }
   }
 
@@ -132,10 +132,10 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
 
     def mockRepoGet(userId: String)(
       response: Future[Option[UserAnswers]]
-    ): CallHandler1[String, Future[Option[UserAnswers]]] =
+    ): CallHandler2[String, String, Future[Option[UserAnswers]]] =
       (repo
-        .get(_: String))
-        .expects(userId)
+        .get(_: String, _: String))
+        .expects(userId, "session-123")
         .returning(response)
 
     def mockRepoSet(answers: UserAnswers)(
@@ -148,18 +148,18 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
 
     def mockRepoClear(userId: String)(
       response: Future[Boolean]
-    ): CallHandler1[String, Future[Boolean]] =
+    ): CallHandler2[String, String, Future[Boolean]] =
       (repo
-        .clear(_: String))
-        .expects(userId)
+        .clear(_: String, _: String))
+        .expects(userId, "session-123")
         .returning(response)
 
     def mockRepoKeepAlive(userId: String)(
       response: Future[Boolean]
-    ): CallHandler1[String, Future[Boolean]] =
+    ): CallHandler2[String, String, Future[Boolean]] =
       (repo
-        .keepAlive(_: String))
-        .expects(userId)
+        .keepAlive(_: String, _: String))
+        .expects(userId, "session-123")
         .returning(response)
 
     def mockGetSubmission(userId: String, submissionId: String)(
@@ -180,10 +180,10 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
     
     def mockNotificationToUserAnswers(submission: Submission)(
       response: Try[UserAnswers]
-    ): CallHandler1[Submission, Try[UserAnswers]] =
+    ): CallHandler2[String, Submission, Try[UserAnswers]] =
       (dataService
-        .submissionToUa(_: Submission))
-        .expects(submission)
+        .submissionToUa(_: String, _: Submission))
+        .expects("session-123", submission)
         .returning(response)
 
   }

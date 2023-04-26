@@ -41,7 +41,7 @@ class SubmissionPDFServiceSpec extends AnyWordSpec with ScalaFutures
 
   val sut = new SubmissionPDFServiceImpl(connector, uaToSubmissionService)
 
-  val emptyUA = UserAnswers("id")
+  val emptyUA = UserAnswers("id", "session-123")
   val testNotification = Notification("123", "456", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
   val testDisclosure = FullDisclosure("123", "123", Instant.now(), Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), None, OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
   implicit val hc = HeaderCarrier()

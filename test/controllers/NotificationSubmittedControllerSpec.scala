@@ -42,7 +42,7 @@ class NotificationSubmittedControllerSpec extends SpecBase {
       val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
       val formattedDate = time.format(dateFormatter)
 
-      val userAnswers = UserAnswers(id = "id", submissionId = "id2", submissionType = SubmissionType.Notification, metadata = Metadata(Some(reference), Some(time)))
+      val userAnswers = UserAnswers(id = "id", sessionId = "session-123", submissionId = "id2", submissionType = SubmissionType.Notification, metadata = Metadata(Some(reference), Some(time)))
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -63,7 +63,7 @@ class NotificationSubmittedControllerSpec extends SpecBase {
       val reference = "1234"
       val time = LocalDateTime.now()
 
-      val userAnswers = UserAnswers(id = "id", submissionId = "id2", submissionType = SubmissionType.Disclosure, metadata = Metadata(Some(reference), Some(time)))
+      val userAnswers = UserAnswers(id = "id", sessionId = "session-123", submissionId = "id2", submissionType = SubmissionType.Disclosure, metadata = Metadata(Some(reference), Some(time)))
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).overrides(
           bind[Navigator].toInstance(new FakeNavigator(onwardRoute))
@@ -86,7 +86,7 @@ class NotificationSubmittedControllerSpec extends SpecBase {
       val reference = "1234"
       val time = LocalDateTime.now()
 
-      val userAnswers = UserAnswers(id = "id", submissionId = "id2", submissionType = SubmissionType.Disclosure, metadata = Metadata(Some(reference), Some(time)))
+      val userAnswers = UserAnswers(id = "id", sessionId = "session-123", submissionId = "id2", submissionType = SubmissionType.Disclosure, metadata = Metadata(Some(reference), Some(time)))
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).overrides(
           bind[Navigator].toInstance(new FakeNavigator(onwardRoute))
@@ -107,7 +107,7 @@ class NotificationSubmittedControllerSpec extends SpecBase {
     "must convert a notification to a disclosure, clearing metadata" in {
       val reference = "1234"
       val time = LocalDateTime.now()
-      val userAnswers = UserAnswers(id = "id", submissionId = "id2", submissionType = SubmissionType.Notification, metadata = Metadata(Some(reference), Some(time)))
+      val userAnswers = UserAnswers(id = "id", sessionId = "session-123", submissionId = "id2", submissionType = SubmissionType.Notification, metadata = Metadata(Some(reference), Some(time)))
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
       val controller = application.injector.instanceOf[NotificationSubmittedController]
 
@@ -119,7 +119,7 @@ class NotificationSubmittedControllerSpec extends SpecBase {
     "must convert a notification to a disclosure, clearing metadata and populating the case reference section where letterReferencePage is populated" in {
       val reference = "1234"
       val time = LocalDateTime.now()
-      val userAnswers = UserAnswers(id = "id", submissionId = "id2", submissionType = SubmissionType.Notification, metadata = Metadata(Some(reference), Some(time)))
+      val userAnswers = UserAnswers(id = "id", sessionId = "session-123", submissionId = "id2", submissionType = SubmissionType.Notification, metadata = Metadata(Some(reference), Some(time)))
       val uaWithLetterRef = userAnswers.set(LetterReferencePage, "Some ref").success.value
       val application = applicationBuilder(userAnswers = Some(uaWithLetterRef)).build()
       val controller = application.injector.instanceOf[NotificationSubmittedController]

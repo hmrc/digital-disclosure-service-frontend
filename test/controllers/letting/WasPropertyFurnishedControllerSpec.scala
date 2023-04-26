@@ -65,7 +65,7 @@ class WasPropertyFurnishedControllerSpec extends SpecBase with MockitoSugar {
 
       val lettingProperty = LettingProperty(wasFurnished = Some(true))
 
-      val userAnswers = UserAnswers(userAnswersId)
+      val userAnswers = UserAnswers(userAnswersId, "session-123")
         .setBySeqIndex(LettingPropertyPage, index, lettingProperty).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()

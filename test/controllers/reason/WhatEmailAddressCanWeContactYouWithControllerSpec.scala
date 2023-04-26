@@ -62,7 +62,7 @@ class WhatEmailAddressCanWeContactYouWithControllerSpec extends SpecBase with Mo
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(WhatEmailAddressCanWeContactYouWithPage, "answer").success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhatEmailAddressCanWeContactYouWithPage, "answer").success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 

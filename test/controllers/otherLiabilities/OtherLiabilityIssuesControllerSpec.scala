@@ -63,7 +63,7 @@ class OtherLiabilityIssuesControllerSpec extends SpecBase with MockitoSugar {
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(OtherLiabilityIssuesPage, OtherLiabilityIssues.values.toSet).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123").set(OtherLiabilityIssuesPage, OtherLiabilityIssues.values.toSet).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -156,7 +156,7 @@ class OtherLiabilityIssuesControllerSpec extends SpecBase with MockitoSugar {
 
     "must redirect to WhatOtherLiabilityIssuesPage screen in check mode if Other checkbox selected" in {
       val previousPreferences: Set[OtherLiabilityIssues] = Set(OtherLiabilityIssues.InheritanceTaxIssues)
-      val previousAnswers = UserAnswers("id").set(OtherLiabilityIssuesPage, previousPreferences).success.value
+      val previousAnswers = UserAnswers("id", "session-123").set(OtherLiabilityIssuesPage, previousPreferences).success.value
       val newAnswer = OtherLiabilityIssues.Other
 
       val urlToTest = otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(CheckMode).url
@@ -176,7 +176,7 @@ class OtherLiabilityIssuesControllerSpec extends SpecBase with MockitoSugar {
 
     "must redirect to DescribeTheGiftPage screen in check mode if InheritanceTaxIssues checkbox selected" in {
       val previousPreferences: Set[OtherLiabilityIssues] = Set(OtherLiabilityIssues.Other)
-      val previousAnswers = UserAnswers("id").set(OtherLiabilityIssuesPage, previousPreferences).success.value
+      val previousAnswers = UserAnswers("id", "session-123").set(OtherLiabilityIssuesPage, previousPreferences).success.value
       val newAnswer = OtherLiabilityIssues.InheritanceTaxIssues
 
       val urlToTest = otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(CheckMode).url
@@ -196,7 +196,7 @@ class OtherLiabilityIssuesControllerSpec extends SpecBase with MockitoSugar {
 
     "must redirect to CheckYourAnswer screen if there are no changes in the user answer" in {
       val previousPreferences: Set[OtherLiabilityIssues] = Set(OtherLiabilityIssues.InheritanceTaxIssues, OtherLiabilityIssues.Other)
-      val previousAnswers = UserAnswers("id").set(OtherLiabilityIssuesPage, previousPreferences).success.value
+      val previousAnswers = UserAnswers("id", "session-123").set(OtherLiabilityIssuesPage, previousPreferences).success.value
 
       val newAnswerInheritanceTaxIssues: OtherLiabilityIssues = OtherLiabilityIssues.InheritanceTaxIssues
       val newAnswerOther: OtherLiabilityIssues = OtherLiabilityIssues.Other

@@ -67,7 +67,7 @@ class CaseManagementController @Inject()(
     implicit request =>
 
       for {
-        _ <- sessionService.newSession(request.userId, UUID.randomUUID().toString, SubmissionType.Notification, request.customerId)
+        _ <- sessionService.newSession(request.userId, request.sessionId, UUID.randomUUID().toString, SubmissionType.Notification, request.customerId)
       } yield Redirect(controllers.routes.MakeANotificationOrDisclosureController.onPageLoad)
 
   }
@@ -78,7 +78,7 @@ class CaseManagementController @Inject()(
       val submissionF: Future[Submission] = for {
         submissionOpt <- submissionStoreService.getSubmission(request.userId, submissionId)
         submission = submissionOpt.getOrElse(Notification(request.userId, submissionId))
-        userAnswers <- Future.fromTry(submissionToUAService.submissionToUa(submission))
+        userAnswers <- Future.fromTry(submissionToUAService.submissionToUa(request.sessionId, submission))
         _ <- sessionService.set(userAnswers)
       } yield submission
 

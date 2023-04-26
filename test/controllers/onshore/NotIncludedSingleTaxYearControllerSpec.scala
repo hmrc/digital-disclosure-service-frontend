@@ -52,7 +52,7 @@ class NotIncludedSingleTaxYearControllerSpec extends SpecBase with MockitoSugar 
     "must return OK and the correct view for a GET" in {
     
       val whichYears: Set[OnshoreYears] = Set(OnshoreYearStarting(2020), OnshoreYearStarting(2018))
-      val userAnswers = UserAnswers(userAnswersId).set(WhichOnshoreYearsPage, whichYears).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, whichYears).success.value
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
@@ -71,7 +71,7 @@ class NotIncludedSingleTaxYearControllerSpec extends SpecBase with MockitoSugar 
 
       val whichYears: Set[OnshoreYears] = Set(OnshoreYearStarting(2020), OnshoreYearStarting(2018))
       val userAnswers = (for {
-        ua <- UserAnswers(userAnswersId).set(WhichOnshoreYearsPage, whichYears)
+        ua <- UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, whichYears)
         finalUa <- ua.set(NotIncludedSingleTaxYearPage, "answer")
       } yield finalUa).success.value
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
@@ -116,7 +116,7 @@ class NotIncludedSingleTaxYearControllerSpec extends SpecBase with MockitoSugar 
     "must redirect to the next page when valid data is submitted" in {
 
       val whichYears: Set[OnshoreYears] = Set(OnshoreYearStarting(2020), OnshoreYearStarting(2018))
-      val userAnswers = UserAnswers(userAnswersId).set(WhichOnshoreYearsPage, whichYears).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, whichYears).success.value
 
       val mockSessionService = mock[SessionService]
 
@@ -144,7 +144,7 @@ class NotIncludedSingleTaxYearControllerSpec extends SpecBase with MockitoSugar 
     "must redirect to the YouHaveNotSelectedCertainTaxYearPage when multiple years are missing" in {
 
       val whichYears: Set[OnshoreYears] = Set(OnshoreYearStarting(2020), OnshoreYearStarting(2018), OnshoreYearStarting(2016))
-      val userAnswers = UserAnswers(userAnswersId).set(WhichOnshoreYearsPage, whichYears).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, whichYears).success.value
 
       val mockSessionService = mock[SessionService]
 
@@ -172,7 +172,7 @@ class NotIncludedSingleTaxYearControllerSpec extends SpecBase with MockitoSugar 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
       val whichYears: Set[OnshoreYears] = Set(OnshoreYearStarting(2020), OnshoreYearStarting(2018))
-      val userAnswers = UserAnswers(userAnswersId).set(WhichOnshoreYearsPage, whichYears).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, whichYears).success.value
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {

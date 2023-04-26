@@ -43,7 +43,7 @@ class ResidentialReductionControllerSpec extends SpecBase with MockitoSugar {
   val validAnswer = BigInt(0)
 
   val whichYears: Set[OnshoreYears] = Set(OnshoreYearStarting(2021))
-  val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichOnshoreYearsPage, whichYears).success.value
+  val userAnswersWithTaxYears = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, whichYears).success.value
 
   lazy val residentialReductionRoute = onshore.routes.ResidentialReductionController.onPageLoad(0, NormalMode).url
 

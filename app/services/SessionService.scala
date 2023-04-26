@@ -32,49 +32,49 @@ class SessionServiceImpl @Inject()(
   val submissionToUAService: SubmissionToUAService
 )(implicit ec: ExecutionContext) extends SessionService with Logging {
 
-  def getSession(userId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] =
-    sessionRepository.get(userId)
+  def getSession(userId: String, sessionId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] =
+    sessionRepository.get(userId, sessionId)
 
-  def newSession(userId: String, submissionId: String, submissionType: SubmissionType, customerId: Option[CustomerId])(implicit hc: HeaderCarrier): Future[UserAnswers] =
+  def newSession(userId: String, sessionId: String, submissionId: String, submissionType: SubmissionType, customerId: Option[CustomerId])(implicit hc: HeaderCarrier): Future[UserAnswers] =
     for {
-      uaOpt  <- getIndividualUserAnswers(userId, submissionId)
-      ua     = uaOpt.getOrElse(UserAnswers(id = userId, submissionId = submissionId, submissionType = submissionType, created = Instant.now, customerId = customerId))
+      uaOpt  <- getIndividualUserAnswers(userId, sessionId, submissionId)
+      ua     = uaOpt.getOrElse(UserAnswers(id = userId, sessionId = sessionId, submissionId = submissionId, submissionType = submissionType, created = Instant.now, customerId = customerId))
       result <- set(ua)
     } yield ua
 
-  def getIndividualUserAnswers(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] = 
+  def getIndividualUserAnswers(userId: String, sessionId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] = 
     for {
       submissionOpt <- submissionStoreService.getSubmission(userId, submissionId)
-      uaOpt <- Future.fromTry(submissionOpt.map(submissionToUAService.submissionToUa).sequence)
+      uaOpt <- Future.fromTry(submissionOpt.map(s => submissionToUAService.submissionToUa(sessionId, s)).sequence)
     } yield uaOpt
 
-  def set(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Boolean] =
+  def set(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Boolean] = 
     for {
       result <- sessionRepository.set(userAnswers)
       _      <- submissionStoreService.setSubmission(userAnswers)
-    } yield result
+    } yield result 
     
-  def clearAndRestartSessionAndDraft(id: String, submissionId: String, submissionType: SubmissionType)(implicit hc: HeaderCarrier): Future[UserAnswers] = {
+  def clearAndRestartSessionAndDraft(userId: String, sessionId: String, submissionId: String, submissionType: SubmissionType)(implicit hc: HeaderCarrier): Future[UserAnswers] = {
     for {
-      _ <- submissionStoreService.deleteSubmission(id, submissionId)
-      _ <- sessionRepository.clear(id)
-      ua = UserAnswers(id, submissionId, submissionType, created = Instant.now)
+      _ <- submissionStoreService.deleteSubmission(userId, submissionId)
+      _ <- sessionRepository.clear(userId, sessionId)
+      ua = UserAnswers(userId, sessionId, submissionId, submissionType, created = Instant.now)
       _ <- set(ua)
     } yield ua
   }
   
-  def clear(id: String): Future[Boolean] = sessionRepository.clear(id)
+  def clear(userId: String, sessionId: String): Future[Boolean] = sessionRepository.clear(userId, sessionId)
 
-  def keepAlive(id: String): Future[Boolean] = sessionRepository.keepAlive(id)
+  def keepAlive(userId: String, sessionId: String): Future[Boolean] = sessionRepository.keepAlive(userId, sessionId)
 }
 
 @ImplementedBy(classOf[SessionServiceImpl])
 trait SessionService {
-  def getSession(userId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] 
-  def newSession(userId: String, submissionId: String, submissionType: SubmissionType, customerId: Option[CustomerId])(implicit hc: HeaderCarrier): Future[UserAnswers]
+  def getSession(userId: String, sessionId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] 
+  def newSession(userId: String, sessionId: String, submissionId: String, submissionType: SubmissionType, customerId: Option[CustomerId])(implicit hc: HeaderCarrier): Future[UserAnswers]
   def set(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Boolean]
-  def clear(id: String): Future[Boolean]
-  def keepAlive(id: String): Future[Boolean]
-  def clearAndRestartSessionAndDraft(id: String, submissionId: String, submissionType: SubmissionType)(implicit hc: HeaderCarrier): Future[UserAnswers]
-  def getIndividualUserAnswers(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]]
+  def clear(userId: String, sessionId: String): Future[Boolean]
+  def keepAlive(userId: String, sessionId: String): Future[Boolean]
+  def clearAndRestartSessionAndDraft(userId: String, sessionId: String, submissionId: String, submissionType: SubmissionType)(implicit hc: HeaderCarrier): Future[UserAnswers]
+  def getIndividualUserAnswers(userId: String, sessionId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]]
 }

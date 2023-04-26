@@ -22,19 +22,26 @@ import play.api.mvc.ActionTransformer
 import uk.gov.hmrc.play.http.HeaderCarrierConverter
 import uk.gov.hmrc.http.HeaderCarrier
 import services.SessionService
+import play.api.Logging
 
 import scala.concurrent.{ExecutionContext, Future}
 
 class DataRetrievalActionImpl @Inject()(
                                          val sessionService: SessionService
-                                       )(implicit val executionContext: ExecutionContext) extends DataRetrievalAction {
+                                       )(implicit val executionContext: ExecutionContext) extends DataRetrievalAction with Logging {
 
   override protected def transform[A](request: IdentifierRequest[A]): Future[OptionalDataRequest[A]] = {
 
     implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
+    val sessionId = hc.sessionId.fold("-")(_.value)
 
-    sessionService.getSession(request.userId).map {
-      OptionalDataRequest(request.request, request.userId, _, request.isAgent, request.customerId)
+    sessionService.getSession(request.userId, sessionId).map {
+      logger.info("-------- ret")
+      logger.info("-------- ret")
+      logger.info("-------- ret")
+      logger.info("-------- ret")
+      logger.info(s"--- sessionId: $sessionId ---")
+      OptionalDataRequest(request.request, request.userId, sessionId, _, request.isAgent, request.customerId)
     }
   }
 }

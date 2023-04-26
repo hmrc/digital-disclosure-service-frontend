@@ -29,6 +29,7 @@ import java.time.{Clock, Instant}
 import java.util.concurrent.TimeUnit
 import com.google.inject.{Inject, ImplementedBy, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
+import play.api.Logging
 
 @Singleton
 class SessionRepositoryImpl @Inject()(
@@ -46,29 +47,41 @@ class SessionRepositoryImpl @Inject()(
         IndexOptions()
           .name("lastUpdatedIdx")
           .expireAfter(appConfig.cacheTtl, TimeUnit.SECONDS)
-      )
+      ),
+      IndexModel(
+        Indexes.compoundIndex(
+          Indexes.ascending("userId"),
+          Indexes.ascending("sessionId")
+        ),
+        IndexOptions()
+          .name("sessionIdx")
+          .unique(true)
+      ),
     ),
     replaceIndexes = true
-  ) with SessionRepository {
+  ) with SessionRepository with Logging {
 
   implicit val instantFormat: Format[Instant] = MongoJavatimeFormats.instantFormat
 
-  private def byId(id: String): Bson = Filters.equal("_id", id)
+  private def byId(userId: String, sessionId: String): Bson = Filters.and(
+    Filters.equal("userId", userId),
+    Filters.equal("sessionId", sessionId)
+  )
 
-  def keepAlive(id: String): Future[Boolean] =
+  def keepAlive(userId: String, sessionId: String): Future[Boolean] =
     collection
       .updateOne(
-        filter = byId(id),
+        filter = byId(userId, sessionId),
         update = Updates.set("lastUpdated", Instant.now(clock))
       )
       .toFuture()
       .map(_ => true)
 
-  def get(id: String): Future[Option[UserAnswers]] =
-    keepAlive(id).flatMap {
+  def get(userId: String, sessionId: String): Future[Option[UserAnswers]] =
+    keepAlive(userId, sessionId).flatMap {
       _ =>
         collection
-          .find(byId(id))
+          .find(byId(userId, sessionId))
           .headOption()
     }
 
@@ -76,9 +89,19 @@ class SessionRepositoryImpl @Inject()(
 
     val updatedAnswers = answers copy (lastUpdated = Instant.now(clock))
 
+        logger.info("-------- Session Set")
+        logger.info("-------- Session Set")
+        logger.info("-------- Session Set")
+        logger.info("-------- Session Set")
+        logger.info("-------- Session Set")
+        logger.info("-------- Session Set")
+        logger.info("-------- Session Set")
+        logger.info("-------- Session Set")
+        logger.info(s"--- sessionId: ${answers.sessionId} ---")
+
     collection
       .replaceOne(
-        filter      = byId(updatedAnswers.id),
+        filter      = byId(updatedAnswers.id, updatedAnswers.sessionId),
         replacement = updatedAnswers,
         options     = ReplaceOptions().upsert(true)
       )
@@ -86,9 +109,9 @@ class SessionRepositoryImpl @Inject()(
       .map(_ => true)
   }
 
-  def clear(id: String): Future[Boolean] =
+  def clear(userId: String, sessionId: String): Future[Boolean] =
     collection
-      .deleteOne(byId(id))
+      .deleteOne(byId(userId, sessionId))
       .toFuture()
       .map(_ => true)
 }
@@ -96,7 +119,7 @@ class SessionRepositoryImpl @Inject()(
 @ImplementedBy(classOf[SessionRepositoryImpl])
 trait SessionRepository {
   def set(answers: UserAnswers): Future[Boolean]
-  def get(id: String): Future[Option[UserAnswers]]
-  def keepAlive(id: String): Future[Boolean]
-  def clear(id: String): Future[Boolean]
+  def get(userId: String, sessionId: String): Future[Option[UserAnswers]]
+  def keepAlive(userId: String, sessionId: String): Future[Boolean]
+  def clear(userId: String, sessionId: String): Future[Boolean]
 }

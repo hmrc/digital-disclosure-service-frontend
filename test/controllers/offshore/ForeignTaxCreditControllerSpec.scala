@@ -43,7 +43,7 @@ class ForeignTaxCreditControllerSpec extends SpecBase with MockitoSugar {
   val validAnswer = BigInt(0)
 
   val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021))
-  val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value
+  val userAnswersWithTaxYears = UserAnswers(userAnswersId, "session-123").set(WhichYearsPage, whichYears).success.value
 
   lazy val foreignTaxCreditRoute = offshore.routes.ForeignTaxCreditController.onPageLoad(0, NormalMode).url
 

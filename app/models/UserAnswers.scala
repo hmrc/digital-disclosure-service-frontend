@@ -27,6 +27,7 @@ import pages.{WhichYearsPage, WhichOnshoreYearsPage, RelatesToPage, AreYouTheEnt
 
 final case class UserAnswers(
                               id: String,
+                              sessionId: String,
                               submissionId: String = UserAnswers.defaultSubmissionId,
                               submissionType: SubmissionType = SubmissionType.Notification,
                               data: JsObject = Json.obj(),
@@ -181,7 +182,8 @@ object UserAnswers {
     import play.api.libs.functional.syntax._
 
     (
-      (__ \ "_id").read[String] and
+      (__ \ "userId").read[String] and
+      (__ \ "sessionId").read[String] and
       (__ \ "submissionId").read[String] and
       (__ \ "submissionType").read[SubmissionType] and
       (__ \ "data").read[JsObject] and
@@ -198,7 +200,8 @@ object UserAnswers {
     import play.api.libs.functional.syntax._
 
     (
-      (__ \ "_id").write[String] and
+      (__ \ "userId").write[String] and
+      (__ \ "sessionId").write[String] and
       (__ \ "submissionId").write[String] and
       (__ \ "submissionType").write[SubmissionType] and
       (__ \ "data").write[JsObject] and

@@ -21,11 +21,11 @@ import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 
 class FakeSessionService extends SessionService {
-  def getSession(userId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] = Future.successful(None)
-  def newSession(userId: String, submissionId: String, submissionType: SubmissionType, customerId: Option[CustomerId])(implicit hc: HeaderCarrier): Future[UserAnswers] = Future.successful(UserAnswers(userId))
+  def getSession(userId: String, sessionId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] = Future.successful(None)
+  def newSession(userId: String, sessionId: String, submissionId: String, submissionType: SubmissionType, customerId: Option[CustomerId])(implicit hc: HeaderCarrier): Future[UserAnswers] = Future.successful(UserAnswers(userId, sessionId))
   def set(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Boolean] = Future.successful(true)
-  def clear(id: String): Future[Boolean] = Future.successful(true)
-  def keepAlive(id: String): Future[Boolean] = Future.successful(true)
-  def clearAndRestartSessionAndDraft(id: String, submissionId: String, submissionType: SubmissionType)(implicit hc: HeaderCarrier): Future[UserAnswers] = Future.successful(UserAnswers(id))
-  def getIndividualUserAnswers(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] = Future.successful(Some(UserAnswers(userId)))
+  def clear(userId: String, sessionId: String): Future[Boolean] = Future.successful(true)
+  def keepAlive(userId: String, sessionId: String): Future[Boolean] = Future.successful(true)
+  def clearAndRestartSessionAndDraft(userId: String, sessionId: String, submissionId: String, submissionType: SubmissionType)(implicit hc: HeaderCarrier): Future[UserAnswers] = Future.successful(UserAnswers(userId, sessionId))
+  def getIndividualUserAnswers(userId: String, sessionId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] = Future.successful(Some(UserAnswers(userId, sessionId)))
 }

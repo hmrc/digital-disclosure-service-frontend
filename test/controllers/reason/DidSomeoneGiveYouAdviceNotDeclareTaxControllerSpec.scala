@@ -50,7 +50,7 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxControllerSpec extends ControllerSpecB
       val entity = arbitrary[RelatesTo].sample.value  
 
       val userAnswers = (for {
-        ua <- UserAnswers("id").set(AreYouTheEntityPage, areTheyTheIndividual)
+        ua <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, areTheyTheIndividual)
         updatedUa <- ua.set(RelatesToPage, entity)  
       } yield updatedUa).success.value  
 
@@ -74,7 +74,7 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxControllerSpec extends ControllerSpecB
       val entity = arbitrary[RelatesTo].sample.value 
 
       val userAnswers = (for {
-        ua <- UserAnswers("id").set(AreYouTheEntityPage, areTheyTheIndividual)
+        ua <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, areTheyTheIndividual)
         uaRelatesToPage <- ua.set(RelatesToPage, entity) 
         updatedUa <- uaRelatesToPage.set(DidSomeoneGiveYouAdviceNotDeclareTaxPage, true)
       } yield updatedUa).success.value
@@ -124,7 +124,7 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxControllerSpec extends ControllerSpecB
       val entity = arbitrary[RelatesTo].sample.value 
 
       val userAnswers = (for {
-        ua <- UserAnswers("id").set(AreYouTheEntityPage, areTheyTheIndividual)
+        ua <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, areTheyTheIndividual)
         updatedUa <- ua.set(RelatesToPage, entity) 
       } yield updatedUa).success.value
 

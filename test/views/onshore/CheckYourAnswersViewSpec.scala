@@ -30,7 +30,7 @@ import play.api.i18n.Messages
 
 class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with SummaryListFluency {
 
-  val userAnswers = UserAnswers("id")
+  val userAnswers = UserAnswers("id", "session-123")
 
   def totalRows(implicit messages: Messages) = SummaryListViewModel(
     rows = Seq(

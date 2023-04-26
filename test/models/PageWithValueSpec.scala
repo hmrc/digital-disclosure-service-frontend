@@ -29,7 +29,7 @@ class PageWithValueSpec extends AnyFreeSpec with Matchers with TryValues  {
   case object TestPage3 extends QuestionPage[Boolean] { override def path: JsPath = JsPath \ toString }
 
   val testPageWithValue = PageWithValue(TestPage, "123456")
-  val emptyUserAnswers = UserAnswers("id")
+  val emptyUserAnswers = UserAnswers("id", "session-123")
 
   "addToUserAnswers" - {
 

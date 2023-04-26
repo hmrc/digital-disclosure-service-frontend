@@ -48,7 +48,7 @@ class CorporationTaxLiabilitiesSummaryViewModelSpec extends SpecBase with ScalaC
   "CorporationTaxLiabilitiesSummaryViewModel" - {
 
     "return an empty Seq where the director loan account pages isn't populated" in {
-      val ua = UserAnswers("id")
+      val ua = UserAnswers("id", "session-123")
       val viewModel = new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText).create(ua)
       viewModel.corporationTaxLiabilitiesList mustEqual Nil
     }
@@ -87,7 +87,7 @@ class CorporationTaxLiabilitiesSummaryViewModelSpec extends SpecBase with ScalaC
     }
 
     "return an empty total section where the director loan account pages isn't populated" in {
-        val ua = UserAnswers("id")
+        val ua = UserAnswers("id", "session-123")
         val viewModel = new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText).create(ua)
 
         viewModel.totalAmountsList.rows(0).key mustEqual Key(Text(mess("checkYourAnswers.ct.total.taxDue")))

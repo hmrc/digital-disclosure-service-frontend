@@ -40,7 +40,7 @@ class TaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
   val formProvider = new TaxYearLiabilitiesFormProvider()
   val form = formProvider()
   val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021))
-  val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value
+  val userAnswersWithTaxYears = UserAnswers(userAnswersId, "session-123").set(WhichYearsPage, whichYears).success.value
 
   lazy val taxYearLiabilitiesRoute = offshore.routes.TaxYearLiabilitiesController.onPageLoad(0, NormalMode).url
 

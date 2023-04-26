@@ -28,7 +28,7 @@ class SessionRepositorySpec
   private val instant = Instant.now.truncatedTo(ChronoUnit.MILLIS)
   private val stubClock: Clock = Clock.fixed(instant, ZoneId.systemDefault)
 
-  private val userAnswers = UserAnswers("id", "submissionId", SubmissionType.Notification, Json.obj("foo" -> "bar"), Instant.ofEpochSecond(1), created = instant)
+  private val userAnswers = UserAnswers("id", "session-123", "submissionId", SubmissionType.Notification, Json.obj("foo" -> "bar"), Instant.ofEpochSecond(1), created = instant)
 
   private val mockAppConfig = mock[FrontendAppConfig]
   when(mockAppConfig.cacheTtl) thenReturn 1
@@ -46,7 +46,7 @@ class SessionRepositorySpec
       val expectedResult = userAnswers copy (lastUpdated = instant)
 
       val setResult     = repository.set(userAnswers).futureValue
-      val updatedRecord = find(Filters.equal("_id", userAnswers.id)).futureValue.headOption.value
+      val updatedRecord = find(Filters.equal("userId", userAnswers.id)).futureValue.headOption.value
 
       setResult mustEqual true
       updatedRecord mustEqual expectedResult
@@ -61,7 +61,7 @@ class SessionRepositorySpec
 
         insert(userAnswers).futureValue
 
-        val result         = repository.get(userAnswers.id).futureValue
+        val result         = repository.get(userAnswers.id, userAnswers.sessionId).futureValue
         val expectedResult = userAnswers copy (lastUpdated = instant)
 
         result.value mustEqual expectedResult
@@ -72,7 +72,7 @@ class SessionRepositorySpec
 
       "must return None" in {
 
-        repository.get("id that does not exist").futureValue must not be defined
+        repository.get("id that does not exist", "session id that does not exist").futureValue must not be defined
       }
     }
   }
@@ -83,14 +83,14 @@ class SessionRepositorySpec
 
       insert(userAnswers).futureValue
 
-      val result = repository.clear(userAnswers.id).futureValue
+      val result = repository.clear(userAnswers.id, userAnswers.sessionId).futureValue
 
       result mustEqual true
-      repository.get(userAnswers.id).futureValue must not be defined
+      repository.get(userAnswers.id, userAnswers.sessionId).futureValue must not be defined
     }
 
     "must return true when there is no record to remove" in {
-      val result = repository.clear("id that does not exist").futureValue
+      val result = repository.clear("id that does not exist", "session id that does not exist").futureValue
 
       result mustEqual true
     }
@@ -104,12 +104,12 @@ class SessionRepositorySpec
 
         insert(userAnswers).futureValue
 
-        val result = repository.keepAlive(userAnswers.id).futureValue
+        val result = repository.keepAlive(userAnswers.id, userAnswers.sessionId).futureValue
 
         val expectedUpdatedAnswers = userAnswers copy (lastUpdated = instant)
 
         result mustEqual true
-        val updatedAnswers = find(Filters.equal("_id", userAnswers.id)).futureValue.headOption.value
+        val updatedAnswers = find(Filters.equal("userId", userAnswers.id)).futureValue.headOption.value
         updatedAnswers mustEqual expectedUpdatedAnswers
       }
     }
@@ -118,7 +118,7 @@ class SessionRepositorySpec
 
       "must return true" in {
 
-        repository.keepAlive("id that does not exist").futureValue mustEqual true
+        repository.keepAlive("id that does not exist", "session id that does not exist").futureValue mustEqual true
       }
     }
   }

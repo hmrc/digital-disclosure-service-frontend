@@ -173,7 +173,7 @@ class CountriesOrTerritoriesControllerSpec extends SpecBase with MockitoSugar {
 
     val country1 = Country(countryCode, "Country 1")
     val country2 = Country("BBB", "Country 2")
-    val userAnswers = UserAnswers("id")
+    val userAnswers = UserAnswers("id", "session-123")
       .setByKey(CountryOfYourOffshoreLiabilityPage, country1.alpha3 ,country1).success.value
       .setByKey(CountryOfYourOffshoreLiabilityPage, country2.alpha3 ,country2).success.value
 

@@ -71,14 +71,14 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
   "CheckYourAnswersViewModel" - {
 
     "return an empty Seq where the onshore pages isn't populated" in {
-      val ua = UserAnswers("id")
+      val ua = UserAnswers("id", "session-123")
       val viewModel = sut.create(ua)
       viewModel.taxYearLists mustEqual Nil
     }
 
     "return the correct view for a TaxBeforeFiveYearsOnshoreSummary is populated" in {
       val year = yearsService.getEarliestYearByBehaviour(Behaviour.Careless).toString
-      val ua = UserAnswers("id").set(TaxBeforeFiveYearsOnshorePage, "test").success.value
+      val ua = UserAnswers("id", "session-123").set(TaxBeforeFiveYearsOnshorePage, "test").success.value
       val viewModel = sut.create(ua)
       val summaryList = viewModel.summaryList
       summaryList.rows(0).key mustEqual Key(Text(mess("taxBeforeFiveYears.checkYourAnswersLabel", year)))
@@ -86,7 +86,7 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
 
     "return the correct view for a TaxBeforeThreeYearsOnshoreSummary is populated" in {
       val year = yearsService.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString
-      val ua = UserAnswers("id").set(TaxBeforeThreeYearsOnshorePage, "test").success.value
+      val ua = UserAnswers("id", "session-123").set(TaxBeforeThreeYearsOnshorePage, "test").success.value
       val viewModel = sut.create(ua)
       val summaryList = viewModel.summaryList
       summaryList.rows(0).key mustEqual Key(Text(mess("taxBeforeThreeYears.checkYourAnswersLabel", year)))
@@ -94,14 +94,14 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
 
     "return the correct view for a TaxBeforeNineteenYearsOnshoreSummary is populated" in {
       val year = yearsService.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
-      val ua = UserAnswers("id").set(TaxBeforeNineteenYearsOnshorePage, "test").success.value
+      val ua = UserAnswers("id", "session-123").set(TaxBeforeNineteenYearsOnshorePage, "test").success.value
       val viewModel = sut.create(ua)
       val summaryList = viewModel.summaryList
       summaryList.rows(0).key mustEqual Key(Text(mess("taxBeforeNineteenYears.checkYourAnswersLabel", year)))
     }
 
     "return an empty Seq where the years page isn't populated" in {
-      val ua = UserAnswers("id")
+      val ua = UserAnswers("id", "session-123")
       val viewModel = sut.create(ua)
       viewModel.taxYearLists mustEqual Nil
     }
@@ -111,7 +111,7 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
         val yearKey = taxYearWithLiabilities.taxYear.startYear.toString
         val onshoreYears: Set[OnshoreYears] = Set(taxYearWithLiabilities.taxYear)
         val ua = (for {
-          uaWithYears <- UserAnswers("id").set(WhichOnshoreYearsPage, onshoreYears)
+          uaWithYears <- UserAnswers("id", "session-123").set(WhichOnshoreYearsPage, onshoreYears)
           finalUa <- uaWithYears.setByKey(OnshoreTaxYearLiabilitiesPage, yearKey, taxYearWithLiabilities)
         } yield finalUa).success.value
         val viewModel = sut.create(ua)
@@ -193,7 +193,7 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
           PageWithValue(CorporationTaxLiabilityPage, corporationTax),
           PageWithValue(DirectorLoanAccountLiabilitiesPage, directorLoan),
         )
-        val userAnswers = PageWithValue.pagesToUserAnswers(pages, UserAnswers("id")).success.value
+        val userAnswers = PageWithValue.pagesToUserAnswers(pages, UserAnswers("id", "session-123")).success.value
         sut.create(userAnswers).liabilitiesTotal mustEqual 19400
       }
     }

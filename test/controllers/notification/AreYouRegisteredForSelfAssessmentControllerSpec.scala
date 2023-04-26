@@ -61,7 +61,7 @@ class AreYouRegisteredForSelfAssessmentControllerSpec extends ControllerSpecBase
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(AreYouRegisteredForSelfAssessmentPage, AreYouRegisteredForSelfAssessment.values.head).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123").set(AreYouRegisteredForSelfAssessmentPage, AreYouRegisteredForSelfAssessment.values.head).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 

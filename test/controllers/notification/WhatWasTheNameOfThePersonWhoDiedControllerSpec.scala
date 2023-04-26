@@ -62,7 +62,7 @@ class WhatWasTheNameOfThePersonWhoDiedControllerSpec extends SpecBase with Mocki
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(WhatWasTheNameOfThePersonWhoDiedPage, "answer").success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhatWasTheNameOfThePersonWhoDiedPage, "answer").success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 

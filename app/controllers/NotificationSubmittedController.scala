@@ -47,7 +47,7 @@ class NotificationSubmittedController @Inject()(
     implicit request =>
 
       request.userAnswers match {
-        case UserAnswers(_, _, SubmissionType.Notification, _, _, _, Metadata(Some(reference), Some(time)), _, _) =>
+        case UserAnswers(_, _, _, SubmissionType.Notification, _, _, _, Metadata(Some(reference), Some(time)), _, _) =>
           val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
           val formattedDate = time.format(dateFormatter)
           Ok(view(formattedDate, reference))

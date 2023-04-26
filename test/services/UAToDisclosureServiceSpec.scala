@@ -29,7 +29,7 @@ import java.time.LocalDate
 
 class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues {
 
-  val emptyUA = UserAnswers("id")
+  val emptyUA = UserAnswers("id", "session-123")
 
   val notificationService = new UAToNotificationServiceImpl
   val sut = new UAToDisclosureServiceImpl(notificationService)

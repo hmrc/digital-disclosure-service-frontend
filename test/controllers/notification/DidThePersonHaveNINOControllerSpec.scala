@@ -61,7 +61,7 @@ class DidThePersonHaveNINOControllerSpec extends ControllerSpecBase  {
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(DidThePersonHaveNINOPage, DidThePersonHaveNINO.values.head).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123").set(DidThePersonHaveNINOPage, DidThePersonHaveNINO.values.head).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
