@@ -27,6 +27,10 @@ import java.time.{LocalDate, ZoneOffset}
 
 trait ModelGenerators {
 
+  private val MAX_BIGINT = BigInt("999999999999999999999999")
+  private val MIN_YEAR = 2002
+  private val MAX_YEAR = 2032
+
   implicit lazy val arbitraryAreYouTheEntity: Arbitrary[AreYouTheEntity] =
     Arbitrary {
       Gen.oneOf(AreYouTheEntity.values.toSeq)
@@ -42,9 +46,9 @@ trait ModelGenerators {
       for {
         name <- arbitrary[String]
         periodEnd = LocalDate.now(ZoneOffset.UTC).minusDays(1)
-        overdrawn <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
-        unpaidTax <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
-        interest <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
+        overdrawn <- Gen.choose(BigInt(1), MAX_BIGINT)
+        unpaidTax <- Gen.choose(BigInt(1), MAX_BIGINT)
+        interest <- Gen.choose(BigInt(1), MAX_BIGINT)
         penaltyRate <- Gen.choose(0, 200)
         penaltyRateReason <- arbitrary[String]
       } yield DirectorLoanAccountLiabilities(name, periodEnd, overdrawn, unpaidTax, interest, penaltyRate, penaltyRateReason)
@@ -53,7 +57,7 @@ trait ModelGenerators {
   implicit lazy val arbitraryOnshoreYears: Arbitrary[OnshoreYears] =
     Arbitrary {
       for {
-        year <- Gen.choose(2002, 2032)
+        year <- Gen.choose(MIN_YEAR, MAX_YEAR)
       } yield OnshoreYearStarting(year)
     }
 
@@ -128,24 +132,26 @@ trait ModelGenerators {
   implicit lazy val abitraryTaxYearWithLiabilities: Arbitrary[TaxYearWithLiabilities] =
     Arbitrary {
       for {
-        year <- Gen.choose(2002, 2032)
-        income <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
-        chargeableTransfers <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
-        capitalGains <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
-        unpaidTax <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
-        interest <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
+        year <- Gen.choose(MIN_YEAR, MAX_YEAR)
+        income <- Gen.choose(BigInt(1), MAX_BIGINT)
+        chargeableTransfers <- Gen.choose(BigInt(1), MAX_BIGINT)
+        capitalGains <- Gen.choose(BigInt(1), MAX_BIGINT)
+        unpaidTax <- Gen.choose(BigInt(1), MAX_BIGINT)
+        interest <- Gen.choose(BigInt(1), MAX_BIGINT)
         penaltyRate <- arbitrary[Int]
         penaltyRateReason <- arbitrary[String]
+        undeclaredIncomeOrGain <- arbitrary[String]
         foreignTaxCredit <- arbitrary[Boolean]
       } yield {
         val taxYearLiabilities = TaxYearLiabilities(
-          income, 
+          income,
           chargeableTransfers,
           capitalGains,
           unpaidTax,
           interest,
           penaltyRate,
           penaltyRateReason,
+          Some(undeclaredIncomeOrGain),
           foreignTaxCredit
         )
         TaxYearWithLiabilities(TaxYearStarting(year), taxYearLiabilities)
@@ -155,12 +161,12 @@ trait ModelGenerators {
   implicit lazy val abitraryOnshoreTaxYearWithLiabilities: Arbitrary[OnshoreTaxYearWithLiabilities] =
     Arbitrary {
       for {
-        year <- Gen.choose(2002, 2032)
-        income <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
-        capitalGains <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
-        unpaidTax <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
-        niContributions <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
-        interest <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
+        year <- Gen.choose(MIN_YEAR, MAX_YEAR)
+        income <- Gen.choose(BigInt(1), MAX_BIGINT)
+        capitalGains <- Gen.choose(BigInt(1), MAX_BIGINT)
+        unpaidTax <- Gen.choose(BigInt(1), MAX_BIGINT)
+        niContributions <- Gen.choose(BigInt(1), MAX_BIGINT)
+        interest <- Gen.choose(BigInt(1), MAX_BIGINT)
         penaltyRate <- arbitrary[Int]
         penaltyRateReason <- arbitrary[String]
         undeclaredIncomeOrGain <- arbitrary[String]
@@ -191,7 +197,7 @@ trait ModelGenerators {
   implicit lazy val arbitraryOffshoreYears: Arbitrary[OffshoreYears] =
     Arbitrary {
       for {
-        year <- Gen.choose(2002, 2032)
+        year <- Gen.choose(MIN_YEAR, MAX_YEAR)
       } yield TaxYearStarting(year)
     }
 
@@ -219,9 +225,6 @@ trait ModelGenerators {
       } yield WhatReasonableCareDidYouTake(reasonableCare, yearsThisAppliesTo)
     }
 
-
-
-
   implicit lazy val arbitraryReasonableExcuseOnshore: Arbitrary[ReasonableExcuseOnshore] =
     Arbitrary {
       for {
@@ -245,10 +248,6 @@ trait ModelGenerators {
         yearsThisAppliesTo <- arbitrary[String]
       } yield ReasonableCareOnshore(reasonableCare, yearsThisAppliesTo)
     }
-
-
-
-
 
   implicit lazy val arbitraryWhyAreYouMakingThisDisclosure: Arbitrary[WhyAreYouMakingThisDisclosure] =
     Arbitrary {
@@ -368,9 +367,9 @@ trait ModelGenerators {
     Arbitrary {
       for {
         periodEnd <- arbitrary[LocalDate]
-        howMuchIncome <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
-        howMuchUnpaid <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
-        howMuchInterest <- Gen.choose(BigInt(1), BigInt("9999999999999999999"))
+        howMuchIncome <- Gen.choose(BigInt(1), MAX_BIGINT)
+        howMuchUnpaid <- Gen.choose(BigInt(1), MAX_BIGINT)
+        howMuchInterest <- Gen.choose(BigInt(1), MAX_BIGINT)
         penaltyRate <- Gen.choose(1, 200)
         penaltyRateReason <- arbitrary[String]
       } yield CorporationTaxLiability(periodEnd, howMuchIncome, howMuchUnpaid, howMuchInterest, penaltyRate, penaltyRateReason)

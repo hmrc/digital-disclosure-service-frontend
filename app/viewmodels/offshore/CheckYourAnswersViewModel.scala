@@ -94,6 +94,11 @@ class CheckYourAnswersViewModelCreation @Inject()
 
     val liabilities = yearWithLiabilites.taxYearLiabilities
 
+    val undeclaredIncome = liabilities.undeclaredIncomeOrGain match {
+      case Some(value) => Seq(rowCase(i, "taxYearLiabilities.undeclaredIncomeOrGain", value, "taxYearLiabilities.undeclaredIncomeOrGain.hidden", OFFSHORE, revealFullText, true))
+      case _ => Nil
+    }
+
     val foreignTaxCredit = userAnswers.getByKey(ForeignTaxCreditPage, yearWithLiabilites.taxYear.startYear.toString) match {
       case Some(value) => Seq(poundRowCase(i, "foreignTaxCredit.checkYourAnswersLabel", s"${value}", "foreignTaxCredit.hidden", OFFSHORE))
       case _ => Nil
@@ -111,7 +116,7 @@ class CheckYourAnswersViewModelCreation @Inject()
     ) ++ foreignTaxCredit ++ Seq(
       totalRow("taxYearLiabilities.amountDue.checkYourAnswersLabel", messages("site.2DP", yearTotal(liabilities))),
       rowCase(i, "onshoreTaxYearLiabilities.penaltyRateReason", s"${liabilities.penaltyRateReason}", "onshoreTaxYearLiabilities.penaltyRateReason.hidden", OFFSHORE, revealFullText, true)
-    )
+    ) ++ undeclaredIncome
 
     SummaryListViewModel(rows)
   }
