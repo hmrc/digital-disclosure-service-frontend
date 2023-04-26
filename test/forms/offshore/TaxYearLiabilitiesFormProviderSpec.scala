@@ -105,6 +105,7 @@ class TaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with BigIntF
         ("unpaidTax", "2000"),
         ("interest", "2000"),
         ("penaltyRateReason", "Reason"),
+        ("undeclaredIncomeOrGain", "Undeclared Income or Gain"),
         ("penaltyRate", "100")
       ))
       result.value.value.foreignTaxCredit mustBe true
@@ -120,6 +121,7 @@ class TaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with BigIntF
         ("unpaidTax", "2000"),
         ("interest", "2000"),
         ("penaltyRateReason", "Reason"),
+        ("undeclaredIncomeOrGain", "Undeclared Income or Gain"),
         ("penaltyRate", "100")
       ))
       result.value.value.foreignTaxCredit mustBe false

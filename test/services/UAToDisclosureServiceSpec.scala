@@ -151,13 +151,13 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
       )
       val userAnswers = PageWithValue.pagesToUserAnswers(pages, emptyUA).success.value
       val expected = ReasonForDisclosingNow(
-        Some(reasonSet), 
-        Some("Some other"), 
-        Some("Some reason"), 
-        Some(true), 
-        Some("Some guy"), 
-        Some(true), 
-        Some("Some business"), 
+        Some(reasonSet),
+        Some("Some other"),
+        Some("Some reason"),
+        Some(true),
+        Some("Some guy"),
+        Some(true),
+        Some("Some business"),
         Some("Some profession"),
         Some(AdviceGiven("Some advice", MonthYear(12, 2012), AdviceContactPreference.No)),
         Some(WhichEmailAddressCanWeContactYouWith.values.head),
@@ -269,12 +269,12 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
       )
       val userAnswers = PageWithValue.pagesToUserAnswers(pages, emptyUA).success.value
       val expected = OnshoreLiabilities(
-        behaviour = Some(whySet), 
-        excuseForNotNotifying = Some(ReasonableExcuseOnshore("Some excuse", "Some years")), 
-        reasonableCare = Some(ReasonableCareOnshore("Some excuse", "Some years")), 
-        excuseForNotFiling = Some(ReasonableExcuseForNotFilingOnshore("Some excuse", "Some years")), 
+        behaviour = Some(whySet),
+        excuseForNotNotifying = Some(ReasonableExcuseOnshore("Some excuse", "Some years")),
+        reasonableCare = Some(ReasonableCareOnshore("Some excuse", "Some years")),
+        excuseForNotFiling = Some(ReasonableExcuseForNotFilingOnshore("Some excuse", "Some years")),
         whatLiabilities = Some(whichLiabilitiesSet),
-        whichYears = Some(yearsSet), 
+        whichYears = Some(yearsSet),
         youHaveNotIncludedTheTaxYear = Some("Not included year"),
         youHaveNotSelectedCertainTaxYears = Some("Not included years"),
         taxBeforeThreeYears = Some("Some liabilities 1"),
@@ -298,7 +298,7 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
   "uaToFullDisclosure" should {
 
     "populate FullDisclosure" in {
-      val result = sut.uaToFullDisclosure(emptyUA) 
+      val result = sut.uaToFullDisclosure(emptyUA)
       val expectedResult = FullDisclosure (
         userId = emptyUA.id,
         submissionId = emptyUA.submissionId,
