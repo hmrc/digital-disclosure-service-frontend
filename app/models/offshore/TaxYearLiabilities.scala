@@ -26,6 +26,7 @@ final case class TaxYearLiabilities(
   interest: BigInt,
   penaltyRate: BigDecimal,
   penaltyRateReason: String,
+  undeclaredIncomeOrGain: Option[String] = None,
   foreignTaxCredit: Boolean
 )
 

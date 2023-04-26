@@ -34,6 +34,7 @@ class OffshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValue
         interest = BigInt(2000),
         penaltyRate = 12,
         penaltyRateReason = "Reason",
+        undeclaredIncomeOrGain = Some("Income or gain"),
         foreignTaxCredit = false
       )
       val offshoreLiabilities = OffshoreLiabilities(
