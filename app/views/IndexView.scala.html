@@ -31,17 +31,15 @@
 
     <h1 class="govuk-heading-xl">@messages("index.heading")</h1>
 
-    <p class="govuk-body" id="first-paragraph">
-        @if(isAgent) {
-            @messages("index.guidance.paragraph.agent.first")
-        } else {
-            @messages("index.guidance.paragraph.first")
-        }
-    </p>
-
-    <p class="govuk-body" id="second-paragraph">@messages("index.guidance.paragraph.second")</p>
-
-    <p class="govuk-body" id="third-paragraph">@messages("index.guidance.paragraph.third")</p>
+    @if(isAgent) {
+        <p class="govuk-body" id="first-paragraph">@messages("index.guidance.paragraph.agent.first")</p>
+        <p class="govuk-body" id="second-paragraph">@messages("index.guidance.paragraph.agent.second")</p>
+        <p class="govuk-body" id="third-paragraph">@messages("index.guidance.paragraph.agent.third")</p>
+    } else {
+        <p class="govuk-body" id="first-paragraph">@messages("index.guidance.paragraph.first")</p>
+        <p class="govuk-body" id="second-paragraph">@messages("index.guidance.paragraph.second")</p>
+        <p class="govuk-body" id="third-paragraph">@messages("index.guidance.paragraph.third")</p>
+    }
 
     @bulletList(elements = Seq(
         HtmlContent(
