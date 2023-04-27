@@ -80,15 +80,7 @@
 
         @paragraph(id = Some("send-paragraph1"), content = Text(messages("offerLetter.send.paragraph1")))
         @paragraph(id = Some("send-paragraph2"), content = Text(messages("offerLetter.send.paragraph2")))
-
-        @paragraph(
-            id = Some("send-paragraph3"), 
-            content = HtmlContent(
-                messages("offerLetter.send.paragraph3") + " " + 
-                link(id = "send-link", text = messages("offerLetter.send.link"), newTab = true, call = Call("GET", "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure#general-information")) +
-                messages("site.dot")
-            )
-        )
+        @paragraph(id = Some("send-paragraph3"), content = Text(messages("offerLetter.send.paragraph3")))
 
         @govukButton(
             ButtonViewModel(messages("offerLetter.button")).withAttribute("id","send-disclosure")
