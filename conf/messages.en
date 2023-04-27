@@ -1780,8 +1780,7 @@ offerLetter.download.link = Download a copy of this disclosure including the off
 offerLetter.subheading.send = Send your offer and disclosure
 offerLetter.send.paragraph1 = You should now send the offer and disclosure to HMRC. You will then need to pay the full amount due immediately afterwards. The disclosure will not be reviewed until payment has been received or a payment plan has been set up. 
 offerLetter.send.paragraph2 = The person reviewing your disclosure will then let you know if we can formally accept the disclosure and offer. If we are not able to accept the disclosure or offer, we will let you know why.
-offerLetter.send.paragraph3 = If you cannot pay the full amount do not submit your disclosure or payment until you’ve spoken to us by
-offerLetter.send.link = calling the helpline (opens in new tab)
+offerLetter.send.paragraph3 = We will contact you if we do not receive full payment of what is owed.
 offerLetter.button = Send offer and disclosure
 
 submitted.notNil.title = You have sent your disclosure
