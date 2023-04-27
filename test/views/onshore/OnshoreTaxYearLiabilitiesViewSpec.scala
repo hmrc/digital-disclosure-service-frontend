@@ -62,6 +62,14 @@ class OnshoreTaxYearLiabilitiesViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementsByClass("govuk-label--m").get(3).text() mustBe messages("onshoreTaxYearLiabilities.penaltyRate.question", "2022")
     }
 
+    "contain the undeclaredIncomeOrGain question" in {
+      view.getElementsByClass("govuk-label--m").get(5).text() mustBe messages("onshoreTaxYearLiabilities.undeclaredIncomeOrGain.question")
+    }
+
+    "contain the undeclaredIncomeOrGain hint" in {
+      view.getElementById("undeclaredIncomeOrGain-hint").text() mustBe messages("onshoreTaxYearLiabilities.undeclaredIncomeOrGain.hint")
+    }
+
     "display the continue button" in {
       view.getElementsByClass("govuk-button").first() must haveId ("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")

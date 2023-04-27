@@ -168,7 +168,8 @@
                 maxLength = Some(5000), 
                 label = Label(content = messages("onshoreTaxYearLiabilities.undeclaredIncomeOrGain.question")).withCssClass("govuk-label--m"),
                 value = form("undeclaredIncomeOrGain").value,
-                errorMessage = form("undeclaredIncomeOrGain").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
+                errorMessage = form("undeclaredIncomeOrGain").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*)))),
+                hint = Some(Hint(content = messages("onshoreTaxYearLiabilities.undeclaredIncomeOrGain.hint")))
             )
         )
 
