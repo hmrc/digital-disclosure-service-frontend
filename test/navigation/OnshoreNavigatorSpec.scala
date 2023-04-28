@@ -779,9 +779,9 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear with MockitoSuga
       navigator.nextPage(AreYouAMemberOfAnyLandlordAssociationsPage, CheckMode, ua, true) mustBe routes.WhichLandlordAssociationsAreYouAMemberOfController.onPageLoad(CheckMode)
     }
 
-    "must go from AreYouAMemberOfAnyLandlordAssociationsPage to HowManyPropertiesDoYouCurrentlyLetOutController if previous answer changed from yes to no" in {
+    "must go from AreYouAMemberOfAnyLandlordAssociationsPage to CheckYourAnswersController if previous answer changed from yes to no" in {
       val ua = UserAnswers("id", "session-123").set(AreYouAMemberOfAnyLandlordAssociationsPage, false).success.value
-      navigator.nextPage(AreYouAMemberOfAnyLandlordAssociationsPage, CheckMode, ua, false) mustBe routes.HowManyPropertiesDoYouCurrentlyLetOutController.onPageLoad(CheckMode)
+      navigator.nextPage(AreYouAMemberOfAnyLandlordAssociationsPage, CheckMode, ua, false) mustBe routes.CheckYourAnswersController.onPageLoad
     }
 
   }

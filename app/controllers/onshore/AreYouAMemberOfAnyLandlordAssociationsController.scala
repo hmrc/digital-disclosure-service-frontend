@@ -81,7 +81,7 @@ class AreYouAMemberOfAnyLandlordAssociationsController @Inject()(
 
   def changedPages(answers: UserAnswers, value: Boolean): (List[QuestionPage[_]], Boolean) = {
     answers.get(AreYouAMemberOfAnyLandlordAssociationsPage) match {
-      case Some(true) if (value == false) => (List(WhichLandlordAssociationsAreYouAMemberOfPage), false)
+      case Some(true) if (value == false) => (List(WhichLandlordAssociationsAreYouAMemberOfPage, HowManyPropertiesDoYouCurrentlyLetOutPage), false)
       case Some(false) if (value == true) => (Nil, true)
       case _ => (Nil, false)
     }
