@@ -39,6 +39,10 @@ class WhichYearsViewSpec extends ViewSpecBase with ViewMatchers with CurrentTaxY
     def createView: Html = page(form, NormalMode, checkboxes)(request, messages)
     val view = createView
 
+    "contain hint text" in {
+      view.getElementById("value-hint").text() mustBe messages("whichYears.checkbox.header")
+    }
+
     "contain checkboxes" in {
       view.getElementsByClass("govuk-checkboxes__item").get(0).text() mustBe messages(s"whichYears.checkbox", current.back(2).startYear.toString, current.back(2).finishYear.toString)
       view.getElementsByClass("govuk-checkboxes__item").get(1).text() mustBe messages(s"whichYears.checkbox", current.back(3).startYear.toString, current.back(3).finishYear.toString)

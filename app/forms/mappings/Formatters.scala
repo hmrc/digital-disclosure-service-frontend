@@ -91,7 +91,7 @@ trait Formatters {
         baseFormatter
           .bind(key, data)
           .map(
-            _.replace(",", "").replace("£", "").trim
+            _.replace(",", "").replace("£", "").replace(" ", "").trim
           )
           .flatMap {
           case s if s.matches(decimalRegexp) =>
@@ -117,7 +117,7 @@ trait Formatters {
         baseFormatter
           .bind(key, data)
           .map(
-            _.replace(",", "").replace("%", "").trim
+            _.replace(",", "").replace("%", "").replace(" ", "").trim
           )
           .flatMap {
           case s if s.matches(decimalRegexp) =>
@@ -143,7 +143,7 @@ trait Formatters {
         baseFormatter
           .bind(key, data)
           .map(
-            _.replace(",", "").replace("£", "").replace("%", "").trim
+            _.replace(",", "").replace("£", "").replace("%", "").replace(" ", "").trim
           )
           .flatMap {
           case s if s.matches(decimalRegexp) =>
@@ -169,7 +169,7 @@ trait Formatters {
         baseFormatter
           .bind(key, data)
           .map(
-            _.replace(",", "").replace("£", "").trim
+            _.replace(",", "").replace("£", "").replace(" ", "").trim
           )
           .flatMap {
           case s if s.matches(decimalRegexp) =>
@@ -195,7 +195,7 @@ trait Formatters {
         baseFormatter
           .bind(key, data)
           .map(
-            _.replace(",", "").replace("%", "").trim
+            _.replace(",", "").replace("%", "").replace(" ", "").trim
           )
           .flatMap {
           case s if s.matches(decimalRegexp) =>
@@ -219,7 +219,7 @@ trait Formatters {
         baseFormatter
           .bind(key, data)
           .map(
-            _.replace(",", "").replace("£", "").replace("%", "").trim
+            _.replace(",", "").replace("£", "").replace("%", "").replace(" ", "").trim
           )
           .flatMap {
           case s =>
@@ -241,7 +241,7 @@ trait Formatters {
         baseFormatter
           .bind(key, data)
           .map(
-            _.replace(",", "").replace("£", "").trim
+            _.replace(",", "").replace("£", "").replace(" ", "").trim
           )
           .flatMap {
           case s =>
@@ -263,7 +263,7 @@ trait Formatters {
         baseFormatter
           .bind(key, data)
           .map(
-            _.replace(",", "").replace("%", "").trim
+            _.replace(",", "").replace("%", "").replace(" ", "").trim
           )
           .flatMap {
           case s =>

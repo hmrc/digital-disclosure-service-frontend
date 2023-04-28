@@ -40,7 +40,7 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
       )
 
       val userAnswers = (for {
-        uaEntity <- UserAnswers(userAnswersId).set(RelatesToPage, entity)
+        uaEntity <- UserAnswers(userAnswersId, "session-123").set(RelatesToPage, entity)
         uaIndividual <- uaEntity.set(AreYouTheEntityPage, areTheyTheIndividual)
         updatedUa <- uaIndividual.set(WhyAreYouMakingThisDisclosurePage, reasons)
       } yield updatedUa).success.value
@@ -72,7 +72,7 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
       )
 
       val userAnswers = (for {
-        uaEntity <- UserAnswers(userAnswersId).set(RelatesToPage, entity)
+        uaEntity <- UserAnswers(userAnswersId, "session-123").set(RelatesToPage, entity)
         uaIndividual <- uaEntity.set(AreYouTheEntityPage, areTheyTheIndividual)
         updatedUa <- uaIndividual.set(WhyAreYouMakingThisDisclosurePage, reasons)
       } yield updatedUa).success.value
@@ -105,7 +105,7 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
       )
 
       val userAnswers = (for {
-        uaEntity <- UserAnswers(userAnswersId).set(RelatesToPage, entity)
+        uaEntity <- UserAnswers(userAnswersId, "session-123").set(RelatesToPage, entity)
         uaIndividual <- uaEntity.set(AreYouTheEntityPage, areTheyTheIndividual)
         updatedUa <- uaIndividual.set(WhyAreYouMakingThisDisclosurePage, reasons)
       } yield updatedUa).success.value
@@ -137,7 +137,7 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
       )
 
       val userAnswers = (for {
-        uaEntity <- UserAnswers(userAnswersId).set(RelatesToPage, entity)
+        uaEntity <- UserAnswers(userAnswersId, "session-123").set(RelatesToPage, entity)
         uaIndividual <- uaEntity.set(AreYouTheEntityPage, areTheyTheIndividual)
         updatedUa <- uaIndividual.set(WhyAreYouMakingThisDisclosurePage, reasons)
       } yield updatedUa).success.value
@@ -165,7 +165,7 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
       val reasons: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare)
 
       val userAnswers = (for {
-        uaEntity <- UserAnswers(userAnswersId).set(RelatesToPage, entity)
+        uaEntity <- UserAnswers(userAnswersId, "session-123").set(RelatesToPage, entity)
         uaIndividual <- uaEntity.set(AreYouTheEntityPage, areTheyTheIndividual)
         updatedUa <- uaIndividual.set(WhyAreYouMakingThisDisclosurePage, reasons)
       } yield updatedUa).success.value

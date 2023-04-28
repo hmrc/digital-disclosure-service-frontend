@@ -27,7 +27,7 @@ import viewmodels.RevealFullText
 class CorporationTaxSummaryControllerSpec extends SpecBase {
 
   val mode = NormalMode
-  val userAnswers = UserAnswers(userAnswersId)
+  val userAnswers = UserAnswers(userAnswersId, "session-123")
 
   val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
   val revealFullText = application.injector.instanceOf[RevealFullText]

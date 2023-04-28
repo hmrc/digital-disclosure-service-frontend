@@ -62,7 +62,7 @@ class WhatIsTheCompanyRegistrationNumberControllerSpec extends SpecBase with Moc
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(WhatIsTheCompanyRegistrationNumberPage, "answer").success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhatIsTheCompanyRegistrationNumberPage, "answer").success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 

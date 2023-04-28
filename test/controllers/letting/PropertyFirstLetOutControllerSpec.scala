@@ -46,7 +46,7 @@ class PropertyFirstLetOutControllerSpec extends SpecBase with MockitoSugar {
 
   lazy val propertyFirstLetOutRoute = letting.routes.PropertyFirstLetOutController.onPageLoad(0, NormalMode).url
 
-  override val emptyUserAnswers = UserAnswers(userAnswersId)
+  override val emptyUserAnswers = UserAnswers(userAnswersId, "session-123")
 
   def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, propertyFirstLetOutRoute)
@@ -77,7 +77,7 @@ class PropertyFirstLetOutControllerSpec extends SpecBase with MockitoSugar {
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).setBySeqIndex(LettingPropertyPage, 0, LettingProperty(dateFirstLetOut = Some(validAnswer))).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123").setBySeqIndex(LettingPropertyPage, 0, LettingProperty(dateFirstLetOut = Some(validAnswer))).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 

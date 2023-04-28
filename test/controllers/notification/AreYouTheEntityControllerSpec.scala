@@ -46,7 +46,7 @@ class AreYouTheEntityControllerSpec extends SpecBase with MockitoSugar with Sect
 
     RelatesTo.values.map{ entity => 
       s"must return OK and the correct view for a $entity" in {
-        val userAnswers = UserAnswers(userAnswersId).set(RelatesToPage, entity).success.value
+        val userAnswers = UserAnswers(userAnswersId, "session-123").set(RelatesToPage, entity).success.value
         val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
         val form = formProvider(entity)
@@ -67,7 +67,7 @@ class AreYouTheEntityControllerSpec extends SpecBase with MockitoSugar with Sect
     RelatesTo.values.map{ entity => 
       s"must populate the view correctly for a $entity when the question has previously been answered" in {
         val userAnswers = (for {
-          initialUa <- UserAnswers(userAnswersId).set(AreYouTheEntityPage, AreYouTheEntity.values.head)
+          initialUa <- UserAnswers(userAnswersId, "session-123").set(AreYouTheEntityPage, AreYouTheEntity.values.head)
           ua <- initialUa.set(RelatesToPage, entity)
         } yield ua).success.value
         val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
@@ -172,7 +172,7 @@ class AreYouTheEntityControllerSpec extends SpecBase with MockitoSugar with Sect
     "return nil where the answer hasn't changed" in {
 
       val existingUserAnswers = (for {
-        ua <- UserAnswers(userAnswersId).set(RelatesToPage, RelatesTo.AnIndividual)
+        ua <- UserAnswers(userAnswersId, "session-123").set(RelatesToPage, RelatesTo.AnIndividual)
         finalUa <- ua.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
       } yield finalUa).success.value
 
@@ -185,7 +185,7 @@ class AreYouTheEntityControllerSpec extends SpecBase with MockitoSugar with Sect
     "return about you, about the individual and organisation pages where it's an individual, the answer has changed, and it's not YesIAm" in {
 
       val existingUserAnswers = (for {
-        ua <- UserAnswers(userAnswersId).set(RelatesToPage, RelatesTo.AnIndividual)
+        ua <- UserAnswers(userAnswersId, "session-123").set(RelatesToPage, RelatesTo.AnIndividual)
         finalUa <- ua.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
       } yield finalUa).success.value
 
@@ -198,7 +198,7 @@ class AreYouTheEntityControllerSpec extends SpecBase with MockitoSugar with Sect
     "return about you pages where it's an individual, the answer has changed, and it used to be YesIAm" in {
 
       val existingUserAnswers = (for {
-        ua <- UserAnswers(userAnswersId).set(RelatesToPage, RelatesTo.AnIndividual)
+        ua <- UserAnswers(userAnswersId, "session-123").set(RelatesToPage, RelatesTo.AnIndividual)
         finalUa <- ua.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
       } yield finalUa).success.value
 
@@ -211,7 +211,7 @@ class AreYouTheEntityControllerSpec extends SpecBase with MockitoSugar with Sect
     "return areYouTheOrganisationPages where it's not an individual, the answer has changed, and it used to be IAmAnAccountantOrTaxAgent" in {
 
       val existingUserAnswers = (for {
-        ua <- UserAnswers(userAnswersId).set(RelatesToPage, RelatesTo.ACompany)
+        ua <- UserAnswers(userAnswersId, "session-123").set(RelatesToPage, RelatesTo.ACompany)
         finalUa <- ua.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
       } yield finalUa).success.value
 

@@ -28,7 +28,7 @@ class CorporationTaxSummaryViewSpec extends ViewSpecBase with ViewMatchers {
 
   val page: CorporationTaxSummaryView = inject[CorporationTaxSummaryView]
   val revealFullText = inject[RevealFullText]
-  val viewModel: CorporationTaxLiabilitiesSummaryViewModel = new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText).create(UserAnswers("id"))(messages)
+  val viewModel: CorporationTaxLiabilitiesSummaryViewModel = new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText).create(UserAnswers("id", "session-123"))(messages)
 
   private def createView: Html = page(viewModel, NormalMode)(request, messages)
 

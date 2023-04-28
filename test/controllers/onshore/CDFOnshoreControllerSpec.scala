@@ -48,7 +48,7 @@ class CDFOnshoreControllerSpec extends SpecBase with MockitoSugar {
 
     "must return OK and the correct view for a GET" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(RelatesToPage, entity).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123").set(RelatesToPage, entity).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -66,7 +66,7 @@ class CDFOnshoreControllerSpec extends SpecBase with MockitoSugar {
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val relatesToPage = UserAnswers(userAnswersId).set(RelatesToPage, entity).success.value
+      val relatesToPage = UserAnswers(userAnswersId, "session-123").set(RelatesToPage, entity).success.value
       val userAnswers = relatesToPage.set(CDFOnshorePage, true).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
@@ -111,7 +111,7 @@ class CDFOnshoreControllerSpec extends SpecBase with MockitoSugar {
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val relatesToPage = UserAnswers(userAnswersId).set(RelatesToPage, entity).success.value
+      val relatesToPage = UserAnswers(userAnswersId, "session-123").set(RelatesToPage, entity).success.value
 
       val application = applicationBuilder(userAnswers = Some(relatesToPage)).build()
 

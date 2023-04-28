@@ -90,7 +90,7 @@ class SubmissionStoreServiceSpec extends AnyWordSpec with Matchers
 
   "setSubmission" should {
     "pass the userAnswers to the dataService and return the converted value to the connector" in {
-      val userAnswers = UserAnswers("id")
+      val userAnswers = UserAnswers("id", "session-123")
       val convertedSubmission = Notification("id", "submissionId", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
       mockUserAnswersToNotification(userAnswers)(convertedSubmission)
       mockSetSubmission(convertedSubmission)(Future.successful(Ok("Done")))

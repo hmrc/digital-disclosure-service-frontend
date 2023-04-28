@@ -17,6 +17,7 @@
 package controllers.notification
 
 import controllers.actions._
+import models.requests.DataRequest
 import forms.OffshoreLiabilitiesFormProvider
 import javax.inject.Inject
 import models.{Mode, UserAnswers}
@@ -77,14 +78,14 @@ class OffshoreLiabilitiesController @Inject()(
       )
   }
 
-  def clearOffshoreLiabilities(userAnswers: UserAnswers, value: Boolean): Try[UserAnswers] = {
+  def clearOffshoreLiabilities(userAnswers: UserAnswers, value: Boolean)(implicit request: DataRequest[_]): Try[UserAnswers] = {
     userAnswers.get(OffshoreLiabilitiesPage) match {
       case Some(true) if (value == false) =>
         val submission = uaToSubmissionService.uaToSubmission(userAnswers)
         submission match {
           case disclosure: FullDisclosure => 
             val updatedDisclosure = disclosure.copy(offshoreLiabilities = OffshoreLiabilities())
-            disclosureService.fullDisclosureToUa(updatedDisclosure)
+            disclosureService.fullDisclosureToUa(request.sessionId, updatedDisclosure)
           case _: Notification => 
             Success(userAnswers)
         }

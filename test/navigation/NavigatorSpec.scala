@@ -36,16 +36,16 @@ class NavigatorSpec extends SpecBase {
 
       "must go from a page that doesn't exist in the route map to Index" in {
         case object UnknownPage extends Page
-        navigator.nextPage(UnknownPage, UserAnswers("id")) mustBe controllers.routes.IndexController.onPageLoad
+        navigator.nextPage(UnknownPage, UserAnswers("id", "session-123")) mustBe controllers.routes.IndexController.onPageLoad
       }
 
       "must go from the MakeANotificationOrDisclosure page to the ReceivedALetter controller when select an MakeANotification" in {
-        val ua = UserAnswers(id = "id", submissionType = SubmissionType.Notification)
+        val ua = UserAnswers(id = "id", sessionId = "session-123", submissionType = SubmissionType.Notification)
         navigator.nextPage(MakeANotificationOrDisclosurePage, ua) mustBe routes.ReceivedALetterController.onPageLoad(NormalMode)
       }
 
       "must go from the MakeANotificationOrDisclosure page to the TaskList controller when select an MakeADisclosure" in {
-        val ua = UserAnswers(id = "id", submissionType = SubmissionType.Disclosure)
+        val ua = UserAnswers(id = "id", sessionId = "session-123", submissionType = SubmissionType.Disclosure)
         navigator.nextPage(MakeANotificationOrDisclosurePage, ua) mustBe controllers.routes.TaskListController.onPageLoad
       }
 
@@ -54,7 +54,7 @@ class NavigatorSpec extends SpecBase {
         val contactSet: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Email)
         val incomeSet: Set[IncomeOrGainSource] = Set(IncomeOrGainSource.Dividends)
         val completedNotificationUA = (for {
-          ua1 <- UserAnswers(id = "id", submissionType = SubmissionType.Notification).set(ReceivedALetterPage, true)
+          ua1 <- UserAnswers(id = "id", sessionId = "session-123", submissionType = SubmissionType.Notification).set(ReceivedALetterPage, true)
           ua2 <- ua1.set(ReceivedALetterPage, false)
           ua3 <- ua2.set(RelatesToPage, RelatesTo.ATrust)
           ua4 <- ua3.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
@@ -73,17 +73,17 @@ class NavigatorSpec extends SpecBase {
       }
 
       "must go from the NotificationStarted page to the ReceivedALetterController when they selected to continue and the notification is not complete" in {
-        val ua = UserAnswers(id = "id", submissionType = SubmissionType.Notification)
+        val ua = UserAnswers(id = "id", sessionId = "session-123", submissionType = SubmissionType.Notification)
         navigator.nextPage(NotificationStartedPage, ua) mustBe routes.ReceivedALetterController.onPageLoad(NormalMode)
       }
 
       "must go from the NotificationStarted page to the TaskList controller when they selected to start a disclosure" in {
-        val ua = UserAnswers(id = "id", submissionType = SubmissionType.Disclosure)
+        val ua = UserAnswers(id = "id", sessionId = "session-123", submissionType = SubmissionType.Disclosure)
         navigator.nextPage(NotificationStartedPage, ua) mustBe controllers.routes.TaskListController.onPageLoad
       }
 
       "must go from NotificationSubmittedPage to the task list" in {
-        val ua = UserAnswers(id = "id", submissionType = SubmissionType.Disclosure)
+        val ua = UserAnswers(id = "id", sessionId = "session-123", submissionType = SubmissionType.Disclosure)
         navigator.nextPage(NotificationSubmittedPage, ua) mustBe controllers.routes.TaskListController.onPageLoad
       }
 
@@ -92,17 +92,17 @@ class NavigatorSpec extends SpecBase {
     "indexNextPage" - {
 
       "must go from the Index page to the TaskListController when the store has a Disclosure started" in {
-        val ua = UserAnswers(id = "id", submissionType = SubmissionType.Disclosure)
+        val ua = UserAnswers(id = "id", sessionId = "session-123", submissionType = SubmissionType.Disclosure)
         navigator.indexNextPage(Some(ua)) mustBe controllers.routes.TaskListController.onPageLoad
       }
 
       "must go from the Index page to the NotificationSubmittedController when the store has a Notification which has been submitted" in {
-        val ua = UserAnswers(id = "id", submissionType = SubmissionType.Notification, metadata = Metadata(Some("Some ref"), Some(LocalDateTime.now())))
+        val ua = UserAnswers(id = "id", sessionId = "session-123", submissionType = SubmissionType.Notification, metadata = Metadata(Some("Some ref"), Some(LocalDateTime.now())))
         navigator.indexNextPage(Some(ua)) mustBe controllers.routes.NotificationSubmittedController.onPageLoad
       }
 
       "must go from the Index page to the NotificationStartedController when the store has a Notification which has been submitted" in {
-        val ua = UserAnswers(id = "id", submissionType = SubmissionType.Notification, metadata = Metadata(None, None))
+        val ua = UserAnswers(id = "id", sessionId = "session-123", submissionType = SubmissionType.Notification, metadata = Metadata(None, None))
         navigator.indexNextPage(Some(ua)) mustBe controllers.routes.NotificationStartedController.onPageLoad
       }
 

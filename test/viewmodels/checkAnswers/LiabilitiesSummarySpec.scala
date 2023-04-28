@@ -34,7 +34,7 @@ class LiabilitiesSummarySpec extends SpecBase {
 
     "must return a row where the user selects Yes for offshore liabilities" in {
       val userAnswers = for {
-        uaWithOffshore <- UserAnswers("id").set(OffshoreLiabilitiesPage, true)
+        uaWithOffshore <- UserAnswers("id", "session-123").set(OffshoreLiabilitiesPage, true)
         uaWithOnshore  <- uaWithOffshore.set(OnshoreLiabilitiesPage, false)
       } yield uaWithOnshore
       
@@ -46,7 +46,7 @@ class LiabilitiesSummarySpec extends SpecBase {
 
     "must return a row where the user selects No for offshore liabilities" in {
       val userAnswers = for {
-        uaWithOffshore <- UserAnswers("id").set(OffshoreLiabilitiesPage, false)
+        uaWithOffshore <- UserAnswers("id", "session-123").set(OffshoreLiabilitiesPage, false)
         uaWithOnshore  <- uaWithOffshore.set(OnshoreLiabilitiesPage, true)
       } yield uaWithOnshore
 
@@ -58,7 +58,7 @@ class LiabilitiesSummarySpec extends SpecBase {
 
     "must return a row where the user selects Yes for offshore liabilities & Yes for onshore liabilities" in {
       val userAnswers = for {
-        uaWithOffshore <- UserAnswers("id").set(OffshoreLiabilitiesPage, true)
+        uaWithOffshore <- UserAnswers("id", "session-123").set(OffshoreLiabilitiesPage, true)
         uaWithOnshore  <- uaWithOffshore.set(OnshoreLiabilitiesPage, true)
       } yield uaWithOnshore
 

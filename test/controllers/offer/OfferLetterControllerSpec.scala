@@ -206,7 +206,7 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(OfferLetterPage, BigInt(validAnswer)).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123").set(OfferLetterPage, BigInt(validAnswer)).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 

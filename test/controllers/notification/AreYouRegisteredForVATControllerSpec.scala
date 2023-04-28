@@ -62,7 +62,7 @@ class AreYouRegisteredForVATControllerSpec extends ControllerSpecBase {
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(AreYouRegisteredForVATPage, AreYouRegisteredForVAT.values.head).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123").set(AreYouRegisteredForVATPage, AreYouRegisteredForVAT.values.head).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 

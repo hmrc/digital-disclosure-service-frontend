@@ -62,7 +62,7 @@ class WhatIsTheIndividualsFullNameControllerSpec extends SpecBase with MockitoSu
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(WhatIsTheIndividualsFullNamePage, "answer").success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhatIsTheIndividualsFullNamePage, "answer").success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 

@@ -69,7 +69,7 @@ class IndexControllerSpec extends SpecBase with Generators {
         route(application, request).value
 
         val sessionRepo = application.injector.instanceOf[SessionRepository]
-        sessionRepo.get("id").map(uaOpt => uaOpt mustBe 'defined)
+        sessionRepo.get("id", "session-123").map(uaOpt => uaOpt mustBe Symbol("defined"))
       }
     }
 
@@ -85,7 +85,7 @@ class IndexControllerSpec extends SpecBase with Generators {
           route(application, request).value
           
           val sessionRepo = application.injector.instanceOf[SessionRepository]
-          sessionRepo.get("id").map(uaOpt => uaOpt mustBe Some(userAnswers))
+          sessionRepo.get("id", "session-123").map(uaOpt => uaOpt mustBe Some(userAnswers))
         }
       }
     }
@@ -96,7 +96,7 @@ class IndexControllerSpec extends SpecBase with Generators {
   val contactSet: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Email)
   val incomeSet: Set[IncomeOrGainSource] = Set(IncomeOrGainSource.Dividends)
   val completeUserAnswers = (for {
-    ua1 <- UserAnswers("id").set(ReceivedALetterPage, true)
+    ua1 <- UserAnswers("id", "session-123").set(ReceivedALetterPage, true)
     ua2 <- ua1.set(ReceivedALetterPage, false)
     ua3 <- ua2.set(RelatesToPage, RelatesTo.ATrust)
     ua4 <- ua3.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)

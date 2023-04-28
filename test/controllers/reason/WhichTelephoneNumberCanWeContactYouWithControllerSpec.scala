@@ -47,7 +47,7 @@ class WhichTelephoneNumberCanWeContactYouWithControllerSpec extends SpecBase wit
     "must return OK and the correct view for a GET" in {
 
       val telephoneNumber = "07777 777777"
-      val userAnswers = UserAnswers("id").set(YourPhoneNumberPage, telephoneNumber).success.value
+      val userAnswers = UserAnswers("id", "session-123").set(YourPhoneNumberPage, telephoneNumber).success.value
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
@@ -66,7 +66,7 @@ class WhichTelephoneNumberCanWeContactYouWithControllerSpec extends SpecBase wit
 
       val telephoneNumber = "07777 777777"
       val userAnswers = (for {
-        ua <- UserAnswers("id").set(WhichTelephoneNumberCanWeContactYouWithPage, WhichTelephoneNumberCanWeContactYouWith.values.head)
+        ua <- UserAnswers("id", "session-123").set(WhichTelephoneNumberCanWeContactYouWithPage, WhichTelephoneNumberCanWeContactYouWith.values.head)
         updatedUa <- ua.set(YourPhoneNumberPage, telephoneNumber)  
       } yield updatedUa).success.value  
 
@@ -113,7 +113,7 @@ class WhichTelephoneNumberCanWeContactYouWithControllerSpec extends SpecBase wit
 
       val telephoneNumber = "07777 777777"
       val userAnswers = (for {
-        ua <- UserAnswers("id").set(WhichTelephoneNumberCanWeContactYouWithPage, WhichTelephoneNumberCanWeContactYouWith.values.head)
+        ua <- UserAnswers("id", "session-123").set(WhichTelephoneNumberCanWeContactYouWithPage, WhichTelephoneNumberCanWeContactYouWith.values.head)
         updatedUa <- ua.set(YourPhoneNumberPage, telephoneNumber)  
       } yield updatedUa).success.value 
 

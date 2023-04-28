@@ -27,7 +27,7 @@ import java.time.Instant
 
 class UAToSubmissionServiceSpec extends AnyWordSpec with Matchers with TryValues {
 
-  val emptyUA = UserAnswers("id")
+  val emptyUA = UserAnswers("id", "session-123")
 
   val fullDisclosure = FullDisclosure("userId", "submissionId", Instant.now, Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), None, OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
   val notification = Notification("id", "submissionId", Instant.now, Metadata(), PersonalDetails(Background(), AboutYou(), None, None, None, None, None), None)
@@ -51,12 +51,12 @@ class UAToSubmissionServiceSpec extends AnyWordSpec with Matchers with TryValues
   "uaToSubmission" should {
 
     "call UAToNotificationService for a notification" in {
-      val ua = UserAnswers(id = "id", submissionType = SubmissionType.Notification)
+      val ua = UserAnswers(id = "id", sessionId = "session-123", submissionType = SubmissionType.Notification)
       sut.uaToSubmission(ua) shouldEqual notification
     }
 
     "call UAToDisclosureService for a disclosure" in {
-      val ua = UserAnswers(id = "id", submissionType = SubmissionType.Disclosure)
+      val ua = UserAnswers(id = "id", sessionId = "session-123", submissionType = SubmissionType.Disclosure)
       sut.uaToSubmission(ua) shouldEqual fullDisclosure
     }
 

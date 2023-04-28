@@ -64,7 +64,7 @@ class FHLControllerSpec extends SpecBase with MockitoSugar {
 
       val lettingProperty = LettingProperty(fhl = Some(true))
 
-      val userAnswers = UserAnswers(userAnswersId)
+      val userAnswers = UserAnswers(userAnswersId, "session-123")
         .setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()

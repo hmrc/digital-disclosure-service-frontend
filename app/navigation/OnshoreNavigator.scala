@@ -253,7 +253,7 @@ class OnshoreNavigatorImpl @Inject()(uaToDisclosure: UAToDisclosureService) exte
 
     case AreYouAMemberOfAnyLandlordAssociationsPage => ua => hasAnswerChanged => ua.get(AreYouAMemberOfAnyLandlordAssociationsPage) match {
       case Some(true) if(hasAnswerChanged) => routes.WhichLandlordAssociationsAreYouAMemberOfController.onPageLoad(CheckMode)
-      case _ => routes.HowManyPropertiesDoYouCurrentlyLetOutController.onPageLoad(CheckMode)
+      case _ => routes.CheckYourAnswersController.onPageLoad
     }
 
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad

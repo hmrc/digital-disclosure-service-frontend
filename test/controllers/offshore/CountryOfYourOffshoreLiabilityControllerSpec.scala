@@ -42,7 +42,7 @@ class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with Injecti
   val countryCode = "AFG"
   val country = Country(countryCode, "Afghanistan")
   val countriesMap = Map(countryCode -> Country(countryCode, "Afghanistan"))
-  val userAnswers = UserAnswers(userAnswersId).set(CountryOfYourOffshoreLiabilityPage, countriesMap).success.value
+  val userAnswers = UserAnswers(userAnswersId, "session-123").set(CountryOfYourOffshoreLiabilityPage, countriesMap).success.value
   val app = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
   lazy val countryOfYourOffshoreLiabilityRoute = offshore.routes.CountryOfYourOffshoreLiabilityController.onPageLoad(Some(countryCode), NormalMode).url

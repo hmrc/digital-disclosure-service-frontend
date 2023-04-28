@@ -41,8 +41,9 @@ trait SpecBase
     with Generators {
 
   val userAnswersId: String = "id"
+  val sessionId = "session-123"
 
-  def emptyUserAnswers : UserAnswers = UserAnswers(userAnswersId)
+  def emptyUserAnswers : UserAnswers = UserAnswers(userAnswersId, sessionId)
 
   def messages(app: Application): Messages = app.injector.instanceOf[MessagesApi].preferred(FakeRequest())
 

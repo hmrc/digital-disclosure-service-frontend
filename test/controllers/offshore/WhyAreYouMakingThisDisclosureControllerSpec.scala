@@ -47,7 +47,7 @@ class WhyAreYouMakingThisDisclosureControllerSpec extends SpecBase with MockitoS
     "must return OK and the correct view for a GET" in {
 
       val userAnswers = (for {
-        userAnswer <- UserAnswers("id").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        userAnswer <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
@@ -72,7 +72,7 @@ class WhyAreYouMakingThisDisclosureControllerSpec extends SpecBase with MockitoS
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = (for {
-        userAnswer <- UserAnswers("id").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        userAnswer <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
         uaWithWhyAreYouMakingThisDisclosurePage <- uaWithRelatesToPage.set(WhyAreYouMakingThisDisclosurePage, WhyAreYouMakingThisDisclosure.values.toSet)
       } yield uaWithWhyAreYouMakingThisDisclosurePage).success.value
@@ -97,7 +97,7 @@ class WhyAreYouMakingThisDisclosureControllerSpec extends SpecBase with MockitoS
     "must redirect to the next page when valid data is submitted" in {
 
       val userAnswers = (for {
-        userAnswer <- UserAnswers("id").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        userAnswer <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
@@ -127,7 +127,7 @@ class WhyAreYouMakingThisDisclosureControllerSpec extends SpecBase with MockitoS
     "must return a Bad Request and errors when invalid data is submitted" in {
 
       val userAnswers = (for {
-        userAnswer <- UserAnswers("id").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        userAnswer <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 

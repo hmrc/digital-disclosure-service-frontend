@@ -35,7 +35,7 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
 
   val testNotification = Notification("userId", "submissionId", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
 
-  val emptyUA = UserAnswers("id")
+  val emptyUA = UserAnswers("id", "session-123")
 
   "otherLiabilitiesToUa" should {
 
@@ -200,8 +200,8 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
       val metadata = Metadata(reference = Some("123"), submissionTime = Some(LocalDateTime.now))
       val disclosure = FullDisclosure("This user Id", "Some notification Id", instant, metadata, CaseReference(), PersonalDetails(Background(), AboutYou()), None, OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
       
-      val result = sut.initialiseUserAnswers(disclosure)
-      val expectedResult = UserAnswers(id = "This user Id", submissionId = "Some notification Id", submissionType = SubmissionType.Disclosure, lastUpdated = instant, metadata = metadata, created = result.created)
+      val result = sut.initialiseUserAnswers("session-123", disclosure)
+      val expectedResult = UserAnswers(id = "This user Id", sessionId = "session-123", submissionId = "Some notification Id", submissionType = SubmissionType.Disclosure, lastUpdated = instant, metadata = metadata, created = result.created)
 
       result shouldEqual expectedResult
     }
@@ -223,7 +223,7 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
       val reasonForDisclosingNow = ReasonForDisclosingNow(Some(reasonSet))
       val disclosure = FullDisclosure("This user Id", "Some notification Id", instant, metadata, caseReference, PersonalDetails(background, AboutYou()), onshoreLiabilities, offshoreLiabilities, otherLiabilities, reasonForDisclosingNow)
 
-      val updatedUserAnswers = sut.fullDisclosureToUa(disclosure).success.value
+      val updatedUserAnswers = sut.fullDisclosureToUa("session-123", disclosure).success.value
 
       updatedUserAnswers.id shouldEqual "This user Id"
       updatedUserAnswers.submissionId shouldEqual "Some notification Id"

@@ -35,7 +35,7 @@ class MakingNilDisclosureControllerSpec extends SpecBase {
 
       val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DidNotNotifyNoExcuse)
       val userAnswers = (for{
-        ua <- UserAnswers(userAnswersId).set(AreYouTheEntityPage, areTheyTheIndividual)
+        ua <- UserAnswers(userAnswersId, "session-123").set(AreYouTheEntityPage, areTheyTheIndividual)
         updatedUa <- ua.set(WhyAreYouMakingThisDisclosurePage, set)
       } yield updatedUa).success.value
 

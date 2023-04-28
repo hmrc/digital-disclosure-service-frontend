@@ -66,7 +66,7 @@ class WhatTypeOfMortgageDidYouHaveControllerSpec extends SpecBase with MockitoSu
 
       val lettingProperty = LettingProperty(typeOfMortgage = Some(TypeOfMortgageDidYouHave.values.head))
 
-      val userAnswers = UserAnswers(userAnswersId)
+      val userAnswers = UserAnswers(userAnswersId, "session-123")
         .setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()

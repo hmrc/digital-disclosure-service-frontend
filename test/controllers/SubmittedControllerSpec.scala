@@ -43,7 +43,7 @@ class SubmittedControllerSpec extends SpecBase {
       )
 
       val userAnswers = (for {
-        ua <- UserAnswers("id").set(TaxYearLiabilitiesPage, Map("2021" -> TaxYearWithLiabilities(TaxYearStarting(2021), answer)))
+        ua <- UserAnswers("id", "session-123").set(TaxYearLiabilitiesPage, Map("2021" -> TaxYearWithLiabilities(TaxYearStarting(2021), answer)))
         updatedUa <- ua.set(WhatIsTheCaseReferencePage, "CSFF-12345")  
       } yield updatedUa).success.value 
       
@@ -128,7 +128,7 @@ class SubmittedControllerSpec extends SpecBase {
       )
 
       val userAnswers = (for {
-        uaWithOffshore  <- UserAnswers("id").set(TaxYearLiabilitiesPage, Map("2021" -> TaxYearWithLiabilities(TaxYearStarting(2021), offshoreAnswer)))
+        uaWithOffshore  <- UserAnswers("id", "session-123").set(TaxYearLiabilitiesPage, Map("2021" -> TaxYearWithLiabilities(TaxYearStarting(2021), offshoreAnswer)))
         uaWithOnshore   <- uaWithOffshore.set(OnshoreTaxYearLiabilitiesPage, Map("2021" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2021), onshoreAnswer)))
         uaWithCT        <- uaWithOnshore.set(CorporationTaxLiabilityPage, ctliabilities)
         uaWithDL        <- uaWithCT.set(DirectorLoanAccountLiabilitiesPage, dlliabilities)

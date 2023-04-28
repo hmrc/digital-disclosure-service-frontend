@@ -63,7 +63,7 @@ class OffshoreLiabilitiesControllerSpec extends SpecBase with MockitoSugar with 
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(OffshoreLiabilitiesPage, true).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123").set(OffshoreLiabilitiesPage, true).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -86,7 +86,7 @@ class OffshoreLiabilitiesControllerSpec extends SpecBase with MockitoSugar with 
       val previousAnswer = true
       val newAnswer = false
 
-      val userAnswers = UserAnswers("id", submissionType = SubmissionType.Disclosure)
+      val userAnswers = UserAnswers("id", "session-123", submissionType = SubmissionType.Disclosure)
 
       val mockSessionService = mock[SessionService]
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)

@@ -39,7 +39,7 @@ trait ControllerSpecBase extends SpecBase with MockitoSugar with ScalaCheckPrope
                                   pagesToRemove: List[QuestionPage[_]] = Nil
                                 )(implicit writes: Writes[A]) = {
 
-    val userAnswers = UserAnswers("id")
+    val userAnswers = UserAnswers("id", "session-123")
 
     val mockSessionService = mock[SessionService]
     when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)

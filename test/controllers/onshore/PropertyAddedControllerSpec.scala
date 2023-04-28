@@ -61,7 +61,7 @@ class PropertyAddedControllerSpec extends SpecBase with MockitoSugar {
         country = Country("AA")
       )
       val property = LettingProperty(address = Some(address))
-      val userAnswers = UserAnswers("id").addToSeq(LettingPropertyPage, property).success.value
+      val userAnswers = UserAnswers("id", "session-123").addToSeq(LettingPropertyPage, property).success.value
   
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -220,7 +220,7 @@ class PropertyAddedControllerSpec extends SpecBase with MockitoSugar {
       val property = LettingProperty(address = Some(address))
       val property2 = LettingProperty(address = Some(address2))
 
-      val userAnswers = UserAnswers("id")
+      val userAnswers = UserAnswers("id", "session-123")
         .addToSeq(LettingPropertyPage, property).success.value
         .addToSeq(LettingPropertyPage, property2).success.value
 

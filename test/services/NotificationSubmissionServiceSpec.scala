@@ -68,7 +68,7 @@ class NotificationSubmissionServiceSpec extends AnyWordSpec with ScalaFutures
 
       val sut = new NotificationSubmissionServiceImpl(connector, UAToNotificationService, FakeReferenceService, sessionService, FakeTimeService, auditService)
 
-      val emptyUA = UserAnswers("id")
+      val emptyUA = UserAnswers("id", "session-123")
       val testNotification = Notification("123", "456", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
       implicit val hc = HeaderCarrier()
     }

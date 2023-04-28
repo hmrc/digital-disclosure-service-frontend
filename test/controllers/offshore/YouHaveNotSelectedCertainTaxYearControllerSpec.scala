@@ -50,7 +50,7 @@ class YouHaveNotSelectedCertainTaxYearControllerSpec extends SpecBase with Mocki
     "must return OK and the correct view for a GET" in {
 
       val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2019), TaxYearStarting(2017))
-      val userAnswers = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value  
+      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhichYearsPage, whichYears).success.value  
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -69,7 +69,7 @@ class YouHaveNotSelectedCertainTaxYearControllerSpec extends SpecBase with Mocki
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2019), TaxYearStarting(2017))
-      val userAnswersWithTaxYears = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value  
+      val userAnswersWithTaxYears = UserAnswers(userAnswersId, "session-123").set(WhichYearsPage, whichYears).success.value  
       val userAnswers = userAnswersWithTaxYears.set(YouHaveNotSelectedCertainTaxYearPage, "answer").success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
@@ -114,7 +114,7 @@ class YouHaveNotSelectedCertainTaxYearControllerSpec extends SpecBase with Mocki
     "must return a Bad Request and errors when invalid data is submitted" in {
 
       val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2019), TaxYearStarting(2017))
-      val userAnswers = UserAnswers(userAnswersId).set(WhichYearsPage, whichYears).success.value  
+      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhichYearsPage, whichYears).success.value  
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
