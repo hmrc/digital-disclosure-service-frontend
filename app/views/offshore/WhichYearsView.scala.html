@@ -52,19 +52,13 @@
             )
         )
 
-        @paragraph(
-            id = Some("hint"),
-            classes = "govuk-hint",
-            content = Text(messages("whichYears.checkbox.header"))
-        )
-
         @govukCheckboxes(
             CheckboxesViewModel(
                 form   = form,
                 name   = "value",
                 legend = LegendViewModel(messages("whichYears.title")).withCssClass("govuk-visually-hidden"),
                 items  = checkboxItems
-            )
+            ).withHint(Hint(content = Text(messages("whichYears.checkbox.header"))))
         )
 
         @govukButton(
