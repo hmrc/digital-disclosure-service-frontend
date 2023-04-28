@@ -40,7 +40,7 @@
                 field = form("value"),
                 label = LabelViewModel(messages("whatIsYourFullName.heading")).asPageHeading()
             )
-            .asName
+            .asName()
             .withWidth(Fixed30)
             .withHint(Hint(content = Text(messages("whatIsYourFullName.hint"))))
         )

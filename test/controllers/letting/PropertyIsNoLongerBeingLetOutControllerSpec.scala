@@ -61,12 +61,12 @@ class PropertyIsNoLongerBeingLetOutControllerSpec extends SpecBase with MockitoS
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       running(application) {
-        val result = route(application, getRequest).value
+        val result = route(application, getRequest()).value
 
         val view = application.injector.instanceOf[PropertyIsNoLongerBeingLetOutView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, 0, NormalMode)(getRequest, messages(application)).toString
+        contentAsString(result) mustEqual view(form, 0, NormalMode)(getRequest(), messages(application)).toString
       }
     }
 
@@ -79,10 +79,10 @@ class PropertyIsNoLongerBeingLetOutControllerSpec extends SpecBase with MockitoS
       running(application) {
         val view = application.injector.instanceOf[PropertyIsNoLongerBeingLetOutView]
 
-        val result = route(application, getRequest).value
+        val result = route(application, getRequest()).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(validAnswer), 0, NormalMode)(getRequest, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(validAnswer), 0, NormalMode)(getRequest(), messages(application)).toString
       }
     }
 
@@ -141,7 +141,7 @@ class PropertyIsNoLongerBeingLetOutControllerSpec extends SpecBase with MockitoS
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val result = route(application, getRequest).value
+        val result = route(application, getRequest()).value
 
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url

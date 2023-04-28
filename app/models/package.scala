@@ -65,6 +65,8 @@ package object models {
                 }
               }
           }
+
+          case (_, _) => JsError("unexpected data provided")
       }
 
     private def setIndexNode(node: IdxPathNode, oldValue: JsValue, newValue: JsValue): JsResult[JsValue] = {
@@ -131,6 +133,7 @@ package object models {
                     JsSuccess(Json.arr())
                   case _: RecursiveSearch =>
                     JsError("recursive search is not supported")
+
                 }
               }.flatMap {
                 _.remove(JsPath(second :: rest)).flatMap {
@@ -139,6 +142,7 @@ package object models {
                 }
               }
           }
+        case (_, _) => JsError("unexpected data provided")
       }
     }
   }

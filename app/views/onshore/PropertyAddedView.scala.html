@@ -33,7 +33,7 @@
 
 @layout(pageTitle = title(form, if (properties.size == 1) messages("propertyAdded.title.single")  else messages("propertyAdded.title.multi", properties.size))) {
 
-    @formHelper(action = controllers.onshore.routes.PropertyAddedController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.onshore.routes.PropertyAddedController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))

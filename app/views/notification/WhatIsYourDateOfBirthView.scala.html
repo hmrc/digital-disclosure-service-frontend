@@ -27,7 +27,7 @@
 
 @layout(pageTitle = title(form, messages("whatIsYourDateOfBirth.title"))) {
 
-    @formHelper(action = controllers.notification.routes.WhatIsYourDateOfBirthController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.notification.routes.WhatIsYourDateOfBirthController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value.day")))

@@ -33,7 +33,7 @@
 
 @layout(pageTitle = title(form, messages(s"offerLetter.$entityKey.title"))) {
 
-    @formHelper(action = controllers.routes.OfferLetterController.onSubmit, 'autoComplete -> "off") {
+    @formHelper(action = controllers.routes.OfferLetterController.onSubmit, Symbol("autoComplete") -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))

@@ -46,11 +46,9 @@ lazy val root = (project in file("."))
       "-rootdir",
       baseDirectory.value.getCanonicalPath,
       "-Wconf:cat=deprecation:ws,cat=feature:ws,cat=optimizer:ws,src=target/.*:s"
-    ),
+    ) ++ Seq("-unchecked", "-deprecation", "-feature") ++ Seq("-Ypatmat-exhaust-depth", "40"),
     libraryDependencies ++= AppDependencies(),
     retrieveManaged := true,
-    update / evictionWarningOptions :=
-      EvictionWarningOptions.default.withWarnScalaVersionEviction(false),
     resolvers ++= Seq(Resolver.jcenterRepo),
     // concatenate js
     Concat.groups := Seq(

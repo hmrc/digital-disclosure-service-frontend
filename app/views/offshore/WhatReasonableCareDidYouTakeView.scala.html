@@ -40,7 +40,7 @@
                                 }    
                             )) {
 
-    @formHelper(action = controllers.offshore.routes.WhatReasonableCareDidYouTakeController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.offshore.routes.WhatReasonableCareDidYouTakeController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))

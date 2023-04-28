@@ -27,7 +27,7 @@
 
 @layout(pageTitle = title(form, messages("doesTheIndividualHaveNINO.title"))) {
 
-    @formHelper(action = controllers.notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form,  errorLinkOverrides = Map("value" -> "value_0")))

@@ -20,6 +20,7 @@ import models._
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryList
 import viewmodels.govuk.summarylist._
 import viewmodels.checkAnswers._
+import viewmodels.OFFSHORE
 import pages.{ForeignTaxCreditPage, TaxYearLiabilitiesPage}
 import play.api.i18n.Messages
 import com.google.inject.{Inject, Singleton}

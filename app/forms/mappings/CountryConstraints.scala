@@ -35,7 +35,7 @@ abstract class CountryConstraints (countries: Countries) extends Formatters with
     override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Country] =
       baseFormatter
         .bind(key, data)
-        .right.flatMap {
+        .flatMap {
           code =>
             if(allowedCountries.contains(code)) {
               Right(Country(code, countries.getCountryNameFor(code)))

@@ -28,7 +28,7 @@ import controllers.routes
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.http.HeaderCarrierConverter
 import play.api.Logging
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 import java.util.Locale
 import scala.concurrent.{ExecutionContext, Future}

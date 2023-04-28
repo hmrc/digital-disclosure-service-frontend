@@ -27,7 +27,7 @@
 
 @layout(pageTitle = title(form, messages("howMuchTaxHasNotBeenIncluded.title"))) {
 
-    @formHelper(action = controllers.offshore.routes.HowMuchTaxHasNotBeenIncludedController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.offshore.routes.HowMuchTaxHasNotBeenIncludedController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form,  errorLinkOverrides = Map("value" -> "value_0")))

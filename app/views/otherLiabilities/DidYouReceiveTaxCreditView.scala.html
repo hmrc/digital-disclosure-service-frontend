@@ -29,7 +29,7 @@
 
 @layout(pageTitle = title(form, if(areTheyTheIndividual) messages("didYouReceiveTaxCredit.agent.title") else messages(s"didYouReceiveTaxCredit.${entity}.title"))) {
 
-    @formHelper(action = controllers.otherLiabilities.routes.DidYouReceiveTaxCreditController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.otherLiabilities.routes.DidYouReceiveTaxCreditController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))

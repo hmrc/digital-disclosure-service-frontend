@@ -21,6 +21,8 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.RadioItem
 import models.store.YesNoOrUnsure
 
+import scala.language.implicitConversions
+
 sealed trait DoesTheIndividualHaveNationalInsuranceNumber
 
 object DoesTheIndividualHaveNationalInsuranceNumber extends Enumerable.Implicits {
@@ -46,18 +48,18 @@ object DoesTheIndividualHaveNationalInsuranceNumber extends Enumerable.Implicits
     Enumerable(values.map(v => v.toString -> v): _*)
 
 
-  implicit def fromYesNoOrUnsure(yesNoOrUnsure: YesNoOrUnsure): DoesTheIndividualHaveNationalInsuranceNumber = 
+  implicit def fromYesNoOrUnsure(yesNoOrUnsure: YesNoOrUnsure): DoesTheIndividualHaveNationalInsuranceNumber =
     yesNoOrUnsure match {
       case YesNoOrUnsure.Yes => YesIKnow
       case YesNoOrUnsure.Unsure => YesButDontKnow
       case YesNoOrUnsure.No => No
     }
 
-  implicit def toYesNoOrUnsure(doesTheIndividualHaveNationalInsuranceNumber: Option[DoesTheIndividualHaveNationalInsuranceNumber]): Option[YesNoOrUnsure] = 
-    doesTheIndividualHaveNationalInsuranceNumber.map(_ match {
-      case YesIKnow => YesNoOrUnsure.Yes 
+  implicit def toYesNoOrUnsure(doesTheIndividualHaveNationalInsuranceNumber: Option[DoesTheIndividualHaveNationalInsuranceNumber]): Option[YesNoOrUnsure] =
+    doesTheIndividualHaveNationalInsuranceNumber.map {
+      case YesIKnow => YesNoOrUnsure.Yes
       case YesButDontKnow => YesNoOrUnsure.Unsure
-      case No => YesNoOrUnsure.No 
-    })
+      case No => YesNoOrUnsure.No
+    }
   
 }

@@ -21,6 +21,8 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.RadioItem
 import models.store.YesNoOrUnsure
 
+import scala.language.implicitConversions
+
 sealed trait WasThePersonRegisteredForSA
 
 object WasThePersonRegisteredForSA extends Enumerable.Implicits {
@@ -45,17 +47,17 @@ object WasThePersonRegisteredForSA extends Enumerable.Implicits {
   implicit val enumerable: Enumerable[WasThePersonRegisteredForSA] =
     Enumerable(values.map(v => v.toString -> v): _*)
 
-  implicit def fromYesNoOrUnsure(yesNoOrUnsure: YesNoOrUnsure): WasThePersonRegisteredForSA = 
+  implicit def fromYesNoOrUnsure(yesNoOrUnsure: YesNoOrUnsure): WasThePersonRegisteredForSA =
     yesNoOrUnsure match {
       case YesNoOrUnsure.Yes => YesIKnow
       case YesNoOrUnsure.Unsure => YesButIDontKnow
       case YesNoOrUnsure.No => No
     }
 
-  implicit def toYesNoOrUnsure(wasThePersonRegisteredForSA: Option[WasThePersonRegisteredForSA]): Option[YesNoOrUnsure] = 
-    wasThePersonRegisteredForSA.map(_ match {
-      case YesIKnow => YesNoOrUnsure.Yes 
+  implicit def toYesNoOrUnsure(wasThePersonRegisteredForSA: Option[WasThePersonRegisteredForSA]): Option[YesNoOrUnsure] =
+    wasThePersonRegisteredForSA.map {
+      case YesIKnow => YesNoOrUnsure.Yes
       case YesButIDontKnow => YesNoOrUnsure.Unsure
-      case No => YesNoOrUnsure.No 
-    })
+      case No => YesNoOrUnsure.No
+    }
 }

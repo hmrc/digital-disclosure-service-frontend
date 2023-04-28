@@ -18,9 +18,10 @@ package connectors
 
 import java.util.UUID
 import cats.data.EitherT
-import uk.gov.hmrc.play.bootstrap.http.HttpClient
+import uk.gov.hmrc.http.HttpClient
 import uk.gov.hmrc.http.HttpResponse
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.http.HttpReads.Implicits._
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext
 import com.google.inject.{Inject, ImplementedBy}
