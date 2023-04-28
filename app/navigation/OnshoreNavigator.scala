@@ -256,8 +256,6 @@ class OnshoreNavigatorImpl @Inject()(uaToDisclosure: UAToDisclosureService) exte
       case _ => routes.CheckYourAnswersController.onPageLoad
     }
 
-    case WhichLandlordAssociationsAreYouAMemberOfPage => _ => _ => routes.HowManyPropertiesDoYouCurrentlyLetOutController.onPageLoad(CheckMode)
-
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
