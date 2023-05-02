@@ -4,7 +4,7 @@ site.remove = Remove
 site.change = Newidiwch
 site.no = Na
 site.yes = Iawn
-site.continue = Continue
+site.continue = Yn eich blaen
 site.saveAndContinue = Cadw ac yn eich blaen
 site.confirmAndContinue = Yn eich blaen
 site.tasklist = Return to the list of tasks
@@ -347,9 +347,9 @@ country.ZW=Zimbabwe
 # ----------------------------------------------------------
 # Notification Messages
 # ----------------------------------------------------------
-receivedALetter.title = Are you making a disclosure because you have received a letter from HMRC?
-receivedALetter.heading = Are you making a disclosure because you have received a letter from HMRC?
-receivedALetter.error.required = Select yes if you are making this disclosure because you have received a letter from HMRC
+receivedALetter.title = A fyddwch yn gwneud datgeliad oherwydd eich bod wedi cael llythyr gan CThEF?
+receivedALetter.heading = A fyddwch yn gwneud datgeliad oherwydd eich bod wedi cael llythyr gan CThEF?
+receivedALetter.error.required = Dewiswch ‘Iawn’ os ydych yn gwneud datgeliad oherwydd eich bod wedi cael llythyr gan CThEF
 receivedALetter.checkYourAnswersLabel = A fyddwch yn gwneud datgeliad oherwydd eich bod wedi cael llythyr gan CThEF?
 receivedALetter.change.hidden = A fyddwch yn gwneud datgeliad oherwydd eich bod wedi cael llythyr gan CThEF?
 
@@ -366,7 +366,7 @@ relatesTo.hint.llp = Partneriaeth lle mae gan bob partner atebolrwydd personol c
 relatesTo.trust = Ymddiriedolaeth
 relatesTo.hint.trust = Ymddiriedolaeth yw trefniant sy’n rheoli asedion ar gyfer pobl.
 relatesTo.checkYourAnswersLabel = Ar gyfer pwy mae’r datgeliad hwn
-relatesTo.error.required = Select what your disclosure is about
+relatesTo.error.required = Dewiswch beth fydd y datgeliad yn ymwneud ag ef
 relatesTo.change.hidden = Ar gyfer pwy mae’r datgeliad hwn
 
 areYouTheIndividual.title = Are you the individual this disclosure relates to?
@@ -418,7 +418,7 @@ offshoreLiabilities.label = A fydd y datgeliad yn ymwneud â rhwymedigaethau all
 offshoreLiabilities.yes = Iawn
 offshoreLiabilities.no = Na
 offshoreLiabilities.checkYourAnswersLabel = A fydd y datgeliad yn ymwneud â rhwymedigaethau alltraeth?
-offshoreLiabilities.error.required = Select yes if the disclosure is about offshore liabilities
+offshoreLiabilities.error.required = Dewiswch ‘Iawn’ os fydd y datgeliad yn ymwneud â rhwymedigaethau alltraeth
 offshoreLiabilities.change.hidden = A fydd y datgeliad yn ymwneud â rhwymedigaethau alltraeth?
 offshoreLiabilities.paragraph.first = Gall rhwymedigaethau alltraeth fod yn:
 offshoreLiabilities.paragraph.second = neu lle mae’r arian sy’n gysylltiedig â’r rhwymedigaeth yn y DU wedi’i drosglwyddo i diriogaeth y tu allan i’r DU.
@@ -430,8 +430,8 @@ offshoreLiabilities.bulletList.forth.link = y Ddeddf Cyllid (Rhif 2) 2017 (yn ag
 offshoreLiabilities.bulletList.fifth = unrhyw beth arall y gellid ei ystyried yn incwm busnes, asedion neu fuddsoddiadau
 offshoreLiabilities.guidance.link = Dysgwch ragor am rwymedigaethau alltraeth (yn agor tab newydd)
 
-onlyOnshoreLiabilities.title = The disclosure is only about onshore liabilities
-onlyOnshoreLiabilities.heading = The disclosure is only about onshore liabilities
+onlyOnshoreLiabilities.title = Bydd y datgeliad yn ymwneud â rhwymedigaethau artraeth yn unig
+onlyOnshoreLiabilities.heading = Bydd y datgeliad yn ymwneud â rhwymedigaethau artraeth yn unig
 onlyOnshoreLiabilities.paragraph.first = 'Gan nad oes gennych unrhyw rwymedigaethau alltraeth i’w datgelu, dim ond rhwymedigaethau artraeth gall y datgeliad ymwneud â hwy. Mae gennych rwymedigaethau artraeth '
 onlyOnshoreLiabilities.paragraph.link = os ydych yn cael eich ystyried yn breswylydd (yn agor tab newydd)
 onlyOnshoreLiabilities.paragraph.second = ' yn y DU ac:'
@@ -446,7 +446,7 @@ whatIsYourFullName.heading = Beth yw’ch enw llawn?
 whatIsYourFullName.hint = Dylai hyn fod fel y mae wedi’i ysgrifennu ar ddogfennau swyddogol fel eich pasbort neu drwydded yrru.
 whatIsYourFullName.checkYourAnswersLabel = Eich enw llawn
 whatIsYourFullName.error.required = Nodwch eich enw llawn
-whatIsYourFullName.error.length = Full name must be between 1 and 30 characters
+whatIsYourFullName.error.length = Mae’n rhaid i’ch enw cyntaf fod rhwng 1 cymeriad a 30 o gymeriadau
 whatIsYourFullName.change.hidden = Eich enw llawn
 
 yourEmailAddress.title = Beth yw’ch cyfeiriad e-bost?
@@ -543,9 +543,9 @@ whatIsYourUniqueTaxReference.error.required = Nodwch eich Cyfeirnod Unigryw y Tr
 whatIsYourUniqueTaxReference.error.invalid = Nodwch eich Cyfeirnod Unigryw y Trethdalwr yn y fformat cywir
 whatIsYourUniqueTaxReference.change.hidden = Eich Cyfeirnod Unigryw y Trethdalwr
 
-yourCountryLookup.title = What is the country of your address?
-yourCountryLookup.heading = What is the country of your address?
-yourCountryLookup.hint = For example, United Kingdom.
+yourCountryLookup.title = Ym mha wlad y mae eich cyfeiriad?
+yourCountryLookup.heading = Ym mha wlad y mae eich cyfeiriad?
+yourCountryLookup.hint = Er enghraifft, y Deyrnas Unedig.
 
 youHaveSentYourNotification.title.entity = You have sent your notification
 youHaveSentYourNotification.title.agent = You have sent the notification
@@ -562,8 +562,8 @@ youHaveSentYourNotification.paragraph.header = Next steps
 youHaveSentYourNotification.paragraph.second.generatedRef = We will write to you shortly with a case reference. As soon as you receive this, you should make the full disclosure within 90 days of the date that HMRC acknowledges your notification.
 youHaveSentYourNotification.paragraph.second.caseRef = We will write to you shortly to acknowledge your notification. You should then make a full disclosure within 90 days of the date that HMRC acknowledges your notification.
 
-yourAddressLookup.title = What is the postcode and property name or number of your address?
-yourAddressLookup.heading = What is the postcode and property name or number of your address?
+yourAddressLookup.title = Beth yw’r cod post ac enw’r eiddo, neu rif eich cyfeiriad?
+yourAddressLookup.heading = Beth yw’r cod post ac enw’r eiddo, neu rif eich cyfeiriad?
 yourAddressLookup.individual.afterHeadingText = If you are representing an organisation on behalf of the individual, you can use your organisation’s address.
 yourAddressLookup.company.afterHeadingText = If you are representing an organisation on behalf of the company, you can use your organisation’s address.
 yourAddressLookup.llp.afterHeadingText = If you are representing an organisation on behalf of the limited liability partnership, you can use your organisation’s address.
@@ -576,8 +576,8 @@ selectAddress.heading = Choose your address
 editAddress.title = What is your address?
 editAddress.heading = What is your address?
 
-confirmAddress.title = Is this the correct address?
-confirmAddress.heading = Is this the correct address?
+confirmAddress.title = Ai dyma’r cyfeiriad cywir?
+confirmAddress.heading = Ai dyma’r cyfeiriad cywir?
 
 yourAddress.checkYourAnswersLabel = Eich cyfeiriad
 yourAddress.change.hidden = Eich cyfeiriad
@@ -587,17 +587,17 @@ whatIsTheIndividualsFullName.heading = Beth yw enw llawn yr unigolyn?
 whatIsTheIndividualsFullName.body = Dylai hyn fod yr un peth â’r hyn sydd ar ddogfennau swyddogol fel ei basbort neu drwydded yrru.
 whatIsTheIndividualsFullName.checkYourAnswersLabel = Enw llawn yr unigolyn
 whatIsTheIndividualsFullName.error.required = Nodwch enw llawn yr unigolyn
-whatIsTheIndividualsFullName.error.length = Full name must be between 1 and 30 characters
+whatIsTheIndividualsFullName.error.length = Mae’n rhaid i enw llawn yr unigolyn fod rhwng 1 a 30 o gymeriadau
 whatIsTheIndividualsFullName.change.hidden = Enw llawn yr unigolyn
 
 whatIsTheIndividualDateOfBirth.title = Beth yw dyddiad geni’r unigolyn?
 whatIsTheIndividualDateOfBirth.heading = Beth yw dyddiad geni’r unigolyn?
 whatIsTheIndividualDateOfBirth.hint = Er enghraifft, 20 3 1976.
 whatIsTheIndividualDateOfBirth.checkYourAnswersLabel = Dyddiad geni’r unigolyn
-whatIsTheIndividualDateOfBirth.error.required.all = Enter a valid date of birth, like 20 3 1976
+whatIsTheIndividualDateOfBirth.error.required.all = Nodwch ddyddiad geni’r unigolyn
 whatIsTheIndividualDateOfBirth.error.required.two = Mae’n rhaid i’r dyddiad geni gynnwys {0} a {1}
 whatIsTheIndividualDateOfBirth.error.required = Mae’n rhaid i’r dyddiad geni gynnwys {0}
-whatIsTheIndividualDateOfBirth.error.invalid = Nodwch ddyddiad geni’r unigolyn
+whatIsTheIndividualDateOfBirth.error.invalid = Nodwch ddyddiad geni’r unigolyn yn y fformat cywir
 whatIsTheIndividualDateOfBirth.error.invalidDay = Nodwch ddyddiad geni go iawn – gall mis fod â hyd at 31 o ddiwrnodau
 whatIsTheIndividualDateOfBirth.error.invalidMonth = Nodwch ddyddiad geni go iawn – dim ond 12 mis sydd mewn blwyddyn
 whatIsTheIndividualDateOfBirth.error.invalidFutureDateOfBirth = Mae’n rhaid i’r dyddiad geni fod yn y gorffennol
@@ -608,7 +608,7 @@ whatIsTheIndividualOccupation.title = Beth yw prif swydd yr unigolyn?
 whatIsTheIndividualOccupation.heading = Beth yw prif swydd yr unigolyn?
 whatIsTheIndividualOccupation.hint = Er enghraifft, plymiwr neu ddeintydd.
 whatIsTheIndividualOccupation.checkYourAnswersLabel = Prif swydd yr unigolyn
-whatIsTheIndividualOccupation.error.required = The individual’s main occupation must be between 1 and 30 characters
+whatIsTheIndividualOccupation.error.required = Nodwch brif swydd yr unigolyn
 whatIsTheIndividualOccupation.error.maxLength = Mae’n rhaid i brif swydd yr unigolyn fod rhwng 1 a 30 o gymeriadau
 whatIsTheIndividualOccupation.change.hidden = Prif swydd yr unigolyn
 
@@ -655,7 +655,7 @@ whatIsTheIndividualsVATRegistrationNumber.label = Mae hwn yn cynnwys 9 rhif, wei
 whatIsTheIndividualsVATRegistrationNumber.hint = Er enghraifft, ‘123456789’ neu ‘GB123456789’.
 whatIsTheIndividualsVATRegistrationNumber.checkYourAnswersLabel = Rhif Cofrestru TAW yr unigolyn
 whatIsTheIndividualsVATRegistrationNumber.error.required = Nodwch rif cofrestru TAW yr unigolyn
-whatIsTheIndividualsVATRegistrationNumber.error.invalid = Enter a valid VAT registration number
+whatIsTheIndividualsVATRegistrationNumber.error.invalid = Enter the individual’s VAT registration number in the right format
 whatIsTheIndividualsVATRegistrationNumber.change.hidden = Rhif Cofrestru TAW yr unigolyn
 
 whatIsTheIndividualsUniqueTaxReference.title = Beth yw Cyfeirnod Unigryw y Trethdalwr yr unigolyn?
@@ -667,9 +667,9 @@ whatIsTheIndividualsUniqueTaxReference.error.required = Nodwch Gyfeirnod Unigryw
 whatIsTheIndividualsUniqueTaxReference.error.invalid = Nodwch Gyfeirnod Unigryw y Trethdalwr ar gyfer yr unigolyn yn y fformat cywir
 whatIsTheIndividualsUniqueTaxReference.change.hidden = Cyfeirnod Unigryw y Trethdalwr yr Unigolyn
 
-individualCountryLookup.title = What is the country of the individual’s address?
-individualCountryLookup.heading = What is the country of the individual’s address?
-individualCountryLookup.hint = For example, United Kingdom.
+individualCountryLookup.title = Beth yw gwlad cyfeiriad yr unigolyn?
+individualCountryLookup.heading = Beth yw gwlad cyfeiriad yr unigolyn?
+individualCountryLookup.hint = Er enghraifft, y Deyrnas Unedig.
 
 individualAddressLookup.title = What is the postcode and property name or number of the individual’s address?
 individualAddressLookup.heading = What is the postcode and property name or number of the individual’s address?
@@ -683,8 +683,8 @@ selectIndividualAddress.heading = Choose the individual’s address
 editIndividualAddress.title = What is the individual’s address?
 editIndividualAddress.heading = What is the individual’s address?
 
-confirmIndividualAddress.title = Is this the correct address?
-confirmIndividualAddress.heading = Is this the correct address?
+confirmIndividualAddress.title = Ai dyma’r cyfeiriad cywir?
+confirmIndividualAddress.heading = Ai dyma’r cyfeiriad cywir?
 
 notificationCYA.send.heading = Send the notification
 notificationCYA.send.button = Send notification
@@ -693,7 +693,7 @@ notificationCYA.body2 = You can
 notificationCYA.link.entity = save a copy of your notification
 notificationCYA.link.agent = save a copy of the notification
 
-notificationCYA.background = Background
+notificationCYA.background = Cefndir
 notificationCYA.aboutYou = Ynglŷn â chi
 
 individualSentYourNotification.title = You have sent the notification
@@ -730,10 +730,10 @@ whatIsTheNameOfTheOrganisationYouRepresent.change.hidden = Enw'r sefydliad rydyc
 
 whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.title = Beth yw enw’r cwmni y bydd y datgeliad yn ei gylch?
 whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.heading = Beth yw enw’r cwmni y bydd y datgeliad yn ei gylch?
-whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.checkYourAnswersLabel = Company’s name
+whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.checkYourAnswersLabel = Enw’r cwmni
 whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.error.required = Nodwch enw’r cwmni
-whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.error.length = Company name must be between 1 and 50 characters
-whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.change.hidden = Company’s name
+whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.error.length = Mae’n rhaid i enw’r cwmni fod rhwng 1 a 50 o gymeriadau
+whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.change.hidden = Enw’r cwmni
 
 whatIsTheCompanyRegistrationNumber.title = Beth yw rhif cofrestru’r cwmni?
 whatIsTheCompanyRegistrationNumber.heading = Beth yw rhif cofrestru’r cwmni?
@@ -744,15 +744,15 @@ whatIsTheCompanyRegistrationNumber.error.required = Nodwch rif cofrestru’r cwm
 whatIsTheCompanyRegistrationNumber.error.valid = Nodwch rif cofrestru’r cwmni yn y fformat cywir
 whatIsTheCompanyRegistrationNumber.change.hidden = Company registration number
 
-companyCountryLookup.title = What is the country of the company’s address?
-companyCountryLookup.heading = What is the country of the company’s address?
-companyCountryLookup.hint = For example, United Kingdom.
+companyCountryLookup.title = Beth yw gwlad cyfeiriad y cwmni?
+companyCountryLookup.heading = Beth yw gwlad cyfeiriad y cwmni?
+companyCountryLookup.hint = Er enghraifft, y Deyrnas Unedig.
 
 companyAddressLookup.title = What is the postcode and property name or number of the company’s address?
 companyAddressLookup.heading = What is the postcode and property name or number of the company’s address?
 
-companyAddressLookup.checkYourAnswersLabel = Company’s address
-companyAddressLookup.change.hidden = Company’s address
+companyAddressLookup.checkYourAnswersLabel = Cyfeiriad y cwmni
+companyAddressLookup.change.hidden = Cyfeiriad y cwmni
 
 selectCompanyAddress.title = Choose the company’s address
 selectCompanyAddress.heading = Choose the company’s address
@@ -760,10 +760,10 @@ selectCompanyAddress.heading = Choose the company’s address
 editCompanyAddress.title = What is the company’s address?
 editCompanyAddress.heading = What is the company’s address?
 
-confirmCompanyAddress.title = Is this the correct address?
-confirmCompanyAddress.heading = Is this the correct address?
+confirmCompanyAddress.title = Ai dyma’r cyfeiriad cywir?
+confirmCompanyAddress.heading = Ai dyma’r cyfeiriad cywir?
 
-notificationCYA.aboutTheCompany = About the company
+notificationCYA.aboutTheCompany = Ynglŷn â’r cwmni
 
 areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.title = Are you a designated member of the limited liability partnership that the disclosure will be about?
 areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.heading = Are you a designated member of the limited liability partnership that the disclosure will be about?
@@ -774,16 +774,16 @@ areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.checkYourAnswersLabe
 areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.error.required = Select yes if you are a designated member of the limited liability partnership
 areYouADesignatedMemberOfTheLLPThatTheDisclosureWillBeAbout.change.hidden = Are you a designated member of the limited liability partnership that the disclosure will be about?
 
-whatIsTheLLPName.title = What is the limited liability partnership’s name?
-whatIsTheLLPName.heading = What is the limited liability partnership’s name?
-whatIsTheLLPName.checkYourAnswersLabel = Limited liability partnership name
-whatIsTheLLPName.error.required = Enter the limited liability partnership’s name
-whatIsTheLLPName.error.length = Limited liability partnership name must be between 1 and 50 characters
-whatIsTheLLPName.change.hidden = Limited liability partnership name
+whatIsTheLLPName.title = Beth yw enw’r bartneriaeth atebolrwydd cyfyngedig?
+whatIsTheLLPName.heading = Beth yw enw’r bartneriaeth atebolrwydd cyfyngedig?
+whatIsTheLLPName.checkYourAnswersLabel = Enw’r bartneriaeth atebolrwydd cyfyngedig
+whatIsTheLLPName.error.required = Nodwch enw’r bartneriaeth atebolrwydd cyfyngedig
+whatIsTheLLPName.error.length = Mae’n rhaid i enw’r partneriaeth atebolrwydd cyfyngedig fod rhwng 1 a 50 o gymeriadau
+whatIsTheLLPName.change.hidden = Enw’r bartneriaeth atebolrwydd cyfyngedig
 
-llpCountryLookup.title = What is the country of the limited liability partnership’s address?
-llpCountryLookup.heading = What is the country of the limited liability partnership’s address?
-llpCountryLookup.hint = For example, United Kingdom.
+llpCountryLookup.title = Beth yw gwlad cyfeiriad y bartneriaeth atebolrwydd cyfyngedig?
+llpCountryLookup.heading = Beth yw gwlad cyfeiriad y bartneriaeth atebolrwydd cyfyngedig?
+llpCountryLookup.hint = Er enghraifft, y Deyrnas Unedig.
 
 llpAddressLookup.title = What is the postcode and property name or number of the limited liability partnership’s address?
 llpAddressLookup.heading = What is the postcode and property name or number of the limited liability partnership’s address?
@@ -797,10 +797,10 @@ selectLLPAddress.heading = Choose the limited liability partnership’s address
 editLLPAddress.title = What is the limited liability partnership’s address?
 editLLPAddress.heading = What is the limited liability partnership’s address?
 
-confirmLLPAddress.title = Is this the correct address?
-confirmLLPAddress.heading = Is this the correct address?
+confirmLLPAddress.title = Ai dyma’r cyfeiriad cywir?
+confirmLLPAddress.heading = Ai dyma’r cyfeiriad cywir?
 
-notificationCYA.aboutTheLLP = About the limited liability partnership
+notificationCYA.aboutTheLLP = Ynglŷn â’r bartneriaeth atebolrwydd cyfyngedig
 
 areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.title = Are you a trustee of the trust that the disclosure will be about?
 areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.heading = Are you a trustee of the trust that the disclosure will be about?
@@ -812,15 +812,15 @@ areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.checkYourAnswersLabel = Are 
 areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.error.required = Select yes if you are the trustee of the trust
 areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.change.hidden = Are you a trustee of the trust that the disclosure will be about?
 
-trustCountryLookup.title = What is the country of the trust’s address?
-trustCountryLookup.heading = What is the country of the trust’s address?
-trustCountryLookup.hint = For example, United Kingdom.
+trustCountryLookup.title = Beth yw gwlad cyfeiriad yr ymddiriedolaeth?
+trustCountryLookup.heading = Beth yw gwlad cyfeiriad yr ymddiriedolaeth?
+trustCountryLookup.hint = Er enghraifft, y Deyrnas Unedig.
 
 trustAddressLookup.title = What is the postcode and property name or number of the trust’s address?
 trustAddressLookup.heading = What is the postcode and property name or number of the trust’s address?
 
-trustAddressLookup.checkYourAnswersLabel = Trust address
-trustAddressLookup.change.hidden = Trust’s address
+trustAddressLookup.checkYourAnswersLabel = Cyfeiriad yr ymddiriedolaeth
+trustAddressLookup.change.hidden = Cyfeiriad yr ymddiriedolaeth
 
 selectTrustAddress.title = Choose the trust’s address
 selectTrustAddress.heading = Choose the trust’s address
@@ -828,17 +828,17 @@ selectTrustAddress.heading = Choose the trust’s address
 editTrustAddress.title = What is the trust’s address?
 editTrustAddress.heading = What is the trust’s address?
 
-confirmTrustAddress.title = Is this the correct address?
-confirmTrustAddress.heading = Is this the correct address?
+confirmTrustAddress.title = Ai dyma’r cyfeiriad cywir?
+confirmTrustAddress.heading = Ai dyma’r cyfeiriad cywir?
 
-whatIsTheTrustName.title = What is the trust’s name?
-whatIsTheTrustName.heading = What is the trust’s name?
-whatIsTheTrustName.checkYourAnswersLabel = Trust Name
-whatIsTheTrustName.error.required = Enter the trust’s name
-whatIsTheTrustName.error.length = Trust name must be between 1 and 50 characters
-whatIsTheTrustName.change.hidden = Trust Name
+whatIsTheTrustName.title = Beth yw enw’r ymddiriedolaeth?
+whatIsTheTrustName.heading = Beth yw enw’r ymddiriedolaeth?
+whatIsTheTrustName.checkYourAnswersLabel = Enw’r ymddiriedolaeth
+whatIsTheTrustName.error.required = Nodwch enw’r ymddiriedolaeth
+whatIsTheTrustName.error.length = Mae’n rhaid i enw’r ymddiriedolaeth fod rhwng 1 a 50 o gymeriadau
+whatIsTheTrustName.change.hidden = Enw’r ymddiriedolaeth
 
-notificationCYA.aboutTheTrust = About the trust
+notificationCYA.aboutTheTrust = Ynglŷn â’r ymddiriedolaeth
 
 areYouTheExecutorOfTheEstate.title = Are you the executor or administrator of the estate that the disclosure will be about?
 areYouTheExecutorOfTheEstate.heading = Are you the executor or administrator of the estate that the disclosure will be about?
@@ -853,97 +853,97 @@ areYouTheExecutorOfTheEstate.no.hint = We may ask for additional evidence that y
 whatWasTheNameOfThePersonWhoDied.title = What was the name of the person who died?
 whatWasTheNameOfThePersonWhoDied.heading = What was the name of the person who died?
 whatWasTheNameOfThePersonWhoDied.label = This should be as it’s written on official documents such as their passport or driving licence.
-whatWasTheNameOfThePersonWhoDied.checkYourAnswersLabel = Person’s full name
+whatWasTheNameOfThePersonWhoDied.checkYourAnswersLabel = Enw llawn y person
 whatWasTheNameOfThePersonWhoDied.error.required = Enter the person’s full name
 whatWasTheNameOfThePersonWhoDied.error.length = Person’s name must be between 1 and 50 characters
-whatWasTheNameOfThePersonWhoDied.change.hidden = Person’s full name
+whatWasTheNameOfThePersonWhoDied.change.hidden = Enw llawn y person
 
 whatWasThePersonOccupation.title = Beth oedd prif swydd y person?
 whatWasThePersonOccupation.heading = Beth oedd prif swydd y person?
 whatWasThePersonOccupation.hint = Er enghraifft, plymiwr neu ddeintydd.
-whatWasThePersonOccupation.checkYourAnswersLabel = Person’s main occupation
-whatWasThePersonOccupation.error.required = The person’s main occupation must be between 1 and 30 characters
-whatWasThePersonOccupation.error.length = "Mae’n rhaid i brif swydd y person fod rhwng 1 a 30 o gymeriadau
-whatWasThePersonOccupation.change.hidden = Person’s main occupation
+whatWasThePersonOccupation.checkYourAnswersLabel = Prif swydd y person
+whatWasThePersonOccupation.error.required = Nodwch brif swydd y person
+whatWasThePersonOccupation.error.length = Mae’n rhaid i brif swydd y person fod rhwng 1 a 30 o gymeriadau
+whatWasThePersonOccupation.change.hidden = Prif swydd y person
 
 whatWasThePersonDateOfBirth.title = Beth oedd dyddiad geni’r person?
 whatWasThePersonDateOfBirth.heading = Beth oedd dyddiad geni’r person?
 whatWasThePersonDateOfBirth.hint = Er enghraifft, 20 3 1976.
-whatWasThePersonDateOfBirth.checkYourAnswersLabel = Person’s date of birth
+whatWasThePersonDateOfBirth.checkYourAnswersLabel = Dyddiad geni’r person
 whatWasThePersonDateOfBirth.error.required.all = Nodwch ddyddiad geni’r person
 whatWasThePersonDateOfBirth.error.required.two = Mae’n rhaid i ddyddiad geni’r person gynnwys {0} a {1}
 whatWasThePersonDateOfBirth.error.required = Mae’n rhaid i ddyddiad geni’r person gynnwys {0}
-whatWasThePersonDateOfBirth.error.invalid = Enter the person’s date of birth
+whatWasThePersonDateOfBirth.error.invalid = Nodwch ddyddiad geni’r person yn y fformat cywir
 whatWasThePersonDateOfBirth.error.invalidDay = Nodwch ddyddiad geni go iawn – gall mis fod â hyd at 31 o ddiwrnodau
 whatWasThePersonDateOfBirth.error.invalidMonth = Nodwch ddyddiad geni go iawn – dim ond 12 mis sydd mewn blwyddyn
 whatWasThePersonDateOfBirth.error.invalidFutureDateOfBirth = Mae’n rhaid i ddyddiad geni’r person fod yn y gorffennol
 whatWasThePersonDateOfBirth.error.invalidPastDateOfBirth = Mae’n rhaid i ddyddiad geni’r person fod ar ôl y flwyddyn 1849
-whatWasThePersonDateOfBirth.change.hidden = Person’s date of birth
+whatWasThePersonDateOfBirth.change.hidden = Dyddiad geni’r person
 
-didThePersonHaveNINO.title = Did the person have a National Insurance number, as far as you’re aware?
-didThePersonHaveNINO.heading = Did the person have a National Insurance number, as far as you’re aware?
-didThePersonHaveNINO.yesIKnow = Yes, and I know their National Insurance number
-didThePersonHaveNINO.yesButIDontKnow = Yes, but I do not know their National Insurance number
-didThePersonHaveNINO.no = No
-didThePersonHaveNINO.checkYourAnswersLabel = Did the person have a National Insurance number, as far as you’re aware?
-didThePersonHaveNINO.error.required = Select yes if the person had a National Insurance number
-didThePersonHaveNINO.change.hidden = Did the person have a National Insurance number, as far as you’re aware?
+didThePersonHaveNINO.title = A oedd gan y person rif Yswiriant Gwladol, hyd eithaf eich gwybodaeth?
+didThePersonHaveNINO.heading = A oedd gan y person rif Yswiriant Gwladol, hyd eithaf eich gwybodaeth?
+didThePersonHaveNINO.yesIKnow = Iawn, ac rwyf yn gwybod beth yw ei rif Yswiriant Gwladol
+didThePersonHaveNINO.yesButIDontKnow = Iawn, ond nid wyf yn gwybod beth yw ei rif Yswiriant Gwladol
+didThePersonHaveNINO.no = Na
+didThePersonHaveNINO.checkYourAnswersLabel = A oedd gan y person rif Yswiriant Gwladol, hyd eithaf eich gwybodaeth?
+didThePersonHaveNINO.error.required = Dewiswch ‘Iawn’ os oes gan y person rif Yswiriant Gwladol
+didThePersonHaveNINO.change.hidden = A oedd gan y person rif Yswiriant Gwladol, hyd eithaf eich gwybodaeth?
 
-whatWasThePersonNINO.title = What was the person’s National Insurance number?
-whatWasThePersonNINO.heading = What was the person’s National Insurance number?
-whatWasThePersonNINO.label = This is on their payslip, P60 or tax return.
-whatWasThePersonNINO.hint = For example, ‘QQ123456A’.
-whatWasThePersonNINO.checkYourAnswersLabel = What was the person’s National Insurance number?
-whatWasThePersonNINO.error.required = Enter the person’s National Insurance number
-whatWasThePersonNINO.error.invalidFormat = Enter the person’s National Insurance number in the right format
-whatWasThePersonNINO.error.notReal = Enter a real National Insurance number
-whatWasThePersonNINO.change.hidden = What was the person’s National Insurance number?
+whatWasThePersonNINO.title = Beth oedd rhif Yswiriant Gwladol y person?
+whatWasThePersonNINO.heading = Beth oedd rhif Yswiriant Gwladol y person?
+whatWasThePersonNINO.label = Mae hwn i’w weld ar ei slip cyflog, P60 neu Ffurflen Dreth.
+whatWasThePersonNINO.hint = Er enghraifft, ‘QQ123456A’.
+whatWasThePersonNINO.checkYourAnswersLabel = Beth oedd rhif Yswiriant Gwladol y person?
+whatWasThePersonNINO.error.required = Nodwch rif Yswiriant Gwladol y person
+whatWasThePersonNINO.error.invalidFormat = Nodwch rif Yswiriant Gwladol y person yn y fformat cywir
+whatWasThePersonNINO.error.notReal = Nodwch rif Yswiriant Gwladol go iawn
+whatWasThePersonNINO.change.hidden = Beth oedd rhif Yswiriant Gwladol y person?
 
-wasThePersonRegisteredForVAT.title = Was the person registered for VAT, as far as you’re aware?
-wasThePersonRegisteredForVAT.heading = Was the person registered for VAT, as far as you’re aware?
-wasThePersonRegisteredForVAT.yesIKnow = Yes, and I know their VAT registration number
-wasThePersonRegisteredForVAT.yesButIDontKnow = Yes, but I do not know their VAT registration number
-wasThePersonRegisteredForVAT.no = No
-wasThePersonRegisteredForVAT.checkYourAnswersLabel = Was the person registered for VAT, as far as you’re aware?
-wasThePersonRegisteredForVAT.error.required = Select yes if the person was registered for VAT
-wasThePersonRegisteredForVAT.change.hidden = Was the person registered for VAT, as far as you’re aware?
+wasThePersonRegisteredForVAT.title = A oedd y person wedi cofrestru ar gyfer TAW, hyd eithaf eich gwybodaeth?
+wasThePersonRegisteredForVAT.heading = A oedd y person wedi cofrestru ar gyfer TAW, hyd eithaf eich gwybodaeth?
+wasThePersonRegisteredForVAT.yesIKnow = Iawn, ac rwyf yn gwybod beth yw ei rif cofrestru TAW
+wasThePersonRegisteredForVAT.yesButIDontKnow = Iawn, ond nid wyf yn gwybod beth yw ei rif cofrestru TAW
+wasThePersonRegisteredForVAT.no = Na
+wasThePersonRegisteredForVAT.checkYourAnswersLabel = A oedd y person wedi cofrestru ar gyfer TAW, hyd eithaf eich gwybodaeth?
+wasThePersonRegisteredForVAT.error.required = Dewiswch Iawn os oedd y person wedi'i gofrestru ar gyfer TAW
+wasThePersonRegisteredForVAT.change.hidden = A oedd y person wedi cofrestru ar gyfer TAW, hyd eithaf eich gwybodaeth?
 
-whatWasThePersonVATRegistrationNumber.title = What was the person’s VAT registration number?
-whatWasThePersonVATRegistrationNumber.heading = What was the person’s VAT registration number?
-whatWasThePersonVATRegistrationNumber.body = This has 9 numbers, sometimes with ‘GB’ at the start. You can find it on their VAT registration certificate or VAT online account.
-whatWasThePersonVATRegistrationNumber.hint = For example, ‘123456789’ or ‘GB123456789’.
-whatWasThePersonVATRegistrationNumber.checkYourAnswersLabel = Person’s VAT registration number
-whatWasThePersonVATRegistrationNumber.error.required = Enter the person’s VAT registration number
-whatWasThePersonVATRegistrationNumber.error = Enter the person’s VAT registration number in the right format
-whatWasThePersonVATRegistrationNumber.change.hidden = Person’s VAT registration number
+whatWasThePersonVATRegistrationNumber.title = Beth oedd rhif cofrestru TAW y person?
+whatWasThePersonVATRegistrationNumber.heading = Beth oedd rhif cofrestru TAW y person?
+whatWasThePersonVATRegistrationNumber.body = Mae hwn yn cynnwys 9 rhif, weithiau â ‘GB’ ar y dechrau. Gallwch ddod o hyd i hwn ar ei dystysgrif cofrestru TAW neu gyfrif TAW ar-lein.
+whatWasThePersonVATRegistrationNumber.hint = Er enghraifft, ‘123456789’ neu ‘GB123456789’.
+whatWasThePersonVATRegistrationNumber.checkYourAnswersLabel = Rhif cofrestru TAW y person
+whatWasThePersonVATRegistrationNumber.error.required = Nodwch rif cofrestru TAW y person
+whatWasThePersonVATRegistrationNumber.error = Nodwch rif cofrestru TAW y person yn y fformat cywir
+whatWasThePersonVATRegistrationNumber.change.hidden = Rhif cofrestru TAW y person
 
-wasThePersonRegisteredForSA.title = Was the person registered for Self Assessment, as far as you’re aware?
-wasThePersonRegisteredForSA.heading = Was the person registered for Self Assessment, as far as you’re aware?
-wasThePersonRegisteredForSA.yesIKnow = Yes, and I know their Unique Taxpayer Reference (UTR)
-wasThePersonRegisteredForSA.yesButIDontKnow = Yes, but I do not know their Unique Taxpayer Reference (UTR)
-wasThePersonRegisteredForSA.no = No
-wasThePersonRegisteredForSA.checkYourAnswersLabel = Was the person registered for Self Assessment, as far as you’re aware?
-wasThePersonRegisteredForSA.error.required = Select yes if the person was registered for Self Assessment
-wasThePersonRegisteredForSA.change.hidden = Was the person registered for Self Assessment, as far as you’re aware?
+wasThePersonRegisteredForSA.title = A oedd y person wedi cofrestru ar gyfer Hunanasesiad, hyd eithaf eich gwybodaeth?
+wasThePersonRegisteredForSA.heading = A oedd y person wedi cofrestru ar gyfer Hunanasesiad, hyd eithaf eich gwybodaeth?
+wasThePersonRegisteredForSA.yesIKnow = Iawn, ac rwyf yn gwybod beth yw ei Gyfeirnod Unigryw y Trethdalwr (UTR)
+wasThePersonRegisteredForSA.yesButIDontKnow = Iawn, ond nid wyf yn gwybod beth yw ei Gyfeirnod Unigryw y Trethdalwr (UTR)
+wasThePersonRegisteredForSA.no = Na
+wasThePersonRegisteredForSA.checkYourAnswersLabel = A oedd y person wedi cofrestru ar gyfer Hunanasesiad, hyd eithaf eich gwybodaeth?
+wasThePersonRegisteredForSA.error.required = Dewiswch ‘Iawn’ os oedd y person wedi cofrestru ar gyfer Hunanasesiad
+wasThePersonRegisteredForSA.change.hidden = A oedd y person wedi cofrestru ar gyfer Hunanasesiad, hyd eithaf eich gwybodaeth?
 
-whatWasThePersonUTR.title = What was the person’s Unique Taxpayer Reference?
-whatWasThePersonUTR.heading = What was the person’s Unique Taxpayer Reference?
-whatWasThePersonUTR.body = This 10 digit number is on their tax return, statement of accounts or any other Self Assessment calculations.
-whatWasThePersonUTR.hint = For example, ‘1234567890’.
-whatWasThePersonUTR.checkYourAnswersLabel = Person’s Unique Taxpayer Reference
-whatWasThePersonUTR.error.required = Enter the person’s Unique Taxpayer Reference
-whatWasThePersonUTR.error = Enter the person’s Unique Taxpayer Reference in the right format
-whatWasThePersonUTR.change.hidden = Person’s Unique Taxpayer Reference
+whatWasThePersonUTR.title = Bedd oedd Cyfeirnod Unigryw y Trethdalwr y person?
+whatWasThePersonUTR.heading = Bedd oedd Cyfeirnod Unigryw y Trethdalwr y person?
+whatWasThePersonUTR.body = Mae’r rhif 10 digid yma ar ei Ffurflen Dreth, datganiad o gyfrif, neu unrhyw gyfrifiadau Hunanasesiad eraill.
+whatWasThePersonUTR.hint = Er enghraifft, ‘1234567890’.
+whatWasThePersonUTR.checkYourAnswersLabel = Cyfeirnod Unigryw y Trethdalwr y person
+whatWasThePersonUTR.error.required = Nodwch Gyfeirnod Unigryw y Trethdalwr y person
+whatWasThePersonUTR.error = Nodwch Gyfeirnod Unigryw y Trethdalwr y person yn y fformat cywir
+whatWasThePersonUTR.change.hidden = Cyfeirnod Unigryw y Trethdalwr y person
 
 estateCountryLookup.title = What was the country of the person’s address?
 estateCountryLookup.heading = What was the country of the person’s address?
-estateCountryLookup.hint = For example, United Kingdom.
+estateCountryLookup.hint = Er enghraifft, y Deyrnas Unedig.
 
 estateAddressLookup.title = What was the postcode and property name or number of the person’s address?
 estateAddressLookup.heading = What was the postcode and property name or number of the person’s address?
 
-estateAddressLookup.checkYourAnswersLabel = Person’s address
-estateAddressLookup.change.hidden = Person’s address
+estateAddressLookup.checkYourAnswersLabel = Cyfeiriad y person
+estateAddressLookup.change.hidden = Cyfeiriad y person
 
 selectEstateAddress.title = Choose the person’s address
 selectEstateAddress.heading = Choose the person’s address
@@ -951,10 +951,10 @@ selectEstateAddress.heading = Choose the person’s address
 editEstateAddress.title = What was the person’s address?
 editEstateAddress.heading = What was the person’s address?
 
-confirmEstateAddress.title = Is this the correct address?
-confirmEstateAddress.heading = Is this the correct address?
+confirmEstateAddress.title = Ai dyma’r cyfeiriad cywir?
+confirmEstateAddress.heading = Ai dyma’r cyfeiriad cywir?
 
-notificationCYA.aboutThePersonWhoDied = About the person who died
+notificationCYA.aboutThePersonWhoDied = Ynglŷn â’r person a fu farw
 
 makeANotificationOrDisclosure.title = Defnyddio’r gwasanaeth hwn
 makeANotificationOrDisclosure.header = Defnyddio’r gwasanaeth hwn
@@ -1707,11 +1707,11 @@ foreignTaxCredit.change.hidden = Amount of foreign tax credit relief deducted
 
 whereDidTheUndeclaredIncomeOrGain.title = O ble y daeth yr incwm neu’r enillion heb eu datgan?
 whereDidTheUndeclaredIncomeOrGain.heading = O ble y daeth yr incwm neu’r enillion heb eu datgan?
-whereDidTheUndeclaredIncomeOrGain.checkYourAnswersLabel = Where did the income or gain come from?
+whereDidTheUndeclaredIncomeOrGain.checkYourAnswersLabel = O ble y daeth yr incwm neu’r enillion?
 whereDidTheUndeclaredIncomeOrGain.reveal = Show where did the undeclared income or gain come from
 whereDidTheUndeclaredIncomeOrGain.error.required = Nodwch o ble y daeth yr incwm neu’r enillion sydd heb eu datgan
 whereDidTheUndeclaredIncomeOrGain.error.length = Mae’n rhaid i’r manylion ynglŷn â lle y daeth yr incwm neu’r enillion heb eu datgan fod rhwng 1 a 5,000 o gymeriadau
-whereDidTheUndeclaredIncomeOrGain.change.hidden = Where did the income or gain come from?
+whereDidTheUndeclaredIncomeOrGain.change.hidden = O ble y daeth yr incwm neu’r enillion?
 
 whichTelephoneNumberCanWeContactYouWith.title = Which telephone number can we contact you with?
 whichTelephoneNumberCanWeContactYouWith.heading = Which telephone number can we contact you with?
@@ -2013,8 +2013,8 @@ selectAddress.rental.title = Choose the address of property {0}
 selectAddress.rental.heading = Choose the address of property {0}
 editAddress.rental.title = What is the address of property {0}?
 editAddress.rental.heading = What is the address of property {0}?
-confirmAddress.rental.title = Is this the correct address?
-confirmAddress.rental.heading = Is this the correct address?
+confirmAddress.rental.title = Ai dyma’r cyfeiriad cywir?
+confirmAddress.rental.heading = Ai dyma’r cyfeiriad cywir?
 rentalAddress.checkYourAnswersLabel = Property address
 rentalAddress.change.hidden = Property address
 
@@ -2467,6 +2467,7 @@ areYouTheEntity.trust.voluntaryOrganisation = Rwy’n gweithio i sefydliad gwirf
 areYouTheEntity.trust.powerOfAttorney = Rwyf wedi cael fy mhenodi o dan bŵer atwrnai i weithredu ar ei ran
 areYouTheEntity.trust.error.required = Dewiswch ‘Iawn’ os ydych yn ymddiriedolwr yr ymddiriedolaeth
 areYouTheEntity.trust.change.hidden = A ydych yn ymddiriedolwr yr ymddiriedolaeth y bydd y datgeliad yn ymwneud ag ef?
-areYouTheEntity.trust.body = Os nad ydych yn ymddiriedolwr, bydd angen iddo
+areYouTheEntity.trust.body.first = Ymddiriedolwr yw perchennog cyfreithlon yr asedion a ddelir mewn ymddiriedolaeth.
+areYouTheEntity.trust.body.second = Os nad ydych yn ymddiriedolwr, bydd angen iddo
 areYouTheEntity.trust.link = eich penodi i ddelio â CThEF ar ei ran (yn agor tab newydd)
 areYouTheEntity.trust.checkYourAnswersLabel = A ydych yn ymddiriedolwr yr ymddiriedolaeth y bydd y datgeliad yn ymwneud ag ef?
