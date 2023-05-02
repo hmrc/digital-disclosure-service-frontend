@@ -27,7 +27,7 @@
 
 @layout(pageTitle = title(form, messages("propertyFirstLetOut.title", i+1))) {
 
-    @formHelper(action = controllers.letting.routes.PropertyFirstLetOutController.onSubmit(i, mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.letting.routes.PropertyFirstLetOutController.onSubmit(i, mode), Symbol("autoComplete") -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value.day")))

@@ -58,7 +58,7 @@ class AddressLookupServiceSpec
 
   implicit val hc: HeaderCarrier = HeaderCarrier()
 
-  val app = applicationBuilder().build
+  val app = applicationBuilder().build()
 
   val addressUpdateCall: Call = Call("", "/redirect")
 
@@ -450,12 +450,12 @@ class AddressLookupServiceSpec
         val json = Json.obj(
           "id"      -> id,
           "address" -> Json.obj(
-            "lines"    -> Seq(
+            "lines"    -> Set(
               address.line1.some.toList,
               address.line2.toList,
               address.line3.toList,
               address.line4.toList
-            ).flatten.seq,
+            ).flatten.toSeq,
             "postcode" -> address.postcode,
             "country"  -> Json.obj(
               "code" -> address.country.code

@@ -29,8 +29,8 @@ object HowMuchTaxHasNotBeenIncluded extends Enumerable.Implicits {
   case object OneLakhAndMore extends WithName("oneLakhAndMore") with HowMuchTaxHasNotBeenIncluded
 
   val values: Seq[HowMuchTaxHasNotBeenIncluded] = Seq(
-    TenThousandOrLess, 
-    MoreThanTenThousandAndLessThanOneLakh, 
+    TenThousandOrLess,
+    MoreThanTenThousandAndLessThanOneLakh,
     OneLakhAndMore
   )
 

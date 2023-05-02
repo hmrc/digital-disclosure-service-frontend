@@ -32,7 +32,7 @@
 
 @layout(pageTitle = title(form, messages("propertyIsNoLongerBeingLetOut.title", i+1))) {
 
-    @formHelper(action = controllers.letting.routes.PropertyIsNoLongerBeingLetOutController.onSubmit(i, mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.letting.routes.PropertyIsNoLongerBeingLetOutController.onSubmit(i, mode), Symbol("autoComplete") -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value.day")))

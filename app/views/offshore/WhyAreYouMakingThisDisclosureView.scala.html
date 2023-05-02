@@ -30,7 +30,7 @@
 
 @layout(pageTitle = title(form, messages("whyAreYouMakingThisDisclosure.title"))) {
 
-    @formHelper(action = controllers.offshore.routes.WhyAreYouMakingThisDisclosureController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.offshore.routes.WhyAreYouMakingThisDisclosureController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value_0")))

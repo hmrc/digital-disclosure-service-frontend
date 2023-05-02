@@ -66,12 +66,12 @@ class WhatWasThePersonDateOfBirthControllerSpec extends SpecBase with MockitoSug
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       running(application) {
-        val result = route(application, getRequest).value
+        val result = route(application, getRequest()).value
 
         val view = application.injector.instanceOf[WhatWasThePersonDateOfBirthView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode, false)(getRequest, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode, false)(getRequest(), messages(application)).toString
       }
     }
 
@@ -84,10 +84,10 @@ class WhatWasThePersonDateOfBirthControllerSpec extends SpecBase with MockitoSug
       running(application) {
         val view = application.injector.instanceOf[WhatWasThePersonDateOfBirthView]
 
-        val result = route(application, getRequest).value
+        val result = route(application, getRequest()).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(validAnswer), NormalMode, false)(getRequest, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(validAnswer), NormalMode, false)(getRequest(), messages(application)).toString
       }
     }
 
@@ -105,7 +105,7 @@ class WhatWasThePersonDateOfBirthControllerSpec extends SpecBase with MockitoSug
           .build()
 
       running(application) {
-        val result = route(application, postRequest).value
+        val result = route(application, postRequest()).value
 
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual onwardRoute.url
@@ -137,7 +137,7 @@ class WhatWasThePersonDateOfBirthControllerSpec extends SpecBase with MockitoSug
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val result = route(application, getRequest).value
+        val result = route(application, getRequest()).value
 
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
@@ -149,7 +149,7 @@ class WhatWasThePersonDateOfBirthControllerSpec extends SpecBase with MockitoSug
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val result = route(application, postRequest).value
+        val result = route(application, postRequest()).value
 
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url

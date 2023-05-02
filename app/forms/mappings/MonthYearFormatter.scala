@@ -58,9 +58,9 @@ private[mappings] class MonthYearFormatter(
     )
 
     for {
-      month <- defaultKey(key, int.bind(s"$key.month", data)).right
-      year  <- defaultKey(key, int.bind(s"$key.year", data)).right
-      _     <- combineErrors(validateYear(s"$key", year), validateMonth(s"$key.month", month)).right
+      month <- defaultKey(key, int.bind(s"$key.month", data))
+      year  <- defaultKey(key, int.bind(s"$key.year", data))
+      _     <- combineErrors(validateYear(s"$key", year), validateMonth(s"$key.month", month))
     } yield MonthYear(month, year)
   }
 

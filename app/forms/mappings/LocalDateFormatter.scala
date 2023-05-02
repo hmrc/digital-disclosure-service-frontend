@@ -61,11 +61,11 @@ private[mappings] class LocalDateFormatter(
     )
 
     for {
-      day   <- defaultKey(key, int.bind(s"$key.day", data)).right
-      month <- defaultKey(key, int.bind(s"$key.month", data)).right
-      year  <- defaultKey(key, int.bind(s"$key.year", data)).right
-      _     <- combineErrors(validateDay(s"$key.day", day), validateMonth(s"$key.month", month)).right
-      date  <- toDate(key, day, month, year).right
+      day   <- defaultKey(key, int.bind(s"$key.day", data))
+      month <- defaultKey(key, int.bind(s"$key.month", data))
+      year  <- defaultKey(key, int.bind(s"$key.year", data))
+      _     <- combineErrors(validateDay(s"$key.day", day), validateMonth(s"$key.month", month))
+      date  <- toDate(key, day, month, year)
     } yield date
   }
 

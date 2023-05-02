@@ -24,14 +24,16 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import models.CheckMode
 import viewmodels.RevealFullText
 
+sealed abstract class RowHelperSection(name:String)
+case object ONSHORE extends RowHelperSection("onshore")
+case object OFFSHORE extends RowHelperSection("offshore")
+case object CT extends RowHelperSection("corporationTax")
+case object DL extends RowHelperSection("directorLoan")
+
+
 trait RowHelper {
 
-  val ONSHORE = "onshore"
-  val OFFSHORE = "offshore"
-  val CT = "corporationTax"
-  val DL = "directorLoan"
-  
-  def poundRowCase(i: Int,label: String, value: String, hiddenLabel: String, section: String)(implicit messages: Messages) = {
+  def poundRowCase(i: Int,label: String, value: String, hiddenLabel: String, section: RowHelperSection)(implicit messages: Messages) = {
     section match {
       case ONSHORE => onshorePoundRow(i: Int,label: String, value: String, hiddenLabel: String)
       case OFFSHORE => offshorePoundRow(i: Int,label: String, value: String, hiddenLabel: String)
@@ -40,7 +42,7 @@ trait RowHelper {
     }
   }
 
-  def rowCase(i: Int,label: String, value: String, hiddenLabel: String, section: String, revealFullText: RevealFullText, isRevealText: Boolean)(implicit messages: Messages) = {
+  def rowCase(i: Int,label: String, value: String, hiddenLabel: String, section: RowHelperSection, revealFullText: RevealFullText, isRevealText: Boolean)(implicit messages: Messages) = {
     section match {
       case ONSHORE => if(isRevealText) onshoreRevealRow(i: Int,label: String, value: String, hiddenLabel: String, revealFullText: RevealFullText) else onshoreRow(i: Int,label: String, value: String, hiddenLabel: String)
       case OFFSHORE => if(isRevealText) offshoreRevealRow(i: Int,label: String, value: String, hiddenLabel: String, revealFullText: RevealFullText) else offshoreRow(i: Int,label: String, value: String, hiddenLabel: String)
@@ -49,7 +51,7 @@ trait RowHelper {
     }
   }
 
-  def onshorePoundRow(i: Int,label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
+  private def onshorePoundRow(i: Int, label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
     SummaryListRowViewModel(
       key     = label,
       value   = ValueViewModel(HtmlContent(s"&pound;$value")),
@@ -60,7 +62,7 @@ trait RowHelper {
     )
   }
 
-  def offshorePoundRow(i: Int,label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
+  private def offshorePoundRow(i: Int, label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
     SummaryListRowViewModel(
       key     = label,
       value   = ValueViewModel(HtmlContent(s"&pound;$value")),
@@ -71,7 +73,7 @@ trait RowHelper {
     )
   }
 
-  def ctPoundRow(i: Int,label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
+  private def ctPoundRow(i: Int, label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
     SummaryListRowViewModel(
       key     = label,
       value   = ValueViewModel(HtmlContent(s"&pound;$value")),
@@ -82,7 +84,7 @@ trait RowHelper {
     )
   }
 
-  def dlPoundRow(i: Int,label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
+  private def dlPoundRow(i: Int, label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
     SummaryListRowViewModel(
       key     = label,
       value   = ValueViewModel(HtmlContent(s"&pound;$value")),
@@ -93,7 +95,7 @@ trait RowHelper {
     )
   }
 
-  def onshoreRow(i: Int,label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
+  private def onshoreRow(i: Int, label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
     SummaryListRowViewModel(
       key     = label,
       value   = ValueViewModel(HtmlContent(HtmlFormat.escape(value))),
@@ -104,7 +106,7 @@ trait RowHelper {
     )
   }
 
-  def onshoreRevealRow(i: Int,label: String, value: String, hiddenLabel: String, revealFullText: RevealFullText)(implicit messages: Messages) = {
+  private def onshoreRevealRow(i: Int, label: String, value: String, hiddenLabel: String, revealFullText: RevealFullText)(implicit messages: Messages) = {
     SummaryListRowViewModel(
       key     = s"${label}.checkYourAnswersLabel",
       value   = ValueViewModel(revealFullText.addRevealToText(value, s"${label}.reveal")),
@@ -115,7 +117,7 @@ trait RowHelper {
     )
   }
 
-  def offshoreRow(i: Int,label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
+  private def offshoreRow(i: Int, label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
     SummaryListRowViewModel(
       key     = label,
       value   = ValueViewModel(HtmlContent(HtmlFormat.escape(value))),
@@ -126,7 +128,7 @@ trait RowHelper {
     )
   }
 
-  def offshoreRevealRow(i: Int,label: String, value: String, hiddenLabel: String, revealFullText: RevealFullText)(implicit messages: Messages) = {
+  private def offshoreRevealRow(i: Int, label: String, value: String, hiddenLabel: String, revealFullText: RevealFullText)(implicit messages: Messages) = {
     SummaryListRowViewModel(
       key     = s"${label}.checkYourAnswersLabel",
       value   = ValueViewModel(revealFullText.addRevealToText(value, s"${label}.reveal")),
@@ -137,7 +139,7 @@ trait RowHelper {
     )
   }
 
-  def ctRow(i: Int,label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
+  private def ctRow(i: Int, label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
     SummaryListRowViewModel(
       key     = label,
       value   = ValueViewModel(HtmlContent(HtmlFormat.escape(value))),
@@ -148,10 +150,10 @@ trait RowHelper {
     )
   }
 
-  def ctRevealRow(i: Int,label: String, value: String, hiddenLabel: String, revealFullText: RevealFullText)(implicit messages: Messages) = {
+  private def ctRevealRow(i: Int, label: String, value: String, hiddenLabel: String, revealFullText: RevealFullText)(implicit messages: Messages) = {
     SummaryListRowViewModel(
       key     = s"${label}.checkYourAnswersLabel",
-      value   = ValueViewModel(revealFullText.addRevealToText(value, s"${label}.reveal", (i+1).toString)),
+      value   = ValueViewModel(revealFullText.addRevealToText(value, s"${label}.reveal", (i + 1).toString)),
       actions = Seq(
         ActionItemViewModel("site.change", controllers.onshore.routes.CorporationTaxLiabilityController.onPageLoad(i, CheckMode).url)
           .withVisuallyHiddenText(messages(hiddenLabel))

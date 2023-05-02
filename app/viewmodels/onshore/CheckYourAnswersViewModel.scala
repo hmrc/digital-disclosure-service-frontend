@@ -19,7 +19,7 @@ package viewmodels.onshore
 import models._
 import models.store.FullDisclosure
 import models.store.disclosure.OnshoreLiabilities
-import viewmodels.TotalAmounts
+import viewmodels.{ONSHORE, RevealFullText, RowHelper, TotalAmounts}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryList
 import viewmodels.govuk.summarylist._
 import viewmodels.checkAnswers._
@@ -27,8 +27,7 @@ import pages.{OnshoreTaxYearLiabilitiesPage, WhatOnshoreLiabilitiesDoYouNeedToDi
 import play.api.i18n.Messages
 import com.google.inject.{Inject, Singleton}
 import services.UAToDisclosureService
-import viewmodels.RowHelper
-import viewmodels.RevealFullText
+
 import scala.math.BigDecimal.RoundingMode
 
 case class CheckYourAnswersViewModel(

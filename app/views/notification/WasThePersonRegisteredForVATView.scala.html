@@ -27,7 +27,7 @@
 
 @layout(pageTitle = title(form, messages("wasThePersonRegisteredForVAT.title"))) {
 
-    @formHelper(action = controllers.notification.routes.WasThePersonRegisteredForVATController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.notification.routes.WasThePersonRegisteredForVATController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form,  errorLinkOverrides = Map("value" -> "value_0")))

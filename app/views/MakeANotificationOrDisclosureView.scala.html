@@ -30,7 +30,7 @@
 
 @layout(pageTitle = title(form, messages("makeANotificationOrDisclosure.title"))) {
 
-    @formHelper(action = controllers.routes.MakeANotificationOrDisclosureController.onSubmit, 'autoComplete -> "off") {
+    @formHelper(action = controllers.routes.MakeANotificationOrDisclosureController.onSubmit, Symbol("autoComplete") -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form,  errorLinkOverrides = Map("value" -> "value_0")))
