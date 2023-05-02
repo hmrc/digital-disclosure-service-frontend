@@ -1,6 +1,6 @@
 service.name = Tell HMRC about underpaid tax from previous years
 site.back = Back
-site.remove = Remove
+site.remove = Dileu
 site.change = Newidiwch
 site.no = Na
 site.yes = Iawn
@@ -392,18 +392,15 @@ onshoreLiabilities.label = A fydd y datgeliad hefyd yn ymwneud â rhwymedigaetha
 onshoreLiabilities.yes = Iawn
 onshoreLiabilities.no = Na
 onshoreLiabilities.checkYourAnswersLabel = A fydd y datgeliad hefyd yn ymwneud â rhwymedigaethau artraeth?
-onshoreLiabilities.default.checkYourAnswersLabel = Will the disclosure be about onshore liabilities?
 onshoreLiabilities.error.required = Dewiswch ‘Iawn’ os yw’r datgeliad yn ymwneud â rhwymedigaethau artraeth
-onshoreLiabilities.change.hidden = Will the disclosure be about onshore liabilities?
 
 letterReference.title = Beth yw cyfeirnodau yr achos sydd ar y llythyr a gawsoch oddi wrth CThEF?
 letterReference.heading = Beth yw cyfeirnodau yr achos sydd ar y llythyr a gawsoch oddi wrth CThEF?
 letterReference.body = This can be found towards the top of the letter underneath the date. It begins with ‘CFSS’, ‘CFSC’ or ‘CFS’ followed by 7 numbers.
 letterReference.hint = Er enghraifft, CFSS-1234567 neu CFS-1234567.
 letterReference.checkYourAnswersLabel = Cyfeirnod yr achos
-letterReference.error.required = Enter the case reference
-letterReference.error.length = LetterReference must be 30 characters or less
-letterReference.error.format = Enter the case reference in the right format
+letterReference.error.required = Nodwch gyfeirnod yr achos
+letterReference.error.format = Nodwch gyfeirnod yr achos yn y fformat cywir
 letterReference.change.hidden = Cyfeirnod yr achos
 
 liabilities.offshore = Rhwymedigaethau alltraeth
@@ -570,11 +567,11 @@ yourAddressLookup.llp.afterHeadingText = If you are representing an organisation
 yourAddressLookup.trust.afterHeadingText = If you are representing an organisation on behalf of the trust, you can use your organisation’s address.
 yourAddressLookup.estate.afterHeadingText = If you are representing an organisation on behalf of the estate, you can use your organisation’s address.
 
-selectAddress.title = Choose your address
-selectAddress.heading = Choose your address
+selectAddress.title = Dewiswch eich cyfeiriad
+selectAddress.heading = Dewiswch eich cyfeiriad
 
-editAddress.title = What is your address?
-editAddress.heading = What is your address?
+editAddress.title = Beth yw’ch cyfeiriad?
+editAddress.heading = Beth yw’ch cyfeiriad?
 
 confirmAddress.title = Ai dyma’r cyfeiriad cywir?
 confirmAddress.heading = Ai dyma’r cyfeiriad cywir?
@@ -671,8 +668,8 @@ individualCountryLookup.title = Beth yw gwlad cyfeiriad yr unigolyn?
 individualCountryLookup.heading = Beth yw gwlad cyfeiriad yr unigolyn?
 individualCountryLookup.hint = Er enghraifft, y Deyrnas Unedig.
 
-individualAddressLookup.title = What is the postcode and property name or number of the individual’s address?
-individualAddressLookup.heading = What is the postcode and property name or number of the individual’s address?
+individualAddressLookup.title = Beth yw cost post ac enw neu rif eiddo yr unigolyn?
+individualAddressLookup.heading = Beth yw cost post ac enw neu rif eiddo yr unigolyn?
 
 individualAddressLookup.checkYourAnswersLabel = Cyfeiriad yr unigolyn
 individualAddressLookup.change.hidden = Cyfeiriad yr unigolyn
@@ -748,8 +745,8 @@ companyCountryLookup.title = Beth yw gwlad cyfeiriad y cwmni?
 companyCountryLookup.heading = Beth yw gwlad cyfeiriad y cwmni?
 companyCountryLookup.hint = Er enghraifft, y Deyrnas Unedig.
 
-companyAddressLookup.title = What is the postcode and property name or number of the company’s address?
-companyAddressLookup.heading = What is the postcode and property name or number of the company’s address?
+companyAddressLookup.title = Beth yw cost post ac enw neu rif eiddo y cwmni?
+companyAddressLookup.heading = Beth yw cost post ac enw neu rif eiddo y cwmni?
 
 companyAddressLookup.checkYourAnswersLabel = Cyfeiriad y cwmni
 companyAddressLookup.change.hidden = Cyfeiriad y cwmni
@@ -785,8 +782,8 @@ llpCountryLookup.title = Beth yw gwlad cyfeiriad y bartneriaeth atebolrwydd cyfy
 llpCountryLookup.heading = Beth yw gwlad cyfeiriad y bartneriaeth atebolrwydd cyfyngedig?
 llpCountryLookup.hint = Er enghraifft, y Deyrnas Unedig.
 
-llpAddressLookup.title = What is the postcode and property name or number of the limited liability partnership’s address?
-llpAddressLookup.heading = What is the postcode and property name or number of the limited liability partnership’s address?
+llpAddressLookup.title = Beth yw cost post ac enw neu rif eiddo y bartneriaeth atebolrwydd cyfyngedig?
+llpAddressLookup.heading = Beth yw cost post ac enw neu rif eiddo y bartneriaeth atebolrwydd cyfyngedig?
 
 llpAddressLookup.checkYourAnswersLabel = Limited liability partnership’s address
 llpAddressLookup.change.hidden = Limited liability partnership’s address
@@ -816,8 +813,8 @@ trustCountryLookup.title = Beth yw gwlad cyfeiriad yr ymddiriedolaeth?
 trustCountryLookup.heading = Beth yw gwlad cyfeiriad yr ymddiriedolaeth?
 trustCountryLookup.hint = Er enghraifft, y Deyrnas Unedig.
 
-trustAddressLookup.title = What is the postcode and property name or number of the trust’s address?
-trustAddressLookup.heading = What is the postcode and property name or number of the trust’s address?
+trustAddressLookup.title = Beth yw cost post ac enw neu rif eiddo yr ymddiriedolaeth)?
+trustAddressLookup.heading = Beth yw cost post ac enw neu rif eiddo yr ymddiriedolaeth)?
 
 trustAddressLookup.checkYourAnswersLabel = Cyfeiriad yr ymddiriedolaeth
 trustAddressLookup.change.hidden = Cyfeiriad yr ymddiriedolaeth

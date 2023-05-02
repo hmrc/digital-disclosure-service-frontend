@@ -402,7 +402,6 @@ letterReference.body = This can be found towards the top of the letter underneat
 letterReference.hint = For example, CFSS-1234567 or CFS-1234567.
 letterReference.checkYourAnswersLabel = Case reference
 letterReference.error.required = Enter the case reference
-letterReference.error.length = LetterReference must be 30 characters or less
 letterReference.error.format = Enter the case reference in the right format
 letterReference.change.hidden = Case reference
 
