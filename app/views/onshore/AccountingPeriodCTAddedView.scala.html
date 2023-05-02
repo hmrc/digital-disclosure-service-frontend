@@ -32,7 +32,7 @@
 
 @layout(pageTitle = title(form, if (periodEndDates.size == 1) messages("accountingPeriodCTAdded.title.single") else messages("accountingPeriodCTAdded.title.multi", periodEndDates.size))) {
 
-    @formHelper(action = controllers.onshore.routes.AccountingPeriodCTAddedController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.onshore.routes.AccountingPeriodCTAddedController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))

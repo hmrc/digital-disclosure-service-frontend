@@ -27,7 +27,7 @@
 
 @layout(pageTitle = title(form, messages("wasPropertyFurnished.title", index + 1))) {
 
-    @formHelper(action = controllers.letting.routes.WasPropertyFurnishedController.onSubmit(index, mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.letting.routes.WasPropertyFurnishedController.onSubmit(index, mode), Symbol("autoComplete") -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))

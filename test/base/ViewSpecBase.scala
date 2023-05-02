@@ -28,7 +28,7 @@ import play.api.inject.guice.GuiceApplicationBuilder
 trait ViewSpecBase extends PlaySpec with Injecting {
 
   val app = new GuiceApplicationBuilder()
-    .overrides(bind[InternalAuthTokenInitialiser].to[NoOpInternalAuthTokenInitialiser]).build
+    .overrides(bind[InternalAuthTokenInitialiser].to[NoOpInternalAuthTokenInitialiser]).build()
 
   val request: Request[AnyContent] = FakeRequest().withCSRFToken
   protected val realMessagesApi: MessagesApi = inject[MessagesApi]

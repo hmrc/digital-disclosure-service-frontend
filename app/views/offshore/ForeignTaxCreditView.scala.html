@@ -29,7 +29,7 @@
 
 @layout(pageTitle = title(form, messages("foreignTaxCredit.title", year))) {
 
-    @formHelper(action = controllers.offshore.routes.ForeignTaxCreditController.onSubmit(i, mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.offshore.routes.ForeignTaxCreditController.onSubmit(i, mode), Symbol("autoComplete") -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))

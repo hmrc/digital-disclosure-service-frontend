@@ -27,7 +27,7 @@
 
 @layout(pageTitle = title(form, messages("whichTelephoneNumberCanWeContactYouWith.title"))) {
 
-    @formHelper(action = controllers.reason.routes.WhichTelephoneNumberCanWeContactYouWithController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.reason.routes.WhichTelephoneNumberCanWeContactYouWithController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form,  errorLinkOverrides = Map("value" -> "value_0")))

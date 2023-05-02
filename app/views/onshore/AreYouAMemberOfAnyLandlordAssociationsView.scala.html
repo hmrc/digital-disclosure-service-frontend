@@ -27,7 +27,7 @@
 
 @layout(pageTitle = title(form, if(areTheyTheIndividual) messages("areYouAMemberOfAnyLandlordAssociations.you.title") else messages(s"areYouAMemberOfAnyLandlordAssociations.${entity}.title"))) {
 
-    @formHelper(action = controllers.onshore.routes.AreYouAMemberOfAnyLandlordAssociationsController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.onshore.routes.AreYouAMemberOfAnyLandlordAssociationsController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))

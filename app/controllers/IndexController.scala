@@ -22,12 +22,9 @@ import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.IndexView
-import services.{SessionService, UAToNotificationService}
-import config.FrontendAppConfig
-import models.{UserAnswers, NormalMode, SubmissionType}
-import play.api.Logging
+import services.SessionService
+import models.UserAnswers
 import scala.concurrent.{ExecutionContext, Future}
-import uk.gov.hmrc.http.HeaderCarrier
 import navigation.Navigator
 
 class IndexController @Inject()(
@@ -41,8 +38,9 @@ class IndexController @Inject()(
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData).async { implicit request =>
 
-    if (request.isAgent)
+    if (request.isAgent) {
       Future.successful(Ok(view(controllers.routes.CaseManagementController.onPageLoad(1).url, request.isAgent)))
+    }
     else {
       for {
         uaOpt  <- sessionService.getIndividualUserAnswers(request.userId, request.sessionId, UserAnswers.defaultSubmissionId)

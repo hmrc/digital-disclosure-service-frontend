@@ -27,7 +27,7 @@
 
 @layout(pageTitle = title(form, messages("propertyStoppedBeingLetOut.title", i + 1))) {
 
-    @formHelper(action = controllers.letting.routes.PropertyStoppedBeingLetOutController.onSubmit(i, mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.letting.routes.PropertyStoppedBeingLetOutController.onSubmit(i, mode), Symbol("autoComplete") -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))
