@@ -65,7 +65,7 @@ trait Formatters {
         baseFormatter
           .bind(key, data)
           .right.map(
-            _.replace(",", "").replace("£", "").replace("%", "").trim
+            _.replace(",", "").replace("£", "").replace("%", "").replace(" ", "").trim
           )
           .right.flatMap {
           case s if s.matches(decimalRegexp) =>
