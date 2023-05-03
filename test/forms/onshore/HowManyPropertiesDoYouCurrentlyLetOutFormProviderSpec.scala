@@ -23,7 +23,7 @@ class HowManyPropertiesDoYouCurrentlyLetOutFormProviderSpec extends IntFieldBeha
 
   val requiredKey = "howManyProperties.error.required"
   val nonNumericKey = "howManyProperties.error.nonNumeric"
-
+  
   val form = new HowManyPropertiesDoYouCurrentlyLetOutFormProvider()()
 
   ".value" - {
