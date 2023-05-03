@@ -1429,7 +1429,7 @@ describeTheGift.checkYourAnswersLabel = Gift description
 describeTheGift.reveal = Show gift description
 describeTheGift.error.required = Enter a description of the gift that your issue is about
 describeTheGift.error.length = The description of the gift must be between 1 and 5,000 characters
-describeTheGift.change.hidden = DescribeTheGift
+describeTheGift.change.hidden = Gift description
 
 didYouReceiveTaxCredit.agent.title = Did you receive tax credits for any of the years covered by your disclosure?
 didYouReceiveTaxCredit.agent.heading = Did you receive tax credits for any of the years covered by your disclosure?
@@ -1630,7 +1630,7 @@ whichEmailAddressCanWeContactYouWith.existingEmail = {0}
 whichEmailAddressCanWeContactYouWith.differentEmail = A different email address
 whichEmailAddressCanWeContactYouWith.checkYourAnswersLabel = Which email address can we contact you with?
 whichEmailAddressCanWeContactYouWith.error.required = Select an email address we can contact you with
-whichEmailAddressCanWeContactYouWith.change.hidden = WhichEmailAddressCanWeContactYouWith
+whichEmailAddressCanWeContactYouWith.change.hidden = Which email address can we contact you with?
 
 whatEmailAddressCanWeContactYouWith.title = What email address can we contact you with?
 whatEmailAddressCanWeContactYouWith.heading = What email address can we contact you with?
@@ -1638,7 +1638,7 @@ whatEmailAddressCanWeContactYouWith.hint = For example, name@example.com.
 whatEmailAddressCanWeContactYouWith.checkYourAnswersLabel = Email address
 whatEmailAddressCanWeContactYouWith.error.required = Enter your email address
 whatEmailAddressCanWeContactYouWith.error.validFormat = Enter your email address in the right format
-whatEmailAddressCanWeContactYouWith.change.hidden = WhatEmailAddressCanWeContactYouWith
+whatEmailAddressCanWeContactYouWith.change.hidden = What email address can we contact you with?
 
 notificationSubmitted.title = You sent a notification on {0}
 notificationSubmitted.heading = You sent a notification on {0}
@@ -1719,7 +1719,7 @@ whichTelephoneNumberCanWeContactYouWith.existingNumber = {0}
 whichTelephoneNumberCanWeContactYouWith.differentNumber = A different telephone number
 whichTelephoneNumberCanWeContactYouWith.checkYourAnswersLabel = whichTelephoneNumberCanWeContactYouWith
 whichTelephoneNumberCanWeContactYouWith.error.required = Select telephone number we can contact you with
-whichTelephoneNumberCanWeContactYouWith.change.hidden = WhichTelephoneNumberCanWeContactYouWith
+whichTelephoneNumberCanWeContactYouWith.change.hidden = Which telephone number can we contact you with?
 
 whereDidTheUndeclaredIncomeOrGainIncluded.title = Where did the undeclared income or gain you will include in the disclosure come from? 
 whereDidTheUndeclaredIncomeOrGainIncluded.heading = Where did the undeclared income or gain you will include in the disclosure come from? 
@@ -2314,6 +2314,7 @@ howManyProperties.heading = How many properties do you currently let out?
 howManyProperties.checkYourAnswersLabel = Number of properties currently let out
 howManyProperties.error.required = Enter the amount of properties you currently let out
 howManyProperties.error.nonNumeric = The amount of properties you currently let out must be a whole number, like 2
+howManyProperties.error.range = The amount of properties you currently let out must be 0 or more
 howManyProperties.change.hidden = How many properties do you currently let out?
 
 haveNoOnshoreLiabilities.agent.title = You have no onshore liabilities to disclose

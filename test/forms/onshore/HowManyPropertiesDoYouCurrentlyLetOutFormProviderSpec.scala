@@ -16,10 +16,10 @@
 
 package forms
 
-import forms.behaviours.FieldBehaviours
+import forms.behaviours.IntFieldBehaviours
 import play.api.data.FormError
 
-class HowManyPropertiesDoYouCurrentlyLetOutFormProviderSpec extends FieldBehaviours {
+class HowManyPropertiesDoYouCurrentlyLetOutFormProviderSpec extends IntFieldBehaviours {
 
   val requiredKey = "howManyProperties.error.required"
   val nonNumericKey = "howManyProperties.error.nonNumeric"
@@ -30,15 +30,23 @@ class HowManyPropertiesDoYouCurrentlyLetOutFormProviderSpec extends FieldBehavio
 
     val fieldName = "value"
 
-    "bind valid data" in {
+    val minimum = 0
+    val maximum = Int.MaxValue
 
-      forAll(nonNumerics -> "validDataItem") {
-        dataItem: String =>
-          val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
-          result.value.value mustBe dataItem
-          result.errors mustBe Seq(FormError(fieldName, nonNumericKey))
-      }
-    }
+    val validDataGenerator = intsInRangeWithCommas(minimum, maximum)
+
+    behave like fieldThatBindsValidData(
+      form,
+      fieldName,
+      validDataGenerator
+    )
+
+    behave like intField(
+      form,
+      fieldName,
+      nonNumericError  = FormError(fieldName, nonNumericKey),
+      wholeNumberError = FormError(fieldName, nonNumericKey)
+    )
 
     behave like mandatoryField(
       form,
