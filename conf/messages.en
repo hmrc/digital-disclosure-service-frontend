@@ -1421,7 +1421,7 @@ whatOtherLiabilityIssues.checkYourAnswersLabel = Other liability issue descripti
 whatOtherLiabilityIssues.reveal = Show other liability issue description
 whatOtherLiabilityIssues.error.required = Enter the other liability issues you need to fix
 whatOtherLiabilityIssues.error.length = The other liability issues must be between 1 and 5,000 characters
-whatOtherLiabilityIssues.change.hidden = WhatOtherLiabilityIssues
+whatOtherLiabilityIssues.change.hidden = Other liability issue description
 
 describeTheGift.title = Can you describe the gift (known as a chargeable transfer) that your issue is about?
 describeTheGift.heading = Can you describe the gift (known as a chargeable transfer) that your issue is about?
