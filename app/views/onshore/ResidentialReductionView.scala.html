@@ -29,7 +29,7 @@
 
 @layout(pageTitle = title(form, messages("residentialReduction.title", year))) {
 
-    @formHelper(action = controllers.onshore.routes.ResidentialReductionController.onSubmit(i, mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.onshore.routes.ResidentialReductionController.onSubmit(i, mode), Symbol("autoComplete") -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))

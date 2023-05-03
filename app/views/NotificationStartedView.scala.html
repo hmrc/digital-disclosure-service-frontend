@@ -28,7 +28,7 @@
 
 @layout(pageTitle = title(form, messages("notificationStarted.title"))) {
 
-    @formHelper(action = controllers.routes.NotificationStartedController.onSubmit, 'autoComplete -> "off") {
+    @formHelper(action = controllers.routes.NotificationStartedController.onSubmit, Symbol("autoComplete") -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form,  errorLinkOverrides = Map("value" -> "value_0")))

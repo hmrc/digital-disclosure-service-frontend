@@ -27,7 +27,7 @@
 
 @layout(pageTitle = title(form, if(areTheyTheIndividual) messages("didSomeoneGiveYouAdviceNotDeclareTax.agent.title") else messages(s"didSomeoneGiveYouAdviceNotDeclareTax.${entity}.title"))) {
 
-    @formHelper(action = controllers.reason.routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.reason.routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))

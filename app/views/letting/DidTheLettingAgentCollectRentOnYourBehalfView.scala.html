@@ -27,7 +27,7 @@
 
 @layout(pageTitle = title(form, messages("didTheLettingAgentCollectRentOnYourBehalf.title"))) {
 
-    @formHelper(action = controllers.letting.routes.DidTheLettingAgentCollectRentOnYourBehalfController.onSubmit(i, mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.letting.routes.DidTheLettingAgentCollectRentOnYourBehalfController.onSubmit(i, mode), Symbol("autoComplete") -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))

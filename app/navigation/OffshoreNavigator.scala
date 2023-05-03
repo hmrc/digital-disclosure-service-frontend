@@ -72,7 +72,7 @@ class OffshoreNavigator @Inject()() {
         case (Some(years), _) if years.contains(CarelessPriorTo) => routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode)
         case (Some(years), _) if years.contains(DeliberatePriorTo) => routes.TaxBeforeNineteenYearsController.onPageLoad(NormalMode)
         case (_, 0) if !countryMapEmpty => routes.CountriesOrTerritoriesController.onPageLoad(NormalMode)
-        case (_, 0) => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
+        case (_, _) => routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode)
       }
     }
 

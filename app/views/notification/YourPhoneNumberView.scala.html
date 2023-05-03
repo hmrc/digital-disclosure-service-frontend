@@ -40,7 +40,7 @@
                 field = form("value"),
                 label = LabelViewModel(messages("yourPhoneNumber.question")).asPageHeading()
             )
-            .asTelephone
+            .asTelephone()
             .withHint(Hint(content = Text(messages("yourPhoneNumber.hint"))))
             .withWidth(Fixed20)
         )

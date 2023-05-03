@@ -27,7 +27,7 @@
 
 @layout(pageTitle = title(form, messages("jointlyOwnedProperty.title", i+1))) {
 
-    @formHelper(action = controllers.letting.routes.JointlyOwnedPropertyController.onSubmit(i, mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.letting.routes.JointlyOwnedPropertyController.onSubmit(i, mode), Symbol("autoComplete") -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))

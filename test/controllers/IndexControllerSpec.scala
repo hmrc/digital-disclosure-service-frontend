@@ -69,7 +69,7 @@ class IndexControllerSpec extends SpecBase with Generators {
         route(application, request).value
 
         val sessionRepo = application.injector.instanceOf[SessionRepository]
-        sessionRepo.get("id", "session-123").map(uaOpt => uaOpt mustBe 'defined)
+        sessionRepo.get("id", "session-123").map(uaOpt => uaOpt mustBe Symbol("defined"))
       }
     }
 

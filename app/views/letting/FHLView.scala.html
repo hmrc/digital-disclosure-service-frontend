@@ -30,7 +30,7 @@
 
 @layout(pageTitle = title(form, messages("fhl.title"))) {
 
-    @formHelper(action = controllers.letting.routes.FHLController.onSubmit(i, mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.letting.routes.FHLController.onSubmit(i, mode), Symbol("autoComplete") -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))

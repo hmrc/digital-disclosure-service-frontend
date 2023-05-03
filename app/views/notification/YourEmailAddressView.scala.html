@@ -40,7 +40,7 @@
                 field = form("value"),
                 label = LabelViewModel(messages("yourEmailAddress.question")).asPageHeading()
             )
-            .asEmail
+            .asEmail()
             .withHint(Hint(content = Text(messages("yourEmailAddress.hint"))))
             .withWidth(Full)
         )

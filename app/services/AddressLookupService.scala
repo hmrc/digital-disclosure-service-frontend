@@ -122,12 +122,14 @@ object AddressLookupServiceImpl {
     lines match {
       case Array(line1, line2, line3, line4) =>
         Address(line1, Some(line2), Some(line3), Some(line4), postcode, country)
-      case Array(line1, line2, line3)        =>
+      case Array(line1, line2, line3) =>
         Address(line1, Some(line2), Some(line3), None, postcode, country)
-      case Array(line1, line2)               =>
+      case Array(line1, line2) =>
         Address(line1, Some(line2), None, None, postcode, country)
-      case Array(line1)               =>
-        Address(line1, None, None, None, postcode, country)  
+      case Array(line1) =>
+        Address(line1, None, None, None, postcode, country)
+      case _ =>
+        Address("", None, None, None, postcode, country)
     }
   )
 }

@@ -28,7 +28,7 @@ import controllers.reason.routes
 @Singleton
 class ReasonNavigator @Inject()() {
 
-  private val normalRoutes: Page => UserAnswers => Call = {  
+  private val normalRoutes: Page => UserAnswers => Call = {
 
     case WhyAreYouMakingADisclosurePage => ua => ua.get(WhyAreYouMakingADisclosurePage) match {
       case Some(value) if(value.contains(Other)) => routes.WhatIsTheReasonForMakingADisclosureNowController.onPageLoad(NormalMode)
@@ -56,8 +56,10 @@ class ReasonNavigator @Inject()() {
     case AdviceProfessionPage => _ => routes.AdviceGivenController.onPageLoad(NormalMode)
 
     case AdviceGivenPage => ua => ua.get(AdviceGivenPage) match {
-      case (Some(value)) if value.contactPreference == AdviceContactPreference.Email => routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
-      case (Some(value)) if value.contactPreference == AdviceContactPreference.Telephone => routes.WhichTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode)
+      case (Some(value)) if value.contactPreference == AdviceContactPreference.Email =>
+        routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode)
+      case (Some(value)) if value.contactPreference == AdviceContactPreference.Telephone =>
+        routes.WhichTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode)
       case _ => routes.CheckYourAnswersController.onPageLoad
     }
 
@@ -75,7 +77,7 @@ class ReasonNavigator @Inject()() {
       case _ => routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode)
     }
 
-    case WhatTelephoneNumberCanWeContactYouWithPage => _ => routes.CheckYourAnswersController.onPageLoad  
+    case WhatTelephoneNumberCanWeContactYouWithPage => _ => routes.CheckYourAnswersController.onPageLoad
 
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
@@ -88,27 +90,37 @@ class ReasonNavigator @Inject()() {
     }
 
     case DidSomeoneGiveYouAdviceNotDeclareTaxPage => _ => hasAnswerChanged =>
-      if(hasAnswerChanged) routes.PersonWhoGaveAdviceController.onPageLoad(NormalMode)
-      else  routes.CheckYourAnswersController.onPageLoad
+      if(hasAnswerChanged) {
+        routes.PersonWhoGaveAdviceController.onPageLoad(NormalMode)
+      }
+      else {
+        routes.CheckYourAnswersController.onPageLoad
+      }
 
     case AdviceBusinessesOrOrgPage => ua => hasAnswerChanged =>
-      if(hasAnswerChanged) routes.AdviceBusinessNameController.onPageLoad(CheckMode)
-      else routes.CheckYourAnswersController.onPageLoad
+      if(hasAnswerChanged) {
+        routes.AdviceBusinessNameController.onPageLoad(CheckMode)
+      }
+      else {
+        routes.CheckYourAnswersController.onPageLoad
+      }
 
     case AdviceGivenPage => ua => hasAnswerChanged => ua.get(AdviceGivenPage) match {
-      case (Some(value)) if (hasAnswerChanged && value.contactPreference == AdviceContactPreference.Email) => routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(CheckMode)
-      case (Some(value)) if (hasAnswerChanged && value.contactPreference == AdviceContactPreference.Telephone) => routes.WhichTelephoneNumberCanWeContactYouWithController.onPageLoad(CheckMode)
+      case (Some(value)) if (hasAnswerChanged && value.contactPreference == AdviceContactPreference.Email) =>
+        routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(CheckMode)
+      case (Some(value)) if (hasAnswerChanged && value.contactPreference == AdviceContactPreference.Telephone) =>
+        routes.WhichTelephoneNumberCanWeContactYouWithController.onPageLoad(CheckMode)
       case _ => routes.CheckYourAnswersController.onPageLoad
     }
 
-    case WhichEmailAddressCanWeContactYouWithPage => ua => hasAnswerChanged => ua.get(WhichEmailAddressCanWeContactYouWithPage) match {
+    case WhichEmailAddressCanWeContactYouWithPage => ua => _ => ua.get(WhichEmailAddressCanWeContactYouWithPage) match {
       case Some(DifferentEmail) => routes.WhatEmailAddressCanWeContactYouWithController.onPageLoad(CheckMode)
-      case Some(ExistingEmail) => routes.CheckYourAnswersController.onPageLoad
+      case _ => routes.CheckYourAnswersController.onPageLoad
     }
 
-    case WhichTelephoneNumberCanWeContactYouWithPage => ua => hasAnswerChanged => ua.get(WhichTelephoneNumberCanWeContactYouWithPage) match {
+    case WhichTelephoneNumberCanWeContactYouWithPage => ua => _ => ua.get(WhichTelephoneNumberCanWeContactYouWithPage) match {
       case Some(DifferentNumber) => routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(CheckMode)
-      case Some(ExistingNumber) => routes.CheckYourAnswersController.onPageLoad
+      case _ => routes.CheckYourAnswersController.onPageLoad
     }
 
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad

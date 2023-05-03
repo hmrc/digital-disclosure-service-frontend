@@ -26,7 +26,7 @@
 
 @layout(pageTitle = titleNoForm(messages("notificationSubmitted.title", dateString))) {
 
-    @formHelper(action = controllers.routes.NotificationSubmittedController.onSubmit, 'autoComplete -> "off") {
+    @formHelper(action = controllers.routes.NotificationSubmittedController.onSubmit, Symbol("autoComplete") -> "off") {
 
         @heading(Text(messages("notificationSubmitted.heading", dateString)))
 

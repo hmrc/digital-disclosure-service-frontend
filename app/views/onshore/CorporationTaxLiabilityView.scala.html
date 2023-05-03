@@ -36,7 +36,7 @@
 
 @layout(pageTitle = title(form, messages("corporationTaxLiability.title", i + 1))) {
 
-    @formHelper(action = controllers.onshore.routes.CorporationTaxLiabilityController.onSubmit(i, mode), 'autoComplete -> "off") {
+    @formHelper(action = controllers.onshore.routes.CorporationTaxLiabilityController.onSubmit(i, mode), Symbol("autoComplete") -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("periodEnd" -> "periodEnd.day")))
