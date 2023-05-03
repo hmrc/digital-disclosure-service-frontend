@@ -23,7 +23,9 @@ import viewmodels.implicits._
 import play.api.i18n.Messages
 import controllers.offshore.routes
 import models.Mode
+
 object CountryModels {
+  
   def row(countries: Set[Country], mode:Mode)(implicit messages: Messages): Seq[SummaryListRow] = {
 
     countries.map{ country =>
