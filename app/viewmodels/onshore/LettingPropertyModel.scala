@@ -39,10 +39,10 @@ object LettingPropertyModel {
           Actions(items = Seq(
           ActionItemViewModel("site.change", controllers.letting.routes.CheckYourAnswersController.onPageLoad(i, mode).url)
             .withCssClass("summary-list-change-link")
-            .withVisuallyHiddenText(messages("propertyLetting.change.hidden")),
+            .withVisuallyHiddenText(addressLines),
           ActionItemViewModel("site.remove", routes.PropertyAddedController.remove(i, mode).url)
               .withCssClass("summary-list-remove-link")
-              .withVisuallyHiddenText(messages("propertyLetting.remove.hidden"))
+              .withVisuallyHiddenText(addressLines)
         )
       )))
     }
