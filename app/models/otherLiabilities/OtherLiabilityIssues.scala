@@ -51,7 +51,7 @@ object OtherLiabilityIssues extends Enumerable.Implicits {
           value   = value.toString
         )
     }
-    val divider = CheckboxItem(divider = Some("or"))   
+    val divider = CheckboxItem(divider = Some(messages("site.or")))   
     checkboxes.dropRight(1) :+ divider :+ checkboxes.last 
   }
 
