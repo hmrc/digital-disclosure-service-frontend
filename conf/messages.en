@@ -14,6 +14,7 @@ site.startAgain = Start again
 site.signIn = Sign in
 site.govuk = GOV.UK
 site.dot = .
+site.or = or
 site.2DP = {0,number,#,##0.00}
 
 date.day = Day
@@ -1399,8 +1400,8 @@ makingNilDisclosure.body.second = You will need to complete the remaining questi
 makingNilDisclosure.body.third = The person reviewing the disclosure will then contact you if they require further information.
 makingNilDisclosure.button = Go to list of tasks
 
-otherLiabilityIssues.title = Do you have any other liability issues to fix?
-otherLiabilityIssues.heading = Do you have any other liability issues to fix?
+otherLiabilityIssues.title = Do you have any other liability issues?
+otherLiabilityIssues.heading = Do you have any other liability issues?
 otherLiabilityIssues.body = If you have other liability issues, we will pass your details to the appropriate team who will discuss these with you.
 otherLiabilityIssues.checkbox.header = Select all that apply.
 otherLiabilityIssues.vatIssues = VAT issues
@@ -1414,11 +1415,11 @@ otherLiabilityIssues.error.required = Select any other liability issues
 otherLiabilityIssues.error.validSelection = Select the liability issues you have or select ‘No, I do not have any other liability issues’
 otherLiabilityIssues.change.hidden = Other liability issues
 
-whatOtherLiabilityIssues.title = Can you describe what other liability issues you need to fix?
-whatOtherLiabilityIssues.heading = Can you describe what other liability issues you need to fix?
+whatOtherLiabilityIssues.title = Can you describe what other liability issues you have?
+whatOtherLiabilityIssues.heading = Can you describe what other liability issues you have?
 whatOtherLiabilityIssues.checkYourAnswersLabel = Other liability issue description
 whatOtherLiabilityIssues.reveal = Show other liability issue description
-whatOtherLiabilityIssues.error.required = Enter the other liability issues you need to fix
+whatOtherLiabilityIssues.error.required = Enter the other liability issues you have
 whatOtherLiabilityIssues.error.length = The other liability issues must be between 1 and 5,000 characters
 whatOtherLiabilityIssues.change.hidden = WhatOtherLiabilityIssues
 
