@@ -37,7 +37,7 @@ class WhichYearsSummary @Inject() (offshoreWhichYearsService: OffshoreWhichYears
 
         val value = ValueViewModel(
           HtmlContent(
-            answers.map {
+            answers.toSeq.sorted.map {
               answer => answer match {
                 case ReasonableExcusePriorTo => HtmlFormat.escape(messages(s"whichYears.checkbox.any", offshoreWhichYearsService.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString)).toString
                 case CarelessPriorTo => HtmlFormat.escape(messages(s"whichYears.checkbox.any", offshoreWhichYearsService.getEarliestYearByBehaviour(Behaviour.Careless).toString)).toString
