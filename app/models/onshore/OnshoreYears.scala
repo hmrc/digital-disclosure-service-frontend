@@ -19,9 +19,16 @@ package models
 import play.api.libs.json._
 import scala.util.Try
 
-sealed trait OnshoreYears
+sealed trait OnshoreYears extends Ordered[OnshoreYears] {
+  def compare(that: OnshoreYears) = (this, that) match {
+    case (thisYear: OnshoreYearStarting, thatYear: OnshoreYearStarting) => (thatYear.startYear) - (thisYear.startYear)
+    case (thisYear: OnshoreYearStarting, _) => -1
+    case (_, thisYear: OnshoreYearStarting) => 1
+    case (_, _) => 0
+  }
+}
 
-final case class OnshoreYearStarting(startYear: Int) extends OnshoreYears with Ordered[OnshoreYearStarting]  {
+final case class OnshoreYearStarting(startYear: Int) extends OnshoreYears  {
   override def toString = startYear.toString
 
   def compare(that: OnshoreYearStarting) = (that.startYear) - (this.startYear)
