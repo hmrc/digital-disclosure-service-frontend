@@ -14,6 +14,7 @@ site.startAgain = Start again
 site.signIn = Sign in
 site.govuk = GOV.UK
 site.dot = .
+site.or = or
 site.2DP = {0,number,#,##0.00}
 
 date.day = Day
@@ -347,9 +348,9 @@ country.ZW=Zimbabwe
 # ----------------------------------------------------------
 # Notification Messages
 # ----------------------------------------------------------
-receivedALetter.title = Are you making a disclosure because you have received a letter from HMRC?
-receivedALetter.heading = Are you making a disclosure because you have received a letter from HMRC?
-receivedALetter.error.required = Select yes if you are making this disclosure because you have received a letter from HMRC
+receivedALetter.title = Will you be making a disclosure because you received a letter from HMRC?
+receivedALetter.heading = Will you be making a disclosure because you received a letter from HMRC?
+receivedALetter.error.required = Select yes if you are making a disclosure because you have received a letter from HMRC
 receivedALetter.checkYourAnswersLabel = Will you be making a disclosure because you received a letter from HMRC?
 receivedALetter.change.hidden = Will you be making a disclosure because you received a letter from HMRC?
 
@@ -366,7 +367,7 @@ relatesTo.hint.llp = A partnership where each partner has limited personal liabi
 relatesTo.trust = A trust
 relatesTo.hint.trust = A trust is an arrangement that manages assets for people.
 relatesTo.checkYourAnswersLabel = Who this disclosure is for
-relatesTo.error.required = Select what your disclosure is about
+relatesTo.error.required = Select what the disclosure will be about
 relatesTo.change.hidden = Who this disclosure is for
 
 areYouTheIndividual.title = Are you the individual this disclosure relates to?
@@ -402,7 +403,6 @@ letterReference.body = This can be found towards the top of the letter underneat
 letterReference.hint = For example, CFSS-1234567 or CFS-1234567.
 letterReference.checkYourAnswersLabel = Case reference
 letterReference.error.required = Enter the case reference
-letterReference.error.length = LetterReference must be 30 characters or less
 letterReference.error.format = Enter the case reference in the right format
 letterReference.change.hidden = Case reference
 
@@ -418,7 +418,7 @@ offshoreLiabilities.label = Will the disclosure be about offshore liabilities?
 offshoreLiabilities.yes = Yes
 offshoreLiabilities.no = No
 offshoreLiabilities.checkYourAnswersLabel = Will the disclosure be about offshore liabilities?
-offshoreLiabilities.error.required = Select yes if the disclosure is about offshore liabilities
+offshoreLiabilities.error.required = Select yes if the disclosure will be about offshore liabilities
 offshoreLiabilities.change.hidden = Will the disclosure be about offshore liabilities?
 offshoreLiabilities.paragraph.first = Offshore liabilities can be:
 offshoreLiabilities.paragraph.second = or where the funds connected to the UK liability have been transferred to a territory outside the UK.
@@ -430,8 +430,8 @@ offshoreLiabilities.bulletList.forth.link = the Finance (Number 2) Act 2017 (ope
 offshoreLiabilities.bulletList.fifth = anything else that could be classed as business income, assets or investments
 offshoreLiabilities.guidance.link = Find more information about offshore liabilities (opens in new tab)
 
-onlyOnshoreLiabilities.title = The disclosure is only about onshore liabilities
-onlyOnshoreLiabilities.heading = The disclosure is only about onshore liabilities
+onlyOnshoreLiabilities.title = The disclosure will only be about onshore liabilities
+onlyOnshoreLiabilities.heading = The disclosure will only be about onshore liabilities
 onlyOnshoreLiabilities.paragraph.first = 'As you have no offshore liabilities to disclose, the disclosure can only be about onshore liabilities. You have onshore liabilities '
 onlyOnshoreLiabilities.paragraph.link = if you are classed as a resident (opens in new tab)
 onlyOnshoreLiabilities.paragraph.second = ' in the UK and:'
@@ -446,7 +446,7 @@ whatIsYourFullName.heading = What is your full name?
 whatIsYourFullName.hint = This should be as it’s written on official documents such as your passport or driving licence.
 whatIsYourFullName.checkYourAnswersLabel = Your full name
 whatIsYourFullName.error.required = Enter your full name
-whatIsYourFullName.error.length = Full name must be between 1 and 30 characters
+whatIsYourFullName.error.length = Your full name must be between 1 and 30 characters
 whatIsYourFullName.change.hidden = Your full name
 
 yourEmailAddress.title = What is your email address?
@@ -473,7 +473,7 @@ whatIsYourDateOfBirth.checkYourAnswersLabel = Your date of birth
 whatIsYourDateOfBirth.error.required.all = Enter your date of birth
 whatIsYourDateOfBirth.error.required.two = Your date of birth must include a {0} and a {1}
 whatIsYourDateOfBirth.error.required = Your date of birth must include a {0}
-whatIsYourDateOfBirth.error.invalid = Enter your date of birth
+whatIsYourDateOfBirth.error.invalid = Enter your date of birth in the right format
 whatIsYourDateOfBirth.error.invalidDay = Enter a real date of birth — a month can have up to 31 days
 whatIsYourDateOfBirth.error.invalidMonth = Enter a real date of birth — there are only 12 months in a year
 whatIsYourDateOfBirth.error.invalidFutureDateOfBirth = Date of birth must be in the past
@@ -587,17 +587,17 @@ whatIsTheIndividualsFullName.heading = What is the individual’s full name?
 whatIsTheIndividualsFullName.body = This should be as it’s written on official documents such as their passport or driving licence.
 whatIsTheIndividualsFullName.checkYourAnswersLabel = Individual’s full name
 whatIsTheIndividualsFullName.error.required = Enter the individual’s full name
-whatIsTheIndividualsFullName.error.length = Full name must be between 1 and 30 characters
+whatIsTheIndividualsFullName.error.length = The individual’s full name must be between 1 and 30 characters
 whatIsTheIndividualsFullName.change.hidden = Individual’s full name
 
 whatIsTheIndividualDateOfBirth.title = What is the individual’s date of birth?
 whatIsTheIndividualDateOfBirth.heading = What is the individual’s date of birth?
 whatIsTheIndividualDateOfBirth.hint = For example, 20 3 1976.
 whatIsTheIndividualDateOfBirth.checkYourAnswersLabel = Individual’s date of birth
-whatIsTheIndividualDateOfBirth.error.required.all = Enter a valid date of birth, like 20 3 1976
+whatIsTheIndividualDateOfBirth.error.required.all = Enter the individual’s date of birth
 whatIsTheIndividualDateOfBirth.error.required.two = Date of birth must include a {0} and a {1}
 whatIsTheIndividualDateOfBirth.error.required = Date of birth must include a {0}
-whatIsTheIndividualDateOfBirth.error.invalid = Enter the individual’s date of birth
+whatIsTheIndividualDateOfBirth.error.invalid = Enter the individual's date of birth in the right format
 whatIsTheIndividualDateOfBirth.error.invalidDay = Enter a real date of birth — a month can have up to 31 days
 whatIsTheIndividualDateOfBirth.error.invalidMonth = Enter a real date of birth — there are only 12 months in a year
 whatIsTheIndividualDateOfBirth.error.invalidFutureDateOfBirth = Date of birth must be in the past
@@ -608,7 +608,7 @@ whatIsTheIndividualOccupation.title = What is the individual’s main occupation
 whatIsTheIndividualOccupation.heading = What is the individual’s main occupation?
 whatIsTheIndividualOccupation.hint = For example, plumber or dentist.
 whatIsTheIndividualOccupation.checkYourAnswersLabel = Individual’s main occupation
-whatIsTheIndividualOccupation.error.required = The individual’s main occupation must be between 1 and 30 characters
+whatIsTheIndividualOccupation.error.required = Enter the individual’s main occupation
 whatIsTheIndividualOccupation.error.maxLength = The individual’s main occupation must be between 1 and 30 characters
 whatIsTheIndividualOccupation.change.hidden = Individual’s main occupation
 
@@ -655,7 +655,7 @@ whatIsTheIndividualsVATRegistrationNumber.label = This has 9 numbers, sometimes 
 whatIsTheIndividualsVATRegistrationNumber.hint = For example, ‘123456789’ or ‘GB123456789’.
 whatIsTheIndividualsVATRegistrationNumber.checkYourAnswersLabel = Individual’s VAT registration number
 whatIsTheIndividualsVATRegistrationNumber.error.required = Enter the individual’s VAT registration number
-whatIsTheIndividualsVATRegistrationNumber.error.invalid = Enter a valid VAT registration number
+whatIsTheIndividualsVATRegistrationNumber.error.invalid = Enter the individual’s VAT registration number in the right format
 whatIsTheIndividualsVATRegistrationNumber.change.hidden = Individual’s VAT registration number
 
 whatIsTheIndividualsUniqueTaxReference.title = What is the individual’s Unique Tax Reference?
@@ -732,7 +732,7 @@ whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.title = What is the name of th
 whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.heading = What is the name of the company the disclosure will be about?
 whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.checkYourAnswersLabel = Company’s name
 whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.error.required = Enter the company’s name
-whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.error.length = Company name must be between 1 and 50 characters
+whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.error.length = The company's name must be between 1 and 50 characters
 whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.change.hidden = Company’s name
 
 whatIsTheCompanyRegistrationNumber.title = What is the company’s registration number?
@@ -833,10 +833,10 @@ confirmTrustAddress.heading = Is this the correct address?
 
 whatIsTheTrustName.title = What is the trust’s name?
 whatIsTheTrustName.heading = What is the trust’s name?
-whatIsTheTrustName.checkYourAnswersLabel = Trust Name
+whatIsTheTrustName.checkYourAnswersLabel = Trust’s Name
 whatIsTheTrustName.error.required = Enter the trust’s name
-whatIsTheTrustName.error.length = Trust name must be between 1 and 50 characters
-whatIsTheTrustName.change.hidden = Trust Name
+whatIsTheTrustName.error.length = The trust's name must be between 1 and 50 characters
+whatIsTheTrustName.change.hidden = Trust’s Name
 
 notificationCYA.aboutTheTrust = About the trust
 
@@ -862,7 +862,7 @@ whatWasThePersonOccupation.title = What was the person’s main occupation?
 whatWasThePersonOccupation.heading = What was the person’s main occupation?
 whatWasThePersonOccupation.hint = For example, plumber or dentist.
 whatWasThePersonOccupation.checkYourAnswersLabel = Person’s main occupation
-whatWasThePersonOccupation.error.required = The person’s main occupation must be between 1 and 30 characters
+whatWasThePersonOccupation.error.required = Enter the person’s main occupation
 whatWasThePersonOccupation.error.length = The person’s main occupation must be between 1 and 30 characters
 whatWasThePersonOccupation.change.hidden = Person’s main occupation
 
@@ -873,7 +873,7 @@ whatWasThePersonDateOfBirth.checkYourAnswersLabel = Person’s date of birth
 whatWasThePersonDateOfBirth.error.required.all = Enter the person’s date of birth
 whatWasThePersonDateOfBirth.error.required.two = The person’s date of birth must include a {0} and a {1}
 whatWasThePersonDateOfBirth.error.required = The person’s date of birth must include a {0}
-whatWasThePersonDateOfBirth.error.invalid = Enter the person’s date of birth
+whatWasThePersonDateOfBirth.error.invalid = Enter the person’s date of birth in the right format
 whatWasThePersonDateOfBirth.error.invalidDay = Enter a real date of birth — a month can have up to 31 days
 whatWasThePersonDateOfBirth.error.invalidMonth = Enter a real date of birth — there are only 12 months in a year
 whatWasThePersonDateOfBirth.error.invalidFutureDateOfBirth = The person’s date of birth must be in the past
@@ -1400,8 +1400,8 @@ makingNilDisclosure.body.second = You will need to complete the remaining questi
 makingNilDisclosure.body.third = The person reviewing the disclosure will then contact you if they require further information.
 makingNilDisclosure.button = Go to list of tasks
 
-otherLiabilityIssues.title = Do you have any other liability issues to fix?
-otherLiabilityIssues.heading = Do you have any other liability issues to fix?
+otherLiabilityIssues.title = Do you have any other liability issues?
+otherLiabilityIssues.heading = Do you have any other liability issues?
 otherLiabilityIssues.body = If you have other liability issues, we will pass your details to the appropriate team who will discuss these with you.
 otherLiabilityIssues.checkbox.header = Select all that apply.
 otherLiabilityIssues.vatIssues = VAT issues
@@ -1415,11 +1415,11 @@ otherLiabilityIssues.error.required = Select any other liability issues
 otherLiabilityIssues.error.validSelection = Select the liability issues you have or select ‘No, I do not have any other liability issues’
 otherLiabilityIssues.change.hidden = Other liability issues
 
-whatOtherLiabilityIssues.title = Can you describe what other liability issues you need to fix?
-whatOtherLiabilityIssues.heading = Can you describe what other liability issues you need to fix?
+whatOtherLiabilityIssues.title = Can you describe what other liability issues you have?
+whatOtherLiabilityIssues.heading = Can you describe what other liability issues you have?
 whatOtherLiabilityIssues.checkYourAnswersLabel = Other liability issue description
 whatOtherLiabilityIssues.reveal = Show other liability issue description
-whatOtherLiabilityIssues.error.required = Enter the other liability issues you need to fix
+whatOtherLiabilityIssues.error.required = Enter the other liability issues you have
 whatOtherLiabilityIssues.error.length = The other liability issues must be between 1 and 5,000 characters
 whatOtherLiabilityIssues.change.hidden = Other liability issue description
 
@@ -2468,6 +2468,7 @@ areYouTheEntity.trust.voluntaryOrganisation = I work for a voluntary organisatio
 areYouTheEntity.trust.powerOfAttorney = I have been appointed with power of attorney to act on their behalf
 areYouTheEntity.trust.error.required = Select yes if you are the trustee of the trust
 areYouTheEntity.trust.change.hidden = Are you a trustee of the trust that the disclosure will be about?
-areYouTheEntity.trust.body = If you are not a trustee, they will need to
+areYouTheEntity.trust.body.first = A trustee is the legal owner of the assets held in a trust.
+areYouTheEntity.trust.body.second = If you are not a trustee, they will need to
 areYouTheEntity.trust.link = appoint you to deal with HMRC on their behalf (opens in new tab)
 areYouTheEntity.trust.checkYourAnswersLabel = Are you a trustee of the trust that the disclosure will be about?

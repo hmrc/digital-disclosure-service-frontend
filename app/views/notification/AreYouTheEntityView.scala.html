@@ -42,10 +42,14 @@
             @paragraph(id = Some("estate-paragraph"), content = Text(messages(s"areYouTheEntity.estate.initialParagraph")))
         }
 
+        @if(entity == RelatesTo.ATrust) {
+            @paragraph(id = Some("trust-paragraph"), content = HtmlContent(messages(s"areYouTheEntity.$entity.body.first")))
+        }
+
         @paragraph(
             id = Some("agent-paragraph"), 
             content = HtmlContent(
-                messages(s"areYouTheEntity.$entity.body") +
+                messages(s"areYouTheEntity.$entity.body.second") +
                 link(id = "agent-paragraph-link", text = messages(s"areYouTheEntity.$entity.link"), newTab = true, call = Call("GET", "https://www.gov.uk/appoint-tax-agent")) +
                 messages("site.dot")
             )
