@@ -22,10 +22,12 @@
     visuallyHiddenText: String,
     newTab: Boolean = false,
     classes: String = "govuk-link govuk-link--no-visited-state",
-    showId:Boolean = true
+    showId: Boolean = true,
+    download: Boolean = false,
+    fileName: String = "disclosure.html"
 )
 
-<a class="@classes" href="@call" @if(newTab) { target="_blank" rel="noopener noreferrer" } @if(showId) { id="@id" }>
+<a class="@classes" href="@call" @if(newTab) { target="_blank" rel="noopener noreferrer" } @if(showId) { id="@id" } @if(download) { download="@fileName" }>
     @text
     <span class="govuk-visually-hidden"> @visuallyHiddenText</span>
 </a>

@@ -43,8 +43,9 @@ class PdfGenerationController @Inject()(
     pdfService.generatePdf(request.userAnswers).map{ byteString =>
       Result(
         header = ResponseHeader(200, Map.empty),
-        body = HttpEntity.Strict(byteString, Some("application/pdf"))
+        body = HttpEntity.Strict(byteString, None)
       )
+      Ok(byteString)
     }
   }
 
@@ -56,10 +57,7 @@ class PdfGenerationController @Inject()(
       submission = submissionOpt.getOrElse(Notification(request.userId, id))
       userAnswers <- Future.fromTry(submissionToUAService.submissionToUa(request.sessionId, submission))
       byteString <- pdfService.generatePdf(userAnswers)
-    } yield Result(
-      header = ResponseHeader(200, Map.empty),
-      body = HttpEntity.Strict(byteString, Some("application/pdf"))
-    )
+    } yield Ok(byteString)
 
   }
 
