@@ -653,7 +653,7 @@ whatIsTheIndividualsVATRegistrationNumber.label = Mae hwn yn cynnwys 9 rhif, wei
 whatIsTheIndividualsVATRegistrationNumber.hint = Er enghraifft, ‘123456789’ neu ‘GB123456789’.
 whatIsTheIndividualsVATRegistrationNumber.checkYourAnswersLabel = Rhif Cofrestru TAW yr unigolyn
 whatIsTheIndividualsVATRegistrationNumber.error.required = Nodwch rif cofrestru TAW yr unigolyn
-whatIsTheIndividualsVATRegistrationNumber.error.invalid = Enter the individual’s VAT registration number in the right format
+whatIsTheIndividualsVATRegistrationNumber.error.invalid = Nodwch rhif cofrestru TAW yr unigolyn yn y fformat cywir
 whatIsTheIndividualsVATRegistrationNumber.change.hidden = Rhif Cofrestru TAW yr unigolyn
 
 whatIsTheIndividualsUniqueTaxReference.title = Beth yw Cyfeirnod Unigryw y Trethdalwr yr unigolyn?
@@ -1548,7 +1548,7 @@ didSomeoneGiveYouAdviceNotDeclareTax.checkYourAnswersLabel = A roddodd rhywun gy
 didSomeoneGiveYouAdviceNotDeclareTax.agent.error.required = Dewiswch ‘Iawn’ os rhoddodd rhywun gyngor i chi a wnaeth beri i chi beidio â datgan y materion treth hyn
 didSomeoneGiveYouAdviceNotDeclareTax.company.error.required = Dewiswch ‘Iawn’ os rhoddodd rhywun gyngor a wnaeth beri i’r cwmni beidio â datgan y materion treth hyn
 didSomeoneGiveYouAdviceNotDeclareTax.llp.error.required = Dewiswch ‘Iawn’ os rhoddodd rhywun gyngor a wnaeth beri i’r bartneriaeth atebolrwydd cyfyngedig beidio â datgan y materion treth hyn
-didSomeoneGiveYouAdviceNotDeclareTax.trust.error.required = Select yes if someone gave advice that led to a trustee not declaring these tax issues
+didSomeoneGiveYouAdviceNotDeclareTax.trust.error.required = Dewiswch ‘Iawn’ os rhoddodd rhywun gyngor a wnaeth beri i’r ymddiriedolaeth beidio â datgan y materion treth hyn
 didSomeoneGiveYouAdviceNotDeclareTax.estate.error.required = Dewiswch ‘Iawn’ os rhoddodd rhywun gyngor a wnaeth beri i’r person beidio â datgan y materion treth hyn
 didSomeoneGiveYouAdviceNotDeclareTax.individual.error.required = Dewiswch ‘Iawn’ os rhoddodd rhywun gyngor a wnaeth beri i’r unigolyn beidio â datgan y materion treth hyn
 didSomeoneGiveYouAdviceNotDeclareTax.change.hidden = A roddodd rhywun gyngor i chi a wnaeth beri i chi beidio â datgan y materion treth hyn yn flaenorol?
