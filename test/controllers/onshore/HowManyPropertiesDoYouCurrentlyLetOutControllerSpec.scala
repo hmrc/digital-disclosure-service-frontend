@@ -62,7 +62,7 @@ class HowManyPropertiesDoYouCurrentlyLetOutControllerSpec extends SpecBase with 
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(HowManyPropertiesDoYouCurrentlyLetOutPage, "answer").success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123").set(HowManyPropertiesDoYouCurrentlyLetOutPage, "1").success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -74,7 +74,7 @@ class HowManyPropertiesDoYouCurrentlyLetOutControllerSpec extends SpecBase with 
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill("answer"), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill("1"), NormalMode)(request, messages(application)).toString
       }
     }
 
@@ -110,9 +110,9 @@ class HowManyPropertiesDoYouCurrentlyLetOutControllerSpec extends SpecBase with 
       running(application) {
         val request =
           FakeRequest(POST, howManyPropertiesDoYouCurrentlyLetOutRoute)
-            .withFormUrlEncodedBody(("value", ""))
+            .withFormUrlEncodedBody(("value", "answer"))
 
-        val boundForm = form.bind(Map("value" -> ""))
+        val boundForm = form.bind(Map("value" -> "answer"))
 
         val view = application.injector.instanceOf[HowManyPropertiesDoYouCurrentlyLetOutView]
 
@@ -144,7 +144,7 @@ class HowManyPropertiesDoYouCurrentlyLetOutControllerSpec extends SpecBase with 
       running(application) {
         val request =
           FakeRequest(POST, howManyPropertiesDoYouCurrentlyLetOutRoute)
-            .withFormUrlEncodedBody(("value", "answer"))
+            .withFormUrlEncodedBody(("value", "1"))
 
         val result = route(application, request).value
 
