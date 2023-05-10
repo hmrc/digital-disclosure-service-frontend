@@ -68,8 +68,8 @@ index.bulletList.agent.first = 'your client’s '
 index.bulletList.agent.first.link = authorisation for you to deal with HMRC on behalf of them (opens in new tab)
 index.bulletList.third = 'figures for the tax, interest and penalty due on any onshore or offshore income. Find help on '
 index.bulletList.third.link = how to calculate these figures in the guidance on making a voluntary disclosure (opens in new tab)
-index.bulletList.forth = relevant numbers such as National Insurance number, VAT registration number and Unique Taxpayer Reference
-index.bulletList.fifth = any other reference numbers you might have received from HMRC about unpaid tax, such as a case reference
+index.bulletList.forth = relevant numbers such as your client’s National Insurance number, VAT registration number and Unique Taxpayer Reference
+index.bulletList.fifth = any other reference numbers your client might have received from HMRC about unpaid tax, such as a case reference
 index.start = Start now
 
 checkYourAnswers.title = Check Your Answers
@@ -556,7 +556,7 @@ youHaveSentYourNotification.body.generatedRef.agent = The notification reference
 youHaveSentYourNotification.body.caseRef.entity = Your case reference is
 youHaveSentYourNotification.body.caseRef.agent = The case reference is
 youHaveSentYourNotification.paragraph.first = 'You can '
-youHaveSentYourNotification.paragraph.link.entity = save a copy of your notification
+youHaveSentYourNotification.paragraph.link.entity = save a copy of your notification (opens in new tab)
 youHaveSentYourNotification.paragraph.link.agent = save a copy of the notification
 youHaveSentYourNotification.paragraph.header = Next steps
 youHaveSentYourNotification.paragraph.second.generatedRef = We will write to you shortly with a case reference. As soon as you receive this, you should make the full disclosure within 90 days of the date that HMRC acknowledges your notification.
@@ -690,7 +690,7 @@ notificationCYA.send.heading = Send the notification
 notificationCYA.send.button = Send notification
 notificationCYA.body1 = Check that the information you have provided is complete and correct before sending this notification to HMRC.
 notificationCYA.body2 = You can 
-notificationCYA.link.entity = save a copy of your notification
+notificationCYA.link.entity = save a copy of your notification (opens in new tab).
 notificationCYA.link.agent = save a copy of the notification
 
 notificationCYA.background = Background
@@ -851,8 +851,8 @@ areYouTheExecutorOfTheEstate.yes = Yes, I am the executor or administrator of th
 areYouTheExecutorOfTheEstate.no = No, I will be making a disclosure on behalf of the executor or administrator of the estate
 areYouTheExecutorOfTheEstate.no.hint = We may ask for additional evidence that you’re authorised to act for them, such as the ‘Authorising a tax agent (64-8)’ form.
 
-whatWasTheNameOfThePersonWhoDied.title = What was the name of the person who died?
-whatWasTheNameOfThePersonWhoDied.heading = What was the name of the person who died?
+whatWasTheNameOfThePersonWhoDied.title = What is the name of the person who died?
+whatWasTheNameOfThePersonWhoDied.heading = What is the name of the person who died?
 whatWasTheNameOfThePersonWhoDied.label = This should be as it’s written on official documents such as their passport or driving licence.
 whatWasTheNameOfThePersonWhoDied.checkYourAnswersLabel = Person’s full name
 whatWasTheNameOfThePersonWhoDied.error.required = Enter the person’s full name
@@ -936,12 +936,12 @@ whatWasThePersonUTR.error.required = Enter the person’s Unique Taxpayer Refere
 whatWasThePersonUTR.error = Enter the person’s Unique Taxpayer Reference in the right format
 whatWasThePersonUTR.change.hidden = Person’s Unique Taxpayer Reference
 
-estateCountryLookup.title = What was the country of the person’s address?
-estateCountryLookup.heading = What was the country of the person’s address?
+estateCountryLookup.title = What is the country of the person's address?
+estateCountryLookup.heading = What is the country of the person's address?
 estateCountryLookup.hint = For example, United Kingdom.
 
-estateAddressLookup.title = What was the postcode and property name or number of the person’s address?
-estateAddressLookup.heading = What was the postcode and property name or number of the person’s address?
+estateAddressLookup.title = What is the postcode and property name or number of the person's address?
+estateAddressLookup.heading = What is the postcode and property name or number of the person's address?
 
 estateAddressLookup.checkYourAnswersLabel = Person’s address
 estateAddressLookup.change.hidden = Person’s address
@@ -949,8 +949,8 @@ estateAddressLookup.change.hidden = Person’s address
 selectEstateAddress.title = Choose the person’s address
 selectEstateAddress.heading = Choose the person’s address
 
-editEstateAddress.title = What was the person’s address?
-editEstateAddress.heading = What was the person’s address?
+editEstateAddress.title = What is the person’s address?
+editEstateAddress.heading = What is the person’s address?
 
 confirmEstateAddress.title = Is this the correct address?
 confirmEstateAddress.heading = Is this the correct address?
