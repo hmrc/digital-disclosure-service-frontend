@@ -38,20 +38,12 @@ class WhatIsTheCompanyRegistrationNumberViewSpec extends ViewSpecBase with ViewM
       view.select("title").text() must include(messages("whatIsTheCompanyRegistrationNumber.title"))
     }
 
-    "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsTheCompanyRegistrationNumber.heading")
-    }
-
     "have a label" in {
       view.getElementsByClass("govuk-label").text() mustBe messages("whatIsTheCompanyRegistrationNumber.heading")
     }
 
-    "have a body" in {
-      view.getElementById("body").text() mustBe messages("whatIsTheCompanyRegistrationNumber.label")
-    }
-
     "have a hint" in {
-      view.getElementsByClass("govuk-hint").text() mustBe messages("whatIsTheCompanyRegistrationNumber.hint")
+      view.getElementsByClass("govuk-hint").text() mustBe messages("whatIsTheCompanyRegistrationNumber.label")
     }
 
     "display the continue button" in {

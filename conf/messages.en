@@ -742,6 +742,7 @@ whatIsTheCompanyRegistrationNumber.hint = This can be 8 numbers like 12345678, o
 whatIsTheCompanyRegistrationNumber.checkYourAnswersLabel = Company registration number
 whatIsTheCompanyRegistrationNumber.error.required = Enter the company’s registration number
 whatIsTheCompanyRegistrationNumber.error.valid = Enter the company registration number in the right format
+whatIsTheCompanyRegistrationNumber.error.length = The company’s registration number must be between 1 and 20 characters
 whatIsTheCompanyRegistrationNumber.change.hidden = Company registration number
 
 companyCountryLookup.title = What is the country of the company’s address?

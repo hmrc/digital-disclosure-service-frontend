@@ -740,6 +740,7 @@ whatIsTheCompanyRegistrationNumber.hint = Gall hyn fod yn 8 rhif megis 12345678,
 whatIsTheCompanyRegistrationNumber.checkYourAnswersLabel = Company registration number
 whatIsTheCompanyRegistrationNumber.error.required = Nodwch rif cofrestru’r cwmni
 whatIsTheCompanyRegistrationNumber.error.valid = Nodwch rif cofrestru’r cwmni yn y fformat cywir
+whatIsTheCompanyRegistrationNumber.error.length = The company's registration number must be between 1 and 20 characters
 whatIsTheCompanyRegistrationNumber.change.hidden = Company registration number
 
 companyCountryLookup.title = Beth yw gwlad cyfeiriad y cwmni?
