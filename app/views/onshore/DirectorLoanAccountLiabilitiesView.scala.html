@@ -125,7 +125,7 @@
                 maxLength = Some(5000),
                 label = Label(content = messages("directorLoanAccountLiabilities.penaltyRateReason.question")).withCssClass("govuk-label--s"),
                 value = form("penaltyRateReason").value,
-                errorMessage = form("penaltyRateReason").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
+                errorMessage = ErrorFluency.errorMessage(form("penaltyRateReason"))
             )
         )
 
