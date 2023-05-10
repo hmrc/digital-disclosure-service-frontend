@@ -15,7 +15,7 @@
  *@
 
 @import viewmodels.InputWidth._
-
+@import viewmodels.ErrorFluency
 @import config.Country
 
 @this(
@@ -57,7 +57,7 @@
                     ),
             formGroupClasses = "autocomplete-wrapper",
             attributes = Map("data-non-uk-countries" -> ""),
-            errorMessage = form("country").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
+            errorMessage = ErrorFluency.errorMessage(form("country"))
         ))
 
 

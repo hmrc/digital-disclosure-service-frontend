@@ -16,6 +16,7 @@
 
 @import uk.gov.hmrc.hmrcfrontend.views.html.components.CharacterCount
 @import viewmodels.InputWidth._
+@import viewmodels.ErrorFluency
 
 @this(
     layout: templates.Layout,
@@ -53,7 +54,7 @@
                 maxLength = Some(5000), 
                 label = Label(content = messages("taxBeforeFiveYears.heading", year)).withCssClass("govuk-visually-hidden"),
                 value = form("value").value,
-                errorMessage = form("value").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
+                errorMessage = ErrorFluency.errorMessage(form("value"))
             )
         )
 
