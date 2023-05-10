@@ -29,7 +29,7 @@ class SubmittedController @Inject()(
                                        override val messagesApi: MessagesApi,
                                        identify: IdentifierAction,
                                        getData: DataRetrievalAction,
-                                       requireData: DataRequiredAction,
+                                       requireData: DataRequiredActionEvenSubmitted,
                                        val controllerComponents: MessagesControllerComponents,
                                        view: SubmittedView
                                      ) extends FrontendBaseController with I18nSupport {

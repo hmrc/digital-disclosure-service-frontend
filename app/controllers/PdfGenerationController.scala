@@ -31,7 +31,7 @@ class PdfGenerationController @Inject()(
                                        pdfService: SubmissionPDFService,
                                        identify: IdentifierAction,
                                        getData: DataRetrievalAction,
-                                       requireData: DataRequiredAction,
+                                       requireData: DataRequiredActionEvenSubmitted,
                                        submissionStoreService: SubmissionStoreService,
                                        submissionToUAService: SubmissionToUAService,
                                        val controllerComponents: MessagesControllerComponents
