@@ -36,7 +36,7 @@ class NotificationSubmittedController @Inject()(
                                        sessionService: SessionService,
                                        identify: IdentifierAction,
                                        getData: DataRetrievalAction,
-                                       requireData: DataRequiredAction,
+                                       requireData: DataRequiredActionEvenSubmitted,
                                        navigator: Navigator,
                                        disclosureToUAService: DisclosureToUAService,
                                        val controllerComponents: MessagesControllerComponents,

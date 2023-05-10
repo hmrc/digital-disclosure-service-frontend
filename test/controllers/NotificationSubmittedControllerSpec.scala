@@ -86,7 +86,7 @@ class NotificationSubmittedControllerSpec extends SpecBase {
       val reference = "1234"
       val time = LocalDateTime.now()
 
-      val userAnswers = UserAnswers(id = "id", sessionId = "session-123", submissionId = "id2", submissionType = SubmissionType.Disclosure, metadata = Metadata(Some(reference), Some(time)))
+      val userAnswers = UserAnswers(id = "id", sessionId = "session-123", submissionId = "id2", submissionType = SubmissionType.Notification, metadata = Metadata(Some(reference), Some(time)))
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).overrides(
           bind[Navigator].toInstance(new FakeNavigator(onwardRoute))
