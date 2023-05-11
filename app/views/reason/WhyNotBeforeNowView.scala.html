@@ -16,6 +16,7 @@
 
 @import viewmodels.InputWidth._
 @import uk.gov.hmrc.hmrcfrontend.views.html.components.CharacterCount
+@import viewmodels.ErrorFluency
 
 @this(
     layout: templates.Layout,
@@ -43,7 +44,7 @@
                 maxLength = Some(5000), 
                 label = LabelViewModel(messages("whyNotBeforeNow.heading")).asPageHeading(),
                 value = form("value").value,
-                errorMessage = form("value").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
+                errorMessage = ErrorFluency.errorMessage(form("value"))
             )
         )
 

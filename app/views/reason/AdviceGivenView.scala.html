@@ -16,6 +16,7 @@
 
 @import viewmodels.InputWidth._
 @import uk.gov.hmrc.hmrcfrontend.views.html.components.CharacterCount
+@import viewmodels.ErrorFluency
 
 @this(
     layout: templates.Layout,
@@ -51,7 +52,7 @@
                 maxLength = Some(5000), 
                 label = Label(content = messages("adviceGiven.adviceGiven")).withCssClass("govuk-label--m"),
                 value = form("adviceGiven").value,
-                errorMessage = form("adviceGiven").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
+                errorMessage = ErrorFluency.errorMessage(form("adviceGiven"))
             )
         )
 

@@ -17,6 +17,7 @@
 @import viewmodels.InputWidth._
 @import uk.gov.hmrc.hmrcfrontend.views.html.components.CharacterCount
 @import uk.gov.hmrc.govukfrontend.views.viewmodels._
+@import viewmodels.ErrorFluency
 
 @this(
     layout: templates.Layout,
@@ -79,7 +80,7 @@
                         }
                     ).withCssClass("govuk-visually-hidden"),
                 value = form("reasonableExcuse").value,
-                errorMessage = form("reasonableExcuse").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
+                errorMessage = ErrorFluency.errorMessage(form("reasonableExcuse"))
             )
         )
 
