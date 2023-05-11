@@ -32,16 +32,6 @@ constants.error = Error
 
 error.browser.title.prefix = Error:
 error.boolean = Please give an answer
-error.invalid_date = Give a correct date
-error.date.day_blank = Enter a day
-error.date.day_invalid = Give a correct day using numbers 1 to 31
-error.date.month_blank = Enter a month
-error.date.month_invalid = Give a correct month using numbers 1 to 12
-error.date.year_blank = Enter a year
-error.date.year_invalid = Give a correct year
-error.integer = Give an answer in whole numbers
-error.non_numeric = Give a value using only numbers
-error.number = Please enter a valid number
 error.required = Please enter a value
 error.summary.title = There is a problem
 
@@ -53,7 +43,7 @@ index.guidance.paragraph.second = If you need to pay tax you owe from previous y
 index.guidance.paragraph.agent.second = If your client needs to pay tax they owe from previous years (by making a ‘disclosure’), they need to make HMRC aware of this first.
 index.guidance.paragraph.third = To do this, you can either:
 index.guidance.paragraph.agent.third = To do this, as their agent you can either:
-index.bulletList.first.link = contact the HMRC helpline (opens in new tab)
+index.bulletList.first.link = call the HMRC helpline (opens in new tab)
 index.bulletList.second = use this service to make a ‘notification’, providing a few basic details
 index.guidance.paragraph.forth = You can also use this service to make a disclosure.
 index.heading.second = Before you start
@@ -90,7 +80,6 @@ signedOut.guidance = We did not save your answers.
 
 unauthorised.title = You can’t access this service with this account
 unauthorised.heading = You can’t access this service with this account
-unauthorised.guidance = This service is currently in private beta and available only to a restricted list of users.
 
 #===================================================
 #  COUNTRIES
