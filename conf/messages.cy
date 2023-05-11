@@ -68,8 +68,10 @@ index.bulletList.agent.first = 'your client’s '
 index.bulletList.agent.first.link = authorisation for you to deal with HMRC on behalf of them (opens in new tab)
 index.bulletList.third = 'ffigurau treth, llog ac unrhyw gosb sy’n ddyledus ar unrhyw incwm artraeth neu alltraeth eich cleient. Mae help i '
 index.bulletList.third.link = gyfrifo’r ffigurau hyn ar gael yn yr arweiniad ar sut i wneud datgeliad gwirfoddol (yn agor tab newydd)
-index.bulletList.forth = rhifau perthnasol eraill, megis rhif Yswiriant Gwladol, rhif cofrestru TAW a Chyfeirnod Unigryw y Trethdalwr eich cleient
-index.bulletList.fifth = unrhyw gyfeirnodau eraill y gall eich cleient fod wedi’u cael gan CThEF ynglŷn â threth heb ei thalu, megis cyfeirnod achos
+index.bulletList.agent.forth = rhifau perthnasol eraill, megis rhif Yswiriant Gwladol, rhif cofrestru TAW a Chyfeirnod Unigryw y Trethdalwr eich cleient
+index.bulletList.agent.fifth = unrhyw gyfeirnodau eraill y gall eich cleient fod wedi’u cael gan CThEF ynglŷn â threth heb ei thalu, megis cyfeirnod achos
+index.bulletList.forth = relevant numbers such as National Insurance number, VAT registration number and Unique Taxpayer Reference
+index.bulletList.fifth = any other reference numbers you might have received from HMRC about unpaid tax, such as a case reference
 index.start = Start now
 
 checkYourAnswers.title = Gwiriwch eich atebion
@@ -545,7 +547,7 @@ youHaveSentYourNotification.body.generatedRef.agent = Cyfeirnod yr hysbysiad yw
 youHaveSentYourNotification.body.caseRef.entity = Cyfeirnod eich achos yw
 youHaveSentYourNotification.body.caseRef.agent = Cyfeirnod yr achos yw
 youHaveSentYourNotification.paragraph.first = 'Gallwch '
-youHaveSentYourNotification.paragraph.link.entity = gadw copi o’ch hysbysiad (yn agor tab newydd)
+youHaveSentYourNotification.paragraph.link.entity = gadw copi o’ch hysbysiad
 youHaveSentYourNotification.paragraph.link.agent = gadw copi o’r hysbysiad
 youHaveSentYourNotification.paragraph.header = Camau nesaf
 youHaveSentYourNotification.paragraph.second.generatedRef = Byddwn yn ysgrifennu atoch yn fuan gyda chyfeirnod yr achos. Cyn gynted ag y byddwch yn cael hwn, dylech wneud y datgeliad llawn cyn pen 90 diwrnod i’r dyddiad y mae CThEF yn cydnabod eich hysbysiad.
@@ -679,7 +681,7 @@ notificationCYA.send.heading = Anfon yr hysbysiad
 notificationCYA.send.button = Send notification
 notificationCYA.body1 = Gwiriwch fod yr wybodaeth a roddwyd gennych yn gyflawn ac yn gywir cyn anfon yr hysbysiad hwn at CThEF.
 notificationCYA.body2 = Gallwch 
-notificationCYA.link.entity = gadw copi o’ch hysbysiad fel PDF (yn agor tab newydd)
+notificationCYA.link.entity = gadw copi o’ch hysbysiad
 notificationCYA.link.agent = gadw copi o’r hysbysiad
 
 notificationCYA.background = Cefndir
@@ -887,12 +889,12 @@ whatWasThePersonUTR.error.required = Nodwch Gyfeirnod Unigryw y Trethdalwr y per
 whatWasThePersonUTR.error = Nodwch Gyfeirnod Unigryw y Trethdalwr y person yn y fformat cywir
 whatWasThePersonUTR.change.hidden = Cyfeirnod Unigryw y Trethdalwr y person
 
-estateCountryLookup.title = Beth yw gwlad cyfeiriad y person?
-estateCountryLookup.heading = Beth yw gwlad cyfeiriad y person?
+estateCountryLookup.title = What was the country of the person’s address?
+estateCountryLookup.heading = What was the country of the person’s address?
 estateCountryLookup.hint = Er enghraifft, y Deyrnas Unedig.
 
-estateAddressLookup.title = Beth yw cost post ac enw neu rif eiddo y person?
-estateAddressLookup.heading = Beth yw cost post ac enw neu rif eiddo y person?
+estateAddressLookup.title = What was the postcode and property name or number of the person’s address?
+estateAddressLookup.heading = What was the postcode and property name or number of the person’s address?
 
 estateAddressLookup.checkYourAnswersLabel = Cyfeiriad y person
 estateAddressLookup.change.hidden = Cyfeiriad y person
