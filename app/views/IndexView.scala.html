@@ -47,7 +47,7 @@
         ),
         Text(messages("index.bulletList.second"))
     ))
-
+    
     <p class="govuk-body" id="forth-paragraph">@messages("index.guidance.paragraph.forth")</p>
     
     <h2 class="govuk-heading-m">@messages("index.heading.second")</h2>
@@ -96,8 +96,8 @@
                 messages("index.bulletList.third") +
                         link(id = "bullet-link", text = messages("index.bulletList.third.link"), newTab = true, call = Call("GET", "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure")),
             ),
-            Text(messages("index.bulletList.forth")),
-            Text(messages("index.bulletList.fifth"))
+            Text(messages(if(isAgent) "index.bulletList.agent.forth" else "index.bulletList.forth")),
+            Text(messages(if(isAgent) "index.bulletList.agent.fifth" else "index.bulletList.fifth"))
         )
     })
 
