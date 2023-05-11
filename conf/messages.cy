@@ -32,16 +32,6 @@ constants.error = Gwall
 
 error.browser.title.prefix = Gwall:
 error.boolean = Please give an answer
-error.invalid_date = Give a correct date
-error.date.day_blank = Enter a day
-error.date.day_invalid = Give a correct day using numbers 1 to 31
-error.date.month_blank = Enter a month
-error.date.month_invalid = Give a correct month using numbers 1 to 12
-error.date.year_blank = Enter a year
-error.date.year_invalid = Give a correct year
-error.integer = Give an answer in whole numbers
-error.non_numeric = Give a value using only numbers
-error.number = Please enter a valid number
 error.required = Please enter a value
 error.summary.title = There is a problem
 
@@ -66,8 +56,8 @@ index.guidance.paragraph.seventh.link = awdurdodi rhywun arall i ddelio â CThEF
 index.guidance.paragraph.eighth = , er enghraifft cyfrifydd, ffrind neu berthynas.
 index.heading.third = Yr hyn y bydd ei angen arnoch i lenwi’r datgeliad
 index.guidance.paragraph.ninth = Bydd angen y canlynol arnoch:
-index.bulletList.agent.first = 'your client’s '
-index.bulletList.agent.first.link = authorisation for you to deal with HMRC on behalf of them (opens in new tab)
+index.bulletList.agent.first = ''
+index.bulletList.agent.first.link = awdurdodiad eich cleient i chi ddelio â CThEF ar ei ran (yn agor tab newydd)
 index.bulletList.third = 'ffigurau treth, llog ac unrhyw gosb sy’n ddyledus ar unrhyw incwm artraeth neu alltraeth eich cleient. Mae help i '
 index.bulletList.third.link = gyfrifo’r ffigurau hyn ar gael yn yr arweiniad ar sut i wneud datgeliad gwirfoddol (yn agor tab newydd)
 index.bulletList.agent.forth = rhifau perthnasol eraill, megis rhif Yswiriant Gwladol, rhif cofrestru TAW a Chyfeirnod Unigryw y Trethdalwr eich cleient
