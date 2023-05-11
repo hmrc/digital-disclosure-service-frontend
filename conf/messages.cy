@@ -902,8 +902,8 @@ estateAddressLookup.change.hidden = Cyfeiriad y person
 selectEstateAddress.title = Dewiswch gyfeiriad y person
 selectEstateAddress.heading = Dewiswch gyfeiriad y person
 
-editEstateAddress.title = Beth yw cyfeiriad y person?
-editEstateAddress.heading = Beth yw cyfeiriad y person?
+editEstateAddress.title = What was the person’s address?
+editEstateAddress.heading = What was the person’s address?
 
 confirmEstateAddress.title = Ai dyma’r cyfeiriad cywir?
 confirmEstateAddress.heading = Ai dyma’r cyfeiriad cywir?

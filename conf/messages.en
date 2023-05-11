@@ -951,8 +951,8 @@ estateAddressLookup.change.hidden = Person’s address
 selectEstateAddress.title = Choose the person’s address
 selectEstateAddress.heading = Choose the person’s address
 
-editEstateAddress.title = What is the person’s address?
-editEstateAddress.heading = What is the person’s address?
+editEstateAddress.title = What was the person’s address?
+editEstateAddress.heading = What was the person’s address?
 
 confirmEstateAddress.title = Is this the correct address?
 confirmEstateAddress.heading = Is this the correct address?
