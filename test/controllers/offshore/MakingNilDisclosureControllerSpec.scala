@@ -31,7 +31,7 @@ class MakingNilDisclosureControllerSpec extends SpecBase {
 
       val areTheyTheIndividual = AreYouTheEntity.YesIAm
       val entity = RelatesTo.AnIndividual
-      val years = 20
+      val years = "2003"
 
       val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DidNotNotifyNoExcuse)
       val userAnswers = (for{

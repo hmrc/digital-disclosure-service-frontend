@@ -30,7 +30,7 @@ class MakingNilDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
 
     val areTheyTheIndividual = true
     val entity = RelatesTo.AnIndividual
-    val years = 20
+    val years = "2022"
 
     def createView: Html = page(areTheyTheIndividual, entity, years)(request, messages)
     val view = createView
@@ -63,7 +63,7 @@ class MakingNilDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
 
     val areTheyTheIndividual = false
     val entity = RelatesTo.AnIndividual
-    val years = 20
+    val years = "2022"
 
     def createView: Html = page(areTheyTheIndividual, entity, years)(request, messages)
     val view = createView
@@ -90,7 +90,7 @@ class MakingNilDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
 
     val areTheyTheIndividual = false
     val entity = RelatesTo.AnEstate
-    val years = 20
+    val years = "2022"
 
     def createView: Html = page(areTheyTheIndividual, entity, years)(request, messages)
     val view = createView
@@ -117,7 +117,7 @@ class MakingNilDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
 
     val areTheyTheIndividual = false
     val entity = RelatesTo.ACompany
-    val years = 20
+    val years = "2022"
 
     def createView: Html = page(areTheyTheIndividual, entity, years)(request, messages)
     val view = createView
@@ -144,7 +144,7 @@ class MakingNilDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
 
     val areTheyTheIndividual = false
     val entity = RelatesTo.ALimitedLiabilityPartnership
-    val years = 20
+    val years = "2022"
 
     def createView: Html = page(areTheyTheIndividual, entity, years)(request, messages)
     val view = createView
@@ -171,7 +171,7 @@ class MakingNilDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
 
     val areTheyTheIndividual = false
     val entity = RelatesTo.ATrust
-    val years = 20
+    val years = "2022"
 
     def createView: Html = page(areTheyTheIndividual, entity, years)(request, messages)
     val view = createView
