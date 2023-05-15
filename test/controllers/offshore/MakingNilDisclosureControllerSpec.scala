@@ -20,8 +20,9 @@ import base.SpecBase
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.html.offshore.MakingNilDisclosureView
-import models.{AreYouTheEntity, RelatesTo, WhyAreYouMakingThisDisclosure, UserAnswers}
+import models.{AreYouTheEntity, RelatesTo, WhyAreYouMakingThisDisclosure, UserAnswers, Behaviour}
 import pages.{AreYouTheEntityPage, WhyAreYouMakingThisDisclosurePage}
+import services.OffshoreWhichYearsService
 
 class MakingNilDisclosureControllerSpec extends SpecBase {
 
@@ -31,7 +32,6 @@ class MakingNilDisclosureControllerSpec extends SpecBase {
 
       val areTheyTheIndividual = AreYouTheEntity.YesIAm
       val entity = RelatesTo.AnIndividual
-      val years = "2003"
 
       val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DidNotNotifyNoExcuse)
       val userAnswers = (for{
@@ -46,10 +46,13 @@ class MakingNilDisclosureControllerSpec extends SpecBase {
 
         val result = route(application, request).value
 
+        val service = application.injector.instanceOf[OffshoreWhichYearsService]
+        val year = service.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
+
         val view = application.injector.instanceOf[MakingNilDisclosureView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(userAnswers.isTheUserTheIndividual, entity, years)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(userAnswers.isTheUserTheIndividual, entity, year)(request, messages(application)).toString
       }
     }
   }
