@@ -23,7 +23,7 @@
         tasklistLink: components.tasklistLink
 )
 
-@(areTheyTheIndividual: Boolean, entity: RelatesTo, numberOfYears: Int)(implicit request: Request[_], messages: Messages)
+@(areTheyTheIndividual: Boolean, entity: RelatesTo, year: String)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = titleNoForm(messages("makingNilDisclosure.title"))) {
 
@@ -31,7 +31,7 @@
 
     @paragraph(
         id = Some("first-paragraph"), 
-        content = Text(if(areTheyTheIndividual) messages("makingNilDisclosure.you.body.first", numberOfYears) else messages(s"makingNilDisclosure.${entity}.body.first", numberOfYears))
+        content = Text(if(areTheyTheIndividual) messages("makingNilDisclosure.you.body.first", year) else messages(s"makingNilDisclosure.${entity}.body.first", year))
     )
 
     @paragraph(id = Some("second-paragraph"), content = Text(messages("makingNilDisclosure.body.second")))
