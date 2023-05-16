@@ -18,7 +18,7 @@ package connectors
 
 import akka.actor.ActorSystem
 import config.{FrontendAppConfig, Service}
-import play.api.Configuration
+import play.api.{Configuration, Logging}
 import play.api.http.Status._
 import play.api.libs.json.{JsError, JsSuccess, Json, Reads}
 import uk.gov.hmrc.http.HttpReads.Implicits.readRaw
@@ -29,12 +29,15 @@ import com.google.inject.{ImplementedBy, Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.control.NoStackTrace
 import models.store.{FullDisclosure, Notification}
+
 import java.time.Clock
 import models.submission.SubmissionResponse
 import uk.gov.hmrc.http.HttpResponse
 import akka.util.ByteString
+import play.api.i18n.MessagesApi
 import play.api.libs.ws.WSClient
-import play.mvc.Http.HeaderNames.AUTHORIZATION
+import play.api.mvc.{Cookie, Cookies}
+import play.mvc.Http.HeaderNames.{ACCEPT_LANGUAGE, AUTHORIZATION}
 
 @Singleton
 class DigitalDisclosureServiceConnectorImpl @Inject() (
@@ -42,8 +45,9 @@ class DigitalDisclosureServiceConnectorImpl @Inject() (
                                 httpClient: HttpClientV2,
                                 ws: WSClient,
                                 configuration: Configuration,
-                                clock: Clock
-                              )(implicit val ec: ExecutionContext, frontendAppConfig:FrontendAppConfig) extends DigitalDisclosureServiceConnector with ConnectorErrorHandler with Retries {
+                                clock: Clock,
+                                messagesApi:MessagesApi
+                              )(implicit val ec: ExecutionContext, frontendAppConfig:FrontendAppConfig) extends DigitalDisclosureServiceConnector with ConnectorErrorHandler with Retries with Logging {
 
   private val service: Service = configuration.get[Service]("microservice.services.digital-disclosure-service")
   private val baseUrl = s"${service.baseUrl}/digital-disclosure-service"
@@ -54,7 +58,8 @@ class DigitalDisclosureServiceConnectorImpl @Inject() (
     retry {
       httpClient
         .post(url"$baseUrl/notification/submit")
-        .setHeader(AUTHORIZATION -> clientAuthToken)
+        .setHeader(AUTHORIZATION -> clientAuthToken,
+          ACCEPT_LANGUAGE -> getLanguage)
         .withBody(Json.toJson(notification))
         .execute
         .flatMap { response =>
@@ -68,8 +73,9 @@ class DigitalDisclosureServiceConnectorImpl @Inject() (
   def generateNotificationPDF(notification: Notification)(implicit hc: HeaderCarrier): Future[ByteString] = {
     ws
       .url(s"$baseUrl/notification/pdf")
-      .withHttpHeaders(AUTHORIZATION -> clientAuthToken)
-      .post(Json.toJson(notification)) 
+      .withHttpHeaders(AUTHORIZATION -> clientAuthToken,
+        ACCEPT_LANGUAGE -> getLanguage)
+      .post(Json.toJson(notification))
       .flatMap { response =>
         response.status match {
           case OK => Future.successful(response.bodyAsBytes)
@@ -82,7 +88,8 @@ class DigitalDisclosureServiceConnectorImpl @Inject() (
     retry {
       httpClient
         .post(url"$baseUrl/disclosure/submit")
-        .setHeader(AUTHORIZATION -> clientAuthToken)
+        .setHeader(AUTHORIZATION -> clientAuthToken,
+          ACCEPT_LANGUAGE -> getLanguage)
         .withBody(Json.toJson(disclosure))
         .execute
         .flatMap { response =>
@@ -96,8 +103,9 @@ class DigitalDisclosureServiceConnectorImpl @Inject() (
   def generateDisclosurePDF(disclosure: FullDisclosure)(implicit hc: HeaderCarrier): Future[ByteString] = {
     ws
       .url(s"$baseUrl/disclosure/pdf")
-      .withHttpHeaders(AUTHORIZATION -> clientAuthToken)
-      .post(Json.toJson(disclosure)) 
+      .withHttpHeaders(AUTHORIZATION -> clientAuthToken,
+        ACCEPT_LANGUAGE -> getLanguage)
+      .post(Json.toJson(disclosure))
       .flatMap { response =>
         response.status match {
           case OK => Future.successful(response.bodyAsBytes)
@@ -110,6 +118,14 @@ class DigitalDisclosureServiceConnectorImpl @Inject() (
     response.json.validate[A] match {
       case JsSuccess(a, _) => Future.successful(a)
       case JsError(_) => handleError(SubmissionStoreConnector.UnexpectedResponseException(response.status, response.body))
+    }
+  }
+
+  private def getLanguage(implicit hc:HeaderCarrier): String = {
+    val cookies = hc.otherHeaders.toMap.get("Cookie").map(cookieHeader => Cookies.fromCookieHeader(Some(cookieHeader))).getOrElse(Seq.empty[Cookie]).toSeq
+    cookies.find(c => c.name == "PLAY_LANG") match {
+      case Some(c) => c.value
+      case _ => "en"
     }
   }
 

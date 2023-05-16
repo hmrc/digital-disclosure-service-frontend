@@ -39,12 +39,11 @@ class PdfGenerationController @Inject()(
 
   def generate: Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
-    pdfService.generatePdf(request.userAnswers).map{ byteString =>
-      Result(
-        header = ResponseHeader(200, Map.empty),
-        body = HttpEntity.Strict(byteString, Some("application/pdf"))
-      )
+      pdfService.generatePdf(request.userAnswers).map{ byteString =>
+        Result(
+          header = ResponseHeader(200, Map.empty),
+          body = HttpEntity.Strict(byteString, Some("application/pdf"))
+        )
     }
   }
 

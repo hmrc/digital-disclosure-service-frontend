@@ -30,7 +30,7 @@ class SubmissionPDFServiceImpl @Inject()(
   uaToSubmissionService: UAToSubmissionService
 ) extends SubmissionPDFService {
 
-  def generatePdf(userAnswers: UserAnswers)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[ByteString] = 
+  def generatePdf(userAnswers: UserAnswers)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[ByteString] =
     uaToSubmissionService.uaToSubmission(userAnswers) match {
       case notification: Notification => connector.generateNotificationPDF(notification)
       case disclosure: FullDisclosure => connector.generateDisclosurePDF(disclosure)
