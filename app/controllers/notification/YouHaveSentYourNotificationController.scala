@@ -30,7 +30,7 @@ class YouHaveSentYourNotificationController @Inject()(
                                        override val messagesApi: MessagesApi,
                                        identify: IdentifierAction,
                                        getData: DataRetrievalAction,
-                                       requireData: DataRequiredAction,
+                                       requireData: DataRequiredActionEvenSubmitted,
                                        val controllerComponents: MessagesControllerComponents,
                                        view: YouHaveSentYourNotificationView
                                      ) extends FrontendBaseController with I18nSupport {

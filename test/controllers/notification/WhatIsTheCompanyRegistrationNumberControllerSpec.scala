@@ -81,7 +81,7 @@ class WhatIsTheCompanyRegistrationNumberControllerSpec extends SpecBase with Moc
     "must redirect to the next page when valid data is submitted" in {
 
       val mockSessionService = mock[SessionService]
-      val validRegistrationNumber = generateNumericRegistrationNumber().sample.get
+      val validRegistrationNumber = "123"
 
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
 

@@ -22,9 +22,10 @@ import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.offshore.MakingNilDisclosureView
-import models.{UserAnswers, RelatesTo}
+import models.{UserAnswers, RelatesTo, Behaviour}
 import models.WhyAreYouMakingThisDisclosure._
 import pages.{RelatesToPage, WhyAreYouMakingThisDisclosurePage}
+import services.OffshoreWhichYearsService
 
 class MakingNilDisclosureController @Inject()(
                                        override val messagesApi: MessagesApi,
@@ -32,26 +33,28 @@ class MakingNilDisclosureController @Inject()(
                                        getData: DataRetrievalAction,
                                        requireData: DataRequiredAction,
                                        val controllerComponents: MessagesControllerComponents,
-                                       view: MakingNilDisclosureView
+                                       view: MakingNilDisclosureView,
+                                       offshoreWhichYearsService: OffshoreWhichYearsService
                                      ) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
       val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
-      val years = numberOfYears(request.userAnswers)
+      val year = offshoreWhichYearsService.getEarliestYearByBehaviour(getBehaviour(request.userAnswers)).toString
       
-      Ok(view(request.userAnswers.isTheUserTheIndividual, entity, years))
+      Ok(view(request.userAnswers.isTheUserTheIndividual, entity, year))
   }
 
-  def numberOfYears(ua: UserAnswers): Int = {
+  def getBehaviour(ua: UserAnswers): Behaviour = {
     ua.get(WhyAreYouMakingThisDisclosurePage) match {
-      case Some(value) => 
-        if (value.contains(DidNotNotifyNoExcuse) || value.contains(DeliberatelyDidNotNotify) || value.contains(DeliberateInaccurateReturn) || value.contains(DeliberatelyDidNotFile)) 20
-        else if (value.contains(InaccurateReturnNoCare)) 8
-        else 6
-      case None => 6
-    }
+      case Some(value) if (value.contains(DidNotNotifyNoExcuse) ||
+          value.contains(DeliberatelyDidNotNotify) ||
+          value.contains(DeliberateInaccurateReturn) ||
+          value.contains(DeliberatelyDidNotFile)) =>  Behaviour.Deliberate
+      case Some(value) if (value.contains(InaccurateReturnNoCare)) => Behaviour.Careless
+      case _ => Behaviour.ReasonableExcuse
+    }  
   }
 
 }

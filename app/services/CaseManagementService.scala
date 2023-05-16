@@ -96,10 +96,12 @@ class CaseManagementServiceImpl @Inject()(linkWithVisuallyHiddenContent: linkWit
       TableRow(Text(getAccessUntilDate(submission))),
       TableRow(HtmlContent(linkWithVisuallyHiddenContent(
         s"access-$reference", messages(accessKey),
-        controllers.routes.CaseManagementController.navigateToSubmission(submission.submissionId),
+        if (status == SentDisclosure) controllers.routes.PdfGenerationController.generateForSubmissionId(submission.submissionId)
+        else controllers.routes.CaseManagementController.navigateToSubmission(submission.submissionId),
         showId = false,
-        visuallyHiddenText = hiddenText)
-      ))
+        visuallyHiddenText = hiddenText,
+        download = status == SentDisclosure
+      )))
     )
   }
 

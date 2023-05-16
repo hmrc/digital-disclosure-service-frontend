@@ -16,6 +16,7 @@
 
 @import viewmodels.InputWidth._
 @import uk.gov.hmrc.hmrcfrontend.views.html.components.CharacterCount
+@import viewmodels.ErrorFluency
 
 @this(
     layout: templates.Layout,
@@ -120,7 +121,7 @@
                 maxLength = Some(5000), 
                 label = Label(content = messages("taxYearLiabilities.penaltyRateReason.question")).withCssClass("govuk-label--m"),
                 value = form("penaltyRateReason").value,
-                errorMessage = form("penaltyRateReason").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
+                errorMessage = ErrorFluency.errorMessage(form("penaltyRateReason"))
             )
         )
 
@@ -131,7 +132,7 @@
                 maxLength = Some(5000),
                 label = Label(content = messages("taxYearLiabilities.undeclaredIncomeOrGain.question")).withCssClass("govuk-label--m"),
                 value = form("undeclaredIncomeOrGain").value,
-                errorMessage = form("undeclaredIncomeOrGain").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*)))),
+                errorMessage = ErrorFluency.errorMessage(form("undeclaredIncomeOrGain")),
                 hint = Some(Hint(content = messages("taxYearLiabilities.undeclaredIncomeOrGain.hint")))
             )
         )

@@ -28,7 +28,6 @@ trait Generators extends UserAnswersGenerator
                     with UserAnswersEntryGenerators
                     with EmailGenerators
                     with TelephoneNumberGenerators
-                    with RegistrationNumberGenerator
                     with VATGenerators
                     with CaseReferenceGenerators {
 

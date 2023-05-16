@@ -31,7 +31,7 @@ class PdfGenerationController @Inject()(
                                        pdfService: SubmissionPDFService,
                                        identify: IdentifierAction,
                                        getData: DataRetrievalAction,
-                                       requireData: DataRequiredAction,
+                                       requireData: DataRequiredActionEvenSubmitted,
                                        submissionStoreService: SubmissionStoreService,
                                        submissionToUAService: SubmissionToUAService,
                                        val controllerComponents: MessagesControllerComponents
@@ -39,11 +39,13 @@ class PdfGenerationController @Inject()(
 
   def generate: Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-      pdfService.generatePdf(request.userAnswers).map{ byteString =>
-        Result(
-          header = ResponseHeader(200, Map.empty),
-          body = HttpEntity.Strict(byteString, Some("application/pdf"))
-        )
+
+    pdfService.generatePdf(request.userAnswers).map{ byteString =>
+      Result(
+        header = ResponseHeader(200, Map.empty),
+        body = HttpEntity.Strict(byteString, None)
+      )
+      Ok(byteString)
     }
   }
 
@@ -55,10 +57,7 @@ class PdfGenerationController @Inject()(
       submission = submissionOpt.getOrElse(Notification(request.userId, id))
       userAnswers <- Future.fromTry(submissionToUAService.submissionToUa(request.sessionId, submission))
       byteString <- pdfService.generatePdf(userAnswers)
-    } yield Result(
-      header = ResponseHeader(200, Map.empty),
-      body = HttpEntity.Strict(byteString, Some("application/pdf"))
-    )
+    } yield Ok(byteString)
 
   }
 
