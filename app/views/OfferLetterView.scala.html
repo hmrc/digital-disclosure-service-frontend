@@ -76,6 +76,12 @@
             call = controllers.routes.PdfGenerationController.generate
         )))
 
+        @paragraph(content = HtmlContent(link(
+            id = "print-page",
+            text = messages("site.print"),
+            call = Call("GET", "javascript:window.print()")
+        )))
+
         @subheading(Text(messages("offerLetter.subheading.send")), "govuk-heading-m", Some("subheading-send"))
 
         @paragraph(id = Some("send-paragraph1"), content = Text(messages("offerLetter.send.paragraph1")))
