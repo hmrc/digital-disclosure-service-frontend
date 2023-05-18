@@ -76,9 +76,9 @@ class TaskListController @Inject()(
 
   private[controllers] def buildYourPersonalDetailsRow(personalDetails: PersonalDetails, entityKey: String)(implicit messages: Messages): (String, TaskListRow) = {
     val isSectionComplete = personalDetails.isComplete
-    val firstPage = personalDetails.background.haveYouReceivedALetter
+    val firstPage = personalDetails.background.relatesTo
     val completeLink = controllers.notification.routes.CheckYourAnswersController.onPageLoad
-    val incompleteLink = controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode)
+    val incompleteLink = controllers.notification.routes.RelatesToController.onPageLoad(NormalMode)
     
     val operationKey = getOperationKey(isSectionComplete, firstPage.isDefined)
     val notificationSectionKey = s"taskList.$operationKey.heading.first.$entityKey"

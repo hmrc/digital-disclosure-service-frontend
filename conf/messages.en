@@ -2322,16 +2322,16 @@ haveNoOnshoreLiabilities.trust.body = The trust only needs to pay HMRC what it o
 
 youHaveNoOffshoreLiabilities.iAmIndividual.title = You have no offshore liabilities to disclose
 youHaveNoOffshoreLiabilities.iAmIndividual.heading = You have no offshore liabilities to disclose
-youHaveNoOffshoreLiabilities.iAmIndividual.body = You only need to pay HMRC what you owe for up to {0} years. Based on the information you have given, you do not need to provide any figures or calculations for offshore liabilities.
+youHaveNoOffshoreLiabilities.iAmIndividual.body = You only need to pay HMRC what you owe from 6 April {0} for offshore liabilities. Based on the information you have given, you do not need to provide any figures or calculations for offshore liabilities.
 youHaveNoOffshoreLiabilities.iAmNotIndividual.title = There are no offshore liabilities to disclose
 youHaveNoOffshoreLiabilities.iAmNotIndividual.heading = There are no offshore liabilities to disclose
-youHaveNoOffshoreLiabilities.iAmNotIndividual.body = The individual only needs to pay HMRC what they owe for offshore liabilities for up to {0} years. Based on the information you have given, you do not need to provide any figures or calculations for offshore liabilities.
+youHaveNoOffshoreLiabilities.iAmNotIndividual.body = The individual only needs to pay HMRC what they owe from 6 April {0} for offshore liabilities. Based on the information you have given, you do not need to provide any figures or calculations for offshore liabilities.
 youHaveNoOffshoreLiabilities.llp.title = There are no offshore liabilities to disclose
 youHaveNoOffshoreLiabilities.llp.heading = There are no offshore liabilities to disclose
-youHaveNoOffshoreLiabilities.llp.body = The limited liability partnership only needs to pay HMRC what it owes for offshore liabilities for up to {0} years. Based on the information you have given, you do not need to provide any figures or calculations for offshore liabilities.
+youHaveNoOffshoreLiabilities.llp.body = The limited liability partnership only needs to pay HMRC what it owes from 6 April {0} for offshore liabilities. Based on the information you have given, you do not need to provide any figures or calculations for offshore liabilities.
 youHaveNoOffshoreLiabilities.other.title = There are no offshore liabilities to disclose
 youHaveNoOffshoreLiabilities.other.heading = There are no offshore liabilities to disclose
-youHaveNoOffshoreLiabilities.other.body = The {1} only needs to pay HMRC what it owes for offshore liabilities for up to {0} years. Based on the information you have given, you do not need to provide any figures or calculations for offshore liabilities.
+youHaveNoOffshoreLiabilities.other.body = The {1} only needs to pay HMRC what it owes from 6 April {0} for offshore liabilities. Based on the information you have given, you do not need to provide any figures or calculations for offshore liabilities.
 
 checkYourAnswers.letting.title = Review property {0} details
 checkYourAnswers.letting.heading = Review property {0} details
