@@ -25,16 +25,18 @@ trait CaseReferenceGenerators {
   val numberOfDigitsReferenceNumber = 7
   val shortPrefix = "CFS"
   val longPrefix = "CFSS"
-  val caseReferenceFormatRegex = "CFS[S|C]?[\\s]?[-]?[0-9]{7}$"
+  val caseReferenceFormatRegex = "(?i)CFS[Ss|Cc]?[\\s]?[-]?[0-9]{7}\\.?$"
 
   def generateValidCaseReference(): Gen[String] = for {
     isWithLongPrefix <- arbitrary[Boolean]
     isWithHyphen <- arbitrary[Boolean]
+    isWithDot <- arbitrary[Boolean]
     number <- listOfN(numberOfDigitsReferenceNumber, numChar)
   } yield {
     val prefix = if (isWithLongPrefix) longPrefix else shortPrefix
     val hyphen = if (isWithHyphen) "-" else ""
-    prefix + hyphen + number.mkString
+    val dot = if (isWithDot) "." else ""
+    prefix + hyphen + number.mkString + dot
   }
 
   def generateInvalidCaseReference(): Gen[String] = arbitrary[String]
