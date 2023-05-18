@@ -28,9 +28,9 @@ class YouHaveNoOffshoreLiabilitiesViewSpec extends ViewSpecBase with ViewMatcher
 
   val entityIndividual = "other"
   val entity = RelatesTo.ACompany
-  val numberOfYears = 20
+  val Year = "2022"
 
-  private def createView: Html = page(entityIndividual, entity, numberOfYears)(request, messages)
+  private def createView: Html = page(entityIndividual, entity, Year)(request, messages)
 
   "view" should {
 
@@ -45,7 +45,7 @@ class YouHaveNoOffshoreLiabilitiesViewSpec extends ViewSpecBase with ViewMatcher
     }
 
     "contain body" in {
-      view.getElementById("paragraph").text() mustBe messages(s"youHaveNoOffshoreLiabilities.$entityIndividual.body", numberOfYears, entity)
+      view.getElementById("paragraph").text() mustBe messages(s"youHaveNoOffshoreLiabilities.$entityIndividual.body", Year, entity)
     }
 
     "display the continue button" in {

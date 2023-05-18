@@ -58,8 +58,7 @@ class UAToNotificationServiceImpl extends UAToNotificationService {
     val (offshore, onshore) = userAnswersToLiabilities(userAnswers: UserAnswers)
 
     Background(
-      haveYouReceivedALetter = userAnswers.get(ReceivedALetterPage),
-      letterReferenceNumber = userAnswers.get(LetterReferencePage),
+      relatesTo = userAnswers.get(RelatesToPage),
       disclosureEntity = userAnswerToDisclosureEntity(userAnswers),
       areYouRepresetingAnOrganisation = userAnswers.get(AreYouRepresentingAnOrganisationPage),
       organisationName = userAnswers.get(WhatIsTheNameOfTheOrganisationYouRepresentPage),

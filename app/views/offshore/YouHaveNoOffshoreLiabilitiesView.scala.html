@@ -22,7 +22,7 @@
         tasklistLink: components.tasklistLink
 )
 
-@(entityIndividual: String, entity:RelatesTo, numberOfYears:Int)(implicit request: Request[_], messages: Messages)
+@(entityIndividual: String, entity:RelatesTo, Year: String)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = titleNoForm(messages(s"youHaveNoOffshoreLiabilities.$entityIndividual.title"))) {
 
@@ -30,7 +30,7 @@
 
     @paragraph(
         id = Some("paragraph"),
-        content = HtmlContent(messages(s"youHaveNoOffshoreLiabilities.$entityIndividual.body", numberOfYears, entity))
+        content = HtmlContent(messages(s"youHaveNoOffshoreLiabilities.$entityIndividual.body", Year, entity))
     )
 
     @link(id = "continue",

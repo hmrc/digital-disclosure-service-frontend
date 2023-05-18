@@ -2270,16 +2270,16 @@ haveNoOnshoreLiabilities.trust.body = Mae ond angen i’r ymddiriedolaeth dalu C
 
 youHaveNoOffshoreLiabilities.iAmIndividual.title = Nid oes gennych unrhyw rwymedigaethau alltraeth i’w datgelu
 youHaveNoOffshoreLiabilities.iAmIndividual.heading = Nid oes gennych unrhyw rwymedigaethau alltraeth i’w datgelu
-youHaveNoOffshoreLiabilities.iAmIndividual.body = You only need to pay HMRC what you owe for up to {0} years. Ar sail yr wybodaeth yr ydych wedi’i rhoi, nid oes angen i chi ddarparu unrhyw ffigurau na chyfrifiadau ar gyfer eich rhwymedigaethau alltraeth. 
+youHaveNoOffshoreLiabilities.iAmIndividual.body = Mae ond angen i chi dalu CThEF yr hyn sydd arnoch o 6 Ebrill {0} ymlaen ar gyfer rhwymedigaethau alltraeth. Ar sail yr wybodaeth yr ydych wedi’i rhoi, nid oes angen i chi ddarparu unrhyw ffigurau na chyfrifiadau ar gyfer eich rhwymedigaethau alltraeth. 
 youHaveNoOffshoreLiabilities.iAmNotIndividual.title = Nid oes unrhyw rwymedigaethau alltraeth i’w datgelu
 youHaveNoOffshoreLiabilities.iAmNotIndividual.heading = Nid oes unrhyw rwymedigaethau alltraeth i’w datgelu
-youHaveNoOffshoreLiabilities.iAmNotIndividual.body = The individual only needs to pay HMRC what they owe for offshore liabilities for up to {0} years. Ar sail yr wybodaeth yr ydych wedi’i rhoi, nid oes angen i chi ddarparu unrhyw ffigurau na chyfrifiadau ar gyfer eich rhwymedigaethau alltraeth. 
+youHaveNoOffshoreLiabilities.iAmNotIndividual.body = Mae ond angen i’r unigolyn dalu CThEF yr hyn sydd arno o 6 Ebrill {0} ymlaen ar gyfer rhwymedigaethau alltraeth. Ar sail yr wybodaeth yr ydych wedi’i rhoi, nid oes angen i chi ddarparu unrhyw ffigurau na chyfrifiadau ar gyfer eich rhwymedigaethau alltraeth. 
 youHaveNoOffshoreLiabilities.llp.title = Nid oes unrhyw rwymedigaethau alltraeth i’w datgelu
 youHaveNoOffshoreLiabilities.llp.heading = Nid oes unrhyw rwymedigaethau alltraeth i’w datgelu
-youHaveNoOffshoreLiabilities.llp.body = The limited liability partnership only needs to pay HMRC what it owes for offshore liabilities for up to {0} years. Ar sail yr wybodaeth yr ydych wedi’i rhoi, nid oes angen i chi ddarparu unrhyw ffigurau na chyfrifiadau ar gyfer eich rhwymedigaethau alltraeth. 
+youHaveNoOffshoreLiabilities.llp.body = Mae ond angen i’r bartneriaeth atebolrwydd cyfyngedig dalu CThEF yr hyn sy’n ddyledus o 6 Ebrill {0} ymlaen ar gyfer rhwymedigaethau alltraeth. Ar sail yr wybodaeth yr ydych wedi’i rhoi, nid oes angen i chi ddarparu unrhyw ffigurau na chyfrifiadau ar gyfer eich rhwymedigaethau alltraeth. 
 youHaveNoOffshoreLiabilities.other.title = Nid oes unrhyw rwymedigaethau alltraeth i’w datgelu
 youHaveNoOffshoreLiabilities.other.heading = Nid oes unrhyw rwymedigaethau alltraeth i’w datgelu
-youHaveNoOffshoreLiabilities.other.body = The {1} only needs to pay HMRC what it owes for offshore liabilities for up to {0} years. Ar sail yr wybodaeth yr ydych wedi’i rhoi, nid oes angen i chi ddarparu unrhyw ffigurau na chyfrifiadau ar gyfer eich rhwymedigaethau alltraeth. 
+youHaveNoOffshoreLiabilities.other.body = Mae ond angen i’r {1} dalu CThEF yr hyn sy’n ddyledus o 6 Ebrill {0} ymlaen ar gyfer rhwymedigaethau alltraeth. Ar sail yr wybodaeth yr ydych wedi’i rhoi, nid oes angen i chi ddarparu unrhyw ffigurau na chyfrifiadau ar gyfer eich rhwymedigaethau alltraeth. 
 
 checkYourAnswers.letting.title = Review property {0} details
 checkYourAnswers.letting.heading = Review property {0} details

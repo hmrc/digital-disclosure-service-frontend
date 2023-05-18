@@ -30,12 +30,12 @@ class FullDisclosureSpec extends AnyFreeSpec with Matchers with OptionValues {
 
   val address = Address("line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GBR"))
 
-  val background = Background(Some(false), None, Some(DisclosureEntity(LLP, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)))
+  val background = Background(Some(RelatesTo.AnIndividual), Some(DisclosureEntity(LLP, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)))
   val aboutYou = AboutYou(Some("name"), None, Some("email"), None, None, Some(ContactPreferences(Set(Email))), None, None, None, None, None, None, Some(address))
   val aboutTheLLP = AboutTheLLP(Some("name"), Some(address))
   val completedLLPPersonalDetails = PersonalDetails(background, aboutYou, None, None, None, Some(aboutTheLLP), None)
 
-  val indBackground = Background(Some(false), None, Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)))
+  val indBackground = Background(Some(RelatesTo.AnIndividual), Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)))
   val indAboutYou = AboutYou(Some("name"), None, Some("email"), Some(LocalDate.now), Some("mainOccupation"), Some(ContactPreferences(Set(Email))), Some(No), None, Some(No), None, Some(No), None, Some(address))
   val completedIndPersonalDetails = PersonalDetails(indBackground, indAboutYou, None, None, None, None, None)
 
