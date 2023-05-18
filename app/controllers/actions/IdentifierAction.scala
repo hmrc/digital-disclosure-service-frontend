@@ -47,17 +47,12 @@ class AuthenticatedIdentifierAction @Inject()(
 
     implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
 
-    authorised(Agent).retrieve(internalId and allEnrolments){
-      case internalId ~ enrolments =>
-        val customerId = getAgentCustomerId(enrolments)
-        processAuthorisation(internalId, request, block, true, customerId)
-    }
-    .recoverWith {_ => authorised(Organisation or ConfidenceLevel.L250).retrieve(internalId and allEnrolments){
-      case internalId ~ enrolments =>
-        val customerId = getCustomerId(enrolments)
-        processAuthorisation(internalId, request, block, false, customerId)
-    }}
-    .recover {
+    authorised(Agent or Organisation or ConfidenceLevel.L250).retrieve(internalId and affinityGroup and allEnrolments){
+      case internalId ~ affinityGroup ~ enrolments =>
+        val isAgent = affinityGroup == Some(AffinityGroup.Agent)
+        val customerId = if(isAgent) getAgentCustomerId(enrolments) else getCustomerId(enrolments)
+        processAuthorisation(internalId, request, block, isAgent, customerId)
+    }.recover {
       case _: NoActiveSession =>
         Redirect(config.loginUrl, Map("continue" -> Seq(config.loginContinueUrl)))
       case _: InsufficientConfidenceLevel =>
