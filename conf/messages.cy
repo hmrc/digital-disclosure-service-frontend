@@ -1651,11 +1651,11 @@ foreignTaxCredit.change.hidden = Swm y rhyddhad credyd treth tramor sydd wedi’
 
 whereDidTheUndeclaredIncomeOrGain.title = O ble y daeth yr incwm neu’r enillion heb eu datgan?
 whereDidTheUndeclaredIncomeOrGain.heading = O ble y daeth yr incwm neu’r enillion heb eu datgan?
-whereDidTheUndeclaredIncomeOrGain.checkYourAnswersLabel = O ble y daeth yr incwm neu’r enillion?
+whereDidTheUndeclaredIncomeOrGain.checkYourAnswersLabel = O ble y daeth yr incwm neu’r ennill O ble daeth yr incwm neu’r enillion?
 whereDidTheUndeclaredIncomeOrGain.reveal = Show where did the undeclared income or gain come from
 whereDidTheUndeclaredIncomeOrGain.error.required = Nodwch o ble y daeth yr incwm neu’r enillion sydd heb eu datgan
 whereDidTheUndeclaredIncomeOrGain.error.length = Mae’n rhaid i’r manylion ynglŷn â lle y daeth yr incwm neu’r enillion heb eu datgan fod rhwng 1 a 5,000 o gymeriadau
-whereDidTheUndeclaredIncomeOrGain.change.hidden = O ble y daeth yr incwm neu’r enillion?
+whereDidTheUndeclaredIncomeOrGain.change.hidden = O ble y daeth yr incwm neu’r ennill O ble daeth yr incwm neu’r enillion?
 
 whichTelephoneNumberCanWeContactYouWith.title = Pa rhif ffôn y gallwn ei ddefnyddio i gysylltu â chi?
 whichTelephoneNumberCanWeContactYouWith.heading = Pa rhif ffôn y gallwn ei ddefnyddio i gysylltu â chi?
@@ -1667,6 +1667,7 @@ whichTelephoneNumberCanWeContactYouWith.change.hidden = Pa rhif ffôn y gallwn e
 
 whereDidTheUndeclaredIncomeOrGainIncluded.title = O ble daeth yr incwm neu’r ennill sydd heb eu datgan y byddwch yn ei gynnwys yn y datgeliad? 
 whereDidTheUndeclaredIncomeOrGainIncluded.heading = O ble daeth yr incwm neu’r ennill sydd heb eu datgan y byddwch yn ei gynnwys yn y datgeliad?
+whereDidTheUndeclaredIncomeOrGainIncluded.checkbox.hint = Dewiswch bob un sy’n berthnasol.
 whereDidTheUndeclaredIncomeOrGainIncluded.dividends = Incwm eiddo ar osod
 whereDidTheUndeclaredIncomeOrGainIncluded.interest = Difidendau
 whereDidTheUndeclaredIncomeOrGainIncluded.propertyIncome = Llog
@@ -1674,9 +1675,9 @@ whereDidTheUndeclaredIncomeOrGainIncluded.residentialPropertyGain = Enillion eid
 whereDidTheUndeclaredIncomeOrGainIncluded.selfEmploymentIncome = Incwm hunangyflogaeth
 whereDidTheUndeclaredIncomeOrGainIncluded.otherGains = Enillion eraill
 whereDidTheUndeclaredIncomeOrGainIncluded.somewhereElse = Rhywle arall
-whereDidTheUndeclaredIncomeOrGainIncluded.checkYourAnswersLabel = O ble y daeth yr incwm neu’r enillion
+whereDidTheUndeclaredIncomeOrGainIncluded.checkYourAnswersLabel = Dangos o ble y daeth yr incwm neu’r ennill
 whereDidTheUndeclaredIncomeOrGainIncluded.error.required = Dewiswch o ble y daeth yr incwm neu’r enillion sydd heb eu datgan
-whereDidTheUndeclaredIncomeOrGainIncluded.change.hidden = O ble y daeth yr incwm neu’r enillion
+whereDidTheUndeclaredIncomeOrGainIncluded.change.hidden = Dangos o ble y daeth yr incwm neu’r ennill
 
 offerLetter.individual.title = Eich cynnig
 offerLetter.individual.heading = Eich cynnig

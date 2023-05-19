@@ -1716,8 +1716,9 @@ whichTelephoneNumberCanWeContactYouWith.checkYourAnswersLabel = whichTelephoneNu
 whichTelephoneNumberCanWeContactYouWith.error.required = Select telephone number we can contact you with
 whichTelephoneNumberCanWeContactYouWith.change.hidden = Which telephone number can we contact you with?
 
-whereDidTheUndeclaredIncomeOrGainIncluded.title = Where did the undeclared income or gain you will include in the disclosure come from? 
-whereDidTheUndeclaredIncomeOrGainIncluded.heading = Where did the undeclared income or gain you will include in the disclosure come from? 
+whereDidTheUndeclaredIncomeOrGainIncluded.title = Where did the undeclared income or gain you will include in the disclosure come from?
+whereDidTheUndeclaredIncomeOrGainIncluded.heading = Where did the undeclared income or gain you will include in the disclosure come from?
+whereDidTheUndeclaredIncomeOrGainIncluded.checkbox.hint = Select all that apply.
 whereDidTheUndeclaredIncomeOrGainIncluded.dividends = Dividends
 whereDidTheUndeclaredIncomeOrGainIncluded.interest = Interest
 whereDidTheUndeclaredIncomeOrGainIncluded.propertyIncome = Let property income
