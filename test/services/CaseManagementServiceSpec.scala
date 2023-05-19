@@ -34,13 +34,13 @@ class CaseManagementServiceSpec extends ViewSpecBase {
   val linkWithVisuallyHiddenContent = inject[linkWithVisuallyHiddenContent]
   val sut = new CaseManagementServiceImpl(linkWithVisuallyHiddenContent)
 
-  val createdInstant = LocalDate.of(1990, 8, 23).atStartOfDay.atZone(ZoneId.systemDefault).toInstant
-  val lastUpdatedInstant = LocalDate.of(2012, 1, 1).atStartOfDay.atZone(ZoneId.systemDefault).toInstant
+  val createdInstant = LocalDate.of(1990, 8, 23).atStartOfDay.atZone(ZoneId.of("GMT")).toInstant
+  val lastUpdatedInstant = LocalDate.of(2012, 1, 1).atStartOfDay.atZone(ZoneId.of("GMT")).toInstant
   val submittedDateTime = LocalDateTime.ofInstant(createdInstant, ZoneId.systemDefault);
 
   "getCreatedDate" should {
-    "format retrieve the created date from a submission and format it correctly" in {
-      val expectedDate = LocalDateTime.of(1990,8,23, 0, 0).format(dateFormatter)
+    "format retrieve the created date from a submission and format it correctly for British Summer Time" in {
+      val expectedDate = LocalDateTime.of(1990,8,23, 1, 0).atZone(ZoneId.of("Europe/London")).format(dateFormatter)
       val notification = Notification("userId", "submissionId", lastUpdatedInstant, Metadata(), PersonalDetails(Background(), AboutYou()), created = createdInstant)
       sut.getCreatedDate(notification) mustEqual expectedDate
     }
@@ -48,7 +48,7 @@ class CaseManagementServiceSpec extends ViewSpecBase {
 
   "getAccessUntilDate" should {
     "format retrieve the created date from a submission and format it correctly" in {
-      val expectedDate = LocalDateTime.of(2012,1,31, 0, 0).format(dateFormatter)
+      val expectedDate = LocalDateTime.of(2012,1,31, 0, 0).atZone(ZoneId.of("Europe/London")).format(dateFormatter)
       val notification = Notification("userId", "submissionId", lastUpdatedInstant, Metadata(), PersonalDetails(Background(), AboutYou()), created = createdInstant)
       sut.getAccessUntilDate(notification) mustEqual expectedDate
     }
@@ -201,8 +201,8 @@ class CaseManagementServiceSpec extends ViewSpecBase {
 
   "storeEntryToTableRow" should {
     "generate the row" in {
-      val expectedCreatedDate = LocalDateTime.of(1990,8,23, 0, 0).format(dateFormatter)
-      val expectedDate = LocalDateTime.of(2012,1,31, 0, 0).format(dateFormatter)
+      val expectedCreatedDate = LocalDateTime.of(1990,8,23, 1, 0).atZone(ZoneId.of("Europe/London")).format(dateFormatter)
+      val expectedDate = LocalDateTime.of(2012,1,31, 0, 0).atZone(ZoneId.of("Europe/London")).format(dateFormatter)
       val submission = FullDisclosure("123", "123", lastUpdatedInstant, Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), None, OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow(), created = createdInstant)
       val expected = Seq(
         TableRow(HtmlContent(messages("caseManagement.incomplete"))),
