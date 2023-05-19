@@ -32,7 +32,8 @@ import play.api.i18n.Messages
 @Singleton
 class CaseManagementServiceImpl @Inject()(linkWithVisuallyHiddenContent: linkWithVisuallyHiddenContent) extends CaseManagementService {
 
-  val ROWS_ON_PAGE = 10
+  private val ROWS_ON_PAGE = 10
+  private val zoneId = ZoneId.of("Europe/London")
 
   def getRedirection(submission: Submission): Call = {
     val status = getStatus(submission)
@@ -158,14 +159,14 @@ class CaseManagementServiceImpl @Inject()(linkWithVisuallyHiddenContent: linkWit
     }
 
   def getAccessUntilDate(submission: Submission): String = {
-    val date = submission.lastUpdated.atZone(ZoneId.systemDefault).toLocalDateTime()
+    val date = submission.lastUpdated.atZone(zoneId).toLocalDateTime
     val finalAccessDate = date.plusDays(30)
     val dateFormatter = DateTimeFormatter.ofPattern("d MMM yyyy HH:mma")
     finalAccessDate.format(dateFormatter)
   }
 
   def getCreatedDate(submission: Submission): String = {
-    val date = submission.created.atZone(ZoneId.systemDefault).toLocalDateTime()
+    val date = submission.created.atZone(zoneId).toLocalDateTime
     val dateFormatter = DateTimeFormatter.ofPattern("d MMM yyyy HH:mma")
     date.format(dateFormatter)
   } 
