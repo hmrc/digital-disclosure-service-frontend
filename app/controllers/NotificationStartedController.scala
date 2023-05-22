@@ -21,12 +21,13 @@ import forms.NotificationStartedFormProvider
 import javax.inject.Inject
 import navigation.Navigator
 import pages.NotificationStartedPage
-import play.api.i18n.{I18nSupport, MessagesApi}
+import play.api.i18n.{I18nSupport, MessagesApi, Messages}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.NotificationStartedView
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 import java.time.ZoneOffset
 import models.{SubmissionType, NotificationStarted}
 
@@ -45,12 +46,12 @@ class NotificationStartedController @Inject()(
                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
-
+  
   def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-
+    val messages: Messages = messagesApi.preferred(request)
     val date = request.userAnswers.lastUpdated.atZone(ZoneOffset.UTC).toLocalDate()
-    val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
+    val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale(messages.lang.code))
     val formattedDate = date.format(dateFormatter)
     Ok(view(form, formattedDate))
   }
@@ -61,7 +62,8 @@ class NotificationStartedController @Inject()(
       form.bindFromRequest().fold(
         formWithErrors => {
           val date = request.userAnswers.lastUpdated.atZone(ZoneOffset.UTC).toLocalDate()
-          val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
+          val messages: Messages = messagesApi.preferred(request)
+          val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale(messages.lang.code))
           val formattedDate = date.format(dateFormatter)
           Future.successful(BadRequest(view(formWithErrors, formattedDate)))
         },

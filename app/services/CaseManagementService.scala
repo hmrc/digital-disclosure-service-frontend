@@ -19,6 +19,7 @@ package services
 import com.google.inject.{Inject, Singleton, ImplementedBy}
 import models.store.{Notification, FullDisclosure, Submission}
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 import java.time.ZoneId
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content._
 import models.store.notification._
@@ -92,9 +93,9 @@ class CaseManagementServiceImpl @Inject()(linkWithVisuallyHiddenContent: linkWit
     Seq(
       TableRow(HtmlContent(HtmlFormat.escape(reference))),
       TableRow(getCaseType(submission)),
-      TableRow(Text(getCreatedDate(submission))),
+      TableRow(Text(getCreatedDate(submission)(messages))),
       TableRow(Text(messages(statusKey))),
-      TableRow(Text(getAccessUntilDate(submission))),
+      TableRow(Text(getAccessUntilDate(submission)(messages))),
       TableRow(HtmlContent(linkWithVisuallyHiddenContent(
         s"access-$reference", messages(accessKey),
         if (status == SentDisclosure) controllers.routes.PdfGenerationController.generateForSubmissionId(submission.submissionId)
@@ -158,16 +159,16 @@ class CaseManagementServiceImpl @Inject()(linkWithVisuallyHiddenContent: linkWit
       case StartedDisclosure => "caseManagement.access.edit"
     }
 
-  def getAccessUntilDate(submission: Submission): String = {
+  def getAccessUntilDate(submission: Submission)(implicit messages: Messages): String = {
     val date = submission.lastUpdated.atZone(zoneId).toLocalDateTime
     val finalAccessDate = date.plusDays(30)
-    val dateFormatter = DateTimeFormatter.ofPattern("d MMM yyyy HH:mma")
+    val dateFormatter = DateTimeFormatter.ofPattern("d MMM yyyy HH:mma", new Locale(messages.lang.code))
     finalAccessDate.format(dateFormatter)
   }
 
-  def getCreatedDate(submission: Submission): String = {
+  def getCreatedDate(submission: Submission)(implicit messages: Messages): String = {
     val date = submission.created.atZone(zoneId).toLocalDateTime
-    val dateFormatter = DateTimeFormatter.ofPattern("d MMM yyyy HH:mma")
+    val dateFormatter = DateTimeFormatter.ofPattern("d MMM yyyy HH:mma", new Locale(messages.lang.code))
     date.format(dateFormatter)
   } 
 

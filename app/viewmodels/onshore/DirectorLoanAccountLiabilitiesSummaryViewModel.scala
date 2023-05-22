@@ -25,6 +25,7 @@ import pages.DirectorLoanAccountLiabilitiesPage
 import play.api.i18n.Messages
 
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 import viewmodels.{DL, RevealFullText, RowHelper}
 
 import scala.math.BigDecimal.RoundingMode
@@ -56,7 +57,7 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelCreation @Inject()(revealFul
   }
 
   def directorLoanAccountLiabilitiesToSummaryList(i: Int, dLLiability: DirectorLoanAccountLiabilities, revealFullText: RevealFullText)(implicit messages: Messages): SummaryList = {
-    val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
+    val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale(messages.lang.code))
 
     val amountDueTotal = BigDecimal(dLLiability.unpaidTax) + BigDecimal(dLLiability.interest) + penaltyAmount(dLLiability)
 

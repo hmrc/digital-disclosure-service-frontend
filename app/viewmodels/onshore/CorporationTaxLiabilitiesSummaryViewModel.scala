@@ -27,6 +27,7 @@ import viewmodels.{CT, RevealFullText, RowHelper}
 
 import scala.math.BigDecimal.RoundingMode
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 import com.google.inject.Inject
 
 case class CorporationTaxLiabilitiesSummaryViewModel (
@@ -54,7 +55,7 @@ class CorporationTaxLiabilitiesSummaryViewModelCreation @Inject()(revealFullText
 
   def corporationTaxLiabilityToSummaryList(i: Int, liability: CorporationTaxLiability, revealFullText: RevealFullText)(implicit messages: Messages):SummaryList = {
 
-    val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
+    val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale(messages.lang.code))
 
     val amountDueTotal = BigDecimal(liability.howMuchUnpaid) + BigDecimal(liability.howMuchInterest) + penaltyAmount(liability)
 
