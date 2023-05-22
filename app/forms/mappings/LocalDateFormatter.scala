@@ -88,13 +88,13 @@ private[mappings] class LocalDateFormatter(
       .map(_._1)
       .toList
 
+    val keySuffix = missingFields.mkString(".")
+
     fields.count(_._2.isDefined) match {
       case 3 =>
         formatDate(key, data)
-      case 2 =>
-        Left(missingFields.map(field => FormError(s"$key.$field", requiredKey, missingFields ++ args)))
-      case 1 =>
-        Left(missingFields.map(field => FormError(s"$key.$field", twoRequiredKey, missingFields ++ args)))
+      case 2 | 1=>
+        Left(missingFields.map(field => FormError(s"$key.$field", s"$requiredKey.$keySuffix", args)))
       case _ =>
         Left(List(FormError(key, allRequiredKey, args)))
     }
