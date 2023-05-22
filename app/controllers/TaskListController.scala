@@ -36,6 +36,7 @@ import play.api.mvc.Call
 
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class TaskListController @Inject()(
                                         override val messagesApi: MessagesApi,
@@ -205,7 +206,7 @@ class TaskListController @Inject()(
         case Some(ref) => messages(s"taskList.$section.reference", ref)
         case _ =>
           val date = submission.created.atZone(ZoneId.systemDefault).toLocalDateTime
-          val dateFormatter = DateTimeFormatter.ofPattern("d MMM yyyy HH:mma")
+          val dateFormatter = DateTimeFormatter.ofPattern("d MMM yyyy HH:mma", new Locale(messages.lang.code))
           messages(s"taskList.$section.no.reference", date.format(dateFormatter))
       }
     }

@@ -18,7 +18,7 @@ package controllers
 
 import controllers.actions._
 import javax.inject.Inject
-import play.api.i18n.{I18nSupport, MessagesApi}
+import play.api.i18n.{I18nSupport, MessagesApi, Messages}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.NotificationSubmittedView
@@ -29,6 +29,7 @@ import models.store.Metadata
 import pages.{NotificationSubmittedPage, LetterReferencePage, DoYouHaveACaseReferencePage, WhatIsTheCaseReferencePage}
 import services.{SessionService, DisclosureToUAService}
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 import scala.util.{Try, Success}
 
 class NotificationSubmittedController @Inject()(
@@ -48,7 +49,8 @@ class NotificationSubmittedController @Inject()(
 
       request.userAnswers match {
         case UserAnswers(_, _, _, SubmissionType.Notification, _, _, _, Metadata(Some(reference), Some(time)), _, _) =>
-          val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
+          val messages: Messages = messagesApi.preferred(request)
+          val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale(messages.lang.code))
           val formattedDate = time.format(dateFormatter)
           Ok(view(formattedDate, reference))
         case _ =>

@@ -894,11 +894,11 @@ whatWasThePersonNINO.title = What was the person’s National Insurance number?
 whatWasThePersonNINO.heading = What was the person’s National Insurance number?
 whatWasThePersonNINO.label = This is on their payslip, P60 or tax return.
 whatWasThePersonNINO.hint = For example, ‘QQ123456A’.
-whatWasThePersonNINO.checkYourAnswersLabel = What was the person’s National Insurance number?
+whatWasThePersonNINO.checkYourAnswersLabel = Person’s National Insurance number
 whatWasThePersonNINO.error.required = Enter the person’s National Insurance number
 whatWasThePersonNINO.error.invalidFormat = Enter the person’s National Insurance number in the right format
 whatWasThePersonNINO.error.notReal = Enter a real National Insurance number
-whatWasThePersonNINO.change.hidden = What was the person’s National Insurance number?
+whatWasThePersonNINO.change.hidden = Person’s National Insurance number
 
 wasThePersonRegisteredForVAT.title = Was the person registered for VAT, as far as you’re aware?
 wasThePersonRegisteredForVAT.heading = Was the person registered for VAT, as far as you’re aware?

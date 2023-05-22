@@ -20,6 +20,7 @@ import base.ViewSpecBase
 import views.html.components.linkWithVisuallyHiddenContent
 import java.time.{Instant, LocalDate, ZoneId, LocalDateTime}
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 import models.store._
 import models.store.notification._
 import models.store.disclosure._
@@ -29,7 +30,7 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.pagination.{PaginationItem, Pa
 
 class CaseManagementServiceSpec extends ViewSpecBase {
 
-  val dateFormatter = DateTimeFormatter.ofPattern("d MMM yyyy HH:mma")
+  val dateFormatter = DateTimeFormatter.ofPattern("d MMM yyyy HH:mma", new Locale(messages.lang.code))
 
   val linkWithVisuallyHiddenContent = inject[linkWithVisuallyHiddenContent]
   val sut = new CaseManagementServiceImpl(linkWithVisuallyHiddenContent)
