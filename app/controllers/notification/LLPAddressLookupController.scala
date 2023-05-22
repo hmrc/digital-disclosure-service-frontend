@@ -47,6 +47,7 @@ class LLPAddressLookupController @Inject()(
 
   def lookupAddress(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async { implicit request =>
     val continueUrl = routes.LLPAddressLookupController.retrieveConfirmedAddress(mode)
+    implicit val mApi = messagesApi
 
     addressLookupService.getLLPAddressLookupRedirect(continueUrl).fold(
       {e: Error =>

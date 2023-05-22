@@ -559,6 +559,12 @@ selectAddress.heading = Dewiswch eich cyfeiriad
 
 editAddress.title = Beth yw’ch cyfeiriad?
 editAddress.heading = Beth yw’ch cyfeiriad?
+editAddress.line1Label = Cyfeiriad – llinell 1
+editAddress.line2Label = Cyfeiriad – llinell 2 (dewisol)
+editAddress.line3Label = Cyfeiriad – llinell 3 (dewisol)
+editAddress.townLabel = Tref neu ddinas
+editAddress.postcodeLabel = Cod post (dewisol)
+editAddress.countryLabel = Gwlad
 
 confirmAddress.title = Ai dyma’r cyfeiriad cywir?
 confirmAddress.heading = Ai dyma’r cyfeiriad cywir?

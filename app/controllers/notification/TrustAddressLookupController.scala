@@ -47,6 +47,7 @@ class TrustAddressLookupController @Inject()(
 
   def lookupAddress(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async { implicit request =>
     val continueUrl = routes.TrustAddressLookupController.retrieveConfirmedAddress(mode)
+    implicit val mApi = messagesApi
 
     addressLookupService.getTrustAddressLookupRedirect(continueUrl).fold(
       {e: Error =>

@@ -35,41 +35,41 @@ import connectors.AddressLookupConnector
 import config.{FrontendAppConfig, AddressLookupConfig}
 import play.api.libs.json.{JsPath, JsonValidationError, Reads}
 import play.api.libs.json.Reads.minLength
-import play.api.i18n.Messages
+import play.api.i18n.MessagesApi
 
 class AddressLookupServiceImpl @Inject()(connector: AddressLookupConnector, addressConfig: AddressLookupConfig, config: FrontendAppConfig)(implicit ec: ExecutionContext) extends AddressLookupService with AddressLookupRequestHelper {
 
-  def getYourAddressLookupRedirect(redirectUrl: Call, userAnswers: UserAnswers)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL] =  {
+  def getYourAddressLookupRedirect(redirectUrl: Call, userAnswers: UserAnswers)(implicit hc: HeaderCarrier, messagesApi: MessagesApi): EitherT[Future, Error, URL] =  {
     val request = lookupRequestForYourAddress(config.timeout, config.host, redirectUrl.url, addressConfig.addressesShowLimit, userAnswers, config.languageTranslationEnabled)
     initialiseAddressLookup(request)
   }
 
-  def getIndividualAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL] =  {
+  def getIndividualAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messagesApi: MessagesApi): EitherT[Future, Error, URL] =  {
     val request = lookupRequestForIndividualAddress(config.timeout, config.host, redirectUrl.url, addressConfig.addressesShowLimit, config.languageTranslationEnabled)
     initialiseAddressLookup(request)
   }
 
-  def getCompanyAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL] =  {
+  def getCompanyAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messagesApi: MessagesApi): EitherT[Future, Error, URL] =  {
     val request = lookupRequestForCompanyAddress(config.timeout, config.host, redirectUrl.url, addressConfig.addressesShowLimit, config.languageTranslationEnabled)
     initialiseAddressLookup(request)
   }
 
-  def getLLPAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL] =  {
+  def getLLPAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messagesApi: MessagesApi): EitherT[Future, Error, URL] =  {
     val request = lookupRequestForLLPAddress(config.timeout, config.host, redirectUrl.url, addressConfig.addressesShowLimit, config.languageTranslationEnabled)
     initialiseAddressLookup(request)
   }
 
-  def getTrustAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL] =  {
+  def getTrustAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messagesApi: MessagesApi): EitherT[Future, Error, URL] =  {
     val request = lookupRequestForTrustAddress(config.timeout, config.host, redirectUrl.url, addressConfig.addressesShowLimit, config.languageTranslationEnabled)
     initialiseAddressLookup(request)
   }
 
-  def getEstateAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL] =  {
+  def getEstateAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messagesApi: MessagesApi): EitherT[Future, Error, URL] =  {
     val request = lookupRequestForEstateAddress(config.timeout, config.host, redirectUrl.url, addressConfig.addressesShowLimit, config.languageTranslationEnabled)
     initialiseAddressLookup(request)
   }
 
-  def getRentalAddressLookupRedirect(redirectUrl: Call, index: Int)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL] =  {
+  def getRentalAddressLookupRedirect(redirectUrl: Call, index: Int)(implicit hc: HeaderCarrier, messagesApi: MessagesApi): EitherT[Future, Error, URL] =  {
     val request = lookupRequestForRentalAddress(config.timeout, config.host, redirectUrl.url, addressConfig.addressesShowLimit, languageTranslationEnabled = config.languageTranslationEnabled, addressIndex = index)
     initialiseAddressLookup(request)
   }
@@ -136,12 +136,12 @@ object AddressLookupServiceImpl {
 
 @ImplementedBy(classOf[AddressLookupServiceImpl])
 trait AddressLookupService {
-  def getYourAddressLookupRedirect(redirectUrl: Call, userAnswers: UserAnswers)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL]
-  def getIndividualAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL]
-  def getCompanyAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL]
-  def getLLPAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL]
-  def getTrustAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL]
-  def getEstateAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL]
-  def getRentalAddressLookupRedirect(redirectUrl: Call, index: Int)(implicit hc: HeaderCarrier, messages: Messages): EitherT[Future, Error, URL]
+  def getYourAddressLookupRedirect(redirectUrl: Call, userAnswers: UserAnswers)(implicit hc: HeaderCarrier, messagesApi: MessagesApi): EitherT[Future, Error, URL]
+  def getIndividualAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messagesApi: MessagesApi): EitherT[Future, Error, URL]
+  def getCompanyAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messagesApi: MessagesApi): EitherT[Future, Error, URL]
+  def getLLPAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messagesApi: MessagesApi): EitherT[Future, Error, URL]
+  def getTrustAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messagesApi: MessagesApi): EitherT[Future, Error, URL]
+  def getEstateAddressLookupRedirect(redirectUrl: Call)(implicit hc: HeaderCarrier, messagesApi: MessagesApi): EitherT[Future, Error, URL]
+  def getRentalAddressLookupRedirect(redirectUrl: Call, index: Int)(implicit hc: HeaderCarrier, messagesApi: MessagesApi): EitherT[Future, Error, URL]
   def retrieveUserAddress(addressId: UUID)(implicit hc: HeaderCarrier): EitherT[Future, Error, Address]
 }
