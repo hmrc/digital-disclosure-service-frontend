@@ -47,6 +47,8 @@ class RentalAddressLookupController @Inject()(
   def lookupAddress(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async { implicit request =>
     val continueUrl = routes.RentalAddressLookupController.retrieveConfirmedAddress(i, mode) 
 
+    implicit val mApi = messagesApi
+
     addressLookupService.getRentalAddressLookupRedirect(continueUrl, i).fold(
       {e: Error =>
         logger.error(s"Error initialising Address Lookup: $e")

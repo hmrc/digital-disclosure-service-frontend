@@ -17,7 +17,7 @@
 package services
 
 import models.address._
-import play.api.i18n.Messages
+import play.api.i18n.{MessagesApi, MessagesImpl, Messages, Lang}
 import controllers.routes
 import models._
 import pages._
@@ -30,7 +30,7 @@ trait AddressLookupRequestHelper {
                                         redirectUrl: String, 
                                         proposalListLimit: Int, 
                                         userAnswers: UserAnswers,
-                                        languageTranslationEnabled: Boolean)(implicit messages: Messages): AddressLookupRequest = {
+                                        languageTranslationEnabled: Boolean)(implicit messagesApi: MessagesApi): AddressLookupRequest = {
 
     lookupRequestForAddress(timeout, baseUrl, redirectUrl, proposalListLimit, languageTranslationEnabled,
                             "yourCountryLookup.title", 
@@ -50,7 +50,7 @@ trait AddressLookupRequestHelper {
   def lookupRequestForIndividualAddress(timeout: Int, baseUrl: String, 
                                         redirectUrl: String, 
                                         proposalListLimit: Int,
-                                        languageTranslationEnabled: Boolean)(implicit messages: Messages): AddressLookupRequest = {                                      
+                                        languageTranslationEnabled: Boolean)(implicit messagesApi: MessagesApi): AddressLookupRequest = {                                      
 
     lookupRequestForAddress(timeout, baseUrl, redirectUrl, proposalListLimit, languageTranslationEnabled,
                             "individualCountryLookup.title", 
@@ -70,7 +70,7 @@ trait AddressLookupRequestHelper {
   def lookupRequestForCompanyAddress(timeout: Int, baseUrl: String, 
                                      redirectUrl: String, 
                                      proposalListLimit: Int,
-                                     languageTranslationEnabled: Boolean)(implicit messages: Messages): AddressLookupRequest = {                                      
+                                     languageTranslationEnabled: Boolean)(implicit messagesApi: MessagesApi): AddressLookupRequest = {                                      
 
     lookupRequestForAddress(timeout, baseUrl, redirectUrl, proposalListLimit, languageTranslationEnabled,
                             "companyCountryLookup.title", 
@@ -90,7 +90,7 @@ trait AddressLookupRequestHelper {
   def lookupRequestForLLPAddress(timeout: Int, baseUrl: String, 
                                      redirectUrl: String, 
                                      proposalListLimit: Int,
-                                     languageTranslationEnabled: Boolean)(implicit messages: Messages): AddressLookupRequest = {                                      
+                                     languageTranslationEnabled: Boolean)(implicit messagesApi: MessagesApi): AddressLookupRequest = {                                      
 
     lookupRequestForAddress(timeout, baseUrl, redirectUrl, proposalListLimit, languageTranslationEnabled,
                             "llpCountryLookup.title", 
@@ -110,7 +110,7 @@ trait AddressLookupRequestHelper {
   def lookupRequestForTrustAddress(timeout: Int, baseUrl: String, 
                                      redirectUrl: String, 
                                      proposalListLimit: Int,
-                                     languageTranslationEnabled: Boolean)(implicit messages: Messages): AddressLookupRequest = {                                      
+                                     languageTranslationEnabled: Boolean)(implicit messagesApi: MessagesApi): AddressLookupRequest = {                                      
 
     lookupRequestForAddress(timeout, baseUrl, redirectUrl, proposalListLimit, languageTranslationEnabled,
                             "trustCountryLookup.title", 
@@ -130,7 +130,7 @@ trait AddressLookupRequestHelper {
   def lookupRequestForEstateAddress(timeout: Int, baseUrl: String, 
                                      redirectUrl: String, 
                                      proposalListLimit: Int,
-                                     languageTranslationEnabled: Boolean)(implicit messages: Messages): AddressLookupRequest = {                                      
+                                     languageTranslationEnabled: Boolean)(implicit messagesApi: MessagesApi): AddressLookupRequest = {                                      
 
     lookupRequestForAddress(timeout, baseUrl, redirectUrl, proposalListLimit, languageTranslationEnabled,
                             "estateCountryLookup.title", 
@@ -151,23 +151,24 @@ trait AddressLookupRequestHelper {
                                     redirectUrl: String, 
                                     proposalListLimit: Int, 
                                     languageTranslationEnabled: Boolean,
-                                    addressIndex: Int)(implicit messages: Messages): AddressLookupRequest = {
+                                    addressIndex: Int)(implicit messagesApi: MessagesApi): AddressLookupRequest = {
 
     lookupRequestForAddress(timeout, baseUrl, redirectUrl, proposalListLimit, languageTranslationEnabled,
                             "yourCountryLookup.title", 
                             "yourCountryLookup.heading",
                             "yourCountryLookup.hint",
-                            messages("addressLookup.rental.title", addressIndex+1), 
-                            messages("addressLookup.rental.heading", addressIndex+1),
+                            "addressLookup.rental.title", 
+                            "addressLookup.rental.heading",
                             Some("addressLookup.rental.body"),
-                            messages("selectAddress.rental.title", addressIndex+1), 
-                            messages("selectAddress.rental.heading", addressIndex+1),
-                            messages("editAddress.rental.title", addressIndex+1), 
-                            messages("editAddress.rental.heading", addressIndex+1),
+                            "selectAddress.rental.title", 
+                            "selectAddress.rental.heading",
+                            "editAddress.rental.title", 
+                            "editAddress.rental.heading",
                             "confirmAddress.rental.title", 
                             "confirmAddress.rental.heading",
-                            Some(true))
-  }
+                            Some(true),
+                            Some(addressIndex))
+  } 
 
   def lookupRequestForAddress(timeout: Int, baseUrl: String, 
                               redirectUrl: String, 
@@ -185,7 +186,8 @@ trait AddressLookupRequestHelper {
                               editAddressHeading: String,
                               confirmAddressTitle: String, 
                               confirmAddressHeading: String,
-                              ukMode: Option[Boolean] = None)(implicit messages: Messages): AddressLookupRequest = {
+                              ukMode: Option[Boolean] = None,
+                              addressIndex: Option[Int] = None)(implicit messagesApi: MessagesApi): AddressLookupRequest = {
 
     val selectPageConfig = SelectPageConfig(proposalListLimit = proposalListLimit)
     val timeoutConfig = TimeoutConfig(timeoutAmount = timeout, timeoutUrl = controllers.auth.routes.AuthController.signOut.url, timeoutKeepAliveUrl = Some(routes.KeepAliveController.keepAlive.url))
@@ -202,6 +204,56 @@ trait AddressLookupRequestHelper {
       ukMode = ukMode
     )
 
+    val englishMessages: Messages = MessagesImpl(Lang("en"), messagesApi)
+    val welshMessages: Messages = MessagesImpl(Lang("cy"), messagesApi)
+
+    val englishLabels = getLanguageLabels(countryLookupTitle, 
+                              countryLookupHeading,
+                              countryLookupHint,
+                              addressLookupTitle, 
+                              addressLookupHeading,
+                              afterHeadingText,
+                              selectAddressTitle, 
+                              selectAddressHeading,
+                              editAddressTitle, 
+                              editAddressHeading,
+                              confirmAddressTitle, 
+                              confirmAddressHeading,
+                              englishMessages,
+                              addressIndex)    
+    val welshLabels = getLanguageLabels(countryLookupTitle, 
+                              countryLookupHeading,
+                              countryLookupHint,
+                              addressLookupTitle, 
+                              addressLookupHeading,
+                              afterHeadingText,
+                              selectAddressTitle, 
+                              selectAddressHeading,
+                              editAddressTitle, 
+                              editAddressHeading,
+                              confirmAddressTitle, 
+                              confirmAddressHeading,
+                              welshMessages,
+                              addressIndex) 
+    val labels = AddressLookupLabels(englishLabels, welshLabels)
+
+    AddressLookupRequest(API_VERSION, addressLookupOptions, labels)
+  }
+
+  def getLanguageLabels(countryLookupTitle: String, 
+                        countryLookupHeading: String,
+                        countryLookupHint: String,
+                        addressLookupTitle: String, 
+                        addressLookupHeading: String,
+                        afterHeadingText: Option[String],
+                        selectAddressTitle: String, 
+                        selectAddressHeading: String,
+                        editAddressTitle: String, 
+                        editAddressHeading: String,
+                        confirmAddressTitle: String, 
+                        confirmAddressHeading: String,
+                        messages: Messages,
+                        addressIndex: Option[Int] = None): LabelsByLanguage = {
     val appLevelLabels = AppLevelLabels(messages("service.name"))
     val countryPickerLabels = CountryPickerLabels(
       messages(countryLookupTitle), 
@@ -211,19 +263,25 @@ trait AddressLookupRequestHelper {
     )
 
     val lookupPageLabels = LookupPageLabels(
-      messages(addressLookupTitle), 
-      messages(addressLookupHeading),
+      messageWithAddressIndex(addressLookupTitle, addressIndex, messages), 
+      messageWithAddressIndex(addressLookupHeading, addressIndex, messages),
       messages("site.continue"),
       afterHeadingText.map(messages(_))
     )
 
     val selectPageLabels = SelectPageLabels(
-      messages(selectAddressTitle), 
-      messages(selectAddressHeading)
+      messageWithAddressIndex(selectAddressTitle, addressIndex, messages), 
+      messageWithAddressIndex(selectAddressHeading, addressIndex, messages)
     )
     val editPageLabels = EditPageLabels(
-      messages(editAddressTitle), 
-      messages(editAddressHeading)
+      messageWithAddressIndex(editAddressTitle, addressIndex, messages), 
+      messageWithAddressIndex(editAddressHeading, addressIndex, messages),
+      messages("editAddress.line1Label"),
+      messages("editAddress.line2Label"),
+      messages("editAddress.line3Label"),
+      messages("editAddress.townLabel"),
+      messages("editAddress.postcodeLabel"),
+      messages("editAddress.countryLabel")
     )
     val confirmPageLabels = ConfirmPageLabels(
       messages(confirmAddressTitle), 
@@ -235,7 +293,7 @@ trait AddressLookupRequestHelper {
       editPageLabels, 
       confirmPageLabels
     )
-    val englishLabels = LabelsByLanguage(
+    LabelsByLanguage(
       appLevelLabels, 
       countryPickerLabels, 
       lookupPageLabels, 
@@ -244,9 +302,13 @@ trait AddressLookupRequestHelper {
       confirmPageLabels,
       internationalLabels
     )
-    val labels = AddressLookupLabels(englishLabels)
+  }
 
-    AddressLookupRequest(API_VERSION, addressLookupOptions, labels)
+  def messageWithAddressIndex(key: String, addressIndex: Option[Int], messages: Messages): String = {
+    addressIndex match {
+      case Some(i) => messages(key, i+1)
+      case None => messages(key)
+    }
   }
 
   def getAgentSpecificHeading(ua: UserAnswers) = {

@@ -569,6 +569,12 @@ selectAddress.heading = Choose your address
 
 editAddress.title = What is your address?
 editAddress.heading = What is your address?
+editAddress.line1Label = Address line 1
+editAddress.line2Label = Address line 2 (optional)
+editAddress.line3Label = Address line 3 (optional)
+editAddress.townLabel = Town or city
+editAddress.postcodeLabel = Postcode (optional)
+editAddress.countryLabel = Country
 
 confirmAddress.title = Is this the correct address?
 confirmAddress.heading = Is this the correct address?

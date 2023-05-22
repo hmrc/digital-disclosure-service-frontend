@@ -20,7 +20,8 @@ import play.api.libs.json.Json
 import play.api.libs.json.OFormat
 
 final case class AddressLookupLabels(
-  en: LabelsByLanguage
+  en: LabelsByLanguage,
+  cy: LabelsByLanguage
 )
 
 object AddressLookupLabels {

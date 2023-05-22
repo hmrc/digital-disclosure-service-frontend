@@ -34,7 +34,7 @@ import uk.gov.hmrc.http.HeaderCarrier
 import scala.concurrent.ExecutionContext.Implicits.global
 import navigation.{FakeLettingNavigator, LettingNavigator}
 import services.SessionService
-import play.api.i18n.Messages
+import play.api.i18n.MessagesApi
 
 import scala.concurrent.Future
 
@@ -50,9 +50,9 @@ class RentalAddressLookupControllerSpec extends SpecBase with MockFactory with M
 
   def mockGetRentalAddressLookupRedirect(index: Int, redirectUrl: Call)(
     response: Either[Error, URL]
-  ): CallHandler4[Call, Int, HeaderCarrier, Messages, EitherT[Future, Error, URL]] =
+  ): CallHandler4[Call, Int, HeaderCarrier, MessagesApi, EitherT[Future, Error, URL]] =
     (addressLookupService
-      .getRentalAddressLookupRedirect(_: Call, _: Int)(_: HeaderCarrier, _: Messages))
+      .getRentalAddressLookupRedirect(_: Call, _: Int)(_: HeaderCarrier, _: MessagesApi))
       .expects(redirectUrl, index, *, *)
       .returning(EitherT.fromEither[Future](response))
 
