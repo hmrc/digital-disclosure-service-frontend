@@ -17,8 +17,8 @@
 package viewmodels.checkAnswers
 
 import controllers.reason.routes
-import models.{CheckMode, UserAnswers}
-import pages.DidSomeoneGiveYouAdviceNotDeclareTaxPage
+import models.{CheckMode, UserAnswers, RelatesTo}
+import pages.{DidSomeoneGiveYouAdviceNotDeclareTaxPage, RelatesToPage}
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
@@ -31,21 +31,23 @@ object DidSomeoneGiveYouAdviceNotDeclareTaxSummary  {
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
     answers.get(DidSomeoneGiveYouAdviceNotDeclareTaxPage).map {
       answer =>
-
         val answerString = if (answer) "yes" else "no"
-
         val value = ValueViewModel(
           HtmlContent(
             HtmlFormat.escape(messages(s"didSomeoneGiveYouAdviceNotDeclareTax.$answerString"))
           )
         )
+
+        val areTheyTheIndividual = answers.isTheUserTheIndividual
+        val entity = answers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+        val key = messages(if(areTheyTheIndividual) s"didSomeoneGiveYouAdviceNotDeclareTax.agent.checkYourAnswersLabel" else s"didSomeoneGiveYouAdviceNotDeclareTax.${entity}.checkYourAnswersLabel")
         
         SummaryListRowViewModel(
-          key     = "didSomeoneGiveYouAdviceNotDeclareTax.checkYourAnswersLabel",
+          key     = key,
           value   = value,
           actions = Seq(
             ActionItemViewModel("site.change", routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("didSomeoneGiveYouAdviceNotDeclareTax.change.hidden"))
+              .withVisuallyHiddenText(messages(if(areTheyTheIndividual) "didSomeoneGiveYouAdviceNotDeclareTax.agent.change.hidden" else s"didSomeoneGiveYouAdviceNotDeclareTax.${entity}.change.hidden"))
           )
         )
     }
