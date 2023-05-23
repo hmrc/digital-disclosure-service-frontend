@@ -17,6 +17,7 @@ site.dot = .
 site.or = or
 site.2DP = {0,number,#,##0.00}
 site.print = Print or save this page
+site.ending = Ending
 
 date.day = Day
 date.month = Month

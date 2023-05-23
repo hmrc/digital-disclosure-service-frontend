@@ -37,7 +37,7 @@ object DirectorLoanAccountLiabilityModel {
       (directorLoanAccountLiability, i) <- directorLoanAccountLiabilities.zipWithIndex
     } yield {
       SummaryListRowNoValue(
-        key = Key(s"Ending ${directorLoanAccountLiability.periodEnd.format(dateFormatter)}", "govuk-!-font-weight-regular hmrc-summary-list__key"),
+        key = Key(messages("site.ending") + s" ${directorLoanAccountLiability.periodEnd.format(dateFormatter)}", "govuk-!-font-weight-regular hmrc-summary-list__key"),
         actions = Some(
           Actions(items =
             Seq( 

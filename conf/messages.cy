@@ -17,6 +17,7 @@ site.dot = .
 site.or = neu
 site.2DP = {0,number,#,##0.00}
 site.print = Print or save this page
+site.ending = Dod â
 
 date.day = Diwrnod
 date.month = Mis
@@ -2365,7 +2366,7 @@ checkYourAnswers.dl.total.taxDue = Treth sy’n ddyledus
 checkYourAnswers.dl.total.interestDue = Llog sy’n ddyledus
 checkYourAnswers.dl.total.penaltyRate = Cyfradd y gosb
 checkYourAnswers.dl.total.penaltyAmount = Swm y gosb
-checkYourAnswers.dl.total.totalAmountDue = Cyfanswm y swm sy’n ddyledus
+checkYourAnswers.dl.total.totalAmountDue = Cyfanswm sy’n ddyledus
 
 declaration.title = Eich datganiad
 declaration.heading = Eich datganiad
@@ -2385,7 +2386,7 @@ checkYourAnswers.ct.total.subheading = Cyfanswm
 checkYourAnswers.ct.total.taxDue = Treth Gorfforaeth yn ddyledus
 checkYourAnswers.ct.total.interestDue = Llog sy’n ddyledus
 checkYourAnswers.ct.total.penaltyAmount = Swm y gosb
-checkYourAnswers.ct.total.totalAmountDue = Cyfanswm y swm sy’n ddyledus
+checkYourAnswers.ct.total.totalAmountDue = Cyfanswm sy’n ddyledus
 
 checkYourAnswers.offshoreOnshore.offer.heading = Gwneud cynnig i CThEF
 checkYourAnswers.offshoreOnshore.offer.paragraph1 = Pan fyddwch yn anfon y datgeliad hwn, gofynnir i chi gyntaf wneud cynnig i CThEF o’r dreth, y llog a’r cosbau sydd arnoch o’ch rhwymedigaethau artraeth ac alltraeth. Bydd y ffigwr hwn ar gael i chi pan fyddwch yn mynd i wneud cynnig.
