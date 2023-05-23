@@ -36,7 +36,6 @@ class DirectorLoanAccountLiabilitiesFormProvider @Inject() extends Mappings {
        "periodEnd" -> localDate(
          "directorLoanAccountLiabilities.periodEnd.error.invalid",
          "directorLoanAccountLiabilities.periodEnd.error.required.all",
-         "directorLoanAccountLiabilities.periodEnd.error.required.two",
          "directorLoanAccountLiabilities.periodEnd.error.required",
          "directorLoanAccountLiabilities.periodEnd.error.invalidDay",
          "directorLoanAccountLiabilities.periodEnd.error.invalidMonth")
