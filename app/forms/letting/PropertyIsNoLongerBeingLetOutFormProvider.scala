@@ -31,7 +31,6 @@ class PropertyIsNoLongerBeingLetOutFormProvider @Inject() extends Mappings {
         "stopDate" -> localDate(
           invalidKey     = "propertyIsNoLongerBeingLetOut.stopDate.error.invalid",
           allRequiredKey = "propertyIsNoLongerBeingLetOut.stopDate.error.required.all",
-          twoRequiredKey = "propertyIsNoLongerBeingLetOut.stopDate.error.required.two",
           requiredKey    = "propertyIsNoLongerBeingLetOut.stopDate.error.required",
           invalidDayKey    = "propertyIsNoLongerBeingLetOut.stopDate.error.invalidDay",
           invalidMonthKey  = "propertyIsNoLongerBeingLetOut.stopDate.error.invalidMonth"

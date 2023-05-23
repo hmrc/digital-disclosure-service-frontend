@@ -35,7 +35,6 @@ class CorporationTaxLiabilityFormProvider @Inject() extends Mappings {
         "periodEnd" -> localDate(
           invalidKey     = "corporationTaxLiability.periodEnd.error.invalid",
           allRequiredKey = "corporationTaxLiability.periodEnd.error.required.all",
-          twoRequiredKey = "corporationTaxLiability.periodEnd.error.required.two",
           requiredKey    = "corporationTaxLiability.periodEnd.error.required",
           invalidDayKey    = "corporationTaxLiability.periodEnd.error.invalidDay",
           invalidMonthKey  = "corporationTaxLiability.periodEnd.error.invalidMonth"
