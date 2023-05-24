@@ -35,7 +35,7 @@ constants.error = Gwall
 error.browser.title.prefix = Gwall:
 error.boolean = Please give an answer
 error.required = Please enter a value
-error.summary.title = There is a problem
+error.summary.title = Mae problem wedi codi
 
 index.title = Rhowch wybod i CThEF am dreth sydd heb ei thalu o’r blynyddoedd blaenorol
 index.heading = Rhowch wybod i CThEF am dreth sydd heb ei thalu o’r blynyddoedd blaenorol
