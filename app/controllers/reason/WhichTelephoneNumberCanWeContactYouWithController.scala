@@ -18,10 +18,12 @@ package controllers.reason
 
 import controllers.actions._
 import forms.WhichTelephoneNumberCanWeContactYouWithFormProvider
+
 import javax.inject.Inject
-import models.Mode
+import models.{Mode, UserAnswers, WhichTelephoneNumberCanWeContactYouWith}
+import models.WhichTelephoneNumberCanWeContactYouWith.ExistingNumber
 import navigation.ReasonNavigator
-import pages.{WhichTelephoneNumberCanWeContactYouWithPage, YourPhoneNumberPage}
+import pages.{WhatTelephoneNumberCanWeContactYouWithPage, WhichTelephoneNumberCanWeContactYouWithPage, YourPhoneNumberPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -70,9 +72,17 @@ class WhichTelephoneNumberCanWeContactYouWithController @Inject()(
 
         value =>
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(WhichTelephoneNumberCanWeContactYouWithPage, value))
+            userAnswers <- Future.fromTry(request.userAnswers.set(WhichTelephoneNumberCanWeContactYouWithPage, value))
+            updatedAnswers <- setTelephone(userAnswers, value)
             _              <- sessionService.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(WhichTelephoneNumberCanWeContactYouWithPage, mode, updatedAnswers))
       )
+  }
+
+  private def setTelephone(userAnswers: UserAnswers, value: WhichTelephoneNumberCanWeContactYouWith): Future[UserAnswers] = {
+    (value, userAnswers.get(YourPhoneNumberPage)) match {
+      case (ExistingNumber, Some(email)) => Future.fromTry(userAnswers.set(WhatTelephoneNumberCanWeContactYouWithPage, email))
+      case _ => Future(userAnswers)
+    }
   }
 }
