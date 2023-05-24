@@ -47,6 +47,7 @@ class EstateAddressLookupController @Inject()(
 
   def lookupAddress(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async { implicit request =>
     val continueUrl = routes.EstateAddressLookupController.retrieveConfirmedAddress(mode)
+    implicit val mApi = messagesApi
 
     addressLookupService.getEstateAddressLookupRedirect(continueUrl).fold(
       {e: Error =>

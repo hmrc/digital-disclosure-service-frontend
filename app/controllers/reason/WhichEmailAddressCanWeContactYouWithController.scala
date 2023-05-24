@@ -18,10 +18,12 @@ package controllers.reason
 
 import controllers.actions._
 import forms.WhichEmailAddressCanWeContactYouWithFormProvider
+import models.WhichEmailAddressCanWeContactYouWith.ExistingEmail
+
 import javax.inject.Inject
-import models.Mode
+import models.{Mode, UserAnswers, WhichEmailAddressCanWeContactYouWith}
 import navigation.ReasonNavigator
-import pages.{WhichEmailAddressCanWeContactYouWithPage, YourEmailAddressPage}
+import pages.{WhatEmailAddressCanWeContactYouWithPage, WhichEmailAddressCanWeContactYouWithPage, YourEmailAddressPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -29,6 +31,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.reason.WhichEmailAddressCanWeContactYouWithView
 
 import scala.concurrent.{ExecutionContext, Future}
+import scala.util.Try
 
 class WhichEmailAddressCanWeContactYouWithController @Inject()(
                                        override val messagesApi: MessagesApi,
@@ -70,9 +73,17 @@ class WhichEmailAddressCanWeContactYouWithController @Inject()(
 
         value =>
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(WhichEmailAddressCanWeContactYouWithPage, value))
+            userAnswers    <- Future.fromTry(request.userAnswers.set(WhichEmailAddressCanWeContactYouWithPage, value))
+            updatedAnswers <- setEmail(userAnswers, value)
             _              <- sessionService.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(WhichEmailAddressCanWeContactYouWithPage, mode, updatedAnswers))
       )
+  }
+
+  private def setEmail(userAnswers:UserAnswers, value:WhichEmailAddressCanWeContactYouWith): Future[UserAnswers] = {
+    (value, userAnswers.get(YourEmailAddressPage)) match {
+      case (ExistingEmail, Some(email)) => Future.fromTry(userAnswers.set(WhatEmailAddressCanWeContactYouWithPage, email))
+      case _ => Future(userAnswers)
+    }
   }
 }

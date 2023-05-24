@@ -29,7 +29,6 @@ class PropertyFirstLetOutFormProvider @Inject() extends Mappings {
       "value" -> localDate(
         invalidKey     = "propertyFirstLetOut.error.invalid",
         allRequiredKey = "propertyFirstLetOut.error.required.all",
-        twoRequiredKey = "propertyFirstLetOut.error.required.two",
         requiredKey    = "propertyFirstLetOut.error.required",
         invalidDayKey    = "propertyFirstLetOut.error.invalidDay",
         invalidMonthKey  = "propertyFirstLetOut.error.invalidMonth"

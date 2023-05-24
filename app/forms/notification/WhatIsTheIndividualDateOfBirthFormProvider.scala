@@ -29,7 +29,6 @@ class WhatIsTheIndividualDateOfBirthFormProvider @Inject() extends Mappings {
       "value" -> localDate(
         invalidKey     = "whatIsTheIndividualDateOfBirth.error.invalid",
         allRequiredKey = "whatIsTheIndividualDateOfBirth.error.required.all",
-        twoRequiredKey = "whatIsTheIndividualDateOfBirth.error.required.two",
         requiredKey    = "whatIsTheIndividualDateOfBirth.error.required",
         invalidDayKey    = "whatIsTheIndividualDateOfBirth.error.invalidDay",
         invalidMonthKey  = "whatIsTheIndividualDateOfBirth.error.invalidMonth"

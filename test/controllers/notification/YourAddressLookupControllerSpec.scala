@@ -34,7 +34,7 @@ import uk.gov.hmrc.http.HeaderCarrier
 import scala.concurrent.ExecutionContext.Implicits.global
 import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import services.SessionService
-import play.api.i18n.Messages
+import play.api.i18n.MessagesApi
 
 import scala.concurrent.Future
 
@@ -50,9 +50,9 @@ class YourAddressLookupControllerSpec extends SpecBase with MockFactory with Mod
 
   def mockGetIndividualAddressLookupRedirect(redirectUrl: Call)(
     response: Either[Error, URL]
-  ): CallHandler4[Call, UserAnswers, HeaderCarrier, Messages, EitherT[Future, Error, URL]] =
+  ): CallHandler4[Call, UserAnswers, HeaderCarrier, MessagesApi, EitherT[Future, Error, URL]] =
     (addressLookupService
-      .getYourAddressLookupRedirect(_: Call, _: UserAnswers)(_: HeaderCarrier, _: Messages))
+      .getYourAddressLookupRedirect(_: Call, _: UserAnswers)(_: HeaderCarrier, _: MessagesApi))
       .expects(redirectUrl, *, *, *)
       .returning(EitherT.fromEither[Future](response))
 

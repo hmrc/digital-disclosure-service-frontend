@@ -36,6 +36,7 @@ import play.api.mvc.Call
 
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class TaskListController @Inject()(
                                         override val messagesApi: MessagesApi,
@@ -76,9 +77,9 @@ class TaskListController @Inject()(
 
   private[controllers] def buildYourPersonalDetailsRow(personalDetails: PersonalDetails, entityKey: String)(implicit messages: Messages): (String, TaskListRow) = {
     val isSectionComplete = personalDetails.isComplete
-    val firstPage = personalDetails.background.haveYouReceivedALetter
+    val firstPage = personalDetails.background.relatesTo
     val completeLink = controllers.notification.routes.CheckYourAnswersController.onPageLoad
-    val incompleteLink = controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode)
+    val incompleteLink = controllers.notification.routes.RelatesToController.onPageLoad(NormalMode)
     
     val operationKey = getOperationKey(isSectionComplete, firstPage.isDefined)
     val notificationSectionKey = s"taskList.$operationKey.heading.first.$entityKey"
@@ -205,7 +206,7 @@ class TaskListController @Inject()(
         case Some(ref) => messages(s"taskList.$section.reference", ref)
         case _ =>
           val date = submission.created.atZone(ZoneId.systemDefault).toLocalDateTime
-          val dateFormatter = DateTimeFormatter.ofPattern("d MMM yyyy HH:mma")
+          val dateFormatter = DateTimeFormatter.ofPattern("d MMM yyyy HH:mma", new Locale(messages.lang.code))
           messages(s"taskList.$section.no.reference", date.format(dateFormatter))
       }
     }

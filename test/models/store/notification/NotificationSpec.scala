@@ -23,7 +23,7 @@ import models.address._
 import java.time.{Instant, LocalDate}
 import models.store.YesNoOrUnsure._
 import models.store.notification._
-import models.{IncomeOrGainSource, AreYouTheEntity}
+import models.{IncomeOrGainSource, AreYouTheEntity, RelatesTo}
 
 class NotificationSpec extends AnyFreeSpec with Matchers with OptionValues {
 
@@ -32,14 +32,14 @@ class NotificationSpec extends AnyFreeSpec with Matchers with OptionValues {
   "isComplete" - {
 
     "must return true where you are the individual and all questions are answered" in {
-      val completedBackground = Background(Some(false), None, Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)))
+      val completedBackground = Background(Some(RelatesTo.AnIndividual), Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)))
       val aboutYou = AboutYou(Some("name"), None, Some("email"), Some(LocalDate.now), Some("mainOccupation"), Some(ContactPreferences(Set(Email))), Some(No), None, Some(No), None, Some(No), None, Some(address))
       val notification = Notification("id", "submissionId", Instant.now, Metadata(), PersonalDetails(completedBackground, aboutYou, None, None, None, None, None), None)
       notification.isComplete mustBe true
     }
 
     "must return true where you are NOT the individual and all questions are answered" in {
-      val completedBackground = Background(Some(false), None, Some(DisclosureEntity(Individual, Some(AreYouTheEntity.IAmAnAccountantOrTaxAgent))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)))
+      val completedBackground = Background(Some(RelatesTo.AnIndividual), Some(DisclosureEntity(Individual, Some(AreYouTheEntity.IAmAnAccountantOrTaxAgent))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)))
       val aboutYou = AboutYou(Some("name"), None, Some("email"), None, None, Some(ContactPreferences(Set(Email))), None, None, None, None, None, None, Some(address))
       val aboutTheIndividual = AboutTheIndividual(Some("name"), Some(LocalDate.now), Some("mainOccupation"), Some(Yes), Some("NINO"), Some(No), None, Some(No), None, Some(address))
       val notification = Notification("id", "submissionId", Instant.now, Metadata(), PersonalDetails(completedBackground, aboutYou, Some(aboutTheIndividual), None, None, None, None), None)
@@ -47,7 +47,7 @@ class NotificationSpec extends AnyFreeSpec with Matchers with OptionValues {
     }
 
     "must return true where they are an estate and all questions are answered" in {
-      val completedBackground = Background(Some(false), None, Some(DisclosureEntity(Estate, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)))
+      val completedBackground = Background(Some(RelatesTo.AnIndividual), Some(DisclosureEntity(Estate, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)))
       val aboutYou = AboutYou(Some("name"), None, Some("email"), None, None, Some(ContactPreferences(Set(Email))), None, None, None, None, None, None, Some(address))
       val aboutTheEstate = AboutTheEstate(Some("name"), Some(LocalDate.now), Some("mainOccupation"), Some(Yes), Some("NINO"), Some(No), None, Some(No), None, Some(address))
       val notification = Notification("id", "submissionId", Instant.now, Metadata(), PersonalDetails(completedBackground, aboutYou, None, None, None, None, Some(aboutTheEstate)), None)
@@ -55,7 +55,7 @@ class NotificationSpec extends AnyFreeSpec with Matchers with OptionValues {
     }
 
     "must return true where they are a company and all questions are answered" in {
-      val completedBackground = Background(Some(false), None, Some(DisclosureEntity(Company, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)))
+      val completedBackground = Background(Some(RelatesTo.AnIndividual), Some(DisclosureEntity(Company, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)))
       val aboutYou = AboutYou(Some("name"), None, Some("email"), None, None, Some(ContactPreferences(Set(Email))), None, None, None, None, None, None, Some(address))
       val aboutTheCompany = AboutTheCompany(Some("name"), Some("Reg number"), Some(address))
       val notification = Notification("id", "submissionId", Instant.now, Metadata(), PersonalDetails(completedBackground, aboutYou, None, Some(aboutTheCompany), None, None, None), None)
@@ -63,7 +63,7 @@ class NotificationSpec extends AnyFreeSpec with Matchers with OptionValues {
     }
 
     "must return true where they are a trust and all questions are answered" in {
-      val completedBackground = Background(Some(false), None, Some(DisclosureEntity(Trust, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)))
+      val completedBackground = Background(Some(RelatesTo.AnIndividual), Some(DisclosureEntity(Trust, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)))
       val aboutYou = AboutYou(Some("name"), None, Some("email"), None, None, Some(ContactPreferences(Set(Email))), None, None, None, None, None, None, Some(address))
       val aboutTheTrust = AboutTheTrust(Some("name"), Some(address))
       val notification = Notification("id", "submissionId", Instant.now, Metadata(), PersonalDetails(completedBackground, aboutYou, None, None, Some(aboutTheTrust), None, None), None)
@@ -71,7 +71,7 @@ class NotificationSpec extends AnyFreeSpec with Matchers with OptionValues {
     }
 
     "must return true where they are a LLP and all questions are answered" in {
-      val completedBackground = Background(Some(false), None, Some(DisclosureEntity(LLP, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)))
+      val completedBackground = Background(Some(RelatesTo.AnIndividual), Some(DisclosureEntity(LLP, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)))
       val aboutYou = AboutYou(Some("name"), None, Some("email"), None, None, Some(ContactPreferences(Set(Email))), None, None, None, None, None, None, Some(address))
       val aboutTheLLP = AboutTheLLP(Some("name"), Some(address))
       val notification = Notification("id", "submissionId", Instant.now, Metadata(), PersonalDetails(completedBackground, aboutYou, None, None, None, Some(aboutTheLLP), None), None)

@@ -17,6 +17,7 @@
 package viewmodels.checkAnswers
 
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 import controllers.letting.routes
 import models.{CheckMode, LettingProperty}
@@ -33,7 +34,7 @@ object PropertyIsNoLongerBeingLetOutSummary  {
       answer =>
 
         if(fieldName == "stopDate") {
-          val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
+          val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale(messages.lang.code))
 
           SummaryListRowViewModel(
             key     = "propertyIsNoLongerBeingLetOut.stopDate.checkYourAnswersLabel",

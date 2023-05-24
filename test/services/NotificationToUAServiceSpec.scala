@@ -102,70 +102,59 @@ class NotificationToUAServiceSpec extends AnyWordSpec with Matchers with TryValu
   "backgroundToUserAnswers" should {
 
     "return a PageWithValue for haveYouReceivedALetter" in {
-      val background = Background(haveYouReceivedALetter = Some(true))
+      val background = Background(relatesTo = Some(RelatesTo.AnIndividual))
       val updatedUserAnswers = sut.backgroundToUserAnswers(background, emptyUA).success.value
-      updatedUserAnswers.get(ReceivedALetterPage)                             shouldEqual Some(true)
-      updatedUserAnswers.get(LetterReferencePage)                             shouldEqual None
+      updatedUserAnswers.get(RelatesToPage)                                   shouldEqual Some(RelatesTo.AnIndividual)
       updatedUserAnswers.get(AreYouRepresentingAnOrganisationPage)            shouldEqual None
       updatedUserAnswers.get(WhatIsTheNameOfTheOrganisationYouRepresentPage)  shouldEqual None
       updatedUserAnswers.get(OffshoreLiabilitiesPage)                         shouldEqual None
       updatedUserAnswers.get(OnshoreLiabilitiesPage)                          shouldEqual None
-      updatedUserAnswers.get(RelatesToPage)                                   shouldEqual None
     }
 
     "return a PageWithValue for letterReferenceNumber" in {
-      val background = Background(letterReferenceNumber = Some("123"))
+      val background = Background()
       val updatedUserAnswers = sut.backgroundToUserAnswers(background, emptyUA).success.value
-      updatedUserAnswers.get(ReceivedALetterPage)                             shouldEqual None
-      updatedUserAnswers.get(LetterReferencePage)                             shouldEqual Some("123")
+      updatedUserAnswers.get(RelatesToPage)                                   shouldEqual None
       updatedUserAnswers.get(AreYouRepresentingAnOrganisationPage)            shouldEqual None
       updatedUserAnswers.get(WhatIsTheNameOfTheOrganisationYouRepresentPage)  shouldEqual None
       updatedUserAnswers.get(OffshoreLiabilitiesPage)                         shouldEqual None
       updatedUserAnswers.get(OnshoreLiabilitiesPage)                          shouldEqual None
-      updatedUserAnswers.get(RelatesToPage)                                   shouldEqual None
     }
 
     "return a PageWithValue for areYouRepresetingAnOrganisation" in {
       val background = Background(areYouRepresetingAnOrganisation = Some(false))
       val updatedUserAnswers = sut.backgroundToUserAnswers(background, emptyUA).success.value
-      updatedUserAnswers.get(ReceivedALetterPage)                             shouldEqual None
-      updatedUserAnswers.get(LetterReferencePage)                             shouldEqual None
+      updatedUserAnswers.get(RelatesToPage)                                   shouldEqual None
       updatedUserAnswers.get(AreYouRepresentingAnOrganisationPage)            shouldEqual Some(false)
       updatedUserAnswers.get(WhatIsTheNameOfTheOrganisationYouRepresentPage)  shouldEqual None
       updatedUserAnswers.get(OffshoreLiabilitiesPage)                         shouldEqual None
       updatedUserAnswers.get(OnshoreLiabilitiesPage)                          shouldEqual None
-      updatedUserAnswers.get(RelatesToPage)                                   shouldEqual None
     }
 
     "return a PageWithValue for organisationName" in {
       val background = Background(organisationName = Some("Some name"))
       val updatedUserAnswers = sut.backgroundToUserAnswers(background, emptyUA).success.value
-      updatedUserAnswers.get(ReceivedALetterPage)                             shouldEqual None
-      updatedUserAnswers.get(LetterReferencePage)                             shouldEqual None
+      updatedUserAnswers.get(RelatesToPage)                                   shouldEqual None
       updatedUserAnswers.get(AreYouRepresentingAnOrganisationPage)            shouldEqual None
       updatedUserAnswers.get(WhatIsTheNameOfTheOrganisationYouRepresentPage)  shouldEqual Some("Some name")
       updatedUserAnswers.get(OffshoreLiabilitiesPage)                         shouldEqual None
       updatedUserAnswers.get(OnshoreLiabilitiesPage)                          shouldEqual None
-      updatedUserAnswers.get(RelatesToPage)                                   shouldEqual None
     }
 
     "return a PageWithValue for offshoreLiabilities" in {
       val background = Background(offshoreLiabilities = Some(true))
       val updatedUserAnswers = sut.backgroundToUserAnswers(background, emptyUA).success.value
-      updatedUserAnswers.get(ReceivedALetterPage)                             shouldEqual None
-      updatedUserAnswers.get(LetterReferencePage)                             shouldEqual None
+      updatedUserAnswers.get(RelatesToPage)                                   shouldEqual None
       updatedUserAnswers.get(AreYouRepresentingAnOrganisationPage)            shouldEqual None
       updatedUserAnswers.get(WhatIsTheNameOfTheOrganisationYouRepresentPage)  shouldEqual None
       updatedUserAnswers.get(OffshoreLiabilitiesPage)                         shouldEqual Some(true)
       updatedUserAnswers.get(OnshoreLiabilitiesPage)                          shouldEqual None
-      updatedUserAnswers.get(RelatesToPage)                                   shouldEqual None
     }
 
     "return a PageWithValue for onshoreLiabilities" in {
       val background = Background(onshoreLiabilities = Some(false))
       val updatedUserAnswers = sut.backgroundToUserAnswers(background, emptyUA).success.value
-      updatedUserAnswers.get(ReceivedALetterPage)                             shouldEqual None
-      updatedUserAnswers.get(LetterReferencePage)                             shouldEqual None
+      updatedUserAnswers.get(RelatesToPage)                                   shouldEqual None
       updatedUserAnswers.get(AreYouRepresentingAnOrganisationPage)            shouldEqual None
       updatedUserAnswers.get(WhatIsTheNameOfTheOrganisationYouRepresentPage)  shouldEqual None
       updatedUserAnswers.get(OffshoreLiabilitiesPage)                         shouldEqual None
@@ -176,20 +165,17 @@ class NotificationToUAServiceSpec extends AnyWordSpec with Matchers with TryValu
     "return a PageWithValue for relatesTo" in {
       val background = Background(disclosureEntity = Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))))
       val updatedUserAnswers = sut.backgroundToUserAnswers(background, emptyUA).success.value
-      updatedUserAnswers.get(ReceivedALetterPage)                             shouldEqual None
-      updatedUserAnswers.get(LetterReferencePage)                             shouldEqual None
+      updatedUserAnswers.get(RelatesToPage)                                   shouldEqual Some(RelatesTo.AnIndividual)
       updatedUserAnswers.get(AreYouRepresentingAnOrganisationPage)            shouldEqual None
       updatedUserAnswers.get(WhatIsTheNameOfTheOrganisationYouRepresentPage)  shouldEqual None
       updatedUserAnswers.get(OffshoreLiabilitiesPage)                         shouldEqual None
       updatedUserAnswers.get(OnshoreLiabilitiesPage)                          shouldEqual None
-      updatedUserAnswers.get(RelatesToPage)                                   shouldEqual Some(RelatesTo.AnIndividual)
       updatedUserAnswers.get(AreYouTheEntityPage)                             shouldEqual Some(AreYouTheEntity.YesIAm)
     }
 
     "return a PageWithValue where offshore is false" in {
       val background = Background(
-        haveYouReceivedALetter = Some(false),
-        letterReferenceNumber = Some("456"),
+        relatesTo = Some(RelatesTo.AnIndividual),
         areYouRepresetingAnOrganisation = Some(true),
         organisationName = Some("Some other name"),
         offshoreLiabilities = Some(false),
@@ -197,20 +183,17 @@ class NotificationToUAServiceSpec extends AnyWordSpec with Matchers with TryValu
         disclosureEntity = Some(DisclosureEntity(Individual, Some(AreYouTheEntity.IAmAnAccountantOrTaxAgent)))
       )
       val updatedUserAnswers = sut.backgroundToUserAnswers(background, emptyUA).success.value
-      updatedUserAnswers.get(ReceivedALetterPage)                             shouldEqual Some(false)
-      updatedUserAnswers.get(LetterReferencePage)                             shouldEqual Some("456")
+      updatedUserAnswers.get(RelatesToPage)                                   shouldEqual Some(RelatesTo.AnIndividual)
       updatedUserAnswers.get(AreYouRepresentingAnOrganisationPage)            shouldEqual Some(true)
       updatedUserAnswers.get(WhatIsTheNameOfTheOrganisationYouRepresentPage)  shouldEqual Some("Some other name")
       updatedUserAnswers.get(OffshoreLiabilitiesPage)                         shouldEqual Some(false)
       updatedUserAnswers.get(OnshoreLiabilitiesPage)                          shouldEqual None
-      updatedUserAnswers.get(RelatesToPage)                                   shouldEqual Some(RelatesTo.AnIndividual)
       updatedUserAnswers.get(AreYouTheEntityPage)                             shouldEqual Some(AreYouTheEntity.IAmAnAccountantOrTaxAgent)
     }
 
     "return a PageWithValue for all that are set" in {
       val background = Background(
-        haveYouReceivedALetter = Some(false),
-        letterReferenceNumber = Some("456"),
+        relatesTo = Some(RelatesTo.AnIndividual),
         areYouRepresetingAnOrganisation = Some(true),
         organisationName = Some("Some other name"),
         offshoreLiabilities = Some(true),
@@ -220,13 +203,11 @@ class NotificationToUAServiceSpec extends AnyWordSpec with Matchers with TryValu
         otherIncomeSource = Some("Some income"),
       )
       val updatedUserAnswers = sut.backgroundToUserAnswers(background, emptyUA).success.value
-      updatedUserAnswers.get(ReceivedALetterPage)                             shouldEqual Some(false)
-      updatedUserAnswers.get(LetterReferencePage)                             shouldEqual Some("456")
+      updatedUserAnswers.get(RelatesToPage)                                   shouldEqual Some(RelatesTo.AnIndividual)
       updatedUserAnswers.get(AreYouRepresentingAnOrganisationPage)            shouldEqual Some(true)
       updatedUserAnswers.get(WhatIsTheNameOfTheOrganisationYouRepresentPage)  shouldEqual Some("Some other name")
       updatedUserAnswers.get(OffshoreLiabilitiesPage)                         shouldEqual Some(true)
       updatedUserAnswers.get(OnshoreLiabilitiesPage)                          shouldEqual Some(false)
-      updatedUserAnswers.get(RelatesToPage)                                   shouldEqual Some(RelatesTo.AnIndividual)
       updatedUserAnswers.get(AreYouTheEntityPage)                             shouldEqual Some(AreYouTheEntity.IAmAnAccountantOrTaxAgent)
       updatedUserAnswers.get(IncomeOrGainSourcePage)                          shouldEqual Some(Set(IncomeOrGainSource.Dividends))
       updatedUserAnswers.get(OtherIncomeOrGainSourcePage)                     shouldEqual Some("Some income")

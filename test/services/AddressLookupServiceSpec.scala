@@ -79,8 +79,8 @@ class AddressLookupServiceSpec
     )
   )
 
-  protected val realMessagesApi: MessagesApi = inject[MessagesApi]
-  implicit def messages: Messages = realMessagesApi.preferred(FakeRequest())
+  implicit def messagesApi: MessagesApi = inject[MessagesApi]
+  implicit def messages: Messages = messagesApi.preferred(FakeRequest())
 
   val frontendAppConfig = new FrontendAppConfig(config)
   val lookupConfig = new AddressLookupConfig(new ServicesConfig(config))

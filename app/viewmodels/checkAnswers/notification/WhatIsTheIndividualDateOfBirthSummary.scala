@@ -17,6 +17,7 @@
 package viewmodels.checkAnswers
 
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 import controllers.notification.routes
 import models.{CheckMode, UserAnswers}
@@ -32,7 +33,7 @@ object WhatIsTheIndividualDateOfBirthSummary  {
     answers.get(WhatIsTheIndividualDateOfBirthPage).map {
       answer =>
 
-        val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
+        val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale(messages.lang.code))
 
         SummaryListRowViewModel(
           key     = "whatIsTheIndividualDateOfBirth.checkYourAnswersLabel",

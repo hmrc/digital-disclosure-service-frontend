@@ -17,412 +17,118 @@
 package services
 
 import models.address._
-import play.api.i18n.Messages
+import play.api.i18n.{MessagesApi, MessagesImpl, Messages, Lang}
 import controllers.routes
 
 trait AddressLookupHelper {
-   
-    def constructYourAddressRequest(afterHeadingText: Option[String])(implicit messages: Messages) = {
-      val selectPageConfig = SelectPageConfig(proposalListLimit = 15)
-      val timeoutConfig = TimeoutConfig(timeoutAmount = 900, timeoutUrl = controllers.auth.routes.AuthController.signOut.url, timeoutKeepAliveUrl = Some(routes.KeepAliveController.keepAlive.url))
-      val addressLookupOptions = AddressLookupOptions(
-        continueUrl = "host1.com/redirect",
-        serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
-        signOutHref = Some(s"host1.com${controllers.auth.routes.AuthController.signOut.url}"),
-        showPhaseBanner = Some(true),
-        alphaPhase = false,
-        disableTranslations = true,
-        selectPageConfig = Some(selectPageConfig),
-        includeHMRCBranding = Some(false),
-        timeoutConfig = Some(timeoutConfig)
-      )
 
-      val appLevelLabels = AppLevelLabels(messages("service.name"))
-      val countryPickerLabels = CountryPickerLabels(
-        messages("yourCountryLookup.title"), 
-        messages("yourCountryLookup.heading"),
-        messages("yourCountryLookup.hint"),
-        messages("site.continue")
-      )
-      val lookupPageLabels = LookupPageLabels(
-        messages("yourAddressLookup.title"), 
-        messages("yourAddressLookup.heading"),
-        messages("site.continue"),
-        afterHeadingText
-      )
-      val selectPageLabels = SelectPageLabels(
-        messages("selectAddress.title"), 
-        messages("selectAddress.heading")
-      )
-      val editPageLabels = EditPageLabels(
-        messages("editAddress.title"), 
-        messages("editAddress.heading")
-      )
-      val confirmPageLabels = ConfirmPageLabels(
-        messages("confirmAddress.title"), 
-        messages("confirmAddress.heading")
-      )
-      val internationalLabels = InternationalLabels(
-        lookupPageLabels, 
-        selectPageLabels, 
-        editPageLabels, 
-        confirmPageLabels
-      )
-      val englishLabels = LabelsByLanguage(
-        appLevelLabels, 
-        countryPickerLabels, 
-        lookupPageLabels, 
-        selectPageLabels, 
-        editPageLabels, 
-        confirmPageLabels,
-        internationalLabels
-      )
-      val labels = AddressLookupLabels(englishLabels)
-      AddressLookupRequest(2, addressLookupOptions, labels)
+    def messagesApi: MessagesApi 
+
+    lazy val englishMessages: Messages = MessagesImpl(Lang("en"), messagesApi)
+    lazy val welshMessages: Messages = MessagesImpl(Lang("cy"), messagesApi)
+
+    val selectPageConfig = SelectPageConfig(proposalListLimit = 15)
+    def timeoutConfig = TimeoutConfig(timeoutAmount = 900, timeoutUrl = controllers.auth.routes.AuthController.signOut.url, timeoutKeepAliveUrl = Some(routes.KeepAliveController.keepAlive.url))
+    def addressLookupOptions(ukMode: Option[Boolean] = None) = AddressLookupOptions(
+      continueUrl = "host1.com/redirect",
+      serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
+      signOutHref = Some(s"host1.com${controllers.auth.routes.AuthController.signOut.url}"),
+      showPhaseBanner = Some(true),
+      alphaPhase = false,
+      disableTranslations = true,
+      selectPageConfig = Some(selectPageConfig),
+      includeHMRCBranding = Some(false),
+      timeoutConfig = Some(timeoutConfig),
+      ukMode = ukMode
+    )
+
+    def constructYourAddressRequest(afterHeadingText: Option[String]) = {
+      val englishLabels = languageLabels(englishMessages, "yourCountryLookup", "yourAddressLookup", "selectAddress", "editAddress", "confirmAddress", afterHeadingText)
+      val welshLabels = languageLabels(welshMessages, "yourCountryLookup", "yourAddressLookup", "selectAddress", "editAddress", "confirmAddress", afterHeadingText)
+      val labels = AddressLookupLabels(englishLabels, welshLabels)
+      AddressLookupRequest(2, addressLookupOptions(), labels)
     }
 
-    def yourAddressNoBodyRequest(implicit messages: Messages) = constructYourAddressRequest(None)
-    def yourAddressIndividualBodyRequest(implicit messages: Messages) = constructYourAddressRequest(Some(messages("yourAddressLookup.individual.afterHeadingText")))
-    def yourAddressCompanyBodyRequest(implicit messages: Messages) = constructYourAddressRequest(Some(messages("yourAddressLookup.company.afterHeadingText")))
-    def yourAddressLLPBodyRequest(implicit messages: Messages) = constructYourAddressRequest(Some(messages("yourAddressLookup.llp.afterHeadingText")))
-    def yourAddressTrustBodyRequest(implicit messages: Messages) = constructYourAddressRequest(Some(messages("yourAddressLookup.trust.afterHeadingText")))
-    def yourAddressEstateBodyRequest(implicit messages: Messages) = constructYourAddressRequest(Some(messages("yourAddressLookup.estate.afterHeadingText")))
+    def yourAddressNoBodyRequest = constructYourAddressRequest(None)
+    def yourAddressIndividualBodyRequest = constructYourAddressRequest(Some("yourAddressLookup.individual.afterHeadingText"))
+    def yourAddressCompanyBodyRequest = constructYourAddressRequest(Some("yourAddressLookup.company.afterHeadingText"))
+    def yourAddressLLPBodyRequest = constructYourAddressRequest(Some("yourAddressLookup.llp.afterHeadingText"))
+    def yourAddressTrustBodyRequest = constructYourAddressRequest(Some("yourAddressLookup.trust.afterHeadingText"))
+    def yourAddressEstateBodyRequest = constructYourAddressRequest(Some("yourAddressLookup.estate.afterHeadingText"))
 
-    def individualLookupRequest(implicit messages: Messages) = {
-      val selectPageConfig = SelectPageConfig(proposalListLimit = 15)
-      val timeoutConfig = TimeoutConfig(timeoutAmount = 900, timeoutUrl = controllers.auth.routes.AuthController.signOut.url, timeoutKeepAliveUrl = Some(routes.KeepAliveController.keepAlive.url))
-      val addressLookupOptions = AddressLookupOptions(
-        continueUrl = "host1.com/redirect",
-        serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
-        signOutHref = Some(s"host1.com${controllers.auth.routes.AuthController.signOut.url}"),
-        showPhaseBanner = Some(true),
-        alphaPhase = false,
-        disableTranslations = true,
-        selectPageConfig = Some(selectPageConfig),
-        includeHMRCBranding = Some(false),
-        timeoutConfig = Some(timeoutConfig)
-      )
-
-      val appLevelLabels = AppLevelLabels(messages("service.name"))
-      val countryPickerLabels = CountryPickerLabels(
-        messages("individualCountryLookup.title"), 
-        messages("individualCountryLookup.heading"),
-        messages("individualCountryLookup.hint"),
-        messages("site.continue")
-      )
-      val lookupPageLabels = LookupPageLabels(
-        messages("individualAddressLookup.title"), 
-        messages("individualAddressLookup.heading"),
-        messages("site.continue"),
-        None
-      )
-      val selectPageLabels = SelectPageLabels(
-        messages("selectIndividualAddress.title"), 
-        messages("selectIndividualAddress.heading")
-      )
-      val editPageLabels = EditPageLabels(
-        messages("editIndividualAddress.title"), 
-        messages("editIndividualAddress.heading")
-      )
-      val confirmPageLabels = ConfirmPageLabels(
-        messages("confirmIndividualAddress.title"), 
-        messages("confirmIndividualAddress.heading")
-      )
-      val internationalLabels = InternationalLabels(
-        lookupPageLabels, 
-        selectPageLabels, 
-        editPageLabels, 
-        confirmPageLabels
-      )
-      val englishLabels = LabelsByLanguage(
-        appLevelLabels, 
-        countryPickerLabels, 
-        lookupPageLabels, 
-        selectPageLabels, 
-        editPageLabels, 
-        confirmPageLabels,
-        internationalLabels
-      )
-      val labels = AddressLookupLabels(englishLabels)
-      AddressLookupRequest(2, addressLookupOptions, labels)
+    def individualLookupRequest = {
+      val englishLabels = languageLabels(englishMessages, "individualCountryLookup", "individualAddressLookup", "selectIndividualAddress", "editIndividualAddress", "confirmIndividualAddress")
+      val welshLabels = languageLabels(welshMessages, "individualCountryLookup", "individualAddressLookup", "selectIndividualAddress", "editIndividualAddress", "confirmIndividualAddress")
+      val labels = AddressLookupLabels(englishLabels, welshLabels)
+      AddressLookupRequest(2, addressLookupOptions(), labels)
     }
 
-    def companyLookupRequest(implicit messages: Messages) = {
-      val selectPageConfig = SelectPageConfig(proposalListLimit = 15)
-      val timeoutConfig = TimeoutConfig(timeoutAmount = 900, timeoutUrl = controllers.auth.routes.AuthController.signOut.url, timeoutKeepAliveUrl = Some(routes.KeepAliveController.keepAlive.url))
-      val addressLookupOptions = AddressLookupOptions(
-        continueUrl = "host1.com/redirect",
-        serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
-        signOutHref = Some(s"host1.com${controllers.auth.routes.AuthController.signOut.url}"),
-        showPhaseBanner = Some(true),
-        alphaPhase = false,
-        disableTranslations = true,
-        selectPageConfig = Some(selectPageConfig),
-        includeHMRCBranding = Some(false),
-        timeoutConfig = Some(timeoutConfig)
-      )
-
-      val appLevelLabels = AppLevelLabels(messages("service.name"))
-      val countryPickerLabels = CountryPickerLabels(
-        messages("companyCountryLookup.title"), 
-        messages("companyCountryLookup.heading"),
-        messages("companyCountryLookup.hint"),
-        messages("site.continue")
-      )
-      val lookupPageLabels = LookupPageLabels(
-        messages("companyAddressLookup.title"), 
-        messages("companyAddressLookup.heading"),
-        messages("site.continue"),
-        None
-      )
-      val selectPageLabels = SelectPageLabels(
-        messages("selectCompanyAddress.title"), 
-        messages("selectCompanyAddress.heading")
-      )
-      val editPageLabels = EditPageLabels(
-        messages("editCompanyAddress.title"), 
-        messages("editCompanyAddress.heading")
-      )
-      val confirmPageLabels = ConfirmPageLabels(
-        messages("confirmCompanyAddress.title"), 
-        messages("confirmCompanyAddress.heading")
-      )
-      val internationalLabels = InternationalLabels(
-        lookupPageLabels, 
-        selectPageLabels, 
-        editPageLabels, 
-        confirmPageLabels
-      )
-      val englishLabels = LabelsByLanguage(
-        appLevelLabels, 
-        countryPickerLabels, 
-        lookupPageLabels, 
-        selectPageLabels, 
-        editPageLabels, 
-        confirmPageLabels,
-        internationalLabels
-      )
-      val labels = AddressLookupLabels(englishLabels)
-      AddressLookupRequest(2, addressLookupOptions, labels)
+    def companyLookupRequest = {
+      val englishLabels = languageLabels(englishMessages, "companyCountryLookup", "companyAddressLookup", "selectCompanyAddress", "editCompanyAddress", "confirmCompanyAddress")
+      val welshLabels = languageLabels(welshMessages, "companyCountryLookup", "companyAddressLookup", "selectCompanyAddress", "editCompanyAddress", "confirmCompanyAddress")
+      val labels = AddressLookupLabels(englishLabels, welshLabels)
+      AddressLookupRequest(2, addressLookupOptions(), labels)
     }
 
-    def llpLookupRequest(implicit messages: Messages) = {
-      val selectPageConfig = SelectPageConfig(proposalListLimit = 15)
-      val timeoutConfig = TimeoutConfig(timeoutAmount = 900, timeoutUrl = controllers.auth.routes.AuthController.signOut.url, timeoutKeepAliveUrl = Some(routes.KeepAliveController.keepAlive.url))
-      val addressLookupOptions = AddressLookupOptions(
-        continueUrl = "host1.com/redirect",
-        serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
-        signOutHref = Some(s"host1.com${controllers.auth.routes.AuthController.signOut.url}"),
-        showPhaseBanner = Some(true),
-        alphaPhase = false,
-        disableTranslations = true,
-        selectPageConfig = Some(selectPageConfig),
-        includeHMRCBranding = Some(false),
-        timeoutConfig = Some(timeoutConfig)
-      )
-
-      val appLevelLabels = AppLevelLabels(messages("service.name"))
-      val countryPickerLabels = CountryPickerLabels(
-        messages("llpCountryLookup.title"), 
-        messages("llpCountryLookup.heading"),
-        messages("llpCountryLookup.hint"),
-        messages("site.continue")
-      )
-      val lookupPageLabels = LookupPageLabels(
-        messages("llpAddressLookup.title"), 
-        messages("llpAddressLookup.heading"),
-        messages("site.continue"),
-        None
-      )
-      val selectPageLabels = SelectPageLabels(
-        messages("selectLLPAddress.title"), 
-        messages("selectLLPAddress.heading")
-      )
-      val editPageLabels = EditPageLabels(
-        messages("editLLPAddress.title"), 
-        messages("editLLPAddress.heading")
-      )
-      val confirmPageLabels = ConfirmPageLabels(
-        messages("confirmLLPAddress.title"), 
-        messages("confirmLLPAddress.heading")
-      )
-      val internationalLabels = InternationalLabels(
-        lookupPageLabels, 
-        selectPageLabels, 
-        editPageLabels, 
-        confirmPageLabels
-      )
-      val englishLabels = LabelsByLanguage(
-        appLevelLabels, 
-        countryPickerLabels, 
-        lookupPageLabels, 
-        selectPageLabels, 
-        editPageLabels, 
-        confirmPageLabels,
-        internationalLabels
-      )
-      val labels = AddressLookupLabels(englishLabels)
-      AddressLookupRequest(2, addressLookupOptions, labels)
+    def llpLookupRequest = {
+      val englishLabels = languageLabels(englishMessages, "llpCountryLookup", "llpAddressLookup", "selectLLPAddress", "editLLPAddress", "confirmLLPAddress")
+      val welshLabels = languageLabels(welshMessages, "llpCountryLookup", "llpAddressLookup", "selectLLPAddress", "editLLPAddress", "confirmLLPAddress")
+      val labels = AddressLookupLabels(englishLabels, welshLabels)
+      AddressLookupRequest(2, addressLookupOptions(), labels)
     }
 
-    def trustLookupRequest(implicit messages: Messages) = {
-      val selectPageConfig = SelectPageConfig(proposalListLimit = 15)
-      val timeoutConfig = TimeoutConfig(timeoutAmount = 900, timeoutUrl = controllers.auth.routes.AuthController.signOut.url, timeoutKeepAliveUrl = Some(routes.KeepAliveController.keepAlive.url))
-      val addressLookupOptions = AddressLookupOptions(
-        continueUrl = "host1.com/redirect",
-        serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
-        signOutHref = Some(s"host1.com${controllers.auth.routes.AuthController.signOut.url}"),
-        showPhaseBanner = Some(true),
-        alphaPhase = false,
-        disableTranslations = true,
-        selectPageConfig = Some(selectPageConfig),
-        includeHMRCBranding = Some(false),
-        timeoutConfig = Some(timeoutConfig)
-      )
-
-      val appLevelLabels = AppLevelLabels(messages("service.name"))
-      val countryPickerLabels = CountryPickerLabels(
-        messages("trustCountryLookup.title"), 
-        messages("trustCountryLookup.heading"),
-        messages("trustCountryLookup.hint"),
-        messages("site.continue")
-      )
-      val lookupPageLabels = LookupPageLabels(
-        messages("trustAddressLookup.title"), 
-        messages("trustAddressLookup.heading"),
-        messages("site.continue"),
-        None
-      )
-      val selectPageLabels = SelectPageLabels(
-        messages("selectTrustAddress.title"), 
-        messages("selectTrustAddress.heading")
-      )
-      val editPageLabels = EditPageLabels(
-        messages("editTrustAddress.title"), 
-        messages("editTrustAddress.heading")
-      )
-      val confirmPageLabels = ConfirmPageLabels(
-        messages("confirmTrustAddress.title"), 
-        messages("confirmTrustAddress.heading")
-      )
-      val internationalLabels = InternationalLabels(
-        lookupPageLabels, 
-        selectPageLabels, 
-        editPageLabels, 
-        confirmPageLabels
-      )
-      val englishLabels = LabelsByLanguage(
-        appLevelLabels, 
-        countryPickerLabels, 
-        lookupPageLabels, 
-        selectPageLabels, 
-        editPageLabels, 
-        confirmPageLabels,
-        internationalLabels
-      )
-      val labels = AddressLookupLabels(englishLabels)
-      AddressLookupRequest(2, addressLookupOptions, labels)
+    def trustLookupRequest = {
+      val englishLabels = languageLabels(englishMessages, "trustCountryLookup", "trustAddressLookup", "selectTrustAddress", "editTrustAddress", "confirmTrustAddress")
+      val welshLabels = languageLabels(welshMessages, "trustCountryLookup", "trustAddressLookup", "selectTrustAddress", "editTrustAddress", "confirmTrustAddress")
+      val labels = AddressLookupLabels(englishLabels, welshLabels)
+      AddressLookupRequest(2, addressLookupOptions(), labels)
     }
 
-    def estateLookupRequest(implicit messages: Messages) = {
-      val selectPageConfig = SelectPageConfig(proposalListLimit = 15)
-      val timeoutConfig = TimeoutConfig(timeoutAmount = 900, timeoutUrl = controllers.auth.routes.AuthController.signOut.url, timeoutKeepAliveUrl = Some(routes.KeepAliveController.keepAlive.url))
-      val addressLookupOptions = AddressLookupOptions(
-        continueUrl = "host1.com/redirect",
-        serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
-        signOutHref = Some(s"host1.com${controllers.auth.routes.AuthController.signOut.url}"),
-        showPhaseBanner = Some(true),
-        alphaPhase = false,
-        disableTranslations = true,
-        selectPageConfig = Some(selectPageConfig),
-        includeHMRCBranding = Some(false),
-        timeoutConfig = Some(timeoutConfig)
-      )
-
-      val appLevelLabels = AppLevelLabels(messages("service.name"))
-      val countryPickerLabels = CountryPickerLabels(
-        messages("estateCountryLookup.title"), 
-        messages("estateCountryLookup.heading"),
-        messages("estateCountryLookup.hint"),
-        messages("site.continue")
-      )
-      val lookupPageLabels = LookupPageLabels(
-        messages("estateAddressLookup.title"), 
-        messages("estateAddressLookup.heading"),
-        messages("site.continue"),
-        None
-      )
-      val selectPageLabels = SelectPageLabels(
-        messages("selectEstateAddress.title"), 
-        messages("selectEstateAddress.heading")
-      )
-      val editPageLabels = EditPageLabels(
-        messages("editEstateAddress.title"), 
-        messages("editEstateAddress.heading")
-      )
-      val confirmPageLabels = ConfirmPageLabels(
-        messages("confirmEstateAddress.title"), 
-        messages("confirmEstateAddress.heading")
-      )
-      val internationalLabels = InternationalLabels(
-        lookupPageLabels, 
-        selectPageLabels, 
-        editPageLabels, 
-        confirmPageLabels
-      )
-      val englishLabels = LabelsByLanguage(
-        appLevelLabels, 
-        countryPickerLabels, 
-        lookupPageLabels, 
-        selectPageLabels, 
-        editPageLabels, 
-        confirmPageLabels,
-        internationalLabels
-      )
-      val labels = AddressLookupLabels(englishLabels)
-      AddressLookupRequest(2, addressLookupOptions, labels)
+    def estateLookupRequest = {
+      val englishLabels = languageLabels(englishMessages, "estateCountryLookup", "estateAddressLookup", "selectEstateAddress", "editEstateAddress", "confirmEstateAddress")
+      val welshLabels = languageLabels(welshMessages, "estateCountryLookup", "estateAddressLookup", "selectEstateAddress", "editEstateAddress", "confirmEstateAddress")
+      val labels = AddressLookupLabels(englishLabels, welshLabels)
+      AddressLookupRequest(2, addressLookupOptions(), labels)
     }
 
-    def rentalLookupRequest(implicit messages: Messages) = {
-      val selectPageConfig = SelectPageConfig(proposalListLimit = 15)
-      val timeoutConfig = TimeoutConfig(timeoutAmount = 900, timeoutUrl = controllers.auth.routes.AuthController.signOut.url, timeoutKeepAliveUrl = Some(routes.KeepAliveController.keepAlive.url))
-      val addressLookupOptions = AddressLookupOptions(
-        continueUrl = "host1.com/redirect",
-        serviceHref = s"host1.com${routes.IndexController.onPageLoad.url}",
-        signOutHref = Some(s"host1.com${controllers.auth.routes.AuthController.signOut.url}"),
-        showPhaseBanner = Some(true),
-        alphaPhase = false,
-        disableTranslations = true,
-        selectPageConfig = Some(selectPageConfig),
-        includeHMRCBranding = Some(false),
-        timeoutConfig = Some(timeoutConfig),
-        ukMode = Some(true)
-      )
+    def rentalLookupRequest = {
+      val englishLabels = languageLabels(englishMessages, "yourCountryLookup", "addressLookup.rental", "selectAddress.rental", "editAddress.rental", "confirmAddress.rental", Some("addressLookup.rental.body"))
+      val welshLabels = languageLabels(welshMessages, "yourCountryLookup", "addressLookup.rental", "selectAddress.rental", "editAddress.rental", "confirmAddress.rental", Some("addressLookup.rental.body"))
+      val labels = AddressLookupLabels(englishLabels, welshLabels)
+      AddressLookupRequest(2, addressLookupOptions(Some(true)), labels)
+    }
 
+    def languageLabels(messages: Messages, countryKey: String, lookupKey: String, selectKey: String, editKey: String, confirmKey: String, afterHeadingText: Option[String] = None) = {
       val appLevelLabels = AppLevelLabels(messages("service.name"))
       val countryPickerLabels = CountryPickerLabels(
-        messages("yourCountryLookup.title"), 
-        messages("yourCountryLookup.heading"),
-        messages("yourCountryLookup.hint"),
+        messages(s"$countryKey.title"), 
+        messages(s"$countryKey.heading"),
+        messages(s"$countryKey.hint"),
         messages("site.continue")
       )
       val lookupPageLabels = LookupPageLabels(
-        messages("addressLookup.rental.title", 1), 
-        messages("addressLookup.rental.heading", 1),
+        messages(s"$lookupKey.title", 1), 
+        messages(s"$lookupKey.heading", 1),
         messages("site.continue"),
-        Some(messages("addressLookup.rental.body"))
+        afterHeadingText.map(messages(_))
       )
       val selectPageLabels = SelectPageLabels(
-        messages("selectAddress.rental.title", 1), 
-        messages("selectAddress.rental.heading", 1)
+        messages(s"$selectKey.title", 1), 
+        messages(s"$selectKey.heading", 1)
       )
       val editPageLabels = EditPageLabels(
-        messages("editAddress.rental.title", 1), 
-        messages("editAddress.rental.heading", 1)
+        messages(s"$editKey.title", 1), 
+        messages(s"$editKey.heading", 1),
+        messages("editAddress.line1Label"),
+        messages("editAddress.line2Label"),
+        messages("editAddress.line3Label"),
+        messages("editAddress.townLabel"),
+        messages("editAddress.postcodeLabel"),
+        messages("editAddress.countryLabel")
       )
       val confirmPageLabels = ConfirmPageLabels(
-        messages("confirmAddress.rental.title"), 
-        messages("confirmAddress.rental.heading")
+        messages(s"$confirmKey.title"), 
+        messages(s"$confirmKey.heading")
       )
       val internationalLabels = InternationalLabels(
         lookupPageLabels, 
@@ -430,7 +136,7 @@ trait AddressLookupHelper {
         editPageLabels, 
         confirmPageLabels
       )
-      val englishLabels = LabelsByLanguage(
+      LabelsByLanguage(
         appLevelLabels, 
         countryPickerLabels, 
         lookupPageLabels, 
@@ -439,8 +145,7 @@ trait AddressLookupHelper {
         confirmPageLabels,
         internationalLabels
       )
-      val labels = AddressLookupLabels(englishLabels)
-      AddressLookupRequest(2, addressLookupOptions, labels)
     }
 
 }
+

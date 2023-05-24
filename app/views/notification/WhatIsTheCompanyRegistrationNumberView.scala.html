@@ -37,12 +37,16 @@
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
+        @heading(Text(messages("whatIsTheCompanyRegistrationNumber.heading")))
+
+        @paragraph(id = Some("body-text"), content = Text(messages("whatIsTheCompanyRegistrationNumber.label")))
+
         @govukInput(
             InputViewModel(
                 field = form("value"),
-                label = LabelViewModel(messages("whatIsTheCompanyRegistrationNumber.heading")).asPageHeading()
+                label = LabelViewModel(messages("whatIsTheCompanyRegistrationNumber.heading")).withCssClass("govuk-visually-hidden")
             )
-            .withHint(Hint(content = Text(messages("whatIsTheCompanyRegistrationNumber.label"))))
+            .withHint(Hint(content = Text(messages("whatIsTheCompanyRegistrationNumber.hint"))))
             .withWidth(Fixed10)
         )
 

@@ -23,12 +23,12 @@ import play.api.data.Form
 
 class WhatIsTheCaseReferenceFormProvider @Inject() extends Mappings {
 
-  val formatRegex: String = "CFS[S|C]?[\\s]?[-]?[0-9]{7}$"
+  val formatRegex: String = "(?i)CFS[Ss|Cc]?[\\s]?[-]?[0-9]{7}\\.?$"
 
   def apply(): Form[String] =
     Form(
       "value" -> text("whatIsTheCaseReference.error.required")
-        .transform[String](_.trim, identity)
+        .transform[String](_.trim.replace(".", "").toUpperCase, identity)
         .verifying(regexp(formatRegex, "whatIsTheCaseReference.error.format"))
     )
 }

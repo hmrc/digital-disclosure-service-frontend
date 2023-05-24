@@ -25,6 +25,7 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 import java.time.LocalDate
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import viewmodels.RevealFullText
@@ -53,7 +54,7 @@ object AdviceGivenRowsSummary  {
   def dateRow(month: Int, year: Int)(implicit messages: Messages): SummaryListRow = {
 
     val FIRST_DAY = 1
-    val dateFormatter = DateTimeFormatter.ofPattern("MMMM yyyy")
+    val dateFormatter = DateTimeFormatter.ofPattern("MMMM yyyy", new Locale(messages.lang.code))
     val dateAtStartOfMonth = LocalDate.of(year, month, FIRST_DAY)
 
     SummaryListRowViewModel(
