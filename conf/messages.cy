@@ -384,7 +384,7 @@ onshoreLiabilities.error.required = Dewiswch ‘Iawn’ os yw’r datgeliad yn y
 
 letterReference.title = Beth yw cyfeirnodau yr achos sydd ar y llythyr a gawsoch oddi wrth CThEF?
 letterReference.heading = Beth yw cyfeirnodau yr achos sydd ar y llythyr a gawsoch oddi wrth CThEF?
-letterReference.body = This can be found towards the top of the letter underneath the date. It begins with ‘CFSS’, ‘CFSC’ or ‘CFS’ followed by 7 numbers.
+letterReference.body = Gallwch ddod o hyd i hwn ar frig y llythyr o dan y dyddiad. Mae’n dechrau gyda ‘CFSS’, ‘CSFC’ neu ‘CFS’, wedi’i ddilyn gan 7 rhif.
 letterReference.hint = Er enghraifft, CFSS-1234567 neu CFS-1234567.
 letterReference.checkYourAnswersLabel = Cyfeirnod yr achos
 letterReference.error.required = Nodwch gyfeirnod yr achos
@@ -1065,8 +1065,8 @@ taskList.paragraph.fifth = 'Byddwn yn cysylltu â chi os nad ydym yn cael taliad
 taskList.paragraph.fifth.link = ffonio’r llinell gymorth (yn agor tab newydd)
 taskList.link = Lawrlwythwch gopi o’r wybodaeth rydych wedi’i nodi hyd yn hyn
 
-howWouldYouPreferToBeContacted.title = How can HMRC contact you?
-howWouldYouPreferToBeContacted.heading = How can HMRC contact you?
+howWouldYouPreferToBeContacted.title = Sut all CThEF gysylltu â chi?
+howWouldYouPreferToBeContacted.heading = Sut all CThEF gysylltu â chi?
 howWouldYouPreferToBeContacted.body = Byddwn ond yn cysylltu â chi i drafod y datgeliad hwn, os oes angen gwneud hynny.
 howWouldYouPreferToBeContacted.hint = Dewiswch bob un sy’n berthnasol.
 howWouldYouPreferToBeContacted.email = E-bost
