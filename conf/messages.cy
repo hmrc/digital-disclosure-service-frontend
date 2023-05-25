@@ -64,9 +64,9 @@ index.bulletList.third = 'ffigurau treth, llog ac unrhyw gosb sy’n ddyledus ar
 index.bulletList.third.link = gyfrifo’r ffigurau hyn ar gael yn yr arweiniad ar sut i wneud datgeliad gwirfoddol (yn agor tab newydd)
 index.bulletList.agent.forth = rhifau perthnasol eraill, megis rhif Yswiriant Gwladol, rhif cofrestru TAW a Chyfeirnod Unigryw y Trethdalwr eich cleient
 index.bulletList.agent.fifth = unrhyw gyfeirnodau eraill y gall eich cleient fod wedi’u cael gan CThEF ynglŷn â threth heb ei thalu, megis cyfeirnod achos
-index.bulletList.forth = relevant numbers such as National Insurance number, VAT registration number and Unique Taxpayer Reference
-index.bulletList.fifth = any other reference numbers you might have received from HMRC about unpaid tax, such as a case reference
-index.start = Start now
+index.bulletList.forth = rhifau perthnasol eraill, megis rhif Yswiriant Gwladol, rhif cofrestru TAW a Chyfeirnod Unigryw y Trethdalwr
+index.bulletList.fifth = unrhyw gyfeirnodau eraill y gallech fod wedi’u cael gan CThEF ynglŷn â threth heb ei thalu, megis cyfeirnod achos
+index.start = Dechrau nawr
 
 checkYourAnswers.title = Gwiriwch eich atebion
 checkYourAnswers.heading = Gwiriwch eich atebion
@@ -1753,7 +1753,8 @@ offerLetter.letter.paragraph6 = Os nad yw’r swm llawn wedi’i dalu erbyn y dy
 offerLetter.download.link = Lawrlwythwch gopi o’r wybodaeth rydych wedi’i nodi hyd yn hyn
 offerLetter.subheading.send = Anfon eich cynnig a’ch datgeliad
 offerLetter.send.paragraph1 = Dylech nawr anfon y cynnig a’r datgeliad i CThEF. Wedyn bydd angen i chi dalu’r swm llawn sy’n ddyledus yn syth wedyn. Ni fydd y datgeliad yn cael ei adolygu nes i daliad ddod i law neu nes i gynllun talu gael ei sefydlu.
-offerLetter.send.paragraph2 = Yna, bydd y person sy’n adolygu’ch datgeliad yn rhoi gwybod i chi a allwn dderbyn y datgeliad a’r cynnig yn ffurfiol. Os na allwn dderbyn y datgeliad neu’r cynnig, byddwn yn rhoi’r rheswm i chi dros hynny.
+offerLetter.send.agent.paragraph2 = Yna, bydd y person sy’n adolygu’ch datgeliad yn rhoi gwybod i chi a allwn dderbyn y datgeliad a’r cynnig yn ffurfiol. Os na allwn dderbyn y datgeliad neu’r cynnig, byddwn yn rhoi’r rheswm i chi dros hynny.
+offerLetter.send.entity.paragraph2 = Yna, bydd yr unigolyn sy’n adolygu’r datgeliad yn rhoi gwybod i chi a allwn dderbyn y datgeliad a’r cynnig yn ffurfiol. Os na allwn dderbyn y datgeliad neu’r cynnig, byddwn yn rhoi’r rheswm i chi dros hynny.
 offerLetter.send.paragraph3 = Byddwn yn cysylltu â chi os nad ydym yn cael taliad llawn o’r hyn sy’n ddyledus.
 offerLetter.button = Anfon cynnig a datgeliad
 
