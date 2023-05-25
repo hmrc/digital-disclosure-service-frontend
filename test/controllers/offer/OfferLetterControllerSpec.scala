@@ -61,7 +61,7 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
         val view = application.injector.instanceOf[OfferLetterView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, "", "", 0, "individual")(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, "", "", 0, "individual", areTheyTheIndividual = false)(request, messages(application)).toString
       }
     }
 
@@ -84,7 +84,7 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
         val view = application.injector.instanceOf[OfferLetterView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, "My name", "my line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "individual")(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, "My name", "my line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "individual", areTheyTheIndividual = true)(request, messages(application)).toString
       }
     }
 
@@ -108,7 +108,7 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
         val view = application.injector.instanceOf[OfferLetterView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, "Individual's name", "ind line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "individual")(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, "Individual's name", "ind line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "individual", areTheyTheIndividual = false)(request, messages(application)).toString
       }
     }
 
@@ -131,7 +131,7 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
         val view = application.injector.instanceOf[OfferLetterView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, "Company's name", "com line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "company")(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, "Company's name", "com line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "company", areTheyTheIndividual = false)(request, messages(application)).toString
       }
     }
 
@@ -154,7 +154,7 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
         val view = application.injector.instanceOf[OfferLetterView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, "Trust's name", "trust line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "trust", "My name")(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, "Trust's name", "trust line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "trust", "My name", areTheyTheIndividual = false)(request, messages(application)).toString
       }
     }
     
@@ -177,7 +177,7 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
         val view = application.injector.instanceOf[OfferLetterView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, "LLP's name", "llp line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "llp", "My name")(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, "LLP's name", "llp line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "llp", "My name", areTheyTheIndividual = false)(request, messages(application)).toString
       }
     }
 
@@ -200,7 +200,7 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
         val view = application.injector.instanceOf[OfferLetterView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, "Estate's name", "estate line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "estate", "My name")(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, "Estate's name", "estate line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "estate", "My name", areTheyTheIndividual = false)(request, messages(application)).toString
       }
     }
 
@@ -218,7 +218,7 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(BigInt(validAnswer)), "", "", 0, "individual")(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(BigInt(validAnswer)), "", "", 0, "individual", areTheyTheIndividual = false)(request, messages(application)).toString
       }
     }
 
@@ -269,7 +269,7 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, "", "", 0, "individual")(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, "", "", 0, "individual", areTheyTheIndividual = false)(request, messages(application)).toString
       }
     }
 

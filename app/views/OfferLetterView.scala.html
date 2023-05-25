@@ -29,7 +29,7 @@
     heading: components.heading
 )
 
-@(form: Form[_], entityName: String, addressLines: String, totalAmount: Int, entityKey: String, agentName: String = "")(implicit request: Request[_], messages: Messages)
+@(form: Form[_], entityName: String, addressLines: String, totalAmount: Int, entityKey: String, agentName: String = "", areTheyTheIndividual: Boolean)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = title(form, messages(s"offerLetter.$entityKey.title"))) {
 
@@ -85,7 +85,7 @@
         @subheading(Text(messages("offerLetter.subheading.send")), "govuk-heading-m", Some("subheading-send"))
 
         @paragraph(id = Some("send-paragraph1"), content = Text(messages("offerLetter.send.paragraph1")))
-        @paragraph(id = Some("send-paragraph2"), content = Text(messages("offerLetter.send.paragraph2")))
+        @paragraph(id = Some("send-paragraph2"), content = Text(messages(if(areTheyTheIndividual) "offerLetter.send.agent.paragraph2" else "offerLetter.send.entity.paragraph2")))
         @paragraph(id = Some("send-paragraph3"), content = Text(messages("offerLetter.send.paragraph3")))
 
         @govukButton(

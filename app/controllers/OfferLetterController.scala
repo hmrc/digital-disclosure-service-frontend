@@ -63,7 +63,8 @@ class OfferLetterController @Inject()(
       val disclosure = uaToDisclosureService.uaToFullDisclosure(request.userAnswers)
       val totalAmount = TotalAmounts(disclosure).amountDueTotal.toInt
       val entityKey = getEntityKey(request.userAnswers)
-      Ok(view(preparedForm, name, addressLines, totalAmount, entityKey, getAgentName(request.userAnswers)))
+      val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
+      Ok(view(preparedForm, name, addressLines, totalAmount, entityKey, getAgentName(request.userAnswers), areTheyTheIndividual))
   }
 
   def onSubmit: Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -76,7 +77,8 @@ class OfferLetterController @Inject()(
           val disclosure = uaToDisclosureService.uaToFullDisclosure(request.userAnswers)
           val totalAmount = TotalAmounts(disclosure).amountDueTotal.toInt
           val entityKey = getEntityKey(request.userAnswers)
-          Future.successful(BadRequest(view(formWithErrors, name, addressLines, totalAmount, entityKey, getAgentName(request.userAnswers))))}
+          val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
+          Future.successful(BadRequest(view(formWithErrors, name, addressLines, totalAmount, entityKey, getAgentName(request.userAnswers), areTheyTheIndividual)))}
         ,
         value => {
           request.userAnswers.metadata.reference match {
