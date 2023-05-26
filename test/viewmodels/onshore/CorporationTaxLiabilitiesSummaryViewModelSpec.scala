@@ -21,7 +21,6 @@ import models._
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import org.scalacheck.Arbitrary.arbitrary
 import uk.gov.hmrc.govukfrontend.views.Aliases.Text
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Key
 import viewmodels.govuk.summarylist._
 import viewmodels.RevealFullText
@@ -66,19 +65,19 @@ class CorporationTaxLiabilitiesSummaryViewModelSpec extends SpecBase with ScalaC
       val summaryList = new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText).corporationTaxLiabilityToSummaryList(0, corporationTaxLiability, revealFullText)
 
       summaryList.rows(1).key mustEqual Key(Text(mess("corporationTaxLiability.howMuchIncome.checkYourAnswersLabel")))
-      summaryList.rows(1).value mustEqual ValueViewModel(HtmlContent(s"&pound;0"))
+      summaryList.rows(1).value mustEqual ValueViewModel(Text(s"&pound;0"))
 
       summaryList.rows(2).key mustEqual Key(Text(mess("corporationTaxLiability.howMuchUnpaid.checkYourAnswersLabel")))
-      summaryList.rows(2).value mustEqual ValueViewModel(HtmlContent(s"&pound;0"))
+      summaryList.rows(2).value mustEqual ValueViewModel(Text(s"&pound;0"))
 
       summaryList.rows(3).key mustEqual Key(Text(mess("corporationTaxLiability.howMuchInterest.checkYourAnswersLabel")))
-      summaryList.rows(3).value mustEqual ValueViewModel(HtmlContent(s"&pound;0"))
+      summaryList.rows(3).value mustEqual ValueViewModel(Text(s"&pound;0"))
 
       summaryList.rows(4).key mustEqual Key(Text(mess("corporationTaxLiability.penaltyRate.checkYourAnswersLabel")))
-      summaryList.rows(4).value mustEqual ValueViewModel(HtmlContent(s"0.00%"))
+      summaryList.rows(4).value mustEqual ValueViewModel(Text(s"0.00%"))
 
       summaryList.rows(5).key mustEqual Key(Text(mess("checkYourAnswers.ct.total.penaltyAmount")))
-      summaryList.rows(5).value mustEqual ValueViewModel(HtmlContent(s"&pound;0.00"))
+      summaryList.rows(5).value mustEqual ValueViewModel(Text(s"&pound;0.00"))
 
       summaryList.rows(6).key mustEqual Key(Text(mess("corporationTaxLiability.penaltyRateReason.checkYourAnswersLabel")))
       summaryList.rows(6).value mustEqual ValueViewModel(Text("reason"))
@@ -91,16 +90,16 @@ class CorporationTaxLiabilitiesSummaryViewModelSpec extends SpecBase with ScalaC
         val viewModel = new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText).create(ua)
 
         viewModel.totalAmountsList.rows(0).key mustEqual Key(Text(mess("checkYourAnswers.ct.total.taxDue")))
-        viewModel.totalAmountsList.rows(0).value mustEqual ValueViewModel(HtmlContent(s"&pound;0"))
+        viewModel.totalAmountsList.rows(0).value mustEqual ValueViewModel(Text(s"&pound;0"))
 
         viewModel.totalAmountsList.rows(1).key mustEqual Key(Text(mess("checkYourAnswers.ct.total.interestDue")))
-        viewModel.totalAmountsList.rows(1).value mustEqual ValueViewModel(HtmlContent(s"&pound;0"))
+        viewModel.totalAmountsList.rows(1).value mustEqual ValueViewModel(Text(s"&pound;0"))
 
         viewModel.totalAmountsList.rows(2).key mustEqual Key(Text(mess("checkYourAnswers.ct.total.penaltyAmount")))
-        viewModel.totalAmountsList.rows(2).value mustEqual ValueViewModel(HtmlContent(s"&pound;0.00"))
+        viewModel.totalAmountsList.rows(2).value mustEqual ValueViewModel(Text(s"&pound;0.00"))
 
         viewModel.totalAmountsList.rows(3).key mustEqual Key(Text(mess("checkYourAnswers.ct.total.totalAmountDue")))
-        viewModel.totalAmountsList.rows(3).value mustEqual ValueViewModel(HtmlContent(s"&pound;0.00"))
+        viewModel.totalAmountsList.rows(3).value mustEqual ValueViewModel(Text(s"&pound;0.00"))
     }
   }
 }

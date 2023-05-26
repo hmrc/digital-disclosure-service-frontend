@@ -22,7 +22,6 @@ import play.api.test.Helpers._
 import views.html.onshore.CheckYourAnswersView
 import viewmodels.onshore.{CheckYourAnswersViewModel, CorporationTaxLiabilitiesSummaryViewModel, DirectorLoanAccountLiabilitiesSummaryViewModel}
 import viewmodels.govuk.SummaryListFluency
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist._
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 import play.api.i18n.Messages
@@ -37,27 +36,27 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         rows = Seq(
           SummaryListRowViewModel(
             key     = Key(Text(messages("onshoreTaxYearLiabilities.unpaidTax.total"))),
-            value   = ValueViewModel(HtmlContent("&pound;0")),
+            value   = ValueViewModel(Text("&pound;0")),
             actions = Nil
           ),
           SummaryListRowViewModel(
             key     = Key(Text(messages("onshoreTaxYearLiabilities.niContributions.total"))),
-            value   = ValueViewModel(HtmlContent("&pound;0")),
+            value   = ValueViewModel(Text("&pound;0")),
             actions = Nil
           ),
           SummaryListRowViewModel(
             key     = Key(Text(messages("onshoreTaxYearLiabilities.interest.total"))),
-            value   = ValueViewModel(HtmlContent("&pound;0")),
+            value   = ValueViewModel(Text("&pound;0")),
             actions = Nil
           ),
           SummaryListRowViewModel(
             key     = Key(Text(messages("onshoreTaxYearLiabilities.penaltyAmount.total"))),
-            value   = ValueViewModel(HtmlContent(s"&pound;${messages("site.2DP", 0)}")),
+            value   = ValueViewModel(Text(s"&pound;${messages("site.2DP", 0)}")),
             actions = Nil
           ),
           SummaryListRowViewModel(
             key     = Key(Text(messages("onshoreTaxYearLiabilities.amountDue.total"))),
-            value   = ValueViewModel(HtmlContent(s"&pound;${messages("site.2DP", 0)}")),
+            value   = ValueViewModel(Text(s"&pound;${messages("site.2DP", 0)}")),
             actions = Nil
           )
         )

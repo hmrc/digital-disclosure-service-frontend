@@ -20,8 +20,6 @@ import controllers.offshore.routes
 import models.{CheckMode, UserAnswers}
 import pages.WhatIsYourReasonableExcusePage
 import play.api.i18n.Messages
-import play.twirl.api.HtmlFormat
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
@@ -45,7 +43,7 @@ object WhatIsYourReasonableExcuseSummary {
         } else {
           SummaryListRowViewModel(
             key     = "whatIsYourReasonableExcuse.years.checkYourAnswersLabel",
-            value   = ValueViewModel(HtmlContent(HtmlFormat.escape(answer.years).toString)),
+            value   = ValueViewModel(answer.years.toString),
             actions = Seq(
               ActionItemViewModel("site.change", routes.WhatIsYourReasonableExcuseController.onPageLoad(CheckMode).url)
                 .withVisuallyHiddenText(messages("whatIsYourReasonableExcuse.years.change.hidden"))

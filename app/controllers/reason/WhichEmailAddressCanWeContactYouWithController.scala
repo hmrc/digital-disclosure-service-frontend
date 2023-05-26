@@ -31,7 +31,6 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.reason.WhichEmailAddressCanWeContactYouWithView
 
 import scala.concurrent.{ExecutionContext, Future}
-import scala.util.Try
 
 class WhichEmailAddressCanWeContactYouWithController @Inject()(
                                        override val messagesApi: MessagesApi,

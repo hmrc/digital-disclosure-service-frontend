@@ -17,12 +17,11 @@
 package viewmodels
 
 import play.api.i18n.Messages
-import play.twirl.api.HtmlFormat
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import models.CheckMode
 import viewmodels.RevealFullText
+import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 
 sealed abstract class RowHelperSection(name:String)
 case object ONSHORE extends RowHelperSection("onshore")
@@ -54,7 +53,7 @@ trait RowHelper {
   private def onshorePoundRow(i: Int, label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
     SummaryListRowViewModel(
       key     = label,
-      value   = ValueViewModel(HtmlContent(s"&pound;$value")),
+      value   = ValueViewModel(Text(s"&pound;$value")),
       actions = Seq(
         ActionItemViewModel("site.change", controllers.onshore.routes.OnshoreTaxYearLiabilitiesController.onPageLoad(i, CheckMode).url)
           .withVisuallyHiddenText(messages(hiddenLabel))
@@ -65,7 +64,7 @@ trait RowHelper {
   private def offshorePoundRow(i: Int, label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
     SummaryListRowViewModel(
       key     = label,
-      value   = ValueViewModel(HtmlContent(s"&pound;$value")),
+      value   = ValueViewModel(Text(s"&pound;$value")),
       actions = Seq(
         ActionItemViewModel("site.change", controllers.offshore.routes.TaxYearLiabilitiesController.onPageLoad(i, CheckMode).url)
           .withVisuallyHiddenText(messages(hiddenLabel))
@@ -76,7 +75,7 @@ trait RowHelper {
   private def ctPoundRow(i: Int, label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
     SummaryListRowViewModel(
       key     = label,
-      value   = ValueViewModel(HtmlContent(s"&pound;$value")),
+      value   = ValueViewModel(Text(s"&pound;$value")),
       actions = Seq(
         ActionItemViewModel("site.change", controllers.onshore.routes.CorporationTaxLiabilityController.onPageLoad(i, CheckMode).url)
           .withVisuallyHiddenText(messages(hiddenLabel))
@@ -87,7 +86,7 @@ trait RowHelper {
   private def dlPoundRow(i: Int, label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
     SummaryListRowViewModel(
       key     = label,
-      value   = ValueViewModel(HtmlContent(s"&pound;$value")),
+      value   = ValueViewModel(Text(s"&pound;$value")),
       actions = Seq(
         ActionItemViewModel("site.change", controllers.onshore.routes.DirectorLoanAccountLiabilitiesController.onPageLoad(i, CheckMode).url)
           .withVisuallyHiddenText(messages(hiddenLabel))
@@ -98,7 +97,7 @@ trait RowHelper {
   private def onshoreRow(i: Int, label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
     SummaryListRowViewModel(
       key     = label,
-      value   = ValueViewModel(HtmlContent(HtmlFormat.escape(value))),
+      value   = ValueViewModel(Text(value)),
       actions = Seq(
         ActionItemViewModel("site.change", controllers.onshore.routes.OnshoreTaxYearLiabilitiesController.onPageLoad(i, CheckMode).url)
           .withVisuallyHiddenText(messages(hiddenLabel))
@@ -120,7 +119,7 @@ trait RowHelper {
   private def offshoreRow(i: Int, label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
     SummaryListRowViewModel(
       key     = label,
-      value   = ValueViewModel(HtmlContent(HtmlFormat.escape(value))),
+      value   = ValueViewModel(Text(value)),
       actions = Seq(
         ActionItemViewModel("site.change", controllers.offshore.routes.TaxYearLiabilitiesController.onPageLoad(i, CheckMode).url)
           .withVisuallyHiddenText(messages(hiddenLabel))
@@ -142,7 +141,7 @@ trait RowHelper {
   private def ctRow(i: Int, label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
     SummaryListRowViewModel(
       key     = label,
-      value   = ValueViewModel(HtmlContent(HtmlFormat.escape(value))),
+      value   = ValueViewModel(Text(value)),
       actions = Seq(
         ActionItemViewModel("site.change", controllers.onshore.routes.CorporationTaxLiabilityController.onPageLoad(i, CheckMode).url)
           .withVisuallyHiddenText(messages(hiddenLabel))
@@ -164,7 +163,7 @@ trait RowHelper {
   def dlRow(i: Int,label: String, value: String, hiddenLabel: String)(implicit messages: Messages) = {
     SummaryListRowViewModel(
       key     = label,
-      value   = ValueViewModel(HtmlContent(HtmlFormat.escape(value))),
+      value   = ValueViewModel(Text(value)),
       actions = Seq(
         ActionItemViewModel("site.change", controllers.onshore.routes.DirectorLoanAccountLiabilitiesController.onPageLoad(i, CheckMode).url)
           .withVisuallyHiddenText(messages(hiddenLabel))
@@ -186,7 +185,7 @@ trait RowHelper {
   def totalRow(label: String, value: String)(implicit messages: Messages) = {
     SummaryListRowViewModel(
       key     = label,
-      value   = ValueViewModel(HtmlContent(s"&pound;$value")),
+      value   = ValueViewModel(Text(s"&pound;$value")),
       actions = Nil
     )
   }

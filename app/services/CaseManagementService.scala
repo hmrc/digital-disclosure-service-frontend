@@ -23,12 +23,12 @@ import java.util.Locale
 import java.time.ZoneId
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content._
 import models.store.notification._
-import play.twirl.api.HtmlFormat
 import play.api.mvc.Call
 import views.html.components.linkWithVisuallyHiddenContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.table.{Table, HeadCell, TableRow}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.pagination.{Pagination, PaginationItem, PaginationLink}
 import play.api.i18n.Messages
+import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 
 @Singleton
 class CaseManagementServiceImpl @Inject()(linkWithVisuallyHiddenContent: linkWithVisuallyHiddenContent) extends CaseManagementService {
@@ -91,7 +91,7 @@ class CaseManagementServiceImpl @Inject()(linkWithVisuallyHiddenContent: linkWit
     val hiddenText = getVisuallyHiddenText(submission, status, reference)
 
     Seq(
-      TableRow(HtmlContent(HtmlFormat.escape(reference))),
+      TableRow(Text(reference)),
       TableRow(getCaseType(submission)),
       TableRow(Text(getCreatedDate(submission)(messages))),
       TableRow(Text(messages(statusKey))),

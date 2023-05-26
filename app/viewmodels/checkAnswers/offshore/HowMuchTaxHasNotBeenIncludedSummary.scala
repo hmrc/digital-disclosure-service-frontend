@@ -20,8 +20,7 @@ import controllers.offshore.routes
 import models.{CheckMode, UserAnswers}
 import pages.HowMuchTaxHasNotBeenIncludedPage
 import play.api.i18n.Messages
-import play.twirl.api.HtmlFormat
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
@@ -32,11 +31,7 @@ object HowMuchTaxHasNotBeenIncludedSummary  {
     answers.get(HowMuchTaxHasNotBeenIncludedPage).map {
       answer =>
 
-        val value = ValueViewModel(
-          HtmlContent(
-            HtmlFormat.escape(messages(s"howMuchTaxHasNotBeenIncluded.$answer"))
-          )
-        )
+        val value = ValueViewModel(Text(messages(s"howMuchTaxHasNotBeenIncluded.$answer")))
 
         SummaryListRowViewModel(
           key     = "howMuchTaxHasNotBeenIncluded.checkYourAnswersLabel",

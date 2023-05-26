@@ -20,11 +20,10 @@ import controllers.reason.routes
 import models.{CheckMode, UserAnswers}
 import pages.PersonWhoGaveAdvicePage
 import play.api.i18n.Messages
-import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
+import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 
 object PersonWhoGaveAdviceSummary  {
 
@@ -34,7 +33,7 @@ object PersonWhoGaveAdviceSummary  {
 
         SummaryListRowViewModel(
           key     = "personWhoGaveAdvice.checkYourAnswersLabel",
-          value   = ValueViewModel(HtmlContent(HtmlFormat.escape(answer))),
+          value   = ValueViewModel(Text(answer)),
           actions = Seq(
             ActionItemViewModel("site.change", routes.PersonWhoGaveAdviceController.onPageLoad(CheckMode).url)
               .withVisuallyHiddenText(messages("personWhoGaveAdvice.change.hidden"))

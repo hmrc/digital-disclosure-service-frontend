@@ -20,11 +20,10 @@ import controllers.notification.routes
 import models.{CheckMode, UserAnswers}
 import pages.{OffshoreLiabilitiesPage, OnshoreLiabilitiesPage}
 import play.api.i18n.Messages
-import play.twirl.api.HtmlFormat
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
+import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 
 object LiabilitiesSummary  {
 
@@ -34,15 +33,15 @@ object LiabilitiesSummary  {
     val onshoreAnswer = answers.get(OnshoreLiabilitiesPage).getOrElse(true)
 
     val value = (offshoreAnswer, onshoreAnswer) match {
-      case (true, false) => HtmlContent(HtmlFormat.escape(messages("liabilities.offshore")))
-      case (false, _) => HtmlContent(HtmlFormat.escape(messages("liabilities.onshore")))
-      case (true, true) => HtmlContent(HtmlFormat.escape(messages("liabilities.offshoreOnshore")))
+      case (true, false) => Text(messages("liabilities.offshore"))
+      case (false, _) => Text(messages("liabilities.onshore"))
+      case (true, true) => Text(messages("liabilities.offshoreOnshore"))
     }
 
     Some(createRow(value))
   }
 
-  def createRow(value: HtmlContent)(implicit messages: Messages): SummaryListRow = {
+  def createRow(value: Text)(implicit messages: Messages): SummaryListRow = {
     SummaryListRowViewModel(
       key     = "liabilities.checkYourAnswersLabel",
       value   = ValueViewModel(value),

@@ -23,14 +23,13 @@ import support.ViewMatchers
 import views.html.notification.CheckYourAnswersView
 import viewmodels.govuk.SummaryListFluency
 import viewmodels.implicits._
-import play.twirl.api.HtmlFormat
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
+import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 
 class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with SummaryListFluency {
 
   val testRow1 = SummaryListRowViewModel(
     key     = "testKey",
-    value   = ValueViewModel(HtmlContent(HtmlFormat.escape(messages("Test answer")))),
+    value   = ValueViewModel(Text(messages("Test answer"))),
     actions = Seq(
       ActionItemViewModel("site.change", "http://test.url")
     )
@@ -38,7 +37,7 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
 
   val testRow2 = SummaryListRowViewModel(
     key     = "testKey2",
-    value   = ValueViewModel(HtmlContent(HtmlFormat.escape(messages("Test answer 2")))),
+    value   = ValueViewModel(Text(messages("Test answer 2"))),
     actions = Seq(
       ActionItemViewModel("site.change", "http://test2.url")
     )
@@ -46,7 +45,7 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
 
   val testRow3 = SummaryListRowViewModel(
     key     = "testKey3",
-    value   = ValueViewModel(HtmlContent(HtmlFormat.escape(messages("Test answer 3")))),
+    value   = ValueViewModel(Text(messages("Test answer 3"))),
     actions = Seq(
       ActionItemViewModel("site.change", "http://test3.url")
     )

@@ -19,7 +19,6 @@ package viewmodels.onshore
 import base.SpecBase
 import pages._
 import models._
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Key
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryList
@@ -202,16 +201,16 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
 
   def checkSummaryRows(summaryList: SummaryList, onshoreTaxYearLiabilities: OnshoreTaxYearWithLiabilities) = {
     summaryList.rows(0).key mustEqual Key(Text(mess("onshoreTaxYearLiabilities.unpaidTax.checkYourAnswersLabel")))
-    summaryList.rows(0).value mustEqual ValueViewModel(HtmlContent(s"&pound;${onshoreTaxYearLiabilities.taxYearLiabilities.unpaidTax}"))
+    summaryList.rows(0).value mustEqual ValueViewModel(Text(s"&pound;${onshoreTaxYearLiabilities.taxYearLiabilities.unpaidTax}"))
 
     summaryList.rows(1).key mustEqual Key(Text(mess("onshoreTaxYearLiabilities.niContributions.checkYourAnswersLabel")))
-    summaryList.rows(1).value mustEqual ValueViewModel(HtmlContent(s"&pound;${onshoreTaxYearLiabilities.taxYearLiabilities.niContributions}"))
+    summaryList.rows(1).value mustEqual ValueViewModel(Text(s"&pound;${onshoreTaxYearLiabilities.taxYearLiabilities.niContributions}"))
 
     summaryList.rows(2).key mustEqual Key(Text(mess("onshoreTaxYearLiabilities.interest.checkYourAnswersLabel")))
-    summaryList.rows(2).value mustEqual ValueViewModel(HtmlContent(s"&pound;${onshoreTaxYearLiabilities.taxYearLiabilities.interest}"))
+    summaryList.rows(2).value mustEqual ValueViewModel(Text(s"&pound;${onshoreTaxYearLiabilities.taxYearLiabilities.interest}"))
 
     summaryList.rows(3).key mustEqual Key(Text(mess("onshoreTaxYearLiabilities.penaltyRate.checkYourAnswersLabel")))
-    summaryList.rows(3).value mustEqual ValueViewModel(HtmlContent(mess("site.2DP", onshoreTaxYearLiabilities.taxYearLiabilities.penaltyRate)+"%"))    
+    summaryList.rows(3).value mustEqual ValueViewModel(Text(mess("site.2DP", onshoreTaxYearLiabilities.taxYearLiabilities.penaltyRate)+"%"))    
   }
   
 }
