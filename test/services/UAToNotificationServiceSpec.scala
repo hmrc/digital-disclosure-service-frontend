@@ -128,7 +128,8 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
     "populate background with everything that is set" in {
       val incomeSet: Set[IncomeOrGainSource] = Set(IncomeOrGainSource.Dividends)
       val pages = List(
-        PageWithValue(RelatesToPage, RelatesTo.AnIndividual),
+        PageWithValue(ReceivedALetterPage, true),
+        PageWithValue(LetterReferencePage, "SomeRef"),
         PageWithValue(AreYouRepresentingAnOrganisationPage, true),
         PageWithValue(WhatIsTheNameOfTheOrganisationYouRepresentPage, "Some org"),
         PageWithValue(OffshoreLiabilitiesPage, true),
@@ -140,7 +141,8 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
       )
       val userAnswers = PageWithValue.pagesToUserAnswers(pages, emptyUA).success.value
       val expectedBackground = Background(
-        Some(RelatesTo.AnIndividual),
+        Some(true),
+        Some("SomeRef"),
         Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))),
         Some(true),
         Some("Some org"),
@@ -347,7 +349,7 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
         PageWithValue(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
       )
       val ua = PageWithValue.pagesToUserAnswers(pages, userAnswers).success.value
-      val personalDetails = testNotification.personalDetails.copy(background = Background(relatesTo = Some(RelatesTo.AnIndividual), disclosureEntity = Some(DisclosureEntity(Individual, Some(AreYouTheEntity.IAmAnAccountantOrTaxAgent)))), aboutTheIndividual = Some(AboutTheIndividual()))
+      val personalDetails = testNotification.personalDetails.copy(background = Background(disclosureEntity = Some(DisclosureEntity(Individual, Some(AreYouTheEntity.IAmAnAccountantOrTaxAgent)))), aboutTheIndividual = Some(AboutTheIndividual()))
       val expected = testNotification.copy(personalDetails = personalDetails)
       sut.userAnswersToNotification(ua) shouldEqual expected
     }
@@ -358,7 +360,7 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
         PageWithValue(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
       )
       val ua = PageWithValue.pagesToUserAnswers(pages, userAnswers).success.value
-      val personalDetails = testNotification.personalDetails.copy(background = Background(relatesTo = Some(RelatesTo.AnIndividual), disclosureEntity = Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm)))), aboutTheIndividual = None)
+      val personalDetails = testNotification.personalDetails.copy(background = Background(disclosureEntity = Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm)))), aboutTheIndividual = None)
       val expected = testNotification.copy(personalDetails = personalDetails)
       sut.userAnswersToNotification(ua) shouldEqual expected
     }
@@ -368,7 +370,7 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
         PageWithValue(RelatesToPage, RelatesTo.ACompany)
       )
       val ua = PageWithValue.pagesToUserAnswers(pages, userAnswers).success.value
-      val personalDetails = testNotification.personalDetails.copy(background = Background(relatesTo = Some(RelatesTo.ACompany), disclosureEntity = Some(DisclosureEntity(Company, None))), aboutTheCompany = Some(AboutTheCompany()))
+      val personalDetails = testNotification.personalDetails.copy(background = Background(disclosureEntity = Some(DisclosureEntity(Company, None))), aboutTheCompany = Some(AboutTheCompany()))
       val expected = testNotification.copy(personalDetails = personalDetails)
       sut.userAnswersToNotification(ua) shouldEqual expected
     }
@@ -378,7 +380,7 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
         PageWithValue(RelatesToPage, RelatesTo.ATrust)
       )
       val ua = PageWithValue.pagesToUserAnswers(pages, userAnswers).success.value
-      val personalDetails = testNotification.personalDetails.copy(background = Background(relatesTo = Some(RelatesTo.ATrust), disclosureEntity = Some(DisclosureEntity(Trust, None))), aboutTheTrust = Some(AboutTheTrust()))
+      val personalDetails = testNotification.personalDetails.copy(background = Background(disclosureEntity = Some(DisclosureEntity(Trust, None))), aboutTheTrust = Some(AboutTheTrust()))
       val expected = testNotification.copy(personalDetails = personalDetails)
       sut.userAnswersToNotification(ua) shouldEqual expected
     }
@@ -388,7 +390,7 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
         PageWithValue(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership)
       )
       val ua = PageWithValue.pagesToUserAnswers(pages, userAnswers).success.value
-      val personalDetails = testNotification.personalDetails.copy(background = Background(relatesTo = Some(RelatesTo.ALimitedLiabilityPartnership), disclosureEntity = Some(DisclosureEntity(LLP, None))), aboutTheLLP = Some(AboutTheLLP()))
+      val personalDetails = testNotification.personalDetails.copy(background = Background(disclosureEntity = Some(DisclosureEntity(LLP, None))), aboutTheLLP = Some(AboutTheLLP()))
       val expected = testNotification.copy(personalDetails = personalDetails)
       sut.userAnswersToNotification(ua) shouldEqual expected
     }

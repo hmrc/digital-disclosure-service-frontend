@@ -71,7 +71,8 @@ class NotificationToUAServiceImpl extends NotificationToUAService {
     import background._
 
     val pages = List(
-      relatesTo.map(PageWithValue(RelatesToPage, _)),
+      haveYouReceivedALetter.map(PageWithValue(ReceivedALetterPage, _)),
+      letterReferenceNumber.map(PageWithValue(LetterReferencePage, _)),
       areYouRepresetingAnOrganisation.map(PageWithValue(AreYouRepresentingAnOrganisationPage, _)),
       organisationName.map(PageWithValue(WhatIsTheNameOfTheOrganisationYouRepresentPage, _)),
       incomeSource.map(PageWithValue(IncomeOrGainSourcePage, _)),

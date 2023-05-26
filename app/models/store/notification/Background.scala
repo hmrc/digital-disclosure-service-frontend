@@ -20,17 +20,18 @@ import play.api.libs.json.{Json, OFormat}
 import models.{IncomeOrGainSource, RelatesTo}
 
 final case class Background (
-  relatesTo: Option[RelatesTo] = None,
+  haveYouReceivedALetter: Option[Boolean] = None,
+  letterReferenceNumber: Option[String] = None,
   disclosureEntity: Option[DisclosureEntity] = None,
   areYouRepresetingAnOrganisation: Option[Boolean] = None,
   organisationName: Option[String] = None,
   offshoreLiabilities: Option[Boolean] = None,
-  onshoreLiabilities: Option[Boolean] = None,  
+  onshoreLiabilities: Option[Boolean] = None,
   incomeSource: Option[Set[IncomeOrGainSource]] = None,
   otherIncomeSource: Option[String] = None
 ) {
   def isComplete = this match {
-    case Background(Some(relatesTo), Some(_), _, _, Some(offshore), _, Some(source), _) => 
+    case Background(_, _, Some(_), _, _, Some(offshore), _, Some(source), _) =>
       ( (!offshore || onshoreLiabilities.isDefined) )
     case _ => false
   }

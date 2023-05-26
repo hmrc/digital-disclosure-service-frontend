@@ -20,7 +20,7 @@ import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
 import models.address._
-import models.{AreYouTheEntity, IncomeOrGainSource, RelatesTo}
+import models.{AreYouTheEntity, IncomeOrGainSource}
 
 class BackgroundSpec extends AnyFreeSpec with Matchers with OptionValues {
 
@@ -29,27 +29,27 @@ class BackgroundSpec extends AnyFreeSpec with Matchers with OptionValues {
   "isComplete" - {
 
     "must return true where they have answered necessary questions" in {
-      val background = Background(Some(RelatesTo.AnIndividual), Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)))
+      val background = Background(Some(false), None, Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)))
       background.isComplete mustBe true
     }
 
     "must return true where they have answered necessary questions and offshore is false" in {
-      val background = Background(Some(RelatesTo.AnIndividual), Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(false), None, Some(Set(IncomeOrGainSource.Dividends)))
+      val background = Background(Some(false), None, Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(false), None, Some(Set(IncomeOrGainSource.Dividends)))
       background.isComplete mustBe true
     }
 
     "must return true where they have answered necessary questions and said true to receiving a letter" in {
-      val background = Background(Some(RelatesTo.AnIndividual), Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)))
+      val background = Background(Some(false), None, Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)))
       background.isComplete mustBe true
     }
 
-    "must return true where they have not selected any of the relates to options" in {
-      val background = Background(None, Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)))
-      background.isComplete mustBe false
+    "must return true where they said true to receiving a letter but haven't added a ref number" in {
+      val background = Background(Some(true), None, Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)))
+      background.isComplete mustBe true
     }
 
      "must return true where offshore is true but onshore is not populated" in {
-      val background = Background(Some(RelatesTo.AnIndividual), Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), None, Some(Set(IncomeOrGainSource.Dividends)))
+      val background = Background(Some(false), None, Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), None, Some(Set(IncomeOrGainSource.Dividends)))
       background.isComplete mustBe false
     }   
 
