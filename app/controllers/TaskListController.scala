@@ -77,7 +77,7 @@ class TaskListController @Inject()(
 
   private[controllers] def buildYourPersonalDetailsRow(personalDetails: PersonalDetails, entityKey: String)(implicit messages: Messages): (String, TaskListRow) = {
     val isSectionComplete = personalDetails.isComplete
-    val firstPage = personalDetails.background.relatesTo
+    val firstPage = personalDetails.background.disclosureEntity
     val completeLink = controllers.notification.routes.CheckYourAnswersController.onPageLoad
     val incompleteLink = controllers.notification.routes.RelatesToController.onPageLoad(NormalMode)
     

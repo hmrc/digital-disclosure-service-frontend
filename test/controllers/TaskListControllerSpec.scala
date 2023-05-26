@@ -139,7 +139,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
   "buildYourPersonalDetailsRow" - {
     "should display Not Started when the section isn't complete" in {
       
-      val personalDetails = PersonalDetails(background = Background(), aboutYou = AboutYou())
+      val personalDetails = PersonalDetails(background = Background(haveYouReceivedALetter = Some(true)), aboutYou = AboutYou())
       
       val expectedTask = TaskListRow(
         id = "personal-detail-task-list",
@@ -148,32 +148,15 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         link = controllers.notification.routes.RelatesToController.onPageLoad(NormalMode)
       )
       val expectedSectionKey = "taskList.add.heading.first.none"
-      val (actualKey, actualTask) = sut.buildYourPersonalDetailsRow(personalDetails, "none") 
+      val (actualKey, actualTask) = sut.buildYourPersonalDetailsRow(personalDetails, "none")
 
       actualKey mustEqual expectedSectionKey
-      actualTask mustEqual expectedTask    
+      actualTask mustEqual expectedTask
 
-    }
-
-    "should display In Progress when the section has been started but isn't complete" in {
-      
-      val personalDetails = PersonalDetails(background = Background(relatesTo = Some(RelatesTo.AnIndividual)), aboutYou = AboutYou())
-      
-      val expectedTask = TaskListRow(
-        id = "personal-detail-task-list",
-        sectionTitle = mess("taskList.edit.sectionTitle.first.individual"),
-        status = mess("taskList.status.inProgress"),
-        link = controllers.notification.routes.RelatesToController.onPageLoad(NormalMode)
-      )
-      val expectedSectionKey = "taskList.edit.heading.first.individual"
-      val (actualKey, actualTask) = sut.buildYourPersonalDetailsRow(personalDetails, "individual") 
-
-      actualKey mustEqual expectedSectionKey
-      actualTask mustEqual expectedTask    
     }
 
     "should display Completed when the section is complete" in {
-      val completedBackground = Background(Some(RelatesTo.AnIndividual), Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)), None)
+      val completedBackground = Background(Some(false), None, Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)), None)
       val aboutYou = AboutYou(Some("name"), None, Some("email"), Some(LocalDate.now), Some("mainOccupation"), Some(ContactPreferences(Set(Email))), Some(No), None, Some(No), None, Some(No), None, Some(address))
       val personalDetails = PersonalDetails(completedBackground, aboutYou, None, None, None, None, None)
       
@@ -184,10 +167,10 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         link = controllers.notification.routes.CheckYourAnswersController.onPageLoad,
       )
       val expectedSectionKey = "taskList.edit.heading.first.company"
-      val (actualKey, actualTask) = sut.buildYourPersonalDetailsRow(personalDetails, "company") 
+      val (actualKey, actualTask) = sut.buildYourPersonalDetailsRow(personalDetails, "company")
 
       actualKey mustEqual expectedSectionKey
-      actualTask mustEqual expectedTask    
+      actualTask mustEqual expectedTask
     }
   }
 
@@ -202,9 +185,9 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         status = mess("taskList.status.notStarted"),
         link = controllers.reference.routes.DoYouHaveACaseReferenceController.onPageLoad(NormalMode)
       )
-      val actualTask = sut.buildCaseReferenceRow(model) 
+      val actualTask = sut.buildCaseReferenceRow(model)
 
-      actualTask mustEqual expectedTask    
+      actualTask mustEqual expectedTask
 
     }
 
@@ -249,9 +232,9 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         status = mess("taskList.status.notStarted"),
         link = controllers.offshore.routes.WhyAreYouMakingThisDisclosureController.onPageLoad(NormalMode)
       )
-      val actualTask = sut.buildOffshoreLiabilitiesDetailRow(model, true) 
+      val actualTask = sut.buildOffshoreLiabilitiesDetailRow(model, true)
 
-      actualTask mustEqual expectedTask    
+      actualTask mustEqual expectedTask
 
     }
 

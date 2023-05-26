@@ -213,7 +213,7 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
       val metadata = Metadata(reference = Some("123"), submissionTime = Some(LocalDateTime.now))
 
       val caseReference = CaseReference(Some(true), Some("Some reference"))
-      val background = Background(relatesTo = Some(RelatesTo.AnIndividual))
+      val background = Background()
       val whySet: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse)
       val offshoreLiabilities = OffshoreLiabilities(Some(whySet))
       val whyOnlineSet: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHasExcuse)
