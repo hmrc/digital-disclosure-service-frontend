@@ -22,14 +22,19 @@ import play.api.test.Helpers._
 import views.html.NotificationSubmittedView
 import models.{SubmissionType, UserAnswers}
 import models.store.Metadata
+import models.audit.DisclosureStart
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import pages._
 import play.api.mvc.Call
 import navigation.{FakeNavigator, Navigator}
 import play.api.inject.bind
+import org.mockito.Mockito.verify
+import org.mockito.ArgumentMatchers.{any, refEq}
+import org.scalatestplus.mockito.MockitoSugar
+import services.AuditService
 
-class NotificationSubmittedControllerSpec extends SpecBase {
+class NotificationSubmittedControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
@@ -83,12 +88,22 @@ class NotificationSubmittedControllerSpec extends SpecBase {
   "onSubmit" - {
     "must redirect to the next page" in {
 
+      val mockAuditService = mock[AuditService]
+
       val reference = "1234"
       val time = LocalDateTime.now()
 
       val userAnswers = UserAnswers(id = "id", sessionId = "session-123", submissionId = "id2", submissionType = SubmissionType.Notification, metadata = Metadata(Some(reference), Some(time)))
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).overrides(
+      val expectedAuditEvent = DisclosureStart (
+        userId = "id",
+        submissionId = "id2",
+        isAgent = false,
+        agentReference = None,
+        notificationSubmitted = true
+      ) 
+
+      val application = applicationBuilderWithAuditService(userAnswers = Some(userAnswers), auditService = mockAuditService).overrides(
           bind[Navigator].toInstance(new FakeNavigator(onwardRoute))
         ).build()
 
@@ -99,6 +114,7 @@ class NotificationSubmittedControllerSpec extends SpecBase {
 
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual onwardRoute.url
+        verify(mockAuditService).auditDisclosureStart(refEq(expectedAuditEvent))(any())
       }
     }
   }
