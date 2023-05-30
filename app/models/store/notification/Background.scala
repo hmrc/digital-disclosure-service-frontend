@@ -17,7 +17,7 @@
 package models.store.notification
 
 import play.api.libs.json.{Json, OFormat}
-import models.{IncomeOrGainSource, RelatesTo}
+import models.IncomeOrGainSource
 
 final case class Background (
   haveYouReceivedALetter: Option[Boolean] = None,
