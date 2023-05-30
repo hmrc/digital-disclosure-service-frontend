@@ -206,7 +206,7 @@ class CaseManagementServiceSpec extends ViewSpecBase {
       val expectedDate = LocalDateTime.of(2012,1,31, 0, 0).atZone(ZoneId.of("Europe/London")).format(dateFormatter)
       val submission = FullDisclosure("123", "123", lastUpdatedInstant, Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), None, OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow(), created = createdInstant)
       val expected = Seq(
-        TableRow(HtmlContent(messages("caseManagement.incomplete"))),
+        TableRow(Text(messages("caseManagement.incomplete"))),
         TableRow(Text(messages("caseManagement.incomplete"))),
         TableRow(Text(expectedCreatedDate)),
         TableRow(Text(messages("caseManagement.disclosure.started"))),

@@ -74,10 +74,10 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelSpec extends SpecBase with S
             val summaryList = sut.directorLoanAccountLiabilitiesToSummaryList(0, directorLoanAccountLiabilities, revealFullText)
 
             summaryList.rows(0).key mustEqual Key(Text(mess("directorLoanAccountLiabilities.name.checkYourAnswersLabel")))
-            summaryList.rows(0).value mustEqual ValueViewModel(HtmlContent("name"))  
+            summaryList.rows(0).value mustEqual ValueViewModel(Text("name"))  
 
             summaryList.rows(1).key mustEqual Key(Text(mess("directorLoanAccountLiabilities.periodEnd.checkYourAnswersLabel")))
-            summaryList.rows(1).value mustEqual ValueViewModel(HtmlContent(directorLoanAccountLiabilities.periodEnd.format(dateFormatter)))  
+            summaryList.rows(1).value mustEqual ValueViewModel(Text(directorLoanAccountLiabilities.periodEnd.format(dateFormatter)))  
 
             summaryList.rows(2).key mustEqual Key(Text(mess("directorLoanAccountLiabilities.overdrawn.checkYourAnswersLabel")))
             summaryList.rows(2).value mustEqual ValueViewModel(HtmlContent(s"&pound;0"))  
@@ -89,7 +89,7 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelSpec extends SpecBase with S
             summaryList.rows(4).value mustEqual ValueViewModel(HtmlContent(s"&pound;0"))
 
             summaryList.rows(5).key mustEqual Key(Text(mess("directorLoanAccountLiabilities.penaltyRate.checkYourAnswersLabel")))
-            summaryList.rows(5).value mustEqual ValueViewModel(HtmlContent(s"0.00%"))
+            summaryList.rows(5).value mustEqual ValueViewModel(Text(s"0.00%"))
 
             summaryList.rows(6).key mustEqual Key(Text(mess("checkYourAnswers.dl.total.penaltyAmount")))
             summaryList.rows(6).value mustEqual ValueViewModel(HtmlContent(s"&pound;0.00"))

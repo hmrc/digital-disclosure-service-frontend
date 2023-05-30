@@ -19,8 +19,6 @@ package viewmodels.checkAnswers
 import base.SpecBase
 import pages._
 import models._
-import play.twirl.api.HtmlFormat
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Key
 import viewmodels.govuk.summarylist._
@@ -40,7 +38,7 @@ class LiabilitiesSummarySpec extends SpecBase {
       
       LiabilitiesSummary.row(userAnswers.success.value).map { row =>
         row.key mustBe Key(Text(mess("liabilities.checkYourAnswersLabel")))
-        row.value mustBe ValueViewModel(HtmlContent(HtmlFormat.escape(mess("liabilities.offshore"))))
+        row.value mustBe ValueViewModel(Text(mess("liabilities.offshore")))
       }
     }
 
@@ -52,7 +50,7 @@ class LiabilitiesSummarySpec extends SpecBase {
 
       LiabilitiesSummary.row(userAnswers.success.value).map { row => 
         row.key mustBe Key(Text(mess("liabilities.checkYourAnswersLabel")))
-        row.value mustBe ValueViewModel(HtmlContent(HtmlFormat.escape(mess("liabilities.onshore"))))
+        row.value mustBe ValueViewModel(Text(mess("liabilities.onshore")))
       }
     }
 
@@ -64,7 +62,7 @@ class LiabilitiesSummarySpec extends SpecBase {
 
       LiabilitiesSummary.row(userAnswers.success.value).map { row => 
         row.key mustBe Key(Text(mess("liabilities.checkYourAnswersLabel")))
-        row.value mustBe ValueViewModel(HtmlContent(HtmlFormat.escape(mess("liabilities.offshoreOnshore"))))
+        row.value mustBe ValueViewModel(Text(mess("liabilities.offshoreOnshore")))
       }
     }
 

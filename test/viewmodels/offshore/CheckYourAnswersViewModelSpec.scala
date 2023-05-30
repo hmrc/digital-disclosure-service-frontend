@@ -111,7 +111,7 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
         val viewModel = sut.create(ua)
         val summaryList = viewModel.legalInterpretationlist
         summaryList.rows(0).key mustEqual Key(Text(mess("theMaximumValueOfAllAssets.checkYourAnswersLabel")))
-        summaryList.rows(0).value mustEqual ValueViewModel(HtmlContent(mess(s"theMaximumValueOfAllAssets.${value}")))
+        summaryList.rows(0).value mustEqual ValueViewModel(Text(mess(s"theMaximumValueOfAllAssets.${value}")))
       }
     }
 
@@ -122,7 +122,7 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
         val viewModel = sut.create(ua)
         val summaryList = viewModel.legalInterpretationlist
         summaryList.rows(0).key mustEqual Key(Text(mess("howMuchTaxHasNotBeenIncluded.checkYourAnswersLabel")))
-        summaryList.rows(0).value mustEqual ValueViewModel(HtmlContent(mess(s"howMuchTaxHasNotBeenIncluded.${value}")))
+        summaryList.rows(0).value mustEqual ValueViewModel(Text(mess(s"howMuchTaxHasNotBeenIncluded.${value}")))
       }
     }
 
@@ -145,7 +145,7 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
       val viewModel = sut.create(ua)
       val summaryList = viewModel.legalInterpretationlist
       summaryList.rows(0).key mustEqual Key(Text(mess("yourLegalInterpretation.checkYourAnswersLabel")))
-      summaryList.rows(0).value mustEqual ValueViewModel(HtmlContent(mess(s"yourLegalInterpretation.${value}")))
+      summaryList.rows(0).value mustEqual ValueViewModel(Text(mess(s"yourLegalInterpretation.${value}")))
     }
 
     "return an empty Seq where the years page isn't populated" in {
@@ -228,14 +228,14 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
     summaryList.rows(4).value mustEqual ValueViewModel(HtmlContent(s"&pound;${taxYearWithLiabilities.taxYearLiabilities.interest}"))
 
     summaryList.rows(5).key mustEqual Key(Text(mess("taxYearLiabilities.penaltyRate.checkYourAnswersLabel")))
-    summaryList.rows(5).value mustEqual ValueViewModel(HtmlContent(mess("site.2DP", taxYearWithLiabilities.taxYearLiabilities.penaltyRate)+"%"))
+    summaryList.rows(5).value mustEqual ValueViewModel(Text(mess("site.2DP", taxYearWithLiabilities.taxYearLiabilities.penaltyRate)+"%"))
 
     summaryList.rows(6).key mustEqual Key(Text(mess("taxYearLiabilities.penaltyAmount.checkYourAnswersLabel")))
 
     summaryList.rows(7).key mustEqual Key(Text(mess("taxYearLiabilities.undeclaredIncomeOrGain.checkYourAnswersLabel")))
     
     summaryList.rows(8).key mustEqual Key(Text(mess("taxYearLiabilities.foreignTaxCredit.checkYourAnswersLabel")))
-    summaryList.rows(8).value mustEqual ValueViewModel(HtmlContent(if (taxYearWithLiabilities.taxYearLiabilities.foreignTaxCredit) mess("site.yes") else mess("site.no")))
+    summaryList.rows(8).value mustEqual ValueViewModel(Text(if (taxYearWithLiabilities.taxYearLiabilities.foreignTaxCredit) mess("site.yes") else mess("site.no")))
 
     summaryList.rows(9).key mustEqual Key(Text(mess("taxYearLiabilities.amountDue.checkYourAnswersLabel")))
   }
