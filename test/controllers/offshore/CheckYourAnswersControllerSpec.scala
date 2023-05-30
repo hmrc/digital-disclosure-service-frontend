@@ -22,6 +22,7 @@ import play.api.test.Helpers._
 import views.html.offshore.CheckYourAnswersView
 import viewmodels.offshore.CheckYourAnswersViewModel
 import viewmodels.govuk.SummaryListFluency
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist._
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 import play.api.i18n.Messages
@@ -36,22 +37,22 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         rows = Seq(
           SummaryListRowViewModel(
             key     = Key(Text(messages("taxYearLiabilities.unpaidTax.total"))),
-            value   = ValueViewModel(Text("&pound;0")),
+            value   = ValueViewModel(HtmlContent("&pound;0")),
             actions = Nil
           ),
           SummaryListRowViewModel(
             key     = Key(Text(messages("taxYearLiabilities.interest.total"))),
-            value   = ValueViewModel(Text("&pound;0")),
+            value   = ValueViewModel(HtmlContent("&pound;0")),
             actions = Nil
           ),
           SummaryListRowViewModel(
             key     = Key(Text(messages("taxYearLiabilities.penaltyAmount.total"))),
-            value   = ValueViewModel(Text(s"&pound;${messages("site.2DP", 0)}")),
+            value   = ValueViewModel(HtmlContent(s"&pound;${messages("site.2DP", 0)}")),
             actions = Nil
           ),
           SummaryListRowViewModel(
             key     = Key(Text(messages("taxYearLiabilities.amountDue.total"))),
-            value   = ValueViewModel(Text(s"&pound;${messages("site.2DP", 0)}")),
+            value   = ValueViewModel(HtmlContent(s"&pound;${messages("site.2DP", 0)}")),
             actions = Nil
           )
         )
