@@ -19,16 +19,18 @@ package controllers
 import controllers.actions._
 import forms.MakeANotificationOrDisclosureFormProvider
 import javax.inject.Inject
-import models.{UserAnswers, SubmissionType}
+import models.{UserAnswers, SubmissionType, ARN}
 import models.MakeANotificationOrDisclosure._
 import navigation.Navigator
 import pages.MakeANotificationOrDisclosurePage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import services.SessionService
+import services.{AuditService, SessionService}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.MakeANotificationOrDisclosureView
 import java.time.Instant
+import models.audit._
+import models.requests.OptionalDataRequest
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -40,7 +42,8 @@ class MakeANotificationOrDisclosureController @Inject()(
                                        getData: DataRetrievalAction,
                                        formProvider: MakeANotificationOrDisclosureFormProvider,
                                        val controllerComponents: MessagesControllerComponents,
-                                       view: MakeANotificationOrDisclosureView
+                                       view: MakeANotificationOrDisclosureView,
+                                       auditService: AuditService
                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
@@ -66,8 +69,32 @@ class MakeANotificationOrDisclosureController @Inject()(
 
           for {
             _ <- sessionService.set(updatedAnswers)
+            _ = auditStartOfJourney(newSubmissionType, updatedAnswers)
           } yield Redirect(navigator.nextPage(MakeANotificationOrDisclosurePage, updatedAnswers))
         }
       )
+  }
+
+  def auditStartOfJourney(submissionType: SubmissionType, newUserAnswers: UserAnswers)(implicit request: OptionalDataRequest[_]) = {
+    submissionType match {
+      case SubmissionType.Notification => 
+        val notificationStart = NotificationStart(
+          userId = request.userId,
+          submissionId = newUserAnswers.submissionId,
+          isAgent = request.isAgent,
+          agentReference = request.customerId.collect{case ARN(arn) => arn}
+        )
+        auditService.auditNotificationStart(notificationStart)
+      case SubmissionType.Disclosure =>
+        val disclosureStart = DisclosureStart(
+          userId = request.userId,
+          submissionId = newUserAnswers.submissionId,
+          isAgent = request.isAgent,
+          agentReference = request.customerId.collect{case ARN(arn) => arn},
+          notificationSubmitted = false
+        )
+        auditService.auditDisclosureStart(disclosureStart)
+    }
+
   }
 }

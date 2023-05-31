@@ -23,14 +23,16 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.NotificationSubmittedView
 import scala.concurrent.{ExecutionContext, Future}
-import models.{UserAnswers, SubmissionType}
+import models.{UserAnswers, SubmissionType, ARN}
 import navigation.Navigator
 import models.store.Metadata
 import pages.{NotificationSubmittedPage, LetterReferencePage, DoYouHaveACaseReferencePage, WhatIsTheCaseReferencePage}
-import services.{SessionService, DisclosureToUAService}
+import services.{SessionService, DisclosureToUAService, AuditService}
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import scala.util.{Try, Success}
+import models.audit.DisclosureStart
+import models.requests.DataRequest
 
 class NotificationSubmittedController @Inject()(
                                        override val messagesApi: MessagesApi,
@@ -41,7 +43,8 @@ class NotificationSubmittedController @Inject()(
                                        navigator: Navigator,
                                        disclosureToUAService: DisclosureToUAService,
                                        val controllerComponents: MessagesControllerComponents,
-                                       view: NotificationSubmittedView
+                                       view: NotificationSubmittedView,
+                                       auditService: AuditService
                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
@@ -62,6 +65,7 @@ class NotificationSubmittedController @Inject()(
     implicit request =>
       for {
         updatedAnswers <- Future.fromTry(convertToDisclosure(request.userAnswers))
+        _ = auditStartOfDisclosure
         _ <- sessionService.set(updatedAnswers)
       } yield Redirect(navigator.nextPage(NotificationSubmittedPage, updatedAnswers))
   }
@@ -77,5 +81,16 @@ class NotificationSubmittedController @Inject()(
         Success(userAnswers)
     }
     updatedUa.map(_.copy(submissionType = SubmissionType.Disclosure, metadata = Metadata()))
+  }
+
+  def auditStartOfDisclosure(implicit request: DataRequest[_]) = {
+    val disclosureStart = DisclosureStart(
+      userId = request.userId,
+      submissionId = request.userAnswers.submissionId,
+      isAgent = request.isAgent,
+      agentReference = request.customerId.collect{case ARN(arn) => arn},
+      notificationSubmitted = true
+    )
+    auditService.auditDisclosureStart(disclosureStart)
   }
 }
