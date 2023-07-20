@@ -35,15 +35,16 @@ class DisclosureSubmissionServiceImpl @Inject()(
 
   def submitDisclosure(userAnswers: UserAnswers)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[String] = {
         
-    val reference = referenceService.generateReference.toString
+    val reference = referenceService.generateReference
     val metadata = Metadata(reference = Some(reference), submissionTime = Some(timeService.now))
 
     val updatedUserAnswers = userAnswers.copy(metadata = metadata)
     val fullDisclosure = uaToDisclosureService.uaToFullDisclosure(updatedUserAnswers)
 
+    auditService.auditDisclosureSubmission(fullDisclosure)
+
     for {
       _ <- connector.submitDisclosure(fullDisclosure)
-      _ = auditService.auditDisclosureSubmission(fullDisclosure)
       _ <- sessionService.set(updatedUserAnswers)
     } yield reference
 

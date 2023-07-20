@@ -34,15 +34,16 @@ class NotificationSubmissionServiceImpl @Inject()(
 ) extends NotificationSubmissionService {
 
   def submitNotification(userAnswers: UserAnswers)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[String] = {
-    val reference = referenceService.generateReference.toString
+    val reference = referenceService.generateReference
     val metadata = Metadata(reference = Some(reference), submissionTime = Some(timeService.now))
 
     val updatedUserAnswers = userAnswers.copy(metadata = metadata)
     val notification = UAToNotificationService.userAnswersToNotification(updatedUserAnswers)
 
+    auditService.auditNotificationSubmission(notification)
+
     for {
       _ <- connector.submitNotification(notification)
-      _ = auditService.auditNotificationSubmission(notification)
       _ <- sessionService.set(updatedUserAnswers)
     } yield reference
 
