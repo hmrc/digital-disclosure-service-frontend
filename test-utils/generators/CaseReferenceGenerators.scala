@@ -22,10 +22,10 @@ import org.scalacheck.Gen.{listOfN, numChar}
 
 trait CaseReferenceGenerators {
 
-  val numberOfDigitsReferenceNumber = 7
+  val numberOfDigitsReferenceNumber = 8
   val shortPrefix = "CFS"
   val longPrefix = "CFSS"
-  val caseReferenceFormatRegex = "(?i)CFS[Ss|Cc]?[\\s]?[-]?[0-9]{7}\\.?$"
+  val caseReferenceFormatRegex = "(?i)CFS[Ss|Cc]?[\\s]?[-]?[0-9]{7,8}\\.?$"
 
   def generateValidCaseReference(): Gen[String] = for {
     isWithLongPrefix <- arbitrary[Boolean]
