@@ -382,8 +382,8 @@ onshoreLiabilities.no = Na
 onshoreLiabilities.checkYourAnswersLabel = A fydd y datgeliad hefyd yn ymwneud â rhwymedigaethau artraeth?
 onshoreLiabilities.error.required = Dewiswch ‘Iawn’ os yw’r datgeliad yn ymwneud â rhwymedigaethau artraeth
 
-letterReference.title = Beth yw cyfeirnodau yr achos sydd ar y llythyr a gawsoch oddi wrth CThEF?
-letterReference.heading = Beth yw cyfeirnodau yr achos sydd ar y llythyr a gawsoch oddi wrth CThEF?
+letterReference.title = Beth yw cyfeirnod yr achos sydd ar y llythyr a gawsoch oddi wrth CThEF?
+letterReference.heading = Beth yw cyfeirnod yr achos sydd ar y llythyr a gawsoch oddi wrth CThEF?
 letterReference.body = Gallwch ddod o hyd i hwn ar frig y llythyr o dan y dyddiad. Mae’n dechrau gyda ‘CFSS’, ‘CSFC’ neu ‘CFS’, wedi’i ddilyn gan 7 rhif.
 letterReference.hint = Er enghraifft, CFSS-1234567 neu CFS-1234567.
 letterReference.checkYourAnswersLabel = Cyfeirnod yr achos
@@ -431,7 +431,7 @@ whatIsYourFullName.heading = Beth yw’ch enw llawn?
 whatIsYourFullName.hint = Dylai hyn fod fel y mae wedi’i ysgrifennu ar ddogfennau swyddogol fel eich pasbort neu drwydded yrru.
 whatIsYourFullName.checkYourAnswersLabel = Eich enw llawn
 whatIsYourFullName.error.required = Nodwch eich enw llawn
-whatIsYourFullName.error.length = Mae’n rhaid i’ch enw cyntaf fod rhwng 1 cymeriad a 30 o gymeriadau
+whatIsYourFullName.error.length = Mae’n rhaid i’ch enw llawn fod rhwng 1 cymeriad a 30 o gymeriadau
 whatIsYourFullName.change.hidden = Eich enw llawn
 
 yourEmailAddress.title = Beth yw’ch cyfeiriad e-bost?
@@ -670,8 +670,8 @@ individualCountryLookup.title = Beth yw gwlad cyfeiriad yr unigolyn?
 individualCountryLookup.heading = Beth yw gwlad cyfeiriad yr unigolyn?
 individualCountryLookup.hint = Er enghraifft, y Deyrnas Unedig.
 
-individualAddressLookup.title = Beth yw cost post ac enw neu rif eiddo yr unigolyn?
-individualAddressLookup.heading = Beth yw cost post ac enw neu rif eiddo yr unigolyn?
+individualAddressLookup.title = Beth yw cod post ac enw neu rif eiddo yr unigolyn?
+individualAddressLookup.heading = Beth yw cod post ac enw neu rif eiddo yr unigolyn?
 
 individualAddressLookup.checkYourAnswersLabel = Cyfeiriad yr unigolyn
 individualAddressLookup.change.hidden = Cyfeiriad yr unigolyn
@@ -739,8 +739,8 @@ companyCountryLookup.title = Beth yw gwlad cyfeiriad y cwmni?
 companyCountryLookup.heading = Beth yw gwlad cyfeiriad y cwmni?
 companyCountryLookup.hint = Er enghraifft, y Deyrnas Unedig.
 
-companyAddressLookup.title = Beth yw cost post ac enw neu rif eiddo y cwmni?
-companyAddressLookup.heading = Beth yw cost post ac enw neu rif eiddo y cwmni?
+companyAddressLookup.title = Beth yw cod post ac enw neu rif eiddo y cwmni?
+companyAddressLookup.heading = Beth yw cod post ac enw neu rif eiddo y cwmni?
 
 companyAddressLookup.checkYourAnswersLabel = Cyfeiriad y cwmni
 companyAddressLookup.change.hidden = Cyfeiriad y cwmni
@@ -767,8 +767,8 @@ llpCountryLookup.title = Beth yw gwlad cyfeiriad y bartneriaeth atebolrwydd cyfy
 llpCountryLookup.heading = Beth yw gwlad cyfeiriad y bartneriaeth atebolrwydd cyfyngedig?
 llpCountryLookup.hint = Er enghraifft, y Deyrnas Unedig.
 
-llpAddressLookup.title = Beth yw cost post ac enw neu rif eiddo y bartneriaeth atebolrwydd cyfyngedig?
-llpAddressLookup.heading = Beth yw cost post ac enw neu rif eiddo y bartneriaeth atebolrwydd cyfyngedig?
+llpAddressLookup.title = Beth yw cod post ac enw neu rif eiddo y bartneriaeth atebolrwydd cyfyngedig?
+llpAddressLookup.heading = Beth yw cod post ac enw neu rif eiddo y bartneriaeth atebolrwydd cyfyngedig?
 
 llpAddressLookup.checkYourAnswersLabel = Cyfeiriad y bartneriaeth atebolrwydd cyfyngedig
 llpAddressLookup.change.hidden = Cyfeiriad y bartneriaeth atebolrwydd cyfyngedig
@@ -788,8 +788,8 @@ trustCountryLookup.title = Beth yw gwlad cyfeiriad yr ymddiriedolaeth?
 trustCountryLookup.heading = Beth yw gwlad cyfeiriad yr ymddiriedolaeth?
 trustCountryLookup.hint = Er enghraifft, y Deyrnas Unedig.
 
-trustAddressLookup.title = Beth yw cost post ac enw neu rif eiddo yr ymddiriedolaeth)?
-trustAddressLookup.heading = Beth yw cost post ac enw neu rif eiddo yr ymddiriedolaeth)?
+trustAddressLookup.title = Beth yw cod post ac enw neu rif eiddo yr ymddiriedolaeth)?
+trustAddressLookup.heading = Beth yw cod post ac enw neu rif eiddo yr ymddiriedolaeth)?
 
 trustAddressLookup.checkYourAnswersLabel = Cyfeiriad yr ymddiriedolaeth
 trustAddressLookup.change.hidden = Cyfeiriad yr ymddiriedolaeth
