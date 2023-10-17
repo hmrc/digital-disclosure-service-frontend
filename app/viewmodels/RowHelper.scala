@@ -17,13 +17,11 @@
 package viewmodels
 
 import play.api.i18n.Messages
-import play.twirl.api.HtmlFormat
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 import models.CheckMode
-import viewmodels.RevealFullText
 
 sealed abstract class RowHelperSection(name:String)
 case object ONSHORE extends RowHelperSection("onshore")
