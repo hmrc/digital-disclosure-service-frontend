@@ -35,7 +35,7 @@
     fullWidthMainContentLayout: templates.FullWidthMainContent
 )
 
-@(pageTitle: String, showBackLink: Boolean = true, timeout: Boolean = true, showSignOut: Boolean = true, fullWidth: Boolean = false)(contentBlock: Html)(implicit request: Request[_], messages: Messages)
+@(pageTitle: String, showBackLink: Boolean = true, timeout: Boolean = true, showSignOut: Boolean = true, fullWidth: Boolean = false)(contentBlock: Html)(implicit requestHeader: RequestHeader, messages: Messages)
 
 @head = {
 
@@ -57,7 +57,7 @@
 }
 
 @additionalScripts = {
-    <script @{CSPNonce.attr} src='@controllers.routes.Assets.versioned("javascripts/application.js")'></script>
+    <script @CSPNonce.attr src='@controllers.routes.Assets.versioned("javascripts/application.js")'></script>
 }
 
 @beforeContent = {
