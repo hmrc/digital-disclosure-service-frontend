@@ -17,6 +17,8 @@
 package controllers
 
 import base.SpecBase
+import models.UserAnswers
+import models.store.Metadata
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.html.notification.YouHaveSentYourNotificationView
@@ -27,12 +29,15 @@ class YouHaveSentYourNotificationControllerSpec extends SpecBase {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val reference = "CFSS-1234567"
+
+      val userAnswers = UserAnswers(userAnswersId, sessionId, metadata = Metadata(Some(reference)))
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
-        val reference = "CFSS-1234567"
 
-        val request = FakeRequest(GET, controllers.notification.routes.YouHaveSentYourNotificationController.onPageLoad(reference).url)
+        val request = FakeRequest(GET, controllers.notification.routes.YouHaveSentYourNotificationController.onPageLoad.url)
 
         val result = route(application, request).value
 

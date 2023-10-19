@@ -311,7 +311,7 @@ class NotificationNavigator @Inject()() {
       checkRouteMap(page)(userAnswers)(hasAnswerChanged)
   }
 
-  def submitPage(userAnswers: UserAnswers, reference: String): Call = routes.YouHaveSentYourNotificationController.onPageLoad(reference)
+  def submitPage(userAnswers: UserAnswers, reference: String): Call = routes.YouHaveSentYourNotificationController.onPageLoad
 
   def aboutSectionRouting(userAnswers: UserAnswers): Call = {
     val relatesToPage = userAnswers.get(RelatesToPage)
