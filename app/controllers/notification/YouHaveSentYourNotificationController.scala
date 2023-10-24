@@ -35,10 +35,14 @@ class YouHaveSentYourNotificationController @Inject()(
                                        view: YouHaveSentYourNotificationView
                                      ) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoad(reference: String): Action[AnyContent] = (identify andThen getData andThen requireData) {
+  def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
       val caseReferenceExists = request.userAnswers.get(LetterReferencePage).isDefined
       val isTheEntity = isTheUserTheEntity(request.userAnswers)
+      val submittedReference = request.userAnswers.get(LetterReferencePage).getOrElse("")
+      val generatedRef = request.userAnswers.metadata.reference.getOrElse("")
+
+      val reference = if (caseReferenceExists) submittedReference else generatedRef
 
       Ok(view(caseReferenceExists, reference, isTheEntity, request.userAnswers.isDisclosure))
   }
