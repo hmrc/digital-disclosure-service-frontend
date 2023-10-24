@@ -19,6 +19,7 @@ package controllers
 import base.SpecBase
 import models.UserAnswers
 import models.store.Metadata
+import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.html.notification.YouHaveSentYourNotificationView
@@ -27,7 +28,29 @@ class YouHaveSentYourNotificationControllerSpec extends SpecBase {
 
   "YouHaveSentYourNotification Controller" - {
 
-    "must return OK and the correct view for a GET" in {
+    "must return OK and the correct view for a GET when passed a user submitted reference" in {
+
+      val reference = "CFSS-1234567"
+
+      val userAnswers = UserAnswers(userAnswersId, sessionId, data = Json.obj("letterReference" -> reference))
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+      running(application) {
+
+        val request = FakeRequest(GET, controllers.notification.routes.YouHaveSentYourNotificationController.onPageLoad.url)
+
+        val result = route(application, request).value
+
+        val view = application.injector.instanceOf[YouHaveSentYourNotificationView]
+
+        status(result) mustEqual OK
+        contentAsString(result) mustEqual view(isCaseReferenceAvailable = true, reference,
+          isTheEntity = true, isDisclosure = false)(request, messages(application)).toString
+      }
+    }
+
+    "must return OK and the correct view for a GET when passed a generated reference" in {
 
       val reference = "CFSS-1234567"
 
@@ -44,7 +67,8 @@ class YouHaveSentYourNotificationControllerSpec extends SpecBase {
         val view = application.injector.instanceOf[YouHaveSentYourNotificationView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(false, reference, true, false)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(isCaseReferenceAvailable = false,
+          reference, isTheEntity = true, isDisclosure = false)(request, messages(application)).toString
       }
     }
   }

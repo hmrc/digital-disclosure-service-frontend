@@ -39,7 +39,10 @@ class YouHaveSentYourNotificationController @Inject()(
     implicit request =>
       val caseReferenceExists = request.userAnswers.get(LetterReferencePage).isDefined
       val isTheEntity = isTheUserTheEntity(request.userAnswers)
-      val reference = request.userAnswers.metadata.reference.getOrElse("")
+      val submittedReference = request.userAnswers.get(LetterReferencePage).getOrElse("")
+      val generatedRef = request.userAnswers.metadata.reference.getOrElse("")
+
+      val reference = if (caseReferenceExists) submittedReference else generatedRef
 
       Ok(view(caseReferenceExists, reference, isTheEntity, request.userAnswers.isDisclosure))
   }
