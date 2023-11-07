@@ -14,8 +14,6 @@
  * limitations under the License.
  *@
 
-@import viewmodels.InputWidth._
-
 @this(
     layout: templates.Layout,
     formHelper: FormWithCSRF,
@@ -43,6 +41,14 @@
                 messages("youHaveLeftTheDDS.body.first") +
                 link(id = "guidance-link-first", text = messages("youHaveLeftTheDDS.link"), newTab = true, call = Call("GET", "https://www.gov.uk/guidance/admitting-tax-fraud-the-contractual-disclosure-facility-cdf")) +
                 messages("youHaveLeftTheDDS.body.second")
+            )
+        )
+
+        @paragraph(
+            id = Some("exit-survey"),
+            content = HtmlContent(
+                link("survey-link", messages("exitSurvey.linkText"), controllers.auth.routes.AuthController.signOut).toString +
+                messages("exitSurvey.timeText")
             )
         )
     }

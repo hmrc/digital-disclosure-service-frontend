@@ -19,6 +19,9 @@ site.2DP = {0,number,#,##0.00}
 site.print = Print or save this page
 site.ending = Ending
 
+exitSurvey.linkText = What did you think of this service?
+exitSurvey.timeText = ' (takes 30 seconds)'
+
 date.day = Day
 date.month = Month
 date.year = Year
@@ -1820,8 +1823,6 @@ submitted.paragraph1.link = Download a copy of the information you have entered 
 submitted.paragraph2 = Unless you’ve contacted HMRC to agree more time to pay, you should now send the full payment, quoting a Payment Reference Number (PRN). You’ll find your PRN on the notification acknowledgement letter that HMRC may have sent you which also provides information on how to pay.
 submitted.paragraph2.link = Call us if you do not have a PRN (opens in new tab)
 submitted.paragraph3 = In most cases we’ll check the disclosure and send a formal acceptance within 90 days from today. If we are not able to do this we’ll contact you to explain why.
-submitted.paragraph4 = If you would like to give your feedback on how to improve this service, you can
-submitted.paragraph4.link = sign up to take part in our research (opens in new tab)
 
 whichOnshoreYears.title = Which year does this onshore disclosure relate to?
 whichOnshoreYears.heading = Which year does this onshore disclosure relate to?

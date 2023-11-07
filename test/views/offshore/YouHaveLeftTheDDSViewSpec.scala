@@ -42,17 +42,24 @@ class YouHaveLeftTheDDSViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementsByClass("govuk-panel__body").text() mustBe messages("youHaveLeftTheDDS.heading")
     }
 
-    "contain body" in {
-      view.getElementById("body").text() mustBe 
+    "contain first paragraph" in {
+      view.getElementById("body").text() mustBe
         messages("youHaveLeftTheDDS.body.first") +
         messages("youHaveLeftTheDDS.link") +
         messages("youHaveLeftTheDDS.body.second")
     }
 
+    "have an exit survey paragraph" in {
+      view.getElementById("exit-survey").text mustBe messages("exitSurvey.linkText") + messages("exitSurvey.timeText")
+    }
+
+    "have an exit survey link" in {
+      view.getElementById("survey-link").attr("href") mustBe controllers.auth.routes.AuthController.signOut.url
+    }
+
     "have a guidance link" in {
       view.getElementById("guidance-link-first").attr("href") mustBe "https://www.gov.uk/guidance/admitting-tax-fraud-the-contractual-disclosure-facility-cdf"
     }
-
   }
 
 }
