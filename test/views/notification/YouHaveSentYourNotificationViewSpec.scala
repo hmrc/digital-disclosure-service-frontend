@@ -52,6 +52,14 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
     "have a second paragraph for entity" in {
       view.getElementById("second-paragraph").text() mustBe messages("youHaveSentYourNotification.paragraph.second.caseRef")
     }
+
+    "have an exit survey paragraph" in {
+      view.getElementById("exit-survey").text mustBe messages("exitSurvey.linkText") + messages("exitSurvey.timeText")
+    }
+
+    "have an exit survey link" in {
+      view.getElementById("survey-link").attr("href") mustBe controllers.auth.routes.AuthController.signOut.url
+    }
   }
 
   "view" should {
@@ -80,6 +88,14 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
 
     "have a second paragraph for agent" in {
       view.getElementById("second-paragraph").text() mustBe messages("youHaveSentYourNotification.paragraph.second.caseRef")
+    }
+
+    "have an exit survey paragraph for an agent" in {
+      view.getElementById("exit-survey").text mustBe messages("exitSurvey.linkText") + messages("exitSurvey.timeText")
+    }
+
+    "have an exit survey link for an agent" in {
+      view.getElementById("survey-link").attr("href") mustBe controllers.auth.routes.AuthController.signOut.url
     }
   }
 

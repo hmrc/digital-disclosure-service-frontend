@@ -19,6 +19,9 @@ site.2DP = {0,number,#,##0.00}
 site.print = Argraffu neu gadw’r dudalen hon
 site.ending = Dod â
 
+exitSurvey.linkText = Beth oedd eich barn am y gwasanaeth hwn?
+exitSurvey.timeText = ' (mae’n cymryd 30 eiliad)'
+
 date.day = Diwrnod
 date.month = Mis
 date.year = Blwyddyn
@@ -1769,8 +1772,6 @@ submitted.paragraph1.link = Lawrlwythwch gopi o’r wybodaeth rydych wedi’i no
 submitted.paragraph2 = Oni bai eich bod wedi cysylltu â CThEF i gytuno ar fwy o amser i dalu, dylech nawr anfon y taliad llawn, gan nodi’r Cyfeirnod Talu (PRN). Gallwch weld eich Cyfeirnod Talu ar lythyr cydnabod yr hysbysiad y gallai CThEF fod wedi’i anfon atoch, sydd hefyd yn rhoi gwybodaeth am sut i dalu.
 submitted.paragraph2.link = Rhowch alwad i ni os nad oes gennych PRN (yn agor tab newydd)
 submitted.paragraph3 = Yn y rhan fwyaf o achosion, byddwn yn gwirio’r datgeliad ac yn anfon derbyniad ffurfiol cyn pen 90 diwrnod o heddiw ymlaen. Os nad ydym yn gallu gwneud hyn, byddwn yn cysylltu â chi i egluro pam.
-submitted.paragraph4 = Os hoffech roi eich adborth ar sut i wella’r gwasanaeth hwn, gallwch {gofrestru i gymryd rhan yn ein hymchwil
-submitted.paragraph4.link = yn agor tab newydd)
 
 whichOnshoreYears.title = Pa flwyddyn mae’r datgeliad alltraeth hwn yn ymwneud â hi?
 whichOnshoreYears.heading = Pa flwyddyn mae’r datgeliad alltraeth hwn yn ymwneud â hi?

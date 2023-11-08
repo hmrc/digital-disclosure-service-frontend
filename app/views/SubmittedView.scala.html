@@ -61,11 +61,10 @@
     @paragraph(id = Some("paragraph3"), content = HtmlContent(messages("submitted.paragraph3")))
 
     @paragraph(
-        id = Some("paragraph4"), 
+        id = Some("exit-survey"),
         content = HtmlContent(
-            messages("submitted.paragraph4") + " " + 
-            link(id = "paragraph4-link", text = messages("submitted.paragraph4.link"), newTab = true, call = Call("GET", "https://signup.take-part-in-research.service.gov.uk/home?utm_campaign=Digital_Disclosure_Service&utm_source=&utm_medium=other&t=HMRC&id=410")) +
-            messages("site.dot")
+            link("survey-link", messages("exitSurvey.linkText"), controllers.auth.routes.AuthController.signOut).toString +
+            messages("exitSurvey.timeText")
         )
     )
 }

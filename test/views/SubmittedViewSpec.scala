@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package views.submit
+package views
 
 import base.ViewSpecBase
 import play.twirl.api.Html
@@ -57,10 +57,12 @@ class SubmittedViewSpec extends ViewSpecBase with ViewMatchers with Generators {
       view.getElementById("paragraph3").text() mustBe messages("submitted.paragraph3")
     }
 
-    "have a fourth paragraph" in {
-      view.getElementById("paragraph4").text() mustBe messages("submitted.paragraph4") + " " + messages("submitted.paragraph4.link") + messages("site.dot")
+    "have an exit survey paragraph" in {
+      view.getElementById("exit-survey").text mustBe messages("exitSurvey.linkText") + messages("exitSurvey.timeText")
     }
 
+    "have an exit survey link" in {
+      view.getElementById("survey-link").attr("href") mustBe controllers.auth.routes.AuthController.signOut.url
+    }
   }
-
 }

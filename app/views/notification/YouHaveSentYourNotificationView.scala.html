@@ -22,7 +22,8 @@
         heading: components.heading,
         subheading: components.subheading,
         downloadLink: components.downloadLink,
-        tasklistLink: components.tasklistLink
+        tasklistLink: components.tasklistLink,
+        link: components.link
 )
 
 @(isCaseReferenceAvailable: Boolean, referenceNumber: String, isTheEntity: Boolean, isDisclosure: Boolean)(implicit request: Request[_], messages: Messages)
@@ -73,4 +74,12 @@
     @if(isDisclosure){
         @tasklistLink()
     }
+
+    @paragraph(
+        id = Some("exit-survey"),
+        content = HtmlContent(
+            link("survey-link", messages("exitSurvey.linkText"), controllers.auth.routes.AuthController.signOut).toString +
+            messages("exitSurvey.timeText")
+        )
+    )
 }
