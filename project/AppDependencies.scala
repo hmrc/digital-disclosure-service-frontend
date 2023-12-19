@@ -9,7 +9,7 @@ object AppDependencies {
     "uk.gov.hmrc"       %% "bootstrap-frontend-play-28"     % bootstrapVersion,
     "uk.gov.hmrc"       %% "domain"                         % "8.3.0-play-28",
     "uk.gov.hmrc"       %% "emailaddress"                   % "3.8.0",
-    "uk.gov.hmrc"       %% "play-frontend-hmrc"             % "7.26.0-play-28",
+    "uk.gov.hmrc"       %% "play-frontend-hmrc"             % "7.29.0-play-28",
     "uk.gov.hmrc"       %% "play-conditional-form-mapping"  % "1.13.0-play-28",
     "uk.gov.hmrc.mongo" %% "hmrc-mongo-play-28"             % mongoVersion,
     "org.typelevel"     %% "cats-core"                      % "2.8.0",
