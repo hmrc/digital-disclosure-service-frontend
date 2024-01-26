@@ -27,5 +27,6 @@ class WhatWasTheTypeOfMortgageFormProvider @Inject() extends Mappings {
     Form(
       "value" -> text("whatWasTheTypeOfMortgage.error.required")
         .verifying(maxLength(500, "whatWasTheTypeOfMortgage.error.length"))
+        .verifying(validUnicodeCharacters)
     )
 }

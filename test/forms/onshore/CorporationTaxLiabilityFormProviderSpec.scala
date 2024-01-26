@@ -20,7 +20,8 @@ import java.time.{LocalDate, ZoneOffset}
 import forms.behaviours.{PeriodEndBehaviours, IntFieldBehaviours, BigIntFieldBehaviours, BigDecimalFieldBehaviours, StringFieldBehaviours}
 import play.api.data.FormError
 
-class CorporationTaxLiabilityFormProviderSpec extends PeriodEndBehaviours with IntFieldBehaviours with BigIntFieldBehaviours with BigDecimalFieldBehaviours with StringFieldBehaviours {
+class CorporationTaxLiabilityFormProviderSpec extends PeriodEndBehaviours with IntFieldBehaviours
+  with BigIntFieldBehaviours with BigDecimalFieldBehaviours with StringFieldBehaviours {
 
   val form = new CorporationTaxLiabilityFormProvider()()
 
@@ -145,6 +146,11 @@ class CorporationTaxLiabilityFormProviderSpec extends PeriodEndBehaviours with I
       form,
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
+    )
+
+    behave like fieldWithValidUnicodeChars(
+      form,
+      fieldName
     )
   }
 }

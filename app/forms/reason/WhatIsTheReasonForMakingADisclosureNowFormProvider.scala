@@ -27,5 +27,6 @@ class WhatIsTheReasonForMakingADisclosureNowFormProvider @Inject() extends Mappi
     Form(
       "value" -> text("whatIsTheReasonForMakingADisclosureNow.error.required")
         .verifying(maxLength(5000, "whatIsTheReasonForMakingADisclosureNow.error.length"))
+        .verifying(validUnicodeCharacters)
     )
 }

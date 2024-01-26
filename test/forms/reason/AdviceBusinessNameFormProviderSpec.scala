@@ -49,5 +49,10 @@ class AdviceBusinessNameFormProviderSpec extends StringFieldBehaviours {
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+
+    behave like fieldWithValidUnicodeChars(
+      form,
+      fieldName
+    )
   }
 }

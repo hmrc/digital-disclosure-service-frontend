@@ -39,6 +39,7 @@ error.browser.title.prefix = Gwall:
 error.boolean = Rhowch ateb
 error.required = Nodwch werth
 error.summary.title = Mae problem wedi codi
+error.invalidUnicodeChars = Canfuwyd cymeriad Unicode annilys yn eich ymateb. Rhowch gynnig arall arni. Os gwnaethoch gopïo a gludo eich ymateb, ceisiwch ei deipio â llaw
 
 index.title = Rhowch wybod i CThEF am dreth sydd heb ei thalu o’r blynyddoedd blaenorol
 index.heading = Rhowch wybod i CThEF am dreth sydd heb ei thalu o’r blynyddoedd blaenorol

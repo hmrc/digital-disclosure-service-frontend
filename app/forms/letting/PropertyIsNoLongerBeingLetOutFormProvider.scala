@@ -39,7 +39,9 @@ class PropertyIsNoLongerBeingLetOutFormProvider @Inject() extends Mappings {
         .verifying(maxDate(LocalDate.now().minusDays(1), "propertyIsNoLongerBeingLetOut.stopDate.error.invalidFutureDate")),
 
         "whatHasHappenedToProperty" -> text("propertyIsNoLongerBeingLetOut.whatHasHappenedToProperty.error.required")
-        .verifying(maxLength(5000, "propertyIsNoLongerBeingLetOut.whatHasHappenedToProperty.error.length"))
+          .verifying(maxLength(5000, "propertyIsNoLongerBeingLetOut.whatHasHappenedToProperty.error.length"))
+          .verifying(validUnicodeCharacters)
+
       )(NoLongerBeingLetOut.apply)(NoLongerBeingLetOut.unapply)
     )
 }

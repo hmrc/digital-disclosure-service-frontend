@@ -21,7 +21,8 @@ import play.api.data.FormError
 
 import java.time.{LocalDate, ZoneOffset}
 
-class DirectorLoanAccountLiabilitiesFormProviderSpec extends PeriodEndBehaviours with IntFieldBehaviours with BigIntFieldBehaviours with BigDecimalFieldBehaviours with StringFieldBehaviours {
+class DirectorLoanAccountLiabilitiesFormProviderSpec extends PeriodEndBehaviours with IntFieldBehaviours
+  with BigIntFieldBehaviours with BigDecimalFieldBehaviours with StringFieldBehaviours {
 
   val form = new DirectorLoanAccountLiabilitiesFormProvider()()
 
@@ -49,6 +50,11 @@ class DirectorLoanAccountLiabilitiesFormProviderSpec extends PeriodEndBehaviours
       form,
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
+    )
+
+    behave like fieldWithValidUnicodeChars(
+      form,
+      fieldName
     )
   }
 
@@ -144,6 +150,11 @@ class DirectorLoanAccountLiabilitiesFormProviderSpec extends PeriodEndBehaviours
       form,
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
+    )
+
+    behave like fieldWithValidUnicodeChars(
+      form,
+      fieldName
     )
   }
 

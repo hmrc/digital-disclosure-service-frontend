@@ -27,5 +27,6 @@ class YouHaveNotSelectedCertainTaxYearFormProvider @Inject() extends Mappings {
     Form(
       "value" -> text("youHaveNotSelectedCertainTaxYear.error.required")
         .verifying(maxLength(500, "youHaveNotSelectedCertainTaxYear.error.length"))
+        .verifying(validUnicodeCharacters)
     )
 }

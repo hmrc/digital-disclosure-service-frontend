@@ -27,5 +27,6 @@ class WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutFormProvider @Inject() ex
     Form(
       "value" -> text("whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.error.required")
         .verifying(maxLength(50, "whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.error.length"))
+        .verifying(validUnicodeCharacters)
     )
 }

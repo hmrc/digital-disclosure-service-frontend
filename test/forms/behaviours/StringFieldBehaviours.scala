@@ -16,6 +16,7 @@
 
 package forms.behaviours
 
+import forms.mappings.FormBindConstants.invalidUnicodeCharacters
 import play.api.data.{Form, FormError}
 
 trait StringFieldBehaviours extends FieldBehaviours {
@@ -49,4 +50,15 @@ trait StringFieldBehaviours extends FieldBehaviours {
       }
     }
   }
+
+  def fieldWithValidUnicodeChars(form: Form[_],
+                                 fieldName: String): Unit =
+
+    "not bind strings with invalid unicode characters" in {
+
+      invalidUnicodeCharacters.foreach { invalidChar =>
+        val result = form.bind(Map(fieldName -> s"Example text$invalidChar")).apply(fieldName)
+        result.errors must contain only FormError(fieldName, "error.invalidUnicodeChars")
+      }
+    }
 }

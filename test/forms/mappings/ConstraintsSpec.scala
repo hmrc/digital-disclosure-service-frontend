@@ -188,4 +188,22 @@ class ConstraintsSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyC
       }
     }
   }
+
+  "validUnicodeCharacters" - {
+
+    "must return Valid if no invalid characters are detected" in {
+      val result = validUnicodeCharacters("Example text")
+      result mustEqual Valid
+    }
+
+    "must return Invalid if the character '\u0002' (start of text, U+0002, 0x2) is detected" in {
+      val result = validUnicodeCharacters("\u0002Example text")
+      result mustEqual Invalid("error.invalidUnicodeChars")
+    }
+
+    "must return Invalid if the character '\u001D' (group separator, U+001D, 0x1d) is detected" in {
+      val result = validUnicodeCharacters("Example\u001Dtext")
+      result mustEqual Invalid("error.invalidUnicodeChars")
+    }
+  }
 }

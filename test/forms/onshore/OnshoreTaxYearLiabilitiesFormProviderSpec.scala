@@ -20,7 +20,8 @@ import forms.behaviours.{BigIntFieldBehaviours, IntFieldBehaviours, StringFieldB
 import play.api.data.FormError
 import models.WhatOnshoreLiabilitiesDoYouNeedToDisclose
 
-class OnshoreTaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with BigIntFieldBehaviours with BigDecimalFieldBehaviours with StringFieldBehaviours {
+class OnshoreTaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with BigIntFieldBehaviours
+  with BigDecimalFieldBehaviours with StringFieldBehaviours {
 
   val formWithNoSelections = new OnshoreTaxYearLiabilitiesFormProvider()(Set())
   val formWithNonBusinessSelected = new OnshoreTaxYearLiabilitiesFormProvider()(Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.NonBusinessIncome))
@@ -170,6 +171,44 @@ class OnshoreTaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with 
       formWithNoSelections,
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
+    )
+
+    behave like fieldWithValidUnicodeChars(
+      formWithNoSelections,
+      fieldName
+    )
+  }
+
+  ".undeclaredIncomeOrGain" - {
+
+    val fieldName = "undeclaredIncomeOrGain"
+    val maxLength = 5000
+
+    val lengthKey = "onshoreTaxYearLiabilities.undeclaredIncomeOrGain.error.length"
+    val requiredKey = "onshoreTaxYearLiabilities.undeclaredIncomeOrGain.error.required"
+
+    behave like fieldThatBindsValidData(
+      formWithNoSelections,
+      fieldName,
+      stringsWithMaxLength(maxLength)
+    )
+
+    behave like fieldWithMaxLength(
+      formWithNoSelections,
+      fieldName,
+      maxLength = maxLength,
+      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
+    )
+
+    behave like mandatoryField(
+      formWithNoSelections,
+      fieldName,
+      requiredError = FormError(fieldName, requiredKey)
+    )
+
+    behave like fieldWithValidUnicodeChars(
+      formWithNoSelections,
+      fieldName
     )
   }
 

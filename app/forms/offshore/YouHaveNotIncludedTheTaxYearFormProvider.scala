@@ -27,5 +27,6 @@ class YouHaveNotIncludedTheTaxYearFormProvider @Inject() extends Mappings {
     Form(
       "value" -> text("youHaveNotIncludedTheTaxYear.error.required", Seq(missingYear))
         .verifying(maxLength(500, "youHaveNotIncludedTheTaxYear.error.length", missingYear))
+        .verifying(validUnicodeCharacters)
     )
 }

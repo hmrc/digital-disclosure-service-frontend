@@ -49,5 +49,10 @@ class WhatIsTheIndividualOccupationFormProviderSpec extends StringFieldBehaviour
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+
+    behave like fieldWithValidUnicodeChars(
+      form,
+      fieldName
+    )
   }
 }

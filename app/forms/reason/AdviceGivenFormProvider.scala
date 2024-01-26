@@ -28,16 +28,17 @@ class AdviceGivenFormProvider @Inject() extends Mappings {
    def apply(): Form[AdviceGiven] = Form(
      mapping(
       "adviceGiven" -> text("adviceGiven.error.adviceGiven.required")
-        .verifying(maxLength(5000, "adviceGiven.error.adviceGiven.length")),
+        .verifying(maxLength(5000, "adviceGiven.error.adviceGiven.length"))
+        .verifying(validUnicodeCharacters),
       "date" -> monthYear(
         invalidKey       = "adviceGiven.date.error.invalid",
         allRequiredKey   = "adviceGiven.date.error.required.all",
         requiredKey      = "adviceGiven.date.error.required",
         invalidMonthKey  = "adviceGiven.date.error.invalidMonth",
         futureDateKey = "adviceGiven.date.error.invalidFutureDate",
-        minimumDateKey = "adviceGiven.date.error.invalidPastDate" 
+        minimumDateKey = "adviceGiven.date.error.invalidPastDate"
       ),
-      "contact" -> enumerable[AdviceContactPreference]("adviceGiven.error.contact.required")  
+      "contact" -> enumerable[AdviceContactPreference]("adviceGiven.error.contact.required")
     )(AdviceGiven.apply)(AdviceGiven.unapply)
    )
  }

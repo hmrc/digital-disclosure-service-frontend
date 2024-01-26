@@ -49,5 +49,10 @@ class WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutFormProviderSpec extends 
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+
+    behave like fieldWithValidUnicodeChars(
+      form,
+      fieldName
+    )
   }
 }

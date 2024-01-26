@@ -27,5 +27,6 @@ class UnderWhatConsiderationFormProvider @Inject() extends Mappings {
     Form(
       "value" -> text("underWhatConsideration.error.required")
         .verifying(maxLength(5000, "underWhatConsideration.error.length"))
+        .verifying(validUnicodeCharacters)
     )
 }

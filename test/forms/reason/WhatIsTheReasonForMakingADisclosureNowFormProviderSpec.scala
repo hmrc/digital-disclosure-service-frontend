@@ -49,5 +49,10 @@ class WhatIsTheReasonForMakingADisclosureNowFormProviderSpec extends StringField
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+
+    behave like fieldWithValidUnicodeChars(
+      form,
+      fieldName
+    )
   }
 }

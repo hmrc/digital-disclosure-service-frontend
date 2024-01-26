@@ -27,5 +27,6 @@ class DescribeTheGiftFormProvider @Inject() extends Mappings {
     Form(
       "value" -> text("describeTheGift.error.required")
         .verifying(maxLength(5000, "describeTheGift.error.length"))
+        .verifying(validUnicodeCharacters)
     )
 }

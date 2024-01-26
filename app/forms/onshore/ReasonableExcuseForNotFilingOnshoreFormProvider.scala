@@ -30,16 +30,18 @@ class ReasonableExcuseForNotFilingOnshoreFormProvider @Inject() extends Mappings
       "reasonableExcuse" -> text("whatIsYourReasonableExcuseForNotFilingReturn.error.reasonableExcuse.required")
         .verifying(
           maxLength(
-            5000, 
+            5000,
             if(areTheyTheIndividual) {
               "whatIsYourReasonableExcuseForNotFilingReturn.entity.error.reasonableExcuse.length"
             } else {
               "whatIsYourReasonableExcuseForNotFilingReturn.agent.error.reasonableExcuse.length"
             }
           )
-        ),
+        )
+        .verifying(validUnicodeCharacters),
       "yearsThisAppliesTo" -> text("whatIsYourReasonableExcuseForNotFilingReturn.error.yearsThisAppliesTo.required")
         .verifying(maxLength(500, "whatIsYourReasonableExcuseForNotFilingReturn.error.yearsThisAppliesTo.length"))
+        .verifying(validUnicodeCharacters)
     )(ReasonableExcuseForNotFilingOnshore.apply)(ReasonableExcuseForNotFilingOnshore.unapply)
    )
  }

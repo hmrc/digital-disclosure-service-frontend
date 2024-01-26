@@ -27,5 +27,6 @@ class TaxBeforeFiveYearsFormProvider @Inject() extends Mappings {
     Form(
       "value" -> text("taxBeforeFiveYears.error.required", Seq(year))
         .verifying(maxLength(5000, "taxBeforeFiveYears.error.length"))
+        .verifying(validUnicodeCharacters)
     )
  }

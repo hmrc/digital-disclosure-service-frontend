@@ -27,5 +27,6 @@ class WhatIsTheNameOfTheOrganisationYouRepresentFormProvider @Inject() extends M
     Form(
       "value" -> text("whatIsTheNameOfTheOrganisationYouRepresent.error.required")
         .verifying(maxLength(50, "whatIsTheNameOfTheOrganisationYouRepresent.error.length"))
+        .verifying(validUnicodeCharacters)
     )
 }

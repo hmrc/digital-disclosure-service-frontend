@@ -31,7 +31,8 @@ class DirectorLoanAccountLiabilitiesFormProvider @Inject() extends Mappings {
   def apply(): Form[DirectorLoanAccountLiabilities] = Form(
      mapping(
        "name" -> text("directorLoanAccountLiabilities.name.required")
-         .verifying(maxLength(30, "directorLoanAccountLiabilities.name.invalid")),
+         .verifying(maxLength(30, "directorLoanAccountLiabilities.name.invalid"))
+         .verifying(validUnicodeCharacters),
 
        "periodEnd" -> localDate(
          "directorLoanAccountLiabilities.periodEnd.error.invalid",
@@ -67,6 +68,7 @@ class DirectorLoanAccountLiabilitiesFormProvider @Inject() extends Mappings {
       
       "penaltyRateReason" -> text("directorLoanAccountLiabilities.penaltyRateReason.error.required")
         .verifying(maxLength(5000, "directorLoanAccountLiabilities.penaltyRateReason.error.length"))
+        .verifying(validUnicodeCharacters)
 
     )(DirectorLoanAccountLiabilities.apply)(DirectorLoanAccountLiabilities.unapply)
    )
