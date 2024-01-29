@@ -39,6 +39,7 @@ error.browser.title.prefix = Error:
 error.boolean = Please give an answer
 error.required = Please enter a value
 error.summary.title = There is a problem
+error.invalidUnicodeChars = An invalid Unicode character has been detected in your response. Please try again. If you copied and pasted your response, try entering it manually
 
 index.title = Tell HMRC about underpaid tax from previous years
 index.heading = Tell HMRC about underpaid tax from previous years

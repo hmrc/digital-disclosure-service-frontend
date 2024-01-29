@@ -47,6 +47,11 @@ class WhatIsYourReasonableExcuseFormProviderSpec extends StringFieldBehaviours {
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+
+    behave like fieldWithValidUnicodeChars(
+      form,
+      fieldName
+    )
   }
 
   ".excuse when agent" - {
@@ -89,6 +94,11 @@ class WhatIsYourReasonableExcuseFormProviderSpec extends StringFieldBehaviours {
       form,
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
+    )
+
+    behave like fieldWithValidUnicodeChars(
+      form,
+      fieldName
     )
   }
 }

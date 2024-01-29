@@ -12,9 +12,9 @@ turnoffJSUglifyWarningsTask := Seq( "drop_console=true, warnings=false")
 lazy val root = (project in file("."))
   .enablePlugins(PlayScala, SbtAutoBuildPlugin, SbtDistributablesPlugin)
   .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
-  .settings(inConfig(Test)(testSettings): _*)
+  .settings(inConfig(Test)(testSettings) *)
   .configs(IntegrationTest)
-  .settings(inConfig(IntegrationTest)(itSettings): _*)
+  .settings(inConfig(IntegrationTest)(itSettings) *)
   .settings(majorVersion := 0)
   .settings(ThisBuild / useSuperShell := false)
   .settings(
@@ -73,7 +73,7 @@ lazy val root = (project in file("."))
   )
   .settings(uglifyCompressOptions := turnoffJSUglifyWarningsTask.value)
 
-lazy val testSettings: Seq[Def.Setting[_]] = Seq(
+lazy val testSettings: Seq[Def.Setting[?]] = Seq(
   fork := true,
   unmanagedSourceDirectories += baseDirectory.value / "test-utils",
   scalacOptions ++= Seq(

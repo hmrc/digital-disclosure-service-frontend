@@ -27,5 +27,6 @@ class WhyNotBeforeNowFormProvider @Inject() extends Mappings {
     Form(
       "value" -> text("whyNotBeforeNow.error.required")
         .verifying(maxLength(5000, "whyNotBeforeNow.error.length"))
+        .verifying(validUnicodeCharacters)
     )
 }

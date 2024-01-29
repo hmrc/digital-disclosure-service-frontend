@@ -23,28 +23,34 @@ class WhatReasonableCareDidYouTakeFormProviderSpec extends StringFieldBehaviours
 
   ".reasonableCare when entity" - {
 
+    val form = new WhatReasonableCareDidYouTakeFormProvider()(true)
     val fieldName = "reasonableCare"
     val requiredKey = "whatReasonableCareDidYouTake.error.reasonableCare.required"
     val entityLengthKey = "whatReasonableCareDidYouTake.entity.error.reasonableCare.length"
     val maxLength = 5000
 
     behave like fieldThatBindsValidData(
-      new WhatReasonableCareDidYouTakeFormProvider()(true),
+      form,
       fieldName,
       stringsWithMaxLength(maxLength)
     )
 
     behave like fieldWithMaxLength(
-      new WhatReasonableCareDidYouTakeFormProvider()(true),
+      form,
       fieldName,
       maxLength = maxLength,
       lengthError = FormError(fieldName, entityLengthKey, Seq(maxLength))
     )
 
     behave like mandatoryField(
-      new WhatReasonableCareDidYouTakeFormProvider()(true),
+      form,
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
+    )
+
+    behave like fieldWithValidUnicodeChars(
+      form,
+      fieldName
     )
   }
 
@@ -87,6 +93,11 @@ class WhatReasonableCareDidYouTakeFormProviderSpec extends StringFieldBehaviours
       form,
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
+    )
+
+    behave like fieldWithValidUnicodeChars(
+      form,
+      fieldName
     )
   }
 }

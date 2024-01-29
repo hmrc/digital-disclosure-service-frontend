@@ -49,5 +49,10 @@ class WhatIsTheNameOfTheOrganisationYouRepresentFormProviderSpec extends StringF
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+
+    behave like fieldWithValidUnicodeChars(
+      form,
+      fieldName
+    )
   }
 }

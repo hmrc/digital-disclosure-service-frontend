@@ -28,5 +28,6 @@ class AdviceProfessionFormProvider @Inject() extends Mappings {
       "value" -> text("adviceProfession.error.required")
         .verifying(minLength(4, "adviceProfession.error.length"))
         .verifying(maxLength(30, "adviceProfession.error.length"))
+        .verifying(validUnicodeCharacters)
     )
 }

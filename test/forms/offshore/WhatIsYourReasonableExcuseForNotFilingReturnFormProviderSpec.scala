@@ -23,28 +23,34 @@ class WhatIsYourReasonableExcuseForNotFilingReturnFormProviderSpec extends Strin
 
   ".reasonableExcuse when entity" - {
 
+    val form = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(true)
     val fieldName = "reasonableExcuse"
     val requiredKey = "whatIsYourReasonableExcuseForNotFilingReturn.error.reasonableExcuse.required"
     val entityLengthKey = "whatIsYourReasonableExcuseForNotFilingReturn.entity.error.reasonableExcuse.length"
     val maxLength = 5000
 
     behave like fieldThatBindsValidData(
-      new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(true),
+      form,
       fieldName,
       stringsWithMaxLength(maxLength)
     )
 
     behave like fieldWithMaxLength(
-      new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(true),
+      form,
       fieldName,
       maxLength = maxLength,
       lengthError = FormError(fieldName, entityLengthKey, Seq(maxLength))
     )
 
     behave like mandatoryField(
-      new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(true),
+      form,
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
+    )
+
+    behave like fieldWithValidUnicodeChars(
+      form,
+      fieldName
     )
   }
 
@@ -87,6 +93,11 @@ class WhatIsYourReasonableExcuseForNotFilingReturnFormProviderSpec extends Strin
       form,
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
+    )
+
+    behave like fieldWithValidUnicodeChars(
+      form,
+      fieldName
     )
   }
 }

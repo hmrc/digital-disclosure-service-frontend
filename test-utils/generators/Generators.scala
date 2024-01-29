@@ -16,6 +16,8 @@
 
 package generators
 
+import forms.mappings.FormBindConstants.invalidUnicodeCharacters
+
 import java.time.{Instant, LocalDate, ZoneOffset}
 import org.scalacheck.Arbitrary._
 import org.scalacheck.Gen._
@@ -159,7 +161,7 @@ trait Generators extends UserAnswersGenerator
 
   def stringsExcludingCRWithLengthBetween(minLength: Int, maxLength: Int): Gen[String] = for {
     length    <- Gen.chooseNum(minLength + 1, maxLength)
-    chars     <- listOfN(length, arbitrary[Char] suchThat (_ != '\r'))
+    chars     <- listOfN(length, arbitrary[Char] suchThat (char => char != '\r' && !invalidUnicodeCharacters.contains(char.toString)))
   } yield chars.mkString
 
   def stringsExceptSpecificValues(excluded: Seq[String]): Gen[String] =

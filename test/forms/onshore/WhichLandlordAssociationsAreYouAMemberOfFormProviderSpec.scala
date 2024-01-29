@@ -49,5 +49,10 @@ class WhichLandlordAssociationsAreYouAMemberOfFormProviderSpec extends StringFie
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+
+    behave like fieldWithValidUnicodeChars(
+      form,
+      fieldName
+    )
   }
 }

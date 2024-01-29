@@ -27,5 +27,6 @@ class WhatIsYourMainOccupationFormProvider @Inject() extends Mappings {
     Form(
       "value" -> text("whatIsYourMainOccupation.error.required")
         .verifying(maxLength(30, "whatIsYourMainOccupation.error.maxLength"))
+        .verifying(validUnicodeCharacters)
     )
 }

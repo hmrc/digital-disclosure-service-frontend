@@ -50,5 +50,10 @@ class YouHaveNotIncludedTheTaxYearFormProviderSpec extends StringFieldBehaviours
       fieldName,
       requiredError = FormError(fieldName, requiredKey, Seq(missingYear))
     )
+
+    behave like fieldWithValidUnicodeChars(
+      form,
+      fieldName
+    )
   }
 }

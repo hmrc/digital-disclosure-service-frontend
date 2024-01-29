@@ -68,5 +68,10 @@ class PropertyIsNoLongerBeingLetOutFormProviderSpec extends PeriodEndBehaviours 
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+
+    behave like fieldWithValidUnicodeChars(
+      form,
+      fieldName
+    )
   }
 }

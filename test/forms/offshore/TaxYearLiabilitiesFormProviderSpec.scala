@@ -170,6 +170,43 @@ class TaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with BigIntF
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+
+    behave like fieldWithValidUnicodeChars(
+      form,
+      fieldName
+    )
   }
 
+  ".undeclaredIncomeOrGain" - {
+
+    val fieldName = "undeclaredIncomeOrGain"
+    val maxLength = 5000
+
+    val lengthKey = "taxYearLiabilities.undeclaredIncomeOrGain.error.length"
+    val requiredKey = "taxYearLiabilities.undeclaredIncomeOrGain.error.required"
+
+    behave like fieldThatBindsValidData(
+      form,
+      fieldName,
+      stringsWithMaxLength(maxLength)
+    )
+
+    behave like fieldWithMaxLength(
+      form,
+      fieldName,
+      maxLength = maxLength,
+      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
+    )
+
+    behave like mandatoryField(
+      form,
+      fieldName,
+      requiredError = FormError(fieldName, requiredKey)
+    )
+
+    behave like fieldWithValidUnicodeChars(
+      form,
+      fieldName
+    )
+  }
 }

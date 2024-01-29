@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,8 @@
  * limitations under the License.
  */
 
-package forms
+package forms.mappings
 
-import javax.inject.Inject
-
-import forms.mappings.Mappings
-import play.api.data.Form
-
-class AdviceBusinessNameFormProvider @Inject() extends Mappings {
-
-  def apply(): Form[String] =
-    Form(
-      "value" -> text("adviceBusinessName.error.required")
-        .verifying(maxLength(50, "adviceBusinessName.error.length"))
-        .verifying(validUnicodeCharacters)
-    )
+object FormBindConstants {
+  val invalidUnicodeCharacters: Seq[String] = Seq("\u0002", "\u001D")
 }

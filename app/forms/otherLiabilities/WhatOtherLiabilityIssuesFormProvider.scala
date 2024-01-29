@@ -27,5 +27,6 @@ class WhatOtherLiabilityIssuesFormProvider @Inject() extends Mappings {
     Form(
       "value" -> text("whatOtherLiabilityIssues.error.required")
         .verifying(maxLength(5000, "whatOtherLiabilityIssues.error.length"))
+        .verifying(validUnicodeCharacters)
     )
 }

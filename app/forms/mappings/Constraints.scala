@@ -16,9 +16,11 @@
 
 package forms.mappings
 
+import forms.mappings.FormBindConstants.invalidUnicodeCharacters
+
 import java.time.LocalDate
 import uk.gov.hmrc.domain.Nino
-import play.api.data.validation.{Constraint, Invalid, Valid, ValidationResult, ValidationError}
+import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError, ValidationResult}
 import uk.gov.hmrc.emailaddress.EmailAddress
 
 trait Constraints {
@@ -101,7 +103,7 @@ trait Constraints {
         Valid
       case _ =>
         Invalid(errorKey, args: _*)
-    }  
+    }
 
   protected def minLength(minimum: Int, errorKey: String): Constraint[String] =
     Constraint {
@@ -160,7 +162,7 @@ trait Constraints {
   private def checkValidNinoFormat(str: String): Boolean = {
     val pattern = "^[a-zA-Z]{2}\\d{6}[a-zA-Z]$"
     pattern.r.findFirstMatchIn(str.replaceAll("\\s", "")).isDefined
-  }  
+  }
 
   protected def validUTR(length: Int, errorKey: String): Constraint[String] =
     Constraint {
@@ -186,20 +188,23 @@ trait Constraints {
     }
   }
 
-  protected def validDigits(errorKey: String): Constraint[String] =
+  protected def allOrNoneCheckboxConstraint[A](errorKey: String, singleOption: A): Constraint[Set[A]] =
     Constraint {
-      case number if number.forall(_.isDigit) => Valid
-      case _ => Invalid(errorKey)
-    }
-
-  protected def allOrNoneCheckboxConstraint[A](errorKey: String, singleOption: A): Constraint[Set[A]] = 
-    Constraint { 
       s => {
         if (s.contains(singleOption) && s.size > 1) {
           Invalid(Seq(ValidationError(errorKey)))
         } else {
           Valid
         }
+      }
+    }
+
+  def validUnicodeCharacters: Constraint[String] =
+    Constraint { str =>
+      if (invalidUnicodeCharacters.exists(str.contains)) {
+        Invalid("error.invalidUnicodeChars")
+      } else {
+        Valid
       }
     }
 }

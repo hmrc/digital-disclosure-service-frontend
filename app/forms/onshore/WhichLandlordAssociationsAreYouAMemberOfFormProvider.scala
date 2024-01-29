@@ -27,5 +27,6 @@ class WhichLandlordAssociationsAreYouAMemberOfFormProvider @Inject() extends Map
     Form(
       "value" -> text("whichLandlordAssociations.error.required")
         .verifying(maxLength(500, "whichLandlordAssociations.error.length"))
+        .verifying(validUnicodeCharacters)
     )
 }

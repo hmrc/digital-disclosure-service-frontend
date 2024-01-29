@@ -27,5 +27,6 @@ class WhatIsTheLLPNameFormProvider @Inject() extends Mappings {
     Form(
       "value" -> text("whatIsTheLLPName.error.required")
         .verifying(maxLength(50, "whatIsTheLLPName.error.length"))
+        .verifying(validUnicodeCharacters)
     )
 }

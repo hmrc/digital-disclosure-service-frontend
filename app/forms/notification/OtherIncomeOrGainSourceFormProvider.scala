@@ -27,5 +27,6 @@ class OtherIncomeOrGainSourceFormProvider @Inject() extends Mappings {
     Form(
       "value" -> text("whereDidTheUndeclaredIncomeOrGain.error.required")
         .verifying(maxLength(5000, "whereDidTheUndeclaredIncomeOrGain.error.length"))
+        .verifying(validUnicodeCharacters)
     )
 }

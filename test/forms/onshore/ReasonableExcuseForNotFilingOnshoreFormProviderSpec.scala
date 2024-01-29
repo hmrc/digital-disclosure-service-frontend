@@ -23,28 +23,34 @@ class ReasonableExcuseForNotFilingOnshoreFormProviderSpec extends StringFieldBeh
 
   ".reasonableExcuse when entity" - {
 
+    val form = new ReasonableExcuseForNotFilingOnshoreFormProvider()(true)
     val fieldName = "reasonableExcuse"
     val requiredKey = "whatIsYourReasonableExcuseForNotFilingReturn.error.reasonableExcuse.required"
     val entityLengthKey = "whatIsYourReasonableExcuseForNotFilingReturn.entity.error.reasonableExcuse.length"
     val maxLength = 5000
 
     behave like fieldThatBindsValidData(
-      new ReasonableExcuseForNotFilingOnshoreFormProvider()(true),
+      form,
       fieldName,
       stringsWithMaxLength(maxLength)
     )
 
     behave like fieldWithMaxLength(
-      new ReasonableExcuseForNotFilingOnshoreFormProvider()(true),
+      form,
       fieldName,
       maxLength = maxLength,
       lengthError = FormError(fieldName, entityLengthKey, Seq(maxLength))
     )
 
     behave like mandatoryField(
-      new ReasonableExcuseForNotFilingOnshoreFormProvider()(true),
+      form,
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
+    )
+
+    behave like fieldWithValidUnicodeChars(
+      form,
+      fieldName
     )
   }
 
@@ -87,6 +93,11 @@ class ReasonableExcuseForNotFilingOnshoreFormProviderSpec extends StringFieldBeh
       form,
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
+    )
+
+    behave like fieldWithValidUnicodeChars(
+      form,
+      fieldName
     )
   }
 }

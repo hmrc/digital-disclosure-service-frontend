@@ -49,5 +49,10 @@ class WhatWasTheNameOfThePersonWhoDiedFormProviderSpec extends StringFieldBehavi
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+
+    behave like fieldWithValidUnicodeChars(
+      form,
+      fieldName
+    )
   }
 }

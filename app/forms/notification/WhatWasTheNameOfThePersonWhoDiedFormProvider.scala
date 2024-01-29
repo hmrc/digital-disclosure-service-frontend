@@ -27,5 +27,6 @@ class WhatWasTheNameOfThePersonWhoDiedFormProvider @Inject() extends Mappings {
     Form(
       "value" -> text("whatWasTheNameOfThePersonWhoDied.error.required")
         .verifying(maxLength(50, "whatWasTheNameOfThePersonWhoDied.error.length"))
+        .verifying(validUnicodeCharacters)
     )
 }

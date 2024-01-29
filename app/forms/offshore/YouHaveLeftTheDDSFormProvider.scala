@@ -27,5 +27,6 @@ class YouHaveLeftTheDDSFormProvider @Inject() extends Mappings {
     Form(
       "value" -> text("youHaveLeftTheDDS.error.required")
         .verifying(maxLength(30, "youHaveLeftTheDDS.error.length"))
+        .verifying(validUnicodeCharacters)
     )
 }
