@@ -37,7 +37,7 @@ final case class LettingProperty(
 )
 
 object LettingProperty {
-  implicit val format = Json.format[LettingProperty]
+  implicit val format: OFormat[LettingProperty] = Json.format[LettingProperty]
 }
 
 final case class NoLongerBeingLetOut (

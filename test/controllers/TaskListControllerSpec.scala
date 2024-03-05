@@ -26,8 +26,10 @@ import models._
 import models.address._
 import models.store.notification._
 import models.store.disclosure._
+
 import java.time.LocalDate
 import models.store.YesNoOrUnsure._
+import play.api.i18n.Messages
 
 class TaskListControllerSpec extends SpecBase with MockitoSugar {
 
@@ -38,7 +40,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
     "must return OK and the correct view for a GET when userAnswers is empty" in {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
-      implicit val mess = messages(application)
+      implicit val mess: Messages = messages(application)
 
       running(application) {
         val request = FakeRequest(GET, routes.TaskListController.onPageLoad.url)
@@ -118,7 +120,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
 
   val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
   val sut = application.injector.instanceOf[TaskListController]
-  implicit val mess = messages(application)
+  implicit val mess: Messages = messages(application)
 
   "getStatusMessage" - {
 

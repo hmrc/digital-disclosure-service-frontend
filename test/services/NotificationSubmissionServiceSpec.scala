@@ -70,7 +70,7 @@ class NotificationSubmissionServiceSpec extends AnyWordSpec with ScalaFutures
 
       val emptyUA = UserAnswers("id", "session-123")
       val testNotification = Notification("123", "456", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
-      implicit val hc = HeaderCarrier()
+      implicit val hc: HeaderCarrier = HeaderCarrier()
     }
 
 

@@ -71,7 +71,7 @@ class DisclosureSubmissionServiceSpec extends AnyWordSpec with ScalaFutures
 
       val emptyUA = UserAnswers("id", "session-123")
       val testDisclosure = FullDisclosure("123", "123", Instant.now(), Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), None, OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
-      implicit val hc = HeaderCarrier()
+      implicit val hc: HeaderCarrier = HeaderCarrier()
     }
 
 

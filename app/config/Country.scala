@@ -16,11 +16,11 @@
 
 package config
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, OFormat}
 
 final case class Country(alpha3: String, name: String)
 
 object Country {
 
-  implicit val format = Json.format[Country]
+  implicit val format: OFormat[Country] = Json.format[Country]
 }

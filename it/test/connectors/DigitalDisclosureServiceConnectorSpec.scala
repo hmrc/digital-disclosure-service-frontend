@@ -32,7 +32,7 @@ import models.store.notification._
 import models.store.disclosure._
 import models.submission.SubmissionResponse
 import models.store.{Notification, FullDisclosure, Metadata}
-import akka.util.ByteString
+import org.apache.pekko.util.ByteString
 
 class DigitalDisclosureServiceConnectorSpec extends AnyFreeSpec with Matchers with ScalaFutures with IntegrationPatience with WireMockHelper {
 

@@ -18,12 +18,12 @@ package controllers
 
 import base.SpecBase
 import forms.WhichYearsFormProvider
-import models.{Behaviour, NormalMode, UserAnswers, TaxYearStarting, OffshoreYears, WhyAreYouMakingThisDisclosure}
+import models.{Behaviour, NormalMode, OffshoreYears, TaxYearStarting, UserAnswers, WhyAreYouMakingThisDisclosure}
 import navigation.{FakeOffshoreNavigator, OffshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.{WhyAreYouMakingThisDisclosurePage, WhichYearsPage}
+import pages.{WhichYearsPage, WhyAreYouMakingThisDisclosurePage}
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -31,6 +31,7 @@ import play.api.test.Helpers._
 import services.{OffshoreWhichYearsService, SessionService}
 import views.html.offshore.WhichYearsView
 import controllers.offshore.WhichYearsController
+import play.api.i18n.Messages
 
 import scala.concurrent.Future
 
@@ -47,7 +48,7 @@ class WhichYearsControllerSpec extends SpecBase with MockitoSugar {
 
     val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
     val controller = application.injector.instanceOf[WhichYearsController]
-    implicit val mess = messages(application)
+    implicit val mess: Messages = messages(application)
     val service = application.injector.instanceOf[OffshoreWhichYearsService]
 
     "return 19"  - {
@@ -151,7 +152,7 @@ class WhichYearsControllerSpec extends SpecBase with MockitoSugar {
 
         val view = application.injector.instanceOf[WhichYearsView]
         val service = application.injector.instanceOf[OffshoreWhichYearsService]
-        implicit val mess = messages(application)
+        implicit val mess: Messages = messages(application)
 
         status(result) mustEqual OK
 
@@ -171,7 +172,7 @@ class WhichYearsControllerSpec extends SpecBase with MockitoSugar {
 
         val view = application.injector.instanceOf[WhichYearsView]
         val service = application.injector.instanceOf[OffshoreWhichYearsService]
-        implicit val mess = messages(application)
+        implicit val mess: Messages = messages(application)
 
         val result = route(application, request).value
 
@@ -218,7 +219,7 @@ class WhichYearsControllerSpec extends SpecBase with MockitoSugar {
 
         val view = application.injector.instanceOf[WhichYearsView]
         val service = application.injector.instanceOf[OffshoreWhichYearsService]
-        implicit val mess = messages(application)
+        implicit val mess: Messages = messages(application)
 
         val result = route(application, request).value
 

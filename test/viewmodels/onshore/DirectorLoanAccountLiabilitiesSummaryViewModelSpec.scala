@@ -24,6 +24,8 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Key
 import viewmodels.govuk.summarylist._
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import org.scalacheck.Arbitrary.arbitrary
+import play.api.i18n.Messages
+
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import viewmodels.RevealFullText
@@ -31,7 +33,7 @@ import viewmodels.RevealFullText
 class DirectorLoanAccountLiabilitiesSummaryViewModelSpec extends SpecBase with ScalaCheckPropertyChecks {
 
     lazy val app = applicationBuilder(Some(emptyUserAnswers)).build()
-    implicit val mess = messages(app)
+    implicit val mess: Messages = messages(app)
     val revealFullText = app.injector.instanceOf[RevealFullText]
     
     val sut = app.injector.instanceOf[DirectorLoanAccountLiabilitiesSummaryViewModelCreation]

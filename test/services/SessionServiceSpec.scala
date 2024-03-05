@@ -37,7 +37,7 @@ import scala.util.{Success, Try}
 class SessionServiceSpec extends AnyWordSpec with Matchers 
     with MockFactory with ScalaFutures {
 
-  implicit val hc = HeaderCarrier()
+  implicit val hc: HeaderCarrier = HeaderCarrier()
     
   val testNotification = Notification("123", "Individual", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
   val testSubmittedNotification = Notification("123", "Individual", Instant.now(), Metadata(submissionTime = Some(LocalDateTime.now)), PersonalDetails(Background(), AboutYou()))

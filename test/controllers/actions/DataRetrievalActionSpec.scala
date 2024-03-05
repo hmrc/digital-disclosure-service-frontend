@@ -35,7 +35,7 @@ class DataRetrievalActionSpec extends SpecBase with MockitoSugar {
     def callTransform[A](request: IdentifierRequest[A]): Future[OptionalDataRequest[A]] = transform(request)
   }
 
-  implicit val hc = HeaderCarrier()
+  implicit val hc: HeaderCarrier = HeaderCarrier()
 
   "Data Retrieval Action" - {
 

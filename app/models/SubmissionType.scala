@@ -30,7 +30,7 @@ object SubmissionType {
     case _ => JsError("error.invalid")
   }
 
-  implicit val writes = Writes[SubmissionType] {
+  implicit val writes: Writes[SubmissionType] = Writes[SubmissionType] {
     case Notification => Json.toJson("Notification")
     case Disclosure => Json.toJson("Disclosure")
   }

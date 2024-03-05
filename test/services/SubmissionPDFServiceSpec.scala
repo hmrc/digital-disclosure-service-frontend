@@ -31,7 +31,7 @@ import models.store.disclosure._
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 import scala.concurrent.ExecutionContext.Implicits.global
-import akka.util.ByteString
+import org.apache.pekko.util.ByteString
 
 class SubmissionPDFServiceSpec extends AnyWordSpec with ScalaFutures
     with TryValues with Matchers with MockitoSugar  {
@@ -44,7 +44,7 @@ class SubmissionPDFServiceSpec extends AnyWordSpec with ScalaFutures
   val emptyUA = UserAnswers("id", "session-123")
   val testNotification = Notification("123", "456", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
   val testDisclosure = FullDisclosure("123", "123", Instant.now(), Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), None, OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
-  implicit val hc = HeaderCarrier()
+  implicit val hc: HeaderCarrier = HeaderCarrier()
 
   "generatePdf" should {
 

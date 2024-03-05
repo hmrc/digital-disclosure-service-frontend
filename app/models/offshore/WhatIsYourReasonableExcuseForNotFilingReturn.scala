@@ -21,5 +21,5 @@ import play.api.libs.json._
 case class WhatIsYourReasonableExcuseForNotFilingReturn (reasonableExcuse: String, yearsThisAppliesTo: String)
 
 object WhatIsYourReasonableExcuseForNotFilingReturn {
-  implicit val format = Json.format[WhatIsYourReasonableExcuseForNotFilingReturn]
+  implicit val format: OFormat[WhatIsYourReasonableExcuseForNotFilingReturn] = Json.format[WhatIsYourReasonableExcuseForNotFilingReturn]
 }

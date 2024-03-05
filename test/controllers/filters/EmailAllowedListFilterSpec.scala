@@ -17,8 +17,8 @@
 package controllers.filters
 
 import base.SpecBase
-import akka.actor.ActorSystem
-import akka.stream.Materializer
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.stream.Materializer
 import com.typesafe.config.ConfigFactory
 import org.scalatest.BeforeAndAfterAll
 import play.api.Configuration
@@ -40,7 +40,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class EmailAllowedListFilterSpec
     extends SpecBase with BeforeAndAfterAll with MockFactory {
 
-  implicit val system            = ActorSystem()
+  implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = Materializer(system)
 
   val mockAuthConnector = mock[AuthConnector]

@@ -21,7 +21,7 @@ import connectors.DigitalDisclosureServiceConnector
 import com.google.inject.{Inject, Singleton, ImplementedBy}
 import scala.concurrent.{ExecutionContext, Future}
 import models.UserAnswers
-import akka.util.ByteString
+import org.apache.pekko.util.ByteString
 import models.store.{FullDisclosure, Notification}
 
 @Singleton
