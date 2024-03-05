@@ -21,5 +21,5 @@ import play.api.libs.json._
 case class ReasonableCareOnshore (reasonableCare: String, yearsThisAppliesTo: String)
 
 object ReasonableCareOnshore {
-  implicit val format = Json.format[ReasonableCareOnshore]
+  implicit val format: OFormat[ReasonableCareOnshore] = Json.format[ReasonableCareOnshore]
 }

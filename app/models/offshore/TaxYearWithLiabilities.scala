@@ -24,5 +24,5 @@ final case class TaxYearWithLiabilities(
 )
 
 object TaxYearWithLiabilities {
-  implicit val format = Json.format[TaxYearWithLiabilities]
+  implicit val format: OFormat[TaxYearWithLiabilities] = Json.format[TaxYearWithLiabilities]
 }

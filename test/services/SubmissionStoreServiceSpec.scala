@@ -37,7 +37,7 @@ class SubmissionStoreServiceSpec extends AnyWordSpec with Matchers
   private val connector = mock[SubmissionStoreConnector]
   private val service = mock[UAToSubmissionService]
   val sut = new SubmissionStoreServiceImpl(connector, service)
-  implicit val hc = HeaderCarrier()
+  implicit val hc: HeaderCarrier = HeaderCarrier()
 
   def mockGetSubmission(userId: String, submissionId: String)(
     response: Future[Option[Submission]]

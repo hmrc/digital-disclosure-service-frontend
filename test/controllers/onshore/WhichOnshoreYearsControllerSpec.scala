@@ -31,6 +31,7 @@ import play.api.test.Helpers._
 import services.{OnshoreWhichYearsService, SessionService}
 import views.html.onshore.WhichOnshoreYearsView
 import controllers.onshore.WhichOnshoreYearsController
+import play.api.i18n.Messages
 
 import scala.concurrent.Future
 
@@ -48,7 +49,7 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
 
     val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
     val controller = application.injector.instanceOf[WhichOnshoreYearsController]
-    implicit val mess = messages(application)
+    implicit val mess: Messages = messages(application)
     val service = application.injector.instanceOf[OnshoreWhichYearsService]
 
     "return 19" - {
@@ -152,7 +153,7 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
 
         val view = application.injector.instanceOf[WhichOnshoreYearsView]
         val service = application.injector.instanceOf[OnshoreWhichYearsService]
-        implicit val mess = messages(application)
+        implicit val mess: Messages = messages(application)
 
         status(result) mustEqual OK
 
@@ -172,7 +173,7 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
 
         val view = application.injector.instanceOf[WhichOnshoreYearsView]
         val service = application.injector.instanceOf[OnshoreWhichYearsService]
-        implicit val mess = messages(application)
+        implicit val mess: Messages = messages(application)
 
         val result = route(application, request).value
 
@@ -219,7 +220,7 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
 
         val view = application.injector.instanceOf[WhichOnshoreYearsView]
         val service = application.injector.instanceOf[OnshoreWhichYearsService]
-        implicit val mess = messages(application)
+        implicit val mess: Messages = messages(application)
 
         val result = route(application, request).value
 

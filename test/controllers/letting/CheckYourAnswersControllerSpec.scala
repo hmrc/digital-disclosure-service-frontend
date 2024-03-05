@@ -40,7 +40,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
     "must return OK and the correct view for a GET when userAnswers is empty" in {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
-      implicit val mess = messages(application)
+      implicit val mess: Messages = messages(application)
 
       running(application) {
         val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad(0, NormalMode).url)
@@ -72,7 +72,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
     def rowIsDisplayedWhenPageIsPopulated(ua: UserAnswers)(summaryList: Messages => LettingSummaryLists) = {
       val application = applicationBuilder(userAnswers = Some(ua)).build()
-      implicit val mess = messages(application)
+      implicit val mess: Messages = messages(application)
       val list = summaryList(mess)
 
       running(application) {

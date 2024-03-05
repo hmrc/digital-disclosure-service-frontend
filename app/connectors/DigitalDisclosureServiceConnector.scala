@@ -16,7 +16,7 @@
 
 package connectors
 
-import akka.actor.ActorSystem
+import org.apache.pekko.actor.ActorSystem
 import config.{FrontendAppConfig, Service}
 import play.api.{Configuration, Logging}
 import play.api.http.Status._
@@ -33,7 +33,7 @@ import models.store.{FullDisclosure, Notification}
 import java.time.Clock
 import models.submission.SubmissionResponse
 import uk.gov.hmrc.http.HttpResponse
-import akka.util.ByteString
+import org.apache.pekko.util.ByteString
 import play.api.i18n.MessagesApi
 import play.api.libs.ws.WSClient
 import play.api.mvc.{Cookie, Cookies}

@@ -32,7 +32,7 @@ object YesNoOrUnsure {
     case _ => JsError("error.invalid")
   }
 
-  implicit val writes = Writes[YesNoOrUnsure] {
+  implicit val writes: Writes[YesNoOrUnsure] = Writes[YesNoOrUnsure] {
     case Yes => Json.toJson("Yes")
     case No => Json.toJson("No")
     case Unsure => Json.toJson("Unsure")

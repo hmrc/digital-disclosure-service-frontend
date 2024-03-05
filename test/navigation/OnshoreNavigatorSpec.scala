@@ -28,7 +28,8 @@ import models.store.{FullDisclosure, Metadata}
 import models.store.disclosure.{CaseReference, OffshoreLiabilities, OnshoreLiabilities, OtherLiabilities, ReasonForDisclosingNow}
 import models.store.notification.{AboutYou, Background, PersonalDetails}
 import org.mockito.ArgumentMatchers.any
-import org.mockito.MockitoSugar
+import org.mockito.Mockito.when
+import org.scalatestplus.mockito.MockitoSugar
 import services.UAToDisclosureService
 import uk.gov.hmrc.time.CurrentTaxYear
 

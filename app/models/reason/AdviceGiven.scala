@@ -21,6 +21,6 @@ import play.api.libs.json._
 case class AdviceGiven(adviceGiven: String, monthYear: MonthYear, contactPreference: AdviceContactPreference)
 
 object AdviceGiven {
-  implicit val format = Json.format[AdviceGiven]
+  implicit val format: OFormat[AdviceGiven] = Json.format[AdviceGiven]
 }
 

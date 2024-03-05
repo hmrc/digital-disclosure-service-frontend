@@ -27,7 +27,7 @@ object Preference {
     case _ => JsError("error.invalid")
   }
 
-  implicit val writes = Writes[Preference] {
+  implicit val writes: Writes[Preference] = Writes[Preference] {
     case Email => Json.toJson("Email")
     case Telephone => Json.toJson("Telephone")
   }

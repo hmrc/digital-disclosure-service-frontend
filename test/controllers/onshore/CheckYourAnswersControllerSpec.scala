@@ -64,7 +64,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       )
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
-      implicit val mess = messages(application)
+      implicit val mess: Messages = messages(application)
 
       val viewmodel = CheckYourAnswersViewModel(
         SummaryListViewModel(rows = Nil),

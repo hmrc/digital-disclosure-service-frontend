@@ -17,7 +17,7 @@
 package controllers.filters
 
 import javax.inject.Singleton
-import akka.stream.Materializer
+import org.apache.pekko.stream.Materializer
 import com.google.inject.Inject
 import play.api.Configuration
 import play.api.mvc.Results.Redirect

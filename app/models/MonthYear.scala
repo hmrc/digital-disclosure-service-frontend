@@ -21,5 +21,5 @@ import play.api.libs.json._
 final case class MonthYear(month: Int, year: Int)
 
 object MonthYear {
-  implicit val format = Json.format[MonthYear]
+  implicit val format: OFormat[MonthYear] = Json.format[MonthYear]
 }

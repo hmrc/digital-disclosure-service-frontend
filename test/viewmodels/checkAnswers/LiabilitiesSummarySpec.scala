@@ -19,6 +19,7 @@ package viewmodels.checkAnswers
 import base.SpecBase
 import pages._
 import models._
+import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Key
 import viewmodels.govuk.summarylist._
@@ -26,7 +27,7 @@ import viewmodels.govuk.summarylist._
 class LiabilitiesSummarySpec extends SpecBase {
 
   lazy val app = applicationBuilder(Some(emptyUserAnswers)).build()
-  implicit val mess = messages(app)
+  implicit val mess: Messages = messages(app)
 
   "LiabilitiesSummary.row" - {
 

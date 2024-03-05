@@ -23,7 +23,7 @@ import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.offshore.CountryOfYourOffshoreLiabilityView
 import models.NormalMode
-import org.mockito.MockitoSugar.when
+import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 
 class CountryOfYourOffshoreLiabilityViewSpec extends ViewSpecBase with ViewMatchers with MockitoSugar {

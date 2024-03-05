@@ -18,8 +18,10 @@ package services
 
 import base.SpecBase
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
-import java.time.{LocalDateTime, LocalDate}
+
+import java.time.{LocalDate, LocalDateTime}
 import models.Behaviour
+import play.api.i18n.Messages
 import uk.gov.hmrc.time.TaxYear
 
 class OnshoreWhichYearsServiceSpec extends SpecBase {
@@ -35,7 +37,7 @@ class OnshoreWhichYearsServiceSpec extends SpecBase {
   }
 
   val application = applicationBuilder(userAnswers = None).build()
-  implicit val mess = messages(application)
+  implicit val mess: Messages = messages(application)
 
   "OnshoreWhichYearsServiceSpec" - {
 

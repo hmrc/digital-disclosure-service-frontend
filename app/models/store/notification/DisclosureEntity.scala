@@ -30,7 +30,7 @@ object Entity {
     case _ => JsError("error.invalid")
   }
 
-  implicit val writes = Writes[Entity] {
+  implicit val writes: Writes[Entity] = Writes[Entity] {
     case Individual => Json.toJson("Individual")
     case Estate => Json.toJson("Estate")
     case Company => Json.toJson("Company")

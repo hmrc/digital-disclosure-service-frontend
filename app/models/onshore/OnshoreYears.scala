@@ -85,7 +85,7 @@ object OnshoreYears {
       JsError("error.invalid")
   }
 
-  implicit val writes = Writes[OnshoreYears] {
+  implicit val writes: Writes[OnshoreYears] = Writes[OnshoreYears] {
     value => JsString(value.toString)
   }
   

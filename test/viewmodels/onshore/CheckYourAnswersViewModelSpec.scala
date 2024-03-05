@@ -26,14 +26,16 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryList
 import viewmodels.govuk.summarylist._
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import org.scalacheck.Arbitrary.arbitrary
+import play.api.i18n.Messages
 import uk.gov.hmrc.time.CurrentTaxYear
+
 import java.time.LocalDate
 import services.OnshoreWhichYearsService
 
 class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChecks with CurrentTaxYear {
 
   lazy val app = applicationBuilder(Some(emptyUserAnswers)).build()
-  implicit val mess = messages(app)
+  implicit val mess: Messages = messages(app)
 
   def now = () => LocalDate.now()
 

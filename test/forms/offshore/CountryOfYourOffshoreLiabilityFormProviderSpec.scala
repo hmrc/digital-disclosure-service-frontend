@@ -18,7 +18,8 @@ package forms
 
 import config.{Countries, Country}
 import forms.behaviours.FieldBehaviours
-import org.mockito.MockitoSugar
+import org.mockito.Mockito.when
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.data.FormError
 
 class CountryOfYourOffshoreLiabilityFormProviderSpec extends FieldBehaviours with MockitoSugar {
