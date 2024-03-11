@@ -31,8 +31,8 @@ import java.time.LocalDate
 
 class CorporationTaxLiabilitiesSummaryViewModelSpec extends SpecBase with ScalaCheckPropertyChecks {
 
-  lazy val app = applicationBuilder(Some(emptyUserAnswers)).build()
-  implicit val mess: Messages = messages(app)
+  lazy val app = application
+  implicit val mess: Messages = messages
   val revealFullText = app.injector.instanceOf[RevealFullText]
 
   "penaltyAmount" - {

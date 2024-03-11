@@ -27,18 +27,16 @@ class DeclarationControllerSpec extends SpecBase {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, routes.DeclarationController.onPageLoad.url)
+      val request = FakeRequest(GET, routes.DeclarationController.onPageLoad.url)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[DeclarationView]
+      val view = application.injector.instanceOf[DeclarationView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(true)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(isAgent = true)(request, messages).toString
     }
   }
 }

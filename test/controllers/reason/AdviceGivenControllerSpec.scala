@@ -14,21 +14,18 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.reason
 
 import base.SpecBase
 import forms.AdviceGivenFormProvider
-import models.{MonthYear, NormalMode, AdviceGiven, UserAnswers, AdviceContactPreference}
-import navigation.{FakeReasonNavigator, ReasonNavigator}
+import models.{AdviceContactPreference, AdviceGiven, MonthYear, NormalMode, UserAnswers}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages.AdviceGivenPage
-import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
 import views.html.reason.AdviceGivenView
 
 import scala.concurrent.Future
@@ -40,7 +37,7 @@ class AdviceGivenControllerSpec extends SpecBase with MockitoSugar {
   val formProvider = new AdviceGivenFormProvider()
   val form = formProvider()
 
-  lazy val adviceGivenRoute = reason.routes.AdviceGivenController.onPageLoad(NormalMode).url
+  lazy val adviceGivenRoute = routes.AdviceGivenController.onPageLoad(NormalMode).url
 
   val adviceGiven = AdviceGiven("Advice", MonthYear(12, 2021), AdviceContactPreference.Email)
   val userAnswers = UserAnswers(userAnswersId, "session-123").set(AdviceGivenPage, adviceGiven).success.value
@@ -49,109 +46,89 @@ class AdviceGivenControllerSpec extends SpecBase with MockitoSugar {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, adviceGivenRoute)
+      val request = FakeRequest(GET, adviceGivenRoute)
 
-        val view = application.injector.instanceOf[AdviceGivenView]
+      val view = application.injector.instanceOf[AdviceGivenView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, NormalMode)(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, adviceGivenRoute)
+      val request = FakeRequest(GET, adviceGivenRoute)
 
-        val view = application.injector.instanceOf[AdviceGivenView]
+      val view = application.injector.instanceOf[AdviceGivenView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(adviceGiven), NormalMode)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form.fill(adviceGiven), NormalMode)(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[ReasonNavigator].toInstance(new FakeReasonNavigator(onwardRoute))
-          )
-          .build()
+      val request =
+        FakeRequest(POST, adviceGivenRoute)
+          .withFormUrlEncodedBody(("adviceGiven", "value 1"), ("date.month", "12"), ("date.year", "2012"), ("contact", "email"))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, adviceGivenRoute)
-            .withFormUrlEncodedBody(("adviceGiven", "value 1"), ("date.month", "12"), ("date.year", "2012"), ("contact", "email"))
+      val result = route(applicationWithFakeReasonNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, adviceGivenRoute)
-            .withFormUrlEncodedBody(("value", "invalid value"))
+      val request =
+        FakeRequest(POST, adviceGivenRoute)
+          .withFormUrlEncodedBody(("value", "invalid value"))
 
-        val boundForm = form.bind(Map("value" -> "invalid value"))
+      val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[AdviceGivenView]
+      val view = application.injector.instanceOf[AdviceGivenView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages(application)).toString
-      }
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, adviceGivenRoute)
+      val request = FakeRequest(GET, adviceGivenRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "must redirect to Index for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, adviceGivenRoute)
-            .withFormUrlEncodedBody(("adviceGiven", "value 1"), ("field2", "value 2"))
+      val request =
+        FakeRequest(POST, adviceGivenRoute)
+          .withFormUrlEncodedBody(("adviceGiven", "value 1"), ("field2", "value 2"))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
   }
 }

@@ -14,93 +14,70 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.notification
 
-import generators.ModelGenerators
-import java.util.UUID
 import base.SpecBase
-import play.api.inject.bind
+import cats.data.EitherT
+import generators.ModelGenerators
+import models._
+import models.address.Address
+import org.mockito.ArgumentMatchers.{any, eq => eqTo}
+import org.mockito.Mockito.when
+import org.mockito.stubbing.OngoingStubbing
+import play.api.Application
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import models._
-import models.address.Address
-import services.AddressLookupService
-import cats.data.EitherT
-import org.scalamock.handlers.{CallHandler2, CallHandler3}
-import org.scalamock.scalatest.MockFactory
-import java.net.URL
-import uk.gov.hmrc.http.HeaderCarrier
-import scala.concurrent.ExecutionContext.Implicits.global
-import navigation.{FakeNotificationNavigator, NotificationNavigator}
-import services.SessionService
-import play.api.i18n.MessagesApi
 
+import java.net.URL
+import java.util.UUID
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class CompanyAddressLookupControllerSpec extends SpecBase with MockFactory with ModelGenerators {
+class CompanyAddressLookupControllerSpec extends SpecBase with ModelGenerators {
 
   def addressLookupOnwardRoute = Call("GET", "http://localhost:15003/foo")
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val addressLookupRoute = controllers.notification.routes.CompanyAddressLookupController.lookupAddress(NormalMode).url
-  lazy val mockSessionService = mock[SessionService]
+  lazy val addressLookupRoute = routes.CompanyAddressLookupController.lookupAddress(NormalMode).url
 
-  val addressLookupService = mock[AddressLookupService]
+  def mockGetCompanyAddressLookupRedirect(redirectUrl: Call)
+                                         (response: Either[Error, URL]): OngoingStubbing[EitherT[Future, Error, URL]] =
+    when(mockAddressLookupService.getCompanyAddressLookupRedirect(eqTo(redirectUrl))(any(), any()))
+      .thenReturn(EitherT.fromEither[Future](response))
 
-  def mockGetCompanyAddressLookupRedirect(redirectUrl: Call)(
-    response: Either[Error, URL]
-  ): CallHandler3[Call, HeaderCarrier, MessagesApi, EitherT[Future, Error, URL]] =
-    (addressLookupService
-      .getCompanyAddressLookupRedirect(_: Call)(_: HeaderCarrier, _: MessagesApi))
-      .expects(redirectUrl, *, *)
-      .returning(EitherT.fromEither[Future](response))
+  def mockRetrieveUserAddress(addressId: UUID)
+                             (response: Either[Error, Address]): OngoingStubbing[EitherT[Future, Error, Address]] =
+    when(mockAddressLookupService.retrieveUserAddress(eqTo(addressId))(any()))
+      .thenReturn(EitherT.fromEither[Future](response))
 
-  def mockRetrieveUserAddress(addressId: UUID)(
-    response: Either[Error, Address]
-  ): CallHandler2[UUID, HeaderCarrier, EitherT[Future, Error, Address]] =
-    (addressLookupService
-      .retrieveUserAddress(_: UUID)(_: HeaderCarrier))
-      .expects(addressId, *)
-      .returning(EitherT.fromEither[Future](response))
+  def mockServiceSet(response: Future[Boolean]): OngoingStubbing[Future[Boolean]] =
+    when(mockSessionService.set(any())(any())).thenReturn(response)
 
-  def mockServiceSet(response: Future[Boolean]): CallHandler2[UserAnswers, HeaderCarrier, Future[Boolean]] = 
-    (mockSessionService
-      .set(_: UserAnswers)(_: HeaderCarrier))
-      .expects(*, *)
-      .returning(response)
-
-  def buildApplication = applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService).overrides(
-    bind[AddressLookupService].toInstance(addressLookupService),
-    bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
-  ).build()
+  val app: Application = applicationWithFakeNotificationNavigator(onwardRoute)
 
   "lookupAddress" - {
 
     "must redirect to the URL returned by the address lookup service" in {
-      val application = buildApplication
 
-      running(application) {
-        val request = FakeRequest(GET, addressLookupRoute)
+      val request = FakeRequest(GET, addressLookupRoute)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-        mockGetCompanyAddressLookupRedirect(notification.routes.CompanyAddressLookupController.retrieveConfirmedAddress(NormalMode, None))(Right(new URL("http://localhost:15003/foo")))
-        val result = route(application, request).value
+      mockGetCompanyAddressLookupRedirect(routes.CompanyAddressLookupController.retrieveConfirmedAddress(NormalMode, None))(Right(new URL("http://localhost:15003/foo")))
+      val result = route(app, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual addressLookupOnwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual addressLookupOnwardRoute.url
     }
 
     "must handle error scenarios appropriately" in {
-      val application = buildApplication
 
-      running(application) {
-        val request = FakeRequest(GET, addressLookupRoute)
+      val request = FakeRequest(GET, addressLookupRoute)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-        mockGetCompanyAddressLookupRedirect(notification.routes.CompanyAddressLookupController.retrieveConfirmedAddress(NormalMode, None))(Left(Error("Something went wrong")))
+      mockGetCompanyAddressLookupRedirect(routes.CompanyAddressLookupController.retrieveConfirmedAddress(NormalMode, None))(Left(Error("Something went wrong")))
 
-        the [Exception] thrownBy status(route(application, request).value) must have message "Something went wrong"
-      }
+      the [Exception] thrownBy status(route(app, request).value) must have message "Something went wrong"
     }
 
   }
@@ -109,49 +86,42 @@ class CompanyAddressLookupControllerSpec extends SpecBase with MockFactory with 
 
     "must update sessionRepo and redirect to the correct place when an address is returned by the address lookup service" in {
 
-      val application = buildApplication
-
       val uuid = UUID.randomUUID()
-      lazy val retrieveAddressRoute = controllers.notification.routes.CompanyAddressLookupController.retrieveConfirmedAddress(NormalMode, Some(uuid)).url
+      lazy val retrieveAddressRoute = routes.CompanyAddressLookupController.retrieveConfirmedAddress(NormalMode, Some(uuid)).url
 
-      running(application) {
-        val request = FakeRequest(GET, retrieveAddressRoute)
+      val request = FakeRequest(GET, retrieveAddressRoute)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-        mockServiceSet(Future.successful(true))
+      mockServiceSet(Future.successful(true))
 
-        mockRetrieveUserAddress(uuid)(Right(sampleAddress))
-        val result = route(application, request).value
+      mockRetrieveUserAddress(uuid)(Right(sampleAddress))
+      val result = route(app, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must redirect to the address lookup when an id isn't entered" in {
 
-      val application = buildApplication
-      lazy val retrieveAddressRoute = controllers.notification.routes.CompanyAddressLookupController.retrieveConfirmedAddress(NormalMode).url
+      lazy val retrieveAddressRoute = routes.CompanyAddressLookupController.retrieveConfirmedAddress(NormalMode).url
 
-      running(application) {
-        val request = FakeRequest(GET, retrieveAddressRoute)
+      val request = FakeRequest(GET, retrieveAddressRoute)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-        val result = route(application, request).value
+      val result = route(app, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual controllers.notification.routes.CompanyAddressLookupController.lookupAddress(NormalMode).url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual routes.CompanyAddressLookupController.lookupAddress(NormalMode).url
     }
 
     "must handle error scenarios appropriately" in {
-      val application = buildApplication
 
-      running(application) {
-        val request = FakeRequest(GET, addressLookupRoute)
+      val request = FakeRequest(GET, addressLookupRoute)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-        mockGetCompanyAddressLookupRedirect(notification.routes.CompanyAddressLookupController.retrieveConfirmedAddress(NormalMode, None))(Left(Error("Something went wrong")))
+      mockGetCompanyAddressLookupRedirect(routes.CompanyAddressLookupController.retrieveConfirmedAddress(NormalMode, None))(Left(Error("Something went wrong")))
 
-        the [Exception] thrownBy status(route(application, request).value) must have message "Something went wrong"
-      }
+      the [Exception] thrownBy status(route(app, request).value) must have message "Something went wrong"
     }
 
   }

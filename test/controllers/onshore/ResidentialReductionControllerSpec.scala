@@ -14,21 +14,18 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.onshore
 
 import base.SpecBase
 import forms.ResidentialReductionFormProvider
-import models.{OnshoreYearStarting, OnshoreYears, NormalMode, UserAnswers}
-import navigation.{FakeOnshoreNavigator, OnshoreNavigator}
+import models.{NormalMode, OnshoreYearStarting, OnshoreYears, UserAnswers}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.{WhichOnshoreYearsPage, ResidentialReductionPage}
-import play.api.inject.bind
+import pages.{ResidentialReductionPage, WhichOnshoreYearsPage}
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
 import views.html.onshore.ResidentialReductionView
 
 import scala.concurrent.Future
@@ -45,118 +42,98 @@ class ResidentialReductionControllerSpec extends SpecBase with MockitoSugar {
   val whichYears: Set[OnshoreYears] = Set(OnshoreYearStarting(2021))
   val userAnswersWithTaxYears = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, whichYears).success.value
 
-  lazy val residentialReductionRoute = onshore.routes.ResidentialReductionController.onPageLoad(0, NormalMode).url
+  lazy val residentialReductionRoute = routes.ResidentialReductionController.onPageLoad(0, NormalMode).url
 
   "ResidentialReduction Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(userAnswersWithTaxYears)).build()
+      setupMockSessionResponse(Some(userAnswersWithTaxYears))
 
-      running(application) {
-        val request = FakeRequest(GET, residentialReductionRoute)
+      val request = FakeRequest(GET, residentialReductionRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[ResidentialReductionView]
+      val view = application.injector.instanceOf[ResidentialReductionView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, 0, "2022", NormalMode)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, 0, "2022", NormalMode)(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = userAnswersWithTaxYears.set(ResidentialReductionPage, Map[String, BigInt]("2021" -> validAnswer)).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, residentialReductionRoute)
+      val request = FakeRequest(GET, residentialReductionRoute)
 
-        val view = application.injector.instanceOf[ResidentialReductionView]
+      val view = application.injector.instanceOf[ResidentialReductionView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(validAnswer), 0, "2022", NormalMode)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form.fill(validAnswer), 0, "2022", NormalMode)(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(userAnswersWithTaxYears))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(userAnswersWithTaxYears), mockSessionService)
-          .overrides(
-            bind[OnshoreNavigator].toInstance(new FakeOnshoreNavigator(onwardRoute))
-          )
-          .build()
+      val request =
+        FakeRequest(POST, residentialReductionRoute)
+          .withFormUrlEncodedBody(("value", validAnswer.toString))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, residentialReductionRoute)
-            .withFormUrlEncodedBody(("value", validAnswer.toString))
+      val result = route(applicationWithFakeOnshoreNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(userAnswersWithTaxYears)).build()
+      setupMockSessionResponse(Some(userAnswersWithTaxYears))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, residentialReductionRoute)
-            .withFormUrlEncodedBody(("value", "invalid value"))
+      val request =
+        FakeRequest(POST, residentialReductionRoute)
+          .withFormUrlEncodedBody(("value", "invalid value"))
 
-        val boundForm = form.bind(Map("value" -> "invalid value"))
+      val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[ResidentialReductionView]
+      val view = application.injector.instanceOf[ResidentialReductionView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm,  0, "2022", NormalMode)(request, messages(application)).toString
-      }
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm,  0, "2022", NormalMode)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, residentialReductionRoute)
+      val request = FakeRequest(GET, residentialReductionRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "must redirect to Index for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, residentialReductionRoute)
-            .withFormUrlEncodedBody(("value", validAnswer.toString))
+      val request =
+        FakeRequest(POST, residentialReductionRoute)
+          .withFormUrlEncodedBody(("value", validAnswer.toString))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
+      status(result) mustEqual SEE_OTHER
 
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
   }
 }

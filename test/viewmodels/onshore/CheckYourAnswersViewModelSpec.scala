@@ -34,8 +34,8 @@ import services.OnshoreWhichYearsService
 
 class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChecks with CurrentTaxYear {
 
-  lazy val app = applicationBuilder(Some(emptyUserAnswers)).build()
-  implicit val mess: Messages = messages(app)
+  lazy val app = application
+  implicit val mess: Messages = messages
 
   def now = () => LocalDate.now()
 

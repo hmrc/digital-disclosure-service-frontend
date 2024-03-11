@@ -17,83 +17,76 @@
 package controllers.notification
 
 import base.SpecBase
-import play.api.test.FakeRequest
-import play.api.test.Helpers._
-import viewmodels.govuk.SummaryListFluency
-import views.html.notification.CheckYourAnswersView
-import viewmodels.checkAnswers._
 import models._
 import models.address.Address
+import org.scalacheck.Arbitrary.arbitrary
 import pages._
 import play.api.i18n.Messages
-import org.scalacheck.Arbitrary.arbitrary
+import play.api.test.FakeRequest
+import play.api.test.Helpers._
+import viewmodels.checkAnswers._
+import viewmodels.govuk.SummaryListFluency
+import views.html.notification.CheckYourAnswersView
 
 import java.time.LocalDate
 
 class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
+  val view: CheckYourAnswersView = application.injector.instanceOf[CheckYourAnswersView]
 
   "Check Your Answers Controller" - {
 
     "must return OK and the correct view for a GET when userAnswers is empty" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
-      implicit val mess: Messages = messages(application)
+      setupMockSessionResponse(Some(emptyUserAnswers))
+
       val ua = UserAnswers("id", "session-123")
 
-      running(application) {
-        val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad.url)
+      val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad.url)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[CheckYourAnswersView]
-        val backgroundList = SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(mess)).flatten)
-        val aboutYouList = SummaryListViewModel(Seq.empty)
-        val aboutTheIndividualList = None
-        val aboutTheCompanyList = None
-        val aboutThePersonWhoDiedList = None
-        val list = SummaryLists(backgroundList, aboutYouList, aboutTheIndividualList, aboutTheCompanyList, aboutThePersonWhoDiedList)
+      val backgroundList = SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(messages)).flatten)
+      val aboutYouList = SummaryListViewModel(Seq.empty)
+      val aboutTheIndividualList = None
+      val aboutTheCompanyList = None
+      val aboutThePersonWhoDiedList = None
+      val list = SummaryLists(backgroundList, aboutYouList, aboutTheIndividualList, aboutTheCompanyList, aboutThePersonWhoDiedList)
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(list, true, true, false)(request, mess).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(list, true, true, false)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad.url)
+      val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad.url)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     def rowIsDisplayedWhenPageIsPopulated(ua: UserAnswers, isTheEntity: Boolean = true)(summaryList: Messages => SummaryLists) = {
-      val application = applicationBuilder(userAnswers = Some(ua)).build()
-      implicit val mess: Messages = messages(application)
-      val list = summaryList(mess)
 
-      running(application) {
-        val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad.url)
+      setupMockSessionResponse(Some(ua))
 
-        val result = route(application, request).value
+      val list = summaryList(messages)
 
-        val view = application.injector.instanceOf[CheckYourAnswersView]
+      val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad.url)
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(list, isTheEntity, true, false)(request, messages(application)).toString
-      }
+      val result = route(application, request).value
+
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(list, isTheEntity, true, false)(request, messages).toString
     }
 
     "must return OK and the correct view for a GET when ReceivedALetterPage is populated" in {
       val ua = UserAnswers("id", "session-123").set(ReceivedALetterPage, arbitrary[Boolean].sample.value).success.value
       rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
-        SummaryListViewModel(Seq(ReceivedALetterSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
+        SummaryListViewModel(Seq(ReceivedALetterSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
         SummaryListViewModel(Seq.empty)
       ))
     }
@@ -106,7 +99,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
     "must return OK and the correct view for a GET when RelatesTo (A Company) is populated" in {
       val uaWithRelatesTo = UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.ACompany).success.value
       rowIsDisplayedWhenPageIsPopulated(uaWithRelatesTo)(messages => SummaryLists(
-        SummaryListViewModel(Seq(RelatesToSummary.row(uaWithRelatesTo)(messages), LiabilitiesSummary.row(uaWithRelatesTo)(messages)).flatten), 
+        SummaryListViewModel(Seq(RelatesToSummary.row(uaWithRelatesTo)(messages), LiabilitiesSummary.row(uaWithRelatesTo)(messages)).flatten),
         SummaryListViewModel(Seq.empty),
         aboutTheCompanyList = Some(SummaryListViewModel(Seq.empty))
       ))
@@ -115,7 +108,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
     "must return OK and the correct view for a GET when RelatesTo (An Estate) is populated" in {
       val uaWithRelatesTo = UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.AnEstate).success.value
       rowIsDisplayedWhenPageIsPopulated(uaWithRelatesTo)(messages => SummaryLists(
-        SummaryListViewModel(Seq(RelatesToSummary.row(uaWithRelatesTo)(messages), LiabilitiesSummary.row(uaWithRelatesTo)(messages)).flatten), 
+        SummaryListViewModel(Seq(RelatesToSummary.row(uaWithRelatesTo)(messages), LiabilitiesSummary.row(uaWithRelatesTo)(messages)).flatten),
         SummaryListViewModel(Seq.empty),
         aboutThePersonWhoDiedList = Some(SummaryListViewModel(Seq.empty))
       ))
@@ -124,7 +117,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
     "must return OK and the correct view for a GET when RelatesTo (A Limited Liability Partnership) is populated" in {
       val uaWithRelatesTo = UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership).success.value
       rowIsDisplayedWhenPageIsPopulated(uaWithRelatesTo)(messages => SummaryLists(
-        SummaryListViewModel(Seq(RelatesToSummary.row(uaWithRelatesTo)(messages), LiabilitiesSummary.row(uaWithRelatesTo)(messages)).flatten), 
+        SummaryListViewModel(Seq(RelatesToSummary.row(uaWithRelatesTo)(messages), LiabilitiesSummary.row(uaWithRelatesTo)(messages)).flatten),
         SummaryListViewModel(Seq.empty),
         aboutTheLLPList = Some(SummaryListViewModel(Seq.empty))
       ))
@@ -266,7 +259,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       } yield uaWithAreYouTheEntityPage).success.value
         
       rowIsDisplayedWhenPageIsPopulated(ua, false)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
         aboutYou = SummaryListViewModel(Seq.empty), 
         aboutTheIndividualList = Some(SummaryListViewModel(Seq(WhatIsTheIndividualsFullNameSummary.row(ua)(messages)).flatten))
       ))
@@ -280,7 +273,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       } yield uaWithAreYouTheEntityPage).success.value
         
       rowIsDisplayedWhenPageIsPopulated(ua, false)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
         aboutYou = SummaryListViewModel(Seq.empty), 
         aboutTheIndividualList = Some(SummaryListViewModel(Seq(WhatIsTheIndividualDateOfBirthSummary.row(ua)(messages)).flatten))
       ))
@@ -294,7 +287,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       } yield uaWithAreYouTheEntityPage).success.value
         
       rowIsDisplayedWhenPageIsPopulated(ua, false)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
         aboutYou = SummaryListViewModel(Seq.empty), 
         aboutTheIndividualList = Some(SummaryListViewModel(Seq(WhatIsTheIndividualOccupationSummary.row(ua)(messages)).flatten))
       ))
@@ -308,7 +301,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       } yield uaWithAreYouTheEntityPage).success.value
         
       rowIsDisplayedWhenPageIsPopulated(ua, false)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
         aboutYou = SummaryListViewModel(Seq.empty), 
         aboutTheIndividualList = Some(SummaryListViewModel(Seq(DoesTheIndividualHaveNationalInsuranceNumberSummary.row(ua)(messages)).flatten))
       ))
@@ -322,7 +315,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       } yield uaWithAreYouTheEntityPage).success.value
         
       rowIsDisplayedWhenPageIsPopulated(ua, false)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
         aboutYou = SummaryListViewModel(Seq.empty), 
         aboutTheIndividualList = Some(SummaryListViewModel(Seq(WhatIsIndividualsNationalInsuranceNumberSummary.row(ua)(messages)).flatten))
       ))
@@ -336,7 +329,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       } yield uaWithAreYouTheEntityPage).success.value
         
       rowIsDisplayedWhenPageIsPopulated(ua, false)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
         aboutYou = SummaryListViewModel(Seq.empty), 
         aboutTheIndividualList = Some(SummaryListViewModel(Seq(IsTheIndividualRegisteredForVATSummary.row(ua)(messages)).flatten))
       ))
@@ -350,7 +343,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       } yield uaWithAreYouTheEntityPage).success.value
         
       rowIsDisplayedWhenPageIsPopulated(ua, false)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
         aboutYou = SummaryListViewModel(Seq.empty), 
         aboutTheIndividualList = Some(SummaryListViewModel(Seq(WhatIsTheIndividualsVATRegistrationNumberSummary.row(ua)(messages)).flatten))
       ))
@@ -364,7 +357,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       } yield uaWithAreYouTheEntityPage).success.value
         
       rowIsDisplayedWhenPageIsPopulated(ua, false)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
         aboutYou = SummaryListViewModel(Seq.empty), 
         aboutTheIndividualList = Some(SummaryListViewModel(Seq(IsTheIndividualRegisteredForSelfAssessmentSummary.row(ua)(messages)).flatten))
       ))
@@ -378,7 +371,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       } yield uaWithAreYouTheEntityPage).success.value
         
       rowIsDisplayedWhenPageIsPopulated(ua, false)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
         aboutYou = SummaryListViewModel(Seq.empty), 
         aboutTheIndividualList = Some(SummaryListViewModel(Seq(WhatIsTheIndividualsUniqueTaxReferenceSummary.row(ua)(messages)).flatten))
       ))
@@ -392,7 +385,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       } yield uaWithAreYouTheEntityPage).success.value
         
       rowIsDisplayedWhenPageIsPopulated(ua, false)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), AreYouTheEntitySummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
         aboutYou = SummaryListViewModel(Seq.empty), 
         aboutTheIndividualList = Some(SummaryListViewModel(Seq(IndividualAddressLookupSummary.row(ua)(messages)).flatten))
       ))
@@ -447,7 +440,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       } yield uaWithRelatesToPage).success.value
         
       rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
         aboutYou = SummaryListViewModel(Seq.empty), 
         aboutTheIndividualList = None,
         aboutTheCompanyList = None,
@@ -462,7 +455,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       } yield uaWithRelatesToPage).success.value
         
       rowIsDisplayedWhenPageIsPopulated(ua)(messages => SummaryLists(
-        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten), 
+        background = SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
         aboutYou = SummaryListViewModel(Seq.empty),
         aboutTheIndividualList = None,
         aboutTheCompanyList = None,

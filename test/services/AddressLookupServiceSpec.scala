@@ -16,49 +16,48 @@
 
 package services
 
+import base.SpecBase
 import cats.data.EitherT
 import cats.implicits.catsSyntaxOptionId
+import com.typesafe.config.ConfigFactory
+import config.{AddressLookupConfig, FrontendAppConfig}
+import connectors.AddressLookupConnector
+import generators.ModelGenerators
+import models._
+import models.address._
 import org.scalamock.handlers.CallHandler2
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.{EitherValues, TryValues}
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
-import play.api.http.Status.ACCEPTED
-import play.api.libs.json.{JsError,JsPath,Json,JsonValidationError}
-import play.api.mvc.Call
-import play.api.test.Helpers.LOCATION
-import play.api.test.Helpers._
-import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.http.HttpResponse
-import models.address._
-import models._
-import connectors.AddressLookupConnector
-import generators.ModelGenerators
-import com.typesafe.config.ConfigFactory
+import pages._
 import play.api.Configuration
+import play.api.http.Status.ACCEPTED
+import play.api.i18n.MessagesApi
+import play.api.libs.json.{JsError, JsPath, Json, JsonValidationError}
+import play.api.mvc.Call
+import play.api.test.Helpers.{LOCATION, _}
+import play.api.test.Injecting
+import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
-import config.{FrontendAppConfig, AddressLookupConfig}
-import play.api.test.{FakeRequest, Injecting}
-import play.api.i18n.{Messages, MessagesApi}
+
 import java.net.URL
 import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import pages._
-import base.SpecBase
 
 class AddressLookupServiceSpec
     extends SpecBase
     with ScalaCheckPropertyChecks
     with EitherValues
     with MockFactory
-    with ModelGenerators 
+    with ModelGenerators
     with Injecting
     with TryValues
     with AddressLookupHelper {
 
   implicit val hc: HeaderCarrier = HeaderCarrier()
 
-  val app = applicationBuilder().build()
+  val app = application
 
   val addressUpdateCall: Call = Call("", "/redirect")
 
@@ -80,7 +79,6 @@ class AddressLookupServiceSpec
   )
 
   implicit def messagesApi: MessagesApi = inject[MessagesApi]
-  implicit def messages: Messages = messagesApi.preferred(FakeRequest())
 
   val frontendAppConfig = new FrontendAppConfig(config)
   val lookupConfig = new AddressLookupConfig(new ServicesConfig(config))

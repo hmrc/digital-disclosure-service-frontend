@@ -33,107 +33,102 @@ import play.api.i18n.Messages
 
 class TaskListControllerSpec extends SpecBase with MockitoSugar {
 
-  val address = Address("line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GBR"))
+  val address: Address =
+    Address("line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GBR"))
 
   "TaskList Controller" - {
 
     "must return OK and the correct view for a GET when userAnswers is empty" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
-      implicit val mess: Messages = messages(application)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, routes.TaskListController.onPageLoad.url)
+      val request = FakeRequest(GET, routes.TaskListController.onPageLoad.url)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[TaskListView]
+      val view = application.injector.instanceOf[TaskListView]
 
-        val entity = "individual"
-        val isTheUserAgent = true
-        val isAllTaskCompleted = false
-        val tasksComplete = 0
-        val notificationSectionKey = "taskList.add.heading.first.none"
+      val entity = "individual"
+      val isTheUserAgent = true
+      val isAllTaskCompleted = false
+      val tasksComplete = 0
+      val notificationSectionKey = "taskList.add.heading.first.none"
 
-        val personalDetailsTask = TaskListRow(
-          id = "personal-detail-task-list",
-          sectionTitle = mess("taskList.add.sectionTitle.first.none"),
-          status = mess("taskList.status.notStarted"),
-          link = controllers.notification.routes.RelatesToController.onPageLoad(NormalMode)
-        )
+      val personalDetailsTask = TaskListRow(
+        id = "personal-detail-task-list",
+        sectionTitle = messages("taskList.add.sectionTitle.first.none"),
+        status = messages("taskList.status.notStarted"),
+        link = controllers.notification.routes.RelatesToController.onPageLoad(NormalMode)
+      )
 
-        val caseReferenceTask = TaskListRow(
-          id = "case-reference-task-list",
-          sectionTitle = mess("taskList.add.sectionTitle.second"),
-          status = mess("taskList.status.notStarted"),
-          link = controllers.reference.routes.DoYouHaveACaseReferenceController.onPageLoad(NormalMode)
-        )
+      val caseReferenceTask = TaskListRow(
+        id = "case-reference-task-list",
+        sectionTitle = messages("taskList.add.sectionTitle.second"),
+        status = messages("taskList.status.notStarted"),
+        link = controllers.reference.routes.DoYouHaveACaseReferenceController.onPageLoad(NormalMode)
+      )
 
-        val declarationTask = TaskListRow(
-          id = "declaration-task-list",
-          sectionTitle = mess("taskList.add.sectionTitle.declaration"),
-          status = mess("taskList.status.notStarted"),
-          link = controllers.routes.DeclarationController.onPageLoad
-        )
+      val declarationTask = TaskListRow(
+        id = "declaration-task-list",
+        sectionTitle = messages("taskList.add.sectionTitle.declaration"),
+        status = messages("taskList.status.notStarted"),
+        link = controllers.routes.DeclarationController.onPageLoad
+      )
 
-        val otherLiabilitiesTask = TaskListRow(
-          id = "other-liability-issues-task-list",
-          sectionTitle = mess("taskList.add.sectionTitle.fifth"),
-          status = mess("taskList.status.notStarted"),
-          link = controllers.otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(NormalMode),
-          madeDeclaration = false
-        )
+      val otherLiabilitiesTask = TaskListRow(
+        id = "other-liability-issues-task-list",
+        sectionTitle = messages("taskList.add.sectionTitle.fifth"),
+        status = messages("taskList.status.notStarted"),
+        link = controllers.otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(NormalMode),
+        madeDeclaration = false
+      )
 
-        val reasonTask = TaskListRow(
-          id = "reason-for-coming-forward-now-task-list",
-          sectionTitle = mess("taskList.add.sectionTitle.sixth"),
-          status = mess("taskList.status.notStarted"),
-          link = reason.routes.WhyAreYouMakingADisclosureController.onPageLoad(NormalMode),
-          madeDeclaration = false
-        )
-        
-        val list = TaskListViewModel(Seq(personalDetailsTask), Seq(caseReferenceTask, declarationTask), Seq(otherLiabilitiesTask, reasonTask))
+      val reasonTask = TaskListRow(
+        id = "reason-for-coming-forward-now-task-list",
+        sectionTitle = messages("taskList.add.sectionTitle.sixth"),
+        status = messages("taskList.status.notStarted"),
+        link = reason.routes.WhyAreYouMakingADisclosureController.onPageLoad(NormalMode),
+        madeDeclaration = false
+      )
 
-        val title = mess("taskList.title")
-        val heading = mess("taskList.heading")
+      val list = TaskListViewModel(Seq(personalDetailsTask), Seq(caseReferenceTask, declarationTask), Seq(otherLiabilitiesTask, reasonTask))
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(list, notificationSectionKey, isTheUserAgent, entity, isAllTaskCompleted, tasksComplete, false, title, heading)(request, messages(application)).toString
-      }
+      val title = messages("taskList.title")
+      val heading = messages("taskList.heading")
+
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(list, notificationSectionKey, isTheUserAgent, entity, isAllTaskCompleted, tasksComplete, false, title, heading)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, routes.TaskListController.onPageLoad.url)
+      val request = FakeRequest(GET, routes.TaskListController.onPageLoad.url)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
     }
 
   }
 
-  val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
-  val sut = application.injector.instanceOf[TaskListController]
-  implicit val mess: Messages = messages(application)
+  val sut: TaskListController = application.injector.instanceOf[TaskListController]
+  implicit val mess: Messages = messages
 
   "getStatusMessage" - {
 
     "should return taskList.status.completed when section is complete" in {
-      sut.getStatusMessage(true, true) mustEqual mess("taskList.status.completed")
+      sut.getStatusMessage(true, true) mustEqual messages("taskList.status.completed")
     }
 
     "should return taskList.status.inProgress when first page is complete but section is not" in {
-      sut.getStatusMessage(false, true) mustEqual mess("taskList.status.inProgress")
+      sut.getStatusMessage(false, true) mustEqual messages("taskList.status.inProgress")
     }
 
     "should return taskList.status.notStarted when no pages are complete" in {
-      sut.getStatusMessage(false, false) mustEqual mess("taskList.status.notStarted")
+      sut.getStatusMessage(false, false) mustEqual messages("taskList.status.notStarted")
     }
 
   }
@@ -145,8 +140,8 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
       
       val expectedTask = TaskListRow(
         id = "personal-detail-task-list",
-        sectionTitle = mess("taskList.add.sectionTitle.first.none"),
-        status = mess("taskList.status.notStarted"),
+        sectionTitle = messages("taskList.add.sectionTitle.first.none"),
+        status = messages("taskList.status.notStarted"),
         link = controllers.notification.routes.RelatesToController.onPageLoad(NormalMode)
       )
       val expectedSectionKey = "taskList.add.heading.first.none"
@@ -164,8 +159,8 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
       
       val expectedTask = TaskListRow(
         id = "personal-detail-task-list",
-        sectionTitle = mess("taskList.edit.sectionTitle.first.company"),
-        status = mess("taskList.status.completed"),
+        sectionTitle = messages("taskList.edit.sectionTitle.first.company"),
+        status = messages("taskList.status.completed"),
         link = controllers.notification.routes.CheckYourAnswersController.onPageLoad,
       )
       val expectedSectionKey = "taskList.edit.heading.first.company"
@@ -183,8 +178,8 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
       
       val expectedTask = TaskListRow(
         id = "case-reference-task-list",
-        sectionTitle = mess("taskList.add.sectionTitle.second"),
-        status = mess("taskList.status.notStarted"),
+        sectionTitle = messages("taskList.add.sectionTitle.second"),
+        status = messages("taskList.status.notStarted"),
         link = controllers.reference.routes.DoYouHaveACaseReferenceController.onPageLoad(NormalMode)
       )
       val actualTask = sut.buildCaseReferenceRow(model)
@@ -199,8 +194,8 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
       
       val expectedTask = TaskListRow(
         id = "case-reference-task-list",
-        sectionTitle = mess("taskList.edit.sectionTitle.second"),
-        status = mess("taskList.status.inProgress"),
+        sectionTitle = messages("taskList.edit.sectionTitle.second"),
+        status = messages("taskList.status.inProgress"),
         link = controllers.reference.routes.DoYouHaveACaseReferenceController.onPageLoad(NormalMode)
       )
       val actualTask = sut.buildCaseReferenceRow(model) 
@@ -213,8 +208,8 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
       
       val expectedTask = TaskListRow(
         id = "case-reference-task-list",
-        sectionTitle = mess("taskList.edit.sectionTitle.second"),
-        status = mess("taskList.status.completed"),
+        sectionTitle = messages("taskList.edit.sectionTitle.second"),
+        status = messages("taskList.status.completed"),
         link = controllers.reference.routes.DoYouHaveACaseReferenceController.onPageLoad(NormalMode)
       )
       val actualTask = sut.buildCaseReferenceRow(model) 
@@ -230,8 +225,8 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
       
       val expectedTask = TaskListRow(
         id = "offshore-liabilities-task-list",
-        sectionTitle = mess("taskList.add.sectionTitle.forth"),
-        status = mess("taskList.status.notStarted"),
+        sectionTitle = messages("taskList.add.sectionTitle.forth"),
+        status = messages("taskList.status.notStarted"),
         link = controllers.offshore.routes.WhyAreYouMakingThisDisclosureController.onPageLoad(NormalMode)
       )
       val actualTask = sut.buildOffshoreLiabilitiesDetailRow(model, true)
@@ -246,8 +241,8 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
       
       val expectedTask = TaskListRow(
         id = "offshore-liabilities-task-list",
-        sectionTitle = mess("taskList.edit.sectionTitle.forth"),
-        status = mess("taskList.status.inProgress"),
+        sectionTitle = messages("taskList.edit.sectionTitle.forth"),
+        status = messages("taskList.status.inProgress"),
         link = controllers.offshore.routes.WhyAreYouMakingThisDisclosureController.onPageLoad(NormalMode)
       )
       val actualTask = sut.buildOffshoreLiabilitiesDetailRow(model, true) 
@@ -279,8 +274,8 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
 
       val expectedTask = TaskListRow(
         id = "offshore-liabilities-task-list",
-        sectionTitle = mess("taskList.edit.sectionTitle.forth"),
-        status = mess("taskList.status.completed"),
+        sectionTitle = messages("taskList.edit.sectionTitle.forth"),
+        status = messages("taskList.status.completed"),
         link = controllers.offshore.routes.CheckYourAnswersController.onPageLoad
       )
       val actualTask = sut.buildOffshoreLiabilitiesDetailRow(model, true) 
@@ -296,8 +291,8 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
       
       val expectedTask = TaskListRow(
         id = "other-liability-issues-task-list",
-        sectionTitle = mess("taskList.add.sectionTitle.fifth"),
-        status = mess("taskList.status.notStarted"),
+        sectionTitle = messages("taskList.add.sectionTitle.fifth"),
+        status = messages("taskList.status.notStarted"),
         link = controllers.otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(NormalMode)
       )
       val actualTask = sut.buildOtherLiabilityIssueRow(model, false, true) 
@@ -312,8 +307,8 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
 
       val expectedTask = TaskListRow(
         id = "other-liability-issues-task-list",
-        sectionTitle = mess("taskList.edit.sectionTitle.fifth"),
-        status = mess("taskList.status.inProgress"),
+        sectionTitle = messages("taskList.edit.sectionTitle.fifth"),
+        status = messages("taskList.status.inProgress"),
         link = controllers.otherLiabilities.routes.OtherLiabilityIssuesController.onPageLoad(NormalMode)
       )
       val actualTask = sut.buildOtherLiabilityIssueRow(model, false, true) 
@@ -327,8 +322,8 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
 
       val expectedTask = TaskListRow(
         id = "other-liability-issues-task-list",
-        sectionTitle = mess("taskList.edit.sectionTitle.fifth"),
-        status = mess("taskList.status.completed"),
+        sectionTitle = messages("taskList.edit.sectionTitle.fifth"),
+        status = messages("taskList.status.completed"),
         link = controllers.otherLiabilities.routes.CheckYourAnswersController.onPageLoad
       )
       val actualTask = sut.buildOtherLiabilityIssueRow(model, false, true) 
@@ -344,8 +339,8 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
       
       val expectedTask = TaskListRow(
         id = "reason-for-coming-forward-now-task-list",
-        sectionTitle = mess("taskList.add.sectionTitle.sixth"),
-        status = mess("taskList.status.notStarted"),
+        sectionTitle = messages("taskList.add.sectionTitle.sixth"),
+        status = messages("taskList.status.notStarted"),
         link = reason.routes.WhyAreYouMakingADisclosureController.onPageLoad(NormalMode)
       )
       val actualTask = sut.buildTheReasonForComingForwardNowRow(model, true) 
@@ -360,8 +355,8 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
 
       val expectedTask = TaskListRow(
         id = "reason-for-coming-forward-now-task-list",
-        sectionTitle = mess("taskList.edit.sectionTitle.sixth"),
-        status = mess("taskList.status.inProgress"),
+        sectionTitle = messages("taskList.edit.sectionTitle.sixth"),
+        status = messages("taskList.status.inProgress"),
         link = reason.routes.WhyAreYouMakingADisclosureController.onPageLoad(NormalMode)
       )
       val actualTask = sut.buildTheReasonForComingForwardNowRow(model, true) 
@@ -385,8 +380,8 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
 
       val expectedTask = TaskListRow(
         id = "reason-for-coming-forward-now-task-list",
-        sectionTitle = mess("taskList.edit.sectionTitle.sixth"),
-        status = mess("taskList.status.completed"),
+        sectionTitle = messages("taskList.edit.sectionTitle.sixth"),
+        status = messages("taskList.status.completed"),
         link = controllers.reason.routes.CheckYourAnswersController.onPageLoad
       )
       val actualTask = sut.buildTheReasonForComingForwardNowRow(model, true) 
@@ -402,8 +397,8 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
       
       val expectedTask = TaskListRow(
         id = "onshore-liabilities-task-list",
-        sectionTitle = mess("taskList.add.sectionTitle.third"),
-        status = mess("taskList.status.notStarted"),
+        sectionTitle = messages("taskList.add.sectionTitle.third"),
+        status = messages("taskList.status.notStarted"),
         link = controllers.onshore.routes.WhyAreYouMakingThisOnshoreDisclosureController.onPageLoad(NormalMode)
       )
       val actualTask = sut.buildOnshoreLiabilitiesDetailRow(model, true) 
@@ -418,8 +413,8 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
       
       val expectedTask = TaskListRow(
         id = "onshore-liabilities-task-list",
-        sectionTitle = mess("taskList.edit.sectionTitle.third"),
-        status = mess("taskList.status.inProgress"),
+        sectionTitle = messages("taskList.edit.sectionTitle.third"),
+        status = messages("taskList.status.inProgress"),
         link = controllers.onshore.routes.WhyAreYouMakingThisOnshoreDisclosureController.onPageLoad(NormalMode)
       )
       val actualTask = sut.buildOnshoreLiabilitiesDetailRow(model, true) 
@@ -451,8 +446,8 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
 
       val expectedTask = TaskListRow(
         id = "onshore-liabilities-task-list",
-        sectionTitle = mess("taskList.edit.sectionTitle.third"),
-        status = mess("taskList.status.completed"),
+        sectionTitle = messages("taskList.edit.sectionTitle.third"),
+        status = messages("taskList.status.completed"),
         link = controllers.onshore.routes.CheckYourAnswersController.onPageLoad
       )
       val actualTask = sut.buildOnshoreLiabilitiesDetailRow(model, true) 

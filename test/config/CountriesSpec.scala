@@ -31,7 +31,7 @@ import java.io.InputStream
 
 class CountriesSpec extends SpecBase with Injecting with BeforeAndAfterEach with MockitoSugar {
 
-  implicit lazy val app: Application = applicationBuilder().build()
+  implicit lazy val app: Application = application
 
   val mockEnv = mock[Environment]
   lazy val env: Environment = inject[Environment]

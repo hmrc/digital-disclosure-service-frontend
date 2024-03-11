@@ -14,22 +14,19 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.offshore
 
 import base.SpecBase
 import config.Country
 import forms.CountriesOrTerritoriesFormProvider
 import models.{NormalMode, UserAnswers}
-import navigation.{FakeOffshoreNavigator, OffshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages.CountryOfYourOffshoreLiabilityPage
-import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
 import views.html.offshore.CountriesOrTerritoriesView
 
 import scala.concurrent.Future
@@ -44,130 +41,100 @@ class CountriesOrTerritoriesControllerSpec extends SpecBase with MockitoSugar {
   val countries = Seq()
   val countryCode = "AAA"
 
-  lazy val countriesOrTerritoriesRoute = offshore.routes.CountriesOrTerritoriesController.onPageLoad(NormalMode).url
+  lazy val countriesOrTerritoriesRoute = routes.CountriesOrTerritoriesController.onPageLoad(NormalMode).url
 
   "CountriesOrTerritories Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, countriesOrTerritoriesRoute)
+      val request = FakeRequest(GET, countriesOrTerritoriesRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[CountriesOrTerritoriesView]
+      val view = application.injector.instanceOf[CountriesOrTerritoriesView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, countries, NormalMode)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, countries, NormalMode)(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[OffshoreNavigator].toInstance(new FakeOffshoreNavigator(onwardRoute))
-          )
-          .build()
+      val request =
+        FakeRequest(POST, countriesOrTerritoriesRoute)
+          .withFormUrlEncodedBody(("value", "true"))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, countriesOrTerritoriesRoute)
-            .withFormUrlEncodedBody(("value", "true"))
+      val result = route(applicationWithFakeOffshoreNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, countriesOrTerritoriesRoute)
-            .withFormUrlEncodedBody(("value", ""))
+      val request =
+        FakeRequest(POST, countriesOrTerritoriesRoute)
+          .withFormUrlEncodedBody(("value", ""))
 
-        val boundForm = form.bind(Map("value" -> ""))
+      val boundForm = form.bind(Map("value" -> ""))
 
-        val view = application.injector.instanceOf[CountriesOrTerritoriesView]
+      val view = application.injector.instanceOf[CountriesOrTerritoriesView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, countries, NormalMode)(request, messages(application)).toString
-      }
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm, countries, NormalMode)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, countriesOrTerritoriesRoute)
+      val request = FakeRequest(GET, countriesOrTerritoriesRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "must redirect to Index for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, countriesOrTerritoriesRoute)
-            .withFormUrlEncodedBody(("value", "true"))
+      val request =
+        FakeRequest(POST, countriesOrTerritoriesRoute)
+          .withFormUrlEncodedBody(("value", "true"))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
   }
 
   "must redirect to the country of your offshore liabilities page if remove method is called and there are no more Countries" in {
 
-    val mockSessionService = mock[SessionService]
-
-    val removeCountryRoute = offshore.routes.CountriesOrTerritoriesController.remove(countryCode, NormalMode).url
+    val removeCountryRoute = routes.CountriesOrTerritoriesController.remove(countryCode, NormalMode).url
 
     when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+    setupMockSessionResponse(Some(emptyUserAnswers))
 
-    val application =
-      applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-        .overrides(
-          bind[OffshoreNavigator].toInstance(new FakeOffshoreNavigator(onwardRoute))
-        )
-        .build()
+    val request = FakeRequest(GET, removeCountryRoute)
 
-    running(application) {
-      val request = FakeRequest(GET, removeCountryRoute)
+    val result = route(applicationWithFakeOffshoreNavigator(onwardRoute), request).value
 
-      val result = route(application, request).value
-
-      status(result) mustEqual SEE_OTHER
-      redirectLocation(result).value mustEqual offshore.routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode).url
-    }
+    status(result) mustEqual SEE_OTHER
+    redirectLocation(result).value mustEqual routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode).url
   }
 
   "must redirect to the country of your offshore liabilities page if remove method is called and there are Countries in the UserAnswers" in {
-
-    val mockSessionService = mock[SessionService]
 
     when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
 
@@ -177,22 +144,15 @@ class CountriesOrTerritoriesControllerSpec extends SpecBase with MockitoSugar {
       .setByKey(CountryOfYourOffshoreLiabilityPage, country1.alpha3 ,country1).success.value
       .setByKey(CountryOfYourOffshoreLiabilityPage, country2.alpha3 ,country2).success.value
 
-    lazy val removeCountryRoute = offshore.routes.CountriesOrTerritoriesController.remove(countryCode, NormalMode).url
+    lazy val removeCountryRoute = routes.CountriesOrTerritoriesController.remove(countryCode, NormalMode).url
 
-    val application =
-      applicationBuilderWithSessionService(userAnswers = Some(userAnswers), mockSessionService)
-        .overrides(
-          bind[OffshoreNavigator].toInstance(new FakeOffshoreNavigator(onwardRoute))
-        )
-        .build()
+    setupMockSessionResponse(Some(userAnswers))
 
-    running(application) {
-      val request = FakeRequest(GET, removeCountryRoute)
+    val request = FakeRequest(GET, removeCountryRoute)
 
-      val result = route(application, request).value
+    val result = route(applicationWithFakeOffshoreNavigator(onwardRoute), request).value
 
-      status(result) mustEqual SEE_OTHER
-      redirectLocation(result).value mustEqual offshore.routes.CountriesOrTerritoriesController.onPageLoad(NormalMode).url
-    }
+    status(result) mustEqual SEE_OTHER
+    redirectLocation(result).value mustEqual routes.CountriesOrTerritoriesController.onPageLoad(NormalMode).url
   }
 }

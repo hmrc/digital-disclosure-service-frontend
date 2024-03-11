@@ -16,17 +16,17 @@
 
 package base
 
+import models.UserAnswers
 import org.mockito.ArgumentMatchers.{any, refEq}
 import org.mockito.Mockito.{times, verify, when}
 import org.scalatestplus.mockito.MockitoSugar
+import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import pages._
+import play.api.libs.json.Writes
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
-import play.api.libs.json.Writes
-import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
+
 import scala.concurrent.Future
-import models.UserAnswers
 
 trait ControllerSpecBase extends SpecBase with MockitoSugar with ScalaCheckPropertyChecks {
 
@@ -37,11 +37,10 @@ trait ControllerSpecBase extends SpecBase with MockitoSugar with ScalaCheckPrope
                                   urlToTest: String,
                                   destinationRoute: String,
                                   pagesToRemove: List[QuestionPage[_]] = Nil
-                                )(implicit writes: Writes[A]) = {
+                                )(implicit writes: Writes[A]): Future[Boolean] = {
 
     val userAnswers = UserAnswers("id", "session-123")
 
-    val mockSessionService = mock[SessionService]
     when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
 
     val previousUa = userAnswers.set(page, previousAnswer).success.value
@@ -51,20 +50,17 @@ trait ControllerSpecBase extends SpecBase with MockitoSugar with ScalaCheckPrope
       clearedUa <- updatedUa.remove(pagesToRemove)
     } yield clearedUa).success.value
 
-    val application = applicationBuilderWithSessionService(userAnswers = Some(previousUa), mockSessionService).build()
+    setupMockSessionResponse(Some(previousUa))
 
-    running(application) {
-      val request =
-        FakeRequest(POST, urlToTest)
-          .withFormUrlEncodedBody(("value", newAnswer.toString))
+    val request =
+      FakeRequest(POST, urlToTest)
+        .withFormUrlEncodedBody(("value", newAnswer.toString))
 
-      val result = route(application, request).value
+    val result = route(application, request).value
 
-      status(result) mustEqual SEE_OTHER
-      redirectLocation(result).value mustEqual destinationRoute
+    status(result) mustEqual SEE_OTHER
+    redirectLocation(result).value mustEqual destinationRoute
 
-      verify(mockSessionService, times(1)).set(refEq(expectedUa))(any())
-    }
-    
+    verify(mockSessionService, times(1)).set(refEq(expectedUa))(any())
   }
 }

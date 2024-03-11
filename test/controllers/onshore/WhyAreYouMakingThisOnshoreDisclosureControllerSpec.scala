@@ -14,23 +14,20 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.onshore
 
 import base.SpecBase
+import controllers.onshore.WhyAreYouMakingThisOnshoreDisclosureController
 import forms.WhyAreYouMakingThisOnshoreDisclosureFormProvider
-import models.{AreYouTheEntity, NormalMode, WhyAreYouMakingThisOnshoreDisclosure, UserAnswers, RelatesTo}
-import navigation.{FakeOnshoreNavigator, OnshoreNavigator}
+import models.{AreYouTheEntity, NormalMode, RelatesTo, UserAnswers, WhyAreYouMakingThisOnshoreDisclosure}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages._
-import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
 import views.html.onshore.WhyAreYouMakingThisOnshoreDisclosureView
-import controllers.onshore.WhyAreYouMakingThisOnshoreDisclosureController
 
 import scala.concurrent.Future
 
@@ -38,7 +35,7 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val WhyAreYouMakingThisOnshoreDisclosureRoute = onshore.routes.WhyAreYouMakingThisOnshoreDisclosureController.onPageLoad(NormalMode).url
+  lazy val WhyAreYouMakingThisOnshoreDisclosureRoute = routes.WhyAreYouMakingThisOnshoreDisclosureController.onPageLoad(NormalMode).url
 
   val formProvider = new WhyAreYouMakingThisOnshoreDisclosureFormProvider()
   val form = formProvider()
@@ -55,19 +52,17 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
       val areTheyTheIndividual = userAnswers.isTheUserTheIndividual
       val entity = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, WhyAreYouMakingThisOnshoreDisclosureRoute)
+      val request = FakeRequest(GET, WhyAreYouMakingThisOnshoreDisclosureRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[WhyAreYouMakingThisOnshoreDisclosureView]
+      val view = application.injector.instanceOf[WhyAreYouMakingThisOnshoreDisclosureView]
 
-        status(result) mustEqual OK
+      status(result) mustEqual OK
 
-        contentAsString(result) mustEqual view(form, NormalMode, areTheyTheIndividual, entity)(request, messages(application)).toString
-      }
+      contentAsString(result) mustEqual view(form, NormalMode, areTheyTheIndividual, entity)(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -81,18 +76,16 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
       val areTheyTheIndividual = userAnswers.isTheUserTheIndividual
       val entity = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, WhyAreYouMakingThisOnshoreDisclosureRoute)
+      val request = FakeRequest(GET, WhyAreYouMakingThisOnshoreDisclosureRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[WhyAreYouMakingThisOnshoreDisclosureView]
+      val view = application.injector.instanceOf[WhyAreYouMakingThisOnshoreDisclosureView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(WhyAreYouMakingThisOnshoreDisclosure.values.toSet), NormalMode, areTheyTheIndividual, entity)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form.fill(WhyAreYouMakingThisOnshoreDisclosure.values.toSet), NormalMode, areTheyTheIndividual, entity)(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -102,27 +95,17 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
         uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
-      val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(userAnswers))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(userAnswers), mockSessionService)
-          .overrides(
-            bind[OnshoreNavigator].toInstance(new FakeOnshoreNavigator(onwardRoute))
-          )
-          .build()
+      val request =
+        FakeRequest(POST, WhyAreYouMakingThisOnshoreDisclosureRoute)
+          .withFormUrlEncodedBody(("value[0]", WhyAreYouMakingThisOnshoreDisclosure.values.head.toString))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, WhyAreYouMakingThisOnshoreDisclosureRoute)
-            .withFormUrlEncodedBody(("value[0]", WhyAreYouMakingThisOnshoreDisclosure.values.head.toString))
+      val result = route(applicationWithFakeOnshoreNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
@@ -135,52 +118,46 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
       val areTheyTheIndividual = userAnswers.isTheUserTheIndividual
       val entity = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, WhyAreYouMakingThisOnshoreDisclosureRoute)
-            .withFormUrlEncodedBody(("value", "invalid value"))
+      val request =
+        FakeRequest(POST, WhyAreYouMakingThisOnshoreDisclosureRoute)
+          .withFormUrlEncodedBody(("value", "invalid value"))
 
-        val boundForm = form.bind(Map("value" -> "invalid value"))
+      val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[WhyAreYouMakingThisOnshoreDisclosureView]
+      val view = application.injector.instanceOf[WhyAreYouMakingThisOnshoreDisclosureView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(request, messages(application)).toString
-      }
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, WhyAreYouMakingThisOnshoreDisclosureRoute)
+      val request = FakeRequest(GET, WhyAreYouMakingThisOnshoreDisclosureRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "must redirect to Index for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, WhyAreYouMakingThisOnshoreDisclosureRoute)
-            .withFormUrlEncodedBody(("value[0]", WhyAreYouMakingThisOnshoreDisclosure.values.head.toString))
+      val request =
+        FakeRequest(POST, WhyAreYouMakingThisOnshoreDisclosureRoute)
+          .withFormUrlEncodedBody(("value[0]", WhyAreYouMakingThisOnshoreDisclosure.values.head.toString))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
   }
 
@@ -188,7 +165,7 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
 
     "return deliberate pages when a deliberate option was not selected" in {
       val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(
-        WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHasExcuse, 
+        WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHasExcuse,
         WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnWithCare,
         WhyAreYouMakingThisOnshoreDisclosure.NotFileHasExcuse,
         WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnNoCare

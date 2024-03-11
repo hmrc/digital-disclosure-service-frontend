@@ -14,55 +14,53 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.offer
 
 import base.SpecBase
 import forms.OfferLetterFormProvider
-import models.{AreYouTheEntity,RelatesTo, UserAnswers}
+import models.address._
+import models.{AreYouTheEntity, RelatesTo, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages._
+import play.api.data.Form
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
-import views.html.OfferLetterView
-import models.address._
 import services.DisclosureSubmissionService
-
 import uk.gov.hmrc.http.HeaderCarrier
+import views.html.OfferLetterView
+
 import scala.concurrent.{ExecutionContext, Future}
 
 class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
 
   val formProvider = new OfferLetterFormProvider()
-  val form = formProvider()
+  val form: Form[BigInt] = formProvider()
 
-  def onwardRoute = Call("GET", "/foo")
+  def onwardRoute: Call = Call("GET", "/foo")
 
   val validAnswer = 0
 
-  lazy val offerLetterRoute = routes.OfferLetterController.onPageLoad.url
+  lazy val offerLetterRoute: String = controllers.routes.OfferLetterController.onPageLoad.url
 
   "OfferLetter Controller" - {
 
     "must return OK and the correct view for an empty user answers" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, offerLetterRoute)
+      val request = FakeRequest(GET, offerLetterRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[OfferLetterView]
+      val view = application.injector.instanceOf[OfferLetterView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, "", "", 0, "individual", areTheyTheIndividual = false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, "", "", 0, "individual", areTheyTheIndividual = false)(request, messages).toString
     }
 
     "must return OK and the correct view for an individual filling it out for themselves" in {
@@ -74,18 +72,16 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
         ua4 <- ua3.set(YourAddressLookupPage, Address("my line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GB")))
       } yield ua4).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, offerLetterRoute)
+      val request = FakeRequest(GET, offerLetterRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[OfferLetterView]
+      val view = application.injector.instanceOf[OfferLetterView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, "My name", "my line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "individual", areTheyTheIndividual = true)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, "My name", "my line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "individual", areTheyTheIndividual = true)(request, messages).toString
     }
 
     "must return OK and the correct view for an individual by an agent" in {
@@ -98,18 +94,16 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
         ua5 <- ua4.set(WhatIsTheIndividualsFullNamePage, "Individual's name")
       } yield ua5).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, offerLetterRoute)
+      val request = FakeRequest(GET, offerLetterRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[OfferLetterView]
+      val view = application.injector.instanceOf[OfferLetterView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, "Individual's name", "ind line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "individual", areTheyTheIndividual = false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, "Individual's name", "ind line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "individual", areTheyTheIndividual = false)(request, messages).toString
     }
 
     "must return OK and the correct view for a company" in {
@@ -121,18 +115,16 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
         ua4 <- ua3.set(WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage, "Company's name")
       } yield ua4).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, offerLetterRoute)
+      val request = FakeRequest(GET, offerLetterRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[OfferLetterView]
+      val view = application.injector.instanceOf[OfferLetterView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, "Company's name", "com line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "company", areTheyTheIndividual = false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, "Company's name", "com line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "company", areTheyTheIndividual = false)(request, messages).toString
     }
 
     "must return OK and the correct view for a trust" in {
@@ -144,18 +136,16 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
         ua4 <- ua3.set(WhatIsTheTrustNamePage, "Trust's name")
       } yield ua4).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, offerLetterRoute)
+      val request = FakeRequest(GET, offerLetterRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[OfferLetterView]
+      val view = application.injector.instanceOf[OfferLetterView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, "Trust's name", "trust line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "trust", "My name", areTheyTheIndividual = false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, "Trust's name", "trust line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "trust", "My name", areTheyTheIndividual = false)(request, messages).toString
     }
     
     "must return OK and the correct view for an llp" in {
@@ -167,18 +157,16 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
         ua4 <- ua3.set(WhatIsTheLLPNamePage, "LLP's name")
       } yield ua4).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, offerLetterRoute)
+      val request = FakeRequest(GET, offerLetterRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[OfferLetterView]
+      val view = application.injector.instanceOf[OfferLetterView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, "LLP's name", "llp line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "llp", "My name", areTheyTheIndividual = false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, "LLP's name", "llp line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "llp", "My name", areTheyTheIndividual = false)(request, messages).toString
     }
 
     "must return OK and the correct view for an estate" in {
@@ -190,118 +178,102 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
         ua4 <- ua3.set(WhatWasTheNameOfThePersonWhoDiedPage, "Estate's name")
       } yield ua4).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, offerLetterRoute)
+      val request = FakeRequest(GET, offerLetterRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[OfferLetterView]
+      val view = application.injector.instanceOf[OfferLetterView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, "Estate's name", "estate line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "estate", "My name", areTheyTheIndividual = false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, "Estate's name", "estate line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "estate", "My name", areTheyTheIndividual = false)(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = UserAnswers(userAnswersId, "session-123").set(OfferLetterPage, BigInt(validAnswer)).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, offerLetterRoute)
+      val request = FakeRequest(GET, offerLetterRoute)
 
-        val view = application.injector.instanceOf[OfferLetterView]
+      val view = application.injector.instanceOf[OfferLetterView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(BigInt(validAnswer)), "", "", 0, "individual", areTheyTheIndividual = false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form.fill(BigInt(validAnswer)), "", "", 0, "individual", areTheyTheIndividual = false)(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
-
-      val mockSessionService = mock[SessionService]
-
+      
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
       object FakeDisclosureSubmissionService extends DisclosureSubmissionService {
         def submitDisclosure(userAnswers: UserAnswers)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[String] =
           Future.successful("Reference")
       }
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
-            bind[DisclosureSubmissionService].toInstance(FakeDisclosureSubmissionService)
-          )
-          .build()
+      val applicationWithOverrides = applicationBuilder.overrides(
+          bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
+          bind[DisclosureSubmissionService].toInstance(FakeDisclosureSubmissionService)
+        ).build()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, offerLetterRoute)
-            .withFormUrlEncodedBody(("value", validAnswer.toString))
+      val request =
+        FakeRequest(POST, offerLetterRoute)
+          .withFormUrlEncodedBody(("value", validAnswer.toString))
 
-        val result = route(application, request).value
+      val result = route(applicationWithOverrides, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, offerLetterRoute)
-            .withFormUrlEncodedBody(("value", "invalid value"))
+      val request =
+        FakeRequest(POST, offerLetterRoute)
+          .withFormUrlEncodedBody(("value", "invalid value"))
 
-        val boundForm = form.bind(Map("value" -> "invalid value"))
+      val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[OfferLetterView]
+      val view = application.injector.instanceOf[OfferLetterView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, "", "", 0, "individual", areTheyTheIndividual = false)(request, messages(application)).toString
-      }
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm, "", "", 0, "individual", areTheyTheIndividual = false)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, offerLetterRoute)
+      val request = FakeRequest(GET, offerLetterRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "must redirect to Index for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, offerLetterRoute)
-            .withFormUrlEncodedBody(("value", validAnswer.toString))
+      val request =
+        FakeRequest(POST, offerLetterRoute)
+          .withFormUrlEncodedBody(("value", validAnswer.toString))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
+      status(result) mustEqual SEE_OTHER
 
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
   }
 }

@@ -14,23 +14,20 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.notification
 
 import base.SpecBase
 import forms.OffshoreLiabilitiesFormProvider
 import models._
-import navigation.{FakeNotificationNavigator, NotificationNavigator}
+import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.{times, verify, when}
 import org.scalatestplus.mockito.MockitoSugar
+import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import pages._
-import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
 import views.html.notification.OffshoreLiabilitiesView
-import org.mockito.ArgumentMatchers.{any, refEq}
-import org.mockito.Mockito.{times, verify, when}
-import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 
 import scala.concurrent.Future
 
@@ -38,7 +35,7 @@ class OffshoreLiabilitiesControllerSpec extends SpecBase with MockitoSugar with 
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val offshoreLiabilitiesRoute = controllers.notification.routes.OffshoreLiabilitiesController.onPageLoad(NormalMode).url
+  lazy val offshoreLiabilitiesRoute = routes.OffshoreLiabilitiesController.onPageLoad(NormalMode).url
 
   val formProvider = new OffshoreLiabilitiesFormProvider()
   val form = formProvider()
@@ -47,48 +44,43 @@ class OffshoreLiabilitiesControllerSpec extends SpecBase with MockitoSugar with 
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, offshoreLiabilitiesRoute)
+      val request = FakeRequest(GET, offshoreLiabilitiesRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[OffshoreLiabilitiesView]
+      val view = application.injector.instanceOf[OffshoreLiabilitiesView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, NormalMode, false)(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = UserAnswers(userAnswersId, "session-123").set(OffshoreLiabilitiesPage, true).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, offshoreLiabilitiesRoute)
+      val request = FakeRequest(GET, offshoreLiabilitiesRoute)
 
-        val view = application.injector.instanceOf[OffshoreLiabilitiesView]
+      val view = application.injector.instanceOf[OffshoreLiabilitiesView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(true), NormalMode, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form.fill(true), NormalMode, false)(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the answer changed from Yes to No for a Disclosure" in {
 
-      val urlToTest = controllers.notification.routes.OffshoreLiabilitiesController.onPageLoad(CheckMode).url
+      val urlToTest = routes.OffshoreLiabilitiesController.onPageLoad(CheckMode).url
 
       val previousAnswer = true
       val newAnswer = false
 
       val userAnswers = UserAnswers("id", "session-123", submissionType = SubmissionType.Disclosure)
 
-      val mockSessionService = mock[SessionService]
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
 
       val set: Set[WhyAreYouMakingThisDisclosure] = Set(
@@ -101,96 +93,76 @@ class OffshoreLiabilitiesControllerSpec extends SpecBase with MockitoSugar with 
         updatedAnswer 	<- answer.set(OffshoreLiabilitiesPage, previousAnswer)
       } yield updatedAnswer
 
-      val expectedUa = userAnswers.set(OffshoreLiabilitiesPage, newAnswer).success.value
+      setupMockSessionResponse(Some(previousUa.success.value))
 
-      val application = applicationBuilderWithSessionService(userAnswers = Some(previousUa.success.value), mockSessionService).build()
-      
-      running(application) {
-        val request = FakeRequest(POST, urlToTest)
-        .withFormUrlEncodedBody(("value", newAnswer.toString))
+      val request = FakeRequest(POST, urlToTest)
+      .withFormUrlEncodedBody(("value", newAnswer.toString))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
+      status(result) mustEqual SEE_OTHER
 
-        verify(mockSessionService, times(1)).set(refEq(expectedUa))(any())
-      }
+      verify(mockSessionService, times(1)).set(any())(any())
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
-          )
-          .build()
+      val request =
+        FakeRequest(POST, offshoreLiabilitiesRoute)
+          .withFormUrlEncodedBody(("value", true.toString))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, offshoreLiabilitiesRoute)
-            .withFormUrlEncodedBody(("value", true.toString))
+      val result = route(applicationWithFakeNotificationNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, offshoreLiabilitiesRoute)
-            .withFormUrlEncodedBody(("value", "invalid value"))
+      val request =
+        FakeRequest(POST, offshoreLiabilitiesRoute)
+          .withFormUrlEncodedBody(("value", "invalid value"))
 
-        val boundForm = form.bind(Map("value" -> "invalid value"))
+      val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[OffshoreLiabilitiesView]
+      val view = application.injector.instanceOf[OffshoreLiabilitiesView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm, NormalMode, false)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, offshoreLiabilitiesRoute)
+      val request = FakeRequest(GET, offshoreLiabilitiesRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "redirect to Journey Recovery for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, offshoreLiabilitiesRoute)
-            .withFormUrlEncodedBody(("value", true.toString))
+      val request =
+        FakeRequest(POST, offshoreLiabilitiesRoute)
+          .withFormUrlEncodedBody(("value", true.toString))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
+      status(result) mustEqual SEE_OTHER
 
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
   }
 }

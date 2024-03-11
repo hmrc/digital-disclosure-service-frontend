@@ -14,21 +14,18 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.onshore
 
 import base.SpecBase
 import forms.AccountingPeriodCTAddedFormProvider
 import models.{CorporationTaxLiability, NormalMode, UserAnswers}
-import navigation.{FakeOnshoreNavigator, OnshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages.CorporationTaxLiabilityPage
-import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
 import viewmodels.onshore.CorporationTaxLiabilityModel
 import views.html.onshore.AccountingPeriodCTAddedView
 
@@ -42,7 +39,7 @@ class AccountingPeriodCTAddedControllerSpec extends SpecBase with MockitoSugar {
   val formProvider = new AccountingPeriodCTAddedFormProvider()
   val form = formProvider()
 
-  lazy val accountingPeriodCTAddedRoute = onshore.routes.AccountingPeriodCTAddedController.onPageLoad(NormalMode).url
+  lazy val accountingPeriodCTAddedRoute = routes.AccountingPeriodCTAddedController.onPageLoad(NormalMode).url
 
   val answer = Seq(CorporationTaxLiability(
     periodEnd = LocalDate.now(ZoneOffset.UTC),
@@ -60,127 +57,97 @@ class AccountingPeriodCTAddedControllerSpec extends SpecBase with MockitoSugar {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, accountingPeriodCTAddedRoute)
+      val request = FakeRequest(GET, accountingPeriodCTAddedRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[AccountingPeriodCTAddedView]
+      val view = application.injector.instanceOf[AccountingPeriodCTAddedView]
 
-        val periodEndDates = CorporationTaxLiabilityModel.row(answer, NormalMode)(messages(application))
+      val periodEndDates = CorporationTaxLiabilityModel.row(answer, NormalMode)(messages)
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, periodEndDates, NormalMode)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, periodEndDates, NormalMode)(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[OnshoreNavigator].toInstance(new FakeOnshoreNavigator(onwardRoute))
-          )
-          .build()
+      val request =
+        FakeRequest(POST, accountingPeriodCTAddedRoute)
+          .withFormUrlEncodedBody(("value", "true"))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, accountingPeriodCTAddedRoute)
-            .withFormUrlEncodedBody(("value", "true"))
+      val result = route(applicationWithFakeOnshoreNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, accountingPeriodCTAddedRoute)
-            .withFormUrlEncodedBody(("value", ""))
+      val request =
+        FakeRequest(POST, accountingPeriodCTAddedRoute)
+          .withFormUrlEncodedBody(("value", ""))
 
-        val boundForm = form.bind(Map("value" -> ""))
+      val boundForm = form.bind(Map("value" -> ""))
 
-        val view = application.injector.instanceOf[AccountingPeriodCTAddedView]
+      val view = application.injector.instanceOf[AccountingPeriodCTAddedView]
 
-        val periodEndDates = Seq()
+      val periodEndDates = Seq()
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, periodEndDates, NormalMode)(request, messages(application)).toString
-      }
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm, periodEndDates, NormalMode)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, accountingPeriodCTAddedRoute)
+      val request = FakeRequest(GET, accountingPeriodCTAddedRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "must redirect to Index for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, accountingPeriodCTAddedRoute)
-            .withFormUrlEncodedBody(("value", "true"))
+      val request =
+        FakeRequest(POST, accountingPeriodCTAddedRoute)
+          .withFormUrlEncodedBody(("value", "true"))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "must redirect to the corporation’s tax liabilities page if remove method is called and there are no more details" in {
-      val removeDLRoute = onshore.routes.AccountingPeriodCTAddedController.remove(0, NormalMode).url
-
-      val mockSessionService = mock[SessionService]
+      val removeDLRoute = routes.AccountingPeriodCTAddedController.remove(0, NormalMode).url
 
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[OnshoreNavigator].toInstance(new FakeOnshoreNavigator(onwardRoute))
-          )
-          .build()
+      val request = FakeRequest(GET, removeDLRoute)
 
-      running(application) {
-        val request = FakeRequest(GET, removeDLRoute)
+      val result = route(applicationWithFakeOnshoreNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onshore.routes.CorporationTaxLiabilityController.onPageLoad(0, NormalMode).url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual routes.CorporationTaxLiabilityController.onPageLoad(0, NormalMode).url
     }
 
      "must redirect to the same page if remove method is called and there are still details" in {
-       val removeDLRoute = onshore.routes.AccountingPeriodCTAddedController.remove(0, NormalMode).url
-
-       val mockSessionService = mock[SessionService]
+       val removeDLRoute = routes.AccountingPeriodCTAddedController.remove(0, NormalMode).url
 
        when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
 
@@ -204,21 +171,14 @@ class AccountingPeriodCTAddedControllerSpec extends SpecBase with MockitoSugar {
 
        val userAnswers = UserAnswers("id", "session-123").set(CorporationTaxLiabilityPage, Seq(corporationTaxLiability, corporationTaxLiability2)).success.value
 
-       val application =
-         applicationBuilderWithSessionService(userAnswers = Some(userAnswers), mockSessionService)
-           .overrides(
-             bind[OnshoreNavigator].toInstance(new FakeOnshoreNavigator(onwardRoute))
-           )
-           .build()
+       setupMockSessionResponse(Some(userAnswers))
 
-       running(application) {
-         val request = FakeRequest(GET, removeDLRoute)
+       val request = FakeRequest(GET, removeDLRoute)
 
-         val result = route(application, request).value
+       val result = route(applicationWithFakeOnshoreNavigator(onwardRoute), request).value
 
-         status(result) mustEqual SEE_OTHER
-         redirectLocation(result).value mustEqual onshore.routes.AccountingPeriodCTAddedController.onPageLoad(NormalMode).url
-       }
+       status(result) mustEqual SEE_OTHER
+       redirectLocation(result).value mustEqual routes.AccountingPeriodCTAddedController.onPageLoad(NormalMode).url
      }
   }
 }

@@ -32,59 +32,51 @@ import java.time.LocalDate
 
 class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
-  val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
-  val revealFullText = application.injector.instanceOf[RevealFullText]
+  val revealFullText: RevealFullText = application.injector.instanceOf[RevealFullText]
 
   "Check Your Answers Controller" - {
 
     "must return OK and the correct view for a GET when userAnswers is empty" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
-      implicit val mess: Messages = messages(application)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad(0, NormalMode).url)
+      val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad(0, NormalMode).url)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[CheckYourAnswersView]
-        val lettingList = SummaryListViewModel(Seq.empty)
-        val list = LettingSummaryLists(lettingList)
+      val view = application.injector.instanceOf[CheckYourAnswersView]
+      val lettingList = SummaryListViewModel(Seq.empty)
+      val list = LettingSummaryLists(lettingList)
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(list, 0, NormalMode)(request, mess).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(list, 0, NormalMode)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad(0, NormalMode).url)
+      val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad(0, NormalMode).url)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     def rowIsDisplayedWhenPageIsPopulated(ua: UserAnswers)(summaryList: Messages => LettingSummaryLists) = {
-      val application = applicationBuilder(userAnswers = Some(ua)).build()
-      implicit val mess: Messages = messages(application)
-      val list = summaryList(mess)
 
-      running(application) {
-        val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad(0, NormalMode).url)
+      setupMockSessionResponse(Some(ua))
+      val list = summaryList(messages)
 
-        val result = route(application, request).value
+      val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad(0, NormalMode).url)
 
-        val view = application.injector.instanceOf[CheckYourAnswersView]
+      val result = route(application, request).value
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(list, 0, NormalMode)(request, messages(application)).toString
-      }
+      val view = application.injector.instanceOf[CheckYourAnswersView]
+
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(list, 0, NormalMode)(request, messages).toString
     }
 
     "must return OK and the correct view for a GET when RentalAddressLookupSummary is populated" in {

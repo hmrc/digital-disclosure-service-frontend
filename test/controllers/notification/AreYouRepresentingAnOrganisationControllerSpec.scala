@@ -14,20 +14,17 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.notification
 
 import base.ControllerSpecBase
 import forms.AreYouRepresentingAnOrganisationFormProvider
 import models.{CheckMode, NormalMode, UserAnswers}
-import navigation.{FakeNotificationNavigator, NotificationNavigator}
-import org.mockito.ArgumentMatchers.{refEq, any}
+import org.mockito.ArgumentMatchers.{any, refEq}
 import org.mockito.Mockito.{times, verify, when}
 import pages.{AreYouRepresentingAnOrganisationPage, WhatIsTheNameOfTheOrganisationYouRepresentPage}
-import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
 import views.html.notification.AreYouRepresentingAnOrganisationView
 
 import scala.concurrent.Future
@@ -39,125 +36,105 @@ class AreYouRepresentingAnOrganisationControllerSpec extends ControllerSpecBase 
   val formProvider = new AreYouRepresentingAnOrganisationFormProvider()
   val form = formProvider()
 
-  lazy val areYouRepresentingAnOrganisationRoute = controllers.notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode).url
+  lazy val areYouRepresentingAnOrganisationRoute = routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode).url
 
   "AreYouRepresentingAnOrganisation Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, areYouRepresentingAnOrganisationRoute)
+      val request = FakeRequest(GET, areYouRepresentingAnOrganisationRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[AreYouRepresentingAnOrganisationView]
+      val view = application.injector.instanceOf[AreYouRepresentingAnOrganisationView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, NormalMode, false)(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = UserAnswers(userAnswersId, "session-123").set(AreYouRepresentingAnOrganisationPage, true).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, areYouRepresentingAnOrganisationRoute)
+      val request = FakeRequest(GET, areYouRepresentingAnOrganisationRoute)
 
-        val view = application.injector.instanceOf[AreYouRepresentingAnOrganisationView]
+      val view = application.injector.instanceOf[AreYouRepresentingAnOrganisationView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(true), NormalMode, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form.fill(true), NormalMode, false)(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
-          )
-          .build()
+      val request =
+        FakeRequest(POST, areYouRepresentingAnOrganisationRoute)
+          .withFormUrlEncodedBody(("value", "true"))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, areYouRepresentingAnOrganisationRoute)
-            .withFormUrlEncodedBody(("value", "true"))
+      val result = route(applicationWithFakeNotificationNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, areYouRepresentingAnOrganisationRoute)
-            .withFormUrlEncodedBody(("value", ""))
+      val request =
+        FakeRequest(POST, areYouRepresentingAnOrganisationRoute)
+          .withFormUrlEncodedBody(("value", ""))
 
-        val boundForm = form.bind(Map("value" -> ""))
+      val boundForm = form.bind(Map("value" -> ""))
 
-        val view = application.injector.instanceOf[AreYouRepresentingAnOrganisationView]
+      val view = application.injector.instanceOf[AreYouRepresentingAnOrganisationView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm, NormalMode, false)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, areYouRepresentingAnOrganisationRoute)
+      val request = FakeRequest(GET, areYouRepresentingAnOrganisationRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "must redirect to Index for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, areYouRepresentingAnOrganisationRoute)
-            .withFormUrlEncodedBody(("value", "true"))
+      val request =
+        FakeRequest(POST, areYouRepresentingAnOrganisationRoute)
+          .withFormUrlEncodedBody(("value", "true"))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "must redirect to WhatIsTheNameOfTheOrganisationYouRepresent page (change mode) if page answer changes from No to Yes in check mode" in {
       val previousAnswer = false
       val newAnswer = true
 
-      val urlToTest = controllers.notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.WhatIsTheNameOfTheOrganisationYouRepresentController.onPageLoad(CheckMode).url
+      val urlToTest = routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.WhatIsTheNameOfTheOrganisationYouRepresentController.onPageLoad(CheckMode).url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRepresentingAnOrganisationPage, urlToTest, destinationRoute, Nil)
     }
@@ -165,40 +142,37 @@ class AreYouRepresentingAnOrganisationControllerSpec extends ControllerSpecBase 
     "must redirect to WhatIsTheNameOfTheOrganisationYouRepresent page (change mode) if page answer changes from No Answer to Yes in check mode" in {
       val newAnswer = true
 
-      val urlToTest = controllers.notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.WhatIsTheNameOfTheOrganisationYouRepresentController.onPageLoad(CheckMode).url
+      val urlToTest = routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.WhatIsTheNameOfTheOrganisationYouRepresentController.onPageLoad(CheckMode).url
 
       val userAnswers = UserAnswers("id", "session-123")
 
-      val mockSessionService = mock[SessionService]
+
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
 
       val previousUa = userAnswers.remove(AreYouRepresentingAnOrganisationPage).success.value
       val expectedUa = userAnswers.set(AreYouRepresentingAnOrganisationPage, newAnswer).success.value
 
-      val application = applicationBuilderWithSessionService(userAnswers = Some(previousUa), mockSessionService)
-        .build()
+      setupMockSessionResponse(Some(previousUa))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, urlToTest)
-            .withFormUrlEncodedBody(("value", newAnswer.toString))
+      val request =
+        FakeRequest(POST, urlToTest)
+          .withFormUrlEncodedBody(("value", newAnswer.toString))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual destinationRoute
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual destinationRoute
 
-        verify(mockSessionService, times(1)).set(refEq(expectedUa))(any())
-      }
+      verify(mockSessionService, times(1)).set(refEq(expectedUa))(any())
     }
 
     "must redirect to CheckYourAnswers page (change mode) and clean WhatIsTheNameOfTheOrganisationYouRepresentPage if page answer changes from Yes to No in check mode" in {
       val previousAnswer = true
       val newAnswer = false
 
-      val urlToTest = controllers.notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRepresentingAnOrganisationPage, urlToTest, destinationRoute, List(WhatIsTheNameOfTheOrganisationYouRepresentPage))
     }
@@ -207,8 +181,8 @@ class AreYouRepresentingAnOrganisationControllerSpec extends ControllerSpecBase 
       val previousAnswer = true
       val newAnswer = true
 
-      val urlToTest = controllers.notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRepresentingAnOrganisationPage, urlToTest, destinationRoute, Nil)
     }
@@ -217,8 +191,8 @@ class AreYouRepresentingAnOrganisationControllerSpec extends ControllerSpecBase 
       val previousAnswer = false
       val newAnswer = false
 
-      val urlToTest = controllers.notification.routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRepresentingAnOrganisationPage, urlToTest, destinationRoute, Nil)
     }

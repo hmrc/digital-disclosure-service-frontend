@@ -16,20 +16,28 @@
 
 package base
 
+import config.{InternalAuthTokenInitialiser, NoOpInternalAuthTokenInitialiser}
 import controllers.actions._
 import generators.Generators
 import models.UserAnswers
+import navigation._
+import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.{reset, when}
+import org.mockito.stubbing.OngoingStubbing
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.must.Matchers
-import org.scalatest.{OptionValues, TryValues}
+import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach, OptionValues, TryValues}
+import org.scalatestplus.mockito.MockitoSugar.mock
 import play.api.Application
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
+import play.api.mvc.Call
 import play.api.test.FakeRequest
-import services.{AuditService, SubmissionStoreService, FakeSessionService, SessionService}
-import config.{InternalAuthTokenInitialiser, NoOpInternalAuthTokenInitialiser}
+import services.{AddressLookupService, SessionService}
+
+import scala.concurrent.Future
 
 trait SpecBase
   extends AnyFreeSpec
@@ -38,54 +46,67 @@ trait SpecBase
     with OptionValues
     with ScalaFutures
     with IntegrationPatience
-    with Generators {
+    with Generators
+    with BeforeAndAfterEach
+    with BeforeAndAfterAll {
+
+  override protected def beforeEach(): Unit = {
+    reset(mockSessionService)
+    reset(mockAddressLookupService)
+  }
+
+  override protected def afterAll(): Unit = {
+    application.stop()
+  }
 
   val userAnswersId: String = "id"
   val sessionId = "session-123"
 
   def emptyUserAnswers : UserAnswers = UserAnswers(userAnswersId, sessionId)
 
-  def messages(app: Application): Messages = app.injector.instanceOf[MessagesApi].preferred(FakeRequest())
+  val mockSessionService: SessionService = mock[SessionService]
+  val mockAddressLookupService: AddressLookupService = mock[AddressLookupService]
 
-  protected def applicationBuilder(userAnswers: Option[UserAnswers] = None): GuiceApplicationBuilder =
-    new GuiceApplicationBuilder()
-      .overrides(
-        bind[DataRequiredAction].to[DataRequiredActionImpl],
-        bind[IdentifierAction].to[FakeIdentifierAction],
-        bind[DataRetrievalAction].toInstance(new FakeDataRetrievalAction(userAnswers)),
-        bind[SessionService].to[FakeSessionService],
-        bind[InternalAuthTokenInitialiser].to[NoOpInternalAuthTokenInitialiser]
-      )
+  def setupMockSessionResponse(userAnswers: Option[UserAnswers] = None): OngoingStubbing[Future[Option[UserAnswers]]] =
+    when(mockSessionService.getSession(any(), any())(any())).thenReturn(Future.successful(userAnswers))
 
-  protected def applicationBuilderWithSessionService(userAnswers: Option[UserAnswers] = None, sessionService: SessionService): GuiceApplicationBuilder =
-    new GuiceApplicationBuilder()
-      .overrides(
-        bind[DataRequiredAction].to[DataRequiredActionImpl],
-        bind[IdentifierAction].to[FakeIdentifierAction],
-        bind[DataRetrievalAction].toInstance(new FakeDataRetrievalAction(userAnswers)),
-        bind[SessionService].toInstance(sessionService),
-        bind[InternalAuthTokenInitialiser].to[NoOpInternalAuthTokenInitialiser]
-      )
+  val applicationBuilder: GuiceApplicationBuilder = new GuiceApplicationBuilder().overrides(
+    bind[DataRequiredAction].to[DataRequiredActionImpl],
+    bind[IdentifierAction].to[FakeIdentifierAction],
+    bind[DataRetrievalAction].to[DataRetrievalActionImpl],
+    bind[SessionService].toInstance(mockSessionService),
+    bind[InternalAuthTokenInitialiser].to[NoOpInternalAuthTokenInitialiser],
+    bind[AddressLookupService].toInstance(mockAddressLookupService)
+  )
+  val application: Application = applicationBuilder.build()
 
-  protected def applicationBuilderWithStoreService(userAnswers: Option[UserAnswers] = None, storeService: SubmissionStoreService): GuiceApplicationBuilder =
-    new GuiceApplicationBuilder()
-      .overrides(
-        bind[DataRequiredAction].to[DataRequiredActionImpl],
-        bind[IdentifierAction].to[FakeIdentifierAction],
-        bind[DataRetrievalAction].toInstance(new FakeDataRetrievalAction(userAnswers)),
-        bind[SessionService].to[FakeSessionService],
-        bind[SubmissionStoreService].toInstance(storeService),
-        bind[InternalAuthTokenInitialiser].to[NoOpInternalAuthTokenInitialiser]
-      ) 
+  def applicationWithFakeLettingNavigator(onwardRoute: Call): Application = applicationBuilder.overrides(
+    bind[LettingNavigator].toInstance(new FakeLettingNavigator(onwardRoute))
+  ).build()
 
-  protected def applicationBuilderWithAuditService(userAnswers: Option[UserAnswers] = None, auditService: AuditService): GuiceApplicationBuilder =
-    new GuiceApplicationBuilder()
-      .overrides(
-        bind[DataRequiredAction].to[DataRequiredActionImpl],
-        bind[IdentifierAction].to[FakeIdentifierAction],
-        bind[DataRetrievalAction].toInstance(new FakeDataRetrievalAction(userAnswers)),
-        bind[SessionService].to[FakeSessionService],
-        bind[AuditService].toInstance(auditService),
-        bind[InternalAuthTokenInitialiser].to[NoOpInternalAuthTokenInitialiser]
-      ) 
+  def applicationWithFakeLiabilitiesNavigator(onwardRoute: Call): Application = applicationBuilder.overrides(
+    bind[OtherLiabilitiesNavigator].toInstance(new FakeOtherLiabilitiesNavigator(onwardRoute))
+  ).build()
+
+  def applicationWithFakeNavigator(onwardRoute: Call): Application = applicationBuilder.overrides(
+    bind[Navigator].toInstance(new FakeNavigator(onwardRoute))
+  ).build()
+
+  def applicationWithFakeOnshoreNavigator(onwardRoute: Call): Application = applicationBuilder.overrides(
+    bind[OnshoreNavigator].toInstance(new FakeOnshoreNavigator(onwardRoute))
+  ).build()
+
+  def applicationWithFakeOffshoreNavigator(onwardRoute: Call): Application = applicationBuilder.overrides(
+    bind[OffshoreNavigator].toInstance(new FakeOffshoreNavigator(onwardRoute))
+  ).build()
+
+  def applicationWithFakeNotificationNavigator(onwardRoute: Call): Application = applicationBuilder.overrides(
+    bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
+  ).build()
+
+  def applicationWithFakeReasonNavigator(onwardRoute: Call): Application = applicationBuilder.overrides(
+    bind[ReasonNavigator].toInstance(new FakeReasonNavigator(onwardRoute))
+  ).build()
+
+  val messages: Messages = application.injector.instanceOf[MessagesApi].preferred(FakeRequest())
 }

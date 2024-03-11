@@ -14,22 +14,18 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.notification
 
 import base.ControllerSpecBase
 import forms.AreYouRegisteredForVATFormProvider
-import models.{NormalMode, AreYouRegisteredForVAT, UserAnswers}
-import navigation.{FakeNotificationNavigator, NotificationNavigator}
+import models._
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import pages.{AreYouRegisteredForVATPage, WhatIsYourVATRegistrationNumberPage}
-import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
 import views.html.notification.AreYouRegisteredForVATView
-import models._
 
 import scala.concurrent.Future
 
@@ -37,7 +33,7 @@ class AreYouRegisteredForVATControllerSpec extends ControllerSpecBase {
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val areYouRegisteredForVATRoute = controllers.notification.routes.AreYouRegisteredForVATController.onPageLoad(NormalMode).url
+  lazy val areYouRegisteredForVATRoute = routes.AreYouRegisteredForVATController.onPageLoad(NormalMode).url
 
   val formProvider = new AreYouRegisteredForVATFormProvider()
   val form = formProvider()
@@ -46,112 +42,92 @@ class AreYouRegisteredForVATControllerSpec extends ControllerSpecBase {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, areYouRegisteredForVATRoute)
+      val request = FakeRequest(GET, areYouRegisteredForVATRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[AreYouRegisteredForVATView]
+      val view = application.injector.instanceOf[AreYouRegisteredForVATView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, NormalMode, false)(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = UserAnswers(userAnswersId, "session-123").set(AreYouRegisteredForVATPage, AreYouRegisteredForVAT.values.head).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, areYouRegisteredForVATRoute)
+      val request = FakeRequest(GET, areYouRegisteredForVATRoute)
 
-        val view = application.injector.instanceOf[AreYouRegisteredForVATView]
+      val view = application.injector.instanceOf[AreYouRegisteredForVATView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(AreYouRegisteredForVAT.values.head), NormalMode, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form.fill(AreYouRegisteredForVAT.values.head), NormalMode, false)(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
-          )
-          .build()
+      val request =
+        FakeRequest(POST, areYouRegisteredForVATRoute)
+          .withFormUrlEncodedBody(("value", AreYouRegisteredForVAT.values.head.toString))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, areYouRegisteredForVATRoute)
-            .withFormUrlEncodedBody(("value", AreYouRegisteredForVAT.values.head.toString))
+      val result = route(applicationWithFakeNotificationNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, areYouRegisteredForVATRoute)
-            .withFormUrlEncodedBody(("value", "invalid value"))
+      val request =
+        FakeRequest(POST, areYouRegisteredForVATRoute)
+          .withFormUrlEncodedBody(("value", "invalid value"))
 
-        val boundForm = form.bind(Map("value" -> "invalid value"))
+      val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[AreYouRegisteredForVATView]
+      val view = application.injector.instanceOf[AreYouRegisteredForVATView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm, NormalMode, false)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, areYouRegisteredForVATRoute)
+      val request = FakeRequest(GET, areYouRegisteredForVATRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "redirect to Journey Recovery for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, areYouRegisteredForVATRoute)
-            .withFormUrlEncodedBody(("value", AreYouRegisteredForVAT.values.head.toString))
+      val request =
+        FakeRequest(POST, areYouRegisteredForVATRoute)
+          .withFormUrlEncodedBody(("value", AreYouRegisteredForVAT.values.head.toString))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
+      status(result) mustEqual SEE_OTHER
 
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "must redirect to WhatIsYourVATRegistrationNumber page (change mode) if page answer changes from No to YesIKnow in check mode" in {
@@ -159,8 +135,8 @@ class AreYouRegisteredForVATControllerSpec extends ControllerSpecBase {
       val previousAnswer = AreYouRegisteredForVAT.No
       val newAnswer = AreYouRegisteredForVAT.YesIKnow
 
-      val urlToTest = controllers.notification.routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.WhatIsYourVATRegistrationNumberController.onPageLoad(CheckMode).url
+      val urlToTest = routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.WhatIsYourVATRegistrationNumberController.onPageLoad(CheckMode).url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForVATPage, urlToTest, destinationRoute, Nil)
     }
@@ -170,8 +146,8 @@ class AreYouRegisteredForVATControllerSpec extends ControllerSpecBase {
       val previousAnswer = AreYouRegisteredForVAT.YesButDontKnow
       val newAnswer = AreYouRegisteredForVAT.YesIKnow
 
-      val urlToTest = controllers.notification.routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.WhatIsYourVATRegistrationNumberController.onPageLoad(CheckMode).url
+      val urlToTest = routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.WhatIsYourVATRegistrationNumberController.onPageLoad(CheckMode).url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForVATPage, urlToTest, destinationRoute, Nil)
     }
@@ -181,8 +157,8 @@ class AreYouRegisteredForVATControllerSpec extends ControllerSpecBase {
       val previousAnswer = AreYouRegisteredForVAT.YesIKnow
       val newAnswer = AreYouRegisteredForVAT.No
 
-      val urlToTest = controllers.notification.routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForVATPage, urlToTest, destinationRoute, List(WhatIsYourVATRegistrationNumberPage))
     }
@@ -192,8 +168,8 @@ class AreYouRegisteredForVATControllerSpec extends ControllerSpecBase {
       val previousAnswer = AreYouRegisteredForVAT.YesIKnow
       val newAnswer = AreYouRegisteredForVAT.YesButDontKnow
 
-      val urlToTest = controllers.notification.routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForVATPage, urlToTest, destinationRoute, List(WhatIsYourVATRegistrationNumberPage))
     }
@@ -203,8 +179,8 @@ class AreYouRegisteredForVATControllerSpec extends ControllerSpecBase {
       val previousAnswer = AreYouRegisteredForVAT.YesIKnow
       val newAnswer = AreYouRegisteredForVAT.YesIKnow
 
-      val urlToTest = controllers.notification.routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForVATPage, urlToTest, destinationRoute, Nil)
     }
@@ -214,8 +190,8 @@ class AreYouRegisteredForVATControllerSpec extends ControllerSpecBase {
       val previousAnswer = AreYouRegisteredForVAT.No
       val newAnswer = AreYouRegisteredForVAT.No
 
-      val urlToTest = controllers.notification.routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = routes.AreYouRegisteredForVATController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForVATPage, urlToTest, destinationRoute, Nil)
     }

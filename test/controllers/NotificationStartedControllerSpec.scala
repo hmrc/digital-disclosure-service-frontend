@@ -18,155 +18,122 @@ package controllers
 
 import base.SpecBase
 import forms.NotificationStartedFormProvider
-import models.NotificationStarted
-import navigation.{FakeNavigator, Navigator}
+import models.{NotificationStarted, UserAnswers}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import play.api.inject.bind
+import play.api.data.Form
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
 import views.html.NotificationStartedView
-import java.time.format.DateTimeFormatter
-import java.time.{Instant, ZoneOffset}
 
+import java.time.format.DateTimeFormatter
+import java.time.{Instant, LocalDate, ZoneOffset}
 import scala.concurrent.Future
 
 class NotificationStartedControllerSpec extends SpecBase with MockitoSugar {
 
-  def onwardRoute = Call("GET", "/foo")
+  def onwardRoute: Call = Call("GET", "/foo")
 
-  lazy val notificationStartedRoute = routes.NotificationStartedController.onPageLoad.url
+  lazy val notificationStartedRoute: String = routes.NotificationStartedController.onPageLoad.url
 
   val formProvider = new NotificationStartedFormProvider()
-  val form = formProvider()
+  val form: Form[NotificationStarted] = formProvider()
 
-  val instant = Instant.now()
-  val date = instant.atZone(ZoneOffset.UTC).toLocalDate()
-  val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
-  val formattedDate = date.format(dateFormatter)
+  val instant: Instant = Instant.now()
+  val date: LocalDate = instant.atZone(ZoneOffset.UTC).toLocalDate
+  val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
+  val formattedDate: String = date.format(dateFormatter)
 
-  val userAnswers = emptyUserAnswers.copy(lastUpdated = instant)
+  val userAnswers: UserAnswers = emptyUserAnswers.copy(lastUpdated = instant)
+  val view: NotificationStartedView = application.injector.instanceOf[NotificationStartedView]
 
   "NotificationStarted Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, notificationStartedRoute)
+      val request = FakeRequest(GET, notificationStartedRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[NotificationStartedView]
-
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, formattedDate)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, formattedDate)(request, messages).toString
     }
 
     "must redirect to the next page when Disclosure is submitted" in {
 
-      val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[Navigator].toInstance(new FakeNavigator(onwardRoute))
-          )
-          .build()
+      val request =
+        FakeRequest(POST, notificationStartedRoute)
+          .withFormUrlEncodedBody(("value", NotificationStarted.Disclosure.toString))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, notificationStartedRoute)
-            .withFormUrlEncodedBody(("value", NotificationStarted.Disclosure.toString))
+      val result = route(applicationWithFakeNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must redirect to the next page when Continue is submitted" in {
 
-      val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[Navigator].toInstance(new FakeNavigator(onwardRoute))
-          )
-          .build()
+      val request =
+        FakeRequest(POST, notificationStartedRoute)
+          .withFormUrlEncodedBody(("value", NotificationStarted.Continue.toString))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, notificationStartedRoute)
-            .withFormUrlEncodedBody(("value", NotificationStarted.Continue.toString))
+      val result = route(applicationWithFakeNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, notificationStartedRoute)
-            .withFormUrlEncodedBody(("value", "invalid value"))
+      val request =
+        FakeRequest(POST, notificationStartedRoute)
+          .withFormUrlEncodedBody(("value", "invalid value"))
 
-        val boundForm = form.bind(Map("value" -> "invalid value"))
+      val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[NotificationStartedView]
+      val result = route(application, request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, formattedDate)(request, messages(application)).toString
-      }
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm, formattedDate)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, notificationStartedRoute)
+      val request = FakeRequest(GET, notificationStartedRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
     }
 
     "redirect to Journey Recovery for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, notificationStartedRoute)
-            .withFormUrlEncodedBody(("value", NotificationStarted.values.head.toString))
+      val request =
+        FakeRequest(POST, notificationStartedRoute)
+          .withFormUrlEncodedBody(("value", NotificationStarted.values.head.toString))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
+      status(result) mustEqual SEE_OTHER
 
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
     }
   }
 }

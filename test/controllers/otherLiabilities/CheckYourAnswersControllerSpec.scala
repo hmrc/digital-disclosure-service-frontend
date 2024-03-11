@@ -17,91 +17,85 @@
 package controllers.otherLiabilities
 
 import base.SpecBase
-import play.api.test.FakeRequest
-import play.api.test.Helpers._
-import viewmodels.govuk.SummaryListFluency
-import views.html.otherLiabilities.CheckYourAnswersView
-import play.api.i18n.Messages
-import org.scalacheck.Arbitrary.arbitrary
-import viewmodels.checkAnswers._
 import models.OtherLiabilityIssues._
 import models._
+import org.scalacheck.Arbitrary.arbitrary
 import pages._
+import play.api.i18n.Messages
+import play.api.test.FakeRequest
+import play.api.test.Helpers._
 import viewmodels.RevealFullText
+import viewmodels.checkAnswers._
+import viewmodels.govuk.SummaryListFluency
+import views.html.otherLiabilities.CheckYourAnswersView
 
 class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
-  val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
-  val revealFullText = application.injector.instanceOf[RevealFullText]
+  val revealFullText: RevealFullText = application.injector.instanceOf[RevealFullText]
   
   "Check Your Answers Controller" - {
 
       "must return OK and the correct view for a GET when userAnswers is empty" in {
 
-        val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
-        implicit val mess: Messages = messages(application)
+        setupMockSessionResponse(Some(emptyUserAnswers))
         val ua = UserAnswers("id", "session-123")
 
-        running(application) {
-          val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad.url)
+        val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad.url)
 
-          val result = route(application, request).value
+        val result = route(application, request).value
 
-          val view = application.injector.instanceOf[CheckYourAnswersView]
-          val otherLiabilitiesList = SummaryListViewModel(Seq(OtherLiabilityIssuesSummary.row(ua)(mess)).flatten)
-          val list = OtherLiabilitiesSummaryLists(otherLiabilitiesList)
+        val view = application.injector.instanceOf[CheckYourAnswersView]
+        val otherLiabilitiesList = SummaryListViewModel(Seq(OtherLiabilityIssuesSummary.row(ua)(messages)).flatten)
+        val list = OtherLiabilitiesSummaryLists(otherLiabilitiesList)
 
-          status(result) mustEqual OK
-          contentAsString(result) mustEqual view(list)(request, mess).toString
-        }
+        status(result) mustEqual OK
+        contentAsString(result) mustEqual view(list)(request, messages).toString
       }
 
       def rowIsDisplayedWhenPageIsPopulated(ua: UserAnswers)(otherLiabilitiesSummaryLists: Messages => OtherLiabilitiesSummaryLists) = {
-        val application = applicationBuilder(userAnswers = Some(ua)).build()
-        implicit val mess: Messages = messages(application)
-        val list = otherLiabilitiesSummaryLists(mess)
 
-        running(application) {
-          val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad.url)
+        setupMockSessionResponse(Some(ua))
+        val list = otherLiabilitiesSummaryLists(messages)
 
-          val result = route(application, request).value
+        val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad.url)
 
-          val view = application.injector.instanceOf[CheckYourAnswersView]
+        val result = route(application, request).value
 
-          status(result) mustEqual OK
-          contentAsString(result) mustEqual view(list)(request, messages(application)).toString
-        }
+        val view = application.injector.instanceOf[CheckYourAnswersView]
+
+        status(result) mustEqual OK
+        contentAsString(result) mustEqual view(list)(request, messages).toString
       }
 
       "must return OK and the correct view for a GET when OtherLiabilityIssuesPage is populated" in {
         val answer: Set[OtherLiabilityIssues] = Set(VatIssues, InheritanceTaxIssues)
         val ua = UserAnswers("id", "session-123").set(OtherLiabilityIssuesPage, answer).success.value
         rowIsDisplayedWhenPageIsPopulated(ua)(messages => OtherLiabilitiesSummaryLists(
-          SummaryListViewModel(Seq(OtherLiabilityIssuesSummary.row(ua)(messages)).flatten) 
+          SummaryListViewModel(Seq(OtherLiabilityIssuesSummary.row(ua)(messages)).flatten)
         ))
       }
 
       "must return OK and the correct view for a GET when DescribeTheGiftPage is populated" in {
         val ua = UserAnswers("id", "session-123").set(DescribeTheGiftPage, arbitrary[String].sample.value).success.value
         rowIsDisplayedWhenPageIsPopulated(ua)(messages => OtherLiabilitiesSummaryLists(
-          SummaryListViewModel(Seq(DescribeTheGiftSummary.row(ua, revealFullText)(messages)).flatten) 
+          SummaryListViewModel(Seq(DescribeTheGiftSummary.row(ua, revealFullText)(messages)).flatten)
         ))
       }
 
       "must return OK and the correct view for a GET when WhatOtherLiabilityIssuesPage is populated" in {
         val ua = UserAnswers("id", "session-123").set(WhatOtherLiabilityIssuesPage, arbitrary[String].sample.value).success.value
         rowIsDisplayedWhenPageIsPopulated(ua)(messages => OtherLiabilitiesSummaryLists(
-          SummaryListViewModel(Seq(WhatOtherLiabilityIssuesSummary.row(ua, revealFullText)(messages)).flatten) 
+          SummaryListViewModel(Seq(WhatOtherLiabilityIssuesSummary.row(ua, revealFullText)(messages)).flatten)
         ))
       }
 
       "must return OK and the correct view for a GET when DidYouReceiveTaxCreditPage is populated" in {
         val ua = UserAnswers("id", "session-123").set(DidYouReceiveTaxCreditPage, arbitrary[Boolean].sample.value).success.value
         rowIsDisplayedWhenPageIsPopulated(ua)(messages => OtherLiabilitiesSummaryLists(
-          SummaryListViewModel(Seq(DidYouReceiveTaxCreditSummary.row(ua)(messages)).flatten) 
+          SummaryListViewModel(Seq(DidYouReceiveTaxCreditSummary.row(ua)(messages)).flatten)
         ))
       }
 
-  } 
+  }
 
 }

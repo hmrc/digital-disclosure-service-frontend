@@ -23,20 +23,23 @@ import views.html.NotificationSubmittedView
 import models.{SubmissionType, UserAnswers}
 import models.store.Metadata
 import models.audit.DisclosureStart
+
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import pages._
 import play.api.mvc.Call
 import navigation.{FakeNavigator, Navigator}
 import play.api.inject.bind
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.{verify, when}
 import org.mockito.ArgumentMatchers.{any, refEq}
 import org.scalatestplus.mockito.MockitoSugar
 import services.AuditService
 
+import scala.concurrent.Future
+
 class NotificationSubmittedControllerSpec extends SpecBase with MockitoSugar {
 
-  def onwardRoute = Call("GET", "/foo")
+  def onwardRoute: Call = Call("GET", "/foo")
 
   "onPageLoad" - {
 
@@ -47,20 +50,24 @@ class NotificationSubmittedControllerSpec extends SpecBase with MockitoSugar {
       val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
       val formattedDate = time.format(dateFormatter)
 
-      val userAnswers = UserAnswers(id = "id", sessionId = "session-123", submissionId = "id2", submissionType = SubmissionType.Notification, metadata = Metadata(Some(reference), Some(time)))
+      val userAnswers = UserAnswers(
+        id = "id",
+        sessionId = "session-123",
+        submissionId = "id2",
+        submissionType = SubmissionType.Notification,
+        metadata = Metadata(Some(reference), Some(time))
+      )
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, routes.NotificationSubmittedController.onPageLoad.url)
+      val request = FakeRequest(GET, routes.NotificationSubmittedController.onPageLoad.url)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[NotificationSubmittedView]
+      val view = application.injector.instanceOf[NotificationSubmittedView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(formattedDate, reference)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(formattedDate, reference)(request, messages).toString
     }
 
     "must redirect to the index page where the stored submission is not a submitted notification" in {
@@ -68,20 +75,22 @@ class NotificationSubmittedControllerSpec extends SpecBase with MockitoSugar {
       val reference = "1234"
       val time = LocalDateTime.now()
 
-      val userAnswers = UserAnswers(id = "id", sessionId = "session-123", submissionId = "id2", submissionType = SubmissionType.Disclosure, metadata = Metadata(Some(reference), Some(time)))
+      val userAnswers = UserAnswers(
+        id = "id",
+        sessionId = "session-123",
+        submissionId = "id2",
+        submissionType = SubmissionType.Disclosure,
+        metadata = Metadata(Some(reference), Some(time))
+      )
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).overrides(
-          bind[Navigator].toInstance(new FakeNavigator(onwardRoute))
-        ).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, routes.NotificationSubmittedController.onPageLoad.url)
+      val request = FakeRequest(GET, routes.NotificationSubmittedController.onPageLoad.url)
 
-        val result = route(application, request).value
+      val result = route(applicationWithFakeNavigator(onwardRoute), request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
   }
 
@@ -93,29 +102,37 @@ class NotificationSubmittedControllerSpec extends SpecBase with MockitoSugar {
       val reference = "1234"
       val time = LocalDateTime.now()
 
-      val userAnswers = UserAnswers(id = "id", sessionId = "session-123", submissionId = "id2", submissionType = SubmissionType.Notification, metadata = Metadata(Some(reference), Some(time)))
+      val userAnswers = UserAnswers(
+        id = "id",
+        sessionId = "session-123",
+        submissionId = "id2",
+        submissionType = SubmissionType.Notification,
+        metadata = Metadata(Some(reference), Some(time))
+      )
 
-      val expectedAuditEvent = DisclosureStart (
+      val expectedAuditEvent = DisclosureStart(
         userId = "id",
         submissionId = "id2",
         isAgent = false,
         agentReference = None,
         notificationSubmitted = true
-      ) 
+      )
 
-      val application = applicationBuilderWithAuditService(userAnswers = Some(userAnswers), auditService = mockAuditService).overrides(
-          bind[Navigator].toInstance(new FakeNavigator(onwardRoute))
-        ).build()
+      setupMockSessionResponse(Some(userAnswers))
+      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
 
-      running(application) {
-        val request = FakeRequest(POST, routes.NotificationSubmittedController.onSubmit.url)
+      val applicationWithFakeNavigator = applicationBuilder.overrides(
+        bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
+        bind[AuditService].toInstance(mockAuditService)
+      ).build()
 
-        val result = route(application, request).value
+      val request = FakeRequest(POST, routes.NotificationSubmittedController.onSubmit.url)
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-        verify(mockAuditService).auditDisclosureStart(refEq(expectedAuditEvent))(any())
-      }
+      val result = route(applicationWithFakeNavigator, request).value
+
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
+      verify(mockAuditService).auditDisclosureStart(refEq(expectedAuditEvent))(any())
     }
   }
 
@@ -123,8 +140,12 @@ class NotificationSubmittedControllerSpec extends SpecBase with MockitoSugar {
     "must convert a notification to a disclosure, clearing metadata" in {
       val reference = "1234"
       val time = LocalDateTime.now()
-      val userAnswers = UserAnswers(id = "id", sessionId = "session-123", submissionId = "id2", submissionType = SubmissionType.Notification, metadata = Metadata(Some(reference), Some(time)))
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      val userAnswers = UserAnswers(id = "id",
+        sessionId = "session-123",
+        submissionId = "id2",
+        submissionType = SubmissionType.Notification,
+        metadata = Metadata(Some(reference), Some(time))
+      )
       val controller = application.injector.instanceOf[NotificationSubmittedController]
 
       val resultUA = controller.convertToDisclosure(userAnswers).success.value
@@ -135,9 +156,13 @@ class NotificationSubmittedControllerSpec extends SpecBase with MockitoSugar {
     "must convert a notification to a disclosure, clearing metadata and populating the case reference section where letterReferencePage is populated" in {
       val reference = "1234"
       val time = LocalDateTime.now()
-      val userAnswers = UserAnswers(id = "id", sessionId = "session-123", submissionId = "id2", submissionType = SubmissionType.Notification, metadata = Metadata(Some(reference), Some(time)))
+      val userAnswers = UserAnswers(id = "id",
+        sessionId = "session-123",
+        submissionId = "id2",
+        submissionType = SubmissionType.Notification,
+        metadata = Metadata(Some(reference), Some(time))
+      )
       val uaWithLetterRef = userAnswers.set(LetterReferencePage, "Some ref").success.value
-      val application = applicationBuilder(userAnswers = Some(uaWithLetterRef)).build()
       val controller = application.injector.instanceOf[NotificationSubmittedController]
 
       val resultUA = controller.convertToDisclosure(uaWithLetterRef).success.value

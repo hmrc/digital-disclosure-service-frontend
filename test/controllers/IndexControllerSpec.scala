@@ -17,29 +17,36 @@
 package controllers
 
 import base.SpecBase
-import play.api.test.FakeRequest
-import play.api.test.Helpers._
-import views.html.IndexView
-import repositories.SessionRepository
-import org.scalacheck.Arbitrary.arbitrary
+import generators.Generators
 import models._
 import models.address._
-import scala.concurrent.ExecutionContext.Implicits.global
-import generators.Generators
-import pages._
-import play.api.mvc.Call
 import navigation.{FakeNavigator, Navigator}
+import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.when
+import org.scalacheck.Arbitrary.arbitrary
+import pages._
 import play.api.inject.bind
+import play.api.mvc.Call
+import play.api.test.FakeRequest
+import play.api.test.Helpers._
+import repositories.SessionRepository
+import views.html.IndexView
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 class IndexControllerSpec extends SpecBase with Generators {
 
-  def onwardRoute = Call("GET", "/foo")
+  def onwardRoute: Call = Call("GET", "/foo")
+  val view: IndexView = application.injector.instanceOf[IndexView]
 
   "Index Controller" - {
 
     "must return a view with a link to the next page from the navigator where the disclosure journey is configured" in {
 
-      val application = applicationBuilder(userAnswers = None)
+      setupMockSessionResponse()
+      when(mockSessionService.getIndividualUserAnswers(any(), any(), any())(any())).thenReturn(Future.successful(None))
+      val applicationWithFakeNavigator = applicationBuilder
         .configure(
           "features.full-disclosure-journey" -> true,
         ).overrides(
@@ -47,30 +54,24 @@ class IndexControllerSpec extends SpecBase with Generators {
         )
         .build()
 
-      running(application) {
-        val request = FakeRequest(GET, routes.IndexController.onPageLoad.url)
+      val request = FakeRequest(GET, routes.IndexController.onPageLoad.url)
 
-        val result = route(application, request).value
+      val result = route(applicationWithFakeNavigator, request).value
 
-        val view = application.injector.instanceOf[IndexView]
+      status(result) mustEqual OK
 
-        status(result) mustEqual OK
-
-        contentAsString(result) mustEqual view(onwardRoute.url, false)(request, messages(application)).toString
-      }
+      contentAsString(result) mustEqual view(onwardRoute.url, isAgent = false)(request, messages).toString
     }
 
     "must set user answers where one doesn't exist" in {
 
       val request = FakeRequest(GET, routes.IndexController.onPageLoad.url)
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        route(application, request).value
+      route(application, request).value
 
-        val sessionRepo = application.injector.instanceOf[SessionRepository]
-        sessionRepo.get("id", "session-123").map(uaOpt => uaOpt mustBe Symbol("defined"))
-      }
+      val sessionRepo = application.injector.instanceOf[SessionRepository]
+      sessionRepo.get("id", "session-123").map(uaOpt => uaOpt mustBe Symbol("defined"))
     }
 
     "must retain existing user answers where one exists" in {
@@ -79,23 +80,22 @@ class IndexControllerSpec extends SpecBase with Generators {
         userAnswers <- arbitrary[UserAnswers]
       } yield {
         val request = FakeRequest(GET, routes.IndexController.onPageLoad.url)
-        val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+        setupMockSessionResponse(Some(userAnswers))
 
-        running(application) {
-          route(application, request).value
-          
-          val sessionRepo = application.injector.instanceOf[SessionRepository]
-          sessionRepo.get("id", "session-123").map(uaOpt => uaOpt mustBe Some(userAnswers))
-        }
+        route(application, request).value
+
+        val sessionRepo = application.injector.instanceOf[SessionRepository]
+        sessionRepo.get("id", "session-123").map(uaOpt => uaOpt mustBe Some(userAnswers))
       }
     }
     
   }
 
-  val address = Address("line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GBR"))
+  val address: Address =
+    Address("line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GBR"))
   val contactSet: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Email)
   val incomeSet: Set[IncomeOrGainSource] = Set(IncomeOrGainSource.Dividends)
-  val completeUserAnswers = (for {
+  val completeUserAnswers: UserAnswers = (for {
     ua1 <- UserAnswers("id", "session-123").set(ReceivedALetterPage, true)
     ua2 <- ua1.set(ReceivedALetterPage, false)
     ua3 <- ua2.set(RelatesToPage, RelatesTo.ATrust)

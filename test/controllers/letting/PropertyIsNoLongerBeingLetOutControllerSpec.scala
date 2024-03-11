@@ -14,25 +14,21 @@
  * limitations under the License.
  */
 
-package controllers
-
-import java.time.{LocalDate, ZoneOffset}
+package controllers.letting
 
 import base.SpecBase
 import forms.PropertyIsNoLongerBeingLetOutFormProvider
-import models.{NormalMode, UserAnswers, NoLongerBeingLetOut, LettingProperty}
-import navigation.{FakeLettingNavigator, LettingNavigator}
+import models.{LettingProperty, NoLongerBeingLetOut, NormalMode, UserAnswers}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages.LettingPropertyPage
-import play.api.inject.bind
 import play.api.mvc.{AnyContentAsEmpty, Call}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
 import views.html.letting.PropertyIsNoLongerBeingLetOutView
 
+import java.time.{LocalDate, ZoneOffset}
 import scala.concurrent.Future
 
 class PropertyIsNoLongerBeingLetOutControllerSpec extends SpecBase with MockitoSugar {
@@ -40,128 +36,110 @@ class PropertyIsNoLongerBeingLetOutControllerSpec extends SpecBase with MockitoS
   val formProvider = new PropertyIsNoLongerBeingLetOutFormProvider()
   private def form = formProvider()
 
-  def onwardRoute = Call("GET", "/foo")
+  def onwardRoute: Call = Call("GET", "/foo")
 
-  val validAnswer = NoLongerBeingLetOut(
+  val validAnswer: NoLongerBeingLetOut = NoLongerBeingLetOut(
     stopDate = LocalDate.now(ZoneOffset.UTC),
     whatHasHappenedToProperty = "Reason"
   )
 
-  lazy val propertyIsNoLongerBeingLetOutRoute = letting.routes.PropertyIsNoLongerBeingLetOutController.onPageLoad(0, NormalMode).url
+  lazy val propertyIsNoLongerBeingLetOutRoute: String =
+    routes.PropertyIsNoLongerBeingLetOutController.onPageLoad(0, NormalMode).url
 
-  override val emptyUserAnswers = UserAnswers(userAnswersId, "session-123")
+  override val emptyUserAnswers: UserAnswers = UserAnswers(userAnswersId, "session-123")
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, propertyIsNoLongerBeingLetOutRoute)
 
   "PropertyIsNoLongerBeingLetOut Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
-        val view = application.injector.instanceOf[PropertyIsNoLongerBeingLetOutView]
+      val view = application.injector.instanceOf[PropertyIsNoLongerBeingLetOutView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, 0, NormalMode)(getRequest(), messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, 0, NormalMode)(getRequest, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").setBySeqIndex(LettingPropertyPage, 0, LettingProperty(noLongerBeingLetOut = Some(validAnswer))).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123")
+        .setBySeqIndex(LettingPropertyPage, 0, LettingProperty(noLongerBeingLetOut = Some(validAnswer))).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val view = application.injector.instanceOf[PropertyIsNoLongerBeingLetOutView]
+      val view = application.injector.instanceOf[PropertyIsNoLongerBeingLetOutView]
 
-        val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(validAnswer), 0, NormalMode)(getRequest(), messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form.fill(validAnswer), 0, NormalMode)(getRequest, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
-
-      val mockSessionService = mock[SessionService]
-
+      
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[LettingNavigator].toInstance(new FakeLettingNavigator(onwardRoute))
+      val request =
+        FakeRequest(POST, propertyIsNoLongerBeingLetOutRoute)
+          .withFormUrlEncodedBody(
+            ("stopDate.day", "1"),
+            ("stopDate.month", "12"),
+            ("stopDate.year", "2012"),
+            ("whatHasHappenedToProperty" , "Reason")
           )
-          .build()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, propertyIsNoLongerBeingLetOutRoute)
-            .withFormUrlEncodedBody(
-              ("stopDate.day", "1"),
-              ("stopDate.month", "12"),
-              ("stopDate.year", "2012"),
-              ("whatHasHappenedToProperty" , "Reason")
-            )
+      val result = route(applicationWithFakeLettingNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
       val request =
         FakeRequest(POST, propertyIsNoLongerBeingLetOutRoute)
           .withFormUrlEncodedBody(("value", "invalid value"))
 
-      running(application) {
-        val boundForm = form.bind(Map("value" -> "invalid value"))
+      val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[PropertyIsNoLongerBeingLetOutView]
+      val view = application.injector.instanceOf[PropertyIsNoLongerBeingLetOutView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, 0, NormalMode)(request, messages(application)).toString
-      }
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm, 0, NormalMode)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "must redirect to Index for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, propertyIsNoLongerBeingLetOutRoute)
-            .withFormUrlEncodedBody(("whatHasHappenedToProperty", "Reason"), ("field2", "value 2"))
+      val request =
+        FakeRequest(POST, propertyIsNoLongerBeingLetOutRoute)
+          .withFormUrlEncodedBody(("whatHasHappenedToProperty", "Reason"), ("field2", "value 2"))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
   }
 }

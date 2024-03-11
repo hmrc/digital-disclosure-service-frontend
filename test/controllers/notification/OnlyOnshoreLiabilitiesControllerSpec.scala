@@ -14,21 +14,19 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.notification
 
 import base.SpecBase
+import models.NormalMode
+import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.when
+import org.scalatestplus.mockito.MockitoSugar
+import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.html.notification.OnlyOnshoreLiabilitiesView
-import navigation.{FakeNotificationNavigator, NotificationNavigator}
-import play.api.inject.bind
-import services.SessionService
+
 import scala.concurrent.Future
-import org.mockito.Mockito.when
-import play.api.mvc.Call
-import org.scalatestplus.mockito.MockitoSugar
-import org.mockito.ArgumentMatchers.any
-import models.NormalMode
 
 class OnlyOnshoreLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
 
@@ -38,26 +36,17 @@ class OnlyOnshoreLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
 
     "must return OK and the correct view for a GET" in {
 
-      val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
-          ).build()
+      val request = FakeRequest(GET, routes.OnlyOnshoreLiabilitiesController.onPageLoad(NormalMode).url)
 
-      running(application) {
-        val request = FakeRequest(GET, controllers.notification.routes.OnlyOnshoreLiabilitiesController.onPageLoad(NormalMode).url)
+      val result = route(applicationWithFakeNotificationNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
+      val view = application.injector.instanceOf[OnlyOnshoreLiabilitiesView]
 
-        val view = application.injector.instanceOf[OnlyOnshoreLiabilitiesView]
-
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(onwardRoute.url, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(onwardRoute.url, false)(request, messages).toString
     }
   }
 }

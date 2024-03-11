@@ -14,21 +14,18 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.notification
 
 import base.ControllerSpecBase
 import forms.RelatesToFormProvider
 import models._
-import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import pages._
 import pages.notification.SectionPages
-import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
 import views.html.notification.RelatesToView
 
 import scala.concurrent.Future
@@ -37,7 +34,7 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val RelatesToRoute = controllers.notification.routes.RelatesToController.onPageLoad(NormalMode).url
+  lazy val RelatesToRoute = routes.RelatesToController.onPageLoad(NormalMode).url
 
   val formProvider = new RelatesToFormProvider()
   val form = formProvider()
@@ -46,112 +43,92 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, RelatesToRoute)
+      val request = FakeRequest(GET, RelatesToRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[RelatesToView]
+      val view = application.injector.instanceOf[RelatesToView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, NormalMode, false)(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = UserAnswers(userAnswersId, "session-123").set(RelatesToPage, RelatesTo.values.head).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, RelatesToRoute)
+      val request = FakeRequest(GET, RelatesToRoute)
 
-        val view = application.injector.instanceOf[RelatesToView]
+      val view = application.injector.instanceOf[RelatesToView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(RelatesTo.values.head), NormalMode, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form.fill(RelatesTo.values.head), NormalMode, false)(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
-          )
-          .build()
+      val request =
+        FakeRequest(POST, RelatesToRoute)
+          .withFormUrlEncodedBody(("value", RelatesTo.values.head.toString))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, RelatesToRoute)
-            .withFormUrlEncodedBody(("value", RelatesTo.values.head.toString))
+      val result = route(applicationWithFakeNotificationNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, RelatesToRoute)
-            .withFormUrlEncodedBody(("value", "invalid value"))
+      val request =
+        FakeRequest(POST, RelatesToRoute)
+          .withFormUrlEncodedBody(("value", "invalid value"))
 
-        val boundForm = form.bind(Map("value" -> "invalid value"))
+      val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[RelatesToView]
+      val view = application.injector.instanceOf[RelatesToView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm, NormalMode, false)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, RelatesToRoute)
+      val request = FakeRequest(GET, RelatesToRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "redirect to Journey Recovery for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, RelatesToRoute)
-            .withFormUrlEncodedBody(("value", RelatesTo.values.head.toString))
+      val request =
+        FakeRequest(POST, RelatesToRoute)
+          .withFormUrlEncodedBody(("value", RelatesTo.values.head.toString))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
+      status(result) mustEqual SEE_OTHER
 
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "must redirect to CheckYourAnswers screen if page answer is An Individual and doesn't change" in {
@@ -159,8 +136,8 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
       val previousAnswer = RelatesTo.AnIndividual
       val newAnswer = RelatesTo.AnIndividual
 
-      val urlToTest = controllers.notification.routes.RelatesToController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, Nil)
     }
@@ -170,8 +147,8 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
       val previousAnswer = RelatesTo.ACompany
       val newAnswer = RelatesTo.ACompany
 
-      val urlToTest = controllers.notification.routes.RelatesToController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, Nil)
     }
@@ -181,8 +158,8 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
       val previousAnswer = RelatesTo.AnEstate
       val newAnswer = RelatesTo.AnEstate
 
-      val urlToTest = controllers.notification.routes.RelatesToController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, Nil)
     }
@@ -191,8 +168,8 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
       val previousAnswer = RelatesTo.ALimitedLiabilityPartnership
       val newAnswer = RelatesTo.ALimitedLiabilityPartnership
 
-      val urlToTest = controllers.notification.routes.RelatesToController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, Nil)
     }
@@ -201,8 +178,8 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
       val previousAnswer = RelatesTo.ATrust
       val newAnswer = RelatesTo.ATrust
 
-      val urlToTest = controllers.notification.routes.RelatesToController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, Nil)
     }
@@ -211,8 +188,8 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
       val previousAnswer = RelatesTo.ACompany
       val newAnswer = RelatesTo.AnIndividual
 
-      val urlToTest = controllers.notification.routes.RelatesToController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.AreYouTheEntityController.onPageLoad(NormalMode).url
+      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages ::: aboutYouPages
 
@@ -223,8 +200,8 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
       val previousAnswer = RelatesTo.AnEstate
       val newAnswer = RelatesTo.AnIndividual
 
-      val urlToTest = controllers.notification.routes.RelatesToController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.AreYouTheEntityController.onPageLoad(NormalMode).url
+      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages ::: aboutYouPages
 
@@ -235,8 +212,8 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
       val previousAnswer = RelatesTo.ALimitedLiabilityPartnership
       val newAnswer = RelatesTo.AnIndividual
 
-      val urlToTest = controllers.notification.routes.RelatesToController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.AreYouTheEntityController.onPageLoad(NormalMode).url
+      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages ::: aboutYouPages
 
@@ -247,8 +224,8 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
       val previousAnswer = RelatesTo.ATrust
       val newAnswer = RelatesTo.AnIndividual
 
-      val urlToTest = controllers.notification.routes.RelatesToController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.AreYouTheEntityController.onPageLoad(NormalMode).url
+      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages ::: aboutYouPages
 
@@ -259,8 +236,8 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
       val previousAnswer = RelatesTo.ATrust
       val newAnswer = RelatesTo.ACompany
 
-      val urlToTest = controllers.notification.routes.RelatesToController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.AreYouTheEntityController.onPageLoad(NormalMode).url
+      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages
 
@@ -271,8 +248,8 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
       val previousAnswer = RelatesTo.ATrust
       val newAnswer = RelatesTo.ALimitedLiabilityPartnership
 
-      val urlToTest = controllers.notification.routes.RelatesToController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.AreYouTheEntityController.onPageLoad(NormalMode).url
+      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages
 
@@ -283,8 +260,8 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
       val previousAnswer = RelatesTo.ATrust
       val newAnswer = RelatesTo.AnEstate
 
-      val urlToTest = controllers.notification.routes.RelatesToController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.AreYouTheEntityController.onPageLoad(NormalMode).url
+      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages
 
@@ -295,8 +272,8 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
       val previousAnswer = RelatesTo.AnEstate
       val newAnswer = RelatesTo.ACompany
 
-      val urlToTest = controllers.notification.routes.RelatesToController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.AreYouTheEntityController.onPageLoad(NormalMode).url
+      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages
 
@@ -307,8 +284,8 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
       val previousAnswer = RelatesTo.AnEstate
       val newAnswer = RelatesTo.ALimitedLiabilityPartnership
 
-      val urlToTest = controllers.notification.routes.RelatesToController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.AreYouTheEntityController.onPageLoad(NormalMode).url
+      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages
 
@@ -319,8 +296,8 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
       val previousAnswer = RelatesTo.AnEstate
       val newAnswer = RelatesTo.ATrust
 
-      val urlToTest = controllers.notification.routes.RelatesToController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.AreYouTheEntityController.onPageLoad(NormalMode).url
+      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages
 
@@ -331,8 +308,8 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
       val previousAnswer = RelatesTo.ACompany
       val newAnswer = RelatesTo.AnEstate
 
-      val urlToTest = controllers.notification.routes.RelatesToController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.AreYouTheEntityController.onPageLoad(NormalMode).url
+      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages
 
@@ -343,8 +320,8 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
       val previousAnswer = RelatesTo.ACompany
       val newAnswer = RelatesTo.ALimitedLiabilityPartnership
 
-      val urlToTest = controllers.notification.routes.RelatesToController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.AreYouTheEntityController.onPageLoad(NormalMode).url
+      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages
 
@@ -355,8 +332,8 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
       val previousAnswer = RelatesTo.ACompany
       val newAnswer = RelatesTo.ATrust
 
-      val urlToTest = controllers.notification.routes.RelatesToController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.AreYouTheEntityController.onPageLoad(NormalMode).url
+      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages
 
@@ -367,8 +344,8 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
       val previousAnswer = RelatesTo.ALimitedLiabilityPartnership
       val newAnswer = RelatesTo.AnEstate
 
-      val urlToTest = controllers.notification.routes.RelatesToController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.AreYouTheEntityController.onPageLoad(NormalMode).url
+      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages
 
@@ -379,8 +356,8 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
       val previousAnswer = RelatesTo.ALimitedLiabilityPartnership
       val newAnswer = RelatesTo.ACompany
 
-      val urlToTest = controllers.notification.routes.RelatesToController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.AreYouTheEntityController.onPageLoad(NormalMode).url
+      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages
 
@@ -391,8 +368,8 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
       val previousAnswer = RelatesTo.ALimitedLiabilityPartnership
       val newAnswer = RelatesTo.ATrust
 
-      val urlToTest = controllers.notification.routes.RelatesToController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.AreYouTheEntityController.onPageLoad(NormalMode).url
+      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages
 

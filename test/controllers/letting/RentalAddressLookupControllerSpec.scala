@@ -14,93 +14,77 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.letting
 
-import generators.ModelGenerators
-import java.util.UUID
 import base.SpecBase
-import play.api.inject.bind
+import cats.data.EitherT
+import generators.ModelGenerators
+import models._
+import models.address.Address
+import org.mockito.ArgumentMatchers.{any, eq => eqTo}
+import org.mockito.Mockito.when
+import org.mockito.stubbing.OngoingStubbing
+import play.api.Application
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import models._
-import models.address.Address
-import services.AddressLookupService
-import cats.data.EitherT
-import org.scalamock.handlers.{CallHandler2, CallHandler4}
-import org.scalamock.scalatest.MockFactory
-import java.net.URL
-import uk.gov.hmrc.http.HeaderCarrier
-import scala.concurrent.ExecutionContext.Implicits.global
-import navigation.{FakeLettingNavigator, LettingNavigator}
-import services.SessionService
-import play.api.i18n.MessagesApi
 
+import java.net.URL
+import java.util.UUID
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class RentalAddressLookupControllerSpec extends SpecBase with MockFactory with ModelGenerators {
+class RentalAddressLookupControllerSpec extends SpecBase with ModelGenerators {
 
-  def addressLookupOnwardRoute = Call("GET", "http://localhost:15003/foo")
-  def onwardRoute = Call("GET", "/foo")
+  def addressLookupOnwardRoute: Call = Call("GET", "http://localhost:15003/foo")
+  def onwardRoute: Call = Call("GET", "/foo")
 
-  lazy val addressLookupRoute = controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode).url
-  lazy val mockSessionService = mock[SessionService]
+  lazy val addressLookupRoute: String = routes.RentalAddressLookupController.lookupAddress(0, NormalMode).url
 
-  val addressLookupService = mock[AddressLookupService]
+  def mockGetRentalAddressLookupRedirect(index: Int, redirectUrl: Call)
+                                        (response: Either[Error, URL]): OngoingStubbing[EitherT[Future, Error, URL]] =
+    when(mockAddressLookupService.getRentalAddressLookupRedirect(eqTo(redirectUrl), eqTo(index))(any(), any()))
+      .thenReturn(EitherT.fromEither[Future](response))
 
-  def mockGetRentalAddressLookupRedirect(index: Int, redirectUrl: Call)(
-    response: Either[Error, URL]
-  ): CallHandler4[Call, Int, HeaderCarrier, MessagesApi, EitherT[Future, Error, URL]] =
-    (addressLookupService
-      .getRentalAddressLookupRedirect(_: Call, _: Int)(_: HeaderCarrier, _: MessagesApi))
-      .expects(redirectUrl, index, *, *)
-      .returning(EitherT.fromEither[Future](response))
+  def mockRetrieveUserAddress(addressId: UUID)
+                             (response: Either[Error, Address]): OngoingStubbing[EitherT[Future, Error, Address]] =
+    when(mockAddressLookupService.retrieveUserAddress(eqTo(addressId))(any()))
+      .thenReturn(EitherT.fromEither[Future](response))
 
-  def mockRetrieveUserAddress(addressId: UUID)(
-    response: Either[Error, Address]
-  ): CallHandler2[UUID, HeaderCarrier, EitherT[Future, Error, Address]] =
-    (addressLookupService
-      .retrieveUserAddress(_: UUID)(_: HeaderCarrier))
-      .expects(addressId, *)
-      .returning(EitherT.fromEither[Future](response))
+  def mockServiceSet(response: Future[Boolean]): OngoingStubbing[Future[Boolean]] =
+    when(mockSessionService.set(any())(any())).thenReturn(response)
 
-  def mockServiceSet(response: Future[Boolean]): CallHandler2[UserAnswers, HeaderCarrier, Future[Boolean]] = 
-    (mockSessionService
-      .set(_: UserAnswers)(_: HeaderCarrier))
-      .expects(*, *)
-      .returning(response)
-
-  def buildApplication = applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService).overrides(
-    bind[AddressLookupService].toInstance(addressLookupService),
-    bind[LettingNavigator].toInstance(new FakeLettingNavigator(onwardRoute))
-  ).build()
+  val app: Application = applicationWithFakeLettingNavigator(onwardRoute)
 
   "lookupAddress" - {
 
     "must redirect to the URL returned by the address lookup service" in {
-      val application = buildApplication
 
-      running(application) {
-        val request = FakeRequest(GET, addressLookupRoute)
+      val request = FakeRequest(GET, addressLookupRoute)
 
-        mockGetRentalAddressLookupRedirect(0, letting.routes.RentalAddressLookupController.retrieveConfirmedAddress(0, NormalMode, None))(Right(new URL("http://localhost:15003/foo")))
-        val result = route(application, request).value
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual addressLookupOnwardRoute.url
-      }
+      mockGetRentalAddressLookupRedirect(
+        0, routes.RentalAddressLookupController.retrieveConfirmedAddress(0, NormalMode, None)
+      )(Right(new URL("http://localhost:15003/foo")))
+
+      val result = route(app, request).value
+
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual addressLookupOnwardRoute.url
     }
 
     "must handle error scenarios appropriately" in {
-      val application = buildApplication
 
-      running(application) {
-        val request = FakeRequest(GET, addressLookupRoute)
+      val request = FakeRequest(GET, addressLookupRoute)
 
-        mockGetRentalAddressLookupRedirect(0, letting.routes.RentalAddressLookupController.retrieveConfirmedAddress(0, NormalMode, None))(Left(Error("Something went wrong")))
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-        the [Exception] thrownBy status(route(application, request).value) must have message "Something went wrong"
-      }
+      mockGetRentalAddressLookupRedirect(
+        0, routes.RentalAddressLookupController.retrieveConfirmedAddress(0, NormalMode, None)
+      )(Left(Error("Something went wrong")))
+
+      the[Exception] thrownBy status(route(app, request).value) must have message "Something went wrong"
     }
 
   }
@@ -109,50 +93,47 @@ class RentalAddressLookupControllerSpec extends SpecBase with MockFactory with M
 
     "must update sessionRepo and redirect to the correct place when an address is returned by the address lookup service" in {
 
-      val application = buildApplication
-
       val uuid = UUID.randomUUID()
-      lazy val retrieveAddressRoute = controllers.letting.routes.RentalAddressLookupController.retrieveConfirmedAddress(0, NormalMode, Some(uuid)).url
+      lazy val retrieveAddressRoute =
+        routes.RentalAddressLookupController.retrieveConfirmedAddress(0, NormalMode, Some(uuid)).url
 
-      running(application) {
-        val request = FakeRequest(GET, retrieveAddressRoute)
+      val request = FakeRequest(GET, retrieveAddressRoute)
 
-        mockServiceSet(Future.successful(true))
+      mockServiceSet(Future.successful(true))
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-        mockRetrieveUserAddress(uuid)(Right(sampleAddress))
-        val result = route(application, request).value
+      mockRetrieveUserAddress(uuid)(Right(sampleAddress))
+      val result = route(app, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must redirect to the address lookup when an id isn't entered" in {
 
-      val application = buildApplication
-      lazy val retrieveAddressRoute = controllers.letting.routes.RentalAddressLookupController.retrieveConfirmedAddress(0, NormalMode).url
+      lazy val retrieveAddressRoute = routes.RentalAddressLookupController.retrieveConfirmedAddress(0, NormalMode).url
 
-      running(application) {
-        val request = FakeRequest(GET, retrieveAddressRoute)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-        val result = route(application, request).value
+      val request = FakeRequest(GET, retrieveAddressRoute)
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode).url
-      }
+      val result = route(app, request).value
+
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual routes.RentalAddressLookupController.lookupAddress(0, NormalMode).url
     }
 
     "must handle error scenarios appropriately" in {
-      val application = buildApplication
 
-      running(application) {
-        val request = FakeRequest(GET, addressLookupRoute)
+      val request = FakeRequest(GET, addressLookupRoute)
 
-        mockGetRentalAddressLookupRedirect(0, letting.routes.RentalAddressLookupController.retrieveConfirmedAddress(0, NormalMode, None))(Left(Error("Something went wrong")))
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-        the [Exception] thrownBy status(route(application, request).value) must have message "Something went wrong"
-      }
+      mockGetRentalAddressLookupRedirect(
+        0, routes.RentalAddressLookupController.retrieveConfirmedAddress(0, NormalMode, None)
+      )(Left(Error("Something went wrong")))
+
+      the[Exception] thrownBy status(route(app, request).value) must have message "Something went wrong"
     }
-
   }
 }

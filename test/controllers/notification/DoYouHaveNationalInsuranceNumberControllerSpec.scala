@@ -14,20 +14,17 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.notification
 
 import base.ControllerSpecBase
 import forms.DoYouHaveNationalInsuranceNumberFormProvider
 import models.{CheckMode, DoYouHaveNationalInsuranceNumber, NormalMode, UserAnswers}
-import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import pages.{DoYouHaveNationalInsuranceNumberPage, WhatIsYourNationalInsuranceNumberPage}
-import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
 import views.html.notification.DoYouHaveNationalInsuranceNumberView
 
 import scala.concurrent.Future
@@ -36,7 +33,7 @@ class DoYouHaveNationalInsuranceNumberControllerSpec extends ControllerSpecBase 
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val doYouHaveNationalInsuranceNumberRoute = controllers.notification.routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(NormalMode).url
+  lazy val doYouHaveNationalInsuranceNumberRoute = routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(NormalMode).url
 
   val formProvider = new DoYouHaveNationalInsuranceNumberFormProvider()
   val form = formProvider()
@@ -45,69 +42,55 @@ class DoYouHaveNationalInsuranceNumberControllerSpec extends ControllerSpecBase 
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, doYouHaveNationalInsuranceNumberRoute)
+      val request = FakeRequest(GET, doYouHaveNationalInsuranceNumberRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[DoYouHaveNationalInsuranceNumberView]
+      val view = application.injector.instanceOf[DoYouHaveNationalInsuranceNumberView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, NormalMode, false)(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = UserAnswers(userAnswersId, "session-123").set(DoYouHaveNationalInsuranceNumberPage, DoYouHaveNationalInsuranceNumber.values.head).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, doYouHaveNationalInsuranceNumberRoute)
+      val request = FakeRequest(GET, doYouHaveNationalInsuranceNumberRoute)
 
-        val view = application.injector.instanceOf[DoYouHaveNationalInsuranceNumberView]
+      val view = application.injector.instanceOf[DoYouHaveNationalInsuranceNumberView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(DoYouHaveNationalInsuranceNumber.values.head), NormalMode, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form.fill(DoYouHaveNationalInsuranceNumber.values.head), NormalMode, false)(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
-          )
-          .build()
+      val request =
+        FakeRequest(POST, doYouHaveNationalInsuranceNumberRoute)
+          .withFormUrlEncodedBody(("value", DoYouHaveNationalInsuranceNumber.values.head.toString))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, doYouHaveNationalInsuranceNumberRoute)
-            .withFormUrlEncodedBody(("value", DoYouHaveNationalInsuranceNumber.values.head.toString))
+      val result = route(applicationWithFakeNotificationNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must redirect to WhatIsYourNationalInsuranceNumber screen  in check mode if DoYouHaveNationalInsuranceNumber page answer was change from No or YesButDontKnow to YesIKnow" in {
       val previousAnswers = Seq(DoYouHaveNationalInsuranceNumber.No, DoYouHaveNationalInsuranceNumber.YesButDontKnow)
       val newAnswer = DoYouHaveNationalInsuranceNumber.YesIKnow
 
-      val urlToTest =  controllers.notification.routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.WhatIsYourNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val urlToTest =  routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.WhatIsYourNationalInsuranceNumberController.onPageLoad(CheckMode).url
 
       previousAnswers.foreach (
         testChangeAnswerRouting(_, newAnswer, DoYouHaveNationalInsuranceNumberPage, urlToTest, destinationRoute)
@@ -118,8 +101,8 @@ class DoYouHaveNationalInsuranceNumberControllerSpec extends ControllerSpecBase 
       val previousAnswer = DoYouHaveNationalInsuranceNumber.YesIKnow
       val newAnswers = Seq(DoYouHaveNationalInsuranceNumber.No, DoYouHaveNationalInsuranceNumber.YesButDontKnow)
 
-      val urlToTest =  controllers.notification.routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest =  routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       val pageToClean = List(WhatIsYourNationalInsuranceNumberPage)
 
@@ -129,8 +112,8 @@ class DoYouHaveNationalInsuranceNumberControllerSpec extends ControllerSpecBase 
     }
 
     "must redirect to CheckYourAnswer screen if there are no changes in the user answer" in {
-      val urlToTest =  controllers.notification.routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest =  routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       DoYouHaveNationalInsuranceNumber.values.foreach( value =>
         testChangeAnswerRouting(value, value, DoYouHaveNationalInsuranceNumberPage, urlToTest, destinationRoute)
@@ -139,53 +122,47 @@ class DoYouHaveNationalInsuranceNumberControllerSpec extends ControllerSpecBase 
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, doYouHaveNationalInsuranceNumberRoute)
-            .withFormUrlEncodedBody(("value", "invalid value"))
+      val request =
+        FakeRequest(POST, doYouHaveNationalInsuranceNumberRoute)
+          .withFormUrlEncodedBody(("value", "invalid value"))
 
-        val boundForm = form.bind(Map("value" -> "invalid value"))
+      val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[DoYouHaveNationalInsuranceNumberView]
+      val view = application.injector.instanceOf[DoYouHaveNationalInsuranceNumberView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm, NormalMode, false)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, doYouHaveNationalInsuranceNumberRoute)
+      val request = FakeRequest(GET, doYouHaveNationalInsuranceNumberRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "redirect to Journey Recovery for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, doYouHaveNationalInsuranceNumberRoute)
-            .withFormUrlEncodedBody(("value", DoYouHaveNationalInsuranceNumber.values.head.toString))
+      val request =
+        FakeRequest(POST, doYouHaveNationalInsuranceNumberRoute)
+          .withFormUrlEncodedBody(("value", DoYouHaveNationalInsuranceNumber.values.head.toString))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
+      status(result) mustEqual SEE_OTHER
 
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
   }
 }

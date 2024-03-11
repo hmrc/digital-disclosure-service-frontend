@@ -14,21 +14,19 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.letting
 
 import base.SpecBase
 import forms.WhatWasThePercentageIncomeYouReceivedFromPropertyFormProvider
-import models.{NormalMode, UserAnswers, LettingProperty}
-import navigation.{FakeLettingNavigator, LettingNavigator}
+import models.{LettingProperty, NormalMode, UserAnswers}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages.LettingPropertyPage
-import play.api.inject.bind
+import play.api.data.Form
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
 import views.html.letting.WhatWasThePercentageIncomeYouReceivedFromPropertyView
 
 import scala.concurrent.Future
@@ -36,30 +34,29 @@ import scala.concurrent.Future
 class WhatWasThePercentageIncomeYouReceivedFromPropertyControllerSpec extends SpecBase with MockitoSugar {
 
   val formProvider = new WhatWasThePercentageIncomeYouReceivedFromPropertyFormProvider()
-  val form = formProvider()
+  val form: Form[Int] = formProvider()
 
-  def onwardRoute = Call("GET", "/foo")
+  def onwardRoute: Call = Call("GET", "/foo")
 
   val validAnswer = 1
 
-  lazy val whatWasThePercentageIncomeYouReceivedFromPropertyRoute = letting.routes.WhatWasThePercentageIncomeYouReceivedFromPropertyController.onPageLoad(0, NormalMode).url
+  lazy val whatWasThePercentageIncomeYouReceivedFromPropertyRoute: String =
+    routes.WhatWasThePercentageIncomeYouReceivedFromPropertyController.onPageLoad(0, NormalMode).url
 
   "WhatWasThePercentageIncomeYouReceivedFromProperty Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
+      
+      val request = FakeRequest(GET, whatWasThePercentageIncomeYouReceivedFromPropertyRoute)
 
-      running(application) {
-        val request = FakeRequest(GET, whatWasThePercentageIncomeYouReceivedFromPropertyRoute)
+      val result = route(application, request).value
 
-        val result = route(application, request).value
+      val view = application.injector.instanceOf[WhatWasThePercentageIncomeYouReceivedFromPropertyView]
 
-        val view = application.injector.instanceOf[WhatWasThePercentageIncomeYouReceivedFromPropertyView]
-
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, 0, NormalMode)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, 0, NormalMode)(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -69,94 +66,76 @@ class WhatWasThePercentageIncomeYouReceivedFromPropertyControllerSpec extends Sp
       val userAnswers = UserAnswers(userAnswersId, "session-123")
         .setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, whatWasThePercentageIncomeYouReceivedFromPropertyRoute)
+      val request = FakeRequest(GET, whatWasThePercentageIncomeYouReceivedFromPropertyRoute)
 
-        val view = application.injector.instanceOf[WhatWasThePercentageIncomeYouReceivedFromPropertyView]
+      val view = application.injector.instanceOf[WhatWasThePercentageIncomeYouReceivedFromPropertyView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(validAnswer), 0, NormalMode)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form.fill(validAnswer), 0, NormalMode)(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
-
-      val mockSessionService = mock[SessionService]
-
+      
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[LettingNavigator].toInstance(new FakeLettingNavigator(onwardRoute))
-          )
-          .build()
+      val request =
+        FakeRequest(POST, whatWasThePercentageIncomeYouReceivedFromPropertyRoute)
+          .withFormUrlEncodedBody(("value", validAnswer.toString))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, whatWasThePercentageIncomeYouReceivedFromPropertyRoute)
-            .withFormUrlEncodedBody(("value", validAnswer.toString))
+      val result = route(applicationWithFakeLettingNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, whatWasThePercentageIncomeYouReceivedFromPropertyRoute)
-            .withFormUrlEncodedBody(("value", "invalid value"))
+      val request =
+        FakeRequest(POST, whatWasThePercentageIncomeYouReceivedFromPropertyRoute)
+          .withFormUrlEncodedBody(("value", "invalid value"))
 
-        val boundForm = form.bind(Map("value" -> "invalid value"))
+      val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[WhatWasThePercentageIncomeYouReceivedFromPropertyView]
+      val view = application.injector.instanceOf[WhatWasThePercentageIncomeYouReceivedFromPropertyView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, 0, NormalMode)(request, messages(application)).toString
-      }
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm, 0, NormalMode)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, whatWasThePercentageIncomeYouReceivedFromPropertyRoute)
+      val request = FakeRequest(GET, whatWasThePercentageIncomeYouReceivedFromPropertyRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "must redirect to Index for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, whatWasThePercentageIncomeYouReceivedFromPropertyRoute)
-            .withFormUrlEncodedBody(("value", validAnswer.toString))
+      val request =
+        FakeRequest(POST, whatWasThePercentageIncomeYouReceivedFromPropertyRoute)
+          .withFormUrlEncodedBody(("value", validAnswer.toString))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
+      status(result) mustEqual SEE_OTHER
 
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
   }
 }

@@ -14,24 +14,22 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.onshore
 
 import base.SpecBase
+import controllers.onshore.WhichOnshoreYearsController
 import forms.WhichOnshoreYearsFormProvider
 import models.{Behaviour, CheckMode, NormalMode, OnshoreTaxYearLiabilities, OnshoreTaxYearWithLiabilities, OnshoreYearStarting, OnshoreYears, UserAnswers, WhyAreYouMakingThisOnshoreDisclosure}
-import navigation.{FakeOnshoreNavigator, OnshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages.{OnshoreTaxYearLiabilitiesPage, WhichOnshoreYearsPage, WhyAreYouMakingThisOnshoreDisclosurePage}
-import play.api.inject.bind
+import play.api.i18n.Messages
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.{OnshoreWhichYearsService, SessionService}
+import services.OnshoreWhichYearsService
 import views.html.onshore.WhichOnshoreYearsView
-import controllers.onshore.WhichOnshoreYearsController
-import play.api.i18n.Messages
 
 import scala.concurrent.Future
 
@@ -39,17 +37,16 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val whichOnshoreYearsRoute = onshore.routes.WhichOnshoreYearsController.onPageLoad(NormalMode).url
-  lazy val whichOnshoreYearsCheckModeRoute = onshore.routes.WhichOnshoreYearsController.onPageLoad(CheckMode).url
+  lazy val whichOnshoreYearsRoute = routes.WhichOnshoreYearsController.onPageLoad(NormalMode).url
+  lazy val whichOnshoreYearsCheckModeRoute = routes.WhichOnshoreYearsController.onPageLoad(CheckMode).url
 
   val formProvider = new WhichOnshoreYearsFormProvider()
   val form = formProvider()
 
   "determineBehaviour" - {
 
-    val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
     val controller = application.injector.instanceOf[WhichOnshoreYearsController]
-    implicit val mess: Messages = messages(application)
+    implicit val mess: Messages = messages
     val service = application.injector.instanceOf[OnshoreWhichYearsService]
 
     "return 19" - {
@@ -144,21 +141,19 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, whichOnshoreYearsRoute)
+      val request = FakeRequest(GET, whichOnshoreYearsRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[WhichOnshoreYearsView]
-        val service = application.injector.instanceOf[OnshoreWhichYearsService]
-        implicit val mess: Messages = messages(application)
+      val view = application.injector.instanceOf[WhichOnshoreYearsView]
+      val service = application.injector.instanceOf[OnshoreWhichYearsService]
+      implicit val mess: Messages = messages
 
-        status(result) mustEqual OK
+      status(result) mustEqual OK
 
-        contentAsString(result) mustEqual view(form, NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse), false, false)(request, messages(application)).toString
-      }
+      contentAsString(result) mustEqual view(form, NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse), false, false)(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -166,97 +161,79 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
       val previousValue: Set[OnshoreYears] = Set(OnshoreYearStarting(2022))
       val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, previousValue).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, whichOnshoreYearsRoute)
+      val request = FakeRequest(GET, whichOnshoreYearsRoute)
 
-        val view = application.injector.instanceOf[WhichOnshoreYearsView]
-        val service = application.injector.instanceOf[OnshoreWhichYearsService]
-        implicit val mess: Messages = messages(application)
+      val view = application.injector.instanceOf[WhichOnshoreYearsView]
+      val service = application.injector.instanceOf[OnshoreWhichYearsService]
+      implicit val mess: Messages = messages
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(previousValue), NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse), false, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form.fill(previousValue), NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse), false, false)(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[OnshoreNavigator].toInstance(new FakeOnshoreNavigator(onwardRoute))
-          )
-          .build()
+      val request =
+        FakeRequest(POST, whichOnshoreYearsRoute)
+          .withFormUrlEncodedBody(("value[0]", "2022"))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, whichOnshoreYearsRoute)
-            .withFormUrlEncodedBody(("value[0]", "2022"))
+      val result = route(applicationWithFakeOnshoreNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, whichOnshoreYearsRoute)
-            .withFormUrlEncodedBody(("value", "invalid value"))
+      val request =
+        FakeRequest(POST, whichOnshoreYearsRoute)
+          .withFormUrlEncodedBody(("value", "invalid value"))
 
-        val boundForm = form.bind(Map("value" -> "invalid value"))
+      val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[WhichOnshoreYearsView]
-        val service = application.injector.instanceOf[OnshoreWhichYearsService]
-        implicit val mess: Messages = messages(application)
+      val view = application.injector.instanceOf[WhichOnshoreYearsView]
+      val service = application.injector.instanceOf[OnshoreWhichYearsService]
+      implicit val mess: Messages = messages
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse), false, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm, NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse), false, false)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, whichOnshoreYearsRoute)
+      val request = FakeRequest(GET, whichOnshoreYearsRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "must redirect to Index for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, whichOnshoreYearsRoute)
-            .withFormUrlEncodedBody(("value[0]", "2022"))
+      val request =
+        FakeRequest(POST, whichOnshoreYearsRoute)
+          .withFormUrlEncodedBody(("value[0]", "2022"))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
   }
 
@@ -279,52 +256,50 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
       val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, previousValue).success.value
         .set(OnshoreTaxYearLiabilitiesPage, Map(year.toString -> onshoreTaxYearWithLiabilities)).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, whichOnshoreYearsCheckModeRoute)
-            .withFormUrlEncodedBody(("value[0]", year.toString))
+      val request =
+        FakeRequest(POST, whichOnshoreYearsCheckModeRoute)
+          .withFormUrlEncodedBody(("value[0]", year.toString))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onshore.routes.CheckYourAnswersController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual routes.CheckYourAnswersController.onPageLoad.url
     }
 
     "must redirect to OnshoreTaxYearLiabilitiesController if changes are made and there are no missing year or no 'before certain year' selected" in {
-        val previousYear = 2021
-        val newYear = 2022
+      val previousYear = 2021
+      val newYear = 2022
 
-        val yearStarting = OnshoreYearStarting(previousYear)
-        val previousValue: Set[OnshoreYears] = Set(yearStarting)
+      val yearStarting = OnshoreYearStarting(previousYear)
+      val previousValue: Set[OnshoreYears] = Set(yearStarting)
 
-        val onshoreTaxYearLiabilities = OnshoreTaxYearLiabilities(
-          unpaidTax = BigInt(0),
-          niContributions = BigInt(0),
-          interest = BigInt(0),
-          penaltyRate = 0,
-          penaltyRateReason = "reason",
-          undeclaredIncomeOrGain = Some("Income or gain"),
-          residentialTaxReduction = Some(false)
-        )
-        val onshoreTaxYearWithLiabilities = OnshoreTaxYearWithLiabilities(taxYear = yearStarting, taxYearLiabilities = onshoreTaxYearLiabilities)
-        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, previousValue).success.value
-          .set(OnshoreTaxYearLiabilitiesPage, Map(previousYear.toString -> onshoreTaxYearWithLiabilities)).success.value
+      val onshoreTaxYearLiabilities = OnshoreTaxYearLiabilities(
+        unpaidTax = BigInt(0),
+        niContributions = BigInt(0),
+        interest = BigInt(0),
+        penaltyRate = 0,
+        penaltyRateReason = "reason",
+        undeclaredIncomeOrGain = Some("Income or gain"),
+        residentialTaxReduction = Some(false)
+      )
+      val onshoreTaxYearWithLiabilities = OnshoreTaxYearWithLiabilities(taxYear = yearStarting, taxYearLiabilities = onshoreTaxYearLiabilities)
+      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, previousValue).success.value
+        .set(OnshoreTaxYearLiabilitiesPage, Map(previousYear.toString -> onshoreTaxYearWithLiabilities)).success.value
 
-        val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(userAnswers))
 
-        running(application) {
-          val request =
-            FakeRequest(POST, whichOnshoreYearsCheckModeRoute)
-              .withFormUrlEncodedBody(("value[0]", newYear.toString))
+      val request =
+        FakeRequest(POST, whichOnshoreYearsCheckModeRoute)
+          .withFormUrlEncodedBody(("value[0]", newYear.toString))
 
-          val result = route(application, request).value
+      val result = route(application, request).value
 
-          status(result) mustEqual SEE_OTHER
-          redirectLocation(result).value mustEqual onshore.routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode).url
-        }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode).url
      }
 
     "must redirect to NotIncludedSingleTaxYearController if changes are made and there is one missing year and no 'before certain year' selected" in {
@@ -354,18 +329,17 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
           previousYears2.toString -> onshoreTaxYearWithLiabilities2
         )).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, whichOnshoreYearsCheckModeRoute)
-            .withFormUrlEncodedBody(("value[0]", previousYears1.toString), ("value[1]", newYear2.toString))
+      val request =
+        FakeRequest(POST, whichOnshoreYearsCheckModeRoute)
+          .withFormUrlEncodedBody(("value[0]", previousYears1.toString), ("value[1]", newYear2.toString))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onshore.routes.NotIncludedSingleTaxYearController.onPageLoad(NormalMode).url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual routes.NotIncludedSingleTaxYearController.onPageLoad(NormalMode).url
     }
 
 
@@ -396,21 +370,20 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
           previousYears2.toString -> onshoreTaxYearWithLiabilities2
         )).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, whichOnshoreYearsCheckModeRoute)
-            .withFormUrlEncodedBody(
-              ("value[0]", previousYears1.toString),
-              ("value[1]", newYear2)
-        )
+      val request =
+        FakeRequest(POST, whichOnshoreYearsCheckModeRoute)
+          .withFormUrlEncodedBody(
+            ("value[0]", previousYears1.toString),
+            ("value[1]", newYear2)
+      )
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onshore.routes.TaxBeforeThreeYearsOnshoreController.onPageLoad(NormalMode).url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual routes.TaxBeforeThreeYearsOnshoreController.onPageLoad(NormalMode).url
     }
 
     "must redirect to TaxBeforeFiveYearsOnshoreController if changes are made and 'before five year' is selected" in {
@@ -440,21 +413,20 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
           previousYears2.toString -> onshoreTaxYearWithLiabilities2
         )).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, whichOnshoreYearsCheckModeRoute)
-            .withFormUrlEncodedBody(
-              ("value[0]", previousYears1.toString),
-              ("value[1]", newYear2)
-            )
+      val request =
+        FakeRequest(POST, whichOnshoreYearsCheckModeRoute)
+          .withFormUrlEncodedBody(
+            ("value[0]", previousYears1.toString),
+            ("value[1]", newYear2)
+          )
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onshore.routes.TaxBeforeFiveYearsOnshoreController.onPageLoad(NormalMode).url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual routes.TaxBeforeFiveYearsOnshoreController.onPageLoad(NormalMode).url
     }
 
     "must redirect to TaxBeforeNineteenYearsOnshoreController if changes are made and 'before nineteen year' is selected" in {
@@ -484,21 +456,20 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
           previousYears2.toString -> onshoreTaxYearWithLiabilities2
         )).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, whichOnshoreYearsCheckModeRoute)
-            .withFormUrlEncodedBody(
-              ("value[0]", previousYears1.toString),
-              ("value[1]", newYear2)
-            )
+      val request =
+        FakeRequest(POST, whichOnshoreYearsCheckModeRoute)
+          .withFormUrlEncodedBody(
+            ("value[0]", previousYears1.toString),
+            ("value[1]", newYear2)
+          )
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onshore.routes.TaxBeforeNineteenYearsOnshoreController.onPageLoad(NormalMode).url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual routes.TaxBeforeNineteenYearsOnshoreController.onPageLoad(NormalMode).url
     }
   }
 }
