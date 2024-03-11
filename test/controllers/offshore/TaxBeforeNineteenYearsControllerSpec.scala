@@ -14,25 +14,23 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.offshore
 
 import base.SpecBase
 import forms.TaxBeforeNineteenYearsFormProvider
 import models.{Behaviour, NormalMode, UserAnswers}
-import navigation.{FakeOffshoreNavigator, OffshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages.TaxBeforeNineteenYearsPage
-import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.{OffshoreWhichYearsService, SessionService}
-import views.html.offshore.TaxBeforeNineteenYearsView
+import services.OffshoreWhichYearsService
 import uk.gov.hmrc.time.CurrentTaxYear
-import java.time.LocalDate
+import views.html.offshore.TaxBeforeNineteenYearsView
 
+import java.time.LocalDate
 import scala.concurrent.Future
 
 class TaxBeforeNineteenYearsControllerSpec extends SpecBase with MockitoSugar with CurrentTaxYear {
@@ -46,127 +44,107 @@ class TaxBeforeNineteenYearsControllerSpec extends SpecBase with MockitoSugar wi
     formProvider(year)
   }
 
-  lazy val taxBeforeNineteenYearRoute = offshore.routes.TaxBeforeNineteenYearsController.onPageLoad(NormalMode).url
+  lazy val taxBeforeNineteenYearRoute = routes.TaxBeforeNineteenYearsController.onPageLoad(NormalMode).url
 
   "TaxBeforeNineteenYears Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, taxBeforeNineteenYearRoute)
+      val request = FakeRequest(GET, taxBeforeNineteenYearRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[TaxBeforeNineteenYearsView]
+      val view = application.injector.instanceOf[TaxBeforeNineteenYearsView]
 
-        val service = application.injector.instanceOf[OffshoreWhichYearsService]
-        val year = service.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
+      val service = application.injector.instanceOf[OffshoreWhichYearsService]
+      val year = service.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form(year), NormalMode, year)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form(year), NormalMode, year)(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = UserAnswers(userAnswersId, "session-123").set(TaxBeforeNineteenYearsPage, "answer").success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, taxBeforeNineteenYearRoute)
+      val request = FakeRequest(GET, taxBeforeNineteenYearRoute)
 
-        val view = application.injector.instanceOf[TaxBeforeNineteenYearsView]
+      val view = application.injector.instanceOf[TaxBeforeNineteenYearsView]
 
 
-        val service = application.injector.instanceOf[OffshoreWhichYearsService]
-        val year = service.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
+      val service = application.injector.instanceOf[OffshoreWhichYearsService]
+      val year = service.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form(year).fill("answer"), NormalMode, year)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form(year).fill("answer"), NormalMode, year)(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[OffshoreNavigator].toInstance(new FakeOffshoreNavigator(onwardRoute))
-          )
-          .build()
+      val request =
+        FakeRequest(POST, taxBeforeNineteenYearRoute)
+          .withFormUrlEncodedBody(("value", "answer"))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, taxBeforeNineteenYearRoute)
-            .withFormUrlEncodedBody(("value", "answer"))
+      val result = route(applicationWithFakeOffshoreNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, taxBeforeNineteenYearRoute)
-            .withFormUrlEncodedBody(("value", ""))
+      val request =
+        FakeRequest(POST, taxBeforeNineteenYearRoute)
+          .withFormUrlEncodedBody(("value", ""))
 
-        val service = application.injector.instanceOf[OffshoreWhichYearsService]
-        val year = service.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
+      val service = application.injector.instanceOf[OffshoreWhichYearsService]
+      val year = service.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
 
-        val boundForm = form(year).bind(Map("value" -> ""))
+      val boundForm = form(year).bind(Map("value" -> ""))
 
-        val view = application.injector.instanceOf[TaxBeforeNineteenYearsView]
+      val view = application.injector.instanceOf[TaxBeforeNineteenYearsView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, year)(request, messages(application)).toString
-      }
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm, NormalMode, year)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, taxBeforeNineteenYearRoute)
+      val request = FakeRequest(GET, taxBeforeNineteenYearRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "must redirect to Index for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, taxBeforeNineteenYearRoute)
-            .withFormUrlEncodedBody(("value", "answer"))
+      val request =
+        FakeRequest(POST, taxBeforeNineteenYearRoute)
+          .withFormUrlEncodedBody(("value", "answer"))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
   }
 }

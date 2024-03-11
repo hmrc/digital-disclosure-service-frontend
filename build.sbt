@@ -1,5 +1,6 @@
 import play.sbt.routes.RoutesKeys
 import sbt.Def
+import sbt.Tests.{Group, SubProcess}
 import scoverage.ScoverageKeys
 import uk.gov.hmrc.versioning.SbtGitVersioning.autoImport.majorVersion
 import uk.gov.hmrc.DefaultBuildSettings
@@ -63,8 +64,18 @@ lazy val microservice = (project in file("."))
     Assets / pipelineStages := Seq(concat)
   )
 
+def oneForkedJvmPerPackage(tests: Seq[TestDefinition]) =
+  tests.groupBy(_.name.takeWhile(_ != '.')).map { testPackage =>
+    new Group(
+      testPackage._1,
+      testPackage._2,
+      SubProcess(ForkOptions().withRunJVMOptions(Vector(s"-Dtest.name=${testPackage._1}")))
+    )
+  }.toSeq
+
 lazy val testSettings: Seq[Def.Setting[?]] = Seq(
   fork := true,
+  testGrouping := oneForkedJvmPerPackage((Test / definedTests).value),
   unmanagedSourceDirectories += baseDirectory.value / "test-utils",
   scalacOptions ++= Seq(
     "-feature"

@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.onshore
 
 import base.SpecBase
+import models.{AreYouTheEntity, RelatesTo, UserAnswers, WhyAreYouMakingThisOnshoreDisclosure}
+import pages.{AreYouTheEntityPage, WhyAreYouMakingThisOnshoreDisclosurePage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.html.onshore.YouHaveNoOnshoreLiabilitiesToDiscloseView
-import models.{AreYouTheEntity, RelatesTo, WhyAreYouMakingThisOnshoreDisclosure, UserAnswers}
-import pages.{AreYouTheEntityPage, WhyAreYouMakingThisOnshoreDisclosurePage}
 
 class YouHaveNoOnshoreLiabilitiesToDiscloseControllerSpec extends SpecBase {
 
@@ -40,18 +40,16 @@ class YouHaveNoOnshoreLiabilitiesToDiscloseControllerSpec extends SpecBase {
         updatedUa <- ua.set(WhyAreYouMakingThisOnshoreDisclosurePage, set)
       } yield updatedUa).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, onshore.routes.YouHaveNoOnshoreLiabilitiesToDiscloseController.onPageLoad.url)
+      val request = FakeRequest(GET, routes.YouHaveNoOnshoreLiabilitiesToDiscloseController.onPageLoad.url)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[YouHaveNoOnshoreLiabilitiesToDiscloseView]
+      val view = application.injector.instanceOf[YouHaveNoOnshoreLiabilitiesToDiscloseView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(userAnswers.isTheUserTheIndividual, entity, years)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(userAnswers.isTheUserTheIndividual, entity, years)(request, messages).toString
     }
   }
 }

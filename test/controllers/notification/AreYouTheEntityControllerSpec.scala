@@ -14,23 +14,20 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.notification
 
 import base.SpecBase
 import forms.AreYouTheEntityFormProvider
-import models.{RelatesTo, NormalMode, AreYouTheEntity, UserAnswers}
-import navigation.{FakeNotificationNavigator, NotificationNavigator}
+import models.{AreYouTheEntity, NormalMode, RelatesTo, UserAnswers}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
+import pages.notification.SectionPages
 import pages.{AreYouTheEntityPage, RelatesToPage}
-import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
 import views.html.notification.AreYouTheEntityView
-import pages.notification.SectionPages
 
 import scala.concurrent.Future
 
@@ -38,130 +35,110 @@ class AreYouTheEntityControllerSpec extends SpecBase with MockitoSugar with Sect
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val areYouTheEntityRoute = notification.routes.AreYouTheEntityController.onPageLoad(NormalMode).url
+  lazy val areYouTheEntityRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
   val formProvider = new AreYouTheEntityFormProvider()
 
   "AreYouTheEntity Controller" - {
 
-    RelatesTo.values.map{ entity => 
+    RelatesTo.values.map{ entity =>
       s"must return OK and the correct view for a $entity" in {
         val userAnswers = UserAnswers(userAnswersId, "session-123").set(RelatesToPage, entity).success.value
-        val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+        setupMockSessionResponse(Some(userAnswers))
 
         val form = formProvider(entity)
 
-        running(application) {
-          val request = FakeRequest(GET, areYouTheEntityRoute)
+        val request = FakeRequest(GET, areYouTheEntityRoute)
 
-          val result = route(application, request).value
+        val result = route(application, request).value
 
-          val view = application.injector.instanceOf[AreYouTheEntityView]
+        val view = application.injector.instanceOf[AreYouTheEntityView]
 
-          status(result) mustEqual OK
-          contentAsString(result) mustEqual view(form, NormalMode, entity, false)(request, messages(application)).toString
-        }
+        status(result) mustEqual OK
+        contentAsString(result) mustEqual view(form, NormalMode, entity, false)(request, messages).toString
       }
     }
 
-    RelatesTo.values.map{ entity => 
+    RelatesTo.values.map{ entity =>
       s"must populate the view correctly for a $entity when the question has previously been answered" in {
         val userAnswers = (for {
           initialUa <- UserAnswers(userAnswersId, "session-123").set(AreYouTheEntityPage, AreYouTheEntity.values.head)
           ua <- initialUa.set(RelatesToPage, entity)
         } yield ua).success.value
-        val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+        setupMockSessionResponse(Some(userAnswers))
 
         val form = formProvider(entity)
 
-        running(application) {
-          val request = FakeRequest(GET, areYouTheEntityRoute)
-
-          val view = application.injector.instanceOf[AreYouTheEntityView]
-
-          val result = route(application, request).value
-
-          status(result) mustEqual OK
-          contentAsString(result) mustEqual view(form.fill(AreYouTheEntity.values.head), NormalMode, entity, false)(request, messages(application)).toString
-        }
-      }
-    }
-
-    "must redirect to the next page when valid data is submitted" in {
-
-      val mockSessionService = mock[SessionService]
-
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
-
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
-          )
-          .build()
-
-      running(application) {
-        val request =
-          FakeRequest(POST, areYouTheEntityRoute)
-            .withFormUrlEncodedBody(("value", AreYouTheEntity.values.head.toString))
-
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
-    }
-
-    "must return a Bad Request and errors when invalid data is submitted" in {
-
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
-
-      running(application) {
-        val request =
-          FakeRequest(POST, areYouTheEntityRoute)
-            .withFormUrlEncodedBody(("value", "invalid value"))
-
-        val form = formProvider(RelatesTo.AnIndividual)
-        val boundForm = form.bind(Map("value" -> "invalid value"))
+        val request = FakeRequest(GET, areYouTheEntityRoute)
 
         val view = application.injector.instanceOf[AreYouTheEntityView]
 
         val result = route(application, request).value
 
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, RelatesTo.AnIndividual, false)(request, messages(application)).toString
+        status(result) mustEqual OK
+        contentAsString(result) mustEqual view(form.fill(AreYouTheEntity.values.head), NormalMode, entity, false)(request, messages).toString
       }
+    }
+
+    "must redirect to the next page when valid data is submitted" in {
+
+      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
+
+      val request =
+        FakeRequest(POST, areYouTheEntityRoute)
+          .withFormUrlEncodedBody(("value", AreYouTheEntity.values.head.toString))
+
+      val result = route(applicationWithFakeNotificationNavigator(onwardRoute), request).value
+
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
+    }
+
+    "must return a Bad Request and errors when invalid data is submitted" in {
+
+      setupMockSessionResponse(Some(emptyUserAnswers))
+
+      val request =
+        FakeRequest(POST, areYouTheEntityRoute)
+          .withFormUrlEncodedBody(("value", "invalid value"))
+
+      val form = formProvider(RelatesTo.AnIndividual)
+      val boundForm = form.bind(Map("value" -> "invalid value"))
+
+      val view = application.injector.instanceOf[AreYouTheEntityView]
+
+      val result = route(application, request).value
+
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm, NormalMode, RelatesTo.AnIndividual, false)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, areYouTheEntityRoute)
+      val request = FakeRequest(GET, areYouTheEntityRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "redirect to Journey Recovery for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, areYouTheEntityRoute)
-            .withFormUrlEncodedBody(("value", AreYouTheEntity.values.head.toString))
+      val request =
+        FakeRequest(POST, areYouTheEntityRoute)
+          .withFormUrlEncodedBody(("value", AreYouTheEntity.values.head.toString))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
+      status(result) mustEqual SEE_OTHER
 
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
   }
 
@@ -176,7 +153,7 @@ class AreYouTheEntityControllerSpec extends SpecBase with MockitoSugar with Sect
         finalUa <- ua.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
       } yield finalUa).success.value
 
-      val application = applicationBuilder(userAnswers = Some(existingUserAnswers)).build()
+      setupMockSessionResponse(Some(existingUserAnswers))
       val sut = application.injector.instanceOf[AreYouTheEntityController]
 
       sut.changedPages(existingUserAnswers, AreYouTheEntity.YesIAm) mustEqual ((Nil, false))
@@ -189,7 +166,7 @@ class AreYouTheEntityControllerSpec extends SpecBase with MockitoSugar with Sect
         finalUa <- ua.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
       } yield finalUa).success.value
 
-      val application = applicationBuilder(userAnswers = Some(existingUserAnswers)).build()
+      setupMockSessionResponse(Some(existingUserAnswers))
       val sut = application.injector.instanceOf[AreYouTheEntityController]
 
       sut.changedPages(existingUserAnswers, AreYouTheEntity.YesIAm) mustEqual ((aboutYouPages ::: aboutIndividualPages ::: areYouTheOrganisationPages, true))
@@ -202,7 +179,7 @@ class AreYouTheEntityControllerSpec extends SpecBase with MockitoSugar with Sect
         finalUa <- ua.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
       } yield finalUa).success.value
 
-      val application = applicationBuilder(userAnswers = Some(existingUserAnswers)).build()
+      setupMockSessionResponse(Some(existingUserAnswers))
       val sut = application.injector.instanceOf[AreYouTheEntityController]
 
       sut.changedPages(existingUserAnswers, AreYouTheEntity.IAmAnAccountantOrTaxAgent) mustEqual ((aboutYouPages, true))
@@ -215,7 +192,7 @@ class AreYouTheEntityControllerSpec extends SpecBase with MockitoSugar with Sect
         finalUa <- ua.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
       } yield finalUa).success.value
 
-      val application = applicationBuilder(userAnswers = Some(existingUserAnswers)).build()
+      setupMockSessionResponse(Some(existingUserAnswers))
       val sut = application.injector.instanceOf[AreYouTheEntityController]
 
       sut.changedPages(existingUserAnswers, AreYouTheEntity.YesIAm) mustEqual ((areYouTheOrganisationPages, true))

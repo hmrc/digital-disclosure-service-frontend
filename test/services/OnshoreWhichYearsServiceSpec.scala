@@ -36,8 +36,7 @@ class OnshoreWhichYearsServiceSpec extends SpecBase {
     def date: LocalDate = LocalDate.of(year, 4, 6)
   }
 
-  val application = applicationBuilder(userAnswers = None).build()
-  implicit val mess: Messages = messages(application)
+  implicit val mess: Messages = messages
 
   "OnshoreWhichYearsServiceSpec" - {
 

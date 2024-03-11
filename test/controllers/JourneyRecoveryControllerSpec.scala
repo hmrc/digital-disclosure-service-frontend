@@ -30,19 +30,17 @@ class JourneyRecoveryControllerSpec extends SpecBase {
 
       "must return OK and the continue view" in {
 
-        val application = applicationBuilder(userAnswers = None).build()
+        setupMockSessionResponse()
 
-        running(application) {
-          val continueUrl = RedirectUrl("/foo")
-          val request     = FakeRequest(GET, routes.JourneyRecoveryController.onPageLoad(Some(continueUrl)).url)
+        val continueUrl = RedirectUrl("/foo")
+        val request     = FakeRequest(GET, routes.JourneyRecoveryController.onPageLoad(Some(continueUrl)).url)
 
-          val result = route(application, request).value
+        val result = route(application, request).value
 
-          val continueView = application.injector.instanceOf[JourneyRecoveryContinueView]
+        val continueView = application.injector.instanceOf[JourneyRecoveryContinueView]
 
-          status(result) mustEqual OK
-          contentAsString(result) mustEqual continueView(continueUrl.unsafeValue)(request, messages(application)).toString
-        }
+        status(result) mustEqual OK
+        contentAsString(result) mustEqual continueView(continueUrl.unsafeValue)(request, messages).toString
       }
     }
 
@@ -50,19 +48,17 @@ class JourneyRecoveryControllerSpec extends SpecBase {
 
       "must return OK and the start again view" in {
 
-        val application = applicationBuilder(userAnswers = None).build()
+        setupMockSessionResponse()
 
-        running(application) {
-          val continueUrl = RedirectUrl("https://foo.com")
-          val request     = FakeRequest(GET, routes.JourneyRecoveryController.onPageLoad(Some(continueUrl)).url)
+        val continueUrl = RedirectUrl("https://foo.com")
+        val request     = FakeRequest(GET, routes.JourneyRecoveryController.onPageLoad(Some(continueUrl)).url)
 
-          val result = route(application, request).value
+        val result = route(application, request).value
 
-          val startAgainView = application.injector.instanceOf[JourneyRecoveryStartAgainView]
+        val startAgainView = application.injector.instanceOf[JourneyRecoveryStartAgainView]
 
-          status(result) mustEqual OK
-          contentAsString(result) mustEqual startAgainView()(request, messages(application)).toString
-        }
+        status(result) mustEqual OK
+        contentAsString(result) mustEqual startAgainView()(request, messages).toString
       }
     }
 
@@ -70,18 +66,16 @@ class JourneyRecoveryControllerSpec extends SpecBase {
 
       "must return OK and the start again view" in {
 
-        val application = applicationBuilder(userAnswers = None).build()
+        setupMockSessionResponse()
 
-        running(application) {
-          val request = FakeRequest(GET, routes.JourneyRecoveryController.onPageLoad().url)
+        val request = FakeRequest(GET, routes.JourneyRecoveryController.onPageLoad().url)
 
-          val result = route(application, request).value
+        val result = route(application, request).value
 
-          val startAgainView = application.injector.instanceOf[JourneyRecoveryStartAgainView]
+        val startAgainView = application.injector.instanceOf[JourneyRecoveryStartAgainView]
 
-          status(result) mustEqual OK
-          contentAsString(result) mustEqual startAgainView()(request, messages(application)).toString
-        }
+        status(result) mustEqual OK
+        contentAsString(result) mustEqual startAgainView()(request, messages).toString
       }
     }
   }

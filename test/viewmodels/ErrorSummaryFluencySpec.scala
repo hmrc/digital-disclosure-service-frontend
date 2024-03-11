@@ -20,15 +20,14 @@ import base.SpecBase
 import forms.OnshoreTaxYearLiabilitiesFormProvider
 import models.WhatOnshoreLiabilitiesDoYouNeedToDisclose._
 import play.api.i18n.Messages
-import viewmodels.govuk.ErrorSummaryFluency
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
+import viewmodels.govuk.ErrorSummaryFluency
 
 class ErrorSummaryFluencySpec extends SpecBase with ErrorSummaryFluency {
 
     "check all required field errors are in order for onshore tax year liabilities view" in {
         val form = new OnshoreTaxYearLiabilitiesFormProvider()(Set(NonBusinessIncome, BusinessIncome, LettingIncome, Gains))
-        lazy val app = applicationBuilder(Some(emptyUserAnswers)).build()
-        implicit val message: Messages = messages(app)
+        implicit val message: Messages = messages
 
         val errorSummary = ErrorSummaryViewModel(
             form.bind(Map(

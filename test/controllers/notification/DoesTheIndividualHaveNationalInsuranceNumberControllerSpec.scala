@@ -14,20 +14,17 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.notification
 
 import base.ControllerSpecBase
 import forms.DoesTheIndividualHaveNationalInsuranceNumberFormProvider
 import models._
-import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import pages._
-import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
 import views.html.notification.DoesTheIndividualHaveNationalInsuranceNumberView
 
 import scala.concurrent.Future
@@ -36,7 +33,7 @@ class DoesTheIndividualHaveNationalInsuranceNumberControllerSpec extends Control
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val doesTheIndividualHaveNationalInsuranceNumberRoute = controllers.notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(NormalMode).url
+  lazy val doesTheIndividualHaveNationalInsuranceNumberRoute = routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(NormalMode).url
 
   val formProvider = new DoesTheIndividualHaveNationalInsuranceNumberFormProvider()
   val form = formProvider()
@@ -45,112 +42,92 @@ class DoesTheIndividualHaveNationalInsuranceNumberControllerSpec extends Control
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, doesTheIndividualHaveNationalInsuranceNumberRoute)
+      val request = FakeRequest(GET, doesTheIndividualHaveNationalInsuranceNumberRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[DoesTheIndividualHaveNationalInsuranceNumberView]
+      val view = application.injector.instanceOf[DoesTheIndividualHaveNationalInsuranceNumberView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, NormalMode, false)(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = UserAnswers(userAnswersId, "session-123").set(DoesTheIndividualHaveNationalInsuranceNumberPage, DoesTheIndividualHaveNationalInsuranceNumber.values.head).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, doesTheIndividualHaveNationalInsuranceNumberRoute)
+      val request = FakeRequest(GET, doesTheIndividualHaveNationalInsuranceNumberRoute)
 
-        val view = application.injector.instanceOf[DoesTheIndividualHaveNationalInsuranceNumberView]
+      val view = application.injector.instanceOf[DoesTheIndividualHaveNationalInsuranceNumberView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(DoesTheIndividualHaveNationalInsuranceNumber.values.head), NormalMode, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form.fill(DoesTheIndividualHaveNationalInsuranceNumber.values.head), NormalMode, false)(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
-          )
-          .build()
+      val request =
+        FakeRequest(POST, doesTheIndividualHaveNationalInsuranceNumberRoute)
+          .withFormUrlEncodedBody(("value", DoesTheIndividualHaveNationalInsuranceNumber.values.head.toString))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, doesTheIndividualHaveNationalInsuranceNumberRoute)
-            .withFormUrlEncodedBody(("value", DoesTheIndividualHaveNationalInsuranceNumber.values.head.toString))
+      val result = route(applicationWithFakeNotificationNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, doesTheIndividualHaveNationalInsuranceNumberRoute)
-            .withFormUrlEncodedBody(("value", "invalid value"))
+      val request =
+        FakeRequest(POST, doesTheIndividualHaveNationalInsuranceNumberRoute)
+          .withFormUrlEncodedBody(("value", "invalid value"))
 
-        val boundForm = form.bind(Map("value" -> "invalid value"))
+      val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[DoesTheIndividualHaveNationalInsuranceNumberView]
+      val view = application.injector.instanceOf[DoesTheIndividualHaveNationalInsuranceNumberView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm, NormalMode, false)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, doesTheIndividualHaveNationalInsuranceNumberRoute)
+      val request = FakeRequest(GET, doesTheIndividualHaveNationalInsuranceNumberRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "redirect to Journey Recovery for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, doesTheIndividualHaveNationalInsuranceNumberRoute)
-            .withFormUrlEncodedBody(("value", DoesTheIndividualHaveNationalInsuranceNumber.values.head.toString))
+      val request =
+        FakeRequest(POST, doesTheIndividualHaveNationalInsuranceNumberRoute)
+          .withFormUrlEncodedBody(("value", DoesTheIndividualHaveNationalInsuranceNumber.values.head.toString))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
+      status(result) mustEqual SEE_OTHER
 
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "must redirect to WhatIsIndividualsNationalInsuranceNumber page (change mode) if page answer changes from No to YesIKnow in check mode" in {
@@ -158,8 +135,8 @@ class DoesTheIndividualHaveNationalInsuranceNumberControllerSpec extends Control
       val previousAnswer = DoesTheIndividualHaveNationalInsuranceNumber.No
       val newAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow
 
-      val urlToTest = controllers.notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val urlToTest = routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(CheckMode).url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, DoesTheIndividualHaveNationalInsuranceNumberPage, urlToTest, destinationRoute, Nil)
     }
@@ -169,8 +146,8 @@ class DoesTheIndividualHaveNationalInsuranceNumberControllerSpec extends Control
       val previousAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesButDontKnow
       val newAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow
 
-      val urlToTest = controllers.notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val urlToTest = routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(CheckMode).url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, DoesTheIndividualHaveNationalInsuranceNumberPage, urlToTest, destinationRoute, Nil)
     }
@@ -180,8 +157,8 @@ class DoesTheIndividualHaveNationalInsuranceNumberControllerSpec extends Control
       val previousAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow
       val newAnswer = DoesTheIndividualHaveNationalInsuranceNumber.No
 
-      val urlToTest = controllers.notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, DoesTheIndividualHaveNationalInsuranceNumberPage, urlToTest, destinationRoute, List(WhatIsIndividualsNationalInsuranceNumberPage))
     }
@@ -191,8 +168,8 @@ class DoesTheIndividualHaveNationalInsuranceNumberControllerSpec extends Control
       val previousAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow
       val newAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesButDontKnow
 
-      val urlToTest = controllers.notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, DoesTheIndividualHaveNationalInsuranceNumberPage, urlToTest, destinationRoute, List(WhatIsIndividualsNationalInsuranceNumberPage))
     }
@@ -202,8 +179,8 @@ class DoesTheIndividualHaveNationalInsuranceNumberControllerSpec extends Control
       val previousAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow
       val newAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow
 
-      val urlToTest = controllers.notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, DoesTheIndividualHaveNationalInsuranceNumberPage, urlToTest, destinationRoute, Nil)
     }
@@ -213,8 +190,8 @@ class DoesTheIndividualHaveNationalInsuranceNumberControllerSpec extends Control
       val previousAnswer = DoesTheIndividualHaveNationalInsuranceNumber.No
       val newAnswer = DoesTheIndividualHaveNationalInsuranceNumber.No
 
-      val urlToTest = controllers.notification.routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, DoesTheIndividualHaveNationalInsuranceNumberPage, urlToTest, destinationRoute, Nil)
     }

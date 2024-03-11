@@ -14,25 +14,21 @@
  * limitations under the License.
  */
 
-package controllers
-
-import java.time.{LocalDate, ZoneOffset}
+package controllers.onshore
 
 import base.SpecBase
 import forms.CorporationTaxLiabilityFormProvider
-import models.{NormalMode, UserAnswers, CorporationTaxLiability}
-import navigation.{FakeOnshoreNavigator, OnshoreNavigator}
+import models.{CorporationTaxLiability, NormalMode, UserAnswers}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages.CorporationTaxLiabilityPage
-import play.api.inject.bind
 import play.api.mvc.{AnyContentAsEmpty, Call}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
 import views.html.onshore.CorporationTaxLiabilityView
 
+import java.time.{LocalDate, ZoneOffset}
 import scala.concurrent.Future
 
 class CorporationTaxLiabilityControllerSpec extends SpecBase with MockitoSugar {
@@ -44,7 +40,7 @@ class CorporationTaxLiabilityControllerSpec extends SpecBase with MockitoSugar {
 
   val validAnswer = LocalDate.now(ZoneOffset.UTC)
 
-  lazy val corporationTaxLiabilityRoute = onshore.routes.CorporationTaxLiabilityController.onPageLoad(0, NormalMode).url
+  lazy val corporationTaxLiabilityRoute = routes.CorporationTaxLiabilityController.onPageLoad(0, NormalMode).url
 
   override val emptyUserAnswers = UserAnswers(userAnswersId, "session-123")
 
@@ -64,114 +60,94 @@ class CorporationTaxLiabilityControllerSpec extends SpecBase with MockitoSugar {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val result = route(application, getRequest()).value
+      val result = route(application, getRequest()).value
 
-        val view = application.injector.instanceOf[CorporationTaxLiabilityView]
+      val view = application.injector.instanceOf[CorporationTaxLiabilityView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode, 0)(getRequest(), messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, NormalMode, 0)(getRequest(), messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
       
       val userAnswers = UserAnswers(userAnswersId, "session-123").set(CorporationTaxLiabilityPage, Seq(answer)).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val view = application.injector.instanceOf[CorporationTaxLiabilityView]
+      val view = application.injector.instanceOf[CorporationTaxLiabilityView]
 
-        val result = route(application, getRequest()).value
+      val result = route(application, getRequest()).value
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(answer), NormalMode, 0)(getRequest(), messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form.fill(answer), NormalMode, 0)(getRequest(), messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[OnshoreNavigator].toInstance(new FakeOnshoreNavigator(onwardRoute))
+      val request =
+        FakeRequest(POST, corporationTaxLiabilityRoute)
+          .withFormUrlEncodedBody(
+            ("periodEnd.day", "1"),
+            ("periodEnd.month", "12"),
+            ("periodEnd.year", "2012"),
+            ("howMuchIncome" , "100"),
+            ("howMuchUnpaid" , "100"),
+            ("howMuchInterest" , "100"),
+            ("penaltyRate" , "5"),
+            ("penaltyRateReason" , "Reason")
           )
-          .build()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, corporationTaxLiabilityRoute)
-            .withFormUrlEncodedBody(
-              ("periodEnd.day", "1"),
-              ("periodEnd.month", "12"),
-              ("periodEnd.year", "2012"),
-              ("howMuchIncome" , "100"),
-              ("howMuchUnpaid" , "100"),
-              ("howMuchInterest" , "100"),
-              ("penaltyRate" , "5"),
-              ("penaltyRateReason" , "Reason")
-            )
+      val result = route(applicationWithFakeOnshoreNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
       val request =
         FakeRequest(POST, corporationTaxLiabilityRoute)
           .withFormUrlEncodedBody(("value", "invalid value"))
 
-      running(application) {
-        val boundForm = form.bind(Map("value" -> "invalid value"))
+      val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[CorporationTaxLiabilityView]
+      val view = application.injector.instanceOf[CorporationTaxLiabilityView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, 0)(request, messages(application)).toString
-      }
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm, NormalMode, 0)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val result = route(application, getRequest()).value
+      val result = route(application, getRequest()).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "must redirect to Index for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, corporationTaxLiabilityRoute)
-            .withFormUrlEncodedBody(("howMuchIncome", "100"), ("field2", "value 2"))
+      val request =
+        FakeRequest(POST, corporationTaxLiabilityRoute)
+          .withFormUrlEncodedBody(("howMuchIncome", "100"), ("field2", "value 2"))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
   
   }

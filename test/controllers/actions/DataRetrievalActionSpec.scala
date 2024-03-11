@@ -43,9 +43,8 @@ class DataRetrievalActionSpec extends SpecBase with MockitoSugar {
 
       "must set userAnswers to 'None' in the request" in {
 
-        val sessionService = mock[SessionService]
-        when(sessionService.getSession(refEq("id"), any())(any())) thenReturn Future(None)
-        val action = new Harness(sessionService)
+        when(mockSessionService.getSession(refEq("id"), any())(any())) thenReturn Future(None)
+        val action = new Harness(mockSessionService)
 
         val result = action.callTransform(IdentifierRequest(FakeRequest(), "id", "session-123", false, None)).futureValue
 
@@ -57,9 +56,8 @@ class DataRetrievalActionSpec extends SpecBase with MockitoSugar {
 
       "must build a userAnswers object and add it to the request" in {
 
-        val sessionService = mock[SessionService]
-        when(sessionService.getSession(refEq("id"), any())(any())) thenReturn Future(Some(UserAnswers("id", "session-123")))
-        val action = new Harness(sessionService)
+        when(mockSessionService.getSession(refEq("id"), any())(any())) thenReturn Future(Some(UserAnswers("id", "session-123")))
+        val action = new Harness(mockSessionService)
 
         val result = action.callTransform(new IdentifierRequest(FakeRequest(), "id", "session-123", false, None)).futureValue
 

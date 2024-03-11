@@ -14,20 +14,17 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.notification
 
 import base.ControllerSpecBase
 import forms.AreYouRegisteredForSelfAssessmentFormProvider
 import models._
-import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import pages._
-import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
 import views.html.notification.AreYouRegisteredForSelfAssessmentView
 
 import scala.concurrent.Future
@@ -36,7 +33,7 @@ class AreYouRegisteredForSelfAssessmentControllerSpec extends ControllerSpecBase
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val areYouRegisteredForSelfAssessmentRoute = controllers.notification.routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(NormalMode).url
+  lazy val areYouRegisteredForSelfAssessmentRoute = routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(NormalMode).url
 
   val formProvider = new AreYouRegisteredForSelfAssessmentFormProvider()
   val form = formProvider()
@@ -45,112 +42,92 @@ class AreYouRegisteredForSelfAssessmentControllerSpec extends ControllerSpecBase
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, areYouRegisteredForSelfAssessmentRoute)
+      val request = FakeRequest(GET, areYouRegisteredForSelfAssessmentRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[AreYouRegisteredForSelfAssessmentView]
+      val view = application.injector.instanceOf[AreYouRegisteredForSelfAssessmentView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, NormalMode, false)(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = UserAnswers(userAnswersId, "session-123").set(AreYouRegisteredForSelfAssessmentPage, AreYouRegisteredForSelfAssessment.values.head).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, areYouRegisteredForSelfAssessmentRoute)
+      val request = FakeRequest(GET, areYouRegisteredForSelfAssessmentRoute)
 
-        val view = application.injector.instanceOf[AreYouRegisteredForSelfAssessmentView]
+      val view = application.injector.instanceOf[AreYouRegisteredForSelfAssessmentView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(AreYouRegisteredForSelfAssessment.values.head), NormalMode, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form.fill(AreYouRegisteredForSelfAssessment.values.head), NormalMode, false)(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
-          )
-          .build()
+      val request =
+        FakeRequest(POST, areYouRegisteredForSelfAssessmentRoute)
+          .withFormUrlEncodedBody(("value", AreYouRegisteredForSelfAssessment.values.head.toString))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, areYouRegisteredForSelfAssessmentRoute)
-            .withFormUrlEncodedBody(("value", AreYouRegisteredForSelfAssessment.values.head.toString))
+      val result = route(applicationWithFakeNotificationNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, areYouRegisteredForSelfAssessmentRoute)
-            .withFormUrlEncodedBody(("value", "invalid value"))
+      val request =
+        FakeRequest(POST, areYouRegisteredForSelfAssessmentRoute)
+          .withFormUrlEncodedBody(("value", "invalid value"))
 
-        val boundForm = form.bind(Map("value" -> "invalid value"))
+      val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[AreYouRegisteredForSelfAssessmentView]
+      val view = application.injector.instanceOf[AreYouRegisteredForSelfAssessmentView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm, NormalMode, false)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, areYouRegisteredForSelfAssessmentRoute)
+      val request = FakeRequest(GET, areYouRegisteredForSelfAssessmentRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "redirect to Journey Recovery for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, areYouRegisteredForSelfAssessmentRoute)
-            .withFormUrlEncodedBody(("value", AreYouRegisteredForSelfAssessment.values.head.toString))
+      val request =
+        FakeRequest(POST, areYouRegisteredForSelfAssessmentRoute)
+          .withFormUrlEncodedBody(("value", AreYouRegisteredForSelfAssessment.values.head.toString))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
+      status(result) mustEqual SEE_OTHER
 
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "must redirect to WhatIsYourUniqueTaxReference page (change mode) if page answer changes from No to YesIKnowMyUTR in check mode" in {
@@ -158,8 +135,8 @@ class AreYouRegisteredForSelfAssessmentControllerSpec extends ControllerSpecBase
       val previousAnswer = AreYouRegisteredForSelfAssessment.No
       val newAnswer = AreYouRegisteredForSelfAssessment.YesIKnowMyUTR
 
-      val urlToTest = controllers.notification.routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.WhatIsYourUniqueTaxReferenceController.onPageLoad(CheckMode).url
+      val urlToTest = routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.WhatIsYourUniqueTaxReferenceController.onPageLoad(CheckMode).url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, Nil)
     }
@@ -169,8 +146,8 @@ class AreYouRegisteredForSelfAssessmentControllerSpec extends ControllerSpecBase
       val previousAnswer = AreYouRegisteredForSelfAssessment.YesIDontKnowMyUTR
       val newAnswer = AreYouRegisteredForSelfAssessment.YesIKnowMyUTR
 
-      val urlToTest = controllers.notification.routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.WhatIsYourUniqueTaxReferenceController.onPageLoad(CheckMode).url
+      val urlToTest = routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.WhatIsYourUniqueTaxReferenceController.onPageLoad(CheckMode).url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, Nil)
     }
@@ -180,8 +157,8 @@ class AreYouRegisteredForSelfAssessmentControllerSpec extends ControllerSpecBase
       val previousAnswer = AreYouRegisteredForSelfAssessment.YesIKnowMyUTR
       val newAnswer = AreYouRegisteredForSelfAssessment.No
 
-      val urlToTest = controllers.notification.routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, List(WhatIsYourUniqueTaxReferencePage))
     }
@@ -191,8 +168,8 @@ class AreYouRegisteredForSelfAssessmentControllerSpec extends ControllerSpecBase
       val previousAnswer = AreYouRegisteredForSelfAssessment.YesIKnowMyUTR
       val newAnswer = AreYouRegisteredForSelfAssessment.YesIDontKnowMyUTR
 
-      val urlToTest = controllers.notification.routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, List(WhatIsYourUniqueTaxReferencePage))
     }
@@ -202,8 +179,8 @@ class AreYouRegisteredForSelfAssessmentControllerSpec extends ControllerSpecBase
       val previousAnswer = AreYouRegisteredForSelfAssessment.YesIKnowMyUTR
       val newAnswer = AreYouRegisteredForSelfAssessment.YesIKnowMyUTR
 
-      val urlToTest = controllers.notification.routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, Nil)
     }
@@ -213,8 +190,8 @@ class AreYouRegisteredForSelfAssessmentControllerSpec extends ControllerSpecBase
       val previousAnswer = AreYouRegisteredForSelfAssessment.No
       val newAnswer = AreYouRegisteredForSelfAssessment.No
 
-      val urlToTest = controllers.notification.routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, Nil)
     }

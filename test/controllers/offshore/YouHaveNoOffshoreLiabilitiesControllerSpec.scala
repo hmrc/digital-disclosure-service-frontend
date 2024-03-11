@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.offshore
 
 import base.SpecBase
-import models.{AreYouTheEntity, RelatesTo, UserAnswers, WhyAreYouMakingThisDisclosure, Behaviour}
+import models.{AreYouTheEntity, Behaviour, RelatesTo, UserAnswers, WhyAreYouMakingThisDisclosure}
 import pages.{AreYouTheEntityPage, RelatesToPage, WhyAreYouMakingThisDisclosurePage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import views.html.offshore.YouHaveNoOffshoreLiabilitiesView
 import services.OffshoreWhichYearsService
+import views.html.offshore.YouHaveNoOffshoreLiabilitiesView
 
 class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
 
@@ -45,21 +45,19 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
         updatedUa <- uaIndividual.set(WhyAreYouMakingThisDisclosurePage, reasons)
       } yield updatedUa).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, offshore.routes.YouHaveNoOffshoreLiabilitiesController.onPageLoad.url)
+      val request = FakeRequest(GET, routes.YouHaveNoOffshoreLiabilitiesController.onPageLoad.url)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val service = application.injector.instanceOf[OffshoreWhichYearsService]
-        val year = service.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
+      val service = application.injector.instanceOf[OffshoreWhichYearsService]
+      val year = service.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
 
-        val view = application.injector.instanceOf[YouHaveNoOffshoreLiabilitiesView]
+      val view = application.injector.instanceOf[YouHaveNoOffshoreLiabilitiesView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(entityString, entity, year)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(entityString, entity, year)(request, messages).toString
     }
 
     "must return OK and the correct view for a GET for Individual and the user is not the individual" in {
@@ -79,21 +77,19 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
         updatedUa <- uaIndividual.set(WhyAreYouMakingThisDisclosurePage, reasons)
       } yield updatedUa).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, offshore.routes.YouHaveNoOffshoreLiabilitiesController.onPageLoad.url)
+      val request = FakeRequest(GET, routes.YouHaveNoOffshoreLiabilitiesController.onPageLoad.url)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val service = application.injector.instanceOf[OffshoreWhichYearsService]
-        val year = service.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
+      val service = application.injector.instanceOf[OffshoreWhichYearsService]
+      val year = service.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
 
-        val view = application.injector.instanceOf[YouHaveNoOffshoreLiabilitiesView]
+      val view = application.injector.instanceOf[YouHaveNoOffshoreLiabilitiesView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(entityString, entity, year)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(entityString, entity, year)(request, messages).toString
     }
 
 
@@ -114,21 +110,19 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
         updatedUa <- uaIndividual.set(WhyAreYouMakingThisDisclosurePage, reasons)
       } yield updatedUa).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, offshore.routes.YouHaveNoOffshoreLiabilitiesController.onPageLoad.url)
+      val request = FakeRequest(GET, routes.YouHaveNoOffshoreLiabilitiesController.onPageLoad.url)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val service = application.injector.instanceOf[OffshoreWhichYearsService]
-        val year = service.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
+      val service = application.injector.instanceOf[OffshoreWhichYearsService]
+      val year = service.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
 
-        val view = application.injector.instanceOf[YouHaveNoOffshoreLiabilitiesView]
+      val view = application.injector.instanceOf[YouHaveNoOffshoreLiabilitiesView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(entityString, entity, year)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(entityString, entity, year)(request, messages).toString
     }
 
 
@@ -148,21 +142,19 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
         updatedUa <- uaIndividual.set(WhyAreYouMakingThisDisclosurePage, reasons)
       } yield updatedUa).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, offshore.routes.YouHaveNoOffshoreLiabilitiesController.onPageLoad.url)
+      val request = FakeRequest(GET, routes.YouHaveNoOffshoreLiabilitiesController.onPageLoad.url)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val service = application.injector.instanceOf[OffshoreWhichYearsService]
-        val year = service.getEarliestYearByBehaviour(Behaviour.Careless).toString
+      val service = application.injector.instanceOf[OffshoreWhichYearsService]
+      val year = service.getEarliestYearByBehaviour(Behaviour.Careless).toString
 
-        val view = application.injector.instanceOf[YouHaveNoOffshoreLiabilitiesView]
+      val view = application.injector.instanceOf[YouHaveNoOffshoreLiabilitiesView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(entityString, entity, year)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(entityString, entity, year)(request, messages).toString
     }
 
     "must return OK and the correct view with 2021 year for a GET for an Entity different from individual" in {
@@ -178,21 +170,19 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
         updatedUa <- uaIndividual.set(WhyAreYouMakingThisDisclosurePage, reasons)
       } yield updatedUa).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, offshore.routes.YouHaveNoOffshoreLiabilitiesController.onPageLoad.url)
+      val request = FakeRequest(GET, routes.YouHaveNoOffshoreLiabilitiesController.onPageLoad.url)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val service = application.injector.instanceOf[OffshoreWhichYearsService]
-        val year = service.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString
+      val service = application.injector.instanceOf[OffshoreWhichYearsService]
+      val year = service.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString
 
-        val view = application.injector.instanceOf[YouHaveNoOffshoreLiabilitiesView]
+      val view = application.injector.instanceOf[YouHaveNoOffshoreLiabilitiesView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(entityString, entity, year)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(entityString, entity, year)(request, messages).toString
     }
   }
 }

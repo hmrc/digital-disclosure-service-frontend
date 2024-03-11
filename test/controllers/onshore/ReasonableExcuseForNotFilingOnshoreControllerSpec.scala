@@ -14,22 +14,19 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.onshore
 
 import base.SpecBase
 import forms.ReasonableExcuseForNotFilingOnshoreFormProvider
-import models.{AreYouTheEntity, NormalMode, ReasonableExcuseForNotFilingOnshore, UserAnswers, RelatesTo}
-import navigation.{FakeOnshoreNavigator, OnshoreNavigator}
+import models.{AreYouTheEntity, NormalMode, ReasonableExcuseForNotFilingOnshore, RelatesTo, UserAnswers}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages._
-import play.api.inject.bind
 import play.api.libs.json.Json
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
 import views.html.onshore.ReasonableExcuseForNotFilingOnshoreView
 
 import scala.concurrent.Future
@@ -41,7 +38,7 @@ class ReasonableExcuseForNotFilingOnshoreControllerSpec extends SpecBase with Mo
   val formProvider = new ReasonableExcuseForNotFilingOnshoreFormProvider()
   val form = formProvider(true)
 
-  lazy val whatIsYourReasonableExcuseForNotFilingReturnRoute = onshore.routes.ReasonableExcuseForNotFilingOnshoreController.onPageLoad(NormalMode).url
+  lazy val whatIsYourReasonableExcuseForNotFilingReturnRoute = routes.ReasonableExcuseForNotFilingOnshoreController.onPageLoad(NormalMode).url
 
   "ReasonableExcuseForNotFilingOnshore Controller" - {
 
@@ -54,18 +51,16 @@ class ReasonableExcuseForNotFilingOnshoreControllerSpec extends SpecBase with Mo
       val areTheyTheIndividual = userAnswers.isTheUserTheIndividual
       val entity = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, whatIsYourReasonableExcuseForNotFilingReturnRoute)
+      val request = FakeRequest(GET, whatIsYourReasonableExcuseForNotFilingReturnRoute)
 
-        val view = application.injector.instanceOf[ReasonableExcuseForNotFilingOnshoreView]
+      val view = application.injector.instanceOf[ReasonableExcuseForNotFilingOnshoreView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode, areTheyTheIndividual, entity)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, NormalMode, areTheyTheIndividual, entity)(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -88,18 +83,16 @@ class ReasonableExcuseForNotFilingOnshoreControllerSpec extends SpecBase with Mo
       val areTheyTheIndividual = ua.isTheUserTheIndividual
       val entity = ua.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
-      val application = applicationBuilder(userAnswers = Some(ua)).build()
+      setupMockSessionResponse(Some(ua))
 
-      running(application) {
-        val request = FakeRequest(GET, whatIsYourReasonableExcuseForNotFilingReturnRoute)
+      val request = FakeRequest(GET, whatIsYourReasonableExcuseForNotFilingReturnRoute)
 
-        val view = application.injector.instanceOf[ReasonableExcuseForNotFilingOnshoreView]
+      val view = application.injector.instanceOf[ReasonableExcuseForNotFilingOnshoreView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(ReasonableExcuseForNotFilingOnshore("", "")), NormalMode, areTheyTheIndividual, entity)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form.fill(ReasonableExcuseForNotFilingOnshore("", "")), NormalMode, areTheyTheIndividual, entity)(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -109,27 +102,17 @@ class ReasonableExcuseForNotFilingOnshoreControllerSpec extends SpecBase with Mo
         uaWithRelatesToPage <- updatedAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
-      val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(ua))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(ua), mockSessionService)
-          .overrides(
-            bind[OnshoreNavigator].toInstance(new FakeOnshoreNavigator(onwardRoute))
-          )
-          .build()
+      val request =
+        FakeRequest(POST, whatIsYourReasonableExcuseForNotFilingReturnRoute)
+          .withFormUrlEncodedBody(("reasonableExcuse", "value 1"), ("yearsThisAppliesTo", "value 2"))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, whatIsYourReasonableExcuseForNotFilingReturnRoute)
-            .withFormUrlEncodedBody(("reasonableExcuse", "value 1"), ("yearsThisAppliesTo", "value 2"))
+      val result = route(applicationWithFakeOnshoreNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
@@ -142,52 +125,46 @@ class ReasonableExcuseForNotFilingOnshoreControllerSpec extends SpecBase with Mo
       val areTheyTheIndividual = ua.isTheUserTheIndividual
       val entity = ua.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
-      val application = applicationBuilder(userAnswers = Some(ua)).build()
+      setupMockSessionResponse(Some(ua))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, whatIsYourReasonableExcuseForNotFilingReturnRoute)
-            .withFormUrlEncodedBody(("value", "invalid value"))
+      val request =
+        FakeRequest(POST, whatIsYourReasonableExcuseForNotFilingReturnRoute)
+          .withFormUrlEncodedBody(("value", "invalid value"))
 
-        val boundForm = form.bind(Map("value" -> "invalid value"))
+      val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[ReasonableExcuseForNotFilingOnshoreView]
+      val view = application.injector.instanceOf[ReasonableExcuseForNotFilingOnshoreView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(request, messages(application)).toString
-      }
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, whatIsYourReasonableExcuseForNotFilingReturnRoute)
+      val request = FakeRequest(GET, whatIsYourReasonableExcuseForNotFilingReturnRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "must redirect to Index for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, whatIsYourReasonableExcuseForNotFilingReturnRoute)
-            .withFormUrlEncodedBody(("reasonableExcuse", "value 1"), ("yearsThisAppliesTo", "value 2"))
+      val request =
+        FakeRequest(POST, whatIsYourReasonableExcuseForNotFilingReturnRoute)
+          .withFormUrlEncodedBody(("reasonableExcuse", "value 1"), ("yearsThisAppliesTo", "value 2"))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
   }
 

@@ -32,8 +32,8 @@ import viewmodels.RevealFullText
 
 class DirectorLoanAccountLiabilitiesSummaryViewModelSpec extends SpecBase with ScalaCheckPropertyChecks {
 
-    lazy val app = applicationBuilder(Some(emptyUserAnswers)).build()
-    implicit val mess: Messages = messages(app)
+    lazy val app = application
+    implicit val mess: Messages = messages
     val revealFullText = app.injector.instanceOf[RevealFullText]
     
     val sut = app.injector.instanceOf[DirectorLoanAccountLiabilitiesSummaryViewModelCreation]

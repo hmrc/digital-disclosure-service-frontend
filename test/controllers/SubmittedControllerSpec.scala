@@ -26,6 +26,8 @@ import java.time.LocalDate
 
 class SubmittedControllerSpec extends SpecBase {
 
+  val view: SubmittedView = application.injector.instanceOf[SubmittedView]
+
   "Submitted Controller" - {
 
     "must return OK and the correct view for a GET when tax year is not empty" in {
@@ -44,37 +46,29 @@ class SubmittedControllerSpec extends SpecBase {
 
       val userAnswers = (for {
         ua <- UserAnswers("id", "session-123").set(TaxYearLiabilitiesPage, Map("2021" -> TaxYearWithLiabilities(TaxYearStarting(2021), answer)))
-        updatedUa <- ua.set(WhatIsTheCaseReferencePage, "CSFF-12345")  
-      } yield updatedUa).success.value 
+        updatedUa <- ua.set(WhatIsTheCaseReferencePage, "CSFF-12345")
+      } yield updatedUa).success.value
       
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, routes.SubmittedController.onPageLoad("reference").url)
+      val request = FakeRequest(GET, routes.SubmittedController.onPageLoad("reference").url)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[SubmittedView]
-
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(true, false, "reference")(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(true, false, "reference")(request, messages).toString
     }
 
     "must return OK and the correct view for a GET when tax year is empty" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, routes.SubmittedController.onPageLoad("reference").url)
+      val request = FakeRequest(GET, routes.SubmittedController.onPageLoad("reference").url)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[SubmittedView]
-
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(false, true, "reference")(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(false, true, "reference")(request, messages).toString
     }
 
     "must return OK and the correct view for a disclosure when offshore/onshore tax year and corporate tax, directors loan is available" in {
@@ -134,18 +128,14 @@ class SubmittedControllerSpec extends SpecBase {
         uaWithDL        <- uaWithCT.set(DirectorLoanAccountLiabilitiesPage, dlliabilities)
       } yield uaWithDL).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, routes.SubmittedController.onPageLoad("reference").url)
+      val request = FakeRequest(GET, routes.SubmittedController.onPageLoad("reference").url)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[SubmittedView]
-
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(false, false, "reference")(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(false, false, "reference")(request, messages).toString
     }
   }
 }

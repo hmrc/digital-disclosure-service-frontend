@@ -26,8 +26,8 @@ import viewmodels.govuk.summarylist._
 
 class LiabilitiesSummarySpec extends SpecBase {
 
-  lazy val app = applicationBuilder(Some(emptyUserAnswers)).build()
-  implicit val mess: Messages = messages(app)
+  lazy val app = application
+  implicit val mess: Messages = messages
 
   "LiabilitiesSummary.row" - {
 

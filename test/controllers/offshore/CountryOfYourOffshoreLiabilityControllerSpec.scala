@@ -14,28 +14,25 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.offshore
 
 import base.SpecBase
 import config.{Countries, Country}
 import forms.CountryOfYourOffshoreLiabilityFormProvider
 import models.{NormalMode, UserAnswers}
-import navigation.{FakeOffshoreNavigator, OffshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages.CountryOfYourOffshoreLiabilityPage
 import play.api.Environment
-import play.api.inject.bind
 import play.api.mvc.Call
-import play.api.test.{FakeRequest, Injecting}
+import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
 import views.html.offshore.CountryOfYourOffshoreLiabilityView
 
 import scala.concurrent.Future
 
-class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with Injecting with MockitoSugar {
+class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
@@ -43,129 +40,111 @@ class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with Injecti
   val country = Country(countryCode, "Afghanistan")
   val countriesMap = Map(countryCode -> Country(countryCode, "Afghanistan"))
   val userAnswers = UserAnswers(userAnswersId, "session-123").set(CountryOfYourOffshoreLiabilityPage, countriesMap).success.value
-  val app = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-  lazy val countryOfYourOffshoreLiabilityRoute = offshore.routes.CountryOfYourOffshoreLiabilityController.onPageLoad(Some(countryCode), NormalMode).url
+  lazy val countryOfYourOffshoreLiabilityRoute = routes.CountryOfYourOffshoreLiabilityController.onPageLoad(Some(countryCode), NormalMode).url
 
   "CountryOfYourOffshoreLiability Controller" - {
 
     "must return OK and the correct view for a GET" in {
-      lazy val env: Environment = inject[Environment]
+      lazy val env: Environment = application.injector.instanceOf[Environment]
       val countries = new Countries(env)
 
       val formProvider = new CountryOfYourOffshoreLiabilityFormProvider(countries)
       val form = formProvider()
 
-      running(app) {
-        val request = FakeRequest(GET, countryOfYourOffshoreLiabilityRoute)
+      setupMockSessionResponse(Some(userAnswers))
 
-        val result = route(app, request).value
+      val request = FakeRequest(GET, countryOfYourOffshoreLiabilityRoute)
 
-        val view = app.injector.instanceOf[CountryOfYourOffshoreLiabilityView]
+      val result = route(application, request).value
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(app)).toString
-      }
+      val view = application.injector.instanceOf[CountryOfYourOffshoreLiabilityView]
+
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, NormalMode)(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      lazy val env: Environment = inject[Environment]
+      lazy val env: Environment = application.injector.instanceOf[Environment]
       val countries = new Countries(env)
 
       val formProvider = new CountryOfYourOffshoreLiabilityFormProvider(countries)
       val form = formProvider()
 
-      val app = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(app) {
-        val request = FakeRequest(GET, countryOfYourOffshoreLiabilityRoute)
+      val request = FakeRequest(GET, countryOfYourOffshoreLiabilityRoute)
 
-        val view = app.injector.instanceOf[CountryOfYourOffshoreLiabilityView]
+      val view = application.injector.instanceOf[CountryOfYourOffshoreLiabilityView]
 
-        val result = route(app, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(country), NormalMode)(request, messages(app)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form.fill(country), NormalMode)(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      val mockSessionService = mock[SessionService]
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[OffshoreNavigator].toInstance(new FakeOffshoreNavigator(onwardRoute))
-          )
-          .build()
+      val request =
+        FakeRequest(POST, countryOfYourOffshoreLiabilityRoute)
+          .withFormUrlEncodedBody(("country", "AFG"))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, countryOfYourOffshoreLiabilityRoute)
-            .withFormUrlEncodedBody(("country", "AFG"))
+      val result = route(applicationWithFakeOffshoreNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
-      lazy val env: Environment = inject[Environment]
+      lazy val env: Environment = application.injector.instanceOf[Environment]
       val countries = new Countries(env)
 
       val formProvider = new CountryOfYourOffshoreLiabilityFormProvider(countries)
       val form = formProvider()
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, countryOfYourOffshoreLiabilityRoute)
-            .withFormUrlEncodedBody(("country", ""))
+      val request =
+        FakeRequest(POST, countryOfYourOffshoreLiabilityRoute)
+          .withFormUrlEncodedBody(("country", ""))
 
-        val boundForm = form.bind(Map("country" -> ""))
+      val boundForm = form.bind(Map("country" -> ""))
 
-        val view = application.injector.instanceOf[CountryOfYourOffshoreLiabilityView]
+      val view = application.injector.instanceOf[CountryOfYourOffshoreLiabilityView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages(application)).toString
-      }
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, countryOfYourOffshoreLiabilityRoute)
+      val request = FakeRequest(GET, countryOfYourOffshoreLiabilityRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "must redirect to Index for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, countryOfYourOffshoreLiabilityRoute)
-            .withFormUrlEncodedBody(("country", "answer"))
+      val request =
+        FakeRequest(POST, countryOfYourOffshoreLiabilityRoute)
+          .withFormUrlEncodedBody(("country", "answer"))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
   }
 }

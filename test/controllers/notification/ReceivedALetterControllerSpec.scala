@@ -14,20 +14,17 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.notification
 
 import base.ControllerSpecBase
 import forms.ReceivedALetterFormProvider
 import models._
-import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import pages._
-import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
 import views.html.notification.ReceivedALetterView
 
 import scala.concurrent.Future
@@ -39,42 +36,38 @@ class ReceivedALetterControllerSpec extends ControllerSpecBase {
   val formProvider = new ReceivedALetterFormProvider()
   val form = formProvider()
 
-  lazy val receivedALetterRoute = controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url
+  lazy val receivedALetterRoute = routes.ReceivedALetterController.onPageLoad(NormalMode).url
   
   "ReceivedALetter Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, receivedALetterRoute)
+      val request = FakeRequest(GET, receivedALetterRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[ReceivedALetterView]
+      val view = application.injector.instanceOf[ReceivedALetterView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, NormalMode, false)(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = UserAnswers(userAnswersId, "session-123").set(ReceivedALetterPage, true).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, receivedALetterRoute)
+      val request = FakeRequest(GET, receivedALetterRoute)
 
-        val view = application.injector.instanceOf[ReceivedALetterView]
+      val view = application.injector.instanceOf[ReceivedALetterView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(true), NormalMode, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form.fill(true), NormalMode, false)(request, messages).toString
     }
 
     "must redirect to received a letter screen and then letter reference page (change mode) if received a letter page answer changes from No to Yes in check mode" in {
@@ -82,8 +75,8 @@ class ReceivedALetterControllerSpec extends ControllerSpecBase {
       val previousAnswer = false
       val newAnswer = true
 
-      val urlToTest = controllers.notification.routes.ReceivedALetterController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.LetterReferenceController.onPageLoad(CheckMode).url
+      val urlToTest = routes.ReceivedALetterController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.LetterReferenceController.onPageLoad(CheckMode).url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, ReceivedALetterPage, urlToTest, destinationRoute)
     }
@@ -93,85 +86,69 @@ class ReceivedALetterControllerSpec extends ControllerSpecBase {
       val previousAnswer = true
       val newAnswer = false
 
-      val urlToTest = controllers.notification.routes.ReceivedALetterController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = routes.ReceivedALetterController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, ReceivedALetterPage, urlToTest, destinationRoute, List(LetterReferencePage))
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
-          )
-          .build()
+      val request =
+        FakeRequest(POST, receivedALetterRoute)
+          .withFormUrlEncodedBody(("value", "true"))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, receivedALetterRoute)
-            .withFormUrlEncodedBody(("value", "true"))
+      val result = route(applicationWithFakeNotificationNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, receivedALetterRoute)
-            .withFormUrlEncodedBody(("value", ""))
+      val request =
+        FakeRequest(POST, receivedALetterRoute)
+          .withFormUrlEncodedBody(("value", ""))
 
-        val boundForm = form.bind(Map("value" -> ""))
+      val boundForm = form.bind(Map("value" -> ""))
 
-        val view = application.injector.instanceOf[ReceivedALetterView]
+      val view = application.injector.instanceOf[ReceivedALetterView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm, NormalMode, false)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, receivedALetterRoute)
+      val request = FakeRequest(GET, receivedALetterRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "must redirect to Index for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, receivedALetterRoute)
-            .withFormUrlEncodedBody(("value", "true"))
+      val request =
+        FakeRequest(POST, receivedALetterRoute)
+          .withFormUrlEncodedBody(("value", "true"))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
   }
 }

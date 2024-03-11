@@ -39,18 +39,16 @@ class MakingNilDisclosureControllerSpec extends SpecBase {
         updatedUa <- ua.set(WhyAreYouMakingThisOnshoreDisclosurePage, set)
       } yield updatedUa).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, routes.MakingNilDisclosureController.onPageLoad.url)
+      val request = FakeRequest(GET, routes.MakingNilDisclosureController.onPageLoad.url)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[MakingNilDisclosureView]
+      val view = application.injector.instanceOf[MakingNilDisclosureView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(userAnswers.isTheUserTheIndividual, entity, years)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(userAnswers.isTheUserTheIndividual, entity, years)(request, messages).toString
     }
   }
 }

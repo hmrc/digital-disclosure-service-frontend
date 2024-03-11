@@ -17,12 +17,11 @@
 package controllers
 
 import base.SpecBase
-import org.mockito.ArgumentMatchers.{refEq, any}
+import org.mockito.ArgumentMatchers.{any, refEq}
 import org.mockito.Mockito.{never, times, verify, when}
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
 
 import scala.concurrent.Future
 
@@ -34,22 +33,15 @@ class KeepAliveControllerSpec extends SpecBase with MockitoSugar {
 
       "must keep the answers alive and return OK" in {
 
-        val mockSessionService = mock[SessionService]
         when(mockSessionService.keepAlive(any(), any())) thenReturn Future.successful(true)
+        setupMockSessionResponse(Some(emptyUserAnswers))
 
-        val application =
-          applicationBuilderWithSessionService(Some(emptyUserAnswers), mockSessionService)
-            .build()
+        val request = FakeRequest(GET, routes.KeepAliveController.keepAlive.url)
 
-        running(application) {
+        val result = route(application, request).value
 
-          val request = FakeRequest(GET, routes.KeepAliveController.keepAlive.url)
-
-          val result = route(application, request).value
-
-          status(result) mustEqual OK
-          verify(mockSessionService, times(1)).keepAlive(refEq(emptyUserAnswers.id), any())
-        }
+        status(result) mustEqual OK
+        verify(mockSessionService, times(1)).keepAlive(refEq(emptyUserAnswers.id), any())
       }
     }
 
@@ -57,22 +49,15 @@ class KeepAliveControllerSpec extends SpecBase with MockitoSugar {
 
       "must return OK" in {
 
-        val mockSessionService = mock[SessionService]
         when(mockSessionService.keepAlive(any(), any())) thenReturn Future.successful(true)
+        setupMockSessionResponse()
 
-        val application =
-          applicationBuilderWithSessionService(None, mockSessionService)
-            .build()
+        val request = FakeRequest(GET, routes.KeepAliveController.keepAlive.url)
 
-        running(application) {
+        val result = route(application, request).value
 
-          val request = FakeRequest(GET, routes.KeepAliveController.keepAlive.url)
-
-          val result = route(application, request).value
-
-          status(result) mustEqual OK
-          verify(mockSessionService, never()).keepAlive(any(), any())
-        }
+        status(result) mustEqual OK
+        verify(mockSessionService, never()).keepAlive(any(), any())
       }
     }
   }

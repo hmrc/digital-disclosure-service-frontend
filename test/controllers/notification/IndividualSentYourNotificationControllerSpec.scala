@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.notification
 
 import base.SpecBase
 import play.api.test.FakeRequest
@@ -27,18 +27,16 @@ class IndividualSentYourNotificationControllerSpec extends SpecBase {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, controllers.notification.routes.IndividualSentYourNotificationController.onPageLoad.url)
+      val request = FakeRequest(GET, routes.IndividualSentYourNotificationController.onPageLoad.url)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[IndividualSentYourNotificationView]
+      val view = application.injector.instanceOf[IndividualSentYourNotificationView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(false)(request, messages).toString
     }
   }
 }

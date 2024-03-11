@@ -18,114 +18,98 @@ package controllers
 
 import base.SpecBase
 import forms.MakeANotificationOrDisclosureFormProvider
-import models.{UserAnswers, MakeANotificationOrDisclosure}
 import models.audit._
+import models.{MakeANotificationOrDisclosure, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
-import org.mockito.ArgumentMatchers.{refEq, any}
+import org.mockito.ArgumentMatchers.{any, refEq}
 import org.mockito.Mockito.{verify, when}
 import org.scalatestplus.mockito.MockitoSugar
+import play.api.data.Form
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.{AuditService, SessionService}
+import services.AuditService
 import views.html.MakeANotificationOrDisclosureView
 
 import scala.concurrent.Future
 
 class MakeANotificationOrDisclosureControllerSpec extends SpecBase with MockitoSugar {
 
-  def onwardRoute = Call("GET", "/foo")
+  def onwardRoute: Call = Call("GET", "/foo")
 
-  lazy val makeANotificationOrDisclosureRoute = routes.MakeANotificationOrDisclosureController.onPageLoad.url
+  lazy val makeANotificationOrDisclosureRoute: String = routes.MakeANotificationOrDisclosureController.onPageLoad.url
 
   val formProvider = new MakeANotificationOrDisclosureFormProvider()
-  val form = formProvider()
+  val form: Form[MakeANotificationOrDisclosure] = formProvider()
+  val view: MakeANotificationOrDisclosureView = application.injector.instanceOf[MakeANotificationOrDisclosureView]
 
   "MakeANotificationOrDisclosure Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, makeANotificationOrDisclosureRoute)
+      val request = FakeRequest(GET, makeANotificationOrDisclosureRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[MakeANotificationOrDisclosureView]
-
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form)(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[Navigator].toInstance(new FakeNavigator(onwardRoute))
-          )
-          .build()
+      val request =
+        FakeRequest(POST, makeANotificationOrDisclosureRoute)
+          .withFormUrlEncodedBody(("value", MakeANotificationOrDisclosure.values.head.toString))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, makeANotificationOrDisclosureRoute)
-            .withFormUrlEncodedBody(("value", MakeANotificationOrDisclosure.values.head.toString))
+      val result = route(applicationWithFakeNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must send a NotificationStart audit event when a notification is started" in {
 
-      val mockSessionService = mock[SessionService]
       val mockAuditService = mock[AuditService]
 
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
       val expectedAuditEvent = NotificationStart (
         userId = "id",
         submissionId = UserAnswers.defaultSubmissionId,
         isAgent = false,
         agentReference = None
-      ) 
+      )
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
-            bind[AuditService].toInstance(mockAuditService)
-          )
-          .build()
+      val applicationWithFakeNavigator = applicationBuilder
+        .overrides(
+          bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
+          bind[AuditService].toInstance(mockAuditService)
+        ).build()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, makeANotificationOrDisclosureRoute)
-            .withFormUrlEncodedBody(("value", MakeANotificationOrDisclosure.MakeANotification.toString))
+      val request =
+        FakeRequest(POST, makeANotificationOrDisclosureRoute)
+          .withFormUrlEncodedBody(("value", MakeANotificationOrDisclosure.MakeANotification.toString))
 
-        val result = route(application, request).value
+      val result = route(applicationWithFakeNavigator, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-        verify(mockAuditService).auditNotificationStart(refEq(expectedAuditEvent))(any())
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
+      verify(mockAuditService).auditNotificationStart(refEq(expectedAuditEvent))(any())
     }
 
     "must send a DisclosureStart audit event when a disclosure is started" in {
 
-      val mockSessionService = mock[SessionService]
       val mockAuditService = mock[AuditService]
 
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
       val expectedAuditEvent = DisclosureStart (
         userId = "id",
@@ -133,47 +117,39 @@ class MakeANotificationOrDisclosureControllerSpec extends SpecBase with MockitoS
         isAgent = false,
         agentReference = None,
         notificationSubmitted = false
-      ) 
+      )
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
-            bind[AuditService].toInstance(mockAuditService)
-          )
-          .build()
+      val applicationWithFakeNavigator = applicationBuilder
+        .overrides(
+          bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
+          bind[AuditService].toInstance(mockAuditService)
+        ).build()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, makeANotificationOrDisclosureRoute)
-            .withFormUrlEncodedBody(("value", MakeANotificationOrDisclosure.MakeADisclosure.toString))
+      val request =
+        FakeRequest(POST, makeANotificationOrDisclosureRoute)
+          .withFormUrlEncodedBody(("value", MakeANotificationOrDisclosure.MakeADisclosure.toString))
 
-        val result = route(application, request).value
+      val result = route(applicationWithFakeNavigator, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-        verify(mockAuditService).auditDisclosureStart(refEq(expectedAuditEvent))(any())
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
+      verify(mockAuditService).auditDisclosureStart(refEq(expectedAuditEvent))(any())
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, makeANotificationOrDisclosureRoute)
-            .withFormUrlEncodedBody(("value", "invalid value"))
+      val request =
+        FakeRequest(POST, makeANotificationOrDisclosureRoute)
+          .withFormUrlEncodedBody(("value", "invalid value"))
 
-        val boundForm = form.bind(Map("value" -> "invalid value"))
+      val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[MakeANotificationOrDisclosureView]
+      val result = route(application, request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm)(request, messages(application)).toString
-      }
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm)(request, messages).toString
     }
   }
 }

@@ -14,21 +14,18 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.offshore
 
 import base.SpecBase
 import forms.YouHaveNotIncludedTheTaxYearFormProvider
-import models.{OffshoreYears, TaxYearStarting, NormalMode, UserAnswers}
-import navigation.{FakeOffshoreNavigator, OffshoreNavigator}
+import models.{NormalMode, OffshoreYears, TaxYearStarting, UserAnswers}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.{YouHaveNotIncludedTheTaxYearPage, WhichYearsPage}
-import play.api.inject.bind
+import pages.{WhichYearsPage, YouHaveNotIncludedTheTaxYearPage}
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
 import views.html.offshore.YouHaveNotIncludedTheTaxYearView
 
 import scala.concurrent.Future
@@ -43,10 +40,10 @@ class YouHaveNotIncludedTheTaxYearControllerSpec extends SpecBase with MockitoSu
   val lastYear = "2021"
   val form = formProvider(missingYear)
 
-  lazy val youHaveNotIncludedTheTaxYearRoute = offshore.routes.YouHaveNotIncludedTheTaxYearController.onPageLoad(NormalMode).url
-  lazy val whichYearsRoute = offshore.routes.WhichYearsController.onPageLoad(NormalMode).url
-  lazy val countryRoute = offshore.routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode).url
-  lazy val youHaveNotSelectedCertainTaxYearRoute = offshore.routes.YouHaveNotSelectedCertainTaxYearController.onPageLoad(NormalMode).url
+  lazy val youHaveNotIncludedTheTaxYearRoute = routes.YouHaveNotIncludedTheTaxYearController.onPageLoad(NormalMode).url
+  lazy val whichYearsRoute = routes.WhichYearsController.onPageLoad(NormalMode).url
+  lazy val countryRoute = routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode).url
+  lazy val youHaveNotSelectedCertainTaxYearRoute = routes.YouHaveNotSelectedCertainTaxYearController.onPageLoad(NormalMode).url
 
   "YouHaveNotIncludedTheTaxYear Controller" - {
 
@@ -55,18 +52,16 @@ class YouHaveNotIncludedTheTaxYearControllerSpec extends SpecBase with MockitoSu
       val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2020), TaxYearStarting(2018))
       val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhichYearsPage, whichYears).success.value
       
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, youHaveNotIncludedTheTaxYearRoute)
-        
-        val result = route(application, request).value
-        
-        val view = application.injector.instanceOf[YouHaveNotIncludedTheTaxYearView]
-        
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode, missingYear, firstYear, lastYear)(request, messages(application)).toString
-      }
+      val request = FakeRequest(GET, youHaveNotIncludedTheTaxYearRoute)
+
+      val result = route(application, request).value
+
+      val view = application.injector.instanceOf[YouHaveNotIncludedTheTaxYearView]
+
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, NormalMode, missingYear, firstYear, lastYear)(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -75,43 +70,31 @@ class YouHaveNotIncludedTheTaxYearControllerSpec extends SpecBase with MockitoSu
       val userAnswersWithTaxYears = UserAnswers(userAnswersId, "session-123").set(WhichYearsPage, whichYears).success.value
       val userAnswers = userAnswersWithTaxYears.set(YouHaveNotIncludedTheTaxYearPage, "answer").success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, youHaveNotIncludedTheTaxYearRoute)
+      val request = FakeRequest(GET, youHaveNotIncludedTheTaxYearRoute)
 
-        val view = application.injector.instanceOf[YouHaveNotIncludedTheTaxYearView]
+      val view = application.injector.instanceOf[YouHaveNotIncludedTheTaxYearView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill("answer"), NormalMode, missingYear, firstYear, lastYear)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form.fill("answer"), NormalMode, missingYear, firstYear, lastYear)(request, messages).toString
     }
 
     "must redirect to the which offshore years page when valid data is submitted" in {
 
-      val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[OffshoreNavigator].toInstance(new FakeOffshoreNavigator(onwardRoute))
-          )
-          .build()
+      val request =
+        FakeRequest(POST, youHaveNotIncludedTheTaxYearRoute)
+          .withFormUrlEncodedBody(("value", "answer"))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, youHaveNotIncludedTheTaxYearRoute)
-            .withFormUrlEncodedBody(("value", "answer"))
+      val result = route(applicationWithFakeOffshoreNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual whichYearsRoute
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual whichYearsRoute
     }
 
     "must redirect to the country page when valid data is submitted" in {
@@ -120,27 +103,17 @@ class YouHaveNotIncludedTheTaxYearControllerSpec extends SpecBase with MockitoSu
       val userAnswersWithTaxYears = UserAnswers(userAnswersId, "session-123").set(WhichYearsPage, whichYears).success.value
       val ua = userAnswersWithTaxYears.set(YouHaveNotIncludedTheTaxYearPage, "answer").success.value
 
-      val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(ua))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(ua), mockSessionService)
-          .overrides(
-            bind[OffshoreNavigator].toInstance(new FakeOffshoreNavigator(onwardRoute))
-          )
-          .build()
+      val request =
+        FakeRequest(POST, youHaveNotIncludedTheTaxYearRoute)
+          .withFormUrlEncodedBody(("value", "answer"))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, youHaveNotIncludedTheTaxYearRoute)
-            .withFormUrlEncodedBody(("value", "answer"))
+      val result = route(applicationWithFakeOffshoreNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual countryRoute
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual countryRoute
     }
 
     "must redirect to the YouHaveNotSelectedCertainTaxYearPage when valid data is submitted" in {
@@ -149,27 +122,17 @@ class YouHaveNotIncludedTheTaxYearControllerSpec extends SpecBase with MockitoSu
       val userAnswersWithTaxYears = UserAnswers(userAnswersId, "session-123").set(WhichYearsPage, whichYears).success.value
       val ua = userAnswersWithTaxYears.set(YouHaveNotIncludedTheTaxYearPage, "answer").success.value
 
-      val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(ua))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(ua), mockSessionService)
-          .overrides(
-            bind[OffshoreNavigator].toInstance(new FakeOffshoreNavigator(onwardRoute))
-          )
-          .build()
+      val request =
+        FakeRequest(POST, youHaveNotIncludedTheTaxYearRoute)
+          .withFormUrlEncodedBody(("value", "answer"))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, youHaveNotIncludedTheTaxYearRoute)
-            .withFormUrlEncodedBody(("value", "answer"))
+      val result = route(applicationWithFakeOffshoreNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual youHaveNotSelectedCertainTaxYearRoute
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual youHaveNotSelectedCertainTaxYearRoute
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
@@ -177,52 +140,46 @@ class YouHaveNotIncludedTheTaxYearControllerSpec extends SpecBase with MockitoSu
       val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2020), TaxYearStarting(2018))
       val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhichYearsPage, whichYears).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, youHaveNotIncludedTheTaxYearRoute)
-            .withFormUrlEncodedBody(("value", ""))
+      val request =
+        FakeRequest(POST, youHaveNotIncludedTheTaxYearRoute)
+          .withFormUrlEncodedBody(("value", ""))
 
-        val boundForm = form.bind(Map("value" -> ""))
+      val boundForm = form.bind(Map("value" -> ""))
 
-        val view = application.injector.instanceOf[YouHaveNotIncludedTheTaxYearView]
+      val view = application.injector.instanceOf[YouHaveNotIncludedTheTaxYearView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, missingYear, firstYear, lastYear)(request, messages(application)).toString
-      }
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm, NormalMode, missingYear, firstYear, lastYear)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, youHaveNotIncludedTheTaxYearRoute)
+      val request = FakeRequest(GET, youHaveNotIncludedTheTaxYearRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "must redirect to Index for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, youHaveNotIncludedTheTaxYearRoute)
-            .withFormUrlEncodedBody(("value", "answer"))
+      val request =
+        FakeRequest(POST, youHaveNotIncludedTheTaxYearRoute)
+          .withFormUrlEncodedBody(("value", "answer"))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
   }
 }

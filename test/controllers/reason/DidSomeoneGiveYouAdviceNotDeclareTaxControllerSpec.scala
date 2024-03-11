@@ -14,22 +14,19 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.reason
 
 import base.ControllerSpecBase
 import forms.DidSomeoneGiveYouAdviceNotDeclareTaxFormProvider
 import models.{AreYouTheEntity, CheckMode, NormalMode, RelatesTo, UserAnswers}
-import navigation.{FakeReasonNavigator, ReasonNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
-import pages.{AdviceBusinessNamePage, AdviceBusinessesOrOrgPage, AdviceGivenPage, AdviceProfessionPage, AreYouTheEntityPage, DidSomeoneGiveYouAdviceNotDeclareTaxPage, PersonWhoGaveAdvicePage, RelatesToPage, WhatEmailAddressCanWeContactYouWithPage, WhatTelephoneNumberCanWeContactYouWithPage, WhichEmailAddressCanWeContactYouWithPage, WhichTelephoneNumberCanWeContactYouWithPage}
-import play.api.inject.bind
+import org.scalacheck.Arbitrary.arbitrary
+import pages._
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
 import views.html.reason.DidSomeoneGiveYouAdviceNotDeclareTaxView
-import org.scalacheck.Arbitrary.arbitrary
 
 import scala.concurrent.Future
 
@@ -37,7 +34,7 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxControllerSpec extends ControllerSpecB
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val didSomeoneGiveYouAdviceNotDeclareTaxRoute = reason.routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(NormalMode).url
+  lazy val didSomeoneGiveYouAdviceNotDeclareTaxRoute = routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(NormalMode).url
 
   val formProvider = new DidSomeoneGiveYouAdviceNotDeclareTaxFormProvider()
   val form = formProvider(true, RelatesTo.AnIndividual)
@@ -54,18 +51,16 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxControllerSpec extends ControllerSpecB
         updatedUa <- ua.set(RelatesToPage, entity)  
       } yield updatedUa).success.value  
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, didSomeoneGiveYouAdviceNotDeclareTaxRoute)
+      val request = FakeRequest(GET, didSomeoneGiveYouAdviceNotDeclareTaxRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[DidSomeoneGiveYouAdviceNotDeclareTaxView]
+      val view = application.injector.instanceOf[DidSomeoneGiveYouAdviceNotDeclareTaxView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode, userAnswers.isTheUserTheIndividual, entity)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, NormalMode, userAnswers.isTheUserTheIndividual, entity)(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -79,43 +74,31 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxControllerSpec extends ControllerSpecB
         updatedUa <- uaRelatesToPage.set(DidSomeoneGiveYouAdviceNotDeclareTaxPage, true)
       } yield updatedUa).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, didSomeoneGiveYouAdviceNotDeclareTaxRoute)
+      val request = FakeRequest(GET, didSomeoneGiveYouAdviceNotDeclareTaxRoute)
 
-        val view = application.injector.instanceOf[DidSomeoneGiveYouAdviceNotDeclareTaxView]
+      val view = application.injector.instanceOf[DidSomeoneGiveYouAdviceNotDeclareTaxView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(true), NormalMode, userAnswers.isTheUserTheIndividual, entity)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form.fill(true), NormalMode, userAnswers.isTheUserTheIndividual, entity)(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[ReasonNavigator].toInstance(new FakeReasonNavigator(onwardRoute))
-          )
-          .build()
+      val request =
+        FakeRequest(POST, didSomeoneGiveYouAdviceNotDeclareTaxRoute)
+          .withFormUrlEncodedBody(("value", true.toString))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, didSomeoneGiveYouAdviceNotDeclareTaxRoute)
-            .withFormUrlEncodedBody(("value", true.toString))
+      val result = route(applicationWithFakeReasonNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
@@ -128,61 +111,55 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxControllerSpec extends ControllerSpecB
         updatedUa <- ua.set(RelatesToPage, entity) 
       } yield updatedUa).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, didSomeoneGiveYouAdviceNotDeclareTaxRoute)
-            .withFormUrlEncodedBody(("value", "invalid value"))
+      val request =
+        FakeRequest(POST, didSomeoneGiveYouAdviceNotDeclareTaxRoute)
+          .withFormUrlEncodedBody(("value", "invalid value"))
 
-        val boundForm = form.bind(Map("value" -> "invalid value"))
+      val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[DidSomeoneGiveYouAdviceNotDeclareTaxView]
+      val view = application.injector.instanceOf[DidSomeoneGiveYouAdviceNotDeclareTaxView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, userAnswers.isTheUserTheIndividual, entity)(request, messages(application)).toString
-      }
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm, NormalMode, userAnswers.isTheUserTheIndividual, entity)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, didSomeoneGiveYouAdviceNotDeclareTaxRoute)
+      val request = FakeRequest(GET, didSomeoneGiveYouAdviceNotDeclareTaxRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "redirect to Journey Recovery for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, didSomeoneGiveYouAdviceNotDeclareTaxRoute)
-            .withFormUrlEncodedBody(("value", true.toString))
+      val request =
+        FakeRequest(POST, didSomeoneGiveYouAdviceNotDeclareTaxRoute)
+          .withFormUrlEncodedBody(("value", true.toString))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
+      status(result) mustEqual SEE_OTHER
 
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "must redirect to PersonWhoGaveAdvice page screen if page answer changes from No to Yes in check mode" in {
       val previousAnswer = false
       val newAnswer = true
 
-      val urlToTest = reason.routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(CheckMode).url
-      val destinationRoute = reason.routes.PersonWhoGaveAdviceController.onPageLoad(NormalMode).url
+      val urlToTest = routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.PersonWhoGaveAdviceController.onPageLoad(NormalMode).url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, DidSomeoneGiveYouAdviceNotDeclareTaxPage, urlToTest, destinationRoute, Nil)
     }
@@ -201,8 +178,8 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxControllerSpec extends ControllerSpecB
         WhichTelephoneNumberCanWeContactYouWithPage,
         WhatTelephoneNumberCanWeContactYouWithPage)
 
-      val urlToTest = reason.routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(CheckMode).url
-      val destinationRoute = reason.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, DidSomeoneGiveYouAdviceNotDeclareTaxPage, urlToTest, destinationRoute, pageToClear)
     }
@@ -211,8 +188,8 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxControllerSpec extends ControllerSpecB
       val previousAnswer = true
       val newAnswer = true
 
-      val urlToTest = reason.routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(CheckMode).url
-      val destinationRoute = reason.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, DidSomeoneGiveYouAdviceNotDeclareTaxPage, urlToTest, destinationRoute, Nil)
     }
@@ -221,8 +198,8 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxControllerSpec extends ControllerSpecB
       val previousAnswer = false
       val newAnswer = false
 
-      val urlToTest = reason.routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(CheckMode).url
-      val destinationRoute = reason.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, DidSomeoneGiveYouAdviceNotDeclareTaxPage, urlToTest, destinationRoute, Nil)
     }

@@ -14,21 +14,18 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.reason
 
 import base.SpecBase
 import forms.WhichTelephoneNumberCanWeContactYouWithFormProvider
-import models.{NormalMode, WhichTelephoneNumberCanWeContactYouWith, UserAnswers}
-import navigation.{FakeReasonNavigator, ReasonNavigator}
+import models.{NormalMode, UserAnswers, WhichTelephoneNumberCanWeContactYouWith}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages.{WhichTelephoneNumberCanWeContactYouWithPage, YourPhoneNumberPage}
-import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
 import views.html.reason.WhichTelephoneNumberCanWeContactYouWithView
 
 import scala.concurrent.Future
@@ -37,7 +34,7 @@ class WhichTelephoneNumberCanWeContactYouWithControllerSpec extends SpecBase wit
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val whichTelephoneNumberCanWeContactYouWithRoute = reason.routes.WhichTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode).url
+  lazy val whichTelephoneNumberCanWeContactYouWithRoute = routes.WhichTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode).url
 
   val formProvider = new WhichTelephoneNumberCanWeContactYouWithFormProvider()
   val form = formProvider()
@@ -48,18 +45,16 @@ class WhichTelephoneNumberCanWeContactYouWithControllerSpec extends SpecBase wit
 
       val telephoneNumber = "07777 777777"
       val userAnswers = UserAnswers("id", "session-123").set(YourPhoneNumberPage, telephoneNumber).success.value
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, whichTelephoneNumberCanWeContactYouWithRoute)
+      val request = FakeRequest(GET, whichTelephoneNumberCanWeContactYouWithRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[WhichTelephoneNumberCanWeContactYouWithView]
+      val view = application.injector.instanceOf[WhichTelephoneNumberCanWeContactYouWithView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode, telephoneNumber)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, NormalMode, telephoneNumber)(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -70,43 +65,31 @@ class WhichTelephoneNumberCanWeContactYouWithControllerSpec extends SpecBase wit
         updatedUa <- ua.set(YourPhoneNumberPage, telephoneNumber)  
       } yield updatedUa).success.value  
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, whichTelephoneNumberCanWeContactYouWithRoute)
+      val request = FakeRequest(GET, whichTelephoneNumberCanWeContactYouWithRoute)
 
-        val view = application.injector.instanceOf[WhichTelephoneNumberCanWeContactYouWithView]
+      val view = application.injector.instanceOf[WhichTelephoneNumberCanWeContactYouWithView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(WhichTelephoneNumberCanWeContactYouWith.values.head), NormalMode, telephoneNumber)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form.fill(WhichTelephoneNumberCanWeContactYouWith.values.head), NormalMode, telephoneNumber)(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[ReasonNavigator].toInstance(new FakeReasonNavigator(onwardRoute))
-          )
-          .build()
+      val request =
+        FakeRequest(POST, whichTelephoneNumberCanWeContactYouWithRoute)
+          .withFormUrlEncodedBody(("value", WhichTelephoneNumberCanWeContactYouWith.values.head.toString))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, whichTelephoneNumberCanWeContactYouWithRoute)
-            .withFormUrlEncodedBody(("value", WhichTelephoneNumberCanWeContactYouWith.values.head.toString))
+      val result = route(applicationWithFakeReasonNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
@@ -117,53 +100,47 @@ class WhichTelephoneNumberCanWeContactYouWithControllerSpec extends SpecBase wit
         updatedUa <- ua.set(YourPhoneNumberPage, telephoneNumber)  
       } yield updatedUa).success.value 
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, whichTelephoneNumberCanWeContactYouWithRoute)
-            .withFormUrlEncodedBody(("value", "invalid value"))
+      val request =
+        FakeRequest(POST, whichTelephoneNumberCanWeContactYouWithRoute)
+          .withFormUrlEncodedBody(("value", "invalid value"))
 
-        val boundForm = form.bind(Map("value" -> "invalid value"))
+      val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[WhichTelephoneNumberCanWeContactYouWithView]
+      val view = application.injector.instanceOf[WhichTelephoneNumberCanWeContactYouWithView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, telephoneNumber)(request, messages(application)).toString
-      }
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm, NormalMode, telephoneNumber)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, whichTelephoneNumberCanWeContactYouWithRoute)
+      val request = FakeRequest(GET, whichTelephoneNumberCanWeContactYouWithRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "redirect to Journey Recovery for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, whichTelephoneNumberCanWeContactYouWithRoute)
-            .withFormUrlEncodedBody(("value", WhichTelephoneNumberCanWeContactYouWith.values.head.toString))
+      val request =
+        FakeRequest(POST, whichTelephoneNumberCanWeContactYouWithRoute)
+          .withFormUrlEncodedBody(("value", WhichTelephoneNumberCanWeContactYouWith.values.head.toString))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
+      status(result) mustEqual SEE_OTHER
 
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
   }
 }

@@ -63,8 +63,8 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         )
       )
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
-      implicit val mess: Messages = messages(application)
+      setupMockSessionResponse(Some(emptyUserAnswers))
+      implicit val mess: Messages = messages
 
       val viewmodel = CheckYourAnswersViewModel(
         SummaryListViewModel(rows = Nil),
@@ -75,16 +75,14 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         BigDecimal(0)
       )
 
-      running(application) {
-        val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad.url)
+      val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad.url)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[CheckYourAnswersView]
+      val view = application.injector.instanceOf[CheckYourAnswersView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(viewmodel, false, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(viewmodel, false, false)(request, messages).toString
     }
   }
 }

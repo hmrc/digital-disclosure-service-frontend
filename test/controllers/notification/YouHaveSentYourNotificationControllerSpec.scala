@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.notification
 
 import base.SpecBase
 import models.UserAnswers
@@ -34,20 +34,18 @@ class YouHaveSentYourNotificationControllerSpec extends SpecBase {
 
       val userAnswers = UserAnswers(userAnswersId, sessionId, data = Json.obj("letterReference" -> reference))
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
 
-        val request = FakeRequest(GET, controllers.notification.routes.YouHaveSentYourNotificationController.onPageLoad.url)
+      val request = FakeRequest(GET, routes.YouHaveSentYourNotificationController.onPageLoad.url)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[YouHaveSentYourNotificationView]
+      val view = application.injector.instanceOf[YouHaveSentYourNotificationView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(isCaseReferenceAvailable = true, reference,
-          isTheEntity = true, isDisclosure = false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(isCaseReferenceAvailable = true, reference,
+        isTheEntity = true, isDisclosure = false)(request, messages).toString
     }
 
     "must return OK and the correct view for a GET when passed a generated reference" in {
@@ -56,20 +54,17 @@ class YouHaveSentYourNotificationControllerSpec extends SpecBase {
 
       val userAnswers = UserAnswers(userAnswersId, sessionId, metadata = Metadata(Some(reference)))
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
+      val request = FakeRequest(GET, routes.YouHaveSentYourNotificationController.onPageLoad.url)
 
-        val request = FakeRequest(GET, controllers.notification.routes.YouHaveSentYourNotificationController.onPageLoad.url)
+      val result = route(application, request).value
 
-        val result = route(application, request).value
+      val view = application.injector.instanceOf[YouHaveSentYourNotificationView]
 
-        val view = application.injector.instanceOf[YouHaveSentYourNotificationView]
-
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(isCaseReferenceAvailable = false,
-          reference, isTheEntity = true, isDisclosure = false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(isCaseReferenceAvailable = false,
+        reference, isTheEntity = true, isDisclosure = false)(request, messages).toString
     }
   }
 }

@@ -14,24 +14,22 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.offshore
 
 import base.SpecBase
+import controllers.offshore.WhichYearsController
 import forms.WhichYearsFormProvider
 import models.{Behaviour, NormalMode, OffshoreYears, TaxYearStarting, UserAnswers, WhyAreYouMakingThisDisclosure}
-import navigation.{FakeOffshoreNavigator, OffshoreNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages.{WhichYearsPage, WhyAreYouMakingThisDisclosurePage}
-import play.api.inject.bind
+import play.api.i18n.Messages
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.{OffshoreWhichYearsService, SessionService}
+import services.OffshoreWhichYearsService
 import views.html.offshore.WhichYearsView
-import controllers.offshore.WhichYearsController
-import play.api.i18n.Messages
 
 import scala.concurrent.Future
 
@@ -39,16 +37,16 @@ class WhichYearsControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val whichYearsRoute = offshore.routes.WhichYearsController.onPageLoad(NormalMode).url
+  lazy val whichYearsRoute = routes.WhichYearsController.onPageLoad(NormalMode).url
 
   val formProvider = new WhichYearsFormProvider()
   val form = formProvider()
 
   "determineBehaviour" - {
 
-    val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+    setupMockSessionResponse(Some(emptyUserAnswers))
     val controller = application.injector.instanceOf[WhichYearsController]
-    implicit val mess: Messages = messages(application)
+    implicit val mess: Messages = messages
     val service = application.injector.instanceOf[OffshoreWhichYearsService]
 
     "return 19"  - {
@@ -143,21 +141,19 @@ class WhichYearsControllerSpec extends SpecBase with MockitoSugar {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, whichYearsRoute)
+      val request = FakeRequest(GET, whichYearsRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[WhichYearsView]
-        val service = application.injector.instanceOf[OffshoreWhichYearsService]
-        implicit val mess: Messages = messages(application)
+      val view = application.injector.instanceOf[WhichYearsView]
+      val service = application.injector.instanceOf[OffshoreWhichYearsService]
+      implicit val mess: Messages = messages
 
-        status(result) mustEqual OK
+      status(result) mustEqual OK
 
-        contentAsString(result) mustEqual view(form, NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse))(request, messages(application)).toString
-      }
+      contentAsString(result) mustEqual view(form, NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse))(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -165,97 +161,79 @@ class WhichYearsControllerSpec extends SpecBase with MockitoSugar {
       val previousValue: Set[OffshoreYears] = Set(TaxYearStarting(2022))
       val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhichYearsPage, previousValue).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, whichYearsRoute)
+      val request = FakeRequest(GET, whichYearsRoute)
 
-        val view = application.injector.instanceOf[WhichYearsView]
-        val service = application.injector.instanceOf[OffshoreWhichYearsService]
-        implicit val mess: Messages = messages(application)
+      val view = application.injector.instanceOf[WhichYearsView]
+      val service = application.injector.instanceOf[OffshoreWhichYearsService]
+      implicit val mess: Messages = messages
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(previousValue), NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse))(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form.fill(previousValue), NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse))(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[OffshoreNavigator].toInstance(new FakeOffshoreNavigator(onwardRoute))
-          )
-          .build()
+      val request =
+        FakeRequest(POST, whichYearsRoute)
+          .withFormUrlEncodedBody(("value[0]", "2022"))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, whichYearsRoute)
-            .withFormUrlEncodedBody(("value[0]", "2022"))
+      val result = route(applicationWithFakeOffshoreNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, whichYearsRoute)
-            .withFormUrlEncodedBody(("value", "invalid value"))
+      val request =
+        FakeRequest(POST, whichYearsRoute)
+          .withFormUrlEncodedBody(("value", "invalid value"))
 
-        val boundForm = form.bind(Map("value" -> "invalid value"))
+      val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[WhichYearsView]
-        val service = application.injector.instanceOf[OffshoreWhichYearsService]
-        implicit val mess: Messages = messages(application)
+      val view = application.injector.instanceOf[WhichYearsView]
+      val service = application.injector.instanceOf[OffshoreWhichYearsService]
+      implicit val mess: Messages = messages
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse))(request, messages(application)).toString
-      }
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm, NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse))(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, whichYearsRoute)
+      val request = FakeRequest(GET, whichYearsRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "must redirect to Index for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, whichYearsRoute)
-            .withFormUrlEncodedBody(("value[0]", "2022"))
+      val request =
+        FakeRequest(POST, whichYearsRoute)
+          .withFormUrlEncodedBody(("value[0]", "2022"))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
   }
 }

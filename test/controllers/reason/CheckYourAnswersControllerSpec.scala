@@ -33,18 +33,16 @@ class CheckYourAnswersControllerSpec extends SpecBase {
 
       val viewModel = CheckYourAnswersViewModel(SummaryList(rows = Nil) , None)
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, controllers.reason.routes.CheckYourAnswersController.onPageLoad.url)
+      val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad.url)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[CheckYourAnswersView]
+      val view = application.injector.instanceOf[CheckYourAnswersView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(viewModel)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(viewModel)(request, messages).toString
     }
 
     "must return OK and the correct view for a GET where all the pages are populated" in {
@@ -67,15 +65,13 @@ class CheckYourAnswersControllerSpec extends SpecBase {
       )
       val ua = PageWithValue.pagesToUserAnswers(pages, emptyUserAnswers).success.value
 
-      val application = applicationBuilder(userAnswers = Some(ua)).build()
+      setupMockSessionResponse(Some(ua))
 
-      running(application) {
-        val request = FakeRequest(GET, controllers.reason.routes.CheckYourAnswersController.onPageLoad.url)
+      val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad.url)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual OK
-      }
+      status(result) mustEqual OK
     }
   }
 }

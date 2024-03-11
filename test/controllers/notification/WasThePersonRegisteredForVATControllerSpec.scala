@@ -14,20 +14,17 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.notification
 
 import base.ControllerSpecBase
 import forms.WasThePersonRegisteredForVATFormProvider
 import models._
-import navigation.{FakeNotificationNavigator, NotificationNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import pages._
-import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.SessionService
 import views.html.notification.WasThePersonRegisteredForVATView
 
 import scala.concurrent.Future
@@ -36,7 +33,7 @@ class WasThePersonRegisteredForVATControllerSpec extends ControllerSpecBase {
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val wasThePersonRegisteredForVATRoute = controllers.notification.routes.WasThePersonRegisteredForVATController.onPageLoad(NormalMode).url
+  lazy val wasThePersonRegisteredForVATRoute = routes.WasThePersonRegisteredForVATController.onPageLoad(NormalMode).url
 
   val formProvider = new WasThePersonRegisteredForVATFormProvider()
   val form = formProvider()
@@ -45,69 +42,55 @@ class WasThePersonRegisteredForVATControllerSpec extends ControllerSpecBase {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, wasThePersonRegisteredForVATRoute)
+      val request = FakeRequest(GET, wasThePersonRegisteredForVATRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[WasThePersonRegisteredForVATView]
+      val view = application.injector.instanceOf[WasThePersonRegisteredForVATView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form, NormalMode, false)(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = UserAnswers(userAnswersId, "session-123").set(WasThePersonRegisteredForVATPage, WasThePersonRegisteredForVAT.values.head).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      setupMockSessionResponse(Some(userAnswers))
 
-      running(application) {
-        val request = FakeRequest(GET, wasThePersonRegisteredForVATRoute)
+      val request = FakeRequest(GET, wasThePersonRegisteredForVATRoute)
 
-        val view = application.injector.instanceOf[WasThePersonRegisteredForVATView]
+      val view = application.injector.instanceOf[WasThePersonRegisteredForVATView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(WasThePersonRegisteredForVAT.values.head), NormalMode, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual view(form.fill(WasThePersonRegisteredForVAT.values.head), NormalMode, false)(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      val mockSessionService = mock[SessionService]
-
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val application =
-        applicationBuilderWithSessionService(userAnswers = Some(emptyUserAnswers), mockSessionService)
-          .overrides(
-            bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
-          )
-          .build()
+      val request =
+        FakeRequest(POST, wasThePersonRegisteredForVATRoute)
+          .withFormUrlEncodedBody(("value", WasThePersonRegisteredForVAT.values.head.toString))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, wasThePersonRegisteredForVATRoute)
-            .withFormUrlEncodedBody(("value", WasThePersonRegisteredForVAT.values.head.toString))
+      val result = route(applicationWithFakeNotificationNavigator(onwardRoute), request).value
 
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
     }
 
     "must redirect to WhatWasThePersonVATRegistrationNumber screen in check mode if WasThePersonRegisteredForVAT page answer was change from No or YesButDontKnow to YesIKnow" in {
       val previousAnswers = Seq(WasThePersonRegisteredForVAT.No, WasThePersonRegisteredForVAT.YesButIDontKnow)
       val newAnswer = WasThePersonRegisteredForVAT.YesIKnow
 
-      val urlToTest = controllers.notification.routes.WasThePersonRegisteredForVATController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.WhatWasThePersonVATRegistrationNumberController.onPageLoad(CheckMode).url
+      val urlToTest = routes.WasThePersonRegisteredForVATController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.WhatWasThePersonVATRegistrationNumberController.onPageLoad(CheckMode).url
 
       previousAnswers.foreach(
         testChangeAnswerRouting(_, newAnswer, WasThePersonRegisteredForVATPage, urlToTest, destinationRoute)
@@ -118,8 +101,8 @@ class WasThePersonRegisteredForVATControllerSpec extends ControllerSpecBase {
       val previousAnswer = WasThePersonRegisteredForVAT.YesIKnow
       val newAnswers = Seq(WasThePersonRegisteredForVAT.No, WasThePersonRegisteredForVAT.YesButIDontKnow)
 
-      val urlToTest = controllers.notification.routes.WasThePersonRegisteredForVATController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = routes.WasThePersonRegisteredForVATController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       val pageToClean = List(WhatWasThePersonVATRegistrationNumberPage)
 
@@ -129,8 +112,8 @@ class WasThePersonRegisteredForVATControllerSpec extends ControllerSpecBase {
     }
 
     "must redirect to CheckYourAnswer screen if there are no changes in the user answer" in {
-      val urlToTest = controllers.notification.routes.WasThePersonRegisteredForVATController.onPageLoad(CheckMode).url
-      val destinationRoute = controllers.notification.routes.CheckYourAnswersController.onPageLoad.url
+      val urlToTest = routes.WasThePersonRegisteredForVATController.onPageLoad(CheckMode).url
+      val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       WasThePersonRegisteredForVAT.values.foreach(value =>
         testChangeAnswerRouting(value, value, WasThePersonRegisteredForVATPage, urlToTest, destinationRoute)
@@ -139,53 +122,47 @@ class WasThePersonRegisteredForVATControllerSpec extends ControllerSpecBase {
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      setupMockSessionResponse(Some(emptyUserAnswers))
 
-      running(application) {
-        val request =
-          FakeRequest(POST, wasThePersonRegisteredForVATRoute)
-            .withFormUrlEncodedBody(("value", "invalid value"))
+      val request =
+        FakeRequest(POST, wasThePersonRegisteredForVATRoute)
+          .withFormUrlEncodedBody(("value", "invalid value"))
 
-        val boundForm = form.bind(Map("value" -> "invalid value"))
+      val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[WasThePersonRegisteredForVATView]
+      val view = application.injector.instanceOf[WasThePersonRegisteredForVATView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, false)(request, messages(application)).toString
-      }
+      status(result) mustEqual BAD_REQUEST
+      contentAsString(result) mustEqual view(boundForm, NormalMode, false)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request = FakeRequest(GET, wasThePersonRegisteredForVATRoute)
+      val request = FakeRequest(GET, wasThePersonRegisteredForVATRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
 
     "redirect to Journey Recovery for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      setupMockSessionResponse()
 
-      running(application) {
-        val request =
-          FakeRequest(POST, wasThePersonRegisteredForVATRoute)
-            .withFormUrlEncodedBody(("value", WasThePersonRegisteredForVAT.values.head.toString))
+      val request =
+        FakeRequest(POST, wasThePersonRegisteredForVATRoute)
+          .withFormUrlEncodedBody(("value", WasThePersonRegisteredForVAT.values.head.toString))
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
+      status(result) mustEqual SEE_OTHER
 
-        redirectLocation(result).value mustEqual routes.IndexController.onPageLoad.url
-      }
+      redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
   }
 }
