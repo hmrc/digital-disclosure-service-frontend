@@ -22,6 +22,11 @@ site.ending = Dod â
 exitSurvey.linkText = Beth oedd eich barn am y gwasanaeth hwn?
 exitSurvey.timeText = ' (mae’n cymryd 30 eiliad)'
 
+exitSurvey.heading = Cyn i chi fynd
+exitSurvey.p1 = Mae’ch adborth yn ein helpu i wella ein gwasanaeth.
+exitSurvey.link = Llenwch ein harolwg
+exitSurvey.p2 =  i rannu’ch adborth ar y gwasanaeth.
+
 date.day = Diwrnod
 date.month = Mis
 date.year = Blwyddyn

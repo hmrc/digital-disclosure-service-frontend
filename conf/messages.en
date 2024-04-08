@@ -22,6 +22,11 @@ site.ending = Ending
 exitSurvey.linkText = What did you think of this service?
 exitSurvey.timeText = ' (takes 30 seconds)'
 
+exitSurvey.heading = Before you go
+exitSurvey.p1 = Your feedback helps us make our service better.
+exitSurvey.link = Take a short survey
+exitSurvey.p2 =  to share your feedback on this service.
+
 date.day = Day
 date.month = Month
 date.year = Year
