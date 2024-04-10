@@ -16,6 +16,7 @@
 
 package controllers.notification
 
+import config.FrontendAppConfig
 import controllers.actions._
 import javax.inject.Inject
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -33,7 +34,7 @@ class YouHaveSentYourNotificationController @Inject()(
                                        requireData: DataRequiredActionEvenSubmitted,
                                        val controllerComponents: MessagesControllerComponents,
                                        view: YouHaveSentYourNotificationView
-                                     ) extends FrontendBaseController with I18nSupport {
+                                     )(implicit val appConfig: FrontendAppConfig) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
