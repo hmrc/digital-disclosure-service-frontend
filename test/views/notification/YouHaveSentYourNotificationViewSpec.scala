@@ -48,7 +48,7 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
     }
 
     "contain second heading for entity" in {
-      view.getElementsByClass("h2.govuk-heading-m:nth-child(1)").text() mustBe messages("exitSurvey.heading")
+      view.select("h2.govuk-heading-m:nth-child(1)").text() mustBe messages("exitSurvey.heading")
     }
 
     "have a second paragraph for entity" in {
@@ -56,11 +56,12 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
     }
 
     "have an exit survey paragraph" in {
-      view.getElementById("exit-survey").text mustBe messages("exitSurvey.linkText") + messages("exitSurvey.timeText")
+      view.getElementById("exit-survey").text mustBe
+        messages("exitSurvey.heading") + " " + messages("exitSurvey.p1") + " " + messages("exitSurvey.link") + " " + messages("exitSurvey.p2")
     }
 
     "have an exit survey link" in {
-      view.getElementById("survey-link").attr("href") mustBe controllers.auth.routes.AuthController.signOut.url
+      view.getElementsByClass("govuk-link").attr("href") mustBe controllers.auth.routes.AuthController.signOut.url
     }
   }
 
@@ -85,7 +86,7 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
     }
 
     "contain second heading for agent" in {
-      view.getElementsByClass("govuk-heading-m").text() mustBe messages("youHaveSentYourNotification.paragraph.header")
+      view.getElementsByClass("govuk-heading-m").text() mustBe messages("youHaveSentYourNotification.paragraph.header") + " " + messages("exitSurvey.heading")
     }
 
     "have a second paragraph for agent" in {
@@ -93,11 +94,12 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
     }
 
     "have an exit survey paragraph for an agent" in {
-      view.getElementById("exit-survey").text mustBe messages("exitSurvey.linkText") + messages("exitSurvey.timeText")
+      view.getElementById("exit-survey").text mustBe
+        messages("exitSurvey.heading") + " " + messages("exitSurvey.p1") + " " + messages("exitSurvey.link") + " " + messages("exitSurvey.p2")
     }
 
     "have an exit survey link for an agent" in {
-      view.getElementById("survey-link").attr("href") mustBe controllers.auth.routes.AuthController.signOut.url
+      view.getElementsByClass("govuk-link").attr("href") mustBe controllers.auth.routes.AuthController.signOut.url
     }
   }
 
