@@ -16,8 +16,10 @@
 
 package controllers.onshore
 
+import config.FrontendAppConfig
 import controllers.actions._
 import forms.YouHaveLeftTheDDSOnshoreFormProvider
+
 import javax.inject.Inject
 import models.Mode
 import navigation.OnshoreNavigator
@@ -40,7 +42,7 @@ class YouHaveLeftTheDDSOnshoreController @Inject()(
                                         formProvider: YouHaveLeftTheDDSOnshoreFormProvider,
                                         val controllerComponents: MessagesControllerComponents,
                                         view: YouHaveLeftTheDDSOnshoreView
-                                    )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+                                    )(implicit ec: ExecutionContext, appConfig: FrontendAppConfig) extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
 

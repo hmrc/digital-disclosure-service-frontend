@@ -17,6 +17,7 @@
 package views.offshore
 
 import base.ViewSpecBase
+import config.FrontendAppConfig
 import forms.YouHaveLeftTheDDSFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
@@ -27,8 +28,9 @@ class YouHaveLeftTheDDSViewSpec extends ViewSpecBase with ViewMatchers {
 
   val form = new YouHaveLeftTheDDSFormProvider()()
   val page: YouHaveLeftTheDDSView = inject[YouHaveLeftTheDDSView]
+  val config: FrontendAppConfig = inject[FrontendAppConfig]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode)(request, messages, config)
 
   "view" should {
 
@@ -50,11 +52,12 @@ class YouHaveLeftTheDDSViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "have an exit survey paragraph" in {
-      view.getElementById("exit-survey").text mustBe messages("exitSurvey.linkText") + messages("exitSurvey.timeText")
+      view.getElementById("exit-survey").text mustBe
+        messages("exitSurvey.heading") + " " + messages("exitSurvey.p1") + " " + messages("exitSurvey.link") + " " + messages("exitSurvey.p2")
     }
 
     "have an exit survey link" in {
-      view.getElementById("survey-link").attr("href") mustBe controllers.auth.routes.AuthController.signOut.url
+      view.getElementsByClass("govuk-link").attr("href") mustBe controllers.auth.routes.AuthController.signOut.url
     }
 
     "have a guidance link" in {

@@ -19,9 +19,6 @@ site.2DP = {0,number,#,##0.00}
 site.print = Argraffu neu gadw’r dudalen hon
 site.ending = Dod â
 
-exitSurvey.linkText = Beth oedd eich barn am y gwasanaeth hwn?
-exitSurvey.timeText = ' (mae’n cymryd 30 eiliad)'
-
 exitSurvey.heading = Cyn i chi fynd
 exitSurvey.p1 = Mae’ch adborth yn ein helpu i wella ein gwasanaeth.
 exitSurvey.link = Llenwch ein harolwg

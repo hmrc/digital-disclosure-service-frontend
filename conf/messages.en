@@ -19,9 +19,6 @@ site.2DP = {0,number,#,##0.00}
 site.print = Print or save this page
 site.ending = Ending
 
-exitSurvey.linkText = What did you think of this service?
-exitSurvey.timeText = ' (takes 30 seconds)'
-
 exitSurvey.heading = Before you go
 exitSurvey.p1 = Your feedback helps us make our service better.
 exitSurvey.link = Take a short survey

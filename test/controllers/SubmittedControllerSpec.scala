@@ -17,11 +17,13 @@
 package controllers
 
 import base.SpecBase
+import config.FrontendAppConfig
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.html.SubmittedView
 import models._
 import pages._
+
 import java.time.LocalDate
 
 class SubmittedControllerSpec extends SpecBase {
@@ -55,8 +57,10 @@ class SubmittedControllerSpec extends SpecBase {
 
       val result = route(application, request).value
 
+      val config: FrontendAppConfig = application.injector.instanceOf[FrontendAppConfig]
+
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(true, false, "reference")(request, messages).toString
+      contentAsString(result) mustEqual view(isCaseReferenceAvailable = true, isNilDisclosure = false, "reference")(request, messages, config).toString
     }
 
     "must return OK and the correct view for a GET when tax year is empty" in {
@@ -67,8 +71,10 @@ class SubmittedControllerSpec extends SpecBase {
 
       val result = route(application, request).value
 
+      val config: FrontendAppConfig = application.injector.instanceOf[FrontendAppConfig]
+
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(false, true, "reference")(request, messages).toString
+      contentAsString(result) mustEqual view(isCaseReferenceAvailable = false, isNilDisclosure = true, "reference")(request, messages, config).toString
     }
 
     "must return OK and the correct view for a disclosure when offshore/onshore tax year and corporate tax, directors loan is available" in {
@@ -134,8 +140,10 @@ class SubmittedControllerSpec extends SpecBase {
 
       val result = route(application, request).value
 
+      val config: FrontendAppConfig = application.injector.instanceOf[FrontendAppConfig]
+
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(false, false, "reference")(request, messages).toString
+      contentAsString(result) mustEqual view(isCaseReferenceAvailable = false, isNilDisclosure = false, "reference")(request, messages, config).toString
     }
   }
 }

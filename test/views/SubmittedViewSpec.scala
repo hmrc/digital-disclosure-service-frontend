@@ -17,6 +17,7 @@
 package views
 
 import base.ViewSpecBase
+import config.FrontendAppConfig
 import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.SubmittedView
@@ -27,9 +28,11 @@ class SubmittedViewSpec extends ViewSpecBase with ViewMatchers with Generators {
 
   val page: SubmittedView = inject[SubmittedView]
 
-  val taxYearExists = arbitrary[Boolean].sample.value
+  val taxYearExists: Boolean = arbitrary[Boolean].sample.value
 
-  private def createView: Html = page(false, taxYearExists, "reference")(request, messages)
+  val config: FrontendAppConfig = inject[FrontendAppConfig]
+
+  private def createView: Html = page(isCaseReferenceAvailable = false, isNilDisclosure = taxYearExists, "reference")(request, messages, config)
 
   "view" should {
 
@@ -40,7 +43,8 @@ class SubmittedViewSpec extends ViewSpecBase with ViewMatchers with Generators {
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-panel__title").text() mustBe (if(taxYearExists) messages("submitted.nil.heading") else messages("submitted.notNil.heading"))
+      view.getElementsByClass("govuk-panel__title").text() mustBe
+        (if(taxYearExists) messages("submitted.nil.heading") else messages("submitted.notNil.heading"))
     }
 
     "have a first paragraph" in {
@@ -58,11 +62,12 @@ class SubmittedViewSpec extends ViewSpecBase with ViewMatchers with Generators {
     }
 
     "have an exit survey paragraph" in {
-      view.getElementById("exit-survey").text mustBe messages("exitSurvey.linkText") + messages("exitSurvey.timeText")
+      view.getElementById("exit-survey").text mustBe
+        messages("exitSurvey.heading") + " " + messages("exitSurvey.p1") + " " + messages("exitSurvey.link") + " " + messages("exitSurvey.p2")
     }
 
     "have an exit survey link" in {
-      view.getElementById("survey-link").attr("href") mustBe controllers.auth.routes.AuthController.signOut.url
+      view.getElementsByClass("govuk-link").attr("href") mustBe controllers.auth.routes.AuthController.signOut.url
     }
   }
 }

@@ -16,13 +16,15 @@
 
 package controllers
 
+import config.FrontendAppConfig
 import controllers.actions._
+
 import javax.inject.Inject
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.SubmittedView
-import pages.{WhatIsTheCaseReferencePage, TaxYearLiabilitiesPage, OnshoreTaxYearLiabilitiesPage, CorporationTaxLiabilityPage, DirectorLoanAccountLiabilitiesPage}
+import pages.{CorporationTaxLiabilityPage, DirectorLoanAccountLiabilitiesPage, OnshoreTaxYearLiabilitiesPage, TaxYearLiabilitiesPage, WhatIsTheCaseReferencePage}
 import models.UserAnswers
 
 class SubmittedController @Inject()(
@@ -32,7 +34,7 @@ class SubmittedController @Inject()(
                                        requireData: DataRequiredActionEvenSubmitted,
                                        val controllerComponents: MessagesControllerComponents,
                                        view: SubmittedView
-                                     ) extends FrontendBaseController with I18nSupport {
+                                     ) (implicit appConfig: FrontendAppConfig) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad(reference: String): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
