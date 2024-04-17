@@ -18,6 +18,7 @@
 
 @this(
     layout: templates.Layout,
+    feedbackSurvey: templates.FeedbackSurvey,
     formHelper: FormWithCSRF,
     govukErrorSummary: GovukErrorSummary,
     paragraph: components.paragraph,
@@ -46,13 +47,6 @@
             )
         )
 
-    <div id="exit-survey" class="govuk-body govuk-!-margin-bottom-8">
-        <h2 class="govuk-heading-m">@messages("exitSurvey.heading")</h2>
-        <p class="govuk-body">@messages("exitSurvey.p1")</p>
-        <p class="govuk-body">
-            <a class="govuk-link" href="@appConfig.exitSurveyUrl">@messages("exitSurvey.link")</a>
-            @messages("exitSurvey.p2")
-        </p>
-    </div>
+    @feedbackSurvey(messages, appConfig)
     }
 }
