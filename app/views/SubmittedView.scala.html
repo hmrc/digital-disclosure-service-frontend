@@ -14,15 +14,18 @@
  * limitations under the License.
  *@
 
+@import config.FrontendAppConfig
+
 @this(
         layout: templates.Layout,
+        feedbackSurvey: templates.FeedbackSurvey,
         govukPanel: GovukPanel,
         paragraph: components.paragraph,
         downloadLink: components.downloadLink,
         link: components.link
 )
 
-@(isCaseReferenceAvailable: Boolean, isNilDisclosure: Boolean, referenceNumber: String)(implicit request: Request[_], messages: Messages)
+@(isCaseReferenceAvailable: Boolean, isNilDisclosure: Boolean, referenceNumber: String)(implicit request: Request[_], messages: Messages, appConfig: FrontendAppConfig)
 
 @layout(pageTitle = titleNoForm(if(isNilDisclosure) messages("submitted.nil.title") else messages("submitted.notNil.title")), showBackLink = false) {
     
@@ -60,11 +63,5 @@
 
     @paragraph(id = Some("paragraph3"), content = HtmlContent(messages("submitted.paragraph3")))
 
-    @paragraph(
-        id = Some("exit-survey"),
-        content = HtmlContent(
-            link("survey-link", messages("exitSurvey.linkText"), controllers.auth.routes.AuthController.signOut).toString +
-            messages("exitSurvey.timeText")
-        )
-    )
+    @feedbackSurvey(messages, appConfig)
 }

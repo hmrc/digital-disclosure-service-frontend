@@ -17,6 +17,7 @@
 package controllers.onshore
 
 import base.SpecBase
+import config.FrontendAppConfig
 import forms.YouHaveLeftTheDDSOnshoreFormProvider
 import models.{NormalMode, UserAnswers}
 import org.mockito.ArgumentMatchers.any
@@ -51,8 +52,10 @@ class YouHaveLeftTheDDSOnshoreControllerSpec extends SpecBase with MockitoSugar 
 
       val view = application.injector.instanceOf[YouHaveLeftTheDDSOnshoreView]
 
+      val config: FrontendAppConfig = application.injector.instanceOf[FrontendAppConfig]
+
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, NormalMode)(request, messages).toString
+      contentAsString(result) mustEqual view(form, NormalMode)(request, messages, config).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -65,10 +68,12 @@ class YouHaveLeftTheDDSOnshoreControllerSpec extends SpecBase with MockitoSugar 
 
       val view = application.injector.instanceOf[YouHaveLeftTheDDSOnshoreView]
 
+      val config: FrontendAppConfig = application.injector.instanceOf[FrontendAppConfig]
+
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill("answer"), NormalMode)(request, messages).toString
+      contentAsString(result) mustEqual view(form.fill("answer"), NormalMode)(request, messages, config).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -98,10 +103,12 @@ class YouHaveLeftTheDDSOnshoreControllerSpec extends SpecBase with MockitoSugar 
 
       val view = application.injector.instanceOf[YouHaveLeftTheDDSOnshoreView]
 
+      val config: FrontendAppConfig = application.injector.instanceOf[FrontendAppConfig]
+
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages, config).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

@@ -20,13 +20,15 @@ import base.ViewSpecBase
 import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.notification.YouHaveSentYourNotificationView
+import config.FrontendAppConfig
 
 class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers {
 
   val page: YouHaveSentYourNotificationView = inject[YouHaveSentYourNotificationView]
+  val appConfig: FrontendAppConfig = inject[FrontendAppConfig]
 
   "view" should {
-    def createView: Html = page(true, "CFSS-1234567" ,true, false)(request, messages)
+    def createView: Html = page(true, "CFSS-1234567" ,true, false)(request, messages, appConfig)
     val view = createView
 
     "have title for entity" in {
@@ -46,7 +48,7 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
     }
 
     "contain second heading for entity" in {
-      view.getElementsByClass("govuk-heading-m").text() mustBe messages("youHaveSentYourNotification.paragraph.header")
+      view.select("h2.govuk-heading-m:nth-child(1)").text() mustBe messages("exitSurvey.heading")
     }
 
     "have a second paragraph for entity" in {
@@ -54,16 +56,17 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
     }
 
     "have an exit survey paragraph" in {
-      view.getElementById("exit-survey").text mustBe messages("exitSurvey.linkText") + messages("exitSurvey.timeText")
+      view.getElementById("exit-survey").text mustBe
+        messages("exitSurvey.heading") + " " + messages("exitSurvey.p1") + " " + messages("exitSurvey.link") + " " + messages("exitSurvey.p2")
     }
 
     "have an exit survey link" in {
-      view.getElementById("survey-link").attr("href") mustBe controllers.auth.routes.AuthController.signOut.url
+      view.getElementsByClass("govuk-link").attr("href") mustBe controllers.auth.routes.AuthController.signOut.url
     }
   }
 
   "view" should {
-    def createView: Html = page(true, "CFSS-1234567", false, false)(request, messages)
+    def createView: Html = page(true, "CFSS-1234567", false, false)(request, messages, appConfig)
     val view = createView
 
     "have title for agent" in {
@@ -83,7 +86,7 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
     }
 
     "contain second heading for agent" in {
-      view.getElementsByClass("govuk-heading-m").text() mustBe messages("youHaveSentYourNotification.paragraph.header")
+      view.getElementsByClass("govuk-heading-m").text() mustBe messages("youHaveSentYourNotification.paragraph.header") + " " + messages("exitSurvey.heading")
     }
 
     "have a second paragraph for agent" in {
@@ -91,16 +94,17 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
     }
 
     "have an exit survey paragraph for an agent" in {
-      view.getElementById("exit-survey").text mustBe messages("exitSurvey.linkText") + messages("exitSurvey.timeText")
+      view.getElementById("exit-survey").text mustBe
+        messages("exitSurvey.heading") + " " + messages("exitSurvey.p1") + " " + messages("exitSurvey.link") + " " + messages("exitSurvey.p2")
     }
 
     "have an exit survey link for an agent" in {
-      view.getElementById("survey-link").attr("href") mustBe controllers.auth.routes.AuthController.signOut.url
+      view.getElementsByClass("govuk-link").attr("href") mustBe controllers.auth.routes.AuthController.signOut.url
     }
   }
 
   "view" should {
-    def createView: Html = page(false, "CFSS-1234567", true, false)(request, messages)
+    def createView: Html = page(false, "CFSS-1234567", true, false)(request, messages, appConfig)
     val view = createView
 
     "contain green box body text for entity with generated reference number" in {
@@ -113,7 +117,7 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
   }
 
   "view" should {
-    def createView: Html = page(false, "CFSS-1234567", false, false)(request, messages)
+    def createView: Html = page(false, "CFSS-1234567", false, false)(request, messages, appConfig)
     val view = createView
 
     "contain green box body text for agent with generated reference number" in {

@@ -23,6 +23,7 @@ import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.html.notification.YouHaveSentYourNotificationView
+import config.FrontendAppConfig
 
 class YouHaveSentYourNotificationControllerSpec extends SpecBase {
 
@@ -43,9 +44,11 @@ class YouHaveSentYourNotificationControllerSpec extends SpecBase {
 
       val view = application.injector.instanceOf[YouHaveSentYourNotificationView]
 
+      val appConfig: FrontendAppConfig = application.injector.instanceOf[FrontendAppConfig]
+
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(isCaseReferenceAvailable = true, reference,
-        isTheEntity = true, isDisclosure = false)(request, messages).toString
+        isTheEntity = true, isDisclosure = false)(request, messages, appConfig).toString
     }
 
     "must return OK and the correct view for a GET when passed a generated reference" in {
@@ -62,9 +65,11 @@ class YouHaveSentYourNotificationControllerSpec extends SpecBase {
 
       val view = application.injector.instanceOf[YouHaveSentYourNotificationView]
 
+      val appConfig: FrontendAppConfig = application.injector.instanceOf[FrontendAppConfig]
+
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(isCaseReferenceAvailable = false,
-        reference, isTheEntity = true, isDisclosure = false)(request, messages).toString
+        reference, isTheEntity = true, isDisclosure = false)(request, messages, appConfig).toString
     }
   }
 }

@@ -14,8 +14,12 @@
  * limitations under the License.
  *@
 
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+@import config.FrontendAppConfig
+
 @this(
         layout: templates.Layout,
+        feedbackSurvey: templates.FeedbackSurvey,
         govukButton: GovukButton,
         govukPanel: GovukPanel,
         paragraph: components.paragraph,
@@ -26,7 +30,7 @@
         link: components.link
 )
 
-@(isCaseReferenceAvailable: Boolean, referenceNumber: String, isTheEntity: Boolean, isDisclosure: Boolean)(implicit request: Request[_], messages: Messages)
+@(isCaseReferenceAvailable: Boolean, referenceNumber: String, isTheEntity: Boolean, isDisclosure: Boolean)(implicit request: Request[_], messages: Messages, appConfig: FrontendAppConfig)
 
 @layout(pageTitle = titleNoForm(isTheEntity match {
                                     case true => messages("youHaveSentYourNotification.title.entity") 
@@ -75,11 +79,5 @@
         @tasklistLink()
     }
 
-    @paragraph(
-        id = Some("exit-survey"),
-        content = HtmlContent(
-            link("survey-link", messages("exitSurvey.linkText"), controllers.auth.routes.AuthController.signOut).toString +
-            messages("exitSurvey.timeText")
-        )
-    )
+    @feedbackSurvey(messages, appConfig)
 }

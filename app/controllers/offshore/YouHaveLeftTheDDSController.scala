@@ -16,8 +16,10 @@
 
 package controllers.offshore
 
+import config.FrontendAppConfig
 import controllers.actions._
 import forms.YouHaveLeftTheDDSFormProvider
+
 import javax.inject.Inject
 import models.Mode
 import navigation.OffshoreNavigator
@@ -40,7 +42,7 @@ class YouHaveLeftTheDDSController @Inject()(
                                         formProvider: YouHaveLeftTheDDSFormProvider,
                                         val controllerComponents: MessagesControllerComponents,
                                         view: YouHaveLeftTheDDSView
-                                    )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+                                    )(implicit ec: ExecutionContext, appConfig: FrontendAppConfig) extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
 

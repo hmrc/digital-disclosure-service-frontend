@@ -17,12 +17,14 @@
 package controllers.offshore
 
 import base.SpecBase
+import config.FrontendAppConfig
 import forms.YouHaveLeftTheDDSFormProvider
 import models.{NormalMode, UserAnswers}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages.YouHaveLeftTheDDSPage
+import play.api.data.Form
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
@@ -35,9 +37,9 @@ class YouHaveLeftTheDDSControllerSpec extends SpecBase with MockitoSugar {
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new YouHaveLeftTheDDSFormProvider()
-  val form = formProvider()
+  val form: Form[String] = formProvider()
 
-  lazy val youHaveLeftTheDDSRoute = routes.YouHaveLeftTheDDSController.onPageLoad(NormalMode).url
+  lazy val youHaveLeftTheDDSRoute: String = routes.YouHaveLeftTheDDSController.onPageLoad(NormalMode).url
 
   "YouHaveLeftTheDDS Controller" - {
 
@@ -51,8 +53,10 @@ class YouHaveLeftTheDDSControllerSpec extends SpecBase with MockitoSugar {
 
       val view = application.injector.instanceOf[YouHaveLeftTheDDSView]
 
+      val config = application.injector.instanceOf[FrontendAppConfig]
+
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, NormalMode)(request, messages).toString
+      contentAsString(result) mustEqual view(form, NormalMode)(request, messages, config).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -65,10 +69,12 @@ class YouHaveLeftTheDDSControllerSpec extends SpecBase with MockitoSugar {
 
       val view = application.injector.instanceOf[YouHaveLeftTheDDSView]
 
+      val config = application.injector.instanceOf[FrontendAppConfig]
+
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill("answer"), NormalMode)(request, messages).toString
+      contentAsString(result) mustEqual view(form.fill("answer"), NormalMode)(request, messages, config).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -100,8 +106,10 @@ class YouHaveLeftTheDDSControllerSpec extends SpecBase with MockitoSugar {
 
       val result = route(application, request).value
 
+      val config = application.injector.instanceOf[FrontendAppConfig]
+
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages, config).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
