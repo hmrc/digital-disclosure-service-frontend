@@ -29,7 +29,7 @@ import scala.concurrent.Future
 trait ConnectorSpec { this: Matchers with AnyWordSpec =>
 
   def connectorBehaviour(
-    mockResponse: Option[HttpResponse] => Any,
+    mockResponse: Option[HttpResponse] => Unit,
     performCall: () => EitherT[Future, Error, HttpResponse]
   ): Unit = {
     "do a http call and return the result" in {
