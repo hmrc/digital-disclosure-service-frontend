@@ -38,8 +38,7 @@ class SubmissionStoreConnectorImpl @Inject() (
                                 httpClient: HttpClientV2,
                                 configuration: Configuration,
                                 clock: Clock
-                              )(implicit ec: ExecutionContext)
-  extends SubmissionStoreConnector with ConnectorErrorHandler {
+                              )(implicit ec: ExecutionContext) extends SubmissionStoreConnector with ConnectorErrorHandler {
 
   private val service: Service = configuration.get[Service]("microservice.services.digital-disclosure-service-store")
   private val baseUrl = s"${service.baseUrl}/digital-disclosure-service-store"

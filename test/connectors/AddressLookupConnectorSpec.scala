@@ -25,10 +25,14 @@ import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import config.AddressLookupConfig
 import uk.gov.hmrc.http.HeaderCarrier
 import generators.ModelGenerators
+import models.address.AddressLookupRequest
+import org.scalatest.concurrent.{Futures, ScalaFutures}
+import play.api.libs.ws.BodyWritable
 import uk.gov.hmrc.http._
 
 import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.{ExecutionContext, Future}
 
 class AddressLookupConnectorSpec
     extends AnyWordSpec
@@ -36,6 +40,7 @@ class AddressLookupConnectorSpec
     with MockFactory
     with HttpSupport
     with ConnectorSpec
+    with ScalaFutures
     with ModelGenerators {
 
   val config: Configuration = Configuration(
@@ -63,10 +68,9 @@ class AddressLookupConnectorSpec
   val lookupConfig = new AddressLookupConfig(servicesConfig)
 
   val connector = new AddressLookupConnectorImpl(mockHttp, lookupConfig)
+  implicit val hc: HeaderCarrier = HeaderCarrier()
 
   "The address lookup connector" when {
-
-    implicit val hc: HeaderCarrier = HeaderCarrier()
 
     "handling requests to submit claim" must {
       val request = sampleAddressLookupRequest
@@ -78,7 +82,7 @@ class AddressLookupConnectorSpec
       )
     }
 
-    "Retrieve address" ignore {
+    "Retrieve address" must {
       val uuid = UUID.randomUUID()
       val url  = url"http://localhost:9028/api/confirmed?id=$uuid"
       behave like connectorBehaviour(

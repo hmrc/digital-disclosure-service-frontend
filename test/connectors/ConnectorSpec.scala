@@ -46,7 +46,7 @@ trait ConnectorSpec { this: Matchers with AnyWordSpec =>
       }
     }
 
-    "return an error" ignore {
+    "return an error" when {
       "the future fails" in {
         mockHttpCall(None)
         await(performCall().value).isLeft shouldBe true
