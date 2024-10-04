@@ -16,15 +16,14 @@
 
 package connectors
 
-import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.matchers.should.Matchers
-import play.api.libs.json.Writes
-import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.http.{HttpReads, HttpResponse}
+import play.api.libs.ws.BodyWritable
+import uk.gov.hmrc.http.{HeaderCarrier, HttpReads, HttpResponse}
 import uk.gov.hmrc.http.client.{HttpClientV2, RequestBuilder}
-import scala.concurrent.{ExecutionContext, Future}
+
 import java.net.URL
+import scala.concurrent.{ExecutionContext, Future}
 
 
 trait HttpSupport { this: MockFactory with Matchers =>
@@ -32,110 +31,41 @@ trait HttpSupport { this: MockFactory with Matchers =>
   @SuppressWarnings(Array("org.wartremover.warts.Any"))
   val mockHttp: HttpClientV2 = mock[HttpClientV2]
 
-  def mockGet[A](
-    url: String
-  )(
-    response: Option[A]
-  ): CallHandler[Future[A]] =
-    (
-      mockHttp
-        .GET(_: String, _: Seq[(String, String)], _: Seq[(String, String)])(
-          _: HttpReads[A],
-          _: HeaderCarrier,
-          _: ExecutionContext
-        )
-      )
-      .expects(where {
-        (
-          u: String,
-          q: Seq[(String, String)],
-          hdrs: Seq[(String, String)],
-          _: HttpReads[A],
-          _: HeaderCarrier,
-          _: ExecutionContext
-        ) =>
-          // use matchers here to get useful error messages when the following predicates
-          // are not satisfied - otherwise it is difficult to tell in the logs what went wrong
-          u    shouldBe url
-          q    shouldBe Seq.empty
-          hdrs shouldBe Seq.empty
-          true
-      })
-      .returning(
-        response.fold(
-          Future.failed[A](new Exception("Test exception message"))
-        )(Future.successful)
-      )
+  val mockRequestBuilder: RequestBuilder = mock[RequestBuilder]
 
-  def mockGetWithQueryWithHeaders[A](
-    url: String,
-    queryParams: Seq[(String, String)],
-    headers: Seq[(String, String)]
-  )(
-    response: Option[A]
-  ): CallHandler[Future[A]] =
-    (mockHttp
-      .GET(_: String, _: Seq[(String, String)], _: Seq[(String, String)])(
-        _: HttpReads[A],
-        _: HeaderCarrier,
-        _: ExecutionContext
-      ))
-      .expects(where {
-        (
-          u: String,
-          q: Seq[(String, String)],
-          hdrs: Seq[(String, String)],
-          _: HttpReads[A],
-          _: HeaderCarrier,
-          _: ExecutionContext
-        ) =>
-          // use matchers here to get useful error messages when the following predicates
-          // are not satisfied - otherwise it is difficult to tell in the logs what went wrong
-          u    shouldBe url
-          q    shouldBe queryParams
-          hdrs shouldBe headers
-          true
-      })
-      .returning(
-        response.fold(
-          Future.failed[A](new Exception("Test exception message"))
-        )(Future.successful)
-      )
+  def mockGet(url: URL)(httpResponse: Option[HttpResponse]) = {
+    (mockHttp.get(_: URL)(_: HeaderCarrier))
+      .expects(url, *)
+      .returning(mockRequestBuilder)
+      .once()
 
-  def mockPost[A](url: String, headers: Seq[(String, String)], body: A)(
-    result: Option[HttpResponse]
-  ): CallHandler[Future[HttpResponse]] =
-    (mockHttp
-      .POST(_: String, _: A, _: Seq[(String, String)])(
-        _: Writes[A],
-        _: HttpReads[HttpResponse],
-        _: HeaderCarrier,
-        _: ExecutionContext
-      ))
-      .expects(url, body, headers.toSeq, *, *, *, *)
+    mockExecute(None, httpResponse)
+  }
+
+  def mockPost[B](url: URL, requestBody: B)(httpResponse: Option[HttpResponse]) = {
+
+    (mockHttp.post(_: URL)(_: HeaderCarrier))
+      .expects(url, *)
+      .returning(mockRequestBuilder)
+      .once()
+
+    mockExecute(Some(requestBody), httpResponse)
+  }
+
+  private def mockExecute[B](requestBody: Option[B], httpResponse: Option[HttpResponse])  = {
+    requestBody.foreach { body =>
+      (mockRequestBuilder.withBody(_: B)(_: BodyWritable[B], _: izumi.reflect.Tag[B], _: ExecutionContext))
+        .expects(body, *, *, *)
+        .returning(mockRequestBuilder).once()
+    }
+
+    (mockRequestBuilder.execute[HttpResponse](_: HttpReads[HttpResponse], _: ExecutionContext))
+      .expects(*, *)
       .returning(
-        result.fold[Future[HttpResponse]](
+        httpResponse.fold[Future[HttpResponse]](
           Future.failed(new Exception("Test exception message"))
         )(Future.successful)
-      )
-
-  def mockPut[A](
-    url: String,
-    body: A,
-    headers: Seq[(String, String)] = Seq.empty
-  )(result: Option[HttpResponse]): CallHandler[Future[HttpResponse]] =
-    (mockHttp
-      .PUT(_: String, _: A, _: Seq[(String, String)])(
-        _: Writes[A],
-        _: HttpReads[HttpResponse],
-        _: HeaderCarrier,
-        _: ExecutionContext
-      ))
-      .expects(url, body, headers, *, *, *, *)
-      .returning(
-        result.fold[Future[HttpResponse]](
-          Future.failed(new Exception("Test exception message"))
-        )(Future.successful)
-      )
+      ).once()
+  }
 
 }

@@ -41,7 +41,7 @@ class AddressLookupConnectorImpl @Inject()(httpClient: HttpClientV2, config: Add
     httpClient
       .post(url"${config.startLookupUrl}")
       .withBody(Json.toJson(request))
-      .execute[HttpResponse]
+      .execute
       .map(Right(_))
       .recover { case NonFatal(e) =>
         Left(handleError(Error(e)))
