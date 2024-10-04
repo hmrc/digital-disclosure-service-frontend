@@ -78,7 +78,7 @@ class AddressLookupConnectorSpec
       )
     }
 
-    "Retrieve address" ignore {
+    "Retrieve address" must {
       val uuid = UUID.randomUUID()
       val url  = url"http://localhost:9028/api/confirmed?id=$uuid"
       behave like connectorBehaviour(
