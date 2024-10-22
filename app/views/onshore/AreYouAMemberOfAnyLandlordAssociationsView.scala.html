@@ -23,7 +23,7 @@
     tasklistLink: components.tasklistLink
 )
 
-@(form: Form[_], mode: Mode, areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], mode: Mode, areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit request: RequestHeader, messages: Messages)
 
 @layout(pageTitle = title(form, if(areTheyTheIndividual) messages("areYouAMemberOfAnyLandlordAssociations.you.title") else messages(s"areYouAMemberOfAnyLandlordAssociations.${entity}.title"))) {
 

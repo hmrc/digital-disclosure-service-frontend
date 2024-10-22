@@ -24,7 +24,7 @@
         link: components.link
 )
 
-@(isAgent: Boolean)(implicit request: Request[_], messages: Messages)
+@(isAgent: Boolean)(implicit request: RequestHeader, messages: Messages)
 
 @layout(pageTitle = titleNoForm(messages("declaration.title"))) {
 

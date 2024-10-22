@@ -23,7 +23,7 @@
     tasklistLink: components.tasklistLink
 )
 
-@(form: Form[_], mode: Mode, isDisclosure: Boolean)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], mode: Mode, isDisclosure: Boolean)(implicit request: RequestHeader, messages: Messages)
 
 @layout(pageTitle = title(form, messages("areYouRegisteredForSelfAssessment.title"))) {
 

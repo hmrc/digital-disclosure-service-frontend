@@ -22,7 +22,7 @@
     bulletList: components.bulletList
 )
 
-@(nextPageLink: String, isAgent:Boolean)(implicit request: Request[_], messages: Messages)
+@(nextPageLink: String, isAgent:Boolean)(implicit request: RequestHeader, messages: Messages)
 
 @layout(
     pageTitle = titleNoForm(messages("index.title")),

@@ -20,7 +20,7 @@
     buttonLink: components.buttonLink,
 )
 
-@(list: OtherLiabilitiesSummaryLists)(implicit request: Request[_], messages: Messages)
+@(list: OtherLiabilitiesSummaryLists)(implicit request: RequestHeader, messages: Messages)
 
 @layout(pageTitle = titleNoForm(messages("checkYourAnswers.otherLiabilities.title"))) {
 

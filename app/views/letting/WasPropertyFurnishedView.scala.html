@@ -23,7 +23,7 @@
         tasklistLink: components.tasklistLink
 )
 
-@(form: Form[_], index: Int, mode: Mode)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], index: Int, mode: Mode)(implicit request: RequestHeader, messages: Messages)
 
 @layout(pageTitle = title(form, messages("wasPropertyFurnished.title", index + 1))) {
 

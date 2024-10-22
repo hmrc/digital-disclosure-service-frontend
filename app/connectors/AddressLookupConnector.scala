@@ -18,25 +18,30 @@ package connectors
 
 import java.util.UUID
 import cats.data.EitherT
-import uk.gov.hmrc.http.HttpClient
-import uk.gov.hmrc.http.HttpResponse
-import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.http.client.HttpClientV2
+import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse, StringContextOps}
 import uk.gov.hmrc.http.HttpReads.Implicits._
+
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext
-import com.google.inject.{Inject, ImplementedBy}
+import com.google.inject.{ImplementedBy, Inject}
+
 import scala.util.control.NonFatal
 import models.Error
 import models.address._
 import config.AddressLookupConfig
+import play.api.libs.json.Json
 
-class AddressLookupConnectorImpl @Inject()(httpClient: HttpClient, config: AddressLookupConfig)(implicit ec: ExecutionContext)
+class AddressLookupConnectorImpl @Inject()(httpClient: HttpClientV2, config: AddressLookupConfig)(implicit ec: ExecutionContext)
   extends AddressLookupConnector
     with ConnectorErrorHandler {
 
+
   def initialise(request: AddressLookupRequest)(implicit hc: HeaderCarrier): EitherT[Future, Error, HttpResponse] = EitherT {
     httpClient
-      .POST[AddressLookupRequest, HttpResponse](config.startLookupUrl, request)
+      .post(url"${config.startLookupUrl}")
+      .withBody(Json.toJson(request))
+      .execute[HttpResponse]
       .map(Right(_))
       .recover { case NonFatal(e) =>
         Left(handleError(Error(e)))
@@ -46,13 +51,13 @@ class AddressLookupConnectorImpl @Inject()(httpClient: HttpClient, config: Addre
   def retrieveAddress(addressId: UUID)(implicit hc: HeaderCarrier): EitherT[Future, Error, HttpResponse] =
     EitherT {
       httpClient
-        .GET[HttpResponse](s"${config.retrieveAddressUrl}?id=$addressId")
+        .get(url"${config.retrieveAddressUrl}?id=$addressId")
+        .execute[HttpResponse]
         .map(Right(_))
         .recover { case NonFatal(e) =>
           Left(handleError(Error(e)))
         }
     }
-
 }
 
 @ImplementedBy(classOf[AddressLookupConnectorImpl])

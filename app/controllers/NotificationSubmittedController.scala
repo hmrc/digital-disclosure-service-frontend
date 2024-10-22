@@ -64,7 +64,7 @@ class NotificationSubmittedController @Inject()(
   def onSubmit: Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
       for {
-        updatedAnswers <- Future.fromTry(convertToDisclosure(request.userAnswers))
+        updatedAnswers: UserAnswers <- Future.fromTry(convertToDisclosure(request.userAnswers))
         _ = auditStartOfDisclosure
         _ <- sessionService.set(updatedAnswers)
       } yield Redirect(navigator.nextPage(NotificationSubmittedPage, updatedAnswers))

@@ -31,7 +31,7 @@ class SubmissionStoreServiceImpl @Inject()(
 ) extends SubmissionStoreService {
 
   def setSubmission(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Result] = {
-    val submission = uaToSubmissionService.uaToSubmission(userAnswers)
+    val submission: Submission = uaToSubmissionService.uaToSubmission(userAnswers)
     setSubmission(submission)
   }
 

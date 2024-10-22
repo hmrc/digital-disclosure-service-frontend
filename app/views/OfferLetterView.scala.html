@@ -29,7 +29,7 @@
     heading: components.heading
 )
 
-@(form: Form[_], entityName: String, addressLines: String, totalAmount: Int, entityKey: String, agentName: String = "", areTheyTheIndividual: Boolean)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], entityName: String, addressLines: String, totalAmount: Int, entityKey: String, agentName: String = "", areTheyTheIndividual: Boolean)(implicit request: RequestHeader, messages: Messages)
 
 @layout(pageTitle = title(form, messages(s"offerLetter.$entityKey.title"))) {
 

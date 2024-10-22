@@ -25,7 +25,7 @@
         buttonLink: components.buttonLink
 )
 
-@(viewModel: CheckYourAnswersViewModel)(implicit request: Request[_], messages: Messages)
+@(viewModel: CheckYourAnswersViewModel)(implicit request: RequestHeader, messages: Messages)
 
 @layout(pageTitle = titleNoForm(messages("checkYourAnswers.reason.title"))) {
 
