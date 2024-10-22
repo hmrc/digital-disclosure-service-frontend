@@ -30,7 +30,7 @@
         link: components.link
 )
 
-@(isCaseReferenceAvailable: Boolean, referenceNumber: String, isTheEntity: Boolean, isDisclosure: Boolean)(implicit request: Request[_], messages: Messages, appConfig: FrontendAppConfig)
+@(isCaseReferenceAvailable: Boolean, referenceNumber: String, isTheEntity: Boolean, isDisclosure: Boolean)(implicit request: RequestHeader, messages: Messages, appConfig: FrontendAppConfig)
 
 @layout(pageTitle = titleNoForm(isTheEntity match {
                                     case true => messages("youHaveSentYourNotification.title.entity") 

@@ -26,7 +26,7 @@
     govukPanel: GovukPanel
 )
 
-@(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages, appConfig: FrontendAppConfig)
+@(form: Form[_], mode: Mode)(implicit request: RequestHeader, messages: Messages, appConfig: FrontendAppConfig)
 
 @layout(pageTitle = title(form, messages("youHaveLeftTheDDS.title")), showBackLink = false) {
 

@@ -32,7 +32,7 @@
     link: components.link
 )
 
-@(form: Form[_], mode: Mode, index: Int, startYear: Int, taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose])(implicit request: Request[_], messages: Messages)
+@(form: Form[_], mode: Mode, index: Int, startYear: Int, taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose])(implicit request: RequestHeader, messages: Messages)
 
 @layout(pageTitle = title(form, messages("onshoreTaxYearLiabilities.title", startYear.toString, (startYear+1).toString))) {
 
