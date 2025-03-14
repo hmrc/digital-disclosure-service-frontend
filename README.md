@@ -43,7 +43,7 @@ which will allow you to uplift your stubbed user to level 250.
 More details can be found on the
 [DDCY Live Services Credentials sheet](https://docs.google.com/spreadsheets/d/1ecLTROmzZtv97jxM-5LgoujinGxmDoAuZauu2tFoAVU/edit?gid=1186990023#gid=1186990023)
 for both staging and local url's or check the Tech Overview section in the
-[service summary page ](https://confluence.tools.tax.service.gov.uk/display/ELSY/ECL+Service+Summary)
+[service summary page ](https://confluence.tools.tax.service.gov.uk/display/ELSY/DDS+Service+Summary)
 
 
 ## Testing the application
