@@ -34,80 +34,94 @@ import models.requests.DataRequest
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Try
 
-class OnshoreTaxYearLiabilitiesController @Inject()(
-                                        override val messagesApi: MessagesApi,
-                                        sessionService: SessionService,
-                                        navigator: OnshoreNavigator,
-                                        identify: IdentifierAction,
-                                        getData: DataRetrievalAction,
-                                        requireData: DataRequiredAction,
-                                        formProvider: OnshoreTaxYearLiabilitiesFormProvider,
-                                        val controllerComponents: MessagesControllerComponents,
-                                        view: OnshoreTaxYearLiabilitiesView
-                                    )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class OnshoreTaxYearLiabilitiesController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: OnshoreNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: OnshoreTaxYearLiabilitiesFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: OnshoreTaxYearLiabilitiesView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   def form(taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]) = formProvider(taxTypes)
 
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
+      withYear(i) { year =>
+        val taxTypes = request.userAnswers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage).getOrElse(Set())
 
-    withYear(i) { year => 
-      val taxTypes = request.userAnswers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage).getOrElse(Set())
-
-      val preparedForm = request.userAnswers.getByKey(OnshoreTaxYearLiabilitiesPage, year.toString) match {
-        case None => form(taxTypes)
-        case Some(value) => form(taxTypes).fill(value.taxYearLiabilities)
+        val preparedForm = request.userAnswers.getByKey(OnshoreTaxYearLiabilitiesPage, year.toString) match {
+          case None        => form(taxTypes)
+          case Some(value) => form(taxTypes).fill(value.taxYearLiabilities)
+        }
+        Ok(view(preparedForm, mode, i, year, taxTypes))
       }
-      Ok(view(preparedForm, mode, i, year, taxTypes))
-    }
 
   }
-
 
   def onSubmit(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
-    val taxTypes = request.userAnswers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage).getOrElse(Set())
+      val taxTypes = request.userAnswers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage).getOrElse(Set())
 
       withYearAsync(i) { year =>
-        form(taxTypes).bindFromRequest().fold(
-          formWithErrors => {
-            Future.successful(BadRequest(view(formWithErrors, mode, i, year, taxTypes)))
-          },
-          value => {
-            val taxYearWithLiabilities = OnshoreTaxYearWithLiabilities(OnshoreYearStarting(year), value)
-            val (clearedAnswers, hasValueChanged) = changedPages(request.userAnswers, year.toString, value)
-            for {
-              userAnswers <- Future.fromTry(clearedAnswers)
-              updatedAnswers  <- Future.fromTry(userAnswers.setByKey(OnshoreTaxYearLiabilitiesPage, year.toString, taxYearWithLiabilities))
-              _               <- sessionService.set(updatedAnswers)
-            } yield Redirect(navigator.nextTaxYearLiabilitiesPage(i, value.residentialTaxReduction.getOrElse(false), mode, updatedAnswers, hasValueChanged))
-          }
-        )
+        form(taxTypes)
+          .bindFromRequest()
+          .fold(
+            formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i, year, taxTypes))),
+            value => {
+              val taxYearWithLiabilities            = OnshoreTaxYearWithLiabilities(OnshoreYearStarting(year), value)
+              val (clearedAnswers, hasValueChanged) = changedPages(request.userAnswers, year.toString, value)
+              for {
+                userAnswers    <- Future.fromTry(clearedAnswers)
+                updatedAnswers <-
+                  Future
+                    .fromTry(userAnswers.setByKey(OnshoreTaxYearLiabilitiesPage, year.toString, taxYearWithLiabilities))
+                _              <- sessionService.set(updatedAnswers)
+              } yield Redirect(
+                navigator.nextTaxYearLiabilitiesPage(
+                  i,
+                  value.residentialTaxReduction.getOrElse(false),
+                  mode,
+                  updatedAnswers,
+                  hasValueChanged
+                )
+              )
+            }
+          )
       }
   }
 
-  def withYearAsync(i: Int)(f: Int => Future[Result])(implicit request: DataRequest[_]): Future[Result] = {
+  def withYearAsync(i: Int)(f: Int => Future[Result])(implicit request: DataRequest[_]): Future[Result] =
     request.userAnswers.inverselySortedOnshoreTaxYears.flatMap(_.lift(i)) match {
       case Some(year: OnshoreYearStarting) => f(year.startYear)
-      case _ => Future.successful(Redirect(routes.WhichOnshoreYearsController.onPageLoad(NormalMode).url))
+      case _                               => Future.successful(Redirect(routes.WhichOnshoreYearsController.onPageLoad(NormalMode).url))
     }
-  }
 
-  def withYear(i: Int)(f: Int => Result)(implicit request: DataRequest[_]): Result = {
+  def withYear(i: Int)(f: Int => Result)(implicit request: DataRequest[_]): Result =
     request.userAnswers.inverselySortedOnshoreTaxYears.flatMap(_.lift(i)) match {
       case Some(year: OnshoreYearStarting) => f(year.startYear)
-      case _ => Redirect(routes.WhichOnshoreYearsController.onPageLoad(NormalMode).url)
+      case _                               => Redirect(routes.WhichOnshoreYearsController.onPageLoad(NormalMode).url)
     }
-  }
 
-  def changedPages(userAnswers: UserAnswers, year: String, newAnswer: OnshoreTaxYearLiabilities): (Try[UserAnswers], Boolean) = {
+  def changedPages(
+    userAnswers: UserAnswers,
+    year: String,
+    newAnswer: OnshoreTaxYearLiabilities
+  ): (Try[UserAnswers], Boolean) =
     userAnswers.getByKey(OnshoreTaxYearLiabilitiesPage, year) match {
-      case Some(taxYear) if taxYear.taxYearLiabilities.residentialTaxReduction.getOrElse(false) && !newAnswer.residentialTaxReduction.getOrElse(false) =>
+      case Some(taxYear)
+          if taxYear.taxYearLiabilities.residentialTaxReduction.getOrElse(false) && !newAnswer.residentialTaxReduction
+            .getOrElse(false) =>
         (userAnswers.removeByKey(ResidentialReductionPage, year), false)
-      case Some(taxYear) if !taxYear.taxYearLiabilities.residentialTaxReduction.getOrElse(false) && newAnswer.residentialTaxReduction.getOrElse(false) =>
-        (Try{userAnswers}, true)
-      case _ => (Try{userAnswers}, false)
+      case Some(taxYear)
+          if !taxYear.taxYearLiabilities.residentialTaxReduction.getOrElse(false) && newAnswer.residentialTaxReduction
+            .getOrElse(false) =>
+        (Try(userAnswers), true)
+      case _ => (Try(userAnswers), false)
     }
-  }
 }

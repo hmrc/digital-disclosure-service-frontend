@@ -18,7 +18,7 @@ package models
 
 import play.api.libs.json._
 
-case class ReasonableExcuseForNotFilingOnshore (reasonableExcuse: String, yearsThisAppliesTo: String)
+case class ReasonableExcuseForNotFilingOnshore(reasonableExcuse: String, yearsThisAppliesTo: String)
 
 object ReasonableExcuseForNotFilingOnshore {
   implicit val format: OFormat[ReasonableExcuseForNotFilingOnshore] = Json.format[ReasonableExcuseForNotFilingOnshore]

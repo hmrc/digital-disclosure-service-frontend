@@ -17,7 +17,7 @@
 package viewmodels.checkAnswers
 
 import controllers.notification.routes
-import models.{RelatesTo, CheckMode, UserAnswers}
+import models.{CheckMode, RelatesTo, UserAnswers}
 import pages.{AreYouTheEntityPage, RelatesToPage}
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
@@ -26,27 +26,25 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object AreYouTheEntitySummary  {
+object AreYouTheEntitySummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] = {
     val entity = answers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
-    answers.get(AreYouTheEntityPage).map {
-      answer =>
-
-        val value = ValueViewModel(
-          HtmlContent(
-            HtmlFormat.escape(messages(s"areYouTheEntity.$entity.$answer"))
-          )
+    answers.get(AreYouTheEntityPage).map { answer =>
+      val value = ValueViewModel(
+        HtmlContent(
+          HtmlFormat.escape(messages(s"areYouTheEntity.$entity.$answer"))
         )
+      )
 
-        SummaryListRowViewModel(
-          key     = s"areYouTheEntity.$entity.checkYourAnswersLabel",
-          value   = value,
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.AreYouTheEntityController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages(s"areYouTheEntity.$entity.change.hidden"))
-          )
+      SummaryListRowViewModel(
+        key = s"areYouTheEntity.$entity.checkYourAnswersLabel",
+        value = value,
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.AreYouTheEntityController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages(s"areYouTheEntity.$entity.change.hidden"))
         )
+      )
     }
   }
 }

@@ -23,21 +23,19 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object JointlyOwnedPropertySummary  {
+object JointlyOwnedPropertySummary {
 
   def row(i: Int, lettingProperty: LettingProperty)(implicit messages: Messages): Option[SummaryListRow] =
-    lettingProperty.isJointOwnership.map {
-      answer =>
+    lettingProperty.isJointOwnership.map { answer =>
+      val value = if (answer) "jointlyOwnedProperty.yes" else "jointlyOwnedProperty.no"
 
-        val value = if (answer) "jointlyOwnedProperty.yes" else "jointlyOwnedProperty.no"
-
-        SummaryListRowViewModel(
-          key     = "jointlyOwnedProperty.checkYourAnswersLabel",
-          value   = ValueViewModel(value),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.JointlyOwnedPropertyController.onPageLoad(i, CheckMode).url)
-              .withVisuallyHiddenText(messages("jointlyOwnedProperty.change.hidden"))
-          )
+      SummaryListRowViewModel(
+        key = "jointlyOwnedProperty.checkYourAnswersLabel",
+        value = ValueViewModel(value),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.JointlyOwnedPropertyController.onPageLoad(i, CheckMode).url)
+            .withVisuallyHiddenText(messages("jointlyOwnedProperty.change.hidden"))
         )
+      )
     }
 }

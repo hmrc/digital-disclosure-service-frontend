@@ -19,28 +19,28 @@ package controllers
 import controllers.actions._
 import javax.inject.Inject
 import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.{Result, ResponseHeader, Action, AnyContent, MessagesControllerComponents}
-import services.{SubmissionStoreService, SubmissionPDFService, SubmissionToUAService}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, ResponseHeader, Result}
+import services.{SubmissionPDFService, SubmissionStoreService, SubmissionToUAService}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import scala.concurrent.{ExecutionContext, Future}
 import play.api.http.HttpEntity
 import models.store.Notification
 
-class PdfGenerationController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       pdfService: SubmissionPDFService,
-                                       identify: IdentifierAction,
-                                       getData: DataRetrievalAction,
-                                       requireData: DataRequiredActionEvenSubmitted,
-                                       submissionStoreService: SubmissionStoreService,
-                                       submissionToUAService: SubmissionToUAService,
-                                       val controllerComponents: MessagesControllerComponents
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class PdfGenerationController @Inject() (
+  override val messagesApi: MessagesApi,
+  pdfService: SubmissionPDFService,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredActionEvenSubmitted,
+  submissionStoreService: SubmissionStoreService,
+  submissionToUAService: SubmissionToUAService,
+  val controllerComponents: MessagesControllerComponents
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
-  def generate: Action[AnyContent] = (identify andThen getData andThen requireData).async {
-    implicit request =>
-
-    pdfService.generatePdf(request.userAnswers).map{ byteString =>
+  def generate: Action[AnyContent] = (identify andThen getData andThen requireData).async { implicit request =>
+    pdfService.generatePdf(request.userAnswers).map { byteString =>
       Result(
         header = ResponseHeader(200, Map.empty),
         body = HttpEntity.Strict(byteString, None)
@@ -49,14 +49,12 @@ class PdfGenerationController @Inject()(
     }
   }
 
-  def generateForSubmissionId(id: String): Action[AnyContent] = (identify andThen getData).async {
-    implicit request =>
-
+  def generateForSubmissionId(id: String): Action[AnyContent] = (identify andThen getData).async { implicit request =>
     for {
       submissionOpt <- submissionStoreService.getSubmission(request.userId, id)
-      submission = submissionOpt.getOrElse(Notification(request.userId, id))
-      userAnswers <- Future.fromTry(submissionToUAService.submissionToUa(request.sessionId, submission))
-      byteString <- pdfService.generatePdf(userAnswers)
+      submission     = submissionOpt.getOrElse(Notification(request.userId, id))
+      userAnswers   <- Future.fromTry(submissionToUAService.submissionToUa(request.sessionId, submission))
+      byteString    <- pdfService.generatePdf(userAnswers)
     } yield Ok(byteString)
 
   }

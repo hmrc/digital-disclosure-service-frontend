@@ -28,15 +28,16 @@ object WhichEmailAddressCanWeContactYouWith extends Enumerable.Implicits {
   case object DifferentEmail extends WithName("differentEmail") with WhichEmailAddressCanWeContactYouWith
 
   val values: Seq[WhichEmailAddressCanWeContactYouWith] = Seq(
-    ExistingEmail, DifferentEmail
+    ExistingEmail,
+    DifferentEmail
   )
 
   def options(email: String)(implicit messages: Messages): Seq[RadioItem] = values.zipWithIndex.map {
     case (value, index) =>
       RadioItem(
         content = Text(messages(s"whichEmailAddressCanWeContactYouWith.${value.toString}", email)),
-        value   = Some(value.toString),
-        id      = Some(s"value_$index")
+        value = Some(value.toString),
+        id = Some(s"value_$index")
       )
   }
 

@@ -40,7 +40,7 @@ object LettingProperty {
   implicit val format: OFormat[LettingProperty] = Json.format[LettingProperty]
 }
 
-final case class NoLongerBeingLetOut (
+final case class NoLongerBeingLetOut(
   stopDate: LocalDate,
   whatHasHappenedToProperty: String
 )

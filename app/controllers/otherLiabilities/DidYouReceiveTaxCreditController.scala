@@ -30,48 +30,47 @@ import views.html.otherLiabilities.DidYouReceiveTaxCreditView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class DidYouReceiveTaxCreditController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       sessionService: SessionService,
-                                       navigator: OtherLiabilitiesNavigator,
-                                       identify: IdentifierAction,
-                                       getData: DataRetrievalAction,
-                                       requireData: DataRequiredAction,
-                                       formProvider: DidYouReceiveTaxCreditFormProvider,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: DidYouReceiveTaxCreditView
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class DidYouReceiveTaxCreditController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: OtherLiabilitiesNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: DidYouReceiveTaxCreditFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: DidYouReceiveTaxCreditView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
+    val entity               = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
-      val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
-      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
-      
-      val preparedForm = request.userAnswers.get(DidYouReceiveTaxCreditPage) match {
-        case None => form(areTheyTheIndividual, entity)
-        case Some(value) => form(areTheyTheIndividual, entity).fill(value)
-      }
+    val preparedForm = request.userAnswers.get(DidYouReceiveTaxCreditPage) match {
+      case None        => form(areTheyTheIndividual, entity)
+      case Some(value) => form(areTheyTheIndividual, entity).fill(value)
+    }
 
-      Ok(view(preparedForm, mode, areTheyTheIndividual, entity))
+    Ok(view(preparedForm, mode, areTheyTheIndividual, entity))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
       val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
-      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+      val entity               = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
-      form(areTheyTheIndividual, entity).bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, areTheyTheIndividual, entity))),
-
-        value =>
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(DidYouReceiveTaxCreditPage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(DidYouReceiveTaxCreditPage, mode, updatedAnswers))
-      )
+      form(areTheyTheIndividual, entity)
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, areTheyTheIndividual, entity))),
+          value =>
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(DidYouReceiveTaxCreditPage, value))
+              _              <- sessionService.set(updatedAnswers)
+            } yield Redirect(navigator.nextPage(DidYouReceiveTaxCreditPage, mode, updatedAnswers))
+        )
   }
 
   def form(areTheyTheIndividual: Boolean, entity: RelatesTo) = formProvider(areTheyTheIndividual, entity)

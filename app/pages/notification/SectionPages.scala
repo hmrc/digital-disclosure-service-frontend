@@ -81,19 +81,19 @@ trait SectionPages {
   )
 
   val areYouTheOrganisationPages: List[QuestionPage[_]] = List(
-      AreYouRepresentingAnOrganisationPage,
-      WhatIsTheNameOfTheOrganisationYouRepresentPage
+    AreYouRepresentingAnOrganisationPage,
+    WhatIsTheNameOfTheOrganisationYouRepresentPage
   )
 
   val areYouTheEntityPages: List[QuestionPage[_]] = List(
     AreYouTheEntityPage
-  ) 
+  )
 
-  val allEntityPages: List[QuestionPage[_]] = aboutIndividualPages ::: 
-                                              aboutCompanyPages ::: 
-                                              aboutLLPPages ::: 
-                                              aboutTrustPages ::: 
-                                              aboutPersonWhoDiedPages :::
-                                              areYouTheOrganisationPages :::
-                                              areYouTheEntityPages
+  val allEntityPages: List[QuestionPage[_]] = aboutIndividualPages :::
+    aboutCompanyPages :::
+    aboutLLPPages :::
+    aboutTrustPages :::
+    aboutPersonWhoDiedPages :::
+    areYouTheOrganisationPages :::
+    areYouTheEntityPages
 }

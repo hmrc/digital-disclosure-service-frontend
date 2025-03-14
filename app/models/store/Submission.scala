@@ -36,7 +36,7 @@ object Submission {
   implicit val format: OFormat[Submission] = Json.using[Json.WithDefaultValues].format[Submission]
 }
 
-final case class FullDisclosure (
+final case class FullDisclosure(
   userId: String,
   submissionId: String,
   lastUpdated: Instant,
@@ -56,22 +56,22 @@ final case class FullDisclosure (
   lazy val disclosingAboutThemselves: Boolean = personalDetails.disclosingAboutThemselves
 
   lazy val disclosingOffshoreLiabilities: Boolean = personalDetails.background.offshoreLiabilities.getOrElse(false)
-  lazy val disclosingOnshoreLiabilities: Boolean = personalDetails.background.onshoreLiabilities.getOrElse(false)
+  lazy val disclosingOnshoreLiabilities: Boolean  = personalDetails.background.onshoreLiabilities.getOrElse(false)
 
-  lazy val isComplete: Boolean = 
-    caseReference.isComplete && 
-    personalDetails.isComplete && 
-    otherLiabilities.isComplete(personalDetails.isAnIndividual) && 
-    reasonForDisclosingNow.isComplete && 
-    (!disclosingOffshoreLiabilities || offshoreLiabilities.isComplete) && 
-    (!disclosingOnshoreLiabilities || onshoreLiabilities.map(_.isComplete).getOrElse(false))
+  lazy val isComplete: Boolean =
+    caseReference.isComplete &&
+      personalDetails.isComplete &&
+      otherLiabilities.isComplete(personalDetails.isAnIndividual) &&
+      reasonForDisclosingNow.isComplete &&
+      (!disclosingOffshoreLiabilities || offshoreLiabilities.isComplete) &&
+      (!disclosingOnshoreLiabilities || onshoreLiabilities.map(_.isComplete).getOrElse(false))
 }
 
 object FullDisclosure {
   implicit val format: OFormat[FullDisclosure] = Json.using[Json.WithDefaultValues].format[FullDisclosure]
 }
 
-final case class Notification (
+final case class Notification(
   userId: String,
   submissionId: String,
   lastUpdated: Instant = Instant.now,
@@ -85,7 +85,7 @@ final case class Notification (
   def disclosingAboutThemselves: Boolean = personalDetails.disclosingAboutThemselves
 
   def isComplete: Boolean = personalDetails.isComplete
-} 
+}
 
 object Notification {
   implicit val format: OFormat[Notification] = Json.using[Json.WithDefaultValues].format[Notification]

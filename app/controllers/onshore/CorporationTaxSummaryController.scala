@@ -27,21 +27,20 @@ import viewmodels.onshore.CorporationTaxLiabilitiesSummaryViewModelCreation
 import views.html.onshore.CorporationTaxSummaryView
 import viewmodels.RevealFullText
 
-class CorporationTaxSummaryController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       identify: IdentifierAction,
-                                       getData: DataRetrievalAction,
-                                       requireData: DataRequiredAction,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: CorporationTaxSummaryView,
-                                       revealFullText: RevealFullText
-                                     ) extends FrontendBaseController with I18nSupport {
+class CorporationTaxSummaryController @Inject() (
+  override val messagesApi: MessagesApi,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  val controllerComponents: MessagesControllerComponents,
+  view: CorporationTaxSummaryView,
+  revealFullText: RevealFullText
+) extends FrontendBaseController
+    with I18nSupport {
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
-
-      val ctSummaryViewModelCreation = new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText)  
-      val viewModel = ctSummaryViewModelCreation.create(request.userAnswers)
-      Ok(view(viewModel, mode))
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val ctSummaryViewModelCreation = new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText)
+    val viewModel                  = ctSummaryViewModelCreation.create(request.userAnswers)
+    Ok(view(viewModel, mode))
   }
 }

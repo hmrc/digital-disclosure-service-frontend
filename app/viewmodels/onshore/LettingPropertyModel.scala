@@ -26,25 +26,30 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Actions, Key}
 
 object LettingPropertyModel {
 
-  def row(properties: Seq[LettingProperty], mode: Mode)(implicit messages: Messages): Seq[SummaryListRowNoValue] = {
+  def row(properties: Seq[LettingProperty], mode: Mode)(implicit messages: Messages): Seq[SummaryListRowNoValue] =
     for {
-      i <- properties.indices
+      i       <- properties.indices
       property = properties(i)
       address <- property.address
     } yield {
       val addressLines = Seq(Some(address.line1), address.postcode).flatten.mkString(", ")
       SummaryListRowNoValue(
         key = Key(addressLines).withCssClass("govuk-!-font-weight-regular hmrc-summary-list__key"),
-        actions =  Some(
-          Actions(items = Seq(
-          ActionItemViewModel("site.change", controllers.letting.routes.CheckYourAnswersController.onPageLoad(i, mode).url)
-            .withCssClass("summary-list-change-link")
-            .withVisuallyHiddenText(addressLines),
-          ActionItemViewModel("site.remove", routes.PropertyAddedController.remove(i, mode).url)
-              .withCssClass("summary-list-remove-link")
-              .withVisuallyHiddenText(addressLines)
+        actions = Some(
+          Actions(items =
+            Seq(
+              ActionItemViewModel(
+                "site.change",
+                controllers.letting.routes.CheckYourAnswersController.onPageLoad(i, mode).url
+              )
+                .withCssClass("summary-list-change-link")
+                .withVisuallyHiddenText(addressLines),
+              ActionItemViewModel("site.remove", routes.PropertyAddedController.remove(i, mode).url)
+                .withCssClass("summary-list-remove-link")
+                .withVisuallyHiddenText(addressLines)
+            )
+          )
         )
-      )))
+      )
     }
-  }
 }

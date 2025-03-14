@@ -31,55 +31,59 @@ import views.html.notification.IsTheIndividualRegisteredForVATView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class IsTheIndividualRegisteredForVATController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       sessionService: SessionService,
-                                       navigator: NotificationNavigator,
-                                       identify: IdentifierAction,
-                                       getData: DataRetrievalAction,
-                                       requireData: DataRequiredAction,
-                                       formProvider: IsTheIndividualRegisteredForVATFormProvider,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: IsTheIndividualRegisteredForVATView
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class IsTheIndividualRegisteredForVATController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: NotificationNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: IsTheIndividualRegisteredForVATFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: IsTheIndividualRegisteredForVATView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val preparedForm = request.userAnswers.get(IsTheIndividualRegisteredForVATPage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(IsTheIndividualRegisteredForVATPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
+    Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
-
-        value => {
-          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(IsTheIndividualRegisteredForVATPage, value))
-            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
-            _              <- sessionService.set(clearedAnswers)
-          } yield Redirect(navigator.nextPage(IsTheIndividualRegisteredForVATPage, mode, clearedAnswers, hasValueChanged))
-        }
-      )
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
+          value => {
+            val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(IsTheIndividualRegisteredForVATPage, value))
+              clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+              _              <- sessionService.set(clearedAnswers)
+            } yield Redirect(
+              navigator.nextPage(IsTheIndividualRegisteredForVATPage, mode, clearedAnswers, hasValueChanged)
+            )
+          }
+        )
   }
 
-  def changedPages(existingUserAnswers: UserAnswers, value: IsTheIndividualRegisteredForVAT): (List[QuestionPage[_]], Boolean) = 
+  def changedPages(
+    existingUserAnswers: UserAnswers,
+    value: IsTheIndividualRegisteredForVAT
+  ): (List[QuestionPage[_]], Boolean) =
     existingUserAnswers.get(IsTheIndividualRegisteredForVATPage) match {
-      case Some(IsTheIndividualRegisteredForVAT.YesIKnow) if value != IsTheIndividualRegisteredForVAT.YesIKnow => (List(WhatIsTheIndividualsVATRegistrationNumberPage), true)
-      case Some(existingValue) if value != existingValue => (Nil, true)
-      case _ => (Nil, false)
+      case Some(IsTheIndividualRegisteredForVAT.YesIKnow) if value != IsTheIndividualRegisteredForVAT.YesIKnow =>
+        (List(WhatIsTheIndividualsVATRegistrationNumberPage), true)
+      case Some(existingValue) if value != existingValue                                                       => (Nil, true)
+      case _                                                                                                   => (Nil, false)
     }
 
-    
 }

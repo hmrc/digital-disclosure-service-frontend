@@ -32,16 +32,17 @@ object IsTheIndividualRegisteredForSelfAssessment extends Enumerable.Implicits {
   case object No extends WithName("no") with IsTheIndividualRegisteredForSelfAssessment
 
   val values: Seq[IsTheIndividualRegisteredForSelfAssessment] = Seq(
-    YesIKnow, YesButDontKnow, No
+    YesIKnow,
+    YesButDontKnow,
+    No
   )
 
-  def options(implicit messages: Messages): Seq[RadioItem] = values.zipWithIndex.map {
-    case (value, index) =>
-      RadioItem(
-        content = Text(messages(s"isTheIndividualRegisteredForSA.${value.toString}")),
-        value   = Some(value.toString),
-        id      = Some(s"value_$index")
-      )
+  def options(implicit messages: Messages): Seq[RadioItem] = values.zipWithIndex.map { case (value, index) =>
+    RadioItem(
+      content = Text(messages(s"isTheIndividualRegisteredForSA.${value.toString}")),
+      value = Some(value.toString),
+      id = Some(s"value_$index")
+    )
   }
 
   implicit val enumerable: Enumerable[IsTheIndividualRegisteredForSelfAssessment] =
@@ -49,16 +50,18 @@ object IsTheIndividualRegisteredForSelfAssessment extends Enumerable.Implicits {
 
   implicit def fromYesNoOrUnsure(yesNoOrUnsure: YesNoOrUnsure): IsTheIndividualRegisteredForSelfAssessment =
     yesNoOrUnsure match {
-      case YesNoOrUnsure.Yes => YesIKnow
+      case YesNoOrUnsure.Yes    => YesIKnow
       case YesNoOrUnsure.Unsure => YesButDontKnow
-      case YesNoOrUnsure.No => No
+      case YesNoOrUnsure.No     => No
     }
 
-  implicit def toYesNoOrUnsure(isTheIndividualRegisteredForSelfAssessment: Option[IsTheIndividualRegisteredForSelfAssessment]): Option[YesNoOrUnsure] =
+  implicit def toYesNoOrUnsure(
+    isTheIndividualRegisteredForSelfAssessment: Option[IsTheIndividualRegisteredForSelfAssessment]
+  ): Option[YesNoOrUnsure] =
     isTheIndividualRegisteredForSelfAssessment.map {
-      case YesIKnow => YesNoOrUnsure.Yes
+      case YesIKnow       => YesNoOrUnsure.Yes
       case YesButDontKnow => YesNoOrUnsure.Unsure
-      case No => YesNoOrUnsure.No
+      case No             => YesNoOrUnsure.No
     }
 
 }

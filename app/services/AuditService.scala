@@ -16,7 +16,7 @@
 
 package services
 
-import com.google.inject.{Inject, Singleton, ImplementedBy}
+import com.google.inject.{ImplementedBy, Inject, Singleton}
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 import uk.gov.hmrc.http.HeaderCarrier
 import models.store.{FullDisclosure, Notification}
@@ -24,19 +24,24 @@ import scala.concurrent.ExecutionContext
 import models.audit._
 
 @Singleton
-class AuditServiceImpl @Inject()(
+class AuditServiceImpl @Inject() (
   connector: AuditConnector
-)(implicit ec: ExecutionContext) extends AuditService {
+)(implicit ec: ExecutionContext)
+    extends AuditService {
 
   val NOTIFICATION_SUBMITTED_AUDIT_TYPE = "NotificationSubmission"
-  val DISCLOSURE_SUBMITTED_AUDIT_TYPE = "DisclosureSubmission"
-  val NOTIFICATION_START_AUDIT_TYPE = "NotificationStart"
-  val DISCLOSURE_START_AUDIT_TYPE = "DisclosureStart"
-  
-  def auditNotificationSubmission(notification: Notification)(implicit hc: HeaderCarrier): Unit = connector.sendExplicitAudit(NOTIFICATION_SUBMITTED_AUDIT_TYPE, notification)
-  def auditDisclosureSubmission(disclosure: FullDisclosure)(implicit hc: HeaderCarrier): Unit = connector.sendExplicitAudit(DISCLOSURE_SUBMITTED_AUDIT_TYPE, disclosure)
-  def auditNotificationStart(notificationStart: NotificationStart)(implicit hc: HeaderCarrier): Unit = connector.sendExplicitAudit(NOTIFICATION_START_AUDIT_TYPE, notificationStart)
-  def auditDisclosureStart(disclosureStart: DisclosureStart)(implicit hc: HeaderCarrier): Unit = connector.sendExplicitAudit(DISCLOSURE_START_AUDIT_TYPE, disclosureStart)
+  val DISCLOSURE_SUBMITTED_AUDIT_TYPE   = "DisclosureSubmission"
+  val NOTIFICATION_START_AUDIT_TYPE     = "NotificationStart"
+  val DISCLOSURE_START_AUDIT_TYPE       = "DisclosureStart"
+
+  def auditNotificationSubmission(notification: Notification)(implicit hc: HeaderCarrier): Unit      =
+    connector.sendExplicitAudit(NOTIFICATION_SUBMITTED_AUDIT_TYPE, notification)
+  def auditDisclosureSubmission(disclosure: FullDisclosure)(implicit hc: HeaderCarrier): Unit        =
+    connector.sendExplicitAudit(DISCLOSURE_SUBMITTED_AUDIT_TYPE, disclosure)
+  def auditNotificationStart(notificationStart: NotificationStart)(implicit hc: HeaderCarrier): Unit =
+    connector.sendExplicitAudit(NOTIFICATION_START_AUDIT_TYPE, notificationStart)
+  def auditDisclosureStart(disclosureStart: DisclosureStart)(implicit hc: HeaderCarrier): Unit       =
+    connector.sendExplicitAudit(DISCLOSURE_START_AUDIT_TYPE, disclosureStart)
 
 }
 

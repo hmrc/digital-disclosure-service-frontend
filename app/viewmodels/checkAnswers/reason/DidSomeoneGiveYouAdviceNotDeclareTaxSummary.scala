@@ -17,7 +17,7 @@
 package viewmodels.checkAnswers
 
 import controllers.reason.routes
-import models.{CheckMode, UserAnswers, RelatesTo}
+import models.{CheckMode, RelatesTo, UserAnswers}
 import pages.{DidSomeoneGiveYouAdviceNotDeclareTaxPage, RelatesToPage}
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
@@ -26,29 +26,39 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object DidSomeoneGiveYouAdviceNotDeclareTaxSummary  {
+object DidSomeoneGiveYouAdviceNotDeclareTaxSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(DidSomeoneGiveYouAdviceNotDeclareTaxPage).map {
-      answer =>
-        val answerString = if (answer) "yes" else "no"
-        val value = ValueViewModel(
-          HtmlContent(
-            HtmlFormat.escape(messages(s"didSomeoneGiveYouAdviceNotDeclareTax.$answerString"))
-          )
+    answers.get(DidSomeoneGiveYouAdviceNotDeclareTaxPage).map { answer =>
+      val answerString = if (answer) "yes" else "no"
+      val value        = ValueViewModel(
+        HtmlContent(
+          HtmlFormat.escape(messages(s"didSomeoneGiveYouAdviceNotDeclareTax.$answerString"))
         )
+      )
 
-        val areTheyTheIndividual = answers.isTheUserTheIndividual
-        val entity = answers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
-        val key = messages(if(areTheyTheIndividual) s"didSomeoneGiveYouAdviceNotDeclareTax.agent.checkYourAnswersLabel" else s"didSomeoneGiveYouAdviceNotDeclareTax.${entity}.checkYourAnswersLabel")
-        
-        SummaryListRowViewModel(
-          key     = key,
-          value   = value,
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages(if(areTheyTheIndividual) "didSomeoneGiveYouAdviceNotDeclareTax.agent.change.hidden" else s"didSomeoneGiveYouAdviceNotDeclareTax.${entity}.change.hidden"))
+      val areTheyTheIndividual = answers.isTheUserTheIndividual
+      val entity               = answers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+      val key                  = messages(
+        if (areTheyTheIndividual) s"didSomeoneGiveYouAdviceNotDeclareTax.agent.checkYourAnswersLabel"
+        else s"didSomeoneGiveYouAdviceNotDeclareTax.$entity.checkYourAnswersLabel"
+      )
+
+      SummaryListRowViewModel(
+        key = key,
+        value = value,
+        actions = Seq(
+          ActionItemViewModel(
+            "site.change",
+            routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(CheckMode).url
           )
+            .withVisuallyHiddenText(
+              messages(
+                if (areTheyTheIndividual) "didSomeoneGiveYouAdviceNotDeclareTax.agent.change.hidden"
+                else s"didSomeoneGiveYouAdviceNotDeclareTax.$entity.change.hidden"
+              )
+            )
         )
+      )
     }
 }

@@ -24,12 +24,13 @@ import uk.gov.hmrc.play.bootstrap.frontend.http.FrontendErrorHandler
 import views.html.ErrorTemplate
 
 @Singleton
-class ErrorHandler @Inject()(
-                              val messagesApi: MessagesApi,
-                              view: ErrorTemplate)
-                              (implicit protected val ec: ExecutionContext)extends FrontendErrorHandler with I18nSupport {
+class ErrorHandler @Inject() (val messagesApi: MessagesApi, view: ErrorTemplate)(implicit
+  protected val ec: ExecutionContext
+) extends FrontendErrorHandler
+    with I18nSupport {
 
-  override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit rh: RequestHeader): Future[play.twirl.api.Html] = {
+  override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit
+    rh: RequestHeader
+  ): Future[play.twirl.api.Html] =
     Future.successful(view(pageTitle, heading, message))
-  }
 }

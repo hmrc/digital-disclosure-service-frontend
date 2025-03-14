@@ -26,6 +26,9 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxFormProvider @Inject() extends Mapping
 
   def apply(areTheyTheIndividual: Boolean, entity: RelatesTo): Form[Boolean] =
     Form(
-      "value" -> boolean(if(areTheyTheIndividual) "didSomeoneGiveYouAdviceNotDeclareTax.agent.error.required" else s"didSomeoneGiveYouAdviceNotDeclareTax.${entity}.error.required")
+      "value" -> boolean(
+        if (areTheyTheIndividual) "didSomeoneGiveYouAdviceNotDeclareTax.agent.error.required"
+        else s"didSomeoneGiveYouAdviceNotDeclareTax.$entity.error.required"
+      )
     )
 }

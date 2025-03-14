@@ -22,7 +22,7 @@ import models.store.YesNoOrUnsure
 import models.store.YesNoOrUnsure._
 import models.address.Address
 
-final case class AboutYou (
+final case class AboutYou(
   fullName: Option[String] = None,
   telephoneNumber: Option[String] = None,
   emailAddress: Option[String] = None,
@@ -38,15 +38,37 @@ final case class AboutYou (
   address: Option[Address] = None
 ) {
   def isComplete(isTheIndividual: Boolean) = (isTheIndividual, this) match {
-    case (true, AboutYou(Some(_), _, _, Some(_), Some(_), Some(ContactPreferences(contactPrefs)), Some(hasNino), nino, Some(hasVAT), vatRegNumber, Some(hasSA), sautr, Some(_))) => 
-      val ninoQuestionsPopulated = (hasNino != Yes || nino.isDefined)
-      val vatQuestionsPopulated = (hasVAT != Yes || vatRegNumber.isDefined)
-      val saQuestionsPopulated = (hasSA != Yes || sautr.isDefined)
-      val contactQuestionsPopulated = (!contactPrefs.contains(Email) || emailAddress.isDefined) && (!contactPrefs.contains(Telephone) || telephoneNumber.isDefined)
-      ( ninoQuestionsPopulated && vatQuestionsPopulated && saQuestionsPopulated && contactQuestionsPopulated )
-    case (false, AboutYou(Some(_), _, _, _, _, Some(ContactPreferences(contactPrefs)), _, _, _, _, _, _, Some(_))) => 
-      (!contactPrefs.contains(Email) || emailAddress.isDefined) && (!contactPrefs.contains(Telephone) || telephoneNumber.isDefined)
-    case _ => false
+    case (
+          true,
+          AboutYou(
+            Some(_),
+            _,
+            _,
+            Some(_),
+            Some(_),
+            Some(ContactPreferences(contactPrefs)),
+            Some(hasNino),
+            nino,
+            Some(hasVAT),
+            vatRegNumber,
+            Some(hasSA),
+            sautr,
+            Some(_)
+          )
+        ) =>
+      val ninoQuestionsPopulated    = hasNino != Yes || nino.isDefined
+      val vatQuestionsPopulated     = hasVAT != Yes || vatRegNumber.isDefined
+      val saQuestionsPopulated      = hasSA != Yes || sautr.isDefined
+      val contactQuestionsPopulated =
+        (!contactPrefs.contains(Email) || emailAddress.isDefined) && (!contactPrefs.contains(
+          Telephone
+        ) || telephoneNumber.isDefined)
+      ninoQuestionsPopulated && vatQuestionsPopulated && saQuestionsPopulated && contactQuestionsPopulated
+    case (false, AboutYou(Some(_), _, _, _, _, Some(ContactPreferences(contactPrefs)), _, _, _, _, _, _, Some(_))) =>
+      (!contactPrefs.contains(Email) || emailAddress.isDefined) && (!contactPrefs.contains(
+        Telephone
+      ) || telephoneNumber.isDefined)
+    case _                                                                                                         => false
   }
 }
 

@@ -21,7 +21,7 @@ import forms.PropertyIsNoLongerBeingLetOutFormProvider
 import javax.inject.Inject
 import models.{LettingProperty, Mode}
 import navigation.LettingNavigator
-import pages.{PropertyIsNoLongerBeingLetOutPage, LettingPropertyPage}
+import pages.{LettingPropertyPage, PropertyIsNoLongerBeingLetOutPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -30,47 +30,51 @@ import views.html.letting.PropertyIsNoLongerBeingLetOutView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class PropertyIsNoLongerBeingLetOutController @Inject()(
-                                        override val messagesApi: MessagesApi,
-                                        sessionService: SessionService,
-                                        navigator: LettingNavigator,
-                                        identify: IdentifierAction,
-                                        getData: DataRetrievalAction,
-                                        requireData: DataRequiredAction,
-                                        formProvider: PropertyIsNoLongerBeingLetOutFormProvider,
-                                        val controllerComponents: MessagesControllerComponents,
-                                        view: PropertyIsNoLongerBeingLetOutView
-                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class PropertyIsNoLongerBeingLetOutController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: LettingNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: PropertyIsNoLongerBeingLetOutFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: PropertyIsNoLongerBeingLetOutView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   def form = formProvider()
 
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-
-      val preparedForm = request.userAnswers.getBySeqIndex(LettingPropertyPage, i).flatMap(_.noLongerBeingLetOut) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
+      val preparedForm =
+        request.userAnswers.getBySeqIndex(LettingPropertyPage, i).flatMap(_.noLongerBeingLetOut) match {
+          case None        => form
+          case Some(value) => form.fill(value)
+        }
 
       Ok(view(preparedForm, i, mode))
   }
 
   def onSubmit(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, i, mode))),
+          { value =>
+            val updatedLettingProperty = request.userAnswers
+              .getBySeqIndex(LettingPropertyPage, i)
+              .getOrElse(LettingProperty())
+              .copy(noLongerBeingLetOut = Some(value))
 
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, i, mode))),
-        {value =>
-          val updatedLettingProperty = request.userAnswers.getBySeqIndex(LettingPropertyPage, i)
-            .getOrElse(LettingProperty())
-            .copy(noLongerBeingLetOut = Some(value))
-
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.setBySeqIndex(LettingPropertyPage, i, updatedLettingProperty))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(PropertyIsNoLongerBeingLetOutPage, i, mode, updatedAnswers))
-        }
-      )
+            for {
+              updatedAnswers <-
+                Future.fromTry(request.userAnswers.setBySeqIndex(LettingPropertyPage, i, updatedLettingProperty))
+              _              <- sessionService.set(updatedAnswers)
+            } yield Redirect(navigator.nextPage(PropertyIsNoLongerBeingLetOutPage, i, mode, updatedAnswers))
+          }
+        )
   }
 }

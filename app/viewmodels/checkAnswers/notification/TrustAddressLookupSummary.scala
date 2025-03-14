@@ -26,19 +26,17 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import play.twirl.api.HtmlFormat
 
-object TrustAddressLookupSummary  {
+object TrustAddressLookupSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(TrustAddressLookupPage).map {
-      answer =>
-
-        SummaryListRowViewModel(
-          key     = "trustAddressLookup.checkYourAnswersLabel",
-          value   = ValueViewModel(HtmlContent(answer.getAddressLines.map(HtmlFormat.escape).mkString("<br>"))),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.TrustAddressLookupController.lookupAddress(CheckMode).url)
-              .withVisuallyHiddenText(messages("trustAddressLookup.change.hidden"))
-          )
+    answers.get(TrustAddressLookupPage).map { answer =>
+      SummaryListRowViewModel(
+        key = "trustAddressLookup.checkYourAnswersLabel",
+        value = ValueViewModel(HtmlContent(answer.getAddressLines.map(HtmlFormat.escape).mkString("<br>"))),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.TrustAddressLookupController.lookupAddress(CheckMode).url)
+            .withVisuallyHiddenText(messages("trustAddressLookup.change.hidden"))
         )
+      )
     }
 }

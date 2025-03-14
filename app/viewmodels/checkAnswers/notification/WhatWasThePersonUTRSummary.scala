@@ -25,19 +25,17 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 
-object WhatWasThePersonUTRSummary  {
+object WhatWasThePersonUTRSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(WhatWasThePersonUTRPage).map {
-      answer =>
-
-        SummaryListRowViewModel(
-          key     = "whatWasThePersonUTR.checkYourAnswersLabel",
-          value   = ValueViewModel(Text(answer)),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.WhatWasThePersonUTRController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("whatWasThePersonUTR.change.hidden"))
-          )
+    answers.get(WhatWasThePersonUTRPage).map { answer =>
+      SummaryListRowViewModel(
+        key = "whatWasThePersonUTR.checkYourAnswersLabel",
+        value = ValueViewModel(Text(answer)),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.WhatWasThePersonUTRController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("whatWasThePersonUTR.change.hidden"))
         )
+      )
     }
 }

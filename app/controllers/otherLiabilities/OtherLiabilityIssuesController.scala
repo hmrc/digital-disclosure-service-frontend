@@ -31,61 +31,61 @@ import views.html.otherLiabilities.OtherLiabilityIssuesView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class OtherLiabilityIssuesController @Inject()(
-                                        override val messagesApi: MessagesApi,
-                                        sessionService: SessionService,
-                                        navigator: OtherLiabilitiesNavigator,
-                                        identify: IdentifierAction,
-                                        getData: DataRetrievalAction,
-                                        requireData: DataRequiredAction,
-                                        formProvider: OtherLiabilityIssuesFormProvider,
-                                        val controllerComponents: MessagesControllerComponents,
-                                        view: OtherLiabilityIssuesView
-                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class OtherLiabilityIssuesController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: OtherLiabilitiesNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: OtherLiabilityIssuesFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: OtherLiabilityIssuesView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val preparedForm = request.userAnswers.get(OtherLiabilityIssuesPage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(OtherLiabilityIssuesPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, mode))
+    Ok(view(preparedForm, mode))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
-
-        value => {
-          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(OtherLiabilityIssuesPage, value))
-            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
-            _              <- sessionService.set(clearedAnswers)
-          } yield Redirect(navigator.nextPage(OtherLiabilityIssuesPage, mode, clearedAnswers, hasValueChanged))
-        }
-      )
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode))),
+          value => {
+            val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(OtherLiabilityIssuesPage, value))
+              clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+              _              <- sessionService.set(clearedAnswers)
+            } yield Redirect(navigator.nextPage(OtherLiabilityIssuesPage, mode, clearedAnswers, hasValueChanged))
+          }
+        )
   }
 
-  def changedPages(existingUserAnswers: UserAnswers, value: Set[OtherLiabilityIssues]): (List[QuestionPage[_]], Boolean) = {
+  def changedPages(
+    existingUserAnswers: UserAnswers,
+    value: Set[OtherLiabilityIssues]
+  ): (List[QuestionPage[_]], Boolean) =
     existingUserAnswers.get(OtherLiabilityIssuesPage) match {
       case Some(preferences) if preferences != value =>
         val pages = preferences.flatMap {
-            case InheritanceTaxIssues if !value.contains(InheritanceTaxIssues) => Some(DescribeTheGiftPage)
-            case Other if !value.contains(Other) => Some(WhatOtherLiabilityIssuesPage)
-            case _ => None
-          }.toList
+          case InheritanceTaxIssues if !value.contains(InheritanceTaxIssues) => Some(DescribeTheGiftPage)
+          case Other if !value.contains(Other)                               => Some(WhatOtherLiabilityIssuesPage)
+          case _                                                             => None
+        }.toList
         (pages, true)
-      case _ => (Nil, false)
+      case _                                         => (Nil, false)
     }
-
-  }
 
 }

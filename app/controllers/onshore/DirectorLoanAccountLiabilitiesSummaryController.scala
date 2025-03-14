@@ -25,21 +25,20 @@ import models.Mode
 import views.html.onshore.DirectorLoanAccountLiabilitiesSummaryView
 import viewmodels.onshore.DirectorLoanAccountLiabilitiesSummaryViewModelCreation
 
-class DirectorLoanAccountLiabilitiesSummaryController @Inject()(
-                                            override val messagesApi: MessagesApi,
-                                            identify: IdentifierAction,
-                                            getData: DataRetrievalAction,
-                                            requireData: DataRequiredAction,
-                                            val controllerComponents: MessagesControllerComponents,
-                                            viewModelCreation: DirectorLoanAccountLiabilitiesSummaryViewModelCreation,
-                                            view: DirectorLoanAccountLiabilitiesSummaryView
-                                          ) extends FrontendBaseController with I18nSupport {
+class DirectorLoanAccountLiabilitiesSummaryController @Inject() (
+  override val messagesApi: MessagesApi,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  val controllerComponents: MessagesControllerComponents,
+  viewModelCreation: DirectorLoanAccountLiabilitiesSummaryViewModelCreation,
+  view: DirectorLoanAccountLiabilitiesSummaryView
+) extends FrontendBaseController
+    with I18nSupport {
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
-
-      val viewModel = viewModelCreation.create(request.userAnswers)
-      Ok(view(viewModel, mode))
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val viewModel = viewModelCreation.create(request.userAnswers)
+    Ok(view(viewModel, mode))
   }
 
 }

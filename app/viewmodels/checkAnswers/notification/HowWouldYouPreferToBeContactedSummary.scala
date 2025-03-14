@@ -26,28 +26,27 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object HowWouldYouPreferToBeContactedSummary  {
+object HowWouldYouPreferToBeContactedSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(HowWouldYouPreferToBeContactedPage).map {
-      answers =>
-
-        val value = ValueViewModel(
-          HtmlContent(
-            answers.map {
-              answer => HtmlFormat.escape(messages(s"howWouldYouPreferToBeContacted.$answer")).toString
+    answers.get(HowWouldYouPreferToBeContactedPage).map { answers =>
+      val value = ValueViewModel(
+        HtmlContent(
+          answers
+            .map { answer =>
+              HtmlFormat.escape(messages(s"howWouldYouPreferToBeContacted.$answer")).toString
             }
             .mkString(",<br>")
-          )
         )
+      )
 
-        SummaryListRowViewModel(
-          key     = "howWouldYouPreferToBeContacted.checkYourAnswersLabel",
-          value   = value,
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.HowWouldYouPreferToBeContactedController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("howWouldYouPreferToBeContacted.change.hidden"))
-          )
+      SummaryListRowViewModel(
+        key = "howWouldYouPreferToBeContacted.checkYourAnswersLabel",
+        value = value,
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.HowWouldYouPreferToBeContactedController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("howWouldYouPreferToBeContacted.change.hidden"))
         )
+      )
     }
 }

@@ -21,13 +21,11 @@ import play.api.libs.json.Writes
 import scala.util.Try
 
 final case class PageWithValue[A](page: QuestionPage[A], value: A)(implicit writes: Writes[A]) {
-  def addToUserAnswers(userAnswers: UserAnswers): Try[UserAnswers] = {
+  def addToUserAnswers(userAnswers: UserAnswers): Try[UserAnswers] =
     userAnswers.set(page, value)
-  }
 }
 
 object PageWithValue {
-  def pagesToUserAnswers(pages: List[PageWithValue[_]], userAnswers: UserAnswers): Try[UserAnswers] = {
-    pages.foldLeft(Try(userAnswers)){ (tryUa, page) => tryUa.flatMap(page.addToUserAnswers(_)) }
-  }
+  def pagesToUserAnswers(pages: List[PageWithValue[_]], userAnswers: UserAnswers): Try[UserAnswers] =
+    pages.foldLeft(Try(userAnswers))((tryUa, page) => tryUa.flatMap(page.addToUserAnswers(_)))
 }

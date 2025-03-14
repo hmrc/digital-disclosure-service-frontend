@@ -17,7 +17,7 @@
 package viewmodels.checkAnswers
 
 import controllers.offshore.routes
-import models.{CheckMode, UserAnswers, Behaviour, ReasonableExcusePriorTo, CarelessPriorTo, DeliberatePriorTo}
+import models.{Behaviour, CarelessPriorTo, CheckMode, DeliberatePriorTo, ReasonableExcusePriorTo, UserAnswers}
 import pages.WhichYearsPage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
@@ -29,33 +29,59 @@ import viewmodels.implicits._
 import com.google.inject.{Inject, Singleton}
 
 @Singleton
-class WhichYearsSummary @Inject() (offshoreWhichYearsService: OffshoreWhichYearsService)  {
+class WhichYearsSummary @Inject() (offshoreWhichYearsService: OffshoreWhichYearsService) {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(WhichYearsPage).map {
-      answers =>
-
-        val value = ValueViewModel(
-          HtmlContent(
-            answers.toSeq.sorted.map {
-              answer => answer match {
-                case ReasonableExcusePriorTo => HtmlFormat.escape(messages(s"whichYears.checkbox.any", offshoreWhichYearsService.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString)).toString
-                case CarelessPriorTo => HtmlFormat.escape(messages(s"whichYears.checkbox.any", offshoreWhichYearsService.getEarliestYearByBehaviour(Behaviour.Careless).toString)).toString
-                case DeliberatePriorTo => HtmlFormat.escape(messages(s"whichYears.checkbox.any", offshoreWhichYearsService.getEarliestYearByBehaviour(Behaviour.Deliberate).toString)).toString
-                case _ => HtmlFormat.escape(messages(s"whichYears.checkbox", answer, (answer.toString.toInt+1).toString)).toString
+    answers.get(WhichYearsPage).map { answers =>
+      val value = ValueViewModel(
+        HtmlContent(
+          answers.toSeq.sorted
+            .map { answer =>
+              answer match {
+                case ReasonableExcusePriorTo =>
+                  HtmlFormat
+                    .escape(
+                      messages(
+                        s"whichYears.checkbox.any",
+                        offshoreWhichYearsService.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString
+                      )
+                    )
+                    .toString
+                case CarelessPriorTo         =>
+                  HtmlFormat
+                    .escape(
+                      messages(
+                        s"whichYears.checkbox.any",
+                        offshoreWhichYearsService.getEarliestYearByBehaviour(Behaviour.Careless).toString
+                      )
+                    )
+                    .toString
+                case DeliberatePriorTo       =>
+                  HtmlFormat
+                    .escape(
+                      messages(
+                        s"whichYears.checkbox.any",
+                        offshoreWhichYearsService.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
+                      )
+                    )
+                    .toString
+                case _                       =>
+                  HtmlFormat
+                    .escape(messages(s"whichYears.checkbox", answer, (answer.toString.toInt + 1).toString))
+                    .toString
               }
             }
             .mkString(",<br>")
-          )
         )
+      )
 
-        SummaryListRowViewModel(
-          key     = "whichYears.checkYourAnswersLabel",
-          value   = value,
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.WhichYearsController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("whichYears.change.hidden"))
-          )
+      SummaryListRowViewModel(
+        key = "whichYears.checkYourAnswersLabel",
+        value = value,
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.WhichYearsController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("whichYears.change.hidden"))
         )
+      )
     }
 }

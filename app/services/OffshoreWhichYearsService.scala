@@ -21,20 +21,22 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.checkboxes.CheckboxItem
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 import viewmodels.govuk.checkbox._
 import uk.gov.hmrc.time.{CurrentTaxYear, TaxYear}
-import com.google.inject.{Inject, ImplementedBy, Singleton}
+import com.google.inject.{ImplementedBy, Inject, Singleton}
 import models.Behaviour
 
 @Singleton
-class OffshoreWhichYearsServiceImpl @Inject() (timeService: TimeService) extends OffshoreWhichYearsService with CurrentTaxYear {
+class OffshoreWhichYearsServiceImpl @Inject() (timeService: TimeService)
+    extends OffshoreWhichYearsService
+    with CurrentTaxYear {
 
   def now = () => timeService.date
 
-  val DELIBERATE_YEARS = 19
+  val DELIBERATE_YEARS                    = 19
   val REASONABLE_EXCUSE_LEGISLATION_START = 2015
-  val CARELESS_LEGISLATION_START = 2013
-  val YEARS_TO_GO_BACK = 13
+  val CARELESS_LEGISLATION_START          = 2013
+  val YEARS_TO_GO_BACK                    = 13
 
-  def checkboxItems(behaviour: Behaviour)(implicit messages: Messages): Seq[CheckboxItem] = { 
+  def checkboxItems(behaviour: Behaviour)(implicit messages: Messages): Seq[CheckboxItem] = {
 
     val numberOfYears = getNumberOfYearsForBehaviour(behaviour)
 
@@ -60,43 +62,50 @@ class OffshoreWhichYearsServiceImpl @Inject() (timeService: TimeService) extends
 
   def getEarliestYearByBehaviour(behaviour: Behaviour): Int = {
     val yearsToGoBack = getNumberOfYearsForBehaviour(behaviour)
-    current.back(yearsToGoBack+1).startYear
+    current.back(yearsToGoBack + 1).startYear
   }
 
-  def createYearCheckboxes(numberOfYears: Int, currentTaxYear: TaxYear)(implicit messages: Messages): Seq[CheckboxItem] = {
-    Range.inclusive(0, numberOfYears-1).toList.map {i =>
-      val taxYear = currentTaxYear.back(i+2)
+  def createYearCheckboxes(numberOfYears: Int, currentTaxYear: TaxYear)(implicit
+    messages: Messages
+  ): Seq[CheckboxItem] =
+    Range.inclusive(0, numberOfYears - 1).toList.map { i =>
+      val taxYear = currentTaxYear.back(i + 2)
       CheckboxItemViewModel(
         content = Text(messages(s"whichYears.checkbox", s"${taxYear.startYear}", s"${taxYear.finishYear}")),
         fieldId = "value",
-        index   = i,
-        value   = taxYear.startYear.toString
+        index = i,
+        value = taxYear.startYear.toString
       )
     }
-  }
 
-  def createReasonableExcusePriorToCheckbox(numberOfYears: Int, currentTaxYear: TaxYear)(implicit messages: Messages): CheckboxItem = {
-    val taxYear = currentTaxYear.back(numberOfYears+1)
+  def createReasonableExcusePriorToCheckbox(numberOfYears: Int, currentTaxYear: TaxYear)(implicit
+    messages: Messages
+  ): CheckboxItem = {
+    val taxYear = currentTaxYear.back(numberOfYears + 1)
     CheckboxItemViewModel(
       content = Text(messages(s"whichYears.checkbox.any", s"${taxYear.startYear}")),
       fieldId = "value",
-      index   = numberOfYears,
-      value   = "reasonableExcusePriorTo"
+      index = numberOfYears,
+      value = "reasonableExcusePriorTo"
     )
   }
 
-  def createCarelessPriorToCheckbox(numberOfYears: Int, currentTaxYear: TaxYear)(implicit messages: Messages): CheckboxItem = {
-    val taxYear = currentTaxYear.back(numberOfYears+1)
+  def createCarelessPriorToCheckbox(numberOfYears: Int, currentTaxYear: TaxYear)(implicit
+    messages: Messages
+  ): CheckboxItem = {
+    val taxYear = currentTaxYear.back(numberOfYears + 1)
     CheckboxItemViewModel(
       content = Text(messages(s"whichYears.checkbox.any", s"${taxYear.startYear}")),
       fieldId = "value",
-      index   = numberOfYears,
-      value   = "carelessPriorTo"
+      index = numberOfYears,
+      value = "carelessPriorTo"
     )
   }
 
-  def createDeliberatePriorToCheckbox(numberOfYears: Int, currentTaxYear: TaxYear)(implicit messages: Messages): CheckboxItem = {
-    val taxYear = currentTaxYear.back(numberOfYears+1)
+  def createDeliberatePriorToCheckbox(numberOfYears: Int, currentTaxYear: TaxYear)(implicit
+    messages: Messages
+  ): CheckboxItem = {
+    val taxYear = currentTaxYear.back(numberOfYears + 1)
     CheckboxItemViewModel(
       content = Text(messages(s"whichYears.checkbox.any", s"${taxYear.startYear}")),
       fieldId = "value",
@@ -104,7 +113,7 @@ class OffshoreWhichYearsServiceImpl @Inject() (timeService: TimeService) extends
       value = "deliberatePriorTo"
     )
   }
-    
+
 }
 
 @ImplementedBy(classOf[OffshoreWhichYearsServiceImpl])

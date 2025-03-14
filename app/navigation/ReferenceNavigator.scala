@@ -24,28 +24,30 @@ import controllers.reference.routes
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class ReferenceNavigator @Inject()() {
-  
+class ReferenceNavigator @Inject() () {
+
   private val normalRoutes: Page => UserAnswers => Call = {
 
-    case DoYouHaveACaseReferencePage => ua => ua.get(DoYouHaveACaseReferencePage) match {
-      case Some(true) => routes.WhatIsTheCaseReferenceController.onPageLoad(NormalMode)
-      case _ => controllers.routes.TaskListController.onPageLoad
-    }
+    case DoYouHaveACaseReferencePage =>
+      ua =>
+        ua.get(DoYouHaveACaseReferencePage) match {
+          case Some(true) => routes.WhatIsTheCaseReferenceController.onPageLoad(NormalMode)
+          case _          => controllers.routes.TaskListController.onPageLoad
+        }
 
     case WhatIsTheCaseReferencePage => _ => controllers.routes.TaskListController.onPageLoad
 
     case _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
-  private val checkRouteMap: Page => UserAnswers => Boolean => Call = {
-    case _ => _ => _ => controllers.routes.IndexController.onPageLoad
+  private val checkRouteMap: Page => UserAnswers => Boolean => Call = { case _ =>
+    _ => _ => controllers.routes.IndexController.onPageLoad
   }
 
   def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasAnswerChanged: Boolean = true): Call = mode match {
     case NormalMode =>
       normalRoutes(page)(userAnswers)
-    case CheckMode =>
+    case CheckMode  =>
       checkRouteMap(page)(userAnswers)(hasAnswerChanged)
   }
 }

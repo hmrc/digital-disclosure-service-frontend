@@ -20,11 +20,11 @@ import uk.gov.hmrc.http.HeaderCarrier
 import scala.concurrent.{ExecutionContext, Future}
 import models.store.Metadata
 import connectors.DigitalDisclosureServiceConnector
-import com.google.inject.{Inject, Singleton, ImplementedBy}
+import com.google.inject.{ImplementedBy, Inject, Singleton}
 import models.UserAnswers
 
 @Singleton
-class NotificationSubmissionServiceImpl @Inject()(
+class NotificationSubmissionServiceImpl @Inject() (
   connector: DigitalDisclosureServiceConnector,
   UAToNotificationService: UAToNotificationService,
   referenceService: ReferenceService,
@@ -35,10 +35,10 @@ class NotificationSubmissionServiceImpl @Inject()(
 
   def submitNotification(userAnswers: UserAnswers)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[String] = {
     val reference = referenceService.generateReference
-    val metadata = Metadata(reference = Some(reference), submissionTime = Some(timeService.now))
+    val metadata  = Metadata(reference = Some(reference), submissionTime = Some(timeService.now))
 
     val updatedUserAnswers = userAnswers.copy(metadata = metadata)
-    val notification = UAToNotificationService.userAnswersToNotification(updatedUserAnswers)
+    val notification       = UAToNotificationService.userAnswersToNotification(updatedUserAnswers)
 
     auditService.auditNotificationSubmission(notification)
 

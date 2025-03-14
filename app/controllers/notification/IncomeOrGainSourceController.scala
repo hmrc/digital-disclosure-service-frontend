@@ -19,11 +19,11 @@ package controllers.notification
 import controllers.actions._
 import forms.IncomeOrGainSourceFormProvider
 import javax.inject.Inject
-import models.{Mode, UserAnswers, IncomeOrGainSource}
+import models.{IncomeOrGainSource, Mode, UserAnswers}
 import models.IncomeOrGainSource._
 
 import navigation.NotificationNavigator
-import pages.{IncomeOrGainSourcePage, QuestionPage, OtherIncomeOrGainSourcePage}
+import pages.{IncomeOrGainSourcePage, OtherIncomeOrGainSourcePage, QuestionPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -32,58 +32,57 @@ import views.html.notification.IncomeOrGainSourceView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class IncomeOrGainSourceController @Inject()(
-                                        override val messagesApi: MessagesApi,
-                                        sessionService: SessionService,
-                                        navigator: NotificationNavigator,
-                                        identify: IdentifierAction,
-                                        getData: DataRetrievalAction,
-                                        requireData: DataRequiredAction,
-                                        formProvider: IncomeOrGainSourceFormProvider,
-                                        val controllerComponents: MessagesControllerComponents,
-                                        view: IncomeOrGainSourceView
-                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class IncomeOrGainSourceController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: NotificationNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: IncomeOrGainSourceFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: IncomeOrGainSourceView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val preparedForm = request.userAnswers.get(IncomeOrGainSourcePage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(IncomeOrGainSourcePage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
+    Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
+          value => {
 
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
+            val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
 
-        value => {
-
-          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
-
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(IncomeOrGainSourcePage, value))
-            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
-            _              <- sessionService.set(clearedAnswers)
-          } yield Redirect(navigator.nextPage(IncomeOrGainSourcePage, mode, clearedAnswers, hasValueChanged))
-        }
-      )
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(IncomeOrGainSourcePage, value))
+              clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+              _              <- sessionService.set(clearedAnswers)
+            } yield Redirect(navigator.nextPage(IncomeOrGainSourcePage, mode, clearedAnswers, hasValueChanged))
+          }
+        )
   }
 
   def changedPages(userAnswers: UserAnswers, newValue: Set[IncomeOrGainSource]): (List[QuestionPage[_]], Boolean) =
     userAnswers.get(IncomeOrGainSourcePage) match {
-      case Some(oldValue) if (!oldValue.contains(SomewhereElse) && newValue.contains(SomewhereElse)) => (Nil, true)
-      case Some(oldValue) if (oldValue.contains(SomewhereElse) && !newValue.contains(SomewhereElse)) => (List(OtherIncomeOrGainSourcePage), true)
-      case Some(oldValue) if (oldValue != newValue) => (Nil, true)
-      case _ => (Nil, false)
+      case Some(oldValue) if !oldValue.contains(SomewhereElse) && newValue.contains(SomewhereElse) => (Nil, true)
+      case Some(oldValue) if oldValue.contains(SomewhereElse) && !newValue.contains(SomewhereElse) =>
+        (List(OtherIncomeOrGainSourcePage), true)
+      case Some(oldValue) if oldValue != newValue                                                  => (Nil, true)
+      case _                                                                                       => (Nil, false)
     }
 
-    
 }

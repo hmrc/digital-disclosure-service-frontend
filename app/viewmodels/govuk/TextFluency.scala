@@ -22,14 +22,13 @@ object text extends TextFluency
 trait TextFluency {
 
   object TextViewModel {
-    def apply(content:String): Text = {
+    def apply(content: String): Text =
       Text(content)
-    }
   }
 
-  implicit class FluentText(text:Text) {
-    def withEllipsisOverflow(maxSize:Int):Text = {
-      val value = if(text.value.length > maxSize) text.value.substring(0, maxSize) + "..." else text.value
+  implicit class FluentText(text: Text) {
+    def withEllipsisOverflow(maxSize: Int): Text = {
+      val value = if (text.value.length > maxSize) text.value.substring(0, maxSize) + "..." else text.value
       text copy (value = value)
     }
   }

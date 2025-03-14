@@ -28,9 +28,13 @@ class OtherLiabilityIssuesFormProvider @Inject() extends Mappings {
   def apply(): Form[Set[OtherLiabilityIssues]] =
     Form(
       "value" -> set(enumerable[OtherLiabilityIssues]("otherLiabilityIssues.error.required"))
-      .verifying(nonEmptySet("otherLiabilityIssues.error.required"))
-      .verifying(allOrNoneCheckboxConstraint[OtherLiabilityIssues]("otherLiabilityIssues.error.validSelection", OtherLiabilityIssues.NoExclusion))
-    )  
+        .verifying(nonEmptySet("otherLiabilityIssues.error.required"))
+        .verifying(
+          allOrNoneCheckboxConstraint[OtherLiabilityIssues](
+            "otherLiabilityIssues.error.validSelection",
+            OtherLiabilityIssues.NoExclusion
+          )
+        )
+    )
 
 }
-

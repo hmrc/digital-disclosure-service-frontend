@@ -19,7 +19,7 @@ package controllers.reason
 import controllers.actions._
 import forms.AdviceGivenFormProvider
 import javax.inject.Inject
-import models.{Mode, UserAnswers, AdviceGiven}
+import models.{AdviceGiven, Mode, UserAnswers}
 import navigation.ReasonNavigator
 import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -30,64 +30,63 @@ import views.html.reason.AdviceGivenView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class AdviceGivenController @Inject()(
-                                      override val messagesApi: MessagesApi,
-                                      sessionService: SessionService,
-                                      navigator: ReasonNavigator,
-                                      identify: IdentifierAction,
-                                      getData: DataRetrievalAction,
-                                      requireData: DataRequiredAction,
-                                      formProvider: AdviceGivenFormProvider,
-                                      val controllerComponents: MessagesControllerComponents,
-                                      view: AdviceGivenView
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class AdviceGivenController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: ReasonNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: AdviceGivenFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: AdviceGivenView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val preparedForm = request.userAnswers.get(AdviceGivenPage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(AdviceGivenPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, mode))
+    Ok(view(preparedForm, mode))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode))),
+          value => {
 
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+            val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
 
-        value => {
-
-          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
-          
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(AdviceGivenPage, value))
-            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
-            _              <- sessionService.set(clearedAnswers)
-          } yield Redirect(navigator.nextPage(AdviceGivenPage, mode, clearedAnswers, hasValueChanged))
-        }  
-      )
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(AdviceGivenPage, value))
+              clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+              _              <- sessionService.set(clearedAnswers)
+            } yield Redirect(navigator.nextPage(AdviceGivenPage, mode, clearedAnswers, hasValueChanged))
+          }
+        )
   }
 
   def changedPages(userAnswers: UserAnswers, newValue: AdviceGiven): (List[QuestionPage[_]], Boolean) =
-    userAnswers.get(AdviceGivenPage)match {
-      case Some(oldValue) if (oldValue.contactPreference != newValue.contactPreference) => 
+    userAnswers.get(AdviceGivenPage) match {
+      case Some(oldValue) if oldValue.contactPreference != newValue.contactPreference =>
         (
           List(
             WhichEmailAddressCanWeContactYouWithPage,
             WhatEmailAddressCanWeContactYouWithPage,
             WhichTelephoneNumberCanWeContactYouWithPage,
             WhatTelephoneNumberCanWeContactYouWithPage
-          ), 
+          ),
           true
         )
-      case _ => (Nil, false)
+      case _                                                                          => (Nil, false)
     }
-    
+
 }

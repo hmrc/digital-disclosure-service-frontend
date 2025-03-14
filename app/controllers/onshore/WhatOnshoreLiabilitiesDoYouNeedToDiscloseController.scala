@@ -32,81 +32,97 @@ import views.html.onshore.WhatOnshoreLiabilitiesDoYouNeedToDiscloseView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class WhatOnshoreLiabilitiesDoYouNeedToDiscloseController @Inject()(
-                                        override val messagesApi: MessagesApi,
-                                        sessionService: SessionService,
-                                        navigator: OnshoreNavigator,
-                                        identify: IdentifierAction,
-                                        getData: DataRetrievalAction,
-                                        requireData: DataRequiredAction,
-                                        formProvider: WhatOnshoreLiabilitiesDoYouNeedToDiscloseFormProvider,
-                                        val controllerComponents: MessagesControllerComponents,
-                                        view: WhatOnshoreLiabilitiesDoYouNeedToDiscloseView
-                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class WhatOnshoreLiabilitiesDoYouNeedToDiscloseController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: OnshoreNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: WhatOnshoreLiabilitiesDoYouNeedToDiscloseFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: WhatOnshoreLiabilitiesDoYouNeedToDiscloseView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val preparedForm = request.userAnswers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
+    val isUserCompany = isTheUserACompany(request.userAnswers)
 
-      val isUserCompany = isTheUserACompany(request.userAnswers)
-
-      Ok(view(preparedForm, mode, isUserCompany))
+    Ok(view(preparedForm, mode, isUserCompany))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
       val isUserCompany = isTheUserACompany(request.userAnswers)
 
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, isUserCompany))),
-
-        value => {
-          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, isUserCompany))),
+          value => {
+            val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
             for {
-              updatedAnswers <- Future.fromTry(request.userAnswers.set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, value))
-              clearedPages <- Future.fromTry(updatedAnswers.remove(pagesToClear))
-              _ <- sessionService.set(clearedPages)
-            } yield Redirect(navigator.nextPage(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, mode, updatedAnswers, hasValueChanged))
-        }
-      )
+              updatedAnswers <-
+                Future.fromTry(request.userAnswers.set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, value))
+              clearedPages   <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+              _              <- sessionService.set(clearedPages)
+            } yield Redirect(
+              navigator.nextPage(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, mode, updatedAnswers, hasValueChanged)
+            )
+          }
+        )
   }
 
-  def isTheUserACompany(userAnswers: UserAnswers): Boolean = {
+  def isTheUserACompany(userAnswers: UserAnswers): Boolean =
     userAnswers.get(RelatesToPage) match {
       case Some(RelatesTo.ACompany) => true
-      case _ => false
+      case _                        => false
     }
-  }
 
-  def changedPages(answers: UserAnswers, value: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]): (List[QuestionPage[_]], Boolean) = {
+  def changedPages(
+    answers: UserAnswers,
+    value: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]
+  ): (List[QuestionPage[_]], Boolean) =
     answers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage) match {
       case Some(liability) if liability != value => (getPages(value), true)
-      case _ => (Nil, false)
+      case _                                     => (Nil, false)
     }
-  }
 
   private def getPages(liabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]): List[QuestionPage[_]] = {
-    case class ClearingCondition(selections: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose], pagesToClear: List[QuestionPage[_]]) {
-      def isConditionMet(liabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]): Boolean = liabilities.intersect(selections).isEmpty
+    case class ClearingCondition(
+      selections: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose],
+      pagesToClear: List[QuestionPage[_]]
+    ) {
+      def isConditionMet(liabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]): Boolean =
+        liabilities.intersect(selections).isEmpty
     }
 
-    val nonCompany = ClearingCondition(Set(BusinessIncome, Gains, NonBusinessIncome, LettingIncome), List(WhichOnshoreYearsPage, OnshoreTaxYearLiabilitiesPage, TaxBeforeFiveYearsOnshorePage, TaxBeforeSevenYearsPage, TaxBeforeFiveYearsOnshorePage))
+    val nonCompany     = ClearingCondition(
+      Set(BusinessIncome, Gains, NonBusinessIncome, LettingIncome),
+      List(
+        WhichOnshoreYearsPage,
+        OnshoreTaxYearLiabilitiesPage,
+        TaxBeforeFiveYearsOnshorePage,
+        TaxBeforeSevenYearsPage,
+        TaxBeforeFiveYearsOnshorePage
+      )
+    )
     val corporationTax = ClearingCondition(Set(CorporationTax), List(CorporationTaxLiabilityPage))
-    val directorLoan = ClearingCondition(Set(DirectorLoan), List(DirectorLoanAccountLiabilitiesPage))
-    val lettingIncome = ClearingCondition(Set(LettingIncome), List(LettingPropertyPage))
+    val directorLoan   = ClearingCondition(Set(DirectorLoan), List(DirectorLoanAccountLiabilitiesPage))
+    val lettingIncome  = ClearingCondition(Set(LettingIncome), List(LettingPropertyPage))
 
     val conditions = List(nonCompany, corporationTax, directorLoan, lettingIncome)
 
-    conditions.foldLeft[List[QuestionPage[_]]](List()){
-      (cleared, condition) => if(condition.isConditionMet(liabilities)) cleared ++ condition.pagesToClear else cleared
+    conditions.foldLeft[List[QuestionPage[_]]](List()) { (cleared, condition) =>
+      if (condition.isConditionMet(liabilities)) cleared ++ condition.pagesToClear else cleared
     }
   }
 }

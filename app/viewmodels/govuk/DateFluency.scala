@@ -30,10 +30,10 @@ trait DateFluency {
   object DateViewModel extends ErrorMessageAwareness {
 
     def apply(
-               form: Form[_],
-               id: String,
-               legend: Legend
-             )(implicit messages: Messages): DateInput =
+      form: Form[_],
+      id: String,
+      legend: Legend
+    )(implicit messages: Messages): DateInput =
       apply(
         form = form,
         id = id,
@@ -41,49 +41,55 @@ trait DateFluency {
       )
 
     def apply(
-               form: Form[_],
-               id: String,
-               fieldset: Fieldset
-             )(implicit messages: Messages): DateInput = {
+      form: Form[_],
+      id: String,
+      fieldset: Fieldset
+    )(implicit messages: Messages): DateInput = {
 
       val field = form(id)
 
-      def errorClass(id: String) = if (errorMessage(field).isDefined || errorMessage(form(id)).isDefined) "govuk-input--error" else ""
+      def errorClass(id: String) =
+        if (errorMessage(field).isDefined || errorMessage(form(id)).isDefined) "govuk-input--error" else ""
 
-      val dayId = s"${field.id}.day"
+      val dayId   = s"${field.id}.day"
       val monthId = s"${field.id}.month"
-      val yearId = s"${field.id}.year"
+      val yearId  = s"${field.id}.year"
 
-      val primaryError = Seq(errorMessage(field), errorMessage(form(dayId)), errorMessage(form(monthId)), errorMessage(form(yearId))).flatten.headOption
+      val primaryError = Seq(
+        errorMessage(field),
+        errorMessage(form(dayId)),
+        errorMessage(form(monthId)),
+        errorMessage(form(yearId))
+      ).flatten.headOption
 
       val items = Seq(
         InputItem(
-          id      = dayId,
-          name    = s"${field.name}.day",
-          value   = field("day").value,
-          label   = Some(messages("date.day")),
+          id = dayId,
+          name = s"${field.name}.day",
+          value = field("day").value,
+          label = Some(messages("date.day")),
           classes = s"govuk-input--width-2 ${errorClass(dayId)}".trim
         ),
         InputItem(
-          id      = monthId,
-          name    = s"${field.name}.month",
-          value   = field("month").value,
-          label   = Some(messages("date.month")),
+          id = monthId,
+          name = s"${field.name}.month",
+          value = field("month").value,
+          label = Some(messages("date.month")),
           classes = s"govuk-input--width-2 ${errorClass(monthId)}".trim
         ),
         InputItem(
-          id      = yearId,
-          name    = s"${field.name}.year",
-          value   = field("year").value,
-          label   = Some(messages("date.year")),
+          id = yearId,
+          name = s"${field.name}.year",
+          value = field("year").value,
+          label = Some(messages("date.year")),
           classes = s"govuk-input--width-4 ${errorClass(yearId)}".trim
         )
       )
 
       DateInput(
-        fieldset     = Some(fieldset),
-        items        = items,
-        id           = field.id,
+        fieldset = Some(fieldset),
+        items = items,
+        id = field.id,
         errorMessage = primaryError
       )
     }
@@ -107,11 +113,9 @@ trait DateFluency {
       date copy (attributes = date.attributes + attribute)
 
     def asDateOfBirth(): DateInput =
-      date copy (
-        items = date.items map {
-          item =>
-            val name = item.id.split('.').last
-            item copy (autocomplete = Some(s"bday-$name"))
-        })
+      date copy (items = date.items map { item =>
+        val name = item.id.split('.').last
+        item copy (autocomplete = Some(s"bday-$name"))
+      })
   }
 }

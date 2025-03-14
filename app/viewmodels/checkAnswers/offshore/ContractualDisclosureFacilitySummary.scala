@@ -26,27 +26,25 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object ContractualDisclosureFacilitySummary  {
+object ContractualDisclosureFacilitySummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(ContractualDisclosureFacilityPage).map {
-      answer =>
+    answers.get(ContractualDisclosureFacilityPage).map { answer =>
+      val answerString = if (answer) "yes" else "no"
 
-        val answerString = if (answer) "yes" else "no"
-        
-        val value = ValueViewModel(
-          HtmlContent(
-            HtmlFormat.escape(messages(answerString.capitalize))
-          )
+      val value = ValueViewModel(
+        HtmlContent(
+          HtmlFormat.escape(messages(answerString.capitalize))
         )
+      )
 
-        SummaryListRowViewModel(
-          key     = "contractualDisclosureFacility.checkYourAnswersLabel",
-          value   = value,
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.ContractualDisclosureFacilityController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("contractualDisclosureFacility.change.hidden"))
-          )
+      SummaryListRowViewModel(
+        key = "contractualDisclosureFacility.checkYourAnswersLabel",
+        value = value,
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.ContractualDisclosureFacilityController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("contractualDisclosureFacility.change.hidden"))
         )
+      )
     }
 }

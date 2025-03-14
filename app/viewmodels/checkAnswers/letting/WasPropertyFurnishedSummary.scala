@@ -23,21 +23,19 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object WasPropertyFurnishedSummary  {
+object WasPropertyFurnishedSummary {
 
   def row(i: Int, lettingProperty: LettingProperty)(implicit messages: Messages): Option[SummaryListRow] =
-    lettingProperty.wasFurnished.map {
-      answer =>
+    lettingProperty.wasFurnished.map { answer =>
+      val value = if (answer) "wasPropertyFurnished.yes" else "wasPropertyFurnished.no"
 
-        val value = if (answer) "wasPropertyFurnished.yes" else "wasPropertyFurnished.no"
-
-        SummaryListRowViewModel(
-          key     = "wasPropertyFurnished.checkYourAnswersLabel",
-          value   = ValueViewModel(value),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.WasPropertyFurnishedController.onPageLoad(i, CheckMode).url)
-              .withVisuallyHiddenText(messages("wasPropertyFurnished.change.hidden"))
-          )
+      SummaryListRowViewModel(
+        key = "wasPropertyFurnished.checkYourAnswersLabel",
+        value = ValueViewModel(value),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.WasPropertyFurnishedController.onPageLoad(i, CheckMode).url)
+            .withVisuallyHiddenText(messages("wasPropertyFurnished.change.hidden"))
         )
+      )
     }
 }

@@ -18,20 +18,20 @@ package services
 
 import models._
 import models.store._
-import com.google.inject.{Inject, Singleton, ImplementedBy}
+import com.google.inject.{ImplementedBy, Inject, Singleton}
 
 @Singleton
-class UAToSubmissionServiceImpl @Inject()(
+class UAToSubmissionServiceImpl @Inject() (
   notificationService: UAToNotificationService,
   disclosureService: UAToDisclosureService
 ) extends UAToSubmissionService {
 
-  def uaToSubmission(userAnswers: UserAnswers): Submission = 
+  def uaToSubmission(userAnswers: UserAnswers): Submission =
     userAnswers.submissionType match {
       case SubmissionType.Notification => notificationService.userAnswersToNotification(userAnswers)
-      case SubmissionType.Disclosure => disclosureService.uaToFullDisclosure(userAnswers)
+      case SubmissionType.Disclosure   => disclosureService.uaToFullDisclosure(userAnswers)
     }
-  
+
 }
 
 @ImplementedBy(classOf[UAToSubmissionServiceImpl])

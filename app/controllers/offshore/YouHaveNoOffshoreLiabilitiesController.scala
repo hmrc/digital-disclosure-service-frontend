@@ -18,7 +18,7 @@ package controllers.offshore
 
 import controllers.actions._
 import models.WhyAreYouMakingThisDisclosure._
-import models.{RelatesTo, UserAnswers, Behaviour}
+import models.{Behaviour, RelatesTo, UserAnswers}
 import pages.{RelatesToPage, WhyAreYouMakingThisDisclosurePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -28,42 +28,41 @@ import services.OffshoreWhichYearsService
 
 import javax.inject.Inject
 
-class YouHaveNoOffshoreLiabilitiesController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       identify: IdentifierAction,
-                                       getData: DataRetrievalAction,
-                                       requireData: DataRequiredAction,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: YouHaveNoOffshoreLiabilitiesView,
-                                       offshoreWhichYearsService: OffshoreWhichYearsService
-                                     ) extends FrontendBaseController with I18nSupport {
+class YouHaveNoOffshoreLiabilitiesController @Inject() (
+  override val messagesApi: MessagesApi,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  val controllerComponents: MessagesControllerComponents,
+  view: YouHaveNoOffshoreLiabilitiesView,
+  offshoreWhichYearsService: OffshoreWhichYearsService
+) extends FrontendBaseController
+    with I18nSupport {
 
-  def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request => {
-
-      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
-      val entityString = entity match {
-        case RelatesTo.AnIndividual if request.userAnswers.isTheUserTheIndividual => "iAmIndividual"
-        case RelatesTo.AnIndividual => "iAmNotIndividual"
-        case RelatesTo.ALimitedLiabilityPartnership => "llp"
-        case _ => "other"
-      }
-      
-      val year = offshoreWhichYearsService.getEarliestYearByBehaviour(getBehaviour(request.userAnswers)).toString
-
-      Ok(view(entityString, entity, year))
+  def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val entity       = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+    val entityString = entity match {
+      case RelatesTo.AnIndividual if request.userAnswers.isTheUserTheIndividual => "iAmIndividual"
+      case RelatesTo.AnIndividual                                               => "iAmNotIndividual"
+      case RelatesTo.ALimitedLiabilityPartnership                               => "llp"
+      case _                                                                    => "other"
     }
+
+    val year = offshoreWhichYearsService.getEarliestYearByBehaviour(getBehaviour(request.userAnswers)).toString
+
+    Ok(view(entityString, entity, year))
   }
 
-  def getBehaviour(ua: UserAnswers): Behaviour = {
+  def getBehaviour(ua: UserAnswers): Behaviour =
     ua.get(WhyAreYouMakingThisDisclosurePage) match {
-      case Some(value) if (value.contains(DidNotNotifyNoExcuse) ||
-          value.contains(DeliberatelyDidNotNotify) ||
-          value.contains(DeliberateInaccurateReturn) ||
-          value.contains(DeliberatelyDidNotFile)) =>  Behaviour.Deliberate
-      case Some(value) if (value.contains(InaccurateReturnNoCare)) => Behaviour.Careless
-      case _ => Behaviour.ReasonableExcuse
-    }  
-  }
+      case Some(value)
+          if value.contains(DidNotNotifyNoExcuse) ||
+            value.contains(DeliberatelyDidNotNotify) ||
+            value.contains(DeliberateInaccurateReturn) ||
+            value.contains(DeliberatelyDidNotFile) =>
+        Behaviour.Deliberate
+      case Some(value) if value.contains(InaccurateReturnNoCare) => Behaviour.Careless
+      case _                                                     => Behaviour.ReasonableExcuse
+    }
 
 }

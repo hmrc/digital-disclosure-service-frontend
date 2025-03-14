@@ -27,38 +27,39 @@ import uk.gov.hmrc.mongo.play.json.formats.MongoJavatimeFormats
 
 import java.time.{Clock, Instant}
 import java.util.concurrent.TimeUnit
-import com.google.inject.{Inject, ImplementedBy, Singleton}
+import com.google.inject.{ImplementedBy, Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class SessionRepositoryImpl @Inject()(
-                                   mongoComponent: MongoComponent,
-                                   appConfig: FrontendAppConfig,
-                                   clock: Clock
-                                 )(implicit ec: ExecutionContext)
-  extends PlayMongoRepository[UserAnswers] (
-    collectionName = "user-answers",
-    mongoComponent = mongoComponent,
-    domainFormat   = UserAnswers.format,
-    indexes        = Seq(
-      IndexModel(
-        Indexes.ascending("lastUpdated"),
-        IndexOptions()
-          .name("lastUpdatedIdx")
-          .expireAfter(appConfig.cacheTtl, TimeUnit.SECONDS)
-      ),
-      IndexModel(
-        Indexes.compoundIndex(
-          Indexes.ascending("userId"),
-          Indexes.ascending("sessionId")
+class SessionRepositoryImpl @Inject() (
+  mongoComponent: MongoComponent,
+  appConfig: FrontendAppConfig,
+  clock: Clock
+)(implicit ec: ExecutionContext)
+    extends PlayMongoRepository[UserAnswers](
+      collectionName = "user-answers",
+      mongoComponent = mongoComponent,
+      domainFormat = UserAnswers.format,
+      indexes = Seq(
+        IndexModel(
+          Indexes.ascending("lastUpdated"),
+          IndexOptions()
+            .name("lastUpdatedIdx")
+            .expireAfter(appConfig.cacheTtl, TimeUnit.SECONDS)
         ),
-        IndexOptions()
-          .name("sessionIdx")
-          .unique(true)
-      )
-    ),
-    replaceIndexes = true
-  ) with SessionRepository {
+        IndexModel(
+          Indexes.compoundIndex(
+            Indexes.ascending("userId"),
+            Indexes.ascending("sessionId")
+          ),
+          IndexOptions()
+            .name("sessionIdx")
+            .unique(true)
+        )
+      ),
+      replaceIndexes = true
+    )
+    with SessionRepository {
 
   implicit val instantFormat: Format[Instant] = MongoJavatimeFormats.instantFormat
 
@@ -77,11 +78,10 @@ class SessionRepositoryImpl @Inject()(
       .map(_ => true)
 
   def get(userId: String, sessionId: String): Future[Option[UserAnswers]] =
-    keepAlive(userId, sessionId).flatMap {
-      _ =>
-        collection
-          .find(byId(userId, sessionId))
-          .headOption()
+    keepAlive(userId, sessionId).flatMap { _ =>
+      collection
+        .find(byId(userId, sessionId))
+        .headOption()
     }
 
   def set(answers: UserAnswers): Future[Boolean] = {
@@ -90,9 +90,9 @@ class SessionRepositoryImpl @Inject()(
 
     collection
       .replaceOne(
-        filter      = byId(updatedAnswers.id, updatedAnswers.sessionId),
+        filter = byId(updatedAnswers.id, updatedAnswers.sessionId),
         replacement = updatedAnswers,
-        options     = ReplaceOptions().upsert(true)
+        options = ReplaceOptions().upsert(true)
       )
       .toFuture()
       .map(_ => true)

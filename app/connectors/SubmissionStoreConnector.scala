@@ -19,12 +19,12 @@ package connectors
 import config.Service
 import play.api.Configuration
 import play.api.http.Status._
-import play.api.libs.json.{Json, JsSuccess, JsError}
+import play.api.libs.json.{JsError, JsSuccess, Json}
 import uk.gov.hmrc.http.HttpReads.Implicits.readRaw
 import uk.gov.hmrc.http.client.HttpClientV2
 import uk.gov.hmrc.http.{HeaderCarrier, StringContextOps}
 
-import com.google.inject.{Inject, Singleton, ImplementedBy}
+import com.google.inject.{ImplementedBy, Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.control.NoStackTrace
 import models.store.Submission
@@ -35,55 +35,57 @@ import play.mvc.Http.HeaderNames.AUTHORIZATION
 
 @Singleton
 class SubmissionStoreConnectorImpl @Inject() (
-                                httpClient: HttpClientV2,
-                                configuration: Configuration,
-                                clock: Clock
-                              )(implicit ec: ExecutionContext) extends SubmissionStoreConnector with ConnectorErrorHandler {
+  httpClient: HttpClientV2,
+  configuration: Configuration,
+  clock: Clock
+)(implicit ec: ExecutionContext)
+    extends SubmissionStoreConnector
+    with ConnectorErrorHandler {
 
   private val service: Service = configuration.get[Service]("microservice.services.digital-disclosure-service-store")
-  private val baseUrl = s"${service.baseUrl}/digital-disclosure-service-store"
+  private val baseUrl          = s"${service.baseUrl}/digital-disclosure-service-store"
 
   private val clientAuthToken = configuration.get[String]("internal-auth.token")
 
-  def getSubmission(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Option[Submission]] = {
+  def getSubmission(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Option[Submission]] =
     httpClient
       .get(url"$baseUrl/submission/user/$userId/id/$submissionId")
       .setHeader(AUTHORIZATION -> clientAuthToken)
       .execute
       .flatMap { response =>
         if (response.status == OK) {
-            response.json.validate[Submission] match {
-              case JsSuccess(submission, _) => Future.successful(Some(submission))
-              case JsError(_) => Future.failed(SubmissionStoreConnector.UnexpectedResponseException(response.status, response.body))
-            }
+          response.json.validate[Submission] match {
+            case JsSuccess(submission, _) => Future.successful(Some(submission))
+            case JsError(_)               =>
+              Future.failed(SubmissionStoreConnector.UnexpectedResponseException(response.status, response.body))
+          }
         } else if (response.status == NOT_FOUND) {
           Future.successful(None)
         } else {
           handleError(SubmissionStoreConnector.UnexpectedResponseException(response.status, response.body))
         }
       }
-  }
 
-  def getAllSubmissions(userId: String)(implicit hc: HeaderCarrier): Future[Seq[Submission]] = {
+  def getAllSubmissions(userId: String)(implicit hc: HeaderCarrier): Future[Seq[Submission]] =
     httpClient
       .get(url"$baseUrl/submission/user/$userId")
       .setHeader(AUTHORIZATION -> clientAuthToken)
       .execute
       .flatMap { response =>
         if (response.status == OK) {
-            response.json.validate[Seq[Submission]] match {
-              case JsSuccess(submissions, _) => Future.successful(submissions)
-              case JsError(_) => Future.failed(SubmissionStoreConnector.UnexpectedResponseException(response.status, response.body))
-            }
+          response.json.validate[Seq[Submission]] match {
+            case JsSuccess(submissions, _) => Future.successful(submissions)
+            case JsError(_)                =>
+              Future.failed(SubmissionStoreConnector.UnexpectedResponseException(response.status, response.body))
+          }
         } else if (response.status == NOT_FOUND) {
           Future.successful(Nil)
         } else {
           handleError(SubmissionStoreConnector.UnexpectedResponseException(response.status, response.body))
         }
       }
-  }
 
-  def setSubmission(submission: Submission)(implicit hc: HeaderCarrier): Future[Result] = {
+  def setSubmission(submission: Submission)(implicit hc: HeaderCarrier): Future[Result] =
     httpClient
       .put(url"$baseUrl/submission")
       .setHeader(AUTHORIZATION -> clientAuthToken)
@@ -96,9 +98,8 @@ class SubmissionStoreConnectorImpl @Inject() (
           handleError(SubmissionStoreConnector.UnexpectedResponseException(response.status, response.body))
         }
       }
-  }
 
-  def deleteSubmission(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Result] = {
+  def deleteSubmission(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Result] =
     httpClient
       .delete(url"$baseUrl/submission/user/$userId/id/$submissionId")
       .setHeader(AUTHORIZATION -> clientAuthToken)
@@ -110,7 +111,6 @@ class SubmissionStoreConnectorImpl @Inject() (
           handleError(SubmissionStoreConnector.UnexpectedResponseException(response.status, response.body))
         }
       }
-  }
 }
 
 @ImplementedBy(classOf[SubmissionStoreConnectorImpl])

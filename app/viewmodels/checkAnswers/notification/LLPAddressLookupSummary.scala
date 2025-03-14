@@ -26,19 +26,17 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import play.twirl.api.HtmlFormat
 
-object LLPAddressLookupSummary  {
+object LLPAddressLookupSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(LLPAddressLookupPage).map {
-      answer =>
-
-        SummaryListRowViewModel(
-          key     = "llpAddressLookup.checkYourAnswersLabel",
-          value   = ValueViewModel(HtmlContent(answer.getAddressLines.map(HtmlFormat.escape).mkString("<br>"))),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.LLPAddressLookupController.lookupAddress(CheckMode).url)
-              .withVisuallyHiddenText(messages("llpAddressLookup.change.hidden"))
-          )
+    answers.get(LLPAddressLookupPage).map { answer =>
+      SummaryListRowViewModel(
+        key = "llpAddressLookup.checkYourAnswersLabel",
+        value = ValueViewModel(HtmlContent(answer.getAddressLines.map(HtmlFormat.escape).mkString("<br>"))),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.LLPAddressLookupController.lookupAddress(CheckMode).url)
+            .withVisuallyHiddenText(messages("llpAddressLookup.change.hidden"))
         )
+      )
     }
 }

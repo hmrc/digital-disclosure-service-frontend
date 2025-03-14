@@ -27,21 +27,19 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object WhatWasThePersonDateOfBirthSummary  {
+object WhatWasThePersonDateOfBirthSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(WhatWasThePersonDateOfBirthPage).map {
-      answer =>
+    answers.get(WhatWasThePersonDateOfBirthPage).map { answer =>
+      val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale(messages.lang.code))
 
-        val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale(messages.lang.code))
-
-        SummaryListRowViewModel(
-          key     = "whatWasThePersonDateOfBirth.checkYourAnswersLabel",
-          value   = ValueViewModel(answer.format(dateFormatter)),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.WhatWasThePersonDateOfBirthController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("whatWasThePersonDateOfBirth.change.hidden"))
-          )
+      SummaryListRowViewModel(
+        key = "whatWasThePersonDateOfBirth.checkYourAnswersLabel",
+        value = ValueViewModel(answer.format(dateFormatter)),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.WhatWasThePersonDateOfBirthController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("whatWasThePersonDateOfBirth.change.hidden"))
         )
+      )
     }
 }

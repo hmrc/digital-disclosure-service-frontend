@@ -26,11 +26,19 @@ sealed trait WhatOnshoreLiabilitiesDoYouNeedToDisclose
 
 object WhatOnshoreLiabilitiesDoYouNeedToDisclose extends Enumerable.Implicits {
 
-  case object LettingIncome extends WithName("lettingIncomeFromResidential") with WhatOnshoreLiabilitiesDoYouNeedToDisclose
-  case object BusinessIncome extends WithName("businessIncomeLiabilities") with WhatOnshoreLiabilitiesDoYouNeedToDisclose
+  case object LettingIncome
+      extends WithName("lettingIncomeFromResidential")
+      with WhatOnshoreLiabilitiesDoYouNeedToDisclose
+  case object BusinessIncome
+      extends WithName("businessIncomeLiabilities")
+      with WhatOnshoreLiabilitiesDoYouNeedToDisclose
   case object Gains extends WithName("capitalGainsTaxLiabilities") with WhatOnshoreLiabilitiesDoYouNeedToDisclose
-  case object CorporationTax extends WithName("company.corporationTaxLiabilities") with WhatOnshoreLiabilitiesDoYouNeedToDisclose
-  case object DirectorLoan extends WithName("company.directorLoanLiabilities") with WhatOnshoreLiabilitiesDoYouNeedToDisclose
+  case object CorporationTax
+      extends WithName("company.corporationTaxLiabilities")
+      with WhatOnshoreLiabilitiesDoYouNeedToDisclose
+  case object DirectorLoan
+      extends WithName("company.directorLoanLiabilities")
+      with WhatOnshoreLiabilitiesDoYouNeedToDisclose
   case object NonBusinessIncome extends WithName("nonBusinessIncome") with WhatOnshoreLiabilitiesDoYouNeedToDisclose
 
   val values: Seq[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Seq(
@@ -44,18 +52,17 @@ object WhatOnshoreLiabilitiesDoYouNeedToDisclose extends Enumerable.Implicits {
 
   def checkboxItems(isUserCompany: Boolean)(implicit messages: Messages): Seq[CheckboxItem] = {
     val updatedValues = isUserCompany match {
-      case true => values
+      case true  => values
       case false => values.patch(3, Nil, 2)
     }
 
-    updatedValues.zipWithIndex.map {
-      case (value, index) =>
-        CheckboxItemViewModel(
-          content = Text(messages(s"whatOnshoreLiabilitiesDoYouNeedToDisclose.${value.toString}")),
-          fieldId = "value",
-          index   = index,
-          value   = value.toString
-        ).withHint(Hint(content = Text(messages(s"whatOnshoreLiabilitiesDoYouNeedToDisclose.${value.toString}.hint"))))
+    updatedValues.zipWithIndex.map { case (value, index) =>
+      CheckboxItemViewModel(
+        content = Text(messages(s"whatOnshoreLiabilitiesDoYouNeedToDisclose.${value.toString}")),
+        fieldId = "value",
+        index = index,
+        value = value.toString
+      ).withHint(Hint(content = Text(messages(s"whatOnshoreLiabilitiesDoYouNeedToDisclose.${value.toString}.hint"))))
     }
   }
 

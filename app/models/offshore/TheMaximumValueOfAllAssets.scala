@@ -32,16 +32,20 @@ object TheMaximumValueOfAllAssets extends Enumerable.Implicits {
   case object Over1B extends WithName("over1B") with TheMaximumValueOfAllAssets
 
   val values: Seq[TheMaximumValueOfAllAssets] = Seq(
-    Below500k, Between500kAnd1M, Between1MAnd100M, Between100MAnd500M, Between500MAnd1B, Over1B
+    Below500k,
+    Between500kAnd1M,
+    Between1MAnd100M,
+    Between100MAnd500M,
+    Between500MAnd1B,
+    Over1B
   )
 
-  def options(implicit messages: Messages): Seq[RadioItem] = values.zipWithIndex.map {
-    case (value, index) =>
-      RadioItem(
-        content = Text(messages(s"theMaximumValueOfAllAssets.${value.toString}")),
-        value   = Some(value.toString),
-        id      = Some(s"value_$index")
-      )
+  def options(implicit messages: Messages): Seq[RadioItem] = values.zipWithIndex.map { case (value, index) =>
+    RadioItem(
+      content = Text(messages(s"theMaximumValueOfAllAssets.${value.toString}")),
+      value = Some(value.toString),
+      id = Some(s"value_$index")
+    )
   }
 
   implicit val enumerable: Enumerable[TheMaximumValueOfAllAssets] =

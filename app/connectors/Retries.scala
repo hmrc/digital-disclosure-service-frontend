@@ -33,17 +33,15 @@ trait Retries extends Logging {
 
   def retry[A](f: => Future[A])(implicit frontendAppConfig: FrontendAppConfig): Future[A] = {
 
-    def loop(remainingIntervals: Seq[FiniteDuration])(block: => Future[A]): Future[A] = {
+    def loop(remainingIntervals: Seq[FiniteDuration])(block: => Future[A]): Future[A] =
       remainingIntervals.toList match {
-        case Nil => block
+        case Nil          => block
         case head :: tail =>
-          block.recoverWith {
-            case e:GatewayTimeoutException =>
-              logger.warn(s"Retrying failed call with message: ${e.getMessage}")
-              after(head, actorSystem.scheduler)(loop(tail)(f))
+          block.recoverWith { case e: GatewayTimeoutException =>
+            logger.warn(s"Retrying failed call with message: ${e.getMessage}")
+            after(head, actorSystem.scheduler)(loop(tail)(f))
           }
       }
-    }
 
     loop(frontendAppConfig.retryIntervals)(f)
   }

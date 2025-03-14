@@ -27,28 +27,29 @@ import models.UserAnswers
 import scala.concurrent.{ExecutionContext, Future}
 import navigation.Navigator
 
-class IndexController @Inject()(
-                                val controllerComponents: MessagesControllerComponents,
-                                identify: IdentifierAction,
-                                getData: DataRetrievalAction,
-                                view: IndexView,
-                                sessionService: SessionService,
-                                navigator: Navigator
-                               )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class IndexController @Inject() (
+  val controllerComponents: MessagesControllerComponents,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  view: IndexView,
+  sessionService: SessionService,
+  navigator: Navigator
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData).async { implicit request =>
-
     if (request.isAgent) {
       Future.successful(Ok(view(controllers.routes.CaseManagementController.onPageLoad(1).url, request.isAgent)))
-    }
-    else {
+    } else {
       for {
-        uaOpt  <- sessionService.getIndividualUserAnswers(request.userId, request.sessionId, UserAnswers.defaultSubmissionId)
+        uaOpt <-
+          sessionService.getIndividualUserAnswers(request.userId, request.sessionId, UserAnswers.defaultSubmissionId)
         url    = navigator.indexNextPage(uaOpt).url
-        _      <- uaOpt.map(sessionService.set).getOrElse(Future.successful(true))
+        _     <- uaOpt.map(sessionService.set).getOrElse(Future.successful(true))
       } yield Ok(view(url, request.isAgent))
     }
 
   }
-  
+
 }

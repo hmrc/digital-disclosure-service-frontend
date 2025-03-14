@@ -31,24 +31,26 @@ import views.html.onshore.DirectorLoanAccountLiabilitiesView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class DirectorLoanAccountLiabilitiesController @Inject()(
-                                      override val messagesApi: MessagesApi,
-                                      sessionService: SessionService,
-                                      navigator: OnshoreNavigator,
-                                      identify: IdentifierAction,
-                                      getData: DataRetrievalAction,
-                                      requireData: DataRequiredAction,
-                                      formProvider: DirectorLoanAccountLiabilitiesFormProvider,
-                                      val controllerComponents: MessagesControllerComponents,
-                                      view: DirectorLoanAccountLiabilitiesView
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class DirectorLoanAccountLiabilitiesController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: OnshoreNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: DirectorLoanAccountLiabilitiesFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: DirectorLoanAccountLiabilitiesView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
       val preparedForm = request.userAnswers.getBySeqIndex(DirectorLoanAccountLiabilitiesPage, i) match {
-        case None => form
+        case None        => form
         case Some(value) => form.fill(value)
       }
 
@@ -57,15 +59,16 @@ class DirectorLoanAccountLiabilitiesController @Inject()(
 
   def onSubmit(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, i))),
-        value => {
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.setBySeqIndex(DirectorLoanAccountLiabilitiesPage, i, value))
-            _ <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(DirectorLoanAccountLiabilitiesPage, mode, updatedAnswers))
-        }
-      )
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i))),
+          value =>
+            for {
+              updatedAnswers <-
+                Future.fromTry(request.userAnswers.setBySeqIndex(DirectorLoanAccountLiabilitiesPage, i, value))
+              _              <- sessionService.set(updatedAnswers)
+            } yield Redirect(navigator.nextPage(DirectorLoanAccountLiabilitiesPage, mode, updatedAnswers))
+        )
   }
 }

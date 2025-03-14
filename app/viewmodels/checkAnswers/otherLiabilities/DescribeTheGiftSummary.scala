@@ -25,19 +25,17 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import viewmodels.RevealFullText
 
-object DescribeTheGiftSummary  {
+object DescribeTheGiftSummary {
 
   def row(answers: UserAnswers, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(DescribeTheGiftPage).map {
-      answer =>
-
-        SummaryListRowViewModel(
-          key     = "describeTheGift.checkYourAnswersLabel",
-          value   = ValueViewModel(revealFullText.addRevealToText(answer, "describeTheGift.reveal")),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.DescribeTheGiftController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("describeTheGift.change.hidden"))
-          )
+    answers.get(DescribeTheGiftPage).map { answer =>
+      SummaryListRowViewModel(
+        key = "describeTheGift.checkYourAnswersLabel",
+        value = ValueViewModel(revealFullText.addRevealToText(answer, "describeTheGift.reveal")),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.DescribeTheGiftController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("describeTheGift.change.hidden"))
         )
+      )
     }
 }

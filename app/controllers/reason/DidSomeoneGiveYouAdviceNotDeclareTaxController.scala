@@ -31,70 +31,74 @@ import views.html.reason.DidSomeoneGiveYouAdviceNotDeclareTaxView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class DidSomeoneGiveYouAdviceNotDeclareTaxController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       sessionService: SessionService,
-                                       navigator: ReasonNavigator,
-                                       identify: IdentifierAction,
-                                       getData: DataRetrievalAction,
-                                       requireData: DataRequiredAction,
-                                       formProvider: DidSomeoneGiveYouAdviceNotDeclareTaxFormProvider,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: DidSomeoneGiveYouAdviceNotDeclareTaxView
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class DidSomeoneGiveYouAdviceNotDeclareTaxController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: ReasonNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: DidSomeoneGiveYouAdviceNotDeclareTaxFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: DidSomeoneGiveYouAdviceNotDeclareTaxView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
+    val entity               = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
-      val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
-      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+    val preparedForm = request.userAnswers.get(DidSomeoneGiveYouAdviceNotDeclareTaxPage) match {
+      case None        => form(areTheyTheIndividual, entity)
+      case Some(value) => form(areTheyTheIndividual, entity).fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(DidSomeoneGiveYouAdviceNotDeclareTaxPage) match {
-        case None => form(areTheyTheIndividual, entity)
-        case Some(value) => form(areTheyTheIndividual, entity).fill(value)
-      }
-
-      Ok(view(preparedForm, mode, areTheyTheIndividual, entity))
+    Ok(view(preparedForm, mode, areTheyTheIndividual, entity))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
       val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
-      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+      val entity               = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
-      form(areTheyTheIndividual, entity).bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, areTheyTheIndividual, entity))),
-
-        value => {
-          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(DidSomeoneGiveYouAdviceNotDeclareTaxPage, value))
-            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
-            _              <- sessionService.set(clearedAnswers)
-          } yield Redirect(navigator.nextPage(DidSomeoneGiveYouAdviceNotDeclareTaxPage, mode, clearedAnswers, hasValueChanged))
-        }
-      )
+      form(areTheyTheIndividual, entity)
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, areTheyTheIndividual, entity))),
+          value => {
+            val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(DidSomeoneGiveYouAdviceNotDeclareTaxPage, value))
+              clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+              _              <- sessionService.set(clearedAnswers)
+            } yield Redirect(
+              navigator.nextPage(DidSomeoneGiveYouAdviceNotDeclareTaxPage, mode, clearedAnswers, hasValueChanged)
+            )
+          }
+        )
   }
 
   def form(areTheyTheIndividual: Boolean, entity: RelatesTo) = formProvider(areTheyTheIndividual, entity)
 
-  def changedPages(existingUserAnswers: UserAnswers, value: Boolean): (List[QuestionPage[_]], Boolean) = {
+  def changedPages(existingUserAnswers: UserAnswers, value: Boolean): (List[QuestionPage[_]], Boolean) =
     existingUserAnswers.get(DidSomeoneGiveYouAdviceNotDeclareTaxPage) match {
-      case Some(true) if !value => (List(
-        PersonWhoGaveAdvicePage,
-        AdviceBusinessesOrOrgPage,
-        AdviceBusinessNamePage,
-        AdviceProfessionPage,
-        AdviceGivenPage,
-        WhichEmailAddressCanWeContactYouWithPage,
-        WhatEmailAddressCanWeContactYouWithPage,
-        WhichTelephoneNumberCanWeContactYouWithPage,
-        WhatTelephoneNumberCanWeContactYouWithPage
-      ), false)
+      case Some(true) if !value =>
+        (
+          List(
+            PersonWhoGaveAdvicePage,
+            AdviceBusinessesOrOrgPage,
+            AdviceBusinessNamePage,
+            AdviceProfessionPage,
+            AdviceGivenPage,
+            WhichEmailAddressCanWeContactYouWithPage,
+            WhatEmailAddressCanWeContactYouWithPage,
+            WhichTelephoneNumberCanWeContactYouWithPage,
+            WhatTelephoneNumberCanWeContactYouWithPage
+          ),
+          false
+        )
       case Some(false) if value => (Nil, true)
-      case _ => (Nil, false)
+      case _                    => (Nil, false)
     }
-  }
 }

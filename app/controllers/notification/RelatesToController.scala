@@ -32,7 +32,7 @@ import views.html.notification.RelatesToView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class RelatesToController @Inject()(
+class RelatesToController @Inject() (
   override val messagesApi: MessagesApi,
   sessionService: SessionService,
   navigator: NotificationNavigator,
@@ -42,50 +42,49 @@ class RelatesToController @Inject()(
   formProvider: RelatesToFormProvider,
   val controllerComponents: MessagesControllerComponents,
   view: RelatesToView
-)(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with SectionPages {
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport
+    with SectionPages {
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val preparedForm = request.userAnswers.get(RelatesToPage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(RelatesToPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
+    Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
+          value => {
 
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
+            val changedPages = whatHasChanged(request.userAnswers, value)
+            val hasChanged   = changedPages.nonEmpty
 
-        value => {
-
-          val changedPages = whatHasChanged(request.userAnswers, value)
-          val hasChanged = changedPages.nonEmpty
-
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(RelatesToPage, value))
-            clearedAnswers <- Future.fromTry(updatedAnswers.remove(changedPages))
-            _              <- sessionService.set(clearedAnswers)
-          } yield Redirect(navigator.nextPage(RelatesToPage, mode, clearedAnswers, hasChanged))
-        }
-      )
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(RelatesToPage, value))
+              clearedAnswers <- Future.fromTry(updatedAnswers.remove(changedPages))
+              _              <- sessionService.set(clearedAnswers)
+            } yield Redirect(navigator.nextPage(RelatesToPage, mode, clearedAnswers, hasChanged))
+          }
+        )
   }
 
   def whatHasChanged(userAnswers: UserAnswers, value: RelatesTo): List[QuestionPage[_]] =
-  userAnswers.get(RelatesToPage) match {
-    case None => Nil
-    case Some(relatesTo) if(value == relatesTo) => Nil
-    case Some(_) if(value == RelatesTo.AnIndividual) => allEntityPages ::: aboutYouPages
-    case Some(RelatesTo.AnIndividual) => allEntityPages ::: aboutYouPages
-    case Some(relatesTo) => allEntityPages
-  }
+    userAnswers.get(RelatesToPage) match {
+      case None                                       => Nil
+      case Some(relatesTo) if value == relatesTo      => Nil
+      case Some(_) if value == RelatesTo.AnIndividual => allEntityPages ::: aboutYouPages
+      case Some(RelatesTo.AnIndividual)               => allEntityPages ::: aboutYouPages
+      case Some(relatesTo)                            => allEntityPages
+    }
 
-  
 }

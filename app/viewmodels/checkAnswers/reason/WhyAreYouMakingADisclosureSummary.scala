@@ -26,28 +26,27 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object WhyAreYouMakingADisclosureSummary  {
+object WhyAreYouMakingADisclosureSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(WhyAreYouMakingADisclosurePage).map {
-      answers =>
-
-        val value = ValueViewModel(
-          HtmlContent(
-            answers.map {
-              answer => HtmlFormat.escape(messages(s"whyAreYouMakingADisclosure.$answer")).toString
+    answers.get(WhyAreYouMakingADisclosurePage).map { answers =>
+      val value = ValueViewModel(
+        HtmlContent(
+          answers
+            .map { answer =>
+              HtmlFormat.escape(messages(s"whyAreYouMakingADisclosure.$answer")).toString
             }
             .mkString(",<br>")
-          )
         )
+      )
 
-        SummaryListRowViewModel(
-          key     = "whyAreYouMakingADisclosure.checkYourAnswersLabel",
-          value   = value,
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.WhyAreYouMakingADisclosureController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("whyAreYouMakingADisclosure.change.hidden"))
-          )
+      SummaryListRowViewModel(
+        key = "whyAreYouMakingADisclosure.checkYourAnswersLabel",
+        value = value,
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.WhyAreYouMakingADisclosureController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("whyAreYouMakingADisclosure.change.hidden"))
         )
+      )
     }
 }

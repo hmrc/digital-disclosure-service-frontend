@@ -21,13 +21,12 @@ import play.api.Logging
 import play.api.data.{FieldMapping, FormError}
 import play.api.data.format.Formatter
 import play.api.data.Forms._
-abstract class CountryConstraints (countries: Countries) extends Formatters with Logging{
+abstract class CountryConstraints(countries: Countries) extends Formatters with Logging {
 
   private val allowedCountries = countries.countries.map(_.alpha3)
 
-  protected def country(requiredKey: String): FieldMapping[Country] = {
+  protected def country(requiredKey: String): FieldMapping[Country] =
     of(countryFormatter(requiredKey))
-  }
 
   private def countryFormatter(requiredKey: String): Formatter[Country] = new Formatter[Country] {
     private val baseFormatter = stringFormatter(requiredKey, Seq.empty)
@@ -35,15 +34,13 @@ abstract class CountryConstraints (countries: Countries) extends Formatters with
     override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Country] =
       baseFormatter
         .bind(key, data)
-        .flatMap {
-          code =>
-            if(allowedCountries.contains(code)) {
-              Right(Country(code, countries.getCountryNameFor(code)))
-            }
-            else {
-              Left(Seq(FormError(key, requiredKey, Seq.empty)))
-            }
-      }
+        .flatMap { code =>
+          if (allowedCountries.contains(code)) {
+            Right(Country(code, countries.getCountryNameFor(code)))
+          } else {
+            Left(Seq(FormError(key, requiredKey, Seq.empty)))
+          }
+        }
 
     override def unbind(key: String, value: Country): Map[String, String] = baseFormatter.unbind(key, value.toString)
   }

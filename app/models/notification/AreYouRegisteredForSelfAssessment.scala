@@ -32,16 +32,17 @@ object AreYouRegisteredForSelfAssessment extends Enumerable.Implicits {
   case object No extends WithName("no") with AreYouRegisteredForSelfAssessment
 
   val values: Seq[AreYouRegisteredForSelfAssessment] = Seq(
-    YesIKnowMyUTR, YesIDontKnowMyUTR, No
+    YesIKnowMyUTR,
+    YesIDontKnowMyUTR,
+    No
   )
 
-  def options(implicit messages: Messages): Seq[RadioItem] = values.zipWithIndex.map {
-    case (value, index) =>
-      RadioItem(
-        content = Text(messages(s"areYouRegisteredForSelfAssessment.${value.toString}")),
-        value   = Some(value.toString),
-        id      = Some(s"value_$index")
-      )
+  def options(implicit messages: Messages): Seq[RadioItem] = values.zipWithIndex.map { case (value, index) =>
+    RadioItem(
+      content = Text(messages(s"areYouRegisteredForSelfAssessment.${value.toString}")),
+      value = Some(value.toString),
+      id = Some(s"value_$index")
+    )
   }
 
   implicit val enumerable: Enumerable[AreYouRegisteredForSelfAssessment] =
@@ -49,15 +50,17 @@ object AreYouRegisteredForSelfAssessment extends Enumerable.Implicits {
 
   implicit def fromYesNoOrUnsure(yesNoOrUnsure: YesNoOrUnsure): AreYouRegisteredForSelfAssessment =
     yesNoOrUnsure match {
-      case YesNoOrUnsure.Yes => YesIKnowMyUTR
+      case YesNoOrUnsure.Yes    => YesIKnowMyUTR
       case YesNoOrUnsure.Unsure => YesIDontKnowMyUTR
-      case YesNoOrUnsure.No => No
+      case YesNoOrUnsure.No     => No
     }
 
-  implicit def toYesNoOrUnsure(areYouRegisteredForSelfAssessment: Option[AreYouRegisteredForSelfAssessment]): Option[YesNoOrUnsure] =
+  implicit def toYesNoOrUnsure(
+    areYouRegisteredForSelfAssessment: Option[AreYouRegisteredForSelfAssessment]
+  ): Option[YesNoOrUnsure] =
     areYouRegisteredForSelfAssessment.map(_ match {
-      case YesIKnowMyUTR => YesNoOrUnsure.Yes
+      case YesIKnowMyUTR     => YesNoOrUnsure.Yes
       case YesIDontKnowMyUTR => YesNoOrUnsure.Unsure
-      case No => YesNoOrUnsure.No
+      case No                => YesNoOrUnsure.No
     })
 }

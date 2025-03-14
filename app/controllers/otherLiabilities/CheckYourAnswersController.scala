@@ -27,34 +27,33 @@ import views.html.otherLiabilities.CheckYourAnswersView
 import viewmodels.checkAnswers._
 import viewmodels.RevealFullText
 
-class CheckYourAnswersController @Inject()(
-                                            override val messagesApi: MessagesApi,
-                                            identify: IdentifierAction,
-                                            getData: DataRetrievalAction,
-                                            requireData: DataRequiredAction,
-                                            val controllerComponents: MessagesControllerComponents,
-                                            view: CheckYourAnswersView,
-                                            revealFullText: RevealFullText
-                                          ) extends FrontendBaseController with I18nSupport {
+class CheckYourAnswersController @Inject() (
+  override val messagesApi: MessagesApi,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  val controllerComponents: MessagesControllerComponents,
+  view: CheckYourAnswersView,
+  revealFullText: RevealFullText
+) extends FrontendBaseController
+    with I18nSupport {
 
-  def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val ua = request.userAnswers
 
-      val ua = request.userAnswers
+    val otherLiabilitiesList = SummaryListViewModel(
+      rows = Seq(
+        OtherLiabilityIssuesSummary.row(ua),
+        WhatOtherLiabilityIssuesSummary.row(ua, revealFullText),
+        DescribeTheGiftSummary.row(ua, revealFullText),
+        DidYouReceiveTaxCreditSummary.row(ua)
+      ).flatten
+    )
 
-      val otherLiabilitiesList = SummaryListViewModel(
-        rows = Seq(
-          OtherLiabilityIssuesSummary.row(ua),
-          WhatOtherLiabilityIssuesSummary.row(ua, revealFullText),
-          DescribeTheGiftSummary.row(ua, revealFullText),
-          DidYouReceiveTaxCreditSummary.row(ua)
-        ).flatten
-      )
+    val list = OtherLiabilitiesSummaryLists(
+      otherLiabilitiesList
+    )
 
-      val list = OtherLiabilitiesSummaryLists(
-        otherLiabilitiesList
-      )
-      
-      Ok(view(list))
+    Ok(view(list))
   }
 }

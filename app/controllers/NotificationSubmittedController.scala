@@ -18,66 +18,65 @@ package controllers
 
 import controllers.actions._
 import javax.inject.Inject
-import play.api.i18n.{I18nSupport, MessagesApi, Messages}
+import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.NotificationSubmittedView
 import scala.concurrent.{ExecutionContext, Future}
-import models.{UserAnswers, SubmissionType, ARN}
+import models.{ARN, SubmissionType, UserAnswers}
 import navigation.Navigator
 import models.store.Metadata
-import pages.{NotificationSubmittedPage, LetterReferencePage, DoYouHaveACaseReferencePage, WhatIsTheCaseReferencePage}
-import services.{SessionService, DisclosureToUAService, AuditService}
+import pages.{DoYouHaveACaseReferencePage, LetterReferencePage, NotificationSubmittedPage, WhatIsTheCaseReferencePage}
+import services.{AuditService, DisclosureToUAService, SessionService}
 import java.time.format.DateTimeFormatter
 import java.util.Locale
-import scala.util.{Try, Success}
+import scala.util.{Success, Try}
 import models.audit.DisclosureStart
 import models.requests.DataRequest
 
-class NotificationSubmittedController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       sessionService: SessionService,
-                                       identify: IdentifierAction,
-                                       getData: DataRetrievalAction,
-                                       requireData: DataRequiredActionEvenSubmitted,
-                                       navigator: Navigator,
-                                       disclosureToUAService: DisclosureToUAService,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: NotificationSubmittedView,
-                                       auditService: AuditService
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class NotificationSubmittedController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredActionEvenSubmitted,
+  navigator: Navigator,
+  disclosureToUAService: DisclosureToUAService,
+  val controllerComponents: MessagesControllerComponents,
+  view: NotificationSubmittedView,
+  auditService: AuditService
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
-  def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
-
-      request.userAnswers match {
-        case UserAnswers(_, _, _, SubmissionType.Notification, _, _, _, Metadata(Some(reference), Some(time)), _, _) =>
-          val messages: Messages = messagesApi.preferred(request)
-          val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale(messages.lang.code))
-          val formattedDate = time.format(dateFormatter)
-          Ok(view(formattedDate, reference))
-        case _ =>
-          Redirect(routes.IndexController.onPageLoad)
-      }
+  def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    request.userAnswers match {
+      case UserAnswers(_, _, _, SubmissionType.Notification, _, _, _, Metadata(Some(reference), Some(time)), _, _) =>
+        val messages: Messages = messagesApi.preferred(request)
+        val dateFormatter      = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale(messages.lang.code))
+        val formattedDate      = time.format(dateFormatter)
+        Ok(view(formattedDate, reference))
+      case _                                                                                                       =>
+        Redirect(routes.IndexController.onPageLoad)
+    }
   }
 
-  def onSubmit: Action[AnyContent] = (identify andThen getData andThen requireData).async {
-    implicit request =>
-      for {
-        updatedAnswers: UserAnswers <- Future.fromTry(convertToDisclosure(request.userAnswers))
-        _ = auditStartOfDisclosure
-        _ <- sessionService.set(updatedAnswers)
-      } yield Redirect(navigator.nextPage(NotificationSubmittedPage, updatedAnswers))
+  def onSubmit: Action[AnyContent] = (identify andThen getData andThen requireData).async { implicit request =>
+    for {
+      updatedAnswers: UserAnswers <- Future.fromTry(convertToDisclosure(request.userAnswers))
+      _                            = auditStartOfDisclosure
+      _                           <- sessionService.set(updatedAnswers)
+    } yield Redirect(navigator.nextPage(NotificationSubmittedPage, updatedAnswers))
   }
 
   def convertToDisclosure(userAnswers: UserAnswers): Try[UserAnswers] = {
     val updatedUa = userAnswers.get(LetterReferencePage) match {
-      case Some(reference) => 
+      case Some(reference) =>
         for {
           uaWithCaseRef <- userAnswers.set(DoYouHaveACaseReferencePage, true)
-          finalUa <- uaWithCaseRef.set(WhatIsTheCaseReferencePage, reference)
+          finalUa       <- uaWithCaseRef.set(WhatIsTheCaseReferencePage, reference)
         } yield finalUa
-      case None => 
+      case None            =>
         Success(userAnswers)
     }
     updatedUa.map(_.copy(submissionType = SubmissionType.Disclosure, metadata = Metadata()))
@@ -88,7 +87,7 @@ class NotificationSubmittedController @Inject()(
       userId = request.userId,
       submissionId = request.userAnswers.submissionId,
       isAgent = request.isAgent,
-      agentReference = request.customerId.collect{case ARN(arn) => arn},
+      agentReference = request.customerId.collect { case ARN(arn) => arn },
       notificationSubmitted = true
     )
     auditService.auditDisclosureStart(disclosureStart)

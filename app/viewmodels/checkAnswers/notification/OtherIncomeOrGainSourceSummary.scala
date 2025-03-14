@@ -25,20 +25,18 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import viewmodels.RevealFullText
 
-object OtherIncomeOrGainSourceSummary  {
+object OtherIncomeOrGainSourceSummary {
 
   def row(answers: UserAnswers, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(OtherIncomeOrGainSourcePage).map {
-      answer =>
-
-        SummaryListRowViewModel(
-          key     = "whereDidTheUndeclaredIncomeOrGain.checkYourAnswersLabel",
-          value   = ValueViewModel(revealFullText.addRevealToText(answer, "whereDidTheUndeclaredIncomeOrGain.reveal")),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.OtherIncomeOrGainSourceController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("whereDidTheUndeclaredIncomeOrGain.change.hidden"))
-          )
+    answers.get(OtherIncomeOrGainSourcePage).map { answer =>
+      SummaryListRowViewModel(
+        key = "whereDidTheUndeclaredIncomeOrGain.checkYourAnswersLabel",
+        value = ValueViewModel(revealFullText.addRevealToText(answer, "whereDidTheUndeclaredIncomeOrGain.reveal")),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.OtherIncomeOrGainSourceController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("whereDidTheUndeclaredIncomeOrGain.change.hidden"))
         )
+      )
 
     }
 }

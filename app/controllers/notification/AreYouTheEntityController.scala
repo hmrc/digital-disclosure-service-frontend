@@ -19,9 +19,9 @@ package controllers.notification
 import controllers.actions._
 import forms.AreYouTheEntityFormProvider
 import javax.inject.Inject
-import models.{AreYouTheEntity, UserAnswers, Mode, RelatesTo}
+import models.{AreYouTheEntity, Mode, RelatesTo, UserAnswers}
 import navigation.NotificationNavigator
-import pages.{AreYouTheEntityPage, RelatesToPage, QuestionPage}
+import pages.{AreYouTheEntityPage, QuestionPage, RelatesToPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -31,51 +31,52 @@ import pages.notification.SectionPages
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class AreYouTheEntityController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       sessionService: SessionService,
-                                       navigator: NotificationNavigator,
-                                       identify: IdentifierAction,
-                                       getData: DataRetrievalAction,
-                                       requireData: DataRequiredAction,
-                                       formProvider: AreYouTheEntityFormProvider,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: AreYouTheEntityView
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with SectionPages {
+class AreYouTheEntityController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: NotificationNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: AreYouTheEntityFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: AreYouTheEntityView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport
+    with SectionPages {
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+    val form   = formProvider(entity)
 
-      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
-      val form = formProvider(entity)
+    val preparedForm = request.userAnswers.get(AreYouTheEntityPage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(AreYouTheEntityPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, mode, entity, request.userAnswers.isDisclosure))
+    Ok(view(preparedForm, mode, entity, request.userAnswers.isDisclosure))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
       val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
-      val form = formProvider(entity)
+      val form   = formProvider(entity)
 
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, entity, request.userAnswers.isDisclosure))),
-
-        value =>{
-          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)   
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(AreYouTheEntityPage, value))
-            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
-            _              <- sessionService.set(clearedAnswers)
-          } yield Redirect(navigator.nextPage(AreYouTheEntityPage, mode, clearedAnswers, hasValueChanged))
-        }
-      )
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors =>
+            Future.successful(BadRequest(view(formWithErrors, mode, entity, request.userAnswers.isDisclosure))),
+          value => {
+            val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(AreYouTheEntityPage, value))
+              clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+              _              <- sessionService.set(clearedAnswers)
+            } yield Redirect(navigator.nextPage(AreYouTheEntityPage, mode, clearedAnswers, hasValueChanged))
+          }
+        )
   }
 
   def changedPages(userAnswers: UserAnswers, newAnswer: AreYouTheEntity): (List[QuestionPage[_]], Boolean) = {
@@ -86,14 +87,14 @@ class AreYouTheEntityController @Inject()(
     val oldAnswer = userAnswers.get(AreYouTheEntityPage)
 
     val answerHasChanged = Some(newAnswer) != oldAnswer
-    val isIndividual = userAnswers.get(RelatesToPage).getOrElse(AnIndividual) == AnIndividual
+    val isIndividual     = userAnswers.get(RelatesToPage).getOrElse(AnIndividual) == AnIndividual
 
     val pagesToClear = (oldAnswer, newAnswer) match {
-      case _ if !answerHasChanged                => Nil
-      case (_, YesIAm) if isIndividual           => aboutYouPages ::: aboutIndividualPages ::: areYouTheOrganisationPages
-      case (Some(YesIAm), _) if isIndividual     => aboutYouPages
-      case (Some(IAmAnAccountantOrTaxAgent), _)  => areYouTheOrganisationPages
-      case _                                     => Nil
+      case _ if !answerHasChanged               => Nil
+      case (_, YesIAm) if isIndividual          => aboutYouPages ::: aboutIndividualPages ::: areYouTheOrganisationPages
+      case (Some(YesIAm), _) if isIndividual    => aboutYouPages
+      case (Some(IAmAnAccountantOrTaxAgent), _) => areYouTheOrganisationPages
+      case _                                    => Nil
     }
     (pagesToClear, answerHasChanged)
 

@@ -21,7 +21,7 @@ import forms.FHLFormProvider
 import javax.inject.Inject
 import models.{LettingProperty, Mode}
 import navigation.LettingNavigator
-import pages.{LettingPropertyPage, FHLPage}
+import pages.{FHLPage, LettingPropertyPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -30,48 +30,50 @@ import views.html.letting.FHLView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class FHLController @Inject()(
-                                         override val messagesApi: MessagesApi,
-                                         sessionService: SessionService,
-                                         navigator: LettingNavigator,
-                                         identify: IdentifierAction,
-                                         getData: DataRetrievalAction,
-                                         requireData: DataRequiredAction,
-                                         formProvider: FHLFormProvider,
-                                         val controllerComponents: MessagesControllerComponents,
-                                         view: FHLView
-                                 )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class FHLController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: LettingNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: FHLFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: FHLView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad(i:Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
+  def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-
       val preparedForm = request.userAnswers.getBySeqIndex(LettingPropertyPage, i).flatMap(_.fhl) match {
-        case None => form
+        case None        => form
         case Some(value) => form.fill(value)
       }
 
       Ok(view(preparedForm, i, mode))
   }
 
-  def onSubmit(i:Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
+  def onSubmit(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, i, mode))),
+          { value =>
+            val updatedLettingProperty = request.userAnswers
+              .getBySeqIndex(LettingPropertyPage, i)
+              .getOrElse(LettingProperty())
+              .copy(fhl = Some(value))
 
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, i, mode))),
-
-        { value =>
-          val updatedLettingProperty = request.userAnswers.getBySeqIndex(LettingPropertyPage, i)
-            .getOrElse(LettingProperty())
-            .copy(fhl = Some(value))
-
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.setBySeqIndex(LettingPropertyPage, i, updatedLettingProperty))
-            _ <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(FHLPage, i, mode, updatedAnswers))
-        }
-      )
+            for {
+              updatedAnswers <-
+                Future.fromTry(request.userAnswers.setBySeqIndex(LettingPropertyPage, i, updatedLettingProperty))
+              _              <- sessionService.set(updatedAnswers)
+            } yield Redirect(navigator.nextPage(FHLPage, i, mode, updatedAnswers))
+          }
+        )
   }
 }

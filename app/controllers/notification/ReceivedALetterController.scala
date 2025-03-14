@@ -31,7 +31,7 @@ import views.html.notification.ReceivedALetterView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class ReceivedALetterController @Inject()(
+class ReceivedALetterController @Inject() (
   override val messagesApi: MessagesApi,
   sessionService: SessionService,
   navigator: NotificationNavigator,
@@ -41,51 +41,48 @@ class ReceivedALetterController @Inject()(
   formProvider: ReceivedALetterFormProvider,
   val controllerComponents: MessagesControllerComponents,
   view: ReceivedALetterView
-)(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val preparedForm = request.userAnswers.get(ReceivedALetterPage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(ReceivedALetterPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-      
-      Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
+    Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
+          value => {
 
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
+            val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
 
-        value => { 
-          
-          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
-
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(ReceivedALetterPage, value))
-            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
-            _              <- sessionService.set(clearedAnswers)
-          } yield Redirect(navigator.nextPage(ReceivedALetterPage, mode, clearedAnswers, hasValueChanged))
-        }
-      )
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(ReceivedALetterPage, value))
+              clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+              _              <- sessionService.set(clearedAnswers)
+            } yield Redirect(navigator.nextPage(ReceivedALetterPage, mode, clearedAnswers, hasValueChanged))
+          }
+        )
   }
 
-  def changedPages(userAnswers: UserAnswers, value: Boolean): (List[QuestionPage[_]], Boolean) = {
+  def changedPages(userAnswers: UserAnswers, value: Boolean): (List[QuestionPage[_]], Boolean) =
     userAnswers.get(ReceivedALetterPage) match {
       case Some(false) if value == true =>
         (Nil, true)
       case Some(true) if value == false =>
         (List(LetterReferencePage), false)
-      case _ =>
-        (Nil, false) 
+      case _                            =>
+        (Nil, false)
     }
-  }
 
-  
 }

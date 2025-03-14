@@ -25,13 +25,13 @@ import models.WhatIsYourReasonableExcuse
 
 class WhatIsYourReasonableExcuseFormProvider @Inject() extends Mappings {
 
-   def apply(areTheyTheIndividual: Boolean): Form[WhatIsYourReasonableExcuse] = Form(
-     mapping(
+  def apply(areTheyTheIndividual: Boolean): Form[WhatIsYourReasonableExcuse] = Form(
+    mapping(
       "excuse" -> text("whatIsYourReasonableExcuse.error.excuse.required")
         .verifying(
           maxLength(
             5000,
-            if(areTheyTheIndividual) {
+            if (areTheyTheIndividual) {
               "whatIsYourReasonableExcuse.entity.error.excuse.length"
             } else {
               "whatIsYourReasonableExcuse.agent.error.excuse.length"
@@ -39,9 +39,9 @@ class WhatIsYourReasonableExcuseFormProvider @Inject() extends Mappings {
           )
         )
         .verifying(validUnicodeCharacters),
-      "years" -> text("whatIsYourReasonableExcuse.error.years.required")
+      "years"  -> text("whatIsYourReasonableExcuse.error.years.required")
         .verifying(maxLength(500, "whatIsYourReasonableExcuse.error.years.length"))
         .verifying(validUnicodeCharacters)
     )(WhatIsYourReasonableExcuse.apply)(WhatIsYourReasonableExcuse.unapply)
-   )
- }
+  )
+}

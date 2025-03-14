@@ -30,46 +30,45 @@ import views.html.onshore.TaxBeforeThreeYearsOnshoreView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class TaxBeforeThreeYearsOnshoreController @Inject()(
-                                      override val messagesApi: MessagesApi,
-                                      sessionService: SessionService,
-                                      navigator: OnshoreNavigator,
-                                      identify: IdentifierAction,
-                                      getData: DataRetrievalAction,
-                                      requireData: DataRequiredAction,
-                                      formProvider: TaxBeforeThreeYearsOnshoreFormProvider,
-                                      val controllerComponents: MessagesControllerComponents,
-                                      view: TaxBeforeThreeYearsOnshoreView,
-                                      onshoreWhichYearsService: OnshoreWhichYearsService
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class TaxBeforeThreeYearsOnshoreController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: OnshoreNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: TaxBeforeThreeYearsOnshoreFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: TaxBeforeThreeYearsOnshoreView,
+  onshoreWhichYearsService: OnshoreWhichYearsService
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val year = onshoreWhichYearsService.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString
-  
+
   val form = formProvider(year)
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val preparedForm = request.userAnswers.get(TaxBeforeThreeYearsOnshorePage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(TaxBeforeThreeYearsOnshorePage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, mode, year))
+    Ok(view(preparedForm, mode, year))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, year))),
-
-        value =>
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(TaxBeforeThreeYearsOnshorePage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(TaxBeforeThreeYearsOnshorePage, mode, updatedAnswers))
-      )
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, year))),
+          value =>
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(TaxBeforeThreeYearsOnshorePage, value))
+              _              <- sessionService.set(updatedAnswers)
+            } yield Redirect(navigator.nextPage(TaxBeforeThreeYearsOnshorePage, mode, updatedAnswers))
+        )
   }
 }

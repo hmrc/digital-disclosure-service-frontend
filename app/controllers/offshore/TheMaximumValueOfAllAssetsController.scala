@@ -30,43 +30,42 @@ import views.html.offshore.TheMaximumValueOfAllAssetsView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class TheMaximumValueOfAllAssetsController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       sessionService: SessionService,
-                                       navigator: OffshoreNavigator,
-                                       identify: IdentifierAction,
-                                       getData: DataRetrievalAction,
-                                       requireData: DataRequiredAction,
-                                       formProvider: TheMaximumValueOfAllAssetsFormProvider,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: TheMaximumValueOfAllAssetsView
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class TheMaximumValueOfAllAssetsController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: OffshoreNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: TheMaximumValueOfAllAssetsFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: TheMaximumValueOfAllAssetsView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val preparedForm = request.userAnswers.get(TheMaximumValueOfAllAssetsPage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(TheMaximumValueOfAllAssetsPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, mode))
+    Ok(view(preparedForm, mode))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
-
-        value =>
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(TheMaximumValueOfAllAssetsPage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(TheMaximumValueOfAllAssetsPage, mode, updatedAnswers))
-      )
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode))),
+          value =>
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(TheMaximumValueOfAllAssetsPage, value))
+              _              <- sessionService.set(updatedAnswers)
+            } yield Redirect(navigator.nextPage(TheMaximumValueOfAllAssetsPage, mode, updatedAnswers))
+        )
   }
 }

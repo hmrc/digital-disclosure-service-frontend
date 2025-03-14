@@ -30,7 +30,7 @@ class FrontendAppConfig @Inject() (configuration: Configuration) {
   lazy val host: String    = configuration.get[String]("self.url")
   lazy val appName: String = configuration.get[String]("appName")
 
-  private lazy val contactHost = configuration.get[String]("contact-frontend.host")
+  private lazy val contactHost                  = configuration.get[String]("contact-frontend.host")
   private lazy val contactFormServiceIdentifier = "digital-disclosure-service-frontend"
 
   def feedbackUrl(implicit request: RequestHeader): String = s"$contactHost/contact/beta-feedback?service=" +
@@ -40,7 +40,8 @@ class FrontendAppConfig @Inject() (configuration: Configuration) {
   lazy val loginContinueUrl: String = configuration.get[String]("urls.loginContinue")
   lazy val signOutUrl: String       = configuration.get[String]("urls.signOut")
 
-  private lazy val exitSurveyBaseUrl: String = configuration.get[Service]("microservice.services.feedback-frontend").baseUrl
+  private lazy val exitSurveyBaseUrl: String =
+    configuration.get[Service]("microservice.services.feedback-frontend").baseUrl
   lazy val exitSurveyUrl: String             = s"$exitSurveyBaseUrl/feedback/digital-disclosure-service-frontend"
 
   lazy val languageTranslationEnabled: Boolean =
@@ -61,14 +62,18 @@ class FrontendAppConfig @Inject() (configuration: Configuration) {
 
   lazy val identityVerificationURL: String = {
     val identityVerificationFrontendBaseUrl: String = configuration.get[String]("identity-verification-frontend.url")
-    val upliftUri: String = configuration.get[String]("identity-verification-frontend.uplift-uri")
-    val origin: String = configuration.get[String]("identity-verification-frontend.origin")
-    val confidenceLevel: Int = configuration.get[Int]("identity-verification-frontend.target-confidence-level")
+    val upliftUri: String                           = configuration.get[String]("identity-verification-frontend.uplift-uri")
+    val origin: String                              = configuration.get[String]("identity-verification-frontend.origin")
+    val confidenceLevel: Int                        = configuration.get[Int]("identity-verification-frontend.target-confidence-level")
 
     val local: Boolean = configuration.get[Boolean]("identity-verification-frontend.local")
 
-    val successUrl: String = if (local) host + controllers.routes.IndexController.onPageLoad.url else controllers.routes.IndexController.onPageLoad.url
-    val failureUrl: String = if (local) host + controllers.routes.UnauthorisedController.onPageLoad.url else controllers.routes.UnauthorisedController.onPageLoad.url
+    val successUrl: String =
+      if (local) host + controllers.routes.IndexController.onPageLoad.url
+      else controllers.routes.IndexController.onPageLoad.url
+    val failureUrl: String =
+      if (local) host + controllers.routes.UnauthorisedController.onPageLoad.url
+      else controllers.routes.UnauthorisedController.onPageLoad.url
 
     s"$identityVerificationFrontendBaseUrl$upliftUri?origin=$origin&confidenceLevel=$confidenceLevel&completionURL=$successUrl&failureURL=$failureUrl"
   }
@@ -77,5 +82,5 @@ class FrontendAppConfig @Inject() (configuration: Configuration) {
     .get[Seq[Int]]("retry-intervals")
     .map(_.milliseconds)
     .toList
-  
+
 }

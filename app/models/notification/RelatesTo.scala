@@ -32,17 +32,20 @@ object RelatesTo extends Enumerable.Implicits with HintFluency {
   case object ATrust extends WithName("trust") with RelatesTo
 
   val values: Seq[RelatesTo] = Seq(
-    AnIndividual, AnEstate, ACompany, ALimitedLiabilityPartnership, ATrust
+    AnIndividual,
+    AnEstate,
+    ACompany,
+    ALimitedLiabilityPartnership,
+    ATrust
   )
 
-  def options(implicit messages: Messages): Seq[RadioItem] = values.zipWithIndex.map {
-    case (value, index) =>
-      RadioItem(
-        content = Text(messages(s"relatesTo.${value.toString}")),
-        value   = Some(value.toString),
-        id      = Some(s"value_$index"),
-        hint    = Some(HintViewModel(Text(messages(s"relatesTo.hint.${value.toString}"))))
-      )
+  def options(implicit messages: Messages): Seq[RadioItem] = values.zipWithIndex.map { case (value, index) =>
+    RadioItem(
+      content = Text(messages(s"relatesTo.${value.toString}")),
+      value = Some(value.toString),
+      id = Some(s"value_$index"),
+      hint = Some(HintViewModel(Text(messages(s"relatesTo.hint.${value.toString}"))))
+    )
   }
 
   implicit val enumerable: Enumerable[RelatesTo] =

@@ -34,75 +34,76 @@ import models.requests.DataRequest
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Try
 
-class TaxYearLiabilitiesController @Inject()(
-                                        override val messagesApi: MessagesApi,
-                                        sessionService: SessionService,
-                                        navigator: OffshoreNavigator,
-                                        identify: IdentifierAction,
-                                        getData: DataRetrievalAction,
-                                        requireData: DataRequiredAction,
-                                        formProvider: TaxYearLiabilitiesFormProvider,
-                                        val controllerComponents: MessagesControllerComponents,
-                                        view: TaxYearLiabilitiesView
-                                    )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class TaxYearLiabilitiesController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: OffshoreNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: TaxYearLiabilitiesFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: TaxYearLiabilitiesView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
+      withYear(i) { year =>
+        val preparedForm = request.userAnswers.getByKey(TaxYearLiabilitiesPage, year.toString) match {
+          case None        => form
+          case Some(value) => form.fill(value.taxYearLiabilities)
+        }
 
-    withYear(i) { year => 
-      val preparedForm = request.userAnswers.getByKey(TaxYearLiabilitiesPage, year.toString) match {
-        case None => form
-        case Some(value) => form.fill(value.taxYearLiabilities)
+        Ok(view(preparedForm, mode, i, year))
       }
 
-      Ok(view(preparedForm, mode, i, year))
-    }
-
   }
-
 
   def onSubmit(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
       withYearAsync(i) { year =>
-        form.bindFromRequest().fold(
-          formWithErrors =>
-            Future.successful(BadRequest(view(formWithErrors, mode, i, year))),
-
-          value => {
-            val taxYearWithLiabilities = TaxYearWithLiabilities(TaxYearStarting(year), value)
-            val (clearedAnswers, hasValueChanged) = changedPages(request.userAnswers, year.toString, value)
-            for {
-              userAnswers <- Future.fromTry(clearedAnswers)
-              updatedAnswers <- Future.fromTry(userAnswers.setByKey(TaxYearLiabilitiesPage, year.toString, taxYearWithLiabilities))
-              _              <- sessionService.set(updatedAnswers)
-            } yield Redirect(navigator.nextTaxYearLiabilitiesPage(i, value.foreignTaxCredit, mode, updatedAnswers, hasValueChanged))
-          }
-        )
+        form
+          .bindFromRequest()
+          .fold(
+            formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i, year))),
+            value => {
+              val taxYearWithLiabilities            = TaxYearWithLiabilities(TaxYearStarting(year), value)
+              val (clearedAnswers, hasValueChanged) = changedPages(request.userAnswers, year.toString, value)
+              for {
+                userAnswers    <- Future.fromTry(clearedAnswers)
+                updatedAnswers <-
+                  Future.fromTry(userAnswers.setByKey(TaxYearLiabilitiesPage, year.toString, taxYearWithLiabilities))
+                _              <- sessionService.set(updatedAnswers)
+              } yield Redirect(
+                navigator.nextTaxYearLiabilitiesPage(i, value.foreignTaxCredit, mode, updatedAnswers, hasValueChanged)
+              )
+            }
+          )
       }
   }
 
-  def withYearAsync(i: Int)(f: Int => Future[Result])(implicit request: DataRequest[_]): Future[Result] = {
+  def withYearAsync(i: Int)(f: Int => Future[Result])(implicit request: DataRequest[_]): Future[Result] =
     request.userAnswers.inverselySortedOffshoreTaxYears.flatMap(_.lift(i)) match {
       case Some(year: TaxYearStarting) => f(year.startYear)
-      case _ => Future.successful(Redirect(routes.WhichYearsController.onPageLoad(NormalMode).url))
+      case _                           => Future.successful(Redirect(routes.WhichYearsController.onPageLoad(NormalMode).url))
     }
-  }
 
-  def withYear(i: Int)(f: Int => Result)(implicit request: DataRequest[_]): Result = {
+  def withYear(i: Int)(f: Int => Result)(implicit request: DataRequest[_]): Result =
     request.userAnswers.inverselySortedOffshoreTaxYears.flatMap(_.lift(i)) match {
       case Some(year: TaxYearStarting) => f(year.startYear)
-      case _ => Redirect(routes.WhichYearsController.onPageLoad(NormalMode).url)
+      case _                           => Redirect(routes.WhichYearsController.onPageLoad(NormalMode).url)
     }
-  }
 
-  def changedPages(userAnswers: UserAnswers, year:String, newAnswer: TaxYearLiabilities): (Try[UserAnswers], Boolean) = {
+  def changedPages(userAnswers: UserAnswers, year: String, newAnswer: TaxYearLiabilities): (Try[UserAnswers], Boolean) =
     userAnswers.getByKey(TaxYearLiabilitiesPage, year) match {
-      case Some(taxYear) if taxYear.taxYearLiabilities.foreignTaxCredit && !newAnswer.foreignTaxCredit => (userAnswers.removeByKey(ForeignTaxCreditPage, year), false)
-      case Some(taxYear) if !taxYear.taxYearLiabilities.foreignTaxCredit && newAnswer.foreignTaxCredit => (Try{userAnswers}, true)
-      case _ => (Try{userAnswers}, false)
+      case Some(taxYear) if taxYear.taxYearLiabilities.foreignTaxCredit && !newAnswer.foreignTaxCredit =>
+        (userAnswers.removeByKey(ForeignTaxCreditPage, year), false)
+      case Some(taxYear) if !taxYear.taxYearLiabilities.foreignTaxCredit && newAnswer.foreignTaxCredit =>
+        (Try(userAnswers), true)
+      case _                                                                                           => (Try(userAnswers), false)
     }
-  }
 }

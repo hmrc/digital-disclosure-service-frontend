@@ -28,16 +28,16 @@ object NotificationStarted extends Enumerable.Implicits {
   case object Disclosure extends WithName("disclosure") with NotificationStarted
 
   val values: Seq[NotificationStarted] = Seq(
-    Continue, Disclosure
+    Continue,
+    Disclosure
   )
 
-  def options(implicit messages: Messages): Seq[RadioItem] = values.zipWithIndex.map {
-    case (value, index) =>
-      RadioItem(
-        content = Text(messages(s"notificationStarted.${value.toString}")),
-        value   = Some(value.toString),
-        id      = Some(s"value_$index")
-      )
+  def options(implicit messages: Messages): Seq[RadioItem] = values.zipWithIndex.map { case (value, index) =>
+    RadioItem(
+      content = Text(messages(s"notificationStarted.${value.toString}")),
+      value = Some(value.toString),
+      id = Some(s"value_$index")
+    )
   }
 
   implicit val enumerable: Enumerable[NotificationStarted] =

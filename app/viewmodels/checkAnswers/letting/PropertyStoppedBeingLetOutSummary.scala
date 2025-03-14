@@ -23,21 +23,19 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object PropertyStoppedBeingLetOutSummary  {
+object PropertyStoppedBeingLetOutSummary {
 
   def row(i: Int, lettingProperty: LettingProperty)(implicit messages: Messages): Option[SummaryListRow] =
-    lettingProperty.stoppedBeingLetOut.map {
-      answer =>
+    lettingProperty.stoppedBeingLetOut.map { answer =>
+      val value = if (answer) "propertyStoppedBeingLetOut.yes" else "propertyStoppedBeingLetOut.no"
 
-        val value = if (answer) "propertyStoppedBeingLetOut.yes" else "propertyStoppedBeingLetOut.no"
-
-        SummaryListRowViewModel(
-          key     = "propertyStoppedBeingLetOut.checkYourAnswersLabel",
-          value   = ValueViewModel(value),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.PropertyStoppedBeingLetOutController.onPageLoad(i, CheckMode).url)
-              .withVisuallyHiddenText(messages("propertyStoppedBeingLetOut.change.hidden"))
-          )
+      SummaryListRowViewModel(
+        key = "propertyStoppedBeingLetOut.checkYourAnswersLabel",
+        value = ValueViewModel(value),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.PropertyStoppedBeingLetOutController.onPageLoad(i, CheckMode).url)
+            .withVisuallyHiddenText(messages("propertyStoppedBeingLetOut.change.hidden"))
         )
+      )
     }
 }

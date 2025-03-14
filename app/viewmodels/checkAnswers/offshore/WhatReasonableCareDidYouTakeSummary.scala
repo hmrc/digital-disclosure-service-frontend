@@ -27,28 +27,30 @@ import viewmodels.RevealFullText
 
 object WhatReasonableCareDidYouTakeSummary {
 
-  def row(fieldName: String, answers: UserAnswers, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(WhatReasonableCareDidYouTakePage).map {
-      answer =>
-
-        if(fieldName == "reasonableCare"){
-          SummaryListRowViewModel(
-            key     = "whatReasonableCareDidYouTake.reasonableCare.checkYourAnswersLabel",
-            value   = ValueViewModel(revealFullText.addRevealToText(answer.reasonableCare, "whatReasonableCareDidYouTake.reasonableCare.reveal")),
-            actions = Seq(
-              ActionItemViewModel("site.change", routes.WhatReasonableCareDidYouTakeController.onPageLoad(CheckMode).url)
-                .withVisuallyHiddenText(messages("whatReasonableCareDidYouTake.reasonableCare.change.hidden"))
-            )
+  def row(fieldName: String, answers: UserAnswers, revealFullText: RevealFullText)(implicit
+    messages: Messages
+  ): Option[SummaryListRow] =
+    answers.get(WhatReasonableCareDidYouTakePage).map { answer =>
+      if (fieldName == "reasonableCare") {
+        SummaryListRowViewModel(
+          key = "whatReasonableCareDidYouTake.reasonableCare.checkYourAnswersLabel",
+          value = ValueViewModel(
+            revealFullText.addRevealToText(answer.reasonableCare, "whatReasonableCareDidYouTake.reasonableCare.reveal")
+          ),
+          actions = Seq(
+            ActionItemViewModel("site.change", routes.WhatReasonableCareDidYouTakeController.onPageLoad(CheckMode).url)
+              .withVisuallyHiddenText(messages("whatReasonableCareDidYouTake.reasonableCare.change.hidden"))
           )
-        } else {
-          SummaryListRowViewModel(
-            key     = "whatReasonableCareDidYouTake.yearsThisAppliesTo.checkYourAnswersLabel",
-            value   = ValueViewModel(answer.yearsThisAppliesTo.toString),
-            actions = Seq(
-              ActionItemViewModel("site.change", routes.WhatReasonableCareDidYouTakeController.onPageLoad(CheckMode).url)
-                .withVisuallyHiddenText(messages("whatReasonableCareDidYouTake.yearsThisAppliesTo.change.hidden"))
-            )
+        )
+      } else {
+        SummaryListRowViewModel(
+          key = "whatReasonableCareDidYouTake.yearsThisAppliesTo.checkYourAnswersLabel",
+          value = ValueViewModel(answer.yearsThisAppliesTo.toString),
+          actions = Seq(
+            ActionItemViewModel("site.change", routes.WhatReasonableCareDidYouTakeController.onPageLoad(CheckMode).url)
+              .withVisuallyHiddenText(messages("whatReasonableCareDidYouTake.yearsThisAppliesTo.change.hidden"))
           )
-        }
-    }  
+        )
+      }
+    }
 }

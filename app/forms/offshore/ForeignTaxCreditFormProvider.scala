@@ -29,8 +29,8 @@ class ForeignTaxCreditFormProvider @Inject() extends Mappings {
       "value" -> bigintWithPound(
         "foreignTaxCredit.error.required",
         "foreignTaxCredit.error.wholeNumber",
-        "foreignTaxCredit.error.nonNumeric")
-          .verifying(inRange(BigInt(0), MAX_BIGINT, "foreignTaxCredit.error.outOfRange"))
+        "foreignTaxCredit.error.nonNumeric"
+      )
+        .verifying(inRange(BigInt(0), MAX_BIGINT, "foreignTaxCredit.error.outOfRange"))
     )
 }
-  

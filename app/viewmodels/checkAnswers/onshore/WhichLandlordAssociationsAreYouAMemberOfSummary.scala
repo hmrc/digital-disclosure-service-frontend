@@ -25,19 +25,20 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import viewmodels.RevealFullText
 
-object WhichLandlordAssociationsAreYouAMemberOfSummary  {
+object WhichLandlordAssociationsAreYouAMemberOfSummary {
 
   def row(answers: UserAnswers, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(WhichLandlordAssociationsAreYouAMemberOfPage).map {
-      answer =>
-
-        SummaryListRowViewModel(
-          key     = "whichLandlordAssociations.checkYourAnswersLabel",
-          value   = ValueViewModel(revealFullText.addRevealToText(answer, "whichLandlordAssociations.reveal")),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.WhichLandlordAssociationsAreYouAMemberOfController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("whichLandlordAssociations.change.hidden"))
+    answers.get(WhichLandlordAssociationsAreYouAMemberOfPage).map { answer =>
+      SummaryListRowViewModel(
+        key = "whichLandlordAssociations.checkYourAnswersLabel",
+        value = ValueViewModel(revealFullText.addRevealToText(answer, "whichLandlordAssociations.reveal")),
+        actions = Seq(
+          ActionItemViewModel(
+            "site.change",
+            routes.WhichLandlordAssociationsAreYouAMemberOfController.onPageLoad(CheckMode).url
           )
+            .withVisuallyHiddenText(messages("whichLandlordAssociations.change.hidden"))
         )
+      )
     }
 }

@@ -39,9 +39,11 @@ class NoOpInternalAuthTokenInitialiser @Inject() () extends InternalAuthTokenIni
 
 @Singleton
 class InternalAuthTokenInitialiserImpl @Inject() (
-                                               configuration: Configuration,
-                                               httpClient: HttpClientV2
-                                             )(implicit ec: ExecutionContext) extends InternalAuthTokenInitialiser with Logging {
+  configuration: Configuration,
+  httpClient: HttpClientV2
+)(implicit ec: ExecutionContext)
+    extends InternalAuthTokenInitialiser
+    with Logging {
 
   private val internalAuthService: Service =
     configuration.get[Service]("microservice.services.internal-auth")
@@ -57,7 +59,7 @@ class InternalAuthTokenInitialiserImpl @Inject() (
 
   Await.result(initialised, 30.seconds)
 
-  private def ensureAuthToken(): Future[Done] = {
+  private def ensureAuthToken(): Future[Done] =
     authTokenIsValid.flatMap { isValid =>
       if (isValid) {
         logger.info("Auth token is already valid")
@@ -66,27 +68,29 @@ class InternalAuthTokenInitialiserImpl @Inject() (
         createClientAuthToken()
       }
     }
-  }
 
   private def createClientAuthToken(): Future[Done] = {
     logger.info("Initialising auth token")
-    httpClient.post(url"${internalAuthService.baseUrl}/test-only/token")(HeaderCarrier())
-      .withBody(Json.obj(
-        "token" -> authToken,
-        "principal" -> appName,
-        "permissions" -> Seq(
-          Json.obj(
-            "resourceType" -> "digital-disclosure-service",
-            "resourceLocation" -> "*",
-            "actions" -> List("WRITE")
-          ),
-          Json.obj(
-            "resourceType" -> "digital-disclosure-service-store",
-            "resourceLocation" -> "*",
-            "actions" -> List("WRITE")
+    httpClient
+      .post(url"${internalAuthService.baseUrl}/test-only/token")(HeaderCarrier())
+      .withBody(
+        Json.obj(
+          "token"       -> authToken,
+          "principal"   -> appName,
+          "permissions" -> Seq(
+            Json.obj(
+              "resourceType"     -> "digital-disclosure-service",
+              "resourceLocation" -> "*",
+              "actions"          -> List("WRITE")
+            ),
+            Json.obj(
+              "resourceType"     -> "digital-disclosure-service-store",
+              "resourceLocation" -> "*",
+              "actions"          -> List("WRITE")
+            )
           )
         )
-      ))
+      )
       .execute
       .flatMap { response =>
         if (response.status == 201) {
@@ -101,7 +105,8 @@ class InternalAuthTokenInitialiserImpl @Inject() (
 
   private def authTokenIsValid: Future[Boolean] = {
     logger.info("Checking auth token")
-    httpClient.get(url"${internalAuthService.baseUrl}/test-only/token")(HeaderCarrier())
+    httpClient
+      .get(url"${internalAuthService.baseUrl}/test-only/token")(HeaderCarrier())
       .setHeader("Authorization" -> authToken)
       .execute
       .map(_.status == 200)

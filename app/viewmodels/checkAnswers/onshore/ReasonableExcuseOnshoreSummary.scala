@@ -27,28 +27,29 @@ import viewmodels.RevealFullText
 
 object ReasonableExcuseOnshoreSummary {
 
-  def row(fieldName: String, answers: UserAnswers, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(ReasonableExcuseOnshorePage).map {
-      answer =>
-
-        if(fieldName == "excuse"){
-          SummaryListRowViewModel(
-            key     = "whatIsYourReasonableExcuse.excuse.checkYourAnswersLabel",
-            value   = ValueViewModel(revealFullText.addRevealToText(answer.excuse, "whatIsYourReasonableExcuse.excuse.reveal")),
-            actions = Seq(
-              ActionItemViewModel("site.change", routes.ReasonableExcuseOnshoreController.onPageLoad(CheckMode).url)
-                .withVisuallyHiddenText(messages("whatIsYourReasonableExcuse.excuse.change.hidden"))
-            )
+  def row(fieldName: String, answers: UserAnswers, revealFullText: RevealFullText)(implicit
+    messages: Messages
+  ): Option[SummaryListRow] =
+    answers.get(ReasonableExcuseOnshorePage).map { answer =>
+      if (fieldName == "excuse") {
+        SummaryListRowViewModel(
+          key = "whatIsYourReasonableExcuse.excuse.checkYourAnswersLabel",
+          value =
+            ValueViewModel(revealFullText.addRevealToText(answer.excuse, "whatIsYourReasonableExcuse.excuse.reveal")),
+          actions = Seq(
+            ActionItemViewModel("site.change", routes.ReasonableExcuseOnshoreController.onPageLoad(CheckMode).url)
+              .withVisuallyHiddenText(messages("whatIsYourReasonableExcuse.excuse.change.hidden"))
           )
-        } else {
-          SummaryListRowViewModel(
-            key     = "whatIsYourReasonableExcuse.years.checkYourAnswersLabel",
-            value   = ValueViewModel(answer.years.toString),
-            actions = Seq(
-              ActionItemViewModel("site.change", routes.ReasonableExcuseOnshoreController.onPageLoad(CheckMode).url)
-                .withVisuallyHiddenText(messages("whatIsYourReasonableExcuse.years.change.hidden"))
-            )
+        )
+      } else {
+        SummaryListRowViewModel(
+          key = "whatIsYourReasonableExcuse.years.checkYourAnswersLabel",
+          value = ValueViewModel(answer.years.toString),
+          actions = Seq(
+            ActionItemViewModel("site.change", routes.ReasonableExcuseOnshoreController.onPageLoad(CheckMode).url)
+              .withVisuallyHiddenText(messages("whatIsYourReasonableExcuse.years.change.hidden"))
           )
-        }
+        )
+      }
     }
 }

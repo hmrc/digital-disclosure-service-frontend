@@ -22,13 +22,13 @@ import scala.util.Try
 sealed trait OnshoreYears extends Ordered[OnshoreYears] {
   def compare(that: OnshoreYears) = (this, that) match {
     case (thisYear: OnshoreYearStarting, thatYear: OnshoreYearStarting) => (thatYear.startYear) - (thisYear.startYear)
-    case (thisYear: OnshoreYearStarting, _) => -1
-    case (_, thisYear: OnshoreYearStarting) => 1
-    case (_, _) => 0
+    case (thisYear: OnshoreYearStarting, _)                             => -1
+    case (_, thisYear: OnshoreYearStarting)                             => 1
+    case (_, _)                                                         => 0
   }
 }
 
-final case class OnshoreYearStarting(startYear: Int) extends OnshoreYears  {
+final case class OnshoreYearStarting(startYear: Int) extends OnshoreYears {
   override def toString = startYear.toString
 
   def compare(that: OnshoreYearStarting) = (that.startYear) - (this.startYear)
@@ -37,14 +37,16 @@ final case class OnshoreYearStarting(startYear: Int) extends OnshoreYears  {
 object OnshoreYearStarting {
   def findMissingYears(yearList: List[OnshoreYearStarting]): List[OnshoreYearStarting] =
     yearList.sorted(Ordering[OnshoreYearStarting].reverse).map(_.startYear) match {
-      case (head :: tail) :+ last => 
+      case (head :: tail) :+ last =>
         val yearsBetweenFirstAndLast = Range(head, last)
-        val missingYearsAsInts = yearsBetweenFirstAndLast.filterNot{int => yearList.contains(OnshoreYearStarting(int))}
+        val missingYearsAsInts       = yearsBetweenFirstAndLast.filterNot { int =>
+          yearList.contains(OnshoreYearStarting(int))
+        }
         missingYearsAsInts.map(OnshoreYearStarting(_)).sorted(Ordering[OnshoreYearStarting]).toList
-      case _ => Nil
+      case _                      => Nil
     }
 
-  implicit val format: Format[OnshoreYearStarting] =  Json.format[OnshoreYearStarting]
+  implicit val format: Format[OnshoreYearStarting] = Json.format[OnshoreYearStarting]
 }
 
 case object PriorToThreeYears extends OnshoreYears {
@@ -65,30 +67,30 @@ object RawOnshoreYears {
 
 object OnshoreYears {
 
-  def fromString(str: String): Option[OnshoreYears] = {
+  def fromString(str: String): Option[OnshoreYears] =
     str match {
-      case "priorToThreeYears"        => Some(PriorToThreeYears)
-      case "priorToFiveYears"         => Some(PriorToFiveYears)
-      case "priorToNineteenYears"     => Some(PriorToNineteenYears)
-      case RawOnshoreYears(year) => Some(OnshoreYearStarting(year))
-      case _ => None
+      case "priorToThreeYears"    => Some(PriorToThreeYears)
+      case "priorToFiveYears"     => Some(PriorToFiveYears)
+      case "priorToNineteenYears" => Some(PriorToNineteenYears)
+      case RawOnshoreYears(year)  => Some(OnshoreYearStarting(year))
+      case _                      => None
     }
-  }
-
 
   implicit def reads: Reads[OnshoreYears] = Reads {
     case JsString(str) =>
-      fromString(str).map {
-        s => JsSuccess(s)
-      }.getOrElse(JsError("error.invalid"))
-    case _ =>
+      fromString(str)
+        .map { s =>
+          JsSuccess(s)
+        }
+        .getOrElse(JsError("error.invalid"))
+    case _             =>
       JsError("error.invalid")
   }
 
-  implicit val writes: Writes[OnshoreYears] = Writes[OnshoreYears] {
-    value => JsString(value.toString)
+  implicit val writes: Writes[OnshoreYears] = Writes[OnshoreYears] { value =>
+    JsString(value.toString)
   }
-  
-  implicit val format: Format[OnshoreYears] =  Format(reads, writes)
+
+  implicit val format: Format[OnshoreYears] = Format(reads, writes)
 
 }

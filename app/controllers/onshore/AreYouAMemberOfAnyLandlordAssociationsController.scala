@@ -30,61 +30,62 @@ import views.html.onshore.AreYouAMemberOfAnyLandlordAssociationsView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class AreYouAMemberOfAnyLandlordAssociationsController @Inject()(
-                                         override val messagesApi: MessagesApi,
-                                         sessionService: SessionService,
-                                         navigator: OnshoreNavigator,
-                                         identify: IdentifierAction,
-                                         getData: DataRetrievalAction,
-                                         requireData: DataRequiredAction,
-                                         formProvider: AreYouAMemberOfAnyLandlordAssociationsFormProvider,
-                                         val controllerComponents: MessagesControllerComponents,
-                                         view: AreYouAMemberOfAnyLandlordAssociationsView
-                                 )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class AreYouAMemberOfAnyLandlordAssociationsController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: OnshoreNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: AreYouAMemberOfAnyLandlordAssociationsFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: AreYouAMemberOfAnyLandlordAssociationsView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
+    val entity               = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
-      val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
-      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+    val preparedForm = request.userAnswers.get(AreYouAMemberOfAnyLandlordAssociationsPage) match {
+      case None        => form(areTheyTheIndividual, entity)
+      case Some(value) => form(areTheyTheIndividual, entity).fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(AreYouAMemberOfAnyLandlordAssociationsPage) match {
-        case None => form(areTheyTheIndividual, entity)
-        case Some(value) => form(areTheyTheIndividual, entity).fill(value)
-      }
-
-      Ok(view(preparedForm, mode, areTheyTheIndividual, entity))
+    Ok(view(preparedForm, mode, areTheyTheIndividual, entity))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
       val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
-      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+      val entity               = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
-      form(areTheyTheIndividual, entity).bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, areTheyTheIndividual, entity))),
-
-        value => {
-          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(AreYouAMemberOfAnyLandlordAssociationsPage, value))
-            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
-            _              <- sessionService.set(clearedAnswers)
-          } yield Redirect(navigator.nextPage(AreYouAMemberOfAnyLandlordAssociationsPage, mode, clearedAnswers, hasValueChanged))
-        }
-      )
+      form(areTheyTheIndividual, entity)
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, areTheyTheIndividual, entity))),
+          value => {
+            val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
+            for {
+              updatedAnswers <-
+                Future.fromTry(request.userAnswers.set(AreYouAMemberOfAnyLandlordAssociationsPage, value))
+              clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+              _              <- sessionService.set(clearedAnswers)
+            } yield Redirect(
+              navigator.nextPage(AreYouAMemberOfAnyLandlordAssociationsPage, mode, clearedAnswers, hasValueChanged)
+            )
+          }
+        )
   }
 
   def form(areTheyTheIndividual: Boolean, entity: RelatesTo) = formProvider(areTheyTheIndividual, entity)
 
-  def changedPages(answers: UserAnswers, newValue: Boolean): (List[QuestionPage[_]], Boolean) = {
+  def changedPages(answers: UserAnswers, newValue: Boolean): (List[QuestionPage[_]], Boolean) =
     answers.get(AreYouAMemberOfAnyLandlordAssociationsPage) match {
-      case Some(true) if (newValue == false) => (List(WhichLandlordAssociationsAreYouAMemberOfPage), true)
-      case Some(false) if (newValue == true) => (Nil, true)
-      case _ => (Nil, false)
+      case Some(true) if newValue == false => (List(WhichLandlordAssociationsAreYouAMemberOfPage), true)
+      case Some(false) if newValue == true => (Nil, true)
+      case _                               => (Nil, false)
     }
-  }
 
 }

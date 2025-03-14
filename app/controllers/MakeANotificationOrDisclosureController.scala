@@ -19,7 +19,7 @@ package controllers
 import controllers.actions._
 import forms.MakeANotificationOrDisclosureFormProvider
 import javax.inject.Inject
-import models.{UserAnswers, SubmissionType, ARN}
+import models.{ARN, SubmissionType, UserAnswers}
 import models.MakeANotificationOrDisclosure._
 import navigation.Navigator
 import pages.MakeANotificationOrDisclosurePage
@@ -34,67 +34,76 @@ import models.requests.OptionalDataRequest
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class MakeANotificationOrDisclosureController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       sessionService: SessionService,
-                                       navigator: Navigator,
-                                       identify: IdentifierAction,
-                                       getData: DataRetrievalAction,
-                                       formProvider: MakeANotificationOrDisclosureFormProvider,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: MakeANotificationOrDisclosureView,
-                                       auditService: AuditService
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class MakeANotificationOrDisclosureController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: Navigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  formProvider: MakeANotificationOrDisclosureFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: MakeANotificationOrDisclosureView,
+  auditService: AuditService
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad: Action[AnyContent] = (identify andThen getData) {
-    implicit request =>
-      Ok(view(form))
+  def onPageLoad: Action[AnyContent] = (identify andThen getData) { implicit request =>
+    Ok(view(form))
   }
 
-  def onSubmit: Action[AnyContent] = (identify andThen getData).async {
-    implicit request =>
-
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors))),
-
+  def onSubmit: Action[AnyContent] = (identify andThen getData).async { implicit request =>
+    form
+      .bindFromRequest()
+      .fold(
+        formWithErrors => Future.successful(BadRequest(view(formWithErrors))),
         value => {
-          val newSubmissionType = if (value == MakeANotification) SubmissionType.Notification else SubmissionType.Disclosure
-          val updatedAnswers = request.userAnswers match {
+          val newSubmissionType =
+            if (value == MakeANotification) SubmissionType.Notification else SubmissionType.Disclosure
+          val updatedAnswers    = request.userAnswers match {
             case Some(ua) => ua.copy(submissionType = newSubmissionType, customerId = request.customerId)
-            case None => UserAnswers(request.userId, request.sessionId, UserAnswers.defaultSubmissionId, newSubmissionType, created = Instant.now, customerId = request.customerId)
+            case None     =>
+              UserAnswers(
+                request.userId,
+                request.sessionId,
+                UserAnswers.defaultSubmissionId,
+                newSubmissionType,
+                created = Instant.now,
+                customerId = request.customerId
+              )
           }
 
           for {
             _ <- sessionService.set(updatedAnswers)
-            _ = auditStartOfJourney(newSubmissionType, updatedAnswers)
+            _  = auditStartOfJourney(newSubmissionType, updatedAnswers)
           } yield Redirect(navigator.nextPage(MakeANotificationOrDisclosurePage, updatedAnswers))
         }
       )
   }
 
-  def auditStartOfJourney(submissionType: SubmissionType, newUserAnswers: UserAnswers)(implicit request: OptionalDataRequest[_]) = {
+  def auditStartOfJourney(submissionType: SubmissionType, newUserAnswers: UserAnswers)(implicit
+    request: OptionalDataRequest[_]
+  ) =
     submissionType match {
-      case SubmissionType.Notification => 
+      case SubmissionType.Notification =>
         val notificationStart = NotificationStart(
           userId = request.userId,
           submissionId = newUserAnswers.submissionId,
           isAgent = request.isAgent,
-          agentReference = request.customerId.collect{case ARN(arn) => arn}
+          agentReference = request.customerId.collect { case ARN(arn) => arn }
         )
         auditService.auditNotificationStart(notificationStart)
-      case SubmissionType.Disclosure =>
+      case SubmissionType.Disclosure   =>
         val disclosureStart = DisclosureStart(
           userId = request.userId,
           submissionId = newUserAnswers.submissionId,
           isAgent = request.isAgent,
-          agentReference = request.customerId.collect{case ARN(arn) => arn},
+          agentReference = request.customerId.collect { case ARN(arn) => arn },
           notificationSubmitted = false
         )
         auditService.auditDisclosureStart(disclosureStart)
     }
 
-  }
 }

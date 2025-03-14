@@ -21,11 +21,11 @@ import scala.concurrent.Future
 import models.store.Submission
 import play.api.mvc.Result
 import connectors.SubmissionStoreConnector
-import com.google.inject.{Inject, Singleton, ImplementedBy}
+import com.google.inject.{ImplementedBy, Inject, Singleton}
 import models.UserAnswers
 
 @Singleton
-class SubmissionStoreServiceImpl @Inject()(
+class SubmissionStoreServiceImpl @Inject() (
   connector: SubmissionStoreConnector,
   uaToSubmissionService: UAToSubmissionService
 ) extends SubmissionStoreService {
@@ -35,21 +35,17 @@ class SubmissionStoreServiceImpl @Inject()(
     setSubmission(submission)
   }
 
-  def setSubmission(submission: Submission)(implicit hc: HeaderCarrier): Future[Result] = {
+  def setSubmission(submission: Submission)(implicit hc: HeaderCarrier): Future[Result] =
     connector.setSubmission(submission)
-  }
 
-  def getSubmission(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Option[Submission]] = {
+  def getSubmission(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Option[Submission]] =
     connector.getSubmission(userId, submissionId)
-  }
 
-  def getAllSubmissions(userId: String)(implicit hc: HeaderCarrier): Future[Seq[Submission]] = {
+  def getAllSubmissions(userId: String)(implicit hc: HeaderCarrier): Future[Seq[Submission]] =
     connector.getAllSubmissions(userId)
-  }
 
-  def deleteSubmission(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Result] = {
+  def deleteSubmission(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Result] =
     connector.deleteSubmission(userId, submissionId)
-  }
 }
 
 @ImplementedBy(classOf[SubmissionStoreServiceImpl])

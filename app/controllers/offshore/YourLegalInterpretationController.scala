@@ -31,57 +31,58 @@ import views.html.offshore.YourLegalInterpretationView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class YourLegalInterpretationController @Inject()(
-                                        override val messagesApi: MessagesApi,
-                                        sessionService: SessionService,
-                                        navigator: OffshoreNavigator,
-                                        identify: IdentifierAction,
-                                        getData: DataRetrievalAction,
-                                        requireData: DataRequiredAction,
-                                        formProvider: YourLegalInterpretationFormProvider,
-                                        checkbox: YourLegalInterpretationCheckboxes,
-                                        val controllerComponents: MessagesControllerComponents,
-                                        view: YourLegalInterpretationView
-                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class YourLegalInterpretationController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: OffshoreNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: YourLegalInterpretationFormProvider,
+  checkbox: YourLegalInterpretationCheckboxes,
+  val controllerComponents: MessagesControllerComponents,
+  view: YourLegalInterpretationView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val preparedForm = request.userAnswers.get(YourLegalInterpretationPage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(YourLegalInterpretationPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, mode, checkbox.checkboxItems))
+    Ok(view(preparedForm, mode, checkbox.checkboxItems))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, checkbox.checkboxItems))),
+          value => {
 
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, checkbox.checkboxItems))),
+            val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
 
-        value => {
-
-          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
-
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(YourLegalInterpretationPage, value))
-            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
-            _              <- sessionService.set(clearedAnswers)
-          } yield Redirect(navigator.nextPage(YourLegalInterpretationPage, mode, clearedAnswers, hasValueChanged))
-        }
-      )
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(YourLegalInterpretationPage, value))
+              clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+              _              <- sessionService.set(clearedAnswers)
+            } yield Redirect(navigator.nextPage(YourLegalInterpretationPage, mode, clearedAnswers, hasValueChanged))
+          }
+        )
   }
 
   def changedPages(userAnswers: UserAnswers, newValue: Set[YourLegalInterpretation]): (List[QuestionPage[_]], Boolean) =
     userAnswers.get(YourLegalInterpretationPage) match {
-      case Some(oldValue) if (newValue.contains(NoExclusion)) => (List(UnderWhatConsiderationPage, HowMuchTaxHasNotBeenIncludedPage), true)
-      case Some(oldValue) if (oldValue.contains(AnotherIssue) && !newValue.contains(AnotherIssue)) => (List(UnderWhatConsiderationPage), true)
-      case Some(oldValue) if (oldValue != newValue) => (Nil, true)
-      case _ => (Nil, false)
+      case Some(oldValue) if newValue.contains(NoExclusion)                                      =>
+        (List(UnderWhatConsiderationPage, HowMuchTaxHasNotBeenIncludedPage), true)
+      case Some(oldValue) if oldValue.contains(AnotherIssue) && !newValue.contains(AnotherIssue) =>
+        (List(UnderWhatConsiderationPage), true)
+      case Some(oldValue) if oldValue != newValue                                                => (Nil, true)
+      case _                                                                                     => (Nil, false)
     }
 }

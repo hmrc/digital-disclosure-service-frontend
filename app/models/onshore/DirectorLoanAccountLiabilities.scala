@@ -20,7 +20,7 @@ import play.api.libs.json._
 
 import java.time.LocalDate
 
-case class DirectorLoanAccountLiabilities (
+case class DirectorLoanAccountLiabilities(
   name: String,
   periodEnd: LocalDate,
   overdrawn: BigInt,

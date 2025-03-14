@@ -27,6 +27,7 @@ class WhyAreYouMakingADisclosureFormProvider @Inject() extends Mappings {
 
   def apply(): Form[Set[WhyAreYouMakingADisclosure]] =
     Form(
-      "value" -> set(enumerable[WhyAreYouMakingADisclosure]("whyAreYouMakingADisclosure.error.required")).verifying(nonEmptySet("whyAreYouMakingADisclosure.error.required"))
+      "value" -> set(enumerable[WhyAreYouMakingADisclosure]("whyAreYouMakingADisclosure.error.required"))
+        .verifying(nonEmptySet("whyAreYouMakingADisclosure.error.required"))
     )
 }

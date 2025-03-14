@@ -17,7 +17,7 @@
 package services
 
 import scala.util.Random
-import com.google.inject.{Singleton, ImplementedBy}
+import com.google.inject.{ImplementedBy, Singleton}
 
 @Singleton
 class ReferenceServiceImpl extends ReferenceService {

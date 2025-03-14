@@ -24,19 +24,17 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object ResidentialReductionSummary  {
+object ResidentialReductionSummary {
 
-  def row(i: Int, year:String, answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.getByKey(ResidentialReductionPage, year).map {
-      answer =>
-
-        SummaryListRowViewModel(
-          key     = "residentialReduction.checkYourAnswersLabel",
-          value   = ValueViewModel(answer.toString),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.ResidentialReductionController.onPageLoad(i, CheckMode).url)
-              .withVisuallyHiddenText(messages("residentialReduction.change.hidden"))
-          )
+  def row(i: Int, year: String, answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
+    answers.getByKey(ResidentialReductionPage, year).map { answer =>
+      SummaryListRowViewModel(
+        key = "residentialReduction.checkYourAnswersLabel",
+        value = ValueViewModel(answer.toString),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.ResidentialReductionController.onPageLoad(i, CheckMode).url)
+            .withVisuallyHiddenText(messages("residentialReduction.change.hidden"))
         )
+      )
     }
 }

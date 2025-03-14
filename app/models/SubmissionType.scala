@@ -18,7 +18,7 @@ package models
 
 import play.api.libs.json._
 
-sealed trait SubmissionType 
+sealed trait SubmissionType
 
 object SubmissionType {
   case object Notification extends SubmissionType
@@ -26,15 +26,15 @@ object SubmissionType {
 
   implicit val reads: Reads[SubmissionType] = Reads {
     case JsString("Notification") => JsSuccess(Notification)
-    case JsString("Disclosure") => JsSuccess(Disclosure)
-    case _ => JsError("error.invalid")
+    case JsString("Disclosure")   => JsSuccess(Disclosure)
+    case _                        => JsError("error.invalid")
   }
 
   implicit val writes: Writes[SubmissionType] = Writes[SubmissionType] {
     case Notification => Json.toJson("Notification")
-    case Disclosure => Json.toJson("Disclosure")
+    case Disclosure   => Json.toJson("Disclosure")
   }
-  
-  implicit val format: Format[SubmissionType] =  Format(reads, writes)
+
+  implicit val format: Format[SubmissionType] = Format(reads, writes)
 
 }

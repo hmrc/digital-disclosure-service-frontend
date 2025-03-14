@@ -28,32 +28,43 @@ import viewmodels.govuk.all.FluentText
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object WhyAreYouMakingThisOnshoreDisclosureSummary  {
+object WhyAreYouMakingThisOnshoreDisclosureSummary {
 
   def row(userAnswers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    userAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage).map {
-      answers =>
+    userAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage).map { answers =>
+      val areTheyTheIndividual = userAnswers.isTheUserTheIndividual
+      val entity               = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
-        val areTheyTheIndividual = userAnswers.isTheUserTheIndividual
-        val entity = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
-
-        val value = ValueViewModel(
-          HtmlContent(Text(
-            answers.map {
-              answer => HtmlFormat.escape(messages(if(areTheyTheIndividual) s"whyAreYouMakingThisDisclosure.you.$answer" else s"whyAreYouMakingThisDisclosure.${entity}.$answer")).toString
-            }
-            .mkString("<br>")
-          ).withEllipsisOverflow(150).value)
+      val value = ValueViewModel(
+        HtmlContent(
+          Text(
+            answers
+              .map { answer =>
+                HtmlFormat
+                  .escape(
+                    messages(
+                      if (areTheyTheIndividual) s"whyAreYouMakingThisDisclosure.you.$answer"
+                      else s"whyAreYouMakingThisDisclosure.$entity.$answer"
+                    )
+                  )
+                  .toString
+              }
+              .mkString("<br>")
+          ).withEllipsisOverflow(150).value
         )
+      )
 
-        SummaryListRowViewModel(
-          key     = "whyAreYouMakingThisDisclosure.checkYourAnswersLabel",
-          value   = value,
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.WhyAreYouMakingThisOnshoreDisclosureController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("whyAreYouMakingThisDisclosure.change.hidden"))
+      SummaryListRowViewModel(
+        key = "whyAreYouMakingThisDisclosure.checkYourAnswersLabel",
+        value = value,
+        actions = Seq(
+          ActionItemViewModel(
+            "site.change",
+            routes.WhyAreYouMakingThisOnshoreDisclosureController.onPageLoad(CheckMode).url
           )
+            .withVisuallyHiddenText(messages("whyAreYouMakingThisDisclosure.change.hidden"))
         )
+      )
     }
 
 }

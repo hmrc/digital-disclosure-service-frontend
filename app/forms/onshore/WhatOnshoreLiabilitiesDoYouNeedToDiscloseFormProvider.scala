@@ -27,6 +27,10 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseFormProvider @Inject() extends Ma
 
   def apply(): Form[Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]] =
     Form(
-      "value" -> set(enumerable[WhatOnshoreLiabilitiesDoYouNeedToDisclose]("whatOnshoreLiabilitiesDoYouNeedToDisclose.error.required")).verifying(nonEmptySet("whatOnshoreLiabilitiesDoYouNeedToDisclose.error.required"))
+      "value" -> set(
+        enumerable[WhatOnshoreLiabilitiesDoYouNeedToDisclose](
+          "whatOnshoreLiabilitiesDoYouNeedToDisclose.error.required"
+        )
+      ).verifying(nonEmptySet("whatOnshoreLiabilitiesDoYouNeedToDisclose.error.required"))
     )
 }

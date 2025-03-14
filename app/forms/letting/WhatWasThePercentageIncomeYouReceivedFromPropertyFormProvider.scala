@@ -27,7 +27,8 @@ class WhatWasThePercentageIncomeYouReceivedFromPropertyFormProvider @Inject() ex
       "value" -> intWithPercentage(
         "whatWasThePercentageIncomeYouReceivedFromProperty.error.required",
         "whatWasThePercentageIncomeYouReceivedFromProperty.error.wholeNumber",
-        "whatWasThePercentageIncomeYouReceivedFromProperty.error.nonNumeric")
-          .verifying(inRange(1, 100, "whatWasThePercentageIncomeYouReceivedFromProperty.error.outOfRange"))
+        "whatWasThePercentageIncomeYouReceivedFromProperty.error.nonNumeric"
+      )
+        .verifying(inRange(1, 100, "whatWasThePercentageIncomeYouReceivedFromProperty.error.outOfRange"))
     )
 }

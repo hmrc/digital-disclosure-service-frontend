@@ -24,33 +24,31 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.notification.YouHaveSentYourNotificationView
 import pages._
-import models.{UserAnswers, AreYouTheEntity}
+import models.{AreYouTheEntity, UserAnswers}
 
+class YouHaveSentYourNotificationController @Inject() (
+  override val messagesApi: MessagesApi,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredActionEvenSubmitted,
+  val controllerComponents: MessagesControllerComponents,
+  view: YouHaveSentYourNotificationView
+)(implicit val appConfig: FrontendAppConfig)
+    extends FrontendBaseController
+    with I18nSupport {
 
-class YouHaveSentYourNotificationController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       identify: IdentifierAction,
-                                       getData: DataRetrievalAction,
-                                       requireData: DataRequiredActionEvenSubmitted,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: YouHaveSentYourNotificationView
-                                     )(implicit val appConfig: FrontendAppConfig) extends FrontendBaseController with I18nSupport {
+  def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val caseReferenceExists = request.userAnswers.get(LetterReferencePage).isDefined
+    val isTheEntity         = isTheUserTheEntity(request.userAnswers)
+    val submittedReference  = request.userAnswers.get(LetterReferencePage).getOrElse("")
+    val generatedRef        = request.userAnswers.metadata.reference.getOrElse("")
 
-  def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
-      val caseReferenceExists = request.userAnswers.get(LetterReferencePage).isDefined
-      val isTheEntity = isTheUserTheEntity(request.userAnswers)
-      val submittedReference = request.userAnswers.get(LetterReferencePage).getOrElse("")
-      val generatedRef = request.userAnswers.metadata.reference.getOrElse("")
+    val reference = if (caseReferenceExists) submittedReference else generatedRef
 
-      val reference = if (caseReferenceExists) submittedReference else generatedRef
-
-      Ok(view(caseReferenceExists, reference, isTheEntity, request.userAnswers.isDisclosure))
+    Ok(view(caseReferenceExists, reference, isTheEntity, request.userAnswers.isDisclosure))
   }
 
-  def isTheUserTheEntity(userAnswers: UserAnswers): Boolean = {
+  def isTheUserTheEntity(userAnswers: UserAnswers): Boolean =
     userAnswers.get(AreYouTheEntityPage).map(_ == AreYouTheEntity.YesIAm).getOrElse(true)
-  }
 
-  
 }

@@ -25,19 +25,17 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 
-object YourEmailAddressSummary  {
+object YourEmailAddressSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(YourEmailAddressPage).map {
-      answer =>
-
-        SummaryListRowViewModel(
-          key     = "yourEmailAddress.checkYourAnswersLabel",
-          value   = ValueViewModel(Text(answer)),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.YourEmailAddressController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("yourEmailAddress.change.hidden"))
-          )
+    answers.get(YourEmailAddressPage).map { answer =>
+      SummaryListRowViewModel(
+        key = "yourEmailAddress.checkYourAnswersLabel",
+        value = ValueViewModel(Text(answer)),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.YourEmailAddressController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("yourEmailAddress.change.hidden"))
         )
+      )
     }
 }

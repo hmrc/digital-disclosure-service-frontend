@@ -23,21 +23,23 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object DidTheLettingAgentCollectRentOnYourBehalfSummary  {
+object DidTheLettingAgentCollectRentOnYourBehalfSummary {
 
   def row(i: Int, lettingProperty: LettingProperty)(implicit messages: Messages): Option[SummaryListRow] =
-    lettingProperty.didTheLettingAgentCollectRentOnYourBehalf.map {
-      answer =>
+    lettingProperty.didTheLettingAgentCollectRentOnYourBehalf.map { answer =>
+      val value =
+        if (answer) "didTheLettingAgentCollectRentOnYourBehalf.yes" else "didTheLettingAgentCollectRentOnYourBehalf.no"
 
-        val value = if (answer) "didTheLettingAgentCollectRentOnYourBehalf.yes" else "didTheLettingAgentCollectRentOnYourBehalf.no"
-
-        SummaryListRowViewModel(
-          key     = "didTheLettingAgentCollectRentOnYourBehalf.checkYourAnswersLabel",
-          value   = ValueViewModel(value),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.DidTheLettingAgentCollectRentOnYourBehalfController.onPageLoad(i, CheckMode).url)
-              .withVisuallyHiddenText(messages("didTheLettingAgentCollectRentOnYourBehalf.change.hidden"))
+      SummaryListRowViewModel(
+        key = "didTheLettingAgentCollectRentOnYourBehalf.checkYourAnswersLabel",
+        value = ValueViewModel(value),
+        actions = Seq(
+          ActionItemViewModel(
+            "site.change",
+            routes.DidTheLettingAgentCollectRentOnYourBehalfController.onPageLoad(i, CheckMode).url
           )
+            .withVisuallyHiddenText(messages("didTheLettingAgentCollectRentOnYourBehalf.change.hidden"))
         )
+      )
     }
 }

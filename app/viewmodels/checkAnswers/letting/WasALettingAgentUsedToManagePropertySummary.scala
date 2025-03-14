@@ -23,21 +23,22 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object WasALettingAgentUsedToManagePropertySummary  {
+object WasALettingAgentUsedToManagePropertySummary {
 
   def row(i: Int, lettingProperty: LettingProperty)(implicit messages: Messages): Option[SummaryListRow] =
-    lettingProperty.wasPropertyManagerByAgent.map {
-      answer =>
+    lettingProperty.wasPropertyManagerByAgent.map { answer =>
+      val value = if (answer) "wasALettingAgentUsedToManageProperty.yes" else "wasALettingAgentUsedToManageProperty.no"
 
-        val value = if (answer) "wasALettingAgentUsedToManageProperty.yes" else "wasALettingAgentUsedToManageProperty.no"
-
-        SummaryListRowViewModel(
-          key     = "wasALettingAgentUsedToManageProperty.checkYourAnswersLabel",
-          value   = ValueViewModel(value),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.WasALettingAgentUsedToManagePropertyController.onPageLoad(i, CheckMode).url)
-              .withVisuallyHiddenText(messages("wasALettingAgentUsedToManageProperty.change.hidden"))
+      SummaryListRowViewModel(
+        key = "wasALettingAgentUsedToManageProperty.checkYourAnswersLabel",
+        value = ValueViewModel(value),
+        actions = Seq(
+          ActionItemViewModel(
+            "site.change",
+            routes.WasALettingAgentUsedToManagePropertyController.onPageLoad(i, CheckMode).url
           )
+            .withVisuallyHiddenText(messages("wasALettingAgentUsedToManageProperty.change.hidden"))
         )
+      )
     }
 }

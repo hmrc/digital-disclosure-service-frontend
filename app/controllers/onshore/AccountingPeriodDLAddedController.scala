@@ -19,7 +19,7 @@ package controllers.onshore
 import controllers.actions._
 import forms.AccountingPeriodDLAddedFormProvider
 import javax.inject.Inject
-import models.{Mode, UserAnswers, DirectorLoanAccountLiabilities}
+import models.{DirectorLoanAccountLiabilities, Mode, UserAnswers}
 import navigation.OnshoreNavigator
 import pages.{AccountingPeriodDLAddedPage, DirectorLoanAccountLiabilitiesPage}
 import play.api.i18n.{I18nSupport, Messages, MessagesApi}
@@ -32,64 +32,68 @@ import views.html.onshore.AccountingPeriodDLAddedView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class AccountingPeriodDLAddedController @Inject()(
-                                         override val messagesApi: MessagesApi,
-                                         sessionService: SessionService,
-                                         navigator: OnshoreNavigator,
-                                         identify: IdentifierAction,
-                                         getData: DataRetrievalAction,
-                                         requireData: DataRequiredAction,
-                                         formProvider: AccountingPeriodDLAddedFormProvider,
-                                         val controllerComponents: MessagesControllerComponents,
-                                         view: AccountingPeriodDLAddedView
-                                 )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class AccountingPeriodDLAddedController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: OnshoreNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: AccountingPeriodDLAddedFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: AccountingPeriodDLAddedView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
-      getPeriodEndDates(request.userAnswers, mode) match {
-        case periodEndDates if periodEndDates.isEmpty => Redirect(routes.DirectorLoanAccountLiabilitiesController.onPageLoad(0, mode).url)
-        case periodEndDates => Ok(view(form, periodEndDates, mode))
-      }
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    getPeriodEndDates(request.userAnswers, mode) match {
+      case periodEndDates if periodEndDates.isEmpty =>
+        Redirect(routes.DirectorLoanAccountLiabilitiesController.onPageLoad(0, mode).url)
+      case periodEndDates                           => Ok(view(form, periodEndDates, mode))
+    }
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
       val periodEndDates = getPeriodEndDates(request.userAnswers, mode)
 
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, periodEndDates, mode))),
-
-        value =>
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(AccountingPeriodDLAddedPage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(AccountingPeriodDLAddedPage, mode, updatedAnswers))
-      )
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, periodEndDates, mode))),
+          value =>
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(AccountingPeriodDLAddedPage, value))
+              _              <- sessionService.set(updatedAnswers)
+            } yield Redirect(navigator.nextPage(AccountingPeriodDLAddedPage, mode, updatedAnswers))
+        )
   }
 
   def remove(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
       for {
-        updatedAnswers <- Future.fromTry(request.userAnswers.removeBySeqIndex[DirectorLoanAccountLiabilities](DirectorLoanAccountLiabilitiesPage, i))
+        updatedAnswers <-
+          Future.fromTry(
+            request.userAnswers.removeBySeqIndex[DirectorLoanAccountLiabilities](DirectorLoanAccountLiabilitiesPage, i)
+          )
         _              <- sessionService.set(updatedAnswers)
-      } yield {
-        updatedAnswers.get(DirectorLoanAccountLiabilitiesPage) match {
-          case Some(directorLoanAccountLiabilities) if directorLoanAccountLiabilities.nonEmpty => Redirect(routes.AccountingPeriodDLAddedController.onSubmit(mode).url)
-          case _ =>  Redirect(routes.DirectorLoanAccountLiabilitiesController.onPageLoad(0, mode).url)
-        }
+      } yield updatedAnswers.get(DirectorLoanAccountLiabilitiesPage) match {
+        case Some(directorLoanAccountLiabilities) if directorLoanAccountLiabilities.nonEmpty =>
+          Redirect(routes.AccountingPeriodDLAddedController.onSubmit(mode).url)
+        case _                                                                               => Redirect(routes.DirectorLoanAccountLiabilitiesController.onPageLoad(0, mode).url)
       }
   }
 
-  private def getPeriodEndDates(userAnswers: UserAnswers, mode: Mode)(implicit messages:Messages): Seq[SummaryListRowNoValue] = {
+  private def getPeriodEndDates(userAnswers: UserAnswers, mode: Mode)(implicit
+    messages: Messages
+  ): Seq[SummaryListRowNoValue] =
     userAnswers.get(DirectorLoanAccountLiabilitiesPage) match {
-      case Some(directorLoanAccountLiabilities) => DirectorLoanAccountLiabilityModel.row(directorLoanAccountLiabilities, mode)
-      case _ => Seq()
+      case Some(directorLoanAccountLiabilities) =>
+        DirectorLoanAccountLiabilityModel.row(directorLoanAccountLiabilities, mode)
+      case _                                    => Seq()
     }
-  }
 
 }

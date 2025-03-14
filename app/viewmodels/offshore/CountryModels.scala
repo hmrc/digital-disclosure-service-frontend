@@ -25,20 +25,16 @@ import controllers.offshore.routes
 import models.Mode
 
 object CountryModels {
-  
-  def row(countries: Set[Country], mode:Mode)(implicit messages: Messages): Seq[SummaryListRow] = {
 
-    countries.map{ country =>
+  def row(countries: Set[Country], mode: Mode)(implicit messages: Messages): Seq[SummaryListRow] =
+    countries.map { country =>
       SummaryListRowViewModel(
         key = Key(country.name).withCssClass("govuk-!-font-weight-regular hmrc-summary-list__key"),
         value = ValueViewModel(""),
         actions = Seq(
           ActionItemViewModel("site.remove", routes.CountriesOrTerritoriesController.remove(country.alpha3, mode).url)
             .withVisuallyHiddenText(country.name)
-
         )
       )
     }.toSeq
-  }
 }
-

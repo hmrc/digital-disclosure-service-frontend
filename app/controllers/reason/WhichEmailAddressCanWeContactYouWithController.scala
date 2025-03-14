@@ -32,57 +32,58 @@ import views.html.reason.WhichEmailAddressCanWeContactYouWithView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class WhichEmailAddressCanWeContactYouWithController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       sessionService: SessionService,
-                                       navigator: ReasonNavigator,
-                                       identify: IdentifierAction,
-                                       getData: DataRetrievalAction,
-                                       requireData: DataRequiredAction,
-                                       formProvider: WhichEmailAddressCanWeContactYouWithFormProvider,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: WhichEmailAddressCanWeContactYouWithView
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class WhichEmailAddressCanWeContactYouWithController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: ReasonNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: WhichEmailAddressCanWeContactYouWithFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: WhichEmailAddressCanWeContactYouWithView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val preparedForm = request.userAnswers.get(WhichEmailAddressCanWeContactYouWithPage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(WhichEmailAddressCanWeContactYouWithPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      request.userAnswers.get(YourEmailAddressPage) match {
-        case Some(email) => Ok(view(preparedForm, mode, email))
-        case _ => Redirect(routes.WhatEmailAddressCanWeContactYouWithController.onPageLoad(mode))
-      }
+    request.userAnswers.get(YourEmailAddressPage) match {
+      case Some(email) => Ok(view(preparedForm, mode, email))
+      case _           => Redirect(routes.WhatEmailAddressCanWeContactYouWithController.onPageLoad(mode))
+    }
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          request.userAnswers.get(YourEmailAddressPage) match {
-            case Some(email) => Future.successful(BadRequest(view(formWithErrors, mode, email)))
-            case _ => Future.successful(Redirect(routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(mode)))
-          },
-
-        value =>
-          for {
-            userAnswers    <- Future.fromTry(request.userAnswers.set(WhichEmailAddressCanWeContactYouWithPage, value))
-            updatedAnswers <- setEmail(userAnswers, value)
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(WhichEmailAddressCanWeContactYouWithPage, mode, updatedAnswers))
-      )
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors =>
+            request.userAnswers.get(YourEmailAddressPage) match {
+              case Some(email) => Future.successful(BadRequest(view(formWithErrors, mode, email)))
+              case _           =>
+                Future.successful(Redirect(routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(mode)))
+            },
+          value =>
+            for {
+              userAnswers    <- Future.fromTry(request.userAnswers.set(WhichEmailAddressCanWeContactYouWithPage, value))
+              updatedAnswers <- setEmail(userAnswers, value)
+              _              <- sessionService.set(updatedAnswers)
+            } yield Redirect(navigator.nextPage(WhichEmailAddressCanWeContactYouWithPage, mode, updatedAnswers))
+        )
   }
 
-  private def setEmail(userAnswers:UserAnswers, value:WhichEmailAddressCanWeContactYouWith): Future[UserAnswers] = {
+  private def setEmail(userAnswers: UserAnswers, value: WhichEmailAddressCanWeContactYouWith): Future[UserAnswers] =
     (value, userAnswers.get(YourEmailAddressPage)) match {
-      case (ExistingEmail, Some(email)) => Future.fromTry(userAnswers.set(WhatEmailAddressCanWeContactYouWithPage, email))
-      case _ => Future(userAnswers)
+      case (ExistingEmail, Some(email)) =>
+        Future.fromTry(userAnswers.set(WhatEmailAddressCanWeContactYouWithPage, email))
+      case _                            => Future(userAnswers)
     }
-  }
 }

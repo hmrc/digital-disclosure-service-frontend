@@ -22,37 +22,39 @@ import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.onshore.MakingNilDisclosureView
-import models.{UserAnswers, RelatesTo}
+import models.{RelatesTo, UserAnswers}
 import models.WhyAreYouMakingThisOnshoreDisclosure._
 import pages.{RelatesToPage, WhyAreYouMakingThisOnshoreDisclosurePage}
 
-class MakingNilDisclosureController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       identify: IdentifierAction,
-                                       getData: DataRetrievalAction,
-                                       requireData: DataRequiredAction,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: MakingNilDisclosureView
-                                     ) extends FrontendBaseController with I18nSupport {
+class MakingNilDisclosureController @Inject() (
+  override val messagesApi: MessagesApi,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  val controllerComponents: MessagesControllerComponents,
+  view: MakingNilDisclosureView
+) extends FrontendBaseController
+    with I18nSupport {
 
-  def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
+    val entity               = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+    val years                = numberOfYears(request.userAnswers)
 
-      val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
-      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
-      val years = numberOfYears(request.userAnswers)
-      
-      Ok(view(areTheyTheIndividual, entity, years))
+    Ok(view(areTheyTheIndividual, entity, years))
   }
 
-  def numberOfYears(ua: UserAnswers): Int = {
+  def numberOfYears(ua: UserAnswers): Int =
     ua.get(WhyAreYouMakingThisOnshoreDisclosurePage) match {
-      case Some(value) => 
-        if (value.contains(DidNotNotifyNoExcuse) || value.contains(DeliberatelyDidNotNotify) || value.contains(DeliberateInaccurateReturn) || value.contains(DeliberatelyDidNotFile)) 20
+      case Some(value) =>
+        if (
+          value.contains(DidNotNotifyNoExcuse) || value.contains(DeliberatelyDidNotNotify) || value.contains(
+            DeliberateInaccurateReturn
+          ) || value.contains(DeliberatelyDidNotFile)
+        ) 20
         else if (value.contains(InaccurateReturnNoCare)) 6
         else 4
-      case None => 4    
+      case None        => 4
     }
-  }
 
 }

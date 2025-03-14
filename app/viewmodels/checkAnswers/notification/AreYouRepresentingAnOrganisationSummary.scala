@@ -24,21 +24,22 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object AreYouRepresentingAnOrganisationSummary  {
+object AreYouRepresentingAnOrganisationSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(AreYouRepresentingAnOrganisationPage).map {
-      answer =>
+    answers.get(AreYouRepresentingAnOrganisationPage).map { answer =>
+      val value = if (answer) "site.yes" else "site.no"
 
-        val value = if (answer) "site.yes" else "site.no"
-
-        SummaryListRowViewModel(
-          key     = "areYouRepresentingAnOrganisation.checkYourAnswersLabel",
-          value   = ValueViewModel(value),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("areYouRepresentingAnOrganisation.change.hidden"))
+      SummaryListRowViewModel(
+        key = "areYouRepresentingAnOrganisation.checkYourAnswersLabel",
+        value = ValueViewModel(value),
+        actions = Seq(
+          ActionItemViewModel(
+            "site.change",
+            routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
           )
+            .withVisuallyHiddenText(messages("areYouRepresentingAnOrganisation.change.hidden"))
         )
+      )
     }
 }

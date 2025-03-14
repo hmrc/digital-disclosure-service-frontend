@@ -26,21 +26,19 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object PropertyFirstLetOutSummary  {
+object PropertyFirstLetOutSummary {
 
   def row(i: Int, lettingProperty: LettingProperty)(implicit messages: Messages): Option[SummaryListRow] =
-    lettingProperty.dateFirstLetOut.map {
-      answer =>
+    lettingProperty.dateFirstLetOut.map { answer =>
+      val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale(messages.lang.code))
 
-        val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale(messages.lang.code))
-
-        SummaryListRowViewModel(
-          key     = "propertyFirstLetOut.checkYourAnswersLabel",
-          value   = ValueViewModel(answer.format(dateFormatter)),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.PropertyFirstLetOutController.onPageLoad(i, CheckMode).url)
-              .withVisuallyHiddenText(messages("propertyFirstLetOut.change.hidden"))
-          )
+      SummaryListRowViewModel(
+        key = "propertyFirstLetOut.checkYourAnswersLabel",
+        value = ValueViewModel(answer.format(dateFormatter)),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.PropertyFirstLetOutController.onPageLoad(i, CheckMode).url)
+            .withVisuallyHiddenText(messages("propertyFirstLetOut.change.hidden"))
         )
+      )
     }
 }

@@ -24,19 +24,20 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object DirectorLoanAccountLiabilitiesSummary  {
+object DirectorLoanAccountLiabilitiesSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(DirectorLoanAccountLiabilitiesPage).map {
-      answer =>
-
-        SummaryListRowViewModel(
-          key     = "directorLoanAccountLiabilities.checkYourAnswersLabel",
-          value   = ValueViewModel(""),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.DirectorLoanAccountLiabilitiesController.onPageLoad(0, CheckMode).url)
-              .withVisuallyHiddenText(messages("directorLoanAccountLiabilities.change.hidden"))
+    answers.get(DirectorLoanAccountLiabilitiesPage).map { answer =>
+      SummaryListRowViewModel(
+        key = "directorLoanAccountLiabilities.checkYourAnswersLabel",
+        value = ValueViewModel(""),
+        actions = Seq(
+          ActionItemViewModel(
+            "site.change",
+            routes.DirectorLoanAccountLiabilitiesController.onPageLoad(0, CheckMode).url
           )
+            .withVisuallyHiddenText(messages("directorLoanAccountLiabilities.change.hidden"))
         )
+      )
     }
 }

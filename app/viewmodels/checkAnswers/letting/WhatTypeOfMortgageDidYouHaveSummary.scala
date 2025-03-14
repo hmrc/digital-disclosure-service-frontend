@@ -25,25 +25,23 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object WhatTypeOfMortgageDidYouHaveSummary  {
+object WhatTypeOfMortgageDidYouHaveSummary {
 
   def row(i: Int, lettingProperty: LettingProperty)(implicit messages: Messages): Option[SummaryListRow] =
-    lettingProperty.typeOfMortgage.map {
-      answer =>
-
-        val value = ValueViewModel(
-          HtmlContent(
-            HtmlFormat.escape(messages(s"whatTypeOfMortgageDidYouHave.$answer"))
-          )
+    lettingProperty.typeOfMortgage.map { answer =>
+      val value = ValueViewModel(
+        HtmlContent(
+          HtmlFormat.escape(messages(s"whatTypeOfMortgageDidYouHave.$answer"))
         )
+      )
 
-        SummaryListRowViewModel(
-          key     = "whatTypeOfMortgageDidYouHave.checkYourAnswersLabel",
-          value   = value,
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.WhatTypeOfMortgageDidYouHaveController.onPageLoad(i, CheckMode).url)
-              .withVisuallyHiddenText(messages("whatTypeOfMortgageDidYouHave.change.hidden"))
-          )
+      SummaryListRowViewModel(
+        key = "whatTypeOfMortgageDidYouHave.checkYourAnswersLabel",
+        value = value,
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.WhatTypeOfMortgageDidYouHaveController.onPageLoad(i, CheckMode).url)
+            .withVisuallyHiddenText(messages("whatTypeOfMortgageDidYouHave.change.hidden"))
         )
+      )
     }
 }

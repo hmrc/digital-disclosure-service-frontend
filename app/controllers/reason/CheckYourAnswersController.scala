@@ -31,41 +31,40 @@ import pages.DidSomeoneGiveYouAdviceNotDeclareTaxPage
 import play.api.i18n.Messages
 import viewmodels.RevealFullText
 
-class CheckYourAnswersController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       identify: IdentifierAction,
-                                       getData: DataRetrievalAction,
-                                       requireData: DataRequiredAction,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: CheckYourAnswersView,
-                                       revealFullText: RevealFullText
-                                     ) extends FrontendBaseController with I18nSupport {
+class CheckYourAnswersController @Inject() (
+  override val messagesApi: MessagesApi,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  val controllerComponents: MessagesControllerComponents,
+  view: CheckYourAnswersView,
+  revealFullText: RevealFullText
+) extends FrontendBaseController
+    with I18nSupport {
 
-  def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val ua = request.userAnswers
 
-      val ua = request.userAnswers
+    val reasonList = SummaryListViewModel(
+      rows = Seq(
+        WhyAreYouMakingADisclosureSummary.row(ua),
+        WhatIsTheReasonForMakingADisclosureNowSummary.row(ua, revealFullText),
+        WhyNotBeforeNowSummary.row(ua, revealFullText),
+        DidSomeoneGiveYouAdviceNotDeclareTaxSummary.row(ua)
+      ).flatten
+    )
 
-      val reasonList = SummaryListViewModel(
-        rows = Seq(
-          WhyAreYouMakingADisclosureSummary.row(ua),
-          WhatIsTheReasonForMakingADisclosureNowSummary.row(ua, revealFullText),
-          WhyNotBeforeNowSummary.row(ua, revealFullText),
-          DidSomeoneGiveYouAdviceNotDeclareTaxSummary.row(ua)
-        ).flatten
-      )
+    val adviceList: Option[SummaryList] = ua.get(DidSomeoneGiveYouAdviceNotDeclareTaxPage) match {
+      case Some(true) => Some(getAdviceList(ua, revealFullText))
+      case _          => None
+    }
 
-      val adviceList: Option[SummaryList] = ua.get(DidSomeoneGiveYouAdviceNotDeclareTaxPage) match {
-        case Some(true) => Some(getAdviceList(ua, revealFullText))
-        case _ => None
-      }
+    val viewModel = CheckYourAnswersViewModel(
+      reasonList,
+      adviceList
+    )
 
-      val viewModel = CheckYourAnswersViewModel(
-        reasonList,
-        adviceList
-      )
-      
-      Ok(view(viewModel))
+    Ok(view(viewModel))
 
   }
 

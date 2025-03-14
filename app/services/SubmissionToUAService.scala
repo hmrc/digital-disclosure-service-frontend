@@ -19,15 +19,15 @@ package services
 import models._
 import models.store._
 import scala.util.Try
-import com.google.inject.{Inject, Singleton, ImplementedBy}
+import com.google.inject.{ImplementedBy, Inject, Singleton}
 
 @Singleton
-class SubmissionToUAServiceImpl @Inject()(
+class SubmissionToUAServiceImpl @Inject() (
   notificationService: NotificationToUAService,
   disclosureService: DisclosureToUAService
 ) extends SubmissionToUAService {
 
-  def submissionToUa(sessionId: String, submission: Submission): Try[UserAnswers] = 
+  def submissionToUa(sessionId: String, submission: Submission): Try[UserAnswers] =
     submission match {
       case notification: Notification => notificationService.notificationToUserAnswers(sessionId, notification)
       case disclosure: FullDisclosure => disclosureService.fullDisclosureToUa(sessionId, disclosure)

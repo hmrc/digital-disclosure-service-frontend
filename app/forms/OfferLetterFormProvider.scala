@@ -29,7 +29,8 @@ class OfferLetterFormProvider @Inject() extends Mappings {
       "value" -> bigintWithPound(
         "offerLetter.error.required",
         "offerLetter.error.wholeNumber",
-        "offerLetter.error.nonNumeric")
-          .verifying(inRange(BigInt(0), MAX, "offerLetter.error.outOfRange"))
+        "offerLetter.error.nonNumeric"
+      )
+        .verifying(inRange(BigInt(0), MAX, "offerLetter.error.outOfRange"))
     )
 }

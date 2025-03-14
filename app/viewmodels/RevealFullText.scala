@@ -33,7 +33,7 @@ class RevealFullText @Inject() (revealFullText: revealFullText) {
     val fullText = HtmlFormat.escape(text).toString
 
     if (text.length > MAX_SIZE) {
-      val shortenedText = HtmlFormat.escape(text.substring(0, MAX_SIZE) + "...").toString 
+      val shortenedText = HtmlFormat.escape(text.substring(0, MAX_SIZE) + "...").toString
       HtmlContent(revealFullText(shortenedText, fullText, messages(summaryKey, arg0)))
     } else {
       Text(fullText)

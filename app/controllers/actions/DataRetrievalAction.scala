@@ -25,14 +25,15 @@ import services.SessionService
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class DataRetrievalActionImpl @Inject()(
-                                         val sessionService: SessionService
-                                       )(implicit val executionContext: ExecutionContext) extends DataRetrievalAction {
+class DataRetrievalActionImpl @Inject() (
+  val sessionService: SessionService
+)(implicit val executionContext: ExecutionContext)
+    extends DataRetrievalAction {
 
   override protected def transform[A](request: IdentifierRequest[A]): Future[OptionalDataRequest[A]] = {
 
     implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
-    val sessionId = hc.sessionId.fold("-")(_.value)
+    val sessionId                  = hc.sessionId.fold("-")(_.value)
 
     sessionService.getSession(request.userId, sessionId).map {
       OptionalDataRequest(request.request, request.userId, sessionId, _, request.isAgent, request.customerId)

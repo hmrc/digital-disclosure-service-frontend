@@ -25,19 +25,17 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import play.twirl.api.HtmlFormat
 
-object RentalAddressLookupSummary  {
+object RentalAddressLookupSummary {
 
   def row(i: Int, lettingProperty: LettingProperty)(implicit messages: Messages): Option[SummaryListRow] =
-    lettingProperty.address.map {
-      answer =>
-        
-        SummaryListRowViewModel(
-          key     = "rentalAddress.checkYourAnswersLabel",
-          value   = ValueViewModel(HtmlContent(answer.getAddressLines.map(HtmlFormat.escape).mkString("<br>"))),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.RentalAddressLookupController.lookupAddress(i, CheckMode).url)
-              .withVisuallyHiddenText(messages("rentalAddress.change.hidden"))
-          )
+    lettingProperty.address.map { answer =>
+      SummaryListRowViewModel(
+        key = "rentalAddress.checkYourAnswersLabel",
+        value = ValueViewModel(HtmlContent(answer.getAddressLines.map(HtmlFormat.escape).mkString("<br>"))),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.RentalAddressLookupController.lookupAddress(i, CheckMode).url)
+            .withVisuallyHiddenText(messages("rentalAddress.change.hidden"))
         )
+      )
     }
 }

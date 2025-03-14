@@ -23,19 +23,20 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object WhatWasThePercentageIncomeYouReceivedFromPropertySummary  {
+object WhatWasThePercentageIncomeYouReceivedFromPropertySummary {
 
   def row(i: Int, lettingProperty: LettingProperty)(implicit messages: Messages): Option[SummaryListRow] =
-    lettingProperty.percentageIncomeOnProperty.map {
-      answer =>
-
-        SummaryListRowViewModel(
-          key     = "whatWasThePercentageIncomeYouReceivedFromProperty.checkYourAnswersLabel",
-          value   = ValueViewModel(answer.toString),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.WhatWasThePercentageIncomeYouReceivedFromPropertyController.onPageLoad(i, CheckMode).url)
-              .withVisuallyHiddenText(messages("whatWasThePercentageIncomeYouReceivedFromProperty.change.hidden"))
+    lettingProperty.percentageIncomeOnProperty.map { answer =>
+      SummaryListRowViewModel(
+        key = "whatWasThePercentageIncomeYouReceivedFromProperty.checkYourAnswersLabel",
+        value = ValueViewModel(answer.toString),
+        actions = Seq(
+          ActionItemViewModel(
+            "site.change",
+            routes.WhatWasThePercentageIncomeYouReceivedFromPropertyController.onPageLoad(i, CheckMode).url
           )
+            .withVisuallyHiddenText(messages("whatWasThePercentageIncomeYouReceivedFromProperty.change.hidden"))
         )
+      )
     }
 }

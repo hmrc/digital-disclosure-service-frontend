@@ -25,19 +25,17 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import viewmodels.RevealFullText
 
-object WhatOtherLiabilityIssuesSummary  {
+object WhatOtherLiabilityIssuesSummary {
 
   def row(answers: UserAnswers, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(WhatOtherLiabilityIssuesPage).map {
-      answer =>
-
-        SummaryListRowViewModel(
-          key     = "whatOtherLiabilityIssues.checkYourAnswersLabel",
-          value   = ValueViewModel(revealFullText.addRevealToText(answer, "whatOtherLiabilityIssues.reveal")),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.WhatOtherLiabilityIssuesController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("whatOtherLiabilityIssues.change.hidden"))
-          )
+    answers.get(WhatOtherLiabilityIssuesPage).map { answer =>
+      SummaryListRowViewModel(
+        key = "whatOtherLiabilityIssues.checkYourAnswersLabel",
+        value = ValueViewModel(revealFullText.addRevealToText(answer, "whatOtherLiabilityIssues.reveal")),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.WhatOtherLiabilityIssuesController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("whatOtherLiabilityIssues.change.hidden"))
         )
+      )
     }
 }

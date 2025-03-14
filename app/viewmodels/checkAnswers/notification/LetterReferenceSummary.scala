@@ -25,19 +25,17 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 
-object LetterReferenceSummary  {
+object LetterReferenceSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(LetterReferencePage).map {
-      answer =>
-
-        SummaryListRowViewModel(
-          key     = "letterReference.checkYourAnswersLabel",
-          value   = ValueViewModel(Text(answer)),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.LetterReferenceController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("letterReference.change.hidden"))
-          )
+    answers.get(LetterReferencePage).map { answer =>
+      SummaryListRowViewModel(
+        key = "letterReference.checkYourAnswersLabel",
+        value = ValueViewModel(Text(answer)),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.LetterReferenceController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("letterReference.change.hidden"))
         )
+      )
     }
 }

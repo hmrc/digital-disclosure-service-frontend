@@ -26,21 +26,24 @@ import views.html.notification.OnlyOnshoreLiabilitiesView
 import pages._
 import models._
 
+class OnlyOnshoreLiabilitiesController @Inject() (
+  override val messagesApi: MessagesApi,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  val controllerComponents: MessagesControllerComponents,
+  view: OnlyOnshoreLiabilitiesView,
+  navigator: NotificationNavigator
+) extends FrontendBaseController
+    with I18nSupport {
 
-class OnlyOnshoreLiabilitiesController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       identify: IdentifierAction,
-                                       getData: DataRetrievalAction,
-                                       requireData: DataRequiredAction,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: OnlyOnshoreLiabilitiesView,
-                                       navigator: NotificationNavigator
-                                     ) extends FrontendBaseController with I18nSupport {
-
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
-      Ok(view(navigator.nextPage(OnlyOnshoreLiabilitiesPage, mode, request.userAnswers).url.toString, request.userAnswers.isDisclosure))
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    Ok(
+      view(
+        navigator.nextPage(OnlyOnshoreLiabilitiesPage, mode, request.userAnswers).url.toString,
+        request.userAnswers.isDisclosure
+      )
+    )
   }
 
-  
 }

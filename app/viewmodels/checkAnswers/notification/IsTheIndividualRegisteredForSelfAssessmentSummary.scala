@@ -26,25 +26,26 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object IsTheIndividualRegisteredForSelfAssessmentSummary  {
+object IsTheIndividualRegisteredForSelfAssessmentSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(IsTheIndividualRegisteredForSelfAssessmentPage).map {
-      answer =>
-
-        val value = ValueViewModel(
-          HtmlContent(
-            HtmlFormat.escape(messages(s"isTheIndividualRegisteredForSA.$answer"))
-          )
+    answers.get(IsTheIndividualRegisteredForSelfAssessmentPage).map { answer =>
+      val value = ValueViewModel(
+        HtmlContent(
+          HtmlFormat.escape(messages(s"isTheIndividualRegisteredForSA.$answer"))
         )
+      )
 
-        SummaryListRowViewModel(
-          key     = "isTheIndividualRegisteredForSA.checkYourAnswersLabel",
-          value   = value,
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("isTheIndividualRegisteredForSA.change.hidden"))
+      SummaryListRowViewModel(
+        key = "isTheIndividualRegisteredForSA.checkYourAnswersLabel",
+        value = value,
+        actions = Seq(
+          ActionItemViewModel(
+            "site.change",
+            routes.IsTheIndividualRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
           )
+            .withVisuallyHiddenText(messages("isTheIndividualRegisteredForSA.change.hidden"))
         )
+      )
     }
 }

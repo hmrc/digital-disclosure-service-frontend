@@ -20,11 +20,11 @@ import uk.gov.hmrc.http.HeaderCarrier
 import scala.concurrent.{ExecutionContext, Future}
 import models.store.Metadata
 import connectors.DigitalDisclosureServiceConnector
-import com.google.inject.{Inject, Singleton, ImplementedBy}
+import com.google.inject.{ImplementedBy, Inject, Singleton}
 import models.UserAnswers
 
 @Singleton
-class DisclosureSubmissionServiceImpl @Inject()(
+class DisclosureSubmissionServiceImpl @Inject() (
   connector: DigitalDisclosureServiceConnector,
   uaToDisclosureService: UAToDisclosureService,
   referenceService: ReferenceService,
@@ -34,12 +34,12 @@ class DisclosureSubmissionServiceImpl @Inject()(
 ) extends DisclosureSubmissionService {
 
   def submitDisclosure(userAnswers: UserAnswers)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[String] = {
-        
+
     val reference = referenceService.generateReference
-    val metadata = Metadata(reference = Some(reference), submissionTime = Some(timeService.now))
+    val metadata  = Metadata(reference = Some(reference), submissionTime = Some(timeService.now))
 
     val updatedUserAnswers = userAnswers.copy(metadata = metadata)
-    val fullDisclosure = uaToDisclosureService.uaToFullDisclosure(updatedUserAnswers)
+    val fullDisclosure     = uaToDisclosureService.uaToFullDisclosure(updatedUserAnswers)
 
     auditService.auditDisclosureSubmission(fullDisclosure)
 

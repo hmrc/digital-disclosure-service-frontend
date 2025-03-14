@@ -32,21 +32,22 @@ import models.address._
 import config.AddressLookupConfig
 import play.api.libs.json.Json
 
-class AddressLookupConnectorImpl @Inject()(httpClient: HttpClientV2, config: AddressLookupConfig)(implicit ec: ExecutionContext)
-  extends AddressLookupConnector
+class AddressLookupConnectorImpl @Inject() (httpClient: HttpClientV2, config: AddressLookupConfig)(implicit
+  ec: ExecutionContext
+) extends AddressLookupConnector
     with ConnectorErrorHandler {
 
-
-  def initialise(request: AddressLookupRequest)(implicit hc: HeaderCarrier): EitherT[Future, Error, HttpResponse] = EitherT {
-    httpClient
-      .post(url"${config.startLookupUrl}")
-      .withBody(Json.toJson(request))
-      .execute[HttpResponse]
-      .map(Right(_))
-      .recover { case NonFatal(e) =>
-        Left(handleError(Error(e)))
-      }
-  }
+  def initialise(request: AddressLookupRequest)(implicit hc: HeaderCarrier): EitherT[Future, Error, HttpResponse] =
+    EitherT {
+      httpClient
+        .post(url"${config.startLookupUrl}")
+        .withBody(Json.toJson(request))
+        .execute[HttpResponse]
+        .map(Right(_))
+        .recover { case NonFatal(e) =>
+          Left(handleError(Error(e)))
+        }
+    }
 
   def retrieveAddress(addressId: UUID)(implicit hc: HeaderCarrier): EitherT[Future, Error, HttpResponse] =
     EitherT {

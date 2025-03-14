@@ -26,6 +26,9 @@ class AreYouAMemberOfAnyLandlordAssociationsFormProvider @Inject() extends Mappi
 
   def apply(areTheyTheIndividual: Boolean, entity: RelatesTo): Form[Boolean] =
     Form(
-      "value" -> boolean(if(areTheyTheIndividual) "areYouAMemberOfAnyLandlordAssociations.you.error.required" else s"areYouAMemberOfAnyLandlordAssociations.${entity}.error.required")
+      "value" -> boolean(
+        if (areTheyTheIndividual) "areYouAMemberOfAnyLandlordAssociations.you.error.required"
+        else s"areYouAMemberOfAnyLandlordAssociations.$entity.error.required"
+      )
     )
 }

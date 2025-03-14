@@ -18,14 +18,14 @@ package services
 
 import uk.gov.hmrc.http.HeaderCarrier
 import connectors.DigitalDisclosureServiceConnector
-import com.google.inject.{Inject, Singleton, ImplementedBy}
+import com.google.inject.{ImplementedBy, Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 import models.UserAnswers
 import org.apache.pekko.util.ByteString
 import models.store.{FullDisclosure, Notification}
 
 @Singleton
-class SubmissionPDFServiceImpl @Inject()(
+class SubmissionPDFServiceImpl @Inject() (
   connector: DigitalDisclosureServiceConnector,
   uaToSubmissionService: UAToSubmissionService
 ) extends SubmissionPDFService {

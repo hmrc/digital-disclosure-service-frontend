@@ -17,7 +17,7 @@
 package viewmodels.checkAnswers
 
 import controllers.offshore.routes
-import models.{CheckMode, UserAnswers, TaxYearStarting}
+import models.{CheckMode, TaxYearStarting, UserAnswers}
 import pages.YouHaveNotIncludedTheTaxYearPage
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
@@ -25,11 +25,11 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import viewmodels.RevealFullText
 
-object YouHaveNotIncludedTheTaxYearSummary  {
+object YouHaveNotIncludedTheTaxYearSummary {
 
   def row(answers: UserAnswers, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
     for {
-      years <- answers.inverselySortedOffshoreTaxYears
+      years       <- answers.inverselySortedOffshoreTaxYears
       notIncluded <- answers.get(YouHaveNotIncludedTheTaxYearPage)
     } yield {
       val yearsNotIncluded = TaxYearStarting.findMissingYears(years.toList).map(_.startYear + 1).mkString(", ")

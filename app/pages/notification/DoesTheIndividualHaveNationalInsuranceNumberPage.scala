@@ -19,7 +19,8 @@ package pages
 import models.DoesTheIndividualHaveNationalInsuranceNumber
 import play.api.libs.json.JsPath
 
-case object DoesTheIndividualHaveNationalInsuranceNumberPage extends QuestionPage[DoesTheIndividualHaveNationalInsuranceNumber] {
+case object DoesTheIndividualHaveNationalInsuranceNumberPage
+    extends QuestionPage[DoesTheIndividualHaveNationalInsuranceNumber] {
 
   override def path: JsPath = JsPath \ toString
 

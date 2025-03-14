@@ -25,19 +25,20 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 
-object WhatWasTheNameOfThePersonWhoDiedSummary  {
+object WhatWasTheNameOfThePersonWhoDiedSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(WhatWasTheNameOfThePersonWhoDiedPage).map {
-      answer =>
-
-        SummaryListRowViewModel(
-          key     = "whatWasTheNameOfThePersonWhoDied.checkYourAnswersLabel",
-          value   = ValueViewModel(Text(answer)),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.WhatWasTheNameOfThePersonWhoDiedController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("whatWasTheNameOfThePersonWhoDied.change.hidden"))
+    answers.get(WhatWasTheNameOfThePersonWhoDiedPage).map { answer =>
+      SummaryListRowViewModel(
+        key = "whatWasTheNameOfThePersonWhoDied.checkYourAnswersLabel",
+        value = ValueViewModel(Text(answer)),
+        actions = Seq(
+          ActionItemViewModel(
+            "site.change",
+            routes.WhatWasTheNameOfThePersonWhoDiedController.onPageLoad(CheckMode).url
           )
+            .withVisuallyHiddenText(messages("whatWasTheNameOfThePersonWhoDied.change.hidden"))
         )
+      )
     }
 }

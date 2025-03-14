@@ -23,22 +23,22 @@ sealed trait Entity
 object Entity {
   implicit val reads: Reads[Entity] = Reads {
     case JsString("Individual") => JsSuccess(Individual)
-    case JsString("Estate") => JsSuccess(Estate)
-    case JsString("Company") => JsSuccess(Company)
-    case JsString("LLP") => JsSuccess(LLP)
-    case JsString("Trust") => JsSuccess(Trust)
-    case _ => JsError("error.invalid")
+    case JsString("Estate")     => JsSuccess(Estate)
+    case JsString("Company")    => JsSuccess(Company)
+    case JsString("LLP")        => JsSuccess(LLP)
+    case JsString("Trust")      => JsSuccess(Trust)
+    case _                      => JsError("error.invalid")
   }
 
   implicit val writes: Writes[Entity] = Writes[Entity] {
     case Individual => Json.toJson("Individual")
-    case Estate => Json.toJson("Estate")
-    case Company => Json.toJson("Company")
-    case LLP => Json.toJson("LLP")
-    case Trust => Json.toJson("Trust")
+    case Estate     => Json.toJson("Estate")
+    case Company    => Json.toJson("Company")
+    case LLP        => Json.toJson("LLP")
+    case Trust      => Json.toJson("Trust")
   }
 
-  implicit val format: Format[Entity] =  Format(reads, writes)
+  implicit val format: Format[Entity] = Format(reads, writes)
 }
 
 case object Individual extends Entity

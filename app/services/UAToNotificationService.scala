@@ -20,12 +20,12 @@ import models._
 import models.store.Notification
 import models.store.notification._
 import pages._
-import com.google.inject.{Singleton, ImplementedBy}
+import com.google.inject.{ImplementedBy, Singleton}
 
 @Singleton
 class UAToNotificationServiceImpl extends UAToNotificationService {
-  
-  def userAnswersToNotification(userAnswers: UserAnswers): Notification = 
+
+  def userAnswersToNotification(userAnswers: UserAnswers): Notification =
     Notification(
       userId = userAnswers.id,
       submissionId = userAnswers.submissionId,
@@ -44,12 +44,17 @@ class UAToNotificationServiceImpl extends UAToNotificationService {
     )
 
     userAnswers.get(RelatesToPage) match {
-      case Some(RelatesTo.AnIndividual) if !userAnswers.isTheUserTheIndividual => rawPersonalDetails.copy(aboutTheIndividual = Some(userAnswersToAboutTheIndividual(userAnswers)))
-      case Some(RelatesTo.ACompany) => rawPersonalDetails.copy(aboutTheCompany = Some(userAnswersToAboutTheCompany(userAnswers)))
-      case Some(RelatesTo.ATrust) => rawPersonalDetails.copy(aboutTheTrust = Some(userAnswersToAboutTheTrust(userAnswers)))
-      case Some(RelatesTo.ALimitedLiabilityPartnership) => rawPersonalDetails.copy(aboutTheLLP = Some(userAnswersToAboutTheLLP(userAnswers)))
-      case Some(RelatesTo.AnEstate) => rawPersonalDetails.copy(aboutTheEstate = Some(userAnswersToAboutTheEstate(userAnswers)))
-      case _ => rawPersonalDetails
+      case Some(RelatesTo.AnIndividual) if !userAnswers.isTheUserTheIndividual =>
+        rawPersonalDetails.copy(aboutTheIndividual = Some(userAnswersToAboutTheIndividual(userAnswers)))
+      case Some(RelatesTo.ACompany)                                            =>
+        rawPersonalDetails.copy(aboutTheCompany = Some(userAnswersToAboutTheCompany(userAnswers)))
+      case Some(RelatesTo.ATrust)                                              =>
+        rawPersonalDetails.copy(aboutTheTrust = Some(userAnswersToAboutTheTrust(userAnswers)))
+      case Some(RelatesTo.ALimitedLiabilityPartnership)                        =>
+        rawPersonalDetails.copy(aboutTheLLP = Some(userAnswersToAboutTheLLP(userAnswers)))
+      case Some(RelatesTo.AnEstate)                                            =>
+        rawPersonalDetails.copy(aboutTheEstate = Some(userAnswersToAboutTheEstate(userAnswers)))
+      case _                                                                   => rawPersonalDetails
     }
   }
 
@@ -70,23 +75,24 @@ class UAToNotificationServiceImpl extends UAToNotificationService {
     )
   }
 
-  def userAnswersToLiabilities(userAnswers: UserAnswers): (Option[Boolean], Option[Boolean]) = 
+  def userAnswersToLiabilities(userAnswers: UserAnswers): (Option[Boolean], Option[Boolean]) =
     userAnswers.get(OffshoreLiabilitiesPage) match {
       case Some(false) => (Some(false), Some(true))
-      case offshore => (offshore, userAnswers.get(OnshoreLiabilitiesPage))
+      case offshore    => (offshore, userAnswers.get(OnshoreLiabilitiesPage))
     }
 
-  def userAnswerToDisclosureEntity(userAnswers: UserAnswers): Option[DisclosureEntity] = {
-    userAnswers.get(RelatesToPage).map(_ match {
-      case RelatesTo.AnIndividual => DisclosureEntity(Individual, userAnswers.get(AreYouTheEntityPage))
-      case RelatesTo.ACompany => DisclosureEntity(Company, userAnswers.get(AreYouTheEntityPage))
-      case RelatesTo.ALimitedLiabilityPartnership => DisclosureEntity(LLP, userAnswers.get(AreYouTheEntityPage))
-      case RelatesTo.ATrust => DisclosureEntity(Trust, userAnswers.get(AreYouTheEntityPage))      
-      case RelatesTo.AnEstate => DisclosureEntity(Estate, userAnswers.get(AreYouTheEntityPage))
-    })
-  }
+  def userAnswerToDisclosureEntity(userAnswers: UserAnswers): Option[DisclosureEntity] =
+    userAnswers
+      .get(RelatesToPage)
+      .map(_ match {
+        case RelatesTo.AnIndividual                 => DisclosureEntity(Individual, userAnswers.get(AreYouTheEntityPage))
+        case RelatesTo.ACompany                     => DisclosureEntity(Company, userAnswers.get(AreYouTheEntityPage))
+        case RelatesTo.ALimitedLiabilityPartnership => DisclosureEntity(LLP, userAnswers.get(AreYouTheEntityPage))
+        case RelatesTo.ATrust                       => DisclosureEntity(Trust, userAnswers.get(AreYouTheEntityPage))
+        case RelatesTo.AnEstate                     => DisclosureEntity(Estate, userAnswers.get(AreYouTheEntityPage))
+      })
 
-  def userAnswersToAboutYou(userAnswers: UserAnswers): AboutYou = 
+  def userAnswersToAboutYou(userAnswers: UserAnswers): AboutYou =
     AboutYou(
       fullName = userAnswers.get(WhatIsYourFullNamePage),
       telephoneNumber = userAnswers.get(YourPhoneNumberPage),
@@ -95,12 +101,12 @@ class UAToNotificationServiceImpl extends UAToNotificationService {
       mainOccupation = userAnswers.get(WhatIsYourMainOccupationPage),
       contactPreference = userAnswers.get(HowWouldYouPreferToBeContactedPage) match {
         case Some(preference) =>
-          val contactPreference: Set[Preference] = preference.map{
-            case HowWouldYouPreferToBeContacted.Email => Email
+          val contactPreference: Set[Preference] = preference.map {
+            case HowWouldYouPreferToBeContacted.Email     => Email
             case HowWouldYouPreferToBeContacted.Telephone => Telephone
           }
           Some(ContactPreferences(contactPreference))
-        case _ => None
+        case _                => None
       },
       doYouHaveANino = userAnswers.get(DoYouHaveNationalInsuranceNumberPage),
       nino = userAnswers.get(WhatIsYourNationalInsuranceNumberPage),
@@ -111,7 +117,7 @@ class UAToNotificationServiceImpl extends UAToNotificationService {
       address = userAnswers.get(YourAddressLookupPage)
     )
 
-  def userAnswersToAboutTheIndividual(userAnswers: UserAnswers): AboutTheIndividual = 
+  def userAnswersToAboutTheIndividual(userAnswers: UserAnswers): AboutTheIndividual =
     AboutTheIndividual(
       fullName = userAnswers.get(WhatIsTheIndividualsFullNamePage),
       dateOfBirth = userAnswers.get(WhatIsTheIndividualDateOfBirthPage),
@@ -125,7 +131,7 @@ class UAToNotificationServiceImpl extends UAToNotificationService {
       address = userAnswers.get(IndividualAddressLookupPage)
     )
 
-  def userAnswersToAboutTheEstate(userAnswers: UserAnswers): AboutTheEstate = 
+  def userAnswersToAboutTheEstate(userAnswers: UserAnswers): AboutTheEstate =
     AboutTheEstate(
       fullName = userAnswers.get(WhatWasTheNameOfThePersonWhoDiedPage),
       dateOfBirth = userAnswers.get(WhatWasThePersonDateOfBirthPage),
@@ -139,20 +145,20 @@ class UAToNotificationServiceImpl extends UAToNotificationService {
       address = userAnswers.get(EstateAddressLookupPage)
     )
 
-  def userAnswersToAboutTheCompany(userAnswers: UserAnswers): AboutTheCompany = 
+  def userAnswersToAboutTheCompany(userAnswers: UserAnswers): AboutTheCompany =
     AboutTheCompany(
       name = userAnswers.get(WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage),
       registrationNumber = userAnswers.get(WhatIsTheCompanyRegistrationNumberPage),
       address = userAnswers.get(CompanyAddressLookupPage)
     )
 
-  def userAnswersToAboutTheTrust(userAnswers: UserAnswers): AboutTheTrust = 
+  def userAnswersToAboutTheTrust(userAnswers: UserAnswers): AboutTheTrust =
     AboutTheTrust(
       name = userAnswers.get(WhatIsTheTrustNamePage),
       address = userAnswers.get(TrustAddressLookupPage)
     )
 
-  def userAnswersToAboutTheLLP(userAnswers: UserAnswers): AboutTheLLP = 
+  def userAnswersToAboutTheLLP(userAnswers: UserAnswers): AboutTheLLP =
     AboutTheLLP(
       name = userAnswers.get(WhatIsTheLLPNamePage),
       address = userAnswers.get(LLPAddressLookupPage)

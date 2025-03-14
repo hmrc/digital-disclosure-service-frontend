@@ -27,28 +27,43 @@ import viewmodels.RevealFullText
 
 object WhatIsYourReasonableExcuseForNotFilingReturnSummary {
 
-  def row(fieldName: String, answers: UserAnswers, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(WhatIsYourReasonableExcuseForNotFilingReturnPage).map {
-      answer =>
-
-        if(fieldName == "reasonableExcuse") {
-          SummaryListRowViewModel(
-            key     = "whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.checkYourAnswersLabel",
-            value   = ValueViewModel(revealFullText.addRevealToText(answer.reasonableExcuse, "whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.reveal")),
-            actions = Seq(
-              ActionItemViewModel("site.change", routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(CheckMode).url)
-                .withVisuallyHiddenText(messages("whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.change.hidden"))
+  def row(fieldName: String, answers: UserAnswers, revealFullText: RevealFullText)(implicit
+    messages: Messages
+  ): Option[SummaryListRow] =
+    answers.get(WhatIsYourReasonableExcuseForNotFilingReturnPage).map { answer =>
+      if (fieldName == "reasonableExcuse") {
+        SummaryListRowViewModel(
+          key = "whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.checkYourAnswersLabel",
+          value = ValueViewModel(
+            revealFullText.addRevealToText(
+              answer.reasonableExcuse,
+              "whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.reveal"
             )
-          )
-        } else {
-          SummaryListRowViewModel(
-            key     = "whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo.checkYourAnswersLabel",
-            value   = ValueViewModel(answer.yearsThisAppliesTo.toString),
-            actions = Seq(
-              ActionItemViewModel("site.change", routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(CheckMode).url)
-                .withVisuallyHiddenText(messages("whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo.change.hidden"))
+          ),
+          actions = Seq(
+            ActionItemViewModel(
+              "site.change",
+              routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(CheckMode).url
             )
+              .withVisuallyHiddenText(
+                messages("whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.change.hidden")
+              )
           )
-        }
+        )
+      } else {
+        SummaryListRowViewModel(
+          key = "whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo.checkYourAnswersLabel",
+          value = ValueViewModel(answer.yearsThisAppliesTo.toString),
+          actions = Seq(
+            ActionItemViewModel(
+              "site.change",
+              routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(CheckMode).url
+            )
+              .withVisuallyHiddenText(
+                messages("whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo.change.hidden")
+              )
+          )
+        )
+      }
     }
 }
