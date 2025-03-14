@@ -27,28 +27,30 @@ import views.html.SubmittedView
 import pages.{CorporationTaxLiabilityPage, DirectorLoanAccountLiabilitiesPage, OnshoreTaxYearLiabilitiesPage, TaxYearLiabilitiesPage, WhatIsTheCaseReferencePage}
 import models.UserAnswers
 
-class SubmittedController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       identify: IdentifierAction,
-                                       getData: DataRetrievalAction,
-                                       requireData: DataRequiredActionEvenSubmitted,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: SubmittedView
-                                     ) (implicit appConfig: FrontendAppConfig) extends FrontendBaseController with I18nSupport {
+class SubmittedController @Inject() (
+  override val messagesApi: MessagesApi,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredActionEvenSubmitted,
+  val controllerComponents: MessagesControllerComponents,
+  view: SubmittedView
+)(implicit appConfig: FrontendAppConfig)
+    extends FrontendBaseController
+    with I18nSupport {
 
   def onPageLoad(reference: String): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-      val isNilDisclosure = isAllLiabilitiesEmpty(request.userAnswers)
+      val isNilDisclosure     = isAllLiabilitiesEmpty(request.userAnswers)
       val caseReferenceExists = request.userAnswers.get(WhatIsTheCaseReferencePage).isDefined
       Ok(view(caseReferenceExists, isNilDisclosure, reference))
   }
 
   def isAllLiabilitiesEmpty(ua: UserAnswers): Boolean = {
     val offshoreTaxYearEmpty = ua.get(TaxYearLiabilitiesPage).forall(_.isEmpty)
-    val onshoreTaxYearEmpty = ua.get(OnshoreTaxYearLiabilitiesPage).forall(_.isEmpty)
-    val ctEmpty = (ua.get(CorporationTaxLiabilityPage).getOrElse(Set()).size == 0)
-    val dlEmpty = (ua.get(DirectorLoanAccountLiabilitiesPage).getOrElse(Set()).size == 0)
-    
+    val onshoreTaxYearEmpty  = ua.get(OnshoreTaxYearLiabilitiesPage).forall(_.isEmpty)
+    val ctEmpty              = ua.get(CorporationTaxLiabilityPage).getOrElse(Set()).size == 0
+    val dlEmpty              = ua.get(DirectorLoanAccountLiabilitiesPage).getOrElse(Set()).size == 0
+
     offshoreTaxYearEmpty && onshoreTaxYearEmpty && ctEmpty && dlEmpty
   }
 }

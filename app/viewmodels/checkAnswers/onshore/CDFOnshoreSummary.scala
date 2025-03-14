@@ -25,24 +25,22 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object CDFOnshoreSummary  {
+object CDFOnshoreSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(CDFOnshorePage).map {
-      answer =>
+    answers.get(CDFOnshorePage).map { answer =>
+      val answerString = if (answer) "yes" else "no"
 
-        val answerString = if (answer) "yes" else "no"
-        
-        val value = ValueViewModel(
-          HtmlContent(
-            HtmlFormat.escape(messages(answerString.capitalize))
-          )
+      val value = ValueViewModel(
+        HtmlContent(
+          HtmlFormat.escape(messages(answerString.capitalize))
         )
+      )
 
-        SummaryListRowViewModel(
-          key     = "contractualDisclosureFacility.checkYourAnswersLabel",
-          value   = value,
-          actions = Nil
-        )
+      SummaryListRowViewModel(
+        key = "contractualDisclosureFacility.checkYourAnswersLabel",
+        value = value,
+        actions = Nil
+      )
     }
 }

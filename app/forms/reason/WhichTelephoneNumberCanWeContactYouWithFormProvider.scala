@@ -26,6 +26,8 @@ class WhichTelephoneNumberCanWeContactYouWithFormProvider @Inject() extends Mapp
 
   def apply(): Form[WhichTelephoneNumberCanWeContactYouWith] =
     Form(
-      "value" -> enumerable[WhichTelephoneNumberCanWeContactYouWith]("whichTelephoneNumberCanWeContactYouWith.error.required")
+      "value" -> enumerable[WhichTelephoneNumberCanWeContactYouWith](
+        "whichTelephoneNumberCanWeContactYouWith.error.required"
+      )
     )
 }

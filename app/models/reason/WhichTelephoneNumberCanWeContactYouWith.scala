@@ -28,15 +28,16 @@ object WhichTelephoneNumberCanWeContactYouWith extends Enumerable.Implicits {
   case object DifferentNumber extends WithName("differentNumber") with WhichTelephoneNumberCanWeContactYouWith
 
   val values: Seq[WhichTelephoneNumberCanWeContactYouWith] = Seq(
-    ExistingNumber, DifferentNumber
+    ExistingNumber,
+    DifferentNumber
   )
 
   def options(number: String)(implicit messages: Messages): Seq[RadioItem] = values.zipWithIndex.map {
     case (value, index) =>
       RadioItem(
         content = Text(messages(s"whichTelephoneNumberCanWeContactYouWith.${value.toString}", number)),
-        value   = Some(value.toString),
-        id      = Some(s"value_$index")
+        value = Some(value.toString),
+        id = Some(s"value_$index")
       )
   }
 

@@ -21,7 +21,7 @@ import forms.AdviceBusinessesOrOrgFormProvider
 import javax.inject.Inject
 import models.{Mode, UserAnswers}
 import navigation.ReasonNavigator
-import pages.{AdviceBusinessesOrOrgPage, AdviceBusinessNamePage, QuestionPage}
+import pages.{AdviceBusinessNamePage, AdviceBusinessesOrOrgPage, QuestionPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -30,56 +30,55 @@ import views.html.reason.AdviceBusinessesOrOrgView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class AdviceBusinessesOrOrgController @Inject()(
-                                         override val messagesApi: MessagesApi,
-                                         sessionService: SessionService,
-                                         navigator: ReasonNavigator,
-                                         identify: IdentifierAction,
-                                         getData: DataRetrievalAction,
-                                         requireData: DataRequiredAction,
-                                         formProvider: AdviceBusinessesOrOrgFormProvider,
-                                         val controllerComponents: MessagesControllerComponents,
-                                         view: AdviceBusinessesOrOrgView
-                                 )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class AdviceBusinessesOrOrgController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: ReasonNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: AdviceBusinessesOrOrgFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: AdviceBusinessesOrOrgView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val preparedForm = request.userAnswers.get(AdviceBusinessesOrOrgPage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(AdviceBusinessesOrOrgPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, mode))
+    Ok(view(preparedForm, mode))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode))),
+          value => {
 
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+            val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
 
-        value => {
-
-          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
-
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(AdviceBusinessesOrOrgPage, value))
-            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
-            _              <- sessionService.set(clearedAnswers)
-          } yield Redirect(navigator.nextPage(AdviceBusinessesOrOrgPage, mode, clearedAnswers, hasValueChanged))
-        }
-      )
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(AdviceBusinessesOrOrgPage, value))
+              clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+              _              <- sessionService.set(clearedAnswers)
+            } yield Redirect(navigator.nextPage(AdviceBusinessesOrOrgPage, mode, clearedAnswers, hasValueChanged))
+          }
+        )
   }
 
   def changedPages(userAnswers: UserAnswers, value: Boolean): (List[QuestionPage[_]], Boolean) =
     userAnswers.get(AdviceBusinessesOrOrgPage) match {
       case Some(true) if false == value => (List(AdviceBusinessNamePage), false)
       case Some(false) if true == value => (Nil, true)
-      case _ => (Nil, false)
+      case _                            => (Nil, false)
     }
 
 }

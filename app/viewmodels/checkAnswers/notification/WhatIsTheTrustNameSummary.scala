@@ -25,19 +25,17 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 
-object WhatIsTheTrustNameSummary  {
+object WhatIsTheTrustNameSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(WhatIsTheTrustNamePage).map {
-      answer =>
-
-        SummaryListRowViewModel(
-          key     = "whatIsTheTrustName.checkYourAnswersLabel",
-          value   = ValueViewModel(Text(answer)),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.WhatIsTheTrustNameController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("whatIsTheTrustName.change.hidden"))
-          )
+    answers.get(WhatIsTheTrustNamePage).map { answer =>
+      SummaryListRowViewModel(
+        key = "whatIsTheTrustName.checkYourAnswersLabel",
+        value = ValueViewModel(Text(answer)),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.WhatIsTheTrustNameController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("whatIsTheTrustName.change.hidden"))
         )
+      )
     }
 }

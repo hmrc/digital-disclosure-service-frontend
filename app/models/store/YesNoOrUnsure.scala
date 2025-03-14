@@ -26,18 +26,17 @@ object YesNoOrUnsure {
   case object Unsure extends YesNoOrUnsure
 
   implicit val reads: Reads[YesNoOrUnsure] = Reads {
-    case JsString("Yes") => JsSuccess(Yes)
-    case JsString("No") => JsSuccess(No)
+    case JsString("Yes")    => JsSuccess(Yes)
+    case JsString("No")     => JsSuccess(No)
     case JsString("Unsure") => JsSuccess(Unsure)
-    case _ => JsError("error.invalid")
+    case _                  => JsError("error.invalid")
   }
 
   implicit val writes: Writes[YesNoOrUnsure] = Writes[YesNoOrUnsure] {
-    case Yes => Json.toJson("Yes")
-    case No => Json.toJson("No")
+    case Yes    => Json.toJson("Yes")
+    case No     => Json.toJson("No")
     case Unsure => Json.toJson("Unsure")
   }
-  
-  implicit val format: Format[YesNoOrUnsure] =  Format(reads, writes)
-}
 
+  implicit val format: Format[YesNoOrUnsure] = Format(reads, writes)
+}

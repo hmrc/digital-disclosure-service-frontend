@@ -31,15 +31,19 @@ object AreYouTheEntity extends Enumerable.Implicits {
   case object PowerOfAttorney extends WithName("powerOfAttorney") with AreYouTheEntity
 
   val values: Seq[AreYouTheEntity] = Seq(
-    YesIAm, IAmAnAccountantOrTaxAgent, IAmAFriend, VoluntaryOrganisation, PowerOfAttorney
+    YesIAm,
+    IAmAnAccountantOrTaxAgent,
+    IAmAFriend,
+    VoluntaryOrganisation,
+    PowerOfAttorney
   )
 
   def options(entity: RelatesTo)(implicit messages: Messages): Seq[RadioItem] = values.zipWithIndex.map {
     case (value, index) =>
       RadioItem(
         content = Text(messages(s"areYouTheEntity.${entity.toString}.${value.toString}")),
-        value   = Some(value.toString),
-        id      = Some(s"value_$index")
+        value = Some(value.toString),
+        id = Some(s"value_$index")
       )
   }
 

@@ -17,14 +17,14 @@
 package services
 
 import java.time.{LocalDate, LocalDateTime}
-import com.google.inject.{Singleton, Inject, ImplementedBy}
+import com.google.inject.{ImplementedBy, Inject, Singleton}
 import play.api.Configuration
 
 @Singleton
 class TimeServiceImpl extends TimeService {
 
   def now: LocalDateTime = LocalDateTime.now
-  def date: LocalDate = LocalDate.now
+  def date: LocalDate    = LocalDate.now
 
 }
 
@@ -34,7 +34,7 @@ class TestTimeService @Inject() (configuration: Configuration) extends TimeServi
   val year = configuration.get[Int]("test-with-tax-year-starting.yearStarting")
 
   def now: LocalDateTime = LocalDateTime.of(year, 4, 6, 0, 0, 0, 0)
-  def date: LocalDate = LocalDate.of(year, 4, 6)
+  def date: LocalDate    = LocalDate.of(year, 4, 6)
 
 }
 

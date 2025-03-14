@@ -28,17 +28,15 @@ import com.google.inject.{Inject, Singleton}
 import viewmodels.RevealFullText
 
 @Singleton
-class TaxBeforeFiveYearsOnshoreSummary @Inject() (onshoreWhichYearsService: OnshoreWhichYearsService)  {
+class TaxBeforeFiveYearsOnshoreSummary @Inject() (onshoreWhichYearsService: OnshoreWhichYearsService) {
 
   def row(answers: UserAnswers, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(TaxBeforeFiveYearsOnshorePage).map {
-      answer =>
-
+    answers.get(TaxBeforeFiveYearsOnshorePage).map { answer =>
       val year = onshoreWhichYearsService.getEarliestYearByBehaviour(Behaviour.Careless).toString
 
       SummaryListRowViewModel(
-        key     = messages("taxBeforeFiveYears.checkYourAnswersLabel", year),
-        value   = ValueViewModel(revealFullText.addRevealToText(answer, "taxBeforeFiveYears.reveal", year)),
+        key = messages("taxBeforeFiveYears.checkYourAnswersLabel", year),
+        value = ValueViewModel(revealFullText.addRevealToText(answer, "taxBeforeFiveYears.reveal", year)),
         actions = Seq(
           ActionItemViewModel("site.change", routes.TaxBeforeFiveYearsOnshoreController.onPageLoad(CheckMode).url)
             .withVisuallyHiddenText(messages("taxBeforeFiveYears.change.hidden", year))
@@ -46,4 +44,3 @@ class TaxBeforeFiveYearsOnshoreSummary @Inject() (onshoreWhichYearsService: Onsh
       )
     }
 }
-

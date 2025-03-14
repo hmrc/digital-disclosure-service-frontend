@@ -20,7 +20,7 @@ import play.api.libs.json._
 
 import java.time.LocalDate
 
-case class CorporationTaxLiability (
+case class CorporationTaxLiability(
   periodEnd: LocalDate,
   howMuchIncome: BigInt,
   howMuchUnpaid: BigInt,

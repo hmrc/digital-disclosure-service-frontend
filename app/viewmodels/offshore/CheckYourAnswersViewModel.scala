@@ -37,12 +37,13 @@ case class CheckYourAnswersViewModel(
 )
 
 @Singleton
-class CheckYourAnswersViewModelCreation @Inject() 
-  (whichYearsSummary: WhichYearsSummary, 
-  taxBeforeFiveYearsSummary: TaxBeforeFiveYearsSummary, 
-  taxBeforeSevenYearsSummary: TaxBeforeSevenYearsSummary, 
+class CheckYourAnswersViewModelCreation @Inject() (
+  whichYearsSummary: WhichYearsSummary,
+  taxBeforeFiveYearsSummary: TaxBeforeFiveYearsSummary,
+  taxBeforeSevenYearsSummary: TaxBeforeSevenYearsSummary,
   taxBeforeNineteenYearSummary: TaxBeforeNineteenYearsSummary,
-  revealFullText: RevealFullText) extends RowHelper {
+  revealFullText: RevealFullText
+) extends RowHelper {
 
   def create(userAnswers: UserAnswers)(implicit messages: Messages): CheckYourAnswersViewModel = {
 
@@ -67,16 +68,17 @@ class CheckYourAnswersViewModelCreation @Inject()
     )
 
     val taxYears: Seq[TaxYearWithLiabilities] = for {
-      year <- userAnswers.inverselySortedOffshoreTaxYears.getOrElse(Nil)
+      year                   <- userAnswers.inverselySortedOffshoreTaxYears.getOrElse(Nil)
       taxYearWithLiabilities <- userAnswers.getByKey(TaxYearLiabilitiesPage, year.toString)
     } yield taxYearWithLiabilities
 
-    val taxYearLists: Seq[(Int, SummaryList)] = taxYears.zipWithIndex.map{ case (yearWithLiabilites, i) => 
+    val taxYearLists: Seq[(Int, SummaryList)] = taxYears.zipWithIndex.map { case (yearWithLiabilites, i) =>
       (yearWithLiabilites.taxYear.startYear, taxYearWithLiabilitiesToSummaryList(i, yearWithLiabilites, userAnswers))
     }
 
-    val totalAmountsList = totalAmountsSummaryList(taxYears)
-    val liabilitiesTotal: BigDecimal = taxYears.map(yearWithLiabilities => yearTotal(yearWithLiabilities.taxYearLiabilities)).sum
+    val totalAmountsList             = totalAmountsSummaryList(taxYears)
+    val liabilitiesTotal: BigDecimal =
+      taxYears.map(yearWithLiabilities => yearTotal(yearWithLiabilities.taxYearLiabilities)).sum
 
     val legalInterpretationlist = SummaryListViewModel(
       rows = Seq(
@@ -91,33 +93,105 @@ class CheckYourAnswersViewModelCreation @Inject()
 
   }
 
-  def taxYearWithLiabilitiesToSummaryList(i: Int, yearWithLiabilites: TaxYearWithLiabilities, userAnswers: UserAnswers)(implicit messages: Messages): SummaryList = {
+  def taxYearWithLiabilitiesToSummaryList(i: Int, yearWithLiabilites: TaxYearWithLiabilities, userAnswers: UserAnswers)(
+    implicit messages: Messages
+  ): SummaryList = {
 
     val liabilities = yearWithLiabilites.taxYearLiabilities
 
     val undeclaredIncome = liabilities.undeclaredIncomeOrGain match {
-      case Some(value) => Seq(rowCase(i, "taxYearLiabilities.undeclaredIncomeOrGain", value, "taxYearLiabilities.undeclaredIncomeOrGain.hidden", OFFSHORE, revealFullText, true))
-      case _ => Nil
+      case Some(value) =>
+        Seq(
+          rowCase(
+            i,
+            "taxYearLiabilities.undeclaredIncomeOrGain",
+            value,
+            "taxYearLiabilities.undeclaredIncomeOrGain.hidden",
+            OFFSHORE,
+            revealFullText,
+            true
+          )
+        )
+      case _           => Nil
     }
 
-    val foreignTaxCredit = userAnswers.getByKey(ForeignTaxCreditPage, yearWithLiabilites.taxYear.startYear.toString) match {
-      case Some(value) => Seq(poundRowCase(i, "foreignTaxCredit.checkYourAnswersLabel", s"${value}", "foreignTaxCredit.hidden", OFFSHORE))
-      case _ => Nil
-    }
+    val foreignTaxCredit =
+      userAnswers.getByKey(ForeignTaxCreditPage, yearWithLiabilites.taxYear.startYear.toString) match {
+        case Some(value) =>
+          Seq(poundRowCase(i, "foreignTaxCredit.checkYourAnswersLabel", s"$value", "foreignTaxCredit.hidden", OFFSHORE))
+        case _           => Nil
+      }
 
     val rows = Seq(
-      poundRowCase(i, "taxYearLiabilities.income.checkYourAnswersLabel", s"${liabilities.income}", "taxYearLiabilities.income.hidden", OFFSHORE),
-      poundRowCase(i, "taxYearLiabilities.chargeableTransfers.checkYourAnswersLabel", s"${liabilities.chargeableTransfers}", "taxYearLiabilities.chargeableTransfers.hidden", OFFSHORE),
-      poundRowCase(i, "taxYearLiabilities.capitalGains.checkYourAnswersLabel", s"${liabilities.capitalGains}", "taxYearLiabilities.capitalGains.hidden", OFFSHORE),
-      poundRowCase(i, "taxYearLiabilities.unpaidTax.checkYourAnswersLabel", s"${liabilities.unpaidTax}", "taxYearLiabilities.unpaidTax.hidden", OFFSHORE),
-      poundRowCase(i, "taxYearLiabilities.interest.checkYourAnswersLabel", s"${liabilities.interest}", "taxYearLiabilities.interest.hidden", OFFSHORE),
-      rowCase(i, "taxYearLiabilities.penaltyRate.checkYourAnswersLabel", messages("site.2DP", liabilities.penaltyRate)+"%", "taxYearLiabilities.penaltyRate.hidden", OFFSHORE, revealFullText, false),
-      totalRow("taxYearLiabilities.penaltyAmount.checkYourAnswersLabel", messages("site.2DP", penaltyAmount(liabilities)))
-    )  ++ undeclaredIncome ++ Seq( 
-      rowCase(i, "taxYearLiabilities.foreignTaxCredit.checkYourAnswersLabel", if (liabilities.foreignTaxCredit) messages("site.yes") else messages("site.no"), "taxYearLiabilities.foreignTaxCredit.hidden", OFFSHORE, revealFullText, false)
+      poundRowCase(
+        i,
+        "taxYearLiabilities.income.checkYourAnswersLabel",
+        s"${liabilities.income}",
+        "taxYearLiabilities.income.hidden",
+        OFFSHORE
+      ),
+      poundRowCase(
+        i,
+        "taxYearLiabilities.chargeableTransfers.checkYourAnswersLabel",
+        s"${liabilities.chargeableTransfers}",
+        "taxYearLiabilities.chargeableTransfers.hidden",
+        OFFSHORE
+      ),
+      poundRowCase(
+        i,
+        "taxYearLiabilities.capitalGains.checkYourAnswersLabel",
+        s"${liabilities.capitalGains}",
+        "taxYearLiabilities.capitalGains.hidden",
+        OFFSHORE
+      ),
+      poundRowCase(
+        i,
+        "taxYearLiabilities.unpaidTax.checkYourAnswersLabel",
+        s"${liabilities.unpaidTax}",
+        "taxYearLiabilities.unpaidTax.hidden",
+        OFFSHORE
+      ),
+      poundRowCase(
+        i,
+        "taxYearLiabilities.interest.checkYourAnswersLabel",
+        s"${liabilities.interest}",
+        "taxYearLiabilities.interest.hidden",
+        OFFSHORE
+      ),
+      rowCase(
+        i,
+        "taxYearLiabilities.penaltyRate.checkYourAnswersLabel",
+        messages("site.2DP", liabilities.penaltyRate) + "%",
+        "taxYearLiabilities.penaltyRate.hidden",
+        OFFSHORE,
+        revealFullText,
+        false
+      ),
+      totalRow(
+        "taxYearLiabilities.penaltyAmount.checkYourAnswersLabel",
+        messages("site.2DP", penaltyAmount(liabilities))
+      )
+    ) ++ undeclaredIncome ++ Seq(
+      rowCase(
+        i,
+        "taxYearLiabilities.foreignTaxCredit.checkYourAnswersLabel",
+        if (liabilities.foreignTaxCredit) messages("site.yes") else messages("site.no"),
+        "taxYearLiabilities.foreignTaxCredit.hidden",
+        OFFSHORE,
+        revealFullText,
+        false
+      )
     ) ++ foreignTaxCredit ++ Seq(
       totalRow("taxYearLiabilities.amountDue.checkYourAnswersLabel", messages("site.2DP", yearTotal(liabilities))),
-      rowCase(i, "onshoreTaxYearLiabilities.penaltyRateReason", s"${liabilities.penaltyRateReason}", "onshoreTaxYearLiabilities.penaltyRateReason.hidden", OFFSHORE, revealFullText, true)
+      rowCase(
+        i,
+        "onshoreTaxYearLiabilities.penaltyRateReason",
+        s"${liabilities.penaltyRateReason}",
+        "onshoreTaxYearLiabilities.penaltyRateReason.hidden",
+        OFFSHORE,
+        revealFullText,
+        true
+      )
     )
 
     SummaryListViewModel(rows)
@@ -125,10 +199,10 @@ class CheckYourAnswersViewModelCreation @Inject()
 
   def totalAmountsSummaryList(taxYears: Seq[TaxYearWithLiabilities])(implicit messages: Messages): SummaryList = {
     val taxYearLiabilities = taxYears.map(_.taxYearLiabilities)
-    val unpaidTaxTotal = taxYearLiabilities.map(_.unpaidTax).sum
-    val interestTotal = taxYearLiabilities.map(_.interest).sum
+    val unpaidTaxTotal     = taxYearLiabilities.map(_.unpaidTax).sum
+    val interestTotal      = taxYearLiabilities.map(_.interest).sum
     val penaltyAmountTotal = taxYearLiabilities.map(penaltyAmount).sum
-    val amountDueTotal = taxYearLiabilities.map(yearTotal(_)).sum
+    val amountDueTotal     = taxYearLiabilities.map(yearTotal(_)).sum
 
     SummaryListViewModel(
       rows = Seq(
@@ -140,12 +214,12 @@ class CheckYourAnswersViewModelCreation @Inject()
     )
   }
 
-  def penaltyAmount(taxYearLiabilities: TaxYearLiabilities): BigDecimal = {
-    ((taxYearLiabilities.penaltyRate * BigDecimal(taxYearLiabilities.unpaidTax)) /100).setScale(2, RoundingMode.DOWN)
-  }
-  
-  def yearTotal(taxYearLiabilities: TaxYearLiabilities): BigDecimal = {
-    BigDecimal(taxYearLiabilities.unpaidTax) + penaltyAmount(taxYearLiabilities) + BigDecimal(taxYearLiabilities.interest)
-  }
+  def penaltyAmount(taxYearLiabilities: TaxYearLiabilities): BigDecimal =
+    ((taxYearLiabilities.penaltyRate * BigDecimal(taxYearLiabilities.unpaidTax)) / 100).setScale(2, RoundingMode.DOWN)
+
+  def yearTotal(taxYearLiabilities: TaxYearLiabilities): BigDecimal =
+    BigDecimal(taxYearLiabilities.unpaidTax) + penaltyAmount(taxYearLiabilities) + BigDecimal(
+      taxYearLiabilities.interest
+    )
 
 }

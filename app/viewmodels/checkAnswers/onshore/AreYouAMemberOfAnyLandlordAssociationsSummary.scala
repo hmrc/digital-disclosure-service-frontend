@@ -17,32 +17,41 @@
 package viewmodels.checkAnswers
 
 import controllers.onshore.routes
-import models.{CheckMode, UserAnswers, RelatesTo}
+import models.{CheckMode, RelatesTo, UserAnswers}
 import pages.{AreYouAMemberOfAnyLandlordAssociationsPage, RelatesToPage}
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object AreYouAMemberOfAnyLandlordAssociationsSummary  {
+object AreYouAMemberOfAnyLandlordAssociationsSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(AreYouAMemberOfAnyLandlordAssociationsPage).map {
-      answer =>
+    answers.get(AreYouAMemberOfAnyLandlordAssociationsPage).map { answer =>
+      val value =
+        if (answer) "areYouAMemberOfAnyLandlordAssociations.yes" else "areYouAMemberOfAnyLandlordAssociations.no"
 
-        val value = if (answer) "areYouAMemberOfAnyLandlordAssociations.yes" else "areYouAMemberOfAnyLandlordAssociations.no"
+      val areTheyTheIndividual = answers.isTheUserTheIndividual
+      val entity               = answers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
-        val areTheyTheIndividual = answers.isTheUserTheIndividual
-        val entity = answers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
-
-        SummaryListRowViewModel(
-          key     = if(areTheyTheIndividual) "areYouAMemberOfAnyLandlordAssociations.you.checkYourAnswersLabel" else s"areYouAMemberOfAnyLandlordAssociations.${entity}.checkYourAnswersLabel",
-          value   = ValueViewModel(value),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.AreYouAMemberOfAnyLandlordAssociationsController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages(if(areTheyTheIndividual) "areYouAMemberOfAnyLandlordAssociations.you.change.hidden" else s"areYouAMemberOfAnyLandlordAssociations.${entity}.change.hidden"))
+      SummaryListRowViewModel(
+        key =
+          if (areTheyTheIndividual) "areYouAMemberOfAnyLandlordAssociations.you.checkYourAnswersLabel"
+          else s"areYouAMemberOfAnyLandlordAssociations.$entity.checkYourAnswersLabel",
+        value = ValueViewModel(value),
+        actions = Seq(
+          ActionItemViewModel(
+            "site.change",
+            routes.AreYouAMemberOfAnyLandlordAssociationsController.onPageLoad(CheckMode).url
           )
+            .withVisuallyHiddenText(
+              messages(
+                if (areTheyTheIndividual) "areYouAMemberOfAnyLandlordAssociations.you.change.hidden"
+                else s"areYouAMemberOfAnyLandlordAssociations.$entity.change.hidden"
+              )
+            )
         )
+      )
     }
-  
+
 }

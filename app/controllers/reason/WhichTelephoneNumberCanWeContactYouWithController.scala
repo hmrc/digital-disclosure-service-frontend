@@ -32,57 +32,61 @@ import views.html.reason.WhichTelephoneNumberCanWeContactYouWithView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class WhichTelephoneNumberCanWeContactYouWithController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       sessionService: SessionService,
-                                       navigator: ReasonNavigator,
-                                       identify: IdentifierAction,
-                                       getData: DataRetrievalAction,
-                                       requireData: DataRequiredAction,
-                                       formProvider: WhichTelephoneNumberCanWeContactYouWithFormProvider,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: WhichTelephoneNumberCanWeContactYouWithView
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class WhichTelephoneNumberCanWeContactYouWithController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: ReasonNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: WhichTelephoneNumberCanWeContactYouWithFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: WhichTelephoneNumberCanWeContactYouWithView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val preparedForm = request.userAnswers.get(WhichTelephoneNumberCanWeContactYouWithPage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(WhichTelephoneNumberCanWeContactYouWithPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      request.userAnswers.get(YourPhoneNumberPage) match {
-        case Some(telephoneNumber) => Ok(view(preparedForm, mode, telephoneNumber))
-        case _ => Redirect(routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(mode))
-      }
+    request.userAnswers.get(YourPhoneNumberPage) match {
+      case Some(telephoneNumber) => Ok(view(preparedForm, mode, telephoneNumber))
+      case _                     => Redirect(routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(mode))
+    }
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          request.userAnswers.get(YourPhoneNumberPage) match {
-            case Some(telephoneNumber) => Future.successful(BadRequest(view(formWithErrors, mode, telephoneNumber)))
-            case _ => Future.successful(Redirect(routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(mode)))
-          },
-
-        value =>
-          for {
-            userAnswers <- Future.fromTry(request.userAnswers.set(WhichTelephoneNumberCanWeContactYouWithPage, value))
-            updatedAnswers <- setTelephone(userAnswers, value)
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(WhichTelephoneNumberCanWeContactYouWithPage, mode, updatedAnswers))
-      )
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors =>
+            request.userAnswers.get(YourPhoneNumberPage) match {
+              case Some(telephoneNumber) => Future.successful(BadRequest(view(formWithErrors, mode, telephoneNumber)))
+              case _                     =>
+                Future.successful(Redirect(routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(mode)))
+            },
+          value =>
+            for {
+              userAnswers    <- Future.fromTry(request.userAnswers.set(WhichTelephoneNumberCanWeContactYouWithPage, value))
+              updatedAnswers <- setTelephone(userAnswers, value)
+              _              <- sessionService.set(updatedAnswers)
+            } yield Redirect(navigator.nextPage(WhichTelephoneNumberCanWeContactYouWithPage, mode, updatedAnswers))
+        )
   }
 
-  private def setTelephone(userAnswers: UserAnswers, value: WhichTelephoneNumberCanWeContactYouWith): Future[UserAnswers] = {
+  private def setTelephone(
+    userAnswers: UserAnswers,
+    value: WhichTelephoneNumberCanWeContactYouWith
+  ): Future[UserAnswers] =
     (value, userAnswers.get(YourPhoneNumberPage)) match {
-      case (ExistingNumber, Some(email)) => Future.fromTry(userAnswers.set(WhatTelephoneNumberCanWeContactYouWithPage, email))
-      case _ => Future(userAnswers)
+      case (ExistingNumber, Some(email)) =>
+        Future.fromTry(userAnswers.set(WhatTelephoneNumberCanWeContactYouWithPage, email))
+      case _                             => Future(userAnswers)
     }
-  }
 }

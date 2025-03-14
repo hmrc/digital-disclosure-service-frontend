@@ -25,19 +25,17 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import viewmodels.RevealFullText
 
-object UnderWhatConsiderationSummary  {
+object UnderWhatConsiderationSummary {
 
   def row(answers: UserAnswers, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(UnderWhatConsiderationPage).map {
-      answer =>
-
-        SummaryListRowViewModel(
-          key     = "underWhatConsideration.checkYourAnswersLabel",
-          value   = ValueViewModel(revealFullText.addRevealToText(answer, "underWhatConsideration.reveal")),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.UnderWhatConsiderationController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("underWhatConsideration.change.hidden"))
-          )
+    answers.get(UnderWhatConsiderationPage).map { answer =>
+      SummaryListRowViewModel(
+        key = "underWhatConsideration.checkYourAnswersLabel",
+        value = ValueViewModel(revealFullText.addRevealToText(answer, "underWhatConsideration.reveal")),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.UnderWhatConsiderationController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("underWhatConsideration.change.hidden"))
         )
+      )
     }
 }

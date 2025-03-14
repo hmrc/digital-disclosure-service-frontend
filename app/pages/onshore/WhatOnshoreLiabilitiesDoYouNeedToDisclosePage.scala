@@ -19,7 +19,8 @@ package pages
 import models.WhatOnshoreLiabilitiesDoYouNeedToDisclose
 import play.api.libs.json.JsPath
 
-case object WhatOnshoreLiabilitiesDoYouNeedToDisclosePage extends QuestionPage[Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]] {
+case object WhatOnshoreLiabilitiesDoYouNeedToDisclosePage
+    extends QuestionPage[Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]] {
 
   override def path: JsPath = JsPath \ toString
 

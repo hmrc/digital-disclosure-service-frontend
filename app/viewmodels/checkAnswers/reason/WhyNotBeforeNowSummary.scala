@@ -25,19 +25,17 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import viewmodels.RevealFullText
 
-object WhyNotBeforeNowSummary  {
+object WhyNotBeforeNowSummary {
 
   def row(answers: UserAnswers, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(WhyNotBeforeNowPage).map {
-      answer =>
-
-        SummaryListRowViewModel(
-          key     = "whyNotBeforeNow.checkYourAnswersLabel",
-          value   = ValueViewModel(revealFullText.addRevealToText(answer, "whyNotBeforeNow.reveal")),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.WhyNotBeforeNowController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("whyNotBeforeNow.change.hidden"))
-          )
+    answers.get(WhyNotBeforeNowPage).map { answer =>
+      SummaryListRowViewModel(
+        key = "whyNotBeforeNow.checkYourAnswersLabel",
+        value = ValueViewModel(revealFullText.addRevealToText(answer, "whyNotBeforeNow.reveal")),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.WhyNotBeforeNowController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("whyNotBeforeNow.change.hidden"))
         )
+      )
     }
 }

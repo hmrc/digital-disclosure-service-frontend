@@ -27,36 +27,34 @@ import scala.concurrent.ExecutionContext
 import models.{AreYouTheEntity, UserAnswers}
 import pages._
 
-class DeclarationController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       identify: IdentifierAction,
-                                       getData: DataRetrievalAction,
-                                       requireData: DataRequiredAction,
-                                       sessionService: SessionService,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: DeclarationView
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class DeclarationController @Inject() (
+  override val messagesApi: MessagesApi,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  sessionService: SessionService,
+  val controllerComponents: MessagesControllerComponents,
+  view: DeclarationView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
-  def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
-      val isAgent = isTheUserAgent(request.userAnswers)
-      Ok(view(isAgent))
+  def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val isAgent = isTheUserAgent(request.userAnswers)
+    Ok(view(isAgent))
   }
 
-  def confirm: Action[AnyContent] = (identify andThen getData andThen requireData).async {
-    implicit request =>
+  def confirm: Action[AnyContent] = (identify andThen getData andThen requireData).async { implicit request =>
+    val updatedAnswers = request.userAnswers.copy(madeDeclaration = true)
 
-      val updatedAnswers = request.userAnswers.copy(madeDeclaration = true)
-
-      for {
-        _ <- sessionService.set(updatedAnswers)
-      } yield Redirect(controllers.routes.TaskListController.onPageLoad)
+    for {
+      _ <- sessionService.set(updatedAnswers)
+    } yield Redirect(controllers.routes.TaskListController.onPageLoad)
   }
 
-  private[controllers] def isTheUserAgent(userAnswers: UserAnswers): Boolean ={
+  private[controllers] def isTheUserAgent(userAnswers: UserAnswers): Boolean =
     userAnswers.get(AreYouTheEntityPage) match {
       case Some(AreYouTheEntity.YesIAm) => false
-      case _ => true
+      case _                            => true
     }
-  }
 }

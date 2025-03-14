@@ -25,7 +25,9 @@ sealed trait HowMuchTaxHasNotBeenIncluded
 object HowMuchTaxHasNotBeenIncluded extends Enumerable.Implicits {
 
   case object TenThousandOrLess extends WithName("tenThousandOrLess") with HowMuchTaxHasNotBeenIncluded
-  case object MoreThanTenThousandAndLessThanOneLakh extends WithName("moreThanTenThousandLessThanOneLakh") with HowMuchTaxHasNotBeenIncluded
+  case object MoreThanTenThousandAndLessThanOneLakh
+      extends WithName("moreThanTenThousandLessThanOneLakh")
+      with HowMuchTaxHasNotBeenIncluded
   case object OneLakhAndMore extends WithName("oneLakhAndMore") with HowMuchTaxHasNotBeenIncluded
 
   val values: Seq[HowMuchTaxHasNotBeenIncluded] = Seq(
@@ -34,13 +36,12 @@ object HowMuchTaxHasNotBeenIncluded extends Enumerable.Implicits {
     OneLakhAndMore
   )
 
-  def options(implicit messages: Messages): Seq[RadioItem] = values.zipWithIndex.map {
-    case (value, index) =>
-      RadioItem(
-        content = Text(messages(s"howMuchTaxHasNotBeenIncluded.${value.toString}")),
-        value   = Some(value.toString),
-        id      = Some(s"value_$index")
-      )
+  def options(implicit messages: Messages): Seq[RadioItem] = values.zipWithIndex.map { case (value, index) =>
+    RadioItem(
+      content = Text(messages(s"howMuchTaxHasNotBeenIncluded.${value.toString}")),
+      value = Some(value.toString),
+      id = Some(s"value_$index")
+    )
   }
 
   implicit val enumerable: Enumerable[HowMuchTaxHasNotBeenIncluded] =

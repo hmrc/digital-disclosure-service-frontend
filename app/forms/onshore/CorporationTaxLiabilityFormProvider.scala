@@ -31,48 +31,45 @@ class CorporationTaxLiabilityFormProvider @Inject() extends Mappings {
   def apply(): Form[CorporationTaxLiability] =
     Form(
       mapping(
-
-        "periodEnd" -> localDate(
-          invalidKey     = "corporationTaxLiability.periodEnd.error.invalid",
+        "periodEnd"         -> localDate(
+          invalidKey = "corporationTaxLiability.periodEnd.error.invalid",
           allRequiredKey = "corporationTaxLiability.periodEnd.error.required.all",
-          requiredKey    = "corporationTaxLiability.periodEnd.error.required",
-          invalidDayKey    = "corporationTaxLiability.periodEnd.error.invalidDay",
-          invalidMonthKey  = "corporationTaxLiability.periodEnd.error.invalidMonth"
+          requiredKey = "corporationTaxLiability.periodEnd.error.required",
+          invalidDayKey = "corporationTaxLiability.periodEnd.error.invalidDay",
+          invalidMonthKey = "corporationTaxLiability.periodEnd.error.invalidMonth"
         )
-        .verifying(minDate(LocalDate.now().minusYears(20), "corporationTaxLiability.periodEnd.error.invalidPastDate"))
-        .verifying(maxDate(LocalDate.now().minusDays(1), "corporationTaxLiability.periodEnd.error.invalidFutureDate")),
-
-        "howMuchIncome" -> bigintWithPound(
+          .verifying(minDate(LocalDate.now().minusYears(20), "corporationTaxLiability.periodEnd.error.invalidPastDate"))
+          .verifying(
+            maxDate(LocalDate.now().minusDays(1), "corporationTaxLiability.periodEnd.error.invalidFutureDate")
+          ),
+        "howMuchIncome"     -> bigintWithPound(
           "corporationTaxLiability.howMuchIncome.error.required",
           "corporationTaxLiability.howMuchIncome.error.wholeNumber",
           "corporationTaxLiability.howMuchIncome.error.nonNumeric"
         )
-        .verifying(inRange(BigInt(0), MAX_BIGINT, "corporationTaxLiability.howMuchIncome.error.outOfRange")),
-
-        "howMuchUnpaid" -> bigintWithPound(
+          .verifying(inRange(BigInt(0), MAX_BIGINT, "corporationTaxLiability.howMuchIncome.error.outOfRange")),
+        "howMuchUnpaid"     -> bigintWithPound(
           "corporationTaxLiability.howMuchUnpaid.error.required",
           "corporationTaxLiability.howMuchUnpaid.error.wholeNumber",
           "corporationTaxLiability.howMuchUnpaid.error.nonNumeric"
         )
-        .verifying(inRange(BigInt(0), MAX_BIGINT, "corporationTaxLiability.howMuchUnpaid.error.outOfRange")),
-
-        "howMuchInterest" -> bigintWithPound(
+          .verifying(inRange(BigInt(0), MAX_BIGINT, "corporationTaxLiability.howMuchUnpaid.error.outOfRange")),
+        "howMuchInterest"   -> bigintWithPound(
           "corporationTaxLiability.howMuchInterest.error.required",
           "corporationTaxLiability.howMuchInterest.error.wholeNumber",
           "corporationTaxLiability.howMuchInterest.error.nonNumeric"
         )
-        .verifying(inRange(BigInt(0), MAX_BIGINT, "corporationTaxLiability.howMuchInterest.error.outOfRange")),
-
-        "penaltyRate" -> decimalWithPercentage(
+          .verifying(inRange(BigInt(0), MAX_BIGINT, "corporationTaxLiability.howMuchInterest.error.outOfRange")),
+        "penaltyRate"       -> decimalWithPercentage(
           "corporationTaxLiability.penaltyRate.error.required",
           "corporationTaxLiability.penaltyRate.error.nonNumeric"
         )
-        .verifying(inRange(BigDecimal(0.00), BigDecimal(200.00), "corporationTaxLiability.penaltyRate.error.outOfRange")),
-        
+          .verifying(
+            inRange(BigDecimal(0.00), BigDecimal(200.00), "corporationTaxLiability.penaltyRate.error.outOfRange")
+          ),
         "penaltyRateReason" -> text("corporationTaxLiability.penaltyRateReason.error.required")
           .verifying(maxLength(5000, "corporationTaxLiability.penaltyRateReason.error.length"))
           .verifying(validUnicodeCharacters)
-        
       )(CorporationTaxLiability.apply)(CorporationTaxLiability.unapply)
     )
 }

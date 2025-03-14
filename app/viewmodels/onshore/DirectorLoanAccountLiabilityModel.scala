@@ -25,36 +25,45 @@ import models.{DirectorLoanAccountLiabilities, Mode}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 import play.api.i18n.Messages
 import controllers.onshore.routes
-import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Actions, ActionItem, Key}
+import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{ActionItem, Actions, Key}
 
 object DirectorLoanAccountLiabilityModel {
 
-  def row(directorLoanAccountLiabilities: Seq[DirectorLoanAccountLiabilities], mode: Mode)(implicit messages: Messages): Seq[SummaryListRowNoValue] = {
+  def row(directorLoanAccountLiabilities: Seq[DirectorLoanAccountLiabilities], mode: Mode)(implicit
+    messages: Messages
+  ): Seq[SummaryListRowNoValue] = {
 
     val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale(messages.lang.code))
 
     (for {
       (directorLoanAccountLiability, i) <- directorLoanAccountLiabilities.zipWithIndex
-    } yield {
-      SummaryListRowNoValue(
-        key = Key(messages("site.ending") + s" ${directorLoanAccountLiability.periodEnd.format(dateFormatter)}", "govuk-!-font-weight-regular hmrc-summary-list__key"),
-        actions = Some(
-          Actions(items =
-            Seq( 
-              ActionItem(
-                href = routes.DirectorLoanAccountLiabilitiesController.onPageLoad(i, mode).url,
-                content = Text(messages("site.change")),
-                visuallyHiddenText = Some(messages("directorLoanAccountLiabilities.change.hidden") + directorLoanAccountLiability.periodEnd.format(dateFormatter))
-              ),
-              ActionItem(
-                href = routes.AccountingPeriodDLAddedController.remove(i, mode).url,
-                content = Text(messages("site.remove")),
-                visuallyHiddenText = Some(messages("directorLoanAccountLiabilities.remove.hidden") + directorLoanAccountLiability.periodEnd.format(dateFormatter))
+    } yield SummaryListRowNoValue(
+      key = Key(
+        messages("site.ending") + s" ${directorLoanAccountLiability.periodEnd.format(dateFormatter)}",
+        "govuk-!-font-weight-regular hmrc-summary-list__key"
+      ),
+      actions = Some(
+        Actions(items =
+          Seq(
+            ActionItem(
+              href = routes.DirectorLoanAccountLiabilitiesController.onPageLoad(i, mode).url,
+              content = Text(messages("site.change")),
+              visuallyHiddenText = Some(
+                messages("directorLoanAccountLiabilities.change.hidden") + directorLoanAccountLiability.periodEnd
+                  .format(dateFormatter)
+              )
+            ),
+            ActionItem(
+              href = routes.AccountingPeriodDLAddedController.remove(i, mode).url,
+              content = Text(messages("site.remove")),
+              visuallyHiddenText = Some(
+                messages("directorLoanAccountLiabilities.remove.hidden") + directorLoanAccountLiability.periodEnd
+                  .format(dateFormatter)
               )
             )
           )
         )
       )
-    }).toSeq
+    )).toSeq
   }
 }

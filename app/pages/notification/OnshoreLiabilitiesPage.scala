@@ -16,7 +16,6 @@
 
 package pages
 
-
 import play.api.libs.json.JsPath
 
 case object OnshoreLiabilitiesPage extends QuestionPage[Boolean] {

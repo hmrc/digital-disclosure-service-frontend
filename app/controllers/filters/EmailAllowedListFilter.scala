@@ -51,7 +51,7 @@ class EmailAllowedListFilter @Inject() (
     rh.path.contains(routes.UnauthorisedController.onPageLoad.url) ||
       rh.path.contains("hmrc-frontend") ||
       rh.path.contains("assets") ||
-      rh.path.contains("ping/ping")||
+      rh.path.contains("ping/ping") ||
       rh.path.contains("sign-out")
 
   override def apply(nextFilter: RequestHeader => Future[Result])(rh: RequestHeader): Future[Result] =
@@ -63,7 +63,6 @@ class EmailAllowedListFilter @Inject() (
           HeaderCarrierConverter.fromRequestAndSession(rh, rh.session)
         authorised()
           .retrieve(Retrievals.email) { emailOpt =>
-
             val isAllowed =
               emailOpt.exists(email => userEmailAllowedListLowerCase.contains(email.toLowerCase(Locale.UK)))
 

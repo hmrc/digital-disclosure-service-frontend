@@ -27,32 +27,44 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import viewmodels.RevealFullText
 
-object PropertyIsNoLongerBeingLetOutSummary  {
+object PropertyIsNoLongerBeingLetOutSummary {
 
-  def row(i: Int, lettingProperty: LettingProperty, fieldName: String, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
-    lettingProperty.noLongerBeingLetOut.map {
-      answer =>
+  def row(i: Int, lettingProperty: LettingProperty, fieldName: String, revealFullText: RevealFullText)(implicit
+    messages: Messages
+  ): Option[SummaryListRow] =
+    lettingProperty.noLongerBeingLetOut.map { answer =>
+      if (fieldName == "stopDate") {
+        val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale(messages.lang.code))
 
-        if(fieldName == "stopDate") {
-          val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale(messages.lang.code))
-
-          SummaryListRowViewModel(
-            key     = "propertyIsNoLongerBeingLetOut.stopDate.checkYourAnswersLabel",
-            value   = ValueViewModel(answer.stopDate.format(dateFormatter)),
-            actions = Seq(
-              ActionItemViewModel("site.change", routes.PropertyIsNoLongerBeingLetOutController.onPageLoad(i, CheckMode).url)
-                .withVisuallyHiddenText(messages("propertyIsNoLongerBeingLetOut.stopDate.hidden"))
+        SummaryListRowViewModel(
+          key = "propertyIsNoLongerBeingLetOut.stopDate.checkYourAnswersLabel",
+          value = ValueViewModel(answer.stopDate.format(dateFormatter)),
+          actions = Seq(
+            ActionItemViewModel(
+              "site.change",
+              routes.PropertyIsNoLongerBeingLetOutController.onPageLoad(i, CheckMode).url
             )
+              .withVisuallyHiddenText(messages("propertyIsNoLongerBeingLetOut.stopDate.hidden"))
           )
-        } else {
-          SummaryListRowViewModel(
-            key     = "propertyIsNoLongerBeingLetOut.whatHasHappenedToProperty.checkYourAnswersLabel",
-            value   = ValueViewModel(revealFullText.addRevealToText(answer.whatHasHappenedToProperty, "propertyIsNoLongerBeingLetOut.whatHasHappenedToProperty.reveal", (i+1).toString)),
-            actions = Seq(
-              ActionItemViewModel("site.change", routes.PropertyIsNoLongerBeingLetOutController.onPageLoad(i, CheckMode).url)
-                .withVisuallyHiddenText(messages("propertyIsNoLongerBeingLetOut.whatHasHappenedToProperty.hidden"))
+        )
+      } else {
+        SummaryListRowViewModel(
+          key = "propertyIsNoLongerBeingLetOut.whatHasHappenedToProperty.checkYourAnswersLabel",
+          value = ValueViewModel(
+            revealFullText.addRevealToText(
+              answer.whatHasHappenedToProperty,
+              "propertyIsNoLongerBeingLetOut.whatHasHappenedToProperty.reveal",
+              (i + 1).toString
             )
+          ),
+          actions = Seq(
+            ActionItemViewModel(
+              "site.change",
+              routes.PropertyIsNoLongerBeingLetOutController.onPageLoad(i, CheckMode).url
+            )
+              .withVisuallyHiddenText(messages("propertyIsNoLongerBeingLetOut.whatHasHappenedToProperty.hidden"))
           )
-        }
+        )
+      }
     }
 }

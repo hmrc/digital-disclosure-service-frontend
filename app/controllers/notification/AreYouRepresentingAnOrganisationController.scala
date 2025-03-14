@@ -32,57 +32,56 @@ import views.html.notification.AreYouRepresentingAnOrganisationView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class AreYouRepresentingAnOrganisationController @Inject()(
-                                         override val messagesApi: MessagesApi,
-                                         sessionService: SessionService,
-                                         navigator: NotificationNavigator,
-                                         identify: IdentifierAction,
-                                         getData: DataRetrievalAction,
-                                         requireData: DataRequiredAction,
-                                         formProvider: AreYouRepresentingAnOrganisationFormProvider,
-                                         val controllerComponents: MessagesControllerComponents,
-                                         view: AreYouRepresentingAnOrganisationView
-                                 )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class AreYouRepresentingAnOrganisationController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: NotificationNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: AreYouRepresentingAnOrganisationFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: AreYouRepresentingAnOrganisationView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val preparedForm = request.userAnswers.get(AreYouRepresentingAnOrganisationPage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(AreYouRepresentingAnOrganisationPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
+    Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
-
-        value => {
-          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value, mode)
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(AreYouRepresentingAnOrganisationPage, value))
-            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
-            _              <- sessionService.set(clearedAnswers)
-          } yield Redirect(navigator.nextPage(AreYouRepresentingAnOrganisationPage, mode, clearedAnswers, hasValueChanged))
-        }
-      )
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
+          value => {
+            val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value, mode)
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(AreYouRepresentingAnOrganisationPage, value))
+              clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+              _              <- sessionService.set(clearedAnswers)
+            } yield Redirect(
+              navigator.nextPage(AreYouRepresentingAnOrganisationPage, mode, clearedAnswers, hasValueChanged)
+            )
+          }
+        )
   }
 
-  def changedPages(answers: UserAnswers, value: Boolean, mode: Mode): (List[QuestionPage[_]], Boolean) = {
+  def changedPages(answers: UserAnswers, value: Boolean, mode: Mode): (List[QuestionPage[_]], Boolean) =
     answers.get(AreYouRepresentingAnOrganisationPage) match {
-      case Some(true) if !value => (List(WhatIsTheNameOfTheOrganisationYouRepresentPage), true)
-      case Some(false) if value => (Nil, true)
+      case Some(true) if !value               => (List(WhatIsTheNameOfTheOrganisationYouRepresentPage), true)
+      case Some(false) if value               => (Nil, true)
       case None if value && mode == CheckMode => (Nil, true)
-      case _ => (Nil, false)
+      case _                                  => (Nil, false)
     }
-  }
 
-  
 }

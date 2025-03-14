@@ -19,7 +19,7 @@ package controllers.onshore
 import controllers.actions._
 import forms.ResidentialReductionFormProvider
 import javax.inject.Inject
-import models.{Mode, OnshoreYearStarting, NormalMode}
+import models.{Mode, NormalMode, OnshoreYearStarting}
 import navigation.OnshoreNavigator
 import pages.ResidentialReductionPage
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -31,62 +31,61 @@ import play.api.mvc.Result
 import models.requests.DataRequest
 import scala.concurrent.{ExecutionContext, Future}
 
-class ResidentialReductionController @Inject()(
-                                        override val messagesApi: MessagesApi,
-                                        sessionService: SessionService,
-                                        navigator: OnshoreNavigator,
-                                        identify: IdentifierAction,
-                                        getData: DataRetrievalAction,
-                                        requireData: DataRequiredAction,
-                                        formProvider: ResidentialReductionFormProvider,
-                                        val controllerComponents: MessagesControllerComponents,
-                                        view: ResidentialReductionView
-                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class ResidentialReductionController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: OnshoreNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: ResidentialReductionFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: ResidentialReductionView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-
-      withYear(i) { year => 
+      withYear(i) { year =>
         val preparedForm = request.userAnswers.getByKey(ResidentialReductionPage, year.toString) match {
-          case None => form
+          case None        => form
           case Some(value) => form.fill(value)
         }
 
-        Ok(view(preparedForm, i, (year+1).toString, mode))
-     } 
+        Ok(view(preparedForm, i, (year + 1).toString, mode))
+      }
   }
 
   def onSubmit(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
       withYearAsync(i) { year =>
-        form.bindFromRequest().fold(
-          formWithErrors =>
-            Future.successful(BadRequest(view(formWithErrors, i, (year+1).toString, mode))),
-
-          value =>
-            for {
-              updatedAnswers <- Future.fromTry(request.userAnswers.setByKey(ResidentialReductionPage, year.toString, value))
-              _              <- sessionService.set(updatedAnswers)
-            } yield Redirect(navigator.nextTaxYearLiabilitiesPage(i, false, mode, updatedAnswers))
-        )
+        form
+          .bindFromRequest()
+          .fold(
+            formWithErrors => Future.successful(BadRequest(view(formWithErrors, i, (year + 1).toString, mode))),
+            value =>
+              for {
+                updatedAnswers <-
+                  Future.fromTry(request.userAnswers.setByKey(ResidentialReductionPage, year.toString, value))
+                _              <- sessionService.set(updatedAnswers)
+              } yield Redirect(navigator.nextTaxYearLiabilitiesPage(i, false, mode, updatedAnswers))
+          )
       }
   }
 
-  def withYearAsync(i: Int)(f: Int => Future[Result])(implicit request: DataRequest[_]): Future[Result] = {
+  def withYearAsync(i: Int)(f: Int => Future[Result])(implicit request: DataRequest[_]): Future[Result] =
     request.userAnswers.inverselySortedOnshoreTaxYears.flatMap(_.lift(i)) match {
       case Some(year: OnshoreYearStarting) => f(year.startYear)
-      case _ => Future.successful(Redirect(routes.WhichOnshoreYearsController.onPageLoad(NormalMode).url))
+      case _                               => Future.successful(Redirect(routes.WhichOnshoreYearsController.onPageLoad(NormalMode).url))
     }
-  }
 
-  def withYear(i: Int)(f: Int => Result)(implicit request: DataRequest[_]): Result = {
+  def withYear(i: Int)(f: Int => Result)(implicit request: DataRequest[_]): Result =
     request.userAnswers.inverselySortedOnshoreTaxYears.flatMap(_.lift(i)) match {
       case Some(year: OnshoreYearStarting) => f(year.startYear)
-      case _ => Redirect(routes.WhichOnshoreYearsController.onPageLoad(NormalMode).url)
+      case _                               => Redirect(routes.WhichOnshoreYearsController.onPageLoad(NormalMode).url)
     }
-  }
 
 }

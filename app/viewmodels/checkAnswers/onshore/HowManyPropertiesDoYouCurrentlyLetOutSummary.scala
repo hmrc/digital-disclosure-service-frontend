@@ -25,19 +25,20 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 
-object HowManyPropertiesDoYouCurrentlyLetOutSummary  {
+object HowManyPropertiesDoYouCurrentlyLetOutSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(HowManyPropertiesDoYouCurrentlyLetOutPage).map {
-      answer =>
-
-        SummaryListRowViewModel(
-          key     = "howManyProperties.checkYourAnswersLabel",
-          value   = ValueViewModel(Text(answer)),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.HowManyPropertiesDoYouCurrentlyLetOutController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("howManyProperties.change.hidden"))
+    answers.get(HowManyPropertiesDoYouCurrentlyLetOutPage).map { answer =>
+      SummaryListRowViewModel(
+        key = "howManyProperties.checkYourAnswersLabel",
+        value = ValueViewModel(Text(answer)),
+        actions = Seq(
+          ActionItemViewModel(
+            "site.change",
+            routes.HowManyPropertiesDoYouCurrentlyLetOutController.onPageLoad(CheckMode).url
           )
+            .withVisuallyHiddenText(messages("howManyProperties.change.hidden"))
         )
+      )
     }
 }

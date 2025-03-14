@@ -25,19 +25,17 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 
-object WhatIsTheIndividualsFullNameSummary  {
+object WhatIsTheIndividualsFullNameSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(WhatIsTheIndividualsFullNamePage).map {
-      answer =>
-
-        SummaryListRowViewModel(
-          key     = "whatIsTheIndividualsFullName.checkYourAnswersLabel",
-          value   = ValueViewModel(Text(answer)),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.WhatIsTheIndividualsFullNameController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("whatIsTheIndividualsFullName.change.hidden"))
-          )
+    answers.get(WhatIsTheIndividualsFullNamePage).map { answer =>
+      SummaryListRowViewModel(
+        key = "whatIsTheIndividualsFullName.checkYourAnswersLabel",
+        value = ValueViewModel(Text(answer)),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.WhatIsTheIndividualsFullNameController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("whatIsTheIndividualsFullName.change.hidden"))
         )
+      )
     }
 }

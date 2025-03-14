@@ -23,31 +23,29 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.offshore.CheckYourAnswersView
 import viewmodels.offshore.CheckYourAnswersViewModelCreation
-import pages.{TaxYearLiabilitiesPage, OffshoreLiabilitiesPage, OnshoreLiabilitiesPage}
+import pages.{OffshoreLiabilitiesPage, OnshoreLiabilitiesPage, TaxYearLiabilitiesPage}
 import models.UserAnswers
 
-class CheckYourAnswersController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       identify: IdentifierAction,
-                                       getData: DataRetrievalAction,
-                                       requireData: DataRequiredAction,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: CheckYourAnswersView,
-                                       viewModelCreation: CheckYourAnswersViewModelCreation
-                                     ) extends FrontendBaseController with I18nSupport {
+class CheckYourAnswersController @Inject() (
+  override val messagesApi: MessagesApi,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  val controllerComponents: MessagesControllerComponents,
+  view: CheckYourAnswersView,
+  viewModelCreation: CheckYourAnswersViewModelCreation
+) extends FrontendBaseController
+    with I18nSupport {
 
-  def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
-
-      val viewModel = viewModelCreation.create(request.userAnswers)
-      val taxYearExists = request.userAnswers.get(TaxYearLiabilitiesPage).forall(_.isEmpty)
-      Ok(view(viewModel, !taxYearExists, isOnshoreOffshoreLiabilitiesPresent(request.userAnswers)))
+  def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val viewModel     = viewModelCreation.create(request.userAnswers)
+    val taxYearExists = request.userAnswers.get(TaxYearLiabilitiesPage).forall(_.isEmpty)
+    Ok(view(viewModel, !taxYearExists, isOnshoreOffshoreLiabilitiesPresent(request.userAnswers)))
   }
 
-  def isOnshoreOffshoreLiabilitiesPresent(userAnswers: UserAnswers): Boolean = {
+  def isOnshoreOffshoreLiabilitiesPresent(userAnswers: UserAnswers): Boolean =
     (userAnswers.get(OffshoreLiabilitiesPage), userAnswers.get(OnshoreLiabilitiesPage)) match {
       case (Some(true), Some(true)) => true
-      case _ => false
+      case _                        => false
     }
-  }
 }

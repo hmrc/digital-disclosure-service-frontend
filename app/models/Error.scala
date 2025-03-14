@@ -26,6 +26,6 @@ final case class Error(message: String, throwable: Option[Throwable]) {
 }
 
 object Error {
-  def apply(message: String): Error = new Error(message, None)
+  def apply(message: String): Error  = new Error(message, None)
   def apply(error: Throwable): Error = Error(error.getMessage, Some(error))
 }

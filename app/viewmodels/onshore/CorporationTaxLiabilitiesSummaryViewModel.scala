@@ -30,20 +30,21 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 import com.google.inject.Inject
 
-case class CorporationTaxLiabilitiesSummaryViewModel (
+case class CorporationTaxLiabilitiesSummaryViewModel(
   corporationTaxLiabilitiesList: Seq[(Int, SummaryList)],
   accountEndingsSummaryList: SummaryList,
   totalAmountsList: SummaryList
 )
 
-class CorporationTaxLiabilitiesSummaryViewModelCreation @Inject()(revealFullText: RevealFullText) extends RowHelper {
+class CorporationTaxLiabilitiesSummaryViewModelCreation @Inject() (revealFullText: RevealFullText) extends RowHelper {
   val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
 
   def create(userAnswers: UserAnswers)(implicit messages: Messages): CorporationTaxLiabilitiesSummaryViewModel = {
     val corporationTaxLiabilities = userAnswers.get(CorporationTaxLiabilityPage).getOrElse(Seq())
 
     val corporationTaxLiabilitiesList: Seq[(Int, SummaryList)] = corporationTaxLiabilities.zipWithIndex.map {
-      case (corporationTaxLiability, i) => (i + 1, corporationTaxLiabilityToSummaryList(i, corporationTaxLiability, revealFullText))
+      case (corporationTaxLiability, i) =>
+        (i + 1, corporationTaxLiabilityToSummaryList(i, corporationTaxLiability, revealFullText))
     }
 
     val accountEndings = accountEndingsSummaryList(corporationTaxLiabilities)
@@ -53,61 +54,118 @@ class CorporationTaxLiabilitiesSummaryViewModelCreation @Inject()(revealFullText
     CorporationTaxLiabilitiesSummaryViewModel(corporationTaxLiabilitiesList, accountEndings, totalAmountsList)
   }
 
-  def corporationTaxLiabilityToSummaryList(i: Int, liability: CorporationTaxLiability, revealFullText: RevealFullText)(implicit messages: Messages):SummaryList = {
+  def corporationTaxLiabilityToSummaryList(i: Int, liability: CorporationTaxLiability, revealFullText: RevealFullText)(
+    implicit messages: Messages
+  ): SummaryList = {
 
     val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale(messages.lang.code))
 
-    val amountDueTotal = BigDecimal(liability.howMuchUnpaid) + BigDecimal(liability.howMuchInterest) + penaltyAmount(liability)
+    val amountDueTotal =
+      BigDecimal(liability.howMuchUnpaid) + BigDecimal(liability.howMuchInterest) + penaltyAmount(liability)
 
     SummaryListViewModel(
       rows = Seq(
-        rowCase(i, "corporationTaxLiability.periodEnd.checkYourAnswersLabel", s"${liability.periodEnd.format(dateFormatter)}", "corporationTaxLiability.periodEnd.hidden", CT, revealFullText, false),
-        poundRowCase(i, "corporationTaxLiability.howMuchIncome.checkYourAnswersLabel", s"${liability.howMuchIncome}", "corporationTaxLiability.howMuchIncome.hidden", CT),
-        poundRowCase(i, "corporationTaxLiability.howMuchUnpaid.checkYourAnswersLabel", s"${liability.howMuchUnpaid}", "corporationTaxLiability.howMuchUnpaid.hidden", CT),
-        poundRowCase(i, "corporationTaxLiability.howMuchInterest.checkYourAnswersLabel", s"${liability.howMuchInterest}", "corporationTaxLiability.howMuchInterest.hidden", CT),
-        rowCase(i, "corporationTaxLiability.penaltyRate.checkYourAnswersLabel", messages("site.2DP", liability.penaltyRate)+"%", "corporationTaxLiability.penaltyRate.hidden", CT, revealFullText, false),
-        totalRow("corporationTaxLiability.penaltyAmount.checkYourAnswersLabel", messages("site.2DP", penaltyAmount(liability))),
-        rowCase(i, "corporationTaxLiability.penaltyRateReason", s"${liability.penaltyRateReason}", "corporationTaxLiability.penaltyRateReason.hidden", CT, revealFullText, true),
+        rowCase(
+          i,
+          "corporationTaxLiability.periodEnd.checkYourAnswersLabel",
+          s"${liability.periodEnd.format(dateFormatter)}",
+          "corporationTaxLiability.periodEnd.hidden",
+          CT,
+          revealFullText,
+          false
+        ),
+        poundRowCase(
+          i,
+          "corporationTaxLiability.howMuchIncome.checkYourAnswersLabel",
+          s"${liability.howMuchIncome}",
+          "corporationTaxLiability.howMuchIncome.hidden",
+          CT
+        ),
+        poundRowCase(
+          i,
+          "corporationTaxLiability.howMuchUnpaid.checkYourAnswersLabel",
+          s"${liability.howMuchUnpaid}",
+          "corporationTaxLiability.howMuchUnpaid.hidden",
+          CT
+        ),
+        poundRowCase(
+          i,
+          "corporationTaxLiability.howMuchInterest.checkYourAnswersLabel",
+          s"${liability.howMuchInterest}",
+          "corporationTaxLiability.howMuchInterest.hidden",
+          CT
+        ),
+        rowCase(
+          i,
+          "corporationTaxLiability.penaltyRate.checkYourAnswersLabel",
+          messages("site.2DP", liability.penaltyRate) + "%",
+          "corporationTaxLiability.penaltyRate.hidden",
+          CT,
+          revealFullText,
+          false
+        ),
+        totalRow(
+          "corporationTaxLiability.penaltyAmount.checkYourAnswersLabel",
+          messages("site.2DP", penaltyAmount(liability))
+        ),
+        rowCase(
+          i,
+          "corporationTaxLiability.penaltyRateReason",
+          s"${liability.penaltyRateReason}",
+          "corporationTaxLiability.penaltyRateReason.hidden",
+          CT,
+          revealFullText,
+          true
+        ),
         totalRow("corporationTaxLiability.ct.total.heading", messages("site.2DP", amountDueTotal))
       )
     )
   }
 
-  private def accountEndingsSummaryList(corporationTaxLiabilities: Seq[CorporationTaxLiability])(implicit messages: Messages): SummaryList = {
+  private def accountEndingsSummaryList(
+    corporationTaxLiabilities: Seq[CorporationTaxLiability]
+  )(implicit messages: Messages): SummaryList = {
 
     val periodEnding = corporationTaxLiabilities.map(ct => ct.periodEnd.format(dateFormatter)).mkString(", ")
 
-    SummaryListViewModel( rows = Seq(
-      SummaryListRowViewModel(
-        key = "checkYourAnswers.onshore.ct.subheading",
-        value = ValueViewModel(HtmlContent(periodEnding)),
-        actions = Seq(
-          ActionItemViewModel("site.change", controllers.onshore.routes.AccountingPeriodCTAddedController.onPageLoad(CheckMode).url)
-            .withVisuallyHiddenText(messages("checkYourAnswers.onshore.ct.hidden"))
+    SummaryListViewModel(rows =
+      Seq(
+        SummaryListRowViewModel(
+          key = "checkYourAnswers.onshore.ct.subheading",
+          value = ValueViewModel(HtmlContent(periodEnding)),
+          actions = Seq(
+            ActionItemViewModel(
+              "site.change",
+              controllers.onshore.routes.AccountingPeriodCTAddedController.onPageLoad(CheckMode).url
+            )
+              .withVisuallyHiddenText(messages("checkYourAnswers.onshore.ct.hidden"))
+          )
         )
-    )))
-  }
-
-  private def totalAmountsSummaryList(corporationTaxLiabilities: Seq[CorporationTaxLiability])(implicit messages: Messages): SummaryList = {
-
-    val unpaidTaxTotal = corporationTaxLiabilities.map(_.howMuchUnpaid).sum
-    val interestTotal = corporationTaxLiabilities.map(_.howMuchInterest).sum
-    val penaltyAmountTotal = corporationTaxLiabilities.map(penaltyAmount).sum
-    val amountDueTotal = BigDecimal(unpaidTaxTotal) + BigDecimal(interestTotal) + penaltyAmountTotal
-
-    SummaryListViewModel(
-     rows = Seq(
-       totalRow("checkYourAnswers.ct.total.taxDue", s"${unpaidTaxTotal}"),
-       totalRow("checkYourAnswers.ct.total.interestDue", s"${interestTotal}"),
-       totalRow("checkYourAnswers.ct.total.penaltyAmount", messages("site.2DP", penaltyAmountTotal)),
-       totalRow("checkYourAnswers.ct.total.totalAmountDue", messages("site.2DP", amountDueTotal))
-     )
+      )
     )
   }
 
-  def penaltyAmount(corporationTaxLiability: CorporationTaxLiability): BigDecimal = {
-    ((corporationTaxLiability.penaltyRate * BigDecimal(corporationTaxLiability.howMuchUnpaid)) / 100).setScale(2, RoundingMode.DOWN)
+  private def totalAmountsSummaryList(
+    corporationTaxLiabilities: Seq[CorporationTaxLiability]
+  )(implicit messages: Messages): SummaryList = {
+
+    val unpaidTaxTotal     = corporationTaxLiabilities.map(_.howMuchUnpaid).sum
+    val interestTotal      = corporationTaxLiabilities.map(_.howMuchInterest).sum
+    val penaltyAmountTotal = corporationTaxLiabilities.map(penaltyAmount).sum
+    val amountDueTotal     = BigDecimal(unpaidTaxTotal) + BigDecimal(interestTotal) + penaltyAmountTotal
+
+    SummaryListViewModel(
+      rows = Seq(
+        totalRow("checkYourAnswers.ct.total.taxDue", s"$unpaidTaxTotal"),
+        totalRow("checkYourAnswers.ct.total.interestDue", s"$interestTotal"),
+        totalRow("checkYourAnswers.ct.total.penaltyAmount", messages("site.2DP", penaltyAmountTotal)),
+        totalRow("checkYourAnswers.ct.total.totalAmountDue", messages("site.2DP", amountDueTotal))
+      )
+    )
   }
 
-}
+  def penaltyAmount(corporationTaxLiability: CorporationTaxLiability): BigDecimal =
+    ((corporationTaxLiability.penaltyRate * BigDecimal(corporationTaxLiability.howMuchUnpaid)) / 100)
+      .setScale(2, RoundingMode.DOWN)
 
+}

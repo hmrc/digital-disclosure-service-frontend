@@ -18,7 +18,7 @@ package controllers.letting
 
 import com.google.inject.Inject
 import controllers.actions.{DataRequiredAction, DataRetrievalAction, IdentifierAction}
-import models.{Mode, LettingSummaryLists, LettingProperty}
+import models.{LettingProperty, LettingSummaryLists, Mode}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
@@ -28,19 +28,19 @@ import viewmodels.checkAnswers._
 import pages.LettingPropertyPage
 import viewmodels.RevealFullText
 
-class CheckYourAnswersController @Inject()(
-                                            override val messagesApi: MessagesApi,
-                                            identify: IdentifierAction,
-                                            getData: DataRetrievalAction,
-                                            requireData: DataRequiredAction,
-                                            val controllerComponents: MessagesControllerComponents,
-                                            view: CheckYourAnswersView,
-                                            revealFullText: RevealFullText
-                                          ) extends FrontendBaseController with I18nSupport {
+class CheckYourAnswersController @Inject() (
+  override val messagesApi: MessagesApi,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  val controllerComponents: MessagesControllerComponents,
+  view: CheckYourAnswersView,
+  revealFullText: RevealFullText
+) extends FrontendBaseController
+    with I18nSupport {
 
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-
       val ua = request.userAnswers
 
       val lettingProperty = ua.getBySeqIndex(LettingPropertyPage, i).getOrElse(LettingProperty())
@@ -67,7 +67,7 @@ class CheckYourAnswersController @Inject()(
       val list = LettingSummaryLists(
         lettingList
       )
-      
+
       Ok(view(list, i, mode))
   }
 }

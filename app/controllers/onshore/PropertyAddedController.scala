@@ -31,70 +31,64 @@ import viewmodels.onshore.LettingPropertyModel
 import views.html.onshore.PropertyAddedView
 import viewmodels.SummaryListRowNoValue
 
-
 import scala.concurrent.{ExecutionContext, Future}
 
-class PropertyAddedController @Inject()(
-                                         override val messagesApi: MessagesApi,
-                                         sessionService: SessionService,
-                                         navigator: OnshoreNavigator,
-                                         identify: IdentifierAction,
-                                         getData: DataRetrievalAction,
-                                         requireData: DataRequiredAction,
-                                         formProvider: PropertyAddedFormProvider,
-                                         val controllerComponents: MessagesControllerComponents,
-                                         view: PropertyAddedView
-                                 )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class PropertyAddedController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: OnshoreNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: PropertyAddedFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: PropertyAddedView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
-
-      getProperties(request.userAnswers, mode) match {
-        case properties if properties.nonEmpty => Ok(view(form, properties, mode))
-        case _ => Redirect(controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, mode).url)
-      }
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    getProperties(request.userAnswers, mode) match {
+      case properties if properties.nonEmpty => Ok(view(form, properties, mode))
+      case _                                 => Redirect(controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, mode).url)
+    }
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
       val properties = getProperties(request.userAnswers, mode)
 
-      form.bindFromRequest().fold(
-        formWithErrors =>
-
-          Future.successful(BadRequest(view(formWithErrors, properties, mode))),
-
-        value =>
-
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(PropertyAddedPage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(PropertyAddedPage, mode, updatedAnswers))
-      )
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, properties, mode))),
+          value =>
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(PropertyAddedPage, value))
+              _              <- sessionService.set(updatedAnswers)
+            } yield Redirect(navigator.nextPage(PropertyAddedPage, mode, updatedAnswers))
+        )
   }
 
-   def remove(i:Int, mode:Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
-      implicit request =>
+  def remove(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
+    implicit request =>
+      for {
+        updatedAnswers <- Future.fromTry(request.userAnswers.removeBySeqIndex[LettingProperty](LettingPropertyPage, i))
+        _              <- sessionService.set(updatedAnswers)
+      } yield updatedAnswers.get(LettingPropertyPage) match {
+        case Some(properties) if properties.nonEmpty => Redirect(routes.PropertyAddedController.onSubmit(mode).url)
+        case _                                       => Redirect(controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, mode).url)
+      }
 
-        for {
-          updatedAnswers <- Future.fromTry(request.userAnswers.removeBySeqIndex[LettingProperty](LettingPropertyPage, i))
-          _ <- sessionService.set(updatedAnswers)
-        } yield {
-          updatedAnswers.get(LettingPropertyPage) match {
-            case Some(properties) if properties.nonEmpty => Redirect(routes.PropertyAddedController.onSubmit(mode).url)
-            case _ =>  Redirect(controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, mode).url)
-          }
-        }
+  }
 
-    }
-
-
-
-  private def getProperties(userAnswers: UserAnswers, mode:Mode)(implicit messages:Messages): Seq[SummaryListRowNoValue] =
+  private def getProperties(userAnswers: UserAnswers, mode: Mode)(implicit
+    messages: Messages
+  ): Seq[SummaryListRowNoValue] =
     userAnswers.get(LettingPropertyPage) match {
       case Some(value) => LettingPropertyModel.row(value, mode)
-      case _ => Seq()
+      case _           => Seq()
     }
 }

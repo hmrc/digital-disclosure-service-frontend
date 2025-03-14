@@ -18,14 +18,14 @@ package models.store.disclosure
 
 import play.api.libs.json.{Json, OFormat}
 
-final case class CaseReference (
+final case class CaseReference(
   doYouHaveACaseReference: Option[Boolean] = None,
   whatIsTheCaseReference: Option[String] = None
 ) {
   def isComplete = this match {
     case CaseReference(Some(true), Some(_)) => true
-    case CaseReference(Some(false), _) => true
-    case _ => false
+    case CaseReference(Some(false), _)      => true
+    case _                                  => false
   }
 }
 

@@ -25,13 +25,13 @@ import models.ReasonableExcuseOnshore
 
 class ReasonableExcuseOnshoreFormProvider @Inject() extends Mappings {
 
-   def apply(areTheyTheIndividual: Boolean): Form[ReasonableExcuseOnshore] = Form(
-     mapping(
+  def apply(areTheyTheIndividual: Boolean): Form[ReasonableExcuseOnshore] = Form(
+    mapping(
       "excuse" -> text("whatIsYourReasonableExcuse.error.excuse.required")
         .verifying(
           maxLength(
             5000,
-            if(areTheyTheIndividual) {
+            if (areTheyTheIndividual) {
               "whatIsYourReasonableExcuse.entity.error.excuse.length"
             } else {
               "whatIsYourReasonableExcuse.agent.error.excuse.length"
@@ -39,9 +39,9 @@ class ReasonableExcuseOnshoreFormProvider @Inject() extends Mappings {
           )
         )
         .verifying(validUnicodeCharacters),
-      "years" -> text("whatIsYourReasonableExcuse.error.years.required")
+      "years"  -> text("whatIsYourReasonableExcuse.error.years.required")
         .verifying(maxLength(500, "whatIsYourReasonableExcuse.error.years.length"))
         .verifying(validUnicodeCharacters)
     )(ReasonableExcuseOnshore.apply)(ReasonableExcuseOnshore.unapply)
-   )
- }
+  )
+}

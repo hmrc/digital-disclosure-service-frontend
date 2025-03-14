@@ -26,25 +26,23 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object DidThePersonHaveNINOSummary  {
+object DidThePersonHaveNINOSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(DidThePersonHaveNINOPage).map {
-      answer =>
-
-        val value = ValueViewModel(
-          HtmlContent(
-            HtmlFormat.escape(messages(s"didThePersonHaveNINO.$answer"))
-          )
+    answers.get(DidThePersonHaveNINOPage).map { answer =>
+      val value = ValueViewModel(
+        HtmlContent(
+          HtmlFormat.escape(messages(s"didThePersonHaveNINO.$answer"))
         )
+      )
 
-        SummaryListRowViewModel(
-          key     = "didThePersonHaveNINO.checkYourAnswersLabel",
-          value   = value,
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.DidThePersonHaveNINOController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("didThePersonHaveNINO.change.hidden"))
-          )
+      SummaryListRowViewModel(
+        key = "didThePersonHaveNINO.checkYourAnswersLabel",
+        value = value,
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.DidThePersonHaveNINOController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("didThePersonHaveNINO.change.hidden"))
         )
+      )
     }
 }

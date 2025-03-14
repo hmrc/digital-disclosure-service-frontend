@@ -26,28 +26,27 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object OtherLiabilityIssuesSummary  {
+object OtherLiabilityIssuesSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(OtherLiabilityIssuesPage).map {
-      answers =>
-
-        val value = ValueViewModel(
-          HtmlContent(
-            answers.map {
-              answer => HtmlFormat.escape(messages(s"otherLiabilityIssues.$answer")).toString
+    answers.get(OtherLiabilityIssuesPage).map { answers =>
+      val value = ValueViewModel(
+        HtmlContent(
+          answers
+            .map { answer =>
+              HtmlFormat.escape(messages(s"otherLiabilityIssues.$answer")).toString
             }
             .mkString(",<br>")
-          )
         )
+      )
 
-        SummaryListRowViewModel(
-          key     = "otherLiabilityIssues.checkYourAnswersLabel",
-          value   = value,
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.OtherLiabilityIssuesController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("otherLiabilityIssues.change.hidden"))
-          )
+      SummaryListRowViewModel(
+        key = "otherLiabilityIssues.checkYourAnswersLabel",
+        value = value,
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.OtherLiabilityIssuesController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("otherLiabilityIssues.change.hidden"))
         )
+      )
     }
 }

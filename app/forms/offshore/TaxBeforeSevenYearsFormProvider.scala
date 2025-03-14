@@ -23,10 +23,10 @@ import play.api.data.Form
 
 class TaxBeforeSevenYearsFormProvider @Inject() extends Mappings {
 
-   def apply(year: String): Form[String] = 
+  def apply(year: String): Form[String] =
     Form(
       "value" -> text("taxBeforeSevenYears.error.required", Seq(year))
         .verifying(maxLength(5000, "taxBeforeSevenYears.error.length"))
         .verifying(validUnicodeCharacters)
     )
- }
+}

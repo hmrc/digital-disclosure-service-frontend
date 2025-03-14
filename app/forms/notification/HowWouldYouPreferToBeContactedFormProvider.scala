@@ -27,6 +27,7 @@ class HowWouldYouPreferToBeContactedFormProvider @Inject() extends Mappings {
 
   def apply(): Form[Set[HowWouldYouPreferToBeContacted]] =
     Form(
-      "value" -> set(enumerable[HowWouldYouPreferToBeContacted]("howWouldYouPreferToBeContacted.error.required")).verifying(nonEmptySet("howWouldYouPreferToBeContacted.error.required"))
+      "value" -> set(enumerable[HowWouldYouPreferToBeContacted]("howWouldYouPreferToBeContacted.error.required"))
+        .verifying(nonEmptySet("howWouldYouPreferToBeContacted.error.required"))
     )
 }

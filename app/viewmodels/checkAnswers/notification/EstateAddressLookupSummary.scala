@@ -26,19 +26,17 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import play.twirl.api.HtmlFormat
 
-object EstateAddressLookupSummary  {
+object EstateAddressLookupSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(EstateAddressLookupPage).map {
-      answer =>
-
-        SummaryListRowViewModel(
-          key     = "estateAddressLookup.checkYourAnswersLabel",
-          value   = ValueViewModel(HtmlContent(answer.getAddressLines.map(HtmlFormat.escape).mkString("<br>"))),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.EstateAddressLookupController.lookupAddress(CheckMode).url)
-              .withVisuallyHiddenText(messages("estateAddressLookup.change.hidden"))
-          )
+    answers.get(EstateAddressLookupPage).map { answer =>
+      SummaryListRowViewModel(
+        key = "estateAddressLookup.checkYourAnswersLabel",
+        value = ValueViewModel(HtmlContent(answer.getAddressLines.map(HtmlFormat.escape).mkString("<br>"))),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.EstateAddressLookupController.lookupAddress(CheckMode).url)
+            .withVisuallyHiddenText(messages("estateAddressLookup.change.hidden"))
         )
+      )
     }
 }

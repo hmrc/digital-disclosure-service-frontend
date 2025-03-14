@@ -30,49 +30,48 @@ import views.html.onshore.NotIncludedMultipleTaxYearsView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class NotIncludedMultipleTaxYearsController @Inject()(
-                                        override val messagesApi: MessagesApi,
-                                        sessionService: SessionService,
-                                        navigator: OnshoreNavigator,
-                                        identify: IdentifierAction,
-                                        getData: DataRetrievalAction,
-                                        requireData: DataRequiredAction,
-                                        formProvider: NotIncludedMultipleTaxYearsFormProvider,
-                                        val controllerComponents: MessagesControllerComponents,
-                                        view: NotIncludedMultipleTaxYearsView
-                                    )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class NotIncludedMultipleTaxYearsController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: OnshoreNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: NotIncludedMultipleTaxYearsFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: NotIncludedMultipleTaxYearsView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val preparedForm = request.userAnswers.get(NotIncludedMultipleTaxYearsPage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(NotIncludedMultipleTaxYearsPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
+    val selectedYears    = request.userAnswers.inverselySortedOnshoreTaxYears.toList.flatten
+    val notSelectedYears = OnshoreYearStarting.findMissingYears(selectedYears)
 
-      val selectedYears = request.userAnswers.inverselySortedOnshoreTaxYears.toList.flatten
-      val notSelectedYears = OnshoreYearStarting.findMissingYears(selectedYears)
-      
-      Ok(view(preparedForm, mode, selectedYears, notSelectedYears))
+    Ok(view(preparedForm, mode, selectedYears, notSelectedYears))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
-      val selectedYears = request.userAnswers.inverselySortedOnshoreTaxYears.toList.flatten
+      val selectedYears    = request.userAnswers.inverselySortedOnshoreTaxYears.toList.flatten
       val notSelectedYears = OnshoreYearStarting.findMissingYears(selectedYears)
-      
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, selectedYears, notSelectedYears))),
 
-        value =>
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(NotIncludedMultipleTaxYearsPage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(NotIncludedMultipleTaxYearsPage, mode, updatedAnswers))
-      )
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, selectedYears, notSelectedYears))),
+          value =>
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(NotIncludedMultipleTaxYearsPage, value))
+              _              <- sessionService.set(updatedAnswers)
+            } yield Redirect(navigator.nextPage(NotIncludedMultipleTaxYearsPage, mode, updatedAnswers))
+        )
   }
 }

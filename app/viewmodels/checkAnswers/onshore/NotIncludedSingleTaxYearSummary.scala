@@ -25,11 +25,11 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import viewmodels.RevealFullText
 
-object NotIncludedSingleTaxYearSummary  {
+object NotIncludedSingleTaxYearSummary {
 
   def row(answers: UserAnswers, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
     for {
-      years <- answers.inverselySortedOnshoreTaxYears
+      years       <- answers.inverselySortedOnshoreTaxYears
       notIncluded <- answers.get(NotIncludedSingleTaxYearPage)
     } yield {
       val yearsNotIncluded = OnshoreYearStarting.findMissingYears(years.toList).map(_.startYear + 1).mkString(", ")

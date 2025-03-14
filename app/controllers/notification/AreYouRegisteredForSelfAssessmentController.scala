@@ -31,60 +31,64 @@ import views.html.notification.AreYouRegisteredForSelfAssessmentView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class AreYouRegisteredForSelfAssessmentController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       sessionService: SessionService,
-                                       navigator: NotificationNavigator,
-                                       identify: IdentifierAction,
-                                       getData: DataRetrievalAction,
-                                       requireData: DataRequiredAction,
-                                       formProvider: AreYouRegisteredForSelfAssessmentFormProvider,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: AreYouRegisteredForSelfAssessmentView
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class AreYouRegisteredForSelfAssessmentController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: NotificationNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: AreYouRegisteredForSelfAssessmentFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: AreYouRegisteredForSelfAssessmentView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val preparedForm = request.userAnswers.get(AreYouRegisteredForSelfAssessmentPage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(AreYouRegisteredForSelfAssessmentPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
+    Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
+          value => {
 
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
+            val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
 
-        value => {
-
-          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
-
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(AreYouRegisteredForSelfAssessmentPage, value))
-            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
-            _              <- sessionService.set(clearedAnswers)
-          } yield Redirect(navigator.nextPage(AreYouRegisteredForSelfAssessmentPage, mode, clearedAnswers, hasValueChanged))
-        }
-      )
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(AreYouRegisteredForSelfAssessmentPage, value))
+              clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+              _              <- sessionService.set(clearedAnswers)
+            } yield Redirect(
+              navigator.nextPage(AreYouRegisteredForSelfAssessmentPage, mode, clearedAnswers, hasValueChanged)
+            )
+          }
+        )
   }
 
-  def changedPages(userAnswers: UserAnswers, newAnswer: AreYouRegisteredForSelfAssessment): (List[QuestionPage[_]], Boolean) = {
+  def changedPages(
+    userAnswers: UserAnswers,
+    newAnswer: AreYouRegisteredForSelfAssessment
+  ): (List[QuestionPage[_]], Boolean) =
     userAnswers.get(AreYouRegisteredForSelfAssessmentPage) match {
-      case Some(AreYouRegisteredForSelfAssessment.YesIKnowMyUTR) if AreYouRegisteredForSelfAssessment.YesIKnowMyUTR != newAnswer =>
+      case Some(AreYouRegisteredForSelfAssessment.YesIKnowMyUTR)
+          if AreYouRegisteredForSelfAssessment.YesIKnowMyUTR != newAnswer =>
         (List(WhatIsYourUniqueTaxReferencePage), false)
-      case Some(AreYouRegisteredForSelfAssessment.YesIDontKnowMyUTR) | Some(AreYouRegisteredForSelfAssessment.No) 
-        if AreYouRegisteredForSelfAssessment.YesIKnowMyUTR == newAnswer => (Nil, true) 
+      case Some(AreYouRegisteredForSelfAssessment.YesIDontKnowMyUTR) | Some(AreYouRegisteredForSelfAssessment.No)
+          if AreYouRegisteredForSelfAssessment.YesIKnowMyUTR == newAnswer =>
+        (Nil, true)
       case _ => (Nil, false)
     }
-  }
 
-  
 }

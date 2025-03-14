@@ -23,20 +23,20 @@ import models.store._
 import models.SubmissionType.Disclosure
 import java.time.Instant
 import scala.util.{Failure, Success, Try}
-import pages.{WhichYearsPage, WhichOnshoreYearsPage, RelatesToPage, AreYouTheEntityPage}
+import pages.{AreYouTheEntityPage, RelatesToPage, WhichOnshoreYearsPage, WhichYearsPage}
 
 final case class UserAnswers(
-                              id: String,
-                              sessionId: String,
-                              submissionId: String = UserAnswers.defaultSubmissionId,
-                              submissionType: SubmissionType = SubmissionType.Notification,
-                              data: JsObject = Json.obj(),
-                              lastUpdated: Instant = Instant.now,
-                              created: Instant = Instant.now,
-                              metadata: Metadata = Metadata(),
-                              madeDeclaration: Boolean = false,
-                              customerId: Option[CustomerId] = None
-                            ) {
+  id: String,
+  sessionId: String,
+  submissionId: String = UserAnswers.defaultSubmissionId,
+  submissionType: SubmissionType = SubmissionType.Notification,
+  data: JsObject = Json.obj(),
+  lastUpdated: Instant = Instant.now,
+  created: Instant = Instant.now,
+  metadata: Metadata = Metadata(),
+  madeDeclaration: Boolean = false,
+  customerId: Option[CustomerId] = None
+) {
 
   def get[A](page: Gettable[A])(implicit rds: Reads[A]): Option[A] = get(page.path)
 
@@ -56,23 +56,23 @@ final case class UserAnswers(
   }
 
   def setBySeqIndex[A](page: Settable[Seq[A]], index: Int, value: A)(implicit writes: Writes[A]): Try[UserAnswers] = {
-    val path = page.path \ index
+    val path        = page.path \ index
     val updatedData = set(path, value)
     cleanupPage(page, updatedData)
   }
 
-  def addToSeq[A](page: Settable[Seq[A]], value: A)(implicit writes:Writes[A], rds: Reads[A]): Try[UserAnswers] = {
-    val path = page.path
-    val data = get[Seq[A]](path)
+  def addToSeq[A](page: Settable[Seq[A]], value: A)(implicit writes: Writes[A], rds: Reads[A]): Try[UserAnswers] = {
+    val path        = page.path
+    val data        = get[Seq[A]](path)
     val updatedData = data match {
-      case Some(valueSet:Seq[A]) => set(path, valueSet :+ value)
-      case _ => set(path, Seq(value))
+      case Some(valueSet: Seq[A]) => set(path, valueSet :+ value)
+      case _                      => set(path, Seq(value))
     }
     cleanupPage(page, updatedData)
   }
 
   def removeBySeqIndex[A](page: Settable[Seq[A]], index: Int): Try[UserAnswers] = {
-    val path = page.path \ index
+    val path        = page.path \ index
     val updatedData = remove(path)
     cleanupPage(page, updatedData)
   }
@@ -83,23 +83,23 @@ final case class UserAnswers(
   }
 
   def setByIndex[A](page: Settable[Set[A]], index: Int, value: A)(implicit writes: Writes[A]): Try[UserAnswers] = {
-    val path = page.path \ index
+    val path        = page.path \ index
     val updatedData = set(path, value)
     cleanupPage(page, updatedData)
   }
 
-  def addToSet[A](page: Settable[Set[A]], value: A)(implicit writes:Writes[A], rds: Reads[A]): Try[UserAnswers] = {
-    val path = page.path
-    val data = get[Set[A]](path)
+  def addToSet[A](page: Settable[Set[A]], value: A)(implicit writes: Writes[A], rds: Reads[A]): Try[UserAnswers] = {
+    val path        = page.path
+    val data        = get[Set[A]](path)
     val updatedData = data match {
-      case Some(valueSet:Set[A]) => set(path, valueSet + value)
-      case _ => set(path, Set(value))
+      case Some(valueSet: Set[A]) => set(path, valueSet + value)
+      case _                      => set(path, Set(value))
     }
     cleanupPage(page, updatedData)
   }
 
   def removeByIndex[A](page: Settable[Set[A]], index: Int): Try[UserAnswers] = {
-    val path = page.path \ index
+    val path        = page.path \ index
     val updatedData = remove(path)
     cleanupPage(page, updatedData)
   }
@@ -109,14 +109,16 @@ final case class UserAnswers(
     get(path)
   }
 
-  def setByKey[A](page: Settable[Map[String, A]], key: String, value: A)(implicit writes: Writes[A]): Try[UserAnswers] = {
-    val path = page.path \ key
+  def setByKey[A](page: Settable[Map[String, A]], key: String, value: A)(implicit
+    writes: Writes[A]
+  ): Try[UserAnswers] = {
+    val path        = page.path \ key
     val updatedData = set(path, value)
     cleanupPage(page, updatedData)
   }
 
   def removeByKey[A](page: Settable[Map[String, A]], key: String): Try[UserAnswers] = {
-    val path = page.path \ key
+    val path        = page.path \ key
     val updatedData = remove(path)
     cleanupPage(page, updatedData)
   }
@@ -128,48 +130,42 @@ final case class UserAnswers(
     data.setObject(path, Json.toJson(value)) match {
       case JsSuccess(jsValue, _) =>
         Success(jsValue)
-      case JsError(errors) =>
+      case JsError(errors)       =>
         Failure(JsResultException(errors))
     }
-
 
   def remove[A](path: JsPath): Try[JsObject] =
     data.removeObject(path) match {
       case JsSuccess(jsValue, _) =>
         Success(jsValue)
-      case JsError(_) =>
+      case JsError(_)            =>
         Success(data)
     }
 
-  def remove(pages: List[Settable[_]]) : Try[UserAnswers] = 
-    pages.foldLeft(Try(this))((oldAnswerList, page) => {
-      oldAnswerList.flatMap(_.remove(page))
-    })
+  def remove(pages: List[Settable[_]]): Try[UserAnswers] =
+    pages.foldLeft(Try(this))((oldAnswerList, page) => oldAnswerList.flatMap(_.remove(page)))
 
-  def cleanupPage(page: Settable[_], updatedData: Try[JsObject]): Try[UserAnswers] = {
-    updatedData.flatMap {
-      d =>
-        val updatedAnswers = copy (data = d)
-        page.cleanup(None, updatedAnswers)
+  def cleanupPage(page: Settable[_], updatedData: Try[JsObject]): Try[UserAnswers] =
+    updatedData.flatMap { d =>
+      val updatedAnswers = copy(data = d)
+      page.cleanup(None, updatedAnswers)
     }
+
+  def inverselySortedOffshoreTaxYears: Option[Seq[TaxYearStarting]] = get(WhichYearsPage).map { yearSet =>
+    yearSet.collect { case TaxYearStarting(y) => TaxYearStarting(y) }.toSeq.sorted
   }
 
-  def inverselySortedOffshoreTaxYears: Option[Seq[TaxYearStarting]] = get(WhichYearsPage).map{ yearSet =>
-    yearSet.collect{case TaxYearStarting(y) => TaxYearStarting(y)}.toSeq.sorted
+  def inverselySortedOnshoreTaxYears: Option[Seq[OnshoreYearStarting]] = get(WhichOnshoreYearsPage).map { yearSet =>
+    yearSet.collect { case OnshoreYearStarting(y) => OnshoreYearStarting(y) }.toSeq.sorted
   }
 
-  def inverselySortedOnshoreTaxYears: Option[Seq[OnshoreYearStarting]] = get(WhichOnshoreYearsPage).map{ yearSet =>
-    yearSet.collect{case OnshoreYearStarting(y) => OnshoreYearStarting(y)}.toSeq.sorted
-  }
+  def isDisclosure: Boolean = submissionType == Disclosure
 
-  def isDisclosure: Boolean = submissionType == Disclosure   
-
-  def isTheUserTheIndividual: Boolean = {
+  def isTheUserTheIndividual: Boolean =
     (get(RelatesToPage), get(AreYouTheEntityPage)) match {
       case (Some(RelatesTo.AnIndividual), Some(AreYouTheEntity.YesIAm)) => true
-      case _ => false
+      case _                                                            => false
     }
-  }
 
 }
 
@@ -183,16 +179,16 @@ object UserAnswers {
 
     (
       (__ \ "userId").read[String] and
-      (__ \ "sessionId").read[String] and
-      (__ \ "submissionId").read[String] and
-      (__ \ "submissionType").read[SubmissionType] and
-      (__ \ "data").read[JsObject] and
-      (__ \ "lastUpdated").read(MongoJavatimeFormats.instantFormat) and
-      (__ \ "created").read(MongoJavatimeFormats.instantFormat) and
-      (__ \ "metadata").read[Metadata]and
-      (__ \ "declaration").read[Boolean] and
-      (__ \ "customerId").readNullable[CustomerId]
-    ) (UserAnswers.apply _)
+        (__ \ "sessionId").read[String] and
+        (__ \ "submissionId").read[String] and
+        (__ \ "submissionType").read[SubmissionType] and
+        (__ \ "data").read[JsObject] and
+        (__ \ "lastUpdated").read(MongoJavatimeFormats.instantFormat) and
+        (__ \ "created").read(MongoJavatimeFormats.instantFormat) and
+        (__ \ "metadata").read[Metadata] and
+        (__ \ "declaration").read[Boolean] and
+        (__ \ "customerId").readNullable[CustomerId]
+    )(UserAnswers.apply _)
   }
 
   val writes: OWrites[UserAnswers] = {
@@ -201,16 +197,16 @@ object UserAnswers {
 
     (
       (__ \ "userId").write[String] and
-      (__ \ "sessionId").write[String] and
-      (__ \ "submissionId").write[String] and
-      (__ \ "submissionType").write[SubmissionType] and
-      (__ \ "data").write[JsObject] and
-      (__ \ "lastUpdated").write(MongoJavatimeFormats.instantFormat) and
-      (__ \ "created").write(MongoJavatimeFormats.instantFormat) and
-      (__ \ "metadata").write[Metadata] and
-      (__ \ "declaration").write[Boolean] and
-      (__ \ "customerId").writeNullable[CustomerId]
-    ) (unlift(UserAnswers.unapply))
+        (__ \ "sessionId").write[String] and
+        (__ \ "submissionId").write[String] and
+        (__ \ "submissionType").write[SubmissionType] and
+        (__ \ "data").write[JsObject] and
+        (__ \ "lastUpdated").write(MongoJavatimeFormats.instantFormat) and
+        (__ \ "created").write(MongoJavatimeFormats.instantFormat) and
+        (__ \ "metadata").write[Metadata] and
+        (__ \ "declaration").write[Boolean] and
+        (__ \ "customerId").writeNullable[CustomerId]
+    )(unlift(UserAnswers.unapply))
   }
 
   implicit val format: OFormat[UserAnswers] = OFormat(reads, writes)

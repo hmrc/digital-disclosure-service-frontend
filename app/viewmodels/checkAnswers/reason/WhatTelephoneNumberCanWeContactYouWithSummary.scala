@@ -25,19 +25,20 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 
-object WhatTelephoneNumberCanWeContactYouWithSummary  {
+object WhatTelephoneNumberCanWeContactYouWithSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(WhatTelephoneNumberCanWeContactYouWithPage).map {
-      answer =>
-
-        SummaryListRowViewModel(
-          key     = "whatTelephoneNumberCanWeContactYouWith.checkYourAnswersLabel",
-          value   = ValueViewModel(Text(answer)),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("whatTelephoneNumberCanWeContactYouWith.change.hidden"))
+    answers.get(WhatTelephoneNumberCanWeContactYouWithPage).map { answer =>
+      SummaryListRowViewModel(
+        key = "whatTelephoneNumberCanWeContactYouWith.checkYourAnswersLabel",
+        value = ValueViewModel(Text(answer)),
+        actions = Seq(
+          ActionItemViewModel(
+            "site.change",
+            routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(CheckMode).url
           )
+            .withVisuallyHiddenText(messages("whatTelephoneNumberCanWeContactYouWith.change.hidden"))
         )
+      )
     }
 }

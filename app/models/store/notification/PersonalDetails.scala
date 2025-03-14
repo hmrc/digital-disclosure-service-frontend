@@ -30,20 +30,21 @@ final case class PersonalDetails(
 ) {
   lazy val disclosingAboutThemselves: Boolean = background.disclosureEntity match {
     case Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))) => true
-    case _ => false
+    case _                                                                => false
   }
 
-  lazy val isAnIndividual: Boolean = background.disclosureEntity.map(de => List(Individual, Estate).contains(de.entity)).getOrElse(false)
+  lazy val isAnIndividual: Boolean =
+    background.disclosureEntity.map(de => List(Individual, Estate).contains(de.entity)).getOrElse(false)
 
   lazy val isComplete: Boolean = {
     val sectionsCompleteForEntity: Boolean = background.disclosureEntity.map(_.entity) match {
       case Some(Individual) if disclosingAboutThemselves => aboutYou.isComplete(true)
-      case Some(Individual) => aboutYou.isComplete(false) && (aboutTheIndividual.map(_.isComplete) == Some(true))
-      case Some(Estate) => aboutYou.isComplete(false) && (aboutTheEstate.map(_.isComplete) == Some(true))
-      case Some(Company) => aboutYou.isComplete(false) && (aboutTheCompany.map(_.isComplete) == Some(true))
-      case Some(LLP) => aboutYou.isComplete(false) && (aboutTheLLP.map(_.isComplete) == Some(true))
-      case Some(Trust) => aboutYou.isComplete(false) && (aboutTheTrust.map(_.isComplete) == Some(true))
-      case _ => false
+      case Some(Individual)                              => aboutYou.isComplete(false) && (aboutTheIndividual.map(_.isComplete) == Some(true))
+      case Some(Estate)                                  => aboutYou.isComplete(false) && (aboutTheEstate.map(_.isComplete) == Some(true))
+      case Some(Company)                                 => aboutYou.isComplete(false) && (aboutTheCompany.map(_.isComplete) == Some(true))
+      case Some(LLP)                                     => aboutYou.isComplete(false) && (aboutTheLLP.map(_.isComplete) == Some(true))
+      case Some(Trust)                                   => aboutYou.isComplete(false) && (aboutTheTrust.map(_.isComplete) == Some(true))
+      case _                                             => false
     }
     background.isComplete && sectionsCompleteForEntity
   }

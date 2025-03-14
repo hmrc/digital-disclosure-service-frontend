@@ -23,21 +23,22 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object DidYouHaveAMortgageOnPropertySummary  {
+object DidYouHaveAMortgageOnPropertySummary {
 
   def row(i: Int, lettingProperty: LettingProperty)(implicit messages: Messages): Option[SummaryListRow] =
-    lettingProperty.isMortgageOnProperty.map {
-      answer =>
+    lettingProperty.isMortgageOnProperty.map { answer =>
+      val value = if (answer) "didYouHaveAMortgageOnProperty.yes" else "didYouHaveAMortgageOnProperty.no"
 
-        val value = if (answer) "didYouHaveAMortgageOnProperty.yes" else "didYouHaveAMortgageOnProperty.no"
-
-        SummaryListRowViewModel(
-          key     = "didYouHaveAMortgageOnProperty.checkYourAnswersLabel",
-          value   = ValueViewModel(value),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.DidYouHaveAMortgageOnPropertyController.onPageLoad(i, CheckMode).url)
-              .withVisuallyHiddenText(messages("didYouHaveAMortgageOnProperty.change.hidden"))
+      SummaryListRowViewModel(
+        key = "didYouHaveAMortgageOnProperty.checkYourAnswersLabel",
+        value = ValueViewModel(value),
+        actions = Seq(
+          ActionItemViewModel(
+            "site.change",
+            routes.DidYouHaveAMortgageOnPropertyController.onPageLoad(i, CheckMode).url
           )
+            .withVisuallyHiddenText(messages("didYouHaveAMortgageOnProperty.change.hidden"))
         )
+      )
     }
 }

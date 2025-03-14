@@ -45,27 +45,35 @@ final case class OnshoreLiabilities(
 
   def isComplete: Boolean = {
 
-    val typesOfTax = whatLiabilities.getOrElse(Set())
-    val years = whichYears.getOrElse(Set())
-    val isNilDisclosure = years == Set(PriorToThreeYears) || years == Set(PriorToFiveYears) || years == Set(PriorToNineteenYears)
-    val lettingQuestionsAnswered = lettingProperties.isDefined && memberOfLandlordAssociations.isDefined && howManyProperties.isDefined
+    val typesOfTax               = whatLiabilities.getOrElse(Set())
+    val years                    = whichYears.getOrElse(Set())
+    val isNilDisclosure          =
+      years == Set(PriorToThreeYears) || years == Set(PriorToFiveYears) || years == Set(PriorToNineteenYears)
+    val lettingQuestionsAnswered =
+      lettingProperties.isDefined && memberOfLandlordAssociations.isDefined && howManyProperties.isDefined
 
     behaviour.isDefined &&
     whatLiabilities.isDefined &&
-    (!typesOfTax.contains(CorporationTax) || (corporationTaxLiabilities.isDefined && corporationTaxLiabilities.getOrElse(Set()).size > 0)) &&
-    (!typesOfTax.contains(DirectorLoan) || (directorLoanAccountLiabilities.isDefined && directorLoanAccountLiabilities.getOrElse(Set()).size > 0)) &&
+    (!typesOfTax.contains(CorporationTax) || (corporationTaxLiabilities.isDefined && corporationTaxLiabilities
+      .getOrElse(Set())
+      .size > 0)) &&
+    (!typesOfTax.contains(DirectorLoan) || (directorLoanAccountLiabilities.isDefined && directorLoanAccountLiabilities
+      .getOrElse(Set())
+      .size > 0)) &&
     (!typesOfTax.contains(LettingIncome) || lettingQuestionsAnswered || isNilDisclosure) &&
-    ((typesOfTax.contains(CorporationTax) || typesOfTax.contains(DirectorLoan)) || isNilDisclosure || taxYearQuestionsAnswered)
+    ((typesOfTax.contains(CorporationTax) || typesOfTax.contains(
+      DirectorLoan
+    )) || isNilDisclosure || taxYearQuestionsAnswered)
   }
 
-  def taxYearQuestionsAnswered: Boolean = 
+  def taxYearQuestionsAnswered: Boolean =
     (whichYears, taxYearLiabilities) match {
-      case (Some(values), Some(liabilities)) => 
-        val taxYears = values.collect{case OnshoreYearStarting(y) => y.toString}.toSet
+      case (Some(values), Some(liabilities)) =>
+        val taxYears = values.collect { case OnshoreYearStarting(y) => y.toString }.toSet
         liabilities.keys.toSet == taxYears
-      case _ => false
+      case _                                 => false
     }
-  
+
 }
 
 object OnshoreLiabilities {

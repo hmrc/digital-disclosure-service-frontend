@@ -22,7 +22,7 @@ import javax.inject.Inject
 import models.{Mode, UserAnswers, WhyAreYouMakingADisclosure}
 import models.WhyAreYouMakingADisclosure._
 import navigation.ReasonNavigator
-import pages.{WhyAreYouMakingADisclosurePage, WhatIsTheReasonForMakingADisclosureNowPage, QuestionPage}
+import pages.{QuestionPage, WhatIsTheReasonForMakingADisclosureNowPage, WhyAreYouMakingADisclosurePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -31,56 +31,58 @@ import views.html.reason.WhyAreYouMakingADisclosureView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class WhyAreYouMakingADisclosureController @Inject()(
-                                        override val messagesApi: MessagesApi,
-                                        sessionService: SessionService,
-                                        navigator: ReasonNavigator,
-                                        identify: IdentifierAction,
-                                        getData: DataRetrievalAction,
-                                        requireData: DataRequiredAction,
-                                        formProvider: WhyAreYouMakingADisclosureFormProvider,
-                                        val controllerComponents: MessagesControllerComponents,
-                                        view: WhyAreYouMakingADisclosureView
-                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class WhyAreYouMakingADisclosureController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: ReasonNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: WhyAreYouMakingADisclosureFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: WhyAreYouMakingADisclosureView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val preparedForm = request.userAnswers.get(WhyAreYouMakingADisclosurePage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(WhyAreYouMakingADisclosurePage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, mode))
+    Ok(view(preparedForm, mode))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode))),
+          value => {
 
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+            val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
 
-        value => {
-
-          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
-
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(WhyAreYouMakingADisclosurePage, value))
-            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
-            _              <- sessionService.set(clearedAnswers)
-          } yield Redirect(navigator.nextPage(WhyAreYouMakingADisclosurePage, mode, clearedAnswers, hasValueChanged))
-        }
-      )
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(WhyAreYouMakingADisclosurePage, value))
+              clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+              _              <- sessionService.set(clearedAnswers)
+            } yield Redirect(navigator.nextPage(WhyAreYouMakingADisclosurePage, mode, clearedAnswers, hasValueChanged))
+          }
+        )
   }
 
-  def changedPages(userAnswers: UserAnswers, newValue: Set[WhyAreYouMakingADisclosure]): (List[QuestionPage[_]], Boolean) = {
+  def changedPages(
+    userAnswers: UserAnswers,
+    newValue: Set[WhyAreYouMakingADisclosure]
+  ): (List[QuestionPage[_]], Boolean) =
     userAnswers.get(WhyAreYouMakingADisclosurePage) match {
-      case Some(oldValue) if (!oldValue.contains(Other) && newValue.contains(Other)) => (Nil, true)
-      case Some(oldValue) if (oldValue.contains(Other) && !newValue.contains(Other)) => (List(WhatIsTheReasonForMakingADisclosureNowPage), false)
-      case _ => (Nil, false)
+      case Some(oldValue) if !oldValue.contains(Other) && newValue.contains(Other) => (Nil, true)
+      case Some(oldValue) if oldValue.contains(Other) && !newValue.contains(Other) =>
+        (List(WhatIsTheReasonForMakingADisclosureNowPage), false)
+      case _                                                                       => (Nil, false)
     }
-  }
 }

@@ -28,20 +28,25 @@ class PropertyIsNoLongerBeingLetOutFormProvider @Inject() extends Mappings {
   def apply(): Form[NoLongerBeingLetOut] =
     Form(
       mapping(
-        "stopDate" -> localDate(
-          invalidKey     = "propertyIsNoLongerBeingLetOut.stopDate.error.invalid",
+        "stopDate"                  -> localDate(
+          invalidKey = "propertyIsNoLongerBeingLetOut.stopDate.error.invalid",
           allRequiredKey = "propertyIsNoLongerBeingLetOut.stopDate.error.required.all",
-          requiredKey    = "propertyIsNoLongerBeingLetOut.stopDate.error.required",
-          invalidDayKey    = "propertyIsNoLongerBeingLetOut.stopDate.error.invalidDay",
-          invalidMonthKey  = "propertyIsNoLongerBeingLetOut.stopDate.error.invalidMonth"
+          requiredKey = "propertyIsNoLongerBeingLetOut.stopDate.error.required",
+          invalidDayKey = "propertyIsNoLongerBeingLetOut.stopDate.error.invalidDay",
+          invalidMonthKey = "propertyIsNoLongerBeingLetOut.stopDate.error.invalidMonth"
         )
-        .verifying(minDate(LocalDate.of(1850, Month.JANUARY, 1), "propertyIsNoLongerBeingLetOut.stopDate.error.invalidPastDate"))
-        .verifying(maxDate(LocalDate.now().minusDays(1), "propertyIsNoLongerBeingLetOut.stopDate.error.invalidFutureDate")),
-
+          .verifying(
+            minDate(
+              LocalDate.of(1850, Month.JANUARY, 1),
+              "propertyIsNoLongerBeingLetOut.stopDate.error.invalidPastDate"
+            )
+          )
+          .verifying(
+            maxDate(LocalDate.now().minusDays(1), "propertyIsNoLongerBeingLetOut.stopDate.error.invalidFutureDate")
+          ),
         "whatHasHappenedToProperty" -> text("propertyIsNoLongerBeingLetOut.whatHasHappenedToProperty.error.required")
           .verifying(maxLength(5000, "propertyIsNoLongerBeingLetOut.whatHasHappenedToProperty.error.length"))
           .verifying(validUnicodeCharacters)
-
       )(NoLongerBeingLetOut.apply)(NoLongerBeingLetOut.unapply)
     )
 }

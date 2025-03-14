@@ -25,19 +25,20 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import viewmodels.RevealFullText
 
-object WhatIsTheReasonForMakingADisclosureNowSummary  {
+object WhatIsTheReasonForMakingADisclosureNowSummary {
 
   def row(answers: UserAnswers, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(WhatIsTheReasonForMakingADisclosureNowPage).map {
-      answer =>
-
-        SummaryListRowViewModel(
-          key     = "whatIsTheReasonForMakingADisclosureNow.checkYourAnswersLabel",
-          value   = ValueViewModel(revealFullText.addRevealToText(answer, "whatIsTheReasonForMakingADisclosureNow.reveal")),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.WhatIsTheReasonForMakingADisclosureNowController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("whatIsTheReasonForMakingADisclosureNow.change.hidden"))
+    answers.get(WhatIsTheReasonForMakingADisclosureNowPage).map { answer =>
+      SummaryListRowViewModel(
+        key = "whatIsTheReasonForMakingADisclosureNow.checkYourAnswersLabel",
+        value = ValueViewModel(revealFullText.addRevealToText(answer, "whatIsTheReasonForMakingADisclosureNow.reveal")),
+        actions = Seq(
+          ActionItemViewModel(
+            "site.change",
+            routes.WhatIsTheReasonForMakingADisclosureNowController.onPageLoad(CheckMode).url
           )
+            .withVisuallyHiddenText(messages("whatIsTheReasonForMakingADisclosureNow.change.hidden"))
         )
+      )
     }
 }

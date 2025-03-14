@@ -19,9 +19,9 @@ package controllers.letting
 import controllers.actions._
 import forms.WhatWasThePercentageIncomeYouReceivedFromPropertyFormProvider
 import javax.inject.Inject
-import models.{Mode, LettingProperty}
+import models.{LettingProperty, Mode}
 import navigation.LettingNavigator
-import pages.{WhatWasThePercentageIncomeYouReceivedFromPropertyPage, LettingPropertyPage}
+import pages.{LettingPropertyPage, WhatWasThePercentageIncomeYouReceivedFromPropertyPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -30,48 +30,53 @@ import views.html.letting.WhatWasThePercentageIncomeYouReceivedFromPropertyView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class WhatWasThePercentageIncomeYouReceivedFromPropertyController @Inject()(
-                                        override val messagesApi: MessagesApi,
-                                        sessionService: SessionService,
-                                        navigator: LettingNavigator,
-                                        identify: IdentifierAction,
-                                        getData: DataRetrievalAction,
-                                        requireData: DataRequiredAction,
-                                        formProvider: WhatWasThePercentageIncomeYouReceivedFromPropertyFormProvider,
-                                        val controllerComponents: MessagesControllerComponents,
-                                        view: WhatWasThePercentageIncomeYouReceivedFromPropertyView
-                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class WhatWasThePercentageIncomeYouReceivedFromPropertyController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: LettingNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: WhatWasThePercentageIncomeYouReceivedFromPropertyFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: WhatWasThePercentageIncomeYouReceivedFromPropertyView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad(i:Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
+  def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-
-      val preparedForm = request.userAnswers.getBySeqIndex(LettingPropertyPage, i).flatMap(_.percentageIncomeOnProperty) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
+      val preparedForm =
+        request.userAnswers.getBySeqIndex(LettingPropertyPage, i).flatMap(_.percentageIncomeOnProperty) match {
+          case None        => form
+          case Some(value) => form.fill(value)
+        }
 
       Ok(view(preparedForm, i, mode))
   }
 
-  def onSubmit(i:Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
+  def onSubmit(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, i, mode))),
+          { value =>
+            val updatedLettingProperty = request.userAnswers
+              .getBySeqIndex(LettingPropertyPage, i)
+              .getOrElse(LettingProperty())
+              .copy(percentageIncomeOnProperty = Some(value))
 
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, i, mode))),
-
-        { value =>
-          val updatedLettingProperty = request.userAnswers.getBySeqIndex(LettingPropertyPage, i)
-            .getOrElse(LettingProperty())
-            .copy(percentageIncomeOnProperty = Some(value))
-
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.setBySeqIndex(LettingPropertyPage, i, updatedLettingProperty))
-            _ <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(WhatWasThePercentageIncomeYouReceivedFromPropertyPage, i, mode, updatedAnswers))
-        }
-      )
+            for {
+              updatedAnswers <-
+                Future.fromTry(request.userAnswers.setBySeqIndex(LettingPropertyPage, i, updatedLettingProperty))
+              _              <- sessionService.set(updatedAnswers)
+            } yield Redirect(
+              navigator.nextPage(WhatWasThePercentageIncomeYouReceivedFromPropertyPage, i, mode, updatedAnswers)
+            )
+          }
+        )
   }
 }

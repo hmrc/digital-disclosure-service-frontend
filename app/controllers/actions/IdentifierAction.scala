@@ -32,14 +32,17 @@ import models._
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait IdentifierAction extends ActionBuilder[IdentifierRequest, AnyContent] with ActionFunction[Request, IdentifierRequest]
+trait IdentifierAction
+    extends ActionBuilder[IdentifierRequest, AnyContent]
+    with ActionFunction[Request, IdentifierRequest]
 
-class AuthenticatedIdentifierAction @Inject()(
-                                               override val authConnector: AuthConnector,
-                                               config: FrontendAppConfig,
-                                               val parser: BodyParsers.Default
-                                             )
-                                             (implicit val executionContext: ExecutionContext) extends IdentifierAction with AuthorisedFunctions {
+class AuthenticatedIdentifierAction @Inject() (
+  override val authConnector: AuthConnector,
+  config: FrontendAppConfig,
+  val parser: BodyParsers.Default
+)(implicit val executionContext: ExecutionContext)
+    extends IdentifierAction
+    with AuthorisedFunctions {
 
   override def invokeBlock[A](request: Request[A], block: IdentifierRequest[A] => Future[Result]): Future[Result] = {
 
@@ -47,37 +50,50 @@ class AuthenticatedIdentifierAction @Inject()(
 
     implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
 
-    authorised(Agent or Organisation or ConfidenceLevel.L250).retrieve(internalId and affinityGroup and allEnrolments){
-      case internalId ~ affinityGroup ~ enrolments =>
-        val isAgent = affinityGroup == Some(AffinityGroup.Agent)
-        val customerId = if(isAgent) getAgentCustomerId(enrolments) else getCustomerId(enrolments)
+    authorised(Agent or Organisation or ConfidenceLevel.L250)
+      .retrieve(internalId and affinityGroup and allEnrolments) { case internalId ~ affinityGroup ~ enrolments =>
+        val isAgent    = affinityGroup == Some(AffinityGroup.Agent)
+        val customerId = if (isAgent) getAgentCustomerId(enrolments) else getCustomerId(enrolments)
         processAuthorisation(internalId, request, block, isAgent, customerId)
-    }.recover {
-      case _: NoActiveSession =>
-        Redirect(config.loginUrl, Map("continue" -> Seq(config.loginContinueUrl)))
-      case _: InsufficientConfidenceLevel =>
-        Redirect(config.identityVerificationURL)
-      case _: AuthorisationException =>
-        Redirect(routes.UnauthorisedController.onPageLoad)
-    }
+      }
+      .recover {
+        case _: NoActiveSession             =>
+          Redirect(config.loginUrl, Map("continue" -> Seq(config.loginContinueUrl)))
+        case _: InsufficientConfidenceLevel =>
+          Redirect(config.identityVerificationURL)
+        case _: AuthorisationException      =>
+          Redirect(routes.UnauthorisedController.onPageLoad)
+      }
   }
 
-  def getAgentCustomerId(enrolments: Enrolments): Option[CustomerId] = {
-    enrolments.getEnrolment("HMRC-AS-AGENT").flatMap(_.getIdentifier("AgentReferenceNumber").map(enrol => ARN(enrol.value)))
-  }
+  def getAgentCustomerId(enrolments: Enrolments): Option[CustomerId] =
+    enrolments
+      .getEnrolment("HMRC-AS-AGENT")
+      .flatMap(_.getIdentifier("AgentReferenceNumber").map(enrol => ARN(enrol.value)))
 
   def getCustomerId(enrolments: Enrolments): Option[CustomerId] = {
-    val ninoOpt: Option[NINO] = enrolments.getEnrolment("HMRC-NI").flatMap(_.getIdentifier("nino").map(enrol => NINO(enrol.value)))
-    val sautrOpt: Option[SAUTR] = enrolments.getEnrolment("IR-SA").flatMap(_.getIdentifier("UTR").map(enrol => SAUTR(enrol.value)))
-    val ctutrOpt: Option[CAUTR] = enrolments.getEnrolment("IR-CT").flatMap(_.getIdentifier("UTR").map(enrol => CAUTR(enrol.value)))
+    val ninoOpt: Option[NINO]   =
+      enrolments.getEnrolment("HMRC-NI").flatMap(_.getIdentifier("nino").map(enrol => NINO(enrol.value)))
+    val sautrOpt: Option[SAUTR] =
+      enrolments.getEnrolment("IR-SA").flatMap(_.getIdentifier("UTR").map(enrol => SAUTR(enrol.value)))
+    val ctutrOpt: Option[CAUTR] =
+      enrolments.getEnrolment("IR-CT").flatMap(_.getIdentifier("UTR").map(enrol => CAUTR(enrol.value)))
     List(ninoOpt, sautrOpt, ctutrOpt).flatten.headOption
   }
 
-  def processAuthorisation[A](internalIdOpt: Option[String], request: Request[A], block: IdentifierRequest[A] => Future[Result], isAgent: Boolean, customerId: Option[CustomerId])(implicit hc: HeaderCarrier) = {
+  def processAuthorisation[A](
+    internalIdOpt: Option[String],
+    request: Request[A],
+    block: IdentifierRequest[A] => Future[Result],
+    isAgent: Boolean,
+    customerId: Option[CustomerId]
+  )(implicit hc: HeaderCarrier) = {
     val sessionId = hc.sessionId.fold("-")(_.value)
-    internalIdOpt.map {
-      internalId => block(IdentifierRequest(request, internalId, sessionId, isAgent, customerId))
-    }.getOrElse(throw new UnauthorizedException("Unable to retrieve internal Id"))
+    internalIdOpt
+      .map { internalId =>
+        block(IdentifierRequest(request, internalId, sessionId, isAgent, customerId))
+      }
+      .getOrElse(throw new UnauthorizedException("Unable to retrieve internal Id"))
   }
 
 }

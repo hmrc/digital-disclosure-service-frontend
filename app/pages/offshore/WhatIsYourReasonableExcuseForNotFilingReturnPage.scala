@@ -19,7 +19,8 @@ package pages
 import models.WhatIsYourReasonableExcuseForNotFilingReturn
 import play.api.libs.json.JsPath
 
-case object WhatIsYourReasonableExcuseForNotFilingReturnPage extends QuestionPage[WhatIsYourReasonableExcuseForNotFilingReturn] {
+case object WhatIsYourReasonableExcuseForNotFilingReturnPage
+    extends QuestionPage[WhatIsYourReasonableExcuseForNotFilingReturn] {
 
   override def path: JsPath = JsPath \ toString
 

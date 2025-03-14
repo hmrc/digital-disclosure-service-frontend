@@ -25,17 +25,17 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import viewmodels.RevealFullText
 
-object NotIncludedMultipleTaxYearsSummary  {
+object NotIncludedMultipleTaxYearsSummary {
 
   def row(answers: UserAnswers, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
     for {
-      years <- answers.inverselySortedOnshoreTaxYears
+      years       <- answers.inverselySortedOnshoreTaxYears
       notIncluded <- answers.get(NotIncludedMultipleTaxYearsPage)
     } yield {
       val yearsNotIncluded = OnshoreYearStarting.findMissingYears(years.toList).map(_.startYear + 1).mkString(", ")
       SummaryListRowViewModel(
-        key     = messages("youHaveNotSelectedCertainTaxYear.checkYourAnswersLabel", yearsNotIncluded),
-        value   = ValueViewModel(revealFullText.addRevealToText(notIncluded, "youHaveNotSelectedCertainTaxYear.reveal")),
+        key = messages("youHaveNotSelectedCertainTaxYear.checkYourAnswersLabel", yearsNotIncluded),
+        value = ValueViewModel(revealFullText.addRevealToText(notIncluded, "youHaveNotSelectedCertainTaxYear.reveal")),
         actions = Seq(
           ActionItemViewModel("site.change", routes.NotIncludedMultipleTaxYearsController.onPageLoad(CheckMode).url)
             .withVisuallyHiddenText(messages("youHaveNotSelectedCertainTaxYear.change.hidden"))

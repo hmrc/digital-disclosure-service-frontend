@@ -23,21 +23,19 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object FHLSummary  {
+object FHLSummary {
 
   def row(i: Int, lettingProperty: LettingProperty)(implicit messages: Messages): Option[SummaryListRow] =
-    lettingProperty.fhl.map {
-      answer =>
+    lettingProperty.fhl.map { answer =>
+      val value = if (answer) "fhl.yes" else "fhl.no"
 
-        val value = if (answer) "fhl.yes" else "fhl.no"
-
-        SummaryListRowViewModel(
-          key     = "fhl.checkYourAnswersLabel",
-          value   = ValueViewModel(value),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.FHLController.onPageLoad(i, CheckMode).url)
-              .withVisuallyHiddenText(messages("fhl.change.hidden"))
-          )
+      SummaryListRowViewModel(
+        key = "fhl.checkYourAnswersLabel",
+        value = ValueViewModel(value),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.FHLController.onPageLoad(i, CheckMode).url)
+            .withVisuallyHiddenText(messages("fhl.change.hidden"))
         )
+      )
     }
 }

@@ -60,25 +60,45 @@ object YourLegalInterpretation extends Enumerable.Implicits {
 class YourLegalInterpretationCheckboxes @Inject() (link: link) {
 
   def checkboxItems(implicit messages: Messages): Seq[CheckboxItem] = {
-    val checkboxes = YourLegalInterpretation.values.zipWithIndex.map {
-      case (value, index) =>
+    val checkboxes = YourLegalInterpretation.values.zipWithIndex.map { case (value, index) =>
+      val content = value match {
+        case YourLegalInterpretation.TheTransferOfAssets        =>
+          messages(s"yourLegalInterpretation.${value.toString}.first") + messages(
+            s"yourLegalInterpretation.${value.toString}.second"
+          ) + link(
+            s"${value.toString}",
+            messages(s"yourLegalInterpretation.${value.toString}.link"),
+            Call(
+              "GET",
+              "https://www.gov.uk/government/publications/income-and-benefits-from-transfers-of-assets-abroad-and-income-from-non-resident-trusts-hs262-self-assessment-helpsheet"
+            ),
+            true
+          ).toString
+        case YourLegalInterpretation.WhetherIncomeShouldBeTaxed =>
+          messages(s"yourLegalInterpretation.${value.toString}.first") + messages(
+            s"yourLegalInterpretation.${value.toString}.second"
+          ) + link(
+            s"${value.toString}",
+            messages(s"yourLegalInterpretation.${value.toString}.link"),
+            Call(
+              "GET",
+              "https://www.gov.uk/government/publications/trusts-and-settlements-income-treated-as-the-settlors-hs270-self-assessment-helpsheet"
+            ),
+            true
+          ).toString
+        case _                                                  => messages(s"yourLegalInterpretation.${value.toString}")
+      }
 
-        val content = value match {
-          case YourLegalInterpretation.TheTransferOfAssets => messages(s"yourLegalInterpretation.${value.toString}.first") + messages(s"yourLegalInterpretation.${value.toString}.second") +link(s"${value.toString}", messages(s"yourLegalInterpretation.${value.toString}.link"), Call("GET", "https://www.gov.uk/government/publications/income-and-benefits-from-transfers-of-assets-abroad-and-income-from-non-resident-trusts-hs262-self-assessment-helpsheet"), true).toString
-          case YourLegalInterpretation.WhetherIncomeShouldBeTaxed => messages(s"yourLegalInterpretation.${value.toString}.first") + messages(s"yourLegalInterpretation.${value.toString}.second") + link(s"${value.toString}", messages(s"yourLegalInterpretation.${value.toString}.link"), Call("GET", "https://www.gov.uk/government/publications/trusts-and-settlements-income-treated-as-the-settlors-hs270-self-assessment-helpsheet"), true).toString
-          case _ => messages(s"yourLegalInterpretation.${value.toString}") 
-        }
-
-        CheckboxItemViewModel(
-          content = HtmlContent(content),
-          fieldId = "value",
-          index   = index,
-          value   = value.toString
-        )
+      CheckboxItemViewModel(
+        content = HtmlContent(content),
+        fieldId = "value",
+        index = index,
+        value = value.toString
+      )
     }
 
-    val divider = CheckboxItem(divider = Some(messages("site.or")))   
+    val divider = CheckboxItem(divider = Some(messages("site.or")))
 
-    checkboxes.dropRight(1) :+ divider :+ checkboxes.last  
+    checkboxes.dropRight(1) :+ divider :+ checkboxes.last
   }
 }

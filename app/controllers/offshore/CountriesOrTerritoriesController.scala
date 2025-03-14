@@ -34,61 +34,60 @@ import views.html.offshore.CountriesOrTerritoriesView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class CountriesOrTerritoriesController @Inject()(
-                                         override val messagesApi: MessagesApi,
-                                         sessionService: SessionService,
-                                         navigator: OffshoreNavigator,
-                                         identify: IdentifierAction,
-                                         getData: DataRetrievalAction,
-                                         requireData: DataRequiredAction,
-                                         formProvider: CountriesOrTerritoriesFormProvider,
-                                         val controllerComponents: MessagesControllerComponents,
-                                         view: CountriesOrTerritoriesView
-                                 )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class CountriesOrTerritoriesController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: OffshoreNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: CountriesOrTerritoriesFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: CountriesOrTerritoriesView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
-      val countries = getCountries(request.userAnswers, mode)
-      Ok(view(form, countries, mode))
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val countries = getCountries(request.userAnswers, mode)
+    Ok(view(form, countries, mode))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
       val countries = getCountries(request.userAnswers, mode)
 
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, countries, mode))),
-
-        value =>
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(CountriesOrTerritoriesPage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(CountriesOrTerritoriesPage, mode, updatedAnswers))
-      )
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, countries, mode))),
+          value =>
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(CountriesOrTerritoriesPage, value))
+              _              <- sessionService.set(updatedAnswers)
+            } yield Redirect(navigator.nextPage(CountriesOrTerritoriesPage, mode, updatedAnswers))
+        )
   }
 
-  def remove(countryCode:String, mode:Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
-    implicit request =>
-
+  def remove(countryCode: String, mode: Mode): Action[AnyContent] =
+    (identify andThen getData andThen requireData).async { implicit request =>
       for {
-        updatedAnswers <- Future.fromTry(request.userAnswers.removeByKey[Country](CountryOfYourOffshoreLiabilityPage, countryCode))
-        _ <- sessionService.set(updatedAnswers)
-      } yield {
-        updatedAnswers.get(CountryOfYourOffshoreLiabilityPage) match {
-          case Some(countries) if countries.nonEmpty => Redirect(routes.CountriesOrTerritoriesController.onSubmit(mode).url)
-          case _ =>  Redirect(routes.CountryOfYourOffshoreLiabilityController.onSubmit(mode).url)
-        }
+        updatedAnswers <-
+          Future.fromTry(request.userAnswers.removeByKey[Country](CountryOfYourOffshoreLiabilityPage, countryCode))
+        _              <- sessionService.set(updatedAnswers)
+      } yield updatedAnswers.get(CountryOfYourOffshoreLiabilityPage) match {
+        case Some(countries) if countries.nonEmpty =>
+          Redirect(routes.CountriesOrTerritoriesController.onSubmit(mode).url)
+        case _                                     => Redirect(routes.CountryOfYourOffshoreLiabilityController.onSubmit(mode).url)
       }
 
-  }
+    }
 
-  private def getCountries(userAnswers:UserAnswers, mode:Mode)(implicit messages:Messages): Seq[SummaryListRow] =
+  private def getCountries(userAnswers: UserAnswers, mode: Mode)(implicit messages: Messages): Seq[SummaryListRow] =
     userAnswers.get(CountryOfYourOffshoreLiabilityPage) match {
       case Some(countryMap) => CountryModels.row(countryMap.values.toSet, mode)
-      case None => Seq()
+      case None             => Seq()
     }
 }

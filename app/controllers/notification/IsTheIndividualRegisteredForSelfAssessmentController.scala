@@ -31,55 +31,61 @@ import views.html.notification.IsTheIndividualRegisteredForSelfAssessmentView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class IsTheIndividualRegisteredForSelfAssessmentController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       sessionService: SessionService,
-                                       navigator: NotificationNavigator,
-                                       identify: IdentifierAction,
-                                       getData: DataRetrievalAction,
-                                       requireData: DataRequiredAction,
-                                       formProvider: IsTheIndividualRegisteredForSelfAssessmentFormProvider,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: IsTheIndividualRegisteredForSelfAssessmentView
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class IsTheIndividualRegisteredForSelfAssessmentController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: NotificationNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: IsTheIndividualRegisteredForSelfAssessmentFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: IsTheIndividualRegisteredForSelfAssessmentView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val preparedForm = request.userAnswers.get(IsTheIndividualRegisteredForSelfAssessmentPage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(IsTheIndividualRegisteredForSelfAssessmentPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
+    Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
-
-        value => {
-          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(IsTheIndividualRegisteredForSelfAssessmentPage, value))
-            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
-            _              <- sessionService.set(clearedAnswers)
-          } yield Redirect(navigator.nextPage(IsTheIndividualRegisteredForSelfAssessmentPage, mode, clearedAnswers, hasValueChanged))
-        }
-      )
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
+          value => {
+            val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
+            for {
+              updatedAnswers <-
+                Future.fromTry(request.userAnswers.set(IsTheIndividualRegisteredForSelfAssessmentPage, value))
+              clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+              _              <- sessionService.set(clearedAnswers)
+            } yield Redirect(
+              navigator.nextPage(IsTheIndividualRegisteredForSelfAssessmentPage, mode, clearedAnswers, hasValueChanged)
+            )
+          }
+        )
   }
 
-  def changedPages(existingUserAnswers: UserAnswers, value: IsTheIndividualRegisteredForSelfAssessment): (List[QuestionPage[_]], Boolean) = 
+  def changedPages(
+    existingUserAnswers: UserAnswers,
+    value: IsTheIndividualRegisteredForSelfAssessment
+  ): (List[QuestionPage[_]], Boolean) =
     existingUserAnswers.get(IsTheIndividualRegisteredForSelfAssessmentPage) match {
-      case Some(IsTheIndividualRegisteredForSelfAssessment.YesIKnow) if value != IsTheIndividualRegisteredForSelfAssessment.YesIKnow => (List(WhatIsTheIndividualsUniqueTaxReferencePage), true)
+      case Some(IsTheIndividualRegisteredForSelfAssessment.YesIKnow)
+          if value != IsTheIndividualRegisteredForSelfAssessment.YesIKnow =>
+        (List(WhatIsTheIndividualsUniqueTaxReferencePage), true)
       case Some(existingValue) if value != existingValue => (Nil, true)
-      case _ => (Nil, false)
+      case _                                             => (Nil, false)
     }
 
-  
 }

@@ -31,7 +31,9 @@ object WhyAreYouMakingThisDisclosure extends Enumerable.Implicits {
   case object InaccurateReturnNoCare extends WithName("inaccurateReturnNoCare") with WhyAreYouMakingThisDisclosure
   case object DidNotNotifyNoExcuse extends WithName("didNotNotifyNoExcuse") with WhyAreYouMakingThisDisclosure
   case object DeliberatelyDidNotNotify extends WithName("deliberatelyDidNotNotify") with WhyAreYouMakingThisDisclosure
-  case object DeliberateInaccurateReturn extends WithName("deliberateInaccurateReturn") with WhyAreYouMakingThisDisclosure
+  case object DeliberateInaccurateReturn
+      extends WithName("deliberateInaccurateReturn")
+      with WhyAreYouMakingThisDisclosure
   case object DeliberatelyDidNotFile extends WithName("deliberatelyDidNotFile") with WhyAreYouMakingThisDisclosure
 
   val values: Seq[WhyAreYouMakingThisDisclosure] = Seq(
@@ -46,23 +48,21 @@ object WhyAreYouMakingThisDisclosure extends Enumerable.Implicits {
   )
 
   def checkboxItems(areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit messages: Messages): Seq[CheckboxItem] =
-    values.zipWithIndex.map {
-      case (value, index) =>
-        CheckboxItemViewModel(
-          content = Text(messages(constructMessageKey(value, areTheyTheIndividual, entity))),
-          fieldId = "value",
-          index   = index,
-          value   = value.toString
-        )
+    values.zipWithIndex.map { case (value, index) =>
+      CheckboxItemViewModel(
+        content = Text(messages(constructMessageKey(value, areTheyTheIndividual, entity))),
+        fieldId = "value",
+        index = index,
+        value = value.toString
+      )
     }
-  
-  def constructMessageKey(value: WhyAreYouMakingThisDisclosure, areTheyTheIndividual: Boolean, entity: RelatesTo) = {
+
+  def constructMessageKey(value: WhyAreYouMakingThisDisclosure, areTheyTheIndividual: Boolean, entity: RelatesTo) =
     if (areTheyTheIndividual) {
       s"whyAreYouMakingThisDisclosure.you.${value.toString}"
     } else {
       s"whyAreYouMakingThisDisclosure.${entity.toString}.${value.toString}"
     }
-  }
 
   implicit val enumerable: Enumerable[WhyAreYouMakingThisDisclosure] =
     Enumerable(values.map(v => v.toString -> v): _*)

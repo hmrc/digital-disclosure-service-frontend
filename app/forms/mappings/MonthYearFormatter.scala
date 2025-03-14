@@ -22,28 +22,28 @@ import models.MonthYear
 import java.time.LocalDate
 
 private[mappings] class MonthYearFormatter(
-                                            invalidKey: String,
-                                            allRequiredKey: String,
-                                            requiredKey: String,
-                                            invalidMonthKey: String,
-                                            futureDateKey: String,
-                                            minimumDateKey: String,
-                                            args: Seq[String] = Seq.empty
-                                          ) extends Formatter[MonthYear] with Formatters {
+  invalidKey: String,
+  allRequiredKey: String,
+  requiredKey: String,
+  invalidMonthKey: String,
+  futureDateKey: String,
+  minimumDateKey: String,
+  args: Seq[String] = Seq.empty
+) extends Formatter[MonthYear]
+    with Formatters {
 
   private val fieldKeys: List[String] = List("month", "year")
 
-
-  private def validateMonth(key: String, month: Int): Either[Seq[FormError], Int] = 
-    if (month >=1 && month <=12) Right(month)
+  private def validateMonth(key: String, month: Int): Either[Seq[FormError], Int] =
+    if (month >= 1 && month <= 12) Right(month)
     else Left(Seq(FormError(key, invalidMonthKey, args)))
 
   private def validateYear(key: String, year: Int): Either[Seq[FormError], Int] = {
-    val futureYearError = if (year > LocalDate.now().getYear()) Some(FormError(key, futureDateKey, args)) else None
+    val futureYearError  = if (year > LocalDate.now().getYear()) Some(FormError(key, futureDateKey, args)) else None
     val minimumDateError = if (year < 1850) Some(FormError(key, minimumDateKey, args)) else None
-    
+
     List(futureYearError, minimumDateError).flatten match {
-      case Nil => Right(year)
+      case Nil  => Right(year)
       case list => Left(list.toSeq)
     }
   }
@@ -64,18 +64,19 @@ private[mappings] class MonthYearFormatter(
     } yield MonthYear(month, year)
   }
 
-  private def combineErrors(eitherA: Either[Seq[FormError], Any], eitherB: Either[Seq[FormError], Any]): Either[Seq[FormError], Any] = {
+  private def combineErrors(
+    eitherA: Either[Seq[FormError], Any],
+    eitherB: Either[Seq[FormError], Any]
+  ): Either[Seq[FormError], Any] =
     Seq(eitherA.swap.toOption, eitherB.swap.toOption).flatten.flatten match {
-      case Nil => eitherA
+      case Nil    => eitherA
       case errors => Left(errors)
     }
-  }
 
   override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], MonthYear] = {
 
-    val fields = fieldKeys.map {
-      field =>
-        field -> data.get(s"$key.$field").filter(_.nonEmpty)
+    val fields = fieldKeys.map { field =>
+      field -> data.get(s"$key.$field").filter(_.nonEmpty)
     }.toMap
 
     lazy val missingFields = fields
@@ -94,15 +95,14 @@ private[mappings] class MonthYearFormatter(
 
   }
 
-  def defaultKey[A](key: String, either: Either[Seq[FormError], A]): Either[Seq[FormError], A] = {
+  def defaultKey[A](key: String, either: Either[Seq[FormError], A]): Either[Seq[FormError], A] =
     either.left.map {
       _.map(_.copy(key = key, args = args))
     }
-  }
 
   override def unbind(key: String, value: MonthYear): Map[String, String] =
     Map(
       s"$key.month" -> value.month.toString,
-      s"$key.year" -> value.year.toString
+      s"$key.year"  -> value.year.toString
     )
 }

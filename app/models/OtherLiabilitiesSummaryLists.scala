@@ -18,4 +18,4 @@ package models
 
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryList
 
-case class OtherLiabilitiesSummaryLists(otherLiabilitiesList: SummaryList)                        
+case class OtherLiabilitiesSummaryLists(otherLiabilitiesList: SummaryList)

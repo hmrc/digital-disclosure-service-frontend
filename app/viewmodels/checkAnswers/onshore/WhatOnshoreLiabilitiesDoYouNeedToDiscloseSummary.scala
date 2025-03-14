@@ -26,28 +26,30 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object WhatOnshoreLiabilitiesDoYouNeedToDiscloseSummary  {
+object WhatOnshoreLiabilitiesDoYouNeedToDiscloseSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage).map {
-      answers =>
-
-        val value = ValueViewModel(
-          HtmlContent(
-            answers.map {
-              answer => HtmlFormat.escape(messages(s"whatOnshoreLiabilitiesDoYouNeedToDisclose.$answer")).toString
+    answers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage).map { answers =>
+      val value = ValueViewModel(
+        HtmlContent(
+          answers
+            .map { answer =>
+              HtmlFormat.escape(messages(s"whatOnshoreLiabilitiesDoYouNeedToDisclose.$answer")).toString
             }
             .mkString(",<br>")
-          )
         )
+      )
 
-        SummaryListRowViewModel(
-          key     = "whatOnshoreLiabilitiesDoYouNeedToDisclose.checkYourAnswersLabel",
-          value   = value,
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("whatOnshoreLiabilitiesDoYouNeedToDisclose.change.hidden"))
+      SummaryListRowViewModel(
+        key = "whatOnshoreLiabilitiesDoYouNeedToDisclose.checkYourAnswersLabel",
+        value = value,
+        actions = Seq(
+          ActionItemViewModel(
+            "site.change",
+            routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(CheckMode).url
           )
+            .withVisuallyHiddenText(messages("whatOnshoreLiabilitiesDoYouNeedToDisclose.change.hidden"))
         )
+      )
     }
 }

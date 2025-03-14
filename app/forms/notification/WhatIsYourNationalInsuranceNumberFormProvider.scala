@@ -27,6 +27,11 @@ class WhatIsYourNationalInsuranceNumberFormProvider @Inject() extends Mappings {
     Form(
       "value" -> text("whatIsYourNationalInsuranceNumber.error.required")
         .transform[String](_.filterNot(_.isWhitespace), identity)
-        .verifying(validNino("whatIsYourNationalInsuranceNumber.error.invalidFormat", "whatIsYourNationalInsuranceNumber.error.notReal"))
+        .verifying(
+          validNino(
+            "whatIsYourNationalInsuranceNumber.error.invalidFormat",
+            "whatIsYourNationalInsuranceNumber.error.notReal"
+          )
+        )
     )
 }

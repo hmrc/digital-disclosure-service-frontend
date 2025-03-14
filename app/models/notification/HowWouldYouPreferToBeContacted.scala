@@ -35,15 +35,16 @@ object HowWouldYouPreferToBeContacted extends Enumerable.Implicits {
   )
 
   def checkboxItems(implicit messages: Messages): Seq[CheckboxItem] =
-    values.zipWithIndex.map {
-      case (value, index) =>
-        val checkboxItem = CheckboxItemViewModel(
-          content = Text(messages(s"howWouldYouPreferToBeContacted.${value.toString}")),
-          fieldId = "value",
-          index   = index,
-          value   = value.toString
-        )
-        if(value == Telephone) checkboxItem.withHint(Hint(content = Text(messages(s"howWouldYouPreferToBeContacted.telephone.hint")))) else checkboxItem
+    values.zipWithIndex.map { case (value, index) =>
+      val checkboxItem = CheckboxItemViewModel(
+        content = Text(messages(s"howWouldYouPreferToBeContacted.${value.toString}")),
+        fieldId = "value",
+        index = index,
+        value = value.toString
+      )
+      if (value == Telephone)
+        checkboxItem.withHint(Hint(content = Text(messages(s"howWouldYouPreferToBeContacted.telephone.hint"))))
+      else checkboxItem
     }
 
   implicit val enumerable: Enumerable[HowWouldYouPreferToBeContacted] =

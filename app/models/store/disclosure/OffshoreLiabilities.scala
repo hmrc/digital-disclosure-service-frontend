@@ -43,19 +43,23 @@ final case class OffshoreLiabilities(
   def isComplete = isCompleteForNilDisclosure || isCompleteForFullDisclosure
 
   def isCompleteForNilDisclosure: Boolean = {
-    val yearsIsSetForNil = whichYears.map(years => (years == Set(ReasonableExcusePriorTo) || years == Set(CarelessPriorTo) || years == Set(DeliberatePriorTo))).getOrElse(false)
-    val descriptionOfYearsBeforeIsDefined = taxBeforeFiveYears.isDefined || taxBeforeSevenYears.isDefined || taxBeforeNineteenYears.isDefined
-    (yearsIsSetForNil && behaviour.isDefined && descriptionOfYearsBeforeIsDefined )
+    val yearsIsSetForNil                  = whichYears
+      .map(years =>
+        years == Set(ReasonableExcusePriorTo) || years == Set(CarelessPriorTo) || years == Set(DeliberatePriorTo)
+      )
+      .getOrElse(false)
+    val descriptionOfYearsBeforeIsDefined =
+      taxBeforeFiveYears.isDefined || taxBeforeSevenYears.isDefined || taxBeforeNineteenYears.isDefined
+    yearsIsSetForNil && behaviour.isDefined && descriptionOfYearsBeforeIsDefined
   }
 
-  def isCompleteForFullDisclosure: Boolean = {
+  def isCompleteForFullDisclosure: Boolean =
     behaviour.isDefined &&
-    whichYears.isDefined &&
-    taxYearLiabilities.isDefined &&
-    countryOfYourOffshoreLiability.isDefined &&
-    legalInterpretation.isDefined &&
-    maximumValueOfAssets.isDefined
-  }
+      whichYears.isDefined &&
+      taxYearLiabilities.isDefined &&
+      countryOfYourOffshoreLiability.isDefined &&
+      legalInterpretation.isDefined &&
+      maximumValueOfAssets.isDefined
 
 }
 

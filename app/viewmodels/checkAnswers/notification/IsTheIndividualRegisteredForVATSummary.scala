@@ -26,25 +26,23 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object IsTheIndividualRegisteredForVATSummary  {
+object IsTheIndividualRegisteredForVATSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(IsTheIndividualRegisteredForVATPage).map {
-      answer =>
-
-        val value = ValueViewModel(
-          HtmlContent(
-            HtmlFormat.escape(messages(s"isTheIndividualRegisteredForVAT.$answer"))
-          )
+    answers.get(IsTheIndividualRegisteredForVATPage).map { answer =>
+      val value = ValueViewModel(
+        HtmlContent(
+          HtmlFormat.escape(messages(s"isTheIndividualRegisteredForVAT.$answer"))
         )
+      )
 
-        SummaryListRowViewModel(
-          key     = "isTheIndividualRegisteredForVAT.checkYourAnswersLabel",
-          value   = value,
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.IsTheIndividualRegisteredForVATController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("isTheIndividualRegisteredForVAT.change.hidden"))
-          )
+      SummaryListRowViewModel(
+        key = "isTheIndividualRegisteredForVAT.checkYourAnswersLabel",
+        value = value,
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.IsTheIndividualRegisteredForVATController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("isTheIndividualRegisteredForVAT.change.hidden"))
         )
+      )
     }
 }

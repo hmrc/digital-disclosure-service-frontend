@@ -21,7 +21,7 @@ import forms.DoYouHaveACaseReferenceFormProvider
 import javax.inject.Inject
 import models.{Mode, UserAnswers}
 import navigation.ReferenceNavigator
-import pages.{DoYouHaveACaseReferencePage, WhatIsTheCaseReferencePage, QuestionPage}
+import pages.{DoYouHaveACaseReferencePage, QuestionPage, WhatIsTheCaseReferencePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -30,56 +30,55 @@ import views.html.reference.DoYouHaveACaseReferenceView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class DoYouHaveACaseReferenceController @Inject()(
-                                         override val messagesApi: MessagesApi,
-                                         sessionService: SessionService,
-                                         navigator: ReferenceNavigator,
-                                         identify: IdentifierAction,
-                                         getData: DataRetrievalAction,
-                                         requireData: DataRequiredAction,
-                                         formProvider: DoYouHaveACaseReferenceFormProvider,
-                                         val controllerComponents: MessagesControllerComponents,
-                                         view: DoYouHaveACaseReferenceView
-                                 )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class DoYouHaveACaseReferenceController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: ReferenceNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: DoYouHaveACaseReferenceFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: DoYouHaveACaseReferenceView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val preparedForm = request.userAnswers.get(DoYouHaveACaseReferencePage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(DoYouHaveACaseReferencePage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, mode))
+    Ok(view(preparedForm, mode))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode))),
+          value => {
 
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+            val pagesToBeClear = userAnswerChanged(request.userAnswers, value)
 
-        value => {
-
-          val pagesToBeClear = userAnswerChanged(request.userAnswers, value)
-
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(DoYouHaveACaseReferencePage, value))
-            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToBeClear))
-            _              <- sessionService.set(clearedAnswers)
-          } yield Redirect(navigator.nextPage(DoYouHaveACaseReferencePage, mode, clearedAnswers))
-        }
-      )
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(DoYouHaveACaseReferencePage, value))
+              clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToBeClear))
+              _              <- sessionService.set(clearedAnswers)
+            } yield Redirect(navigator.nextPage(DoYouHaveACaseReferencePage, mode, clearedAnswers))
+          }
+        )
   }
 
   def userAnswerChanged(userAnswers: UserAnswers, newValue: Boolean): List[QuestionPage[_]] = {
     val caseReference = userAnswers.get(WhatIsTheCaseReferencePage)
     (newValue, caseReference) match {
       case (false, Some(_)) => List(WhatIsTheCaseReferencePage)
-      case _ => Nil
+      case _                => Nil
     }
   }
 }

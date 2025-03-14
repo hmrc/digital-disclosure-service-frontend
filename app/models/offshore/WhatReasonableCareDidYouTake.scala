@@ -18,7 +18,7 @@ package models
 
 import play.api.libs.json._
 
-case class WhatReasonableCareDidYouTake (reasonableCare: String, yearsThisAppliesTo: String)
+case class WhatReasonableCareDidYouTake(reasonableCare: String, yearsThisAppliesTo: String)
 
 object WhatReasonableCareDidYouTake {
   implicit val format: OFormat[WhatReasonableCareDidYouTake] = Json.format[WhatReasonableCareDidYouTake]

@@ -27,12 +27,12 @@ class PropertyFirstLetOutFormProvider @Inject() extends Mappings {
   def apply(): Form[LocalDate] =
     Form(
       "value" -> localDate(
-        invalidKey     = "propertyFirstLetOut.error.invalid",
+        invalidKey = "propertyFirstLetOut.error.invalid",
         allRequiredKey = "propertyFirstLetOut.error.required.all",
-        requiredKey    = "propertyFirstLetOut.error.required",
-        invalidDayKey    = "propertyFirstLetOut.error.invalidDay",
-        invalidMonthKey  = "propertyFirstLetOut.error.invalidMonth"
+        requiredKey = "propertyFirstLetOut.error.required",
+        invalidDayKey = "propertyFirstLetOut.error.invalidDay",
+        invalidMonthKey = "propertyFirstLetOut.error.invalidMonth"
       ).verifying(minDate(LocalDate.of(1850, Month.JANUARY, 1), "propertyFirstLetOut.error.invalidPastDate"))
-       .verifying(maxDate(LocalDate.now().minusDays(1), "propertyFirstLetOut.error.invalidFutureDate"))
+        .verifying(maxDate(LocalDate.now().minusDays(1), "propertyFirstLetOut.error.invalidFutureDate"))
     )
 }

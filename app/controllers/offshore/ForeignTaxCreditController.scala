@@ -19,7 +19,7 @@ package controllers.offshore
 import controllers.actions._
 import forms.ForeignTaxCreditFormProvider
 import javax.inject.Inject
-import models.{TaxYearStarting, Mode, NormalMode}
+import models.{Mode, NormalMode, TaxYearStarting}
 import navigation.OffshoreNavigator
 import pages.ForeignTaxCreditPage
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -32,61 +32,60 @@ import models.requests.DataRequest
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class ForeignTaxCreditController @Inject()(
-                                        override val messagesApi: MessagesApi,
-                                        sessionService: SessionService,
-                                        navigator: OffshoreNavigator,
-                                        identify: IdentifierAction,
-                                        getData: DataRetrievalAction,
-                                        requireData: DataRequiredAction,
-                                        formProvider: ForeignTaxCreditFormProvider,
-                                        val controllerComponents: MessagesControllerComponents,
-                                        view: ForeignTaxCreditView
-                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class ForeignTaxCreditController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: OffshoreNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: ForeignTaxCreditFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: ForeignTaxCreditView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-
-      withYear(i) { year => 
+      withYear(i) { year =>
         val preparedForm = request.userAnswers.getByKey(ForeignTaxCreditPage, year.toString) match {
-          case None => form
+          case None        => form
           case Some(value) => form.fill(value)
         }
 
-        Ok(view(preparedForm, i, (year+1).toString, mode))
+        Ok(view(preparedForm, i, (year + 1).toString, mode))
       }
   }
 
   def onSubmit(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
       withYearAsync(i) { year =>
-        form.bindFromRequest().fold(
-          formWithErrors =>
-            Future.successful(BadRequest(view(formWithErrors, i, (year+1).toString, mode))),
-
-          value =>
-            for {
-              updatedAnswers <- Future.fromTry(request.userAnswers.setByKey(ForeignTaxCreditPage, year.toString, value))
-              _              <- sessionService.set(updatedAnswers)
-            } yield Redirect(navigator.nextTaxYearLiabilitiesPage(i, false, mode, updatedAnswers))
-        )
+        form
+          .bindFromRequest()
+          .fold(
+            formWithErrors => Future.successful(BadRequest(view(formWithErrors, i, (year + 1).toString, mode))),
+            value =>
+              for {
+                updatedAnswers <-
+                  Future.fromTry(request.userAnswers.setByKey(ForeignTaxCreditPage, year.toString, value))
+                _              <- sessionService.set(updatedAnswers)
+              } yield Redirect(navigator.nextTaxYearLiabilitiesPage(i, false, mode, updatedAnswers))
+          )
       }
   }
 
-  def withYearAsync(i: Int)(f: Int => Future[Result])(implicit request: DataRequest[_]): Future[Result] = {
+  def withYearAsync(i: Int)(f: Int => Future[Result])(implicit request: DataRequest[_]): Future[Result] =
     request.userAnswers.inverselySortedOffshoreTaxYears.flatMap(_.lift(i)) match {
       case Some(year: TaxYearStarting) => f(year.startYear)
-      case _ => Future.successful(Redirect(routes.WhichYearsController.onPageLoad(NormalMode).url))
+      case _                           => Future.successful(Redirect(routes.WhichYearsController.onPageLoad(NormalMode).url))
     }
-  }
 
-  def withYear(i: Int)(f: Int => Result)(implicit request: DataRequest[_]): Result = {
+  def withYear(i: Int)(f: Int => Result)(implicit request: DataRequest[_]): Result =
     request.userAnswers.inverselySortedOffshoreTaxYears.flatMap(_.lift(i)) match {
       case Some(year: TaxYearStarting) => f(year.startYear)
-      case _ => Redirect(routes.WhichYearsController.onPageLoad(NormalMode).url)
+      case _                           => Redirect(routes.WhichYearsController.onPageLoad(NormalMode).url)
     }
-  }
 }

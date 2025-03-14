@@ -25,7 +25,7 @@ sealed trait OtherLiabilityIssues
 
 object OtherLiabilityIssues extends Enumerable.Implicits {
 
-  case object EmployerLiabilities extends WithName("employerLiabilities") with OtherLiabilityIssues 
+  case object EmployerLiabilities extends WithName("employerLiabilities") with OtherLiabilityIssues
   case object VatIssues extends WithName("vatIssues") with OtherLiabilityIssues
   case object InheritanceTaxIssues extends WithName("inheritanceTaxIssues") with OtherLiabilityIssues
   case object Class2National extends WithName("class2National") with OtherLiabilityIssues
@@ -42,17 +42,16 @@ object OtherLiabilityIssues extends Enumerable.Implicits {
   )
 
   def checkboxItems(implicit messages: Messages): Seq[CheckboxItem] = {
-    val checkboxes = values.zipWithIndex.map {
-      case (value, index) =>
-        CheckboxItemViewModel(
-          content = Text(messages(s"otherLiabilityIssues.${value.toString}")),
-          fieldId = "value",
-          index   = index,
-          value   = value.toString
-        )
+    val checkboxes = values.zipWithIndex.map { case (value, index) =>
+      CheckboxItemViewModel(
+        content = Text(messages(s"otherLiabilityIssues.${value.toString}")),
+        fieldId = "value",
+        index = index,
+        value = value.toString
+      )
     }
-    val divider = CheckboxItem(divider = Some(messages("site.or")))   
-    checkboxes.dropRight(1) :+ divider :+ checkboxes.last 
+    val divider    = CheckboxItem(divider = Some(messages("site.or")))
+    checkboxes.dropRight(1) :+ divider :+ checkboxes.last
   }
 
   implicit val enumerable: Enumerable[OtherLiabilityIssues] =

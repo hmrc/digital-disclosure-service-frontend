@@ -19,11 +19,11 @@ package config
 import controllers.actions._
 import play.api.inject.Binding
 import play.api.{Configuration, Environment}
-import services.{TimeService, TimeServiceImpl, TestTimeService}
+import services.{TestTimeService, TimeService, TimeServiceImpl}
 
 import java.time.Clock
 
-class Module extends play.api.inject.Module  {
+class Module extends play.api.inject.Module {
 
   override def bindings(environment: Environment, configuration: Configuration): Seq[Binding[_]] = {
 
@@ -37,14 +37,13 @@ class Module extends play.api.inject.Module  {
         Seq(bind[TimeService].to[TestTimeService].eagerly())
       } else Seq(bind[TimeService].to[TimeServiceImpl].eagerly())
 
-
     val bindings = Seq(
       bind[Clock].toInstance(Clock.systemUTC()),
       bind[DataRetrievalAction].to[DataRetrievalActionImpl].eagerly(),
       bind[DataRequiredAction].to[DataRequiredActionImpl].eagerly(),
       bind[DataRequiredActionEvenSubmitted].to[DataRequiredActionEvenSubmittedImpl].eagerly(),
       bind[IdentifierAction].to[AuthenticatedIdentifierAction].eagerly()
-    ) 
+    )
 
     bindings ++ authTokenInitialiserBindings ++ timeServiceBindings
   }

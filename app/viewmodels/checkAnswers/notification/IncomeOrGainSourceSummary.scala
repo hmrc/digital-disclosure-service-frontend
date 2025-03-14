@@ -26,28 +26,27 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object IncomeOrGainSourceSummary  {
+object IncomeOrGainSourceSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(IncomeOrGainSourcePage).map {
-      answers =>
-
-        val value = ValueViewModel(
-          HtmlContent(
-            answers.map {
-              answer => HtmlFormat.escape(messages(s"whereDidTheUndeclaredIncomeOrGainIncluded.$answer")).toString
+    answers.get(IncomeOrGainSourcePage).map { answers =>
+      val value = ValueViewModel(
+        HtmlContent(
+          answers
+            .map { answer =>
+              HtmlFormat.escape(messages(s"whereDidTheUndeclaredIncomeOrGainIncluded.$answer")).toString
             }
             .mkString(",<br>")
-          )
         )
+      )
 
-        SummaryListRowViewModel(
-          key     = "whereDidTheUndeclaredIncomeOrGainIncluded.checkYourAnswersLabel",
-          value   = value,
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.IncomeOrGainSourceController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("whereDidTheUndeclaredIncomeOrGainIncluded.change.hidden"))
-          )
+      SummaryListRowViewModel(
+        key = "whereDidTheUndeclaredIncomeOrGainIncluded.checkYourAnswersLabel",
+        value = value,
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.IncomeOrGainSourceController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("whereDidTheUndeclaredIncomeOrGainIncluded.change.hidden"))
         )
+      )
     }
 }

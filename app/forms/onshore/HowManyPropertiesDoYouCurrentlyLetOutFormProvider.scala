@@ -28,9 +28,9 @@ class HowManyPropertiesDoYouCurrentlyLetOutFormProvider @Inject() extends Mappin
       "value" -> int(
         "howManyProperties.error.required",
         "howManyProperties.error.nonNumeric",
-        "howManyProperties.error.nonNumeric")
-          .verifying(inRange(0, Int.MaxValue, "howManyProperties.error.range"))
-          .transform[String](_.toString, _.toInt)
-      
+        "howManyProperties.error.nonNumeric"
+      )
+        .verifying(inRange(0, Int.MaxValue, "howManyProperties.error.range"))
+        .transform[String](_.toString, _.toInt)
     )
 }

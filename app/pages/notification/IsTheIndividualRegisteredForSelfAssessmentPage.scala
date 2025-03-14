@@ -19,7 +19,8 @@ package pages
 import models.IsTheIndividualRegisteredForSelfAssessment
 import play.api.libs.json.JsPath
 
-case object IsTheIndividualRegisteredForSelfAssessmentPage extends QuestionPage[IsTheIndividualRegisteredForSelfAssessment] {
+case object IsTheIndividualRegisteredForSelfAssessmentPage
+    extends QuestionPage[IsTheIndividualRegisteredForSelfAssessment] {
 
   override def path: JsPath = JsPath \ toString
 

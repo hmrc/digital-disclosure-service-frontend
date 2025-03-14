@@ -24,26 +24,23 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object PropertyAddedSummary  {
+object PropertyAddedSummary {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] = {
+  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
     answers.get(LettingPropertyPage).map { properties =>
       val addressLines = for {
-        i <- properties.indices
+        i       <- properties.indices
         property = properties(i)
         address <- property.address
-       } yield {
-        s"${address.line1} ${address.postcode.getOrElse("")}"
-      }
-      
+      } yield s"${address.line1} ${address.postcode.getOrElse("")}"
+
       SummaryListRowViewModel(
-        key     = "propertyAdded.checkYourAnswersLabel",
-        value   = ValueViewModel(addressLines.mkString(", ")),
+        key = "propertyAdded.checkYourAnswersLabel",
+        value = ValueViewModel(addressLines.mkString(", ")),
         actions = Seq(
           ActionItemViewModel("site.change", routes.PropertyAddedController.onPageLoad(CheckMode).url)
             .withVisuallyHiddenText(messages("propertyAdded.change.hidden"))
         )
       )
     }
-  }
 }

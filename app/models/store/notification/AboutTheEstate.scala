@@ -22,7 +22,7 @@ import models.store.YesNoOrUnsure
 import models.store.YesNoOrUnsure._
 import models.address.Address
 
-final case class AboutTheEstate (
+final case class AboutTheEstate(
   fullName: Option[String] = None,
   dateOfBirth: Option[LocalDate] = None,
   mainOccupation: Option[String] = None,
@@ -35,8 +35,19 @@ final case class AboutTheEstate (
   address: Option[Address] = None
 ) {
   def isComplete = this match {
-    case AboutTheEstate(Some(_), Some(_), Some(_), Some(hasNino), nino, Some(hasVAT), vatRegNumber, Some(hasSA), sautr, Some(_)) => 
-      ( (hasNino != Yes || nino.isDefined) && (hasVAT != Yes || vatRegNumber.isDefined) && (hasSA != Yes || sautr.isDefined) )
+    case AboutTheEstate(
+          Some(_),
+          Some(_),
+          Some(_),
+          Some(hasNino),
+          nino,
+          Some(hasVAT),
+          vatRegNumber,
+          Some(hasSA),
+          sautr,
+          Some(_)
+        ) =>
+      (hasNino != Yes || nino.isDefined) && (hasVAT != Yes || vatRegNumber.isDefined) && (hasSA != Yes || sautr.isDefined)
     case _ => false
   }
 }

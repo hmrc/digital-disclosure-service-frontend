@@ -33,48 +33,52 @@ import views.html.offshore.CountryOfYourOffshoreLiabilityView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class CountryOfYourOffshoreLiabilityController @Inject()(
-                                        override val messagesApi: MessagesApi,
-                                        sessionService: SessionService,
-                                        navigator: OffshoreNavigator,
-                                        identify: IdentifierAction,
-                                        getData: DataRetrievalAction,
-                                        requireData: DataRequiredAction,
-                                        formProvider: CountryOfYourOffshoreLiabilityFormProvider,
-                                        val controllerComponents: MessagesControllerComponents,
-                                        view: CountryOfYourOffshoreLiabilityView
-                                    )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class CountryOfYourOffshoreLiabilityController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: OffshoreNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: CountryOfYourOffshoreLiabilityFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: CountryOfYourOffshoreLiabilityView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
-
-  def onPageLoad(countryCode:Option[String] = None, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
-
+  def onPageLoad(countryCode: Option[String] = None, mode: Mode): Action[AnyContent] =
+    (identify andThen getData andThen requireData) { implicit request =>
       val form: Form[Country] = formProvider()
 
-      val country: Option[Country] = countryCode.flatMap(country => request.userAnswers.getByKey(CountryOfYourOffshoreLiabilityPage, country))
+      val country: Option[Country] =
+        countryCode.flatMap(country => request.userAnswers.getByKey(CountryOfYourOffshoreLiabilityPage, country))
 
       val preparedForm = country match {
-        case None => form
+        case None        => form
         case Some(value) => form.fill(value)
       }
 
       Ok(view(preparedForm, mode))
-  }
+    }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
       val form: Form[Country] = formProvider()
 
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
-
-        value =>
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.setByKey[Country](CountryOfYourOffshoreLiabilityPage, value.alpha3, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(CountryOfYourOffshoreLiabilityPage, mode, updatedAnswers))
-      )
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode))),
+          value =>
+            for {
+              updatedAnswers <-
+                Future.fromTry(
+                  request.userAnswers.setByKey[Country](CountryOfYourOffshoreLiabilityPage, value.alpha3, value)
+                )
+              _              <- sessionService.set(updatedAnswers)
+            } yield Redirect(navigator.nextPage(CountryOfYourOffshoreLiabilityPage, mode, updatedAnswers))
+        )
   }
 
 }

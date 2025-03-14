@@ -25,19 +25,17 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 
-object WhatIsYourUniqueTaxReferenceSummary  {
+object WhatIsYourUniqueTaxReferenceSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(WhatIsYourUniqueTaxReferencePage).map {
-      answer =>
-
-        SummaryListRowViewModel(
-          key     = "whatIsYourUniqueTaxReference.checkYourAnswersLabel",
-          value   = ValueViewModel(Text(answer)),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.WhatIsYourUniqueTaxReferenceController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("whatIsYourUniqueTaxReference.change.hidden"))
-          )
+    answers.get(WhatIsYourUniqueTaxReferencePage).map { answer =>
+      SummaryListRowViewModel(
+        key = "whatIsYourUniqueTaxReference.checkYourAnswersLabel",
+        value = ValueViewModel(Text(answer)),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.WhatIsYourUniqueTaxReferenceController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("whatIsYourUniqueTaxReference.change.hidden"))
         )
+      )
     }
 }

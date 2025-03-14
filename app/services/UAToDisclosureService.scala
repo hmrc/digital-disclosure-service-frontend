@@ -20,15 +20,15 @@ import models._
 import models.store._
 import models.store.disclosure._
 import pages._
-import com.google.inject.{Inject, Singleton, ImplementedBy}
+import com.google.inject.{ImplementedBy, Inject, Singleton}
 
 @Singleton
-class UAToDisclosureServiceImpl @Inject()(
+class UAToDisclosureServiceImpl @Inject() (
   notificationService: UAToNotificationService
 ) extends UAToDisclosureService {
 
-  def uaToFullDisclosure(userAnswers: UserAnswers): FullDisclosure = 
-    FullDisclosure (
+  def uaToFullDisclosure(userAnswers: UserAnswers): FullDisclosure =
+    FullDisclosure(
       userId = userAnswers.id,
       submissionId = userAnswers.submissionId,
       lastUpdated = userAnswers.lastUpdated,
@@ -44,8 +44,8 @@ class UAToDisclosureServiceImpl @Inject()(
       madeDeclaration = userAnswers.madeDeclaration,
       customerId = userAnswers.customerId
     )
-  
-  def uaToOtherLiabilities(userAnswers: UserAnswers): OtherLiabilities = 
+
+  def uaToOtherLiabilities(userAnswers: UserAnswers): OtherLiabilities =
     OtherLiabilities(
       issues = userAnswers.get(OtherLiabilityIssuesPage),
       inheritanceGift = userAnswers.get(DescribeTheGiftPage),
@@ -53,7 +53,7 @@ class UAToDisclosureServiceImpl @Inject()(
       taxCreditsReceived = userAnswers.get(DidYouReceiveTaxCreditPage)
     )
 
-  def uaToOffshoreLiabilities(userAnswers: UserAnswers): OffshoreLiabilities = 
+  def uaToOffshoreLiabilities(userAnswers: UserAnswers): OffshoreLiabilities =
     OffshoreLiabilities(
       behaviour = userAnswers.get(WhyAreYouMakingThisDisclosurePage),
       excuseForNotNotifying = userAnswers.get(WhatIsYourReasonableExcusePage),
@@ -75,31 +75,33 @@ class UAToDisclosureServiceImpl @Inject()(
       maximumValueOfAssets = userAnswers.get(TheMaximumValueOfAllAssetsPage)
     )
 
-  def uaToOnshoreLiabilities(userAnswers: UserAnswers): Option[OnshoreLiabilities] = 
-    Some(OnshoreLiabilities(
-      behaviour = userAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage),
-      excuseForNotNotifying = userAnswers.get(ReasonableExcuseOnshorePage),
-      reasonableCare = userAnswers.get(ReasonableCareOnshorePage),
-      excuseForNotFiling = userAnswers.get(ReasonableExcuseForNotFilingOnshorePage),
-      whatLiabilities = userAnswers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage),
-      whichYears = userAnswers.get(WhichOnshoreYearsPage),
-      youHaveNotIncludedTheTaxYear = userAnswers.get(NotIncludedSingleTaxYearPage),
-      youHaveNotSelectedCertainTaxYears = userAnswers.get(NotIncludedMultipleTaxYearsPage),
-      taxBeforeThreeYears = userAnswers.get(TaxBeforeThreeYearsOnshorePage),
-      taxBeforeFiveYears = userAnswers.get(TaxBeforeFiveYearsOnshorePage),
-      taxBeforeNineteenYears = userAnswers.get(TaxBeforeNineteenYearsOnshorePage),
-      disregardedCDF = userAnswers.get(CDFOnshorePage),
-      taxYearLiabilities = userAnswers.get(OnshoreTaxYearLiabilitiesPage),
-      lettingDeductions = userAnswers.get(ResidentialReductionPage),
-      lettingProperties = userAnswers.get(LettingPropertyPage),
-      memberOfLandlordAssociations = userAnswers.get(AreYouAMemberOfAnyLandlordAssociationsPage),
-      landlordAssociations = userAnswers.get(WhichLandlordAssociationsAreYouAMemberOfPage),
-      howManyProperties = userAnswers.get(HowManyPropertiesDoYouCurrentlyLetOutPage),
-      corporationTaxLiabilities = userAnswers.get(CorporationTaxLiabilityPage),
-      directorLoanAccountLiabilities = userAnswers.get(DirectorLoanAccountLiabilitiesPage)
-    ))
+  def uaToOnshoreLiabilities(userAnswers: UserAnswers): Option[OnshoreLiabilities] =
+    Some(
+      OnshoreLiabilities(
+        behaviour = userAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage),
+        excuseForNotNotifying = userAnswers.get(ReasonableExcuseOnshorePage),
+        reasonableCare = userAnswers.get(ReasonableCareOnshorePage),
+        excuseForNotFiling = userAnswers.get(ReasonableExcuseForNotFilingOnshorePage),
+        whatLiabilities = userAnswers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage),
+        whichYears = userAnswers.get(WhichOnshoreYearsPage),
+        youHaveNotIncludedTheTaxYear = userAnswers.get(NotIncludedSingleTaxYearPage),
+        youHaveNotSelectedCertainTaxYears = userAnswers.get(NotIncludedMultipleTaxYearsPage),
+        taxBeforeThreeYears = userAnswers.get(TaxBeforeThreeYearsOnshorePage),
+        taxBeforeFiveYears = userAnswers.get(TaxBeforeFiveYearsOnshorePage),
+        taxBeforeNineteenYears = userAnswers.get(TaxBeforeNineteenYearsOnshorePage),
+        disregardedCDF = userAnswers.get(CDFOnshorePage),
+        taxYearLiabilities = userAnswers.get(OnshoreTaxYearLiabilitiesPage),
+        lettingDeductions = userAnswers.get(ResidentialReductionPage),
+        lettingProperties = userAnswers.get(LettingPropertyPage),
+        memberOfLandlordAssociations = userAnswers.get(AreYouAMemberOfAnyLandlordAssociationsPage),
+        landlordAssociations = userAnswers.get(WhichLandlordAssociationsAreYouAMemberOfPage),
+        howManyProperties = userAnswers.get(HowManyPropertiesDoYouCurrentlyLetOutPage),
+        corporationTaxLiabilities = userAnswers.get(CorporationTaxLiabilityPage),
+        directorLoanAccountLiabilities = userAnswers.get(DirectorLoanAccountLiabilitiesPage)
+      )
+    )
 
-  def uaToReasonForDisclosingNow(userAnswers: UserAnswers): ReasonForDisclosingNow = 
+  def uaToReasonForDisclosingNow(userAnswers: UserAnswers): ReasonForDisclosingNow =
     ReasonForDisclosingNow(
       reason = userAnswers.get(WhyAreYouMakingADisclosurePage),
       otherReason = userAnswers.get(WhatIsTheReasonForMakingADisclosureNowPage),
@@ -116,11 +118,11 @@ class UAToDisclosureServiceImpl @Inject()(
       telephone = userAnswers.get(WhatTelephoneNumberCanWeContactYouWithPage)
     )
 
-  def uaToCaseReference(userAnswers: UserAnswers): CaseReference = 
+  def uaToCaseReference(userAnswers: UserAnswers): CaseReference =
     CaseReference(
       doYouHaveACaseReference = userAnswers.get(DoYouHaveACaseReferencePage),
       whatIsTheCaseReference = userAnswers.get(WhatIsTheCaseReferencePage)
-    )  
+    )
 
 }
 
@@ -129,6 +131,6 @@ trait UAToDisclosureService {
   def uaToFullDisclosure(userAnswers: UserAnswers): FullDisclosure
   def uaToOtherLiabilities(userAnswers: UserAnswers): OtherLiabilities
   def uaToOffshoreLiabilities(userAnswers: UserAnswers): OffshoreLiabilities
-  def uaToReasonForDisclosingNow(userAnswers: UserAnswers): ReasonForDisclosingNow 
-  def uaToCaseReference(userAnswers: UserAnswers): CaseReference 
+  def uaToReasonForDisclosingNow(userAnswers: UserAnswers): ReasonForDisclosingNow
+  def uaToCaseReference(userAnswers: UserAnswers): CaseReference
 }

@@ -25,21 +25,19 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object TheMaximumValueOfAllAssetsSummary  {
+object TheMaximumValueOfAllAssetsSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(TheMaximumValueOfAllAssetsPage).map {
-      answer =>
+    answers.get(TheMaximumValueOfAllAssetsPage).map { answer =>
+      val value = ValueViewModel(Text(messages(s"theMaximumValueOfAllAssets.$answer")))
 
-        val value = ValueViewModel(Text(messages(s"theMaximumValueOfAllAssets.$answer")))
-
-        SummaryListRowViewModel(
-          key     = "theMaximumValueOfAllAssets.checkYourAnswersLabel",
-          value   = value,
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.TheMaximumValueOfAllAssetsController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("theMaximumValueOfAllAssets.change.hidden"))
-          )
+      SummaryListRowViewModel(
+        key = "theMaximumValueOfAllAssets.checkYourAnswersLabel",
+        value = value,
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.TheMaximumValueOfAllAssetsController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("theMaximumValueOfAllAssets.change.hidden"))
         )
+      )
     }
 }

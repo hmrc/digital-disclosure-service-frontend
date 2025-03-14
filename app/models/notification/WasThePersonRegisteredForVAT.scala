@@ -32,16 +32,17 @@ object WasThePersonRegisteredForVAT extends Enumerable.Implicits {
   case object No extends WithName("no") with WasThePersonRegisteredForVAT
 
   val values: Seq[WasThePersonRegisteredForVAT] = Seq(
-    YesIKnow, YesButIDontKnow, No
+    YesIKnow,
+    YesButIDontKnow,
+    No
   )
 
-  def options(implicit messages: Messages): Seq[RadioItem] = values.zipWithIndex.map {
-    case (value, index) =>
-      RadioItem(
-        content = Text(messages(s"wasThePersonRegisteredForVAT.${value.toString}")),
-        value   = Some(value.toString),
-        id      = Some(s"value_$index")
-      )
+  def options(implicit messages: Messages): Seq[RadioItem] = values.zipWithIndex.map { case (value, index) =>
+    RadioItem(
+      content = Text(messages(s"wasThePersonRegisteredForVAT.${value.toString}")),
+      value = Some(value.toString),
+      id = Some(s"value_$index")
+    )
   }
 
   implicit val enumerable: Enumerable[WasThePersonRegisteredForVAT] =
@@ -49,15 +50,17 @@ object WasThePersonRegisteredForVAT extends Enumerable.Implicits {
 
   implicit def fromYesNoOrUnsure(yesNoOrUnsure: YesNoOrUnsure): WasThePersonRegisteredForVAT =
     yesNoOrUnsure match {
-      case YesNoOrUnsure.Yes => YesIKnow
+      case YesNoOrUnsure.Yes    => YesIKnow
       case YesNoOrUnsure.Unsure => YesButIDontKnow
-      case YesNoOrUnsure.No => No
+      case YesNoOrUnsure.No     => No
     }
 
-  implicit def toYesNoOrUnsure(wasThePersonRegisteredForVAT: Option[WasThePersonRegisteredForVAT]): Option[YesNoOrUnsure] =
+  implicit def toYesNoOrUnsure(
+    wasThePersonRegisteredForVAT: Option[WasThePersonRegisteredForVAT]
+  ): Option[YesNoOrUnsure] =
     wasThePersonRegisteredForVAT.map {
-      case YesIKnow => YesNoOrUnsure.Yes
+      case YesIKnow        => YesNoOrUnsure.Yes
       case YesButIDontKnow => YesNoOrUnsure.Unsure
-      case No => YesNoOrUnsure.No
+      case No              => YesNoOrUnsure.No
     }
 }

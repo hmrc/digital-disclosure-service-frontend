@@ -22,9 +22,9 @@ import scala.util.Try
 sealed trait OffshoreYears extends Ordered[OffshoreYears] {
   def compare(that: OffshoreYears) = (this, that) match {
     case (thisYear: TaxYearStarting, thatYear: TaxYearStarting) => (thatYear.startYear) - (thisYear.startYear)
-    case (thisYear: TaxYearStarting, _) => -1
-    case (_, thisYear: TaxYearStarting) => 1
-    case (_, _) => 0
+    case (thisYear: TaxYearStarting, _)                         => -1
+    case (_, thisYear: TaxYearStarting)                         => 1
+    case (_, _)                                                 => 0
   }
 }
 
@@ -37,12 +37,12 @@ object TaxYearStarting {
     yearList.sorted(Ordering[TaxYearStarting].reverse).map(_.startYear) match {
       case (head :: tail) :+ last =>
         val yearsBetweenFirstAndLast = Range(head, last)
-        val missingYearsAsInts = yearsBetweenFirstAndLast.filterNot{int => yearList.contains(TaxYearStarting(int))}
+        val missingYearsAsInts       = yearsBetweenFirstAndLast.filterNot(int => yearList.contains(TaxYearStarting(int)))
         missingYearsAsInts.map(TaxYearStarting(_)).sorted(Ordering[TaxYearStarting]).toList
-      case _ => Nil
+      case _                      => Nil
     }
 
-  implicit val format: Format[TaxYearStarting] =  Json.format[TaxYearStarting]
+  implicit val format: Format[TaxYearStarting] = Json.format[TaxYearStarting]
 }
 
 case object ReasonableExcusePriorTo extends OffshoreYears {
@@ -63,29 +63,30 @@ object RawOffshoreYears {
 
 object OffshoreYears {
 
-  def fromString(str: String): Option[OffshoreYears] = {
+  def fromString(str: String): Option[OffshoreYears] =
     str match {
-      case "reasonableExcusePriorTo"        => Some(ReasonableExcusePriorTo)
-      case "carelessPriorTo"        => Some(CarelessPriorTo)
-      case "deliberatePriorTo"     => Some(DeliberatePriorTo)
-      case RawOffshoreYears(year) => Some(TaxYearStarting(year))
-      case _ => None
+      case "reasonableExcusePriorTo" => Some(ReasonableExcusePriorTo)
+      case "carelessPriorTo"         => Some(CarelessPriorTo)
+      case "deliberatePriorTo"       => Some(DeliberatePriorTo)
+      case RawOffshoreYears(year)    => Some(TaxYearStarting(year))
+      case _                         => None
     }
-  }
 
   implicit def reads: Reads[OffshoreYears] = Reads {
     case JsString(str) =>
-      fromString(str).map {
-        s => JsSuccess(s)
-      }.getOrElse(JsError("error.invalid"))
-    case _ =>
+      fromString(str)
+        .map { s =>
+          JsSuccess(s)
+        }
+        .getOrElse(JsError("error.invalid"))
+    case _             =>
       JsError("error.invalid")
   }
 
-  implicit val writes: Writes[OffshoreYears] = Writes[OffshoreYears] {
-    value => JsString(value.toString)
+  implicit val writes: Writes[OffshoreYears] = Writes[OffshoreYears] { value =>
+    JsString(value.toString)
   }
-  
-  implicit val format: Format[OffshoreYears] =  Format(reads, writes)
+
+  implicit val format: Format[OffshoreYears] = Format(reads, writes)
 
 }

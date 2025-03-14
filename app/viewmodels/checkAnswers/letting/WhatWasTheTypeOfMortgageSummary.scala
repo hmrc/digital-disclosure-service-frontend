@@ -24,19 +24,20 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import viewmodels.RevealFullText
 
-object WhatWasTheTypeOfMortgageSummary  {
+object WhatWasTheTypeOfMortgageSummary {
 
-  def row(i: Int, lettingProperty: LettingProperty, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
-    lettingProperty.otherTypeOfMortgage.map {
-      answer =>
-
-        SummaryListRowViewModel(
-          key     = "whatWasTheTypeOfMortgage.checkYourAnswersLabel",
-          value   = ValueViewModel(revealFullText.addRevealToText(answer, "whatWasTheTypeOfMortgage.reveal", (i+1).toString)),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.WhatWasTheTypeOfMortgageController.onPageLoad(i, CheckMode).url)
-              .withVisuallyHiddenText(messages("whatWasTheTypeOfMortgage.change.hidden"))
-          )
+  def row(i: Int, lettingProperty: LettingProperty, revealFullText: RevealFullText)(implicit
+    messages: Messages
+  ): Option[SummaryListRow] =
+    lettingProperty.otherTypeOfMortgage.map { answer =>
+      SummaryListRowViewModel(
+        key = "whatWasTheTypeOfMortgage.checkYourAnswersLabel",
+        value =
+          ValueViewModel(revealFullText.addRevealToText(answer, "whatWasTheTypeOfMortgage.reveal", (i + 1).toString)),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.WhatWasTheTypeOfMortgageController.onPageLoad(i, CheckMode).url)
+            .withVisuallyHiddenText(messages("whatWasTheTypeOfMortgage.change.hidden"))
         )
+      )
     }
 }

@@ -30,47 +30,46 @@ import views.html.offshore.ContractualDisclosureFacilityView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class ContractualDisclosureFacilityController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       sessionService: SessionService,
-                                       navigator: OffshoreNavigator,
-                                       identify: IdentifierAction,
-                                       getData: DataRetrievalAction,
-                                       requireData: DataRequiredAction,
-                                       formProvider: ContractualDisclosureFacilityFormProvider,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: ContractualDisclosureFacilityView
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class ContractualDisclosureFacilityController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: OffshoreNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: ContractualDisclosureFacilityFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: ContractualDisclosureFacilityView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val preparedForm = request.userAnswers.get(ContractualDisclosureFacilityPage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(ContractualDisclosureFacilityPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
+    val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
-      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
-
-      Ok(view(preparedForm, mode, entity))
+    Ok(view(preparedForm, mode, entity))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
       val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, entity))),
-
-        value =>
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(ContractualDisclosureFacilityPage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(ContractualDisclosureFacilityPage, mode, updatedAnswers))
-      )
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, entity))),
+          value =>
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(ContractualDisclosureFacilityPage, value))
+              _              <- sessionService.set(updatedAnswers)
+            } yield Redirect(navigator.nextPage(ContractualDisclosureFacilityPage, mode, updatedAnswers))
+        )
   }
 }

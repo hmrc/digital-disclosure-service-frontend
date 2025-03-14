@@ -29,7 +29,8 @@ class ResidentialReductionFormProvider @Inject() extends Mappings {
       "value" -> bigintWithPound(
         "residentialReduction.error.required",
         "residentialReduction.error.wholeNumber",
-        "residentialReduction.error.nonNumeric")
-          .verifying(inRange(BigInt(0), MAX_BIGINT, "residentialReduction.error.outOfRange"))
+        "residentialReduction.error.nonNumeric"
+      )
+        .verifying(inRange(BigInt(0), MAX_BIGINT, "residentialReduction.error.outOfRange"))
     )
 }

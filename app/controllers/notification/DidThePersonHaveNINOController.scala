@@ -32,54 +32,54 @@ import views.html.notification.DidThePersonHaveNINOView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class DidThePersonHaveNINOController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       sessionService: SessionService,
-                                       navigator: NotificationNavigator,
-                                       identify: IdentifierAction,
-                                       getData: DataRetrievalAction,
-                                       requireData: DataRequiredAction,
-                                       formProvider: DidThePersonHaveNINOFormProvider,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: DidThePersonHaveNINOView
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class DidThePersonHaveNINOController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: NotificationNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: DidThePersonHaveNINOFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: DidThePersonHaveNINOView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val preparedForm = request.userAnswers.get(DidThePersonHaveNINOPage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(DidThePersonHaveNINOPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
+    Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
-
-        value => {
-          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(DidThePersonHaveNINOPage, value))
-            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
-            _              <- sessionService.set(clearedAnswers)
-          } yield Redirect(navigator.nextPage(DidThePersonHaveNINOPage, mode, clearedAnswers, hasValueChanged))
-        }
-      )
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
+          value => {
+            val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(DidThePersonHaveNINOPage, value))
+              clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+              _              <- sessionService.set(clearedAnswers)
+            } yield Redirect(navigator.nextPage(DidThePersonHaveNINOPage, mode, clearedAnswers, hasValueChanged))
+          }
+        )
   }
 
-  def changedPages(existingUserAnswers: UserAnswers, value: DidThePersonHaveNINO): (List[QuestionPage[_]], Boolean) = existingUserAnswers.get(DidThePersonHaveNINOPage) match {
-      case Some(DidThePersonHaveNINO.YesIKnow) if value != DidThePersonHaveNINO.YesIKnow => (List(WhatWasThePersonNINOPage), true)
-      case Some(existingValue) if value != existingValue => (Nil, true)
-      case _ => (Nil, false)
+  def changedPages(existingUserAnswers: UserAnswers, value: DidThePersonHaveNINO): (List[QuestionPage[_]], Boolean) =
+    existingUserAnswers.get(DidThePersonHaveNINOPage) match {
+      case Some(DidThePersonHaveNINO.YesIKnow) if value != DidThePersonHaveNINO.YesIKnow =>
+        (List(WhatWasThePersonNINOPage), true)
+      case Some(existingValue) if value != existingValue                                 => (Nil, true)
+      case _                                                                             => (Nil, false)
     }
 
-    
 }

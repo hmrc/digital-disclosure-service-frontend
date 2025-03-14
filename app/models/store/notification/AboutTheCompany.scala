@@ -19,14 +19,14 @@ package models.store.notification
 import play.api.libs.json.{Json, OFormat}
 import models.address.Address
 
-final case class AboutTheCompany (
+final case class AboutTheCompany(
   name: Option[String] = None,
   registrationNumber: Option[String] = None,
   address: Option[Address] = None
 ) {
   def isComplete = this match {
     case AboutTheCompany(Some(_), Some(_), Some(_)) => true
-    case _ => false
+    case _                                          => false
   }
 }
 

@@ -30,48 +30,47 @@ import views.html.offshore.WhatReasonableCareDidYouTakeView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class WhatReasonableCareDidYouTakeController @Inject()(
-                                      override val messagesApi: MessagesApi,
-                                      sessionService: SessionService,
-                                      navigator: OffshoreNavigator,
-                                      identify: IdentifierAction,
-                                      getData: DataRetrievalAction,
-                                      requireData: DataRequiredAction,
-                                      formProvider: WhatReasonableCareDidYouTakeFormProvider,
-                                      val controllerComponents: MessagesControllerComponents,
-                                      view: WhatReasonableCareDidYouTakeView
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class WhatReasonableCareDidYouTakeController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: OffshoreNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: WhatReasonableCareDidYouTakeFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: WhatReasonableCareDidYouTakeView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
+    val entity               = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
-      val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
-      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+    val preparedForm = request.userAnswers.get(WhatReasonableCareDidYouTakePage) match {
+      case None        => form(areTheyTheIndividual)
+      case Some(value) => form(areTheyTheIndividual).fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(WhatReasonableCareDidYouTakePage) match {
-        case None => form(areTheyTheIndividual)
-        case Some(value) => form(areTheyTheIndividual).fill(value)
-      }
-      
-      Ok(view(preparedForm, mode, areTheyTheIndividual, entity))
+    Ok(view(preparedForm, mode, areTheyTheIndividual, entity))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
       val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
-      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+      val entity               = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
-      form(areTheyTheIndividual).bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, areTheyTheIndividual, entity))),
-
-        value =>
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(WhatReasonableCareDidYouTakePage, value))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(WhatReasonableCareDidYouTakePage, mode, updatedAnswers))
-      )
+      form(areTheyTheIndividual)
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, areTheyTheIndividual, entity))),
+          value =>
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(WhatReasonableCareDidYouTakePage, value))
+              _              <- sessionService.set(updatedAnswers)
+            } yield Redirect(navigator.nextPage(WhatReasonableCareDidYouTakePage, mode, updatedAnswers))
+        )
   }
 
   def form(areTheyTheIndividual: Boolean) = formProvider(areTheyTheIndividual)

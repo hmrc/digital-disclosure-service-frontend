@@ -19,13 +19,13 @@ package models.audit
 import play.api.libs.json.Json
 import play.api.libs.json.OFormat
 
-final case class DisclosureStart (
+final case class DisclosureStart(
   userId: String,
   submissionId: String,
   isAgent: Boolean,
   agentReference: Option[String],
   notificationSubmitted: Boolean
-) 
+)
 
 object DisclosureStart {
   implicit val format: OFormat[DisclosureStart] = Json.format[DisclosureStart]

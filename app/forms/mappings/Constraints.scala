@@ -26,58 +26,51 @@ import uk.gov.hmrc.emailaddress.EmailAddress
 trait Constraints {
 
   protected def firstError[A](constraints: Constraint[A]*): Constraint[A] =
-    Constraint {
-      input =>
-        constraints
-          .map(_.apply(input))
-          .find(_ != Valid)
-          .getOrElse(Valid)
+    Constraint { input =>
+      constraints
+        .map(_.apply(input))
+        .find(_ != Valid)
+        .getOrElse(Valid)
     }
 
   protected def minimumValue[A](minimum: A, errorKey: String)(implicit ev: Ordering[A]): Constraint[A] =
-    Constraint {
-      input =>
+    Constraint { input =>
+      import ev._
 
-        import ev._
-
-        if (input >= minimum) {
-          Valid
-        } else {
-          Invalid(errorKey, minimum)
-        }
+      if (input >= minimum) {
+        Valid
+      } else {
+        Invalid(errorKey, minimum)
+      }
     }
 
   protected def maximumValue[A](maximum: A, errorKey: String)(implicit ev: Ordering[A]): Constraint[A] =
-    Constraint {
-      input =>
+    Constraint { input =>
+      import ev._
 
-        import ev._
-
-        if (input <= maximum) {
-          Valid
-        } else {
-          Invalid(errorKey, maximum)
-        }
+      if (input <= maximum) {
+        Valid
+      } else {
+        Invalid(errorKey, maximum)
+      }
     }
 
   protected def inRange[A](minimum: A, maximum: A, errorKey: String)(implicit ev: Ordering[A]): Constraint[A] =
-    Constraint {
-      input =>
+    Constraint { input =>
+      import ev._
 
-        import ev._
-
-        if (input >= minimum && input <= maximum) {
-          Valid
-        } else {
-          Invalid(errorKey, minimum, maximum)
-        }
+      if (input >= minimum && input <= maximum) {
+        Valid
+      } else {
+        Invalid(errorKey, minimum, maximum)
+      }
     }
 
   protected def regexp(regex: String, errorKey: String): Constraint[String] =
     Constraint {
       case str if str.matches(regex) =>
         Valid
-      case _ =>
+      case _                         =>
         Invalid(errorKey, regex)
     }
 
@@ -85,7 +78,7 @@ trait Constraints {
     Constraint {
       case str if str.filterNot(_.isWhitespace).matches(regex) =>
         Valid
-      case _ =>
+      case _                                                   =>
         Invalid(errorKey, args: _*)
     }
 
@@ -93,7 +86,7 @@ trait Constraints {
     Constraint {
       case str if str.length <= maximum =>
         Valid
-      case _ =>
+      case _                            =>
         Invalid(errorKey, maximum)
     }
 
@@ -101,7 +94,7 @@ trait Constraints {
     Constraint {
       case str if str.length <= maximum =>
         Valid
-      case _ =>
+      case _                            =>
         Invalid(errorKey, args: _*)
     }
 
@@ -109,7 +102,7 @@ trait Constraints {
     Constraint {
       case str if str.length >= minimum =>
         Valid
-      case _ =>
+      case _                            =>
         Invalid(errorKey, minimum)
     }
 
@@ -117,7 +110,7 @@ trait Constraints {
     Constraint {
       case date if date.isAfter(maximum) =>
         Invalid(errorKey, args: _*)
-      case _ =>
+      case _                             =>
         Valid
     }
 
@@ -125,7 +118,7 @@ trait Constraints {
     Constraint {
       case date if date.isBefore(minimum) =>
         Invalid(errorKey, args: _*)
-      case _ =>
+      case _                              =>
         Valid
     }
 
@@ -133,7 +126,7 @@ trait Constraints {
     Constraint {
       case set if set.nonEmpty =>
         Valid
-      case _ =>
+      case _                   =>
         Invalid(errorKey)
     }
 
@@ -141,21 +134,20 @@ trait Constraints {
     Constraint {
       case str if emailValidation(str.trim) =>
         Valid
-      case _ =>
+      case _                                =>
         Invalid(errorKey)
     }
 
-  private def emailValidation(email: String): Boolean = {
+  private def emailValidation(email: String): Boolean =
     EmailAddress.isValid(email) && email.split('@')(1).contains('.')
-  }
 
   protected def validNino(invalidFormat: String, notReal: String): Constraint[String] =
     Constraint {
       case str if Nino.isValid(str.toUpperCase()) =>
         Valid
-      case str if checkValidNinoFormat(str) =>
+      case str if checkValidNinoFormat(str)       =>
         Invalid(notReal)
-      case _ =>
+      case _                                      =>
         Invalid(invalidFormat)
     }
 
@@ -165,37 +157,30 @@ trait Constraints {
   }
 
   protected def validUTR(length: Int, errorKey: String): Constraint[String] =
-    Constraint {
-      s => {
-        val value = s.filterNot(c => c.isWhitespace)
-        validLengthAncDigits(value, length, errorKey)
+    Constraint { s =>
+      val value = s.filterNot(c => c.isWhitespace)
+      validLengthAncDigits(value, length, errorKey)
 
-      }
     }
 
   protected def validVAT(length: Int, errorKey: String): Constraint[String] =
-    Constraint {
-      s => {
-        val value = if (s.startsWith("GB")) s.split("GB")(1) else s
-        validLengthAncDigits(value, length, errorKey)
-      }
+    Constraint { s =>
+      val value = if (s.startsWith("GB")) s.split("GB")(1) else s
+      validLengthAncDigits(value, length, errorKey)
     }
 
-  private def validLengthAncDigits(value: String, length: Int, errorKey: String): ValidationResult = {
+  private def validLengthAncDigits(value: String, length: Int, errorKey: String): ValidationResult =
     value.filterNot(c => c.isWhitespace) match {
       case str if str.length == length && str.forall(_.isDigit) => Valid
-      case _ => Invalid(errorKey)
+      case _                                                    => Invalid(errorKey)
     }
-  }
 
   protected def allOrNoneCheckboxConstraint[A](errorKey: String, singleOption: A): Constraint[Set[A]] =
-    Constraint {
-      s => {
-        if (s.contains(singleOption) && s.size > 1) {
-          Invalid(Seq(ValidationError(errorKey)))
-        } else {
-          Valid
-        }
+    Constraint { s =>
+      if (s.contains(singleOption) && s.size > 1) {
+        Invalid(Seq(ValidationError(errorKey)))
+      } else {
+        Valid
       }
     }
 

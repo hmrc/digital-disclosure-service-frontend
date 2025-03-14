@@ -27,6 +27,7 @@ class IncomeOrGainSourceFormProvider @Inject() extends Mappings {
 
   def apply(): Form[Set[IncomeOrGainSource]] =
     Form(
-      "value" -> set(enumerable[IncomeOrGainSource]("whereDidTheUndeclaredIncomeOrGainIncluded.error.required")).verifying(nonEmptySet("whereDidTheUndeclaredIncomeOrGainIncluded.error.required"))
+      "value" -> set(enumerable[IncomeOrGainSource]("whereDidTheUndeclaredIncomeOrGainIncluded.error.required"))
+        .verifying(nonEmptySet("whereDidTheUndeclaredIncomeOrGainIncluded.error.required"))
     )
 }

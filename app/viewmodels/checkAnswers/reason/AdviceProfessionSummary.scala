@@ -25,19 +25,17 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 
-object AdviceProfessionSummary  {
+object AdviceProfessionSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(AdviceProfessionPage).map {
-      answer =>
-
-        SummaryListRowViewModel(
-          key     = "adviceProfession.checkYourAnswersLabel",
-          value   = ValueViewModel(Text(answer)),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.AdviceProfessionController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("adviceProfession.change.hidden"))
-          )
+    answers.get(AdviceProfessionPage).map { answer =>
+      SummaryListRowViewModel(
+        key = "adviceProfession.checkYourAnswersLabel",
+        value = ValueViewModel(Text(answer)),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.AdviceProfessionController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("adviceProfession.change.hidden"))
         )
+      )
     }
 }

@@ -26,6 +26,9 @@ class DidYouReceiveTaxCreditFormProvider @Inject() extends Mappings {
 
   def apply(areTheyTheIndividual: Boolean, entity: RelatesTo): Form[Boolean] =
     Form(
-      "value" -> boolean(if(areTheyTheIndividual) "didYouReceiveTaxCredit.agent.error.required" else s"didYouReceiveTaxCredit.${entity}.error.required")
+      "value" -> boolean(
+        if (areTheyTheIndividual) "didYouReceiveTaxCredit.agent.error.required"
+        else s"didYouReceiveTaxCredit.$entity.error.required"
+      )
     )
 }

@@ -31,55 +31,62 @@ import views.html.notification.DoesTheIndividualHaveNationalInsuranceNumberView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class DoesTheIndividualHaveNationalInsuranceNumberController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       sessionService: SessionService,
-                                       navigator: NotificationNavigator,
-                                       identify: IdentifierAction,
-                                       getData: DataRetrievalAction,
-                                       requireData: DataRequiredAction,
-                                       formProvider: DoesTheIndividualHaveNationalInsuranceNumberFormProvider,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: DoesTheIndividualHaveNationalInsuranceNumberView
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class DoesTheIndividualHaveNationalInsuranceNumberController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: NotificationNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: DoesTheIndividualHaveNationalInsuranceNumberFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: DoesTheIndividualHaveNationalInsuranceNumberView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val preparedForm = request.userAnswers.get(DoesTheIndividualHaveNationalInsuranceNumberPage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(DoesTheIndividualHaveNationalInsuranceNumberPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
+    Ok(view(preparedForm, mode, request.userAnswers.isDisclosure))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
-
-        value => {
-          val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(DoesTheIndividualHaveNationalInsuranceNumberPage, value))
-            clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
-            _              <- sessionService.set(clearedAnswers)
-          } yield Redirect(navigator.nextPage(DoesTheIndividualHaveNationalInsuranceNumberPage, mode, clearedAnswers, hasValueChanged))
-        }
-      )
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, request.userAnswers.isDisclosure))),
+          value => {
+            val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
+            for {
+              updatedAnswers <-
+                Future.fromTry(request.userAnswers.set(DoesTheIndividualHaveNationalInsuranceNumberPage, value))
+              clearedAnswers <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+              _              <- sessionService.set(clearedAnswers)
+            } yield Redirect(
+              navigator
+                .nextPage(DoesTheIndividualHaveNationalInsuranceNumberPage, mode, clearedAnswers, hasValueChanged)
+            )
+          }
+        )
   }
 
-  def changedPages(existingUserAnswers: UserAnswers, value: DoesTheIndividualHaveNationalInsuranceNumber): (List[QuestionPage[_]], Boolean) = 
+  def changedPages(
+    existingUserAnswers: UserAnswers,
+    value: DoesTheIndividualHaveNationalInsuranceNumber
+  ): (List[QuestionPage[_]], Boolean) =
     existingUserAnswers.get(DoesTheIndividualHaveNationalInsuranceNumberPage) match {
-      case Some(DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow) if value != DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow => (List(WhatIsIndividualsNationalInsuranceNumberPage), true)
+      case Some(DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow)
+          if value != DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow =>
+        (List(WhatIsIndividualsNationalInsuranceNumberPage), true)
       case Some(existingValue) if value != existingValue => (Nil, true)
-      case _ => (Nil, false)
+      case _                                             => (Nil, false)
     }
 
-    
 }

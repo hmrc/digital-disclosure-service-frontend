@@ -25,21 +25,19 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import viewmodels.RevealFullText
 
-object CountriesOrTerritoriesSummary  {
+object CountriesOrTerritoriesSummary {
 
   def row(answers: UserAnswers, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(CountryOfYourOffshoreLiabilityPage).map {
-      answer =>
+    answers.get(CountryOfYourOffshoreLiabilityPage).map { answer =>
+      val value = answer.values.map(_.name).mkString(", ")
 
-        val value = answer.values.map(_.name).mkString(", ")
-
-        SummaryListRowViewModel(
-          key     = "countriesOrTerritories.checkYourAnswersLabel",
-          value   = ValueViewModel(revealFullText.addRevealToText(value, "countriesOrTerritories.reveal")),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.CountriesOrTerritoriesController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("countriesOrTerritories.change.hidden"))
-          )
+      SummaryListRowViewModel(
+        key = "countriesOrTerritories.checkYourAnswersLabel",
+        value = ValueViewModel(revealFullText.addRevealToText(value, "countriesOrTerritories.reveal")),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.CountriesOrTerritoriesController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("countriesOrTerritories.change.hidden"))
         )
+      )
     }
 }

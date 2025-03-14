@@ -21,10 +21,10 @@ import models.store._
 import models.store.disclosure._
 import pages._
 import scala.util.Try
-import com.google.inject.{Inject, Singleton, ImplementedBy}
+import com.google.inject.{ImplementedBy, Inject, Singleton}
 
 @Singleton
-class DisclosureToUAServiceImpl @Inject()(
+class DisclosureToUAServiceImpl @Inject() (
   notificationService: NotificationToUAService
 ) extends DisclosureToUAService {
 
@@ -33,7 +33,8 @@ class DisclosureToUAServiceImpl @Inject()(
 
     for {
       uaWithCaseRef         <- caseReferenceToUa(fullDisclosure.caseReference, userAnswers)
-      uaWithPersonalDetails <- notificationService.personalDetailsToUserAnswers(fullDisclosure.personalDetails, uaWithCaseRef)
+      uaWithPersonalDetails <-
+        notificationService.personalDetailsToUserAnswers(fullDisclosure.personalDetails, uaWithCaseRef)
       uaWithOffshore        <- offshoreLiabilitiesToUa(fullDisclosure.offshoreLiabilities, uaWithPersonalDetails)
       uaWithOnshore         <- onshoreLiabilitiesToUa(fullDisclosure.onshoreLiabilities, uaWithOffshore)
       uaWithOther           <- otherLiabilitiesToUa(fullDisclosure.otherLiabilities, uaWithOnshore)
@@ -64,10 +65,10 @@ class DisclosureToUAServiceImpl @Inject()(
       doYouHaveACaseReference.map(PageWithValue(DoYouHaveACaseReferencePage, _)),
       whatIsTheCaseReference.map(PageWithValue(WhatIsTheCaseReferencePage, _))
     ).flatten
-    
+
     PageWithValue.pagesToUserAnswers(pages, userAnswers)
   }
-  
+
   def otherLiabilitiesToUa(otherLiabilities: OtherLiabilities, userAnswers: UserAnswers): Try[UserAnswers] = {
     import otherLiabilities._
 
@@ -77,7 +78,7 @@ class DisclosureToUAServiceImpl @Inject()(
       other.map(PageWithValue(WhatOtherLiabilityIssuesPage, _)),
       taxCreditsReceived.map(PageWithValue(DidYouReceiveTaxCreditPage, _))
     ).flatten
-    
+
     PageWithValue.pagesToUserAnswers(pages, userAnswers)
   }
 
@@ -104,11 +105,14 @@ class DisclosureToUAServiceImpl @Inject()(
       notIncludedDueToInterpretation.map(PageWithValue(HowMuchTaxHasNotBeenIncludedPage, _)),
       maximumValueOfAssets.map(PageWithValue(TheMaximumValueOfAllAssetsPage, _))
     ).flatten
-    
+
     PageWithValue.pagesToUserAnswers(pages, userAnswers)
   }
 
-  def onshoreLiabilitiesToUa(onshoreLiabilities: Option[OnshoreLiabilities], userAnswers: UserAnswers): Try[UserAnswers] = {
+  def onshoreLiabilitiesToUa(
+    onshoreLiabilities: Option[OnshoreLiabilities],
+    userAnswers: UserAnswers
+  ): Try[UserAnswers] = {
 
     val liabilities = onshoreLiabilities.getOrElse(OnshoreLiabilities())
 
@@ -136,11 +140,14 @@ class DisclosureToUAServiceImpl @Inject()(
       corporationTaxLiabilities.map(PageWithValue(CorporationTaxLiabilityPage, _)),
       directorLoanAccountLiabilities.map(PageWithValue(DirectorLoanAccountLiabilitiesPage, _))
     ).flatten
-    
+
     PageWithValue.pagesToUserAnswers(pages, userAnswers)
   }
 
-  def reasonForDisclosingNowToUa(reasonForDisclosingNow: ReasonForDisclosingNow, userAnswers: UserAnswers): Try[UserAnswers] = {
+  def reasonForDisclosingNowToUa(
+    reasonForDisclosingNow: ReasonForDisclosingNow,
+    userAnswers: UserAnswers
+  ): Try[UserAnswers] = {
     import reasonForDisclosingNow._
 
     val pages = List(
@@ -158,7 +165,7 @@ class DisclosureToUAServiceImpl @Inject()(
       email.map(PageWithValue(WhatEmailAddressCanWeContactYouWithPage, _)),
       telephone.map(PageWithValue(WhatTelephoneNumberCanWeContactYouWithPage, _))
     ).flatten
-    
+
     PageWithValue.pagesToUserAnswers(pages, userAnswers)
   }
 

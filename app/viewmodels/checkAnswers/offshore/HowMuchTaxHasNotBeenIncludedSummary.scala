@@ -25,21 +25,19 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object HowMuchTaxHasNotBeenIncludedSummary  {
+object HowMuchTaxHasNotBeenIncludedSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(HowMuchTaxHasNotBeenIncludedPage).map {
-      answer =>
+    answers.get(HowMuchTaxHasNotBeenIncludedPage).map { answer =>
+      val value = ValueViewModel(Text(messages(s"howMuchTaxHasNotBeenIncluded.$answer")))
 
-        val value = ValueViewModel(Text(messages(s"howMuchTaxHasNotBeenIncluded.$answer")))
-
-        SummaryListRowViewModel(
-          key     = "howMuchTaxHasNotBeenIncluded.checkYourAnswersLabel",
-          value   = value,
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.HowMuchTaxHasNotBeenIncludedController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("howMuchTaxHasNotBeenIncluded.change.hidden"))
-          )
+      SummaryListRowViewModel(
+        key = "howMuchTaxHasNotBeenIncluded.checkYourAnswersLabel",
+        value = value,
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.HowMuchTaxHasNotBeenIncludedController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("howMuchTaxHasNotBeenIncluded.change.hidden"))
         )
+      )
     }
 }

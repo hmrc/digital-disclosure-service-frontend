@@ -25,19 +25,20 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 
-object WhatIsYourNationalInsuranceNumberSummary  {
+object WhatIsYourNationalInsuranceNumberSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(WhatIsYourNationalInsuranceNumberPage).map {
-      answer =>
-
-        SummaryListRowViewModel(
-          key     = "whatIsYourNationalInsuranceNumber.checkYourAnswersLabel",
-          value   = ValueViewModel(Text(answer)),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.WhatIsYourNationalInsuranceNumberController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("whatIsYourNationalInsuranceNumber.change.hidden"))
+    answers.get(WhatIsYourNationalInsuranceNumberPage).map { answer =>
+      SummaryListRowViewModel(
+        key = "whatIsYourNationalInsuranceNumber.checkYourAnswersLabel",
+        value = ValueViewModel(Text(answer)),
+        actions = Seq(
+          ActionItemViewModel(
+            "site.change",
+            routes.WhatIsYourNationalInsuranceNumberController.onPageLoad(CheckMode).url
           )
+            .withVisuallyHiddenText(messages("whatIsYourNationalInsuranceNumber.change.hidden"))
         )
+      )
     }
 }

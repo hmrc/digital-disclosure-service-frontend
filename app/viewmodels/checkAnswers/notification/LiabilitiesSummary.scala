@@ -25,30 +25,29 @@ import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 
-object LiabilitiesSummary  {
+object LiabilitiesSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] = {
 
     val offshoreAnswer = answers.get(OffshoreLiabilitiesPage).getOrElse(true)
-    val onshoreAnswer = answers.get(OnshoreLiabilitiesPage).getOrElse(true)
+    val onshoreAnswer  = answers.get(OnshoreLiabilitiesPage).getOrElse(true)
 
     val value = (offshoreAnswer, onshoreAnswer) match {
       case (true, false) => Text(messages("liabilities.offshore"))
-      case (false, _) => Text(messages("liabilities.onshore"))
-      case (true, true) => Text(messages("liabilities.offshoreOnshore"))
+      case (false, _)    => Text(messages("liabilities.onshore"))
+      case (true, true)  => Text(messages("liabilities.offshoreOnshore"))
     }
 
     Some(createRow(value))
   }
 
-  def createRow(value: Text)(implicit messages: Messages): SummaryListRow = {
+  def createRow(value: Text)(implicit messages: Messages): SummaryListRow =
     SummaryListRowViewModel(
-      key     = "liabilities.checkYourAnswersLabel",
-      value   = ValueViewModel(value),
+      key = "liabilities.checkYourAnswersLabel",
+      value = ValueViewModel(value),
       actions = Seq(
         ActionItemViewModel("site.change", routes.OffshoreLiabilitiesController.onPageLoad(CheckMode).url)
           .withVisuallyHiddenText(messages("liabilities.change.hidden"))
       )
     )
-  }  
 }

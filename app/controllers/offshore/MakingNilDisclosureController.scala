@@ -22,39 +22,39 @@ import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.offshore.MakingNilDisclosureView
-import models.{UserAnswers, RelatesTo, Behaviour}
+import models.{Behaviour, RelatesTo, UserAnswers}
 import models.WhyAreYouMakingThisDisclosure._
 import pages.{RelatesToPage, WhyAreYouMakingThisDisclosurePage}
 import services.OffshoreWhichYearsService
 
-class MakingNilDisclosureController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       identify: IdentifierAction,
-                                       getData: DataRetrievalAction,
-                                       requireData: DataRequiredAction,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: MakingNilDisclosureView,
-                                       offshoreWhichYearsService: OffshoreWhichYearsService
-                                     ) extends FrontendBaseController with I18nSupport {
+class MakingNilDisclosureController @Inject() (
+  override val messagesApi: MessagesApi,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  val controllerComponents: MessagesControllerComponents,
+  view: MakingNilDisclosureView,
+  offshoreWhichYearsService: OffshoreWhichYearsService
+) extends FrontendBaseController
+    with I18nSupport {
 
-  def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+    val year   = offshoreWhichYearsService.getEarliestYearByBehaviour(getBehaviour(request.userAnswers)).toString
 
-      val entity = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
-      val year = offshoreWhichYearsService.getEarliestYearByBehaviour(getBehaviour(request.userAnswers)).toString
-      
-      Ok(view(request.userAnswers.isTheUserTheIndividual, entity, year))
+    Ok(view(request.userAnswers.isTheUserTheIndividual, entity, year))
   }
 
-  def getBehaviour(ua: UserAnswers): Behaviour = {
+  def getBehaviour(ua: UserAnswers): Behaviour =
     ua.get(WhyAreYouMakingThisDisclosurePage) match {
-      case Some(value) if (value.contains(DidNotNotifyNoExcuse) ||
-          value.contains(DeliberatelyDidNotNotify) ||
-          value.contains(DeliberateInaccurateReturn) ||
-          value.contains(DeliberatelyDidNotFile)) =>  Behaviour.Deliberate
-      case Some(value) if (value.contains(InaccurateReturnNoCare)) => Behaviour.Careless
-      case _ => Behaviour.ReasonableExcuse
-    }  
-  }
+      case Some(value)
+          if value.contains(DidNotNotifyNoExcuse) ||
+            value.contains(DeliberatelyDidNotNotify) ||
+            value.contains(DeliberateInaccurateReturn) ||
+            value.contains(DeliberatelyDidNotFile) =>
+        Behaviour.Deliberate
+      case Some(value) if value.contains(InaccurateReturnNoCare) => Behaviour.Careless
+      case _                                                     => Behaviour.ReasonableExcuse
+    }
 
 }

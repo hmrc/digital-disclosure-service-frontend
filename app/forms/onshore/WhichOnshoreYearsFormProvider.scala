@@ -27,6 +27,8 @@ class WhichOnshoreYearsFormProvider @Inject() extends Mappings {
 
   def apply(): Form[Set[OnshoreYears]] =
     Form(
-      "value" -> set(onshoreYears("whichOnshoreYears.error.required")).verifying(nonEmptySet("whichOnshoreYears.error.required"))
+      "value" -> set(onshoreYears("whichOnshoreYears.error.required")).verifying(
+        nonEmptySet("whichOnshoreYears.error.required")
+      )
     )
 }

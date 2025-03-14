@@ -26,25 +26,26 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object DoesTheIndividualHaveNationalInsuranceNumberSummary  {
+object DoesTheIndividualHaveNationalInsuranceNumberSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(DoesTheIndividualHaveNationalInsuranceNumberPage).map {
-      answer =>
-
-        val value = ValueViewModel(
-          HtmlContent(
-            HtmlFormat.escape(messages(s"doesTheIndividualHaveNINO.$answer"))
-          )
+    answers.get(DoesTheIndividualHaveNationalInsuranceNumberPage).map { answer =>
+      val value = ValueViewModel(
+        HtmlContent(
+          HtmlFormat.escape(messages(s"doesTheIndividualHaveNINO.$answer"))
         )
+      )
 
-        SummaryListRowViewModel(
-          key     = "doesTheIndividualHaveNINO.checkYourAnswersLabel",
-          value   = value,
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("doesTheIndividualHaveNINO.change.hidden"))
+      SummaryListRowViewModel(
+        key = "doesTheIndividualHaveNINO.checkYourAnswersLabel",
+        value = value,
+        actions = Seq(
+          ActionItemViewModel(
+            "site.change",
+            routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
           )
+            .withVisuallyHiddenText(messages("doesTheIndividualHaveNINO.change.hidden"))
         )
+      )
     }
 }

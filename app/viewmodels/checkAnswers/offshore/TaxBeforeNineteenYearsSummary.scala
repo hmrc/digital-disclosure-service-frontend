@@ -28,21 +28,19 @@ import com.google.inject.{Inject, Singleton}
 import viewmodels.RevealFullText
 
 @Singleton
-class TaxBeforeNineteenYearsSummary @Inject() (offshoreWhichYearsService: OffshoreWhichYearsService)  {
+class TaxBeforeNineteenYearsSummary @Inject() (offshoreWhichYearsService: OffshoreWhichYearsService) {
 
   def row(answers: UserAnswers, revealFullText: RevealFullText)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(TaxBeforeNineteenYearsPage).map {
-      answer =>
+    answers.get(TaxBeforeNineteenYearsPage).map { answer =>
+      val year = offshoreWhichYearsService.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
 
-        val year = offshoreWhichYearsService.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
-
-        SummaryListRowViewModel(
-          key     = messages("taxBeforeNineteenYears.checkYourAnswersLabel", year),
-          value   = ValueViewModel(revealFullText.addRevealToText(answer, "taxBeforeNineteenYears.reveal", year)),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.TaxBeforeNineteenYearsController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("taxBeforeNineteenYears.change.hidden", year))
-          )
+      SummaryListRowViewModel(
+        key = messages("taxBeforeNineteenYears.checkYourAnswersLabel", year),
+        value = ValueViewModel(revealFullText.addRevealToText(answer, "taxBeforeNineteenYears.reveal", year)),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.TaxBeforeNineteenYearsController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages("taxBeforeNineteenYears.change.hidden", year))
         )
+      )
     }
 }

@@ -27,13 +27,17 @@ class WhatIsTheIndividualDateOfBirthFormProvider @Inject() extends Mappings {
   def apply(): Form[LocalDate] =
     Form(
       "value" -> localDate(
-        invalidKey     = "whatIsTheIndividualDateOfBirth.error.invalid",
+        invalidKey = "whatIsTheIndividualDateOfBirth.error.invalid",
         allRequiredKey = "whatIsTheIndividualDateOfBirth.error.required.all",
-        requiredKey    = "whatIsTheIndividualDateOfBirth.error.required",
-        invalidDayKey    = "whatIsTheIndividualDateOfBirth.error.invalidDay",
-        invalidMonthKey  = "whatIsTheIndividualDateOfBirth.error.invalidMonth"
+        requiredKey = "whatIsTheIndividualDateOfBirth.error.required",
+        invalidDayKey = "whatIsTheIndividualDateOfBirth.error.invalidDay",
+        invalidMonthKey = "whatIsTheIndividualDateOfBirth.error.invalidMonth"
       )
-      .verifying(minDate(LocalDate.of(1850, Month.JANUARY, 1), "whatIsTheIndividualDateOfBirth.error.invalidPastDateOfBirth"))
-      .verifying(maxDate(LocalDate.now().minusDays(1), "whatIsTheIndividualDateOfBirth.error.invalidFutureDateOfBirth"))
+        .verifying(
+          minDate(LocalDate.of(1850, Month.JANUARY, 1), "whatIsTheIndividualDateOfBirth.error.invalidPastDateOfBirth")
+        )
+        .verifying(
+          maxDate(LocalDate.now().minusDays(1), "whatIsTheIndividualDateOfBirth.error.invalidFutureDateOfBirth")
+        )
     )
 }
