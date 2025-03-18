@@ -122,7 +122,7 @@ trait RadiosFluency {
       radios copy (hint = Some(hint))
 
     def withFormGroupClasses(classes: String): Radios =
-      radios copy (formGroupClasses = classes)
+      radios copy (classes = classes)
 
     def withIdPrefix(prefix: String): Radios =
       radios copy (idPrefix = Some(prefix))
