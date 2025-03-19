@@ -18,17 +18,18 @@ package controllers.onshore
 
 import base.SpecBase
 import forms.ReasonableCareOnshoreFormProvider
-import models.{AreYouTheEntity, NormalMode, ReasonableCareOnshore, RelatesTo, UserAnswers}
+import models.{AreYouTheEntity, NormalMode, ReasonableCareOnshore, RelatesTo, UserAnswers, SubmissionType}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages._
-import play.api.libs.json.Json
+import play.api.libs.json.JsObject
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.html.onshore.ReasonableCareOnshoreView
 
+import java.time.Instant
 import scala.concurrent.Future
 
 class ReasonableCareOnshoreControllerSpec extends SpecBase with MockitoSugar {
@@ -66,34 +67,21 @@ class ReasonableCareOnshoreControllerSpec extends SpecBase with MockitoSugar {
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(
-        userAnswersId,
-        Json.obj(
-          ReasonableCareOnshorePage.toString -> Json.obj(
-            "reasonableCare" -> "value 1",
-            "yearsThisAppliesTo" -> "value 2"
-          )
-        ).toString
-      )
-
-      val ua = (for {
-        updatedAnswer <- userAnswers.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+      val userAnswers = (for {
+        ua <- UserAnswers(userAnswersId, "session-123", "submission-123", SubmissionType.Disclosure, JsObject.empty, Instant.now, Instant.now, models.store.Metadata(), false, None)
+          .set(ReasonableCareOnshorePage, ReasonableCareOnshore("value 1", "value 1"))
+        updatedAnswer <- ua.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- updatedAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
-      val areTheyTheIndividual = ua.isTheUserTheIndividual
-      val entity = ua.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
-
-      setupMockSessionResponse(Some(ua))
+      setupMockSessionResponse(Some(userAnswers))
 
       val request = FakeRequest(GET, whatReasonableCareDidYouTakeRoute)
-
-      val view = application.injector.instanceOf[ReasonableCareOnshoreView]
 
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(ReasonableCareOnshore("", "")), NormalMode, areTheyTheIndividual, entity)(request, messages).toString
+      contentAsString(result) must include("""value="value 1"""")
     }
 
     "must redirect to the next page when valid data is submitted" in {
