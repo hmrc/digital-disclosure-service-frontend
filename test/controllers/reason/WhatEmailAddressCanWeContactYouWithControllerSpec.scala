@@ -35,9 +35,10 @@ class WhatEmailAddressCanWeContactYouWithControllerSpec extends SpecBase with Mo
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new WhatEmailAddressCanWeContactYouWithFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
-  lazy val whatEmailAddressCanWeContactYouWithRoute = routes.WhatEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode).url
+  lazy val whatEmailAddressCanWeContactYouWithRoute =
+    routes.WhatEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode).url
 
   "WhatEmailAddressCanWeContactYouWith Controller" - {
 
@@ -57,7 +58,8 @@ class WhatEmailAddressCanWeContactYouWithControllerSpec extends SpecBase with Mo
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhatEmailAddressCanWeContactYouWithPage, "answer").success.value
+      val userAnswers =
+        UserAnswers(userAnswersId, "session-123").set(WhatEmailAddressCanWeContactYouWithPage, "answer").success.value
 
       setupMockSessionResponse(Some(userAnswers))
 

@@ -21,16 +21,17 @@ import play.api.i18n.{Messages, MessagesApi}
 import play.api.mvc.{AnyContent, Request}
 import play.api.test.CSRFTokenHelper.CSRFRequest
 import play.api.test.{FakeRequest, Injecting}
-import config.{NoOpInternalAuthTokenInitialiser, InternalAuthTokenInitialiser}
+import config.{InternalAuthTokenInitialiser, NoOpInternalAuthTokenInitialiser}
 import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
 
 trait ViewSpecBase extends PlaySpec with Injecting {
 
   val app = new GuiceApplicationBuilder()
-    .overrides(bind[InternalAuthTokenInitialiser].to[NoOpInternalAuthTokenInitialiser]).build()
+    .overrides(bind[InternalAuthTokenInitialiser].to[NoOpInternalAuthTokenInitialiser])
+    .build()
 
-  val request: Request[AnyContent] = FakeRequest().withCSRFToken
+  val request: Request[AnyContent]           = FakeRequest().withCSRFToken
   protected val realMessagesApi: MessagesApi = inject[MessagesApi]
 
   implicit def messages: Messages =

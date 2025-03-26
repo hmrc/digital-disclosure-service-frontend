@@ -35,22 +35,23 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val WhyAreYouMakingThisOnshoreDisclosureRoute = routes.WhyAreYouMakingThisOnshoreDisclosureController.onPageLoad(NormalMode).url
+  lazy val WhyAreYouMakingThisOnshoreDisclosureRoute =
+    routes.WhyAreYouMakingThisOnshoreDisclosureController.onPageLoad(NormalMode).url
 
   val formProvider = new WhyAreYouMakingThisOnshoreDisclosureFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   "WhyAreYouMakingThisOnshoreDisclosure Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
       val userAnswers = (for {
-        userAnswer <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        userAnswer          <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
       val areTheyTheIndividual = userAnswers.isTheUserTheIndividual
-      val entity = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+      val entity               = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -68,13 +69,16 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = (for {
-        userAnswer <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
-        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
-        uaWithWhyAreYouMakingThisOnshoreDisclosurePage <- uaWithRelatesToPage.set(WhyAreYouMakingThisOnshoreDisclosurePage, WhyAreYouMakingThisOnshoreDisclosure.values.toSet)
+        userAnswer                                     <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        uaWithRelatesToPage                            <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
+        uaWithWhyAreYouMakingThisOnshoreDisclosurePage <- uaWithRelatesToPage.set(
+                                                            WhyAreYouMakingThisOnshoreDisclosurePage,
+                                                            WhyAreYouMakingThisOnshoreDisclosure.values.toSet
+                                                          )
       } yield uaWithWhyAreYouMakingThisOnshoreDisclosurePage).success.value
 
       val areTheyTheIndividual = userAnswers.isTheUserTheIndividual
-      val entity = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+      val entity               = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -85,13 +89,18 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
       val view = application.injector.instanceOf[WhyAreYouMakingThisOnshoreDisclosureView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(WhyAreYouMakingThisOnshoreDisclosure.values.toSet), NormalMode, areTheyTheIndividual, entity)(request, messages).toString
+      contentAsString(result) mustEqual view(
+        form.fill(WhyAreYouMakingThisOnshoreDisclosure.values.toSet),
+        NormalMode,
+        areTheyTheIndividual,
+        entity
+      )(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
       val userAnswers = (for {
-        userAnswer <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        userAnswer          <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
@@ -111,12 +120,12 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
     "must return a Bad Request and errors when invalid data is submitted" in {
 
       val userAnswers = (for {
-        userAnswer <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        userAnswer          <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
       val areTheyTheIndividual = userAnswers.isTheUserTheIndividual
-      val entity = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+      val entity               = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -131,7 +140,10 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
@@ -170,7 +182,7 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
         WhyAreYouMakingThisOnshoreDisclosure.NotFileHasExcuse,
         WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnNoCare
       )
-      val expectedPages = List(CDFOnshorePage, TaxBeforeNineteenYearsOnshorePage)
+      val expectedPages                                  = List(CDFOnshorePage, TaxBeforeNineteenYearsOnshorePage)
       WhyAreYouMakingThisOnshoreDisclosureController.getPages(set) mustEqual expectedPages
     }
 
@@ -178,7 +190,14 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
       val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(
         WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnNoCare
       )
-      val expectedPages = List(CDFOnshorePage, TaxBeforeNineteenYearsOnshorePage, ReasonableExcuseOnshorePage, ReasonableCareOnshorePage, ReasonableExcuseForNotFilingOnshorePage, TaxBeforeThreeYearsOnshorePage)
+      val expectedPages                                  = List(
+        CDFOnshorePage,
+        TaxBeforeNineteenYearsOnshorePage,
+        ReasonableExcuseOnshorePage,
+        ReasonableCareOnshorePage,
+        ReasonableExcuseForNotFilingOnshorePage,
+        TaxBeforeThreeYearsOnshorePage
+      )
       WhyAreYouMakingThisOnshoreDisclosureController.getPages(set) mustEqual expectedPages
     }
 
@@ -186,7 +205,13 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
       val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(
         WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyNoExcuse
       )
-      val expectedPages = List(ReasonableExcuseOnshorePage, ReasonableCareOnshorePage, ReasonableExcuseForNotFilingOnshorePage, TaxBeforeThreeYearsOnshorePage, TaxBeforeFiveYearsOnshorePage)
+      val expectedPages                                  = List(
+        ReasonableExcuseOnshorePage,
+        ReasonableCareOnshorePage,
+        ReasonableExcuseForNotFilingOnshorePage,
+        TaxBeforeThreeYearsOnshorePage,
+        TaxBeforeFiveYearsOnshorePage
+      )
       WhyAreYouMakingThisOnshoreDisclosureController.getPages(set) mustEqual expectedPages
     }
 

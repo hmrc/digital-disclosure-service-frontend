@@ -36,7 +36,7 @@ class YouHaveLeftTheDDSControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  val formProvider = new YouHaveLeftTheDDSFormProvider()
+  val formProvider       = new YouHaveLeftTheDDSFormProvider()
   val form: Form[String] = formProvider()
 
   lazy val youHaveLeftTheDDSRoute: String = routes.YouHaveLeftTheDDSController.onPageLoad(NormalMode).url

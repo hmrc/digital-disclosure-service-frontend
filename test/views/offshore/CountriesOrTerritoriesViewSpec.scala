@@ -27,13 +27,12 @@ import viewmodels.offshore.CountryModels
 
 class CountriesOrTerritoriesViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new CountriesOrTerritoriesFormProvider()()
+  val form                             = new CountriesOrTerritoriesFormProvider()()
   val page: CountriesOrTerritoriesView = inject[CountriesOrTerritoriesView]
 
-  private val country1 = Country("AAA", "Country 1")
-  private val singleCountrySet = Set(country1)
-  private val multipleCountrySet =  Set(country1, Country("BBB", "Country 2"))
-
+  private val country1           = Country("AAA", "Country 1")
+  private val singleCountrySet   = Set(country1)
+  private val multipleCountrySet = Set(country1, Country("BBB", "Country 2"))
 
   "view for a single country" should {
 
@@ -66,7 +65,7 @@ class CountriesOrTerritoriesViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

@@ -34,16 +34,17 @@ class WhichEmailAddressCanWeContactYouWithControllerSpec extends SpecBase with M
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val whichEmailAddressCanWeContactYouWithRoute = routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode).url
+  lazy val whichEmailAddressCanWeContactYouWithRoute =
+    routes.WhichEmailAddressCanWeContactYouWithController.onPageLoad(NormalMode).url
 
   val formProvider = new WhichEmailAddressCanWeContactYouWithFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   "WhichEmailAddressCanWeContactYouWith Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
-      val email = "test@test.com"
+      val email       = "test@test.com"
       val userAnswers = UserAnswers("id", "session-123").set(YourEmailAddressPage, email).success.value
       setupMockSessionResponse(Some(userAnswers))
 
@@ -59,11 +60,13 @@ class WhichEmailAddressCanWeContactYouWithControllerSpec extends SpecBase with M
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val email = "test@test.com"
+      val email       = "test@test.com"
       val userAnswers = (for {
-        ua <- UserAnswers("id", "session-123").set(WhichEmailAddressCanWeContactYouWithPage, WhichEmailAddressCanWeContactYouWith.values.head)
-        updatedUa <- ua.set(YourEmailAddressPage, email)  
-      } yield updatedUa).success.value  
+        ua        <-
+          UserAnswers("id", "session-123")
+            .set(WhichEmailAddressCanWeContactYouWithPage, WhichEmailAddressCanWeContactYouWith.values.head)
+        updatedUa <- ua.set(YourEmailAddressPage, email)
+      } yield updatedUa).success.value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -74,7 +77,11 @@ class WhichEmailAddressCanWeContactYouWithControllerSpec extends SpecBase with M
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(WhichEmailAddressCanWeContactYouWith.values.head), NormalMode, email)(request, messages).toString
+      contentAsString(result) mustEqual view(
+        form.fill(WhichEmailAddressCanWeContactYouWith.values.head),
+        NormalMode,
+        email
+      )(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -94,11 +101,13 @@ class WhichEmailAddressCanWeContactYouWithControllerSpec extends SpecBase with M
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val email = "test@test.com"
+      val email       = "test@test.com"
       val userAnswers = (for {
-        ua <- UserAnswers("id", "session-123").set(WhichEmailAddressCanWeContactYouWithPage, WhichEmailAddressCanWeContactYouWith.values.head)
-        updatedUa <- ua.set(YourEmailAddressPage, email)  
-      } yield updatedUa).success.value 
+        ua        <-
+          UserAnswers("id", "session-123")
+            .set(WhichEmailAddressCanWeContactYouWithPage, WhichEmailAddressCanWeContactYouWith.values.head)
+        updatedUa <- ua.set(YourEmailAddressPage, email)
+      } yield updatedUa).success.value
 
       setupMockSessionResponse(Some(userAnswers))
 

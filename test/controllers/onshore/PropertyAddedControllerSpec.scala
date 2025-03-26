@@ -37,17 +37,16 @@ class PropertyAddedControllerSpec extends SpecBase with MockitoSugar {
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new PropertyAddedFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   lazy val propertyAddedRoute = routes.PropertyAddedController.onPageLoad(NormalMode).url
 
   val properties = Seq()
-  val index = 0
+  val index      = 0
 
   "PropertyAdded Controller" - {
 
     "must return OK and the correct view for a GET" in {
-
 
       val address: Address = Address(
         line1 = "Line 1",
@@ -57,9 +56,9 @@ class PropertyAddedControllerSpec extends SpecBase with MockitoSugar {
         line4 = None,
         country = Country("AA")
       )
-      val property = LettingProperty(address = Some(address))
-      val userAnswers = UserAnswers("id", "session-123").addToSeq(LettingPropertyPage, property).success.value
-  
+      val property         = LettingProperty(address = Some(address))
+      val userAnswers      = UserAnswers("id", "session-123").addToSeq(LettingPropertyPage, property).success.value
+
       setupMockSessionResponse(Some(userAnswers))
 
       val request = FakeRequest(GET, propertyAddedRoute)
@@ -83,7 +82,9 @@ class PropertyAddedControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, request).value
 
       status(result) mustEqual SEE_OTHER
-      redirectLocation(result).value mustEqual controllers.letting.routes.RentalAddressLookupController.lookupAddress(0, NormalMode).url
+      redirectLocation(result).value mustEqual controllers.letting.routes.RentalAddressLookupController
+        .lookupAddress(0, NormalMode)
+        .url
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -156,7 +157,9 @@ class PropertyAddedControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, request).value
 
       status(result) mustEqual SEE_OTHER
-      redirectLocation(result).value mustEqual controllers.letting.routes.RentalAddressLookupController.lookupAddress(index, NormalMode).url
+      redirectLocation(result).value mustEqual controllers.letting.routes.RentalAddressLookupController
+        .lookupAddress(index, NormalMode)
+        .url
     }
 
     "must redirect to the same page if remove method is called and there are still properties" in {
@@ -182,12 +185,16 @@ class PropertyAddedControllerSpec extends SpecBase with MockitoSugar {
         country = Country("AA")
       )
 
-      val property = LettingProperty(address = Some(address))
+      val property  = LettingProperty(address = Some(address))
       val property2 = LettingProperty(address = Some(address2))
 
       val userAnswers = UserAnswers("id", "session-123")
-        .addToSeq(LettingPropertyPage, property).success.value
-        .addToSeq(LettingPropertyPage, property2).success.value
+        .addToSeq(LettingPropertyPage, property)
+        .success
+        .value
+        .addToSeq(LettingPropertyPage, property2)
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 

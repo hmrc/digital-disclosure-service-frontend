@@ -25,7 +25,7 @@ import models.NormalMode
 
 class WhatEmailAddressCanWeContactYouWithViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhatEmailAddressCanWeContactYouWithFormProvider()()
+  val form                                          = new WhatEmailAddressCanWeContactYouWithFormProvider()()
   val page: WhatEmailAddressCanWeContactYouWithView = inject[WhatEmailAddressCanWeContactYouWithView]
 
   private def createView: Html = page(form, NormalMode)(request, messages)
@@ -47,7 +47,7 @@ class WhatEmailAddressCanWeContactYouWithViewSpec extends ViewSpecBase with View
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

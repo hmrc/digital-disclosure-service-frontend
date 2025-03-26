@@ -25,7 +25,7 @@ import models.NormalMode
 
 class WasALettingAgentUsedToManagePropertyViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WasALettingAgentUsedToManagePropertyFormProvider()()
+  val form                                           = new WasALettingAgentUsedToManagePropertyFormProvider()()
   val page: WasALettingAgentUsedToManagePropertyView = inject[WasALettingAgentUsedToManagePropertyView]
 
   private def createView: Html = page(form, 0, NormalMode)(request, messages)
@@ -39,19 +39,26 @@ class WasALettingAgentUsedToManagePropertyViewSpec extends ViewSpecBase with Vie
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("wasALettingAgentUsedToManageProperty.heading", 1)
+      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages(
+        "wasALettingAgentUsedToManageProperty.heading",
+        1
+      )
     }
 
     "have yes" in {
-      view.getElementsByClass("govuk-radios__label").first().text() mustBe messages("wasALettingAgentUsedToManageProperty.yes")
+      view.getElementsByClass("govuk-radios__label").first().text() mustBe messages(
+        "wasALettingAgentUsedToManageProperty.yes"
+      )
     }
 
     "have no" in {
-      view.getElementsByClass("govuk-radios__label").last().text() mustBe messages("wasALettingAgentUsedToManageProperty.no")
+      view.getElementsByClass("govuk-radios__label").last().text() mustBe messages(
+        "wasALettingAgentUsedToManageProperty.no"
+      )
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

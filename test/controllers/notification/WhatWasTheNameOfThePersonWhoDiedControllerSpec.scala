@@ -35,9 +35,10 @@ class WhatWasTheNameOfThePersonWhoDiedControllerSpec extends SpecBase with Mocki
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new WhatWasTheNameOfThePersonWhoDiedFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
-  lazy val whatWasTheNameOfThePersonWhoDiedRoute = routes.WhatWasTheNameOfThePersonWhoDiedController.onPageLoad(NormalMode).url
+  lazy val whatWasTheNameOfThePersonWhoDiedRoute =
+    routes.WhatWasTheNameOfThePersonWhoDiedController.onPageLoad(NormalMode).url
 
   "WhatWasTheNameOfThePersonWhoDied Controller" - {
 
@@ -57,7 +58,8 @@ class WhatWasTheNameOfThePersonWhoDiedControllerSpec extends SpecBase with Mocki
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhatWasTheNameOfThePersonWhoDiedPage, "answer").success.value
+      val userAnswers =
+        UserAnswers(userAnswersId, "session-123").set(WhatWasTheNameOfThePersonWhoDiedPage, "answer").success.value
 
       setupMockSessionResponse(Some(userAnswers))
 

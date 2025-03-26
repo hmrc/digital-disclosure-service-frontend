@@ -24,7 +24,12 @@ import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
 import play.api.libs.json.{JsError, JsString, Json}
 
-class YourLegalInterpretationSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks with OptionValues with ModelGenerators {
+class YourLegalInterpretationSpec
+    extends AnyFreeSpec
+    with Matchers
+    with ScalaCheckPropertyChecks
+    with OptionValues
+    with ModelGenerators {
 
   "YourLegalInterpretation" - {
 
@@ -32,10 +37,11 @@ class YourLegalInterpretationSpec extends AnyFreeSpec with Matchers with ScalaCh
 
       val gen = arbitrary[YourLegalInterpretation]
 
-      forAll(gen) {
-        yourLegalInterpretation =>
-
-          JsString(yourLegalInterpretation.toString).validate[YourLegalInterpretation].asOpt.value mustEqual yourLegalInterpretation
+      forAll(gen) { yourLegalInterpretation =>
+        JsString(yourLegalInterpretation.toString)
+          .validate[YourLegalInterpretation]
+          .asOpt
+          .value mustEqual yourLegalInterpretation
       }
     }
 
@@ -43,10 +49,8 @@ class YourLegalInterpretationSpec extends AnyFreeSpec with Matchers with ScalaCh
 
       val gen = arbitrary[String] suchThat (!YourLegalInterpretation.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[YourLegalInterpretation] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[YourLegalInterpretation] mustEqual JsError("error.invalid")
       }
     }
 
@@ -54,10 +58,8 @@ class YourLegalInterpretationSpec extends AnyFreeSpec with Matchers with ScalaCh
 
       val gen = arbitrary[YourLegalInterpretation]
 
-      forAll(gen) {
-        yourLegalInterpretation =>
-
-          Json.toJson(yourLegalInterpretation) mustEqual JsString(yourLegalInterpretation.toString)
+      forAll(gen) { yourLegalInterpretation =>
+        Json.toJson(yourLegalInterpretation) mustEqual JsString(yourLegalInterpretation.toString)
       }
     }
   }

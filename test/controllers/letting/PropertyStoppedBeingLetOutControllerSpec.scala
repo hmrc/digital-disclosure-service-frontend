@@ -35,9 +35,9 @@ class PropertyStoppedBeingLetOutControllerSpec extends SpecBase with MockitoSuga
 
   def onwardRoute: Call = Call("GET", "/foo")
 
-  val formProvider = new PropertyStoppedBeingLetOutFormProvider()
+  val formProvider        = new PropertyStoppedBeingLetOutFormProvider()
   val form: Form[Boolean] = formProvider()
-  val index = 0
+  val index               = 0
 
   lazy val propertyStoppedBeingLetOutRoute: String =
     routes.PropertyStoppedBeingLetOutController.onPageLoad(index, NormalMode).url
@@ -63,7 +63,9 @@ class PropertyStoppedBeingLetOutControllerSpec extends SpecBase with MockitoSuga
       val lettingProperty = LettingProperty(stoppedBeingLetOut = Some(true))
 
       val userAnswers = UserAnswers(userAnswersId, "session-123")
-        .setBySeqIndex(LettingPropertyPage, index, lettingProperty).success.value
+        .setBySeqIndex(LettingPropertyPage, index, lettingProperty)
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 

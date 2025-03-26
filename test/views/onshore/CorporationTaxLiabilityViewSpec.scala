@@ -25,7 +25,7 @@ import models.NormalMode
 
 class CorporationTaxLiabilityViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new CorporationTaxLiabilityFormProvider()()
+  val form                              = new CorporationTaxLiabilityFormProvider()()
   val page: CorporationTaxLiabilityView = inject[CorporationTaxLiabilityView]
 
   private def createView: Html = page(form, NormalMode, 0)(request, messages)
@@ -43,7 +43,9 @@ class CorporationTaxLiabilityViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain a body" in {
-      view.getElementById("body").text() mustBe messages("corporationTaxLiability.body") + messages("corporationTaxLiability.body.link") + messages("site.dot")
+      view.getElementById("body").text() mustBe messages("corporationTaxLiability.body") + messages(
+        "corporationTaxLiability.body.link"
+      ) + messages("site.dot")
     }
 
     "contain inset text" in {
@@ -81,11 +83,13 @@ class CorporationTaxLiabilityViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain the penalty rate reason question" in {
-      view.getElementsByClass("govuk-label--s").get(5).text() mustBe messages("corporationTaxLiability.penaltyRateReason")
+      view.getElementsByClass("govuk-label--s").get(5).text() mustBe messages(
+        "corporationTaxLiability.penaltyRateReason"
+      )
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

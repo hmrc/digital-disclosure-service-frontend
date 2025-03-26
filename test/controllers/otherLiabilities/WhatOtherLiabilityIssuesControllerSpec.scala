@@ -35,11 +35,11 @@ class WhatOtherLiabilityIssuesControllerSpec extends SpecBase with MockitoSugar 
 
   def onwardRoute: Call = Call("GET", "/foo")
 
-  val formProvider = new WhatOtherLiabilityIssuesFormProvider()
+  val formProvider       = new WhatOtherLiabilityIssuesFormProvider()
   val form: Form[String] = formProvider()
 
   lazy val whatOtherLiabilityIssuesRoute: String = routes.WhatOtherLiabilityIssuesController.onPageLoad(NormalMode).url
-  val view: WhatOtherLiabilityIssuesView = application.injector.instanceOf[WhatOtherLiabilityIssuesView]
+  val view: WhatOtherLiabilityIssuesView         = application.injector.instanceOf[WhatOtherLiabilityIssuesView]
 
   "WhatOtherLiabilityIssues Controller" - {
 
@@ -57,7 +57,8 @@ class WhatOtherLiabilityIssuesControllerSpec extends SpecBase with MockitoSugar 
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhatOtherLiabilityIssuesPage, "answer").success.value
+      val userAnswers =
+        UserAnswers(userAnswersId, "session-123").set(WhatOtherLiabilityIssuesPage, "answer").success.value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -93,7 +94,7 @@ class WhatOtherLiabilityIssuesControllerSpec extends SpecBase with MockitoSugar 
           .withFormUrlEncodedBody(("value", ""))
 
       val boundForm = form.bind(Map("value" -> ""))
-      
+
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST

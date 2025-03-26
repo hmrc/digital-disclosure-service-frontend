@@ -26,13 +26,13 @@ class WasThePersonRegisteredForSAFormProviderSpec extends OptionFieldBehaviours 
 
   ".value" - {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "wasThePersonRegisteredForSA.error.required"
 
     behave like optionsField[WasThePersonRegisteredForSA](
       form,
       fieldName,
-      validValues  = WasThePersonRegisteredForSA.values,
+      validValues = WasThePersonRegisteredForSA.values,
       invalidError = FormError(fieldName, "error.invalid")
     )
 

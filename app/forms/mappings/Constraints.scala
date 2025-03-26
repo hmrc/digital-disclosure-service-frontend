@@ -23,7 +23,6 @@ import uk.gov.hmrc.domain.Nino
 import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError, ValidationResult}
 import models.email.EmailAddress
 
-
 trait Constraints {
 
   protected def firstError[A](constraints: Constraint[A]*): Constraint[A] =

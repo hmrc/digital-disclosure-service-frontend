@@ -40,7 +40,8 @@ class WhatIsTheIndividualDateOfBirthControllerSpec extends SpecBase with Mockito
 
   val validAnswer = LocalDate.now(ZoneOffset.UTC).minusDays(1)
 
-  lazy val WhatIsTheIndividualDateOfBirthRoute = routes.WhatIsTheIndividualDateOfBirthController.onPageLoad(NormalMode).url
+  lazy val WhatIsTheIndividualDateOfBirthRoute =
+    routes.WhatIsTheIndividualDateOfBirthController.onPageLoad(NormalMode).url
 
   override val emptyUserAnswers = UserAnswers(userAnswersId, "session-123")
 
@@ -71,7 +72,8 @@ class WhatIsTheIndividualDateOfBirthControllerSpec extends SpecBase with Mockito
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhatIsTheIndividualDateOfBirthPage, validAnswer).success.value
+      val userAnswers =
+        UserAnswers(userAnswersId, "session-123").set(WhatIsTheIndividualDateOfBirthPage, validAnswer).success.value
 
       setupMockSessionResponse(Some(userAnswers))
 

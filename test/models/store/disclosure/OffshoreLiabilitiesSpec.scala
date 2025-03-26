@@ -26,7 +26,7 @@ class OffshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValue
   "isComplete" - {
 
     "must return true where they have answered necessary questions" in {
-      val liabilities = TaxYearLiabilities(
+      val liabilities         = TaxYearLiabilities(
         income = BigInt(2000),
         chargeableTransfers = BigInt(2000),
         capitalGains = BigInt(2000),
@@ -38,7 +38,7 @@ class OffshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValue
         foreignTaxCredit = false
       )
       val offshoreLiabilities = OffshoreLiabilities(
-        behaviour = Some(Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse)), 
+        behaviour = Some(Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse)),
         whichYears = Some(Set(TaxYearStarting(2012))),
         taxYearLiabilities = Some(Map("2012" -> TaxYearWithLiabilities(TaxYearStarting(2012), liabilities))),
         countryOfYourOffshoreLiability = Some(Map()),
@@ -50,7 +50,7 @@ class OffshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValue
     }
 
     "must return true where they have answered all questions" in {
-      val liabilities = TaxYearLiabilities(
+      val liabilities         = TaxYearLiabilities(
         income = BigInt(2000),
         chargeableTransfers = BigInt(2000),
         capitalGains = BigInt(2000),
@@ -61,11 +61,11 @@ class OffshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValue
         foreignTaxCredit = false
       )
       val offshoreLiabilities = OffshoreLiabilities(
-        behaviour = Some(Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse)), 
-        excuseForNotNotifying = Some(WhatIsYourReasonableExcuse("Some excuse", "Some years")), 
-        reasonableCare = Some(WhatReasonableCareDidYouTake("Some excuse", "Some years")), 
-        excuseForNotFiling = Some(WhatIsYourReasonableExcuseForNotFilingReturn("Some excuse", "Some years")), 
-        whichYears = Some(Set(TaxYearStarting(2012))), 
+        behaviour = Some(Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse)),
+        excuseForNotNotifying = Some(WhatIsYourReasonableExcuse("Some excuse", "Some years")),
+        reasonableCare = Some(WhatReasonableCareDidYouTake("Some excuse", "Some years")),
+        excuseForNotFiling = Some(WhatIsYourReasonableExcuseForNotFilingReturn("Some excuse", "Some years")),
+        whichYears = Some(Set(TaxYearStarting(2012))),
         youHaveNotIncludedTheTaxYear = Some("You have not included the tax year"),
         youHaveNotSelectedCertainTaxYears = Some("You have not selected certain tax years"),
         taxBeforeFiveYears = Some("Some liabilities"),

@@ -24,7 +24,11 @@ import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
 import play.api.libs.json.{JsError, JsString, Json}
 
-class HowMuchTaxHasNotBeenIncludedSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks with OptionValues {
+class HowMuchTaxHasNotBeenIncludedSpec
+    extends AnyFreeSpec
+    with Matchers
+    with ScalaCheckPropertyChecks
+    with OptionValues {
 
   "HowMuchTaxHasNotBeenIncluded" - {
 
@@ -32,10 +36,11 @@ class HowMuchTaxHasNotBeenIncludedSpec extends AnyFreeSpec with Matchers with Sc
 
       val gen = Gen.oneOf(HowMuchTaxHasNotBeenIncluded.values.toSeq)
 
-      forAll(gen) {
-        howMuchTaxHasNotBeenIncluded =>
-
-          JsString(howMuchTaxHasNotBeenIncluded.toString).validate[HowMuchTaxHasNotBeenIncluded].asOpt.value mustEqual howMuchTaxHasNotBeenIncluded
+      forAll(gen) { howMuchTaxHasNotBeenIncluded =>
+        JsString(howMuchTaxHasNotBeenIncluded.toString)
+          .validate[HowMuchTaxHasNotBeenIncluded]
+          .asOpt
+          .value mustEqual howMuchTaxHasNotBeenIncluded
       }
     }
 
@@ -43,10 +48,8 @@ class HowMuchTaxHasNotBeenIncludedSpec extends AnyFreeSpec with Matchers with Sc
 
       val gen = arbitrary[String] suchThat (!HowMuchTaxHasNotBeenIncluded.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[HowMuchTaxHasNotBeenIncluded] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[HowMuchTaxHasNotBeenIncluded] mustEqual JsError("error.invalid")
       }
     }
 
@@ -54,10 +57,8 @@ class HowMuchTaxHasNotBeenIncludedSpec extends AnyFreeSpec with Matchers with Sc
 
       val gen = Gen.oneOf(HowMuchTaxHasNotBeenIncluded.values.toSeq)
 
-      forAll(gen) {
-        howMuchTaxHasNotBeenIncluded =>
-
-          Json.toJson(howMuchTaxHasNotBeenIncluded) mustEqual JsString(howMuchTaxHasNotBeenIncluded.toString)
+      forAll(gen) { howMuchTaxHasNotBeenIncluded =>
+        Json.toJson(howMuchTaxHasNotBeenIncluded) mustEqual JsString(howMuchTaxHasNotBeenIncluded.toString)
       }
     }
   }

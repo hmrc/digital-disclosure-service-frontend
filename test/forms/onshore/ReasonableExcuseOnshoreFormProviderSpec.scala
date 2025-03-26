@@ -23,11 +23,11 @@ class ReasonableExcuseOnshoreFormProviderSpec extends StringFieldBehaviours {
 
   ".excuse when entity" - {
 
-    val form = new ReasonableExcuseOnshoreFormProvider()(true)
-    val fieldName = "excuse"
-    val requiredKey = "whatIsYourReasonableExcuse.error.excuse.required"
+    val form            = new ReasonableExcuseOnshoreFormProvider()(true)
+    val fieldName       = "excuse"
+    val requiredKey     = "whatIsYourReasonableExcuse.error.excuse.required"
     val entityLengthKey = "whatIsYourReasonableExcuse.entity.error.excuse.length"
-    val maxLength = 5000
+    val maxLength       = 5000
 
     behave like fieldThatBindsValidData(
       form,
@@ -56,10 +56,10 @@ class ReasonableExcuseOnshoreFormProviderSpec extends StringFieldBehaviours {
 
   ".excuse when agent" - {
 
-    val form = new ReasonableExcuseOnshoreFormProvider()(false)
-    val fieldName = "excuse"
+    val form           = new ReasonableExcuseOnshoreFormProvider()(false)
+    val fieldName      = "excuse"
     val agentLengthKey = "whatIsYourReasonableExcuse.agent.error.excuse.length"
-    val maxLength = 5000
+    val maxLength      = 5000
 
     behave like fieldWithMaxLength(
       form,
@@ -71,11 +71,11 @@ class ReasonableExcuseOnshoreFormProviderSpec extends StringFieldBehaviours {
 
   ".years" - {
 
-    val form = new ReasonableExcuseOnshoreFormProvider()(true)
-    val fieldName = "years"
+    val form        = new ReasonableExcuseOnshoreFormProvider()(true)
+    val fieldName   = "years"
     val requiredKey = "whatIsYourReasonableExcuse.error.years.required"
-    val lengthKey = "whatIsYourReasonableExcuse.error.years.length"
-    val maxLength = 500
+    val lengthKey   = "whatIsYourReasonableExcuse.error.years.length"
+    val maxLength   = 500
 
     behave like fieldThatBindsValidData(
       form,

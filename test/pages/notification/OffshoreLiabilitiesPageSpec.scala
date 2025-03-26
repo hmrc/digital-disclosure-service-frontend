@@ -16,7 +16,6 @@
 
 package pages
 
-
 import pages.behaviours.PageBehaviours
 
 class OffshoreLiabilitiesSpec extends PageBehaviours {

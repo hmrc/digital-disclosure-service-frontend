@@ -32,28 +32,35 @@ class SubmittedViewSpec extends ViewSpecBase with ViewMatchers with Generators {
 
   val config: FrontendAppConfig = inject[FrontendAppConfig]
 
-  private def createView: Html = page(isCaseReferenceAvailable = false, isNilDisclosure = taxYearExists, "reference")(request, messages, config)
+  private def createView: Html =
+    page(isCaseReferenceAvailable = false, isNilDisclosure = taxYearExists, "reference")(request, messages, config)
 
   "view" should {
 
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(if(taxYearExists) messages("submitted.nil.title") else messages("submitted.notNil.title"))
+      view.select("title").text() must include(
+        if (taxYearExists) messages("submitted.nil.title") else messages("submitted.notNil.title")
+      )
     }
 
     "contain header" in {
       view.getElementsByClass("govuk-panel__title").text() mustBe
-        (if(taxYearExists) messages("submitted.nil.heading") else messages("submitted.notNil.heading"))
+        (if (taxYearExists) messages("submitted.nil.heading") else messages("submitted.notNil.heading"))
     }
 
     "have a first paragraph" in {
-      view.getElementById("paragraph1").text() mustBe messages("submitted.paragraph1") + " " + messages("submitted.paragraph1.link") + messages("site.dot")
+      view.getElementById("paragraph1").text() mustBe messages("submitted.paragraph1") + " " + messages(
+        "submitted.paragraph1.link"
+      ) + messages("site.dot")
     }
 
-    if(!taxYearExists){
+    if (!taxYearExists) {
       "have a second paragraph" in {
-        view.getElementById("paragraph2").text() mustBe messages("submitted.paragraph2") + " " + messages("submitted.paragraph2.link") + messages("site.dot")
+        view.getElementById("paragraph2").text() mustBe messages("submitted.paragraph2") + " " + messages(
+          "submitted.paragraph2.link"
+        ) + messages("site.dot")
       }
     }
 
@@ -63,7 +70,9 @@ class SubmittedViewSpec extends ViewSpecBase with ViewMatchers with Generators {
 
     "have an exit survey paragraph" in {
       view.getElementById("exit-survey").text mustBe
-        messages("exitSurvey.heading") + " " + messages("exitSurvey.p1") + " " + messages("exitSurvey.link") + " " + messages("exitSurvey.p2")
+        messages("exitSurvey.heading") + " " + messages("exitSurvey.p1") + " " + messages(
+          "exitSurvey.link"
+        ) + " " + messages("exitSurvey.p2")
     }
 
     "have an exit survey link" in {

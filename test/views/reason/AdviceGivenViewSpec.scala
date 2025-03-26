@@ -25,7 +25,7 @@ import models.NormalMode
 
 class AdviceGivenViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new AdviceGivenFormProvider()()
+  val form                  = new AdviceGivenFormProvider()()
   val page: AdviceGivenView = inject[AdviceGivenView]
 
   private def createView: Html = page(form, NormalMode)(request, messages)
@@ -47,15 +47,19 @@ class AdviceGivenViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain the date question" in {
-      view.getElementsByClass("govuk-fieldset__legend  govuk-fieldset__legend--m").get(0).text() mustBe messages("adviceGiven.date")
+      view.getElementsByClass("govuk-fieldset__legend  govuk-fieldset__legend--m").get(0).text() mustBe messages(
+        "adviceGiven.date"
+      )
     }
 
     "contain the contact question" in {
-      view.getElementsByClass("govuk-fieldset__legend  govuk-fieldset__legend--m").get(1).text() mustBe messages("adviceGiven.contact")
+      view.getElementsByClass("govuk-fieldset__legend  govuk-fieldset__legend--m").get(1).text() mustBe messages(
+        "adviceGiven.contact"
+      )
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

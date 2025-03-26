@@ -32,10 +32,8 @@ class NotificationStartedSpec extends AnyFreeSpec with Matchers with ScalaCheckP
 
       val gen = Gen.oneOf(NotificationStarted.values.toSeq)
 
-      forAll(gen) {
-        notificationStarted =>
-
-          JsString(notificationStarted.toString).validate[NotificationStarted].asOpt.value mustEqual notificationStarted
+      forAll(gen) { notificationStarted =>
+        JsString(notificationStarted.toString).validate[NotificationStarted].asOpt.value mustEqual notificationStarted
       }
     }
 
@@ -43,10 +41,8 @@ class NotificationStartedSpec extends AnyFreeSpec with Matchers with ScalaCheckP
 
       val gen = arbitrary[String] suchThat (!NotificationStarted.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[NotificationStarted] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[NotificationStarted] mustEqual JsError("error.invalid")
       }
     }
 
@@ -54,10 +50,8 @@ class NotificationStartedSpec extends AnyFreeSpec with Matchers with ScalaCheckP
 
       val gen = Gen.oneOf(NotificationStarted.values.toSeq)
 
-      forAll(gen) {
-        notificationStarted =>
-
-          Json.toJson(notificationStarted) mustEqual JsString(notificationStarted.toString)
+      forAll(gen) { notificationStarted =>
+        Json.toJson(notificationStarted) mustEqual JsString(notificationStarted.toString)
       }
     }
   }

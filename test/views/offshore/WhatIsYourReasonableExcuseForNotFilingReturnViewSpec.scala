@@ -25,14 +25,14 @@ import models.{NormalMode, RelatesTo}
 
 class WhatIsYourReasonableExcuseForNotFilingReturnViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val page: WhatIsYourReasonableExcuseForNotFilingReturnView = inject[WhatIsYourReasonableExcuseForNotFilingReturnView] 
+  val page: WhatIsYourReasonableExcuseForNotFilingReturnView = inject[WhatIsYourReasonableExcuseForNotFilingReturnView]
 
   "view" should {
     val areTheyTheIndividual = true
-    val entity = RelatesTo.AnIndividual
-    val form = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(areTheyTheIndividual)
-    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
-    val view = createView
+    val entity               = RelatesTo.AnIndividual
+    val form                 = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(areTheyTheIndividual)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    val view                 = createView
 
     "have title" in {
       constructTitle(RelatesTo.AnIndividual, true)
@@ -45,7 +45,9 @@ class WhatIsYourReasonableExcuseForNotFilingReturnViewSpec extends ViewSpecBase 
     }
 
     "contain reasonableExcuse (when you are the individual) text" in {
-      view.getElementById("label").text() mustBe messages("whatIsYourReasonableExcuseForNotFilingReturn.you.reasonableExcuse")
+      view.getElementById("label").text() mustBe messages(
+        "whatIsYourReasonableExcuseForNotFilingReturn.you.reasonableExcuse"
+      )
     }
     "contain reasonableExcuse (when you are the agent individual) label" in {
       constructLabel(RelatesTo.AnIndividual)
@@ -64,18 +66,22 @@ class WhatIsYourReasonableExcuseForNotFilingReturnViewSpec extends ViewSpecBase 
     }
 
     "contain yearsThisAppliesTo label" in {
-      view.getElementsByClass("govuk-label").get(1).text() mustBe messages("whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo")
+      view.getElementsByClass("govuk-label").get(1).text() mustBe messages(
+        "whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo"
+      )
     }
 
     "contain input 2 hint" in {
-      view.getElementById("yearsThisAppliesTo-hint").text() mustBe messages("whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo.hint")
+      view.getElementById("yearsThisAppliesTo-hint").text() mustBe messages(
+        "whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo.hint"
+      )
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
-    
+
     "have a task list link" in {
       view.getElementById("task-list-link").attr("href") mustBe controllers.routes.TaskListController.onPageLoad.url
     }
@@ -83,36 +89,42 @@ class WhatIsYourReasonableExcuseForNotFilingReturnViewSpec extends ViewSpecBase 
   }
 
   def constructHeading(entity: RelatesTo, areTheyTheIndividual: Boolean) = {
-    val form = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(areTheyTheIndividual)
+    val form             = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(areTheyTheIndividual)
     def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
-    val view = createView
+    val view             = createView
 
-    if(areTheyTheIndividual){
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsYourReasonableExcuseForNotFilingReturn.entity.heading")    
-    }else{
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsYourReasonableExcuseForNotFilingReturn.agent.heading")
+    if (areTheyTheIndividual) {
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages(
+        "whatIsYourReasonableExcuseForNotFilingReturn.entity.heading"
+      )
+    } else {
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages(
+        "whatIsYourReasonableExcuseForNotFilingReturn.agent.heading"
+      )
     }
   }
 
   def constructTitle(entity: RelatesTo, areTheyTheIndividual: Boolean) = {
-    val form = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(areTheyTheIndividual)
+    val form             = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(areTheyTheIndividual)
     def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
-    val view = createView
+    val view             = createView
 
-    if(areTheyTheIndividual){
-      view.select("title").text() must include(messages("whatIsYourReasonableExcuseForNotFilingReturn.entity.title"))    
-    }else{
+    if (areTheyTheIndividual) {
+      view.select("title").text() must include(messages("whatIsYourReasonableExcuseForNotFilingReturn.entity.title"))
+    } else {
       view.select("title").text() must include(messages("whatIsYourReasonableExcuseForNotFilingReturn.agent.title"))
     }
   }
 
   def constructLabel(entity: RelatesTo) = {
     val areTheyTheIndividual = false
-    val form = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(areTheyTheIndividual)
-    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
-    val view = createView
+    val form                 = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(areTheyTheIndividual)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    val view                 = createView
 
-    view.getElementById("label").text() mustBe messages(s"whatIsYourReasonableExcuseForNotFilingReturn.${entity}.reasonableExcuse")
+    view.getElementById("label").text() mustBe messages(
+      s"whatIsYourReasonableExcuseForNotFilingReturn.$entity.reasonableExcuse"
+    )
   }
 
 }

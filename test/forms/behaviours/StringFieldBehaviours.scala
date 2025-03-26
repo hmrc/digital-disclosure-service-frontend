@@ -21,39 +21,25 @@ import play.api.data.{Form, FormError}
 
 trait StringFieldBehaviours extends FieldBehaviours {
 
-    def fieldWithMaxLength(form: Form[_],
-                           fieldName: String,
-                           maxLength: Int,
-                           lengthError: FormError): Unit = {
-
+  def fieldWithMaxLength(form: Form[_], fieldName: String, maxLength: Int, lengthError: FormError): Unit =
     s"not bind strings longer than $maxLength characters" in {
 
-      forAll(stringsLongerThan(maxLength) -> "longString") {
-        string =>
-          val result = form.bind(Map(fieldName -> string)).apply(fieldName)
-          result.errors must contain only lengthError
+      forAll(stringsLongerThan(maxLength) -> "longString") { string =>
+        val result = form.bind(Map(fieldName -> string)).apply(fieldName)
+        result.errors must contain only lengthError
       }
     }
-  }
 
-  def fieldWithMinLength(form: Form[_],
-                         fieldName: String,
-                         minLength: Int,
-                         lengthError: FormError): Unit = {
-
+  def fieldWithMinLength(form: Form[_], fieldName: String, minLength: Int, lengthError: FormError): Unit =
     s"not bind strings smaller than $minLength characters" in {
 
-      forAll(stringsWithMaxLength(minLength - 1) -> "shortString") {
-        string =>
-          val result = form.bind(Map(fieldName -> string)).apply(fieldName)
-          result.errors must contain only lengthError
+      forAll(stringsWithMaxLength(minLength - 1) -> "shortString") { string =>
+        val result = form.bind(Map(fieldName -> string)).apply(fieldName)
+        result.errors must contain only lengthError
       }
     }
-  }
 
-  def fieldWithValidUnicodeChars(form: Form[_],
-                                 fieldName: String): Unit =
-
+  def fieldWithValidUnicodeChars(form: Form[_], fieldName: String): Unit =
     "not bind strings with invalid unicode characters" in {
 
       invalidUnicodeCharacters.foreach { invalidChar =>

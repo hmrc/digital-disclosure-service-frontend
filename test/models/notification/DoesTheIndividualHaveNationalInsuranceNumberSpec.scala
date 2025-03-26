@@ -24,7 +24,11 @@ import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
 import play.api.libs.json.{JsError, JsString, Json}
 
-class DoesTheIndividualHaveNationalInsuranceNumberSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks with OptionValues {
+class DoesTheIndividualHaveNationalInsuranceNumberSpec
+    extends AnyFreeSpec
+    with Matchers
+    with ScalaCheckPropertyChecks
+    with OptionValues {
 
   "DoesTheIndividualHaveNationalInsuranceNumber" - {
 
@@ -32,21 +36,21 @@ class DoesTheIndividualHaveNationalInsuranceNumberSpec extends AnyFreeSpec with 
 
       val gen = Gen.oneOf(DoesTheIndividualHaveNationalInsuranceNumber.values.toSeq)
 
-      forAll(gen) {
-        doesTheIndividualHaveNationalInsuranceNumber =>
-
-          JsString(doesTheIndividualHaveNationalInsuranceNumber.toString).validate[DoesTheIndividualHaveNationalInsuranceNumber].asOpt.value mustEqual doesTheIndividualHaveNationalInsuranceNumber
+      forAll(gen) { doesTheIndividualHaveNationalInsuranceNumber =>
+        JsString(doesTheIndividualHaveNationalInsuranceNumber.toString)
+          .validate[DoesTheIndividualHaveNationalInsuranceNumber]
+          .asOpt
+          .value mustEqual doesTheIndividualHaveNationalInsuranceNumber
       }
     }
 
     "must fail to deserialise invalid values" in {
 
-      val gen = arbitrary[String] suchThat (!DoesTheIndividualHaveNationalInsuranceNumber.values.map(_.toString).contains(_))
+      val gen =
+        arbitrary[String] suchThat (!DoesTheIndividualHaveNationalInsuranceNumber.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[DoesTheIndividualHaveNationalInsuranceNumber] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[DoesTheIndividualHaveNationalInsuranceNumber] mustEqual JsError("error.invalid")
       }
     }
 
@@ -54,10 +58,10 @@ class DoesTheIndividualHaveNationalInsuranceNumberSpec extends AnyFreeSpec with 
 
       val gen = Gen.oneOf(DoesTheIndividualHaveNationalInsuranceNumber.values.toSeq)
 
-      forAll(gen) {
-        doesTheIndividualHaveNationalInsuranceNumber =>
-
-          Json.toJson(doesTheIndividualHaveNationalInsuranceNumber) mustEqual JsString(doesTheIndividualHaveNationalInsuranceNumber.toString)
+      forAll(gen) { doesTheIndividualHaveNationalInsuranceNumber =>
+        Json.toJson(doesTheIndividualHaveNationalInsuranceNumber) mustEqual JsString(
+          doesTheIndividualHaveNationalInsuranceNumber.toString
+        )
       }
     }
   }

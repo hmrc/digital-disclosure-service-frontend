@@ -26,9 +26,11 @@ import viewmodels.RevealFullText
 
 class CorporationTaxSummaryViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val page: CorporationTaxSummaryView = inject[CorporationTaxSummaryView]
-  val revealFullText = inject[RevealFullText]
-  val viewModel: CorporationTaxLiabilitiesSummaryViewModel = new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText).create(UserAnswers("id", "session-123"))(messages)
+  val page: CorporationTaxSummaryView                      = inject[CorporationTaxSummaryView]
+  val revealFullText                                       = inject[RevealFullText]
+  val viewModel: CorporationTaxLiabilitiesSummaryViewModel = new CorporationTaxLiabilitiesSummaryViewModelCreation(
+    revealFullText
+  ).create(UserAnswers("id", "session-123"))(messages)
 
   private def createView: Html = page(viewModel, NormalMode)(request, messages)
 
@@ -45,7 +47,7 @@ class CorporationTaxSummaryViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.continue")
     }
 

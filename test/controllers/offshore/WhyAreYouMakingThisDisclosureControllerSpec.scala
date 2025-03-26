@@ -34,22 +34,23 @@ class WhyAreYouMakingThisDisclosureControllerSpec extends SpecBase with MockitoS
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val whyAreYouMakingThisDisclosureRoute = routes.WhyAreYouMakingThisDisclosureController.onPageLoad(NormalMode).url
+  lazy val whyAreYouMakingThisDisclosureRoute =
+    routes.WhyAreYouMakingThisDisclosureController.onPageLoad(NormalMode).url
 
   val formProvider = new WhyAreYouMakingThisDisclosureFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   "WhyAreYouMakingThisDisclosure Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
       val userAnswers = (for {
-        userAnswer <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        userAnswer          <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
       val areTheyTheIndividual = userAnswers.isTheUserTheIndividual
-      val entity = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+      val entity               = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -67,13 +68,14 @@ class WhyAreYouMakingThisDisclosureControllerSpec extends SpecBase with MockitoS
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = (for {
-        userAnswer <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
-        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
-        uaWithWhyAreYouMakingThisDisclosurePage <- uaWithRelatesToPage.set(WhyAreYouMakingThisDisclosurePage, WhyAreYouMakingThisDisclosure.values.toSet)
+        userAnswer                              <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        uaWithRelatesToPage                     <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
+        uaWithWhyAreYouMakingThisDisclosurePage <-
+          uaWithRelatesToPage.set(WhyAreYouMakingThisDisclosurePage, WhyAreYouMakingThisDisclosure.values.toSet)
       } yield uaWithWhyAreYouMakingThisDisclosurePage).success.value
 
       val areTheyTheIndividual = userAnswers.isTheUserTheIndividual
-      val entity = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+      val entity               = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -84,13 +86,18 @@ class WhyAreYouMakingThisDisclosureControllerSpec extends SpecBase with MockitoS
       val view = application.injector.instanceOf[WhyAreYouMakingThisDisclosureView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(WhyAreYouMakingThisDisclosure.values.toSet), NormalMode, areTheyTheIndividual, entity)(request, messages).toString
+      contentAsString(result) mustEqual view(
+        form.fill(WhyAreYouMakingThisDisclosure.values.toSet),
+        NormalMode,
+        areTheyTheIndividual,
+        entity
+      )(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
       val userAnswers = (for {
-        userAnswer <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        userAnswer          <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
@@ -110,12 +117,12 @@ class WhyAreYouMakingThisDisclosureControllerSpec extends SpecBase with MockitoS
     "must return a Bad Request and errors when invalid data is submitted" in {
 
       val userAnswers = (for {
-        userAnswer <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        userAnswer          <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
       val areTheyTheIndividual = userAnswers.isTheUserTheIndividual
-      val entity = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+      val entity               = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -130,7 +137,10 @@ class WhyAreYouMakingThisDisclosureControllerSpec extends SpecBase with MockitoS
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

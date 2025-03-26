@@ -30,9 +30,9 @@ class ReasonableCareOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
   "view" should {
 
     val areTheyTheIndividual = true
-    val entity = RelatesTo.AnIndividual
-    val form = new ReasonableCareOnshoreFormProvider()(areTheyTheIndividual)
-    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    val entity               = RelatesTo.AnIndividual
+    val form                 = new ReasonableCareOnshoreFormProvider()(areTheyTheIndividual)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
     val view = createView
 
@@ -45,16 +45,22 @@ class ReasonableCareOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain reasonableCare & yearsThisAppliesTo labels" in {
-      view.getElementById("body-reasonableCare").text() mustBe messages("whatReasonableCareDidYouTake.you.reasonableCare")
-      view.getElementsByClass("govuk-label").get(1).text() mustBe messages("whatReasonableCareDidYouTake.yearsThisAppliesTo")
+      view.getElementById("body-reasonableCare").text() mustBe messages(
+        "whatReasonableCareDidYouTake.you.reasonableCare"
+      )
+      view.getElementsByClass("govuk-label").get(1).text() mustBe messages(
+        "whatReasonableCareDidYouTake.yearsThisAppliesTo"
+      )
     }
 
     "contain input 2 hint" in {
-      view.getElementById("yearsThisAppliesTo-hint").text() mustBe messages("whatReasonableCareDidYouTake.yearsThisAppliesTo.hint")
+      view.getElementById("yearsThisAppliesTo-hint").text() mustBe messages(
+        "whatReasonableCareDidYouTake.yearsThisAppliesTo.hint"
+      )
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 
@@ -67,9 +73,9 @@ class ReasonableCareOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
   "view" should {
 
     val areTheyTheIndividual = false
-    val entity = RelatesTo.AnIndividual
-    val form = new ReasonableCareOnshoreFormProvider()(areTheyTheIndividual)
-    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    val entity               = RelatesTo.AnIndividual
+    val form                 = new ReasonableCareOnshoreFormProvider()(areTheyTheIndividual)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
     val view = createView
 
@@ -82,16 +88,18 @@ class ReasonableCareOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain reasonableCare labels when you have selected onbehalf of individual agent" in {
-      view.getElementById("body-reasonableCare").text() mustBe messages(s"whatReasonableCareDidYouTake.${entity}.reasonableCare")
+      view.getElementById("body-reasonableCare").text() mustBe messages(
+        s"whatReasonableCareDidYouTake.$entity.reasonableCare"
+      )
     }
   }
 
   "view" should {
 
     val areTheyTheIndividual = false
-    val entity = RelatesTo.AnEstate
-    val form = new ReasonableCareOnshoreFormProvider()(areTheyTheIndividual)
-    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    val entity               = RelatesTo.AnEstate
+    val form                 = new ReasonableCareOnshoreFormProvider()(areTheyTheIndividual)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
     val view = createView
 
@@ -104,16 +112,18 @@ class ReasonableCareOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain reasonableCare labels when you have selected AnEstate agent" in {
-      view.getElementById("body-reasonableCare").text() mustBe messages(s"whatReasonableCareDidYouTake.${entity}.reasonableCare")
+      view.getElementById("body-reasonableCare").text() mustBe messages(
+        s"whatReasonableCareDidYouTake.$entity.reasonableCare"
+      )
     }
   }
 
   "view" should {
 
     val areTheyTheIndividual = false
-    val entity = RelatesTo.ACompany
-    val form = new ReasonableCareOnshoreFormProvider()(areTheyTheIndividual)
-    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    val entity               = RelatesTo.ACompany
+    val form                 = new ReasonableCareOnshoreFormProvider()(areTheyTheIndividual)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
     val view = createView
 
@@ -126,16 +136,18 @@ class ReasonableCareOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain reasonableCare labels when you have selected ACompany agent" in {
-      view.getElementById("body-reasonableCare").text() mustBe messages(s"whatReasonableCareDidYouTake.${entity}.reasonableCare")
+      view.getElementById("body-reasonableCare").text() mustBe messages(
+        s"whatReasonableCareDidYouTake.$entity.reasonableCare"
+      )
     }
   }
 
   "view" should {
 
     val areTheyTheIndividual = false
-    val entity = RelatesTo.ALimitedLiabilityPartnership
-    val form = new ReasonableCareOnshoreFormProvider()(areTheyTheIndividual)
-    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    val entity               = RelatesTo.ALimitedLiabilityPartnership
+    val form                 = new ReasonableCareOnshoreFormProvider()(areTheyTheIndividual)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
     val view = createView
 
@@ -148,16 +160,18 @@ class ReasonableCareOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain reasonableCare labels when you have selected ALimitedLiabilityPartnership agent" in {
-      view.getElementById("body-reasonableCare").text() mustBe messages(s"whatReasonableCareDidYouTake.${entity}.reasonableCare")
+      view.getElementById("body-reasonableCare").text() mustBe messages(
+        s"whatReasonableCareDidYouTake.$entity.reasonableCare"
+      )
     }
   }
 
   "view" should {
 
     val areTheyTheIndividual = false
-    val entity = RelatesTo.ATrust
-    val form = new ReasonableCareOnshoreFormProvider()(areTheyTheIndividual)
-    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    val entity               = RelatesTo.ATrust
+    val form                 = new ReasonableCareOnshoreFormProvider()(areTheyTheIndividual)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
     val view = createView
 
@@ -170,7 +184,9 @@ class ReasonableCareOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain reasonableCare labels when you have selected ATrust agent" in {
-      view.getElementById("body-reasonableCare").text() mustBe messages(s"whatReasonableCareDidYouTake.${entity}.reasonableCare")
+      view.getElementById("body-reasonableCare").text() mustBe messages(
+        s"whatReasonableCareDidYouTake.$entity.reasonableCare"
+      )
     }
   }
 }

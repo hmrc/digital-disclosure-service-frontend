@@ -40,9 +40,9 @@ class MakeANotificationOrDisclosureControllerSpec extends SpecBase with MockitoS
 
   lazy val makeANotificationOrDisclosureRoute: String = routes.MakeANotificationOrDisclosureController.onPageLoad.url
 
-  val formProvider = new MakeANotificationOrDisclosureFormProvider()
+  val formProvider                              = new MakeANotificationOrDisclosureFormProvider()
   val form: Form[MakeANotificationOrDisclosure] = formProvider()
-  val view: MakeANotificationOrDisclosureView = application.injector.instanceOf[MakeANotificationOrDisclosureView]
+  val view: MakeANotificationOrDisclosureView   = application.injector.instanceOf[MakeANotificationOrDisclosureView]
 
   "MakeANotificationOrDisclosure Controller" - {
 
@@ -80,7 +80,7 @@ class MakeANotificationOrDisclosureControllerSpec extends SpecBase with MockitoS
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val expectedAuditEvent = NotificationStart (
+      val expectedAuditEvent = NotificationStart(
         userId = "id",
         submissionId = UserAnswers.defaultSubmissionId,
         isAgent = false,
@@ -91,7 +91,8 @@ class MakeANotificationOrDisclosureControllerSpec extends SpecBase with MockitoS
         .overrides(
           bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
           bind[AuditService].toInstance(mockAuditService)
-        ).build()
+        )
+        .build()
 
       val request =
         FakeRequest(POST, makeANotificationOrDisclosureRoute)
@@ -111,7 +112,7 @@ class MakeANotificationOrDisclosureControllerSpec extends SpecBase with MockitoS
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val expectedAuditEvent = DisclosureStart (
+      val expectedAuditEvent = DisclosureStart(
         userId = "id",
         submissionId = UserAnswers.defaultSubmissionId,
         isAgent = false,
@@ -123,7 +124,8 @@ class MakeANotificationOrDisclosureControllerSpec extends SpecBase with MockitoS
         .overrides(
           bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
           bind[AuditService].toInstance(mockAuditService)
-        ).build()
+        )
+        .build()
 
       val request =
         FakeRequest(POST, makeANotificationOrDisclosureRoute)

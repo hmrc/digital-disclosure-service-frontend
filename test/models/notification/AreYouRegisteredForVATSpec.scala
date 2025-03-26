@@ -32,10 +32,11 @@ class AreYouRegisteredForVATSpec extends AnyFreeSpec with Matchers with ScalaChe
 
       val gen = Gen.oneOf(AreYouRegisteredForVAT.values.toSeq)
 
-      forAll(gen) {
-        areYouRegisteredForVAT =>
-
-          JsString(areYouRegisteredForVAT.toString).validate[AreYouRegisteredForVAT].asOpt.value mustEqual areYouRegisteredForVAT
+      forAll(gen) { areYouRegisteredForVAT =>
+        JsString(areYouRegisteredForVAT.toString)
+          .validate[AreYouRegisteredForVAT]
+          .asOpt
+          .value mustEqual areYouRegisteredForVAT
       }
     }
 
@@ -43,10 +44,8 @@ class AreYouRegisteredForVATSpec extends AnyFreeSpec with Matchers with ScalaChe
 
       val gen = arbitrary[String] suchThat (!AreYouRegisteredForVAT.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[AreYouRegisteredForVAT] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[AreYouRegisteredForVAT] mustEqual JsError("error.invalid")
       }
     }
 
@@ -54,10 +53,8 @@ class AreYouRegisteredForVATSpec extends AnyFreeSpec with Matchers with ScalaChe
 
       val gen = Gen.oneOf(AreYouRegisteredForVAT.values.toSeq)
 
-      forAll(gen) {
-        areYouRegisteredForVAT =>
-
-          Json.toJson(areYouRegisteredForVAT) mustEqual JsString(areYouRegisteredForVAT.toString)
+      forAll(gen) { areYouRegisteredForVAT =>
+        Json.toJson(areYouRegisteredForVAT) mustEqual JsString(areYouRegisteredForVAT.toString)
       }
     }
   }

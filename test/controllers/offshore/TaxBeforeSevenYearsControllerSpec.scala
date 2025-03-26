@@ -40,20 +40,21 @@ class TaxBeforeSevenYearsControllerSpec extends SpecBase with MockitoSugar with 
 
   def now = () => LocalDate.now()
 
-  val formProvider = new TaxBeforeSevenYearsFormProvider()
-  def form(year: String) = {
+  val formProvider       = new TaxBeforeSevenYearsFormProvider()
+  def form(year: String) =
     formProvider(year)
-  }
 
   lazy val taxBeforeSevenYearsRoute = routes.TaxBeforeSevenYearsController.onPageLoad(NormalMode).url
 
   val userAnswers = UserAnswers(
     userAnswersId,
-    Json.obj(
-      TaxBeforeSevenYearsPage.toString -> Json.obj(
-        "taxBeforeSevenYears" -> "value 1"
+    Json
+      .obj(
+        TaxBeforeSevenYearsPage.toString -> Json.obj(
+          "taxBeforeSevenYears" -> "value 1"
+        )
       )
-    ).toString
+      .toString
   )
 
   "TaxBeforeSevenYears Controller" - {
@@ -69,7 +70,7 @@ class TaxBeforeSevenYearsControllerSpec extends SpecBase with MockitoSugar with 
       val result = route(application, request).value
 
       val service = application.injector.instanceOf[OffshoreWhichYearsService]
-      val year = service.getEarliestYearByBehaviour(Behaviour.Careless).toString
+      val year    = service.getEarliestYearByBehaviour(Behaviour.Careless).toString
 
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(form(year), NormalMode, year)(request, messages).toString
@@ -86,7 +87,7 @@ class TaxBeforeSevenYearsControllerSpec extends SpecBase with MockitoSugar with 
       val result = route(application, request).value
 
       val service = application.injector.instanceOf[OffshoreWhichYearsService]
-      val year = service.getEarliestYearByBehaviour(Behaviour.Careless).toString
+      val year    = service.getEarliestYearByBehaviour(Behaviour.Careless).toString
 
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(form(year).fill(""), NormalMode, year)(request, messages).toString
@@ -116,7 +117,7 @@ class TaxBeforeSevenYearsControllerSpec extends SpecBase with MockitoSugar with 
           .withFormUrlEncodedBody(("value", ""))
 
       val service = application.injector.instanceOf[OffshoreWhichYearsService]
-      val year = service.getEarliestYearByBehaviour(Behaviour.Careless).toString
+      val year    = service.getEarliestYearByBehaviour(Behaviour.Careless).toString
 
       val boundForm = form(year).bind(Map("value" -> ""))
 

@@ -22,7 +22,7 @@ import play.api.data.FormError
 class FHLFormProviderSpec extends BooleanFieldBehaviours {
 
   val requiredKey = "fhl.error.required"
-  val invalidKey = "error.boolean"
+  val invalidKey  = "error.boolean"
 
   val form = new FHLFormProvider()()
 

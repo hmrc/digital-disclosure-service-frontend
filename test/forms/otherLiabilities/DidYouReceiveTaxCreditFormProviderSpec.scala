@@ -24,8 +24,8 @@ class DidYouReceiveTaxCreditFormProviderSpec extends BooleanFieldBehaviours {
 
   ".value when an agent" - {
 
-    val form = new DidYouReceiveTaxCreditFormProvider()(true, AnIndividual)
-    val fieldName = "value"
+    val form        = new DidYouReceiveTaxCreditFormProvider()(true, AnIndividual)
+    val fieldName   = "value"
     val requiredKey = "didYouReceiveTaxCredit.agent.error.required"
 
     behave like booleanField(
@@ -42,18 +42,17 @@ class DidYouReceiveTaxCreditFormProviderSpec extends BooleanFieldBehaviours {
   }
 
   Seq(
-      AnIndividual, 
-      AnEstate, 
-      ACompany, 
-      ALimitedLiabilityPartnership, 
-      ATrust
-  ).foreach {relatesTo =>
+    AnIndividual,
+    AnEstate,
+    ACompany,
+    ALimitedLiabilityPartnership,
+    ATrust
+  ).foreach { relatesTo =>
+    s".value when an $relatesTo" - {
 
-    s".value when an ${relatesTo}" - {
-    
-      val form = new DidYouReceiveTaxCreditFormProvider()(false, relatesTo)
-      val fieldName = "value"
-      val requiredKey = s"didYouReceiveTaxCredit.${relatesTo}.error.required"
+      val form        = new DidYouReceiveTaxCreditFormProvider()(false, relatesTo)
+      val fieldName   = "value"
+      val requiredKey = s"didYouReceiveTaxCredit.$relatesTo.error.required"
 
       behave like booleanField(
         form,

@@ -25,7 +25,7 @@ import models.NormalMode
 
 class WhatIsTheReasonForMakingADisclosureNowViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhatIsTheReasonForMakingADisclosureNowFormProvider()()
+  val form                                             = new WhatIsTheReasonForMakingADisclosureNowFormProvider()()
   val page: WhatIsTheReasonForMakingADisclosureNowView = inject[WhatIsTheReasonForMakingADisclosureNowView]
 
   private def createView: Html = page(form, NormalMode)(request, messages)
@@ -39,11 +39,13 @@ class WhatIsTheReasonForMakingADisclosureNowViewSpec extends ViewSpecBase with V
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-label--xl").text() mustBe messages("whatIsTheReasonForMakingADisclosureNow.heading")
+      view.getElementsByClass("govuk-label--xl").text() mustBe messages(
+        "whatIsTheReasonForMakingADisclosureNow.heading"
+      )
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

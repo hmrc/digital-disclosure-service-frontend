@@ -28,7 +28,8 @@ class IndexViewSpec extends ViewSpecBase with ViewMatchers {
 
   "view" should {
 
-    def createView: Html = page(controllers.routes.MakeANotificationOrDisclosureController.onPageLoad.url, false)(request, messages)
+    def createView: Html =
+      page(controllers.routes.MakeANotificationOrDisclosureController.onPageLoad.url, false)(request, messages)
 
     val view = createView
 
@@ -41,9 +42,11 @@ class IndexViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the start now button when full disclosure journey enabled is true" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("start")
+      view.getElementsByClass("govuk-button").first() must haveId("start")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.continue")
-      view.getElementById("start").attr("href") mustBe controllers.routes.MakeANotificationOrDisclosureController.onPageLoad.url
+      view
+        .getElementById("start")
+        .attr("href") mustBe controllers.routes.MakeANotificationOrDisclosureController.onPageLoad.url
     }
 
     "have a first paragraph" in {
@@ -64,7 +67,11 @@ class IndexViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "have a bullet point guidance link" in {
-      view.getElementById("first-bullet-link").attr("href") mustBe "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure#general-information"
+      view
+        .getElementById("first-bullet-link")
+        .attr(
+          "href"
+        ) mustBe "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure#general-information"
     }
 
     "have a forth paragraph" in {
@@ -76,23 +83,35 @@ class IndexViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "have a fifth paragraph" in {
-      view.getElementById("fifth-paragraph").text() mustBe messages("index.guidance.paragraph.forth.link") + messages("index.guidance.paragraph.fifth")
+      view.getElementById("fifth-paragraph").text() mustBe messages("index.guidance.paragraph.forth.link") + messages(
+        "index.guidance.paragraph.fifth"
+      )
     }
 
     "have a forth paragraph guidance link" in {
-      view.getElementById("forth-paragraph-link").attr("href") mustBe "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure"
+      view
+        .getElementById("forth-paragraph-link")
+        .attr(
+          "href"
+        ) mustBe "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure"
     }
 
     "have a sixth paragraph" in {
-      view.getElementById("sixth-paragraph").text() mustBe messages("index.guidance.paragraph.sixth") + messages("index.guidance.paragraph.sixth.link") + messages("site.dot")
+      view.getElementById("sixth-paragraph").text() mustBe messages("index.guidance.paragraph.sixth") + messages(
+        "index.guidance.paragraph.sixth.link"
+      ) + messages("site.dot")
     }
 
     "have a sixth paragraph guidance link" in {
-      view.getElementById("sixth-paragraph-link").attr("href") mustBe "https://www.gov.uk/guidance/admitting-tax-fraud-the-contractual-disclosure-facility-cdf"
+      view
+        .getElementById("sixth-paragraph-link")
+        .attr("href") mustBe "https://www.gov.uk/guidance/admitting-tax-fraud-the-contractual-disclosure-facility-cdf"
     }
 
     "have a seventh paragraph" in {
-      view.getElementById("seventh-paragraph").text() mustBe messages("index.guidance.paragraph.seventh") + messages("index.guidance.paragraph.seventh.link") + messages("index.guidance.paragraph.eighth")
+      view.getElementById("seventh-paragraph").text() mustBe messages("index.guidance.paragraph.seventh") + messages(
+        "index.guidance.paragraph.seventh.link"
+      ) + messages("index.guidance.paragraph.eighth")
     }
 
     "have a seventh paragraph guidance link" in {
@@ -108,36 +127,52 @@ class IndexViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "have the elements in the bullet-list" in {
-      view.getElementsByClass("dashed-list-item").get(2).text() mustBe messages("index.bulletList.third") + messages("index.bulletList.third.link")
+      view.getElementsByClass("dashed-list-item").get(2).text() mustBe messages("index.bulletList.third") + messages(
+        "index.bulletList.third.link"
+      )
       view.getElementsByClass("dashed-list-item").get(3).text() mustBe messages("index.bulletList.forth")
       view.getElementsByClass("dashed-list-item").get(4).text() mustBe messages("index.bulletList.fifth")
     }
 
     "have a bullet guidance link" in {
-      view.getElementById("bullet-link").attr("href") mustBe "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure"
+      view
+        .getElementById("bullet-link")
+        .attr(
+          "href"
+        ) mustBe "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure"
     }
 
   }
 
   "view" should {
 
-    def createView: Html = page(controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url, false)(request, messages)
+    def createView: Html = page(
+      controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url,
+      false
+    )(request, messages)
 
     val view = createView
 
     "display the start now button when full disclosure journey enabled is false" in {
-      view.getElementById("start").attr("href") mustBe controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url
+      view.getElementById("start").attr("href") mustBe controllers.notification.routes.ReceivedALetterController
+        .onPageLoad(NormalMode)
+        .url
     }
   }
 
   "view" should {
 
-    def createView: Html = page(controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url, true)(request, messages)
+    def createView: Html = page(
+      controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url,
+      true
+    )(request, messages)
 
     val view = createView
 
     "display the right messages if the user is an agent" in {
-      view.getElementsByClass("dashed-list-item").get(2).text() mustBe messages("index.bulletList.agent.first") + messages("index.bulletList.agent.first.link")
+      view.getElementsByClass("dashed-list-item").get(2).text() mustBe messages(
+        "index.bulletList.agent.first"
+      ) + messages("index.bulletList.agent.first.link")
       view.getElementsByClass("seventh-paragraph") mustBe empty
       view.getElementById("first-paragraph").text() mustBe messages("index.guidance.paragraph.agent.first")
     }

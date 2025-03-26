@@ -37,7 +37,7 @@ class YourLegalInterpretationControllerSpec extends SpecBase with MockitoSugar {
   lazy val yourLegalInterpretationRoute = routes.YourLegalInterpretationController.onPageLoad(NormalMode).url
 
   val formProvider = new YourLegalInterpretationFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   "YourLegalInterpretation Controller" - {
 
@@ -55,12 +55,18 @@ class YourLegalInterpretationControllerSpec extends SpecBase with MockitoSugar {
 
       status(result) mustEqual OK
 
-      contentAsString(result) mustEqual view(form, NormalMode, items.checkboxItems(messages))(request, messages).toString
+      contentAsString(result) mustEqual view(form, NormalMode, items.checkboxItems(messages))(
+        request,
+        messages
+      ).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(YourLegalInterpretationPage, YourLegalInterpretation.values.toSet).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123")
+        .set(YourLegalInterpretationPage, YourLegalInterpretation.values.toSet)
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -73,7 +79,11 @@ class YourLegalInterpretationControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(YourLegalInterpretation.values.toSet), NormalMode, items.checkboxItems(messages))(request, messages).toString
+      contentAsString(result) mustEqual view(
+        form.fill(YourLegalInterpretation.values.toSet),
+        NormalMode,
+        items.checkboxItems(messages)
+      )(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -108,7 +118,10 @@ class YourLegalInterpretationControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, items.checkboxItems(messages))(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode, items.checkboxItems(messages))(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

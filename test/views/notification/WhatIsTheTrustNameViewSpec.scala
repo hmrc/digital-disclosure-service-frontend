@@ -25,7 +25,7 @@ import models.NormalMode
 
 class WhatIsTheTrustNameViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhatIsTheTrustNameFormProvider()()
+  val form                         = new WhatIsTheTrustNameFormProvider()()
   val page: WhatIsTheTrustNameView = inject[WhatIsTheTrustNameView]
 
   private def createView: Html = page(form, NormalMode, false)(request, messages)
@@ -47,7 +47,7 @@ class WhatIsTheTrustNameViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

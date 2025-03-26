@@ -16,9 +16,9 @@
 
 package forms
 
-import forms.behaviours.{MonthYearBehaviours, StringFieldBehaviours, OptionFieldBehaviours}
+import forms.behaviours.{MonthYearBehaviours, OptionFieldBehaviours, StringFieldBehaviours}
 import play.api.data.FormError
-import models.{MonthYear, AdviceContactPreference}
+import models.{AdviceContactPreference, MonthYear}
 import org.scalacheck.Arbitrary.arbitrary
 
 class AdviceGivenFormProviderSpec extends OptionFieldBehaviours with StringFieldBehaviours with MonthYearBehaviours {
@@ -27,10 +27,10 @@ class AdviceGivenFormProviderSpec extends OptionFieldBehaviours with StringField
 
   ".adviceGiven" - {
 
-    val fieldName = "adviceGiven"
+    val fieldName   = "adviceGiven"
     val requiredKey = "adviceGiven.error.adviceGiven.required"
-    val lengthKey = "adviceGiven.error.adviceGiven.length"
-    val maxLength = 5000
+    val lengthKey   = "adviceGiven.error.adviceGiven.length"
+    val maxLength   = 5000
 
     behave like fieldThatBindsValidData(
       form,
@@ -57,7 +57,6 @@ class AdviceGivenFormProviderSpec extends OptionFieldBehaviours with StringField
     )
   }
 
-  
   ".date" - {
     val validData = arbitrary[MonthYear]
 
@@ -69,18 +68,23 @@ class AdviceGivenFormProviderSpec extends OptionFieldBehaviours with StringField
 
     behave like mandatoryMonthYearField(form, "date", "adviceGiven.date.error.required.all")
 
-    behave like monthYearFieldCheckingMaxMonth(form, "date", validData, FormError("date.month", "adviceGiven.date.error.invalidMonth"))
+    behave like monthYearFieldCheckingMaxMonth(
+      form,
+      "date",
+      validData,
+      FormError("date.month", "adviceGiven.date.error.invalidMonth")
+    )
   }
 
   ".contact" - {
 
-    val fieldName = "contact"
+    val fieldName   = "contact"
     val requiredKey = "adviceGiven.error.contact.required"
 
     behave like optionsField[AdviceContactPreference](
       form,
       fieldName,
-      validValues  = AdviceContactPreference.values,
+      validValues = AdviceContactPreference.values,
       invalidError = FormError(fieldName, "error.invalid")
     )
 

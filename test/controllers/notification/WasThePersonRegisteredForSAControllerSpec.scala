@@ -36,7 +36,7 @@ class WasThePersonRegisteredForSAControllerSpec extends ControllerSpecBase {
   lazy val wasThePersonRegisteredForSARoute = routes.WasThePersonRegisteredForSAController.onPageLoad(NormalMode).url
 
   val formProvider = new WasThePersonRegisteredForSAFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   "WasThePersonRegisteredForSA Controller" - {
 
@@ -56,7 +56,10 @@ class WasThePersonRegisteredForSAControllerSpec extends ControllerSpecBase {
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WasThePersonRegisteredForSAPage, WasThePersonRegisteredForSA.values.head).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123")
+        .set(WasThePersonRegisteredForSAPage, WasThePersonRegisteredForSA.values.head)
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -67,7 +70,10 @@ class WasThePersonRegisteredForSAControllerSpec extends ControllerSpecBase {
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(WasThePersonRegisteredForSA.values.head), NormalMode, false)(request, messages).toString
+      contentAsString(result) mustEqual view(form.fill(WasThePersonRegisteredForSA.values.head), NormalMode, false)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -87,9 +93,9 @@ class WasThePersonRegisteredForSAControllerSpec extends ControllerSpecBase {
 
     "must redirect to WhatWasThePersonUTR screen in check mode if WasThePersonRegisteredForSA page answer was change from No or YesButDontKnow to YesIKnow" in {
       val previousAnswers = Seq(WasThePersonRegisteredForSA.No, WasThePersonRegisteredForSA.YesButIDontKnow)
-      val newAnswer = WasThePersonRegisteredForSA.YesIKnow
+      val newAnswer       = WasThePersonRegisteredForSA.YesIKnow
 
-      val urlToTest = routes.WasThePersonRegisteredForSAController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.WasThePersonRegisteredForSAController.onPageLoad(CheckMode).url
       val destinationRoute = routes.WhatWasThePersonUTRController.onPageLoad(CheckMode).url
 
       previousAnswers.foreach(
@@ -99,20 +105,27 @@ class WasThePersonRegisteredForSAControllerSpec extends ControllerSpecBase {
 
     "must redirect to CheckYourAnswers screen if the if WasThePersonRegisteredForSA page answer was change from YesIKnow to No or YesButDontKnow" in {
       val previousAnswer = WasThePersonRegisteredForSA.YesIKnow
-      val newAnswers = Seq(WasThePersonRegisteredForSA.No, WasThePersonRegisteredForSA.YesButIDontKnow)
+      val newAnswers     = Seq(WasThePersonRegisteredForSA.No, WasThePersonRegisteredForSA.YesButIDontKnow)
 
-      val urlToTest = routes.WasThePersonRegisteredForSAController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.WasThePersonRegisteredForSAController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       val pageToClean = List(WhatWasThePersonUTRPage)
 
-      newAnswers.foreach(testChangeAnswerRouting(
-        previousAnswer, _, WasThePersonRegisteredForSAPage, urlToTest, destinationRoute, pageToClean)
+      newAnswers.foreach(
+        testChangeAnswerRouting(
+          previousAnswer,
+          _,
+          WasThePersonRegisteredForSAPage,
+          urlToTest,
+          destinationRoute,
+          pageToClean
+        )
       )
     }
 
     "must redirect to CheckYourAnswer screen if there are no changes in the user answer" in {
-      val urlToTest = routes.WasThePersonRegisteredForSAController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.WasThePersonRegisteredForSAController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       WasThePersonRegisteredForSA.values.foreach(value =>

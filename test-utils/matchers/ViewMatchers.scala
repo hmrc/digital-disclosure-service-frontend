@@ -163,9 +163,10 @@ trait ViewMatchers {
   class TranslationKeyMatcher(key: String) extends Matcher[Messages] {
 
     override def apply(left: Messages): MatchResult =
-      MatchResult(matches = left.isDefinedAt(key),
-                  rawFailureMessage = s"$key is not defined in Messages",
-                  rawNegatedFailureMessage = s"$key is defined in Messages"
+      MatchResult(
+        matches = left.isDefinedAt(key),
+        rawFailureMessage = s"$key is not defined in Messages",
+        rawNegatedFailureMessage = s"$key is defined in Messages"
       )
 
   }
@@ -173,9 +174,10 @@ trait ViewMatchers {
   class ContainElementWithIDMatcher(id: String) extends Matcher[Element] {
 
     override def apply(left: Element): MatchResult =
-      MatchResult(left != null && left.getElementById(id) != null,
-                  s"Document did not contain element with ID {$id}\n${actualContentWas(left)}",
-                  s"Document contained an element with ID {$id}"
+      MatchResult(
+        left != null && left.getElementById(id) != null,
+        s"Document did not contain element with ID {$id}\n${actualContentWas(left)}",
+        s"Document contained an element with ID {$id}"
       )
 
   }
@@ -183,9 +185,10 @@ trait ViewMatchers {
   class ContainElementWithClassMatcher(name: String) extends Matcher[Element] {
 
     override def apply(left: Element): MatchResult =
-      MatchResult(left != null && left.getElementsByClass(name).size() > 0,
-                  s"Document did not contain element with class {$name}\n${actualContentWas(left)}",
-                  s"Document contained an element with class {$name}"
+      MatchResult(
+        left != null && left.getElementsByClass(name).size() > 0,
+        s"Document did not contain element with class {$name}\n${actualContentWas(left)}",
+        s"Document contained an element with class {$name}"
       )
 
   }
@@ -205,9 +208,10 @@ trait ViewMatchers {
 
     override def apply(left: Element): MatchResult = {
       val isChecked = left.getElementsByAttribute("checked").size() == 1
-      MatchResult(left != null && isChecked == expected,
-                  s"Element was not selected\n${actualContentWas(left)}",
-                  "Element was selected"
+      MatchResult(
+        left != null && isChecked == expected,
+        s"Element was not selected\n${actualContentWas(left)}",
+        "Element was selected"
       )
     }
 
@@ -216,9 +220,10 @@ trait ViewMatchers {
   class ContainElementWithAttribute(key: String, value: String) extends Matcher[Element] {
 
     override def apply(left: Element): MatchResult =
-      MatchResult(left != null && !left.getElementsByAttributeValue(key, value).isEmpty,
-                  s"Document did not contain element with Attribute {$key=$value}\n${actualContentWas(left)}",
-                  s"Document contained an element with Attribute {$key=$value}"
+      MatchResult(
+        left != null && !left.getElementsByAttributeValue(key, value).isEmpty,
+        s"Document did not contain element with Attribute {$key=$value}\n${actualContentWas(left)}",
+        s"Document contained an element with Attribute {$key=$value}"
       )
 
   }
@@ -226,9 +231,10 @@ trait ViewMatchers {
   class ContainElementWithTagMatcher(tag: String) extends Matcher[Element] {
 
     override def apply(left: Element): MatchResult =
-      MatchResult(left != null && !left.getElementsByTag(tag).isEmpty,
-                  s"Document did not contain element with Tag {$tag}\n${actualContentWas(left)}",
-                  s"Document contained an element with Tag {$tag}"
+      MatchResult(
+        left != null && !left.getElementsByTag(tag).isEmpty,
+        s"Document did not contain element with Tag {$tag}\n${actualContentWas(left)}",
+        s"Document contained an element with Tag {$tag}"
       )
 
   }
@@ -236,9 +242,10 @@ trait ViewMatchers {
   class ElementHasClassMatcher(clazz: String) extends Matcher[Element] {
 
     override def apply(left: Element): MatchResult =
-      MatchResult(left != null && left.classNames().contains(clazz),
-                  s"Element did not have class {$clazz}\n${actualContentWas(left)}",
-                  s"Element had class {$clazz}"
+      MatchResult(
+        left != null && left.classNames().contains(clazz),
+        s"Element did not have class {$clazz}\n${actualContentWas(left)}",
+        s"Element had class {$clazz}"
       )
 
   }
@@ -246,9 +253,10 @@ trait ViewMatchers {
   class ElementContainsTextMatcher(content: String) extends Matcher[Element] {
 
     override def apply(left: Element): MatchResult =
-      MatchResult(left != null && left.text().contains(content),
-                  s"Element did not contain {$content}\n${actualContentWas(left)}",
-                  s"Element contained {$content}"
+      MatchResult(
+        left != null && left.text().contains(content),
+        s"Element did not contain {$content}\n${actualContentWas(left)}",
+        s"Element contained {$content}"
       )
 
   }
@@ -258,9 +266,10 @@ trait ViewMatchers {
 
     override def apply(left: Element): MatchResult = {
       val message = messages(key, args: _*)
-      MatchResult(left != null && left.text().contains(message),
-                  s"Element did not contain message {$message}\n${actualContentWas(left)}",
-                  s"Element contained message {$message}"
+      MatchResult(
+        left != null && left.text().contains(message),
+        s"Element did not contain message {$message}\n${actualContentWas(left)}",
+        s"Element contained message {$message}"
       )
     }
 
@@ -271,9 +280,10 @@ trait ViewMatchers {
 
     override def apply(left: Elements): MatchResult = {
       val message = messages(key, args: _*)
-      MatchResult(left != null && left.text().contains(message),
-                  s"Elements did not contain message {$message}\n${actualContentWas(left)}",
-                  s"Elements contained message {$message}"
+      MatchResult(
+        left != null && left.text().contains(message),
+        s"Elements did not contain message {$message}\n${actualContentWas(left)}",
+        s"Elements contained message {$message}"
       )
     }
 
@@ -282,9 +292,10 @@ trait ViewMatchers {
   class ElementContainsHtmlMatcher(content: String) extends Matcher[Element] {
 
     override def apply(left: Element): MatchResult =
-      MatchResult(left != null && left.html().contains(content),
-                  s"Element did not contain {$content}\n${actualContentWas(left)}",
-                  s"Element contained {$content}"
+      MatchResult(
+        left != null && left.html().contains(content),
+        s"Element did not contain {$content}\n${actualContentWas(left)}",
+        s"Element contained {$content}"
       )
 
   }
@@ -303,13 +314,13 @@ trait ViewMatchers {
 
   }
 
-  class ElementContainsChildWithAttributeMatcher(tag: String, key: String, value: String)
-      extends Matcher[Element] {
+  class ElementContainsChildWithAttributeMatcher(tag: String, key: String, value: String) extends Matcher[Element] {
 
     override def apply(left: Element): MatchResult =
-      MatchResult(left != null && left.getElementsByTag(tag).exists(_.attr(key) == value),
-                  s"Element attribute {$key} had value {${left.attr(key)}}, expected {$value}",
-                  s"Element attribute {$key} had value {$value}"
+      MatchResult(
+        left != null && left.getElementsByTag(tag).exists(_.attr(key) == value),
+        s"Element attribute {$key} had value {${left.attr(key)}}, expected {$value}",
+        s"Element attribute {$key} had value {$value}"
       )
 
   }
@@ -317,9 +328,10 @@ trait ViewMatchers {
   class ElementHasAttributeValueMatcher(key: String, value: String) extends Matcher[Element] {
 
     override def apply(left: Element): MatchResult =
-      MatchResult(left != null && left.attr(key) == value,
-                  s"Element attribute {$key} had value {${left.attr(key)}}, expected {$value}",
-                  s"Element attribute {$key} had value {$value}"
+      MatchResult(
+        left != null && left.attr(key) == value,
+        s"Element attribute {$key} had value {${left.attr(key)}}, expected {$value}",
+        s"Element attribute {$key} had value {$value}"
       )
 
   }
@@ -327,9 +339,10 @@ trait ViewMatchers {
   class ElementHasAttributeMatcher(key: String) extends Matcher[Element] {
 
     override def apply(left: Element): MatchResult =
-      MatchResult(left != null && left.hasAttr(key),
-                  s"Element didnt have attribute {$key}",
-                  s"Element had attribute {$key}"
+      MatchResult(
+        left != null && left.hasAttr(key),
+        s"Element didnt have attribute {$key}",
+        s"Element had attribute {$key}"
       )
 
   }
@@ -337,9 +350,10 @@ trait ViewMatchers {
   class ElementHasChildCountMatcher(count: Int) extends Matcher[Element] {
 
     override def apply(left: Element): MatchResult =
-      MatchResult(left != null && left.children().size() == count,
-                  s"Element had child count {${left.children().size()}}, expected {$count}",
-                  s"Element had child count {$count}"
+      MatchResult(
+        left != null && left.children().size() == count,
+        s"Element had child count {${left.children().size()}}, expected {$count}",
+        s"Element had child count {$count}"
       )
 
   }
@@ -347,9 +361,10 @@ trait ViewMatchers {
   class ElementsHasSizeMatcher(size: Int) extends Matcher[Elements] {
 
     override def apply(left: Elements): MatchResult =
-      MatchResult(left != null && left.size() == size,
-                  s"Elements had size {${left.size()}}, expected {$size}",
-                  s"Elements had size {$size}"
+      MatchResult(
+        left != null && left.size() == size,
+        s"Elements had size {${left.size()}}, expected {$size}",
+        s"Elements had size {$size}"
       )
 
   }
@@ -357,36 +372,37 @@ trait ViewMatchers {
   class ElementTagMatcher(tag: String) extends Matcher[Element] {
 
     override def apply(left: Element): MatchResult =
-      MatchResult(left != null && left.tagName() == tag,
-                  s"Elements had tag {${left.tagName()}}, expected {$tag}",
-                  s"Elements had tag {$tag}"
+      MatchResult(
+        left != null && left.tagName() == tag,
+        s"Elements had tag {${left.tagName()}}, expected {$tag}",
+        s"Elements had tag {$tag}"
       )
 
   }
 
-  class ElementContainsFieldError(fieldName: String, content: String = "")
-      extends Matcher[Element] {
+  class ElementContainsFieldError(fieldName: String, content: String = "") extends Matcher[Element] {
 
     override def apply(left: Element): MatchResult = {
       val element           = left.getElementById(s"error-message-$fieldName-input")
       val fieldErrorElement = if (element == null) left else element
-      MatchResult(fieldErrorElement.text().contains(content),
-                  s"Element did not contain {$content}\n${actualContentWas(fieldErrorElement)}",
-                  s"Element contained {$content}"
+      MatchResult(
+        fieldErrorElement.text().contains(content),
+        s"Element did not contain {$content}\n${actualContentWas(fieldErrorElement)}",
+        s"Element contained {$content}"
       )
     }
 
   }
 
-  class ElementContainsGovukFieldError(fieldName: String, content: String = "")
-      extends Matcher[Element] {
+  class ElementContainsGovukFieldError(fieldName: String, content: String = "") extends Matcher[Element] {
 
     override def apply(left: Element): MatchResult = {
       val element           = left.getElementById(s"$fieldName-error")
       val fieldErrorElement = if (element == null) left else element
-      MatchResult(fieldErrorElement.text().contains(content),
-                  s"Element did not contain {$content}\n${actualContentWas(fieldErrorElement)}",
-                  s"Element contained {$content}"
+      MatchResult(
+        fieldErrorElement.text().contains(content),
+        s"Element did not contain {$content}\n${actualContentWas(fieldErrorElement)}",
+        s"Element contained {$content}"
       )
     }
 
@@ -396,21 +412,22 @@ trait ViewMatchers {
 
     override def apply(left: Element): MatchResult = {
       val element = left.getElementById(s"$fieldName-error")
-      MatchResult(element != null && element.attr("href") == link,
-                  s"View not contains $fieldName with $link",
-                  s"View contains $fieldName with $link"
+      MatchResult(
+        element != null && element.attr("href") == link,
+        s"View not contains $fieldName with $link",
+        s"View contains $fieldName with $link"
       )
     }
 
   }
 
-  class ElementsHasElementsContainingTextMatcher(elementsClass: String, value: String)
-      extends Matcher[Elements] {
+  class ElementsHasElementsContainingTextMatcher(elementsClass: String, value: String) extends Matcher[Elements] {
 
     override def apply(left: Elements): MatchResult =
-      MatchResult(left != null && left.first().getElementsByClass(elementsClass).text() == value,
-                  s"Elements with class {$elementsClass} had text {${left.first().getElementsByClass(elementsClass).text()}}, expected {$value}",
-                  s"Element with class {$elementsClass} had text {${left.first().getElementsByClass(elementsClass).text()}}"
+      MatchResult(
+        left != null && left.first().getElementsByClass(elementsClass).text() == value,
+        s"Elements with class {$elementsClass} had text {${left.first().getElementsByClass(elementsClass).text()}}, expected {$value}",
+        s"Element with class {$elementsClass} had text {${left.first().getElementsByClass(elementsClass).text()}}"
       )
 
   }
@@ -420,9 +437,10 @@ trait ViewMatchers {
     override def apply(left: Elements): MatchResult = {
       val actionElement = Try(left.first().getElementsByClass("govuk-link").first()).toOption.orNull
 
-      MatchResult(left != null && actionElement != null && actionElement.attr("href") == value.url,
-                  s"Elements had no summary action {$value}\n${actualContentWas(actionElement)}",
-                  s"Element had summary action {$value}"
+      MatchResult(
+        left != null && actionElement != null && actionElement.attr("href") == value.url,
+        s"Elements had no summary action {$value}\n${actualContentWas(actionElement)}",
+        s"Element had summary action {$value}"
       )
     }
 
@@ -442,9 +460,10 @@ trait ViewMatchers {
     override def apply(left: Element): MatchResult = {
       val action     = left.attr("action")
       val formaction = left.attr("formaction")
-      MatchResult(action == path || formaction == path,
-                  s"Element ${left} does not submit to {$path}",
-                  s"Element ${left} does submit to {$path}"
+      MatchResult(
+        action == path || formaction == path,
+        s"Element $left does not submit to {$path}",
+        s"Element $left does submit to {$path}"
       )
     }
 

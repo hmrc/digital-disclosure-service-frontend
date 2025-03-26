@@ -25,7 +25,7 @@ import models.NormalMode
 
 class TaxYearLiabilitiesViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new TaxYearLiabilitiesFormProvider()()
+  val form                         = new TaxYearLiabilitiesFormProvider()()
   val page: TaxYearLiabilitiesView = inject[TaxYearLiabilitiesView]
 
   private def createView: Html = page(form, NormalMode, 0, 2021)(request, messages)
@@ -43,42 +43,65 @@ class TaxYearLiabilitiesViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain a body" in {
-      view.getElementById("guidance").text() mustBe s"${messages("taxYearLiabilities.body")} ${messages("taxYearLiabilities.link")}"
+      view
+        .getElementById("guidance")
+        .text() mustBe s"${messages("taxYearLiabilities.body")} ${messages("taxYearLiabilities.link")}"
     }
 
     "contain the income question" in {
-      view.getElementsByClass("govuk-label--m").get(0).text() mustBe messages("taxYearLiabilities.income.question", "2022")
+      view.getElementsByClass("govuk-label--m").get(0).text() mustBe messages(
+        "taxYearLiabilities.income.question",
+        "2022"
+      )
     }
 
     "contain the chargeableTransfers question" in {
-      view.getElementsByClass("govuk-label--m").get(1).text() mustBe messages("taxYearLiabilities.chargeableTransfers.question", "2022")
+      view.getElementsByClass("govuk-label--m").get(1).text() mustBe messages(
+        "taxYearLiabilities.chargeableTransfers.question",
+        "2022"
+      )
     }
 
     "contain the capitalGains question" in {
-      view.getElementsByClass("govuk-label--m").get(2).text() mustBe messages("taxYearLiabilities.capitalGains.question", "2022")
+      view.getElementsByClass("govuk-label--m").get(2).text() mustBe messages(
+        "taxYearLiabilities.capitalGains.question",
+        "2022"
+      )
     }
 
     "contain the unpaidTax question" in {
-      view.getElementsByClass("govuk-label--m").get(3).text() mustBe messages("taxYearLiabilities.unpaidTax.question", "2022")
+      view.getElementsByClass("govuk-label--m").get(3).text() mustBe messages(
+        "taxYearLiabilities.unpaidTax.question",
+        "2022"
+      )
     }
 
     "contain the interest question" in {
-      view.getElementsByClass("govuk-label--m").get(4).text() mustBe messages("taxYearLiabilities.interest.question", "2022")
+      view.getElementsByClass("govuk-label--m").get(4).text() mustBe messages(
+        "taxYearLiabilities.interest.question",
+        "2022"
+      )
     }
 
     "contain the penaltyRate question" in {
-      view.getElementsByClass("govuk-label--m").get(5).text() mustBe messages("taxYearLiabilities.penaltyRate.question", "2022")
+      view.getElementsByClass("govuk-label--m").get(5).text() mustBe messages(
+        "taxYearLiabilities.penaltyRate.question",
+        "2022"
+      )
     }
 
     "contain the foreignTaxCredit question" in {
-      view.getElementsByClass("govuk-fieldset__legend--m").text() mustBe messages("taxYearLiabilities.foreignTaxCredit.question", "2022")
+      view.getElementsByClass("govuk-fieldset__legend--m").text() mustBe messages(
+        "taxYearLiabilities.foreignTaxCredit.question",
+        "2022"
+      )
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 
-}
+  }
 
 }

@@ -26,14 +26,14 @@ import uk.gov.hmrc.time.TaxYear
 
 class OffshoreWhichYearsServiceSpec extends SpecBase {
 
-  def now = () => LocalDate.now()
+  def now         = () => LocalDate.now()
   val taxYear2023 = TaxYear(2023)
   val taxYear2024 = TaxYear(2024)
   val taxYear2029 = TaxYear(2029)
 
   case class FakeTimeService(year: Int) extends TimeService {
     def now: LocalDateTime = LocalDateTime.of(year, 4, 6, 0, 0, 0, 0)
-    def date: LocalDate = LocalDate.of(year, 4, 6)
+    def date: LocalDate    = LocalDate.of(year, 4, 6)
   }
 
   implicit val mess: Messages = messages
@@ -68,35 +68,50 @@ class OffshoreWhichYearsServiceSpec extends SpecBase {
 
     "must create checkbox items for 19 years" in {
       val checkboxItems = service.createYearCheckboxes(19, taxYear2023)
-      checkboxItems.zipWithIndex.map{ 
-        case (value, index) =>
-          value.content mustEqual Text(mess(s"whichYears.checkbox", s"${taxYear2023.startYear - (index+2)}", s"${taxYear2023.finishYear - (index+2)}"))
-          value.id mustEqual Some(s"value_${index}")
-          value.name mustEqual Some(s"value[${index}]")
-          value.value mustEqual (taxYear2023.startYear - (index+2)).toString
-      } 
+      checkboxItems.zipWithIndex.map { case (value, index) =>
+        value.content mustEqual Text(
+          mess(
+            s"whichYears.checkbox",
+            s"${taxYear2023.startYear - (index + 2)}",
+            s"${taxYear2023.finishYear - (index + 2)}"
+          )
+        )
+        value.id mustEqual Some(s"value_$index")
+        value.name mustEqual Some(s"value[$index]")
+        value.value mustEqual (taxYear2023.startYear - (index + 2)).toString
+      }
     }
 
     "must create checkbox items for 6 years" in {
       val checkboxItems = service.createYearCheckboxes(6, taxYear2023)
-      checkboxItems.zipWithIndex.map{ 
-        case (value, index) =>
-          value.content mustEqual Text(mess(s"whichYears.checkbox", s"${taxYear2023.startYear - (index+2)}", s"${taxYear2023.finishYear - (index+2)}"))
-          value.id mustEqual Some(s"value_${index}")
-          value.name mustEqual Some(s"value[${index}]")
-          value.value mustEqual (taxYear2023.startYear - (index+2)).toString
-      } 
+      checkboxItems.zipWithIndex.map { case (value, index) =>
+        value.content mustEqual Text(
+          mess(
+            s"whichYears.checkbox",
+            s"${taxYear2023.startYear - (index + 2)}",
+            s"${taxYear2023.finishYear - (index + 2)}"
+          )
+        )
+        value.id mustEqual Some(s"value_$index")
+        value.name mustEqual Some(s"value[$index]")
+        value.value mustEqual (taxYear2023.startYear - (index + 2)).toString
+      }
     }
 
     "must create checkbox items for 8 years" in {
       val checkboxItems = service.createYearCheckboxes(8, taxYear2023)
-      checkboxItems.zipWithIndex.map{ 
-        case (value, index) =>
-          value.content mustEqual Text(mess(s"whichYears.checkbox", s"${taxYear2023.startYear - (index+2)}", s"${taxYear2023.finishYear - (index+2)}"))
-          value.id mustEqual Some(s"value_${index}")
-          value.name mustEqual Some(s"value[${index}]")
-          value.value mustEqual (taxYear2023.startYear - (index+2)).toString
-      } 
+      checkboxItems.zipWithIndex.map { case (value, index) =>
+        value.content mustEqual Text(
+          mess(
+            s"whichYears.checkbox",
+            s"${taxYear2023.startYear - (index + 2)}",
+            s"${taxYear2023.finishYear - (index + 2)}"
+          )
+        )
+        value.id mustEqual Some(s"value_$index")
+        value.name mustEqual Some(s"value[$index]")
+        value.value mustEqual (taxYear2023.startYear - (index + 2)).toString
+      }
     }
 
   }
@@ -107,7 +122,7 @@ class OffshoreWhichYearsServiceSpec extends SpecBase {
 
     "must create checkbox items for 19 years with none of these years row" in {
       val checkboxItems = service.checkboxItems(Behaviour.Deliberate)
-      val expectedList = 
+      val expectedList  =
         List(
           "2021",
           "2020",
@@ -136,7 +151,7 @@ class OffshoreWhichYearsServiceSpec extends SpecBase {
 
     "must create checkbox items for careless behaviour" in {
       val checkboxItems = service.checkboxItems(Behaviour.Careless)
-      val expectedList = 
+      val expectedList  =
         List(
           "2021",
           "2020",
@@ -155,7 +170,7 @@ class OffshoreWhichYearsServiceSpec extends SpecBase {
 
     "must create checkbox items for reasonable excuse behaviour" in {
       val checkboxItems = service.checkboxItems(Behaviour.ReasonableExcuse)
-      val expectedList = 
+      val expectedList  =
         List(
           "2021",
           "2020",
@@ -177,7 +192,7 @@ class OffshoreWhichYearsServiceSpec extends SpecBase {
 
     "must create checkbox items for 19 years with none of these years row" in {
       val checkboxItems = service.checkboxItems(Behaviour.Deliberate)
-      val expectedList = 
+      val expectedList  =
         List(
           "2022",
           "2021",
@@ -206,7 +221,7 @@ class OffshoreWhichYearsServiceSpec extends SpecBase {
 
     "must create checkbox items for careless behaviour" in {
       val checkboxItems = service.checkboxItems(Behaviour.Careless)
-      val expectedList = 
+      val expectedList  =
         List(
           "2022",
           "2021",
@@ -226,7 +241,7 @@ class OffshoreWhichYearsServiceSpec extends SpecBase {
 
     "must create checkbox items for reasonable excuse behaviour" in {
       val checkboxItems = service.checkboxItems(Behaviour.ReasonableExcuse)
-      val expectedList = 
+      val expectedList  =
         List(
           "2022",
           "2021",
@@ -249,7 +264,7 @@ class OffshoreWhichYearsServiceSpec extends SpecBase {
 
     "must create checkbox items for 19 years with none of these years row" in {
       val checkboxItems = service.checkboxItems(Behaviour.Deliberate)
-      val expectedList = 
+      val expectedList  =
         List(
           "2027",
           "2026",
@@ -278,7 +293,7 @@ class OffshoreWhichYearsServiceSpec extends SpecBase {
 
     "must create checkbox items for careless behaviour" in {
       val checkboxItems = service.checkboxItems(Behaviour.Careless)
-      val expectedList = 
+      val expectedList  =
         List(
           "2027",
           "2026",
@@ -300,7 +315,7 @@ class OffshoreWhichYearsServiceSpec extends SpecBase {
 
     "must create checkbox items for reasonable excuse behaviour" in {
       val checkboxItems = service.checkboxItems(Behaviour.ReasonableExcuse)
-      val expectedList = 
+      val expectedList  =
         List(
           "2027",
           "2026",

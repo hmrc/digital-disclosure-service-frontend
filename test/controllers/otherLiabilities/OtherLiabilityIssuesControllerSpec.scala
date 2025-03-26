@@ -37,9 +37,9 @@ class OtherLiabilityIssuesControllerSpec extends SpecBase with MockitoSugar {
 
   lazy val otherLiabilityIssuesRoute: String = routes.OtherLiabilityIssuesController.onPageLoad(NormalMode).url
 
-  val formProvider = new OtherLiabilityIssuesFormProvider()
+  val formProvider                          = new OtherLiabilityIssuesFormProvider()
   val form: Form[Set[OtherLiabilityIssues]] = formProvider()
-  val view: OtherLiabilityIssuesView = application.injector.instanceOf[OtherLiabilityIssuesView]
+  val view: OtherLiabilityIssuesView        = application.injector.instanceOf[OtherLiabilityIssuesView]
 
   "OtherLiabilityIssues Controller" - {
 
@@ -58,7 +58,10 @@ class OtherLiabilityIssuesControllerSpec extends SpecBase with MockitoSugar {
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(OtherLiabilityIssuesPage, OtherLiabilityIssues.values.toSet).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123")
+        .set(OtherLiabilityIssuesPage, OtherLiabilityIssues.values.toSet)
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -67,7 +70,10 @@ class OtherLiabilityIssuesControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(OtherLiabilityIssues.values.toSet), NormalMode)(request, messages).toString
+      contentAsString(result) mustEqual view(form.fill(OtherLiabilityIssues.values.toSet), NormalMode)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -129,10 +135,11 @@ class OtherLiabilityIssuesControllerSpec extends SpecBase with MockitoSugar {
 
     "must redirect to WhatOtherLiabilityIssuesPage screen in check mode if Other checkbox selected" in {
       val previousPreferences: Set[OtherLiabilityIssues] = Set(OtherLiabilityIssues.InheritanceTaxIssues)
-      val previousAnswers = UserAnswers("id", "session-123").set(OtherLiabilityIssuesPage, previousPreferences).success.value
-      val newAnswer = OtherLiabilityIssues.Other
+      val previousAnswers                                =
+        UserAnswers("id", "session-123").set(OtherLiabilityIssuesPage, previousPreferences).success.value
+      val newAnswer                                      = OtherLiabilityIssues.Other
 
-      val urlToTest = routes.OtherLiabilityIssuesController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.OtherLiabilityIssuesController.onPageLoad(CheckMode).url
       val destinationRoute = routes.WhatOtherLiabilityIssuesController.onPageLoad(CheckMode).url
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
       setupMockSessionResponse(Some(previousAnswers))
@@ -148,10 +155,11 @@ class OtherLiabilityIssuesControllerSpec extends SpecBase with MockitoSugar {
 
     "must redirect to DescribeTheGiftPage screen in check mode if InheritanceTaxIssues checkbox selected" in {
       val previousPreferences: Set[OtherLiabilityIssues] = Set(OtherLiabilityIssues.Other)
-      val previousAnswers = UserAnswers("id", "session-123").set(OtherLiabilityIssuesPage, previousPreferences).success.value
-      val newAnswer = OtherLiabilityIssues.InheritanceTaxIssues
+      val previousAnswers                                =
+        UserAnswers("id", "session-123").set(OtherLiabilityIssuesPage, previousPreferences).success.value
+      val newAnswer                                      = OtherLiabilityIssues.InheritanceTaxIssues
 
-      val urlToTest = routes.OtherLiabilityIssuesController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.OtherLiabilityIssuesController.onPageLoad(CheckMode).url
       val destinationRoute = routes.DescribeTheGiftController.onPageLoad(CheckMode).url
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
       setupMockSessionResponse(Some(previousAnswers))
@@ -166,20 +174,25 @@ class OtherLiabilityIssuesControllerSpec extends SpecBase with MockitoSugar {
     }
 
     "must redirect to CheckYourAnswer screen if there are no changes in the user answer" in {
-      val previousPreferences: Set[OtherLiabilityIssues] = Set(OtherLiabilityIssues.InheritanceTaxIssues, OtherLiabilityIssues.Other)
-      val previousAnswers = UserAnswers("id", "session-123").set(OtherLiabilityIssuesPage, previousPreferences).success.value
+      val previousPreferences: Set[OtherLiabilityIssues] =
+        Set(OtherLiabilityIssues.InheritanceTaxIssues, OtherLiabilityIssues.Other)
+      val previousAnswers                                =
+        UserAnswers("id", "session-123").set(OtherLiabilityIssuesPage, previousPreferences).success.value
 
       val newAnswerInheritanceTaxIssues: OtherLiabilityIssues = OtherLiabilityIssues.InheritanceTaxIssues
-      val newAnswerOther: OtherLiabilityIssues = OtherLiabilityIssues.Other
+      val newAnswerOther: OtherLiabilityIssues                = OtherLiabilityIssues.Other
 
-      val urlToTest = routes.OtherLiabilityIssuesController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.OtherLiabilityIssuesController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
       setupMockSessionResponse(Some(previousAnswers))
 
       val request =
         FakeRequest(POST, urlToTest)
-          .withFormUrlEncodedBody(("value[0]", newAnswerInheritanceTaxIssues.toString), ("value[1]", newAnswerOther.toString))
+          .withFormUrlEncodedBody(
+            ("value[0]", newAnswerInheritanceTaxIssues.toString),
+            ("value[1]", newAnswerOther.toString)
+          )
 
       val result = route(application, request).value
       status(result) mustEqual SEE_OTHER

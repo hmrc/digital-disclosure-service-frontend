@@ -26,7 +26,7 @@ import viewmodels.govuk.summarylist._
 
 class LiabilitiesSummarySpec extends SpecBase {
 
-  lazy val app = application
+  lazy val app                = application
   implicit val mess: Messages = messages
 
   "LiabilitiesSummary.row" - {
@@ -36,7 +36,7 @@ class LiabilitiesSummarySpec extends SpecBase {
         uaWithOffshore <- UserAnswers("id", "session-123").set(OffshoreLiabilitiesPage, true)
         uaWithOnshore  <- uaWithOffshore.set(OnshoreLiabilitiesPage, false)
       } yield uaWithOnshore
-      
+
       LiabilitiesSummary.row(userAnswers.success.value).map { row =>
         row.key mustBe Key(Text(mess("liabilities.checkYourAnswersLabel")))
         row.value mustBe ValueViewModel(Text(mess("liabilities.offshore")))
@@ -49,7 +49,7 @@ class LiabilitiesSummarySpec extends SpecBase {
         uaWithOnshore  <- uaWithOffshore.set(OnshoreLiabilitiesPage, true)
       } yield uaWithOnshore
 
-      LiabilitiesSummary.row(userAnswers.success.value).map { row => 
+      LiabilitiesSummary.row(userAnswers.success.value).map { row =>
         row.key mustBe Key(Text(mess("liabilities.checkYourAnswersLabel")))
         row.value mustBe ValueViewModel(Text(mess("liabilities.onshore")))
       }
@@ -61,12 +61,12 @@ class LiabilitiesSummarySpec extends SpecBase {
         uaWithOnshore  <- uaWithOffshore.set(OnshoreLiabilitiesPage, true)
       } yield uaWithOnshore
 
-      LiabilitiesSummary.row(userAnswers.success.value).map { row => 
+      LiabilitiesSummary.row(userAnswers.success.value).map { row =>
         row.key mustBe Key(Text(mess("liabilities.checkYourAnswersLabel")))
         row.value mustBe ValueViewModel(Text(mess("liabilities.offshoreOnshore")))
       }
     }
 
   }
-  
+
 }

@@ -25,7 +25,7 @@ import models.NormalMode
 
 class IsTheIndividualRegisteredForVATViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new IsTheIndividualRegisteredForVATFormProvider()()
+  val form                                      = new IsTheIndividualRegisteredForVATFormProvider()()
   val page: IsTheIndividualRegisteredForVATView = inject[IsTheIndividualRegisteredForVATView]
 
   private def createView: Html = page(form, NormalMode, false)(request, messages)
@@ -39,15 +39,21 @@ class IsTheIndividualRegisteredForVATViewSpec extends ViewSpecBase with ViewMatc
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("isTheIndividualRegisteredForVAT.heading")
+      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages(
+        "isTheIndividualRegisteredForVAT.heading"
+      )
     }
 
     "have Yes, and I know their VAT registration number" in {
-      view.getElementsByClass("govuk-radios__label").get(0).text() mustBe messages("isTheIndividualRegisteredForVAT.yesIKnow")
+      view.getElementsByClass("govuk-radios__label").get(0).text() mustBe messages(
+        "isTheIndividualRegisteredForVAT.yesIKnow"
+      )
     }
 
     "have Yes, but I do not know their VAT registration number" in {
-      view.getElementsByClass("govuk-radios__label").get(1).text() mustBe messages("isTheIndividualRegisteredForVAT.yesButDontKnow")
+      view.getElementsByClass("govuk-radios__label").get(1).text() mustBe messages(
+        "isTheIndividualRegisteredForVAT.yesButDontKnow"
+      )
     }
 
     "have No" in {
@@ -55,7 +61,7 @@ class IsTheIndividualRegisteredForVATViewSpec extends ViewSpecBase with ViewMatc
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

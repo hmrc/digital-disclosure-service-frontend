@@ -37,46 +37,57 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val whichOnshoreYearsRoute = routes.WhichOnshoreYearsController.onPageLoad(NormalMode).url
+  lazy val whichOnshoreYearsRoute          = routes.WhichOnshoreYearsController.onPageLoad(NormalMode).url
   lazy val whichOnshoreYearsCheckModeRoute = routes.WhichOnshoreYearsController.onPageLoad(CheckMode).url
 
   val formProvider = new WhichOnshoreYearsFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   "determineBehaviour" - {
 
-    val controller = application.injector.instanceOf[WhichOnshoreYearsController]
+    val controller              = application.injector.instanceOf[WhichOnshoreYearsController]
     implicit val mess: Messages = messages
-    val service = application.injector.instanceOf[OnshoreWhichYearsService]
+    val service                 = application.injector.instanceOf[OnshoreWhichYearsService]
 
     "return 19" - {
 
       "when a deliberate behaviour is selected alongside other values" in {
-        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, WhyAreYouMakingThisOnshoreDisclosure.values.toSet).success.value
+        val userAnswers = UserAnswers(userAnswersId, "session-123")
+          .set(WhyAreYouMakingThisOnshoreDisclosurePage, WhyAreYouMakingThisOnshoreDisclosure.values.toSet)
+          .success
+          .value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Deliberate)
       }
 
       "when only DidNotNotifyNoExcuse is selected" in {
-        val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyNoExcuse)
-        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
+        val set: Set[WhyAreYouMakingThisOnshoreDisclosure] =
+          Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyNoExcuse)
+        val userAnswers                                    =
+          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Deliberate)
       }
 
       "when only DeliberatelyDidNotNotify is selected" in {
-        val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.DeliberatelyDidNotNotify)
-        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
+        val set: Set[WhyAreYouMakingThisOnshoreDisclosure] =
+          Set(WhyAreYouMakingThisOnshoreDisclosure.DeliberatelyDidNotNotify)
+        val userAnswers                                    =
+          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Deliberate)
       }
 
       "when only DeliberateInaccurateReturn is selected" in {
-        val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.DeliberateInaccurateReturn)
-        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
+        val set: Set[WhyAreYouMakingThisOnshoreDisclosure] =
+          Set(WhyAreYouMakingThisOnshoreDisclosure.DeliberateInaccurateReturn)
+        val userAnswers                                    =
+          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Deliberate)
       }
 
       "when only DeliberatelyDidNotFile is selected" in {
-        val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.DeliberatelyDidNotFile)
-        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
+        val set: Set[WhyAreYouMakingThisOnshoreDisclosure] =
+          Set(WhyAreYouMakingThisOnshoreDisclosure.DeliberatelyDidNotFile)
+        val userAnswers                                    =
+          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Deliberate)
       }
 
@@ -91,13 +102,16 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
           WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnWithCare,
           WhyAreYouMakingThisOnshoreDisclosure.NotFileHasExcuse
         )
-        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
+        val userAnswers                                    =
+          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Careless)
       }
 
       "when only InaccurateReturnNoCare is selected" in {
-        val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnNoCare)
-        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
+        val set: Set[WhyAreYouMakingThisOnshoreDisclosure] =
+          Set(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnNoCare)
+        val userAnswers                                    =
+          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Careless)
       }
 
@@ -111,25 +125,31 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
           WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnWithCare,
           WhyAreYouMakingThisOnshoreDisclosure.NotFileHasExcuse
         )
-        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
+        val userAnswers                                    =
+          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.ReasonableExcuse)
       }
 
       "when only DidNotNotifyHasExcuse is selected" in {
-        val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHasExcuse)
-        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
+        val set: Set[WhyAreYouMakingThisOnshoreDisclosure] =
+          Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHasExcuse)
+        val userAnswers                                    =
+          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.ReasonableExcuse)
       }
 
       "when only InaccurateReturnWithCare is selected" in {
-        val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnWithCare)
-        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
+        val set: Set[WhyAreYouMakingThisOnshoreDisclosure] =
+          Set(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnWithCare)
+        val userAnswers                                    =
+          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.ReasonableExcuse)
       }
 
       "when only NotFileHasExcuse is selected" in {
         val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.NotFileHasExcuse)
-        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
+        val userAnswers                                    =
+          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.ReasonableExcuse)
       }
 
@@ -147,32 +167,45 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
 
       val result = route(application, request).value
 
-      val view = application.injector.instanceOf[WhichOnshoreYearsView]
-      val service = application.injector.instanceOf[OnshoreWhichYearsService]
+      val view                    = application.injector.instanceOf[WhichOnshoreYearsView]
+      val service                 = application.injector.instanceOf[OnshoreWhichYearsService]
       implicit val mess: Messages = messages
 
       status(result) mustEqual OK
 
-      contentAsString(result) mustEqual view(form, NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse), false, false)(request, messages).toString
+      contentAsString(result) mustEqual view(
+        form,
+        NormalMode,
+        service.checkboxItems(Behaviour.ReasonableExcuse),
+        false,
+        false
+      )(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val previousValue: Set[OnshoreYears] = Set(OnshoreYearStarting(2022))
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, previousValue).success.value
+      val userAnswers                      =
+        UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, previousValue).success.value
 
       setupMockSessionResponse(Some(userAnswers))
 
       val request = FakeRequest(GET, whichOnshoreYearsRoute)
 
-      val view = application.injector.instanceOf[WhichOnshoreYearsView]
-      val service = application.injector.instanceOf[OnshoreWhichYearsService]
+      val view                    = application.injector.instanceOf[WhichOnshoreYearsView]
+      val service                 = application.injector.instanceOf[OnshoreWhichYearsService]
       implicit val mess: Messages = messages
 
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(previousValue), NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse), false, false)(request, messages).toString
+      contentAsString(result) mustEqual view(
+        form.fill(previousValue),
+        NormalMode,
+        service.checkboxItems(Behaviour.ReasonableExcuse),
+        false,
+        false
+      )(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -200,14 +233,20 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
 
       val boundForm = form.bind(Map("value" -> "invalid value"))
 
-      val view = application.injector.instanceOf[WhichOnshoreYearsView]
-      val service = application.injector.instanceOf[OnshoreWhichYearsService]
+      val view                    = application.injector.instanceOf[WhichOnshoreYearsView]
+      val service                 = application.injector.instanceOf[OnshoreWhichYearsService]
       implicit val mess: Messages = messages
 
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse), false, false)(request, messages).toString
+      contentAsString(result) mustEqual view(
+        boundForm,
+        NormalMode,
+        service.checkboxItems(Behaviour.ReasonableExcuse),
+        false,
+        false
+      )(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
@@ -239,11 +278,11 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
 
   "WhichOnshoreYears CheckMode Controller" - {
     "must redirect to CheckYourAnswer page if no changes are made" in {
-      val year = 2021
-      val yearStarting = OnshoreYearStarting(year)
+      val year                             = 2021
+      val yearStarting                     = OnshoreYearStarting(year)
       val previousValue: Set[OnshoreYears] = Set(yearStarting)
 
-      val onshoreTaxYearLiabilities = OnshoreTaxYearLiabilities(
+      val onshoreTaxYearLiabilities     = OnshoreTaxYearLiabilities(
         unpaidTax = BigInt(0),
         niContributions = BigInt(0),
         interest = BigInt(0),
@@ -252,9 +291,15 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
         undeclaredIncomeOrGain = Some("Income or gain"),
         residentialTaxReduction = Some(false)
       )
-      val onshoreTaxYearWithLiabilities = OnshoreTaxYearWithLiabilities(taxYear = yearStarting, taxYearLiabilities = onshoreTaxYearLiabilities)
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, previousValue).success.value
-        .set(OnshoreTaxYearLiabilitiesPage, Map(year.toString -> onshoreTaxYearWithLiabilities)).success.value
+      val onshoreTaxYearWithLiabilities =
+        OnshoreTaxYearWithLiabilities(taxYear = yearStarting, taxYearLiabilities = onshoreTaxYearLiabilities)
+      val userAnswers                   = UserAnswers(userAnswersId, "session-123")
+        .set(WhichOnshoreYearsPage, previousValue)
+        .success
+        .value
+        .set(OnshoreTaxYearLiabilitiesPage, Map(year.toString -> onshoreTaxYearWithLiabilities))
+        .success
+        .value
 
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
       setupMockSessionResponse(Some(userAnswers))
@@ -271,12 +316,12 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
 
     "must redirect to OnshoreTaxYearLiabilitiesController if changes are made and there are no missing year or no 'before certain year' selected" in {
       val previousYear = 2021
-      val newYear = 2022
+      val newYear      = 2022
 
-      val yearStarting = OnshoreYearStarting(previousYear)
+      val yearStarting                     = OnshoreYearStarting(previousYear)
       val previousValue: Set[OnshoreYears] = Set(yearStarting)
 
-      val onshoreTaxYearLiabilities = OnshoreTaxYearLiabilities(
+      val onshoreTaxYearLiabilities     = OnshoreTaxYearLiabilities(
         unpaidTax = BigInt(0),
         niContributions = BigInt(0),
         interest = BigInt(0),
@@ -285,9 +330,15 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
         undeclaredIncomeOrGain = Some("Income or gain"),
         residentialTaxReduction = Some(false)
       )
-      val onshoreTaxYearWithLiabilities = OnshoreTaxYearWithLiabilities(taxYear = yearStarting, taxYearLiabilities = onshoreTaxYearLiabilities)
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, previousValue).success.value
-        .set(OnshoreTaxYearLiabilitiesPage, Map(previousYear.toString -> onshoreTaxYearWithLiabilities)).success.value
+      val onshoreTaxYearWithLiabilities =
+        OnshoreTaxYearWithLiabilities(taxYear = yearStarting, taxYearLiabilities = onshoreTaxYearLiabilities)
+      val userAnswers                   = UserAnswers(userAnswersId, "session-123")
+        .set(WhichOnshoreYearsPage, previousValue)
+        .success
+        .value
+        .set(OnshoreTaxYearLiabilitiesPage, Map(previousYear.toString -> onshoreTaxYearWithLiabilities))
+        .success
+        .value
 
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
       setupMockSessionResponse(Some(userAnswers))
@@ -300,15 +351,15 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode).url
-     }
+    }
 
     "must redirect to NotIncludedSingleTaxYearController if changes are made and there is one missing year and no 'before certain year' selected" in {
       val previousYears1 = 2022
       val previousYears2 = 2021
-      val newYear2 = 2020
+      val newYear2       = 2020
 
-      val yearStarting1 = OnshoreYearStarting(previousYears1)
-      val yearStarting2 = OnshoreYearStarting(previousYears2)
+      val yearStarting1                    = OnshoreYearStarting(previousYears1)
+      val yearStarting2                    = OnshoreYearStarting(previousYears2)
       val previousValue: Set[OnshoreYears] = Set(yearStarting1, yearStarting2)
 
       val onshoreTaxYearLiabilities = OnshoreTaxYearLiabilities(
@@ -321,13 +372,23 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
         residentialTaxReduction = Some(false)
       )
 
-      val onshoreTaxYearWithLiabilities1 = OnshoreTaxYearWithLiabilities(taxYear = yearStarting1, taxYearLiabilities = onshoreTaxYearLiabilities)
-      val onshoreTaxYearWithLiabilities2 = OnshoreTaxYearWithLiabilities(taxYear = yearStarting2, taxYearLiabilities = onshoreTaxYearLiabilities)
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, previousValue).success.value
-        .set(OnshoreTaxYearLiabilitiesPage, Map(
-          previousYears1.toString -> onshoreTaxYearWithLiabilities1,
-          previousYears2.toString -> onshoreTaxYearWithLiabilities2
-        )).success.value
+      val onshoreTaxYearWithLiabilities1 =
+        OnshoreTaxYearWithLiabilities(taxYear = yearStarting1, taxYearLiabilities = onshoreTaxYearLiabilities)
+      val onshoreTaxYearWithLiabilities2 =
+        OnshoreTaxYearWithLiabilities(taxYear = yearStarting2, taxYearLiabilities = onshoreTaxYearLiabilities)
+      val userAnswers                    = UserAnswers(userAnswersId, "session-123")
+        .set(WhichOnshoreYearsPage, previousValue)
+        .success
+        .value
+        .set(
+          OnshoreTaxYearLiabilitiesPage,
+          Map(
+            previousYears1.toString -> onshoreTaxYearWithLiabilities1,
+            previousYears2.toString -> onshoreTaxYearWithLiabilities2
+          )
+        )
+        .success
+        .value
 
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
       setupMockSessionResponse(Some(userAnswers))
@@ -342,14 +403,13 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
       redirectLocation(result).value mustEqual routes.NotIncludedSingleTaxYearController.onPageLoad(NormalMode).url
     }
 
-
     "must redirect to TaxBeforeThreeYearsOnshoreController if changes are made and 'before three year' is selected" in {
       val previousYears1 = 2022
       val previousYears2 = 2021
-      val newYear2 = "priorToThreeYears"
+      val newYear2       = "priorToThreeYears"
 
-      val yearStarting1 = OnshoreYearStarting(previousYears1)
-      val yearStarting2 = OnshoreYearStarting(previousYears2)
+      val yearStarting1                    = OnshoreYearStarting(previousYears1)
+      val yearStarting2                    = OnshoreYearStarting(previousYears2)
       val previousValue: Set[OnshoreYears] = Set(yearStarting1, yearStarting2)
 
       val onshoreTaxYearLiabilities = OnshoreTaxYearLiabilities(
@@ -362,13 +422,23 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
         residentialTaxReduction = Some(false)
       )
 
-      val onshoreTaxYearWithLiabilities1 = OnshoreTaxYearWithLiabilities(taxYear = yearStarting1, taxYearLiabilities = onshoreTaxYearLiabilities)
-      val onshoreTaxYearWithLiabilities2 = OnshoreTaxYearWithLiabilities(taxYear = yearStarting2, taxYearLiabilities = onshoreTaxYearLiabilities)
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, previousValue).success.value
-        .set(OnshoreTaxYearLiabilitiesPage, Map(
-          previousYears1.toString -> onshoreTaxYearWithLiabilities1,
-          previousYears2.toString -> onshoreTaxYearWithLiabilities2
-        )).success.value
+      val onshoreTaxYearWithLiabilities1 =
+        OnshoreTaxYearWithLiabilities(taxYear = yearStarting1, taxYearLiabilities = onshoreTaxYearLiabilities)
+      val onshoreTaxYearWithLiabilities2 =
+        OnshoreTaxYearWithLiabilities(taxYear = yearStarting2, taxYearLiabilities = onshoreTaxYearLiabilities)
+      val userAnswers                    = UserAnswers(userAnswersId, "session-123")
+        .set(WhichOnshoreYearsPage, previousValue)
+        .success
+        .value
+        .set(
+          OnshoreTaxYearLiabilitiesPage,
+          Map(
+            previousYears1.toString -> onshoreTaxYearWithLiabilities1,
+            previousYears2.toString -> onshoreTaxYearWithLiabilities2
+          )
+        )
+        .success
+        .value
 
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
       setupMockSessionResponse(Some(userAnswers))
@@ -378,7 +448,7 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
           .withFormUrlEncodedBody(
             ("value[0]", previousYears1.toString),
             ("value[1]", newYear2)
-      )
+          )
 
       val result = route(application, request).value
 
@@ -389,10 +459,10 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
     "must redirect to TaxBeforeFiveYearsOnshoreController if changes are made and 'before five year' is selected" in {
       val previousYears1 = 2022
       val previousYears2 = 2021
-      val newYear2 = "priorToFiveYears"
+      val newYear2       = "priorToFiveYears"
 
-      val yearStarting1 = OnshoreYearStarting(previousYears1)
-      val yearStarting2 = OnshoreYearStarting(previousYears2)
+      val yearStarting1                    = OnshoreYearStarting(previousYears1)
+      val yearStarting2                    = OnshoreYearStarting(previousYears2)
       val previousValue: Set[OnshoreYears] = Set(yearStarting1, yearStarting2)
 
       val onshoreTaxYearLiabilities = OnshoreTaxYearLiabilities(
@@ -405,13 +475,23 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
         residentialTaxReduction = Some(false)
       )
 
-      val onshoreTaxYearWithLiabilities1 = OnshoreTaxYearWithLiabilities(taxYear = yearStarting1, taxYearLiabilities = onshoreTaxYearLiabilities)
-      val onshoreTaxYearWithLiabilities2 = OnshoreTaxYearWithLiabilities(taxYear = yearStarting2, taxYearLiabilities = onshoreTaxYearLiabilities)
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, previousValue).success.value
-        .set(OnshoreTaxYearLiabilitiesPage, Map(
-          previousYears1.toString -> onshoreTaxYearWithLiabilities1,
-          previousYears2.toString -> onshoreTaxYearWithLiabilities2
-        )).success.value
+      val onshoreTaxYearWithLiabilities1 =
+        OnshoreTaxYearWithLiabilities(taxYear = yearStarting1, taxYearLiabilities = onshoreTaxYearLiabilities)
+      val onshoreTaxYearWithLiabilities2 =
+        OnshoreTaxYearWithLiabilities(taxYear = yearStarting2, taxYearLiabilities = onshoreTaxYearLiabilities)
+      val userAnswers                    = UserAnswers(userAnswersId, "session-123")
+        .set(WhichOnshoreYearsPage, previousValue)
+        .success
+        .value
+        .set(
+          OnshoreTaxYearLiabilitiesPage,
+          Map(
+            previousYears1.toString -> onshoreTaxYearWithLiabilities1,
+            previousYears2.toString -> onshoreTaxYearWithLiabilities2
+          )
+        )
+        .success
+        .value
 
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
       setupMockSessionResponse(Some(userAnswers))
@@ -432,10 +512,10 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
     "must redirect to TaxBeforeNineteenYearsOnshoreController if changes are made and 'before nineteen year' is selected" in {
       val previousYears1 = 2022
       val previousYears2 = 2021
-      val newYear2 = "priorToNineteenYears"
+      val newYear2       = "priorToNineteenYears"
 
-      val yearStarting1 = OnshoreYearStarting(previousYears1)
-      val yearStarting2 = OnshoreYearStarting(previousYears2)
+      val yearStarting1                    = OnshoreYearStarting(previousYears1)
+      val yearStarting2                    = OnshoreYearStarting(previousYears2)
       val previousValue: Set[OnshoreYears] = Set(yearStarting1, yearStarting2)
 
       val onshoreTaxYearLiabilities = OnshoreTaxYearLiabilities(
@@ -448,13 +528,23 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
         residentialTaxReduction = Some(false)
       )
 
-      val onshoreTaxYearWithLiabilities1 = OnshoreTaxYearWithLiabilities(taxYear = yearStarting1, taxYearLiabilities = onshoreTaxYearLiabilities)
-      val onshoreTaxYearWithLiabilities2 = OnshoreTaxYearWithLiabilities(taxYear = yearStarting2, taxYearLiabilities = onshoreTaxYearLiabilities)
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, previousValue).success.value
-        .set(OnshoreTaxYearLiabilitiesPage, Map(
-          previousYears1.toString -> onshoreTaxYearWithLiabilities1,
-          previousYears2.toString -> onshoreTaxYearWithLiabilities2
-        )).success.value
+      val onshoreTaxYearWithLiabilities1 =
+        OnshoreTaxYearWithLiabilities(taxYear = yearStarting1, taxYearLiabilities = onshoreTaxYearLiabilities)
+      val onshoreTaxYearWithLiabilities2 =
+        OnshoreTaxYearWithLiabilities(taxYear = yearStarting2, taxYearLiabilities = onshoreTaxYearLiabilities)
+      val userAnswers                    = UserAnswers(userAnswersId, "session-123")
+        .set(WhichOnshoreYearsPage, previousValue)
+        .success
+        .value
+        .set(
+          OnshoreTaxYearLiabilitiesPage,
+          Map(
+            previousYears1.toString -> onshoreTaxYearWithLiabilities1,
+            previousYears2.toString -> onshoreTaxYearWithLiabilities2
+          )
+        )
+        .success
+        .value
 
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
       setupMockSessionResponse(Some(userAnswers))

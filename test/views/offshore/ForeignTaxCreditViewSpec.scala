@@ -25,7 +25,7 @@ import models.NormalMode
 
 class ForeignTaxCreditViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new ForeignTaxCreditFormProvider()()
+  val form                       = new ForeignTaxCreditFormProvider()()
   val page: ForeignTaxCreditView = inject[ForeignTaxCreditView]
 
   private def createView: Html = page(form, 0, "2021", NormalMode)(request, messages)
@@ -43,7 +43,7 @@ class ForeignTaxCreditViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

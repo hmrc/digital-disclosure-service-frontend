@@ -19,7 +19,7 @@ package models.email
 case class EmailAddress(value: String) extends StringValue {
   val (mailbox, domain): (Mailbox, Domain) = value match {
     case EmailAddressValidation.validEmail(m, d) => (Mailbox(m), Domain(d))
-    case invalidEmail     => throw new IllegalArgumentException(s"'$invalidEmail' is not a valid email address")
+    case invalidEmail                            => throw new IllegalArgumentException(s"'$invalidEmail' is not a valid email address")
   }
 
   lazy val obfuscated: ObfuscatedEmailAddress = ObfuscatedEmailAddress.apply(value)
@@ -29,7 +29,7 @@ object EmailAddress {
   def isValid(email: String): Boolean =
     email match {
       case EmailAddressValidation.validEmail(_, _) => true
-      case _ => false
+      case _                                       => false
     }
 }
 
@@ -38,11 +38,11 @@ case class Mailbox(value: String) extends StringValue
 case class Domain(value: String) extends StringValue {
   value match {
     case EmailAddressValidation.validDomain(_) => //
-    case invalidDomain => throw new IllegalArgumentException(s"'$invalidDomain' is not a valid email domain")
+    case invalidDomain                         => throw new IllegalArgumentException(s"'$invalidDomain' is not a valid email domain")
   }
 }
 
 object EmailAddressValidation {
-  val validEmail = """^([a-zA-Z0-9.!#$%&''*+/=?^_`{|}~-]+)@([a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*)$""".r
+  val validEmail  = """^([a-zA-Z0-9.!#$%&''*+/=?^_`{|}~-]+)@([a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*)$""".r
   val validDomain = """^([a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*)$""".r
 }

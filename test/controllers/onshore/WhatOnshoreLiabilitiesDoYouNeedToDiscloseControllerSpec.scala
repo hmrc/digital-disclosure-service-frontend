@@ -34,11 +34,13 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseControllerSpec extends SpecBase w
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val whatOnshoreLiabilitiesDoYouNeedToDiscloseRoute = routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode).url
-  lazy val whatOnshoreLiabilitiesDoYouNeedToDiscloseRouteChange = routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(CheckMode).url
+  lazy val whatOnshoreLiabilitiesDoYouNeedToDiscloseRoute       =
+    routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode).url
+  lazy val whatOnshoreLiabilitiesDoYouNeedToDiscloseRouteChange =
+    routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(CheckMode).url
 
-  val formProvider = new WhatOnshoreLiabilitiesDoYouNeedToDiscloseFormProvider()
-  val form = formProvider()
+  val formProvider  = new WhatOnshoreLiabilitiesDoYouNeedToDiscloseFormProvider()
+  val form          = formProvider()
   val isUserCompany = false
 
   "WhatOnshoreLiabilitiesDoYouNeedToDisclose Controller" - {
@@ -60,7 +62,10 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseControllerSpec extends SpecBase w
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, WhatOnshoreLiabilitiesDoYouNeedToDisclose.values.toSet).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123")
+        .set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, WhatOnshoreLiabilitiesDoYouNeedToDisclose.values.toSet)
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -71,7 +76,11 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseControllerSpec extends SpecBase w
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(WhatOnshoreLiabilitiesDoYouNeedToDisclose.values.toSet), NormalMode, isUserCompany)(request, messages).toString
+      contentAsString(result) mustEqual view(
+        form.fill(WhatOnshoreLiabilitiesDoYouNeedToDisclose.values.toSet),
+        NormalMode,
+        isUserCompany
+      )(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -135,9 +144,13 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseControllerSpec extends SpecBase w
 
     "must redirect to the summary page if no changes are made" in {
 
-      val previousAnswers = UserAnswers(userAnswersId, "session-123").addToSet(
-        WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, WhatOnshoreLiabilitiesDoYouNeedToDisclose.values.head
-      ).success.value
+      val previousAnswers = UserAnswers(userAnswersId, "session-123")
+        .addToSet(
+          WhatOnshoreLiabilitiesDoYouNeedToDisclosePage,
+          WhatOnshoreLiabilitiesDoYouNeedToDisclose.values.head
+        )
+        .success
+        .value
 
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
       setupMockSessionResponse(Some(previousAnswers))
@@ -154,10 +167,16 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseControllerSpec extends SpecBase w
 
     "must redirect to Corporation Tax Page in Normal Mode if there was a change and the disclosure was for a Company " in {
 
-      val previousAnswers = UserAnswers(userAnswersId, "session-123").addToSet(
-        WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, WhatOnshoreLiabilitiesDoYouNeedToDisclose.values.head
-      ).success.value
-        .set(RelatesToPage, RelatesTo.ACompany).success.value
+      val previousAnswers = UserAnswers(userAnswersId, "session-123")
+        .addToSet(
+          WhatOnshoreLiabilitiesDoYouNeedToDisclosePage,
+          WhatOnshoreLiabilitiesDoYouNeedToDisclose.values.head
+        )
+        .success
+        .value
+        .set(RelatesToPage, RelatesTo.ACompany)
+        .success
+        .value
 
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
       setupMockSessionResponse(Some(previousAnswers))
@@ -172,13 +191,18 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseControllerSpec extends SpecBase w
       redirectLocation(result).value mustEqual routes.CorporationTaxLiabilityController.onPageLoad(0, NormalMode).url
     }
 
-
     "must redirect to Director's Loan Page in Normal Mode if there was a change, the Corporation Tax is not selected and the disclosure was for a Company" in {
 
-      val previousAnswers = UserAnswers(userAnswersId, "session-123").addToSet(
-        WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, WhatOnshoreLiabilitiesDoYouNeedToDisclose.values.head
-      ).success.value
-        .set(RelatesToPage, RelatesTo.ACompany).success.value
+      val previousAnswers = UserAnswers(userAnswersId, "session-123")
+        .addToSet(
+          WhatOnshoreLiabilitiesDoYouNeedToDisclosePage,
+          WhatOnshoreLiabilitiesDoYouNeedToDisclose.values.head
+        )
+        .success
+        .value
+        .set(RelatesToPage, RelatesTo.ACompany)
+        .success
+        .value
 
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
       setupMockSessionResponse(Some(previousAnswers))
@@ -190,15 +214,23 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseControllerSpec extends SpecBase w
       val result = route(application, request).value
 
       status(result) mustEqual SEE_OTHER
-      redirectLocation(result).value mustEqual routes.DirectorLoanAccountLiabilitiesController.onPageLoad(0, NormalMode).url
+      redirectLocation(result).value mustEqual routes.DirectorLoanAccountLiabilitiesController
+        .onPageLoad(0, NormalMode)
+        .url
     }
 
     "must redirect to Which Onshore Year Page in Normal Mode if there was a change, and Director's Loan or Corporation Tax are selected" in {
 
-      val previousAnswers = UserAnswers(userAnswersId, "session-123").addToSet(
-        WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, WhatOnshoreLiabilitiesDoYouNeedToDisclose.CorporationTax
-      ).success.value
-        .set(RelatesToPage, RelatesTo.ACompany).success.value
+      val previousAnswers = UserAnswers(userAnswersId, "session-123")
+        .addToSet(
+          WhatOnshoreLiabilitiesDoYouNeedToDisclosePage,
+          WhatOnshoreLiabilitiesDoYouNeedToDisclose.CorporationTax
+        )
+        .success
+        .value
+        .set(RelatesToPage, RelatesTo.ACompany)
+        .success
+        .value
 
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
       setupMockSessionResponse(Some(previousAnswers))

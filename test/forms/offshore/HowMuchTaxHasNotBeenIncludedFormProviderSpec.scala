@@ -26,13 +26,13 @@ class HowMuchTaxHasNotBeenIncludedFormProviderSpec extends OptionFieldBehaviours
 
   ".value" - {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "howMuchTaxHasNotBeenIncluded.error.required"
 
     behave like optionsField[HowMuchTaxHasNotBeenIncluded](
       form,
       fieldName,
-      validValues  = HowMuchTaxHasNotBeenIncluded.values,
+      validValues = HowMuchTaxHasNotBeenIncluded.values,
       invalidError = FormError(fieldName, "error.invalid")
     )
 

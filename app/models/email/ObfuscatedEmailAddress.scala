@@ -22,18 +22,18 @@ trait ObfuscatedEmailAddress extends StringValue
 
 object ObfuscatedEmailAddress {
   final private val shortMailbox: Regex = "(.{1,2})".r
-  final private val longMailbox: Regex = "(.)(.*)(.)".r
+  final private val longMailbox: Regex  = "(.)(.*)(.)".r
 
   implicit def obfuscatedEmailToString(e: ObfuscatedEmailAddress): String = e.value
 
   def apply(plainEmailAddress: String): ObfuscatedEmailAddress =
     new ObfuscatedEmailAddress {
       val value: String = plainEmailAddress match {
-        case EmailAddressValidation.validEmail(shortMailbox(m), domain) =>
+        case EmailAddressValidation.validEmail(shortMailbox(m), domain)                              =>
           s"${obscure(m)}@$domain"
         case EmailAddressValidation.validEmail(longMailbox(firstLetter, middle, lastLetter), domain) =>
           s"$firstLetter${obscure(middle)}$lastLetter@$domain"
-        case invalidEmail =>
+        case invalidEmail                                                                            =>
           throw new IllegalArgumentException(s"Cannot obfuscate invalid email address '$invalidEmail'")
       }
     }

@@ -38,7 +38,7 @@ import scala.concurrent.Future
 class IndexControllerSpec extends SpecBase with Generators {
 
   def onwardRoute: Call = Call("GET", "/foo")
-  val view: IndexView = application.injector.instanceOf[IndexView]
+  val view: IndexView   = application.injector.instanceOf[IndexView]
 
   "Index Controller" - {
 
@@ -48,8 +48,9 @@ class IndexControllerSpec extends SpecBase with Generators {
       when(mockSessionService.getIndividualUserAnswers(any(), any(), any())(any())).thenReturn(Future.successful(None))
       val applicationWithFakeNavigator = applicationBuilder
         .configure(
-          "features.full-disclosure-journey" -> true,
-        ).overrides(
+          "features.full-disclosure-journey" -> true
+        )
+        .overrides(
           bind[Navigator].toInstance(new FakeNavigator(onwardRoute))
         )
         .build()
@@ -88,26 +89,26 @@ class IndexControllerSpec extends SpecBase with Generators {
         sessionRepo.get("id", "session-123").map(uaOpt => uaOpt mustBe Some(userAnswers))
       }
     }
-    
+
   }
 
-  val address: Address =
+  val address: Address                                =
     Address("line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GBR"))
   val contactSet: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Email)
-  val incomeSet: Set[IncomeOrGainSource] = Set(IncomeOrGainSource.Dividends)
-  val completeUserAnswers: UserAnswers = (for {
-    ua1 <- UserAnswers("id", "session-123").set(ReceivedALetterPage, true)
-    ua2 <- ua1.set(ReceivedALetterPage, false)
-    ua3 <- ua2.set(RelatesToPage, RelatesTo.ATrust)
-    ua4 <- ua3.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
-    ua5 <- ua4.set(OffshoreLiabilitiesPage, true)
-    ua6 <- ua5.set(OnshoreLiabilitiesPage, true)
-    ua7 <- ua6.set(WhatIsTheTrustNamePage, "Some trust")
-    ua8 <- ua7.set(TrustAddressLookupPage, address)
-    ua9 <- ua8.set(WhatIsYourFullNamePage, "My name")
-    ua10 <- ua9.set(HowWouldYouPreferToBeContactedPage, contactSet)
-    ua11 <- ua10.set(YourEmailAddressPage, "My email")
-    ua12 <- ua11.set(IncomeOrGainSourcePage, incomeSet)
+  val incomeSet: Set[IncomeOrGainSource]              = Set(IncomeOrGainSource.Dividends)
+  val completeUserAnswers: UserAnswers                = (for {
+    ua1     <- UserAnswers("id", "session-123").set(ReceivedALetterPage, true)
+    ua2     <- ua1.set(ReceivedALetterPage, false)
+    ua3     <- ua2.set(RelatesToPage, RelatesTo.ATrust)
+    ua4     <- ua3.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+    ua5     <- ua4.set(OffshoreLiabilitiesPage, true)
+    ua6     <- ua5.set(OnshoreLiabilitiesPage, true)
+    ua7     <- ua6.set(WhatIsTheTrustNamePage, "Some trust")
+    ua8     <- ua7.set(TrustAddressLookupPage, address)
+    ua9     <- ua8.set(WhatIsYourFullNamePage, "My name")
+    ua10    <- ua9.set(HowWouldYouPreferToBeContactedPage, contactSet)
+    ua11    <- ua10.set(YourEmailAddressPage, "My email")
+    ua12    <- ua11.set(IncomeOrGainSourcePage, incomeSet)
     finalUa <- ua12.set(YourAddressLookupPage, address)
   } yield finalUa).success.value
 }

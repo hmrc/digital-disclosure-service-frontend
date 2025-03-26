@@ -52,7 +52,9 @@ class IndividualSentYourNotificationViewSpec extends ViewSpecBase with ViewMatch
     }
 
     "have a second heading" in {
-      view.getElementsByClass("govuk-heading-m").text() mustBe messages("individualSentYourNotification.paragraph.header")
+      view.getElementsByClass("govuk-heading-m").text() mustBe messages(
+        "individualSentYourNotification.paragraph.header"
+      )
     }
 
   }

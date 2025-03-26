@@ -26,9 +26,9 @@ import models.{NormalMode, RelatesTo}
 class AreYouAMemberOfAnyLandlordAssociationsViewSpec extends ViewSpecBase with ViewMatchers {
 
   val areTheyTheIndividual = true
-  val entity = RelatesTo.AnIndividual
-  
-  val form = new AreYouAMemberOfAnyLandlordAssociationsFormProvider()(areTheyTheIndividual, entity)
+  val entity               = RelatesTo.AnIndividual
+
+  val form                                             = new AreYouAMemberOfAnyLandlordAssociationsFormProvider()(areTheyTheIndividual, entity)
   val page: AreYouAMemberOfAnyLandlordAssociationsView = inject[AreYouAMemberOfAnyLandlordAssociationsView]
 
   private def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
@@ -42,19 +42,25 @@ class AreYouAMemberOfAnyLandlordAssociationsViewSpec extends ViewSpecBase with V
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("areYouAMemberOfAnyLandlordAssociations.you.heading")
+      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages(
+        "areYouAMemberOfAnyLandlordAssociations.you.heading"
+      )
     }
 
     "have yes" in {
-      view.getElementsByClass("govuk-radios__label").first().text() mustBe messages("areYouAMemberOfAnyLandlordAssociations.yes")
+      view.getElementsByClass("govuk-radios__label").first().text() mustBe messages(
+        "areYouAMemberOfAnyLandlordAssociations.yes"
+      )
     }
 
     "have no" in {
-      view.getElementsByClass("govuk-radios__label").last().text() mustBe messages("areYouAMemberOfAnyLandlordAssociations.no")
+      view.getElementsByClass("govuk-radios__label").last().text() mustBe messages(
+        "areYouAMemberOfAnyLandlordAssociations.no"
+      )
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

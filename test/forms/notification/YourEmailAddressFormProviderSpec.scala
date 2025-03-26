@@ -19,13 +19,12 @@ package forms
 import forms.behaviours.EmailBehaviours
 import play.api.data.FormError
 
-class YourEmailAddressFormProviderSpec extends EmailBehaviours{
+class YourEmailAddressFormProviderSpec extends EmailBehaviours {
 
-  val requiredKey = "yourEmailAddress.error.required"
+  val requiredKey    = "yourEmailAddress.error.required"
   val validFormatKey = "yourEmailAddress.error.validFormat"
-  val lengthKey = "yourEmailAddress.error.length"
-  val maxLength = 320
-
+  val lengthKey      = "yourEmailAddress.error.length"
+  val maxLength      = 320
 
   val form = new YourEmailAddressFormProvider()()
 

@@ -24,7 +24,11 @@ import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
 import play.api.libs.json.{JsError, JsString, Json}
 
-class IsTheIndividualRegisteredForVATSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks with OptionValues {
+class IsTheIndividualRegisteredForVATSpec
+    extends AnyFreeSpec
+    with Matchers
+    with ScalaCheckPropertyChecks
+    with OptionValues {
 
   "IsTheIndividualRegisteredForVAT" - {
 
@@ -32,10 +36,11 @@ class IsTheIndividualRegisteredForVATSpec extends AnyFreeSpec with Matchers with
 
       val gen = Gen.oneOf(IsTheIndividualRegisteredForVAT.values.toSeq)
 
-      forAll(gen) {
-        isTheIndividualRegisteredForVAT =>
-
-          JsString(isTheIndividualRegisteredForVAT.toString).validate[IsTheIndividualRegisteredForVAT].asOpt.value mustEqual isTheIndividualRegisteredForVAT
+      forAll(gen) { isTheIndividualRegisteredForVAT =>
+        JsString(isTheIndividualRegisteredForVAT.toString)
+          .validate[IsTheIndividualRegisteredForVAT]
+          .asOpt
+          .value mustEqual isTheIndividualRegisteredForVAT
       }
     }
 
@@ -43,10 +48,8 @@ class IsTheIndividualRegisteredForVATSpec extends AnyFreeSpec with Matchers with
 
       val gen = arbitrary[String] suchThat (!IsTheIndividualRegisteredForVAT.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[IsTheIndividualRegisteredForVAT] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[IsTheIndividualRegisteredForVAT] mustEqual JsError("error.invalid")
       }
     }
 
@@ -54,10 +57,8 @@ class IsTheIndividualRegisteredForVATSpec extends AnyFreeSpec with Matchers with
 
       val gen = Gen.oneOf(IsTheIndividualRegisteredForVAT.values.toSeq)
 
-      forAll(gen) {
-        isTheIndividualRegisteredForVAT =>
-
-          Json.toJson(isTheIndividualRegisteredForVAT) mustEqual JsString(isTheIndividualRegisteredForVAT.toString)
+      forAll(gen) { isTheIndividualRegisteredForVAT =>
+        Json.toJson(isTheIndividualRegisteredForVAT) mustEqual JsString(isTheIndividualRegisteredForVAT.toString)
       }
     }
   }

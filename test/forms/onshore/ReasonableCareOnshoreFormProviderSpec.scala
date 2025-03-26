@@ -23,11 +23,11 @@ class ReasonableCareOnshoreFormProviderSpec extends StringFieldBehaviours {
 
   ".reasonableCare when entity" - {
 
-    val form = new ReasonableCareOnshoreFormProvider()(true)
-    val fieldName = "reasonableCare"
-    val requiredKey = "whatReasonableCareDidYouTake.error.reasonableCare.required"
+    val form            = new ReasonableCareOnshoreFormProvider()(true)
+    val fieldName       = "reasonableCare"
+    val requiredKey     = "whatReasonableCareDidYouTake.error.reasonableCare.required"
     val entityLengthKey = "whatReasonableCareDidYouTake.entity.error.reasonableCare.length"
-    val maxLength = 5000
+    val maxLength       = 5000
 
     behave like fieldThatBindsValidData(
       form,
@@ -56,9 +56,9 @@ class ReasonableCareOnshoreFormProviderSpec extends StringFieldBehaviours {
 
   ".reasonableCare when agent" - {
 
-    val fieldName = "reasonableCare"
+    val fieldName      = "reasonableCare"
     val agentLengthKey = "whatReasonableCareDidYouTake.agent.error.reasonableCare.length"
-    val maxLength = 5000
+    val maxLength      = 5000
 
     behave like fieldWithMaxLength(
       new ReasonableCareOnshoreFormProvider()(false),
@@ -70,11 +70,11 @@ class ReasonableCareOnshoreFormProviderSpec extends StringFieldBehaviours {
 
   ".yearsThisAppliesTo" - {
 
-    val form = new ReasonableCareOnshoreFormProvider()(true)
-    val fieldName = "yearsThisAppliesTo"
+    val form        = new ReasonableCareOnshoreFormProvider()(true)
+    val fieldName   = "yearsThisAppliesTo"
     val requiredKey = "whatReasonableCareDidYouTake.error.yearsThisAppliesTo.required"
-    val lengthKey = "whatReasonableCareDidYouTake.error.yearsThisAppliesTo.length"
-    val maxLength = 500
+    val lengthKey   = "whatReasonableCareDidYouTake.error.yearsThisAppliesTo.length"
+    val maxLength   = 500
 
     behave like fieldThatBindsValidData(
       form,

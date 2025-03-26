@@ -34,10 +34,10 @@ class ReceivedALetterControllerSpec extends ControllerSpecBase {
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new ReceivedALetterFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   lazy val receivedALetterRoute = routes.ReceivedALetterController.onPageLoad(NormalMode).url
-  
+
   "ReceivedALetter Controller" - {
 
     "must return OK and the correct view for a GET" in {
@@ -73,9 +73,9 @@ class ReceivedALetterControllerSpec extends ControllerSpecBase {
     "must redirect to received a letter screen and then letter reference page (change mode) if received a letter page answer changes from No to Yes in check mode" in {
 
       val previousAnswer = false
-      val newAnswer = true
+      val newAnswer      = true
 
-      val urlToTest = routes.ReceivedALetterController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.ReceivedALetterController.onPageLoad(CheckMode).url
       val destinationRoute = routes.LetterReferenceController.onPageLoad(CheckMode).url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, ReceivedALetterPage, urlToTest, destinationRoute)
@@ -84,12 +84,19 @@ class ReceivedALetterControllerSpec extends ControllerSpecBase {
     "must redirect to received a letter screen and clear letter reference page if received a letter page answer changes from Yes to No in check mode" in {
 
       val previousAnswer = true
-      val newAnswer = false
+      val newAnswer      = false
 
-      val urlToTest = routes.ReceivedALetterController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.ReceivedALetterController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
-      testChangeAnswerRouting(previousAnswer, newAnswer, ReceivedALetterPage, urlToTest, destinationRoute, List(LetterReferencePage))
+      testChangeAnswerRouting(
+        previousAnswer,
+        newAnswer,
+        ReceivedALetterPage,
+        urlToTest,
+        destinationRoute,
+        List(LetterReferencePage)
+      )
     }
 
     "must redirect to the next page when valid data is submitted" in {

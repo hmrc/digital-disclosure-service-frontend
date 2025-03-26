@@ -65,16 +65,16 @@ class AddressLookupConnectorSpec
   )
 
   val servicesConfig = new ServicesConfig(config)
-  val lookupConfig = new AddressLookupConfig(servicesConfig)
+  val lookupConfig   = new AddressLookupConfig(servicesConfig)
 
-  val connector = new AddressLookupConnectorImpl(mockHttp, lookupConfig)
+  val connector                  = new AddressLookupConnectorImpl(mockHttp, lookupConfig)
   implicit val hc: HeaderCarrier = HeaderCarrier()
 
   "The address lookup connector" when {
 
     "handling requests to submit claim" must {
       val request = sampleAddressLookupRequest
-      
+
       val url = url"http://localhost:9028/api/init"
       behave like connectorBehaviour(
         mockPost(url = url, requestBody = request)(_),

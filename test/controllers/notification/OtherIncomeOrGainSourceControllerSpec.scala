@@ -35,7 +35,7 @@ class OtherIncomeOrGainSourceControllerSpec extends SpecBase with MockitoSugar {
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new OtherIncomeOrGainSourceFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   lazy val whereDidTheUndeclaredIncomeOrGainRoute = routes.OtherIncomeOrGainSourceController.onPageLoad(NormalMode).url
 
@@ -57,7 +57,8 @@ class OtherIncomeOrGainSourceControllerSpec extends SpecBase with MockitoSugar {
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(OtherIncomeOrGainSourcePage, "answer").success.value
+      val userAnswers =
+        UserAnswers(userAnswersId, "session-123").set(OtherIncomeOrGainSourcePage, "answer").success.value
 
       setupMockSessionResponse(Some(userAnswers))
 

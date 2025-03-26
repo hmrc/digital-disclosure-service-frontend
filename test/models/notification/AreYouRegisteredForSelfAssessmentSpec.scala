@@ -24,7 +24,11 @@ import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
 import play.api.libs.json.{JsError, JsString, Json}
 
-class AreYouRegisteredForSelfAssessmentSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks with OptionValues {
+class AreYouRegisteredForSelfAssessmentSpec
+    extends AnyFreeSpec
+    with Matchers
+    with ScalaCheckPropertyChecks
+    with OptionValues {
 
   "AreYouRegisteredForSelfAssessment" - {
 
@@ -32,10 +36,11 @@ class AreYouRegisteredForSelfAssessmentSpec extends AnyFreeSpec with Matchers wi
 
       val gen = Gen.oneOf(AreYouRegisteredForSelfAssessment.values.toSeq)
 
-      forAll(gen) {
-        areYouRegisteredForSelfAssessment =>
-
-          JsString(areYouRegisteredForSelfAssessment.toString).validate[AreYouRegisteredForSelfAssessment].asOpt.value mustEqual areYouRegisteredForSelfAssessment
+      forAll(gen) { areYouRegisteredForSelfAssessment =>
+        JsString(areYouRegisteredForSelfAssessment.toString)
+          .validate[AreYouRegisteredForSelfAssessment]
+          .asOpt
+          .value mustEqual areYouRegisteredForSelfAssessment
       }
     }
 
@@ -43,10 +48,8 @@ class AreYouRegisteredForSelfAssessmentSpec extends AnyFreeSpec with Matchers wi
 
       val gen = arbitrary[String] suchThat (!AreYouRegisteredForSelfAssessment.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[AreYouRegisteredForSelfAssessment] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[AreYouRegisteredForSelfAssessment] mustEqual JsError("error.invalid")
       }
     }
 
@@ -54,10 +57,8 @@ class AreYouRegisteredForSelfAssessmentSpec extends AnyFreeSpec with Matchers wi
 
       val gen = Gen.oneOf(AreYouRegisteredForSelfAssessment.values.toSeq)
 
-      forAll(gen) {
-        areYouRegisteredForSelfAssessment =>
-
-          Json.toJson(areYouRegisteredForSelfAssessment) mustEqual JsString(areYouRegisteredForSelfAssessment.toString)
+      forAll(gen) { areYouRegisteredForSelfAssessment =>
+        Json.toJson(areYouRegisteredForSelfAssessment) mustEqual JsString(areYouRegisteredForSelfAssessment.toString)
       }
     }
   }

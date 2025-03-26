@@ -40,7 +40,7 @@ import services.{AddressLookupService, SessionService}
 import scala.concurrent.Future
 
 trait SpecBase
-  extends AnyFreeSpec
+    extends AnyFreeSpec
     with Matchers
     with TryValues
     with OptionValues
@@ -55,16 +55,15 @@ trait SpecBase
     reset(mockAddressLookupService)
   }
 
-  override protected def afterAll(): Unit = {
+  override protected def afterAll(): Unit =
     application.stop()
-  }
 
   val userAnswersId: String = "id"
-  val sessionId = "session-123"
+  val sessionId             = "session-123"
 
-  def emptyUserAnswers : UserAnswers = UserAnswers(userAnswersId, sessionId)
+  def emptyUserAnswers: UserAnswers = UserAnswers(userAnswersId, sessionId)
 
-  val mockSessionService: SessionService = mock[SessionService]
+  val mockSessionService: SessionService             = mock[SessionService]
   val mockAddressLookupService: AddressLookupService = mock[AddressLookupService]
 
   def setupMockSessionResponse(userAnswers: Option[UserAnswers] = None): OngoingStubbing[Future[Option[UserAnswers]]] =
@@ -78,35 +77,49 @@ trait SpecBase
     bind[InternalAuthTokenInitialiser].to[NoOpInternalAuthTokenInitialiser],
     bind[AddressLookupService].toInstance(mockAddressLookupService)
   )
-  val application: Application = applicationBuilder.build()
+  val application: Application                    = applicationBuilder.build()
 
-  def applicationWithFakeLettingNavigator(onwardRoute: Call): Application = applicationBuilder.overrides(
-    bind[LettingNavigator].toInstance(new FakeLettingNavigator(onwardRoute))
-  ).build()
+  def applicationWithFakeLettingNavigator(onwardRoute: Call): Application = applicationBuilder
+    .overrides(
+      bind[LettingNavigator].toInstance(new FakeLettingNavigator(onwardRoute))
+    )
+    .build()
 
-  def applicationWithFakeLiabilitiesNavigator(onwardRoute: Call): Application = applicationBuilder.overrides(
-    bind[OtherLiabilitiesNavigator].toInstance(new FakeOtherLiabilitiesNavigator(onwardRoute))
-  ).build()
+  def applicationWithFakeLiabilitiesNavigator(onwardRoute: Call): Application = applicationBuilder
+    .overrides(
+      bind[OtherLiabilitiesNavigator].toInstance(new FakeOtherLiabilitiesNavigator(onwardRoute))
+    )
+    .build()
 
-  def applicationWithFakeNavigator(onwardRoute: Call): Application = applicationBuilder.overrides(
-    bind[Navigator].toInstance(new FakeNavigator(onwardRoute))
-  ).build()
+  def applicationWithFakeNavigator(onwardRoute: Call): Application = applicationBuilder
+    .overrides(
+      bind[Navigator].toInstance(new FakeNavigator(onwardRoute))
+    )
+    .build()
 
-  def applicationWithFakeOnshoreNavigator(onwardRoute: Call): Application = applicationBuilder.overrides(
-    bind[OnshoreNavigator].toInstance(new FakeOnshoreNavigator(onwardRoute))
-  ).build()
+  def applicationWithFakeOnshoreNavigator(onwardRoute: Call): Application = applicationBuilder
+    .overrides(
+      bind[OnshoreNavigator].toInstance(new FakeOnshoreNavigator(onwardRoute))
+    )
+    .build()
 
-  def applicationWithFakeOffshoreNavigator(onwardRoute: Call): Application = applicationBuilder.overrides(
-    bind[OffshoreNavigator].toInstance(new FakeOffshoreNavigator(onwardRoute))
-  ).build()
+  def applicationWithFakeOffshoreNavigator(onwardRoute: Call): Application = applicationBuilder
+    .overrides(
+      bind[OffshoreNavigator].toInstance(new FakeOffshoreNavigator(onwardRoute))
+    )
+    .build()
 
-  def applicationWithFakeNotificationNavigator(onwardRoute: Call): Application = applicationBuilder.overrides(
-    bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
-  ).build()
+  def applicationWithFakeNotificationNavigator(onwardRoute: Call): Application = applicationBuilder
+    .overrides(
+      bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
+    )
+    .build()
 
-  def applicationWithFakeReasonNavigator(onwardRoute: Call): Application = applicationBuilder.overrides(
-    bind[ReasonNavigator].toInstance(new FakeReasonNavigator(onwardRoute))
-  ).build()
+  def applicationWithFakeReasonNavigator(onwardRoute: Call): Application = applicationBuilder
+    .overrides(
+      bind[ReasonNavigator].toInstance(new FakeReasonNavigator(onwardRoute))
+    )
+    .build()
 
   val messages: Messages = application.injector.instanceOf[MessagesApi].preferred(FakeRequest())
 }

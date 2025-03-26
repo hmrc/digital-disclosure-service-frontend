@@ -24,7 +24,11 @@ import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
 import play.api.libs.json.{JsError, JsString, Json}
 
-class WhichTelephoneNumberCanWeContactYouWithSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks with OptionValues {
+class WhichTelephoneNumberCanWeContactYouWithSpec
+    extends AnyFreeSpec
+    with Matchers
+    with ScalaCheckPropertyChecks
+    with OptionValues {
 
   "WhichTelephoneNumberCanWeContactYouWith" - {
 
@@ -32,10 +36,11 @@ class WhichTelephoneNumberCanWeContactYouWithSpec extends AnyFreeSpec with Match
 
       val gen = Gen.oneOf(WhichTelephoneNumberCanWeContactYouWith.values.toSeq)
 
-      forAll(gen) {
-        whichTelephoneNumberCanWeContactYouWith =>
-
-          JsString(whichTelephoneNumberCanWeContactYouWith.toString).validate[WhichTelephoneNumberCanWeContactYouWith].asOpt.value mustEqual whichTelephoneNumberCanWeContactYouWith
+      forAll(gen) { whichTelephoneNumberCanWeContactYouWith =>
+        JsString(whichTelephoneNumberCanWeContactYouWith.toString)
+          .validate[WhichTelephoneNumberCanWeContactYouWith]
+          .asOpt
+          .value mustEqual whichTelephoneNumberCanWeContactYouWith
       }
     }
 
@@ -43,10 +48,8 @@ class WhichTelephoneNumberCanWeContactYouWithSpec extends AnyFreeSpec with Match
 
       val gen = arbitrary[String] suchThat (!WhichTelephoneNumberCanWeContactYouWith.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[WhichTelephoneNumberCanWeContactYouWith] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[WhichTelephoneNumberCanWeContactYouWith] mustEqual JsError("error.invalid")
       }
     }
 
@@ -54,10 +57,10 @@ class WhichTelephoneNumberCanWeContactYouWithSpec extends AnyFreeSpec with Match
 
       val gen = Gen.oneOf(WhichTelephoneNumberCanWeContactYouWith.values.toSeq)
 
-      forAll(gen) {
-        whichTelephoneNumberCanWeContactYouWith =>
-
-          Json.toJson(whichTelephoneNumberCanWeContactYouWith) mustEqual JsString(whichTelephoneNumberCanWeContactYouWith.toString)
+      forAll(gen) { whichTelephoneNumberCanWeContactYouWith =>
+        Json.toJson(whichTelephoneNumberCanWeContactYouWith) mustEqual JsString(
+          whichTelephoneNumberCanWeContactYouWith.toString
+        )
       }
     }
   }

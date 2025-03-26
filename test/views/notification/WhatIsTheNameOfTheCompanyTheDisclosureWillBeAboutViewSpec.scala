@@ -25,8 +25,9 @@ import models.NormalMode
 
 class WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutFormProvider()()
-  val page: WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutView = inject[WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutView]
+  val form                                                        = new WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutFormProvider()()
+  val page: WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutView =
+    inject[WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutView]
 
   private def createView: Html = page(form, NormalMode, false)(request, messages)
 
@@ -39,11 +40,13 @@ class WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutViewSpec extends ViewSpec
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-label--xl").text() mustBe messages("whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.heading")
+      view.getElementsByClass("govuk-label--xl").text() mustBe messages(
+        "whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.heading"
+      )
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

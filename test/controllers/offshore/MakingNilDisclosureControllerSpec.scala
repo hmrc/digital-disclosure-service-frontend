@@ -20,7 +20,7 @@ import base.SpecBase
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.html.offshore.MakingNilDisclosureView
-import models.{AreYouTheEntity, RelatesTo, WhyAreYouMakingThisDisclosure, UserAnswers, Behaviour}
+import models.{AreYouTheEntity, Behaviour, RelatesTo, UserAnswers, WhyAreYouMakingThisDisclosure}
 import pages.{AreYouTheEntityPage, WhyAreYouMakingThisDisclosurePage}
 import services.OffshoreWhichYearsService
 
@@ -31,11 +31,11 @@ class MakingNilDisclosureControllerSpec extends SpecBase {
     "must return OK and the correct view for a GET" in {
 
       val areTheyTheIndividual = AreYouTheEntity.YesIAm
-      val entity = RelatesTo.AnIndividual
+      val entity               = RelatesTo.AnIndividual
 
       val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DidNotNotifyNoExcuse)
-      val userAnswers = (for{
-        ua <- UserAnswers(userAnswersId, "session-123").set(AreYouTheEntityPage, areTheyTheIndividual)
+      val userAnswers                             = (for {
+        ua        <- UserAnswers(userAnswersId, "session-123").set(AreYouTheEntityPage, areTheyTheIndividual)
         updatedUa <- ua.set(WhyAreYouMakingThisDisclosurePage, set)
       } yield updatedUa).success.value
 
@@ -46,12 +46,15 @@ class MakingNilDisclosureControllerSpec extends SpecBase {
       val result = route(application, request).value
 
       val service = application.injector.instanceOf[OffshoreWhichYearsService]
-      val year = service.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
+      val year    = service.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
 
       val view = application.injector.instanceOf[MakingNilDisclosureView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(userAnswers.isTheUserTheIndividual, entity, year)(request, messages).toString
+      contentAsString(result) mustEqual view(userAnswers.isTheUserTheIndividual, entity, year)(
+        request,
+        messages
+      ).toString
     }
   }
 }

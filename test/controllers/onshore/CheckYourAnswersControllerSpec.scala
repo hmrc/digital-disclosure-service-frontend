@@ -36,28 +36,28 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       def totalRows(implicit messages: Messages) = SummaryListViewModel(
         rows = Seq(
           SummaryListRowViewModel(
-            key     = Key(Text(messages("onshoreTaxYearLiabilities.unpaidTax.total"))),
-            value   = ValueViewModel(HtmlContent("&pound;0")),
+            key = Key(Text(messages("onshoreTaxYearLiabilities.unpaidTax.total"))),
+            value = ValueViewModel(HtmlContent("&pound;0")),
             actions = Nil
           ),
           SummaryListRowViewModel(
-            key     = Key(Text(messages("onshoreTaxYearLiabilities.niContributions.total"))),
-            value   = ValueViewModel(HtmlContent("&pound;0")),
+            key = Key(Text(messages("onshoreTaxYearLiabilities.niContributions.total"))),
+            value = ValueViewModel(HtmlContent("&pound;0")),
             actions = Nil
           ),
           SummaryListRowViewModel(
-            key     = Key(Text(messages("onshoreTaxYearLiabilities.interest.total"))),
-            value   = ValueViewModel(HtmlContent("&pound;0")),
+            key = Key(Text(messages("onshoreTaxYearLiabilities.interest.total"))),
+            value = ValueViewModel(HtmlContent("&pound;0")),
             actions = Nil
           ),
           SummaryListRowViewModel(
-            key     = Key(Text(messages("onshoreTaxYearLiabilities.penaltyAmount.total"))),
-            value   = ValueViewModel(HtmlContent(s"&pound;${messages("site.2DP", 0)}")),
+            key = Key(Text(messages("onshoreTaxYearLiabilities.penaltyAmount.total"))),
+            value = ValueViewModel(HtmlContent(s"&pound;${messages("site.2DP", 0)}")),
             actions = Nil
           ),
           SummaryListRowViewModel(
-            key     = Key(Text(messages("onshoreTaxYearLiabilities.amountDue.total"))),
-            value   = ValueViewModel(HtmlContent(s"&pound;${messages("site.2DP", 0)}")),
+            key = Key(Text(messages("onshoreTaxYearLiabilities.amountDue.total"))),
+            value = ValueViewModel(HtmlContent(s"&pound;${messages("site.2DP", 0)}")),
             actions = Nil
           )
         )
@@ -69,8 +69,16 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       val viewmodel = CheckYourAnswersViewModel(
         SummaryListViewModel(rows = Nil),
         Nil,
-        CorporationTaxLiabilitiesSummaryViewModel(Nil, SummaryListViewModel(rows = Nil), SummaryListViewModel(rows = Nil)),
-        DirectorLoanAccountLiabilitiesSummaryViewModel(Nil, SummaryListViewModel(rows = Nil), SummaryListViewModel(rows = Nil)),
+        CorporationTaxLiabilitiesSummaryViewModel(
+          Nil,
+          SummaryListViewModel(rows = Nil),
+          SummaryListViewModel(rows = Nil)
+        ),
+        DirectorLoanAccountLiabilitiesSummaryViewModel(
+          Nil,
+          SummaryListViewModel(rows = Nil),
+          SummaryListViewModel(rows = Nil)
+        ),
         totalRows,
         BigDecimal(0)
       )

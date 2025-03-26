@@ -25,10 +25,10 @@ import models.NormalMode
 
 class WhichTelephoneNumberCanWeContactYouWithViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhichTelephoneNumberCanWeContactYouWithFormProvider()()
+  val form                                              = new WhichTelephoneNumberCanWeContactYouWithFormProvider()()
   val page: WhichTelephoneNumberCanWeContactYouWithView = inject[WhichTelephoneNumberCanWeContactYouWithView]
-  val telephoneNumber = "07777 777777"
-  private def createView: Html = page(form, NormalMode, telephoneNumber)(request, messages)
+  val telephoneNumber                                   = "07777 777777"
+  private def createView: Html                          = page(form, NormalMode, telephoneNumber)(request, messages)
 
   "view" should {
 
@@ -39,11 +39,13 @@ class WhichTelephoneNumberCanWeContactYouWithViewSpec extends ViewSpecBase with 
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("whichTelephoneNumberCanWeContactYouWith.heading")
+      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages(
+        "whichTelephoneNumberCanWeContactYouWith.heading"
+      )
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

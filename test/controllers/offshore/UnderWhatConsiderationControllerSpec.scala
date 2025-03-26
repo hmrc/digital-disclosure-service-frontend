@@ -35,7 +35,7 @@ class UnderWhatConsiderationControllerSpec extends SpecBase with MockitoSugar {
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new UnderWhatConsiderationFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   lazy val underWhatConsiderationRoute = routes.UnderWhatConsiderationController.onPageLoad(NormalMode).url
 
@@ -57,7 +57,8 @@ class UnderWhatConsiderationControllerSpec extends SpecBase with MockitoSugar {
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(UnderWhatConsiderationPage, "answer").success.value
+      val userAnswers =
+        UserAnswers(userAnswersId, "session-123").set(UnderWhatConsiderationPage, "answer").success.value
 
       setupMockSessionResponse(Some(userAnswers))
 

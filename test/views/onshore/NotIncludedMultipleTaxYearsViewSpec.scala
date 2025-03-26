@@ -25,10 +25,11 @@ import models.{NormalMode, OnshoreYearStarting}
 
 class NotIncludedMultipleTaxYearsViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new NotIncludedMultipleTaxYearsFormProvider()()
+  val form                                  = new NotIncludedMultipleTaxYearsFormProvider()()
   val page: NotIncludedMultipleTaxYearsView = inject[NotIncludedMultipleTaxYearsView]
 
-  val selectedYears: List[OnshoreYearStarting] = List(OnshoreYearStarting(2021), OnshoreYearStarting(2019), OnshoreYearStarting(2017))
+  val selectedYears: List[OnshoreYearStarting]    =
+    List(OnshoreYearStarting(2021), OnshoreYearStarting(2019), OnshoreYearStarting(2017))
   val notSelectedYears: List[OnshoreYearStarting] = List(OnshoreYearStarting(2020), OnshoreYearStarting(2018))
 
   private def createView: Html = page(form, NormalMode, selectedYears, notSelectedYears)(request, messages)
@@ -50,7 +51,9 @@ class NotIncludedMultipleTaxYearsViewSpec extends ViewSpecBase with ViewMatchers
     }
 
     "contain not selected certain years body" in {
-      view.getElementById("not-selected-body").text() mustBe messages("youHaveNotSelectedCertainTaxYear.notSelected.body")
+      view.getElementById("not-selected-body").text() mustBe messages(
+        "youHaveNotSelectedCertainTaxYear.notSelected.body"
+      )
     }
 
     "contain label" in {
@@ -58,7 +61,7 @@ class NotIncludedMultipleTaxYearsViewSpec extends ViewSpecBase with ViewMatchers
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

@@ -28,23 +28,23 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with SummaryListFluency {
 
   val testRow1 = SummaryListRowViewModel(
-    key     = "testKey",
-    value   = ValueViewModel(Text(messages("Test answer"))),
+    key = "testKey",
+    value = ValueViewModel(Text(messages("Test answer"))),
     actions = Seq(
       ActionItemViewModel("site.change", "http://test.url")
     )
   )
 
   val testRow2 = SummaryListRowViewModel(
-    key     = "testKey2",
-    value   = ValueViewModel(Text(messages("Test answer 2"))),
+    key = "testKey2",
+    value = ValueViewModel(Text(messages("Test answer 2"))),
     actions = Seq(
       ActionItemViewModel("site.change", "http://test2.url")
     )
   )
 
-  val lettingList = SummaryListViewModel(rows = Seq(testRow1, testRow2))
-  val list = LettingSummaryLists(lettingList)
+  val lettingList                = SummaryListViewModel(rows = Seq(testRow1, testRow2))
+  val list                       = LettingSummaryLists(lettingList)
   val page: CheckYourAnswersView = inject[CheckYourAnswersView]
 
   "view" should {

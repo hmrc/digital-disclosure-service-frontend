@@ -35,7 +35,7 @@ class WhatIsTheLLPNameControllerSpec extends SpecBase with MockitoSugar {
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new WhatIsTheLLPNameFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   lazy val whatIsTheLLPNameRoute = routes.WhatIsTheLLPNameController.onPageLoad(NormalMode).url
 

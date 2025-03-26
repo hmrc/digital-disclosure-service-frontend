@@ -25,7 +25,7 @@ import models.NormalMode
 
 class WhyAreYouMakingADisclosureViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhyAreYouMakingADisclosureFormProvider()()
+  val form                                 = new WhyAreYouMakingADisclosureFormProvider()()
   val page: WhyAreYouMakingADisclosureView = inject[WhyAreYouMakingADisclosureView]
 
   private def createView: Html = page(form, NormalMode)(request, messages)
@@ -47,18 +47,30 @@ class WhyAreYouMakingADisclosureViewSpec extends ViewSpecBase with ViewMatchers 
     }
 
     "contain checkboxes" in {
-      view.getElementsByClass("govuk-checkboxes__item").get(0).text() mustBe messages("whyAreYouMakingADisclosure.govUkGuidance")
-      view.getElementsByClass("govuk-checkboxes__item").get(1).text() mustBe messages("whyAreYouMakingADisclosure.letterFromHMRC")
-      view.getElementsByClass("govuk-checkboxes__item").get(2).text() mustBe messages("whyAreYouMakingADisclosure.employer")
+      view.getElementsByClass("govuk-checkboxes__item").get(0).text() mustBe messages(
+        "whyAreYouMakingADisclosure.govUkGuidance"
+      )
+      view.getElementsByClass("govuk-checkboxes__item").get(1).text() mustBe messages(
+        "whyAreYouMakingADisclosure.letterFromHMRC"
+      )
+      view.getElementsByClass("govuk-checkboxes__item").get(2).text() mustBe messages(
+        "whyAreYouMakingADisclosure.employer"
+      )
       view.getElementsByClass("govuk-checkboxes__item").get(3).text() mustBe messages("whyAreYouMakingADisclosure.news")
-      view.getElementsByClass("govuk-checkboxes__item").get(4).text() mustBe messages("whyAreYouMakingADisclosure.publication")
-      view.getElementsByClass("govuk-checkboxes__item").get(5).text() mustBe messages("whyAreYouMakingADisclosure.accountant")
+      view.getElementsByClass("govuk-checkboxes__item").get(4).text() mustBe messages(
+        "whyAreYouMakingADisclosure.publication"
+      )
+      view.getElementsByClass("govuk-checkboxes__item").get(5).text() mustBe messages(
+        "whyAreYouMakingADisclosure.accountant"
+      )
       view.getElementsByClass("govuk-checkboxes__item").get(6).text() mustBe messages("whyAreYouMakingADisclosure.roe")
-      view.getElementsByClass("govuk-checkboxes__item").get(7).text() mustBe messages("whyAreYouMakingADisclosure.other")
+      view.getElementsByClass("govuk-checkboxes__item").get(7).text() mustBe messages(
+        "whyAreYouMakingADisclosure.other"
+      )
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

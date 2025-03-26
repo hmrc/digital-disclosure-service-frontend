@@ -29,17 +29,37 @@ class PropertyIsNoLongerBeingLetOutFormProviderSpec extends PeriodEndBehaviours 
     val fieldName = "stopDate"
 
     val data = Map(
-      s"stopDate.day" -> "1",
-      s"stopDate.month" -> "1",
-      s"stopDate.year" -> LocalDate.now(ZoneOffset.UTC).minusDays(1).getYear.toString,
+      s"stopDate.day"              -> "1",
+      s"stopDate.month"            -> "1",
+      s"stopDate.year"             -> LocalDate.now(ZoneOffset.UTC).minusDays(1).getYear.toString,
       s"whatHasHappenedToProperty" -> "Reason"
     )
 
     periodEndField(form, "propertyIsNoLongerBeingLetOut", data)
-    periodEndFieldCheckingMaxDay(form, fieldName, data, FormError(fieldName + ".day", "propertyIsNoLongerBeingLetOut.stopDate.error.invalidDay"))
-    periodEndFieldCheckingMaxMonth(form, fieldName, data, FormError(fieldName + ".month", "propertyIsNoLongerBeingLetOut.stopDate.error.invalidMonth"))
-    periodEndFieldInFuture(form, fieldName, data, FormError(fieldName, "propertyIsNoLongerBeingLetOut.stopDate.error.invalidFutureDate"))
-    periodEndFieldWithMin(form, fieldName, data, FormError(fieldName, "propertyIsNoLongerBeingLetOut.stopDate.error.invalidPastDate"))
+    periodEndFieldCheckingMaxDay(
+      form,
+      fieldName,
+      data,
+      FormError(fieldName + ".day", "propertyIsNoLongerBeingLetOut.stopDate.error.invalidDay")
+    )
+    periodEndFieldCheckingMaxMonth(
+      form,
+      fieldName,
+      data,
+      FormError(fieldName + ".month", "propertyIsNoLongerBeingLetOut.stopDate.error.invalidMonth")
+    )
+    periodEndFieldInFuture(
+      form,
+      fieldName,
+      data,
+      FormError(fieldName, "propertyIsNoLongerBeingLetOut.stopDate.error.invalidFutureDate")
+    )
+    periodEndFieldWithMin(
+      form,
+      fieldName,
+      data,
+      FormError(fieldName, "propertyIsNoLongerBeingLetOut.stopDate.error.invalidPastDate")
+    )
   }
 
   ".whatHasHappenedToProperty" - {
@@ -47,7 +67,7 @@ class PropertyIsNoLongerBeingLetOutFormProviderSpec extends PeriodEndBehaviours 
     val fieldName = "whatHasHappenedToProperty"
     val maxLength = 5000
 
-    val lengthKey = "propertyIsNoLongerBeingLetOut.whatHasHappenedToProperty.error.length"
+    val lengthKey   = "propertyIsNoLongerBeingLetOut.whatHasHappenedToProperty.error.length"
     val requiredKey = "propertyIsNoLongerBeingLetOut.whatHasHappenedToProperty.error.required"
 
     behave like fieldThatBindsValidData(

@@ -25,7 +25,7 @@ import models.NormalMode
 
 class PropertyStoppedBeingLetOutViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new PropertyStoppedBeingLetOutFormProvider()()
+  val form                                 = new PropertyStoppedBeingLetOutFormProvider()()
   val page: PropertyStoppedBeingLetOutView = inject[PropertyStoppedBeingLetOutView]
 
   private def createView: Html = page(form, 0, NormalMode)(request, messages)
@@ -51,7 +51,7 @@ class PropertyStoppedBeingLetOutViewSpec extends ViewSpecBase with ViewMatchers 
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

@@ -25,10 +25,10 @@ import models.{NormalMode, TaxYearStarting}
 
 class YouHaveNotSelectedCertainTaxYearViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new YouHaveNotSelectedCertainTaxYearFormProvider()()
+  val form                                       = new YouHaveNotSelectedCertainTaxYearFormProvider()()
   val page: YouHaveNotSelectedCertainTaxYearView = inject[YouHaveNotSelectedCertainTaxYearView]
 
-  val selectedYears: List[TaxYearStarting] = List(TaxYearStarting(2021), TaxYearStarting(2019), TaxYearStarting(2017))
+  val selectedYears: List[TaxYearStarting]    = List(TaxYearStarting(2021), TaxYearStarting(2019), TaxYearStarting(2017))
   val notSelectedYears: List[TaxYearStarting] = List(TaxYearStarting(2020), TaxYearStarting(2018))
 
   private def createView: Html = page(form, NormalMode, selectedYears, notSelectedYears)(request, messages)
@@ -50,7 +50,9 @@ class YouHaveNotSelectedCertainTaxYearViewSpec extends ViewSpecBase with ViewMat
     }
 
     "contain not selected certain years body" in {
-      view.getElementById("not-selected-body").text() mustBe messages("youHaveNotSelectedCertainTaxYear.notSelected.body")
+      view.getElementById("not-selected-body").text() mustBe messages(
+        "youHaveNotSelectedCertainTaxYear.notSelected.body"
+      )
     }
 
     "contain label" in {
@@ -58,7 +60,7 @@ class YouHaveNotSelectedCertainTaxYearViewSpec extends ViewSpecBase with ViewMat
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

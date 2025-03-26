@@ -20,7 +20,7 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.TryValues
 import models.store._
-import models.store.notification.{Background, PersonalDetails, AboutYou}
+import models.store.notification.{AboutYou, Background, PersonalDetails}
 import models.store.disclosure._
 import models._
 import java.time.Instant
@@ -29,24 +29,42 @@ class UAToSubmissionServiceSpec extends AnyWordSpec with Matchers with TryValues
 
   val emptyUA = UserAnswers("id", "session-123")
 
-  val fullDisclosure = FullDisclosure("userId", "submissionId", Instant.now, Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), None, OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
-  val notification = Notification("id", "submissionId", Instant.now, Metadata(), PersonalDetails(Background(), AboutYou(), None, None, None, None, None), None)
+  val fullDisclosure = FullDisclosure(
+    "userId",
+    "submissionId",
+    Instant.now,
+    Metadata(),
+    CaseReference(),
+    PersonalDetails(Background(), AboutYou()),
+    None,
+    OffshoreLiabilities(),
+    OtherLiabilities(),
+    ReasonForDisclosingNow()
+  )
+  val notification   = Notification(
+    "id",
+    "submissionId",
+    Instant.now,
+    Metadata(),
+    PersonalDetails(Background(), AboutYou(), None, None, None, None, None),
+    None
+  )
 
   object TestNotificationService extends UAToNotificationService {
-    def userAnswersToNotification(userAnswers: UserAnswers): Notification = notification
-    def userAnswersToPersonalDetails(userAnswers: UserAnswers): PersonalDetails = PersonalDetails(Background(), AboutYou())
+    def userAnswersToNotification(userAnswers: UserAnswers): Notification       = notification
+    def userAnswersToPersonalDetails(userAnswers: UserAnswers): PersonalDetails =
+      PersonalDetails(Background(), AboutYou())
   }
 
   object TestDisclosureService extends UAToDisclosureService {
-    def uaToFullDisclosure(userAnswers: UserAnswers): FullDisclosure = fullDisclosure
-    def uaToOtherLiabilities(userAnswers: UserAnswers): OtherLiabilities = OtherLiabilities()
-    def uaToOffshoreLiabilities(userAnswers: UserAnswers): OffshoreLiabilities = OffshoreLiabilities()
+    def uaToFullDisclosure(userAnswers: UserAnswers): FullDisclosure                 = fullDisclosure
+    def uaToOtherLiabilities(userAnswers: UserAnswers): OtherLiabilities             = OtherLiabilities()
+    def uaToOffshoreLiabilities(userAnswers: UserAnswers): OffshoreLiabilities       = OffshoreLiabilities()
     def uaToReasonForDisclosingNow(userAnswers: UserAnswers): ReasonForDisclosingNow = ReasonForDisclosingNow()
-    def uaToCaseReference(userAnswers: UserAnswers): CaseReference = CaseReference()
+    def uaToCaseReference(userAnswers: UserAnswers): CaseReference                   = CaseReference()
   }
 
   val sut = new UAToSubmissionServiceImpl(TestNotificationService, TestDisclosureService)
-
 
   "uaToSubmission" should {
 

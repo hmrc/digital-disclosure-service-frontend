@@ -24,7 +24,12 @@ import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
 import play.api.libs.json.{JsError, JsString, Json}
 
-class WhyAreYouMakingThisDisclosureSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks with OptionValues with ModelGenerators {
+class WhyAreYouMakingThisDisclosureSpec
+    extends AnyFreeSpec
+    with Matchers
+    with ScalaCheckPropertyChecks
+    with OptionValues
+    with ModelGenerators {
 
   "WhyAreYouMakingThisDisclosure" - {
 
@@ -32,10 +37,11 @@ class WhyAreYouMakingThisDisclosureSpec extends AnyFreeSpec with Matchers with S
 
       val gen = arbitrary[WhyAreYouMakingThisDisclosure]
 
-      forAll(gen) {
-        whyAreYouMakingThisDisclosure =>
-
-          JsString(whyAreYouMakingThisDisclosure.toString).validate[WhyAreYouMakingThisDisclosure].asOpt.value mustEqual whyAreYouMakingThisDisclosure
+      forAll(gen) { whyAreYouMakingThisDisclosure =>
+        JsString(whyAreYouMakingThisDisclosure.toString)
+          .validate[WhyAreYouMakingThisDisclosure]
+          .asOpt
+          .value mustEqual whyAreYouMakingThisDisclosure
       }
     }
 
@@ -43,10 +49,8 @@ class WhyAreYouMakingThisDisclosureSpec extends AnyFreeSpec with Matchers with S
 
       val gen = arbitrary[String] suchThat (!WhyAreYouMakingThisDisclosure.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[WhyAreYouMakingThisDisclosure] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[WhyAreYouMakingThisDisclosure] mustEqual JsError("error.invalid")
       }
     }
 
@@ -54,10 +58,8 @@ class WhyAreYouMakingThisDisclosureSpec extends AnyFreeSpec with Matchers with S
 
       val gen = arbitrary[WhyAreYouMakingThisDisclosure]
 
-      forAll(gen) {
-        whyAreYouMakingThisDisclosure =>
-
-          Json.toJson(whyAreYouMakingThisDisclosure) mustEqual JsString(whyAreYouMakingThisDisclosure.toString)
+      forAll(gen) { whyAreYouMakingThisDisclosure =>
+        Json.toJson(whyAreYouMakingThisDisclosure) mustEqual JsString(whyAreYouMakingThisDisclosure.toString)
       }
     }
   }

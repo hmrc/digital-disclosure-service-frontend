@@ -25,7 +25,7 @@ import models.NormalMode
 
 class WhatOtherLiabilityIssuesViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhatOtherLiabilityIssuesFormProvider()()
+  val form                               = new WhatOtherLiabilityIssuesFormProvider()()
   val page: WhatOtherLiabilityIssuesView = inject[WhatOtherLiabilityIssuesView]
 
   private def createView: Html = page(form, NormalMode)(request, messages)
@@ -43,7 +43,7 @@ class WhatOtherLiabilityIssuesViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

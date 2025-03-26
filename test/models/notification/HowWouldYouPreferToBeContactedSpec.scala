@@ -24,7 +24,12 @@ import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
 import play.api.libs.json.{JsError, JsString, Json}
 
-class HowWouldYouPreferToBeContactedSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks with OptionValues with ModelGenerators {
+class HowWouldYouPreferToBeContactedSpec
+    extends AnyFreeSpec
+    with Matchers
+    with ScalaCheckPropertyChecks
+    with OptionValues
+    with ModelGenerators {
 
   "HowWouldYouPreferToBeContacted" - {
 
@@ -32,10 +37,11 @@ class HowWouldYouPreferToBeContactedSpec extends AnyFreeSpec with Matchers with 
 
       val gen = arbitrary[HowWouldYouPreferToBeContacted]
 
-      forAll(gen) {
-        howWouldYouPreferToBeContacted =>
-
-          JsString(howWouldYouPreferToBeContacted.toString).validate[HowWouldYouPreferToBeContacted].asOpt.value mustEqual howWouldYouPreferToBeContacted
+      forAll(gen) { howWouldYouPreferToBeContacted =>
+        JsString(howWouldYouPreferToBeContacted.toString)
+          .validate[HowWouldYouPreferToBeContacted]
+          .asOpt
+          .value mustEqual howWouldYouPreferToBeContacted
       }
     }
 
@@ -43,10 +49,8 @@ class HowWouldYouPreferToBeContactedSpec extends AnyFreeSpec with Matchers with 
 
       val gen = arbitrary[String] suchThat (!HowWouldYouPreferToBeContacted.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[HowWouldYouPreferToBeContacted] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[HowWouldYouPreferToBeContacted] mustEqual JsError("error.invalid")
       }
     }
 
@@ -54,10 +58,8 @@ class HowWouldYouPreferToBeContactedSpec extends AnyFreeSpec with Matchers with 
 
       val gen = arbitrary[HowWouldYouPreferToBeContacted]
 
-      forAll(gen) {
-        howWouldYouPreferToBeContacted =>
-
-          Json.toJson(howWouldYouPreferToBeContacted) mustEqual JsString(howWouldYouPreferToBeContacted.toString)
+      forAll(gen) { howWouldYouPreferToBeContacted =>
+        Json.toJson(howWouldYouPreferToBeContacted) mustEqual JsString(howWouldYouPreferToBeContacted.toString)
       }
     }
   }

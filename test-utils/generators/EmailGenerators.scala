@@ -31,44 +31,33 @@ trait EmailGenerators {
 
   val minPointDomainPosition = 2
 
-  def email(): Gen[String] = {
+  def email(): Gen[String] =
     for {
       usernameLength <- chooseNum(minUsernameLength, maxUsernameLength)
-      userName <- listOfN(usernameLength, alphaChar)
-      domainLength <- chooseNum(minDomainLength, maxDomainLength)
-      pointPosition <- chooseNum(minPointDomainPosition, domainLength - 1)
-      domain <- listOfN(pointPosition, alphaChar)
-      extension <- listOfN(domainLength - pointPosition, alphaChar)
-    } yield {
-      userName.mkString + "@" + domain.mkString + "." + extension.mkString
-    }
-  }
+      userName       <- listOfN(usernameLength, alphaChar)
+      domainLength   <- chooseNum(minDomainLength, maxDomainLength)
+      pointPosition  <- chooseNum(minPointDomainPosition, domainLength - 1)
+      domain         <- listOfN(pointPosition, alphaChar)
+      extension      <- listOfN(domainLength - pointPosition, alphaChar)
+    } yield userName.mkString + "@" + domain.mkString + "." + extension.mkString
 
-  def invalidEmail(): Gen[String] = {
+  def invalidEmail(): Gen[String] =
     for {
       str <- arbitrary[String] suchThat (_.nonEmpty)
       if !EmailAddress.isValid(str)
-    } yield {
-      str
-    }
-  }
+    } yield str
 
-  def invalidEmailDomain(): Gen[String] = {
+  def invalidEmailDomain(): Gen[String] =
     for {
       username <- alphaStr
-      domain <- alphaStr
-    } yield {
-      username + "@" + domain
-    }
-  }
+      domain   <- alphaStr
+    } yield username + "@" + domain
   def invalidLengthEmail(): Gen[String] = {
     val emailMaxLength = 320
     for {
       userName <- listOfN(emailMaxLength, alphaChar)
-      domain <- listOfN(emailMaxLength, alphaChar)
-    } yield {
-      userName.mkString + "@" + domain.mkString + ".ext"
-    }
+      domain   <- listOfN(emailMaxLength, alphaChar)
+    } yield userName.mkString + "@" + domain.mkString + ".ext"
   }
 
 }

@@ -22,10 +22,16 @@ import models.{Mode, UserAnswers}
 
 class FakeOnshoreNavigator(desiredRoute: Call) extends OnshoreNavigator {
 
-  override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasChanged:Boolean = true): Call =
+  override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasChanged: Boolean = true): Call =
     desiredRoute
 
-  override def nextTaxYearLiabilitiesPage(currentIndex: Int, deduction: Boolean, mode: Mode, userAnswers: UserAnswers, hasAnswerChanged: Boolean = false): Call = 
+  override def nextTaxYearLiabilitiesPage(
+    currentIndex: Int,
+    deduction: Boolean,
+    mode: Mode,
+    userAnswers: UserAnswers,
+    hasAnswerChanged: Boolean = false
+  ): Call =
     desiredRoute
 
 }

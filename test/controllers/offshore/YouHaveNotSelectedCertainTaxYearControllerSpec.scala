@@ -35,19 +35,20 @@ class YouHaveNotSelectedCertainTaxYearControllerSpec extends SpecBase with Mocki
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new YouHaveNotSelectedCertainTaxYearFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
-  val selectedYears = List(TaxYearStarting(2021), TaxYearStarting(2019), TaxYearStarting(2017))
+  val selectedYears    = List(TaxYearStarting(2021), TaxYearStarting(2019), TaxYearStarting(2017))
   val notSelectedYears = List(TaxYearStarting(2020), TaxYearStarting(2018))
 
-  lazy val youHaveNotSelectedCertainTaxYearRoute = routes.YouHaveNotSelectedCertainTaxYearController.onPageLoad(NormalMode).url
+  lazy val youHaveNotSelectedCertainTaxYearRoute =
+    routes.YouHaveNotSelectedCertainTaxYearController.onPageLoad(NormalMode).url
 
   "YouHaveNotSelectedCertainTaxYear Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
       val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2019), TaxYearStarting(2017))
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhichYearsPage, whichYears).success.value
+      val userAnswers                    = UserAnswers(userAnswersId, "session-123").set(WhichYearsPage, whichYears).success.value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -58,14 +59,18 @@ class YouHaveNotSelectedCertainTaxYearControllerSpec extends SpecBase with Mocki
       val view = application.injector.instanceOf[YouHaveNotSelectedCertainTaxYearView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, NormalMode, selectedYears, notSelectedYears)(request, messages).toString
+      contentAsString(result) mustEqual view(form, NormalMode, selectedYears, notSelectedYears)(
+        request,
+        messages
+      ).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2019), TaxYearStarting(2017))
-      val userAnswersWithTaxYears = UserAnswers(userAnswersId, "session-123").set(WhichYearsPage, whichYears).success.value
-      val userAnswers = userAnswersWithTaxYears.set(YouHaveNotSelectedCertainTaxYearPage, "answer").success.value
+      val userAnswersWithTaxYears        =
+        UserAnswers(userAnswersId, "session-123").set(WhichYearsPage, whichYears).success.value
+      val userAnswers                    = userAnswersWithTaxYears.set(YouHaveNotSelectedCertainTaxYearPage, "answer").success.value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -76,7 +81,10 @@ class YouHaveNotSelectedCertainTaxYearControllerSpec extends SpecBase with Mocki
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill("answer"), NormalMode, selectedYears, notSelectedYears)(request, messages).toString
+      contentAsString(result) mustEqual view(form.fill("answer"), NormalMode, selectedYears, notSelectedYears)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -97,7 +105,7 @@ class YouHaveNotSelectedCertainTaxYearControllerSpec extends SpecBase with Mocki
     "must return a Bad Request and errors when invalid data is submitted" in {
 
       val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021), TaxYearStarting(2019), TaxYearStarting(2017))
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhichYearsPage, whichYears).success.value
+      val userAnswers                    = UserAnswers(userAnswersId, "session-123").set(WhichYearsPage, whichYears).success.value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -112,7 +120,10 @@ class YouHaveNotSelectedCertainTaxYearControllerSpec extends SpecBase with Mocki
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, selectedYears, notSelectedYears)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode, selectedYears, notSelectedYears)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

@@ -35,7 +35,7 @@ class WasALettingAgentUsedToManagePropertyControllerSpec extends SpecBase with M
 
   def onwardRoute: Call = Call("GET", "/foo")
 
-  val formProvider = new WasALettingAgentUsedToManagePropertyFormProvider()
+  val formProvider        = new WasALettingAgentUsedToManagePropertyFormProvider()
   val form: Form[Boolean] = formProvider()
 
   lazy val wasALettingAgentUsedToManagePropertyRoute: String =
@@ -62,7 +62,9 @@ class WasALettingAgentUsedToManagePropertyControllerSpec extends SpecBase with M
       val lettingProperty = LettingProperty(wasPropertyManagerByAgent = Some(true))
 
       val userAnswers = UserAnswers(userAnswersId, "session-123")
-        .setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
+        .setBySeqIndex(LettingPropertyPage, 0, lettingProperty)
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -77,7 +79,7 @@ class WasALettingAgentUsedToManagePropertyControllerSpec extends SpecBase with M
     }
 
     "must redirect to the next page when valid data is submitted" in {
-      
+
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 

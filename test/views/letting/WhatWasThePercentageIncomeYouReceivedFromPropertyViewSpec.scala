@@ -25,8 +25,9 @@ import models.NormalMode
 
 class WhatWasThePercentageIncomeYouReceivedFromPropertyViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhatWasThePercentageIncomeYouReceivedFromPropertyFormProvider()()
-  val page: WhatWasThePercentageIncomeYouReceivedFromPropertyView = inject[WhatWasThePercentageIncomeYouReceivedFromPropertyView]
+  val form                                                        = new WhatWasThePercentageIncomeYouReceivedFromPropertyFormProvider()()
+  val page: WhatWasThePercentageIncomeYouReceivedFromPropertyView =
+    inject[WhatWasThePercentageIncomeYouReceivedFromPropertyView]
 
   private def createView: Html = page(form, 0, NormalMode)(request, messages)
 
@@ -39,11 +40,14 @@ class WhatWasThePercentageIncomeYouReceivedFromPropertyViewSpec extends ViewSpec
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-label--xl").text() mustBe messages("whatWasThePercentageIncomeYouReceivedFromProperty.heading", 1)
+      view.getElementsByClass("govuk-label--xl").text() mustBe messages(
+        "whatWasThePercentageIncomeYouReceivedFromProperty.heading",
+        1
+      )
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

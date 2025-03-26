@@ -24,7 +24,11 @@ import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
 import play.api.libs.json.{JsError, JsString, Json}
 
-class IsTheIndividualRegisteredForSelfAssessmentSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks with OptionValues {
+class IsTheIndividualRegisteredForSelfAssessmentSpec
+    extends AnyFreeSpec
+    with Matchers
+    with ScalaCheckPropertyChecks
+    with OptionValues {
 
   "IsTheIndividualRegisteredForSelfAssessment" - {
 
@@ -32,21 +36,21 @@ class IsTheIndividualRegisteredForSelfAssessmentSpec extends AnyFreeSpec with Ma
 
       val gen = Gen.oneOf(IsTheIndividualRegisteredForSelfAssessment.values.toSeq)
 
-      forAll(gen) {
-        isTheIndividualRegisteredForSelfAssessment =>
-
-          JsString(isTheIndividualRegisteredForSelfAssessment.toString).validate[IsTheIndividualRegisteredForSelfAssessment].asOpt.value mustEqual isTheIndividualRegisteredForSelfAssessment
+      forAll(gen) { isTheIndividualRegisteredForSelfAssessment =>
+        JsString(isTheIndividualRegisteredForSelfAssessment.toString)
+          .validate[IsTheIndividualRegisteredForSelfAssessment]
+          .asOpt
+          .value mustEqual isTheIndividualRegisteredForSelfAssessment
       }
     }
 
     "must fail to deserialise invalid values" in {
 
-      val gen = arbitrary[String] suchThat (!IsTheIndividualRegisteredForSelfAssessment.values.map(_.toString).contains(_))
+      val gen =
+        arbitrary[String] suchThat (!IsTheIndividualRegisteredForSelfAssessment.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[IsTheIndividualRegisteredForSelfAssessment] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[IsTheIndividualRegisteredForSelfAssessment] mustEqual JsError("error.invalid")
       }
     }
 
@@ -54,10 +58,10 @@ class IsTheIndividualRegisteredForSelfAssessmentSpec extends AnyFreeSpec with Ma
 
       val gen = Gen.oneOf(IsTheIndividualRegisteredForSelfAssessment.values.toSeq)
 
-      forAll(gen) {
-        isTheIndividualRegisteredForSelfAssessment =>
-
-          Json.toJson(isTheIndividualRegisteredForSelfAssessment) mustEqual JsString(isTheIndividualRegisteredForSelfAssessment.toString)
+      forAll(gen) { isTheIndividualRegisteredForSelfAssessment =>
+        Json.toJson(isTheIndividualRegisteredForSelfAssessment) mustEqual JsString(
+          isTheIndividualRegisteredForSelfAssessment.toString
+        )
       }
     }
   }
