@@ -21,7 +21,8 @@ import forms.mappings.FormBindConstants.invalidUnicodeCharacters
 import java.time.LocalDate
 import uk.gov.hmrc.domain.Nino
 import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError, ValidationResult}
-import uk.gov.hmrc.emailaddress.EmailAddress
+import models.email.EmailAddress
+
 
 trait Constraints {
 
@@ -139,7 +140,7 @@ trait Constraints {
     }
 
   private def emailValidation(email: String): Boolean =
-    EmailAddress.isValid(email) && email.split('@')(1).contains('.')
+    EmailAddress.isValid(email) && email.split('@')(1).contains(".")
 
   protected def validNino(invalidFormat: String, notReal: String): Constraint[String] =
     Constraint {

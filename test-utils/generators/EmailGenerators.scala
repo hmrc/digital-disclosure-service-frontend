@@ -19,7 +19,7 @@ package generators
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import org.scalacheck.Gen.{alphaChar, alphaStr, chooseNum, listOfN}
-import uk.gov.hmrc.emailaddress.EmailAddress
+import models.email.EmailAddress
 
 trait EmailGenerators {
 
