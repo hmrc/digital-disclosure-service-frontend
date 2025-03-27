@@ -25,14 +25,11 @@ import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import config.AddressLookupConfig
 import uk.gov.hmrc.http.HeaderCarrier
 import generators.ModelGenerators
-import models.address.AddressLookupRequest
-import org.scalatest.concurrent.{Futures, ScalaFutures}
-import play.api.libs.ws.BodyWritable
+import org.scalatest.concurrent.{ScalaFutures}
 import uk.gov.hmrc.http._
 
 import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{ExecutionContext, Future}
 
 class AddressLookupConnectorSpec
     extends AnyWordSpec
