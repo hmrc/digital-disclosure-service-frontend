@@ -25,7 +25,7 @@ import models.NormalMode
 
 class WhatIsYourUniqueTaxReferenceViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhatIsYourUniqueTaxReferenceFormProvider()()
+  val form                                   = new WhatIsYourUniqueTaxReferenceFormProvider()()
   val page: WhatIsYourUniqueTaxReferenceView = inject[WhatIsYourUniqueTaxReferenceView]
 
   private def createView: Html = page(form, NormalMode, false)(request, messages)
@@ -55,7 +55,7 @@ class WhatIsYourUniqueTaxReferenceViewSpec extends ViewSpecBase with ViewMatcher
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

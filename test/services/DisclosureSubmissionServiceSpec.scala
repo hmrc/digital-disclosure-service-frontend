@@ -18,7 +18,7 @@ package services
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import java.time.{Instant, LocalDateTime, LocalDate}
+import java.time.{Instant, LocalDate, LocalDateTime}
 import org.mockito.Mockito.{verify, when}
 import org.scalatestplus.mockito.MockitoSugar
 import org.scalatest.TryValues
@@ -32,20 +32,24 @@ import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class DisclosureSubmissionServiceSpec extends AnyWordSpec with ScalaFutures
-    with TryValues with Matchers with MockitoSugar  {
+class DisclosureSubmissionServiceSpec
+    extends AnyWordSpec
+    with ScalaFutures
+    with TryValues
+    with Matchers
+    with MockitoSugar {
 
   "submitDisclosure" should {
 
     "call the reference generator" in new Test {
 
-      val metadata = Metadata(reference = Some("123456"), submissionTime = Some(time))
+      val metadata           = Metadata(reference = Some("123456"), submissionTime = Some(time))
       val updatedUserAnswers = emptyUA.copy(metadata = metadata)
 
       when(uaToDisclosureService.uaToFullDisclosure(updatedUserAnswers)) thenReturn testDisclosure
       when(connector.submitDisclosure(testDisclosure)(hc)) thenReturn Future.successful("id")
       when(sessionService.set(updatedUserAnswers)(hc)) thenReturn Future.successful(true)
-      
+
       sut.submitDisclosure(emptyUA).futureValue shouldEqual "123456"
       verify(auditService).auditDisclosureSubmission(testDisclosure)(hc)
     }
@@ -53,8 +57,8 @@ class DisclosureSubmissionServiceSpec extends AnyWordSpec with ScalaFutures
     trait Test {
       val connector: DigitalDisclosureServiceConnector = mock[DigitalDisclosureServiceConnector]
       val uaToDisclosureService: UAToDisclosureService = mock[UAToDisclosureService]
-      val sessionService: SessionService = mock[SessionService]
-      val auditService: AuditService = mock[AuditService]
+      val sessionService: SessionService               = mock[SessionService]
+      val auditService: AuditService                   = mock[AuditService]
 
       val reference = "123456"
       object FakeReferenceService extends ReferenceService {
@@ -64,16 +68,33 @@ class DisclosureSubmissionServiceSpec extends AnyWordSpec with ScalaFutures
       val time = LocalDateTime.now
       object FakeTimeService extends TimeService {
         def now: LocalDateTime = time
-        def date: LocalDate = time.toLocalDate()
-      } 
+        def date: LocalDate    = time.toLocalDate()
+      }
 
-      val sut = new DisclosureSubmissionServiceImpl(connector, uaToDisclosureService, FakeReferenceService, sessionService, FakeTimeService, auditService)
+      val sut = new DisclosureSubmissionServiceImpl(
+        connector,
+        uaToDisclosureService,
+        FakeReferenceService,
+        sessionService,
+        FakeTimeService,
+        auditService
+      )
 
-      val emptyUA = UserAnswers("id", "session-123")
-      val testDisclosure = FullDisclosure("123", "123", Instant.now(), Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), None, OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
+      val emptyUA                    = UserAnswers("id", "session-123")
+      val testDisclosure             = FullDisclosure(
+        "123",
+        "123",
+        Instant.now(),
+        Metadata(),
+        CaseReference(),
+        PersonalDetails(Background(), AboutYou()),
+        None,
+        OffshoreLiabilities(),
+        OtherLiabilities(),
+        ReasonForDisclosingNow()
+      )
       implicit val hc: HeaderCarrier = HeaderCarrier()
     }
-
 
   }
 

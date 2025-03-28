@@ -37,21 +37,22 @@ class AccountingPeriodCTAddedControllerSpec extends SpecBase with MockitoSugar {
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new AccountingPeriodCTAddedFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   lazy val accountingPeriodCTAddedRoute = routes.AccountingPeriodCTAddedController.onPageLoad(NormalMode).url
 
-  val answer = Seq(CorporationTaxLiability(
-    periodEnd = LocalDate.now(ZoneOffset.UTC),
-    howMuchIncome = BigInt(100),
-    howMuchUnpaid = BigInt(100),
-    howMuchInterest = BigInt(100),
-    penaltyRate = 5,
-    penaltyRateReason = "Reason"
-  ))
+  val answer = Seq(
+    CorporationTaxLiability(
+      periodEnd = LocalDate.now(ZoneOffset.UTC),
+      howMuchIncome = BigInt(100),
+      howMuchUnpaid = BigInt(100),
+      howMuchInterest = BigInt(100),
+      penaltyRate = 5,
+      penaltyRateReason = "Reason"
+    )
+  )
 
   val userAnswers = UserAnswers(userAnswersId, "session-123").set(CorporationTaxLiabilityPage, answer).success.value
-
 
   "AccountingPeriodCTAdded Controller" - {
 
@@ -146,39 +147,42 @@ class AccountingPeriodCTAddedControllerSpec extends SpecBase with MockitoSugar {
       redirectLocation(result).value mustEqual routes.CorporationTaxLiabilityController.onPageLoad(0, NormalMode).url
     }
 
-     "must redirect to the same page if remove method is called and there are still details" in {
-       val removeDLRoute = routes.AccountingPeriodCTAddedController.remove(0, NormalMode).url
+    "must redirect to the same page if remove method is called and there are still details" in {
+      val removeDLRoute = routes.AccountingPeriodCTAddedController.remove(0, NormalMode).url
 
-       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
 
-       val corporationTaxLiability: CorporationTaxLiability = CorporationTaxLiability(
-         periodEnd = LocalDate.now(),
-         howMuchIncome = BigInt(0),
-         howMuchUnpaid = BigInt(0),
-         howMuchInterest = BigInt(0),
-         penaltyRate = 0,
-         penaltyRateReason = "Some reason"
-       )
+      val corporationTaxLiability: CorporationTaxLiability = CorporationTaxLiability(
+        periodEnd = LocalDate.now(),
+        howMuchIncome = BigInt(0),
+        howMuchUnpaid = BigInt(0),
+        howMuchInterest = BigInt(0),
+        penaltyRate = 0,
+        penaltyRateReason = "Some reason"
+      )
 
-       val corporationTaxLiability2: CorporationTaxLiability = CorporationTaxLiability(
-         periodEnd = LocalDate.now().minusDays(1),
-         howMuchIncome = BigInt(0),
-         howMuchUnpaid = BigInt(0),
-         howMuchInterest = BigInt(0),
-         penaltyRate = 0,
-         penaltyRateReason = "Some reason"
-       )
+      val corporationTaxLiability2: CorporationTaxLiability = CorporationTaxLiability(
+        periodEnd = LocalDate.now().minusDays(1),
+        howMuchIncome = BigInt(0),
+        howMuchUnpaid = BigInt(0),
+        howMuchInterest = BigInt(0),
+        penaltyRate = 0,
+        penaltyRateReason = "Some reason"
+      )
 
-       val userAnswers = UserAnswers("id", "session-123").set(CorporationTaxLiabilityPage, Seq(corporationTaxLiability, corporationTaxLiability2)).success.value
+      val userAnswers = UserAnswers("id", "session-123")
+        .set(CorporationTaxLiabilityPage, Seq(corporationTaxLiability, corporationTaxLiability2))
+        .success
+        .value
 
-       setupMockSessionResponse(Some(userAnswers))
+      setupMockSessionResponse(Some(userAnswers))
 
-       val request = FakeRequest(GET, removeDLRoute)
+      val request = FakeRequest(GET, removeDLRoute)
 
-       val result = route(applicationWithFakeOnshoreNavigator(onwardRoute), request).value
+      val result = route(applicationWithFakeOnshoreNavigator(onwardRoute), request).value
 
-       status(result) mustEqual SEE_OTHER
-       redirectLocation(result).value mustEqual routes.AccountingPeriodCTAddedController.onPageLoad(NormalMode).url
-     }
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual routes.AccountingPeriodCTAddedController.onPageLoad(NormalMode).url
+    }
   }
 }

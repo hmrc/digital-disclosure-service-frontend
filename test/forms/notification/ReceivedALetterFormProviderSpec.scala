@@ -22,7 +22,7 @@ import play.api.data.FormError
 class ReceivedALetterFormProviderSpec extends BooleanFieldBehaviours {
 
   val requiredKey = "receivedALetter.error.required"
-  val invalidKey = "error.boolean"
+  val invalidKey  = "error.boolean"
 
   val form = new ReceivedALetterFormProvider()()
 

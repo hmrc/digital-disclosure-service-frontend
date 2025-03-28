@@ -32,10 +32,8 @@ class RelatesToSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChe
 
       val gen = Gen.oneOf(RelatesTo.values.toSeq)
 
-      forAll(gen) {
-        RelatesTo =>
-
-          JsString(RelatesTo.toString).validate[RelatesTo].asOpt.value mustEqual RelatesTo
+      forAll(gen) { RelatesTo =>
+        JsString(RelatesTo.toString).validate[RelatesTo].asOpt.value mustEqual RelatesTo
       }
     }
 
@@ -43,10 +41,8 @@ class RelatesToSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChe
 
       val gen = arbitrary[String] suchThat (!RelatesTo.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[RelatesTo] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[RelatesTo] mustEqual JsError("error.invalid")
       }
     }
 
@@ -54,10 +50,8 @@ class RelatesToSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChe
 
       val gen = Gen.oneOf(RelatesTo.values.toSeq)
 
-      forAll(gen) {
-        RelatesTo =>
-
-          Json.toJson(RelatesTo) mustEqual JsString(RelatesTo.toString)
+      forAll(gen) { RelatesTo =>
+        Json.toJson(RelatesTo) mustEqual JsString(RelatesTo.toString)
       }
     }
   }

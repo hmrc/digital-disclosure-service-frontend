@@ -22,8 +22,8 @@ import play.api.data.FormError
 class PersonWhoGaveAdviceFormProviderSpec extends StringFieldBehaviours {
 
   val requiredKey = "personWhoGaveAdvice.error.required"
-  val lengthKey = "personWhoGaveAdvice.error.length"
-  val maxLength = 30
+  val lengthKey   = "personWhoGaveAdvice.error.length"
+  val maxLength   = 30
 
   val form = new PersonWhoGaveAdviceFormProvider()()
 

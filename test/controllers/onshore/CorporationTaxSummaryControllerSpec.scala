@@ -26,7 +26,7 @@ import views.html.onshore.CorporationTaxSummaryView
 
 class CorporationTaxSummaryControllerSpec extends SpecBase {
 
-  val mode = NormalMode
+  val mode        = NormalMode
   val userAnswers = UserAnswers(userAnswersId, "session-123")
 
   val revealFullText = application.injector.instanceOf[RevealFullText]
@@ -37,8 +37,9 @@ class CorporationTaxSummaryControllerSpec extends SpecBase {
 
       setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val request = FakeRequest(GET, routes.CorporationTaxSummaryController.onPageLoad(mode).url)
-      val viewModel: CorporationTaxLiabilitiesSummaryViewModel = new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText).create(userAnswers)(messages)
+      val request                                              = FakeRequest(GET, routes.CorporationTaxSummaryController.onPageLoad(mode).url)
+      val viewModel: CorporationTaxLiabilitiesSummaryViewModel =
+        new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText).create(userAnswers)(messages)
 
       val result = route(application, request).value
 

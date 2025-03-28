@@ -41,15 +41,15 @@ class ForeignTaxCreditFormProviderSpec extends BigIntFieldBehaviours {
     behave like bigintField(
       form,
       fieldName,
-      nonNumericError  = FormError(fieldName, "foreignTaxCredit.error.nonNumeric"),
+      nonNumericError = FormError(fieldName, "foreignTaxCredit.error.nonNumeric"),
       wholeNumberError = FormError(fieldName, "foreignTaxCredit.error.wholeNumber")
     )
 
     behave like bigintFieldWithRange(
       form,
       fieldName,
-      minimum       = minimum,
-      maximum       = maximum,
+      minimum = minimum,
+      maximum = maximum,
       expectedError = FormError(fieldName, "foreignTaxCredit.error.outOfRange", Seq(minimum, maximum))
     )
 

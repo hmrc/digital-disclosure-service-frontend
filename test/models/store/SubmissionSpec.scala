@@ -18,22 +18,26 @@ package models.store
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import play.api.libs.json.{JsSuccess, Json, JsObject}
+import play.api.libs.json.{JsObject, JsSuccess, Json}
 import models.store.notification._
 import java.time.Instant
 
-class SubmissionSpec extends AnyWordSpec with Matchers  {
+class SubmissionSpec extends AnyWordSpec with Matchers {
 
   "reads" should {
     "convert json to Notification where created is missing" in {
-      val actual = Json.toJson(Notification("123", "456", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))).as[JsObject]  - "created"
+      val actual = Json
+        .toJson(Notification("123", "456", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou())))
+        .as[JsObject] - "created"
       actual.validate[Notification] shouldBe a[JsSuccess[_]]
     }
 
     "convert json to Notification where declaration is missing" in {
-      val actual = Json.toJson(Notification("123", "456", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))).as[JsObject]  - "madeDeclaration"
+      val actual = Json
+        .toJson(Notification("123", "456", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou())))
+        .as[JsObject] - "madeDeclaration"
       actual.validate[Notification] shouldBe a[JsSuccess[_]]
     }
   }
-  
+
 }

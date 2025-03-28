@@ -37,11 +37,11 @@ class WhatIsTheCaseReferenceControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute: Call = Call("GET", "/foo")
 
-  val formProvider = new WhatIsTheCaseReferenceFormProvider()
+  val formProvider       = new WhatIsTheCaseReferenceFormProvider()
   val form: Form[String] = formProvider()
 
   lazy val whatIsTheCaseReferenceRoute: String = routes.WhatIsTheCaseReferenceController.onPageLoad(NormalMode).url
-  val view: WhatIsTheCaseReferenceView = application.injector.instanceOf[WhatIsTheCaseReferenceView]
+  val view: WhatIsTheCaseReferenceView         = application.injector.instanceOf[WhatIsTheCaseReferenceView]
 
   "WhatIsTheCaseReference Controller" - {
 
@@ -52,19 +52,20 @@ class WhatIsTheCaseReferenceControllerSpec extends SpecBase with MockitoSugar {
       val request = FakeRequest(GET, whatIsTheCaseReferenceRoute)
 
       val result = route(application, request).value
-      
+
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(form, NormalMode)(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhatIsTheCaseReferencePage, "answer").success.value
+      val userAnswers =
+        UserAnswers(userAnswersId, "session-123").set(WhatIsTheCaseReferencePage, "answer").success.value
 
       setupMockSessionResponse(Some(userAnswers))
 
       val request = FakeRequest(GET, whatIsTheCaseReferenceRoute)
-      
+
       val result = route(application, request).value
 
       status(result) mustEqual OK
@@ -79,10 +80,11 @@ class WhatIsTheCaseReferenceControllerSpec extends SpecBase with MockitoSugar {
       val applicationWithFakeReferenceNavigator = applicationBuilder
         .overrides(
           bind[ReferenceNavigator].toInstance(new FakeReferenceNavigator(onwardRoute))
-        ).build()
+        )
+        .build()
 
       val validReferenceNumber = generateValidCaseReference().sample.value
-      val request =
+      val request              =
         FakeRequest(POST, whatIsTheCaseReferenceRoute)
           .withFormUrlEncodedBody(("value", validReferenceNumber))
 
@@ -101,7 +103,7 @@ class WhatIsTheCaseReferenceControllerSpec extends SpecBase with MockitoSugar {
           .withFormUrlEncodedBody(("value", ""))
 
       val boundForm = form.bind(Map("value" -> ""))
-      
+
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST

@@ -35,7 +35,7 @@ class WhatWasThePersonUTRControllerSpec extends SpecBase with MockitoSugar {
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new WhatWasThePersonUTRFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   lazy val whatWasThePersonUTRRoute = routes.WhatWasThePersonUTRController.onPageLoad(NormalMode).url
 
@@ -77,7 +77,7 @@ class WhatWasThePersonUTRControllerSpec extends SpecBase with MockitoSugar {
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val utrLength = 10
-      val validUTR = generateValidUTR(utrLength).sample.value
+      val validUTR  = generateValidUTR(utrLength).sample.value
 
       val request =
         FakeRequest(POST, whatWasThePersonUTRRoute)

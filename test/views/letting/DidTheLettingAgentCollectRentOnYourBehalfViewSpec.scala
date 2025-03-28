@@ -25,7 +25,7 @@ import models.NormalMode
 
 class DidTheLettingAgentCollectRentOnYourBehalfViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new DidTheLettingAgentCollectRentOnYourBehalfFormProvider()()
+  val form                                                = new DidTheLettingAgentCollectRentOnYourBehalfFormProvider()()
   val page: DidTheLettingAgentCollectRentOnYourBehalfView = inject[DidTheLettingAgentCollectRentOnYourBehalfView]
 
   private def createView: Html = page(form, 0, NormalMode)(request, messages)
@@ -39,19 +39,25 @@ class DidTheLettingAgentCollectRentOnYourBehalfViewSpec extends ViewSpecBase wit
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("didTheLettingAgentCollectRentOnYourBehalf.heading")
+      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages(
+        "didTheLettingAgentCollectRentOnYourBehalf.heading"
+      )
     }
 
     "have yes" in {
-      view.getElementsByClass("govuk-radios__label").first().text() mustBe messages("didTheLettingAgentCollectRentOnYourBehalf.yes")
+      view.getElementsByClass("govuk-radios__label").first().text() mustBe messages(
+        "didTheLettingAgentCollectRentOnYourBehalf.yes"
+      )
     }
 
     "have no" in {
-      view.getElementsByClass("govuk-radios__label").last().text() mustBe messages("didTheLettingAgentCollectRentOnYourBehalf.no")
+      view.getElementsByClass("govuk-radios__label").last().text() mustBe messages(
+        "didTheLettingAgentCollectRentOnYourBehalf.no"
+      )
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

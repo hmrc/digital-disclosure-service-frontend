@@ -21,7 +21,7 @@ import play.api.data.FormError
 
 class WhatWasThePersonNINOFormProviderSpec extends NationalInsuranceBehaviours {
 
-  val requiredKey = "whatWasThePersonNINO.error.required"
+  val requiredKey      = "whatWasThePersonNINO.error.required"
   val invalidFormatKey = "whatWasThePersonNINO.error.invalidFormat"
 
   val form = new WhatWasThePersonNINOFormProvider()()

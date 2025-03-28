@@ -20,14 +20,14 @@ import base.ViewSpecBase
 import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.CaseManagementView
-import uk.gov.hmrc.govukfrontend.views.viewmodels.table.{Table, HeadCell}
+import uk.gov.hmrc.govukfrontend.views.viewmodels.table.{HeadCell, Table}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 
 class CaseManagementViewSpec extends ViewSpecBase with ViewMatchers {
 
   val page: CaseManagementView = inject[CaseManagementView]
 
-  val table = Table(
+  val table                    = Table(
     rows = Nil,
     head = Some(Seq(HeadCell(Text("Some header")))),
     attributes = Map("id" -> "case-table")
@@ -53,7 +53,7 @@ class CaseManagementViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the create case button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("create-case")
+      view.getElementsByClass("govuk-button").first() must haveId("create-case")
     }
 
   }

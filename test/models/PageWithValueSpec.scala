@@ -22,14 +22,14 @@ import pages.QuestionPage
 import org.scalatest.TryValues
 import play.api.libs.json.JsPath
 
-class PageWithValueSpec extends AnyFreeSpec with Matchers with TryValues  {
+class PageWithValueSpec extends AnyFreeSpec with Matchers with TryValues {
 
   case object TestPage extends QuestionPage[String] { override def path: JsPath = JsPath \ toString }
   case object TestPage2 extends QuestionPage[Int] { override def path: JsPath = JsPath \ toString }
   case object TestPage3 extends QuestionPage[Boolean] { override def path: JsPath = JsPath \ toString }
 
   val testPageWithValue = PageWithValue(TestPage, "123456")
-  val emptyUserAnswers = UserAnswers("id", "session-123")
+  val emptyUserAnswers  = UserAnswers("id", "session-123")
 
   "addToUserAnswers" - {
 

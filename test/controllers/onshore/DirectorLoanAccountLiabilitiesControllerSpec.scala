@@ -36,11 +36,12 @@ class DirectorLoanAccountLiabilitiesControllerSpec extends SpecBase with Mockito
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new DirectorLoanAccountLiabilitiesFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   val index = 0
 
-  lazy val directorLoanAccountLiabilitiesRoute = routes.DirectorLoanAccountLiabilitiesController.onPageLoad(index, NormalMode).url
+  lazy val directorLoanAccountLiabilitiesRoute =
+    routes.DirectorLoanAccountLiabilitiesController.onPageLoad(index, NormalMode).url
 
   val answer = DirectorLoanAccountLiabilities(
     name = "a Name",
@@ -52,7 +53,8 @@ class DirectorLoanAccountLiabilitiesControllerSpec extends SpecBase with Mockito
     penaltyRateReason = "Reason"
   )
 
-  val userAnswers = UserAnswers(userAnswersId, "session-123").set(DirectorLoanAccountLiabilitiesPage, Seq(answer)).success.value
+  val userAnswers =
+    UserAnswers(userAnswersId, "session-123").set(DirectorLoanAccountLiabilitiesPage, Seq(answer)).success.value
 
   "DirectorLoanAccountLiabilities Controller" - {
 

@@ -18,7 +18,7 @@ package services
 
 import base.ViewSpecBase
 import views.html.components.linkWithVisuallyHiddenContent
-import java.time.{Instant, LocalDate, ZoneId, LocalDateTime}
+import java.time.{Instant, LocalDate, LocalDateTime, ZoneId}
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import models.store._
@@ -33,24 +33,38 @@ class CaseManagementServiceSpec extends ViewSpecBase {
   val dateFormatter = DateTimeFormatter.ofPattern("d MMM yyyy HH:mma", new Locale(messages.lang.code))
 
   val linkWithVisuallyHiddenContent = inject[linkWithVisuallyHiddenContent]
-  val sut = new CaseManagementServiceImpl(linkWithVisuallyHiddenContent)
+  val sut                           = new CaseManagementServiceImpl(linkWithVisuallyHiddenContent)
 
-  val createdInstant = LocalDate.of(1990, 8, 23).atStartOfDay.atZone(ZoneId.of("GMT")).toInstant
+  val createdInstant     = LocalDate.of(1990, 8, 23).atStartOfDay.atZone(ZoneId.of("GMT")).toInstant
   val lastUpdatedInstant = LocalDate.of(2012, 1, 1).atStartOfDay.atZone(ZoneId.of("GMT")).toInstant
-  val submittedDateTime = LocalDateTime.ofInstant(createdInstant, ZoneId.systemDefault);
+  val submittedDateTime  = LocalDateTime.ofInstant(createdInstant, ZoneId.systemDefault);
 
   "getCreatedDate" should {
     "format retrieve the created date from a submission and format it correctly for British Summer Time" in {
-      val expectedDate = LocalDateTime.of(1990,8,23, 1, 0).atZone(ZoneId.of("Europe/London")).format(dateFormatter)
-      val notification = Notification("userId", "submissionId", lastUpdatedInstant, Metadata(), PersonalDetails(Background(), AboutYou()), created = createdInstant)
+      val expectedDate = LocalDateTime.of(1990, 8, 23, 1, 0).atZone(ZoneId.of("Europe/London")).format(dateFormatter)
+      val notification = Notification(
+        "userId",
+        "submissionId",
+        lastUpdatedInstant,
+        Metadata(),
+        PersonalDetails(Background(), AboutYou()),
+        created = createdInstant
+      )
       sut.getCreatedDate(notification) mustEqual expectedDate
     }
   }
 
   "getAccessUntilDate" should {
     "format retrieve the created date from a submission and format it correctly" in {
-      val expectedDate = LocalDateTime.of(2012,1,31, 0, 0).atZone(ZoneId.of("Europe/London")).format(dateFormatter)
-      val notification = Notification("userId", "submissionId", lastUpdatedInstant, Metadata(), PersonalDetails(Background(), AboutYou()), created = createdInstant)
+      val expectedDate = LocalDateTime.of(2012, 1, 31, 0, 0).atZone(ZoneId.of("Europe/London")).format(dateFormatter)
+      val notification = Notification(
+        "userId",
+        "submissionId",
+        lastUpdatedInstant,
+        Metadata(),
+        PersonalDetails(Background(), AboutYou()),
+        created = createdInstant
+      )
       sut.getAccessUntilDate(notification) mustEqual expectedDate
     }
   }
@@ -93,132 +107,312 @@ class CaseManagementServiceSpec extends ViewSpecBase {
 
   "getStatus" should {
     "return SentDisclosure where it's a disclosure and has been sent" in {
-      val submission = FullDisclosure("123", "123", Instant.now(), Metadata(reference = Some("SomeRef"), submissionTime = Some(submittedDateTime)), CaseReference(), PersonalDetails(Background(), AboutYou()), None, OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
+      val submission = FullDisclosure(
+        "123",
+        "123",
+        Instant.now(),
+        Metadata(reference = Some("SomeRef"), submissionTime = Some(submittedDateTime)),
+        CaseReference(),
+        PersonalDetails(Background(), AboutYou()),
+        None,
+        OffshoreLiabilities(),
+        OtherLiabilities(),
+        ReasonForDisclosingNow()
+      )
       sut.getStatus(submission) mustEqual SentDisclosure
     }
 
     "return StartedDisclosure where it's a disclosure and has not been sent" in {
-      val submission = FullDisclosure("123", "123", Instant.now(), Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), None, OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
+      val submission = FullDisclosure(
+        "123",
+        "123",
+        Instant.now(),
+        Metadata(),
+        CaseReference(),
+        PersonalDetails(Background(), AboutYou()),
+        None,
+        OffshoreLiabilities(),
+        OtherLiabilities(),
+        ReasonForDisclosingNow()
+      )
       sut.getStatus(submission) mustEqual StartedDisclosure
     }
 
     "return SentNotification where it's a notification and has been sent" in {
-      val submission = Notification("userId", "submissionId", lastUpdatedInstant, Metadata(reference = Some("SomeRef"), submissionTime = Some(submittedDateTime)), PersonalDetails(Background(), AboutYou()), created = createdInstant)
+      val submission = Notification(
+        "userId",
+        "submissionId",
+        lastUpdatedInstant,
+        Metadata(reference = Some("SomeRef"), submissionTime = Some(submittedDateTime)),
+        PersonalDetails(Background(), AboutYou()),
+        created = createdInstant
+      )
       sut.getStatus(submission) mustEqual SentNotification
     }
 
     "return StartedNotification where it's a notification and has not been sent" in {
-      val submission = Notification("userId", "submissionId", lastUpdatedInstant, Metadata(), PersonalDetails(Background(), AboutYou()), created = createdInstant)
+      val submission = Notification(
+        "userId",
+        "submissionId",
+        lastUpdatedInstant,
+        Metadata(),
+        PersonalDetails(Background(), AboutYou()),
+        created = createdInstant
+      )
       sut.getStatus(submission) mustEqual StartedNotification
     }
   }
 
   "getCaseType" should {
     "return offshore where only offshore is selected" in {
-      val submission = Notification("userId", "submissionId", lastUpdatedInstant, Metadata(), PersonalDetails(Background(offshoreLiabilities = Some(true), onshoreLiabilities = Some(false)), AboutYou()), created = createdInstant)
+      val submission = Notification(
+        "userId",
+        "submissionId",
+        lastUpdatedInstant,
+        Metadata(),
+        PersonalDetails(Background(offshoreLiabilities = Some(true), onshoreLiabilities = Some(false)), AboutYou()),
+        created = createdInstant
+      )
       sut.getCaseType(submission) mustEqual Text(messages("liabilities.offshore"))
     }
 
     "return onshore where offshore is not selected" in {
-      val submission = Notification("userId", "submissionId", lastUpdatedInstant, Metadata(), PersonalDetails(Background(offshoreLiabilities = Some(false)), AboutYou()), created = createdInstant)
+      val submission = Notification(
+        "userId",
+        "submissionId",
+        lastUpdatedInstant,
+        Metadata(),
+        PersonalDetails(Background(offshoreLiabilities = Some(false)), AboutYou()),
+        created = createdInstant
+      )
       sut.getCaseType(submission) mustEqual Text(messages("liabilities.onshore"))
     }
 
     "return offshoreOnshore where both are selected" in {
-      val submission = Notification("userId", "submissionId", lastUpdatedInstant, Metadata(), PersonalDetails(Background(offshoreLiabilities = Some(true), onshoreLiabilities = Some(true)), AboutYou()), created = createdInstant)
+      val submission = Notification(
+        "userId",
+        "submissionId",
+        lastUpdatedInstant,
+        Metadata(),
+        PersonalDetails(Background(offshoreLiabilities = Some(true), onshoreLiabilities = Some(true)), AboutYou()),
+        created = createdInstant
+      )
       sut.getCaseType(submission) mustEqual Text(messages("liabilities.offshoreOnshore"))
     }
 
     "return incomplete where the offshore/onshore questions are yet to be answered" in {
-      val submission = Notification("userId", "submissionId", lastUpdatedInstant, Metadata(), PersonalDetails(Background(), AboutYou()), created = createdInstant)
+      val submission = Notification(
+        "userId",
+        "submissionId",
+        lastUpdatedInstant,
+        Metadata(),
+        PersonalDetails(Background(), AboutYou()),
+        created = createdInstant
+      )
       sut.getCaseType(submission) mustEqual Text(messages("caseManagement.incomplete"))
     }
   }
 
   "getReference" should {
     "return your full name where you are the individual" in {
-      val submission = Notification("userId", "submissionId", lastUpdatedInstant, Metadata(), PersonalDetails(Background(disclosureEntity = Some(DisclosureEntity(Individual, None))), AboutYou(fullName = Some("Some name"))))
+      val submission = Notification(
+        "userId",
+        "submissionId",
+        lastUpdatedInstant,
+        Metadata(),
+        PersonalDetails(
+          Background(disclosureEntity = Some(DisclosureEntity(Individual, None))),
+          AboutYou(fullName = Some("Some name"))
+        )
+      )
       sut.getReference(submission) mustEqual "Some name"
     }
 
-
     "return the individuals full name where you are not the individual" in {
       val aboutTheIndividual = AboutTheIndividual(fullName = Some("Some ind name"))
-      val submission = Notification("userId", "submissionId", lastUpdatedInstant, Metadata(), PersonalDetails(Background(disclosureEntity = Some(DisclosureEntity(Individual, None))), AboutYou(), aboutTheIndividual = Some(aboutTheIndividual)))
+      val submission         = Notification(
+        "userId",
+        "submissionId",
+        lastUpdatedInstant,
+        Metadata(),
+        PersonalDetails(
+          Background(disclosureEntity = Some(DisclosureEntity(Individual, None))),
+          AboutYou(),
+          aboutTheIndividual = Some(aboutTheIndividual)
+        )
+      )
       sut.getReference(submission) mustEqual "Some ind name"
     }
 
     "return the deceased's full name where it's an estate" in {
       val aboutTheEstate = AboutTheEstate(fullName = Some("Some estate name"))
-      val submission = Notification("userId", "submissionId", lastUpdatedInstant, Metadata(), PersonalDetails(Background(disclosureEntity = Some(DisclosureEntity(Estate, None))), AboutYou(), aboutTheEstate = Some(aboutTheEstate)))
-      sut.getReference(submission) mustEqual "Some estate name" 
+      val submission     = Notification(
+        "userId",
+        "submissionId",
+        lastUpdatedInstant,
+        Metadata(),
+        PersonalDetails(
+          Background(disclosureEntity = Some(DisclosureEntity(Estate, None))),
+          AboutYou(),
+          aboutTheEstate = Some(aboutTheEstate)
+        )
+      )
+      sut.getReference(submission) mustEqual "Some estate name"
     }
 
     "return the company name where it's a company" in {
       val aboutTheCompany = AboutTheCompany(name = Some("Some com name"))
-      val submission = Notification("userId", "submissionId", lastUpdatedInstant, Metadata(), PersonalDetails(Background(disclosureEntity = Some(DisclosureEntity(Company, None))), AboutYou(), aboutTheCompany = Some(aboutTheCompany)))
-      sut.getReference(submission) mustEqual "Some com name"        
+      val submission      = Notification(
+        "userId",
+        "submissionId",
+        lastUpdatedInstant,
+        Metadata(),
+        PersonalDetails(
+          Background(disclosureEntity = Some(DisclosureEntity(Company, None))),
+          AboutYou(),
+          aboutTheCompany = Some(aboutTheCompany)
+        )
+      )
+      sut.getReference(submission) mustEqual "Some com name"
     }
 
     "return the trust name where it's a trust" in {
       val aboutTheTrust = AboutTheTrust(name = Some("Some trust name"))
-      val submission = Notification("userId", "submissionId", lastUpdatedInstant, Metadata(), PersonalDetails(Background(disclosureEntity = Some(DisclosureEntity(Trust, None))), AboutYou(), aboutTheTrust = Some(aboutTheTrust)))
-      sut.getReference(submission) mustEqual "Some trust name"      
+      val submission    = Notification(
+        "userId",
+        "submissionId",
+        lastUpdatedInstant,
+        Metadata(),
+        PersonalDetails(
+          Background(disclosureEntity = Some(DisclosureEntity(Trust, None))),
+          AboutYou(),
+          aboutTheTrust = Some(aboutTheTrust)
+        )
+      )
+      sut.getReference(submission) mustEqual "Some trust name"
     }
 
     "return the LLP name where it's a LLP" in {
       val aboutTheLLP = AboutTheLLP(name = Some("Some llp name"))
-      val submission = Notification("userId", "submissionId", lastUpdatedInstant, Metadata(), PersonalDetails(Background(disclosureEntity = Some(DisclosureEntity(LLP, None))), AboutYou(), aboutTheLLP = Some(aboutTheLLP)))
-      sut.getReference(submission) mustEqual "Some llp name"     
+      val submission  = Notification(
+        "userId",
+        "submissionId",
+        lastUpdatedInstant,
+        Metadata(),
+        PersonalDetails(
+          Background(disclosureEntity = Some(DisclosureEntity(LLP, None))),
+          AboutYou(),
+          aboutTheLLP = Some(aboutTheLLP)
+        )
+      )
+      sut.getReference(submission) mustEqual "Some llp name"
     }
 
     "return incomplete where the name questions haven't been answered yet" in {
-      val submission = Notification("userId", "submissionId", lastUpdatedInstant, Metadata(), PersonalDetails(Background(), AboutYou()))
+      val submission = Notification(
+        "userId",
+        "submissionId",
+        lastUpdatedInstant,
+        Metadata(),
+        PersonalDetails(Background(), AboutYou())
+      )
       sut.getReference(submission) mustEqual messages("caseManagement.incomplete")
     }
   }
 
   "getRedirection" should {
     "return SentDisclosure where it's a disclosure and has been sent" in {
-      val submission = FullDisclosure("123", "123", Instant.now(), Metadata(reference = Some("SomeRef"), submissionTime = Some(submittedDateTime)), CaseReference(), PersonalDetails(Background(), AboutYou()), None, OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
+      val submission = FullDisclosure(
+        "123",
+        "123",
+        Instant.now(),
+        Metadata(reference = Some("SomeRef"), submissionTime = Some(submittedDateTime)),
+        CaseReference(),
+        PersonalDetails(Background(), AboutYou()),
+        None,
+        OffshoreLiabilities(),
+        OtherLiabilities(),
+        ReasonForDisclosingNow()
+      )
       sut.getRedirection(submission) mustEqual controllers.routes.PdfGenerationController.generateForSubmissionId("123")
     }
 
     "return StartedDisclosure where it's a disclosure and has not been sent" in {
-      val submission = FullDisclosure("123", "123", Instant.now(), Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), None, OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
+      val submission = FullDisclosure(
+        "123",
+        "123",
+        Instant.now(),
+        Metadata(),
+        CaseReference(),
+        PersonalDetails(Background(), AboutYou()),
+        None,
+        OffshoreLiabilities(),
+        OtherLiabilities(),
+        ReasonForDisclosingNow()
+      )
       sut.getRedirection(submission) mustEqual controllers.routes.TaskListController.onPageLoad
     }
 
     "return SentNotification where it's a notification and has been sent" in {
-      val submission = Notification("userId", "submissionId", lastUpdatedInstant, Metadata(reference = Some("SomeRef"), submissionTime = Some(submittedDateTime)), PersonalDetails(Background(), AboutYou()), created = createdInstant)
+      val submission = Notification(
+        "userId",
+        "submissionId",
+        lastUpdatedInstant,
+        Metadata(reference = Some("SomeRef"), submissionTime = Some(submittedDateTime)),
+        PersonalDetails(Background(), AboutYou()),
+        created = createdInstant
+      )
       sut.getRedirection(submission) mustEqual controllers.routes.NotificationSubmittedController.onSubmit
     }
 
     "return StartedNotification where it's a notification and has not been sent" in {
-      val submission = Notification("userId", "submissionId", lastUpdatedInstant, Metadata(), PersonalDetails(Background(), AboutYou()), created = createdInstant)
+      val submission = Notification(
+        "userId",
+        "submissionId",
+        lastUpdatedInstant,
+        Metadata(),
+        PersonalDetails(Background(), AboutYou()),
+        created = createdInstant
+      )
       sut.getRedirection(submission) mustEqual controllers.routes.NotificationStartedController.onSubmit
     }
   }
 
   "storeEntryToTableRow" should {
     "generate the row" in {
-      val expectedCreatedDate = LocalDateTime.of(1990,8,23, 1, 0).atZone(ZoneId.of("Europe/London")).format(dateFormatter)
-      val expectedDate = LocalDateTime.of(2012,1,31, 0, 0).atZone(ZoneId.of("Europe/London")).format(dateFormatter)
-      val submission = FullDisclosure("123", "123", lastUpdatedInstant, Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), None, OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow(), created = createdInstant)
-      val expected = Seq(
+      val expectedCreatedDate =
+        LocalDateTime.of(1990, 8, 23, 1, 0).atZone(ZoneId.of("Europe/London")).format(dateFormatter)
+      val expectedDate        = LocalDateTime.of(2012, 1, 31, 0, 0).atZone(ZoneId.of("Europe/London")).format(dateFormatter)
+      val submission          = FullDisclosure(
+        "123",
+        "123",
+        lastUpdatedInstant,
+        Metadata(),
+        CaseReference(),
+        PersonalDetails(Background(), AboutYou()),
+        None,
+        OffshoreLiabilities(),
+        OtherLiabilities(),
+        ReasonForDisclosingNow(),
+        created = createdInstant
+      )
+      val expected            = Seq(
         TableRow(Text(messages("caseManagement.incomplete"))),
         TableRow(Text(messages("caseManagement.incomplete"))),
         TableRow(Text(expectedCreatedDate)),
         TableRow(Text(messages("caseManagement.disclosure.started"))),
         TableRow(Text(expectedDate)),
-        TableRow(HtmlContent(
-          linkWithVisuallyHiddenContent(
-            id = s"access-${messages("caseManagement.incomplete")}",
-            text = messages("caseManagement.access.edit"),
-            call = controllers.routes.CaseManagementController.navigateToSubmission("123"),
-            visuallyHiddenText = messages("caseManagement.hidden.edit.no.reference", expectedCreatedDate),
-            showId = false
-          )))
+        TableRow(
+          HtmlContent(
+            linkWithVisuallyHiddenContent(
+              id = s"access-${messages("caseManagement.incomplete")}",
+              text = messages("caseManagement.access.edit"),
+              call = controllers.routes.CaseManagementController.navigateToSubmission("123"),
+              visuallyHiddenText = messages("caseManagement.hidden.edit.no.reference", expectedCreatedDate),
+              showId = false
+            )
+          )
+        )
       )
       sut.storeEntryToTableRow(submission) mustEqual expected
 
@@ -228,7 +422,14 @@ class CaseManagementServiceSpec extends ViewSpecBase {
 
   "getNumberOfPages" should {
 
-    val submission = Notification("userId", "submissionId", lastUpdatedInstant, Metadata(), PersonalDetails(Background(), AboutYou()), created = createdInstant)
+    val submission                                  = Notification(
+      "userId",
+      "submissionId",
+      lastUpdatedInstant,
+      Metadata(),
+      PersonalDetails(Background(), AboutYou()),
+      created = createdInstant
+    )
     def listOfNSubmissions(n: Int): Seq[Submission] = Range.inclusive(1, n).map(_ => submission).toSeq
 
     "return 1 where there is 1 submission" in {
@@ -277,32 +478,38 @@ class CaseManagementServiceSpec extends ViewSpecBase {
     }
 
     "return a Next link where we are on the first page of multiple" in {
-      val expectedLink = Some(PaginationLink(
-        href = controllers.routes.CaseManagementController.onPageLoad(2).url,
-        text = Some(messages("caseManagement.pagination.next")),
-        labelText = Some(messages("caseManagement.pagination.next.hidden")),
-        attributes = Map.empty
-      ))
+      val expectedLink = Some(
+        PaginationLink(
+          href = controllers.routes.CaseManagementController.onPageLoad(2).url,
+          text = Some(messages("caseManagement.pagination.next")),
+          labelText = Some(messages("caseManagement.pagination.next.hidden")),
+          attributes = Map.empty
+        )
+      )
       sut.generateNextLink(1, 3) mustEqual expectedLink
     }
 
     "return a Next link where we are on the second page of multiple" in {
-      val expectedLink = Some(PaginationLink(
-        href = controllers.routes.CaseManagementController.onPageLoad(3).url,
-        text = Some(messages("caseManagement.pagination.next")),
-        labelText = Some(messages("caseManagement.pagination.next.hidden")),
-        attributes = Map.empty
-      ))
+      val expectedLink = Some(
+        PaginationLink(
+          href = controllers.routes.CaseManagementController.onPageLoad(3).url,
+          text = Some(messages("caseManagement.pagination.next")),
+          labelText = Some(messages("caseManagement.pagination.next.hidden")),
+          attributes = Map.empty
+        )
+      )
       sut.generateNextLink(2, 3) mustEqual expectedLink
     }
 
     "return a Next link where we are many pages in" in {
-      val expectedLink = Some(PaginationLink(
-        href = controllers.routes.CaseManagementController.onPageLoad(6).url,
-        text = Some(messages("caseManagement.pagination.next")),
-        labelText = Some(messages("caseManagement.pagination.next.hidden")),
-        attributes = Map.empty
-      ))
+      val expectedLink = Some(
+        PaginationLink(
+          href = controllers.routes.CaseManagementController.onPageLoad(6).url,
+          text = Some(messages("caseManagement.pagination.next")),
+          labelText = Some(messages("caseManagement.pagination.next.hidden")),
+          attributes = Map.empty
+        )
+      )
       sut.generateNextLink(5, 6) mustEqual expectedLink
     }
 
@@ -318,32 +525,38 @@ class CaseManagementServiceSpec extends ViewSpecBase {
     }
 
     "return a Previous link where we are on the second page of three" in {
-      val expectedLink = Some(PaginationLink(
-        href = controllers.routes.CaseManagementController.onPageLoad(1).url,
-        text = Some(messages("caseManagement.pagination.previous")),
-        labelText = Some(messages("caseManagement.pagination.previous.hidden")),
-        attributes = Map.empty
-      ))
+      val expectedLink = Some(
+        PaginationLink(
+          href = controllers.routes.CaseManagementController.onPageLoad(1).url,
+          text = Some(messages("caseManagement.pagination.previous")),
+          labelText = Some(messages("caseManagement.pagination.previous.hidden")),
+          attributes = Map.empty
+        )
+      )
       sut.generatePreviousLink(2, 3) mustEqual expectedLink
     }
 
     "return a Previous link where we are on the final page of three" in {
-      val expectedLink = Some(PaginationLink(
-        href = controllers.routes.CaseManagementController.onPageLoad(2).url,
-        text = Some(messages("caseManagement.pagination.previous")),
-        labelText = Some(messages("caseManagement.pagination.previous.hidden")),
-        attributes = Map.empty
-      ))
+      val expectedLink = Some(
+        PaginationLink(
+          href = controllers.routes.CaseManagementController.onPageLoad(2).url,
+          text = Some(messages("caseManagement.pagination.previous")),
+          labelText = Some(messages("caseManagement.pagination.previous.hidden")),
+          attributes = Map.empty
+        )
+      )
       sut.generatePreviousLink(3, 3) mustEqual expectedLink
     }
 
     "return a Previous link where we are many pages in" in {
-      val expectedLink = Some(PaginationLink(
-        href = controllers.routes.CaseManagementController.onPageLoad(4).url,
-        text = Some(messages("caseManagement.pagination.previous")),
-        labelText = Some(messages("caseManagement.pagination.previous.hidden")),
-        attributes = Map.empty
-      ))
+      val expectedLink = Some(
+        PaginationLink(
+          href = controllers.routes.CaseManagementController.onPageLoad(4).url,
+          text = Some(messages("caseManagement.pagination.previous")),
+          labelText = Some(messages("caseManagement.pagination.previous.hidden")),
+          attributes = Map.empty
+        )
+      )
       sut.generatePreviousLink(5, 6) mustEqual expectedLink
     }
 
@@ -392,7 +605,7 @@ class CaseManagementServiceSpec extends ViewSpecBase {
         createItem(3, false),
         createItem(4, false),
         createItem(5, false),
-        createItem(6, false),        
+        createItem(6, false),
         createItem(7, false),
         createItem(8, false),
         createItem(9, true),
@@ -415,7 +628,7 @@ class CaseManagementServiceSpec extends ViewSpecBase {
 
     "return Some where there is many pages" in {
       sut.generatePagination(10, 10).isDefined mustEqual true
-    }  
+    }
 
   }
 

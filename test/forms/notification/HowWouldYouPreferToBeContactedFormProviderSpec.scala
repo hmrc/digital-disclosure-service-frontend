@@ -26,13 +26,13 @@ class HowWouldYouPreferToBeContactedFormProviderSpec extends CheckboxFieldBehavi
 
   ".value" - {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "howWouldYouPreferToBeContacted.error.required"
 
     behave like checkboxField[HowWouldYouPreferToBeContacted](
       form,
       fieldName,
-      validValues  = HowWouldYouPreferToBeContacted.values,
+      validValues = HowWouldYouPreferToBeContacted.values,
       invalidError = FormError(s"$fieldName[0]", "error.invalid")
     )
 

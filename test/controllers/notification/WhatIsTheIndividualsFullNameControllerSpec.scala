@@ -35,7 +35,7 @@ class WhatIsTheIndividualsFullNameControllerSpec extends SpecBase with MockitoSu
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new WhatIsTheIndividualsFullNameFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   lazy val whatIsTheIndividualsFullNameRoute = routes.WhatIsTheIndividualsFullNameController.onPageLoad(NormalMode).url
 
@@ -57,7 +57,8 @@ class WhatIsTheIndividualsFullNameControllerSpec extends SpecBase with MockitoSu
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhatIsTheIndividualsFullNamePage, "answer").success.value
+      val userAnswers =
+        UserAnswers(userAnswersId, "session-123").set(WhatIsTheIndividualsFullNamePage, "answer").success.value
 
       setupMockSessionResponse(Some(userAnswers))
 

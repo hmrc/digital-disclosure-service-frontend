@@ -22,9 +22,9 @@ import play.api.data.FormError
 class TaxBeforeNineteenYearsFormProviderSpec extends StringFieldBehaviours {
 
   val requiredKey = "taxBeforeNineteenYears.error.required"
-  val lengthKey = "taxBeforeNineteenYears.error.length"
-  val maxLength = 5000
-  val year = "2023"
+  val lengthKey   = "taxBeforeNineteenYears.error.length"
+  val maxLength   = 5000
+  val year        = "2023"
 
   val form = new TaxBeforeNineteenYearsFormProvider()(year)
 

@@ -26,13 +26,13 @@ class AreYouRegisteredForVATFormProviderSpec extends OptionFieldBehaviours {
 
   ".value" - {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "areYouRegisteredForVAT.error.required"
 
     behave like optionsField[AreYouRegisteredForVAT](
       form,
       fieldName,
-      validValues  = AreYouRegisteredForVAT.values,
+      validValues = AreYouRegisteredForVAT.values,
       invalidError = FormError(fieldName, "error.invalid")
     )
 

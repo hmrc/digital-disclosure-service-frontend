@@ -35,7 +35,7 @@ class YourEmailAddressControllerSpec extends SpecBase with MockitoSugar {
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new YourEmailAddressFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   lazy val yourEmailAddressRoute = routes.YourEmailAddressController.onPageLoad(NormalMode).url
 

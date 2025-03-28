@@ -22,7 +22,7 @@ import play.api.data.FormError
 class AccountingPeriodCTAddedFormProviderSpec extends BooleanFieldBehaviours {
 
   val requiredKey = "accountingPeriodCTAdded.error.required"
-  val invalidKey = "error.boolean"
+  val invalidKey  = "error.boolean"
 
   val form = new AccountingPeriodCTAddedFormProvider()()
 

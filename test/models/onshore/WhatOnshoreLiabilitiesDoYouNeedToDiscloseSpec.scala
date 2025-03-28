@@ -24,7 +24,12 @@ import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
 import play.api.libs.json.{JsError, JsString, Json}
 
-class WhatOnshoreLiabilitiesDoYouNeedToDiscloseSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks with OptionValues with ModelGenerators {
+class WhatOnshoreLiabilitiesDoYouNeedToDiscloseSpec
+    extends AnyFreeSpec
+    with Matchers
+    with ScalaCheckPropertyChecks
+    with OptionValues
+    with ModelGenerators {
 
   "WhatOnshoreLiabilitiesDoYouNeedToDisclose" - {
 
@@ -32,21 +37,21 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseSpec extends AnyFreeSpec with Mat
 
       val gen = arbitrary[WhatOnshoreLiabilitiesDoYouNeedToDisclose]
 
-      forAll(gen) {
-        whatOnshoreLiabilitiesDoYouNeedToDisclose =>
-
-          JsString(whatOnshoreLiabilitiesDoYouNeedToDisclose.toString).validate[WhatOnshoreLiabilitiesDoYouNeedToDisclose].asOpt.value mustEqual whatOnshoreLiabilitiesDoYouNeedToDisclose
+      forAll(gen) { whatOnshoreLiabilitiesDoYouNeedToDisclose =>
+        JsString(whatOnshoreLiabilitiesDoYouNeedToDisclose.toString)
+          .validate[WhatOnshoreLiabilitiesDoYouNeedToDisclose]
+          .asOpt
+          .value mustEqual whatOnshoreLiabilitiesDoYouNeedToDisclose
       }
     }
 
     "must fail to deserialise invalid values" in {
 
-      val gen = arbitrary[String] suchThat (!WhatOnshoreLiabilitiesDoYouNeedToDisclose.values.map(_.toString).contains(_))
+      val gen =
+        arbitrary[String] suchThat (!WhatOnshoreLiabilitiesDoYouNeedToDisclose.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[WhatOnshoreLiabilitiesDoYouNeedToDisclose] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[WhatOnshoreLiabilitiesDoYouNeedToDisclose] mustEqual JsError("error.invalid")
       }
     }
 
@@ -54,10 +59,10 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseSpec extends AnyFreeSpec with Mat
 
       val gen = arbitrary[WhatOnshoreLiabilitiesDoYouNeedToDisclose]
 
-      forAll(gen) {
-        whatOnshoreLiabilitiesDoYouNeedToDisclose =>
-
-          Json.toJson(whatOnshoreLiabilitiesDoYouNeedToDisclose) mustEqual JsString(whatOnshoreLiabilitiesDoYouNeedToDisclose.toString)
+      forAll(gen) { whatOnshoreLiabilitiesDoYouNeedToDisclose =>
+        Json.toJson(whatOnshoreLiabilitiesDoYouNeedToDisclose) mustEqual JsString(
+          whatOnshoreLiabilitiesDoYouNeedToDisclose.toString
+        )
       }
     }
   }

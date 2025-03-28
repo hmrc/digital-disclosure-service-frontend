@@ -22,8 +22,8 @@ import play.api.data.FormError
 class WhatOtherLiabilityIssuesFormProviderSpec extends StringFieldBehaviours {
 
   val requiredKey = "whatOtherLiabilityIssues.error.required"
-  val lengthKey = "whatOtherLiabilityIssues.error.length"
-  val maxLength = 5000
+  val lengthKey   = "whatOtherLiabilityIssues.error.length"
+  val maxLength   = 5000
 
   val form = new WhatOtherLiabilityIssuesFormProvider()()
 

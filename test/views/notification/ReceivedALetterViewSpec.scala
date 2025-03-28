@@ -25,7 +25,7 @@ import models.NormalMode
 
 class ReceivedALetterViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new ReceivedALetterFormProvider()()
+  val form                      = new ReceivedALetterFormProvider()()
   val page: ReceivedALetterView = inject[ReceivedALetterView]
 
   private def createView: Html = page(form, NormalMode, false)(request, messages)
@@ -43,7 +43,7 @@ class ReceivedALetterViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
   }

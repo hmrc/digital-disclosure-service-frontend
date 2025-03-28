@@ -35,7 +35,7 @@ class DidYouHaveAMortgageOnPropertyControllerSpec extends SpecBase with MockitoS
 
   def onwardRoute: Call = Call("GET", "/foo")
 
-  val formProvider = new DidYouHaveAMortgageOnPropertyFormProvider()
+  val formProvider        = new DidYouHaveAMortgageOnPropertyFormProvider()
   val form: Form[Boolean] = formProvider()
 
   lazy val didYouHaveAMortgageOnPropertyRoute: String =
@@ -62,7 +62,9 @@ class DidYouHaveAMortgageOnPropertyControllerSpec extends SpecBase with MockitoS
       val lettingProperty = LettingProperty(isMortgageOnProperty = Some(true))
 
       val userAnswers = UserAnswers(userAnswersId, "session-123")
-        .setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
+        .setBySeqIndex(LettingPropertyPage, 0, lettingProperty)
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 

@@ -21,9 +21,9 @@ import play.api.data.FormError
 
 class WhatEmailAddressCanWeContactYouWithFormProviderSpec extends EmailBehaviours {
 
-  val requiredKey = "whatEmailAddressCanWeContactYouWith.error.required"
+  val requiredKey    = "whatEmailAddressCanWeContactYouWith.error.required"
   val validFormatKey = "whatEmailAddressCanWeContactYouWith.error.validFormat"
-  
+
   val form = new WhatEmailAddressCanWeContactYouWithFormProvider()()
 
   ".value" - {

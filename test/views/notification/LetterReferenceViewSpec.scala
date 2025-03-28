@@ -25,7 +25,7 @@ import models.NormalMode
 
 class LetterReferenceViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new LetterReferenceFormProvider()()
+  val form                      = new LetterReferenceFormProvider()()
   val page: LetterReferenceView = inject[LetterReferenceView]
 
   private def createView: Html = page(form, NormalMode, false)(request, messages)
@@ -54,13 +54,12 @@ class LetterReferenceViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementsByClass("govuk-hint").text() mustBe messages("letterReference.hint")
     }
 
-
     "have a text input" in {
       view.getElementsByClass("govuk-input").first must haveClass("govuk-input--width-10")
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

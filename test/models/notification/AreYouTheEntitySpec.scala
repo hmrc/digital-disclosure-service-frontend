@@ -32,10 +32,8 @@ class AreYouTheEntitySpec extends AnyFreeSpec with Matchers with ScalaCheckPrope
 
       val gen = Gen.oneOf(AreYouTheEntity.values.toSeq)
 
-      forAll(gen) {
-        areYouTheEntity =>
-
-          JsString(areYouTheEntity.toString).validate[AreYouTheEntity].asOpt.value mustEqual areYouTheEntity
+      forAll(gen) { areYouTheEntity =>
+        JsString(areYouTheEntity.toString).validate[AreYouTheEntity].asOpt.value mustEqual areYouTheEntity
       }
     }
 
@@ -43,10 +41,8 @@ class AreYouTheEntitySpec extends AnyFreeSpec with Matchers with ScalaCheckPrope
 
       val gen = arbitrary[String] suchThat (!AreYouTheEntity.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[AreYouTheEntity] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[AreYouTheEntity] mustEqual JsError("error.invalid")
       }
     }
 
@@ -54,10 +50,8 @@ class AreYouTheEntitySpec extends AnyFreeSpec with Matchers with ScalaCheckPrope
 
       val gen = Gen.oneOf(AreYouTheEntity.values.toSeq)
 
-      forAll(gen) {
-        areYouTheEntity =>
-
-          Json.toJson(areYouTheEntity) mustEqual JsString(areYouTheEntity.toString)
+      forAll(gen) { areYouTheEntity =>
+        Json.toJson(areYouTheEntity) mustEqual JsString(areYouTheEntity.toString)
       }
     }
   }

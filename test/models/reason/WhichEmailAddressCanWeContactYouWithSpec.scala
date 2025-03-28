@@ -24,7 +24,11 @@ import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
 import play.api.libs.json.{JsError, JsString, Json}
 
-class WhichEmailAddressCanWeContactYouWithSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks with OptionValues {
+class WhichEmailAddressCanWeContactYouWithSpec
+    extends AnyFreeSpec
+    with Matchers
+    with ScalaCheckPropertyChecks
+    with OptionValues {
 
   "WhichEmailAddressCanWeContactYouWith" - {
 
@@ -32,10 +36,11 @@ class WhichEmailAddressCanWeContactYouWithSpec extends AnyFreeSpec with Matchers
 
       val gen = Gen.oneOf(WhichEmailAddressCanWeContactYouWith.values.toSeq)
 
-      forAll(gen) {
-        whichEmailAddressCanWeContactYouWith =>
-
-          JsString(whichEmailAddressCanWeContactYouWith.toString).validate[WhichEmailAddressCanWeContactYouWith].asOpt.value mustEqual whichEmailAddressCanWeContactYouWith
+      forAll(gen) { whichEmailAddressCanWeContactYouWith =>
+        JsString(whichEmailAddressCanWeContactYouWith.toString)
+          .validate[WhichEmailAddressCanWeContactYouWith]
+          .asOpt
+          .value mustEqual whichEmailAddressCanWeContactYouWith
       }
     }
 
@@ -43,10 +48,8 @@ class WhichEmailAddressCanWeContactYouWithSpec extends AnyFreeSpec with Matchers
 
       val gen = arbitrary[String] suchThat (!WhichEmailAddressCanWeContactYouWith.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[WhichEmailAddressCanWeContactYouWith] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[WhichEmailAddressCanWeContactYouWith] mustEqual JsError("error.invalid")
       }
     }
 
@@ -54,10 +57,10 @@ class WhichEmailAddressCanWeContactYouWithSpec extends AnyFreeSpec with Matchers
 
       val gen = Gen.oneOf(WhichEmailAddressCanWeContactYouWith.values.toSeq)
 
-      forAll(gen) {
-        whichEmailAddressCanWeContactYouWith =>
-
-          Json.toJson(whichEmailAddressCanWeContactYouWith) mustEqual JsString(whichEmailAddressCanWeContactYouWith.toString)
+      forAll(gen) { whichEmailAddressCanWeContactYouWith =>
+        Json.toJson(whichEmailAddressCanWeContactYouWith) mustEqual JsString(
+          whichEmailAddressCanWeContactYouWith.toString
+        )
       }
     }
   }

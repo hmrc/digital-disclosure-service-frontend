@@ -68,7 +68,9 @@ class PropertyIsNoLongerBeingLetOutControllerSpec extends SpecBase with MockitoS
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = UserAnswers(userAnswersId, "session-123")
-        .setBySeqIndex(LettingPropertyPage, 0, LettingProperty(noLongerBeingLetOut = Some(validAnswer))).success.value
+        .setBySeqIndex(LettingPropertyPage, 0, LettingProperty(noLongerBeingLetOut = Some(validAnswer)))
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -81,7 +83,7 @@ class PropertyIsNoLongerBeingLetOutControllerSpec extends SpecBase with MockitoS
     }
 
     "must redirect to the next page when valid data is submitted" in {
-      
+
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
@@ -91,7 +93,7 @@ class PropertyIsNoLongerBeingLetOutControllerSpec extends SpecBase with MockitoS
             ("stopDate.day", "1"),
             ("stopDate.month", "12"),
             ("stopDate.year", "2012"),
-            ("whatHasHappenedToProperty" , "Reason")
+            ("whatHasHappenedToProperty", "Reason")
           )
 
       val result = route(applicationWithFakeLettingNavigator(onwardRoute), request).value

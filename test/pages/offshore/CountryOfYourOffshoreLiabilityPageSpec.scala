@@ -19,7 +19,6 @@ package pages
 import config.Country
 import pages.behaviours.PageBehaviours
 
-
 class CountryOfYourOffshoreLiabilityPageSpec extends PageBehaviours {
 
   "CountryOfYourOffshoreLiabilityPage" - {

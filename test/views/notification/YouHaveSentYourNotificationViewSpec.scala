@@ -25,11 +25,11 @@ import config.FrontendAppConfig
 class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers {
 
   val page: YouHaveSentYourNotificationView = inject[YouHaveSentYourNotificationView]
-  val appConfig: FrontendAppConfig = inject[FrontendAppConfig]
+  val appConfig: FrontendAppConfig          = inject[FrontendAppConfig]
 
   "view" should {
-    def createView: Html = page(true, "CFSS-1234567" ,true, false)(request, messages, appConfig)
-    val view = createView
+    def createView: Html = page(true, "CFSS-1234567", true, false)(request, messages, appConfig)
+    val view             = createView
 
     "have title for entity" in {
       view.select("title").text() must include(messages("youHaveSentYourNotification.title.entity"))
@@ -40,11 +40,15 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
     }
 
     "contain green box body text for entity" in {
-      view.getElementsByClass("govuk-panel__body").text() mustBe messages("youHaveSentYourNotification.body.caseRef.entity") + " CFSS-1234567"
+      view.getElementsByClass("govuk-panel__body").text() mustBe messages(
+        "youHaveSentYourNotification.body.caseRef.entity"
+      ) + " CFSS-1234567"
     }
 
     "have a first paragraph for entity" in {
-      view.getElementById("first-paragraph").text() mustBe messages("youHaveSentYourNotification.paragraph.first") + messages("youHaveSentYourNotification.paragraph.link.entity") + messages("site.dot")
+      view.getElementById("first-paragraph").text() mustBe messages(
+        "youHaveSentYourNotification.paragraph.first"
+      ) + messages("youHaveSentYourNotification.paragraph.link.entity") + messages("site.dot")
     }
 
     "contain second heading for entity" in {
@@ -52,12 +56,16 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
     }
 
     "have a second paragraph for entity" in {
-      view.getElementById("second-paragraph").text() mustBe messages("youHaveSentYourNotification.paragraph.second.caseRef")
+      view.getElementById("second-paragraph").text() mustBe messages(
+        "youHaveSentYourNotification.paragraph.second.caseRef"
+      )
     }
 
     "have an exit survey paragraph" in {
       view.getElementById("exit-survey").text mustBe
-        messages("exitSurvey.heading") + " " + messages("exitSurvey.p1") + " " + messages("exitSurvey.link") + " " + messages("exitSurvey.p2")
+        messages("exitSurvey.heading") + " " + messages("exitSurvey.p1") + " " + messages(
+          "exitSurvey.link"
+        ) + " " + messages("exitSurvey.p2")
     }
 
     "have an exit survey link" in {
@@ -67,7 +75,7 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
 
   "view" should {
     def createView: Html = page(true, "CFSS-1234567", false, false)(request, messages, appConfig)
-    val view = createView
+    val view             = createView
 
     "have title for agent" in {
       view.select("title").text() must include(messages("youHaveSentYourNotification.title.agent"))
@@ -78,24 +86,34 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
     }
 
     "contain green box body text for agent" in {
-      view.getElementsByClass("govuk-panel__body").text() mustBe messages("youHaveSentYourNotification.body.caseRef.agent") + " CFSS-1234567"
+      view.getElementsByClass("govuk-panel__body").text() mustBe messages(
+        "youHaveSentYourNotification.body.caseRef.agent"
+      ) + " CFSS-1234567"
     }
 
     "have a first paragraph for agent" in {
-      view.getElementById("first-paragraph").text() mustBe messages("youHaveSentYourNotification.paragraph.first") + messages("youHaveSentYourNotification.paragraph.link.agent") + messages("site.dot")
+      view.getElementById("first-paragraph").text() mustBe messages(
+        "youHaveSentYourNotification.paragraph.first"
+      ) + messages("youHaveSentYourNotification.paragraph.link.agent") + messages("site.dot")
     }
 
     "contain second heading for agent" in {
-      view.getElementsByClass("govuk-heading-m").text() mustBe messages("youHaveSentYourNotification.paragraph.header") + " " + messages("exitSurvey.heading")
+      view.getElementsByClass("govuk-heading-m").text() mustBe messages(
+        "youHaveSentYourNotification.paragraph.header"
+      ) + " " + messages("exitSurvey.heading")
     }
 
     "have a second paragraph for agent" in {
-      view.getElementById("second-paragraph").text() mustBe messages("youHaveSentYourNotification.paragraph.second.caseRef")
+      view.getElementById("second-paragraph").text() mustBe messages(
+        "youHaveSentYourNotification.paragraph.second.caseRef"
+      )
     }
 
     "have an exit survey paragraph for an agent" in {
       view.getElementById("exit-survey").text mustBe
-        messages("exitSurvey.heading") + " " + messages("exitSurvey.p1") + " " + messages("exitSurvey.link") + " " + messages("exitSurvey.p2")
+        messages("exitSurvey.heading") + " " + messages("exitSurvey.p1") + " " + messages(
+          "exitSurvey.link"
+        ) + " " + messages("exitSurvey.p2")
     }
 
     "have an exit survey link for an agent" in {
@@ -105,23 +123,29 @@ class YouHaveSentYourNotificationViewSpec extends ViewSpecBase with ViewMatchers
 
   "view" should {
     def createView: Html = page(false, "CFSS-1234567", true, false)(request, messages, appConfig)
-    val view = createView
+    val view             = createView
 
     "contain green box body text for entity with generated reference number" in {
-      view.getElementsByClass("govuk-panel__body").text() mustBe messages("youHaveSentYourNotification.body.generatedRef.entity") + " CFSS-1234567"
+      view.getElementsByClass("govuk-panel__body").text() mustBe messages(
+        "youHaveSentYourNotification.body.generatedRef.entity"
+      ) + " CFSS-1234567"
     }
 
     "have a second paragraph for entity with generated reference number" in {
-      view.getElementById("second-paragraph").text() mustBe messages("youHaveSentYourNotification.paragraph.second.generatedRef")
+      view.getElementById("second-paragraph").text() mustBe messages(
+        "youHaveSentYourNotification.paragraph.second.generatedRef"
+      )
     }
   }
 
   "view" should {
     def createView: Html = page(false, "CFSS-1234567", false, false)(request, messages, appConfig)
-    val view = createView
+    val view             = createView
 
     "contain green box body text for agent with generated reference number" in {
-      view.getElementsByClass("govuk-panel__body").text() mustBe messages("youHaveSentYourNotification.body.generatedRef.agent") + " CFSS-1234567"
+      view.getElementsByClass("govuk-panel__body").text() mustBe messages(
+        "youHaveSentYourNotification.body.generatedRef.agent"
+      ) + " CFSS-1234567"
     }
   }
 }

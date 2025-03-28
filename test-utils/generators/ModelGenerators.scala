@@ -24,12 +24,11 @@ import org.scalacheck.magnolia.Typeclass
 import org.scalacheck.magnolia.gen
 import java.time.{LocalDate, ZoneOffset}
 
-
 trait ModelGenerators {
 
   private val MAX_BIGINT = BigInt("999999999999999999999999")
-  private val MIN_YEAR = 2002
-  private val MAX_YEAR = 2032
+  private val MIN_YEAR   = 2002
+  private val MAX_YEAR   = 2032
 
   implicit lazy val arbitraryAreYouTheEntity: Arbitrary[AreYouTheEntity] =
     Arbitrary {
@@ -44,14 +43,22 @@ trait ModelGenerators {
   implicit lazy val arbitraryDirectorLoanAccountLiabilities: Arbitrary[DirectorLoanAccountLiabilities] =
     Arbitrary {
       for {
-        name <- arbitrary[String]
-        periodEnd = LocalDate.now(ZoneOffset.UTC).minusDays(1)
-        overdrawn <- Gen.choose(BigInt(1), MAX_BIGINT)
-        unpaidTax <- Gen.choose(BigInt(1), MAX_BIGINT)
-        interest <- Gen.choose(BigInt(1), MAX_BIGINT)
-        penaltyRate <- Gen.choose(0, 200)
+        name              <- arbitrary[String]
+        periodEnd          = LocalDate.now(ZoneOffset.UTC).minusDays(1)
+        overdrawn         <- Gen.choose(BigInt(1), MAX_BIGINT)
+        unpaidTax         <- Gen.choose(BigInt(1), MAX_BIGINT)
+        interest          <- Gen.choose(BigInt(1), MAX_BIGINT)
+        penaltyRate       <- Gen.choose(0, 200)
         penaltyRateReason <- arbitrary[String]
-      } yield DirectorLoanAccountLiabilities(name, periodEnd, overdrawn, unpaidTax, interest, penaltyRate, penaltyRateReason)
+      } yield DirectorLoanAccountLiabilities(
+        name,
+        periodEnd,
+        overdrawn,
+        unpaidTax,
+        interest,
+        penaltyRate,
+        penaltyRateReason
+      )
     }
 
   implicit lazy val arbitraryOnshoreYears: Arbitrary[OnshoreYears] =
@@ -61,7 +68,8 @@ trait ModelGenerators {
       } yield OnshoreYearStarting(year)
     }
 
-  implicit lazy val arbitraryWhatOnshoreLiabilitiesDoYouNeedToDisclose: Arbitrary[WhatOnshoreLiabilitiesDoYouNeedToDisclose] =
+  implicit lazy val arbitraryWhatOnshoreLiabilitiesDoYouNeedToDisclose
+    : Arbitrary[WhatOnshoreLiabilitiesDoYouNeedToDisclose] =
     Arbitrary {
       Gen.oneOf(WhatOnshoreLiabilitiesDoYouNeedToDisclose.values)
     }
@@ -71,7 +79,8 @@ trait ModelGenerators {
       Gen.oneOf(IncomeOrGainSource.values)
     }
 
-  implicit lazy val arbitraryWhichTelephoneNumberCanWeContactYouWith: Arbitrary[WhichTelephoneNumberCanWeContactYouWith] =
+  implicit lazy val arbitraryWhichTelephoneNumberCanWeContactYouWith
+    : Arbitrary[WhichTelephoneNumberCanWeContactYouWith] =
     Arbitrary {
       Gen.oneOf(WhichTelephoneNumberCanWeContactYouWith.values.toSeq)
     }
@@ -90,17 +99,17 @@ trait ModelGenerators {
     Arbitrary {
       for {
         adviceGiven <- arbitrary[String]
-        month <- Gen.choose(1, 12)
-        year <- Gen.choose(1850, 2023)
+        month       <- Gen.choose(1, 12)
+        year        <- Gen.choose(1850, 2023)
         contactPref <- arbitrary[AdviceContactPreference]
       } yield AdviceGiven(adviceGiven, MonthYear(month, year), contactPref)
     }
 
-    implicit lazy val arbitraryMonthYear: Arbitrary[MonthYear] = 
-      Arbitrary {
+  implicit lazy val arbitraryMonthYear: Arbitrary[MonthYear] =
+    Arbitrary {
       for {
         month <- Gen.choose(1, 12)
-        year <- Gen.choose(1850, 2023)
+        year  <- Gen.choose(1850, 2023)
       } yield MonthYear(month, year)
     }
 
@@ -132,16 +141,16 @@ trait ModelGenerators {
   implicit lazy val abitraryTaxYearWithLiabilities: Arbitrary[TaxYearWithLiabilities] =
     Arbitrary {
       for {
-        year <- Gen.choose(MIN_YEAR, MAX_YEAR)
-        income <- Gen.choose(BigInt(1), MAX_BIGINT)
-        chargeableTransfers <- Gen.choose(BigInt(1), MAX_BIGINT)
-        capitalGains <- Gen.choose(BigInt(1), MAX_BIGINT)
-        unpaidTax <- Gen.choose(BigInt(1), MAX_BIGINT)
-        interest <- Gen.choose(BigInt(1), MAX_BIGINT)
-        penaltyRate <- arbitrary[Int]
-        penaltyRateReason <- arbitrary[String]
+        year                   <- Gen.choose(MIN_YEAR, MAX_YEAR)
+        income                 <- Gen.choose(BigInt(1), MAX_BIGINT)
+        chargeableTransfers    <- Gen.choose(BigInt(1), MAX_BIGINT)
+        capitalGains           <- Gen.choose(BigInt(1), MAX_BIGINT)
+        unpaidTax              <- Gen.choose(BigInt(1), MAX_BIGINT)
+        interest               <- Gen.choose(BigInt(1), MAX_BIGINT)
+        penaltyRate            <- arbitrary[Int]
+        penaltyRateReason      <- arbitrary[String]
         undeclaredIncomeOrGain <- arbitrary[String]
-        foreignTaxCredit <- arbitrary[Boolean]
+        foreignTaxCredit       <- arbitrary[Boolean]
       } yield {
         val taxYearLiabilities = TaxYearLiabilities(
           income,
@@ -161,16 +170,16 @@ trait ModelGenerators {
   implicit lazy val abitraryOnshoreTaxYearWithLiabilities: Arbitrary[OnshoreTaxYearWithLiabilities] =
     Arbitrary {
       for {
-        year <- Gen.choose(MIN_YEAR, MAX_YEAR)
-        income <- Gen.choose(BigInt(1), MAX_BIGINT)
-        capitalGains <- Gen.choose(BigInt(1), MAX_BIGINT)
-        unpaidTax <- Gen.choose(BigInt(1), MAX_BIGINT)
-        niContributions <- Gen.choose(BigInt(1), MAX_BIGINT)
-        interest <- Gen.choose(BigInt(1), MAX_BIGINT)
-        penaltyRate <- arbitrary[Int]
-        penaltyRateReason <- arbitrary[String]
+        year                   <- Gen.choose(MIN_YEAR, MAX_YEAR)
+        income                 <- Gen.choose(BigInt(1), MAX_BIGINT)
+        capitalGains           <- Gen.choose(BigInt(1), MAX_BIGINT)
+        unpaidTax              <- Gen.choose(BigInt(1), MAX_BIGINT)
+        niContributions        <- Gen.choose(BigInt(1), MAX_BIGINT)
+        interest               <- Gen.choose(BigInt(1), MAX_BIGINT)
+        penaltyRate            <- arbitrary[Int]
+        penaltyRateReason      <- arbitrary[String]
         undeclaredIncomeOrGain <- arbitrary[String]
-        deduction <- arbitrary[Boolean]
+        deduction              <- arbitrary[Boolean]
       } yield {
         val taxYearLiabilities = OnshoreTaxYearLiabilities(
           Some(income),
@@ -205,14 +214,15 @@ trait ModelGenerators {
     Arbitrary {
       for {
         excuse <- arbitrary[String]
-        years <- arbitrary[String]
+        years  <- arbitrary[String]
       } yield WhatIsYourReasonableExcuse(excuse, years)
     }
-    
-  implicit lazy val arbitraryWhatIsYourReasonableExcuseForNotFilingReturn: Arbitrary[WhatIsYourReasonableExcuseForNotFilingReturn] =
+
+  implicit lazy val arbitraryWhatIsYourReasonableExcuseForNotFilingReturn
+    : Arbitrary[WhatIsYourReasonableExcuseForNotFilingReturn] =
     Arbitrary {
       for {
-        reasonableExcuse <- arbitrary[String]
+        reasonableExcuse   <- arbitrary[String]
         yearsThisAppliesTo <- arbitrary[String]
       } yield WhatIsYourReasonableExcuseForNotFilingReturn(reasonableExcuse, yearsThisAppliesTo)
     }
@@ -220,7 +230,7 @@ trait ModelGenerators {
   implicit lazy val arbitraryWhatReasonableCareDidYouTake: Arbitrary[WhatReasonableCareDidYouTake] =
     Arbitrary {
       for {
-        reasonableCare <- arbitrary[String]
+        reasonableCare     <- arbitrary[String]
         yearsThisAppliesTo <- arbitrary[String]
       } yield WhatReasonableCareDidYouTake(reasonableCare, yearsThisAppliesTo)
     }
@@ -229,14 +239,14 @@ trait ModelGenerators {
     Arbitrary {
       for {
         excuse <- arbitrary[String]
-        years <- arbitrary[String]
+        years  <- arbitrary[String]
       } yield ReasonableExcuseOnshore(excuse, years)
     }
-    
+
   implicit lazy val arbitraryReasonableExcuseForNotFilingOnshore: Arbitrary[ReasonableExcuseForNotFilingOnshore] =
     Arbitrary {
       for {
-        reasonableExcuse <- arbitrary[String]
+        reasonableExcuse   <- arbitrary[String]
         yearsThisAppliesTo <- arbitrary[String]
       } yield ReasonableExcuseForNotFilingOnshore(reasonableExcuse, yearsThisAppliesTo)
     }
@@ -244,7 +254,7 @@ trait ModelGenerators {
   implicit lazy val arbitraryReasonableCareOnshore: Arbitrary[ReasonableCareOnshore] =
     Arbitrary {
       for {
-        reasonableCare <- arbitrary[String]
+        reasonableCare     <- arbitrary[String]
         yearsThisAppliesTo <- arbitrary[String]
       } yield ReasonableCareOnshore(reasonableCare, yearsThisAppliesTo)
     }
@@ -284,7 +294,8 @@ trait ModelGenerators {
       Gen.oneOf(DidThePersonHaveNINO.values.toSeq)
     }
 
-  implicit lazy val arbitraryIsTheIndividualRegisteredForSelfAssessment: Arbitrary[IsTheIndividualRegisteredForSelfAssessment] =
+  implicit lazy val arbitraryIsTheIndividualRegisteredForSelfAssessment
+    : Arbitrary[IsTheIndividualRegisteredForSelfAssessment] =
     Arbitrary {
       Gen.oneOf(IsTheIndividualRegisteredForSelfAssessment.values.toSeq)
     }
@@ -294,7 +305,8 @@ trait ModelGenerators {
       Gen.oneOf(IsTheIndividualRegisteredForVAT.values.toSeq)
     }
 
-  implicit lazy val arbitraryDoesTheIndividualHaveNationalInsuranceNumber: Arbitrary[DoesTheIndividualHaveNationalInsuranceNumber] =
+  implicit lazy val arbitraryDoesTheIndividualHaveNationalInsuranceNumber
+    : Arbitrary[DoesTheIndividualHaveNationalInsuranceNumber] =
     Arbitrary {
       Gen.oneOf(DoesTheIndividualHaveNationalInsuranceNumber.values.toSeq)
     }
@@ -323,15 +335,16 @@ trait ModelGenerators {
     Arbitrary {
       for {
         alpha3 <- strGen(3)
-        name <- strGen(10)
+        name   <- strGen(10)
       } yield Map(alpha3.mkString -> config.Country(alpha3.mkString, name.mkString))
     }
 
   implicit lazy val arbitraryAddressLookupRequest: Typeclass[AddressLookupRequest] =
     gen[AddressLookupRequest]
 
-  def sampleAddressLookupRequest: AddressLookupRequest = arbitrary[AddressLookupRequest].sample.getOrElse(sys.error(s"Could not generate instance"))
-  def sampleAddress: Address = genAddress.sample.getOrElse(sys.error(s"Could not generate instance"))
+  def sampleAddressLookupRequest: AddressLookupRequest =
+    arbitrary[AddressLookupRequest].sample.getOrElse(sys.error(s"Could not generate instance"))
+  def sampleAddress: Address                           = genAddress.sample.getOrElse(sys.error(s"Could not generate instance"))
 
   val strGen = (n: Int) => Gen.listOfN(n, Gen.alphaChar).map(_.mkString)
 
@@ -366,21 +379,28 @@ trait ModelGenerators {
   implicit lazy val arbitraryCorporationTaxLiability: Arbitrary[CorporationTaxLiability] =
     Arbitrary {
       for {
-        periodEnd <- arbitrary[LocalDate]
-        howMuchIncome <- Gen.choose(BigInt(1), MAX_BIGINT)
-        howMuchUnpaid <- Gen.choose(BigInt(1), MAX_BIGINT)
-        howMuchInterest <- Gen.choose(BigInt(1), MAX_BIGINT)
-        penaltyRate <- Gen.choose(1, 200)
+        periodEnd         <- arbitrary[LocalDate]
+        howMuchIncome     <- Gen.choose(BigInt(1), MAX_BIGINT)
+        howMuchUnpaid     <- Gen.choose(BigInt(1), MAX_BIGINT)
+        howMuchInterest   <- Gen.choose(BigInt(1), MAX_BIGINT)
+        penaltyRate       <- Gen.choose(1, 200)
         penaltyRateReason <- arbitrary[String]
-      } yield CorporationTaxLiability(periodEnd, howMuchIncome, howMuchUnpaid, howMuchInterest, penaltyRate, penaltyRateReason)
-    }  
+      } yield CorporationTaxLiability(
+        periodEnd,
+        howMuchIncome,
+        howMuchUnpaid,
+        howMuchInterest,
+        penaltyRate,
+        penaltyRateReason
+      )
+    }
 
   implicit lazy val arbitraryNoLongerBeingLetOut: Arbitrary[NoLongerBeingLetOut] =
     Arbitrary {
       for {
-        stopDate <- arbitrary[LocalDate]
+        stopDate                  <- arbitrary[LocalDate]
         whatHasHappenedToProperty <- arbitrary[String]
       } yield NoLongerBeingLetOut(stopDate, whatHasHappenedToProperty)
-    }    
+    }
 
 }

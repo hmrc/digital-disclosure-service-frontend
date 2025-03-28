@@ -24,10 +24,11 @@ import views.html.OfferLetterView
 
 class OfferLetterViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new OfferLetterFormProvider()()
+  val form                  = new OfferLetterFormProvider()()
   val page: OfferLetterView = inject[OfferLetterView]
 
-  private def createView(entity: String, agentName: String): Html = page(form, "some name", "some address line", 123, entity, agentName, areTheyTheIndividual = true)(request, messages)
+  private def createView(entity: String, agentName: String): Html =
+    page(form, "some name", "some address line", 123, entity, agentName, areTheyTheIndividual = true)(request, messages)
 
   "view" should {
 
@@ -58,7 +59,10 @@ class OfferLetterViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "have a third letter paragraph" in {
-      view.getElementById("letter-paragraph3").text() mustBe messages("offerLetter.letter.paragraph3.individual", "some name")
+      view.getElementById("letter-paragraph3").text() mustBe messages(
+        "offerLetter.letter.paragraph3.individual",
+        "some name"
+      )
     }
 
     "have address lines" in {
@@ -78,7 +82,7 @@ class OfferLetterViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("send-disclosure")
+      view.getElementsByClass("govuk-button").first() must haveId("send-disclosure")
       view.getElementsByClass("govuk-button").text() mustBe messages("offerLetter.button")
     }
 
@@ -109,7 +113,10 @@ class OfferLetterViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "have a third letter paragraph" in {
-      view.getElementById("letter-paragraph3").text() mustBe messages("offerLetter.letter.paragraph3.company", "some name")
+      view.getElementById("letter-paragraph3").text() mustBe messages(
+        "offerLetter.letter.paragraph3.company",
+        "some name"
+      )
     }
 
   }
@@ -131,7 +138,10 @@ class OfferLetterViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "have a first letter paragraph" in {
-      view.getElementById("letter-paragraph1").text() mustBe messages("offerLetter.letter.paragraph1.estate", "some name")
+      view.getElementById("letter-paragraph1").text() mustBe messages(
+        "offerLetter.letter.paragraph1.estate",
+        "some name"
+      )
     }
 
     "have a second letter paragraph" in {
@@ -139,7 +149,11 @@ class OfferLetterViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "have a third letter paragraph" in {
-      view.getElementById("letter-paragraph3").text() mustBe messages("offerLetter.letter.paragraph3.estate", "some name", "agent name")
+      view.getElementById("letter-paragraph3").text() mustBe messages(
+        "offerLetter.letter.paragraph3.estate",
+        "some name",
+        "agent name"
+      )
     }
 
   }
@@ -169,7 +183,11 @@ class OfferLetterViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "have a third letter paragraph" in {
-      view.getElementById("letter-paragraph3").text() mustBe messages("offerLetter.letter.paragraph3.trust", "some name", "agent name")
+      view.getElementById("letter-paragraph3").text() mustBe messages(
+        "offerLetter.letter.paragraph3.trust",
+        "some name",
+        "agent name"
+      )
     }
 
   }

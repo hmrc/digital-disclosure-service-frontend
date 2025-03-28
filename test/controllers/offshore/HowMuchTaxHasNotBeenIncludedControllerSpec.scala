@@ -37,7 +37,7 @@ class HowMuchTaxHasNotBeenIncludedControllerSpec extends SpecBase with MockitoSu
   lazy val howMuchTaxHasNotBeenIncludedRoute = routes.HowMuchTaxHasNotBeenIncludedController.onPageLoad(NormalMode).url
 
   val formProvider = new HowMuchTaxHasNotBeenIncludedFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   "HowMuchTaxHasNotBeenIncluded Controller" - {
 
@@ -57,7 +57,10 @@ class HowMuchTaxHasNotBeenIncludedControllerSpec extends SpecBase with MockitoSu
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(HowMuchTaxHasNotBeenIncludedPage, HowMuchTaxHasNotBeenIncluded.values.head).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123")
+        .set(HowMuchTaxHasNotBeenIncludedPage, HowMuchTaxHasNotBeenIncluded.values.head)
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -68,7 +71,10 @@ class HowMuchTaxHasNotBeenIncludedControllerSpec extends SpecBase with MockitoSu
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(HowMuchTaxHasNotBeenIncluded.values.head), NormalMode)(request, messages).toString
+      contentAsString(result) mustEqual view(form.fill(HowMuchTaxHasNotBeenIncluded.values.head), NormalMode)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {

@@ -35,11 +35,12 @@ class NotIncludedMultipleTaxYearsControllerSpec extends SpecBase with MockitoSug
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new NotIncludedMultipleTaxYearsFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
-  val selectedYears = Nil
-  val notSelectedYears = Nil
-  lazy val youHaveNotSelectedCertainTaxYearRoute = routes.NotIncludedMultipleTaxYearsController.onPageLoad(NormalMode).url
+  val selectedYears                              = Nil
+  val notSelectedYears                           = Nil
+  lazy val youHaveNotSelectedCertainTaxYearRoute =
+    routes.NotIncludedMultipleTaxYearsController.onPageLoad(NormalMode).url
 
   "NotIncludedMultipleTaxYears Controller" - {
 
@@ -54,7 +55,10 @@ class NotIncludedMultipleTaxYearsControllerSpec extends SpecBase with MockitoSug
       val view = application.injector.instanceOf[NotIncludedMultipleTaxYearsView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, NormalMode, selectedYears, notSelectedYears)(request, messages).toString
+      contentAsString(result) mustEqual view(form, NormalMode, selectedYears, notSelectedYears)(
+        request,
+        messages
+      ).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -70,7 +74,10 @@ class NotIncludedMultipleTaxYearsControllerSpec extends SpecBase with MockitoSug
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill("answer"), NormalMode, selectedYears, notSelectedYears)(request, messages).toString
+      contentAsString(result) mustEqual view(form.fill("answer"), NormalMode, selectedYears, notSelectedYears)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -103,7 +110,10 @@ class NotIncludedMultipleTaxYearsControllerSpec extends SpecBase with MockitoSug
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, selectedYears, notSelectedYears)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode, selectedYears, notSelectedYears)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

@@ -35,17 +35,17 @@ class DescribeTheGiftControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute: Call = Call("GET", "/foo")
 
-  val formProvider = new DescribeTheGiftFormProvider()
+  val formProvider       = new DescribeTheGiftFormProvider()
   val form: Form[String] = formProvider()
 
   lazy val describeTheGiftRoute: String = routes.DescribeTheGiftController.onPageLoad(NormalMode).url
-  val view: DescribeTheGiftView = application.injector.instanceOf[DescribeTheGiftView]
+  val view: DescribeTheGiftView         = application.injector.instanceOf[DescribeTheGiftView]
 
   "DescribeTheGift Controller" - {
 
     "must return OK and the correct view for a GET" in {
       setupMockSessionResponse(Some(emptyUserAnswers))
-      
+
       val request = FakeRequest(GET, describeTheGiftRoute)
 
       val result = route(application, request).value
@@ -61,7 +61,7 @@ class DescribeTheGiftControllerSpec extends SpecBase with MockitoSugar {
       setupMockSessionResponse(Some(userAnswers))
 
       val request = FakeRequest(GET, describeTheGiftRoute)
-      
+
       val result = route(application, request).value
 
       status(result) mustEqual OK
@@ -69,7 +69,7 @@ class DescribeTheGiftControllerSpec extends SpecBase with MockitoSugar {
     }
 
     "must redirect to the next page when valid data is submitted" in {
-      
+
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
@@ -92,7 +92,7 @@ class DescribeTheGiftControllerSpec extends SpecBase with MockitoSugar {
           .withFormUrlEncodedBody(("value", ""))
 
       val boundForm = form.bind(Map("value" -> ""))
-      
+
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST

@@ -22,7 +22,7 @@ import play.api.data.FormError
 class PropertyStoppedBeingLetOutFormProviderSpec extends BooleanFieldBehaviours {
 
   val requiredKey = "propertyStoppedBeingLetOut.error.required"
-  val invalidKey = "error.boolean"
+  val invalidKey  = "error.boolean"
 
   val form = new PropertyStoppedBeingLetOutFormProvider()()
 

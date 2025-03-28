@@ -25,7 +25,7 @@ import models.NormalMode
 
 class IsTheIndividualRegisteredForSelfAssessmentViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new IsTheIndividualRegisteredForSelfAssessmentFormProvider()()
+  val form                                                 = new IsTheIndividualRegisteredForSelfAssessmentFormProvider()()
   val page: IsTheIndividualRegisteredForSelfAssessmentView = inject[IsTheIndividualRegisteredForSelfAssessmentView]
 
   private def createView: Html = page(form, NormalMode, false)(request, messages)
@@ -39,15 +39,21 @@ class IsTheIndividualRegisteredForSelfAssessmentViewSpec extends ViewSpecBase wi
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("isTheIndividualRegisteredForSA.heading")
+      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages(
+        "isTheIndividualRegisteredForSA.heading"
+      )
     }
 
     "have Yes, and I know their Unique Taxpayer Reference (UTR)" in {
-      view.getElementsByClass("govuk-radios__label").get(0).text() mustBe messages("isTheIndividualRegisteredForSA.yesIKnow")
+      view.getElementsByClass("govuk-radios__label").get(0).text() mustBe messages(
+        "isTheIndividualRegisteredForSA.yesIKnow"
+      )
     }
 
     "have Yes, but I do not know their Unique Taxpayer Reference (UTR)" in {
-      view.getElementsByClass("govuk-radios__label").get(1).text() mustBe messages("isTheIndividualRegisteredForSA.yesButDontKnow")
+      view.getElementsByClass("govuk-radios__label").get(1).text() mustBe messages(
+        "isTheIndividualRegisteredForSA.yesButDontKnow"
+      )
     }
 
     "have No" in {
@@ -55,7 +61,7 @@ class IsTheIndividualRegisteredForSelfAssessmentViewSpec extends ViewSpecBase wi
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

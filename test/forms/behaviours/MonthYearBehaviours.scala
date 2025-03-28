@@ -27,107 +27,98 @@ trait MonthYearBehaviours extends FieldBehaviours {
 
     "bind valid data" in {
 
-      forAll(validData -> "valid month and year") {
-        monthYear =>
+      forAll(validData -> "valid month and year") { monthYear =>
+        val data = Map(
+          s"$key.month" -> monthYear.month.toString,
+          s"$key.year"  -> monthYear.year.toString
+        )
 
-          val data = Map(
-            s"$key.month" -> monthYear.month.toString,
-            s"$key.year"  -> monthYear.year.toString
-          )
+        val result = form.bind(data)
 
-          val result = form.bind(data)
-
-          result.errors.filter(_.key == key) mustBe empty
+        result.errors.filter(_.key == key) mustBe empty
       }
     }
 
     "bind valid data with leading/trailing blanks" in {
 
-      forAll(validData -> "valid date") {
-        monthYear =>
+      forAll(validData -> "valid date") { monthYear =>
+        val data = Map(
+          s"$key.month" -> s" ${monthYear.month.toString} ",
+          s"$key.year"  -> s" ${monthYear.year.toString} "
+        )
 
-          val data = Map(
-            s"$key.month" -> s" ${monthYear.month.toString} ",
-            s"$key.year"  -> s" ${monthYear.year.toString} "
-          )
+        val result = form.bind(data)
 
-          val result = form.bind(data)
-
-          result.errors.filter(_.key == key) mustBe empty
+        result.errors.filter(_.key == key) mustBe empty
       }
     }
   }
 
-  def monthYearFieldCheckingMaxMonth(form: Form[_], key: String, validData: Gen[MonthYear], monthError: FormError): Unit = {
-
+  def monthYearFieldCheckingMaxMonth(
+    form: Form[_],
+    key: String,
+    validData: Gen[MonthYear],
+    monthError: FormError
+  ): Unit =
     "check maximum month value" in {
-     
-      forAll(validData -> "valid date", intsAboveValue(12) -> "invalid month") {
-        (monthYear, month) =>
 
-          val data = Map(
-            s"$key.month" -> month.toString,
-            s"$key.year"  -> monthYear.year.toString
-          )
+      forAll(validData -> "valid date", intsAboveValue(12) -> "invalid month") { (monthYear, month) =>
+        val data = Map(
+          s"$key.month" -> month.toString,
+          s"$key.year"  -> monthYear.year.toString
+        )
 
-          val result = form.bind(data)
+        val result = form.bind(data)
 
-          result.errors must contain(monthError)
+        result.errors must contain(monthError)
       }
-    
+
     }
 
-  }
-
-  def monthYearFieldInFuture(form: Form[_], key: String, formError: FormError): Unit = {
-
+  def monthYearFieldInFuture(form: Form[_], key: String, formError: FormError): Unit =
     s"fail to bind a year in the future" in {
 
       val yearGenerator = intsAboveValue(LocalDate.now().getYear())
 
-      forAll(yearGenerator -> "invalid dates") {
-        year =>
+      forAll(yearGenerator -> "invalid dates") { year =>
+        val data = Map(
+          s"$key.month" -> "1",
+          s"$key.year"  -> year.toString
+        )
 
-          val data = Map(
-            s"$key.month" -> "1",
-            s"$key.year"  -> year.toString
-          )
+        val result = form.bind(data)
 
-          val result = form.bind(data)
-
-          result.errors must contain(formError)
+        result.errors must contain(formError)
       }
     }
-  }
 
-  def monthYearFieldWithMin(form: Form[_], key: String, formError: FormError): Unit = {
-
+  def monthYearFieldWithMin(form: Form[_], key: String, formError: FormError): Unit =
     s"fail to bind a monthYear earlier than 1850" in {
 
       val yearGenerator = intsBelowValue(1850)
 
-      forAll(yearGenerator -> "invalid monthYears") {
-        year =>
+      forAll(yearGenerator -> "invalid monthYears") { year =>
+        val data = Map(
+          s"$key.month" -> "1",
+          s"$key.year"  -> year.toString
+        )
 
-          val data = Map(
-            s"$key.month" -> "1",
-            s"$key.year"  -> year.toString
-          )
+        val result = form.bind(data)
 
-          val result = form.bind(data)
-
-          result.errors must contain(formError)
+        result.errors must contain(formError)
       }
     }
-  }
 
-  def mandatoryMonthYearField(form: Form[_], key: String, requiredAllKey: String, errorArgs: Seq[String] = Seq.empty): Unit = {
-
+  def mandatoryMonthYearField(
+    form: Form[_],
+    key: String,
+    requiredAllKey: String,
+    errorArgs: Seq[String] = Seq.empty
+  ): Unit =
     "fail to bind an empty monthYear" in {
 
       val result = form.bind(Map.empty[String, String])
 
       result.errors must contain(FormError(key, requiredAllKey, errorArgs))
     }
-  }
 }

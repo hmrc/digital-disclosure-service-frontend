@@ -43,7 +43,9 @@ class OnlyOnshoreLiabilitiesViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "have a first paragraph" in {
-      view.getElementById("first-paragraph").text() mustBe messages("onlyOnshoreLiabilities.paragraph.first") + messages("onlyOnshoreLiabilities.paragraph.link") + messages("onlyOnshoreLiabilities.paragraph.second")
+      view.getElementById("first-paragraph").text() mustBe messages(
+        "onlyOnshoreLiabilities.paragraph.first"
+      ) + messages("onlyOnshoreLiabilities.paragraph.link") + messages("onlyOnshoreLiabilities.paragraph.second")
     }
 
     "have a guidance link" in {
@@ -55,16 +57,26 @@ class OnlyOnshoreLiabilitiesViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "have all the elements in the bullet-list" in {
-      view.getElementsByClass("dashed-list-item").get(0).text() mustBe messages("onlyOnshoreLiabilities.bulletList.first")
-      view.getElementsByClass("dashed-list-item").get(1).text() mustBe messages("onlyOnshoreLiabilities.bulletList.second")
-      view.getElementsByClass("dashed-list-item").get(2).text() mustBe messages("onlyOnshoreLiabilities.bulletList.third")
-      view.getElementsByClass("dashed-list-item").get(3).text() mustBe messages("onlyOnshoreLiabilities.bulletList.forth")
+      view.getElementsByClass("dashed-list-item").get(0).text() mustBe messages(
+        "onlyOnshoreLiabilities.bulletList.first"
+      )
+      view.getElementsByClass("dashed-list-item").get(1).text() mustBe messages(
+        "onlyOnshoreLiabilities.bulletList.second"
+      )
+      view.getElementsByClass("dashed-list-item").get(2).text() mustBe messages(
+        "onlyOnshoreLiabilities.bulletList.third"
+      )
+      view.getElementsByClass("dashed-list-item").get(3).text() mustBe messages(
+        "onlyOnshoreLiabilities.bulletList.forth"
+      )
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.confirmAndContinue")
-      view.getElementsByClass("govuk-button").attr("href") mustBe controllers.notification.routes.WhatIsYourFullNameController.onPageLoad(NormalMode).url
+      view
+        .getElementsByClass("govuk-button")
+        .attr("href") mustBe controllers.notification.routes.WhatIsYourFullNameController.onPageLoad(NormalMode).url
     }
 
   }

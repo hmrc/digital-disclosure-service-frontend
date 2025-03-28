@@ -24,7 +24,12 @@ import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
 import play.api.libs.json.{JsError, JsString, Json}
 
-class OtherLiabilityIssuesSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks with OptionValues with ModelGenerators {
+class OtherLiabilityIssuesSpec
+    extends AnyFreeSpec
+    with Matchers
+    with ScalaCheckPropertyChecks
+    with OptionValues
+    with ModelGenerators {
 
   "OtherLiabilityIssues" - {
 
@@ -32,10 +37,11 @@ class OtherLiabilityIssuesSpec extends AnyFreeSpec with Matchers with ScalaCheck
 
       val gen = arbitrary[OtherLiabilityIssues]
 
-      forAll(gen) {
-        otherLiabilityIssues =>
-
-          JsString(otherLiabilityIssues.toString).validate[OtherLiabilityIssues].asOpt.value mustEqual otherLiabilityIssues
+      forAll(gen) { otherLiabilityIssues =>
+        JsString(otherLiabilityIssues.toString)
+          .validate[OtherLiabilityIssues]
+          .asOpt
+          .value mustEqual otherLiabilityIssues
       }
     }
 
@@ -43,10 +49,8 @@ class OtherLiabilityIssuesSpec extends AnyFreeSpec with Matchers with ScalaCheck
 
       val gen = arbitrary[String] suchThat (!OtherLiabilityIssues.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[OtherLiabilityIssues] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[OtherLiabilityIssues] mustEqual JsError("error.invalid")
       }
     }
 
@@ -54,10 +58,8 @@ class OtherLiabilityIssuesSpec extends AnyFreeSpec with Matchers with ScalaCheck
 
       val gen = arbitrary[OtherLiabilityIssues]
 
-      forAll(gen) {
-        otherLiabilityIssues =>
-
-          Json.toJson(otherLiabilityIssues) mustEqual JsString(otherLiabilityIssues.toString)
+      forAll(gen) { otherLiabilityIssues =>
+        Json.toJson(otherLiabilityIssues) mustEqual JsString(otherLiabilityIssues.toString)
       }
     }
   }

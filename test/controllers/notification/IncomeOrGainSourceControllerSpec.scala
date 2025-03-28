@@ -34,10 +34,11 @@ class IncomeOrGainSourceControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val whereDidTheUndeclaredIncomeOrGainIncludedRoute = routes.IncomeOrGainSourceController.onPageLoad(NormalMode).url
+  lazy val whereDidTheUndeclaredIncomeOrGainIncludedRoute =
+    routes.IncomeOrGainSourceController.onPageLoad(NormalMode).url
 
   val formProvider = new IncomeOrGainSourceFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   "IncomeOrGainSource Controller" - {
 
@@ -58,7 +59,10 @@ class IncomeOrGainSourceControllerSpec extends SpecBase with MockitoSugar {
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(IncomeOrGainSourcePage, IncomeOrGainSource.values.toSet).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123")
+        .set(IncomeOrGainSourcePage, IncomeOrGainSource.values.toSet)
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -69,7 +73,10 @@ class IncomeOrGainSourceControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(IncomeOrGainSource.values.toSet), NormalMode, false)(request, messages).toString
+      contentAsString(result) mustEqual view(form.fill(IncomeOrGainSource.values.toSet), NormalMode, false)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {

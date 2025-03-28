@@ -37,7 +37,7 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
   lazy val RelatesToRoute = routes.RelatesToController.onPageLoad(NormalMode).url
 
   val formProvider = new RelatesToFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   "RelatesTo Controller" - {
 
@@ -57,7 +57,8 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(RelatesToPage, RelatesTo.values.head).success.value
+      val userAnswers =
+        UserAnswers(userAnswersId, "session-123").set(RelatesToPage, RelatesTo.values.head).success.value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -68,7 +69,10 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(RelatesTo.values.head), NormalMode, false)(request, messages).toString
+      contentAsString(result) mustEqual view(form.fill(RelatesTo.values.head), NormalMode, false)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -134,9 +138,9 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
     "must redirect to CheckYourAnswers screen if page answer is An Individual and doesn't change" in {
 
       val previousAnswer = RelatesTo.AnIndividual
-      val newAnswer = RelatesTo.AnIndividual
+      val newAnswer      = RelatesTo.AnIndividual
 
-      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.RelatesToController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, Nil)
@@ -145,9 +149,9 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
     "must redirect to CheckYourAnswers screen if page answer is A Company and doesn't change" in {
 
       val previousAnswer = RelatesTo.ACompany
-      val newAnswer = RelatesTo.ACompany
+      val newAnswer      = RelatesTo.ACompany
 
-      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.RelatesToController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, Nil)
@@ -156,9 +160,9 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
     "must redirect to CheckYourAnswers screen if page answer is AnEstate and doesn't change" in {
 
       val previousAnswer = RelatesTo.AnEstate
-      val newAnswer = RelatesTo.AnEstate
+      val newAnswer      = RelatesTo.AnEstate
 
-      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.RelatesToController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, Nil)
@@ -166,9 +170,9 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
     "must redirect to CheckYourAnswers screen if page answer is ALimitedLiabilityPartnership and doesn't change" in {
 
       val previousAnswer = RelatesTo.ALimitedLiabilityPartnership
-      val newAnswer = RelatesTo.ALimitedLiabilityPartnership
+      val newAnswer      = RelatesTo.ALimitedLiabilityPartnership
 
-      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.RelatesToController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, Nil)
@@ -176,9 +180,9 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
     "must redirect to CheckYourAnswers screen if page answer is ATrust and doesn't change" in {
 
       val previousAnswer = RelatesTo.ATrust
-      val newAnswer = RelatesTo.ATrust
+      val newAnswer      = RelatesTo.ATrust
 
-      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.RelatesToController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       testChangeAnswerRouting(previousAnswer, newAnswer, RelatesToPage, urlToTest, destinationRoute, Nil)
@@ -186,9 +190,9 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
 
     "must redirect to RelatesToPage page (change mode) and then AreYouTheEntityPage with normal mode if page answer changes from RelatesTo.ACompany to RelatesTo.AnIndividual in check mode" in {
       val previousAnswer = RelatesTo.ACompany
-      val newAnswer = RelatesTo.AnIndividual
+      val newAnswer      = RelatesTo.AnIndividual
 
-      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.RelatesToController.onPageLoad(CheckMode).url
       val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages ::: aboutYouPages
@@ -198,9 +202,9 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
 
     "must redirect to RelatesToPage page (change mode) and then AreYouTheEntityPage with normal mode if page answer changes from RelatesTo.AnEstate to RelatesTo.AnIndividual in check mode" in {
       val previousAnswer = RelatesTo.AnEstate
-      val newAnswer = RelatesTo.AnIndividual
+      val newAnswer      = RelatesTo.AnIndividual
 
-      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.RelatesToController.onPageLoad(CheckMode).url
       val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages ::: aboutYouPages
@@ -210,9 +214,9 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
 
     "must redirect to RelatesToPage page (change mode) and then AreYouTheEntityPage with normal mode if page answer changes from RelatesTo.ALimitedLiabilityPartnership to RelatesTo.AnIndividual in check mode" in {
       val previousAnswer = RelatesTo.ALimitedLiabilityPartnership
-      val newAnswer = RelatesTo.AnIndividual
+      val newAnswer      = RelatesTo.AnIndividual
 
-      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.RelatesToController.onPageLoad(CheckMode).url
       val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages ::: aboutYouPages
@@ -222,9 +226,9 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
 
     "must redirect to RelatesToPage page (change mode) and then AreYouTheEntityPage with normal mode if page answer changes from RelatesTo.ATrust to RelatesTo.AnIndividual in check mode" in {
       val previousAnswer = RelatesTo.ATrust
-      val newAnswer = RelatesTo.AnIndividual
+      val newAnswer      = RelatesTo.AnIndividual
 
-      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.RelatesToController.onPageLoad(CheckMode).url
       val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages ::: aboutYouPages
@@ -234,9 +238,9 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
 
     "must redirect to RelatesToPage page (change mode) and then AreYouTheEntityPage with normal mode if page answer changes from RelatesTo.ATrust to RelatesTo.ACompany in check mode" in {
       val previousAnswer = RelatesTo.ATrust
-      val newAnswer = RelatesTo.ACompany
+      val newAnswer      = RelatesTo.ACompany
 
-      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.RelatesToController.onPageLoad(CheckMode).url
       val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages
@@ -246,9 +250,9 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
 
     "must redirect to RelatesToPage page (change mode) and then AreYouTheEntityPage with normal mode if page answer changes from RelatesTo.ATrust to RelatesTo.ALimitedLiabilityPartnership in check mode" in {
       val previousAnswer = RelatesTo.ATrust
-      val newAnswer = RelatesTo.ALimitedLiabilityPartnership
+      val newAnswer      = RelatesTo.ALimitedLiabilityPartnership
 
-      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.RelatesToController.onPageLoad(CheckMode).url
       val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages
@@ -258,9 +262,9 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
 
     "must redirect to RelatesToPage page (change mode) and then AreYouTheEntityPage with normal mode if page answer changes from RelatesTo.ATrust to RelatesTo.AnEstate in check mode" in {
       val previousAnswer = RelatesTo.ATrust
-      val newAnswer = RelatesTo.AnEstate
+      val newAnswer      = RelatesTo.AnEstate
 
-      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.RelatesToController.onPageLoad(CheckMode).url
       val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages
@@ -270,9 +274,9 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
 
     "must redirect to RelatesToPage page (change mode) and then AreYouTheEntityPage with normal mode if page answer changes from RelatesTo.AnEstate to RelatesTo.ACompany in check mode" in {
       val previousAnswer = RelatesTo.AnEstate
-      val newAnswer = RelatesTo.ACompany
+      val newAnswer      = RelatesTo.ACompany
 
-      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.RelatesToController.onPageLoad(CheckMode).url
       val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages
@@ -282,9 +286,9 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
 
     "must redirect to RelatesToPage page (change mode) and then AreYouTheEntityPage with normal mode if page answer changes from RelatesTo.AnEstate to RelatesTo.ALimitedLiabilityPartnership in check mode" in {
       val previousAnswer = RelatesTo.AnEstate
-      val newAnswer = RelatesTo.ALimitedLiabilityPartnership
+      val newAnswer      = RelatesTo.ALimitedLiabilityPartnership
 
-      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.RelatesToController.onPageLoad(CheckMode).url
       val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages
@@ -294,9 +298,9 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
 
     "must redirect to RelatesToPage page (change mode) and then AreYouTheEntityPage with normal mode if page answer changes from RelatesTo.AnEstate to RelatesTo.ATrust in check mode" in {
       val previousAnswer = RelatesTo.AnEstate
-      val newAnswer = RelatesTo.ATrust
+      val newAnswer      = RelatesTo.ATrust
 
-      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.RelatesToController.onPageLoad(CheckMode).url
       val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages
@@ -306,9 +310,9 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
 
     "must redirect to RelatesToPage page (change mode) and then AreYouTheEntityPage with normal mode if page answer changes from RelatesTo.ACompany to RelatesTo.AnEstate in check mode" in {
       val previousAnswer = RelatesTo.ACompany
-      val newAnswer = RelatesTo.AnEstate
+      val newAnswer      = RelatesTo.AnEstate
 
-      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.RelatesToController.onPageLoad(CheckMode).url
       val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages
@@ -318,9 +322,9 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
 
     "must redirect to RelatesToPage page (change mode) and then AreYouTheEntityPage with normal mode if page answer changes from RelatesTo.ACompany to RelatesTo.ALimitedLiabilityPartnership in check mode" in {
       val previousAnswer = RelatesTo.ACompany
-      val newAnswer = RelatesTo.ALimitedLiabilityPartnership
+      val newAnswer      = RelatesTo.ALimitedLiabilityPartnership
 
-      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.RelatesToController.onPageLoad(CheckMode).url
       val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages
@@ -330,9 +334,9 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
 
     "must redirect to RelatesToPage page (change mode) and then AreYouTheEntityPage with normal mode if page answer changes from RelatesTo.ACompany to RelatesTo.ATrust in check mode" in {
       val previousAnswer = RelatesTo.ACompany
-      val newAnswer = RelatesTo.ATrust
+      val newAnswer      = RelatesTo.ATrust
 
-      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.RelatesToController.onPageLoad(CheckMode).url
       val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages
@@ -342,9 +346,9 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
 
     "must redirect to RelatesToPage page (change mode) and then AreYouTheEntityPage with normal mode if page answer changes from RelatesTo.ALimitedLiabilityPartnership to RelatesTo.AnEstate in check mode" in {
       val previousAnswer = RelatesTo.ALimitedLiabilityPartnership
-      val newAnswer = RelatesTo.AnEstate
+      val newAnswer      = RelatesTo.AnEstate
 
-      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.RelatesToController.onPageLoad(CheckMode).url
       val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages
@@ -354,9 +358,9 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
 
     "must redirect to RelatesToPage page (change mode) and then AreYouTheEntityPage with normal mode if page answer changes from RelatesTo.ALimitedLiabilityPartnership to RelatesTo.ACompany in check mode" in {
       val previousAnswer = RelatesTo.ALimitedLiabilityPartnership
-      val newAnswer = RelatesTo.ACompany
+      val newAnswer      = RelatesTo.ACompany
 
-      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.RelatesToController.onPageLoad(CheckMode).url
       val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages
@@ -366,9 +370,9 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
 
     "must redirect to RelatesToPage page (change mode) and then AreYouTheEntityPage with normal mode if page answer changes from RelatesTo.ALimitedLiabilityPartnership to RelatesTo.ATrust in check mode" in {
       val previousAnswer = RelatesTo.ALimitedLiabilityPartnership
-      val newAnswer = RelatesTo.ATrust
+      val newAnswer      = RelatesTo.ATrust
 
-      val urlToTest = routes.RelatesToController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.RelatesToController.onPageLoad(CheckMode).url
       val destinationRoute = routes.AreYouTheEntityController.onPageLoad(NormalMode).url
 
       val pageToBeClear = allEntityPages

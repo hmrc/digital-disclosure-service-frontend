@@ -31,18 +31,20 @@ import java.time.LocalDate
 
 class CorporationTaxLiabilitiesSummaryViewModelSpec extends SpecBase with ScalaCheckPropertyChecks {
 
-  lazy val app = application
+  lazy val app                = application
   implicit val mess: Messages = messages
-  val revealFullText = app.injector.instanceOf[RevealFullText]
+  val revealFullText          = app.injector.instanceOf[RevealFullText]
 
   "penaltyAmount" - {
 
     "apply the penalty rate to the amount of unpaid tax" in {
       forAll(arbitrary[CorporationTaxLiability]) { corporationTaxLiability =>
-        val penaltyRate = corporationTaxLiability.penaltyRate
-        val unpaidTax = corporationTaxLiability.howMuchUnpaid
+        val penaltyRate    = corporationTaxLiability.penaltyRate
+        val unpaidTax      = corporationTaxLiability.howMuchUnpaid
         val expectedAmount = (penaltyRate * BigDecimal(unpaidTax)) / 100
-        new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText).penaltyAmount(corporationTaxLiability) mustEqual expectedAmount
+        new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText).penaltyAmount(
+          corporationTaxLiability
+        ) mustEqual expectedAmount
       }
     }
   }
@@ -50,7 +52,7 @@ class CorporationTaxLiabilitiesSummaryViewModelSpec extends SpecBase with ScalaC
   "CorporationTaxLiabilitiesSummaryViewModel" - {
 
     "return an empty Seq where the director loan account pages isn't populated" in {
-      val ua = UserAnswers("id", "session-123")
+      val ua        = UserAnswers("id", "session-123")
       val viewModel = new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText).create(ua)
       viewModel.corporationTaxLiabilitiesList mustEqual Nil
     }
@@ -65,7 +67,8 @@ class CorporationTaxLiabilitiesSummaryViewModelSpec extends SpecBase with ScalaC
         penaltyRateReason = "reason"
       )
 
-      val summaryList = new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText).corporationTaxLiabilityToSummaryList(0, corporationTaxLiability, revealFullText)
+      val summaryList = new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText)
+        .corporationTaxLiabilityToSummaryList(0, corporationTaxLiability, revealFullText)
 
       summaryList.rows(1).key mustEqual Key(Text(mess("corporationTaxLiability.howMuchIncome.checkYourAnswersLabel")))
       summaryList.rows(1).value mustEqual ValueViewModel(HtmlContent(s"&pound;0"))
@@ -82,27 +85,28 @@ class CorporationTaxLiabilitiesSummaryViewModelSpec extends SpecBase with ScalaC
       summaryList.rows(5).key mustEqual Key(Text(mess("checkYourAnswers.ct.total.penaltyAmount")))
       summaryList.rows(5).value mustEqual ValueViewModel(HtmlContent(s"&pound;0.00"))
 
-      summaryList.rows(6).key mustEqual Key(Text(mess("corporationTaxLiability.penaltyRateReason.checkYourAnswersLabel")))
+      summaryList.rows(6).key mustEqual Key(
+        Text(mess("corporationTaxLiability.penaltyRateReason.checkYourAnswersLabel"))
+      )
       summaryList.rows(6).value mustEqual ValueViewModel(Text("reason"))
-
 
     }
 
     "return an empty total section where the director loan account pages isn't populated" in {
-        val ua = UserAnswers("id", "session-123")
-        val viewModel = new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText).create(ua)
+      val ua        = UserAnswers("id", "session-123")
+      val viewModel = new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText).create(ua)
 
-        viewModel.totalAmountsList.rows(0).key mustEqual Key(Text(mess("checkYourAnswers.ct.total.taxDue")))
-        viewModel.totalAmountsList.rows(0).value mustEqual ValueViewModel(HtmlContent(s"&pound;0"))
+      viewModel.totalAmountsList.rows(0).key mustEqual Key(Text(mess("checkYourAnswers.ct.total.taxDue")))
+      viewModel.totalAmountsList.rows(0).value mustEqual ValueViewModel(HtmlContent(s"&pound;0"))
 
-        viewModel.totalAmountsList.rows(1).key mustEqual Key(Text(mess("checkYourAnswers.ct.total.interestDue")))
-        viewModel.totalAmountsList.rows(1).value mustEqual ValueViewModel(HtmlContent(s"&pound;0"))
+      viewModel.totalAmountsList.rows(1).key mustEqual Key(Text(mess("checkYourAnswers.ct.total.interestDue")))
+      viewModel.totalAmountsList.rows(1).value mustEqual ValueViewModel(HtmlContent(s"&pound;0"))
 
-        viewModel.totalAmountsList.rows(2).key mustEqual Key(Text(mess("checkYourAnswers.ct.total.penaltyAmount")))
-        viewModel.totalAmountsList.rows(2).value mustEqual ValueViewModel(HtmlContent(s"&pound;0.00"))
+      viewModel.totalAmountsList.rows(2).key mustEqual Key(Text(mess("checkYourAnswers.ct.total.penaltyAmount")))
+      viewModel.totalAmountsList.rows(2).value mustEqual ValueViewModel(HtmlContent(s"&pound;0.00"))
 
-        viewModel.totalAmountsList.rows(3).key mustEqual Key(Text(mess("checkYourAnswers.ct.total.totalAmountDue")))
-        viewModel.totalAmountsList.rows(3).value mustEqual ValueViewModel(HtmlContent(s"&pound;0.00"))
+      viewModel.totalAmountsList.rows(3).key mustEqual Key(Text(mess("checkYourAnswers.ct.total.totalAmountDue")))
+      viewModel.totalAmountsList.rows(3).value mustEqual ValueViewModel(HtmlContent(s"&pound;0.00"))
     }
   }
 }

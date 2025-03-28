@@ -25,7 +25,7 @@ import models.NormalMode
 
 class WhatWasThePersonNINOViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhatWasThePersonNINOFormProvider()()
+  val form                           = new WhatWasThePersonNINOFormProvider()()
   val page: WhatWasThePersonNINOView = inject[WhatWasThePersonNINOView]
 
   private def createView: Html = page(form, NormalMode, false)(request, messages)
@@ -53,10 +53,9 @@ class WhatWasThePersonNINOViewSpec extends ViewSpecBase with ViewMatchers {
     "have a hint" in {
       view.getElementsByClass("govuk-hint").text() mustBe messages("whatWasThePersonNINO.hint")
     }
-    
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

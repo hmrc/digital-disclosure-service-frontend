@@ -29,29 +29,74 @@ class BackgroundSpec extends AnyFreeSpec with Matchers with OptionValues {
   "isComplete" - {
 
     "must return true where they have answered necessary questions" in {
-      val background = Background(Some(false), None, Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)))
+      val background = Background(
+        Some(false),
+        None,
+        Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))),
+        Some(false),
+        None,
+        Some(true),
+        Some(false),
+        Some(Set(IncomeOrGainSource.Dividends))
+      )
       background.isComplete mustBe true
     }
 
     "must return true where they have answered necessary questions and offshore is false" in {
-      val background = Background(Some(false), None, Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(false), None, Some(Set(IncomeOrGainSource.Dividends)))
+      val background = Background(
+        Some(false),
+        None,
+        Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))),
+        Some(false),
+        None,
+        Some(false),
+        None,
+        Some(Set(IncomeOrGainSource.Dividends))
+      )
       background.isComplete mustBe true
     }
 
     "must return true where they have answered necessary questions and said true to receiving a letter" in {
-      val background = Background(Some(false), None, Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)))
+      val background = Background(
+        Some(false),
+        None,
+        Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))),
+        Some(false),
+        None,
+        Some(true),
+        Some(false),
+        Some(Set(IncomeOrGainSource.Dividends))
+      )
       background.isComplete mustBe true
     }
 
     "must return true where they said true to receiving a letter but haven't added a ref number" in {
-      val background = Background(Some(true), None, Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), Some(false), Some(Set(IncomeOrGainSource.Dividends)))
+      val background = Background(
+        Some(true),
+        None,
+        Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))),
+        Some(false),
+        None,
+        Some(true),
+        Some(false),
+        Some(Set(IncomeOrGainSource.Dividends))
+      )
       background.isComplete mustBe true
     }
 
-     "must return true where offshore is true but onshore is not populated" in {
-      val background = Background(Some(false), None, Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))), Some(false), None, Some(true), None, Some(Set(IncomeOrGainSource.Dividends)))
+    "must return true where offshore is true but onshore is not populated" in {
+      val background = Background(
+        Some(false),
+        None,
+        Some(DisclosureEntity(Individual, Some(AreYouTheEntity.YesIAm))),
+        Some(false),
+        None,
+        Some(true),
+        None,
+        Some(Set(IncomeOrGainSource.Dividends))
+      )
       background.isComplete mustBe false
-    }   
+    }
 
     "must return false where they have not answered all necessary questions" in {
       val background = Background()

@@ -29,7 +29,7 @@ import java.time.format.DateTimeFormatter
 
 class AccountingPeriodDLAddedViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new AccountingPeriodDLAddedFormProvider()()
+  val form                              = new AccountingPeriodDLAddedFormProvider()()
   val page: AccountingPeriodDLAddedView = inject[AccountingPeriodDLAddedView]
 
   val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
@@ -56,10 +56,11 @@ class AccountingPeriodDLAddedViewSpec extends ViewSpecBase with ViewMatchers {
 
   "view for a single account period end date" should {
 
-    val directorLoanAccountLiabilitiesSummaries = DirectorLoanAccountLiabilityModel.row(Seq(directorLoanAccountLiabilities), NormalMode)
+    val directorLoanAccountLiabilitiesSummaries =
+      DirectorLoanAccountLiabilityModel.row(Seq(directorLoanAccountLiabilities), NormalMode)
 
     def createView: Html = page(form, directorLoanAccountLiabilitiesSummaries, NormalMode)(request, messages)
-    val view = createView
+    val view             = createView
 
     "have title" in {
       view.select("title").text() must include(messages("accountingPeriodDLAdded.title.single"))
@@ -70,7 +71,9 @@ class AccountingPeriodDLAddedViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain summary row" in {
-      view.getElementsByClass("govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key").text() mustBe s"Ending ${directorLoanAccountLiabilities.periodEnd.format(dateFormatter)}"
+      view
+        .getElementsByClass("govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key")
+        .text() mustBe s"Ending ${directorLoanAccountLiabilities.periodEnd.format(dateFormatter)}"
     }
 
     "contain change/remove link" in {
@@ -79,7 +82,7 @@ class AccountingPeriodDLAddedViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 
@@ -87,7 +90,10 @@ class AccountingPeriodDLAddedViewSpec extends ViewSpecBase with ViewMatchers {
 
   "view for a multiple properties" should {
 
-    val directorLoanAccountLiabilitiesSummaries = DirectorLoanAccountLiabilityModel.row(Seq(directorLoanAccountLiabilities, directorLoanAccountLiabilities2), NormalMode)
+    val directorLoanAccountLiabilitiesSummaries = DirectorLoanAccountLiabilityModel.row(
+      Seq(directorLoanAccountLiabilities, directorLoanAccountLiabilities2),
+      NormalMode
+    )
 
     def createView: Html = page(form, directorLoanAccountLiabilitiesSummaries, NormalMode)(request, messages)
 
@@ -102,15 +108,25 @@ class AccountingPeriodDLAddedViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain summary row" in {
-      view.getElementsByClass("govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key").first().text() mustBe s"Ending ${directorLoanAccountLiabilities.periodEnd.format(dateFormatter)}"
-      view.getElementsByClass("govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key").last().text() mustBe s"Ending ${directorLoanAccountLiabilities2.periodEnd.format(dateFormatter)}"
+      view
+        .getElementsByClass("govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key")
+        .first()
+        .text() mustBe s"Ending ${directorLoanAccountLiabilities.periodEnd.format(dateFormatter)}"
+      view
+        .getElementsByClass("govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key")
+        .last()
+        .text() mustBe s"Ending ${directorLoanAccountLiabilities2.periodEnd.format(dateFormatter)}"
     }
 
     "contain remove link" in {
       view.getElementsByClass("govuk-link").get(3).text() must include(messages("site.change"))
-      view.getElementsByClass("govuk-link").get(3).attr("href") mustBe routes.DirectorLoanAccountLiabilitiesController.onPageLoad(0, NormalMode).url
+      view.getElementsByClass("govuk-link").get(3).attr("href") mustBe routes.DirectorLoanAccountLiabilitiesController
+        .onPageLoad(0, NormalMode)
+        .url
       view.getElementsByClass("govuk-link").get(4).text() must include(messages("site.remove"))
-      view.getElementsByClass("govuk-link").get(4).attr("href") mustBe routes.AccountingPeriodDLAddedController.remove(0, NormalMode).url
+      view.getElementsByClass("govuk-link").get(4).attr("href") mustBe routes.AccountingPeriodDLAddedController
+        .remove(0, NormalMode)
+        .url
     }
 
     "display the continue button" in {

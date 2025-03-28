@@ -26,7 +26,7 @@ class OnshoreLiabilitiesFormProviderSpec extends BooleanFieldBehaviours {
 
   ".value" - {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "onshoreLiabilities.error.required"
 
     behave like booleanField(

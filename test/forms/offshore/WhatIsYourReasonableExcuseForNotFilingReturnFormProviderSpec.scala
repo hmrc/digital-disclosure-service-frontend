@@ -23,11 +23,11 @@ class WhatIsYourReasonableExcuseForNotFilingReturnFormProviderSpec extends Strin
 
   ".reasonableExcuse when entity" - {
 
-    val form = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(true)
-    val fieldName = "reasonableExcuse"
-    val requiredKey = "whatIsYourReasonableExcuseForNotFilingReturn.error.reasonableExcuse.required"
+    val form            = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(true)
+    val fieldName       = "reasonableExcuse"
+    val requiredKey     = "whatIsYourReasonableExcuseForNotFilingReturn.error.reasonableExcuse.required"
     val entityLengthKey = "whatIsYourReasonableExcuseForNotFilingReturn.entity.error.reasonableExcuse.length"
-    val maxLength = 5000
+    val maxLength       = 5000
 
     behave like fieldThatBindsValidData(
       form,
@@ -56,9 +56,9 @@ class WhatIsYourReasonableExcuseForNotFilingReturnFormProviderSpec extends Strin
 
   ".reasonableExcuse when agent" - {
 
-    val fieldName = "reasonableExcuse"
+    val fieldName      = "reasonableExcuse"
     val agentLengthKey = "whatIsYourReasonableExcuseForNotFilingReturn.agent.error.reasonableExcuse.length"
-    val maxLength = 5000
+    val maxLength      = 5000
 
     behave like fieldWithMaxLength(
       new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(false),
@@ -70,11 +70,11 @@ class WhatIsYourReasonableExcuseForNotFilingReturnFormProviderSpec extends Strin
 
   ".yearsThisAppliesTo" - {
 
-    val form = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(true)
-    val fieldName = "yearsThisAppliesTo"
+    val form        = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(true)
+    val fieldName   = "yearsThisAppliesTo"
     val requiredKey = "whatIsYourReasonableExcuseForNotFilingReturn.error.yearsThisAppliesTo.required"
-    val lengthKey = "whatIsYourReasonableExcuseForNotFilingReturn.error.yearsThisAppliesTo.length"
-    val maxLength = 500
+    val lengthKey   = "whatIsYourReasonableExcuseForNotFilingReturn.error.yearsThisAppliesTo.length"
+    val maxLength   = 500
 
     behave like fieldThatBindsValidData(
       form,

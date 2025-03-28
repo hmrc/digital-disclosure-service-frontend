@@ -18,7 +18,7 @@ package controllers.offshore
 
 import base.SpecBase
 import forms.WhatIsYourReasonableExcuseFormProvider
-import models.{AreYouTheEntity, NormalMode, RelatesTo, UserAnswers, WhatIsYourReasonableExcuse, SubmissionType}
+import models.{AreYouTheEntity, NormalMode, RelatesTo, SubmissionType, UserAnswers, WhatIsYourReasonableExcuse}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
@@ -37,7 +37,7 @@ class WhatIsYourReasonableExcuseControllerSpec extends SpecBase with MockitoSuga
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new WhatIsYourReasonableExcuseFormProvider()
-  val form = formProvider(true)
+  val form         = formProvider(true)
 
   lazy val whatIsYourReasonableExcuseRoute = routes.WhatIsYourReasonableExcuseController.onPageLoad(NormalMode).url
 
@@ -46,12 +46,12 @@ class WhatIsYourReasonableExcuseControllerSpec extends SpecBase with MockitoSuga
     "must return OK and the correct view for a GET" in {
 
       val userAnswers = (for {
-        userAnswer <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        userAnswer          <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
       val areTheyTheIndividual = userAnswers.isTheUserTheIndividual
-      val entity = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+      val entity               = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -68,9 +68,20 @@ class WhatIsYourReasonableExcuseControllerSpec extends SpecBase with MockitoSuga
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = (for {
-        ua <- UserAnswers(userAnswersId, "session-123", "submission-123", SubmissionType.Disclosure, JsObject.empty, Instant.now, Instant.now, models.store.Metadata(), false, None)
-          .set(WhatIsYourReasonableExcusePage, WhatIsYourReasonableExcuse("value 1", "value 1"))
-        updatedAnswer <- ua.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        ua                  <- UserAnswers(
+                                 userAnswersId,
+                                 "session-123",
+                                 "submission-123",
+                                 SubmissionType.Disclosure,
+                                 JsObject.empty,
+                                 Instant.now,
+                                 Instant.now,
+                                 models.store.Metadata(),
+                                 false,
+                                 None
+                               )
+                                 .set(WhatIsYourReasonableExcusePage, WhatIsYourReasonableExcuse("value 1", "value 1"))
+        updatedAnswer       <- ua.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- updatedAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
@@ -87,7 +98,7 @@ class WhatIsYourReasonableExcuseControllerSpec extends SpecBase with MockitoSuga
     "must redirect to the next page when valid data is submitted" in {
 
       val ua = (for {
-        updatedAnswer <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        updatedAnswer       <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- updatedAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
@@ -107,12 +118,12 @@ class WhatIsYourReasonableExcuseControllerSpec extends SpecBase with MockitoSuga
     "must return a Bad Request and errors when invalid data is submitted" in {
 
       val ua = (for {
-        updatedAnswer <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        updatedAnswer       <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- updatedAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
       val areTheyTheIndividual = ua.isTheUserTheIndividual
-      val entity = ua.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+      val entity               = ua.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       setupMockSessionResponse(Some(ua))
 
@@ -127,7 +138,10 @@ class WhatIsYourReasonableExcuseControllerSpec extends SpecBase with MockitoSuga
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

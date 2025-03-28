@@ -34,10 +34,11 @@ class ContractualDisclosureFacilityControllerSpec extends SpecBase with MockitoS
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val contractualDisclosureFacilityRoute = routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode).url
+  lazy val contractualDisclosureFacilityRoute =
+    routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode).url
 
   val formProvider = new ContractualDisclosureFacilityFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   val entity = RelatesTo.ACompany
 
@@ -62,7 +63,7 @@ class ContractualDisclosureFacilityControllerSpec extends SpecBase with MockitoS
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val relatesToPage = UserAnswers(userAnswersId, "session-123").set(RelatesToPage, entity).success.value
-      val userAnswers = relatesToPage.set(ContractualDisclosureFacilityPage, true).success.value
+      val userAnswers   = relatesToPage.set(ContractualDisclosureFacilityPage, true).success.value
 
       setupMockSessionResponse(Some(userAnswers))
 

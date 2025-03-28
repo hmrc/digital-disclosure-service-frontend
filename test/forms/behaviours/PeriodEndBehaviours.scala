@@ -25,82 +25,82 @@ trait PeriodEndBehaviours extends FieldBehaviours {
 
   def localDateGen: Gen[LocalDate] = {
     val rangeStart = LocalDate.of(1850, 1, 1).toEpochDay
-    val rangeEnd = LocalDate.now().minusDays(1).toEpochDay
+    val rangeEnd   = LocalDate.now().minusDays(1).toEpochDay
     Gen.choose(rangeStart, rangeEnd).map(i => LocalDate.ofEpochDay(i))
   }
 
-    def periodEndField(form: Form[_], key: String, validData: Map[String, String]): Unit = {
+  def periodEndField(form: Form[_], key: String, validData: Map[String, String]): Unit = {
 
-      "bind valid data" in {
+    "bind valid data" in {
 
-        forAll(localDateGen -> "valid period end") {
-          validPeriodEnd =>
+      forAll(localDateGen -> "valid period end") { validPeriodEnd =>
+        val periodEnd = Map(
+          s"$key.day"   -> validPeriodEnd.getDayOfMonth.toString,
+          s"$key.month" -> validPeriodEnd.getMonthValue.toString,
+          s"$key.year"  -> validPeriodEnd.getYear.toString
+        )
 
-            val periodEnd = Map(
-              s"$key.day" -> validPeriodEnd.getDayOfMonth.toString,
-              s"$key.month" -> validPeriodEnd.getMonthValue.toString,
-              s"$key.year" -> validPeriodEnd.getYear.toString
-            )
+        val data = validData ++ periodEnd
 
-            val data = validData ++ periodEnd
-
-            val result = form.bind(data)
-            result.errors.filter(_.key == key) mustBe empty
-        }
+        val result = form.bind(data)
+        result.errors.filter(_.key == key) mustBe empty
       }
+    }
 
-      "bind valid data with leading/trailing blanks" in {
+    "bind valid data with leading/trailing blanks" in {
 
-        forAll(localDateGen -> "valid period end") {
-          validPeriodEnd =>
+      forAll(localDateGen -> "valid period end") { validPeriodEnd =>
+        val validPeriodEndWithSpaces = Map(
+          s"$key.day"   -> s" ${validPeriodEnd.getDayOfMonth.toString} ",
+          s"$key.month" -> s" ${validPeriodEnd.getMonthValue.toString} ",
+          s"$key.year"  -> s" ${validPeriodEnd.getYear.toString} "
+        )
 
-            val validPeriodEndWithSpaces = Map(
-              s"$key.day" -> s" ${validPeriodEnd.getDayOfMonth.toString} ",
-              s"$key.month" -> s" ${validPeriodEnd.getMonthValue.toString} ",
-              s"$key.year" -> s" ${validPeriodEnd.getYear.toString} "
-            )
+        val data = validData ++ validPeriodEndWithSpaces
 
-            val data = validData ++ validPeriodEndWithSpaces
-
-            val result = form.bind(data)
-            result.errors.filter(_.key == key) mustBe empty
-        }
-      }
-  }
-
-  def periodEndFieldCheckingMaxDay(form: Form[_], key: String, validData: Map[String, String], formError: FormError): Unit = {
-
-    "check maximum day value" in {
-
-      forAll(localDateGen -> "valid period end", intsAboveValue(31) -> "invalid day") {
-        (validPeriodEnd, day) =>
-
-          val periodEnd = Map(
-            s"$key.day" -> day.toString,
-            s"$key.month" -> validPeriodEnd.getMonthValue.toString,
-            s"$key.year" -> validPeriodEnd.getYear.toString
-          )
-
-          val data = validData ++ periodEnd
-
-          val result = form.bind(data)
-
-          result.errors must contain(formError)
+        val result = form.bind(data)
+        result.errors.filter(_.key == key) mustBe empty
       }
     }
   }
 
-  def periodEndFieldCheckingMaxMonth(form: Form[_], key: String, validData: Map[String, String], formError: FormError): Unit = {
+  def periodEndFieldCheckingMaxDay(
+    form: Form[_],
+    key: String,
+    validData: Map[String, String],
+    formError: FormError
+  ): Unit =
+    "check maximum day value" in {
 
+      forAll(localDateGen -> "valid period end", intsAboveValue(31) -> "invalid day") { (validPeriodEnd, day) =>
+        val periodEnd = Map(
+          s"$key.day"   -> day.toString,
+          s"$key.month" -> validPeriodEnd.getMonthValue.toString,
+          s"$key.year"  -> validPeriodEnd.getYear.toString
+        )
+
+        val data = validData ++ periodEnd
+
+        val result = form.bind(data)
+
+        result.errors must contain(formError)
+      }
+    }
+
+  def periodEndFieldCheckingMaxMonth(
+    form: Form[_],
+    key: String,
+    validData: Map[String, String],
+    formError: FormError
+  ): Unit =
     "check maximum month value" in {
 
       forAll(localDateGen -> "valid period end", intsAboveValue(13) -> "invalid month") {
         (validPeriodEnd, invalidMonth) =>
-
           val periodEnd = Map(
-            s"$key.day" -> validPeriodEnd.getDayOfMonth.toString,
+            s"$key.day"   -> validPeriodEnd.getDayOfMonth.toString,
             s"$key.month" -> invalidMonth.toString,
-            s"$key.year" -> validPeriodEnd.getYear.toString
+            s"$key.year"  -> validPeriodEnd.getYear.toString
           )
 
           val data = validData ++ periodEnd
@@ -110,45 +110,36 @@ trait PeriodEndBehaviours extends FieldBehaviours {
           result.errors must contain(formError)
       }
     }
-  }
 
-  def periodEndFieldInFuture(form: Form[_], key: String, validData: Map[String, String], formError: FormError): Unit = {
-
+  def periodEndFieldInFuture(form: Form[_], key: String, validData: Map[String, String], formError: FormError): Unit =
     "check maximum year value" in {
 
       val yearGenerator = Gen.choose(LocalDate.now().getYear, LocalDate.MAX.getYear)
 
-      forAll(yearGenerator -> "invalid year in the future") {
-        yearInFuture =>
+      forAll(yearGenerator -> "invalid year in the future") { yearInFuture =>
+        val data = validData + (
+          s"$key.year" -> yearInFuture.toString
+        )
 
-          val data = validData + (
-            s"$key.year" -> yearInFuture.toString
-            )
+        val result = form.bind(data)
 
-          val result = form.bind(data)
-
-          result.errors must contain(formError)
+        result.errors must contain(formError)
       }
     }
-  }
 
-  def periodEndFieldWithMin(form: Form[_], key: String, validData: Map[String, String], formError: FormError): Unit = {
-
+  def periodEndFieldWithMin(form: Form[_], key: String, validData: Map[String, String], formError: FormError): Unit =
     "check minimum year value" in {
 
       val yearGenerator = Gen.choose(LocalDate.MIN.getYear, 1849)
 
-      forAll(yearGenerator -> "invalid year") {
-        year =>
+      forAll(yearGenerator -> "invalid year") { year =>
+        val data = validData + (
+          s"$key.year" -> year.toString
+        )
 
-          val data = validData + (
-            s"$key.year" -> year.toString
-          )
+        val result = form.bind(data)
 
-          val result = form.bind(data)
-
-          result.errors must contain(formError)
+        result.errors must contain(formError)
       }
     }
-  }
 }

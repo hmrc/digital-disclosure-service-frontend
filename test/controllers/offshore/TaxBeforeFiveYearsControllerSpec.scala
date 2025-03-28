@@ -40,20 +40,21 @@ class TaxBeforeFiveYearsControllerSpec extends SpecBase with MockitoSugar with C
 
   def now = () => LocalDate.now()
 
-  val formProvider = new TaxBeforeFiveYearsFormProvider()
-  def form(year: String) = {
+  val formProvider       = new TaxBeforeFiveYearsFormProvider()
+  def form(year: String) =
     formProvider(year)
-  }
 
   lazy val taxBeforeFiveYearsRoute = routes.TaxBeforeFiveYearsController.onPageLoad(NormalMode).url
 
   val userAnswers = UserAnswers(
     userAnswersId,
-    Json.obj(
-      TaxBeforeFiveYearsPage.toString -> Json.obj(
-        "taxBeforeFiveYears" -> "value 1"
+    Json
+      .obj(
+        TaxBeforeFiveYearsPage.toString -> Json.obj(
+          "taxBeforeFiveYears" -> "value 1"
+        )
       )
-    ).toString
+      .toString
   )
 
   "TaxBeforeFiveYears Controller" - {
@@ -69,7 +70,7 @@ class TaxBeforeFiveYearsControllerSpec extends SpecBase with MockitoSugar with C
       val result = route(application, request).value
 
       val service = application.injector.instanceOf[OffshoreWhichYearsService]
-      val year = service.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString
+      val year    = service.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString
 
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(form(year), NormalMode, year)(request, messages).toString
@@ -86,7 +87,7 @@ class TaxBeforeFiveYearsControllerSpec extends SpecBase with MockitoSugar with C
       val result = route(application, request).value
 
       val service = application.injector.instanceOf[OffshoreWhichYearsService]
-      val year = service.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString
+      val year    = service.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString
 
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(form(year).fill(""), NormalMode, year)(request, messages).toString
@@ -116,7 +117,7 @@ class TaxBeforeFiveYearsControllerSpec extends SpecBase with MockitoSugar with C
           .withFormUrlEncodedBody(("value", ""))
 
       val service = application.injector.instanceOf[OffshoreWhichYearsService]
-      val year = service.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString
+      val year    = service.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString
 
       val boundForm = form(year).bind(Map("value" -> ""))
 

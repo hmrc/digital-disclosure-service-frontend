@@ -36,9 +36,9 @@ class CountriesOrTerritoriesControllerSpec extends SpecBase with MockitoSugar {
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new CountriesOrTerritoriesFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
-  val countries = Seq()
+  val countries   = Seq()
   val countryCode = "AAA"
 
   lazy val countriesOrTerritoriesRoute = routes.CountriesOrTerritoriesController.onPageLoad(NormalMode).url
@@ -131,18 +131,24 @@ class CountriesOrTerritoriesControllerSpec extends SpecBase with MockitoSugar {
     val result = route(applicationWithFakeOffshoreNavigator(onwardRoute), request).value
 
     status(result) mustEqual SEE_OTHER
-    redirectLocation(result).value mustEqual routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode).url
+    redirectLocation(result).value mustEqual routes.CountryOfYourOffshoreLiabilityController
+      .onPageLoad(None, NormalMode)
+      .url
   }
 
   "must redirect to the country of your offshore liabilities page if remove method is called and there are Countries in the UserAnswers" in {
 
     when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
 
-    val country1 = Country(countryCode, "Country 1")
-    val country2 = Country("BBB", "Country 2")
+    val country1    = Country(countryCode, "Country 1")
+    val country2    = Country("BBB", "Country 2")
     val userAnswers = UserAnswers("id", "session-123")
-      .setByKey(CountryOfYourOffshoreLiabilityPage, country1.alpha3 ,country1).success.value
-      .setByKey(CountryOfYourOffshoreLiabilityPage, country2.alpha3 ,country2).success.value
+      .setByKey(CountryOfYourOffshoreLiabilityPage, country1.alpha3, country1)
+      .success
+      .value
+      .setByKey(CountryOfYourOffshoreLiabilityPage, country2.alpha3, country2)
+      .success
+      .value
 
     lazy val removeCountryRoute = routes.CountriesOrTerritoriesController.remove(countryCode, NormalMode).url
 

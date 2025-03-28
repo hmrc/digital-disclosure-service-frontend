@@ -35,9 +35,10 @@ class WhatIsIndividualsNationalInsuranceNumberControllerSpec extends SpecBase wi
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new WhatIsIndividualsNationalInsuranceNumberFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
-  lazy val whatIsIndividualsNationalInsuranceNumberRoute = routes.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(NormalMode).url
+  lazy val whatIsIndividualsNationalInsuranceNumberRoute =
+    routes.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(NormalMode).url
 
   "WhatIsIndividualsNationalInsuranceNumber Controller" - {
 
@@ -57,7 +58,10 @@ class WhatIsIndividualsNationalInsuranceNumberControllerSpec extends SpecBase wi
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhatIsIndividualsNationalInsuranceNumberPage, "answer").success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123")
+        .set(WhatIsIndividualsNationalInsuranceNumberPage, "answer")
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 

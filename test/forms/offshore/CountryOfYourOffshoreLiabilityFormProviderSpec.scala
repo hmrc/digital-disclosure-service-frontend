@@ -27,8 +27,8 @@ class CountryOfYourOffshoreLiabilityFormProviderSpec extends FieldBehaviours wit
   val requiredKey = "countryOfYourOffshoreLiability.error.required"
 
   val countryIndex = Some(1)
-  val country = Country("AAA", "Country")
-  val countries = mock[Countries]
+  val country      = Country("AAA", "Country")
+  val countries    = mock[Countries]
   when(countries.countries).thenReturn(Seq(country))
   when(countries.getCountryNameFor(country.alpha3)).thenReturn(country.name)
 

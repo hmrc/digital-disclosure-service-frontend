@@ -25,7 +25,7 @@ import models.NormalMode
 
 class WhatIsYourMainOccupationViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhatIsYourMainOccupationFormProvider()()
+  val form                               = new WhatIsYourMainOccupationFormProvider()()
   val page: WhatIsYourMainOccupationView = inject[WhatIsYourMainOccupationView]
 
   private def createView: Html = page(form, NormalMode, false)(request, messages)
@@ -51,7 +51,7 @@ class WhatIsYourMainOccupationViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

@@ -37,7 +37,6 @@ class YouHaveSentYourNotificationControllerSpec extends SpecBase {
 
       setupMockSessionResponse(Some(userAnswers))
 
-
       val request = FakeRequest(GET, routes.YouHaveSentYourNotificationController.onPageLoad.url)
 
       val result = route(application, request).value
@@ -47,8 +46,12 @@ class YouHaveSentYourNotificationControllerSpec extends SpecBase {
       val appConfig: FrontendAppConfig = application.injector.instanceOf[FrontendAppConfig]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(isCaseReferenceAvailable = true, reference,
-        isTheEntity = true, isDisclosure = false)(request, messages, appConfig).toString
+      contentAsString(result) mustEqual view(
+        isCaseReferenceAvailable = true,
+        reference,
+        isTheEntity = true,
+        isDisclosure = false
+      )(request, messages, appConfig).toString
     }
 
     "must return OK and the correct view for a GET when passed a generated reference" in {
@@ -68,8 +71,12 @@ class YouHaveSentYourNotificationControllerSpec extends SpecBase {
       val appConfig: FrontendAppConfig = application.injector.instanceOf[FrontendAppConfig]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(isCaseReferenceAvailable = false,
-        reference, isTheEntity = true, isDisclosure = false)(request, messages, appConfig).toString
+      contentAsString(result) mustEqual view(
+        isCaseReferenceAvailable = false,
+        reference,
+        isTheEntity = true,
+        isDisclosure = false
+      )(request, messages, appConfig).toString
     }
   }
 }

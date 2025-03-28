@@ -26,13 +26,13 @@ class AreYouRegisteredForSelfAssessmentFormProviderSpec extends OptionFieldBehav
 
   ".value" - {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "areYouRegisteredForSelfAssessment.error.required"
 
     behave like optionsField[AreYouRegisteredForSelfAssessment](
       form,
       fieldName,
-      validValues  = AreYouRegisteredForSelfAssessment.values,
+      validValues = AreYouRegisteredForSelfAssessment.values,
       invalidError = FormError(fieldName, "error.invalid")
     )
 

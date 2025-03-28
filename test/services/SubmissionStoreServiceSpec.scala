@@ -31,12 +31,11 @@ import java.time.Instant
 import models.UserAnswers
 import play.api.mvc.Results.Ok
 
-class SubmissionStoreServiceSpec extends AnyWordSpec with Matchers 
-    with MockFactory with ScalaFutures {
+class SubmissionStoreServiceSpec extends AnyWordSpec with Matchers with MockFactory with ScalaFutures {
 
-  private val connector = mock[SubmissionStoreConnector]
-  private val service = mock[UAToSubmissionService]
-  val sut = new SubmissionStoreServiceImpl(connector, service)
+  private val connector          = mock[SubmissionStoreConnector]
+  private val service            = mock[UAToSubmissionService]
+  val sut                        = new SubmissionStoreServiceImpl(connector, service)
   implicit val hc: HeaderCarrier = HeaderCarrier()
 
   def mockGetSubmission(userId: String, submissionId: String)(
@@ -46,7 +45,7 @@ class SubmissionStoreServiceSpec extends AnyWordSpec with Matchers
       .getSubmission(_: String, _: String)(_: HeaderCarrier))
       .expects(userId, submissionId, *)
       .returning(response)
-  
+
   def mockGetAllSubmissions(userId: String)(
     response: Future[Seq[Submission]]
   ): CallHandler2[String, HeaderCarrier, Future[Seq[Submission]]] =
@@ -62,7 +61,7 @@ class SubmissionStoreServiceSpec extends AnyWordSpec with Matchers
       .setSubmission(_: Submission)(_: HeaderCarrier))
       .expects(notification, *)
       .returning(response)
-  
+
   def mockDeleteSubmission(userId: String, submissionId: String)(
     response: Future[Result]
   ): CallHandler3[String, String, HeaderCarrier, Future[Result]] =
@@ -79,7 +78,8 @@ class SubmissionStoreServiceSpec extends AnyWordSpec with Matchers
       .expects(userAnswers)
       .returning(response)
 
-  val testSubmission: Submission = Notification("123", "456", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
+  val testSubmission: Submission =
+    Notification("123", "456", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
 
   "getSubmission" should {
     "return the same value as returned by the connector" in {
@@ -90,8 +90,9 @@ class SubmissionStoreServiceSpec extends AnyWordSpec with Matchers
 
   "setSubmission" should {
     "pass the userAnswers to the dataService and return the converted value to the connector" in {
-      val userAnswers = UserAnswers("id", "session-123")
-      val convertedSubmission = Notification("id", "submissionId", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
+      val userAnswers         = UserAnswers("id", "session-123")
+      val convertedSubmission =
+        Notification("id", "submissionId", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
       mockUserAnswersToNotification(userAnswers)(convertedSubmission)
       mockSetSubmission(convertedSubmission)(Future.successful(Ok("Done")))
 

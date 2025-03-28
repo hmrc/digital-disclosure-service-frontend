@@ -26,7 +26,8 @@ class OtherLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues {
   "isComplete" - {
 
     "must return true where they have answered only by selecting 'InheritanceTaxIssues' & it's gift page questions" in {
-      val otherLiabilities = OtherLiabilities(Some(Set(OtherLiabilityIssues.InheritanceTaxIssues)), Some("Some string"), None, None)
+      val otherLiabilities =
+        OtherLiabilities(Some(Set(OtherLiabilityIssues.InheritanceTaxIssues)), Some("Some string"), None, None)
       otherLiabilities.isComplete(false) mustBe true
     }
 
@@ -46,17 +47,32 @@ class OtherLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues {
     }
 
     "must return true where they have answered only by selecting 'InheritanceTaxIssues & Other' & it's page questions" in {
-      val otherLiabilities = OtherLiabilities(Some(Set(OtherLiabilityIssues.InheritanceTaxIssues, OtherLiabilityIssues.Other)), Some("Some string"), Some("Some string"), None)
+      val otherLiabilities = OtherLiabilities(
+        Some(Set(OtherLiabilityIssues.InheritanceTaxIssues, OtherLiabilityIssues.Other)),
+        Some("Some string"),
+        Some("Some string"),
+        None
+      )
       otherLiabilities.isComplete(false) mustBe true
     }
 
     "must return false where they have answered only by selecting 'InheritanceTaxIssues & Other' questions" in {
-      val otherLiabilities = OtherLiabilities(Some(Set(OtherLiabilityIssues.InheritanceTaxIssues, OtherLiabilityIssues.Other)), None, None, None)
+      val otherLiabilities = OtherLiabilities(
+        Some(Set(OtherLiabilityIssues.InheritanceTaxIssues, OtherLiabilityIssues.Other)),
+        None,
+        None,
+        None
+      )
       otherLiabilities.isComplete(false) mustBe false
     }
 
     "must return true where they have answered all questions" in {
-      val otherLiabilities = OtherLiabilities(Some(Set(OtherLiabilityIssues.Other, OtherLiabilityIssues.InheritanceTaxIssues)), Some("Some gift"), Some("Some issue"), Some(false))
+      val otherLiabilities = OtherLiabilities(
+        Some(Set(OtherLiabilityIssues.Other, OtherLiabilityIssues.InheritanceTaxIssues)),
+        Some("Some gift"),
+        Some("Some issue"),
+        Some(false)
+      )
       otherLiabilities.isComplete(false) mustBe true
     }
 

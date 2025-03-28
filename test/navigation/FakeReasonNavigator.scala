@@ -22,7 +22,7 @@ import models.{Mode, UserAnswers}
 
 class FakeReasonNavigator(desiredRoute: Call) extends ReasonNavigator {
 
-  override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasChanged:Boolean = true): Call =
+  override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasChanged: Boolean = true): Call =
     desiredRoute
 
 }

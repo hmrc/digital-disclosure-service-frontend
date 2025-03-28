@@ -35,7 +35,7 @@ class PersonWhoGaveAdviceControllerSpec extends SpecBase with MockitoSugar {
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new PersonWhoGaveAdviceFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   lazy val personWhoGaveAdviceRoute = routes.PersonWhoGaveAdviceController.onPageLoad(NormalMode).url
 

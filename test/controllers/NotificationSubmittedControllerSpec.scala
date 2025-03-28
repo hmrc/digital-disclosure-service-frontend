@@ -45,8 +45,8 @@ class NotificationSubmittedControllerSpec extends SpecBase with MockitoSugar {
 
     "must return OK and the correct view for a GET when a notification has been submitted" in {
 
-      val reference = "1234"
-      val time = LocalDateTime.now()
+      val reference     = "1234"
+      val time          = LocalDateTime.now()
       val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
       val formattedDate = time.format(dateFormatter)
 
@@ -73,7 +73,7 @@ class NotificationSubmittedControllerSpec extends SpecBase with MockitoSugar {
     "must redirect to the index page where the stored submission is not a submitted notification" in {
 
       val reference = "1234"
-      val time = LocalDateTime.now()
+      val time      = LocalDateTime.now()
 
       val userAnswers = UserAnswers(
         id = "id",
@@ -100,7 +100,7 @@ class NotificationSubmittedControllerSpec extends SpecBase with MockitoSugar {
       val mockAuditService = mock[AuditService]
 
       val reference = "1234"
-      val time = LocalDateTime.now()
+      val time      = LocalDateTime.now()
 
       val userAnswers = UserAnswers(
         id = "id",
@@ -121,10 +121,12 @@ class NotificationSubmittedControllerSpec extends SpecBase with MockitoSugar {
       setupMockSessionResponse(Some(userAnswers))
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
 
-      val applicationWithFakeNavigator = applicationBuilder.overrides(
-        bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
-        bind[AuditService].toInstance(mockAuditService)
-      ).build()
+      val applicationWithFakeNavigator = applicationBuilder
+        .overrides(
+          bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
+          bind[AuditService].toInstance(mockAuditService)
+        )
+        .build()
 
       val request = FakeRequest(POST, routes.NotificationSubmittedController.onSubmit.url)
 
@@ -138,15 +140,16 @@ class NotificationSubmittedControllerSpec extends SpecBase with MockitoSugar {
 
   "convertToDisclosure" - {
     "must convert a notification to a disclosure, clearing metadata" in {
-      val reference = "1234"
-      val time = LocalDateTime.now()
-      val userAnswers = UserAnswers(id = "id",
+      val reference   = "1234"
+      val time        = LocalDateTime.now()
+      val userAnswers = UserAnswers(
+        id = "id",
         sessionId = "session-123",
         submissionId = "id2",
         submissionType = SubmissionType.Notification,
         metadata = Metadata(Some(reference), Some(time))
       )
-      val controller = application.injector.instanceOf[NotificationSubmittedController]
+      val controller  = application.injector.instanceOf[NotificationSubmittedController]
 
       val resultUA = controller.convertToDisclosure(userAnswers).success.value
       resultUA.metadata mustEqual Metadata()
@@ -154,16 +157,17 @@ class NotificationSubmittedControllerSpec extends SpecBase with MockitoSugar {
     }
 
     "must convert a notification to a disclosure, clearing metadata and populating the case reference section where letterReferencePage is populated" in {
-      val reference = "1234"
-      val time = LocalDateTime.now()
-      val userAnswers = UserAnswers(id = "id",
+      val reference       = "1234"
+      val time            = LocalDateTime.now()
+      val userAnswers     = UserAnswers(
+        id = "id",
         sessionId = "session-123",
         submissionId = "id2",
         submissionType = SubmissionType.Notification,
         metadata = Metadata(Some(reference), Some(time))
       )
       val uaWithLetterRef = userAnswers.set(LetterReferencePage, "Some ref").success.value
-      val controller = application.injector.instanceOf[NotificationSubmittedController]
+      val controller      = application.injector.instanceOf[NotificationSubmittedController]
 
       val resultUA = controller.convertToDisclosure(uaWithLetterRef).success.value
       resultUA.metadata mustEqual Metadata()

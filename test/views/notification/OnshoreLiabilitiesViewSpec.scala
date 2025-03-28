@@ -25,7 +25,7 @@ import models.NormalMode
 
 class OnshoreLiabilitiesViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new OnshoreLiabilitiesFormProvider()()
+  val form                         = new OnshoreLiabilitiesFormProvider()()
   val page: OnshoreLiabilitiesView = inject[OnshoreLiabilitiesView]
 
   private def createView: Html = page(form, NormalMode, false)(request, messages)
@@ -43,7 +43,9 @@ class OnshoreLiabilitiesViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "have a first paragraph" in {
-      view.getElementById("first-paragraph").text() mustBe messages("onshoreLiabilities.paragraph.first") + messages("onshoreLiabilities.paragraph.second") + messages("onshoreLiabilities.paragraph.third")
+      view.getElementById("first-paragraph").text() mustBe messages("onshoreLiabilities.paragraph.first") + messages(
+        "onshoreLiabilities.paragraph.second"
+      ) + messages("onshoreLiabilities.paragraph.third")
     }
 
     "have a guidance link" in {
@@ -74,7 +76,7 @@ class OnshoreLiabilitiesViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

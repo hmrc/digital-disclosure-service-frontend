@@ -26,13 +26,13 @@ class TheMaximumValueOfAllAssetsFormProviderSpec extends OptionFieldBehaviours {
 
   ".value" - {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "theMaximumValueOfAllAssets.error.required"
 
     behave like optionsField[TheMaximumValueOfAllAssets](
       form,
       fieldName,
-      validValues  = TheMaximumValueOfAllAssets.values,
+      validValues = TheMaximumValueOfAllAssets.values,
       invalidError = FormError(fieldName, "error.invalid")
     )
 

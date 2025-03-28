@@ -34,9 +34,10 @@ class AreYouRepresentingAnOrganisationControllerSpec extends ControllerSpecBase 
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new AreYouRepresentingAnOrganisationFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
-  lazy val areYouRepresentingAnOrganisationRoute = routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode).url
+  lazy val areYouRepresentingAnOrganisationRoute =
+    routes.AreYouRepresentingAnOrganisationController.onPageLoad(NormalMode).url
 
   "AreYouRepresentingAnOrganisation Controller" - {
 
@@ -56,7 +57,8 @@ class AreYouRepresentingAnOrganisationControllerSpec extends ControllerSpecBase 
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(AreYouRepresentingAnOrganisationPage, true).success.value
+      val userAnswers =
+        UserAnswers(userAnswersId, "session-123").set(AreYouRepresentingAnOrganisationPage, true).success.value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -131,22 +133,28 @@ class AreYouRepresentingAnOrganisationControllerSpec extends ControllerSpecBase 
 
     "must redirect to WhatIsTheNameOfTheOrganisationYouRepresent page (change mode) if page answer changes from No to Yes in check mode" in {
       val previousAnswer = false
-      val newAnswer = true
+      val newAnswer      = true
 
-      val urlToTest = routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
       val destinationRoute = routes.WhatIsTheNameOfTheOrganisationYouRepresentController.onPageLoad(CheckMode).url
 
-      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRepresentingAnOrganisationPage, urlToTest, destinationRoute, Nil)
+      testChangeAnswerRouting(
+        previousAnswer,
+        newAnswer,
+        AreYouRepresentingAnOrganisationPage,
+        urlToTest,
+        destinationRoute,
+        Nil
+      )
     }
 
     "must redirect to WhatIsTheNameOfTheOrganisationYouRepresent page (change mode) if page answer changes from No Answer to Yes in check mode" in {
       val newAnswer = true
 
-      val urlToTest = routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
       val destinationRoute = routes.WhatIsTheNameOfTheOrganisationYouRepresentController.onPageLoad(CheckMode).url
 
       val userAnswers = UserAnswers("id", "session-123")
-
 
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
 
@@ -169,32 +177,53 @@ class AreYouRepresentingAnOrganisationControllerSpec extends ControllerSpecBase 
 
     "must redirect to CheckYourAnswers page (change mode) and clean WhatIsTheNameOfTheOrganisationYouRepresentPage if page answer changes from Yes to No in check mode" in {
       val previousAnswer = true
-      val newAnswer = false
+      val newAnswer      = false
 
-      val urlToTest = routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
-      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRepresentingAnOrganisationPage, urlToTest, destinationRoute, List(WhatIsTheNameOfTheOrganisationYouRepresentPage))
+      testChangeAnswerRouting(
+        previousAnswer,
+        newAnswer,
+        AreYouRepresentingAnOrganisationPage,
+        urlToTest,
+        destinationRoute,
+        List(WhatIsTheNameOfTheOrganisationYouRepresentPage)
+      )
     }
 
     "must redirect to CheckYourAnswers page (change mode) if page is true and doesn't change" in {
       val previousAnswer = true
-      val newAnswer = true
+      val newAnswer      = true
 
-      val urlToTest = routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
-      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRepresentingAnOrganisationPage, urlToTest, destinationRoute, Nil)
+      testChangeAnswerRouting(
+        previousAnswer,
+        newAnswer,
+        AreYouRepresentingAnOrganisationPage,
+        urlToTest,
+        destinationRoute,
+        Nil
+      )
     }
 
     "must redirect to CheckYourAnswers page (change mode) if page is false and doesn't change" in {
       val previousAnswer = false
-      val newAnswer = false
+      val newAnswer      = false
 
-      val urlToTest = routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.AreYouRepresentingAnOrganisationController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
-      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRepresentingAnOrganisationPage, urlToTest, destinationRoute, Nil)
+      testChangeAnswerRouting(
+        previousAnswer,
+        newAnswer,
+        AreYouRepresentingAnOrganisationPage,
+        urlToTest,
+        destinationRoute,
+        Nil
+      )
     }
   }
 }

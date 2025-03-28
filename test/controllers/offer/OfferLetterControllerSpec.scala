@@ -38,7 +38,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
 
-  val formProvider = new OfferLetterFormProvider()
+  val formProvider       = new OfferLetterFormProvider()
   val form: Form[BigInt] = formProvider()
 
   def onwardRoute: Call = Call("GET", "/foo")
@@ -60,16 +60,22 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
       val view = application.injector.instanceOf[OfferLetterView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, "", "", 0, "individual", areTheyTheIndividual = false)(request, messages).toString
+      contentAsString(result) mustEqual view(form, "", "", 0, "individual", areTheyTheIndividual = false)(
+        request,
+        messages
+      ).toString
     }
 
     "must return OK and the correct view for an individual filling it out for themselves" in {
 
       val userAnswers = (for {
-        ua <- emptyUserAnswers.set(RelatesToPage, RelatesTo.AnIndividual)
+        ua  <- emptyUserAnswers.set(RelatesToPage, RelatesTo.AnIndividual)
         ua2 <- ua.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         ua3 <- ua2.set(WhatIsYourFullNamePage, "My name")
-        ua4 <- ua3.set(YourAddressLookupPage, Address("my line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GB")))
+        ua4 <- ua3.set(
+                 YourAddressLookupPage,
+                 Address("my line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GB"))
+               )
       } yield ua4).success.value
 
       setupMockSessionResponse(Some(userAnswers))
@@ -81,16 +87,26 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
       val view = application.injector.instanceOf[OfferLetterView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, "My name", "my line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "individual", areTheyTheIndividual = true)(request, messages).toString
+      contentAsString(result) mustEqual view(
+        form,
+        "My name",
+        "my line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom",
+        0,
+        "individual",
+        areTheyTheIndividual = true
+      )(request, messages).toString
     }
 
     "must return OK and the correct view for an individual by an agent" in {
 
       val userAnswers = (for {
-        ua <- emptyUserAnswers.set(RelatesToPage, RelatesTo.AnIndividual)
+        ua  <- emptyUserAnswers.set(RelatesToPage, RelatesTo.AnIndividual)
         ua2 <- ua.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
         ua3 <- ua2.set(WhatIsYourFullNamePage, "My name")
-        ua4 <- ua3.set(IndividualAddressLookupPage, Address("ind line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GB")))
+        ua4 <- ua3.set(
+                 IndividualAddressLookupPage,
+                 Address("ind line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GB"))
+               )
         ua5 <- ua4.set(WhatIsTheIndividualsFullNamePage, "Individual's name")
       } yield ua5).success.value
 
@@ -103,15 +119,25 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
       val view = application.injector.instanceOf[OfferLetterView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, "Individual's name", "ind line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "individual", areTheyTheIndividual = false)(request, messages).toString
+      contentAsString(result) mustEqual view(
+        form,
+        "Individual's name",
+        "ind line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom",
+        0,
+        "individual",
+        areTheyTheIndividual = false
+      )(request, messages).toString
     }
 
     "must return OK and the correct view for a company" in {
 
       val userAnswers = (for {
-        ua <- emptyUserAnswers.set(RelatesToPage, RelatesTo.ACompany)
+        ua  <- emptyUserAnswers.set(RelatesToPage, RelatesTo.ACompany)
         ua2 <- ua.set(WhatIsYourFullNamePage, "My name")
-        ua3 <- ua2.set(CompanyAddressLookupPage, Address("com line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GB")))
+        ua3 <- ua2.set(
+                 CompanyAddressLookupPage,
+                 Address("com line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GB"))
+               )
         ua4 <- ua3.set(WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage, "Company's name")
       } yield ua4).success.value
 
@@ -124,15 +150,26 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
       val view = application.injector.instanceOf[OfferLetterView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, "Company's name", "com line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "company", areTheyTheIndividual = false)(request, messages).toString
+      contentAsString(result) mustEqual view(
+        form,
+        "Company's name",
+        "com line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom",
+        0,
+        "company",
+        areTheyTheIndividual = false
+      )(request, messages).toString
     }
 
     "must return OK and the correct view for a trust" in {
 
       val userAnswers = (for {
-        ua <- emptyUserAnswers.set(RelatesToPage, RelatesTo.ATrust)
+        ua  <- emptyUserAnswers.set(RelatesToPage, RelatesTo.ATrust)
         ua2 <- ua.set(WhatIsYourFullNamePage, "My name")
-        ua3 <- ua2.set(TrustAddressLookupPage, Address("trust line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GB")))
+        ua3 <-
+          ua2.set(
+            TrustAddressLookupPage,
+            Address("trust line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GB"))
+          )
         ua4 <- ua3.set(WhatIsTheTrustNamePage, "Trust's name")
       } yield ua4).success.value
 
@@ -145,15 +182,26 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
       val view = application.injector.instanceOf[OfferLetterView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, "Trust's name", "trust line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "trust", "My name", areTheyTheIndividual = false)(request, messages).toString
+      contentAsString(result) mustEqual view(
+        form,
+        "Trust's name",
+        "trust line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom",
+        0,
+        "trust",
+        "My name",
+        areTheyTheIndividual = false
+      )(request, messages).toString
     }
-    
+
     "must return OK and the correct view for an llp" in {
 
       val userAnswers = (for {
-        ua <- emptyUserAnswers.set(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership)
+        ua  <- emptyUserAnswers.set(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership)
         ua2 <- ua.set(WhatIsYourFullNamePage, "My name")
-        ua3 <- ua2.set(LLPAddressLookupPage, Address("llp line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GB")))
+        ua3 <- ua2.set(
+                 LLPAddressLookupPage,
+                 Address("llp line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GB"))
+               )
         ua4 <- ua3.set(WhatIsTheLLPNamePage, "LLP's name")
       } yield ua4).success.value
 
@@ -166,15 +214,27 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
       val view = application.injector.instanceOf[OfferLetterView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, "LLP's name", "llp line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "llp", "My name", areTheyTheIndividual = false)(request, messages).toString
+      contentAsString(result) mustEqual view(
+        form,
+        "LLP's name",
+        "llp line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom",
+        0,
+        "llp",
+        "My name",
+        areTheyTheIndividual = false
+      )(request, messages).toString
     }
 
     "must return OK and the correct view for an estate" in {
 
       val userAnswers = (for {
-        ua <- emptyUserAnswers.set(RelatesToPage, RelatesTo.AnEstate)
+        ua  <- emptyUserAnswers.set(RelatesToPage, RelatesTo.AnEstate)
         ua2 <- ua.set(WhatIsYourFullNamePage, "My name")
-        ua3 <- ua2.set(EstateAddressLookupPage, Address("estate line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GB")))
+        ua3 <-
+          ua2.set(
+            EstateAddressLookupPage,
+            Address("estate line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GB"))
+          )
         ua4 <- ua3.set(WhatWasTheNameOfThePersonWhoDiedPage, "Estate's name")
       } yield ua4).success.value
 
@@ -187,12 +247,21 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
       val view = application.injector.instanceOf[OfferLetterView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, "Estate's name", "estate line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom", 0, "estate", "My name", areTheyTheIndividual = false)(request, messages).toString
+      contentAsString(result) mustEqual view(
+        form,
+        "Estate's name",
+        "estate line 1<br>line 2<br>line 3<br>line 4<br>postcode<br>United Kingdom",
+        0,
+        "estate",
+        "My name",
+        areTheyTheIndividual = false
+      )(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(OfferLetterPage, BigInt(validAnswer)).success.value
+      val userAnswers =
+        UserAnswers(userAnswersId, "session-123").set(OfferLetterPage, BigInt(validAnswer)).success.value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -203,23 +272,35 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(BigInt(validAnswer)), "", "", 0, "individual", areTheyTheIndividual = false)(request, messages).toString
+      contentAsString(result) mustEqual view(
+        form.fill(BigInt(validAnswer)),
+        "",
+        "",
+        0,
+        "individual",
+        areTheyTheIndividual = false
+      )(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
-      
+
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       object FakeDisclosureSubmissionService extends DisclosureSubmissionService {
-        def submitDisclosure(userAnswers: UserAnswers)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[String] =
+        def submitDisclosure(userAnswers: UserAnswers)(implicit
+          hc: HeaderCarrier,
+          ec: ExecutionContext
+        ): Future[String] =
           Future.successful("Reference")
       }
 
-      val applicationWithOverrides = applicationBuilder.overrides(
+      val applicationWithOverrides = applicationBuilder
+        .overrides(
           bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
           bind[DisclosureSubmissionService].toInstance(FakeDisclosureSubmissionService)
-        ).build()
+        )
+        .build()
 
       val request =
         FakeRequest(POST, offerLetterRoute)
@@ -246,7 +327,10 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, "", "", 0, "individual", areTheyTheIndividual = false)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, "", "", 0, "individual", areTheyTheIndividual = false)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

@@ -35,35 +35,35 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
   def totalRows(implicit messages: Messages) = SummaryListViewModel(
     rows = Seq(
       SummaryListRowViewModel(
-        key     = Key(Text(messages("taxYearLiabilities.unpaidTax.total"))),
-        value   = ValueViewModel(HtmlContent("&pound;0")),
+        key = Key(Text(messages("taxYearLiabilities.unpaidTax.total"))),
+        value = ValueViewModel(HtmlContent("&pound;0")),
         actions = Nil
       ),
       SummaryListRowViewModel(
-        key     = Key(Text(messages("taxYearLiabilities.interest.total"))),
-        value   = ValueViewModel(HtmlContent("&pound;0")),
+        key = Key(Text(messages("taxYearLiabilities.interest.total"))),
+        value = ValueViewModel(HtmlContent("&pound;0")),
         actions = Nil
       ),
       SummaryListRowViewModel(
-        key     = Key(Text(messages("taxYearLiabilities.penaltyAmount.total"))),
-        value   = ValueViewModel(HtmlContent("&pound;0")),
+        key = Key(Text(messages("taxYearLiabilities.penaltyAmount.total"))),
+        value = ValueViewModel(HtmlContent("&pound;0")),
         actions = Nil
       ),
       SummaryListRowViewModel(
-        key     = Key(Text(messages("taxYearLiabilities.amountDue.total"))),
-        value   = ValueViewModel(HtmlContent("&pound;0")),
+        key = Key(Text(messages("taxYearLiabilities.amountDue.total"))),
+        value = ValueViewModel(HtmlContent("&pound;0")),
         actions = Nil
       )
     )
   )
-  val viewModel = CheckYourAnswersViewModel(
+  val viewModel                              = CheckYourAnswersViewModel(
     SummaryListViewModel(rows = Nil),
     SummaryListViewModel(rows = Nil),
     Nil,
     totalRows,
     0
   )
-  val page: CheckYourAnswersView = inject[CheckYourAnswersView]
+  val page: CheckYourAnswersView             = inject[CheckYourAnswersView]
 
   private def createView: Html = page(viewModel, true, false)(request, messages)
 
@@ -80,14 +80,25 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
     }
 
     "have a heading" in {
-      view.getElementsByClass("govuk-heading-m").get(0).text() mustBe messages("checkYourAnswers.offshore.subheading.reason")
-      view.getElementsByClass("govuk-heading-m").get(1).text() mustBe messages("checkYourAnswers.offshore.total.heading")
-      view.getElementsByClass("govuk-heading-m").get(2).text() mustBe messages("checkYourAnswers.yourLegalInterpretation.heading")
-      view.getElementsByClass("govuk-heading-m").get(3).text() mustBe messages("checkYourAnswers.offshore.offer.heading")
+      view.getElementsByClass("govuk-heading-m").get(0).text() mustBe messages(
+        "checkYourAnswers.offshore.subheading.reason"
+      )
+      view.getElementsByClass("govuk-heading-m").get(1).text() mustBe messages(
+        "checkYourAnswers.offshore.total.heading"
+      )
+      view.getElementsByClass("govuk-heading-m").get(2).text() mustBe messages(
+        "checkYourAnswers.yourLegalInterpretation.heading"
+      )
+      view.getElementsByClass("govuk-heading-m").get(3).text() mustBe messages(
+        "checkYourAnswers.offshore.offer.heading"
+      )
     }
 
     "have a first offer paragraph" in {
-      view.getElementById("offer-paragraph-1").text() mustBe messages("checkYourAnswers.offshore.offer.paragraph1", viewModel.liabilitiesTotal)
+      view.getElementById("offer-paragraph-1").text() mustBe messages(
+        "checkYourAnswers.offshore.offer.paragraph1",
+        viewModel.liabilitiesTotal
+      )
     }
 
     "have a second offer paragraph" in {
@@ -95,19 +106,26 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
     }
 
     "have a fullAmount heading" in {
-      view.getElementsByClass("govuk-heading-m").get(4).text() mustBe messages("checkYourAnswers.offshore.fullAmount.heading")
+      view.getElementsByClass("govuk-heading-m").get(4).text() mustBe messages(
+        "checkYourAnswers.offshore.fullAmount.heading"
+      )
     }
 
     "have a first fullAmount paragraph" in {
-      view.getElementById("fullAmount-paragraph-1").text() mustBe messages("checkYourAnswers.offshore.fullAmount.paragraph1", viewModel.liabilitiesTotal) + messages("checkYourAnswers.offshore.fullAmount.link") + messages("site.dot")
+      view.getElementById("fullAmount-paragraph-1").text() mustBe messages(
+        "checkYourAnswers.offshore.fullAmount.paragraph1",
+        viewModel.liabilitiesTotal
+      ) + messages("checkYourAnswers.offshore.fullAmount.link") + messages("site.dot")
     }
 
     "have a second fullAmount paragraph" in {
-      view.getElementById("fullAmount-paragraph-2").text() mustBe messages("checkYourAnswers.offshore.fullAmount.paragraph2")
+      view.getElementById("fullAmount-paragraph-2").text() mustBe messages(
+        "checkYourAnswers.offshore.fullAmount.paragraph2"
+      )
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.continue")
     }
 

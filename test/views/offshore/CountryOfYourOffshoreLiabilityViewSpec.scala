@@ -28,14 +28,14 @@ import org.scalatestplus.mockito.MockitoSugar
 
 class CountryOfYourOffshoreLiabilityViewSpec extends ViewSpecBase with ViewMatchers with MockitoSugar {
 
-  val countries = mock[Countries]
+  val countries     = mock[Countries]
   val countryNumber = Some(0)
 
-  val countryMock = Country("AAA", "Country")
+  val countryMock                  = Country("AAA", "Country")
   val countrySetMock: Seq[Country] = Seq(countryMock)
   when(countries.countries).thenReturn(countrySetMock)
 
-  val form = new CountryOfYourOffshoreLiabilityFormProvider(countries)()
+  val form                                     = new CountryOfYourOffshoreLiabilityFormProvider(countries)()
   val page: CountryOfYourOffshoreLiabilityView = inject[CountryOfYourOffshoreLiabilityView]
 
   private def createView: Html = page(form, NormalMode)(request, messages)
@@ -58,7 +58,7 @@ class CountryOfYourOffshoreLiabilityViewSpec extends ViewSpecBase with ViewMatch
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

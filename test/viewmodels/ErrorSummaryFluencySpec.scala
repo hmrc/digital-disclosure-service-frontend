@@ -25,38 +25,40 @@ import viewmodels.govuk.ErrorSummaryFluency
 
 class ErrorSummaryFluencySpec extends SpecBase with ErrorSummaryFluency {
 
-    "check all required field errors are in order for onshore tax year liabilities view" in {
-        val form = new OnshoreTaxYearLiabilitiesFormProvider()(Set(NonBusinessIncome, BusinessIncome, LettingIncome, Gains))
-        implicit val message: Messages = messages
+  "check all required field errors are in order for onshore tax year liabilities view" in {
+    val form                       = new OnshoreTaxYearLiabilitiesFormProvider()(Set(NonBusinessIncome, BusinessIncome, LettingIncome, Gains))
+    implicit val message: Messages = messages
 
-        val errorSummary = ErrorSummaryViewModel(
-            form.bind(Map(
-                ("nonBusinessIncome", ""),
-                ("businessIncome", ""),
-                ("lettingIncome", ""),
-                ("gains", ""),
-                ("unpaidTax", ""),
-                ("niContributions", ""),
-                ("interest", ""),
-                ("penaltyRate", ""),
-                ("penaltyRateReason", ""),
-                ("undeclaredIncomeOrGain", ""),
-                ("residentialTaxReduction", "")
-            )
-        ))(message)
-        val errors = errorSummary.errorList.map(_.content)
+    val errorSummary = ErrorSummaryViewModel(
+      form.bind(
+        Map(
+          ("nonBusinessIncome", ""),
+          ("businessIncome", ""),
+          ("lettingIncome", ""),
+          ("gains", ""),
+          ("unpaidTax", ""),
+          ("niContributions", ""),
+          ("interest", ""),
+          ("penaltyRate", ""),
+          ("penaltyRateReason", ""),
+          ("undeclaredIncomeOrGain", ""),
+          ("residentialTaxReduction", "")
+        )
+      )
+    )(message)
+    val errors       = errorSummary.errorList.map(_.content)
 
-        errors(0) mustBe Text(message("onshoreTaxYearLiabilities.nonBusinessIncome.error.required"))
-        errors(1) mustBe Text(message("onshoreTaxYearLiabilities.businessIncome.error.required"))
-        errors(2) mustBe Text(message("onshoreTaxYearLiabilities.lettingIncome.error.required"))
-        errors(3) mustBe Text(message("onshoreTaxYearLiabilities.gains.error.required"))
-        errors(4) mustBe Text(message("onshoreTaxYearLiabilities.unpaidTax.error.required"))
-        errors(5) mustBe Text(message("onshoreTaxYearLiabilities.niContributions.error.required"))
-        errors(6) mustBe Text(message("onshoreTaxYearLiabilities.interest.error.required"))
-        errors(7) mustBe Text(message("onshoreTaxYearLiabilities.penaltyRate.error.required"))
-        errors(8) mustBe Text(message("onshoreTaxYearLiabilities.penaltyRateReason.error.required"))
-        errors(9) mustBe Text(message("onshoreTaxYearLiabilities.undeclaredIncomeOrGain.error.required"))
-        errors(10) mustBe Text(message("onshoreTaxYearLiabilities.residentialTaxReduction.error.required"))
-    }
+    errors(0) mustBe Text(message("onshoreTaxYearLiabilities.nonBusinessIncome.error.required"))
+    errors(1) mustBe Text(message("onshoreTaxYearLiabilities.businessIncome.error.required"))
+    errors(2) mustBe Text(message("onshoreTaxYearLiabilities.lettingIncome.error.required"))
+    errors(3) mustBe Text(message("onshoreTaxYearLiabilities.gains.error.required"))
+    errors(4) mustBe Text(message("onshoreTaxYearLiabilities.unpaidTax.error.required"))
+    errors(5) mustBe Text(message("onshoreTaxYearLiabilities.niContributions.error.required"))
+    errors(6) mustBe Text(message("onshoreTaxYearLiabilities.interest.error.required"))
+    errors(7) mustBe Text(message("onshoreTaxYearLiabilities.penaltyRate.error.required"))
+    errors(8) mustBe Text(message("onshoreTaxYearLiabilities.penaltyRateReason.error.required"))
+    errors(9) mustBe Text(message("onshoreTaxYearLiabilities.undeclaredIncomeOrGain.error.required"))
+    errors(10) mustBe Text(message("onshoreTaxYearLiabilities.residentialTaxReduction.error.required"))
+  }
 
 }

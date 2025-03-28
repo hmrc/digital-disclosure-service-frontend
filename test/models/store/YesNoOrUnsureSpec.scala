@@ -20,7 +20,7 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import play.api.libs.json._
 
-class YesNoOrUnsureSpec extends AnyWordSpec with Matchers  {
+class YesNoOrUnsureSpec extends AnyWordSpec with Matchers {
 
   case class TestWrapper(yesNoOrUnsure: YesNoOrUnsure)
   object TestWrapper {
@@ -67,5 +67,5 @@ class YesNoOrUnsureSpec extends AnyWordSpec with Matchers  {
     }
 
   }
-  
+
 }

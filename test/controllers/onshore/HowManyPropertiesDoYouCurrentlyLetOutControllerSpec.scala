@@ -35,9 +35,10 @@ class HowManyPropertiesDoYouCurrentlyLetOutControllerSpec extends SpecBase with 
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new HowManyPropertiesDoYouCurrentlyLetOutFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
-  lazy val howManyPropertiesDoYouCurrentlyLetOutRoute = routes.HowManyPropertiesDoYouCurrentlyLetOutController.onPageLoad(NormalMode).url
+  lazy val howManyPropertiesDoYouCurrentlyLetOutRoute =
+    routes.HowManyPropertiesDoYouCurrentlyLetOutController.onPageLoad(NormalMode).url
 
   "HowManyPropertiesDoYouCurrentlyLetOut Controller" - {
 
@@ -57,7 +58,8 @@ class HowManyPropertiesDoYouCurrentlyLetOutControllerSpec extends SpecBase with 
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(HowManyPropertiesDoYouCurrentlyLetOutPage, "1").success.value
+      val userAnswers =
+        UserAnswers(userAnswersId, "session-123").set(HowManyPropertiesDoYouCurrentlyLetOutPage, "1").success.value
 
       setupMockSessionResponse(Some(userAnswers))
 

@@ -22,7 +22,7 @@ import pages.behaviours.PageBehaviours
 class CorporationTaxLiabilityPageSpec extends PageBehaviours {
 
   "CorporationTaxLiabilityPage" - {
-    
+
     beRetrievable[Seq[CorporationTaxLiability]](CorporationTaxLiabilityPage)
 
     beSettable[Seq[CorporationTaxLiability]](CorporationTaxLiabilityPage)

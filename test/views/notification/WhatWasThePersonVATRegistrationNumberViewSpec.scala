@@ -25,7 +25,7 @@ import models.NormalMode
 
 class WhatWasThePersonVATRegistrationNumberViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhatWasThePersonVATRegistrationNumberFormProvider()()
+  val form                                            = new WhatWasThePersonVATRegistrationNumberFormProvider()()
   val page: WhatWasThePersonVATRegistrationNumberView = inject[WhatWasThePersonVATRegistrationNumberView]
 
   private def createView: Html = page(form, NormalMode, false)(request, messages)
@@ -39,7 +39,9 @@ class WhatWasThePersonVATRegistrationNumberViewSpec extends ViewSpecBase with Vi
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatWasThePersonVATRegistrationNumber.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages(
+        "whatWasThePersonVATRegistrationNumber.heading"
+      )
     }
 
     "have a label" in {
@@ -59,7 +61,7 @@ class WhatWasThePersonVATRegistrationNumberViewSpec extends ViewSpecBase with Vi
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

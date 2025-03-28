@@ -22,11 +22,11 @@ import models.RelatesTo
 
 class AreYouAMemberOfAnyLandlordAssociationsFormProviderSpec extends BooleanFieldBehaviours {
 
-  val requiredKey = "areYouAMemberOfAnyLandlordAssociations.you.error.required"
-  val invalidKey = "error.boolean"
+  val requiredKey          = "areYouAMemberOfAnyLandlordAssociations.you.error.required"
+  val invalidKey           = "error.boolean"
   val areTheyTheIndividual = true
-  val entity = RelatesTo.AnIndividual
-  
+  val entity               = RelatesTo.AnIndividual
+
   val form = new AreYouAMemberOfAnyLandlordAssociationsFormProvider()(areTheyTheIndividual, entity)
 
   ".value" - {

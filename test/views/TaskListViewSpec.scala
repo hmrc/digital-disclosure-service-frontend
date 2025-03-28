@@ -31,21 +31,21 @@ class TaskListViewSpec extends ViewSpecBase with ViewMatchers with Generators {
   val page: TaskListView = inject[TaskListView]
 
   val testRow1 = TaskListRow(
-    id = "task-list", 
-    sectionTitle = "Section Title", 
-    status = "Not Started", 
+    id = "task-list",
+    sectionTitle = "Section Title",
+    status = "Not Started",
     link = routes.TaskListController.onPageLoad
   )
 
   val testRow2 = TaskListRow(
-    id = "task-list", 
-    sectionTitle = "Section Title", 
-    status = "Not Started", 
+    id = "task-list",
+    sectionTitle = "Section Title",
+    status = "Not Started",
     link = routes.TaskListController.onPageLoad
   )
 
   val testRow3 = TaskListRow(
-    id = "task-list", 
+    id = "task-list",
     sectionTitle = "Section Title",
     status = "Not Started",
     link = routes.TaskListController.onPageLoad
@@ -53,22 +53,23 @@ class TaskListViewSpec extends ViewSpecBase with ViewMatchers with Generators {
 
   "view with incomplete passed" should {
 
-    val operationKey = "add"
-    val entityKey = "agent"
+    val operationKey           = "add"
+    val entityKey              = "agent"
     val notificationSectionKey = s"taskList.$entityKey.$operationKey.heading.first"
 
-    val personalDetailsTask = Seq(testRow1) 
+    val personalDetailsTask    = Seq(testRow1)
     val liabilitiesInformation = Seq(testRow2)
-    val additionalInformation = Seq(testRow3)
-    val list = TaskListViewModel(personalDetailsTask, liabilitiesInformation, additionalInformation)
-    
-    val entity = arbitrary[RelatesTo].sample.value.toString
+    val additionalInformation  = Seq(testRow3)
+    val list                   = TaskListViewModel(personalDetailsTask, liabilitiesInformation, additionalInformation)
+
+    val entity         = arbitrary[RelatesTo].sample.value.toString
     val isTheUserAgent = arbitrary[Boolean].sample.value
 
-    val title = messages("taskList.title")
+    val title   = messages("taskList.title")
     val heading = messages("taskList.heading")
-    
-    def createView: Html = page(list, notificationSectionKey, isTheUserAgent, entity, false, 0, false, title, heading)(request, messages)
+
+    def createView: Html =
+      page(list, notificationSectionKey, isTheUserAgent, entity, false, 0, false, title, heading)(request, messages)
 
     val view = createView
 
@@ -102,22 +103,23 @@ class TaskListViewSpec extends ViewSpecBase with ViewMatchers with Generators {
 
   "view with completed passed" should {
 
-    val operationKey = "add"
-    val entityKey = "agent"
+    val operationKey           = "add"
+    val entityKey              = "agent"
     val notificationSectionKey = s"taskList.$entityKey.$operationKey.heading.first"
 
-    val personalDetailsTask = Seq(testRow1) 
+    val personalDetailsTask    = Seq(testRow1)
     val liabilitiesInformation = Seq(testRow2)
-    val additionalInformation = Seq(testRow3)
-    val list = TaskListViewModel(personalDetailsTask, liabilitiesInformation, additionalInformation)
-    
-    val entity = arbitrary[RelatesTo].sample.value.toString
+    val additionalInformation  = Seq(testRow3)
+    val list                   = TaskListViewModel(personalDetailsTask, liabilitiesInformation, additionalInformation)
+
+    val entity         = arbitrary[RelatesTo].sample.value.toString
     val isTheUserAgent = arbitrary[Boolean].sample.value
 
-    val title = messages("taskList.title")
+    val title   = messages("taskList.title")
     val heading = messages("taskList.heading")
 
-    def createView: Html = page(list, notificationSectionKey, isTheUserAgent, entity, true, 3, false, title, heading)(request, messages)
+    def createView: Html =
+      page(list, notificationSectionKey, isTheUserAgent, entity, true, 3, false, title, heading)(request, messages)
 
     val view = createView
 
@@ -148,7 +150,9 @@ class TaskListViewSpec extends ViewSpecBase with ViewMatchers with Generators {
     }
 
     "have a view details link" in {
-      view.getElementById("link-view-a-copy").attr("href") mustBe controllers.routes.PdfGenerationController.generate.url
+      view
+        .getElementById("link-view-a-copy")
+        .attr("href") mustBe controllers.routes.PdfGenerationController.generate.url
     }
 
     "contain the sub heading" in {
@@ -156,15 +160,17 @@ class TaskListViewSpec extends ViewSpecBase with ViewMatchers with Generators {
     }
 
     s"have a forth paragraph when $isTheUserAgent & $entity" in {
-      if(isTheUserAgent){
+      if (isTheUserAgent) {
         view.getElementById("forth-paragraph").text() mustBe messages("taskList.agent.paragraph.forth")
       } else {
-        view.getElementById("forth-paragraph").text() mustBe messages(s"taskList.${entity}.paragraph.forth")
+        view.getElementById("forth-paragraph").text() mustBe messages(s"taskList.$entity.paragraph.forth")
       }
     }
 
     "have a fifth paragraph" in {
-      view.getElementById("fifth-paragraph").text() mustBe messages("taskList.paragraph.fifth") + messages("taskList.paragraph.fifth.link") + messages("site.dot")
+      view.getElementById("fifth-paragraph").text() mustBe messages("taskList.paragraph.fifth") + messages(
+        "taskList.paragraph.fifth.link"
+      ) + messages("site.dot")
     }
 
   }

@@ -37,22 +37,24 @@ class AccountingPeriodDLAddedControllerSpec extends SpecBase with MockitoSugar {
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new AccountingPeriodDLAddedFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   lazy val accountingPeriodDLAddedRoute = routes.AccountingPeriodDLAddedController.onPageLoad(NormalMode).url
 
-  val answer = Seq(DirectorLoanAccountLiabilities(
-    name = "a Name",
-    periodEnd = LocalDate.now(ZoneOffset.UTC).minusDays(1),
-    overdrawn = BigInt(1000),
-    unpaidTax = BigInt(1000),
-    interest = BigInt(1000),
-    penaltyRate = 20,
-    penaltyRateReason = "Reason"
-  ))
+  val answer = Seq(
+    DirectorLoanAccountLiabilities(
+      name = "a Name",
+      periodEnd = LocalDate.now(ZoneOffset.UTC).minusDays(1),
+      overdrawn = BigInt(1000),
+      unpaidTax = BigInt(1000),
+      interest = BigInt(1000),
+      penaltyRate = 20,
+      penaltyRateReason = "Reason"
+    )
+  )
 
-  val userAnswers = UserAnswers(userAnswersId, "session-123").set(DirectorLoanAccountLiabilitiesPage, answer).success.value
-
+  val userAnswers =
+    UserAnswers(userAnswersId, "session-123").set(DirectorLoanAccountLiabilitiesPage, answer).success.value
 
   "AccountingPeriodDLAdded Controller" - {
 
@@ -144,7 +146,9 @@ class AccountingPeriodDLAddedControllerSpec extends SpecBase with MockitoSugar {
       val result = route(applicationWithFakeOnshoreNavigator(onwardRoute), request).value
 
       status(result) mustEqual SEE_OTHER
-      redirectLocation(result).value mustEqual routes.DirectorLoanAccountLiabilitiesController.onPageLoad(0, NormalMode).url
+      redirectLocation(result).value mustEqual routes.DirectorLoanAccountLiabilitiesController
+        .onPageLoad(0, NormalMode)
+        .url
     }
 
     "must redirect to the same page if remove method is called and there are still details" in {
@@ -172,7 +176,10 @@ class AccountingPeriodDLAddedControllerSpec extends SpecBase with MockitoSugar {
         penaltyRateReason = "Some reason"
       )
 
-      val userAnswers = UserAnswers("id", "session-123").set(DirectorLoanAccountLiabilitiesPage, Seq(directorLoanAccountLiabilities, directorLoanAccountLiabilities2)).success.value
+      val userAnswers = UserAnswers("id", "session-123")
+        .set(DirectorLoanAccountLiabilitiesPage, Seq(directorLoanAccountLiabilities, directorLoanAccountLiabilities2))
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 

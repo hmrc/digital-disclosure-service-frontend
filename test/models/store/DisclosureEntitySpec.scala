@@ -18,10 +18,10 @@ package models.store
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import play.api.libs.json.{JsSuccess, Json, JsError, JsPath}
+import play.api.libs.json.{JsError, JsPath, JsSuccess, Json}
 import models.store.notification._
 
-class DisclosureEntitySpec extends AnyWordSpec with Matchers  {
+class DisclosureEntitySpec extends AnyWordSpec with Matchers {
 
   "reads" should {
     "convert JsString Individual to Individual" in {
@@ -82,5 +82,5 @@ class DisclosureEntitySpec extends AnyWordSpec with Matchers  {
       Json.toJson(actual) shouldEqual Json.parse("""{"entity": "Trust"}""")
     }
   }
-  
+
 }

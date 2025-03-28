@@ -25,9 +25,9 @@ import models.{NormalMode, RelatesTo}
 
 class CDFOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new CDFOnshoreFormProvider()()
+  val form                 = new CDFOnshoreFormProvider()()
   val page: CDFOnshoreView = inject[CDFOnshoreView]
-  val entity = RelatesTo.ACompany 
+  val entity               = RelatesTo.ACompany
 
   private def createView: Html = page(form, NormalMode, entity)(request, messages)
 
@@ -44,38 +44,47 @@ class CDFOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain first paragraph" in {
-      view.getElementById("body").text() mustBe 
-        messages(s"contractualDisclosureFacility.${entity}.body.first") +
-        messages(s"contractualDisclosureFacility.${entity}.link.first") +
+      view.getElementById("body").text() mustBe
+        messages(s"contractualDisclosureFacility.$entity.body.first") +
+        messages(s"contractualDisclosureFacility.$entity.link.first") +
         messages("site.dot") +
-        messages(s"contractualDisclosureFacility.${entity}.body.second") +
-        messages(s"contractualDisclosureFacility.${entity}.link.second") +
+        messages(s"contractualDisclosureFacility.$entity.body.second") +
+        messages(s"contractualDisclosureFacility.$entity.link.second") +
         messages("site.dot")
     }
 
     "have a first guidance link" in {
-      view.getElementById("guidance-link-first").attr("href") mustBe "https://www.gov.uk/guidance/admitting-tax-fraud-the-contractual-disclosure-facility-cdf"
+      view
+        .getElementById("guidance-link-first")
+        .attr("href") mustBe "https://www.gov.uk/guidance/admitting-tax-fraud-the-contractual-disclosure-facility-cdf"
     }
 
     "have a second guidance link" in {
-      view.getElementById("guidance-link-second").attr("href") mustBe "https://www.gov.uk/government/publications/voluntary-disclosure-contractual-disclosure-facility-cdf1"
+      view
+        .getElementById("guidance-link-second")
+        .attr(
+          "href"
+        ) mustBe "https://www.gov.uk/government/publications/voluntary-disclosure-contractual-disclosure-facility-cdf1"
     }
 
     "contain warning text" in {
-      view.getElementsByClass("govuk-warning-text").text() mustBe "! Warning " + messages(s"contractualDisclosureFacility.${entity}.warningText")
+      view.getElementsByClass("govuk-warning-text").text() mustBe "! Warning " + messages(
+        s"contractualDisclosureFacility.$entity.warningText"
+      )
     }
 
     "contain label" in {
-      view.getElementsByClass("govuk-fieldset__legend--m").text() mustBe messages(s"contractualDisclosureFacility.${entity}.label")
+      view.getElementsByClass("govuk-fieldset__legend--m").text() mustBe messages(
+        s"contractualDisclosureFacility.$entity.label"
+      )
     }
-  
 
     "contain third paragraph" in {
-      view.getElementById("third-body").text() mustBe messages(s"contractualDisclosureFacility.${entity}.body.third")
+      view.getElementById("third-body").text() mustBe messages(s"contractualDisclosureFacility.$entity.body.third")
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

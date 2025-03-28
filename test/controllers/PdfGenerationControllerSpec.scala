@@ -46,38 +46,45 @@ class PdfGenerationControllerSpec extends SpecBase with MockitoSugar {
 
       "for generate" in {
         setupMockSessionResponse(Some(UserAnswers("id", "submissionId")))
-        val applicationWithMockPDFService = applicationBuilder.overrides(
-          bind[SubmissionPDFService].toInstance(mockService)
-        ).build()
+        val applicationWithMockPDFService = applicationBuilder
+          .overrides(
+            bind[SubmissionPDFService].toInstance(mockService)
+          )
+          .build()
 
         val request = FakeRequest(GET, routes.PdfGenerationController.generate.url)
-        val result = route(applicationWithMockPDFService, request).value
+        val result  = route(applicationWithMockPDFService, request).value
 
         status(result) mustEqual OK
       }
 
       "for generateForSubmissionId" in {
 
-        val submission = Notification("userId", "submissionId", Instant.now, Metadata(), PersonalDetails(Background(), AboutYou()))
+        val submission =
+          Notification("userId", "submissionId", Instant.now, Metadata(), PersonalDetails(Background(), AboutYou()))
         object TestStoreService extends SubmissionStoreService {
-          def setSubmission(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Result] =
+          def setSubmission(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Result]                =
             Future.successful(NoContent)
-          def getSubmission(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Option[Submission]] =
+          def getSubmission(userId: String, submissionId: String)(implicit
+            hc: HeaderCarrier
+          ): Future[Option[Submission]] =
             Future.successful(Some(submission))
-          def getAllSubmissions(userId: String)(implicit hc: HeaderCarrier): Future[Seq[Submission]] =
+          def getAllSubmissions(userId: String)(implicit hc: HeaderCarrier): Future[Seq[Submission]]             =
             Future.successful(Seq(submission))
           def deleteSubmission(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Result] =
             Future.successful(NoContent)
         }
 
         setupMockSessionResponse(Some(UserAnswers("id", "submissionId")))
-        val applicationWithFakePDFService = applicationBuilder.overrides(
-          bind[SubmissionStoreService].toInstance(TestStoreService),
-          bind[SubmissionPDFService].toInstance(mockService)
-        ).build()
+        val applicationWithFakePDFService = applicationBuilder
+          .overrides(
+            bind[SubmissionStoreService].toInstance(TestStoreService),
+            bind[SubmissionPDFService].toInstance(mockService)
+          )
+          .build()
 
         val request = FakeRequest(GET, routes.PdfGenerationController.generateForSubmissionId("submissionId").url)
-        val result = route(applicationWithFakePDFService, request).value
+        val result  = route(applicationWithFakePDFService, request).value
 
         status(result) mustEqual OK
       }

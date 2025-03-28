@@ -35,7 +35,7 @@ class WhatIsYourFullNameControllerSpec extends SpecBase with MockitoSugar {
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new WhatIsYourFullNameFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   lazy val whatIsYourFullNameRoute = routes.WhatIsYourFullNameController.onPageLoad(NormalMode).url
 

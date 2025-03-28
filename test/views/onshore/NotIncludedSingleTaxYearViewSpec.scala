@@ -25,10 +25,10 @@ import models.NormalMode
 
 class NotIncludedSingleTaxYearViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val missingYear = "2020"
-  val firstYear = "2019"
-  val lastYear = "2021"
-  val form = new NotIncludedSingleTaxYearFormProvider()(missingYear)
+  val missingYear                        = "2020"
+  val firstYear                          = "2019"
+  val lastYear                           = "2021"
+  val form                               = new NotIncludedSingleTaxYearFormProvider()(missingYear)
   val page: NotIncludedSingleTaxYearView = inject[NotIncludedSingleTaxYearView]
 
   private def createView: Html = page(form, NormalMode, missingYear, firstYear, lastYear)(request, messages)
@@ -42,11 +42,19 @@ class NotIncludedSingleTaxYearViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("youHaveNotIncludedTheTaxYear.heading", missingYear)
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages(
+        "youHaveNotIncludedTheTaxYear.heading",
+        missingYear
+      )
     }
 
     "contain body" in {
-      view.getElementById("body").text() mustBe messages("youHaveNotIncludedTheTaxYear.body", firstYear, lastYear, missingYear)
+      view.getElementById("body").text() mustBe messages(
+        "youHaveNotIncludedTheTaxYear.body",
+        firstYear,
+        lastYear,
+        missingYear
+      )
     }
 
     "contain label" in {
@@ -54,7 +62,7 @@ class NotIncludedSingleTaxYearViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

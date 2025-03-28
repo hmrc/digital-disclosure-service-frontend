@@ -35,9 +35,10 @@ class WhatIsTheIndividualsUniqueTaxReferenceControllerSpec extends SpecBase with
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new WhatIsTheIndividualsUniqueTaxReferenceFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
-  lazy val whatIsTheIndividualsUniqueTaxReferenceRoute = routes.WhatIsTheIndividualsUniqueTaxReferenceController.onPageLoad(NormalMode).url
+  lazy val whatIsTheIndividualsUniqueTaxReferenceRoute =
+    routes.WhatIsTheIndividualsUniqueTaxReferenceController.onPageLoad(NormalMode).url
 
   "WhatIsTheIndividualsUniqueTaxReference Controller" - {
 
@@ -57,7 +58,10 @@ class WhatIsTheIndividualsUniqueTaxReferenceControllerSpec extends SpecBase with
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhatIsTheIndividualsUniqueTaxReferencePage, "answer").success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123")
+        .set(WhatIsTheIndividualsUniqueTaxReferencePage, "answer")
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -77,7 +81,7 @@ class WhatIsTheIndividualsUniqueTaxReferenceControllerSpec extends SpecBase with
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val utrLength = 10
-      val validUTR = generateValidUTR(utrLength).sample.value
+      val validUTR  = generateValidUTR(utrLength).sample.value
 
       val request =
         FakeRequest(POST, whatIsTheIndividualsUniqueTaxReferenceRoute)

@@ -26,13 +26,13 @@ class MakeANotificationOrDisclosureFormProviderSpec extends OptionFieldBehaviour
 
   ".value" - {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "makeANotificationOrDisclosure.error.required"
 
     behave like optionsField[MakeANotificationOrDisclosure](
       form,
       fieldName,
-      validValues  = MakeANotificationOrDisclosure.values,
+      validValues = MakeANotificationOrDisclosure.values,
       invalidError = FormError(fieldName, "error.invalid")
     )
 

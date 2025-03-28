@@ -33,14 +33,15 @@ import scala.concurrent.Future
 class ResidentialReductionControllerSpec extends SpecBase with MockitoSugar {
 
   val formProvider = new ResidentialReductionFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   def onwardRoute = Call("GET", "/foo")
 
   val validAnswer = BigInt(0)
 
   val whichYears: Set[OnshoreYears] = Set(OnshoreYearStarting(2021))
-  val userAnswersWithTaxYears = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, whichYears).success.value
+  val userAnswersWithTaxYears       =
+    UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, whichYears).success.value
 
   lazy val residentialReductionRoute = routes.ResidentialReductionController.onPageLoad(0, NormalMode).url
 
@@ -62,7 +63,8 @@ class ResidentialReductionControllerSpec extends SpecBase with MockitoSugar {
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = userAnswersWithTaxYears.set(ResidentialReductionPage, Map[String, BigInt]("2021" -> validAnswer)).success.value
+      val userAnswers =
+        userAnswersWithTaxYears.set(ResidentialReductionPage, Map[String, BigInt]("2021" -> validAnswer)).success.value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -106,7 +108,7 @@ class ResidentialReductionControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm,  0, "2022", NormalMode)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, 0, "2022", NormalMode)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

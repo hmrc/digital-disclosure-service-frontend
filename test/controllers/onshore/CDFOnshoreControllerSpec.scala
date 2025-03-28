@@ -37,7 +37,7 @@ class CDFOnshoreControllerSpec extends SpecBase with MockitoSugar {
   lazy val contractualDisclosureFacilityRoute = routes.CDFOnshoreController.onPageLoad(NormalMode).url
 
   val formProvider = new CDFOnshoreFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   val entity = RelatesTo.ACompany
 
@@ -62,7 +62,7 @@ class CDFOnshoreControllerSpec extends SpecBase with MockitoSugar {
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val relatesToPage = UserAnswers(userAnswersId, "session-123").set(RelatesToPage, entity).success.value
-      val userAnswers = relatesToPage.set(CDFOnshorePage, true).success.value
+      val userAnswers   = relatesToPage.set(CDFOnshorePage, true).success.value
 
       setupMockSessionResponse(Some(userAnswers))
 

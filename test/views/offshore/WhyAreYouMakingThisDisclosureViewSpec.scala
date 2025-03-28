@@ -25,13 +25,13 @@ import models.{NormalMode, RelatesTo}
 
 class WhyAreYouMakingThisDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhyAreYouMakingThisDisclosureFormProvider()()
+  val form                                    = new WhyAreYouMakingThisDisclosureFormProvider()()
   val page: WhyAreYouMakingThisDisclosureView = inject[WhyAreYouMakingThisDisclosureView]
 
   "view" should {
-    
+
     val areTheyTheIndividual = true
-    val entity = RelatesTo.AnIndividual
+    val entity               = RelatesTo.AnIndividual
 
     def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
@@ -58,7 +58,7 @@ class WhyAreYouMakingThisDisclosureViewSpec extends ViewSpecBase with ViewMatche
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 
@@ -69,9 +69,9 @@ class WhyAreYouMakingThisDisclosureViewSpec extends ViewSpecBase with ViewMatche
   }
 
   "view" should {
-    
+
     val areTheyTheIndividual = false
-    val entity = RelatesTo.AnIndividual
+    val entity               = RelatesTo.AnIndividual
 
     def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
@@ -83,9 +83,9 @@ class WhyAreYouMakingThisDisclosureViewSpec extends ViewSpecBase with ViewMatche
   }
 
   "view" should {
-    
+
     val areTheyTheIndividual = false
-    val entity = RelatesTo.AnEstate
+    val entity               = RelatesTo.AnEstate
 
     def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
@@ -97,9 +97,9 @@ class WhyAreYouMakingThisDisclosureViewSpec extends ViewSpecBase with ViewMatche
   }
 
   "view" should {
-    
+
     val areTheyTheIndividual = false
-    val entity = RelatesTo.ACompany
+    val entity               = RelatesTo.ACompany
 
     def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
@@ -111,9 +111,9 @@ class WhyAreYouMakingThisDisclosureViewSpec extends ViewSpecBase with ViewMatche
   }
 
   "view" should {
-    
+
     val areTheyTheIndividual = false
-    val entity = RelatesTo.ALimitedLiabilityPartnership
+    val entity               = RelatesTo.ALimitedLiabilityPartnership
 
     def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
@@ -125,9 +125,9 @@ class WhyAreYouMakingThisDisclosureViewSpec extends ViewSpecBase with ViewMatche
   }
 
   "view" should {
-    
+
     val areTheyTheIndividual = false
-    val entity = RelatesTo.ATrust
+    val entity               = RelatesTo.ATrust
 
     def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
@@ -138,26 +138,57 @@ class WhyAreYouMakingThisDisclosureViewSpec extends ViewSpecBase with ViewMatche
     }
   }
 
-  def constructMessageKey(view: Html, areTheyTheIndividual: Boolean, entity: RelatesTo) = {
+  def constructMessageKey(view: Html, areTheyTheIndividual: Boolean, entity: RelatesTo) =
     if (areTheyTheIndividual) {
-      view.getElementsByClass("govuk-checkboxes__item").get(0).text() mustBe messages(s"whyAreYouMakingThisDisclosure.you.didNotNotifyHasExcuse")
-      view.getElementsByClass("govuk-checkboxes__item").get(1).text() mustBe messages(s"whyAreYouMakingThisDisclosure.you.inaccurateReturnWithCare")
-      view.getElementsByClass("govuk-checkboxes__item").get(2).text() mustBe messages(s"whyAreYouMakingThisDisclosure.you.notFileHasExcuse")
-      view.getElementsByClass("govuk-checkboxes__item").get(3).text() mustBe messages(s"whyAreYouMakingThisDisclosure.you.inaccurateReturnNoCare")
-      view.getElementsByClass("govuk-checkboxes__item").get(4).text() mustBe messages(s"whyAreYouMakingThisDisclosure.you.didNotNotifyNoExcuse")
-      view.getElementsByClass("govuk-checkboxes__item").get(5).text() mustBe messages(s"whyAreYouMakingThisDisclosure.you.deliberatelyDidNotNotify")
-      view.getElementsByClass("govuk-checkboxes__item").get(6).text() mustBe messages(s"whyAreYouMakingThisDisclosure.you.deliberateInaccurateReturn")
-      view.getElementsByClass("govuk-checkboxes__item").get(7).text() mustBe messages(s"whyAreYouMakingThisDisclosure.you.deliberatelyDidNotFile")
+      view.getElementsByClass("govuk-checkboxes__item").get(0).text() mustBe messages(
+        s"whyAreYouMakingThisDisclosure.you.didNotNotifyHasExcuse"
+      )
+      view.getElementsByClass("govuk-checkboxes__item").get(1).text() mustBe messages(
+        s"whyAreYouMakingThisDisclosure.you.inaccurateReturnWithCare"
+      )
+      view.getElementsByClass("govuk-checkboxes__item").get(2).text() mustBe messages(
+        s"whyAreYouMakingThisDisclosure.you.notFileHasExcuse"
+      )
+      view.getElementsByClass("govuk-checkboxes__item").get(3).text() mustBe messages(
+        s"whyAreYouMakingThisDisclosure.you.inaccurateReturnNoCare"
+      )
+      view.getElementsByClass("govuk-checkboxes__item").get(4).text() mustBe messages(
+        s"whyAreYouMakingThisDisclosure.you.didNotNotifyNoExcuse"
+      )
+      view.getElementsByClass("govuk-checkboxes__item").get(5).text() mustBe messages(
+        s"whyAreYouMakingThisDisclosure.you.deliberatelyDidNotNotify"
+      )
+      view.getElementsByClass("govuk-checkboxes__item").get(6).text() mustBe messages(
+        s"whyAreYouMakingThisDisclosure.you.deliberateInaccurateReturn"
+      )
+      view.getElementsByClass("govuk-checkboxes__item").get(7).text() mustBe messages(
+        s"whyAreYouMakingThisDisclosure.you.deliberatelyDidNotFile"
+      )
     } else {
-      view.getElementsByClass("govuk-checkboxes__item").get(0).text() mustBe messages(s"whyAreYouMakingThisDisclosure.${entity.toString}.didNotNotifyHasExcuse")
-      view.getElementsByClass("govuk-checkboxes__item").get(1).text() mustBe messages(s"whyAreYouMakingThisDisclosure.${entity.toString}.inaccurateReturnWithCare")
-      view.getElementsByClass("govuk-checkboxes__item").get(2).text() mustBe messages(s"whyAreYouMakingThisDisclosure.${entity.toString}.notFileHasExcuse")
-      view.getElementsByClass("govuk-checkboxes__item").get(3).text() mustBe messages(s"whyAreYouMakingThisDisclosure.${entity.toString}.inaccurateReturnNoCare")
-      view.getElementsByClass("govuk-checkboxes__item").get(4).text() mustBe messages(s"whyAreYouMakingThisDisclosure.${entity.toString}.didNotNotifyNoExcuse")
-      view.getElementsByClass("govuk-checkboxes__item").get(5).text() mustBe messages(s"whyAreYouMakingThisDisclosure.${entity.toString}.deliberatelyDidNotNotify")
-      view.getElementsByClass("govuk-checkboxes__item").get(6).text() mustBe messages(s"whyAreYouMakingThisDisclosure.${entity.toString}.deliberateInaccurateReturn")
-      view.getElementsByClass("govuk-checkboxes__item").get(7).text() mustBe messages(s"whyAreYouMakingThisDisclosure.${entity.toString}.deliberatelyDidNotFile")
+      view.getElementsByClass("govuk-checkboxes__item").get(0).text() mustBe messages(
+        s"whyAreYouMakingThisDisclosure.${entity.toString}.didNotNotifyHasExcuse"
+      )
+      view.getElementsByClass("govuk-checkboxes__item").get(1).text() mustBe messages(
+        s"whyAreYouMakingThisDisclosure.${entity.toString}.inaccurateReturnWithCare"
+      )
+      view.getElementsByClass("govuk-checkboxes__item").get(2).text() mustBe messages(
+        s"whyAreYouMakingThisDisclosure.${entity.toString}.notFileHasExcuse"
+      )
+      view.getElementsByClass("govuk-checkboxes__item").get(3).text() mustBe messages(
+        s"whyAreYouMakingThisDisclosure.${entity.toString}.inaccurateReturnNoCare"
+      )
+      view.getElementsByClass("govuk-checkboxes__item").get(4).text() mustBe messages(
+        s"whyAreYouMakingThisDisclosure.${entity.toString}.didNotNotifyNoExcuse"
+      )
+      view.getElementsByClass("govuk-checkboxes__item").get(5).text() mustBe messages(
+        s"whyAreYouMakingThisDisclosure.${entity.toString}.deliberatelyDidNotNotify"
+      )
+      view.getElementsByClass("govuk-checkboxes__item").get(6).text() mustBe messages(
+        s"whyAreYouMakingThisDisclosure.${entity.toString}.deliberateInaccurateReturn"
+      )
+      view.getElementsByClass("govuk-checkboxes__item").get(7).text() mustBe messages(
+        s"whyAreYouMakingThisDisclosure.${entity.toString}.deliberatelyDidNotFile"
+      )
     }
-  }
 
 }

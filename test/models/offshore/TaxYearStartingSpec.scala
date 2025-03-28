@@ -38,7 +38,18 @@ class TaxYearStartingSpec extends SpecBase {
     }
 
     "For a list of 10 tax years sequential to each other, we should return Nil" in {
-      val list = List(TaxYearStarting(2012), TaxYearStarting(2013), TaxYearStarting(2014), TaxYearStarting(2015), TaxYearStarting(2016), TaxYearStarting(2017), TaxYearStarting(2018), TaxYearStarting(2019), TaxYearStarting(2020), TaxYearStarting(2021))
+      val list = List(
+        TaxYearStarting(2012),
+        TaxYearStarting(2013),
+        TaxYearStarting(2014),
+        TaxYearStarting(2015),
+        TaxYearStarting(2016),
+        TaxYearStarting(2017),
+        TaxYearStarting(2018),
+        TaxYearStarting(2019),
+        TaxYearStarting(2020),
+        TaxYearStarting(2021)
+      )
       TaxYearStarting.findMissingYears(list) mustEqual Nil
     }
 
@@ -48,30 +59,69 @@ class TaxYearStartingSpec extends SpecBase {
     }
 
     "For a list of 2 tax years which have a gap of five years between, those gap years should be returned" in {
-      val list = List(TaxYearStarting(2012), TaxYearStarting(2018))
-      val result = List(TaxYearStarting(2013), TaxYearStarting(2014), TaxYearStarting(2015), TaxYearStarting(2016), TaxYearStarting(2017)).sorted
+      val list   = List(TaxYearStarting(2012), TaxYearStarting(2018))
+      val result = List(
+        TaxYearStarting(2013),
+        TaxYearStarting(2014),
+        TaxYearStarting(2015),
+        TaxYearStarting(2016),
+        TaxYearStarting(2017)
+      ).sorted
       TaxYearStarting.findMissingYears(list) mustEqual result
     }
 
     "For a list of 3 tax years which have two gaps of one year, those gap years should be returned" in {
-      val list = List(TaxYearStarting(2012), TaxYearStarting(2014), TaxYearStarting(2016))
+      val list   = List(TaxYearStarting(2012), TaxYearStarting(2014), TaxYearStarting(2016))
       val result = List(TaxYearStarting(2013), TaxYearStarting(2015)).sorted
       TaxYearStarting.findMissingYears(list) mustEqual result
     }
 
     "For a list of 3 tax years which have two gaps of five years, those gap years should be returned" in {
-      val list = List(TaxYearStarting(2012), TaxYearStarting(2018), TaxYearStarting(2024))
-      val result = List(TaxYearStarting(2013), TaxYearStarting(2014), TaxYearStarting(2015), TaxYearStarting(2016), TaxYearStarting(2017), TaxYearStarting(2019), TaxYearStarting(2020), TaxYearStarting(2021), TaxYearStarting(2022), TaxYearStarting(2023)).sorted
+      val list   = List(TaxYearStarting(2012), TaxYearStarting(2018), TaxYearStarting(2024))
+      val result = List(
+        TaxYearStarting(2013),
+        TaxYearStarting(2014),
+        TaxYearStarting(2015),
+        TaxYearStarting(2016),
+        TaxYearStarting(2017),
+        TaxYearStarting(2019),
+        TaxYearStarting(2020),
+        TaxYearStarting(2021),
+        TaxYearStarting(2022),
+        TaxYearStarting(2023)
+      ).sorted
       TaxYearStarting.findMissingYears(list) mustEqual result
     }
 
     "For a list of 10 tax years which have a single gap of one year, that year should be returned" in {
-      val list = List(TaxYearStarting(2012), TaxYearStarting(2013), TaxYearStarting(2014), TaxYearStarting(2016), TaxYearStarting(2017), TaxYearStarting(2018), TaxYearStarting(2019), TaxYearStarting(2020), TaxYearStarting(2021), TaxYearStarting(2022))
+      val list = List(
+        TaxYearStarting(2012),
+        TaxYearStarting(2013),
+        TaxYearStarting(2014),
+        TaxYearStarting(2016),
+        TaxYearStarting(2017),
+        TaxYearStarting(2018),
+        TaxYearStarting(2019),
+        TaxYearStarting(2020),
+        TaxYearStarting(2021),
+        TaxYearStarting(2022)
+      )
       TaxYearStarting.findMissingYears(list) mustEqual List(TaxYearStarting(2015))
     }
 
     "For a list of 10 tax years in reverse order which have a single gap of one year, that year should be returned" in {
-      val list = List(TaxYearStarting(2012), TaxYearStarting(2013), TaxYearStarting(2014), TaxYearStarting(2016), TaxYearStarting(2017), TaxYearStarting(2018), TaxYearStarting(2019), TaxYearStarting(2020), TaxYearStarting(2021), TaxYearStarting(2022))
+      val list = List(
+        TaxYearStarting(2012),
+        TaxYearStarting(2013),
+        TaxYearStarting(2014),
+        TaxYearStarting(2016),
+        TaxYearStarting(2017),
+        TaxYearStarting(2018),
+        TaxYearStarting(2019),
+        TaxYearStarting(2020),
+        TaxYearStarting(2021),
+        TaxYearStarting(2022)
+      )
       TaxYearStarting.findMissingYears(list.sorted) mustEqual List(TaxYearStarting(2015))
     }
 

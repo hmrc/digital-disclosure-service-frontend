@@ -25,7 +25,7 @@ import models.NormalMode
 
 class WhatIsYourDateOfBirthViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhatIsYourDateOfBirthFormProvider()()
+  val form                            = new WhatIsYourDateOfBirthFormProvider()()
   val page: WhatIsYourDateOfBirthView = inject[WhatIsYourDateOfBirthView]
 
   private def createView: Html = page(form, NormalMode, false)(request, messages)
@@ -53,7 +53,7 @@ class WhatIsYourDateOfBirthViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

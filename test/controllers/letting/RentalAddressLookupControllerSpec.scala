@@ -37,17 +37,19 @@ import scala.concurrent.Future
 class RentalAddressLookupControllerSpec extends SpecBase with ModelGenerators {
 
   def addressLookupOnwardRoute: Call = Call("GET", "http://localhost:15003/foo")
-  def onwardRoute: Call = Call("GET", "/foo")
+  def onwardRoute: Call              = Call("GET", "/foo")
 
   lazy val addressLookupRoute: String = routes.RentalAddressLookupController.lookupAddress(0, NormalMode).url
 
-  def mockGetRentalAddressLookupRedirect(index: Int, redirectUrl: Call)
-                                        (response: Either[Error, URL]): OngoingStubbing[EitherT[Future, Error, URL]] =
+  def mockGetRentalAddressLookupRedirect(index: Int, redirectUrl: Call)(
+    response: Either[Error, URL]
+  ): OngoingStubbing[EitherT[Future, Error, URL]] =
     when(mockAddressLookupService.getRentalAddressLookupRedirect(eqTo(redirectUrl), eqTo(index))(any(), any()))
       .thenReturn(EitherT.fromEither[Future](response))
 
-  def mockRetrieveUserAddress(addressId: UUID)
-                             (response: Either[Error, Address]): OngoingStubbing[EitherT[Future, Error, Address]] =
+  def mockRetrieveUserAddress(
+    addressId: UUID
+  )(response: Either[Error, Address]): OngoingStubbing[EitherT[Future, Error, Address]] =
     when(mockAddressLookupService.retrieveUserAddress(eqTo(addressId))(any()))
       .thenReturn(EitherT.fromEither[Future](response))
 
@@ -65,7 +67,8 @@ class RentalAddressLookupControllerSpec extends SpecBase with ModelGenerators {
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       mockGetRentalAddressLookupRedirect(
-        0, routes.RentalAddressLookupController.retrieveConfirmedAddress(0, NormalMode, None)
+        0,
+        routes.RentalAddressLookupController.retrieveConfirmedAddress(0, NormalMode, None)
       )(Right(new URL("http://localhost:15003/foo")))
 
       val result = route(app, request).value
@@ -81,7 +84,8 @@ class RentalAddressLookupControllerSpec extends SpecBase with ModelGenerators {
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       mockGetRentalAddressLookupRedirect(
-        0, routes.RentalAddressLookupController.retrieveConfirmedAddress(0, NormalMode, None)
+        0,
+        routes.RentalAddressLookupController.retrieveConfirmedAddress(0, NormalMode, None)
       )(Left(Error("Something went wrong")))
 
       the[Exception] thrownBy status(route(app, request).value) must have message "Something went wrong"
@@ -93,7 +97,7 @@ class RentalAddressLookupControllerSpec extends SpecBase with ModelGenerators {
 
     "must update sessionRepo and redirect to the correct place when an address is returned by the address lookup service" in {
 
-      val uuid = UUID.randomUUID()
+      val uuid                      = UUID.randomUUID()
       lazy val retrieveAddressRoute =
         routes.RentalAddressLookupController.retrieveConfirmedAddress(0, NormalMode, Some(uuid)).url
 
@@ -130,7 +134,8 @@ class RentalAddressLookupControllerSpec extends SpecBase with ModelGenerators {
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       mockGetRentalAddressLookupRedirect(
-        0, routes.RentalAddressLookupController.retrieveConfirmedAddress(0, NormalMode, None)
+        0,
+        routes.RentalAddressLookupController.retrieveConfirmedAddress(0, NormalMode, None)
       )(Left(Error("Something went wrong")))
 
       the[Exception] thrownBy status(route(app, request).value) must have message "Something went wrong"

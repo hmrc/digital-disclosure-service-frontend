@@ -22,8 +22,8 @@ import play.api.data.FormError
 class WhatWasTheTypeOfMortgageFormProviderSpec extends StringFieldBehaviours {
 
   val requiredKey = "whatWasTheTypeOfMortgage.error.required"
-  val lengthKey = "whatWasTheTypeOfMortgage.error.length"
-  val maxLength = 500
+  val lengthKey   = "whatWasTheTypeOfMortgage.error.length"
+  val maxLength   = 500
 
   val form = new WhatWasTheTypeOfMortgageFormProvider()()
 

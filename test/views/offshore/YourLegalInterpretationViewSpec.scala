@@ -25,9 +25,9 @@ import models.{NormalMode, YourLegalInterpretationCheckboxes}
 
 class YourLegalInterpretationViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new YourLegalInterpretationFormProvider()()
+  val form                              = new YourLegalInterpretationFormProvider()()
   val page: YourLegalInterpretationView = inject[YourLegalInterpretationView]
-  val items = inject[YourLegalInterpretationCheckboxes]
+  val items                             = inject[YourLegalInterpretationCheckboxes]
 
   private def createView: Html = page(form, NormalMode, items.checkboxItems)(request, messages)
 
@@ -44,24 +44,50 @@ class YourLegalInterpretationViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain warning" in {
-      view.getElementsByClass("govuk-warning-text").text() mustBe "! Warning " + messages("yourLegalInterpretation.warning")
+      view.getElementsByClass("govuk-warning-text").text() mustBe "! Warning " + messages(
+        "yourLegalInterpretation.warning"
+      )
     }
 
     "contain checkboxes" in {
-      view.getElementsByClass("govuk-checkboxes__item").get(0).text() mustBe messages("yourLegalInterpretation.yourResidenceStatus")
-      view.getElementsByClass("govuk-checkboxes__item").get(1).text() mustBe messages("yourLegalInterpretation.yourDomicileStatus")
-      view.getElementsByClass("govuk-checkboxes__item").get(2).text() mustBe messages("yourLegalInterpretation.theRemittanceBasis")
-      view.getElementsByClass("govuk-checkboxes__item").get(3).text() mustBe messages("yourLegalInterpretation.howIncomeArisingInATrust")
-      view.getElementsByClass("govuk-checkboxes__item").get(4).text() mustBe messages("yourLegalInterpretation.theTransferOfAssets.first") + messages("yourLegalInterpretation.theTransferOfAssets.second") + messages("yourLegalInterpretation.theTransferOfAssets.link")
-      view.getElementsByClass("govuk-checkboxes__item").get(5).text() mustBe messages("yourLegalInterpretation.howIncomeArisingInAnOffshore")
-      view.getElementsByClass("govuk-checkboxes__item").get(6).text() mustBe messages("yourLegalInterpretation.inheritanceTaxIssues")
-      view.getElementsByClass("govuk-checkboxes__item").get(7).text() mustBe messages("yourLegalInterpretation.whetherIncomeShouldBeTaxed.first") + messages("yourLegalInterpretation.whetherIncomeShouldBeTaxed.second") + messages("yourLegalInterpretation.whetherIncomeShouldBeTaxed.link")
-      view.getElementsByClass("govuk-checkboxes__item").get(8).text() mustBe messages("yourLegalInterpretation.anotherIssue")
-      view.getElementsByClass("govuk-checkboxes__item").get(9).text() mustBe messages("yourLegalInterpretation.noExclusion")
+      view.getElementsByClass("govuk-checkboxes__item").get(0).text() mustBe messages(
+        "yourLegalInterpretation.yourResidenceStatus"
+      )
+      view.getElementsByClass("govuk-checkboxes__item").get(1).text() mustBe messages(
+        "yourLegalInterpretation.yourDomicileStatus"
+      )
+      view.getElementsByClass("govuk-checkboxes__item").get(2).text() mustBe messages(
+        "yourLegalInterpretation.theRemittanceBasis"
+      )
+      view.getElementsByClass("govuk-checkboxes__item").get(3).text() mustBe messages(
+        "yourLegalInterpretation.howIncomeArisingInATrust"
+      )
+      view.getElementsByClass("govuk-checkboxes__item").get(4).text() mustBe messages(
+        "yourLegalInterpretation.theTransferOfAssets.first"
+      ) + messages("yourLegalInterpretation.theTransferOfAssets.second") + messages(
+        "yourLegalInterpretation.theTransferOfAssets.link"
+      )
+      view.getElementsByClass("govuk-checkboxes__item").get(5).text() mustBe messages(
+        "yourLegalInterpretation.howIncomeArisingInAnOffshore"
+      )
+      view.getElementsByClass("govuk-checkboxes__item").get(6).text() mustBe messages(
+        "yourLegalInterpretation.inheritanceTaxIssues"
+      )
+      view.getElementsByClass("govuk-checkboxes__item").get(7).text() mustBe messages(
+        "yourLegalInterpretation.whetherIncomeShouldBeTaxed.first"
+      ) + messages("yourLegalInterpretation.whetherIncomeShouldBeTaxed.second") + messages(
+        "yourLegalInterpretation.whetherIncomeShouldBeTaxed.link"
+      )
+      view.getElementsByClass("govuk-checkboxes__item").get(8).text() mustBe messages(
+        "yourLegalInterpretation.anotherIssue"
+      )
+      view.getElementsByClass("govuk-checkboxes__item").get(9).text() mustBe messages(
+        "yourLegalInterpretation.noExclusion"
+      )
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

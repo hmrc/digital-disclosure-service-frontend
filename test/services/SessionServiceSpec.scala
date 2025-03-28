@@ -27,24 +27,38 @@ import scala.concurrent.Future
 import org.scalamock.handlers.{CallHandler1, CallHandler2, CallHandler3}
 import uk.gov.hmrc.http.HeaderCarrier
 import play.api.mvc.Result
-import java.time.{LocalDateTime, Instant}
-import models.{UserAnswers, SubmissionType}
+import java.time.{Instant, LocalDateTime}
+import models.{SubmissionType, UserAnswers}
 import play.api.mvc.Results.Ok
 import repositories.SessionRepository
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Success, Try}
 
-class SessionServiceSpec extends AnyWordSpec with Matchers 
-    with MockFactory with ScalaFutures {
+class SessionServiceSpec extends AnyWordSpec with Matchers with MockFactory with ScalaFutures {
 
   implicit val hc: HeaderCarrier = HeaderCarrier()
-    
-  val testNotification = Notification("123", "Individual", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
-  val testSubmittedNotification = Notification("123", "Individual", Instant.now(), Metadata(submissionTime = Some(LocalDateTime.now)), PersonalDetails(Background(), AboutYou()))
 
-  val userAnswers = UserAnswers("123", "session-123", "Individual", SubmissionType.Notification, lastUpdated = Instant.now())
-  val submittedUserAnswers = UserAnswers("123", "session-123", "Individual", SubmissionType.Notification, lastUpdated = Instant.now(), metadata = Metadata(submissionTime = Some(LocalDateTime.now)))
-  val emptyUserAnswers = UserAnswers("123", "session-123")
+  val testNotification          =
+    Notification("123", "Individual", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
+  val testSubmittedNotification = Notification(
+    "123",
+    "Individual",
+    Instant.now(),
+    Metadata(submissionTime = Some(LocalDateTime.now)),
+    PersonalDetails(Background(), AboutYou())
+  )
+
+  val userAnswers          =
+    UserAnswers("123", "session-123", "Individual", SubmissionType.Notification, lastUpdated = Instant.now())
+  val submittedUserAnswers = UserAnswers(
+    "123",
+    "session-123",
+    "Individual",
+    SubmissionType.Notification,
+    lastUpdated = Instant.now(),
+    metadata = Metadata(submissionTime = Some(LocalDateTime.now))
+  )
+  val emptyUserAnswers     = UserAnswers("123", "session-123")
 
   "getSession" should {
     "return the same value as returned by the connector" in new Test {
@@ -56,7 +70,10 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
   "set" should {
     "update the repo and the store" in new Test {
       (repo.set(_: UserAnswers)).expects(userAnswers).returning(Future.successful(true))
-      (storeService.setSubmission(_: UserAnswers)(_: HeaderCarrier)).expects(userAnswers, *).returning(Future.successful(Ok))
+      (storeService
+        .setSubmission(_: UserAnswers)(_: HeaderCarrier))
+        .expects(userAnswers, *)
+        .returning(Future.successful(Ok))
 
       sut.set(userAnswers).futureValue shouldEqual true
     }
@@ -76,14 +93,19 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
     }
   }
 
-
   "newSession" should {
 
-    "check the store and where it finds nothing, default and set that default in the session and store" in new Test {   
+    "check the store and where it finds nothing, default and set that default in the session and store" in new Test {
       mockGetSubmission("123", UserAnswers.defaultSubmissionId)(Future.successful(None))
       (repo.set(_: UserAnswers)).expects(*).returning(Future.successful(true))
       (storeService.setSubmission(_: UserAnswers)(_: HeaderCarrier)).expects(*, *).returning(Future.successful(Ok))
-      val result = sut.newSession("123", "session-123", UserAnswers.defaultSubmissionId, SubmissionType.Notification, Some(NINO("AB123456C")))
+      val result = sut.newSession(
+        "123",
+        "session-123",
+        UserAnswers.defaultSubmissionId,
+        SubmissionType.Notification,
+        Some(NINO("AB123456C"))
+      )
       Thread.sleep(150)
       result.futureValue shouldBe a[UserAnswers]
     }
@@ -92,9 +114,20 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
       mockGetSubmission("123", UserAnswers.defaultSubmissionId)(Future.successful(Some(testNotification)))
       mockNotificationToUserAnswers(testNotification)(Success(userAnswers))
       (repo.set(_: UserAnswers)).expects(userAnswers).returning(Future.successful(true))
-      (storeService.setSubmission(_: UserAnswers)(_: HeaderCarrier)).expects(userAnswers, *).returning(Future.successful(Ok))
+      (storeService
+        .setSubmission(_: UserAnswers)(_: HeaderCarrier))
+        .expects(userAnswers, *)
+        .returning(Future.successful(Ok))
 
-      sut.newSession("123", "session-123", UserAnswers.defaultSubmissionId, SubmissionType.Notification, Some(NINO("AB123456C"))).futureValue shouldBe a[UserAnswers]
+      sut
+        .newSession(
+          "123",
+          "session-123",
+          UserAnswers.defaultSubmissionId,
+          SubmissionType.Notification,
+          Some(NINO("AB123456C"))
+        )
+        .futureValue shouldBe a[UserAnswers]
     }
 
     "check the store and where it finds something which has been submitted, default and set that default in the session and store" in new Test {
@@ -103,7 +136,15 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
       (repo.set(_: UserAnswers)).expects(*).returning(Future.successful(true))
       (storeService.setSubmission(_: UserAnswers)(_: HeaderCarrier)).expects(*, *).returning(Future.successful(Ok))
 
-      sut.newSession("123", "session-123", UserAnswers.defaultSubmissionId, SubmissionType.Notification, Some(NINO("AB123456C"))).futureValue shouldBe a[UserAnswers]
+      sut
+        .newSession(
+          "123",
+          "session-123",
+          UserAnswers.defaultSubmissionId,
+          SubmissionType.Notification,
+          Some(NINO("AB123456C"))
+        )
+        .futureValue shouldBe a[UserAnswers]
     }
   }
 
@@ -122,11 +163,11 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
     }
   }
 
-  trait Test { 
-  
-    val repo = mock[SessionRepository]
+  trait Test {
+
+    val repo         = mock[SessionRepository]
     val storeService = mock[SubmissionStoreService]
-    val dataService = mock[SubmissionToUAService]
+    val dataService  = mock[SubmissionToUAService]
 
     val sut = new SessionServiceImpl(repo, storeService, dataService)
 
@@ -169,7 +210,7 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
         .getSubmission(_: String, _: String)(_: HeaderCarrier))
         .expects(userId, submissionId, *)
         .returning(response)
-    
+
     def mockSetSubmission(userAnswers: UserAnswers)(
       response: Future[Result]
     ): CallHandler2[UserAnswers, HeaderCarrier, Future[Result]] =
@@ -177,7 +218,7 @@ class SessionServiceSpec extends AnyWordSpec with Matchers
         .setSubmission(_: UserAnswers)(_: HeaderCarrier))
         .expects(userAnswers, *)
         .returning(response)
-    
+
     def mockNotificationToUserAnswers(submission: Submission)(
       response: Try[UserAnswers]
     ): CallHandler2[String, Submission, Try[UserAnswers]] =

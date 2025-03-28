@@ -17,7 +17,7 @@
 package forms
 
 import forms.behaviours.OptionFieldBehaviours
-import models.{RelatesTo, AreYouTheEntity}
+import models.{AreYouTheEntity, RelatesTo}
 import play.api.data.FormError
 
 class AreYouTheEntityFormProviderSpec extends OptionFieldBehaviours {
@@ -26,13 +26,13 @@ class AreYouTheEntityFormProviderSpec extends OptionFieldBehaviours {
 
   ".value" - {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "areYouTheEntity.individual.error.required"
 
     behave like optionsField[AreYouTheEntity](
       form,
       fieldName,
-      validValues  = AreYouTheEntity.values,
+      validValues = AreYouTheEntity.values,
       invalidError = FormError(fieldName, "error.invalid")
     )
 

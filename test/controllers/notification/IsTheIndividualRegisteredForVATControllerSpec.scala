@@ -33,10 +33,11 @@ class IsTheIndividualRegisteredForVATControllerSpec extends ControllerSpecBase {
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val isTheIndividualRegisteredForVATRoute = routes.IsTheIndividualRegisteredForVATController.onPageLoad(NormalMode).url
+  lazy val isTheIndividualRegisteredForVATRoute =
+    routes.IsTheIndividualRegisteredForVATController.onPageLoad(NormalMode).url
 
   val formProvider = new IsTheIndividualRegisteredForVATFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   "IsTheIndividualRegisteredForVAT Controller" - {
 
@@ -56,7 +57,10 @@ class IsTheIndividualRegisteredForVATControllerSpec extends ControllerSpecBase {
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(IsTheIndividualRegisteredForVATPage, IsTheIndividualRegisteredForVAT.values.head).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123")
+        .set(IsTheIndividualRegisteredForVATPage, IsTheIndividualRegisteredForVAT.values.head)
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -67,7 +71,10 @@ class IsTheIndividualRegisteredForVATControllerSpec extends ControllerSpecBase {
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(IsTheIndividualRegisteredForVAT.values.head), NormalMode, false)(request, messages).toString
+      contentAsString(result) mustEqual view(form.fill(IsTheIndividualRegisteredForVAT.values.head), NormalMode, false)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -133,69 +140,110 @@ class IsTheIndividualRegisteredForVATControllerSpec extends ControllerSpecBase {
     "must redirect to WhatIsTheIndividualsVATRegistrationNumberPage page (change mode) if page answer changes from No to YesIKnow in check mode" in {
 
       val previousAnswer = IsTheIndividualRegisteredForVAT.No
-      val newAnswer = IsTheIndividualRegisteredForVAT.YesIKnow
+      val newAnswer      = IsTheIndividualRegisteredForVAT.YesIKnow
 
-      val urlToTest = routes.IsTheIndividualRegisteredForVATController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.IsTheIndividualRegisteredForVATController.onPageLoad(CheckMode).url
       val destinationRoute = routes.WhatIsTheIndividualsVATRegistrationNumberController.onPageLoad(CheckMode).url
 
-      testChangeAnswerRouting(previousAnswer, newAnswer, IsTheIndividualRegisteredForVATPage, urlToTest, destinationRoute, Nil)
+      testChangeAnswerRouting(
+        previousAnswer,
+        newAnswer,
+        IsTheIndividualRegisteredForVATPage,
+        urlToTest,
+        destinationRoute,
+        Nil
+      )
     }
 
     "must redirect to WhatIsTheIndividualsVATRegistrationNumberPage page (change mode) if page answer changes from YesButDontKnow to YesIKnow in check mode" in {
 
       val previousAnswer = IsTheIndividualRegisteredForVAT.YesButDontKnow
-      val newAnswer = IsTheIndividualRegisteredForVAT.YesIKnow
+      val newAnswer      = IsTheIndividualRegisteredForVAT.YesIKnow
 
-      val urlToTest = routes.IsTheIndividualRegisteredForVATController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.IsTheIndividualRegisteredForVATController.onPageLoad(CheckMode).url
       val destinationRoute = routes.WhatIsTheIndividualsVATRegistrationNumberController.onPageLoad(CheckMode).url
 
-      testChangeAnswerRouting(previousAnswer, newAnswer, IsTheIndividualRegisteredForVATPage, urlToTest, destinationRoute, Nil)
+      testChangeAnswerRouting(
+        previousAnswer,
+        newAnswer,
+        IsTheIndividualRegisteredForVATPage,
+        urlToTest,
+        destinationRoute,
+        Nil
+      )
     }
 
     "must redirect to CheckYourAnswers screen and clear WhatIsTheIndividualsVATRegistrationNumberPage if page answer changes from YesIKnow to No in check mode" in {
 
       val previousAnswer = IsTheIndividualRegisteredForVAT.YesIKnow
-      val newAnswer = IsTheIndividualRegisteredForVAT.No
+      val newAnswer      = IsTheIndividualRegisteredForVAT.No
 
-      val urlToTest = routes.IsTheIndividualRegisteredForVATController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.IsTheIndividualRegisteredForVATController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
-      testChangeAnswerRouting(previousAnswer, newAnswer, IsTheIndividualRegisteredForVATPage, urlToTest, destinationRoute, List(WhatIsTheIndividualsVATRegistrationNumberPage))
+      testChangeAnswerRouting(
+        previousAnswer,
+        newAnswer,
+        IsTheIndividualRegisteredForVATPage,
+        urlToTest,
+        destinationRoute,
+        List(WhatIsTheIndividualsVATRegistrationNumberPage)
+      )
     }
 
     "must redirect to CheckYourAnswers screen and clear WhatIsTheIndividualsVATRegistrationNumberPagee if page answer changes from YesIKnow to YesButDontKnow in check mode" in {
 
       val previousAnswer = IsTheIndividualRegisteredForVAT.YesIKnow
-      val newAnswer = IsTheIndividualRegisteredForVAT.YesButDontKnow
+      val newAnswer      = IsTheIndividualRegisteredForVAT.YesButDontKnow
 
-      val urlToTest = routes.IsTheIndividualRegisteredForVATController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.IsTheIndividualRegisteredForVATController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
-      testChangeAnswerRouting(previousAnswer, newAnswer, IsTheIndividualRegisteredForVATPage, urlToTest, destinationRoute, List(WhatIsTheIndividualsVATRegistrationNumberPage))
+      testChangeAnswerRouting(
+        previousAnswer,
+        newAnswer,
+        IsTheIndividualRegisteredForVATPage,
+        urlToTest,
+        destinationRoute,
+        List(WhatIsTheIndividualsVATRegistrationNumberPage)
+      )
     }
 
     "must redirect to CheckYourAnswers screen if page answer is YesIKnow and doesn't change" in {
 
       val previousAnswer = IsTheIndividualRegisteredForVAT.YesIKnow
-      val newAnswer = IsTheIndividualRegisteredForVAT.YesIKnow
+      val newAnswer      = IsTheIndividualRegisteredForVAT.YesIKnow
 
-      val urlToTest = routes.IsTheIndividualRegisteredForVATController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.IsTheIndividualRegisteredForVATController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
-      testChangeAnswerRouting(previousAnswer, newAnswer, IsTheIndividualRegisteredForVATPage, urlToTest, destinationRoute, Nil)
+      testChangeAnswerRouting(
+        previousAnswer,
+        newAnswer,
+        IsTheIndividualRegisteredForVATPage,
+        urlToTest,
+        destinationRoute,
+        Nil
+      )
     }
 
     "must redirect to CheckYourAnswers screen if page answer is No and doesn't change" in {
 
       val previousAnswer = IsTheIndividualRegisteredForVAT.No
-      val newAnswer = IsTheIndividualRegisteredForVAT.No
+      val newAnswer      = IsTheIndividualRegisteredForVAT.No
 
-      val urlToTest = routes.IsTheIndividualRegisteredForVATController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.IsTheIndividualRegisteredForVATController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
-      testChangeAnswerRouting(previousAnswer, newAnswer, IsTheIndividualRegisteredForVATPage, urlToTest, destinationRoute, Nil)
+      testChangeAnswerRouting(
+        previousAnswer,
+        newAnswer,
+        IsTheIndividualRegisteredForVATPage,
+        urlToTest,
+        destinationRoute,
+        Nil
+      )
     }
-
 
   }
 }

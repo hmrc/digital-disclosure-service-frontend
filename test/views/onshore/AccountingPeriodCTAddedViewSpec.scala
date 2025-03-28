@@ -29,7 +29,7 @@ import java.time.format.DateTimeFormatter
 
 class AccountingPeriodCTAddedViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new AccountingPeriodCTAddedFormProvider()()
+  val form                              = new AccountingPeriodCTAddedFormProvider()()
   val page: AccountingPeriodCTAddedView = inject[AccountingPeriodCTAddedView]
 
   val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
@@ -57,7 +57,7 @@ class AccountingPeriodCTAddedViewSpec extends ViewSpecBase with ViewMatchers {
     val corporationTaxLiabilitiesSummaries = CorporationTaxLiabilityModel.row(Seq(corporationTaxLiability), NormalMode)
 
     def createView: Html = page(form, corporationTaxLiabilitiesSummaries, NormalMode)(request, messages)
-    val view = createView
+    val view             = createView
 
     "have title" in {
       view.select("title").text() must include(messages("accountingPeriodCTAdded.title.single"))
@@ -68,7 +68,9 @@ class AccountingPeriodCTAddedViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain summary row" in {
-      view.getElementsByClass("govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key").text() mustBe s"Ending ${corporationTaxLiability.periodEnd.format(dateFormatter)}"
+      view
+        .getElementsByClass("govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key")
+        .text() mustBe s"Ending ${corporationTaxLiability.periodEnd.format(dateFormatter)}"
     }
 
     "contain change/remove link" in {
@@ -77,7 +79,7 @@ class AccountingPeriodCTAddedViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 
@@ -85,7 +87,8 @@ class AccountingPeriodCTAddedViewSpec extends ViewSpecBase with ViewMatchers {
 
   "view for a multiple corporation tax liability" should {
 
-    val corporationTaxLiabilitiesSummaries = CorporationTaxLiabilityModel.row(Seq(corporationTaxLiability, corporationTaxLiability2), NormalMode)
+    val corporationTaxLiabilitiesSummaries =
+      CorporationTaxLiabilityModel.row(Seq(corporationTaxLiability, corporationTaxLiability2), NormalMode)
 
     def createView: Html = page(form, corporationTaxLiabilitiesSummaries, NormalMode)(request, messages)
 
@@ -100,15 +103,25 @@ class AccountingPeriodCTAddedViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain summary row" in {
-      view.getElementsByClass("govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key").first().text() mustBe s"Ending ${corporationTaxLiability.periodEnd.format(dateFormatter)}"
-      view.getElementsByClass("govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key").last().text() mustBe s"Ending ${corporationTaxLiability2.periodEnd.format(dateFormatter)}"
+      view
+        .getElementsByClass("govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key")
+        .first()
+        .text() mustBe s"Ending ${corporationTaxLiability.periodEnd.format(dateFormatter)}"
+      view
+        .getElementsByClass("govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key")
+        .last()
+        .text() mustBe s"Ending ${corporationTaxLiability2.periodEnd.format(dateFormatter)}"
     }
 
     "contain remove link" in {
       view.getElementsByClass("govuk-link").get(3).text() must include(messages("site.change"))
-      view.getElementsByClass("govuk-link").get(3).attr("href") mustBe routes.CorporationTaxLiabilityController.onPageLoad(0, NormalMode).url
+      view.getElementsByClass("govuk-link").get(3).attr("href") mustBe routes.CorporationTaxLiabilityController
+        .onPageLoad(0, NormalMode)
+        .url
       view.getElementsByClass("govuk-link").get(4).text() must include(messages("site.remove"))
-      view.getElementsByClass("govuk-link").get(4).attr("href") mustBe routes.AccountingPeriodCTAddedController.remove(0, NormalMode).url
+      view.getElementsByClass("govuk-link").get(4).attr("href") mustBe routes.AccountingPeriodCTAddedController
+        .remove(0, NormalMode)
+        .url
     }
 
     "display the continue button" in {

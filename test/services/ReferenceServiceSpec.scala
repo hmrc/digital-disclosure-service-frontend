@@ -33,7 +33,6 @@ class ReferenceServiceSpec extends AnyWordSpec with Matchers {
       sut.generateReference should startWith regex "^([A-Z0-9]{4})-([A-Z0-9]{4})-([A-Z0-9]{4})$"
     }
 
-
   }
 
 }

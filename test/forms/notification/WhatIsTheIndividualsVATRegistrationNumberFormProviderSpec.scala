@@ -22,7 +22,7 @@ import play.api.data.FormError
 class WhatIsTheIndividualsVATRegistrationNumberFormProviderSpec extends VATBehaviours {
 
   val requiredErrorKey = "whatIsTheIndividualsVATRegistrationNumber.error.required"
-  val invalidErrorKey = "whatIsTheIndividualsVATRegistrationNumber.error.invalid"
+  val invalidErrorKey  = "whatIsTheIndividualsVATRegistrationNumber.error.invalid"
 
   val form = new WhatIsTheIndividualsVATRegistrationNumberFormProvider()()
 

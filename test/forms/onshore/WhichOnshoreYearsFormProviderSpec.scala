@@ -17,7 +17,7 @@
 package forms
 
 import forms.behaviours.CheckboxFieldBehaviours
-import models.{OnshoreYearStarting, OnshoreYears, PriorToThreeYears, PriorToFiveYears, PriorToNineteenYears}
+import models.{OnshoreYearStarting, OnshoreYears, PriorToFiveYears, PriorToNineteenYears, PriorToThreeYears}
 import play.api.data.FormError
 import java.time.LocalDate
 import uk.gov.hmrc.time.CurrentTaxYear
@@ -28,20 +28,21 @@ class WhichOnshoreYearsFormProviderSpec extends CheckboxFieldBehaviours with Cur
 
   val form = new WhichOnshoreYearsFormProvider()()
 
-  val currentYear = current.startYear
-  val nineteenYears = Range.inclusive(1, 19).map(i => OnshoreYearStarting(currentYear-i)).toSeq :+ PriorToNineteenYears
-  val fiveYears = Range.inclusive(1, 5).map(i => OnshoreYearStarting(currentYear-i)).toSeq :+ PriorToFiveYears
-  val threeYears = Range.inclusive(1, 3).map(i => OnshoreYearStarting(currentYear-i)).toSeq :+ PriorToThreeYears
+  val currentYear   = current.startYear
+  val nineteenYears =
+    Range.inclusive(1, 19).map(i => OnshoreYearStarting(currentYear - i)).toSeq :+ PriorToNineteenYears
+  val fiveYears     = Range.inclusive(1, 5).map(i => OnshoreYearStarting(currentYear - i)).toSeq :+ PriorToFiveYears
+  val threeYears    = Range.inclusive(1, 3).map(i => OnshoreYearStarting(currentYear - i)).toSeq :+ PriorToThreeYears
 
   "nineteen years" - {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "whichOnshoreYears.error.required"
 
     behave like checkboxField[OnshoreYears](
       form,
       fieldName,
-      validValues  = nineteenYears,
+      validValues = nineteenYears,
       invalidError = FormError(s"$fieldName[0]", "error.invalid")
     )
 
@@ -54,13 +55,13 @@ class WhichOnshoreYearsFormProviderSpec extends CheckboxFieldBehaviours with Cur
 
   "five years" - {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "whichOnshoreYears.error.required"
 
     behave like checkboxField[OnshoreYears](
       form,
       fieldName,
-      validValues  = fiveYears,
+      validValues = fiveYears,
       invalidError = FormError(s"$fieldName[0]", "error.invalid")
     )
 
@@ -73,13 +74,13 @@ class WhichOnshoreYearsFormProviderSpec extends CheckboxFieldBehaviours with Cur
 
   "three years" - {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "whichOnshoreYears.error.required"
 
     behave like checkboxField[OnshoreYears](
       form,
       fieldName,
-      validValues  = threeYears,
+      validValues = threeYears,
       invalidError = FormError(s"$fieldName[0]", "error.invalid")
     )
 

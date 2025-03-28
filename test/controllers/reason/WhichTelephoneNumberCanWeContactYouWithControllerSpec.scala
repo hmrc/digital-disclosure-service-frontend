@@ -34,17 +34,18 @@ class WhichTelephoneNumberCanWeContactYouWithControllerSpec extends SpecBase wit
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val whichTelephoneNumberCanWeContactYouWithRoute = routes.WhichTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode).url
+  lazy val whichTelephoneNumberCanWeContactYouWithRoute =
+    routes.WhichTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode).url
 
   val formProvider = new WhichTelephoneNumberCanWeContactYouWithFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   "WhichTelephoneNumberCanWeContactYouWith Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
       val telephoneNumber = "07777 777777"
-      val userAnswers = UserAnswers("id", "session-123").set(YourPhoneNumberPage, telephoneNumber).success.value
+      val userAnswers     = UserAnswers("id", "session-123").set(YourPhoneNumberPage, telephoneNumber).success.value
       setupMockSessionResponse(Some(userAnswers))
 
       val request = FakeRequest(GET, whichTelephoneNumberCanWeContactYouWithRoute)
@@ -60,10 +61,12 @@ class WhichTelephoneNumberCanWeContactYouWithControllerSpec extends SpecBase wit
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val telephoneNumber = "07777 777777"
-      val userAnswers = (for {
-        ua <- UserAnswers("id", "session-123").set(WhichTelephoneNumberCanWeContactYouWithPage, WhichTelephoneNumberCanWeContactYouWith.values.head)
-        updatedUa <- ua.set(YourPhoneNumberPage, telephoneNumber)  
-      } yield updatedUa).success.value  
+      val userAnswers     = (for {
+        ua        <-
+          UserAnswers("id", "session-123")
+            .set(WhichTelephoneNumberCanWeContactYouWithPage, WhichTelephoneNumberCanWeContactYouWith.values.head)
+        updatedUa <- ua.set(YourPhoneNumberPage, telephoneNumber)
+      } yield updatedUa).success.value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -74,7 +77,11 @@ class WhichTelephoneNumberCanWeContactYouWithControllerSpec extends SpecBase wit
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(WhichTelephoneNumberCanWeContactYouWith.values.head), NormalMode, telephoneNumber)(request, messages).toString
+      contentAsString(result) mustEqual view(
+        form.fill(WhichTelephoneNumberCanWeContactYouWith.values.head),
+        NormalMode,
+        telephoneNumber
+      )(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -95,10 +102,12 @@ class WhichTelephoneNumberCanWeContactYouWithControllerSpec extends SpecBase wit
     "must return a Bad Request and errors when invalid data is submitted" in {
 
       val telephoneNumber = "07777 777777"
-      val userAnswers = (for {
-        ua <- UserAnswers("id", "session-123").set(WhichTelephoneNumberCanWeContactYouWithPage, WhichTelephoneNumberCanWeContactYouWith.values.head)
-        updatedUa <- ua.set(YourPhoneNumberPage, telephoneNumber)  
-      } yield updatedUa).success.value 
+      val userAnswers     = (for {
+        ua        <-
+          UserAnswers("id", "session-123")
+            .set(WhichTelephoneNumberCanWeContactYouWithPage, WhichTelephoneNumberCanWeContactYouWith.values.head)
+        updatedUa <- ua.set(YourPhoneNumberPage, telephoneNumber)
+      } yield updatedUa).success.value
 
       setupMockSessionResponse(Some(userAnswers))
 

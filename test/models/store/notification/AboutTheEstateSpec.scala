@@ -31,17 +31,50 @@ class AboutTheEstateSpec extends AnyFreeSpec with Matchers with OptionValues {
   "isComplete" - {
 
     "must return true where they have answered necessary questions and have a NINO" in {
-      val aboutTheEstate = AboutTheEstate(Some("name"), Some(LocalDate.now), Some("mainOccupation"), Some(Yes), Some("NINO"), Some(No), None, Some(No), None, Some(address))
+      val aboutTheEstate = AboutTheEstate(
+        Some("name"),
+        Some(LocalDate.now),
+        Some("mainOccupation"),
+        Some(Yes),
+        Some("NINO"),
+        Some(No),
+        None,
+        Some(No),
+        None,
+        Some(address)
+      )
       aboutTheEstate.isComplete mustBe true
     }
 
     "must return true where they have answered necessary questions and have a VAT reg" in {
-      val aboutTheEstate = AboutTheEstate(Some("name"), Some(LocalDate.now), Some("mainOccupation"), Some(No), None, Some(Yes), Some("VAT reg"), Some(No), None, Some(address))
+      val aboutTheEstate = AboutTheEstate(
+        Some("name"),
+        Some(LocalDate.now),
+        Some("mainOccupation"),
+        Some(No),
+        None,
+        Some(Yes),
+        Some("VAT reg"),
+        Some(No),
+        None,
+        Some(address)
+      )
       aboutTheEstate.isComplete mustBe true
     }
 
     "must return true where they have answered necessary questions and have an SAUTR" in {
-      val aboutTheEstate = AboutTheEstate(Some("name"), Some(LocalDate.now), Some("mainOccupation"), Some(No), None, Some(No), None, Some(Yes), Some("SAUTR"), Some(address))
+      val aboutTheEstate = AboutTheEstate(
+        Some("name"),
+        Some(LocalDate.now),
+        Some("mainOccupation"),
+        Some(No),
+        None,
+        Some(No),
+        None,
+        Some(Yes),
+        Some("SAUTR"),
+        Some(address)
+      )
       aboutTheEstate.isComplete mustBe true
     }
 

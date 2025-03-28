@@ -24,8 +24,8 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxFormProviderSpec extends BooleanFieldB
 
   ".value when an agent" - {
 
-    val form = new DidSomeoneGiveYouAdviceNotDeclareTaxFormProvider()(true, AnIndividual)
-    val fieldName = "value"
+    val form        = new DidSomeoneGiveYouAdviceNotDeclareTaxFormProvider()(true, AnIndividual)
+    val fieldName   = "value"
     val requiredKey = "didSomeoneGiveYouAdviceNotDeclareTax.agent.error.required"
 
     behave like booleanField(
@@ -42,18 +42,17 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxFormProviderSpec extends BooleanFieldB
   }
 
   Seq(
-      AnIndividual, 
-      AnEstate, 
-      ACompany, 
-      ALimitedLiabilityPartnership, 
-      ATrust
-  ).foreach {relatesTo =>
+    AnIndividual,
+    AnEstate,
+    ACompany,
+    ALimitedLiabilityPartnership,
+    ATrust
+  ).foreach { relatesTo =>
+    s".value when an $relatesTo" - {
 
-    s".value when an ${relatesTo}" - {
-    
-      val form = new DidSomeoneGiveYouAdviceNotDeclareTaxFormProvider()(false, relatesTo)
-      val fieldName = "value"
-      val requiredKey = s"didSomeoneGiveYouAdviceNotDeclareTax.${relatesTo}.error.required"
+      val form        = new DidSomeoneGiveYouAdviceNotDeclareTaxFormProvider()(false, relatesTo)
+      val fieldName   = "value"
+      val requiredKey = s"didSomeoneGiveYouAdviceNotDeclareTax.$relatesTo.error.required"
 
       behave like booleanField(
         form,

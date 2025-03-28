@@ -22,7 +22,7 @@ import play.api.data.FormError
 class JointlyOwnedPropertyFormProviderSpec extends BooleanFieldBehaviours {
 
   val requiredKey = "jointlyOwnedProperty.error.required"
-  val invalidKey = "error.boolean"
+  val invalidKey  = "error.boolean"
 
   val form = new JointlyOwnedPropertyFormProvider()()
 

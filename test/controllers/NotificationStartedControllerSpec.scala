@@ -38,15 +38,15 @@ class NotificationStartedControllerSpec extends SpecBase with MockitoSugar {
 
   lazy val notificationStartedRoute: String = routes.NotificationStartedController.onPageLoad.url
 
-  val formProvider = new NotificationStartedFormProvider()
+  val formProvider                    = new NotificationStartedFormProvider()
   val form: Form[NotificationStarted] = formProvider()
 
-  val instant: Instant = Instant.now()
-  val date: LocalDate = instant.atZone(ZoneOffset.UTC).toLocalDate
+  val instant: Instant                 = Instant.now()
+  val date: LocalDate                  = instant.atZone(ZoneOffset.UTC).toLocalDate
   val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
-  val formattedDate: String = date.format(dateFormatter)
+  val formattedDate: String            = date.format(dateFormatter)
 
-  val userAnswers: UserAnswers = emptyUserAnswers.copy(lastUpdated = instant)
+  val userAnswers: UserAnswers      = emptyUserAnswers.copy(lastUpdated = instant)
   val view: NotificationStartedView = application.injector.instanceOf[NotificationStartedView]
 
   "NotificationStarted Controller" - {

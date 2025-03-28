@@ -41,15 +41,15 @@ class ResidentialReductionFormProviderSpec extends BigIntFieldBehaviours {
     behave like bigintField(
       form,
       fieldName,
-      nonNumericError  = FormError(fieldName, "residentialReduction.error.nonNumeric"),
+      nonNumericError = FormError(fieldName, "residentialReduction.error.nonNumeric"),
       wholeNumberError = FormError(fieldName, "residentialReduction.error.wholeNumber")
     )
 
     behave like bigintFieldWithRange(
       form,
       fieldName,
-      minimum       = minimum,
-      maximum       = maximum,
+      minimum = minimum,
+      maximum = maximum,
       expectedError = FormError(fieldName, "residentialReduction.error.outOfRange", Seq(minimum, maximum))
     )
 

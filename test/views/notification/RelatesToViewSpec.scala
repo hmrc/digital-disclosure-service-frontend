@@ -25,7 +25,7 @@ import models.NormalMode
 
 class RelatesToViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new RelatesToFormProvider()()
+  val form                = new RelatesToFormProvider()()
   val page: RelatesToView = inject[RelatesToView]
 
   private def createView: Html = page(form, NormalMode, false)(request, messages)
@@ -45,7 +45,7 @@ class RelatesToViewSpec extends ViewSpecBase with ViewMatchers {
     "have An individual as an option" in {
       view.getElementsByClass("govuk-radios__label").get(0).text() mustBe messages("relatesTo.individual")
     }
-    
+
     "have hint text for individual option" in {
       view.select("div#value_0-item-hint").text() must include(messages("relatesTo.hint.individual"))
     }
@@ -57,7 +57,7 @@ class RelatesToViewSpec extends ViewSpecBase with ViewMatchers {
     "have hint text for estate option" in {
       view.select("div#value_1-item-hint").text() must include(messages("relatesTo.hint.estate"))
     }
-    
+
     "have A company as an option" in {
       view.getElementsByClass("govuk-radios__label").get(2).text() mustBe messages("relatesTo.company")
     }
@@ -65,7 +65,7 @@ class RelatesToViewSpec extends ViewSpecBase with ViewMatchers {
     "have hint text for company option" in {
       view.select("div#value_2-item-hint").text() must include(messages("relatesTo.hint.company"))
     }
-    
+
     "have A limited liability partnership as an option" in {
       view.getElementsByClass("govuk-radios__label").get(3).text() mustBe messages("relatesTo.llp")
     }
@@ -83,7 +83,7 @@ class RelatesToViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

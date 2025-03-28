@@ -72,7 +72,9 @@ class PropertyFirstLetOutControllerSpec extends SpecBase with MockitoSugar {
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = UserAnswers(userAnswersId, "session-123")
-        .setBySeqIndex(LettingPropertyPage, 0, LettingProperty(dateFirstLetOut = Some(validAnswer))).success.value
+        .setBySeqIndex(LettingPropertyPage, 0, LettingProperty(dateFirstLetOut = Some(validAnswer)))
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -85,10 +87,10 @@ class PropertyFirstLetOutControllerSpec extends SpecBase with MockitoSugar {
     }
 
     "must redirect to the next page when valid data is submitted" in {
-      
+
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
-      
+
       val result = route(applicationWithFakeLettingNavigator(onwardRoute), postRequest()).value
 
       status(result) mustEqual SEE_OTHER

@@ -25,7 +25,7 @@ import models.NormalMode
 
 class ResidentialReductionViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new ResidentialReductionFormProvider()()
+  val form                           = new ResidentialReductionFormProvider()()
   val page: ResidentialReductionView = inject[ResidentialReductionView]
 
   private def createView: Html = page(form, 0, "2022", NormalMode)(request, messages)
@@ -43,7 +43,7 @@ class ResidentialReductionViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

@@ -30,9 +30,9 @@ class WhatIsYourReasonableExcuseViewSpec extends ViewSpecBase with ViewMatchers 
   "view" should {
 
     val areTheyTheIndividual = true
-    val entity = RelatesTo.AnIndividual
-    val form = new WhatIsYourReasonableExcuseFormProvider()(areTheyTheIndividual)
-    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    val entity               = RelatesTo.AnIndividual
+    val form                 = new WhatIsYourReasonableExcuseFormProvider()(areTheyTheIndividual)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
     val view = createView
 
@@ -58,7 +58,7 @@ class WhatIsYourReasonableExcuseViewSpec extends ViewSpecBase with ViewMatchers 
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 
@@ -70,9 +70,9 @@ class WhatIsYourReasonableExcuseViewSpec extends ViewSpecBase with ViewMatchers 
   "view" should {
 
     val areTheyTheIndividual = false
-    val entity = RelatesTo.AnIndividual
-    val form = new WhatIsYourReasonableExcuseFormProvider()(areTheyTheIndividual)
-    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    val entity               = RelatesTo.AnIndividual
+    val form                 = new WhatIsYourReasonableExcuseFormProvider()(areTheyTheIndividual)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
     val view = createView
 
@@ -89,16 +89,16 @@ class WhatIsYourReasonableExcuseViewSpec extends ViewSpecBase with ViewMatchers 
     }
 
     "contain reasonableCare body when you have selected on behalf of individual agent" in {
-      view.getElementById("label").text() mustBe messages(s"whatIsYourReasonableExcuse.${entity}.excuse")
+      view.getElementById("label").text() mustBe messages(s"whatIsYourReasonableExcuse.$entity.excuse")
     }
   }
 
   "view" should {
 
     val areTheyTheIndividual = false
-    val entity = RelatesTo.AnEstate
-    val form = new WhatIsYourReasonableExcuseFormProvider()(areTheyTheIndividual)
-    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    val entity               = RelatesTo.AnEstate
+    val form                 = new WhatIsYourReasonableExcuseFormProvider()(areTheyTheIndividual)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
     val view = createView
 
@@ -115,16 +115,16 @@ class WhatIsYourReasonableExcuseViewSpec extends ViewSpecBase with ViewMatchers 
     }
 
     "contain reasonableCare body when you have selected AnEstate agent" in {
-      view.getElementById("label").text() mustBe messages(s"whatIsYourReasonableExcuse.${entity}.excuse")
+      view.getElementById("label").text() mustBe messages(s"whatIsYourReasonableExcuse.$entity.excuse")
     }
   }
 
   "view" should {
 
     val areTheyTheIndividual = false
-    val entity = RelatesTo.ACompany
-    val form = new WhatIsYourReasonableExcuseFormProvider()(areTheyTheIndividual)
-    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    val entity               = RelatesTo.ACompany
+    val form                 = new WhatIsYourReasonableExcuseFormProvider()(areTheyTheIndividual)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
     val view = createView
 
@@ -141,16 +141,16 @@ class WhatIsYourReasonableExcuseViewSpec extends ViewSpecBase with ViewMatchers 
     }
 
     "contain reasonableCare body when you have selected ACompany agent" in {
-      view.getElementById("label").text() mustBe messages(s"whatIsYourReasonableExcuse.${entity}.excuse")
+      view.getElementById("label").text() mustBe messages(s"whatIsYourReasonableExcuse.$entity.excuse")
     }
   }
 
   "view" should {
 
     val areTheyTheIndividual = false
-    val entity = RelatesTo.ALimitedLiabilityPartnership
-    val form = new WhatIsYourReasonableExcuseFormProvider()(areTheyTheIndividual)
-    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    val entity               = RelatesTo.ALimitedLiabilityPartnership
+    val form                 = new WhatIsYourReasonableExcuseFormProvider()(areTheyTheIndividual)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
     val view = createView
 
@@ -167,16 +167,16 @@ class WhatIsYourReasonableExcuseViewSpec extends ViewSpecBase with ViewMatchers 
     }
 
     "contain reasonableCare body when you have selected ALimitedLiabilityPartnership agent" in {
-      view.getElementById("label").text() mustBe messages(s"whatIsYourReasonableExcuse.${entity}.excuse")
+      view.getElementById("label").text() mustBe messages(s"whatIsYourReasonableExcuse.$entity.excuse")
     }
   }
 
   "view" should {
 
     val areTheyTheIndividual = false
-    val entity = RelatesTo.ATrust
-    val form = new WhatIsYourReasonableExcuseFormProvider()(areTheyTheIndividual)
-    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    val entity               = RelatesTo.ATrust
+    val form                 = new WhatIsYourReasonableExcuseFormProvider()(areTheyTheIndividual)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
     val view = createView
 
@@ -193,7 +193,7 @@ class WhatIsYourReasonableExcuseViewSpec extends ViewSpecBase with ViewMatchers 
     }
 
     "contain reasonableCare body when you have selected ATrust agent" in {
-      view.getElementById("label").text() mustBe messages(s"whatIsYourReasonableExcuse.${entity}.excuse")
+      view.getElementById("label").text() mustBe messages(s"whatIsYourReasonableExcuse.$entity.excuse")
     }
   }
 

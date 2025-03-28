@@ -35,7 +35,7 @@ class AdviceGivenControllerSpec extends SpecBase with MockitoSugar {
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new AdviceGivenFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   lazy val adviceGivenRoute = routes.AdviceGivenController.onPageLoad(NormalMode).url
 
@@ -79,7 +79,12 @@ class AdviceGivenControllerSpec extends SpecBase with MockitoSugar {
 
       val request =
         FakeRequest(POST, adviceGivenRoute)
-          .withFormUrlEncodedBody(("adviceGiven", "value 1"), ("date.month", "12"), ("date.year", "2012"), ("contact", "email"))
+          .withFormUrlEncodedBody(
+            ("adviceGiven", "value 1"),
+            ("date.month", "12"),
+            ("date.year", "2012"),
+            ("contact", "email")
+          )
 
       val result = route(applicationWithFakeReasonNavigator(onwardRoute), request).value
 

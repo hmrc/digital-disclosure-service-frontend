@@ -35,7 +35,7 @@ class WhyNotBeforeNowControllerSpec extends SpecBase with MockitoSugar {
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new WhyNotBeforeNowFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   lazy val whyNotBeforeNowRoute = routes.WhyNotBeforeNowController.onPageLoad(NormalMode).url
 

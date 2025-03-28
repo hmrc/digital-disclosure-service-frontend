@@ -16,17 +16,26 @@
 
 package forms
 
-import forms.behaviours.{BigIntFieldBehaviours, IntFieldBehaviours, StringFieldBehaviours, BigDecimalFieldBehaviours}
+import forms.behaviours.{BigDecimalFieldBehaviours, BigIntFieldBehaviours, IntFieldBehaviours, StringFieldBehaviours}
 import play.api.data.FormError
 import models.WhatOnshoreLiabilitiesDoYouNeedToDisclose
 
-class OnshoreTaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with BigIntFieldBehaviours
-  with BigDecimalFieldBehaviours with StringFieldBehaviours {
+class OnshoreTaxYearLiabilitiesFormProviderSpec
+    extends IntFieldBehaviours
+    with BigIntFieldBehaviours
+    with BigDecimalFieldBehaviours
+    with StringFieldBehaviours {
 
-  val formWithNoSelections = new OnshoreTaxYearLiabilitiesFormProvider()(Set())
-  val formWithNonBusinessSelected = new OnshoreTaxYearLiabilitiesFormProvider()(Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.NonBusinessIncome))
-  val formWithBusinessSelected = new OnshoreTaxYearLiabilitiesFormProvider()(Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.BusinessIncome))
-  val formWithLettingSelected = new OnshoreTaxYearLiabilitiesFormProvider()(Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome))
+  val formWithNoSelections        = new OnshoreTaxYearLiabilitiesFormProvider()(Set())
+  val formWithNonBusinessSelected = new OnshoreTaxYearLiabilitiesFormProvider()(
+    Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.NonBusinessIncome)
+  )
+  val formWithBusinessSelected    = new OnshoreTaxYearLiabilitiesFormProvider()(
+    Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.BusinessIncome)
+  )
+  val formWithLettingSelected     = new OnshoreTaxYearLiabilitiesFormProvider()(
+    Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)
+  )
 
   Seq(
     "niContributions",
@@ -48,7 +57,7 @@ class OnshoreTaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with 
       behave like bigintField(
         formWithNoSelections,
         fieldName,
-        nonNumericError  = FormError(fieldName, s"onshoreTaxYearLiabilities.$fieldName.error.nonNumeric"),
+        nonNumericError = FormError(fieldName, s"onshoreTaxYearLiabilities.$fieldName.error.nonNumeric"),
         wholeNumberError = FormError(fieldName, s"onshoreTaxYearLiabilities.$fieldName.error.wholeNumber")
       )
 
@@ -61,81 +70,85 @@ class OnshoreTaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with 
   }
 
   ".penaltyRate" - {
-      val minimum = BigDecimal(0)
-      val maximum = BigDecimal(200)
+    val minimum = BigDecimal(0)
+    val maximum = BigDecimal(200)
 
-      val fieldName = "penaltyRate"
+    val fieldName = "penaltyRate"
 
-      val validDataGenerator = decimalsInRangeWithCommasWithPercentage(minimum, maximum)
+    val validDataGenerator = decimalsInRangeWithCommasWithPercentage(minimum, maximum)
 
-      behave like fieldThatBindsValidData(
-        formWithNoSelections,
-        fieldName,
-        validDataGenerator
-      )
+    behave like fieldThatBindsValidData(
+      formWithNoSelections,
+      fieldName,
+      validDataGenerator
+    )
 
-      behave like decimalField(
-        formWithNoSelections,
-        fieldName,
-        nonNumericError  = FormError(fieldName, s"onshoreTaxYearLiabilities.penaltyRate.error.nonNumeric")
-      )
+    behave like decimalField(
+      formWithNoSelections,
+      fieldName,
+      nonNumericError = FormError(fieldName, s"onshoreTaxYearLiabilities.penaltyRate.error.nonNumeric")
+    )
 
-      behave like bigdecimalFieldWithRange(
-        formWithNoSelections,
-        fieldName,
-        minimum       = minimum,
-        maximum       = maximum,
-        expectedError = FormError(fieldName, s"onshoreTaxYearLiabilities.penaltyRate.error.outOfRange", Seq(minimum, maximum))
-      )
+    behave like bigdecimalFieldWithRange(
+      formWithNoSelections,
+      fieldName,
+      minimum = minimum,
+      maximum = maximum,
+      expectedError =
+        FormError(fieldName, s"onshoreTaxYearLiabilities.penaltyRate.error.outOfRange", Seq(minimum, maximum))
+    )
 
-      behave like mandatoryField(
-        formWithNoSelections,
-        fieldName,
-        requiredError = FormError(fieldName, s"onshoreTaxYearLiabilities.penaltyRate.error.required")
-      )
-    }
+    behave like mandatoryField(
+      formWithNoSelections,
+      fieldName,
+      requiredError = FormError(fieldName, s"onshoreTaxYearLiabilities.penaltyRate.error.required")
+    )
+  }
 
   ".residentialTaxReduction" - {
 
-    val fieldName = "residentialTaxReduction"
+    val fieldName   = "residentialTaxReduction"
     val requiredKey = "onshoreTaxYearLiabilities.residentialTaxReduction.error.required"
 
     "bind true" in {
-      val result = formWithLettingSelected.bind(Map(
-        ("lettingIncome", "2000"),
-        ("unpaidTax", "2000"),
-        ("niContributions", "2000"),
-        ("interest", "2000"),
-        ("penaltyRate", "100"),
-        ("penaltyRateReason", "Reason"),
-        ("undeclaredIncomeOrGain", "Undeclared Income or Gain"),
-        ("residentialTaxReduction", "true")
-      ))
+      val result = formWithLettingSelected.bind(
+        Map(
+          ("lettingIncome", "2000"),
+          ("unpaidTax", "2000"),
+          ("niContributions", "2000"),
+          ("interest", "2000"),
+          ("penaltyRate", "100"),
+          ("penaltyRateReason", "Reason"),
+          ("undeclaredIncomeOrGain", "Undeclared Income or Gain"),
+          ("residentialTaxReduction", "true")
+        )
+      )
       result.value.value.residentialTaxReduction.value mustBe true
       result.errors mustBe empty
     }
 
     "bind false" in {
-      val result = formWithLettingSelected.bind(Map(
-        ("lettingIncome", "2000"),
-        ("unpaidTax", "2000"),
-        ("niContributions", "2000"),
-        ("interest", "2000"),
-        ("penaltyRate", "100"),
-        ("penaltyRateReason", "Reason"),
-        ("undeclaredIncomeOrGain", "Undeclared Income or Gain"),
-        ("residentialTaxReduction", "false")
-      ))
+      val result = formWithLettingSelected.bind(
+        Map(
+          ("lettingIncome", "2000"),
+          ("unpaidTax", "2000"),
+          ("niContributions", "2000"),
+          ("interest", "2000"),
+          ("penaltyRate", "100"),
+          ("penaltyRateReason", "Reason"),
+          ("undeclaredIncomeOrGain", "Undeclared Income or Gain"),
+          ("residentialTaxReduction", "false")
+        )
+      )
       result.value.value.residentialTaxReduction.value mustBe false
       result.errors mustBe empty
     }
 
     "not bind non-booleans" in {
 
-      forAll(nonBooleans -> "nonBoolean") {
-        nonBoolean =>
-          val result = formWithLettingSelected.bind(Map(fieldName -> nonBoolean)).apply(fieldName)
-          result.errors mustBe Seq(FormError("residentialTaxReduction", List("error.boolean")))
+      forAll(nonBooleans -> "nonBoolean") { nonBoolean =>
+        val result = formWithLettingSelected.bind(Map(fieldName -> nonBoolean)).apply(fieldName)
+        result.errors mustBe Seq(FormError("residentialTaxReduction", List("error.boolean")))
       }
     }
 
@@ -151,7 +164,7 @@ class OnshoreTaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with 
     val fieldName = "penaltyRateReason"
     val maxLength = 5000
 
-    val lengthKey = "onshoreTaxYearLiabilities.penaltyRateReason.error.length"
+    val lengthKey   = "onshoreTaxYearLiabilities.penaltyRateReason.error.length"
     val requiredKey = "onshoreTaxYearLiabilities.penaltyRateReason.error.required"
 
     behave like fieldThatBindsValidData(
@@ -184,7 +197,7 @@ class OnshoreTaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with 
     val fieldName = "undeclaredIncomeOrGain"
     val maxLength = 5000
 
-    val lengthKey = "onshoreTaxYearLiabilities.undeclaredIncomeOrGain.error.length"
+    val lengthKey   = "onshoreTaxYearLiabilities.undeclaredIncomeOrGain.error.length"
     val requiredKey = "onshoreTaxYearLiabilities.undeclaredIncomeOrGain.error.required"
 
     behave like fieldThatBindsValidData(
@@ -214,8 +227,8 @@ class OnshoreTaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with 
 
   Seq(
     "nonBusinessIncome" -> formWithNonBusinessSelected,
-    "businessIncome" -> formWithBusinessSelected,
-    "lettingIncome" -> formWithLettingSelected
+    "businessIncome"    -> formWithBusinessSelected,
+    "lettingIncome"     -> formWithLettingSelected
   ).foreach { case (fieldName, form) =>
     s"$fieldName" - {
       val minimum = BigInt(0)
@@ -232,7 +245,7 @@ class OnshoreTaxYearLiabilitiesFormProviderSpec extends IntFieldBehaviours with 
       behave like bigintField(
         form,
         fieldName,
-        nonNumericError  = FormError(fieldName, s"onshoreTaxYearLiabilities.$fieldName.error.nonNumeric"),
+        nonNumericError = FormError(fieldName, s"onshoreTaxYearLiabilities.$fieldName.error.nonNumeric"),
         wholeNumberError = FormError(fieldName, s"onshoreTaxYearLiabilities.$fieldName.error.wholeNumber")
       )
 

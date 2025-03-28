@@ -21,7 +21,7 @@ import forms.AreYouTheEntityFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.notification.AreYouTheEntityView
-import models.{RelatesTo, NormalMode}
+import models.{NormalMode, RelatesTo}
 
 class AreYouTheEntityViewSpec extends ViewSpecBase with ViewMatchers {
 
@@ -31,7 +31,7 @@ class AreYouTheEntityViewSpec extends ViewSpecBase with ViewMatchers {
 
   private def createView(entity: RelatesTo): Html = page(form(entity), NormalMode, entity, false)(request, messages)
 
-  RelatesTo.values.map{ entity => 
+  RelatesTo.values.map { entity =>
     s"view for a $entity" should {
 
       val view = createView(entity)
@@ -46,14 +46,20 @@ class AreYouTheEntityViewSpec extends ViewSpecBase with ViewMatchers {
 
       "have all checkbox options" in {
         view.getElementsByClass("govuk-radios__label").get(0).text() mustBe messages(s"areYouTheEntity.$entity.yes")
-        view.getElementsByClass("govuk-radios__label").get(1).text() mustBe messages(s"areYouTheEntity.$entity.accountant")
+        view.getElementsByClass("govuk-radios__label").get(1).text() mustBe messages(
+          s"areYouTheEntity.$entity.accountant"
+        )
         view.getElementsByClass("govuk-radios__label").get(2).text() mustBe messages(s"areYouTheEntity.$entity.friend")
-        view.getElementsByClass("govuk-radios__label").get(3).text() mustBe messages(s"areYouTheEntity.$entity.voluntaryOrganisation")
-        view.getElementsByClass("govuk-radios__label").get(4).text() mustBe messages(s"areYouTheEntity.$entity.powerOfAttorney")
+        view.getElementsByClass("govuk-radios__label").get(3).text() mustBe messages(
+          s"areYouTheEntity.$entity.voluntaryOrganisation"
+        )
+        view.getElementsByClass("govuk-radios__label").get(4).text() mustBe messages(
+          s"areYouTheEntity.$entity.powerOfAttorney"
+        )
       }
 
       "display the continue button" in {
-        view.getElementsByClass("govuk-button").first() must haveId ("continue")
+        view.getElementsByClass("govuk-button").first() must haveId("continue")
         view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
       }
 

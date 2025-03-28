@@ -28,37 +28,45 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with SummaryListFluency {
 
   val testRow1 = SummaryListRowViewModel(
-    key     = "testKey",
-    value   = ValueViewModel(Text(messages("Test answer"))),
+    key = "testKey",
+    value = ValueViewModel(Text(messages("Test answer"))),
     actions = Seq(
       ActionItemViewModel("site.change", "http://test.url")
     )
   )
 
   val testRow2 = SummaryListRowViewModel(
-    key     = "testKey2",
-    value   = ValueViewModel(Text(messages("Test answer 2"))),
+    key = "testKey2",
+    value = ValueViewModel(Text(messages("Test answer 2"))),
     actions = Seq(
       ActionItemViewModel("site.change", "http://test2.url")
     )
   )
 
   val testRow3 = SummaryListRowViewModel(
-    key     = "testKey3",
-    value   = ValueViewModel(Text(messages("Test answer 3"))),
+    key = "testKey3",
+    value = ValueViewModel(Text(messages("Test answer 3"))),
     actions = Seq(
       ActionItemViewModel("site.change", "http://test3.url")
     )
   )
 
-  val backgroundList = SummaryListViewModel(rows = Seq(testRow1, testRow2))
-  val aboutYouList = SummaryListViewModel(rows = Seq(testRow3))
-  val aboutTheIndividualList = Some(SummaryListViewModel(rows = Seq(testRow1, testRow2)))
-  val aboutTheCompanyList = Some(SummaryListViewModel(rows = Seq(testRow1, testRow2)))
-  val aboutTheLLPList = Some(SummaryListViewModel(rows = Seq(testRow1, testRow2)))
-  val aboutTheTrustList = Some(SummaryListViewModel(rows = Seq(testRow1, testRow2)))
-  val aboutThePersonWhoDiedList = Some(SummaryListViewModel(rows = Seq(testRow1, testRow2)))
-  val list = SummaryLists(backgroundList, aboutYouList, aboutTheIndividualList, aboutTheCompanyList, aboutTheLLPList, aboutTheTrustList, aboutThePersonWhoDiedList)
+  val backgroundList             = SummaryListViewModel(rows = Seq(testRow1, testRow2))
+  val aboutYouList               = SummaryListViewModel(rows = Seq(testRow3))
+  val aboutTheIndividualList     = Some(SummaryListViewModel(rows = Seq(testRow1, testRow2)))
+  val aboutTheCompanyList        = Some(SummaryListViewModel(rows = Seq(testRow1, testRow2)))
+  val aboutTheLLPList            = Some(SummaryListViewModel(rows = Seq(testRow1, testRow2)))
+  val aboutTheTrustList          = Some(SummaryListViewModel(rows = Seq(testRow1, testRow2)))
+  val aboutThePersonWhoDiedList  = Some(SummaryListViewModel(rows = Seq(testRow1, testRow2)))
+  val list                       = SummaryLists(
+    backgroundList,
+    aboutYouList,
+    aboutTheIndividualList,
+    aboutTheCompanyList,
+    aboutTheLLPList,
+    aboutTheTrustList,
+    aboutThePersonWhoDiedList
+  )
   val page: CheckYourAnswersView = inject[CheckYourAnswersView]
 
   "view" should {
@@ -129,11 +137,13 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
     }
 
     "have a second submit section paragraph when an entity" in {
-      view.getElementById("second-paragraph").text() mustBe s"${messages("notificationCYA.body2")} ${messages("notificationCYA.link.entity")}${messages("site.dot")}"
+      view
+        .getElementById("second-paragraph")
+        .text() mustBe s"${messages("notificationCYA.body2")} ${messages("notificationCYA.link.entity")}${messages("site.dot")}"
     }
 
     "display the send button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("send-button")
+      view.getElementsByClass("govuk-button").first() must haveId("send-button")
       view.getElementsByClass("govuk-button").text() mustBe messages("notificationCYA.send.button")
     }
 
@@ -146,7 +156,9 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
     val view = createView
 
     "have a second submit section paragraph when an agent" in {
-      view.getElementById("second-paragraph").text() mustBe s"${messages("notificationCYA.body2")} ${messages("notificationCYA.link.agent")}${messages("site.dot")}"
+      view
+        .getElementById("second-paragraph")
+        .text() mustBe s"${messages("notificationCYA.body2")} ${messages("notificationCYA.link.agent")}${messages("site.dot")}"
     }
 
   }

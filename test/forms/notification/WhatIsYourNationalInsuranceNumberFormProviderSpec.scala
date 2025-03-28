@@ -23,9 +23,9 @@ class WhatIsYourNationalInsuranceNumberFormProviderSpec extends NationalInsuranc
 
   val form = new WhatIsYourNationalInsuranceNumberFormProvider()()
 
-  val requiredKey = "whatIsYourNationalInsuranceNumber.error.required"
+  val requiredKey      = "whatIsYourNationalInsuranceNumber.error.required"
   val invalidFormatKey = "whatIsYourNationalInsuranceNumber.error.invalidFormat"
-  val maxLength = 10
+  val maxLength        = 10
 
   ".value" - {
 

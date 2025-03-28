@@ -48,7 +48,7 @@ class DeclarationViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("confirm")
+      view.getElementsByClass("govuk-button").first() must haveId("confirm")
       view.getElementsByClass("govuk-button").text() mustBe messages("declaration.button")
     }
 
@@ -71,7 +71,7 @@ class DeclarationViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("confirm")
+      view.getElementsByClass("govuk-button").first() must haveId("confirm")
       view.getElementsByClass("govuk-button").text() mustBe messages("declaration.button")
     }
 

@@ -35,9 +35,10 @@ class WhatTelephoneNumberCanWeContactYouWithControllerSpec extends SpecBase with
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new WhatTelephoneNumberCanWeContactYouWithFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
-  lazy val whatTelephoneNumberCanWeContactYouWithRoute = routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode).url
+  lazy val whatTelephoneNumberCanWeContactYouWithRoute =
+    routes.WhatTelephoneNumberCanWeContactYouWithController.onPageLoad(NormalMode).url
 
   "WhatTelephoneNumberCanWeContactYouWith Controller" - {
 
@@ -57,7 +58,10 @@ class WhatTelephoneNumberCanWeContactYouWithControllerSpec extends SpecBase with
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhatTelephoneNumberCanWeContactYouWithPage, "answer").success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123")
+        .set(WhatTelephoneNumberCanWeContactYouWithPage, "answer")
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 

@@ -29,9 +29,9 @@ class DidYouReceiveTaxCreditViewSpec extends ViewSpecBase with ViewMatchers with
 
   val page: DidYouReceiveTaxCreditView = inject[DidYouReceiveTaxCreditView]
 
-  val areTheyTheIndividual = arbitrary[Boolean].sample.value 
-  val entity = arbitrary[RelatesTo].sample.value
-  val form = new DidYouReceiveTaxCreditFormProvider()(areTheyTheIndividual, entity)
+  val areTheyTheIndividual = arbitrary[Boolean].sample.value
+  val entity               = arbitrary[RelatesTo].sample.value
+  val form                 = new DidYouReceiveTaxCreditFormProvider()(areTheyTheIndividual, entity)
 
   private def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
@@ -40,19 +40,26 @@ class DidYouReceiveTaxCreditViewSpec extends ViewSpecBase with ViewMatchers with
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(if(areTheyTheIndividual) messages("didYouReceiveTaxCredit.agent.title") else messages(s"didYouReceiveTaxCredit.${entity}.title"))
+      view.select("title").text() must include(
+        if (areTheyTheIndividual) messages("didYouReceiveTaxCredit.agent.title")
+        else messages(s"didYouReceiveTaxCredit.$entity.title")
+      )
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe (if(areTheyTheIndividual) messages("didYouReceiveTaxCredit.agent.heading") else messages(s"didYouReceiveTaxCredit.${entity}.heading"))
+      view.getElementsByClass("govuk-heading-xl").text() mustBe (if (areTheyTheIndividual)
+                                                                   messages("didYouReceiveTaxCredit.agent.heading")
+                                                                 else
+                                                                   messages(s"didYouReceiveTaxCredit.$entity.heading"))
     }
 
     "contain body" in {
-      view.getElementById("body").text() mustBe (if(areTheyTheIndividual) messages("didYouReceiveTaxCredit.agent.body") else messages(s"didYouReceiveTaxCredit.${entity}.body"))
+      view.getElementById("body").text() mustBe (if (areTheyTheIndividual) messages("didYouReceiveTaxCredit.agent.body")
+                                                 else messages(s"didYouReceiveTaxCredit.$entity.body"))
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

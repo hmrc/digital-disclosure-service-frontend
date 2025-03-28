@@ -35,7 +35,7 @@ class JointlyOwnedPropertyControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute: Call = Call("GET", "/foo")
 
-  val formProvider = new JointlyOwnedPropertyFormProvider()
+  val formProvider        = new JointlyOwnedPropertyFormProvider()
   val form: Form[Boolean] = formProvider()
 
   lazy val jointlyOwnedPropertyRoute: String = routes.JointlyOwnedPropertyController.onPageLoad(0, NormalMode).url
@@ -61,7 +61,9 @@ class JointlyOwnedPropertyControllerSpec extends SpecBase with MockitoSugar {
       val lettingProperty = LettingProperty(isJointOwnership = Some(true))
 
       val userAnswers = UserAnswers(userAnswersId, "session-123")
-        .setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
+        .setBySeqIndex(LettingPropertyPage, 0, lettingProperty)
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -76,10 +78,10 @@ class JointlyOwnedPropertyControllerSpec extends SpecBase with MockitoSugar {
     }
 
     "must redirect to the next page when valid data is submitted" in {
-      
+
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
-      
+
       val request =
         FakeRequest(POST, jointlyOwnedPropertyRoute)
           .withFormUrlEncodedBody(("value", "true"))

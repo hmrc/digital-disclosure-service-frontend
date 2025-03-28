@@ -33,7 +33,7 @@ import scala.concurrent.Future
 
 class WhatWasThePercentageIncomeYouReceivedFromPropertyControllerSpec extends SpecBase with MockitoSugar {
 
-  val formProvider = new WhatWasThePercentageIncomeYouReceivedFromPropertyFormProvider()
+  val formProvider    = new WhatWasThePercentageIncomeYouReceivedFromPropertyFormProvider()
   val form: Form[Int] = formProvider()
 
   def onwardRoute: Call = Call("GET", "/foo")
@@ -48,7 +48,7 @@ class WhatWasThePercentageIncomeYouReceivedFromPropertyControllerSpec extends Sp
     "must return OK and the correct view for a GET" in {
 
       setupMockSessionResponse(Some(emptyUserAnswers))
-      
+
       val request = FakeRequest(GET, whatWasThePercentageIncomeYouReceivedFromPropertyRoute)
 
       val result = route(application, request).value
@@ -64,7 +64,9 @@ class WhatWasThePercentageIncomeYouReceivedFromPropertyControllerSpec extends Sp
       val lettingProperty = LettingProperty(percentageIncomeOnProperty = Some(1))
 
       val userAnswers = UserAnswers(userAnswersId, "session-123")
-        .setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
+        .setBySeqIndex(LettingPropertyPage, 0, lettingProperty)
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -79,7 +81,7 @@ class WhatWasThePercentageIncomeYouReceivedFromPropertyControllerSpec extends Sp
     }
 
     "must redirect to the next page when valid data is submitted" in {
-      
+
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 

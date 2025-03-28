@@ -21,7 +21,7 @@ import play.api.data.FormError
 
 class WhatTelephoneNumberCanWeContactYouWithFormProviderSpec extends PhoneNumberBehaviours {
 
-  val requiredKey = "whatTelephoneNumberCanWeContactYouWith.error.required"
+  val requiredKey    = "whatTelephoneNumberCanWeContactYouWith.error.required"
   val validFormatKey = "whatTelephoneNumberCanWeContactYouWith.error.validFormat"
 
   val form = new WhatTelephoneNumberCanWeContactYouWithFormProvider()()

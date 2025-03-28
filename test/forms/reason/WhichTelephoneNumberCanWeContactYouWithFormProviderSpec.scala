@@ -26,13 +26,13 @@ class WhichTelephoneNumberCanWeContactYouWithFormProviderSpec extends OptionFiel
 
   ".value" - {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "whichTelephoneNumberCanWeContactYouWith.error.required"
 
     behave like optionsField[WhichTelephoneNumberCanWeContactYouWith](
       form,
       fieldName,
-      validValues  = WhichTelephoneNumberCanWeContactYouWith.values,
+      validValues = WhichTelephoneNumberCanWeContactYouWith.values,
       invalidError = FormError(fieldName, "error.invalid")
     )
 

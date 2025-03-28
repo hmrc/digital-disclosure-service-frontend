@@ -27,8 +27,8 @@ class YouHaveNoOffshoreLiabilitiesViewSpec extends ViewSpecBase with ViewMatcher
   val page: YouHaveNoOffshoreLiabilitiesView = inject[YouHaveNoOffshoreLiabilitiesView]
 
   val entityIndividual = "other"
-  val entity = RelatesTo.ACompany
-  val Year = "2022"
+  val entity           = RelatesTo.ACompany
+  val Year             = "2022"
 
   private def createView: Html = page(entityIndividual, entity, Year)(request, messages)
 
@@ -41,17 +41,25 @@ class YouHaveNoOffshoreLiabilitiesViewSpec extends ViewSpecBase with ViewMatcher
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages(s"youHaveNoOffshoreLiabilities.$entityIndividual.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages(
+        s"youHaveNoOffshoreLiabilities.$entityIndividual.heading"
+      )
     }
 
     "contain body" in {
-      view.getElementById("paragraph").text() mustBe messages(s"youHaveNoOffshoreLiabilities.$entityIndividual.body", Year, entity)
+      view.getElementById("paragraph").text() mustBe messages(
+        s"youHaveNoOffshoreLiabilities.$entityIndividual.body",
+        Year,
+        entity
+      )
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
-      view.getElementsByClass("govuk-button").attr("href") mustBe controllers.offshore.routes.CheckYourAnswersController.onPageLoad.url
+      view
+        .getElementsByClass("govuk-button")
+        .attr("href") mustBe controllers.offshore.routes.CheckYourAnswersController.onPageLoad.url
     }
 
   }

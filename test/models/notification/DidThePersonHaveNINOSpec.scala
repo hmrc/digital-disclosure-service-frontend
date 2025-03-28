@@ -32,10 +32,11 @@ class DidThePersonHaveNINOSpec extends AnyFreeSpec with Matchers with ScalaCheck
 
       val gen = Gen.oneOf(DidThePersonHaveNINO.values.toSeq)
 
-      forAll(gen) {
-        didThePersonHaveNINO =>
-
-          JsString(didThePersonHaveNINO.toString).validate[DidThePersonHaveNINO].asOpt.value mustEqual didThePersonHaveNINO
+      forAll(gen) { didThePersonHaveNINO =>
+        JsString(didThePersonHaveNINO.toString)
+          .validate[DidThePersonHaveNINO]
+          .asOpt
+          .value mustEqual didThePersonHaveNINO
       }
     }
 
@@ -43,10 +44,8 @@ class DidThePersonHaveNINOSpec extends AnyFreeSpec with Matchers with ScalaCheck
 
       val gen = arbitrary[String] suchThat (!DidThePersonHaveNINO.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[DidThePersonHaveNINO] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[DidThePersonHaveNINO] mustEqual JsError("error.invalid")
       }
     }
 
@@ -54,10 +53,8 @@ class DidThePersonHaveNINOSpec extends AnyFreeSpec with Matchers with ScalaCheck
 
       val gen = Gen.oneOf(DidThePersonHaveNINO.values.toSeq)
 
-      forAll(gen) {
-        didThePersonHaveNINO =>
-
-          Json.toJson(didThePersonHaveNINO) mustEqual JsString(didThePersonHaveNINO.toString)
+      forAll(gen) { didThePersonHaveNINO =>
+        Json.toJson(didThePersonHaveNINO) mustEqual JsString(didThePersonHaveNINO.toString)
       }
     }
   }

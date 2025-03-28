@@ -22,7 +22,7 @@ import play.api.data.FormError
 class WhatIsYourUniqueTaxReferenceFormProviderSpec extends UTRBehaviours {
 
   val requiredKey = "whatIsYourUniqueTaxReference.error.required"
-  val invalidKey = "whatIsYourUniqueTaxReference.error.invalid"
+  val invalidKey  = "whatIsYourUniqueTaxReference.error.invalid"
 
   val form = new WhatIsYourUniqueTaxReferenceFormProvider()()
 

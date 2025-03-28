@@ -29,11 +29,11 @@ class YouHaveNoOnshoreLiabilitiesToDiscloseViewSpec extends ViewSpecBase with Vi
   "view" should {
 
     val areTheyTheIndividual = true
-    val entity = RelatesTo.AnIndividual
-    val years = 20
+    val entity               = RelatesTo.AnIndividual
+    val years                = 20
 
     def createView: Html = page(areTheyTheIndividual, entity, years)(request, messages)
-    val view = createView
+    val view             = createView
 
     "have title" in {
       view.select("title").text() must include(messages("haveNoOnshoreLiabilities.agent.title"))
@@ -48,7 +48,9 @@ class YouHaveNoOnshoreLiabilitiesToDiscloseViewSpec extends ViewSpecBase with Vi
     }
 
     "have a continue link" in {
-      view.getElementById("continue").attr("href") mustBe controllers.onshore.routes.CheckYourAnswersController.onPageLoad.url
+      view
+        .getElementById("continue")
+        .attr("href") mustBe controllers.onshore.routes.CheckYourAnswersController.onPageLoad.url
     }
 
     "have a task list link" in {

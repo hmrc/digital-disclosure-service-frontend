@@ -28,10 +28,10 @@ import viewmodels.onshore.LettingPropertyModel
 
 class PropertyAddedViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new PropertyAddedFormProvider()()
+  val form                    = new PropertyAddedFormProvider()()
   val page: PropertyAddedView = inject[PropertyAddedView]
 
-  val postcode1 = "AA111AA"
+  val postcode1         = "AA111AA"
   val address1: Address = Address(
     line1 = "Line 1",
     postcode = Some(postcode1),
@@ -40,9 +40,9 @@ class PropertyAddedViewSpec extends ViewSpecBase with ViewMatchers {
     line4 = None,
     country = Country("AA")
   )
-  val property1 = LettingProperty(address = Some(address1))
+  val property1         = LettingProperty(address = Some(address1))
 
-  val postcode2 = "BB222BB"
+  val postcode2         = "BB222BB"
   val address2: Address = Address(
     line1 = "Line 2",
     postcode = Some(postcode2),
@@ -51,14 +51,14 @@ class PropertyAddedViewSpec extends ViewSpecBase with ViewMatchers {
     line4 = None,
     country = Country("AA")
   )
-  val property2 = LettingProperty(address = Some(address2))
+  val property2         = LettingProperty(address = Some(address2))
 
   "view for a single property" should {
 
     val propertiesSummaries = LettingPropertyModel.row(Seq(property1), NormalMode)
 
     def createView: Html = page(form, propertiesSummaries, NormalMode)(request, messages)
-    val view = createView
+    val view             = createView
 
     "have title" in {
       view.select("title").text() must include(messages("propertyAdded.title.single"))
@@ -74,11 +74,11 @@ class PropertyAddedViewSpec extends ViewSpecBase with ViewMatchers {
 
     "contain remove link" in {
       view.getElementsByClass("summary-list-remove-link").first().text() must include(messages("site.remove"))
-      view.getElementsByClass("summary-list-remove-link").last().text() must include(messages("site.remove"))
+      view.getElementsByClass("summary-list-remove-link").last().text()  must include(messages("site.remove"))
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 
@@ -107,9 +107,13 @@ class PropertyAddedViewSpec extends ViewSpecBase with ViewMatchers {
 
     "contain remove link" in {
       view.getElementsByClass("summary-list-remove-link").first().text() must include(messages("site.remove"))
-      view.getElementsByClass("summary-list-remove-link").first().attr("href") mustBe routes.PropertyAddedController.remove(0, NormalMode).url
-      view.getElementsByClass("summary-list-remove-link").last().text() must include(messages("site.remove"))
-      view.getElementsByClass("summary-list-remove-link").last().attr("href") mustBe routes.PropertyAddedController.remove(1, NormalMode).url
+      view.getElementsByClass("summary-list-remove-link").first().attr("href") mustBe routes.PropertyAddedController
+        .remove(0, NormalMode)
+        .url
+      view.getElementsByClass("summary-list-remove-link").last().text()  must include(messages("site.remove"))
+      view.getElementsByClass("summary-list-remove-link").last().attr("href") mustBe routes.PropertyAddedController
+        .remove(1, NormalMode)
+        .url
     }
 
     "display the continue button" in {

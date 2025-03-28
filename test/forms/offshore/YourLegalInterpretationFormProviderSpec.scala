@@ -27,14 +27,14 @@ class YourLegalInterpretationFormProviderSpec extends CheckboxFieldBehaviours wi
 
   ".value" - {
 
-    val fieldName = "value"
-    val requiredKey = "yourLegalInterpretation.error.required"
+    val fieldName         = "value"
+    val requiredKey       = "yourLegalInterpretation.error.required"
     val validSelectionKey = "yourLegalInterpretation.error.validSelection"
 
     behave like checkboxField[YourLegalInterpretation](
       form,
       fieldName,
-      validValues  = YourLegalInterpretation.values,
+      validValues = YourLegalInterpretation.values,
       invalidError = FormError(s"$fieldName[0]", "error.invalid")
     )
 
@@ -43,7 +43,7 @@ class YourLegalInterpretationFormProviderSpec extends CheckboxFieldBehaviours wi
       fieldName,
       requiredKey
     )
-    
+
     behave like Seq(
       "yourResidenceStatus",
       "yourDomicileStatus",
@@ -54,15 +54,15 @@ class YourLegalInterpretationFormProviderSpec extends CheckboxFieldBehaviours wi
       "inheritanceTaxIssues",
       "whetherIncomeShouldBeTaxed",
       "anotherIssue"
-    ).foreach { option => 
+    ).foreach { option =>
       s"fail to bind when the user selects both No excluded amount AND $option" in {
-        val data = Map(
+        val data          = Map(
           "value[0]" -> "noExclusion",
           "value[1]" -> option
         )
         val expectedError = FormError("value", validSelectionKey)
         form.bind(data).errors must contain(expectedError)
-      }  
+      }
     }
   }
 }

@@ -35,7 +35,7 @@ class WhatWasTheTypeOfMortgageControllerSpec extends SpecBase with MockitoSugar 
 
   def onwardRoute: Call = Call("GET", "/foo")
 
-  val formProvider = new WhatWasTheTypeOfMortgageFormProvider()
+  val formProvider       = new WhatWasTheTypeOfMortgageFormProvider()
   val form: Form[String] = formProvider()
 
   lazy val whatWasTheTypeOfMortgageRoute: String =
@@ -62,7 +62,9 @@ class WhatWasTheTypeOfMortgageControllerSpec extends SpecBase with MockitoSugar 
       val lettingProperty = LettingProperty(otherTypeOfMortgage = Some("answer"))
 
       val userAnswers = UserAnswers(userAnswersId, "session-123")
-        .setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
+        .setBySeqIndex(LettingPropertyPage, 0, lettingProperty)
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -77,7 +79,7 @@ class WhatWasTheTypeOfMortgageControllerSpec extends SpecBase with MockitoSugar 
     }
 
     "must redirect to the next page when valid data is submitted" in {
-      
+
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 

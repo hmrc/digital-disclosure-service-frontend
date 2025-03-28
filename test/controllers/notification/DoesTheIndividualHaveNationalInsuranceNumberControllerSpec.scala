@@ -33,10 +33,11 @@ class DoesTheIndividualHaveNationalInsuranceNumberControllerSpec extends Control
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val doesTheIndividualHaveNationalInsuranceNumberRoute = routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(NormalMode).url
+  lazy val doesTheIndividualHaveNationalInsuranceNumberRoute =
+    routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(NormalMode).url
 
   val formProvider = new DoesTheIndividualHaveNationalInsuranceNumberFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   "DoesTheIndividualHaveNationalInsuranceNumber Controller" - {
 
@@ -56,7 +57,10 @@ class DoesTheIndividualHaveNationalInsuranceNumberControllerSpec extends Control
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(DoesTheIndividualHaveNationalInsuranceNumberPage, DoesTheIndividualHaveNationalInsuranceNumber.values.head).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123")
+        .set(DoesTheIndividualHaveNationalInsuranceNumberPage, DoesTheIndividualHaveNationalInsuranceNumber.values.head)
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -67,7 +71,11 @@ class DoesTheIndividualHaveNationalInsuranceNumberControllerSpec extends Control
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(DoesTheIndividualHaveNationalInsuranceNumber.values.head), NormalMode, false)(request, messages).toString
+      contentAsString(result) mustEqual view(
+        form.fill(DoesTheIndividualHaveNationalInsuranceNumber.values.head),
+        NormalMode,
+        false
+      )(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -133,67 +141,109 @@ class DoesTheIndividualHaveNationalInsuranceNumberControllerSpec extends Control
     "must redirect to WhatIsIndividualsNationalInsuranceNumber page (change mode) if page answer changes from No to YesIKnow in check mode" in {
 
       val previousAnswer = DoesTheIndividualHaveNationalInsuranceNumber.No
-      val newAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow
+      val newAnswer      = DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow
 
-      val urlToTest = routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
       val destinationRoute = routes.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(CheckMode).url
 
-      testChangeAnswerRouting(previousAnswer, newAnswer, DoesTheIndividualHaveNationalInsuranceNumberPage, urlToTest, destinationRoute, Nil)
+      testChangeAnswerRouting(
+        previousAnswer,
+        newAnswer,
+        DoesTheIndividualHaveNationalInsuranceNumberPage,
+        urlToTest,
+        destinationRoute,
+        Nil
+      )
     }
 
     "must redirect to WhatIsIndividualsNationalInsuranceNumber page (change mode) if page answer changes from YesButDontKnow to YesIKnow in check mode" in {
 
       val previousAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesButDontKnow
-      val newAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow
+      val newAnswer      = DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow
 
-      val urlToTest = routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
       val destinationRoute = routes.WhatIsIndividualsNationalInsuranceNumberController.onPageLoad(CheckMode).url
 
-      testChangeAnswerRouting(previousAnswer, newAnswer, DoesTheIndividualHaveNationalInsuranceNumberPage, urlToTest, destinationRoute, Nil)
+      testChangeAnswerRouting(
+        previousAnswer,
+        newAnswer,
+        DoesTheIndividualHaveNationalInsuranceNumberPage,
+        urlToTest,
+        destinationRoute,
+        Nil
+      )
     }
 
     "must redirect to CheckYourAnswers screen and clear WhatIsIndividualsNationalInsuranceNumber if page answer changes from YesIKnow to No in check mode" in {
 
       val previousAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow
-      val newAnswer = DoesTheIndividualHaveNationalInsuranceNumber.No
+      val newAnswer      = DoesTheIndividualHaveNationalInsuranceNumber.No
 
-      val urlToTest = routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
-      testChangeAnswerRouting(previousAnswer, newAnswer, DoesTheIndividualHaveNationalInsuranceNumberPage, urlToTest, destinationRoute, List(WhatIsIndividualsNationalInsuranceNumberPage))
+      testChangeAnswerRouting(
+        previousAnswer,
+        newAnswer,
+        DoesTheIndividualHaveNationalInsuranceNumberPage,
+        urlToTest,
+        destinationRoute,
+        List(WhatIsIndividualsNationalInsuranceNumberPage)
+      )
     }
 
     "must redirect to CheckYourAnswers screen and clear WhatIsIndividualsNationalInsuranceNumber if page answer changes from YesIKnow to YesButDontKnow in check mode" in {
 
       val previousAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow
-      val newAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesButDontKnow
+      val newAnswer      = DoesTheIndividualHaveNationalInsuranceNumber.YesButDontKnow
 
-      val urlToTest = routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
-      testChangeAnswerRouting(previousAnswer, newAnswer, DoesTheIndividualHaveNationalInsuranceNumberPage, urlToTest, destinationRoute, List(WhatIsIndividualsNationalInsuranceNumberPage))
+      testChangeAnswerRouting(
+        previousAnswer,
+        newAnswer,
+        DoesTheIndividualHaveNationalInsuranceNumberPage,
+        urlToTest,
+        destinationRoute,
+        List(WhatIsIndividualsNationalInsuranceNumberPage)
+      )
     }
 
     "must redirect to CheckYourAnswers screen if page answer is YesIKnow and doesn't change" in {
 
       val previousAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow
-      val newAnswer = DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow
+      val newAnswer      = DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow
 
-      val urlToTest = routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
-      testChangeAnswerRouting(previousAnswer, newAnswer, DoesTheIndividualHaveNationalInsuranceNumberPage, urlToTest, destinationRoute, Nil)
+      testChangeAnswerRouting(
+        previousAnswer,
+        newAnswer,
+        DoesTheIndividualHaveNationalInsuranceNumberPage,
+        urlToTest,
+        destinationRoute,
+        Nil
+      )
     }
 
     "must redirect to CheckYourAnswers screen if page answer is No and doesn't change" in {
 
       val previousAnswer = DoesTheIndividualHaveNationalInsuranceNumber.No
-      val newAnswer = DoesTheIndividualHaveNationalInsuranceNumber.No
+      val newAnswer      = DoesTheIndividualHaveNationalInsuranceNumber.No
 
-      val urlToTest = routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.DoesTheIndividualHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
-      testChangeAnswerRouting(previousAnswer, newAnswer, DoesTheIndividualHaveNationalInsuranceNumberPage, urlToTest, destinationRoute, Nil)
+      testChangeAnswerRouting(
+        previousAnswer,
+        newAnswer,
+        DoesTheIndividualHaveNationalInsuranceNumberPage,
+        urlToTest,
+        destinationRoute,
+        Nil
+      )
     }
   }
 }

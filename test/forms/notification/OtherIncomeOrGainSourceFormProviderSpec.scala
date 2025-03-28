@@ -22,8 +22,8 @@ import play.api.data.FormError
 class OtherIncomeOrGainSourceFormProviderSpec extends StringFieldBehaviours {
 
   val requiredKey = "whereDidTheUndeclaredIncomeOrGain.error.required"
-  val lengthKey = "whereDidTheUndeclaredIncomeOrGain.error.length"
-  val maxLength = 5000
+  val lengthKey   = "whereDidTheUndeclaredIncomeOrGain.error.length"
+  val maxLength   = 5000
 
   val form = new OtherIncomeOrGainSourceFormProvider()()
 

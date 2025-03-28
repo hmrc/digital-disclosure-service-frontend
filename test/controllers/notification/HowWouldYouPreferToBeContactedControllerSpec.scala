@@ -34,10 +34,11 @@ class HowWouldYouPreferToBeContactedControllerSpec extends SpecBase with Mockito
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val howWouldYouPreferToBeContactedRoute = routes.HowWouldYouPreferToBeContactedController.onPageLoad(NormalMode).url
+  lazy val howWouldYouPreferToBeContactedRoute =
+    routes.HowWouldYouPreferToBeContactedController.onPageLoad(NormalMode).url
 
   val formProvider = new HowWouldYouPreferToBeContactedFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   "HowWouldYouPreferToBeContacted Controller" - {
 
@@ -58,7 +59,10 @@ class HowWouldYouPreferToBeContactedControllerSpec extends SpecBase with Mockito
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(HowWouldYouPreferToBeContactedPage, HowWouldYouPreferToBeContacted.values.toSet).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123")
+        .set(HowWouldYouPreferToBeContactedPage, HowWouldYouPreferToBeContacted.values.toSet)
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -69,7 +73,10 @@ class HowWouldYouPreferToBeContactedControllerSpec extends SpecBase with Mockito
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(HowWouldYouPreferToBeContacted.values.toSet), NormalMode, false)(request, messages).toString
+      contentAsString(result) mustEqual view(form.fill(HowWouldYouPreferToBeContacted.values.toSet), NormalMode, false)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -133,10 +140,11 @@ class HowWouldYouPreferToBeContactedControllerSpec extends SpecBase with Mockito
 
     "must redirect to YourEmailAddressPage screen in check mode if Email change to selected" in {
       val previousPreferences: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Telephone)
-      val previousAnswers = UserAnswers("id", "session-123").set(HowWouldYouPreferToBeContactedPage, previousPreferences).success.value
-      val newAnswer = HowWouldYouPreferToBeContacted.Email
+      val previousAnswers                                          =
+        UserAnswers("id", "session-123").set(HowWouldYouPreferToBeContactedPage, previousPreferences).success.value
+      val newAnswer                                                = HowWouldYouPreferToBeContacted.Email
 
-      val urlToTest = routes.HowWouldYouPreferToBeContactedController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.HowWouldYouPreferToBeContactedController.onPageLoad(CheckMode).url
       val destinationRoute = routes.YourEmailAddressController.onPageLoad(CheckMode).url
       setupMockSessionResponse(Some(previousAnswers))
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
@@ -152,10 +160,11 @@ class HowWouldYouPreferToBeContactedControllerSpec extends SpecBase with Mockito
 
     "must redirect to YourPhoneNumber screen in check mode if Telephone change to selected" in {
       val previousPreferences: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Email)
-      val previousAnswers = UserAnswers("id", "session-123").set(HowWouldYouPreferToBeContactedPage, previousPreferences).success.value
-      val newAnswer = HowWouldYouPreferToBeContacted.Telephone
+      val previousAnswers                                          =
+        UserAnswers("id", "session-123").set(HowWouldYouPreferToBeContactedPage, previousPreferences).success.value
+      val newAnswer                                                = HowWouldYouPreferToBeContacted.Telephone
 
-      val urlToTest = routes.HowWouldYouPreferToBeContactedController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.HowWouldYouPreferToBeContactedController.onPageLoad(CheckMode).url
       val destinationRoute = routes.YourPhoneNumberController.onPageLoad(CheckMode).url
       setupMockSessionResponse(Some(previousAnswers))
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
@@ -170,13 +179,15 @@ class HowWouldYouPreferToBeContactedControllerSpec extends SpecBase with Mockito
     }
 
     "must redirect to CheckYourAnswer screen if there are no changes in the user answer" in {
-      val previousPreferences: Set[HowWouldYouPreferToBeContacted] = Set(HowWouldYouPreferToBeContacted.Email, HowWouldYouPreferToBeContacted.Telephone)
-      val previousAnswers = UserAnswers("id", "session-123").set(HowWouldYouPreferToBeContactedPage, previousPreferences).success.value
+      val previousPreferences: Set[HowWouldYouPreferToBeContacted] =
+        Set(HowWouldYouPreferToBeContacted.Email, HowWouldYouPreferToBeContacted.Telephone)
+      val previousAnswers                                          =
+        UserAnswers("id", "session-123").set(HowWouldYouPreferToBeContactedPage, previousPreferences).success.value
 
-      val newAnswerEmail: HowWouldYouPreferToBeContacted = HowWouldYouPreferToBeContacted.Email
+      val newAnswerEmail: HowWouldYouPreferToBeContacted     = HowWouldYouPreferToBeContacted.Email
       val newAnswerTelephone: HowWouldYouPreferToBeContacted = HowWouldYouPreferToBeContacted.Telephone
 
-      val urlToTest = routes.HowWouldYouPreferToBeContactedController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.HowWouldYouPreferToBeContactedController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
       setupMockSessionResponse(Some(previousAnswers))
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)

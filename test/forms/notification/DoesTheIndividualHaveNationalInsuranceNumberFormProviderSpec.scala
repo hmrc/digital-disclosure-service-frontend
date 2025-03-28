@@ -26,13 +26,13 @@ class DoesTheIndividualHaveNationalInsuranceNumberFormProviderSpec extends Optio
 
   ".value" - {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "doesTheIndividualHaveNINO.error.required"
 
     behave like optionsField[DoesTheIndividualHaveNationalInsuranceNumber](
       form,
       fieldName,
-      validValues  = DoesTheIndividualHaveNationalInsuranceNumber.values,
+      validValues = DoesTheIndividualHaveNationalInsuranceNumber.values,
       invalidError = FormError(fieldName, "error.invalid")
     )
 

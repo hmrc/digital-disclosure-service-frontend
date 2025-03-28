@@ -71,7 +71,8 @@ class WhatWasThePersonDateOfBirthControllerSpec extends SpecBase with MockitoSug
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhatWasThePersonDateOfBirthPage, validAnswer).success.value
+      val userAnswers =
+        UserAnswers(userAnswersId, "session-123").set(WhatWasThePersonDateOfBirthPage, validAnswer).success.value
 
       setupMockSessionResponse(Some(userAnswers))
 

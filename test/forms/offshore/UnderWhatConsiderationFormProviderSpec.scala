@@ -22,8 +22,8 @@ import play.api.data.FormError
 class UnderWhatConsiderationFormProviderSpec extends StringFieldBehaviours {
 
   val requiredKey = "underWhatConsideration.error.required"
-  val lengthKey = "underWhatConsideration.error.length"
-  val maxLength = 5000
+  val lengthKey   = "underWhatConsideration.error.length"
+  val maxLength   = 5000
 
   val form = new UnderWhatConsiderationFormProvider()()
 

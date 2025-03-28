@@ -81,10 +81,11 @@ class AddressLookupServiceSpec
   implicit def messagesApi: MessagesApi = inject[MessagesApi]
 
   val frontendAppConfig = new FrontendAppConfig(config)
-  val lookupConfig = new AddressLookupConfig(new ServicesConfig(config))
+  val lookupConfig      = new AddressLookupConfig(new ServicesConfig(config))
 
   private val addressLookupConnector = mock[AddressLookupConnector]
-  private val addressLookupService   = new AddressLookupServiceImpl(addressLookupConnector, lookupConfig, frontendAppConfig)
+  private val addressLookupService   =
+    new AddressLookupServiceImpl(addressLookupConnector, lookupConfig, frontendAppConfig)
 
   def mockInitiateAddressLookupResponse(request: AddressLookupRequest)(
     response: Either[Error, HttpResponse]
@@ -103,7 +104,7 @@ class AddressLookupServiceSpec
       .returning(EitherT.fromEither[Future](response))
 
   "The address lookup service" - {
-    
+
     def testAddressLookup(userAnswers: UserAnswers, addressLookupRequest: AddressLookupRequest) = {
       "succeed receiving user redirect URL" in {
         val locationUrl = new URL("http://someUrl:1234/redirect")
@@ -121,7 +122,9 @@ class AddressLookupServiceSpec
           Right(HttpResponse(INTERNAL_SERVER_ERROR, Json.obj().toString()))
         )
 
-        await(addressLookupService.getYourAddressLookupRedirect(addressUpdateCall, userAnswers).value).left.value must be(
+        await(
+          addressLookupService.getYourAddressLookupRedirect(addressUpdateCall, userAnswers).value
+        ).left.value must be(
           Error("The request was refused by the Address Lookup Service")
         )
       }
@@ -131,7 +134,9 @@ class AddressLookupServiceSpec
           Right(HttpResponse(ACCEPTED, Json.obj().toString()))
         )
 
-        await(addressLookupService.getYourAddressLookupRedirect(addressUpdateCall, userAnswers).value).left.value must be(
+        await(
+          addressLookupService.getYourAddressLookupRedirect(addressUpdateCall, userAnswers).value
+        ).left.value must be(
           Error("The Address Lookup Service user redirect URL is missing in the header")
         )
       }
@@ -141,7 +146,7 @@ class AddressLookupServiceSpec
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.AnIndividual)
-        ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
+        ua                  <- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressIndividualBodyRequest)
@@ -151,27 +156,27 @@ class AddressLookupServiceSpec
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.AnIndividual)
-        ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        ua                  <- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressNoBodyRequest)
-    }  
+    }
 
     "triggering a lookup for your address when they are not an officer of the company" - {
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.ACompany)
-        ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
+        ua                  <- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressCompanyBodyRequest)
-    }  
+    }
 
     "triggering a lookup for your address when they are an officer of the company" - {
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.ACompany)
-        ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        ua                  <- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressNoBodyRequest)
@@ -180,8 +185,9 @@ class AddressLookupServiceSpec
     "triggering a lookup for your address when they are not a limited liability partnership" - {
 
       val userAnswers = (for {
-        uaWithRelatesToPage <- UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership)
-        ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
+        uaWithRelatesToPage <-
+          UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership)
+        ua                  <- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressLLPBodyRequest)
@@ -190,8 +196,9 @@ class AddressLookupServiceSpec
     "triggering a lookup for your address when they are a limited liability partnership" - {
 
       val userAnswers = (for {
-        uaWithRelatesToPage <- UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership)
-        ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        uaWithRelatesToPage <-
+          UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.ALimitedLiabilityPartnership)
+        ua                  <- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressNoBodyRequest)
@@ -201,7 +208,7 @@ class AddressLookupServiceSpec
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.ATrust)
-        ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
+        ua                  <- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressTrustBodyRequest)
@@ -211,7 +218,7 @@ class AddressLookupServiceSpec
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.ATrust)
-        ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        ua                  <- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressNoBodyRequest)
@@ -221,7 +228,7 @@ class AddressLookupServiceSpec
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.AnEstate)
-        ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
+        ua                  <- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressEstateBodyRequest)
@@ -231,11 +238,11 @@ class AddressLookupServiceSpec
 
       val userAnswers = (for {
         uaWithRelatesToPage <- UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.AnEstate)
-        ua 	<- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        ua                  <- uaWithRelatesToPage.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
       } yield ua).success.value
 
       testAddressLookup(userAnswers, yourAddressNoBodyRequest)
-    }  
+    }
 
     "triggering a lookup for an individual address" - {
 
@@ -440,7 +447,6 @@ class AddressLookupServiceSpec
         )
       }
     }
-
 
     "retrieving address" - {
 

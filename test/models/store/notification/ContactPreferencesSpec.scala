@@ -20,17 +20,17 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import play.api.libs.json.{JsSuccess, Json}
 
-class ContactPreferencesSpec extends AnyWordSpec with Matchers  {
+class ContactPreferencesSpec extends AnyWordSpec with Matchers {
 
   "reads" should {
     "convert Json array containing Email to Email" in {
-      val actual = Json.parse("""{"preferences": ["Email"]}""")
+      val actual               = Json.parse("""{"preferences": ["Email"]}""")
       val set: Set[Preference] = Set(Email)
       actual.validate[ContactPreferences] shouldEqual JsSuccess(ContactPreferences(set))
     }
 
     "convert Json array containing Telephone to Telephone" in {
-      val actual = Json.parse("""{"preferences": ["Telephone"]}""")
+      val actual               = Json.parse("""{"preferences": ["Telephone"]}""")
       val set: Set[Preference] = Set(Telephone)
       actual.validate[ContactPreferences] shouldEqual JsSuccess(ContactPreferences(set))
     }
@@ -40,15 +40,15 @@ class ContactPreferencesSpec extends AnyWordSpec with Matchers  {
   "writes" should {
     "convert Email to Json array containing Email" in {
       val emailSet: Set[Preference] = Set(Email)
-      val actual = ContactPreferences(emailSet)
+      val actual                    = ContactPreferences(emailSet)
       Json.toJson(actual) shouldEqual Json.parse("""{"preferences": ["Email"]}""")
     }
 
     "convert Telephone to Json array containing Telephone" in {
       val phoneSet: Set[Preference] = Set(Telephone)
-      val actual = ContactPreferences(phoneSet)
+      val actual                    = ContactPreferences(phoneSet)
       Json.toJson(actual) shouldEqual Json.parse("""{"preferences": ["Telephone"]}""")
     }
   }
-  
+
 }

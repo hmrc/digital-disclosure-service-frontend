@@ -26,13 +26,13 @@ class IncomeOrGainSourceFormProviderSpec extends CheckboxFieldBehaviours {
 
   ".value" - {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "whereDidTheUndeclaredIncomeOrGainIncluded.error.required"
 
     behave like checkboxField[IncomeOrGainSource](
       form,
       fieldName,
-      validValues  = IncomeOrGainSource.values,
+      validValues = IncomeOrGainSource.values,
       invalidError = FormError(s"$fieldName[0]", "error.invalid")
     )
 

@@ -36,23 +36,23 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       def totalRows(implicit messages: Messages) = SummaryListViewModel(
         rows = Seq(
           SummaryListRowViewModel(
-            key     = Key(Text(messages("taxYearLiabilities.unpaidTax.total"))),
-            value   = ValueViewModel(HtmlContent("&pound;0")),
+            key = Key(Text(messages("taxYearLiabilities.unpaidTax.total"))),
+            value = ValueViewModel(HtmlContent("&pound;0")),
             actions = Nil
           ),
           SummaryListRowViewModel(
-            key     = Key(Text(messages("taxYearLiabilities.interest.total"))),
-            value   = ValueViewModel(HtmlContent("&pound;0")),
+            key = Key(Text(messages("taxYearLiabilities.interest.total"))),
+            value = ValueViewModel(HtmlContent("&pound;0")),
             actions = Nil
           ),
           SummaryListRowViewModel(
-            key     = Key(Text(messages("taxYearLiabilities.penaltyAmount.total"))),
-            value   = ValueViewModel(HtmlContent(s"&pound;${messages("site.2DP", 0)}")),
+            key = Key(Text(messages("taxYearLiabilities.penaltyAmount.total"))),
+            value = ValueViewModel(HtmlContent(s"&pound;${messages("site.2DP", 0)}")),
             actions = Nil
           ),
           SummaryListRowViewModel(
-            key     = Key(Text(messages("taxYearLiabilities.amountDue.total"))),
-            value   = ValueViewModel(HtmlContent(s"&pound;${messages("site.2DP", 0)}")),
+            key = Key(Text(messages("taxYearLiabilities.amountDue.total"))),
+            value = ValueViewModel(HtmlContent(s"&pound;${messages("site.2DP", 0)}")),
             actions = Nil
           )
         )

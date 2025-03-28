@@ -22,8 +22,8 @@ import play.api.data.FormError
 class YouHaveLeftTheDDSFormProviderSpec extends StringFieldBehaviours {
 
   val requiredKey = "youHaveLeftTheDDS.error.required"
-  val lengthKey = "youHaveLeftTheDDS.error.length"
-  val maxLength = 30
+  val lengthKey   = "youHaveLeftTheDDS.error.length"
+  val maxLength   = 30
 
   val form = new YouHaveLeftTheDDSFormProvider()()
 

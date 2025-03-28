@@ -33,10 +33,11 @@ class AreYouRegisteredForSelfAssessmentControllerSpec extends ControllerSpecBase
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val areYouRegisteredForSelfAssessmentRoute = routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(NormalMode).url
+  lazy val areYouRegisteredForSelfAssessmentRoute =
+    routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(NormalMode).url
 
   val formProvider = new AreYouRegisteredForSelfAssessmentFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   "AreYouRegisteredForSelfAssessment Controller" - {
 
@@ -56,7 +57,10 @@ class AreYouRegisteredForSelfAssessmentControllerSpec extends ControllerSpecBase
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(AreYouRegisteredForSelfAssessmentPage, AreYouRegisteredForSelfAssessment.values.head).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123")
+        .set(AreYouRegisteredForSelfAssessmentPage, AreYouRegisteredForSelfAssessment.values.head)
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -67,7 +71,11 @@ class AreYouRegisteredForSelfAssessmentControllerSpec extends ControllerSpecBase
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(AreYouRegisteredForSelfAssessment.values.head), NormalMode, false)(request, messages).toString
+      contentAsString(result) mustEqual view(
+        form.fill(AreYouRegisteredForSelfAssessment.values.head),
+        NormalMode,
+        false
+      )(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -133,67 +141,109 @@ class AreYouRegisteredForSelfAssessmentControllerSpec extends ControllerSpecBase
     "must redirect to WhatIsYourUniqueTaxReference page (change mode) if page answer changes from No to YesIKnowMyUTR in check mode" in {
 
       val previousAnswer = AreYouRegisteredForSelfAssessment.No
-      val newAnswer = AreYouRegisteredForSelfAssessment.YesIKnowMyUTR
+      val newAnswer      = AreYouRegisteredForSelfAssessment.YesIKnowMyUTR
 
-      val urlToTest = routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
       val destinationRoute = routes.WhatIsYourUniqueTaxReferenceController.onPageLoad(CheckMode).url
 
-      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, Nil)
+      testChangeAnswerRouting(
+        previousAnswer,
+        newAnswer,
+        AreYouRegisteredForSelfAssessmentPage,
+        urlToTest,
+        destinationRoute,
+        Nil
+      )
     }
 
     "must redirect to WhatIsYourUniqueTaxReference page (change mode) if page answer changes from YesIDontKnowMyUTR to YesIKnowMyUTR in check mode" in {
 
       val previousAnswer = AreYouRegisteredForSelfAssessment.YesIDontKnowMyUTR
-      val newAnswer = AreYouRegisteredForSelfAssessment.YesIKnowMyUTR
+      val newAnswer      = AreYouRegisteredForSelfAssessment.YesIKnowMyUTR
 
-      val urlToTest = routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
       val destinationRoute = routes.WhatIsYourUniqueTaxReferenceController.onPageLoad(CheckMode).url
 
-      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, Nil)
+      testChangeAnswerRouting(
+        previousAnswer,
+        newAnswer,
+        AreYouRegisteredForSelfAssessmentPage,
+        urlToTest,
+        destinationRoute,
+        Nil
+      )
     }
 
     "must redirect to CheckYourAnswers screen and clear WhatIsYourUniqueTaxReference page if page answer changes from YesIKnowMyUTR to No in check mode" in {
 
       val previousAnswer = AreYouRegisteredForSelfAssessment.YesIKnowMyUTR
-      val newAnswer = AreYouRegisteredForSelfAssessment.No
+      val newAnswer      = AreYouRegisteredForSelfAssessment.No
 
-      val urlToTest = routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
-      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, List(WhatIsYourUniqueTaxReferencePage))
+      testChangeAnswerRouting(
+        previousAnswer,
+        newAnswer,
+        AreYouRegisteredForSelfAssessmentPage,
+        urlToTest,
+        destinationRoute,
+        List(WhatIsYourUniqueTaxReferencePage)
+      )
     }
 
     "must redirect to CheckYourAnswers screen and clear WhatIsYourUniqueTaxReference page if page answer changes from YesIKnowMyUTR to YesIDontKnowMyUTR in check mode" in {
 
       val previousAnswer = AreYouRegisteredForSelfAssessment.YesIKnowMyUTR
-      val newAnswer = AreYouRegisteredForSelfAssessment.YesIDontKnowMyUTR
+      val newAnswer      = AreYouRegisteredForSelfAssessment.YesIDontKnowMyUTR
 
-      val urlToTest = routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
-      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, List(WhatIsYourUniqueTaxReferencePage))
+      testChangeAnswerRouting(
+        previousAnswer,
+        newAnswer,
+        AreYouRegisteredForSelfAssessmentPage,
+        urlToTest,
+        destinationRoute,
+        List(WhatIsYourUniqueTaxReferencePage)
+      )
     }
 
     "must redirect to CheckYourAnswers screen if page answer is YesIKnowMyUTR and doesn't change" in {
 
       val previousAnswer = AreYouRegisteredForSelfAssessment.YesIKnowMyUTR
-      val newAnswer = AreYouRegisteredForSelfAssessment.YesIKnowMyUTR
+      val newAnswer      = AreYouRegisteredForSelfAssessment.YesIKnowMyUTR
 
-      val urlToTest = routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
-      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, Nil)
+      testChangeAnswerRouting(
+        previousAnswer,
+        newAnswer,
+        AreYouRegisteredForSelfAssessmentPage,
+        urlToTest,
+        destinationRoute,
+        Nil
+      )
     }
 
     "must redirect to CheckYourAnswers screen if page answer is No and doesn't change" in {
 
       val previousAnswer = AreYouRegisteredForSelfAssessment.No
-      val newAnswer = AreYouRegisteredForSelfAssessment.No
+      val newAnswer      = AreYouRegisteredForSelfAssessment.No
 
-      val urlToTest = routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.AreYouRegisteredForSelfAssessmentController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
-      testChangeAnswerRouting(previousAnswer, newAnswer, AreYouRegisteredForSelfAssessmentPage, urlToTest, destinationRoute, Nil)
+      testChangeAnswerRouting(
+        previousAnswer,
+        newAnswer,
+        AreYouRegisteredForSelfAssessmentPage,
+        urlToTest,
+        destinationRoute,
+        Nil
+      )
     }
   }
 }

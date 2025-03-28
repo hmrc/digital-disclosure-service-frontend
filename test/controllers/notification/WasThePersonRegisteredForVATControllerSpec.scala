@@ -36,7 +36,7 @@ class WasThePersonRegisteredForVATControllerSpec extends ControllerSpecBase {
   lazy val wasThePersonRegisteredForVATRoute = routes.WasThePersonRegisteredForVATController.onPageLoad(NormalMode).url
 
   val formProvider = new WasThePersonRegisteredForVATFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   "WasThePersonRegisteredForVAT Controller" - {
 
@@ -56,7 +56,10 @@ class WasThePersonRegisteredForVATControllerSpec extends ControllerSpecBase {
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WasThePersonRegisteredForVATPage, WasThePersonRegisteredForVAT.values.head).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123")
+        .set(WasThePersonRegisteredForVATPage, WasThePersonRegisteredForVAT.values.head)
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -67,7 +70,10 @@ class WasThePersonRegisteredForVATControllerSpec extends ControllerSpecBase {
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(WasThePersonRegisteredForVAT.values.head), NormalMode, false)(request, messages).toString
+      contentAsString(result) mustEqual view(form.fill(WasThePersonRegisteredForVAT.values.head), NormalMode, false)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -87,9 +93,9 @@ class WasThePersonRegisteredForVATControllerSpec extends ControllerSpecBase {
 
     "must redirect to WhatWasThePersonVATRegistrationNumber screen in check mode if WasThePersonRegisteredForVAT page answer was change from No or YesButDontKnow to YesIKnow" in {
       val previousAnswers = Seq(WasThePersonRegisteredForVAT.No, WasThePersonRegisteredForVAT.YesButIDontKnow)
-      val newAnswer = WasThePersonRegisteredForVAT.YesIKnow
+      val newAnswer       = WasThePersonRegisteredForVAT.YesIKnow
 
-      val urlToTest = routes.WasThePersonRegisteredForVATController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.WasThePersonRegisteredForVATController.onPageLoad(CheckMode).url
       val destinationRoute = routes.WhatWasThePersonVATRegistrationNumberController.onPageLoad(CheckMode).url
 
       previousAnswers.foreach(
@@ -99,20 +105,27 @@ class WasThePersonRegisteredForVATControllerSpec extends ControllerSpecBase {
 
     "must redirect to CheckYourAnswers screen if the if WasThePersonRegisteredForVAT page answer was change from YesIKnow to No or YesButDontKnow" in {
       val previousAnswer = WasThePersonRegisteredForVAT.YesIKnow
-      val newAnswers = Seq(WasThePersonRegisteredForVAT.No, WasThePersonRegisteredForVAT.YesButIDontKnow)
+      val newAnswers     = Seq(WasThePersonRegisteredForVAT.No, WasThePersonRegisteredForVAT.YesButIDontKnow)
 
-      val urlToTest = routes.WasThePersonRegisteredForVATController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.WasThePersonRegisteredForVATController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       val pageToClean = List(WhatWasThePersonVATRegistrationNumberPage)
 
-      newAnswers.foreach(testChangeAnswerRouting(
-        previousAnswer, _, WasThePersonRegisteredForVATPage, urlToTest, destinationRoute, pageToClean)
+      newAnswers.foreach(
+        testChangeAnswerRouting(
+          previousAnswer,
+          _,
+          WasThePersonRegisteredForVATPage,
+          urlToTest,
+          destinationRoute,
+          pageToClean
+        )
       )
     }
 
     "must redirect to CheckYourAnswer screen if there are no changes in the user answer" in {
-      val urlToTest = routes.WasThePersonRegisteredForVATController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.WasThePersonRegisteredForVATController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       WasThePersonRegisteredForVAT.values.foreach(value =>

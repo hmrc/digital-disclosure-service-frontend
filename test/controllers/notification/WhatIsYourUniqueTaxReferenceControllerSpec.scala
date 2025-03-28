@@ -35,7 +35,7 @@ class WhatIsYourUniqueTaxReferenceControllerSpec extends SpecBase with MockitoSu
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new WhatIsYourUniqueTaxReferenceFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   lazy val whatIsYourUniqueTaxReferenceRoute = routes.WhatIsYourUniqueTaxReferenceController.onPageLoad(NormalMode).url
 
@@ -57,7 +57,8 @@ class WhatIsYourUniqueTaxReferenceControllerSpec extends SpecBase with MockitoSu
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhatIsYourUniqueTaxReferencePage, "answer").success.value
+      val userAnswers =
+        UserAnswers(userAnswersId, "session-123").set(WhatIsYourUniqueTaxReferencePage, "answer").success.value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -77,7 +78,7 @@ class WhatIsYourUniqueTaxReferenceControllerSpec extends SpecBase with MockitoSu
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val utrLength = 10
-      val validUTR = generateValidUTR(utrLength).sample.value
+      val validUTR  = generateValidUTR(utrLength).sample.value
 
       val request =
         FakeRequest(POST, whatIsYourUniqueTaxReferenceRoute)

@@ -24,34 +24,30 @@ import org.scalacheck.Gen._
 import org.scalacheck.{Gen, Shrink}
 import uk.gov.hmrc.domain.Nino
 
-trait Generators extends UserAnswersGenerator
-                    with PageGenerators
-                    with ModelGenerators
-                    with UserAnswersEntryGenerators
-                    with EmailGenerators
-                    with TelephoneNumberGenerators
-                    with VATGenerators
-                    with CaseReferenceGenerators {
+trait Generators
+    extends UserAnswersGenerator
+    with PageGenerators
+    with ModelGenerators
+    with UserAnswersEntryGenerators
+    with EmailGenerators
+    with TelephoneNumberGenerators
+    with VATGenerators
+    with CaseReferenceGenerators {
 
   implicit val dontShrink: Shrink[String] = Shrink.shrinkAny
 
-  def genIntersperseString(gen: Gen[String],
-                           value: String,
-                           frequencyV: Int = 1,
-                           frequencyN: Int = 10): Gen[String] = {
+  def genIntersperseString(gen: Gen[String], value: String, frequencyV: Int = 1, frequencyN: Int = 10): Gen[String] = {
 
     val genValue: Gen[Option[String]] = Gen.frequency(frequencyN -> None, frequencyV -> Gen.const(Some(value)))
 
     for {
       seq1 <- gen
       seq2 <- Gen.listOfN(seq1.length, genValue)
-    } yield {
-      seq1.toSeq.zip(seq2).foldLeft("") {
-        case (acc, (n, Some(v))) =>
-          acc + n + v
-        case (acc, (n, _)) =>
-          acc + n
-      }
+    } yield seq1.toSeq.zip(seq2).foldLeft("") {
+      case (acc, (n, Some(v))) =>
+        acc + n + v
+      case (acc, (n, _))       =>
+        acc + n
     }
   }
 
@@ -75,13 +71,13 @@ trait Generators extends UserAnswersGenerator
   }
 
   def intsLargerThanMaxValue: Gen[BigInt] =
-    arbitrary[BigInt] suchThat(x => x > Int.MaxValue)
+    arbitrary[BigInt] suchThat (x => x > Int.MaxValue)
 
   def intsSmallerThanMinValue: Gen[BigInt] =
-    arbitrary[BigInt] suchThat(x => x < Int.MinValue)
+    arbitrary[BigInt] suchThat (x => x < Int.MinValue)
 
   def nonNumerics: Gen[String] =
-    alphaStr suchThat(_.size > 0)
+    alphaStr suchThat (_.size > 0)
 
   def decimals: Gen[String] =
     arbitrary[BigDecimal]
@@ -90,22 +86,21 @@ trait Generators extends UserAnswersGenerator
       .map("%f".format(_))
 
   def intsBelowValue(value: Int): Gen[Int] =
-    arbitrary[Int] suchThat(_ < value)
+    arbitrary[Int] suchThat (_ < value)
 
   def intsAboveValue(value: Int): Gen[Int] =
-    arbitrary[Int] suchThat(_ > value)
+    arbitrary[Int] suchThat (_ > value)
 
   def intsOutsideRange(min: Int, max: Int): Gen[Int] =
-    arbitrary[Int] suchThat(x => x < min || x > max)
+    arbitrary[Int] suchThat (x => x < min || x > max)
 
   def bigintsInRangeWithCommas(min: BigInt, max: BigInt): Gen[String] = {
     val numberGen = choose[BigInt](min, max).map(_.toString)
     genIntersperseString(numberGen, ",")
   }
 
-  def bigintsInRange(min: BigInt, max: BigInt): Gen[String] = {
+  def bigintsInRange(min: BigInt, max: BigInt): Gen[String] =
     choose[BigInt](min, max).map(_.toString)
-  }
 
   def bigintsInRangeWithPound(min: BigInt, max: BigInt): Gen[String] = for {
     bool  <- arbitrary[Boolean]
@@ -120,28 +115,28 @@ trait Generators extends UserAnswersGenerator
     arbitrary[Int].suchThat(int => (int * -1) < value).map(int => BigInt(int * -1))
 
   def bigintsAboveValue(value: BigInt): Gen[BigInt] =
-    arbitrary[BigInt] suchThat(_ > value)
+    arbitrary[BigInt] suchThat (_ > value)
 
   def bigintsOutsideRange(min: BigInt, max: BigInt): Gen[BigInt] =
-    arbitrary[BigInt] suchThat(x => x < min || x > max)
+    arbitrary[BigInt] suchThat (x => x < min || x > max)
 
   def bigdecimalsBelowZero: Gen[BigDecimal] =
-    arbitrary[BigDecimal].suchThat(_ < 0)  
+    arbitrary[BigDecimal].suchThat(_ < 0)
 
   def bigdecimalsBelowValue(value: BigDecimal): Gen[BigDecimal] =
-    arbitrary[BigDecimal].suchThat(decimal => (decimal * -1) < value).map(decimal => (decimal * -1))  
+    arbitrary[BigDecimal].suchThat(decimal => (decimal * -1) < value).map(decimal => decimal * -1)
 
   def bigdecimalsAboveValue(value: BigDecimal): Gen[BigDecimal] =
-    arbitrary[BigDecimal] suchThat(_ > value)  
+    arbitrary[BigDecimal] suchThat (_ > value)
 
   def bigdecimalsOutsideRange(min: BigDecimal, max: BigDecimal): Gen[BigDecimal] =
-    arbitrary[BigDecimal] suchThat(x => x < min || x > max)
+    arbitrary[BigDecimal] suchThat (x => x < min || x > max)
 
   def nonBooleans: Gen[String] =
     arbitrary[String]
-      .suchThat (_.nonEmpty)
-      .suchThat (_ != "true")
-      .suchThat (_ != "false")
+      .suchThat(_.nonEmpty)
+      .suchThat(_ != "true")
+      .suchThat(_ != "false")
 
   def nonEmptyString: Gen[String] =
     arbitrary[String] suchThat (_.trim.nonEmpty)
@@ -155,13 +150,16 @@ trait Generators extends UserAnswersGenerator
   }
 
   def stringsWithLengthBetween(minLength: Int, maxLength: Int): Gen[String] = for {
-    length    <- Gen.chooseNum(minLength + 1, maxLength)
-    chars     <- listOfN(length, arbitrary[Char])
+    length <- Gen.chooseNum(minLength + 1, maxLength)
+    chars  <- listOfN(length, arbitrary[Char])
   } yield chars.mkString
 
   def stringsExcludingCRWithLengthBetween(minLength: Int, maxLength: Int): Gen[String] = for {
-    length    <- Gen.chooseNum(minLength + 1, maxLength)
-    chars     <- listOfN(length, arbitrary[Char] suchThat (char => char != '\r' && !invalidUnicodeCharacters.contains(char.toString)))
+    length <- Gen.chooseNum(minLength + 1, maxLength)
+    chars  <- listOfN(
+                length,
+                arbitrary[Char] suchThat (char => char != '\r' && !invalidUnicodeCharacters.contains(char.toString))
+              )
   } yield chars.mkString
 
   def stringsExceptSpecificValues(excluded: Seq[String]): Gen[String] =
@@ -180,34 +178,29 @@ trait Generators extends UserAnswersGenerator
     def toMillis(date: LocalDate): Long =
       date.atStartOfDay.atZone(ZoneOffset.UTC).toInstant.toEpochMilli
 
-    Gen.choose(toMillis(min), toMillis(max)).map {
-      millis =>
-        Instant.ofEpochMilli(millis).atOffset(ZoneOffset.UTC).toLocalDate
+    Gen.choose(toMillis(min), toMillis(max)).map { millis =>
+      Instant.ofEpochMilli(millis).atOffset(ZoneOffset.UTC).toLocalDate
     }
   }
 
-  def generateValidUTR(length:Int):Gen[String] = for {
+  def generateValidUTR(length: Int): Gen[String] = for {
     digits <- listOfN(length, numChar)
-  } yield {
-    digits.mkString
-  }
-
+  } yield digits.mkString
 
   def generateInvalidLengthUTR(length: Int): Gen[String] = numStr
     .suchThat(s => s.nonEmpty && (s.length != length))
 
   def generateIllegalCharUTR(length: Int): Gen[String] = for {
     str <- listOfN(length, alphaChar)
-  } yield {
-    str.mkString
-  }
+  } yield str.mkString
 
   def nino(): Gen[String] = for {
     bool <- arbitrary[Boolean]
     upper = NinoGenerator.generateNino
-    nino = if (bool) upper.toLowerCase else upper
+    nino  = if (bool) upper.toLowerCase else upper
   } yield nino
-  
+
   def invalidNino(): Gen[String] = Gen.alphaNumStr
-    .suchThat(_.trim.nonEmpty).suchThat(str => !Nino.isValid(str.toUpperCase))
+    .suchThat(_.trim.nonEmpty)
+    .suchThat(str => !Nino.isValid(str.toUpperCase))
 }

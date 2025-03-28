@@ -35,21 +35,22 @@ class NotIncludedSingleTaxYearControllerSpec extends SpecBase with MockitoSugar 
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new NotIncludedSingleTaxYearFormProvider()
-  val missingYear = "2020"
-  val firstYear = "2019"
-  val lastYear = "2021"
-  val form = formProvider(missingYear)
+  val missingYear  = "2020"
+  val firstYear    = "2019"
+  val lastYear     = "2021"
+  val form         = formProvider(missingYear)
 
-  lazy val youHaveNotIncludedTheTaxYearRoute = routes.NotIncludedSingleTaxYearController.onPageLoad(NormalMode).url
-  lazy val youHaveNotSelectedCertainTaxYearRoute = routes.NotIncludedMultipleTaxYearsController.onPageLoad(NormalMode).url
-  lazy val whichYearsRoute = routes.WhichOnshoreYearsController.onPageLoad(NormalMode).url
+  lazy val youHaveNotIncludedTheTaxYearRoute     = routes.NotIncludedSingleTaxYearController.onPageLoad(NormalMode).url
+  lazy val youHaveNotSelectedCertainTaxYearRoute =
+    routes.NotIncludedMultipleTaxYearsController.onPageLoad(NormalMode).url
+  lazy val whichYearsRoute                       = routes.WhichOnshoreYearsController.onPageLoad(NormalMode).url
 
   "NotIncludedSingleTaxYear Controller" - {
 
     "must return OK and the correct view for a GET" in {
-    
+
       val whichYears: Set[OnshoreYears] = Set(OnshoreYearStarting(2020), OnshoreYearStarting(2018))
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, whichYears).success.value
+      val userAnswers                   = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, whichYears).success.value
       setupMockSessionResponse(Some(userAnswers))
 
       val request = FakeRequest(GET, youHaveNotIncludedTheTaxYearRoute)
@@ -59,14 +60,17 @@ class NotIncludedSingleTaxYearControllerSpec extends SpecBase with MockitoSugar 
       val view = application.injector.instanceOf[NotIncludedSingleTaxYearView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, NormalMode, missingYear, firstYear, lastYear)(request, messages).toString
+      contentAsString(result) mustEqual view(form, NormalMode, missingYear, firstYear, lastYear)(
+        request,
+        messages
+      ).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val whichYears: Set[OnshoreYears] = Set(OnshoreYearStarting(2020), OnshoreYearStarting(2018))
-      val userAnswers = (for {
-        ua <- UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, whichYears)
+      val userAnswers                   = (for {
+        ua      <- UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, whichYears)
         finalUa <- ua.set(NotIncludedSingleTaxYearPage, "answer")
       } yield finalUa).success.value
       setupMockSessionResponse(Some(userAnswers))
@@ -78,7 +82,10 @@ class NotIncludedSingleTaxYearControllerSpec extends SpecBase with MockitoSugar 
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill("answer"), NormalMode, missingYear, firstYear, lastYear)(request, messages).toString
+      contentAsString(result) mustEqual view(form.fill("answer"), NormalMode, missingYear, firstYear, lastYear)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to the which onshore years page when it isnt set" in {
@@ -99,7 +106,7 @@ class NotIncludedSingleTaxYearControllerSpec extends SpecBase with MockitoSugar 
     "must redirect to the next page when valid data is submitted" in {
 
       val whichYears: Set[OnshoreYears] = Set(OnshoreYearStarting(2020), OnshoreYearStarting(2018))
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, whichYears).success.value
+      val userAnswers                   = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, whichYears).success.value
 
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
       setupMockSessionResponse(Some(userAnswers))
@@ -116,8 +123,9 @@ class NotIncludedSingleTaxYearControllerSpec extends SpecBase with MockitoSugar 
 
     "must redirect to the YouHaveNotSelectedCertainTaxYearPage when multiple years are missing" in {
 
-      val whichYears: Set[OnshoreYears] = Set(OnshoreYearStarting(2020), OnshoreYearStarting(2018), OnshoreYearStarting(2016))
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, whichYears).success.value
+      val whichYears: Set[OnshoreYears] =
+        Set(OnshoreYearStarting(2020), OnshoreYearStarting(2018), OnshoreYearStarting(2016))
+      val userAnswers                   = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, whichYears).success.value
 
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
       setupMockSessionResponse(Some(userAnswers))
@@ -135,7 +143,7 @@ class NotIncludedSingleTaxYearControllerSpec extends SpecBase with MockitoSugar 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
       val whichYears: Set[OnshoreYears] = Set(OnshoreYearStarting(2020), OnshoreYearStarting(2018))
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, whichYears).success.value
+      val userAnswers                   = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, whichYears).success.value
       setupMockSessionResponse(Some(userAnswers))
 
       val request =
@@ -149,7 +157,10 @@ class NotIncludedSingleTaxYearControllerSpec extends SpecBase with MockitoSugar 
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, missingYear, firstYear, lastYear)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode, missingYear, firstYear, lastYear)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

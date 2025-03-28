@@ -20,88 +20,65 @@ import play.api.data.{Form, FormError}
 
 trait BigIntFieldBehaviours extends FieldBehaviours {
 
-  def bigintField(form: Form[_],
-               fieldName: String,
-               nonNumericError: FormError,
-               wholeNumberError: FormError): Unit = {
+  def bigintField(form: Form[_], fieldName: String, nonNumericError: FormError, wholeNumberError: FormError): Unit = {
 
     "not bind non-numeric numbers" in {
 
-      forAll(nonNumerics -> "nonNumeric") {
-        nonNumeric =>
-          val result = form.bind(Map(fieldName -> nonNumeric)).apply(fieldName)
-          result.errors must contain only nonNumericError
+      forAll(nonNumerics -> "nonNumeric") { nonNumeric =>
+        val result = form.bind(Map(fieldName -> nonNumeric)).apply(fieldName)
+        result.errors must contain only nonNumericError
       }
     }
 
     "not bind decimals" in {
 
-      forAll(decimals -> "decimal") {
-        decimal =>
-          val result = form.bind(Map(fieldName -> decimal)).apply(fieldName)
-          result.errors must contain only wholeNumberError
+      forAll(decimals -> "decimal") { decimal =>
+        val result = form.bind(Map(fieldName -> decimal)).apply(fieldName)
+        result.errors must contain only wholeNumberError
       }
     }
 
   }
 
-  def bigintFieldWithMinimumZero(form: Form[_],
-                          fieldName: String,
-                          expectedError: FormError): Unit = {
-
+  def bigintFieldWithMinimumZero(form: Form[_], fieldName: String, expectedError: FormError): Unit =
     s"not bind integers below zero" in {
 
-      forAll(bigintsBelowZero -> "intBelowMin") {
-        number: BigInt =>
-          val result = form.bind(Map(fieldName -> number.toString)).apply(fieldName)
-          result.errors must contain only expectedError
+      forAll(bigintsBelowZero -> "intBelowMin") { number: BigInt =>
+        val result = form.bind(Map(fieldName -> number.toString)).apply(fieldName)
+        result.errors must contain only expectedError
       }
     }
-  }
 
-  def bigintFieldWithMinimum(form: Form[_],
-                          fieldName: String,
-                          minimum: BigInt,
-                          expectedError: FormError): Unit = {
-
+  def bigintFieldWithMinimum(form: Form[_], fieldName: String, minimum: BigInt, expectedError: FormError): Unit =
     s"not bind integers below $minimum" in {
 
-      forAll(bigintsBelowValue(minimum) -> "intBelowMin") {
-        number: BigInt =>
-          val result = form.bind(Map(fieldName -> number.toString)).apply(fieldName)
-          result.errors must contain only expectedError
+      forAll(bigintsBelowValue(minimum) -> "intBelowMin") { number: BigInt =>
+        val result = form.bind(Map(fieldName -> number.toString)).apply(fieldName)
+        result.errors must contain only expectedError
       }
     }
-  }
 
-  def bigintFieldWithMaximum(form: Form[_],
-                          fieldName: String,
-                          maximum: BigInt,
-                          expectedError: FormError): Unit = {
-
+  def bigintFieldWithMaximum(form: Form[_], fieldName: String, maximum: BigInt, expectedError: FormError): Unit =
     s"not bind integers above $maximum" in {
 
-      forAll(bigintsAboveValue(maximum) -> "intAboveMax") {
-        number: BigInt =>
-          val result = form.bind(Map(fieldName -> number.toString)).apply(fieldName)
-          result.errors must contain only expectedError
+      forAll(bigintsAboveValue(maximum) -> "intAboveMax") { number: BigInt =>
+        val result = form.bind(Map(fieldName -> number.toString)).apply(fieldName)
+        result.errors must contain only expectedError
       }
     }
-  }
 
-  def bigintFieldWithRange(form: Form[_],
-                        fieldName: String,
-                        minimum: BigInt,
-                        maximum: BigInt,
-                        expectedError: FormError): Unit = {
-
+  def bigintFieldWithRange(
+    form: Form[_],
+    fieldName: String,
+    minimum: BigInt,
+    maximum: BigInt,
+    expectedError: FormError
+  ): Unit =
     s"not bind integers outside the range $minimum to $maximum" in {
 
-      forAll(bigintsOutsideRange(minimum, maximum) -> "bigintOutsideRange") {
-        number =>
-          val result = form.bind(Map(fieldName -> number.toString)).apply(fieldName)
-          result.errors must contain only expectedError
+      forAll(bigintsOutsideRange(minimum, maximum) -> "bigintOutsideRange") { number =>
+        val result = form.bind(Map(fieldName -> number.toString)).apply(fieldName)
+        result.errors must contain only expectedError
       }
     }
-  }
 }

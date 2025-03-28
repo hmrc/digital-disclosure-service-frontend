@@ -25,7 +25,7 @@ import models.NormalMode
 
 class WhatIsTheIndividualDateOfBirthViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhatIsTheIndividualDateOfBirthFormProvider()()
+  val form                                     = new WhatIsTheIndividualDateOfBirthFormProvider()()
   val page: WhatIsTheIndividualDateOfBirthView = inject[WhatIsTheIndividualDateOfBirthView]
 
   private def createView: Html = page(form, NormalMode, false)(request, messages)
@@ -39,7 +39,9 @@ class WhatIsTheIndividualDateOfBirthViewSpec extends ViewSpecBase with ViewMatch
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("whatIsTheIndividualDateOfBirth.heading")
+      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages(
+        "whatIsTheIndividualDateOfBirth.heading"
+      )
     }
 
     "contain hint" in {
@@ -53,7 +55,7 @@ class WhatIsTheIndividualDateOfBirthViewSpec extends ViewSpecBase with ViewMatch
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

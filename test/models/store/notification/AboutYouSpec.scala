@@ -30,17 +30,59 @@ class AboutYouSpec extends AnyFreeSpec with Matchers with OptionValues {
   "isComplete" - {
 
     "must return true where they are NOT the individual and have answered full name, contact preferences, email, and address" in {
-      val aboutYou = AboutYou(Some("name"), None, Some("email"), None, None, Some(ContactPreferences(Set(Email))), None, None, None, None, None, None, Some(address))
+      val aboutYou = AboutYou(
+        Some("name"),
+        None,
+        Some("email"),
+        None,
+        None,
+        Some(ContactPreferences(Set(Email))),
+        None,
+        None,
+        None,
+        None,
+        None,
+        None,
+        Some(address)
+      )
       aboutYou.isComplete(false) mustBe true
     }
 
     "must return true where they are NOT the individual and have answered full name, contact preferences, phone, and address" in {
-      val aboutYou = AboutYou(Some("name"), Some("0123"), None, None, None, Some(ContactPreferences(Set(Telephone))), None, None, None, None, None, None, Some(address))
+      val aboutYou = AboutYou(
+        Some("name"),
+        Some("0123"),
+        None,
+        None,
+        None,
+        Some(ContactPreferences(Set(Telephone))),
+        None,
+        None,
+        None,
+        None,
+        None,
+        None,
+        Some(address)
+      )
       aboutYou.isComplete(false) mustBe true
     }
 
     "must return false where they are NOT the individual and have not answered a form of contact" in {
-      val aboutYou = AboutYou(Some("name"), None, None, None, None, Some(ContactPreferences(Set(Telephone))), None, None, None, None, None, None, Some(address))
+      val aboutYou = AboutYou(
+        Some("name"),
+        None,
+        None,
+        None,
+        None,
+        Some(ContactPreferences(Set(Telephone))),
+        None,
+        None,
+        None,
+        None,
+        None,
+        None,
+        Some(address)
+      )
       aboutYou.isComplete(false) mustBe false
     }
 
@@ -50,27 +92,97 @@ class AboutYouSpec extends AnyFreeSpec with Matchers with OptionValues {
     }
 
     "must return true where they ARE the individual and have answered full name, contact preferences, email, and address" in {
-      val aboutYou = AboutYou(Some("name"), None, Some("email"), Some(LocalDate.now), Some("mainOccupation"), Some(ContactPreferences(Set(Email))), Some(No), None, Some(No), None, Some(No), None, Some(address))
+      val aboutYou = AboutYou(
+        Some("name"),
+        None,
+        Some("email"),
+        Some(LocalDate.now),
+        Some("mainOccupation"),
+        Some(ContactPreferences(Set(Email))),
+        Some(No),
+        None,
+        Some(No),
+        None,
+        Some(No),
+        None,
+        Some(address)
+      )
       aboutYou.isComplete(true) mustBe true
     }
 
     "must return true where they ARE the individual and have answered full name, contact preferences, phone, and address" in {
-      val aboutYou = AboutYou(Some("name"), Some("0123"), None, Some(LocalDate.now), Some("mainOccupation"), Some(ContactPreferences(Set(Telephone))), Some(No), None, Some(No), None, Some(No), None, Some(address))
+      val aboutYou = AboutYou(
+        Some("name"),
+        Some("0123"),
+        None,
+        Some(LocalDate.now),
+        Some("mainOccupation"),
+        Some(ContactPreferences(Set(Telephone))),
+        Some(No),
+        None,
+        Some(No),
+        None,
+        Some(No),
+        None,
+        Some(address)
+      )
       aboutYou.isComplete(true) mustBe true
     }
 
     "must return true where they ARE the individual and have answered necessary questions and have a NINO" in {
-      val aboutYou = AboutYou(Some("name"), Some("0123"), None, Some(LocalDate.now), Some("mainOccupation"), Some(ContactPreferences(Set(Telephone))), Some(Yes), Some("NINO"), Some(No), None, Some(No), None, Some(address))
+      val aboutYou = AboutYou(
+        Some("name"),
+        Some("0123"),
+        None,
+        Some(LocalDate.now),
+        Some("mainOccupation"),
+        Some(ContactPreferences(Set(Telephone))),
+        Some(Yes),
+        Some("NINO"),
+        Some(No),
+        None,
+        Some(No),
+        None,
+        Some(address)
+      )
       aboutYou.isComplete(true) mustBe true
     }
 
     "must return true where they ARE the individual and have answered necessary questions and have a VAT reg" in {
-      val aboutYou = AboutYou(Some("name"), Some("0123"), None, Some(LocalDate.now), Some("mainOccupation"), Some(ContactPreferences(Set(Telephone))), Some(No), None, Some(Yes), Some("VAT reg"), Some(No), None, Some(address))
+      val aboutYou = AboutYou(
+        Some("name"),
+        Some("0123"),
+        None,
+        Some(LocalDate.now),
+        Some("mainOccupation"),
+        Some(ContactPreferences(Set(Telephone))),
+        Some(No),
+        None,
+        Some(Yes),
+        Some("VAT reg"),
+        Some(No),
+        None,
+        Some(address)
+      )
       aboutYou.isComplete(true) mustBe true
     }
 
     "must return true where they ARE the individual and have answered necessary questions and have an SAUTR" in {
-      val aboutYou = AboutYou(Some("name"), Some("0123"), None, Some(LocalDate.now), Some("mainOccupation"), Some(ContactPreferences(Set(Telephone))), Some(No), None, Some(No), None, Some(Yes), Some("SAUTR"), Some(address))
+      val aboutYou = AboutYou(
+        Some("name"),
+        Some("0123"),
+        None,
+        Some(LocalDate.now),
+        Some("mainOccupation"),
+        Some(ContactPreferences(Set(Telephone))),
+        Some(No),
+        None,
+        Some(No),
+        None,
+        Some(Yes),
+        Some("SAUTR"),
+        Some(address)
+      )
       aboutYou.isComplete(true) mustBe true
     }
 

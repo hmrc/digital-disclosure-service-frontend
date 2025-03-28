@@ -71,8 +71,9 @@ class CorporationTaxLiabilityControllerSpec extends SpecBase with MockitoSugar {
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
-      
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(CorporationTaxLiabilityPage, Seq(answer)).success.value
+
+      val userAnswers =
+        UserAnswers(userAnswersId, "session-123").set(CorporationTaxLiabilityPage, Seq(answer)).success.value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -95,11 +96,11 @@ class CorporationTaxLiabilityControllerSpec extends SpecBase with MockitoSugar {
             ("periodEnd.day", "1"),
             ("periodEnd.month", "12"),
             ("periodEnd.year", "2012"),
-            ("howMuchIncome" , "100"),
-            ("howMuchUnpaid" , "100"),
-            ("howMuchInterest" , "100"),
-            ("penaltyRate" , "5"),
-            ("penaltyRateReason" , "Reason")
+            ("howMuchIncome", "100"),
+            ("howMuchUnpaid", "100"),
+            ("howMuchInterest", "100"),
+            ("penaltyRate", "5"),
+            ("penaltyRateReason", "Reason")
           )
 
       val result = route(applicationWithFakeOnshoreNavigator(onwardRoute), request).value
@@ -149,6 +150,6 @@ class CorporationTaxLiabilityControllerSpec extends SpecBase with MockitoSugar {
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
-  
+
   }
 }

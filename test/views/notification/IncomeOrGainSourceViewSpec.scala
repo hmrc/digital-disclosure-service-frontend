@@ -25,7 +25,7 @@ import models.NormalMode
 
 class IncomeOrGainSourceViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new IncomeOrGainSourceFormProvider()()
+  val form                         = new IncomeOrGainSourceFormProvider()()
   val page: IncomeOrGainSourceView = inject[IncomeOrGainSourceView]
 
   private def createView: Html = page(form, NormalMode, false)(request, messages)
@@ -39,11 +39,13 @@ class IncomeOrGainSourceViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("whereDidTheUndeclaredIncomeOrGainIncluded.heading")
+      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages(
+        "whereDidTheUndeclaredIncomeOrGainIncluded.heading"
+      )
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

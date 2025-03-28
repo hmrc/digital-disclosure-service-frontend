@@ -22,7 +22,7 @@ import play.api.data.FormError
 class WhatWasThePersonUTRFormProviderSpec extends UTRBehaviours {
 
   val requiredErrorKey = "whatWasThePersonUTR.error.required"
-  val invalidErrorKey = "whatWasThePersonUTR.error"
+  val invalidErrorKey  = "whatWasThePersonUTR.error"
 
   val form = new WhatWasThePersonUTRFormProvider()()
 

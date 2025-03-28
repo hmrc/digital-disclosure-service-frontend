@@ -33,7 +33,7 @@ class CountriesSpec extends SpecBase with Injecting with BeforeAndAfterEach with
 
   implicit lazy val app: Application = application
 
-  val mockEnv = mock[Environment]
+  val mockEnv               = mock[Environment]
   lazy val env: Environment = inject[Environment]
 
   override protected def beforeEach(): Unit = {

@@ -39,7 +39,7 @@ class WhatTypeOfMortgageDidYouHaveControllerSpec extends SpecBase with MockitoSu
 
   lazy val whatTypeOfMortgageDidYouHaveRoute: String =
     routes.WhatTypeOfMortgageDidYouHaveController.onPageLoad(index, NormalMode).url
-  val formProvider = new WhatTypeOfMortgageDidYouHaveFormProvider()
+  val formProvider                                   = new WhatTypeOfMortgageDidYouHaveFormProvider()
 
   val form: Form[TypeOfMortgageDidYouHave] = formProvider()
 
@@ -64,7 +64,9 @@ class WhatTypeOfMortgageDidYouHaveControllerSpec extends SpecBase with MockitoSu
       val lettingProperty = LettingProperty(typeOfMortgage = Some(TypeOfMortgageDidYouHave.values.head))
 
       val userAnswers = UserAnswers(userAnswersId, "session-123")
-        .setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
+        .setBySeqIndex(LettingPropertyPage, 0, lettingProperty)
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -75,11 +77,14 @@ class WhatTypeOfMortgageDidYouHaveControllerSpec extends SpecBase with MockitoSu
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(TypeOfMortgageDidYouHave.values.head), index, NormalMode)(request, messages).toString
+      contentAsString(result) mustEqual view(form.fill(TypeOfMortgageDidYouHave.values.head), index, NormalMode)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
-      
+
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 

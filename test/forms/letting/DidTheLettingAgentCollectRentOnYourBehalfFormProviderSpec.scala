@@ -22,7 +22,7 @@ import play.api.data.FormError
 class DidTheLettingAgentCollectRentOnYourBehalfFormProviderSpec extends BooleanFieldBehaviours {
 
   val requiredKey = "didTheLettingAgentCollectRentOnYourBehalf.error.required"
-  val invalidKey = "error.boolean"
+  val invalidKey  = "error.boolean"
 
   val form = new DidTheLettingAgentCollectRentOnYourBehalfFormProvider()()
 

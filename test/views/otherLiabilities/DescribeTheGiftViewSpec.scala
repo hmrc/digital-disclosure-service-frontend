@@ -25,7 +25,7 @@ import models.NormalMode
 
 class DescribeTheGiftViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new DescribeTheGiftFormProvider()()
+  val form                      = new DescribeTheGiftFormProvider()()
   val page: DescribeTheGiftView = inject[DescribeTheGiftView]
 
   private def createView: Html = page(form, NormalMode)(request, messages)
@@ -43,7 +43,7 @@ class DescribeTheGiftViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

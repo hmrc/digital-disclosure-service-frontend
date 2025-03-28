@@ -30,22 +30,38 @@ class ReferenceNavigatorSpec extends SpecBase {
 
       "must go from a page that doesn't exist in the route map to Index" in {
         case object UnknownPage extends Page
-        navigator.nextPage(UnknownPage, NormalMode, UserAnswers("id", "session-123")) mustBe controllers.routes.IndexController.onPageLoad
+        navigator.nextPage(
+          UnknownPage,
+          NormalMode,
+          UserAnswers("id", "session-123")
+        ) mustBe controllers.routes.IndexController.onPageLoad
       }
 
       "must go from DoYouHaveACaseReferencePage to WhatIsTheCaseReferenceController when selected Yes" in {
         val userAnswers = UserAnswers("id", "session-123").set(DoYouHaveACaseReferencePage, true).success.value
-        navigator.nextPage(DoYouHaveACaseReferencePage, NormalMode, userAnswers) mustBe routes.WhatIsTheCaseReferenceController.onPageLoad(NormalMode)
+        navigator.nextPage(
+          DoYouHaveACaseReferencePage,
+          NormalMode,
+          userAnswers
+        ) mustBe routes.WhatIsTheCaseReferenceController.onPageLoad(NormalMode)
       }
 
       "must go from DoYouHaveACaseReferencePage to WhatIsTheCaseReferenceController when selected No" in {
         val userAnswers = UserAnswers("id", "session-123").set(DoYouHaveACaseReferencePage, false).success.value
-        navigator.nextPage(DoYouHaveACaseReferencePage, NormalMode, userAnswers) mustBe controllers.routes.TaskListController.onPageLoad
+        navigator.nextPage(
+          DoYouHaveACaseReferencePage,
+          NormalMode,
+          userAnswers
+        ) mustBe controllers.routes.TaskListController.onPageLoad
       }
 
       "must go from WhatIsTheCaseReferencePage to TaskListController when the user inserts a case reference" in {
         val userAnswers = UserAnswers("id", "session-123").set(WhatIsTheCaseReferencePage, "answer").success.value
-        navigator.nextPage(WhatIsTheCaseReferencePage, NormalMode, userAnswers) mustBe controllers.routes.TaskListController.onPageLoad
+        navigator.nextPage(
+          WhatIsTheCaseReferencePage,
+          NormalMode,
+          userAnswers
+        ) mustBe controllers.routes.TaskListController.onPageLoad
       }
 
     }

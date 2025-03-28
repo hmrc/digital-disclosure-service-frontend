@@ -41,15 +41,15 @@ class OfferLetterFormProviderSpec extends BigIntFieldBehaviours {
     behave like bigintField(
       form,
       fieldName,
-      nonNumericError  = FormError(fieldName, "offerLetter.error.nonNumeric"),
+      nonNumericError = FormError(fieldName, "offerLetter.error.nonNumeric"),
       wholeNumberError = FormError(fieldName, "offerLetter.error.wholeNumber")
     )
 
     behave like bigintFieldWithRange(
       form,
       fieldName,
-      minimum       = minimum,
-      maximum       = maximum,
+      minimum = minimum,
+      maximum = maximum,
       expectedError = FormError(fieldName, "offerLetter.error.outOfRange", Seq(minimum, maximum))
     )
 

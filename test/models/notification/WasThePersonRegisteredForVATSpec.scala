@@ -24,7 +24,11 @@ import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
 import play.api.libs.json.{JsError, JsString, Json}
 
-class WasThePersonRegisteredForVATSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks with OptionValues {
+class WasThePersonRegisteredForVATSpec
+    extends AnyFreeSpec
+    with Matchers
+    with ScalaCheckPropertyChecks
+    with OptionValues {
 
   "WasThePersonRegisteredForVAT" - {
 
@@ -32,10 +36,11 @@ class WasThePersonRegisteredForVATSpec extends AnyFreeSpec with Matchers with Sc
 
       val gen = Gen.oneOf(WasThePersonRegisteredForVAT.values.toSeq)
 
-      forAll(gen) {
-        wasThePersonRegisteredForVAT =>
-
-          JsString(wasThePersonRegisteredForVAT.toString).validate[WasThePersonRegisteredForVAT].asOpt.value mustEqual wasThePersonRegisteredForVAT
+      forAll(gen) { wasThePersonRegisteredForVAT =>
+        JsString(wasThePersonRegisteredForVAT.toString)
+          .validate[WasThePersonRegisteredForVAT]
+          .asOpt
+          .value mustEqual wasThePersonRegisteredForVAT
       }
     }
 
@@ -43,10 +48,8 @@ class WasThePersonRegisteredForVATSpec extends AnyFreeSpec with Matchers with Sc
 
       val gen = arbitrary[String] suchThat (!WasThePersonRegisteredForVAT.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[WasThePersonRegisteredForVAT] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[WasThePersonRegisteredForVAT] mustEqual JsError("error.invalid")
       }
     }
 
@@ -54,10 +57,8 @@ class WasThePersonRegisteredForVATSpec extends AnyFreeSpec with Matchers with Sc
 
       val gen = Gen.oneOf(WasThePersonRegisteredForVAT.values.toSeq)
 
-      forAll(gen) {
-        wasThePersonRegisteredForVAT =>
-
-          Json.toJson(wasThePersonRegisteredForVAT) mustEqual JsString(wasThePersonRegisteredForVAT.toString)
+      forAll(gen) { wasThePersonRegisteredForVAT =>
+        Json.toJson(wasThePersonRegisteredForVAT) mustEqual JsString(wasThePersonRegisteredForVAT.toString)
       }
     }
   }

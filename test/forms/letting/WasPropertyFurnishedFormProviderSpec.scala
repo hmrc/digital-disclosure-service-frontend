@@ -22,7 +22,7 @@ import play.api.data.FormError
 class WasPropertyFurnishedFormProviderSpec extends BooleanFieldBehaviours {
 
   val requiredKey = "wasPropertyFurnished.error.required"
-  val invalidKey = "error.boolean"
+  val invalidKey  = "error.boolean"
 
   val form = new WasPropertyFurnishedFormProvider()()
 

@@ -26,13 +26,13 @@ class WhatTypeOfMortgageDidYouHaveFormProviderSpec extends OptionFieldBehaviours
 
   ".value" - {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "whatTypeOfMortgageDidYouHave.error.required"
 
     behave like optionsField[TypeOfMortgageDidYouHave](
       form,
       fieldName,
-      validValues  = TypeOfMortgageDidYouHave.values,
+      validValues = TypeOfMortgageDidYouHave.values,
       invalidError = FormError(fieldName, "error.invalid")
     )
 

@@ -21,7 +21,7 @@ import play.api.data.FormError
 
 class WhatIsTheCaseReferenceFormProviderSpec extends CaseReferenceBehaviours {
 
-  val requiredKey = "whatIsTheCaseReference.error.required"
+  val requiredKey    = "whatIsTheCaseReference.error.required"
   val formatErrorKey = "whatIsTheCaseReference.error.format"
 
   val form = new WhatIsTheCaseReferenceFormProvider()()

@@ -34,13 +34,29 @@ class WhatWasThePersonDateOfBirthFormProviderSpec extends DateBehaviours {
 
       behave like dateField(form, "value", validData)
 
-      behave like dateFieldWithMax(form, "value", LocalDate.now(ZoneOffset.UTC).minusDays(1), FormError("value", "whatWasThePersonDateOfBirth.error.invalidFutureDateOfBirth"))
+      behave like dateFieldWithMax(
+        form,
+        "value",
+        LocalDate.now(ZoneOffset.UTC).minusDays(1),
+        FormError("value", "whatWasThePersonDateOfBirth.error.invalidFutureDateOfBirth")
+      )
 
-      behave like dateFieldWithMin(form, "value", LocalDate.of(1850, Month.JANUARY, 1), FormError("value", "whatWasThePersonDateOfBirth.error.invalidPastDateOfBirth"))
+      behave like dateFieldWithMin(
+        form,
+        "value",
+        LocalDate.of(1850, Month.JANUARY, 1),
+        FormError("value", "whatWasThePersonDateOfBirth.error.invalidPastDateOfBirth")
+      )
 
       behave like mandatoryDateField(form, "value", "whatWasThePersonDateOfBirth.error.required.all")
 
-      behave like dateFieldCheckingMaxDayAndMonth(form, "value", validData, FormError("value.day", "whatWasThePersonDateOfBirth.error.invalidDay"), FormError("value.month", "whatWasThePersonDateOfBirth.error.invalidMonth"))
+      behave like dateFieldCheckingMaxDayAndMonth(
+        form,
+        "value",
+        validData,
+        FormError("value.day", "whatWasThePersonDateOfBirth.error.invalidDay"),
+        FormError("value.month", "whatWasThePersonDateOfBirth.error.invalidMonth")
+      )
     }
   }
 }

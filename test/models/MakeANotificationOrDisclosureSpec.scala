@@ -24,7 +24,11 @@ import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
 import play.api.libs.json.{JsError, JsString, Json}
 
-class MakeANotificationOrDisclosureSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks with OptionValues {
+class MakeANotificationOrDisclosureSpec
+    extends AnyFreeSpec
+    with Matchers
+    with ScalaCheckPropertyChecks
+    with OptionValues {
 
   "MakeANotificationOrDisclosure" - {
 
@@ -32,10 +36,11 @@ class MakeANotificationOrDisclosureSpec extends AnyFreeSpec with Matchers with S
 
       val gen = Gen.oneOf(MakeANotificationOrDisclosure.values.toSeq)
 
-      forAll(gen) {
-        makeANotificationOrDisclosure =>
-
-          JsString(makeANotificationOrDisclosure.toString).validate[MakeANotificationOrDisclosure].asOpt.value mustEqual makeANotificationOrDisclosure
+      forAll(gen) { makeANotificationOrDisclosure =>
+        JsString(makeANotificationOrDisclosure.toString)
+          .validate[MakeANotificationOrDisclosure]
+          .asOpt
+          .value mustEqual makeANotificationOrDisclosure
       }
     }
 
@@ -43,10 +48,8 @@ class MakeANotificationOrDisclosureSpec extends AnyFreeSpec with Matchers with S
 
       val gen = arbitrary[String] suchThat (!MakeANotificationOrDisclosure.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[MakeANotificationOrDisclosure] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[MakeANotificationOrDisclosure] mustEqual JsError("error.invalid")
       }
     }
 
@@ -54,10 +57,8 @@ class MakeANotificationOrDisclosureSpec extends AnyFreeSpec with Matchers with S
 
       val gen = Gen.oneOf(MakeANotificationOrDisclosure.values.toSeq)
 
-      forAll(gen) {
-        makeANotificationOrDisclosure =>
-
-          Json.toJson(makeANotificationOrDisclosure) mustEqual JsString(makeANotificationOrDisclosure.toString)
+      forAll(gen) { makeANotificationOrDisclosure =>
+        Json.toJson(makeANotificationOrDisclosure) mustEqual JsString(makeANotificationOrDisclosure.toString)
       }
     }
   }

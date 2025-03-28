@@ -25,10 +25,10 @@ import models.NormalMode
 
 class TaxBeforeNineteenYearsOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val year = "2023"
-  val form = new TaxBeforeNineteenYearsOnshoreFormProvider()(year)
+  val year                                    = "2023"
+  val form                                    = new TaxBeforeNineteenYearsOnshoreFormProvider()(year)
   val page: TaxBeforeNineteenYearsOnshoreView = inject[TaxBeforeNineteenYearsOnshoreView]
-  private def createView: Html = page(form, NormalMode, year)(request, messages)
+  private def createView: Html                = page(form, NormalMode, year)(request, messages)
 
   "view" should {
 
@@ -47,7 +47,7 @@ class TaxBeforeNineteenYearsOnshoreViewSpec extends ViewSpecBase with ViewMatche
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

@@ -24,7 +24,7 @@ import views.html.NotificationStartedView
 
 class NotificationStartedViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new NotificationStartedFormProvider()()
+  val form                          = new NotificationStartedFormProvider()()
   val page: NotificationStartedView = inject[NotificationStartedView]
 
   private def createView: Html = page(form, "date string")(request, messages)
@@ -46,7 +46,7 @@ class NotificationStartedViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

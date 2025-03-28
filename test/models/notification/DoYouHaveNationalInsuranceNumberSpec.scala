@@ -24,7 +24,11 @@ import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
 import play.api.libs.json.{JsError, JsString, Json}
 
-class DoYouHaveNationalInsuranceNumberSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks with OptionValues {
+class DoYouHaveNationalInsuranceNumberSpec
+    extends AnyFreeSpec
+    with Matchers
+    with ScalaCheckPropertyChecks
+    with OptionValues {
 
   "DoYouHaveNationalInsuranceNumber" - {
 
@@ -32,10 +36,11 @@ class DoYouHaveNationalInsuranceNumberSpec extends AnyFreeSpec with Matchers wit
 
       val gen = Gen.oneOf(DoYouHaveNationalInsuranceNumber.values.toSeq)
 
-      forAll(gen) {
-        doYouHaveNationalInsuranceNumber =>
-
-          JsString(doYouHaveNationalInsuranceNumber.toString).validate[DoYouHaveNationalInsuranceNumber].asOpt.value mustEqual doYouHaveNationalInsuranceNumber
+      forAll(gen) { doYouHaveNationalInsuranceNumber =>
+        JsString(doYouHaveNationalInsuranceNumber.toString)
+          .validate[DoYouHaveNationalInsuranceNumber]
+          .asOpt
+          .value mustEqual doYouHaveNationalInsuranceNumber
       }
     }
 
@@ -43,10 +48,8 @@ class DoYouHaveNationalInsuranceNumberSpec extends AnyFreeSpec with Matchers wit
 
       val gen = arbitrary[String] suchThat (!DoYouHaveNationalInsuranceNumber.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[DoYouHaveNationalInsuranceNumber] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[DoYouHaveNationalInsuranceNumber] mustEqual JsError("error.invalid")
       }
     }
 
@@ -54,10 +57,8 @@ class DoYouHaveNationalInsuranceNumberSpec extends AnyFreeSpec with Matchers wit
 
       val gen = Gen.oneOf(DoYouHaveNationalInsuranceNumber.values.toSeq)
 
-      forAll(gen) {
-        doYouHaveNationalInsuranceNumber =>
-
-          Json.toJson(doYouHaveNationalInsuranceNumber) mustEqual JsString(doYouHaveNationalInsuranceNumber.toString)
+      forAll(gen) { doYouHaveNationalInsuranceNumber =>
+        Json.toJson(doYouHaveNationalInsuranceNumber) mustEqual JsString(doYouHaveNationalInsuranceNumber.toString)
       }
     }
   }

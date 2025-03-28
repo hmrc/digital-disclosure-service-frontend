@@ -20,32 +20,27 @@ import play.api.data.{Form, FormError}
 
 trait CaseReferenceBehaviours extends FieldBehaviours {
 
-  def fieldThatBindsValidCaseReference(form: Form[_], fieldName: String): Unit = {
-
+  def fieldThatBindsValidCaseReference(form: Form[_], fieldName: String): Unit =
     "bind valid CaseReference" in {
 
       val validDataGenerator = generateValidCaseReference()
-      forAll(validDataGenerator -> "validDataItem") {
-        dataItem: String =>
-          val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
-          result.value.value mustBe dataItem
-          result.errors mustBe empty
+      forAll(validDataGenerator -> "validDataItem") { dataItem: String =>
+        val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
+        result.value.value mustBe dataItem
+        result.errors mustBe empty
       }
     }
-  }
 
-  def fieldWithInvalidCaseReference(form: Form[_], fieldName: String, keyError: String): Unit = {
+  def fieldWithInvalidCaseReference(form: Form[_], fieldName: String, keyError: String): Unit =
     "not bind invalid Case Reference" in {
       val error = FormError(fieldName, keyError, List(caseReferenceFormatRegex))
 
       val invalidDataGenerator = generateInvalidCaseReference()
 
-      forAll(invalidDataGenerator -> "validDataItem") {
-        dataItem: String =>
-          val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
-          result.value.value mustBe dataItem
-          result.errors must contain only error
+      forAll(invalidDataGenerator -> "validDataItem") { dataItem: String =>
+        val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
+        result.value.value mustBe dataItem
+        result.errors must contain only error
       }
     }
-  }
 }

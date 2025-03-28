@@ -21,9 +21,9 @@ import play.api.data.FormError
 
 class LetterReferenceFormProviderSpec extends CaseReferenceBehaviours {
 
-  val requiredKey = "letterReference.error.required"
+  val requiredKey    = "letterReference.error.required"
   val formatErrorKey = "letterReference.error.format"
-  val maxLength = 30
+  val maxLength      = 30
 
   val form = new LetterReferenceFormProvider()()
 

@@ -30,8 +30,8 @@ class NotificationSubmittedViewSpec extends ViewSpecBase with ViewMatchers {
   "view" should {
 
     val dateString = "24 March 2022"
-    val ref = "12345"
-    val view = createView(dateString, ref)
+    val ref        = "12345"
+    val view       = createView(dateString, ref)
 
     "have title" in {
       view.select("title").text() must include(messages("notificationSubmitted.title", dateString))
@@ -50,7 +50,7 @@ class NotificationSubmittedViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("disclosure")
+      view.getElementsByClass("govuk-button").first() must haveId("disclosure")
       view.getElementsByClass("govuk-button").text() mustBe messages("notificationSubmitted.button")
     }
 

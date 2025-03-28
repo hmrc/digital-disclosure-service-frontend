@@ -22,8 +22,8 @@ import play.api.data.FormError
 class WhatIsTheNameOfTheOrganisationYouRepresentFormProviderSpec extends StringFieldBehaviours {
 
   val requiredKey = "whatIsTheNameOfTheOrganisationYouRepresent.error.required"
-  val lengthKey = "whatIsTheNameOfTheOrganisationYouRepresent.error.length"
-  val maxLength = 50
+  val lengthKey   = "whatIsTheNameOfTheOrganisationYouRepresent.error.length"
+  val maxLength   = 50
 
   val form = new WhatIsTheNameOfTheOrganisationYouRepresentFormProvider()()
 

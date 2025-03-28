@@ -25,7 +25,7 @@ import models.NormalMode
 
 class WasThePersonRegisteredForVATViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WasThePersonRegisteredForVATFormProvider()()
+  val form                                   = new WasThePersonRegisteredForVATFormProvider()()
   val page: WasThePersonRegisteredForVATView = inject[WasThePersonRegisteredForVATView]
 
   private def createView: Html = page(form, NormalMode, false)(request, messages)
@@ -43,11 +43,15 @@ class WasThePersonRegisteredForVATViewSpec extends ViewSpecBase with ViewMatcher
     }
 
     "have Yes, and I know their VAT registration number" in {
-      view.getElementsByClass("govuk-radios__label").get(0).text() mustBe messages("wasThePersonRegisteredForVAT.yesIKnow")
+      view.getElementsByClass("govuk-radios__label").get(0).text() mustBe messages(
+        "wasThePersonRegisteredForVAT.yesIKnow"
+      )
     }
 
     "have Yes, but I do not know their VAT registration number" in {
-      view.getElementsByClass("govuk-radios__label").get(1).text() mustBe messages("wasThePersonRegisteredForVAT.yesButIDontKnow")
+      view.getElementsByClass("govuk-radios__label").get(1).text() mustBe messages(
+        "wasThePersonRegisteredForVAT.yesButIDontKnow"
+      )
     }
 
     "have No" in {
@@ -55,7 +59,7 @@ class WasThePersonRegisteredForVATViewSpec extends ViewSpecBase with ViewMatcher
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

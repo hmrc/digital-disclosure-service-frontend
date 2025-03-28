@@ -35,9 +35,10 @@ class WhatIsTheIndividualOccupationControllerSpec extends SpecBase with MockitoS
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new WhatIsTheIndividualOccupationFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
-  lazy val whatIsTheIndividualOccupationRoute = routes.WhatIsTheIndividualOccupationController.onPageLoad(NormalMode).url
+  lazy val whatIsTheIndividualOccupationRoute =
+    routes.WhatIsTheIndividualOccupationController.onPageLoad(NormalMode).url
 
   "WhatIsTheIndividualOccupation Controller" - {
 
@@ -57,7 +58,8 @@ class WhatIsTheIndividualOccupationControllerSpec extends SpecBase with MockitoS
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhatIsTheIndividualOccupationPage, "answer").success.value
+      val userAnswers =
+        UserAnswers(userAnswersId, "session-123").set(WhatIsTheIndividualOccupationPage, "answer").success.value
 
       setupMockSessionResponse(Some(userAnswers))
 

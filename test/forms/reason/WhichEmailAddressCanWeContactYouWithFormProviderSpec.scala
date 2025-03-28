@@ -26,13 +26,13 @@ class WhichEmailAddressCanWeContactYouWithFormProviderSpec extends OptionFieldBe
 
   ".value" - {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "whichEmailAddressCanWeContactYouWith.error.required"
 
     behave like optionsField[WhichEmailAddressCanWeContactYouWith](
       form,
       fieldName,
-      validValues  = WhichEmailAddressCanWeContactYouWith.values,
+      validValues = WhichEmailAddressCanWeContactYouWith.values,
       invalidError = FormError(fieldName, "error.invalid")
     )
 

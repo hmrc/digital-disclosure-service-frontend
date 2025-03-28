@@ -29,11 +29,11 @@ class MakingNilDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
   "view with 20 years & agent" should {
 
     val areTheyTheIndividual = true
-    val entity = RelatesTo.AnIndividual
-    val years = "2022"
+    val entity               = RelatesTo.AnIndividual
+    val years                = "2022"
 
     def createView: Html = page(areTheyTheIndividual, entity, years)(request, messages)
-    val view = createView
+    val view             = createView
 
     "have title" in {
       view.select("title").text() must include(messages("makingNilDisclosure.title"))
@@ -50,7 +50,9 @@ class MakingNilDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "have a continue link" in {
-      view.getElementById("continue").attr("href") mustBe controllers.offshore.routes.CheckYourAnswersController.onPageLoad.url
+      view
+        .getElementById("continue")
+        .attr("href") mustBe controllers.offshore.routes.CheckYourAnswersController.onPageLoad.url
     }
 
     "have a task list link" in {
@@ -62,23 +64,25 @@ class MakingNilDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
   "view with 20 years & entity individual" should {
 
     val areTheyTheIndividual = false
-    val entity = RelatesTo.AnIndividual
-    val years = "2022"
+    val entity               = RelatesTo.AnIndividual
+    val years                = "2022"
 
     def createView: Html = page(areTheyTheIndividual, entity, years)(request, messages)
-    val view = createView
+    val view             = createView
 
     "contain body" in {
-      view.getElementById("first-paragraph").text() mustBe messages(s"makingNilDisclosure.${entity}.body.first", years)
+      view.getElementById("first-paragraph").text() mustBe messages(s"makingNilDisclosure.$entity.body.first", years)
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 
     "have a continue link" in {
-      view.getElementById("continue").attr("href") mustBe controllers.offshore.routes.CheckYourAnswersController.onPageLoad.url
+      view
+        .getElementById("continue")
+        .attr("href") mustBe controllers.offshore.routes.CheckYourAnswersController.onPageLoad.url
     }
 
     "have a task list link" in {
@@ -89,23 +93,25 @@ class MakingNilDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
   "view with 20 years & entity estate" should {
 
     val areTheyTheIndividual = false
-    val entity = RelatesTo.AnEstate
-    val years = "2022"
+    val entity               = RelatesTo.AnEstate
+    val years                = "2022"
 
     def createView: Html = page(areTheyTheIndividual, entity, years)(request, messages)
-    val view = createView
+    val view             = createView
 
     "contain body" in {
-      view.getElementById("first-paragraph").text() mustBe messages(s"makingNilDisclosure.${entity}.body.first", years)
+      view.getElementById("first-paragraph").text() mustBe messages(s"makingNilDisclosure.$entity.body.first", years)
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 
     "have a continue link" in {
-      view.getElementById("continue").attr("href") mustBe controllers.offshore.routes.CheckYourAnswersController.onPageLoad.url
+      view
+        .getElementById("continue")
+        .attr("href") mustBe controllers.offshore.routes.CheckYourAnswersController.onPageLoad.url
     }
 
     "have a task list link" in {
@@ -116,23 +122,25 @@ class MakingNilDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
   "view with 20 years & entity company" should {
 
     val areTheyTheIndividual = false
-    val entity = RelatesTo.ACompany
-    val years = "2022"
+    val entity               = RelatesTo.ACompany
+    val years                = "2022"
 
     def createView: Html = page(areTheyTheIndividual, entity, years)(request, messages)
-    val view = createView
+    val view             = createView
 
     "contain body" in {
-      view.getElementById("first-paragraph").text() mustBe messages(s"makingNilDisclosure.${entity}.body.first", years)
+      view.getElementById("first-paragraph").text() mustBe messages(s"makingNilDisclosure.$entity.body.first", years)
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 
     "have a continue link" in {
-      view.getElementById("continue").attr("href") mustBe controllers.offshore.routes.CheckYourAnswersController.onPageLoad.url
+      view
+        .getElementById("continue")
+        .attr("href") mustBe controllers.offshore.routes.CheckYourAnswersController.onPageLoad.url
     }
 
     "have a task list link" in {
@@ -143,23 +151,25 @@ class MakingNilDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
   "view with 20 years & entity llp" should {
 
     val areTheyTheIndividual = false
-    val entity = RelatesTo.ALimitedLiabilityPartnership
-    val years = "2022"
+    val entity               = RelatesTo.ALimitedLiabilityPartnership
+    val years                = "2022"
 
     def createView: Html = page(areTheyTheIndividual, entity, years)(request, messages)
-    val view = createView
+    val view             = createView
 
     "contain body" in {
-      view.getElementById("first-paragraph").text() mustBe messages(s"makingNilDisclosure.${entity}.body.first", years)
+      view.getElementById("first-paragraph").text() mustBe messages(s"makingNilDisclosure.$entity.body.first", years)
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 
     "have a continue link" in {
-      view.getElementById("continue").attr("href") mustBe controllers.offshore.routes.CheckYourAnswersController.onPageLoad.url
+      view
+        .getElementById("continue")
+        .attr("href") mustBe controllers.offshore.routes.CheckYourAnswersController.onPageLoad.url
     }
 
     "have a task list link" in {
@@ -170,23 +180,25 @@ class MakingNilDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
   "view with 20 years & entity trust" should {
 
     val areTheyTheIndividual = false
-    val entity = RelatesTo.ATrust
-    val years = "2022"
+    val entity               = RelatesTo.ATrust
+    val years                = "2022"
 
     def createView: Html = page(areTheyTheIndividual, entity, years)(request, messages)
-    val view = createView
+    val view             = createView
 
     "contain body" in {
-      view.getElementById("first-paragraph").text() mustBe messages(s"makingNilDisclosure.${entity}.body.first", years)
+      view.getElementById("first-paragraph").text() mustBe messages(s"makingNilDisclosure.$entity.body.first", years)
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 
     "have a continue link" in {
-      view.getElementById("continue").attr("href") mustBe controllers.offshore.routes.CheckYourAnswersController.onPageLoad.url
+      view
+        .getElementById("continue")
+        .attr("href") mustBe controllers.offshore.routes.CheckYourAnswersController.onPageLoad.url
     }
 
     "have a task list link" in {

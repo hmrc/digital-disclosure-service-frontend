@@ -22,8 +22,8 @@ import play.api.data.FormError
 class YouHaveNotSelectedCertainTaxYearFormProviderSpec extends StringFieldBehaviours {
 
   val requiredKey = "youHaveNotSelectedCertainTaxYear.error.required"
-  val lengthKey = "youHaveNotSelectedCertainTaxYear.error.length"
-  val maxLength = 500
+  val lengthKey   = "youHaveNotSelectedCertainTaxYear.error.length"
+  val maxLength   = 500
 
   val form = new YouHaveNotSelectedCertainTaxYearFormProvider()()
 

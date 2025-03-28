@@ -22,7 +22,7 @@ import play.api.test.Helpers._
 import viewmodels.govuk.SummaryListFluency
 import views.html.letting.CheckYourAnswersView
 import viewmodels.checkAnswers._
-import models.{LettingProperty, NoLongerBeingLetOut, UserAnswers, LettingSummaryLists, TypeOfMortgageDidYouHave, NormalMode}
+import models.{LettingProperty, LettingSummaryLists, NoLongerBeingLetOut, NormalMode, TypeOfMortgageDidYouHave, UserAnswers}
 import models.address.Address
 import pages.LettingPropertyPage
 import play.api.i18n.Messages
@@ -44,9 +44,9 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
       val result = route(application, request).value
 
-      val view = application.injector.instanceOf[CheckYourAnswersView]
+      val view        = application.injector.instanceOf[CheckYourAnswersView]
       val lettingList = SummaryListViewModel(Seq.empty)
-      val list = LettingSummaryLists(lettingList)
+      val list        = LettingSummaryLists(lettingList)
 
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(list, 0, NormalMode)(request, messages).toString
@@ -81,110 +81,165 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
     "must return OK and the correct view for a GET when RentalAddressLookupSummary is populated" in {
       val lettingProperty = LettingProperty(address = Some(arbitrary[Address].sample.value))
-      val userAnswers = UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
-      rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages => LettingSummaryLists(
-        SummaryListViewModel(Seq(RentalAddressLookupSummary.row(0, lettingProperty)(messages)).flatten)
-      ))
+      val userAnswers     =
+        UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
+      rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages =>
+        LettingSummaryLists(
+          SummaryListViewModel(Seq(RentalAddressLookupSummary.row(0, lettingProperty)(messages)).flatten)
+        )
+      )
     }
 
     "must return OK and the correct view for a GET when PropertyFirstLetOutSummary is populated" in {
       val lettingProperty = LettingProperty(dateFirstLetOut = Some(arbitrary[LocalDate].sample.value))
-      val userAnswers = UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
-      rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages => LettingSummaryLists(
-        SummaryListViewModel(Seq(PropertyFirstLetOutSummary.row(0, lettingProperty)(messages)).flatten)
-      ))
+      val userAnswers     =
+        UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
+      rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages =>
+        LettingSummaryLists(
+          SummaryListViewModel(Seq(PropertyFirstLetOutSummary.row(0, lettingProperty)(messages)).flatten)
+        )
+      )
     }
 
     "must return OK and the correct view for a GET when PropertyStoppedBeingLetOutSummary is populated" in {
       val lettingProperty = LettingProperty(stoppedBeingLetOut = Some(arbitrary[Boolean].sample.value))
-      val userAnswers = UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
-      rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages => LettingSummaryLists(
-        SummaryListViewModel(Seq(PropertyStoppedBeingLetOutSummary.row(0, lettingProperty)(messages)).flatten)
-      ))
+      val userAnswers     =
+        UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
+      rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages =>
+        LettingSummaryLists(
+          SummaryListViewModel(Seq(PropertyStoppedBeingLetOutSummary.row(0, lettingProperty)(messages)).flatten)
+        )
+      )
     }
 
     "must return OK and the correct view for a GET when PropertyIsNoLongerBeingLetOutSummary is populated" in {
-      val noLongerBeingLetOut = NoLongerBeingLetOut(stopDate = arbitrary[LocalDate].sample.value, whatHasHappenedToProperty = arbitrary[String].sample.value)
-      val lettingProperty = LettingProperty(noLongerBeingLetOut = Some(noLongerBeingLetOut))
-      val userAnswers = UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
-      rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages => LettingSummaryLists(
-        SummaryListViewModel(Seq(
-          PropertyIsNoLongerBeingLetOutSummary.row(0, lettingProperty, "stopDate", revealFullText)(messages),
-          PropertyIsNoLongerBeingLetOutSummary.row(0, lettingProperty, "whatHasHappenedToProperty", revealFullText)(messages)
-        ).flatten)
-      ))
+      val noLongerBeingLetOut = NoLongerBeingLetOut(
+        stopDate = arbitrary[LocalDate].sample.value,
+        whatHasHappenedToProperty = arbitrary[String].sample.value
+      )
+      val lettingProperty     = LettingProperty(noLongerBeingLetOut = Some(noLongerBeingLetOut))
+      val userAnswers         =
+        UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
+      rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages =>
+        LettingSummaryLists(
+          SummaryListViewModel(
+            Seq(
+              PropertyIsNoLongerBeingLetOutSummary.row(0, lettingProperty, "stopDate", revealFullText)(messages),
+              PropertyIsNoLongerBeingLetOutSummary.row(0, lettingProperty, "whatHasHappenedToProperty", revealFullText)(
+                messages
+              )
+            ).flatten
+          )
+        )
+      )
     }
 
     "must return OK and the correct view for a GET when WasPropertyFurnishedSummary is populated" in {
       val lettingProperty = LettingProperty(wasFurnished = Some(arbitrary[Boolean].sample.value))
-      val userAnswers = UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
-      rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages => LettingSummaryLists(
-        SummaryListViewModel(Seq(WasPropertyFurnishedSummary.row(0, lettingProperty)(messages)).flatten)
-      ))
+      val userAnswers     =
+        UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
+      rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages =>
+        LettingSummaryLists(
+          SummaryListViewModel(Seq(WasPropertyFurnishedSummary.row(0, lettingProperty)(messages)).flatten)
+        )
+      )
     }
 
     "must return OK and the correct view for a GET when FHLSummary is populated" in {
       val lettingProperty = LettingProperty(fhl = Some(arbitrary[Boolean].sample.value))
-      val userAnswers = UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
-      rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages => LettingSummaryLists(
-        SummaryListViewModel(Seq(FHLSummary.row(0, lettingProperty)(messages)).flatten)
-      ))
+      val userAnswers     =
+        UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
+      rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages =>
+        LettingSummaryLists(
+          SummaryListViewModel(Seq(FHLSummary.row(0, lettingProperty)(messages)).flatten)
+        )
+      )
     }
 
     "must return OK and the correct view for a GET when JointlyOwnedPropertySummary is populated" in {
       val lettingProperty = LettingProperty(isJointOwnership = Some(arbitrary[Boolean].sample.value))
-      val userAnswers = UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
-      rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages => LettingSummaryLists(
-        SummaryListViewModel(Seq(JointlyOwnedPropertySummary.row(0, lettingProperty)(messages)).flatten)
-      ))
+      val userAnswers     =
+        UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
+      rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages =>
+        LettingSummaryLists(
+          SummaryListViewModel(Seq(JointlyOwnedPropertySummary.row(0, lettingProperty)(messages)).flatten)
+        )
+      )
     }
 
     "must return OK and the correct view for a GET when DidYouHaveAMortgageOnPropertySummary is populated" in {
       val lettingProperty = LettingProperty(isMortgageOnProperty = Some(arbitrary[Boolean].sample.value))
-      val userAnswers = UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
-      rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages => LettingSummaryLists(
-        SummaryListViewModel(Seq(DidYouHaveAMortgageOnPropertySummary.row(0, lettingProperty)(messages)).flatten)
-      ))
+      val userAnswers     =
+        UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
+      rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages =>
+        LettingSummaryLists(
+          SummaryListViewModel(Seq(DidYouHaveAMortgageOnPropertySummary.row(0, lettingProperty)(messages)).flatten)
+        )
+      )
     }
 
     "must return OK and the correct view for a GET when WasALettingAgentUsedToManagePropertySummary is populated" in {
       val lettingProperty = LettingProperty(wasPropertyManagerByAgent = Some(arbitrary[Boolean].sample.value))
-      val userAnswers = UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
-      rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages => LettingSummaryLists(
-        SummaryListViewModel(Seq(WasALettingAgentUsedToManagePropertySummary.row(0, lettingProperty)(messages)).flatten)
-      ))
+      val userAnswers     =
+        UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
+      rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages =>
+        LettingSummaryLists(
+          SummaryListViewModel(
+            Seq(WasALettingAgentUsedToManagePropertySummary.row(0, lettingProperty)(messages)).flatten
+          )
+        )
+      )
     }
 
     "must return OK and the correct view for a GET when DidTheLettingAgentCollectRentOnYourBehalfSummary is populated" in {
-      val lettingProperty = LettingProperty(didTheLettingAgentCollectRentOnYourBehalf = Some(arbitrary[Boolean].sample.value))
-      val userAnswers = UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
-      rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages => LettingSummaryLists(
-        SummaryListViewModel(Seq(DidTheLettingAgentCollectRentOnYourBehalfSummary.row(0, lettingProperty)(messages)).flatten)
-      ))
+      val lettingProperty =
+        LettingProperty(didTheLettingAgentCollectRentOnYourBehalf = Some(arbitrary[Boolean].sample.value))
+      val userAnswers     =
+        UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
+      rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages =>
+        LettingSummaryLists(
+          SummaryListViewModel(
+            Seq(DidTheLettingAgentCollectRentOnYourBehalfSummary.row(0, lettingProperty)(messages)).flatten
+          )
+        )
+      )
     }
 
     "must return OK and the correct view for a GET when WhatWasThePercentageIncomeYouReceivedFromPropertySummary is populated" in {
       val lettingProperty = LettingProperty(percentageIncomeOnProperty = Some(arbitrary[Int].sample.value))
-      val userAnswers = UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
-      rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages => LettingSummaryLists(
-        SummaryListViewModel(Seq(WhatWasThePercentageIncomeYouReceivedFromPropertySummary.row(0, lettingProperty)(messages)).flatten)
-      ))
+      val userAnswers     =
+        UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
+      rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages =>
+        LettingSummaryLists(
+          SummaryListViewModel(
+            Seq(WhatWasThePercentageIncomeYouReceivedFromPropertySummary.row(0, lettingProperty)(messages)).flatten
+          )
+        )
+      )
     }
 
     "must return OK and the correct view for a GET when WhatTypeOfMortgageDidYouHaveSummary is populated" in {
       val lettingProperty = LettingProperty(typeOfMortgage = Some(TypeOfMortgageDidYouHave.CapitalRepayment))
-      val userAnswers = UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
-      rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages => LettingSummaryLists(
-        SummaryListViewModel(Seq(WhatTypeOfMortgageDidYouHaveSummary.row(0, lettingProperty)(messages)).flatten)
-      ))
+      val userAnswers     =
+        UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
+      rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages =>
+        LettingSummaryLists(
+          SummaryListViewModel(Seq(WhatTypeOfMortgageDidYouHaveSummary.row(0, lettingProperty)(messages)).flatten)
+        )
+      )
     }
 
     "must return OK and the correct view for a GET when WhatWasTheTypeOfMortgageSummary is populated" in {
       val lettingProperty = LettingProperty(otherTypeOfMortgage = Some(arbitrary[String].sample.value))
-      val userAnswers = UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
-      rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages => LettingSummaryLists(
-        SummaryListViewModel(Seq(WhatWasTheTypeOfMortgageSummary.row(0, lettingProperty, revealFullText)(messages)).flatten)
-      ))
+      val userAnswers     =
+        UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
+      rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages =>
+        LettingSummaryLists(
+          SummaryListViewModel(
+            Seq(WhatWasTheTypeOfMortgageSummary.row(0, lettingProperty, revealFullText)(messages)).flatten
+          )
+        )
+      )
     }
 
   }

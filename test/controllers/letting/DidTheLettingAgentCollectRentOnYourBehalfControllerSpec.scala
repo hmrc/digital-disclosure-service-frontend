@@ -37,7 +37,7 @@ class DidTheLettingAgentCollectRentOnYourBehalfControllerSpec extends SpecBase w
 
   def onwardRoute: Call = Call("GET", "/foo")
 
-  val formProvider = new DidTheLettingAgentCollectRentOnYourBehalfFormProvider()
+  val formProvider        = new DidTheLettingAgentCollectRentOnYourBehalfFormProvider()
   val form: Form[Boolean] = formProvider()
 
   lazy val didTheLettingAgentCollectRentOnYourBehalfRoute: String =
@@ -64,7 +64,9 @@ class DidTheLettingAgentCollectRentOnYourBehalfControllerSpec extends SpecBase w
       val lettingProperty = LettingProperty(didTheLettingAgentCollectRentOnYourBehalf = Some(true))
 
       val userAnswers = UserAnswers(userAnswersId, "session-123")
-        .setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
+        .setBySeqIndex(LettingPropertyPage, 0, lettingProperty)
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -83,9 +85,11 @@ class DidTheLettingAgentCollectRentOnYourBehalfControllerSpec extends SpecBase w
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val applicationWithFakeLettingNavigator = applicationBuilder.overrides(
-        bind[LettingNavigator].toInstance(new FakeLettingNavigator(onwardRoute))
-      ).build()
+      val applicationWithFakeLettingNavigator = applicationBuilder
+        .overrides(
+          bind[LettingNavigator].toInstance(new FakeLettingNavigator(onwardRoute))
+        )
+        .build()
 
       val request =
         FakeRequest(POST, didTheLettingAgentCollectRentOnYourBehalfRoute)

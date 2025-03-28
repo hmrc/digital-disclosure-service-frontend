@@ -25,8 +25,8 @@ import models.NormalMode
 
 class TaxBeforeFiveYearsOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val year = "2017"
-  val form = new TaxBeforeFiveYearsOnshoreFormProvider()(year)
+  val year                                = "2017"
+  val form                                = new TaxBeforeFiveYearsOnshoreFormProvider()(year)
   val page: TaxBeforeFiveYearsOnshoreView = inject[TaxBeforeFiveYearsOnshoreView]
 
   private def createView: Html = page(form, NormalMode, year)(request, messages)
@@ -48,7 +48,7 @@ class TaxBeforeFiveYearsOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

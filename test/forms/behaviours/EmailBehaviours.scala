@@ -20,47 +20,40 @@ import play.api.data.{Form, FormError}
 
 trait EmailBehaviours extends FieldBehaviours {
 
-  def validEmailBindsValidData(form: Form[_], fieldName: String): Unit = {
+  def validEmailBindsValidData(form: Form[_], fieldName: String): Unit =
     "bind valid data" in {
 
       val validDataGenerator = email()
 
-      forAll(validDataGenerator -> "validDataItem") {
-        dataItem: String =>
-          val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
-          result.value.value mustBe dataItem
-          result.errors mustBe empty
+      forAll(validDataGenerator -> "validDataItem") { dataItem: String =>
+        val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
+        result.value.value mustBe dataItem
+        result.errors mustBe empty
       }
     }
-  }
 
   def emailBindsInvalidData(form: Form[_], fieldName: String, validError: FormError): Unit = {
 
     "not bind invalid email" in {
-      forAll(invalidEmail() -> "longString") {
-        string =>
-          val result = form.bind(Map(fieldName -> string)).apply(fieldName)
-          result.errors must contain only validError
+      forAll(invalidEmail() -> "longString") { string =>
+        val result = form.bind(Map(fieldName -> string)).apply(fieldName)
+        result.errors must contain only validError
       }
     }
 
     "not bind email with invalid domain" in {
-      forAll(invalidEmailDomain() -> "longString") {
-        string =>
-          val result = form.bind(Map(fieldName -> string)).apply(fieldName)
-          result.errors must contain only validError
+      forAll(invalidEmailDomain() -> "longString") { string =>
+        val result = form.bind(Map(fieldName -> string)).apply(fieldName)
+        result.errors must contain only validError
       }
     }
   }
 
-  def maxLengthEmailBindsValidData(form: Form[_], fieldName: String, lengthError: FormError): Unit = {
-
+  def maxLengthEmailBindsValidData(form: Form[_], fieldName: String, lengthError: FormError): Unit =
     "not bind strings longer than 320 characters" in {
-      forAll(invalidLengthEmail() -> "longString") {
-        string =>
-          val result = form.bind(Map(fieldName -> string)).apply(fieldName)
-          result.errors must contain only lengthError
+      forAll(invalidLengthEmail() -> "longString") { string =>
+        val result = form.bind(Map(fieldName -> string)).apply(fieldName)
+        result.errors must contain only lengthError
       }
     }
-  }
 }

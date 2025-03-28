@@ -26,13 +26,13 @@ class WhyAreYouMakingThisDisclosureFormProviderSpec extends CheckboxFieldBehavio
 
   ".value" - {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "whyAreYouMakingThisDisclosure.error.required"
 
     behave like checkboxField[WhyAreYouMakingThisDisclosure](
       form,
       fieldName,
-      validValues  = WhyAreYouMakingThisDisclosure.values,
+      validValues = WhyAreYouMakingThisDisclosure.values,
       invalidError = FormError(s"$fieldName[0]", "error.invalid")
     )
 

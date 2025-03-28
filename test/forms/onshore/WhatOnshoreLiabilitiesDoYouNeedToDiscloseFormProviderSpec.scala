@@ -26,13 +26,13 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseFormProviderSpec extends Checkbox
 
   ".value" - {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "whatOnshoreLiabilitiesDoYouNeedToDisclose.error.required"
 
     behave like checkboxField[WhatOnshoreLiabilitiesDoYouNeedToDisclose](
       form,
       fieldName,
-      validValues  = WhatOnshoreLiabilitiesDoYouNeedToDisclose.values,
+      validValues = WhatOnshoreLiabilitiesDoYouNeedToDisclose.values,
       invalidError = FormError(s"$fieldName[0]", "error.invalid")
     )
 

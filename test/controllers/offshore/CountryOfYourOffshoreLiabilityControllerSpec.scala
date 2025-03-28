@@ -36,21 +36,23 @@ class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with Mockito
 
   def onwardRoute = Call("GET", "/foo")
 
-  val countryCode = "AFG"
-  val country = Country(countryCode, "Afghanistan")
+  val countryCode  = "AFG"
+  val country      = Country(countryCode, "Afghanistan")
   val countriesMap = Map(countryCode -> Country(countryCode, "Afghanistan"))
-  val userAnswers = UserAnswers(userAnswersId, "session-123").set(CountryOfYourOffshoreLiabilityPage, countriesMap).success.value
+  val userAnswers  =
+    UserAnswers(userAnswersId, "session-123").set(CountryOfYourOffshoreLiabilityPage, countriesMap).success.value
 
-  lazy val countryOfYourOffshoreLiabilityRoute = routes.CountryOfYourOffshoreLiabilityController.onPageLoad(Some(countryCode), NormalMode).url
+  lazy val countryOfYourOffshoreLiabilityRoute =
+    routes.CountryOfYourOffshoreLiabilityController.onPageLoad(Some(countryCode), NormalMode).url
 
   "CountryOfYourOffshoreLiability Controller" - {
 
     "must return OK and the correct view for a GET" in {
       lazy val env: Environment = application.injector.instanceOf[Environment]
-      val countries = new Countries(env)
+      val countries             = new Countries(env)
 
       val formProvider = new CountryOfYourOffshoreLiabilityFormProvider(countries)
-      val form = formProvider()
+      val form         = formProvider()
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -67,10 +69,10 @@ class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with Mockito
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       lazy val env: Environment = application.injector.instanceOf[Environment]
-      val countries = new Countries(env)
+      val countries             = new Countries(env)
 
       val formProvider = new CountryOfYourOffshoreLiabilityFormProvider(countries)
-      val form = formProvider()
+      val form         = formProvider()
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -101,10 +103,10 @@ class CountryOfYourOffshoreLiabilityControllerSpec extends SpecBase with Mockito
 
     "must return a Bad Request and errors when invalid data is submitted" in {
       lazy val env: Environment = application.injector.instanceOf[Environment]
-      val countries = new Countries(env)
+      val countries             = new Countries(env)
 
       val formProvider = new CountryOfYourOffshoreLiabilityFormProvider(countries)
-      val form = formProvider()
+      val form         = formProvider()
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val request =

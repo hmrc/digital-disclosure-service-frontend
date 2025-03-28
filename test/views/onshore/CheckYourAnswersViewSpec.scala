@@ -35,36 +35,40 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
   def totalRows(implicit messages: Messages) = SummaryListViewModel(
     rows = Seq(
       SummaryListRowViewModel(
-        key     = Key(Text(messages("onshoreTaxYearLiabilities.unpaidTax.total"))),
-        value   = ValueViewModel(HtmlContent("&pound;0")),
+        key = Key(Text(messages("onshoreTaxYearLiabilities.unpaidTax.total"))),
+        value = ValueViewModel(HtmlContent("&pound;0")),
         actions = Nil
       ),
       SummaryListRowViewModel(
-        key     = Key(Text(messages("onshoreTaxYearLiabilities.interest.total"))),
-        value   = ValueViewModel(HtmlContent("&pound;0")),
+        key = Key(Text(messages("onshoreTaxYearLiabilities.interest.total"))),
+        value = ValueViewModel(HtmlContent("&pound;0")),
         actions = Nil
       ),
       SummaryListRowViewModel(
-        key     = Key(Text(messages("onshoreTaxYearLiabilities.penaltyAmount.total"))),
-        value   = ValueViewModel(HtmlContent("&pound;0")),
+        key = Key(Text(messages("onshoreTaxYearLiabilities.penaltyAmount.total"))),
+        value = ValueViewModel(HtmlContent("&pound;0")),
         actions = Nil
       ),
       SummaryListRowViewModel(
-        key     = Key(Text(messages("onshoreTaxYearLiabilities.amountDue.total"))),
-        value   = ValueViewModel(HtmlContent("&pound;0")),
+        key = Key(Text(messages("onshoreTaxYearLiabilities.amountDue.total"))),
+        value = ValueViewModel(HtmlContent("&pound;0")),
         actions = Nil
       )
     )
   )
-  val viewModel = CheckYourAnswersViewModel(
+  val viewModel                              = CheckYourAnswersViewModel(
     SummaryListViewModel(rows = Nil),
     Nil,
     CorporationTaxLiabilitiesSummaryViewModel(Nil, SummaryListViewModel(rows = Nil), SummaryListViewModel(rows = Nil)),
-    DirectorLoanAccountLiabilitiesSummaryViewModel(Nil, SummaryListViewModel(rows = Nil), SummaryListViewModel(rows = Nil)),
+    DirectorLoanAccountLiabilitiesSummaryViewModel(
+      Nil,
+      SummaryListViewModel(rows = Nil),
+      SummaryListViewModel(rows = Nil)
+    ),
     totalRows,
     BigDecimal(0)
   )
-  val page: CheckYourAnswersView = inject[CheckYourAnswersView]
+  val page: CheckYourAnswersView             = inject[CheckYourAnswersView]
 
   private def createView: Html = page(viewModel, true, false)(request, messages)
 
@@ -81,12 +85,14 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
     }
 
     "have a heading" in {
-      view.getElementsByClass("govuk-heading-m").get(0).text() mustBe messages("checkYourAnswers.onshore.subheading.reason")
+      view.getElementsByClass("govuk-heading-m").get(0).text() mustBe messages(
+        "checkYourAnswers.onshore.subheading.reason"
+      )
       view.getElementsByClass("govuk-heading-m").get(1).text() mustBe messages("checkYourAnswers.onshore.total.heading")
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.continue")
     }
 

@@ -26,13 +26,13 @@ class NotificationStartedFormProviderSpec extends OptionFieldBehaviours {
 
   ".value" - {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "notificationStarted.error.required"
 
     behave like optionsField[NotificationStarted](
       form,
       fieldName,
-      validValues  = NotificationStarted.values,
+      validValues = NotificationStarted.values,
       invalidError = FormError(fieldName, "error.invalid")
     )
 
