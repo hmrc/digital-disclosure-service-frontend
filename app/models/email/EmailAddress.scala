@@ -83,6 +83,7 @@ class EmailAddressValidation extends EmailValidation {
       case EmailAddressValidation.validEmail(_, _) if isHostMailServer(EmailAddress(email).domain.value) => true
       case _                                                                                            => false
     }
+
 }
 
 object EmailAddressValidation {
