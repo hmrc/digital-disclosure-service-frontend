@@ -25,7 +25,7 @@ import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import config.AddressLookupConfig
 import uk.gov.hmrc.http.HeaderCarrier
 import generators.ModelGenerators
-import org.scalatest.concurrent.{ScalaFutures}
+import org.scalatest.concurrent.ScalaFutures
 import uk.gov.hmrc.http._
 
 import java.util.UUID
