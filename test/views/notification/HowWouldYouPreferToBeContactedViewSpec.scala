@@ -25,7 +25,7 @@ import models.NormalMode
 
 class HowWouldYouPreferToBeContactedViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new HowWouldYouPreferToBeContactedFormProvider()()
+  val form                                     = new HowWouldYouPreferToBeContactedFormProvider()()
   val page: HowWouldYouPreferToBeContactedView = inject[HowWouldYouPreferToBeContactedView]
 
   private def createView: Html = page(form, NormalMode, false)(request, messages)
@@ -55,19 +55,25 @@ class HowWouldYouPreferToBeContactedViewSpec extends ViewSpecBase with ViewMatch
     }
 
     "contain the email option" in {
-      view.getElementsByClass("govuk-checkboxes__label").first().text() mustBe messages("howWouldYouPreferToBeContacted.email")
+      view.getElementsByClass("govuk-checkboxes__label").first().text() mustBe messages(
+        "howWouldYouPreferToBeContacted.email"
+      )
     }
 
     "contain the telephone option" in {
-      view.getElementsByClass("govuk-checkboxes__label").last().text() mustBe messages("howWouldYouPreferToBeContacted.telephone")
+      view.getElementsByClass("govuk-checkboxes__label").last().text() mustBe messages(
+        "howWouldYouPreferToBeContacted.telephone"
+      )
     }
 
     "contain the telephone option hint" in {
-      view.getElementsByClass("govuk-checkboxes__hint").last().text() mustBe messages("howWouldYouPreferToBeContacted.telephone.hint")
+      view.getElementsByClass("govuk-checkboxes__hint").last().text() mustBe messages(
+        "howWouldYouPreferToBeContacted.telephone.hint"
+      )
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

@@ -25,7 +25,7 @@ import models.NormalMode
 
 class PropertyIsNoLongerBeingLetOutViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new PropertyIsNoLongerBeingLetOutFormProvider()()
+  val form                                    = new PropertyIsNoLongerBeingLetOutFormProvider()()
   val page: PropertyIsNoLongerBeingLetOutView = inject[PropertyIsNoLongerBeingLetOutView]
 
   private def createView: Html = page(form, 0, NormalMode)(request, messages)
@@ -57,11 +57,13 @@ class PropertyIsNoLongerBeingLetOutViewSpec extends ViewSpecBase with ViewMatche
     }
 
     "contain the whatHasHappenedToProperty question" in {
-      view.getElementsByClass("govuk-label--s").get(1).text() mustBe messages("propertyIsNoLongerBeingLetOut.whatHasHappenedToProperty")
+      view.getElementsByClass("govuk-label--s").get(1).text() mustBe messages(
+        "propertyIsNoLongerBeingLetOut.whatHasHappenedToProperty"
+      )
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

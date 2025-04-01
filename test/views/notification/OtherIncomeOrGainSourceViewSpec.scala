@@ -25,7 +25,7 @@ import models.NormalMode
 
 class OtherIncomeOrGainSourceViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new OtherIncomeOrGainSourceFormProvider()()
+  val form                              = new OtherIncomeOrGainSourceFormProvider()()
   val page: OtherIncomeOrGainSourceView = inject[OtherIncomeOrGainSourceView]
 
   private def createView: Html = page(form, NormalMode, true)(request, messages)
@@ -39,7 +39,7 @@ class OtherIncomeOrGainSourceViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

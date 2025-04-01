@@ -22,8 +22,8 @@ import play.api.data.FormError
 class WhyNotBeforeNowFormProviderSpec extends StringFieldBehaviours {
 
   val requiredKey = "whyNotBeforeNow.error.required"
-  val lengthKey = "whyNotBeforeNow.error.length"
-  val maxLength = 5000
+  val lengthKey   = "whyNotBeforeNow.error.length"
+  val maxLength   = 5000
 
   val form = new WhyNotBeforeNowFormProvider()()
 

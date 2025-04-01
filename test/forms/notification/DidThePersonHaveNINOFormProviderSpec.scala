@@ -26,13 +26,13 @@ class DidThePersonHaveNINOFormProviderSpec extends OptionFieldBehaviours {
 
   ".value" - {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "didThePersonHaveNINO.error.required"
 
     behave like optionsField[DidThePersonHaveNINO](
       form,
       fieldName,
-      validValues  = DidThePersonHaveNINO.values,
+      validValues = DidThePersonHaveNINO.values,
       invalidError = FormError(fieldName, "error.invalid")
     )
 

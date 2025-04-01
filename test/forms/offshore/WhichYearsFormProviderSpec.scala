@@ -17,7 +17,7 @@
 package forms
 
 import forms.behaviours.CheckboxFieldBehaviours
-import models.{TaxYearStarting, OffshoreYears, ReasonableExcusePriorTo, CarelessPriorTo, DeliberatePriorTo}
+import models.{CarelessPriorTo, DeliberatePriorTo, OffshoreYears, ReasonableExcusePriorTo, TaxYearStarting}
 import play.api.data.FormError
 import java.time.LocalDate
 import uk.gov.hmrc.time.CurrentTaxYear
@@ -28,20 +28,20 @@ class WhichYearsFormProviderSpec extends CheckboxFieldBehaviours with CurrentTax
 
   val form = new WhichYearsFormProvider()()
 
-  val currentYear = current.startYear
-  val nineteenYears = Range.inclusive(1, 19).map(i => TaxYearStarting(currentYear-i)).toSeq :+ DeliberatePriorTo
-  val sevenYears = Range.inclusive(1, 19).map(i => TaxYearStarting(currentYear-i)).toSeq :+ CarelessPriorTo
-  val fiveYears = Range.inclusive(1, 19).map(i => TaxYearStarting(currentYear-i)).toSeq :+ ReasonableExcusePriorTo
+  val currentYear   = current.startYear
+  val nineteenYears = Range.inclusive(1, 19).map(i => TaxYearStarting(currentYear - i)).toSeq :+ DeliberatePriorTo
+  val sevenYears    = Range.inclusive(1, 19).map(i => TaxYearStarting(currentYear - i)).toSeq :+ CarelessPriorTo
+  val fiveYears     = Range.inclusive(1, 19).map(i => TaxYearStarting(currentYear - i)).toSeq :+ ReasonableExcusePriorTo
 
   ".value for 19 years" - {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "whichYears.error.required"
 
     behave like checkboxField[OffshoreYears](
       form,
       fieldName,
-      validValues  = nineteenYears,
+      validValues = nineteenYears,
       invalidError = FormError(s"$fieldName[0]", "error.invalid")
     )
 
@@ -54,13 +54,13 @@ class WhichYearsFormProviderSpec extends CheckboxFieldBehaviours with CurrentTax
 
   ".value for 7 years" - {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "whichYears.error.required"
 
     behave like checkboxField[OffshoreYears](
       form,
       fieldName,
-      validValues  = sevenYears,
+      validValues = sevenYears,
       invalidError = FormError(s"$fieldName[0]", "error.invalid")
     )
 
@@ -73,13 +73,13 @@ class WhichYearsFormProviderSpec extends CheckboxFieldBehaviours with CurrentTax
 
   ".value for 5 years" - {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "whichYears.error.required"
 
     behave like checkboxField[OffshoreYears](
       form,
       fieldName,
-      validValues  = fiveYears,
+      validValues = fiveYears,
       invalidError = FormError(s"$fieldName[0]", "error.invalid")
     )
 

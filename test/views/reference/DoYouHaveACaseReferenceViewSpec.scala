@@ -25,7 +25,7 @@ import models.NormalMode
 
 class DoYouHaveACaseReferenceViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new DoYouHaveACaseReferenceFormProvider()()
+  val form                              = new DoYouHaveACaseReferenceFormProvider()()
   val page: DoYouHaveACaseReferenceView = inject[DoYouHaveACaseReferenceView]
 
   private def createView: Html = page(form, NormalMode)(request, messages)
@@ -55,7 +55,7 @@ class DoYouHaveACaseReferenceViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

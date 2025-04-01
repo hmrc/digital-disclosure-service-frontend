@@ -28,39 +28,39 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with SummaryListFluency {
 
   val testRow1 = SummaryListRowViewModel(
-    key     = "testKey",
-    value   = ValueViewModel(Text(messages("Test answer"))),
+    key = "testKey",
+    value = ValueViewModel(Text(messages("Test answer"))),
     actions = Seq(
       ActionItemViewModel("site.change", "http://test.url")
     )
   )
 
   val testRow2 = SummaryListRowViewModel(
-    key     = "testKey2",
-    value   = ValueViewModel(Text(messages("Test answer 2"))),
+    key = "testKey2",
+    value = ValueViewModel(Text(messages("Test answer 2"))),
     actions = Seq(
       ActionItemViewModel("site.change", "http://test2.url")
     )
   )
 
   val testRow3 = SummaryListRowViewModel(
-    key     = "testKey3",
-    value   = ValueViewModel(Text(messages("Test answer 3"))),
+    key = "testKey3",
+    value = ValueViewModel(Text(messages("Test answer 3"))),
     actions = Seq(
       ActionItemViewModel("site.change", "http://test3.url")
     )
   )
 
   val testRow4 = SummaryListRowViewModel(
-    key     = "testKey4",
-    value   = ValueViewModel(Text(messages("Test answer 4"))),
+    key = "testKey4",
+    value = ValueViewModel(Text(messages("Test answer 4"))),
     actions = Seq(
       ActionItemViewModel("site.change", "http://test4.url")
     )
   )
 
-  val otherLiabilitiesList = SummaryListViewModel(rows = Seq(testRow1, testRow2, testRow3, testRow4))
-  val list = OtherLiabilitiesSummaryLists(otherLiabilitiesList)
+  val otherLiabilitiesList       = SummaryListViewModel(rows = Seq(testRow1, testRow2, testRow3, testRow4))
+  val list                       = OtherLiabilitiesSummaryLists(otherLiabilitiesList)
   val page: CheckYourAnswersView = inject[CheckYourAnswersView]
 
   "view" should {

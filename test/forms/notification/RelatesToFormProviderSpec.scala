@@ -26,13 +26,13 @@ class RelatesToFormProviderSpec extends OptionFieldBehaviours {
 
   ".value" - {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "relatesTo.error.required"
 
     behave like optionsField[RelatesTo](
       form,
       fieldName,
-      validValues  = RelatesTo.values,
+      validValues = RelatesTo.values,
       invalidError = FormError(fieldName, "error.invalid")
     )
 

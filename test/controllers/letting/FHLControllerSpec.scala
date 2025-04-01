@@ -35,7 +35,7 @@ class FHLControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute: Call = Call("GET", "/foo")
 
-  val formProvider = new FHLFormProvider()
+  val formProvider        = new FHLFormProvider()
   val form: Form[Boolean] = formProvider()
 
   lazy val fHLRoute: String = routes.FHLController.onPageLoad(0, NormalMode).url
@@ -61,7 +61,9 @@ class FHLControllerSpec extends SpecBase with MockitoSugar {
       val lettingProperty = LettingProperty(fhl = Some(true))
 
       val userAnswers = UserAnswers(userAnswersId, "session-123")
-        .setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
+        .setBySeqIndex(LettingPropertyPage, 0, lettingProperty)
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 

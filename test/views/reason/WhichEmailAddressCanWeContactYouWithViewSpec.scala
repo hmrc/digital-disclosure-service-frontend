@@ -25,10 +25,10 @@ import models.NormalMode
 
 class WhichEmailAddressCanWeContactYouWithViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhichEmailAddressCanWeContactYouWithFormProvider()()
+  val form                                           = new WhichEmailAddressCanWeContactYouWithFormProvider()()
   val page: WhichEmailAddressCanWeContactYouWithView = inject[WhichEmailAddressCanWeContactYouWithView]
-  val email = "test@test.com"
-  private def createView: Html = page(form, NormalMode, email)(request, messages)
+  val email                                          = "test@test.com"
+  private def createView: Html                       = page(form, NormalMode, email)(request, messages)
 
   "view" should {
 
@@ -39,11 +39,13 @@ class WhichEmailAddressCanWeContactYouWithViewSpec extends ViewSpecBase with Vie
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("whichEmailAddressCanWeContactYouWith.heading")
+      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages(
+        "whichEmailAddressCanWeContactYouWith.heading"
+      )
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

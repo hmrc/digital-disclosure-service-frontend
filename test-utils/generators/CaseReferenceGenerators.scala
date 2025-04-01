@@ -23,19 +23,19 @@ import org.scalacheck.Gen.{listOfN, numChar}
 trait CaseReferenceGenerators {
 
   val numberOfDigitsReferenceNumber = 8
-  val shortPrefix = "CFS"
-  val longPrefix = "CFSS"
-  val caseReferenceFormatRegex = "(?i)CFS[Ss|Cc]?[\\s]?[-]?[0-9]{7,8}\\.?$"
+  val shortPrefix                   = "CFS"
+  val longPrefix                    = "CFSS"
+  val caseReferenceFormatRegex      = "(?i)CFS[Ss|Cc]?[\\s]?[-]?[0-9]{7,8}\\.?$"
 
   def generateValidCaseReference(): Gen[String] = for {
     isWithLongPrefix <- arbitrary[Boolean]
-    isWithHyphen <- arbitrary[Boolean]
-    isWithDot <- arbitrary[Boolean]
-    number <- listOfN(numberOfDigitsReferenceNumber, numChar)
+    isWithHyphen     <- arbitrary[Boolean]
+    isWithDot        <- arbitrary[Boolean]
+    number           <- listOfN(numberOfDigitsReferenceNumber, numChar)
   } yield {
     val prefix = if (isWithLongPrefix) longPrefix else shortPrefix
     val hyphen = if (isWithHyphen) "-" else ""
-    val dot = if (isWithDot) "." else ""
+    val dot    = if (isWithDot) "." else ""
     prefix + hyphen + number.mkString + dot
   }
 

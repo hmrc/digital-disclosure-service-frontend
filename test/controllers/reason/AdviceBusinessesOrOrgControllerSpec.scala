@@ -35,7 +35,7 @@ class AdviceBusinessesOrOrgControllerSpec extends SpecBase with MockitoSugar {
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new AdviceBusinessesOrOrgFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   lazy val adviceBusinessesOrOrgRoute = routes.AdviceBusinessesOrOrgController.onPageLoad(NormalMode).url
 

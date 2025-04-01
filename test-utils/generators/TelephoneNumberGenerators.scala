@@ -24,12 +24,12 @@ import org.scalacheck.Arbitrary.arbitrary
 trait TelephoneNumberGenerators {
 
   val minimumDigitsInternationalPhoneNumber = 7
-  val maxDigitsInternationalPhoneNumber = 19
+  val maxDigitsInternationalPhoneNumber     = 19
 
   val minimumDigitsUKPhoneNumber = 9
-  val maxDigitsUKPhoneNumber = 10
+  val maxDigitsUKPhoneNumber     = 10
 
-  def internationalPhoneNumber(doubleZero:Boolean = false): Gen[String] = {
+  def internationalPhoneNumber(doubleZero: Boolean = false): Gen[String] = {
     val prefix = if (doubleZero) "00" else "+"
     generateInternationalPhoneNumber(
       minimumDigitsInternationalPhoneNumber,
@@ -44,21 +44,17 @@ trait TelephoneNumberGenerators {
       minimumDigitsUKPhoneNumber,
       maxDigitsUKPhoneNumber,
       prefix
-    ) suchThat(charList => charList(1) != '0')
+    ) suchThat (charList => charList(1) != '0')
   }
 
-  def invalidPhoneNumber : Gen[String] = for {
+  def invalidPhoneNumber: Gen[String] = for {
     number <- arbitrary[String] suchThat (_.nonEmpty)
     if !number.toString().matches(YourPhoneNumberFormProvider.telephoneRegex)
-  } yield {
-    number
-  }
+  } yield number
 
-  private def generateInternationalPhoneNumber(min: Int, max: Int, prefix:String): Gen[String] = for {
+  private def generateInternationalPhoneNumber(min: Int, max: Int, prefix: String): Gen[String] = for {
     length <- chooseNum(min, max)
     number <- listOfN(length, numChar)
-  } yield {
-    prefix + number.mkString
-  }
+  } yield prefix + number.mkString
 
 }

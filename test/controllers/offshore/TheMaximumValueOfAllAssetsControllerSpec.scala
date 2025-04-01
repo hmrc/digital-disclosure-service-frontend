@@ -37,7 +37,7 @@ class TheMaximumValueOfAllAssetsControllerSpec extends SpecBase with MockitoSuga
   lazy val theMaximumValueOfAllAssetsRoute = routes.TheMaximumValueOfAllAssetsController.onPageLoad(NormalMode).url
 
   val formProvider = new TheMaximumValueOfAllAssetsFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   "TheMaximumValueOfAllAssets Controller" - {
 
@@ -57,7 +57,10 @@ class TheMaximumValueOfAllAssetsControllerSpec extends SpecBase with MockitoSuga
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(TheMaximumValueOfAllAssetsPage, TheMaximumValueOfAllAssets.values.head).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123")
+        .set(TheMaximumValueOfAllAssetsPage, TheMaximumValueOfAllAssets.values.head)
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -68,7 +71,10 @@ class TheMaximumValueOfAllAssetsControllerSpec extends SpecBase with MockitoSuga
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(TheMaximumValueOfAllAssets.values.head), NormalMode)(request, messages).toString
+      contentAsString(result) mustEqual view(form.fill(TheMaximumValueOfAllAssets.values.head), NormalMode)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {

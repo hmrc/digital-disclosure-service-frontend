@@ -22,7 +22,7 @@ import models.{Mode, UserAnswers}
 
 class FakeOtherLiabilitiesNavigator(desiredRoute: Call) extends OtherLiabilitiesNavigator {
 
-  override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasChanged:Boolean = true): Call =
+  override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasChanged: Boolean = true): Call =
     desiredRoute
 
 }

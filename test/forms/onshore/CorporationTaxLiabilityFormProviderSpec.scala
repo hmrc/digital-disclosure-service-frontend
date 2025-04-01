@@ -17,11 +17,15 @@
 package forms
 
 import java.time.{LocalDate, ZoneOffset}
-import forms.behaviours.{PeriodEndBehaviours, IntFieldBehaviours, BigIntFieldBehaviours, BigDecimalFieldBehaviours, StringFieldBehaviours}
+import forms.behaviours.{BigDecimalFieldBehaviours, BigIntFieldBehaviours, IntFieldBehaviours, PeriodEndBehaviours, StringFieldBehaviours}
 import play.api.data.FormError
 
-class CorporationTaxLiabilityFormProviderSpec extends PeriodEndBehaviours with IntFieldBehaviours
-  with BigIntFieldBehaviours with BigDecimalFieldBehaviours with StringFieldBehaviours {
+class CorporationTaxLiabilityFormProviderSpec
+    extends PeriodEndBehaviours
+    with IntFieldBehaviours
+    with BigIntFieldBehaviours
+    with BigDecimalFieldBehaviours
+    with StringFieldBehaviours {
 
   val form = new CorporationTaxLiabilityFormProvider()()
 
@@ -30,26 +34,45 @@ class CorporationTaxLiabilityFormProviderSpec extends PeriodEndBehaviours with I
     val fieldName = "periodEnd"
 
     val data = Map(
-      s"periodEnd.day" -> "1",
-      s"periodEnd.month" -> "1",
-      s"periodEnd.year" -> LocalDate.now(ZoneOffset.UTC).minusDays(1).getYear.toString,
-      s"howMuchIncome" -> "100",
-      s"howMuchUnpaid" -> "100",
-      s"howMuchInterest" -> "100",
-      s"penaltyRate" -> "5",
+      s"periodEnd.day"     -> "1",
+      s"periodEnd.month"   -> "1",
+      s"periodEnd.year"    -> LocalDate.now(ZoneOffset.UTC).minusDays(1).getYear.toString,
+      s"howMuchIncome"     -> "100",
+      s"howMuchUnpaid"     -> "100",
+      s"howMuchInterest"   -> "100",
+      s"penaltyRate"       -> "5",
       s"penaltyRateReason" -> "Reason"
     )
 
     periodEndField(form, "corporationTaxLiability", data)
 
-    periodEndFieldCheckingMaxDay(form, fieldName, data, FormError(fieldName + ".day", "corporationTaxLiability.periodEnd.error.invalidDay"))
+    periodEndFieldCheckingMaxDay(
+      form,
+      fieldName,
+      data,
+      FormError(fieldName + ".day", "corporationTaxLiability.periodEnd.error.invalidDay")
+    )
 
-    periodEndFieldCheckingMaxMonth(form, fieldName, data, FormError(fieldName + ".month", "corporationTaxLiability.periodEnd.error.invalidMonth"))
+    periodEndFieldCheckingMaxMonth(
+      form,
+      fieldName,
+      data,
+      FormError(fieldName + ".month", "corporationTaxLiability.periodEnd.error.invalidMonth")
+    )
 
-    periodEndFieldInFuture(form, fieldName, data, FormError(fieldName, "corporationTaxLiability.periodEnd.error.invalidFutureDate"))
+    periodEndFieldInFuture(
+      form,
+      fieldName,
+      data,
+      FormError(fieldName, "corporationTaxLiability.periodEnd.error.invalidFutureDate")
+    )
 
-    periodEndFieldWithMin(form, fieldName, data, FormError(fieldName, "corporationTaxLiability.periodEnd.error.invalidPastDate"))
-
+    periodEndFieldWithMin(
+      form,
+      fieldName,
+      data,
+      FormError(fieldName, "corporationTaxLiability.periodEnd.error.invalidPastDate")
+    )
 
   }
 
@@ -73,7 +96,7 @@ class CorporationTaxLiabilityFormProviderSpec extends PeriodEndBehaviours with I
       behave like bigintField(
         form,
         fieldName,
-        nonNumericError  = FormError(fieldName, s"corporationTaxLiability.$fieldName.error.nonNumeric"),
+        nonNumericError = FormError(fieldName, s"corporationTaxLiability.$fieldName.error.nonNumeric"),
         wholeNumberError = FormError(fieldName, s"corporationTaxLiability.$fieldName.error.wholeNumber")
       )
 
@@ -86,7 +109,7 @@ class CorporationTaxLiabilityFormProviderSpec extends PeriodEndBehaviours with I
   }
 
   ".penaltyRate" - {
-    
+
     val minimum = BigDecimal(0)
     val maximum = BigDecimal(200)
 
@@ -103,15 +126,16 @@ class CorporationTaxLiabilityFormProviderSpec extends PeriodEndBehaviours with I
     behave like decimalField(
       form,
       fieldName,
-      nonNumericError  = FormError(fieldName, s"corporationTaxLiability.penaltyRate.error.nonNumeric")
+      nonNumericError = FormError(fieldName, s"corporationTaxLiability.penaltyRate.error.nonNumeric")
     )
 
     behave like bigdecimalFieldWithRange(
       form,
       fieldName,
-      minimum       = minimum,
-      maximum       = maximum,
-      expectedError = FormError(fieldName, s"corporationTaxLiability.penaltyRate.error.outOfRange", Seq(minimum, maximum))
+      minimum = minimum,
+      maximum = maximum,
+      expectedError =
+        FormError(fieldName, s"corporationTaxLiability.penaltyRate.error.outOfRange", Seq(minimum, maximum))
     )
 
     behave like mandatoryField(
@@ -126,7 +150,7 @@ class CorporationTaxLiabilityFormProviderSpec extends PeriodEndBehaviours with I
     val fieldName = "penaltyRateReason"
     val maxLength = 5000
 
-    val lengthKey = "corporationTaxLiability.penaltyRateReason.error.length"
+    val lengthKey   = "corporationTaxLiability.penaltyRateReason.error.length"
     val requiredKey = "corporationTaxLiability.penaltyRateReason.error.required"
 
     behave like fieldThatBindsValidData(

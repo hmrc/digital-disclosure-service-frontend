@@ -40,50 +40,57 @@ class WhichYearsControllerSpec extends SpecBase with MockitoSugar {
   lazy val whichYearsRoute = routes.WhichYearsController.onPageLoad(NormalMode).url
 
   val formProvider = new WhichYearsFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   "determineBehaviour" - {
 
     setupMockSessionResponse(Some(emptyUserAnswers))
-    val controller = application.injector.instanceOf[WhichYearsController]
+    val controller              = application.injector.instanceOf[WhichYearsController]
     implicit val mess: Messages = messages
-    val service = application.injector.instanceOf[OffshoreWhichYearsService]
+    val service                 = application.injector.instanceOf[OffshoreWhichYearsService]
 
-    "return 19"  - {
-    
+    "return 19" - {
+
       "when a deliberate behaviour is selected alongside other values" in {
-        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, WhyAreYouMakingThisDisclosure.values.toSet).success.value
+        val userAnswers = UserAnswers(userAnswersId, "session-123")
+          .set(WhyAreYouMakingThisDisclosurePage, WhyAreYouMakingThisDisclosure.values.toSet)
+          .success
+          .value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Deliberate)
       }
 
       "when only DidNotNotifyNoExcuse is selected" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DidNotNotifyNoExcuse)
-        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        val userAnswers                             =
+          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Deliberate)
       }
 
       "when only DeliberatelyDidNotNotify is selected" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DeliberatelyDidNotNotify)
-        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        val userAnswers                             =
+          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Deliberate)
       }
 
       "when only DeliberateInaccurateReturn is selected" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DeliberateInaccurateReturn)
-        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        val userAnswers                             =
+          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Deliberate)
       }
 
       "when only DeliberatelyDidNotFile is selected" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DeliberatelyDidNotFile)
-        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        val userAnswers                             =
+          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Deliberate)
       }
 
     }
 
-    "return 7"  - {
-    
+    "return 7" - {
+
       "when InaccurateReturnNoCare is selected alongside other values" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(
           WhyAreYouMakingThisDisclosure.InaccurateReturnNoCare,
@@ -91,45 +98,51 @@ class WhichYearsControllerSpec extends SpecBase with MockitoSugar {
           WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare,
           WhyAreYouMakingThisDisclosure.NotFileHasExcuse
         )
-        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        val userAnswers                             =
+          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Careless)
       }
 
       "when only InaccurateReturnNoCare is selected" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.InaccurateReturnNoCare)
-        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        val userAnswers                             =
+          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Careless)
       }
 
     }
 
-    "return 5"  - {
-    
+    "return 5" - {
+
       "when all other values are selected" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(
           WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse,
           WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare,
           WhyAreYouMakingThisDisclosure.NotFileHasExcuse
         )
-        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        val userAnswers                             =
+          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.ReasonableExcuse)
       }
 
       "when only DidNotNotifyHasExcuse is selected" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse)
-        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        val userAnswers                             =
+          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.ReasonableExcuse)
       }
 
       "when only InaccurateReturnWithCare is selected" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare)
-        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        val userAnswers                             =
+          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.ReasonableExcuse)
       }
 
       "when only NotFileHasExcuse is selected" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.NotFileHasExcuse)
-        val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
+        val userAnswers                             =
+          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.ReasonableExcuse)
       }
 
@@ -147,32 +160,39 @@ class WhichYearsControllerSpec extends SpecBase with MockitoSugar {
 
       val result = route(application, request).value
 
-      val view = application.injector.instanceOf[WhichYearsView]
-      val service = application.injector.instanceOf[OffshoreWhichYearsService]
+      val view                    = application.injector.instanceOf[WhichYearsView]
+      val service                 = application.injector.instanceOf[OffshoreWhichYearsService]
       implicit val mess: Messages = messages
 
       status(result) mustEqual OK
 
-      contentAsString(result) mustEqual view(form, NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse))(request, messages).toString
+      contentAsString(result) mustEqual view(form, NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse))(
+        request,
+        messages
+      ).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val previousValue: Set[OffshoreYears] = Set(TaxYearStarting(2022))
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhichYearsPage, previousValue).success.value
+      val userAnswers                       = UserAnswers(userAnswersId, "session-123").set(WhichYearsPage, previousValue).success.value
 
       setupMockSessionResponse(Some(userAnswers))
 
       val request = FakeRequest(GET, whichYearsRoute)
 
-      val view = application.injector.instanceOf[WhichYearsView]
-      val service = application.injector.instanceOf[OffshoreWhichYearsService]
+      val view                    = application.injector.instanceOf[WhichYearsView]
+      val service                 = application.injector.instanceOf[OffshoreWhichYearsService]
       implicit val mess: Messages = messages
 
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(previousValue), NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse))(request, messages).toString
+      contentAsString(result) mustEqual view(
+        form.fill(previousValue),
+        NormalMode,
+        service.checkboxItems(Behaviour.ReasonableExcuse)
+      )(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -200,14 +220,17 @@ class WhichYearsControllerSpec extends SpecBase with MockitoSugar {
 
       val boundForm = form.bind(Map("value" -> "invalid value"))
 
-      val view = application.injector.instanceOf[WhichYearsView]
-      val service = application.injector.instanceOf[OffshoreWhichYearsService]
+      val view                    = application.injector.instanceOf[WhichYearsView]
+      val service                 = application.injector.instanceOf[OffshoreWhichYearsService]
       implicit val mess: Messages = messages
 
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse))(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse))(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

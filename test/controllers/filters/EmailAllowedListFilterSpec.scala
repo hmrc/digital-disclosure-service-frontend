@@ -37,11 +37,10 @@ import org.scalamock.scalatest.MockFactory
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 
-class EmailAllowedListFilterSpec
-    extends SpecBase with BeforeAndAfterAll with MockFactory {
+class EmailAllowedListFilterSpec extends SpecBase with BeforeAndAfterAll with MockFactory {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = Materializer(system)
+  implicit val mat: Materializer   = Materializer(system)
 
   val mockAuthConnector = mock[AuthConnector]
 
@@ -83,7 +82,6 @@ class EmailAllowedListFilterSpec
 
   def emailAllowedListFilter(isEnabled: Boolean) =
     new EmailAllowedListFilter(mat, mockAuthConnector, additionalConfig(isEnabled))
-
 
   val requestHandler: RequestHeader => Future[Result] = _ => Future.successful(Results.Ok)
 

@@ -25,9 +25,9 @@ import models.NormalMode
 
 class WhatTypeOfMortgageDidYouHaveViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhatTypeOfMortgageDidYouHaveFormProvider()()
+  val form                                   = new WhatTypeOfMortgageDidYouHaveFormProvider()()
   val page: WhatTypeOfMortgageDidYouHaveView = inject[WhatTypeOfMortgageDidYouHaveView]
-  val index = 0
+  val index                                  = 0
 
   private def createView: Html = page(form, index, NormalMode)(request, messages)
 
@@ -40,11 +40,14 @@ class WhatTypeOfMortgageDidYouHaveViewSpec extends ViewSpecBase with ViewMatcher
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("whatTypeOfMortgageDidYouHave.heading", index + 1)
+      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages(
+        "whatTypeOfMortgageDidYouHave.heading",
+        index + 1
+      )
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

@@ -35,7 +35,7 @@ class YourPhoneNumberControllerSpec extends SpecBase with MockitoSugar {
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new YourPhoneNumberFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   lazy val yourPhoneNumberRoute = routes.YourPhoneNumberController.onPageLoad(NormalMode).url
 

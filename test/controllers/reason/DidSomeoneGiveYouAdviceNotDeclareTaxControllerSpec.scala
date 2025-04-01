@@ -34,22 +34,23 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxControllerSpec extends ControllerSpecB
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val didSomeoneGiveYouAdviceNotDeclareTaxRoute = routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(NormalMode).url
+  lazy val didSomeoneGiveYouAdviceNotDeclareTaxRoute =
+    routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(NormalMode).url
 
   val formProvider = new DidSomeoneGiveYouAdviceNotDeclareTaxFormProvider()
-  val form = formProvider(true, RelatesTo.AnIndividual)
+  val form         = formProvider(true, RelatesTo.AnIndividual)
 
   "DidSomeoneGiveYouAdviceNotDeclareTax Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
-      val areTheyTheIndividual = arbitrary[AreYouTheEntity].sample.value 
-      val entity = arbitrary[RelatesTo].sample.value  
+      val areTheyTheIndividual = arbitrary[AreYouTheEntity].sample.value
+      val entity               = arbitrary[RelatesTo].sample.value
 
       val userAnswers = (for {
-        ua <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, areTheyTheIndividual)
-        updatedUa <- ua.set(RelatesToPage, entity)  
-      } yield updatedUa).success.value  
+        ua        <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, areTheyTheIndividual)
+        updatedUa <- ua.set(RelatesToPage, entity)
+      } yield updatedUa).success.value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -60,18 +61,21 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxControllerSpec extends ControllerSpecB
       val view = application.injector.instanceOf[DidSomeoneGiveYouAdviceNotDeclareTaxView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, NormalMode, userAnswers.isTheUserTheIndividual, entity)(request, messages).toString
+      contentAsString(result) mustEqual view(form, NormalMode, userAnswers.isTheUserTheIndividual, entity)(
+        request,
+        messages
+      ).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val areTheyTheIndividual = arbitrary[AreYouTheEntity].sample.value 
-      val entity = arbitrary[RelatesTo].sample.value 
+      val areTheyTheIndividual = arbitrary[AreYouTheEntity].sample.value
+      val entity               = arbitrary[RelatesTo].sample.value
 
       val userAnswers = (for {
-        ua <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, areTheyTheIndividual)
-        uaRelatesToPage <- ua.set(RelatesToPage, entity) 
-        updatedUa <- uaRelatesToPage.set(DidSomeoneGiveYouAdviceNotDeclareTaxPage, true)
+        ua              <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, areTheyTheIndividual)
+        uaRelatesToPage <- ua.set(RelatesToPage, entity)
+        updatedUa       <- uaRelatesToPage.set(DidSomeoneGiveYouAdviceNotDeclareTaxPage, true)
       } yield updatedUa).success.value
 
       setupMockSessionResponse(Some(userAnswers))
@@ -83,7 +87,10 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxControllerSpec extends ControllerSpecB
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(true), NormalMode, userAnswers.isTheUserTheIndividual, entity)(request, messages).toString
+      contentAsString(result) mustEqual view(form.fill(true), NormalMode, userAnswers.isTheUserTheIndividual, entity)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -103,12 +110,12 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxControllerSpec extends ControllerSpecB
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val areTheyTheIndividual = arbitrary[AreYouTheEntity].sample.value 
-      val entity = arbitrary[RelatesTo].sample.value 
+      val areTheyTheIndividual = arbitrary[AreYouTheEntity].sample.value
+      val entity               = arbitrary[RelatesTo].sample.value
 
       val userAnswers = (for {
-        ua <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, areTheyTheIndividual)
-        updatedUa <- ua.set(RelatesToPage, entity) 
+        ua        <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, areTheyTheIndividual)
+        updatedUa <- ua.set(RelatesToPage, entity)
       } yield updatedUa).success.value
 
       setupMockSessionResponse(Some(userAnswers))
@@ -124,7 +131,10 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxControllerSpec extends ControllerSpecB
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, userAnswers.isTheUserTheIndividual, entity)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode, userAnswers.isTheUserTheIndividual, entity)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
@@ -156,19 +166,27 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxControllerSpec extends ControllerSpecB
 
     "must redirect to PersonWhoGaveAdvice page screen if page answer changes from No to Yes in check mode" in {
       val previousAnswer = false
-      val newAnswer = true
+      val newAnswer      = true
 
-      val urlToTest = routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(CheckMode).url
       val destinationRoute = routes.PersonWhoGaveAdviceController.onPageLoad(NormalMode).url
 
-      testChangeAnswerRouting(previousAnswer, newAnswer, DidSomeoneGiveYouAdviceNotDeclareTaxPage, urlToTest, destinationRoute, Nil)
+      testChangeAnswerRouting(
+        previousAnswer,
+        newAnswer,
+        DidSomeoneGiveYouAdviceNotDeclareTaxPage,
+        urlToTest,
+        destinationRoute,
+        Nil
+      )
     }
 
     "must redirect to CheckYourAnswers page screen if page answer changes from Yes to No in check mode and clear Advice Given related pages" in {
       val previousAnswer = true
-      val newAnswer = false
+      val newAnswer      = false
 
-      val pageToClear = List(PersonWhoGaveAdvicePage,
+      val pageToClear = List(
+        PersonWhoGaveAdvicePage,
         AdviceBusinessesOrOrgPage,
         AdviceBusinessNamePage,
         AdviceProfessionPage,
@@ -176,32 +194,54 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxControllerSpec extends ControllerSpecB
         WhichEmailAddressCanWeContactYouWithPage,
         WhatEmailAddressCanWeContactYouWithPage,
         WhichTelephoneNumberCanWeContactYouWithPage,
-        WhatTelephoneNumberCanWeContactYouWithPage)
+        WhatTelephoneNumberCanWeContactYouWithPage
+      )
 
-      val urlToTest = routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
-      testChangeAnswerRouting(previousAnswer, newAnswer, DidSomeoneGiveYouAdviceNotDeclareTaxPage, urlToTest, destinationRoute, pageToClear)
+      testChangeAnswerRouting(
+        previousAnswer,
+        newAnswer,
+        DidSomeoneGiveYouAdviceNotDeclareTaxPage,
+        urlToTest,
+        destinationRoute,
+        pageToClear
+      )
     }
 
     "must redirect to CheckYourAnswers page screen if page answer is Yes and it does not change" in {
       val previousAnswer = true
-      val newAnswer = true
+      val newAnswer      = true
 
-      val urlToTest = routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
-      testChangeAnswerRouting(previousAnswer, newAnswer, DidSomeoneGiveYouAdviceNotDeclareTaxPage, urlToTest, destinationRoute, Nil)
+      testChangeAnswerRouting(
+        previousAnswer,
+        newAnswer,
+        DidSomeoneGiveYouAdviceNotDeclareTaxPage,
+        urlToTest,
+        destinationRoute,
+        Nil
+      )
     }
 
     "must redirect to CheckYourAnswers page screen if page answer is No and it does not change" in {
       val previousAnswer = false
-      val newAnswer = false
+      val newAnswer      = false
 
-      val urlToTest = routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.DidSomeoneGiveYouAdviceNotDeclareTaxController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
-      testChangeAnswerRouting(previousAnswer, newAnswer, DidSomeoneGiveYouAdviceNotDeclareTaxPage, urlToTest, destinationRoute, Nil)
+      testChangeAnswerRouting(
+        previousAnswer,
+        newAnswer,
+        DidSomeoneGiveYouAdviceNotDeclareTaxPage,
+        urlToTest,
+        destinationRoute,
+        Nil
+      )
     }
   }
 }

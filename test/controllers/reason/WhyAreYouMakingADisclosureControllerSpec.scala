@@ -37,7 +37,7 @@ class WhyAreYouMakingADisclosureControllerSpec extends SpecBase with MockitoSuga
   lazy val whyAreYouMakingADisclosureRoute = routes.WhyAreYouMakingADisclosureController.onPageLoad(NormalMode).url
 
   val formProvider = new WhyAreYouMakingADisclosureFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   "WhyAreYouMakingADisclosure Controller" - {
 
@@ -58,7 +58,10 @@ class WhyAreYouMakingADisclosureControllerSpec extends SpecBase with MockitoSuga
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingADisclosurePage, WhyAreYouMakingADisclosure.values.toSet).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123")
+        .set(WhyAreYouMakingADisclosurePage, WhyAreYouMakingADisclosure.values.toSet)
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -69,7 +72,10 @@ class WhyAreYouMakingADisclosureControllerSpec extends SpecBase with MockitoSuga
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(WhyAreYouMakingADisclosure.values.toSet), NormalMode)(request, messages).toString
+      contentAsString(result) mustEqual view(form.fill(WhyAreYouMakingADisclosure.values.toSet), NormalMode)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {

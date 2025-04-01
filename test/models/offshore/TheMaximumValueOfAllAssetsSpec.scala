@@ -32,10 +32,11 @@ class TheMaximumValueOfAllAssetsSpec extends AnyFreeSpec with Matchers with Scal
 
       val gen = Gen.oneOf(TheMaximumValueOfAllAssets.values.toSeq)
 
-      forAll(gen) {
-        theMaximumValueOfAllAssets =>
-
-          JsString(theMaximumValueOfAllAssets.toString).validate[TheMaximumValueOfAllAssets].asOpt.value mustEqual theMaximumValueOfAllAssets
+      forAll(gen) { theMaximumValueOfAllAssets =>
+        JsString(theMaximumValueOfAllAssets.toString)
+          .validate[TheMaximumValueOfAllAssets]
+          .asOpt
+          .value mustEqual theMaximumValueOfAllAssets
       }
     }
 
@@ -43,10 +44,8 @@ class TheMaximumValueOfAllAssetsSpec extends AnyFreeSpec with Matchers with Scal
 
       val gen = arbitrary[String] suchThat (!TheMaximumValueOfAllAssets.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[TheMaximumValueOfAllAssets] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[TheMaximumValueOfAllAssets] mustEqual JsError("error.invalid")
       }
     }
 
@@ -54,10 +53,8 @@ class TheMaximumValueOfAllAssetsSpec extends AnyFreeSpec with Matchers with Scal
 
       val gen = Gen.oneOf(TheMaximumValueOfAllAssets.values.toSeq)
 
-      forAll(gen) {
-        theMaximumValueOfAllAssets =>
-
-          Json.toJson(theMaximumValueOfAllAssets) mustEqual JsString(theMaximumValueOfAllAssets.toString)
+      forAll(gen) { theMaximumValueOfAllAssets =>
+        Json.toJson(theMaximumValueOfAllAssets) mustEqual JsString(theMaximumValueOfAllAssets.toString)
       }
     }
   }

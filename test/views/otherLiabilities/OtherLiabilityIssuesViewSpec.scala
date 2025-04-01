@@ -25,7 +25,7 @@ import models.NormalMode
 
 class OtherLiabilityIssuesViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new OtherLiabilityIssuesFormProvider()()
+  val form                           = new OtherLiabilityIssuesFormProvider()()
   val page: OtherLiabilityIssuesView = inject[OtherLiabilityIssuesView]
 
   private def createView: Html = page(form, NormalMode)(request, messages)
@@ -47,16 +47,24 @@ class OtherLiabilityIssuesViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain checkboxes" in {
-      view.getElementsByClass("govuk-checkboxes__item").get(0).text() mustBe messages("otherLiabilityIssues.employerLiabilities")
-      view.getElementsByClass("govuk-checkboxes__item").get(1).text() mustBe messages("otherLiabilityIssues.class2National")
-      view.getElementsByClass("govuk-checkboxes__item").get(2).text() mustBe messages("otherLiabilityIssues.inheritanceTaxIssues")
+      view.getElementsByClass("govuk-checkboxes__item").get(0).text() mustBe messages(
+        "otherLiabilityIssues.employerLiabilities"
+      )
+      view.getElementsByClass("govuk-checkboxes__item").get(1).text() mustBe messages(
+        "otherLiabilityIssues.class2National"
+      )
+      view.getElementsByClass("govuk-checkboxes__item").get(2).text() mustBe messages(
+        "otherLiabilityIssues.inheritanceTaxIssues"
+      )
       view.getElementsByClass("govuk-checkboxes__item").get(3).text() mustBe messages("otherLiabilityIssues.vatIssues")
       view.getElementsByClass("govuk-checkboxes__item").get(4).text() mustBe messages("otherLiabilityIssues.other")
-      view.getElementsByClass("govuk-checkboxes__item").get(5).text() mustBe messages("otherLiabilityIssues.noExclusion")
+      view.getElementsByClass("govuk-checkboxes__item").get(5).text() mustBe messages(
+        "otherLiabilityIssues.noExclusion"
+      )
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

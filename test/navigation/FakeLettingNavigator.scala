@@ -22,6 +22,12 @@ import models.{Mode, UserAnswers}
 
 class FakeLettingNavigator(desiredRoute: Call) extends LettingNavigator {
 
-  override def nextPage(page: Page, i: Int, mode: Mode, userAnswers: UserAnswers, hasAnswerChanged: Boolean = true): Call = 
+  override def nextPage(
+    page: Page,
+    i: Int,
+    mode: Mode,
+    userAnswers: UserAnswers,
+    hasAnswerChanged: Boolean = true
+  ): Call =
     desiredRoute
 }

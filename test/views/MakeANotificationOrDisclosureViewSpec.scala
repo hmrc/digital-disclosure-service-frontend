@@ -24,7 +24,7 @@ import views.html.MakeANotificationOrDisclosureView
 
 class MakeANotificationOrDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new MakeANotificationOrDisclosureFormProvider()()
+  val form                                    = new MakeANotificationOrDisclosureFormProvider()()
   val page: MakeANotificationOrDisclosureView = inject[MakeANotificationOrDisclosureView]
 
   private def createView: Html = page(form)(request, messages)
@@ -50,12 +50,20 @@ class MakeANotificationOrDisclosureViewSpec extends ViewSpecBase with ViewMatche
     }
 
     "have all the elements in the bullet-list" in {
-      view.getElementsByClass("dashed-list-item").get(0).text() mustBe messages("makeANotificationOrDisclosure.bulletList.first")
-      view.getElementsByClass("dashed-list-item").get(1).text() mustBe messages("makeANotificationOrDisclosure.bulletList.second")
+      view.getElementsByClass("dashed-list-item").get(0).text() mustBe messages(
+        "makeANotificationOrDisclosure.bulletList.first"
+      )
+      view.getElementsByClass("dashed-list-item").get(1).text() mustBe messages(
+        "makeANotificationOrDisclosure.bulletList.second"
+      )
     }
 
     "have a guidance link address for first bullet point" in {
-      view.getElementById("bullet-first-link").attr("href") mustBe "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure#general-information"
+      view
+        .getElementById("bullet-first-link")
+        .attr(
+          "href"
+        ) mustBe "https://www.gov.uk/government/publications/hmrc-your-guide-to-making-a-disclosure/your-guide-to-making-a-disclosure#general-information"
     }
 
     "contain third paragraph" in {
@@ -67,7 +75,7 @@ class MakeANotificationOrDisclosureViewSpec extends ViewSpecBase with ViewMatche
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.continue")
     }
 

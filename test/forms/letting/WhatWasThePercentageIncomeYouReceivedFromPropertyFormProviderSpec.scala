@@ -41,16 +41,20 @@ class WhatWasThePercentageIncomeYouReceivedFromPropertyFormProviderSpec extends 
     behave like intField(
       form,
       fieldName,
-      nonNumericError  = FormError(fieldName, "whatWasThePercentageIncomeYouReceivedFromProperty.error.nonNumeric"),
+      nonNumericError = FormError(fieldName, "whatWasThePercentageIncomeYouReceivedFromProperty.error.nonNumeric"),
       wholeNumberError = FormError(fieldName, "whatWasThePercentageIncomeYouReceivedFromProperty.error.wholeNumber")
     )
 
     behave like intFieldWithRange(
       form,
       fieldName,
-      minimum       = minimum,
-      maximum       = maximum,
-      expectedError = FormError(fieldName, "whatWasThePercentageIncomeYouReceivedFromProperty.error.outOfRange", Seq(minimum, maximum))
+      minimum = minimum,
+      maximum = maximum,
+      expectedError = FormError(
+        fieldName,
+        "whatWasThePercentageIncomeYouReceivedFromProperty.error.outOfRange",
+        Seq(minimum, maximum)
+      )
     )
 
     behave like mandatoryField(

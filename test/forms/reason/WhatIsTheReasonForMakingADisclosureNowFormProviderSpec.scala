@@ -22,8 +22,8 @@ import play.api.data.FormError
 class WhatIsTheReasonForMakingADisclosureNowFormProviderSpec extends StringFieldBehaviours {
 
   val requiredKey = "whatIsTheReasonForMakingADisclosureNow.error.required"
-  val lengthKey = "whatIsTheReasonForMakingADisclosureNow.error.length"
-  val maxLength = 5000
+  val lengthKey   = "whatIsTheReasonForMakingADisclosureNow.error.length"
+  val maxLength   = 5000
 
   val form = new WhatIsTheReasonForMakingADisclosureNowFormProvider()()
 

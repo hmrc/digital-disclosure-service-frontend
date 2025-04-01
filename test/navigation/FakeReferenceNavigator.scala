@@ -22,7 +22,7 @@ import play.api.mvc.Call
 
 class FakeReferenceNavigator(desiredRoute: Call) extends ReferenceNavigator {
 
-  override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasChanged:Boolean = true): Call =
+  override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasChanged: Boolean = true): Call =
     desiredRoute
 
 }

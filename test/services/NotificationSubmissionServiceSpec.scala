@@ -18,7 +18,7 @@ package services
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import java.time.{Instant, LocalDateTime, LocalDate}
+import java.time.{Instant, LocalDate, LocalDateTime}
 import org.mockito.Mockito.{verify, when}
 import org.scalatestplus.mockito.MockitoSugar
 import org.scalatest.TryValues
@@ -31,29 +31,33 @@ import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class NotificationSubmissionServiceSpec extends AnyWordSpec with ScalaFutures
-    with TryValues with Matchers with MockitoSugar  {
+class NotificationSubmissionServiceSpec
+    extends AnyWordSpec
+    with ScalaFutures
+    with TryValues
+    with Matchers
+    with MockitoSugar {
 
   "submitNotification" should {
 
     "call the reference generator" in new Test {
 
-      val metadata = Metadata(reference = Some("123456"), submissionTime = Some(time))
+      val metadata           = Metadata(reference = Some("123456"), submissionTime = Some(time))
       val updatedUserAnswers = emptyUA.copy(metadata = metadata)
 
       when(UAToNotificationService.userAnswersToNotification(updatedUserAnswers)) thenReturn testNotification
       when(connector.submitNotification(testNotification)(hc)) thenReturn Future.successful("id")
       when(sessionService.set(updatedUserAnswers)(hc)) thenReturn Future.successful(true)
-      
+
       sut.submitNotification(emptyUA).futureValue shouldEqual "123456"
       verify(auditService).auditNotificationSubmission(testNotification)(hc)
     }
 
     trait Test {
-      val connector: DigitalDisclosureServiceConnector = mock[DigitalDisclosureServiceConnector]
+      val connector: DigitalDisclosureServiceConnector     = mock[DigitalDisclosureServiceConnector]
       val UAToNotificationService: UAToNotificationService = mock[UAToNotificationService]
-      val sessionService: SessionService = mock[SessionService]
-      val auditService: AuditService = mock[AuditService]
+      val sessionService: SessionService                   = mock[SessionService]
+      val auditService: AuditService                       = mock[AuditService]
 
       val reference = "123456"
       object FakeReferenceService extends ReferenceService {
@@ -63,16 +67,23 @@ class NotificationSubmissionServiceSpec extends AnyWordSpec with ScalaFutures
       val time = LocalDateTime.now
       object FakeTimeService extends TimeService {
         def now: LocalDateTime = time
-        def date: LocalDate = time.toLocalDate()
-      } 
+        def date: LocalDate    = time.toLocalDate()
+      }
 
-      val sut = new NotificationSubmissionServiceImpl(connector, UAToNotificationService, FakeReferenceService, sessionService, FakeTimeService, auditService)
+      val sut = new NotificationSubmissionServiceImpl(
+        connector,
+        UAToNotificationService,
+        FakeReferenceService,
+        sessionService,
+        FakeTimeService,
+        auditService
+      )
 
-      val emptyUA = UserAnswers("id", "session-123")
-      val testNotification = Notification("123", "456", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
+      val emptyUA                    = UserAnswers("id", "session-123")
+      val testNotification           =
+        Notification("123", "456", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou()))
       implicit val hc: HeaderCarrier = HeaderCarrier()
     }
-
 
   }
 

@@ -18,7 +18,7 @@ package controllers.offshore
 
 import base.SpecBase
 import forms.WhatIsYourReasonableExcuseForNotFilingReturnFormProvider
-import models.{AreYouTheEntity, NormalMode, RelatesTo, UserAnswers, WhatIsYourReasonableExcuseForNotFilingReturn, SubmissionType}
+import models.{AreYouTheEntity, NormalMode, RelatesTo, SubmissionType, UserAnswers, WhatIsYourReasonableExcuseForNotFilingReturn}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
@@ -37,20 +37,21 @@ class WhatIsYourReasonableExcuseForNotFilingReturnControllerSpec extends SpecBas
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()
-  val form = formProvider(true)
+  val form         = formProvider(true)
 
-  lazy val whatIsYourReasonableExcuseForNotFilingReturnRoute = routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode).url
+  lazy val whatIsYourReasonableExcuseForNotFilingReturnRoute =
+    routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode).url
 
   "WhatIsYourReasonableExcuseForNotFilingReturn Controller" - {
 
     "must return OK and the correct view for a GET" in {
       val userAnswers = (for {
-        userAnswer <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        userAnswer          <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
       val areTheyTheIndividual = userAnswers.isTheUserTheIndividual
-      val entity = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+      val entity               = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -67,9 +68,23 @@ class WhatIsYourReasonableExcuseForNotFilingReturnControllerSpec extends SpecBas
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = (for {
-        ua <- UserAnswers(userAnswersId, "session-123", "submission-123", SubmissionType.Disclosure, JsObject.empty, Instant.now, Instant.now, models.store.Metadata(), false, None)
-          .set(WhatIsYourReasonableExcuseForNotFilingReturnPage, WhatIsYourReasonableExcuseForNotFilingReturn("value 1", "value 1"))
-        updatedAnswer <- ua.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        ua                  <- UserAnswers(
+                                 userAnswersId,
+                                 "session-123",
+                                 "submission-123",
+                                 SubmissionType.Disclosure,
+                                 JsObject.empty,
+                                 Instant.now,
+                                 Instant.now,
+                                 models.store.Metadata(),
+                                 false,
+                                 None
+                               )
+                                 .set(
+                                   WhatIsYourReasonableExcuseForNotFilingReturnPage,
+                                   WhatIsYourReasonableExcuseForNotFilingReturn("value 1", "value 1")
+                                 )
+        updatedAnswer       <- ua.set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- updatedAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
@@ -86,7 +101,7 @@ class WhatIsYourReasonableExcuseForNotFilingReturnControllerSpec extends SpecBas
     "must redirect to the next page when valid data is submitted" in {
 
       val ua = (for {
-        updatedAnswer <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        updatedAnswer       <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- updatedAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
@@ -106,12 +121,12 @@ class WhatIsYourReasonableExcuseForNotFilingReturnControllerSpec extends SpecBas
     "must return a Bad Request and errors when invalid data is submitted" in {
 
       val ua = (for {
-        updatedAnswer <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        updatedAnswer       <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- updatedAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
       val areTheyTheIndividual = ua.isTheUserTheIndividual
-      val entity = ua.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+      val entity               = ua.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       setupMockSessionResponse(Some(ua))
 
@@ -126,7 +141,10 @@ class WhatIsYourReasonableExcuseForNotFilingReturnControllerSpec extends SpecBas
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

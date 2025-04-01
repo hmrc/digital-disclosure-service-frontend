@@ -33,16 +33,20 @@ trait PageGenerators {
   implicit lazy val arbitraryPropertyAddedPage: Arbitrary[PropertyAddedPage.type] =
     Arbitrary(PropertyAddedPage)
 
-  implicit lazy val arbitraryHowManyPropertiesDoYouCurrentlyLetOutPage: Arbitrary[HowManyPropertiesDoYouCurrentlyLetOutPage.type] =
+  implicit lazy val arbitraryHowManyPropertiesDoYouCurrentlyLetOutPage
+    : Arbitrary[HowManyPropertiesDoYouCurrentlyLetOutPage.type] =
     Arbitrary(HowManyPropertiesDoYouCurrentlyLetOutPage)
 
-  implicit lazy val arbitraryAreYouAMemberOfAnyLandlordAssociationsPage: Arbitrary[AreYouAMemberOfAnyLandlordAssociationsPage.type] =
+  implicit lazy val arbitraryAreYouAMemberOfAnyLandlordAssociationsPage
+    : Arbitrary[AreYouAMemberOfAnyLandlordAssociationsPage.type] =
     Arbitrary(AreYouAMemberOfAnyLandlordAssociationsPage)
 
-  implicit lazy val arbitraryDidTheLettingAgentCollectRentOnYourBehalfPage: Arbitrary[DidTheLettingAgentCollectRentOnYourBehalfPage.type] =
+  implicit lazy val arbitraryDidTheLettingAgentCollectRentOnYourBehalfPage
+    : Arbitrary[DidTheLettingAgentCollectRentOnYourBehalfPage.type] =
     Arbitrary(DidTheLettingAgentCollectRentOnYourBehalfPage)
 
-  implicit lazy val arbitraryWasALettingAgentUsedToManagePropertyPage: Arbitrary[WasALettingAgentUsedToManagePropertyPage.type] =
+  implicit lazy val arbitraryWasALettingAgentUsedToManagePropertyPage
+    : Arbitrary[WasALettingAgentUsedToManagePropertyPage.type] =
     Arbitrary(WasALettingAgentUsedToManagePropertyPage)
 
   implicit lazy val arbitraryWhatWasTheTypeOfMortgagePage: Arbitrary[WhatWasTheTypeOfMortgagePage.type] =
@@ -54,7 +58,8 @@ trait PageGenerators {
   implicit lazy val arbitraryWasPropertyFurnishedPage: Arbitrary[WasPropertyFurnishedPage.type] =
     Arbitrary(WasPropertyFurnishedPage)
 
-  implicit lazy val arbitraryWhatWasThePercentageIncomeYouReceivedFromPropertyPage: Arbitrary[WhatWasThePercentageIncomeYouReceivedFromPropertyPage.type] =
+  implicit lazy val arbitraryWhatWasThePercentageIncomeYouReceivedFromPropertyPage
+    : Arbitrary[WhatWasThePercentageIncomeYouReceivedFromPropertyPage.type] =
     Arbitrary(WhatWasThePercentageIncomeYouReceivedFromPropertyPage)
 
   implicit lazy val arbitraryDidYouHaveAMortgageOnPropertyPage: Arbitrary[DidYouHaveAMortgageOnPropertyPage.type] =
@@ -77,7 +82,7 @@ trait PageGenerators {
 
   implicit lazy val arbitraryCorporationTaxLiabilityPage: Arbitrary[CorporationTaxLiabilityPage.type] =
     Arbitrary(CorporationTaxLiabilityPage)
-    
+
   implicit lazy val arbitraryResidentialReductionPage: Arbitrary[ResidentialReductionPage.type] =
     Arbitrary(ResidentialReductionPage)
 
@@ -87,19 +92,22 @@ trait PageGenerators {
   implicit lazy val arbitraryWhichOnshoreYearsPage: Arbitrary[WhichOnshoreYearsPage.type] =
     Arbitrary(WhichOnshoreYearsPage)
 
-  implicit lazy val arbitraryWhatOnshoreLiabilitiesDoYouNeedToDisclosePage: Arbitrary[WhatOnshoreLiabilitiesDoYouNeedToDisclosePage.type] =
+  implicit lazy val arbitraryWhatOnshoreLiabilitiesDoYouNeedToDisclosePage
+    : Arbitrary[WhatOnshoreLiabilitiesDoYouNeedToDisclosePage.type] =
     Arbitrary(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage)
-    
+
   implicit lazy val arbitraryOfferLetterPage: Arbitrary[OfferLetterPage.type] =
     Arbitrary(OfferLetterPage)
 
-  implicit lazy val arbitraryWhichTelephoneNumberCanWeContactYouWithPage: Arbitrary[WhichTelephoneNumberCanWeContactYouWithPage.type] =
+  implicit lazy val arbitraryWhichTelephoneNumberCanWeContactYouWithPage
+    : Arbitrary[WhichTelephoneNumberCanWeContactYouWithPage.type] =
     Arbitrary(WhichTelephoneNumberCanWeContactYouWithPage)
 
   implicit lazy val arbitraryForeignTaxCreditPage: Arbitrary[ForeignTaxCreditPage.type] =
     Arbitrary(ForeignTaxCreditPage)
 
-  implicit lazy val arbitraryYouHaveNotSelectedCertainTaxYearPage: Arbitrary[YouHaveNotSelectedCertainTaxYearPage.type] =
+  implicit lazy val arbitraryYouHaveNotSelectedCertainTaxYearPage
+    : Arbitrary[YouHaveNotSelectedCertainTaxYearPage.type] =
     Arbitrary(YouHaveNotSelectedCertainTaxYearPage)
 
   implicit lazy val arbitraryTaxBeforeNineteenYearsPage: Arbitrary[TaxBeforeNineteenYearsPage.type] =
@@ -110,17 +118,19 @@ trait PageGenerators {
 
   implicit lazy val arbitraryNotificationStartedPage: Arbitrary[NotificationStartedPage.type] =
     Arbitrary(NotificationStartedPage)
-    
+
   implicit lazy val arbitraryYouHaveNotIncludedTheTaxYearPage: Arbitrary[YouHaveNotIncludedTheTaxYearPage.type] =
     Arbitrary(YouHaveNotIncludedTheTaxYearPage)
 
   implicit lazy val arbitraryCountriesOrTerritoriesPage: Arbitrary[CountriesOrTerritoriesPage.type] =
     Arbitrary(CountriesOrTerritoriesPage)
 
-  implicit lazy val arbitraryWhatEmailAddressCanWeContactYouWithPage: Arbitrary[WhatEmailAddressCanWeContactYouWithPage.type] =
+  implicit lazy val arbitraryWhatEmailAddressCanWeContactYouWithPage
+    : Arbitrary[WhatEmailAddressCanWeContactYouWithPage.type] =
     Arbitrary(WhatEmailAddressCanWeContactYouWithPage)
 
-  implicit lazy val arbitraryWhichEmailAddressCanWeContactYouWithPage: Arbitrary[WhichEmailAddressCanWeContactYouWithPage.type] =
+  implicit lazy val arbitraryWhichEmailAddressCanWeContactYouWithPage
+    : Arbitrary[WhichEmailAddressCanWeContactYouWithPage.type] =
     Arbitrary(WhichEmailAddressCanWeContactYouWithPage)
 
   implicit lazy val arbitraryWhatIsTheCaseReferencePage: Arbitrary[WhatIsTheCaseReferencePage.type] =
@@ -129,12 +139,13 @@ trait PageGenerators {
   implicit lazy val arbitraryDoYouHaveACaseReferencePage: Arbitrary[DoYouHaveACaseReferencePage.type] =
     Arbitrary(DoYouHaveACaseReferencePage)
 
-  implicit lazy val arbitraryWhatTelephoneNumberCanWeContactYouWithPage: Arbitrary[WhatTelephoneNumberCanWeContactYouWithPage.type] =
+  implicit lazy val arbitraryWhatTelephoneNumberCanWeContactYouWithPage
+    : Arbitrary[WhatTelephoneNumberCanWeContactYouWithPage.type] =
     Arbitrary(WhatTelephoneNumberCanWeContactYouWithPage)
 
   implicit lazy val arbitraryAdviceGivenPage: Arbitrary[AdviceGivenPage.type] =
     Arbitrary(AdviceGivenPage)
-    
+
   implicit lazy val arbitraryAdviceProfessionPage: Arbitrary[AdviceProfessionPage.type] =
     Arbitrary(AdviceProfessionPage)
 
@@ -147,13 +158,15 @@ trait PageGenerators {
   implicit lazy val arbitraryPersonWhoGaveAdvicePage: Arbitrary[PersonWhoGaveAdvicePage.type] =
     Arbitrary(PersonWhoGaveAdvicePage)
 
-  implicit lazy val arbitraryDidSomeoneGiveYouAdviceNotDeclareTaxPage: Arbitrary[DidSomeoneGiveYouAdviceNotDeclareTaxPage.type] =
+  implicit lazy val arbitraryDidSomeoneGiveYouAdviceNotDeclareTaxPage
+    : Arbitrary[DidSomeoneGiveYouAdviceNotDeclareTaxPage.type] =
     Arbitrary(DidSomeoneGiveYouAdviceNotDeclareTaxPage)
 
   implicit lazy val arbitraryWhyNotBeforeNowPage: Arbitrary[WhyNotBeforeNowPage.type] =
     Arbitrary(WhyNotBeforeNowPage)
-    
-  implicit lazy val arbitraryWhatIsTheReasonForMakingADisclosureNowPage: Arbitrary[WhatIsTheReasonForMakingADisclosureNowPage.type] =
+
+  implicit lazy val arbitraryWhatIsTheReasonForMakingADisclosureNowPage
+    : Arbitrary[WhatIsTheReasonForMakingADisclosureNowPage.type] =
     Arbitrary(WhatIsTheReasonForMakingADisclosureNowPage)
 
   implicit lazy val arbitraryWhyAreYouMakingADisclosurePage: Arbitrary[WhyAreYouMakingADisclosurePage.type] =
@@ -206,13 +219,14 @@ trait PageGenerators {
 
   implicit lazy val arbitraryWhatIsYourReasonableExcusePage: Arbitrary[WhatIsYourReasonableExcusePage.type] =
     Arbitrary(WhatIsYourReasonableExcusePage)
-    
-  implicit lazy val arbitraryWhatIsYourReasonableExcuseForNotFilingReturnPage: Arbitrary[WhatIsYourReasonableExcuseForNotFilingReturnPage.type] =
+
+  implicit lazy val arbitraryWhatIsYourReasonableExcuseForNotFilingReturnPage
+    : Arbitrary[WhatIsYourReasonableExcuseForNotFilingReturnPage.type] =
     Arbitrary(WhatIsYourReasonableExcuseForNotFilingReturnPage)
 
   implicit lazy val arbitraryWhatReasonableCareDidYouTakePage: Arbitrary[WhatReasonableCareDidYouTakePage.type] =
     Arbitrary(WhatReasonableCareDidYouTakePage)
-    
+
   implicit lazy val arbitraryYouHaveLeftTheDDSPage: Arbitrary[YouHaveLeftTheDDSPage.type] =
     Arbitrary(YouHaveLeftTheDDSPage)
 
@@ -234,7 +248,8 @@ trait PageGenerators {
   implicit lazy val arbitraryWasThePersonRegisteredForSAPage: Arbitrary[WasThePersonRegisteredForSAPage.type] =
     Arbitrary(WasThePersonRegisteredForSAPage)
 
-  implicit lazy val arbitraryWhatWasThePersonVATRegistrationNumberPage: Arbitrary[WhatWasThePersonVATRegistrationNumberPage.type] =
+  implicit lazy val arbitraryWhatWasThePersonVATRegistrationNumberPage
+    : Arbitrary[WhatWasThePersonVATRegistrationNumberPage.type] =
     Arbitrary(WhatWasThePersonVATRegistrationNumberPage)
 
   implicit lazy val arbitraryWasThePersonRegisteredForVATPage: Arbitrary[WasThePersonRegisteredForVATPage.type] =
@@ -252,7 +267,8 @@ trait PageGenerators {
   implicit lazy val arbitraryWhatWasThePersonOccupationPage: Arbitrary[WhatWasThePersonOccupationPage.type] =
     Arbitrary(WhatWasThePersonOccupationPage)
 
-  implicit lazy val arbitraryWhatWasTheNameOfThePersonWhoDiedPage: Arbitrary[WhatWasTheNameOfThePersonWhoDiedPage.type] =
+  implicit lazy val arbitraryWhatWasTheNameOfThePersonWhoDiedPage
+    : Arbitrary[WhatWasTheNameOfThePersonWhoDiedPage.type] =
     Arbitrary(WhatWasTheNameOfThePersonWhoDiedPage)
 
   implicit lazy val arbitraryWhatIsTheTrustNamePage: Arbitrary[WhatIsTheTrustNamePage.type] =
@@ -261,34 +277,43 @@ trait PageGenerators {
   implicit lazy val arbitraryWhatIsTheLLPNamePage: Arbitrary[WhatIsTheLLPNamePage.type] =
     Arbitrary(WhatIsTheLLPNamePage)
 
-  implicit lazy val arbitraryWhatIsTheCompanyRegistrationNumberPage: Arbitrary[WhatIsTheCompanyRegistrationNumberPage.type] =
+  implicit lazy val arbitraryWhatIsTheCompanyRegistrationNumberPage
+    : Arbitrary[WhatIsTheCompanyRegistrationNumberPage.type] =
     Arbitrary(WhatIsTheCompanyRegistrationNumberPage)
 
-  implicit lazy val arbitraryWhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage: Arbitrary[WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage.type] =
+  implicit lazy val arbitraryWhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage
+    : Arbitrary[WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage.type] =
     Arbitrary(WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage)
 
-  implicit lazy val arbitraryWhatIsTheNameOfTheOrganisationYouRepresentPage: Arbitrary[WhatIsTheNameOfTheOrganisationYouRepresentPage.type] =
+  implicit lazy val arbitraryWhatIsTheNameOfTheOrganisationYouRepresentPage
+    : Arbitrary[WhatIsTheNameOfTheOrganisationYouRepresentPage.type] =
     Arbitrary(WhatIsTheNameOfTheOrganisationYouRepresentPage)
 
-  implicit lazy val arbitraryAreYouRepresentingAnOrganisationPage: Arbitrary[AreYouRepresentingAnOrganisationPage.type] =
+  implicit lazy val arbitraryAreYouRepresentingAnOrganisationPage
+    : Arbitrary[AreYouRepresentingAnOrganisationPage.type] =
     Arbitrary(AreYouRepresentingAnOrganisationPage)
 
-  implicit lazy val arbitraryWhatIsTheIndividualsUniqueTaxReferencePage: Arbitrary[WhatIsTheIndividualsUniqueTaxReferencePage.type] =
+  implicit lazy val arbitraryWhatIsTheIndividualsUniqueTaxReferencePage
+    : Arbitrary[WhatIsTheIndividualsUniqueTaxReferencePage.type] =
     Arbitrary(WhatIsTheIndividualsUniqueTaxReferencePage)
 
-  implicit lazy val arbitraryWhatIsTheIndividualsVATRegistrationNumberPage: Arbitrary[WhatIsTheIndividualsVATRegistrationNumberPage.type] =
+  implicit lazy val arbitraryWhatIsTheIndividualsVATRegistrationNumberPage
+    : Arbitrary[WhatIsTheIndividualsVATRegistrationNumberPage.type] =
     Arbitrary(WhatIsTheIndividualsVATRegistrationNumberPage)
 
-  implicit lazy val arbitraryIsTheIndividualRegisteredForSelfAssessmentPage: Arbitrary[IsTheIndividualRegisteredForSelfAssessmentPage.type] =
+  implicit lazy val arbitraryIsTheIndividualRegisteredForSelfAssessmentPage
+    : Arbitrary[IsTheIndividualRegisteredForSelfAssessmentPage.type] =
     Arbitrary(IsTheIndividualRegisteredForSelfAssessmentPage)
 
   implicit lazy val arbitraryIsTheIndividualRegisteredForVATPage: Arbitrary[IsTheIndividualRegisteredForVATPage.type] =
     Arbitrary(IsTheIndividualRegisteredForVATPage)
 
-  implicit lazy val arbitraryWhatIsIndividualsNationalInsuranceNumberPage: Arbitrary[WhatIsIndividualsNationalInsuranceNumberPage.type] =
+  implicit lazy val arbitraryWhatIsIndividualsNationalInsuranceNumberPage
+    : Arbitrary[WhatIsIndividualsNationalInsuranceNumberPage.type] =
     Arbitrary(WhatIsIndividualsNationalInsuranceNumberPage)
 
-  implicit lazy val arbitraryDoesTheIndividualHaveNationalInsuranceNumberPage: Arbitrary[DoesTheIndividualHaveNationalInsuranceNumberPage.type] =
+  implicit lazy val arbitraryDoesTheIndividualHaveNationalInsuranceNumberPage
+    : Arbitrary[DoesTheIndividualHaveNationalInsuranceNumberPage.type] =
     Arbitrary(DoesTheIndividualHaveNationalInsuranceNumberPage)
 
   implicit lazy val arbitraryWhatIsTheIndividualOccupationPage: Arbitrary[WhatIsTheIndividualOccupationPage.type] =
@@ -303,7 +328,8 @@ trait PageGenerators {
   implicit lazy val arbitraryWhatIsYourUniqueTaxReferencePage: Arbitrary[WhatIsYourUniqueTaxReferencePage.type] =
     Arbitrary(WhatIsYourUniqueTaxReferencePage)
 
-  implicit lazy val arbitraryAreYouRegisteredForSelfAssessmentPage: Arbitrary[AreYouRegisteredForSelfAssessmentPage.type] =
+  implicit lazy val arbitraryAreYouRegisteredForSelfAssessmentPage
+    : Arbitrary[AreYouRegisteredForSelfAssessmentPage.type] =
     Arbitrary(AreYouRegisteredForSelfAssessmentPage)
 
   implicit lazy val arbitraryAreYouRegisteredForVATPage: Arbitrary[AreYouRegisteredForVATPage.type] =
@@ -312,10 +338,12 @@ trait PageGenerators {
   implicit lazy val arbitraryWhatIsYourVATRegistrationNumberPage: Arbitrary[WhatIsYourVATRegistrationNumberPage.type] =
     Arbitrary(WhatIsYourVATRegistrationNumberPage)
 
-  implicit lazy val arbitraryWhatIsYourNationalInsuranceNumberPage: Arbitrary[WhatIsYourNationalInsuranceNumberPage.type] =
+  implicit lazy val arbitraryWhatIsYourNationalInsuranceNumberPage
+    : Arbitrary[WhatIsYourNationalInsuranceNumberPage.type] =
     Arbitrary(WhatIsYourNationalInsuranceNumberPage)
 
-  implicit lazy val arbitraryDoYouHaveNationalInsuranceNumberPage: Arbitrary[DoYouHaveNationalInsuranceNumberPage.type] =
+  implicit lazy val arbitraryDoYouHaveNationalInsuranceNumberPage
+    : Arbitrary[DoYouHaveNationalInsuranceNumberPage.type] =
     Arbitrary(DoYouHaveNationalInsuranceNumberPage)
 
   implicit lazy val arbitraryWhatIsYourMainOccupationPage: Arbitrary[WhatIsYourMainOccupationPage.type] =
@@ -326,10 +354,10 @@ trait PageGenerators {
 
   implicit lazy val arbitraryWhatIsYourFullNamePage: Arbitrary[WhatIsYourFullNamePage.type] =
     Arbitrary(WhatIsYourFullNamePage)
-    
+
   implicit lazy val arbitraryYourEmailAddressPage: Arbitrary[YourEmailAddressPage.type] =
     Arbitrary(YourEmailAddressPage)
-    
+
   implicit lazy val arbitraryYourPhoneNumberPage: Arbitrary[YourPhoneNumberPage.type] =
     Arbitrary(YourPhoneNumberPage)
 
@@ -344,7 +372,7 @@ trait PageGenerators {
 
   implicit lazy val arbitraryrelatesToPage: Arbitrary[RelatesToPage.type] =
     Arbitrary(RelatesToPage)
- 
+
   implicit lazy val arbitraryReceivedALetterPage: Arbitrary[ReceivedALetterPage.type] =
     Arbitrary(ReceivedALetterPage)
 

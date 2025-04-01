@@ -34,10 +34,11 @@ class OnshoreTaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar
 
   def onwardRoute = Call("GET", "/foo")
 
-  val formProvider = new OnshoreTaxYearLiabilitiesFormProvider()
-  val form = formProvider(Set())
+  val formProvider                  = new OnshoreTaxYearLiabilitiesFormProvider()
+  val form                          = formProvider(Set())
   val whichYears: Set[OnshoreYears] = Set(OnshoreYearStarting(2021))
-  val userAnswersWithTaxYears = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, whichYears).success.value
+  val userAnswersWithTaxYears       =
+    UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, whichYears).success.value
 
   lazy val taxYearLiabilitiesRoute = routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode).url
 
@@ -58,7 +59,7 @@ class OnshoreTaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
-      
+
       val answer = OnshoreTaxYearLiabilities(
         nonBusinessIncome = None,
         businessIncome = None,
@@ -73,7 +74,13 @@ class OnshoreTaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar
         residentialTaxReduction = None
       )
 
-      val userAnswers = userAnswersWithTaxYears.set(OnshoreTaxYearLiabilitiesPage, Map("2021" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2021), answer))).success.value
+      val userAnswers = userAnswersWithTaxYears
+        .set(
+          OnshoreTaxYearLiabilitiesPage,
+          Map("2021" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2021), answer))
+        )
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 

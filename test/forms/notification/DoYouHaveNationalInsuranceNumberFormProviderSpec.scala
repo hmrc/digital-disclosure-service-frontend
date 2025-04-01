@@ -26,13 +26,13 @@ class DoYouHaveNationalInsuranceNumberFormProviderSpec extends OptionFieldBehavi
 
   ".value" - {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "doYouHaveNationalInsuranceNumber.error.required"
 
     behave like optionsField[DoYouHaveNationalInsuranceNumber](
       form,
       fieldName,
-      validValues  = DoYouHaveNationalInsuranceNumber.values,
+      validValues = DoYouHaveNationalInsuranceNumber.values,
       invalidError = FormError(fieldName, "error.invalid")
     )
 

@@ -25,7 +25,7 @@ import models.NormalMode
 
 class WhatIsTheIndividualsVATRegistrationNumberViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhatIsTheIndividualsVATRegistrationNumberFormProvider()()
+  val form                                                = new WhatIsTheIndividualsVATRegistrationNumberFormProvider()()
   val page: WhatIsTheIndividualsVATRegistrationNumberView = inject[WhatIsTheIndividualsVATRegistrationNumberView]
 
   private def createView: Html = page(form, NormalMode, false)(request, messages)
@@ -39,7 +39,9 @@ class WhatIsTheIndividualsVATRegistrationNumberViewSpec extends ViewSpecBase wit
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsTheIndividualsVATRegistrationNumber.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages(
+        "whatIsTheIndividualsVATRegistrationNumber.heading"
+      )
     }
 
     "have a paragraph" in {
@@ -47,7 +49,9 @@ class WhatIsTheIndividualsVATRegistrationNumberViewSpec extends ViewSpecBase wit
     }
 
     "have a label" in {
-      view.getElementsByClass("govuk-label").get(0).text() mustBe messages("whatIsTheIndividualsVATRegistrationNumber.heading")
+      view.getElementsByClass("govuk-label").get(0).text() mustBe messages(
+        "whatIsTheIndividualsVATRegistrationNumber.heading"
+      )
     }
 
     "have a hint" in {
@@ -55,7 +59,7 @@ class WhatIsTheIndividualsVATRegistrationNumberViewSpec extends ViewSpecBase wit
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

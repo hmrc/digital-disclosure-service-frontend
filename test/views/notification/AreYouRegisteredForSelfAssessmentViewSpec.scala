@@ -25,7 +25,7 @@ import models.NormalMode
 
 class AreYouRegisteredForSelfAssessmentViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new AreYouRegisteredForSelfAssessmentFormProvider()()
+  val form                                        = new AreYouRegisteredForSelfAssessmentFormProvider()()
   val page: AreYouRegisteredForSelfAssessmentView = inject[AreYouRegisteredForSelfAssessmentView]
 
   private def createView: Html = page(form, NormalMode, false)(request, messages)
@@ -39,23 +39,31 @@ class AreYouRegisteredForSelfAssessmentViewSpec extends ViewSpecBase with ViewMa
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("areYouRegisteredForSelfAssessment.heading")
+      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages(
+        "areYouRegisteredForSelfAssessment.heading"
+      )
     }
 
     "have Yes, and I know my UTR" in {
-      view.getElementsByClass("govuk-radios__label").get(0).text() mustBe messages("areYouRegisteredForSelfAssessment.yesIKnowMyUTR")
+      view.getElementsByClass("govuk-radios__label").get(0).text() mustBe messages(
+        "areYouRegisteredForSelfAssessment.yesIKnowMyUTR"
+      )
     }
 
     "have Yes, but I do not know my UTR" in {
-      view.getElementsByClass("govuk-radios__label").get(1).text() mustBe messages("areYouRegisteredForSelfAssessment.yesIDontKnowMyUTR")
+      view.getElementsByClass("govuk-radios__label").get(1).text() mustBe messages(
+        "areYouRegisteredForSelfAssessment.yesIDontKnowMyUTR"
+      )
     }
 
     "have No" in {
-      view.getElementsByClass("govuk-radios__label").get(2).text() mustBe messages("areYouRegisteredForSelfAssessment.no")
+      view.getElementsByClass("govuk-radios__label").get(2).text() mustBe messages(
+        "areYouRegisteredForSelfAssessment.no"
+      )
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

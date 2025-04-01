@@ -39,14 +39,17 @@ class CaseManagementControllerSpec extends SpecBase {
 
     "must return OK and the correct view where we have cases to display" in {
 
-      val submission = Notification("userId", "submissionId", Instant.now, Metadata(), PersonalDetails(Background(), AboutYou()))
+      val submission =
+        Notification("userId", "submissionId", Instant.now, Metadata(), PersonalDetails(Background(), AboutYou()))
 
       object TestStoreService extends SubmissionStoreService {
-        def setSubmission(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Result] =
+        def setSubmission(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Result]                =
           Future.successful(NoContent)
-        def getSubmission(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Option[Submission]] =
+        def getSubmission(userId: String, submissionId: String)(implicit
+          hc: HeaderCarrier
+        ): Future[Option[Submission]] =
           Future.successful(Some(submission))
-        def getAllSubmissions(userId: String)(implicit hc: HeaderCarrier): Future[Seq[Submission]] =
+        def getAllSubmissions(userId: String)(implicit hc: HeaderCarrier): Future[Seq[Submission]]             =
           Future.successful(Seq(submission))
         def deleteSubmission(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Result] =
           Future.successful(NoContent)
@@ -54,9 +57,11 @@ class CaseManagementControllerSpec extends SpecBase {
 
       setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val applicationWithFakeStoreService = applicationBuilder.overrides(
-        bind[SubmissionStoreService].toInstance(TestStoreService)
-      ).build()
+      val applicationWithFakeStoreService = applicationBuilder
+        .overrides(
+          bind[SubmissionStoreService].toInstance(TestStoreService)
+        )
+        .build()
 
       val request = FakeRequest(GET, routes.CaseManagementController.onPageLoad(1).url)
 
@@ -68,11 +73,13 @@ class CaseManagementControllerSpec extends SpecBase {
     "must redirect where there are no cases to display" in {
 
       object TestStoreService extends SubmissionStoreService {
-        def setSubmission(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Result] =
+        def setSubmission(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Result]                =
           Future.successful(NoContent)
-        def getSubmission(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Option[Submission]] =
+        def getSubmission(userId: String, submissionId: String)(implicit
+          hc: HeaderCarrier
+        ): Future[Option[Submission]] =
           Future.successful(None)
-        def getAllSubmissions(userId: String)(implicit hc: HeaderCarrier): Future[Seq[Submission]] =
+        def getAllSubmissions(userId: String)(implicit hc: HeaderCarrier): Future[Seq[Submission]]             =
           Future.successful(Nil)
         def deleteSubmission(userId: String, submissionId: String)(implicit hc: HeaderCarrier): Future[Result] =
           Future.successful(NoContent)
@@ -80,9 +87,11 @@ class CaseManagementControllerSpec extends SpecBase {
 
       setupMockSessionResponse(Some(emptyUserAnswers))
 
-      val applicationWithFakeStoreService = applicationBuilder.overrides(
-        bind[SubmissionStoreService].toInstance(TestStoreService)
-      ).build()
+      val applicationWithFakeStoreService = applicationBuilder
+        .overrides(
+          bind[SubmissionStoreService].toInstance(TestStoreService)
+        )
+        .build()
 
       val request = FakeRequest(GET, routes.CaseManagementController.onPageLoad(1).url)
 

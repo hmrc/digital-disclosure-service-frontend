@@ -25,10 +25,10 @@ import models.NormalMode
 
 class WasPropertyFurnishedViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WasPropertyFurnishedFormProvider()()
+  val form                           = new WasPropertyFurnishedFormProvider()()
   val page: WasPropertyFurnishedView = inject[WasPropertyFurnishedView]
 
-  val index = 0
+  val index                    = 0
   private def createView: Html = page(form, index, NormalMode)(request, messages)
 
   "view" should {
@@ -40,7 +40,10 @@ class WasPropertyFurnishedViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("wasPropertyFurnished.heading", index + 1)
+      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages(
+        "wasPropertyFurnished.heading",
+        index + 1
+      )
     }
 
     "have yes" in {
@@ -52,7 +55,7 @@ class WasPropertyFurnishedViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

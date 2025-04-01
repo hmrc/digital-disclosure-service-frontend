@@ -31,7 +31,7 @@ class CheckYourAnswersControllerSpec extends SpecBase {
 
     "must return OK and the correct view for a GET" in {
 
-      val viewModel = CheckYourAnswersViewModel(SummaryList(rows = Nil) , None)
+      val viewModel = CheckYourAnswersViewModel(SummaryList(rows = Nil), None)
 
       setupMockSessionResponse(Some(emptyUserAnswers))
 
@@ -48,7 +48,7 @@ class CheckYourAnswersControllerSpec extends SpecBase {
     "must return OK and the correct view for a GET where all the pages are populated" in {
 
       val reasonSet: Set[WhyAreYouMakingADisclosure] = Set(WhyAreYouMakingADisclosure.GovUkGuidance)
-      val pages = List(
+      val pages                                      = List(
         PageWithValue(WhyAreYouMakingADisclosurePage, reasonSet),
         PageWithValue(WhatIsTheReasonForMakingADisclosureNowPage, "Some other"),
         PageWithValue(WhyNotBeforeNowPage, "Some reason"),
@@ -61,9 +61,9 @@ class CheckYourAnswersControllerSpec extends SpecBase {
         PageWithValue(WhichEmailAddressCanWeContactYouWithPage, WhichEmailAddressCanWeContactYouWith.values.head),
         PageWithValue(WhichTelephoneNumberCanWeContactYouWithPage, WhichTelephoneNumberCanWeContactYouWith.values.head),
         PageWithValue(WhatEmailAddressCanWeContactYouWithPage, "Email"),
-        PageWithValue(WhatTelephoneNumberCanWeContactYouWithPage, "Telephone"),
+        PageWithValue(WhatTelephoneNumberCanWeContactYouWithPage, "Telephone")
       )
-      val ua = PageWithValue.pagesToUserAnswers(pages, emptyUserAnswers).success.value
+      val ua                                         = PageWithValue.pagesToUserAnswers(pages, emptyUserAnswers).success.value
 
       setupMockSessionResponse(Some(ua))
 

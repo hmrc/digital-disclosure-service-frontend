@@ -26,9 +26,9 @@ import models.NormalMode
 
 class YouHaveLeftTheDDSOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new YouHaveLeftTheDDSOnshoreFormProvider()()
+  val form                               = new YouHaveLeftTheDDSOnshoreFormProvider()()
   val page: YouHaveLeftTheDDSOnshoreView = inject[YouHaveLeftTheDDSOnshoreView]
-  val config: FrontendAppConfig = inject[FrontendAppConfig]
+  val config: FrontendAppConfig          = inject[FrontendAppConfig]
 
   private def createView: Html = page(form, NormalMode)(request, messages, config)
 
@@ -53,7 +53,9 @@ class YouHaveLeftTheDDSOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
 
     "have an exit survey paragraph" in {
       view.getElementById("exit-survey").text mustBe
-        messages("exitSurvey.heading") + " " + messages("exitSurvey.p1") + " " + messages("exitSurvey.link") + " " + messages("exitSurvey.p2")
+        messages("exitSurvey.heading") + " " + messages("exitSurvey.p1") + " " + messages(
+          "exitSurvey.link"
+        ) + " " + messages("exitSurvey.p2")
     }
 
     "have an exit survey link" in {

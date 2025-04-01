@@ -25,18 +25,18 @@ import views.html.onshore.YouHaveNoOnshoreLiabilitiesToDiscloseView
 
 class YouHaveNoOnshoreLiabilitiesToDiscloseControllerSpec extends SpecBase {
 
-
   "YouHaveNoOnshoreLiabilitiesToDisclose Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
       val areTheyTheIndividual = AreYouTheEntity.YesIAm
-      val entity = RelatesTo.AnIndividual
-      val years = 20
+      val entity               = RelatesTo.AnIndividual
+      val years                = 20
 
-      val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyNoExcuse)
-      val userAnswers = (for{
-        ua <- UserAnswers(userAnswersId, "session-123").set(AreYouTheEntityPage, areTheyTheIndividual)
+      val set: Set[WhyAreYouMakingThisOnshoreDisclosure] =
+        Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyNoExcuse)
+      val userAnswers                                    = (for {
+        ua        <- UserAnswers(userAnswersId, "session-123").set(AreYouTheEntityPage, areTheyTheIndividual)
         updatedUa <- ua.set(WhyAreYouMakingThisOnshoreDisclosurePage, set)
       } yield updatedUa).success.value
 
@@ -49,7 +49,10 @@ class YouHaveNoOnshoreLiabilitiesToDiscloseControllerSpec extends SpecBase {
       val view = application.injector.instanceOf[YouHaveNoOnshoreLiabilitiesToDiscloseView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(userAnswers.isTheUserTheIndividual, entity, years)(request, messages).toString
+      contentAsString(result) mustEqual view(userAnswers.isTheUserTheIndividual, entity, years)(
+        request,
+        messages
+      ).toString
     }
   }
 }

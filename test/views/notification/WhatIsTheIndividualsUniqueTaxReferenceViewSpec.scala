@@ -25,7 +25,7 @@ import models.NormalMode
 
 class WhatIsTheIndividualsUniqueTaxReferenceViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhatIsTheIndividualsUniqueTaxReferenceFormProvider()()
+  val form                                             = new WhatIsTheIndividualsUniqueTaxReferenceFormProvider()()
   val page: WhatIsTheIndividualsUniqueTaxReferenceView = inject[WhatIsTheIndividualsUniqueTaxReferenceView]
 
   private def createView: Html = page(form, NormalMode, false)(request, messages)
@@ -39,7 +39,9 @@ class WhatIsTheIndividualsUniqueTaxReferenceViewSpec extends ViewSpecBase with V
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsTheIndividualsUniqueTaxReference.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages(
+        "whatIsTheIndividualsUniqueTaxReference.heading"
+      )
     }
 
     "have a label" in {
@@ -55,7 +57,7 @@ class WhatIsTheIndividualsUniqueTaxReferenceViewSpec extends ViewSpecBase with V
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

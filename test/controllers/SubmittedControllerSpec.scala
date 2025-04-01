@@ -47,10 +47,12 @@ class SubmittedControllerSpec extends SpecBase {
       )
 
       val userAnswers = (for {
-        ua <- UserAnswers("id", "session-123").set(TaxYearLiabilitiesPage, Map("2021" -> TaxYearWithLiabilities(TaxYearStarting(2021), answer)))
+        ua        <-
+          UserAnswers("id", "session-123")
+            .set(TaxYearLiabilitiesPage, Map("2021" -> TaxYearWithLiabilities(TaxYearStarting(2021), answer)))
         updatedUa <- ua.set(WhatIsTheCaseReferencePage, "CSFF-12345")
       } yield updatedUa).success.value
-      
+
       setupMockSessionResponse(Some(userAnswers))
 
       val request = FakeRequest(GET, routes.SubmittedController.onPageLoad("reference").url)
@@ -60,7 +62,11 @@ class SubmittedControllerSpec extends SpecBase {
       val config: FrontendAppConfig = application.injector.instanceOf[FrontendAppConfig]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(isCaseReferenceAvailable = true, isNilDisclosure = false, "reference")(request, messages, config).toString
+      contentAsString(result) mustEqual view(isCaseReferenceAvailable = true, isNilDisclosure = false, "reference")(
+        request,
+        messages,
+        config
+      ).toString
     }
 
     "must return OK and the correct view for a GET when tax year is empty" in {
@@ -74,7 +80,11 @@ class SubmittedControllerSpec extends SpecBase {
       val config: FrontendAppConfig = application.injector.instanceOf[FrontendAppConfig]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(isCaseReferenceAvailable = false, isNilDisclosure = true, "reference")(request, messages, config).toString
+      contentAsString(result) mustEqual view(isCaseReferenceAvailable = false, isNilDisclosure = true, "reference")(
+        request,
+        messages,
+        config
+      ).toString
     }
 
     "must return OK and the correct view for a disclosure when offshore/onshore tax year and corporate tax, directors loan is available" in {
@@ -128,10 +138,15 @@ class SubmittedControllerSpec extends SpecBase {
       )
 
       val userAnswers = (for {
-        uaWithOffshore  <- UserAnswers("id", "session-123").set(TaxYearLiabilitiesPage, Map("2021" -> TaxYearWithLiabilities(TaxYearStarting(2021), offshoreAnswer)))
-        uaWithOnshore   <- uaWithOffshore.set(OnshoreTaxYearLiabilitiesPage, Map("2021" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2021), onshoreAnswer)))
-        uaWithCT        <- uaWithOnshore.set(CorporationTaxLiabilityPage, ctliabilities)
-        uaWithDL        <- uaWithCT.set(DirectorLoanAccountLiabilitiesPage, dlliabilities)
+        uaWithOffshore <-
+          UserAnswers("id", "session-123")
+            .set(TaxYearLiabilitiesPage, Map("2021" -> TaxYearWithLiabilities(TaxYearStarting(2021), offshoreAnswer)))
+        uaWithOnshore  <- uaWithOffshore.set(
+                            OnshoreTaxYearLiabilitiesPage,
+                            Map("2021" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2021), onshoreAnswer))
+                          )
+        uaWithCT       <- uaWithOnshore.set(CorporationTaxLiabilityPage, ctliabilities)
+        uaWithDL       <- uaWithCT.set(DirectorLoanAccountLiabilitiesPage, dlliabilities)
       } yield uaWithDL).success.value
 
       setupMockSessionResponse(Some(userAnswers))
@@ -143,7 +158,11 @@ class SubmittedControllerSpec extends SpecBase {
       val config: FrontendAppConfig = application.injector.instanceOf[FrontendAppConfig]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(isCaseReferenceAvailable = false, isNilDisclosure = false, "reference")(request, messages, config).toString
+      contentAsString(result) mustEqual view(isCaseReferenceAvailable = false, isNilDisclosure = false, "reference")(
+        request,
+        messages,
+        config
+      ).toString
     }
   }
 }

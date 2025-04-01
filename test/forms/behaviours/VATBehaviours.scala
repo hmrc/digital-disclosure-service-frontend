@@ -20,51 +20,42 @@ import play.api.data.{Form, FormError}
 
 trait VATBehaviours extends FieldBehaviours {
 
-  def fieldThatBindsValidData(form: Form[_], fieldName: String): Unit = {
-
+  def fieldThatBindsValidData(form: Form[_], fieldName: String): Unit =
     "bind valid VAT" in {
 
       val validDataGenerator = generateValidVAT()
 
-      forAll(validDataGenerator -> "validDataItem") {
-        dataItem: String =>
-          val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
-          result.value.value mustBe dataItem
-          result.errors mustBe empty
+      forAll(validDataGenerator -> "validDataItem") { dataItem: String =>
+        val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
+        result.value.value mustBe dataItem
+        result.errors mustBe empty
       }
     }
-  }
 
-  def fieldThatInvalidLengthData(form: Form[_], fieldName: String, keyError: String): Unit = {
-
+  def fieldThatInvalidLengthData(form: Form[_], fieldName: String, keyError: String): Unit =
     "not bind VAT with invalid length" in {
 
-      val error = FormError(fieldName, keyError)
+      val error                = FormError(fieldName, keyError)
       val invalidDataGenerator = generateInvalidLengthVAT()
 
-      forAll(invalidDataGenerator -> "validDataItem") {
-        dataItem: String =>
-          val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
-          result.value.value mustBe dataItem
-          result.errors must contain only error
+      forAll(invalidDataGenerator -> "validDataItem") { dataItem: String =>
+        val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
+        result.value.value mustBe dataItem
+        result.errors must contain only error
       }
     }
-  }
 
-  def fieldThatInvalidCharData(form: Form[_], fieldName: String, keyError: String): Unit = {
-
+  def fieldThatInvalidCharData(form: Form[_], fieldName: String, keyError: String): Unit =
     "not bind VAT with invalid character" in {
 
-      val error = FormError(fieldName, keyError)
+      val error                = FormError(fieldName, keyError)
       val invalidDataGenerator = generateIllegalCharVAT()
 
-      forAll(invalidDataGenerator -> "validDataItem") {
-        dataItem: String =>
-          val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
-          result.value.value mustBe dataItem
-          result.errors must contain only error
+      forAll(invalidDataGenerator -> "validDataItem") { dataItem: String =>
+        val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
+        result.value.value mustBe dataItem
+        result.errors must contain only error
 
       }
     }
-  }
 }

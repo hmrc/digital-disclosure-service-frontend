@@ -22,8 +22,8 @@ import play.api.data.FormError
 class WhatWasTheNameOfThePersonWhoDiedFormProviderSpec extends StringFieldBehaviours {
 
   val requiredKey = "whatWasTheNameOfThePersonWhoDied.error.required"
-  val lengthKey = "whatWasTheNameOfThePersonWhoDied.error.length"
-  val maxLength = 50
+  val lengthKey   = "whatWasTheNameOfThePersonWhoDied.error.length"
+  val maxLength   = 50
 
   val form = new WhatWasTheNameOfThePersonWhoDiedFormProvider()()
 

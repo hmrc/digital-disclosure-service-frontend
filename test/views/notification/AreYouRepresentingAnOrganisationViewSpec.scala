@@ -25,7 +25,7 @@ import models.NormalMode
 
 class AreYouRepresentingAnOrganisationViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new AreYouRepresentingAnOrganisationFormProvider()()
+  val form                                       = new AreYouRepresentingAnOrganisationFormProvider()()
   val page: AreYouRepresentingAnOrganisationView = inject[AreYouRepresentingAnOrganisationView]
 
   private def createView: Html = page(form, NormalMode, false)(request, messages)
@@ -39,7 +39,9 @@ class AreYouRepresentingAnOrganisationViewSpec extends ViewSpecBase with ViewMat
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("areYouRepresentingAnOrganisation.heading")
+      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages(
+        "areYouRepresentingAnOrganisation.heading"
+      )
     }
 
     "contain header hint" in {
@@ -55,7 +57,7 @@ class AreYouRepresentingAnOrganisationViewSpec extends ViewSpecBase with ViewMat
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

@@ -35,9 +35,9 @@ class WasPropertyFurnishedControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute: Call = Call("GET", "/foo")
 
-  val formProvider = new WasPropertyFurnishedFormProvider()
+  val formProvider        = new WasPropertyFurnishedFormProvider()
   val form: Form[Boolean] = formProvider()
-  val index = 0
+  val index               = 0
 
   lazy val wasPropertyFurnishedRoute: String = routes.WasPropertyFurnishedController.onPageLoad(index, NormalMode).url
 
@@ -62,7 +62,9 @@ class WasPropertyFurnishedControllerSpec extends SpecBase with MockitoSugar {
       val lettingProperty = LettingProperty(wasFurnished = Some(true))
 
       val userAnswers = UserAnswers(userAnswersId, "session-123")
-        .setBySeqIndex(LettingPropertyPage, index, lettingProperty).success.value
+        .setBySeqIndex(LettingPropertyPage, index, lettingProperty)
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 

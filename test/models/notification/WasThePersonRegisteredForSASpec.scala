@@ -24,7 +24,11 @@ import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
 import play.api.libs.json.{JsError, JsString, Json}
 
-class WasThePersonRegisteredForSASpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks with OptionValues {
+class WasThePersonRegisteredForSASpec
+    extends AnyFreeSpec
+    with Matchers
+    with ScalaCheckPropertyChecks
+    with OptionValues {
 
   "WasThePersonRegisteredForSA" - {
 
@@ -32,10 +36,11 @@ class WasThePersonRegisteredForSASpec extends AnyFreeSpec with Matchers with Sca
 
       val gen = Gen.oneOf(WasThePersonRegisteredForSA.values.toSeq)
 
-      forAll(gen) {
-        wasThePersonRegisteredForSA =>
-
-          JsString(wasThePersonRegisteredForSA.toString).validate[WasThePersonRegisteredForSA].asOpt.value mustEqual wasThePersonRegisteredForSA
+      forAll(gen) { wasThePersonRegisteredForSA =>
+        JsString(wasThePersonRegisteredForSA.toString)
+          .validate[WasThePersonRegisteredForSA]
+          .asOpt
+          .value mustEqual wasThePersonRegisteredForSA
       }
     }
 
@@ -43,10 +48,8 @@ class WasThePersonRegisteredForSASpec extends AnyFreeSpec with Matchers with Sca
 
       val gen = arbitrary[String] suchThat (!WasThePersonRegisteredForSA.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[WasThePersonRegisteredForSA] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[WasThePersonRegisteredForSA] mustEqual JsError("error.invalid")
       }
     }
 
@@ -54,10 +57,8 @@ class WasThePersonRegisteredForSASpec extends AnyFreeSpec with Matchers with Sca
 
       val gen = Gen.oneOf(WasThePersonRegisteredForSA.values.toSeq)
 
-      forAll(gen) {
-        wasThePersonRegisteredForSA =>
-
-          Json.toJson(wasThePersonRegisteredForSA) mustEqual JsString(wasThePersonRegisteredForSA.toString)
+      forAll(gen) { wasThePersonRegisteredForSA =>
+        Json.toJson(wasThePersonRegisteredForSA) mustEqual JsString(wasThePersonRegisteredForSA.toString)
       }
     }
   }

@@ -38,7 +38,7 @@ class OffshoreLiabilitiesControllerSpec extends SpecBase with MockitoSugar with 
   lazy val offshoreLiabilitiesRoute = routes.OffshoreLiabilitiesController.onPageLoad(NormalMode).url
 
   val formProvider = new OffshoreLiabilitiesFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   "OffshoreLiabilities Controller" - {
 
@@ -77,7 +77,7 @@ class OffshoreLiabilitiesControllerSpec extends SpecBase with MockitoSugar with 
       val urlToTest = routes.OffshoreLiabilitiesController.onPageLoad(CheckMode).url
 
       val previousAnswer = true
-      val newAnswer = false
+      val newAnswer      = false
 
       val userAnswers = UserAnswers("id", "session-123", submissionType = SubmissionType.Disclosure)
 
@@ -88,15 +88,15 @@ class OffshoreLiabilitiesControllerSpec extends SpecBase with MockitoSugar with 
         WhyAreYouMakingThisDisclosure.DeliberateInaccurateReturn,
         WhyAreYouMakingThisDisclosure.DeliberatelyDidNotFile
       )
-      val previousUa = for {
-        answer          <- userAnswers.set(WhyAreYouMakingThisDisclosurePage, set)
-        updatedAnswer 	<- answer.set(OffshoreLiabilitiesPage, previousAnswer)
+      val previousUa                              = for {
+        answer        <- userAnswers.set(WhyAreYouMakingThisDisclosurePage, set)
+        updatedAnswer <- answer.set(OffshoreLiabilitiesPage, previousAnswer)
       } yield updatedAnswer
 
       setupMockSessionResponse(Some(previousUa.success.value))
 
       val request = FakeRequest(POST, urlToTest)
-      .withFormUrlEncodedBody(("value", newAnswer.toString))
+        .withFormUrlEncodedBody(("value", newAnswer.toString))
 
       val result = route(application, request).value
 

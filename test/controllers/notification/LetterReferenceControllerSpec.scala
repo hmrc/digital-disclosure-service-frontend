@@ -35,7 +35,7 @@ class LetterReferenceControllerSpec extends SpecBase with MockitoSugar {
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new LetterReferenceFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   lazy val letterReferenceRoute = routes.LetterReferenceController.onPageLoad(NormalMode).url
 
@@ -77,7 +77,7 @@ class LetterReferenceControllerSpec extends SpecBase with MockitoSugar {
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val validReferenceNumber = generateValidCaseReference().sample.value
-      val request =
+      val request              =
         FakeRequest(POST, letterReferenceRoute)
           .withFormUrlEncodedBody(("value", validReferenceNumber))
 

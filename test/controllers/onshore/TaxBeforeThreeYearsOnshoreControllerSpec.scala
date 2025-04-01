@@ -40,20 +40,21 @@ class TaxBeforeThreeYearsOnshoreControllerSpec extends SpecBase with MockitoSuga
 
   def now = () => LocalDate.now()
 
-  val formProvider = new TaxBeforeThreeYearsOnshoreFormProvider()
-  def form(year: String) = {
+  val formProvider       = new TaxBeforeThreeYearsOnshoreFormProvider()
+  def form(year: String) =
     formProvider(year)
-  }
 
   lazy val taxBeforeThreeYearsOnshoreRoute = routes.TaxBeforeThreeYearsOnshoreController.onPageLoad(NormalMode).url
 
   val userAnswers = UserAnswers(
     userAnswersId,
-    Json.obj(
-      TaxBeforeThreeYearsOnshorePage.toString -> Json.obj(
-        "taxBeforeThreeYearsOnshore" -> "value 1"
+    Json
+      .obj(
+        TaxBeforeThreeYearsOnshorePage.toString -> Json.obj(
+          "taxBeforeThreeYearsOnshore" -> "value 1"
+        )
       )
-    ).toString
+      .toString
   )
 
   "TaxBeforeThreeYearsOnshore Controller" - {
@@ -69,7 +70,7 @@ class TaxBeforeThreeYearsOnshoreControllerSpec extends SpecBase with MockitoSuga
       val result = route(application, request).value
 
       val service = application.injector.instanceOf[OnshoreWhichYearsService]
-      val year = service.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString
+      val year    = service.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString
 
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(form(year), NormalMode, year)(request, messages).toString
@@ -86,7 +87,7 @@ class TaxBeforeThreeYearsOnshoreControllerSpec extends SpecBase with MockitoSuga
       val result = route(application, request).value
 
       val service = application.injector.instanceOf[OnshoreWhichYearsService]
-      val year = service.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString
+      val year    = service.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString
 
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(form(year).fill(""), NormalMode, year)(request, messages).toString
@@ -116,7 +117,7 @@ class TaxBeforeThreeYearsOnshoreControllerSpec extends SpecBase with MockitoSuga
           .withFormUrlEncodedBody(("value", ""))
 
       val service = application.injector.instanceOf[OnshoreWhichYearsService]
-      val year = service.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString
+      val year    = service.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString
 
       val boundForm = form(year).bind(Map("value" -> ""))
 

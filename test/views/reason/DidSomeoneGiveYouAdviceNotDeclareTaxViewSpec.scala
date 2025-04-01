@@ -29,9 +29,9 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxViewSpec extends ViewSpecBase with Vie
 
   val page: DidSomeoneGiveYouAdviceNotDeclareTaxView = inject[DidSomeoneGiveYouAdviceNotDeclareTaxView]
 
-  val areTheyTheIndividual = arbitrary[Boolean].sample.value 
-  val entity = arbitrary[RelatesTo].sample.value
-  val form = new DidSomeoneGiveYouAdviceNotDeclareTaxFormProvider()(areTheyTheIndividual, entity)
+  val areTheyTheIndividual = arbitrary[Boolean].sample.value
+  val entity               = arbitrary[RelatesTo].sample.value
+  val form                 = new DidSomeoneGiveYouAdviceNotDeclareTaxFormProvider()(areTheyTheIndividual, entity)
 
   private def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
@@ -40,15 +40,21 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxViewSpec extends ViewSpecBase with Vie
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(if(areTheyTheIndividual) messages("didSomeoneGiveYouAdviceNotDeclareTax.agent.title") else messages(s"didSomeoneGiveYouAdviceNotDeclareTax.${entity}.title"))
+      view.select("title").text() must include(
+        if (areTheyTheIndividual) messages("didSomeoneGiveYouAdviceNotDeclareTax.agent.title")
+        else messages(s"didSomeoneGiveYouAdviceNotDeclareTax.$entity.title")
+      )
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe (if(areTheyTheIndividual) messages("didSomeoneGiveYouAdviceNotDeclareTax.agent.heading") else messages(s"didSomeoneGiveYouAdviceNotDeclareTax.${entity}.heading"))
+      view
+        .getElementsByClass("govuk-fieldset__heading")
+        .text() mustBe (if (areTheyTheIndividual) messages("didSomeoneGiveYouAdviceNotDeclareTax.agent.heading")
+                        else messages(s"didSomeoneGiveYouAdviceNotDeclareTax.$entity.heading"))
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

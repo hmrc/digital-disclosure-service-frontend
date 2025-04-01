@@ -25,7 +25,7 @@ class ContractualDisclosureFacilityFormProviderSpec extends BooleanFieldBehaviou
 
   ".value" - {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "contractualDisclosureFacility.error.required"
 
     behave like booleanField(

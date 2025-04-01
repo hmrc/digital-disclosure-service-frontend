@@ -20,77 +20,64 @@ import play.api.data.{Form, FormError}
 
 trait BigDecimalFieldBehaviours extends FieldBehaviours {
 
-  def decimalField(form: Form[_],
-               fieldName: String,
-               nonNumericError: FormError): Unit = {
-
+  def decimalField(form: Form[_], fieldName: String, nonNumericError: FormError): Unit =
     "not bind non-numeric numbers" in {
 
-      forAll(nonNumerics -> "nonNumeric") {
-        nonNumeric =>
-          val result = form.bind(Map(fieldName -> nonNumeric)).apply(fieldName)
-          result.errors must contain only nonNumericError
+      forAll(nonNumerics -> "nonNumeric") { nonNumeric =>
+        val result = form.bind(Map(fieldName -> nonNumeric)).apply(fieldName)
+        result.errors must contain only nonNumericError
       }
     }
-  }
 
-  def bigdecimalFieldWithMinimumZero(form: Form[_],
-                          fieldName: String,
-                          expectedError: FormError): Unit = {
-
+  def bigdecimalFieldWithMinimumZero(form: Form[_], fieldName: String, expectedError: FormError): Unit =
     s"not bind decimal below zero" in {
 
-      forAll(bigdecimalsBelowZero -> "decimalBelowMin") {
-        number: BigDecimal =>
-          val result = form.bind(Map(fieldName -> number.toString)).apply(fieldName)
-          result.errors must contain only expectedError
+      forAll(bigdecimalsBelowZero -> "decimalBelowMin") { number: BigDecimal =>
+        val result = form.bind(Map(fieldName -> number.toString)).apply(fieldName)
+        result.errors must contain only expectedError
       }
     }
-  }
 
-  def bigdecimalFieldWithMinimum(form: Form[_],
-                          fieldName: String,
-                          minimum: BigDecimal,
-                          expectedError: FormError): Unit = {
-
+  def bigdecimalFieldWithMinimum(
+    form: Form[_],
+    fieldName: String,
+    minimum: BigDecimal,
+    expectedError: FormError
+  ): Unit =
     s"not bind decimal below $minimum" in {
 
-      forAll(bigdecimalsBelowValue(minimum) -> "decimalBelowMin") {
-        number: BigDecimal =>
-          val result = form.bind(Map(fieldName -> number.toString)).apply(fieldName)
-          result.errors must contain only expectedError
+      forAll(bigdecimalsBelowValue(minimum) -> "decimalBelowMin") { number: BigDecimal =>
+        val result = form.bind(Map(fieldName -> number.toString)).apply(fieldName)
+        result.errors must contain only expectedError
       }
     }
-  }
 
-  def bigdecimalFieldWithMaximum(form: Form[_],
-                          fieldName: String,
-                          maximum: BigDecimal,
-                          expectedError: FormError): Unit = {
-
+  def bigdecimalFieldWithMaximum(
+    form: Form[_],
+    fieldName: String,
+    maximum: BigDecimal,
+    expectedError: FormError
+  ): Unit =
     s"not bind decimal above $maximum" in {
 
-      forAll(bigdecimalsAboveValue(maximum) -> "decimalAboveMax") {
-        number: BigDecimal =>
-          val result = form.bind(Map(fieldName -> number.toString)).apply(fieldName)
-          result.errors must contain only expectedError
+      forAll(bigdecimalsAboveValue(maximum) -> "decimalAboveMax") { number: BigDecimal =>
+        val result = form.bind(Map(fieldName -> number.toString)).apply(fieldName)
+        result.errors must contain only expectedError
       }
     }
-  }
 
-  def bigdecimalFieldWithRange(form: Form[_],
-                        fieldName: String,
-                        minimum: BigDecimal,
-                        maximum: BigDecimal,
-                        expectedError: FormError): Unit = {
-
+  def bigdecimalFieldWithRange(
+    form: Form[_],
+    fieldName: String,
+    minimum: BigDecimal,
+    maximum: BigDecimal,
+    expectedError: FormError
+  ): Unit =
     s"not bind decimal outside the range $minimum to $maximum" in {
 
-      forAll(bigdecimalsOutsideRange(minimum, maximum) -> "bigdecimalOutsideRange") {
-        number =>
-          val result = form.bind(Map(fieldName -> number.toString)).apply(fieldName)
-          result.errors must contain only expectedError
+      forAll(bigdecimalsOutsideRange(minimum, maximum) -> "bigdecimalOutsideRange") { number =>
+        val result = form.bind(Map(fieldName -> number.toString)).apply(fieldName)
+        result.errors must contain only expectedError
       }
     }
-  }
 }

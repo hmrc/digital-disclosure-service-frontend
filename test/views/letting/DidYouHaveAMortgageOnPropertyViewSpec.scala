@@ -25,7 +25,7 @@ import models.NormalMode
 
 class DidYouHaveAMortgageOnPropertyViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new DidYouHaveAMortgageOnPropertyFormProvider()()
+  val form                                    = new DidYouHaveAMortgageOnPropertyFormProvider()()
   val page: DidYouHaveAMortgageOnPropertyView = inject[DidYouHaveAMortgageOnPropertyView]
 
   private def createView: Html = page(form, 0, NormalMode)(request, messages)
@@ -39,7 +39,10 @@ class DidYouHaveAMortgageOnPropertyViewSpec extends ViewSpecBase with ViewMatche
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages("didYouHaveAMortgageOnProperty.heading", 1)
+      view.getElementsByClass("govuk-fieldset__heading").text() mustBe messages(
+        "didYouHaveAMortgageOnProperty.heading",
+        1
+      )
     }
 
     "have yes option" in {
@@ -51,7 +54,7 @@ class DidYouHaveAMortgageOnPropertyViewSpec extends ViewSpecBase with ViewMatche
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

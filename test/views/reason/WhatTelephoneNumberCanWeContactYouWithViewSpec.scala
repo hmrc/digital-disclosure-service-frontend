@@ -25,7 +25,7 @@ import models.NormalMode
 
 class WhatTelephoneNumberCanWeContactYouWithViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhatTelephoneNumberCanWeContactYouWithFormProvider()()
+  val form                                             = new WhatTelephoneNumberCanWeContactYouWithFormProvider()()
   val page: WhatTelephoneNumberCanWeContactYouWithView = inject[WhatTelephoneNumberCanWeContactYouWithView]
 
   private def createView: Html = page(form, NormalMode)(request, messages)
@@ -47,7 +47,7 @@ class WhatTelephoneNumberCanWeContactYouWithViewSpec extends ViewSpecBase with V
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

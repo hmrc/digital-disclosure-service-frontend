@@ -22,8 +22,8 @@ import play.api.data.FormError
 class DescribeTheGiftFormProviderSpec extends StringFieldBehaviours {
 
   val requiredKey = "describeTheGift.error.required"
-  val lengthKey = "describeTheGift.error.length"
-  val maxLength = 5000
+  val lengthKey   = "describeTheGift.error.length"
+  val maxLength   = 5000
 
   val form = new DescribeTheGiftFormProvider()()
 

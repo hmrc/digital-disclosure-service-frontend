@@ -21,9 +21,9 @@ import play.api.data.FormError
 
 class HowManyPropertiesDoYouCurrentlyLetOutFormProviderSpec extends IntFieldBehaviours {
 
-  val requiredKey = "howManyProperties.error.required"
+  val requiredKey   = "howManyProperties.error.required"
   val nonNumericKey = "howManyProperties.error.nonNumeric"
-  
+
   val form = new HowManyPropertiesDoYouCurrentlyLetOutFormProvider()()
 
   ".value" - {
@@ -44,7 +44,7 @@ class HowManyPropertiesDoYouCurrentlyLetOutFormProviderSpec extends IntFieldBeha
     behave like intField(
       form,
       fieldName,
-      nonNumericError  = FormError(fieldName, nonNumericKey),
+      nonNumericError = FormError(fieldName, nonNumericKey),
       wholeNumberError = FormError(fieldName, nonNumericKey)
     )
 

@@ -34,12 +34,13 @@ class AreYouAMemberOfAnyLandlordAssociationsControllerSpec extends SpecBase with
 
   def onwardRoute = Call("GET", "/foo")
 
-  val formProvider = new AreYouAMemberOfAnyLandlordAssociationsFormProvider()
+  val formProvider         = new AreYouAMemberOfAnyLandlordAssociationsFormProvider()
   val areTheyTheIndividual = false
-  val entity = RelatesTo.AnIndividual
-  val form = formProvider(areTheyTheIndividual, entity)
+  val entity               = RelatesTo.AnIndividual
+  val form                 = formProvider(areTheyTheIndividual, entity)
 
-  lazy val areYouAMemberOfAnyLandlordAssociationsRoute = routes.AreYouAMemberOfAnyLandlordAssociationsController.onPageLoad(NormalMode).url
+  lazy val areYouAMemberOfAnyLandlordAssociationsRoute =
+    routes.AreYouAMemberOfAnyLandlordAssociationsController.onPageLoad(NormalMode).url
 
   "AreYouAMemberOfAnyLandlordAssociations Controller" - {
 
@@ -59,7 +60,8 @@ class AreYouAMemberOfAnyLandlordAssociationsControllerSpec extends SpecBase with
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(AreYouAMemberOfAnyLandlordAssociationsPage, true).success.value
+      val userAnswers =
+        UserAnswers(userAnswersId, "session-123").set(AreYouAMemberOfAnyLandlordAssociationsPage, true).success.value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -70,7 +72,10 @@ class AreYouAMemberOfAnyLandlordAssociationsControllerSpec extends SpecBase with
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(true), NormalMode, areTheyTheIndividual, entity)(request, messages).toString
+      contentAsString(result) mustEqual view(form.fill(true), NormalMode, areTheyTheIndividual, entity)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -103,7 +108,10 @@ class AreYouAMemberOfAnyLandlordAssociationsControllerSpec extends SpecBase with
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

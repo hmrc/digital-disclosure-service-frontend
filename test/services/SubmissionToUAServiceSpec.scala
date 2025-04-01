@@ -30,11 +30,14 @@ import scala.util.{Success, Try}
 class SubmissionToUAServiceSpec extends AnyWordSpec with Matchers with TryValues {
 
   val notificationUa = UserAnswers("notification", "session-123")
-  val disclosureUa = UserAnswers("disclosure", "session-123")
+  val disclosureUa   = UserAnswers("disclosure", "session-123")
 
   object TestNotificationService extends NotificationToUAService {
-    def notificationToUserAnswers(sessionId: String, notification: Notification): Try[UserAnswers] = Success(notificationUa)
-    def personalDetailsToUserAnswers(personalDetails: PersonalDetails, userAnswers: UserAnswers): Try[UserAnswers] = Success(notificationUa)
+    def notificationToUserAnswers(sessionId: String, notification: Notification): Try[UserAnswers]                 = Success(
+      notificationUa
+    )
+    def personalDetailsToUserAnswers(personalDetails: PersonalDetails, userAnswers: UserAnswers): Try[UserAnswers] =
+      Success(notificationUa)
   }
 
   object TestDisclosureService extends DisclosureToUAService {
@@ -47,16 +50,32 @@ class SubmissionToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
 
   "submissionToUa" should {
     "call the notification service if a notification is passed in" in {
-      val notification = Notification("id", "submissionId", Instant.now, Metadata(), PersonalDetails(Background(), AboutYou(), None, None, None, None, None), None)
+      val notification = Notification(
+        "id",
+        "submissionId",
+        Instant.now,
+        Metadata(),
+        PersonalDetails(Background(), AboutYou(), None, None, None, None, None),
+        None
+      )
       sut.submissionToUa("session-123", notification).success.value shouldEqual notificationUa
     }
 
     "call the disclosure service if a notification is passed in" in {
-      val fullDisclosure = FullDisclosure("userId", "submissionId", Instant.now, Metadata(), CaseReference(), PersonalDetails(Background(), AboutYou()), None, OffshoreLiabilities(), OtherLiabilities(), ReasonForDisclosingNow())
+      val fullDisclosure = FullDisclosure(
+        "userId",
+        "submissionId",
+        Instant.now,
+        Metadata(),
+        CaseReference(),
+        PersonalDetails(Background(), AboutYou()),
+        None,
+        OffshoreLiabilities(),
+        OtherLiabilities(),
+        ReasonForDisclosingNow()
+      )
       sut.submissionToUa("session-123", fullDisclosure).success.value shouldEqual disclosureUa
     }
   }
-
-
 
 }

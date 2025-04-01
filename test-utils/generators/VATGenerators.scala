@@ -23,11 +23,11 @@ import org.scalacheck.Gen.{alphaChar, listOfN, numChar, numStr}
 trait VATGenerators {
 
   val vatLength = 9
-  val prefix = "GB"
+  val prefix    = "GB"
 
   def generateValidVAT(): Gen[String] = for {
     isWithPrefix <- arbitrary[Boolean]
-    digits <- listOfN(vatLength, numChar)
+    digits       <- listOfN(vatLength, numChar)
   } yield {
     val pref = if (isWithPrefix) prefix else ""
     pref + digits.mkString
@@ -38,7 +38,7 @@ trait VATGenerators {
 
   def generateIllegalCharVAT(): Gen[String] = for {
     isWithPrefix <- arbitrary[Boolean]
-    str <- listOfN(vatLength, alphaChar) suchThat (!_.mkString.startsWith(prefix))
+    str          <- listOfN(vatLength, alphaChar) suchThat (!_.mkString.startsWith(prefix))
   } yield {
     val pref = if (isWithPrefix) prefix else ""
     pref + str.mkString

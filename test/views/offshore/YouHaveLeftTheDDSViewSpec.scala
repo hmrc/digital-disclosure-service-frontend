@@ -26,9 +26,9 @@ import models.NormalMode
 
 class YouHaveLeftTheDDSViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new YouHaveLeftTheDDSFormProvider()()
+  val form                        = new YouHaveLeftTheDDSFormProvider()()
   val page: YouHaveLeftTheDDSView = inject[YouHaveLeftTheDDSView]
-  val config: FrontendAppConfig = inject[FrontendAppConfig]
+  val config: FrontendAppConfig   = inject[FrontendAppConfig]
 
   private def createView: Html = page(form, NormalMode)(request, messages, config)
 
@@ -53,7 +53,9 @@ class YouHaveLeftTheDDSViewSpec extends ViewSpecBase with ViewMatchers {
 
     "have an exit survey paragraph" in {
       view.getElementById("exit-survey").text mustBe
-        messages("exitSurvey.heading") + " " + messages("exitSurvey.p1") + " " + messages("exitSurvey.link") + " " + messages("exitSurvey.p2")
+        messages("exitSurvey.heading") + " " + messages("exitSurvey.p1") + " " + messages(
+          "exitSurvey.link"
+        ) + " " + messages("exitSurvey.p2")
     }
 
     "have an exit survey link" in {
@@ -61,7 +63,9 @@ class YouHaveLeftTheDDSViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "have a guidance link" in {
-      view.getElementById("guidance-link-first").attr("href") mustBe "https://www.gov.uk/guidance/admitting-tax-fraud-the-contractual-disclosure-facility-cdf"
+      view
+        .getElementById("guidance-link-first")
+        .attr("href") mustBe "https://www.gov.uk/guidance/admitting-tax-fraud-the-contractual-disclosure-facility-cdf"
     }
   }
 

@@ -39,10 +39,9 @@ class TaxBeforeNineteenYearsControllerSpec extends SpecBase with MockitoSugar wi
 
   def now = () => LocalDate.now()
 
-  val formProvider = new TaxBeforeNineteenYearsFormProvider()
-  def form(year: String) = {
+  val formProvider       = new TaxBeforeNineteenYearsFormProvider()
+  def form(year: String) =
     formProvider(year)
-  }
 
   lazy val taxBeforeNineteenYearRoute = routes.TaxBeforeNineteenYearsController.onPageLoad(NormalMode).url
 
@@ -59,7 +58,7 @@ class TaxBeforeNineteenYearsControllerSpec extends SpecBase with MockitoSugar wi
       val view = application.injector.instanceOf[TaxBeforeNineteenYearsView]
 
       val service = application.injector.instanceOf[OffshoreWhichYearsService]
-      val year = service.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
+      val year    = service.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
 
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(form(year), NormalMode, year)(request, messages).toString
@@ -67,7 +66,8 @@ class TaxBeforeNineteenYearsControllerSpec extends SpecBase with MockitoSugar wi
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(TaxBeforeNineteenYearsPage, "answer").success.value
+      val userAnswers =
+        UserAnswers(userAnswersId, "session-123").set(TaxBeforeNineteenYearsPage, "answer").success.value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -75,9 +75,8 @@ class TaxBeforeNineteenYearsControllerSpec extends SpecBase with MockitoSugar wi
 
       val view = application.injector.instanceOf[TaxBeforeNineteenYearsView]
 
-
       val service = application.injector.instanceOf[OffshoreWhichYearsService]
-      val year = service.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
+      val year    = service.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
 
       val result = route(application, request).value
 
@@ -109,7 +108,7 @@ class TaxBeforeNineteenYearsControllerSpec extends SpecBase with MockitoSugar wi
           .withFormUrlEncodedBody(("value", ""))
 
       val service = application.injector.instanceOf[OffshoreWhichYearsService]
-      val year = service.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
+      val year    = service.getEarliestYearByBehaviour(Behaviour.Deliberate).toString
 
       val boundForm = form(year).bind(Map("value" -> ""))
 

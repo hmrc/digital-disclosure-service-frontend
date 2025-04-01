@@ -22,8 +22,8 @@ import play.api.data.FormError
 class WhatIsTheCompanyRegistrationNumberFormProviderSpec extends StringFieldBehaviours {
 
   val requiredKey = "whatIsTheCompanyRegistrationNumber.error.required"
-  val lengthKey = "whatIsTheCompanyRegistrationNumber.error.length"
-  val maxLength = 20
+  val lengthKey   = "whatIsTheCompanyRegistrationNumber.error.length"
+  val maxLength   = 20
 
   val form = new WhatIsTheCompanyRegistrationNumberFormProvider()()
 

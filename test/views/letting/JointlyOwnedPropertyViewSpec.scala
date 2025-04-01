@@ -25,7 +25,7 @@ import models.NormalMode
 
 class JointlyOwnedPropertyViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new JointlyOwnedPropertyFormProvider()()
+  val form                           = new JointlyOwnedPropertyFormProvider()()
   val page: JointlyOwnedPropertyView = inject[JointlyOwnedPropertyView]
 
   private def createView: Html = page(form, 0, NormalMode)(request, messages)
@@ -51,7 +51,7 @@ class JointlyOwnedPropertyViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

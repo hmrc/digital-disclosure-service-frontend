@@ -24,8 +24,8 @@ import java.time.LocalDate
 
 class OnshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues {
 
-  val date = LocalDate.now
-  val liabilities = OnshoreTaxYearLiabilities(
+  val date                                              = LocalDate.now
+  val liabilities                                       = OnshoreTaxYearLiabilities(
     lettingIncome = Some(BigInt(2000)),
     gains = Some(BigInt(2000)),
     unpaidTax = BigInt(2000),
@@ -36,39 +36,47 @@ class OnshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues
     undeclaredIncomeOrGain = Some("Income or gain"),
     residentialTaxReduction = Some(false)
   )
-  val whySet: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHasExcuse)
-  val corporationTax = Seq(CorporationTaxLiability (
-    periodEnd = date,
-    howMuchIncome = BigInt(2000),
-    howMuchUnpaid = BigInt(2000),
-    howMuchInterest = BigInt(2000),
-    penaltyRate = 123,
-    penaltyRateReason = "Some reason"
-  ))
-  val directorLoan = Seq(DirectorLoanAccountLiabilities (
-    name = "Name",
-    periodEnd = date,
-    overdrawn = BigInt(2000),
-    unpaidTax = BigInt(2000),
-    interest = BigInt(2000),
-    penaltyRate = 123,
-    penaltyRateReason = "Some reason"
-  ))
-  val lettingProperty = Seq(LettingProperty(
-    address = None,
-    dateFirstLetOut = Some(date),
-    stoppedBeingLetOut = Some(true),
-    noLongerBeingLetOut = None,
-    fhl = Some(false),
-    isJointOwnership = Some(true),
-    isMortgageOnProperty = Some(false),
-    percentageIncomeOnProperty = Some(123),
-    wasFurnished = Some(false),
-    typeOfMortgage = None,
-    otherTypeOfMortgage = Some("Some mortgage"),
-    wasPropertyManagerByAgent = Some(true),
-    didTheLettingAgentCollectRentOnYourBehalf = Some(false)
-  ))
+  val whySet: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(
+    WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHasExcuse
+  )
+  val corporationTax                                    = Seq(
+    CorporationTaxLiability(
+      periodEnd = date,
+      howMuchIncome = BigInt(2000),
+      howMuchUnpaid = BigInt(2000),
+      howMuchInterest = BigInt(2000),
+      penaltyRate = 123,
+      penaltyRateReason = "Some reason"
+    )
+  )
+  val directorLoan                                      = Seq(
+    DirectorLoanAccountLiabilities(
+      name = "Name",
+      periodEnd = date,
+      overdrawn = BigInt(2000),
+      unpaidTax = BigInt(2000),
+      interest = BigInt(2000),
+      penaltyRate = 123,
+      penaltyRateReason = "Some reason"
+    )
+  )
+  val lettingProperty                                   = Seq(
+    LettingProperty(
+      address = None,
+      dateFirstLetOut = Some(date),
+      stoppedBeingLetOut = Some(true),
+      noLongerBeingLetOut = None,
+      fhl = Some(false),
+      isJointOwnership = Some(true),
+      isMortgageOnProperty = Some(false),
+      percentageIncomeOnProperty = Some(123),
+      wasFurnished = Some(false),
+      typeOfMortgage = None,
+      otherTypeOfMortgage = Some("Some mortgage"),
+      wasPropertyManagerByAgent = Some(true),
+      didTheLettingAgentCollectRentOnYourBehalf = Some(false)
+    )
+  )
 
   "isComplete" - {
 
@@ -76,7 +84,7 @@ class OnshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues
       val onshoreLiabilities = OnshoreLiabilities(
         behaviour = Some(whySet),
         whatLiabilities = Some(WhatOnshoreLiabilitiesDoYouNeedToDisclose.values.toSet),
-        whichYears = Some(Set(OnshoreYearStarting(2012))), 
+        whichYears = Some(Set(OnshoreYearStarting(2012))),
         taxYearLiabilities = Some(Map("2012" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2012), liabilities))),
         lettingProperties = Some(lettingProperty),
         memberOfLandlordAssociations = Some(true),
@@ -93,7 +101,7 @@ class OnshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues
       val onshoreLiabilities = OnshoreLiabilities(
         behaviour = Some(whySet),
         whatLiabilities = Some(Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.CorporationTax)),
-        whichYears = None, 
+        whichYears = None,
         taxYearLiabilities = None,
         lettingProperties = None,
         memberOfLandlordAssociations = None,
@@ -109,7 +117,7 @@ class OnshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues
       val onshoreLiabilities = OnshoreLiabilities(
         behaviour = Some(whySet),
         whatLiabilities = Some(Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.DirectorLoan)),
-        whichYears = None, 
+        whichYears = None,
         taxYearLiabilities = None,
         lettingProperties = None,
         memberOfLandlordAssociations = None,
@@ -125,7 +133,7 @@ class OnshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues
       val onshoreLiabilities = OnshoreLiabilities(
         behaviour = Some(whySet),
         whatLiabilities = Some(Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)),
-        whichYears = Some(Set(OnshoreYearStarting(2012))), 
+        whichYears = Some(Set(OnshoreYearStarting(2012))),
         taxYearLiabilities = Some(Map("2012" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2012), liabilities))),
         lettingProperties = Some(lettingProperty),
         memberOfLandlordAssociations = Some(true),
@@ -141,7 +149,7 @@ class OnshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues
       val onshoreLiabilities = OnshoreLiabilities(
         behaviour = Some(whySet),
         whatLiabilities = Some(Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)),
-        whichYears = Some(Set(PriorToThreeYears)), 
+        whichYears = Some(Set(PriorToThreeYears)),
         taxYearLiabilities = None,
         lettingProperties = None,
         memberOfLandlordAssociations = Some(true),
@@ -157,7 +165,7 @@ class OnshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues
       val onshoreLiabilities = OnshoreLiabilities(
         behaviour = Some(whySet),
         whatLiabilities = Some(Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.BusinessIncome)),
-        whichYears = Some(Set(OnshoreYearStarting(2012))), 
+        whichYears = Some(Set(OnshoreYearStarting(2012))),
         taxYearLiabilities = Some(Map("2012" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2012), liabilities)))
       )
       onshoreLiabilities.isComplete mustBe true
@@ -176,7 +184,7 @@ class OnshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues
       val onshoreLiabilities = OnshoreLiabilities(
         behaviour = Some(whySet),
         whatLiabilities = Some(Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)),
-        whichYears = Some(Set(OnshoreYearStarting(2012))), 
+        whichYears = Some(Set(OnshoreYearStarting(2012))),
         taxYearLiabilities = Some(Map("2012" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2012), liabilities))),
         lettingProperties = Some(lettingProperty),
         memberOfLandlordAssociations = Some(true),
@@ -192,7 +200,7 @@ class OnshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues
       val onshoreLiabilities = OnshoreLiabilities(
         behaviour = Some(whySet),
         whatLiabilities = Some(Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)),
-        whichYears = Some(Set(OnshoreYearStarting(2012), PriorToThreeYears)), 
+        whichYears = Some(Set(OnshoreYearStarting(2012), PriorToThreeYears)),
         taxYearLiabilities = Some(Map("2012" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2012), liabilities))),
         lettingProperties = Some(lettingProperty),
         memberOfLandlordAssociations = Some(true),
@@ -208,7 +216,7 @@ class OnshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues
       val onshoreLiabilities = OnshoreLiabilities(
         behaviour = Some(whySet),
         whatLiabilities = Some(Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)),
-        whichYears = Some(Set(OnshoreYearStarting(2012))), 
+        whichYears = Some(Set(OnshoreYearStarting(2012))),
         taxYearLiabilities = Some(Map("2013" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2013), liabilities))),
         lettingProperties = Some(lettingProperty),
         memberOfLandlordAssociations = Some(true),
@@ -224,7 +232,7 @@ class OnshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues
       val onshoreLiabilities = OnshoreLiabilities(
         behaviour = Some(whySet),
         whatLiabilities = Some(Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)),
-        whichYears = Some(Set(OnshoreYearStarting(2012), OnshoreYearStarting(2013))), 
+        whichYears = Some(Set(OnshoreYearStarting(2012), OnshoreYearStarting(2013))),
         taxYearLiabilities = Some(Map("2012" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2012), liabilities))),
         lettingProperties = Some(lettingProperty),
         memberOfLandlordAssociations = Some(true),
@@ -237,6 +245,5 @@ class OnshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues
     }
 
   }
-
 
 }

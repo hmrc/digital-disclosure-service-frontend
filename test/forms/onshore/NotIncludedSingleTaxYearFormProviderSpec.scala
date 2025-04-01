@@ -22,8 +22,8 @@ import play.api.data.FormError
 class NotIncludedSingleTaxYearFormProviderSpec extends StringFieldBehaviours {
 
   val requiredKey = "youHaveNotIncludedTheTaxYear.error.required"
-  val lengthKey = "youHaveNotIncludedTheTaxYear.error.length"
-  val maxLength = 500
+  val lengthKey   = "youHaveNotIncludedTheTaxYear.error.length"
+  val maxLength   = 500
   val missingYear = "2020"
 
   val form = new NotIncludedSingleTaxYearFormProvider()(missingYear)

@@ -37,17 +37,19 @@ import scala.concurrent.Future
 class EstateAddressLookupControllerSpec extends SpecBase with ModelGenerators {
 
   def addressLookupOnwardRoute = Call("GET", "http://localhost:15003/foo")
-  def onwardRoute = Call("GET", "/foo")
+  def onwardRoute              = Call("GET", "/foo")
 
   lazy val addressLookupRoute = routes.EstateAddressLookupController.lookupAddress(NormalMode).url
 
-  def mockGetEstateAddressLookupRedirect(redirectUrl: Call)
-                                        (response: Either[Error, URL]): OngoingStubbing[EitherT[Future, Error, URL]] =
+  def mockGetEstateAddressLookupRedirect(
+    redirectUrl: Call
+  )(response: Either[Error, URL]): OngoingStubbing[EitherT[Future, Error, URL]] =
     when(mockAddressLookupService.getEstateAddressLookupRedirect(eqTo(redirectUrl))(any(), any()))
       .thenReturn(EitherT.fromEither[Future](response))
 
-  def mockRetrieveUserAddress(addressId: UUID)
-                             (response: Either[Error, Address]): OngoingStubbing[EitherT[Future, Error, Address]] =
+  def mockRetrieveUserAddress(
+    addressId: UUID
+  )(response: Either[Error, Address]): OngoingStubbing[EitherT[Future, Error, Address]] =
     when(mockAddressLookupService.retrieveUserAddress(eqTo(addressId))(any()))
       .thenReturn(EitherT.fromEither[Future](response))
 
@@ -63,7 +65,9 @@ class EstateAddressLookupControllerSpec extends SpecBase with ModelGenerators {
       val request = FakeRequest(GET, addressLookupRoute)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
-      mockGetEstateAddressLookupRedirect(routes.EstateAddressLookupController.retrieveConfirmedAddress(NormalMode, None))(Right(new URL("http://localhost:15003/foo")))
+      mockGetEstateAddressLookupRedirect(
+        routes.EstateAddressLookupController.retrieveConfirmedAddress(NormalMode, None)
+      )(Right(new URL("http://localhost:15003/foo")))
       val result = route(app, request).value
 
       status(result) mustEqual SEE_OTHER
@@ -75,9 +79,11 @@ class EstateAddressLookupControllerSpec extends SpecBase with ModelGenerators {
       val request = FakeRequest(GET, addressLookupRoute)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
-      mockGetEstateAddressLookupRedirect(routes.EstateAddressLookupController.retrieveConfirmedAddress(NormalMode, None))(Left(Error("Something went wrong")))
+      mockGetEstateAddressLookupRedirect(
+        routes.EstateAddressLookupController.retrieveConfirmedAddress(NormalMode, None)
+      )(Left(Error("Something went wrong")))
 
-      the [Exception] thrownBy status(route(app, request).value) must have message "Something went wrong"
+      the[Exception] thrownBy status(route(app, request).value) must have message "Something went wrong"
     }
 
   }
@@ -86,8 +92,9 @@ class EstateAddressLookupControllerSpec extends SpecBase with ModelGenerators {
 
     "must update sessionRepo and redirect to the correct place when an address is returned by the address lookup service" in {
 
-      val uuid = UUID.randomUUID()
-      lazy val retrieveAddressRoute = routes.EstateAddressLookupController.retrieveConfirmedAddress(NormalMode, Some(uuid)).url
+      val uuid                      = UUID.randomUUID()
+      lazy val retrieveAddressRoute =
+        routes.EstateAddressLookupController.retrieveConfirmedAddress(NormalMode, Some(uuid)).url
 
       val request = FakeRequest(GET, retrieveAddressRoute)
       setupMockSessionResponse(Some(emptyUserAnswers))
@@ -119,9 +126,11 @@ class EstateAddressLookupControllerSpec extends SpecBase with ModelGenerators {
       val request = FakeRequest(GET, addressLookupRoute)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
-      mockGetEstateAddressLookupRedirect(routes.EstateAddressLookupController.retrieveConfirmedAddress(NormalMode, None))(Left(Error("Something went wrong")))
+      mockGetEstateAddressLookupRedirect(
+        routes.EstateAddressLookupController.retrieveConfirmedAddress(NormalMode, None)
+      )(Left(Error("Something went wrong")))
 
-      the [Exception] thrownBy status(route(app, request).value) must have message "Something went wrong"
+      the[Exception] thrownBy status(route(app, request).value) must have message "Something went wrong"
     }
 
   }

@@ -24,7 +24,11 @@ import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
 import play.api.libs.json.{JsError, JsString, Json}
 
-class WhatTypeOfMortgageDidYouHaveSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks with OptionValues {
+class WhatTypeOfMortgageDidYouHaveSpec
+    extends AnyFreeSpec
+    with Matchers
+    with ScalaCheckPropertyChecks
+    with OptionValues {
 
   "WhatTypeOfMortgageDidYouHave" - {
 
@@ -32,10 +36,11 @@ class WhatTypeOfMortgageDidYouHaveSpec extends AnyFreeSpec with Matchers with Sc
 
       val gen = Gen.oneOf(TypeOfMortgageDidYouHave.values.toSeq)
 
-      forAll(gen) {
-        whatTypeOfMortgageDidYouHave =>
-
-          JsString(whatTypeOfMortgageDidYouHave.toString).validate[TypeOfMortgageDidYouHave].asOpt.value mustEqual whatTypeOfMortgageDidYouHave
+      forAll(gen) { whatTypeOfMortgageDidYouHave =>
+        JsString(whatTypeOfMortgageDidYouHave.toString)
+          .validate[TypeOfMortgageDidYouHave]
+          .asOpt
+          .value mustEqual whatTypeOfMortgageDidYouHave
       }
     }
 
@@ -43,10 +48,8 @@ class WhatTypeOfMortgageDidYouHaveSpec extends AnyFreeSpec with Matchers with Sc
 
       val gen = arbitrary[String] suchThat (!TypeOfMortgageDidYouHave.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[TypeOfMortgageDidYouHave] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[TypeOfMortgageDidYouHave] mustEqual JsError("error.invalid")
       }
     }
 
@@ -54,10 +57,8 @@ class WhatTypeOfMortgageDidYouHaveSpec extends AnyFreeSpec with Matchers with Sc
 
       val gen = Gen.oneOf(TypeOfMortgageDidYouHave.values.toSeq)
 
-      forAll(gen) {
-        whatTypeOfMortgageDidYouHave =>
-
-          Json.toJson(whatTypeOfMortgageDidYouHave) mustEqual JsString(whatTypeOfMortgageDidYouHave.toString)
+      forAll(gen) { whatTypeOfMortgageDidYouHave =>
+        Json.toJson(whatTypeOfMortgageDidYouHave) mustEqual JsString(whatTypeOfMortgageDidYouHave.toString)
       }
     }
   }

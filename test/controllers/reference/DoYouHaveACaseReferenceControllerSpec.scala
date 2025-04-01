@@ -37,11 +37,11 @@ class DoYouHaveACaseReferenceControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute: Call = Call("GET", "/foo")
 
-  val formProvider = new DoYouHaveACaseReferenceFormProvider()
+  val formProvider        = new DoYouHaveACaseReferenceFormProvider()
   val form: Form[Boolean] = formProvider()
 
   lazy val doYouHaveACaseReferenceRoute: String = routes.DoYouHaveACaseReferenceController.onPageLoad(NormalMode).url
-  val view: DoYouHaveACaseReferenceView = application.injector.instanceOf[DoYouHaveACaseReferenceView]
+  val view: DoYouHaveACaseReferenceView         = application.injector.instanceOf[DoYouHaveACaseReferenceView]
 
   "DoYouHaveACaseReference Controller" - {
 
@@ -79,7 +79,8 @@ class DoYouHaveACaseReferenceControllerSpec extends SpecBase with MockitoSugar {
       val applicationWithFakeReferenceNavigator = applicationBuilder
         .overrides(
           bind[ReferenceNavigator].toInstance(new FakeReferenceNavigator(onwardRoute))
-        ).build()
+        )
+        .build()
 
       val request =
         FakeRequest(POST, doYouHaveACaseReferenceRoute)

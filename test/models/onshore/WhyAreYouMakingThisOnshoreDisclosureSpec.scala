@@ -24,7 +24,12 @@ import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
 import play.api.libs.json.{JsError, JsString, Json}
 
-class WhyAreYouMakingThisOnshoreDisclosureSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks with OptionValues with ModelGenerators {
+class WhyAreYouMakingThisOnshoreDisclosureSpec
+    extends AnyFreeSpec
+    with Matchers
+    with ScalaCheckPropertyChecks
+    with OptionValues
+    with ModelGenerators {
 
   "WhyAreYouMakingThisOnshoreDisclosure" - {
 
@@ -32,10 +37,11 @@ class WhyAreYouMakingThisOnshoreDisclosureSpec extends AnyFreeSpec with Matchers
 
       val gen = arbitrary[WhyAreYouMakingThisOnshoreDisclosure]
 
-      forAll(gen) {
-        WhyAreYouMakingThisOnshoreDisclosure =>
-
-          JsString(WhyAreYouMakingThisOnshoreDisclosure.toString).validate[WhyAreYouMakingThisOnshoreDisclosure].asOpt.value mustEqual WhyAreYouMakingThisOnshoreDisclosure
+      forAll(gen) { WhyAreYouMakingThisOnshoreDisclosure =>
+        JsString(WhyAreYouMakingThisOnshoreDisclosure.toString)
+          .validate[WhyAreYouMakingThisOnshoreDisclosure]
+          .asOpt
+          .value mustEqual WhyAreYouMakingThisOnshoreDisclosure
       }
     }
 
@@ -43,10 +49,8 @@ class WhyAreYouMakingThisOnshoreDisclosureSpec extends AnyFreeSpec with Matchers
 
       val gen = arbitrary[String] suchThat (!WhyAreYouMakingThisOnshoreDisclosure.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[WhyAreYouMakingThisOnshoreDisclosure] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[WhyAreYouMakingThisOnshoreDisclosure] mustEqual JsError("error.invalid")
       }
     }
 
@@ -54,10 +58,10 @@ class WhyAreYouMakingThisOnshoreDisclosureSpec extends AnyFreeSpec with Matchers
 
       val gen = arbitrary[WhyAreYouMakingThisOnshoreDisclosure]
 
-      forAll(gen) {
-        WhyAreYouMakingThisOnshoreDisclosure =>
-
-          Json.toJson(WhyAreYouMakingThisOnshoreDisclosure) mustEqual JsString(WhyAreYouMakingThisOnshoreDisclosure.toString)
+      forAll(gen) { WhyAreYouMakingThisOnshoreDisclosure =>
+        Json.toJson(WhyAreYouMakingThisOnshoreDisclosure) mustEqual JsString(
+          WhyAreYouMakingThisOnshoreDisclosure.toString
+        )
       }
     }
   }

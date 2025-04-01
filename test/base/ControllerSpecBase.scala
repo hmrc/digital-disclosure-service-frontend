@@ -31,13 +31,13 @@ import scala.concurrent.Future
 trait ControllerSpecBase extends SpecBase with MockitoSugar with ScalaCheckPropertyChecks {
 
   def testChangeAnswerRouting[A](
-                                  previousAnswer: A,
-                                  newAnswer:A,
-                                  page: QuestionPage[A],
-                                  urlToTest: String,
-                                  destinationRoute: String,
-                                  pagesToRemove: List[QuestionPage[_]] = Nil
-                                )(implicit writes: Writes[A]): Future[Boolean] = {
+    previousAnswer: A,
+    newAnswer: A,
+    page: QuestionPage[A],
+    urlToTest: String,
+    destinationRoute: String,
+    pagesToRemove: List[QuestionPage[_]] = Nil
+  )(implicit writes: Writes[A]): Future[Boolean] = {
 
     val userAnswers = UserAnswers("id", "session-123")
 
@@ -46,7 +46,7 @@ trait ControllerSpecBase extends SpecBase with MockitoSugar with ScalaCheckPrope
     val previousUa = userAnswers.set(page, previousAnswer).success.value
 
     val expectedUa = (for {
-      updatedUa <-  userAnswers.set(page, newAnswer)
+      updatedUa <- userAnswers.set(page, newAnswer)
       clearedUa <- updatedUa.remove(pagesToRemove)
     } yield clearedUa).success.value
 

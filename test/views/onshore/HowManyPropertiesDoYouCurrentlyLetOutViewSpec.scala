@@ -25,7 +25,7 @@ import models.NormalMode
 
 class HowManyPropertiesDoYouCurrentlyLetOutViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new HowManyPropertiesDoYouCurrentlyLetOutFormProvider()()
+  val form                                            = new HowManyPropertiesDoYouCurrentlyLetOutFormProvider()()
   val page: HowManyPropertiesDoYouCurrentlyLetOutView = inject[HowManyPropertiesDoYouCurrentlyLetOutView]
 
   private def createView: Html = page(form, NormalMode)(request, messages)
@@ -43,7 +43,7 @@ class HowManyPropertiesDoYouCurrentlyLetOutViewSpec extends ViewSpecBase with Vi
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

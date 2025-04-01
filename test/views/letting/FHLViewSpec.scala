@@ -25,7 +25,7 @@ import models.NormalMode
 
 class FHLViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new FHLFormProvider()()
+  val form          = new FHLFormProvider()()
   val page: FHLView = inject[FHLView]
 
   private def createView: Html = page(form, 0, NormalMode)(request, messages)
@@ -63,7 +63,7 @@ class FHLViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId ("continue")
+      view.getElementsByClass("govuk-button").first() must haveId("continue")
       view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
     }
 

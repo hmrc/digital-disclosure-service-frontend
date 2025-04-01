@@ -33,10 +33,11 @@ class DoYouHaveNationalInsuranceNumberControllerSpec extends ControllerSpecBase 
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val doYouHaveNationalInsuranceNumberRoute = routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(NormalMode).url
+  lazy val doYouHaveNationalInsuranceNumberRoute =
+    routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(NormalMode).url
 
   val formProvider = new DoYouHaveNationalInsuranceNumberFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   "DoYouHaveNationalInsuranceNumber Controller" - {
 
@@ -56,7 +57,10 @@ class DoYouHaveNationalInsuranceNumberControllerSpec extends ControllerSpecBase 
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId, "session-123").set(DoYouHaveNationalInsuranceNumberPage, DoYouHaveNationalInsuranceNumber.values.head).success.value
+      val userAnswers = UserAnswers(userAnswersId, "session-123")
+        .set(DoYouHaveNationalInsuranceNumberPage, DoYouHaveNationalInsuranceNumber.values.head)
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -67,7 +71,11 @@ class DoYouHaveNationalInsuranceNumberControllerSpec extends ControllerSpecBase 
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(DoYouHaveNationalInsuranceNumber.values.head), NormalMode, false)(request, messages).toString
+      contentAsString(result) mustEqual view(
+        form.fill(DoYouHaveNationalInsuranceNumber.values.head),
+        NormalMode,
+        false
+      )(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -87,35 +95,42 @@ class DoYouHaveNationalInsuranceNumberControllerSpec extends ControllerSpecBase 
 
     "must redirect to WhatIsYourNationalInsuranceNumber screen  in check mode if DoYouHaveNationalInsuranceNumber page answer was change from No or YesButDontKnow to YesIKnow" in {
       val previousAnswers = Seq(DoYouHaveNationalInsuranceNumber.No, DoYouHaveNationalInsuranceNumber.YesButDontKnow)
-      val newAnswer = DoYouHaveNationalInsuranceNumber.YesIKnow
+      val newAnswer       = DoYouHaveNationalInsuranceNumber.YesIKnow
 
-      val urlToTest =  routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
       val destinationRoute = routes.WhatIsYourNationalInsuranceNumberController.onPageLoad(CheckMode).url
 
-      previousAnswers.foreach (
+      previousAnswers.foreach(
         testChangeAnswerRouting(_, newAnswer, DoYouHaveNationalInsuranceNumberPage, urlToTest, destinationRoute)
       )
     }
 
     "must redirect to WhatIsYourNationalInsuranceNumber screen in check mode if the user answer was change from YesIKnow to No or YesButDontKnow" in {
       val previousAnswer = DoYouHaveNationalInsuranceNumber.YesIKnow
-      val newAnswers = Seq(DoYouHaveNationalInsuranceNumber.No, DoYouHaveNationalInsuranceNumber.YesButDontKnow)
+      val newAnswers     = Seq(DoYouHaveNationalInsuranceNumber.No, DoYouHaveNationalInsuranceNumber.YesButDontKnow)
 
-      val urlToTest =  routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
       val pageToClean = List(WhatIsYourNationalInsuranceNumberPage)
 
-      newAnswers.foreach(testChangeAnswerRouting(
-        previousAnswer, _, DoYouHaveNationalInsuranceNumberPage, urlToTest, destinationRoute, pageToClean)
+      newAnswers.foreach(
+        testChangeAnswerRouting(
+          previousAnswer,
+          _,
+          DoYouHaveNationalInsuranceNumberPage,
+          urlToTest,
+          destinationRoute,
+          pageToClean
+        )
       )
     }
 
     "must redirect to CheckYourAnswer screen if there are no changes in the user answer" in {
-      val urlToTest =  routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
+      val urlToTest        = routes.DoYouHaveNationalInsuranceNumberController.onPageLoad(CheckMode).url
       val destinationRoute = routes.CheckYourAnswersController.onPageLoad.url
 
-      DoYouHaveNationalInsuranceNumber.values.foreach( value =>
+      DoYouHaveNationalInsuranceNumber.values.foreach(value =>
         testChangeAnswerRouting(value, value, DoYouHaveNationalInsuranceNumberPage, urlToTest, destinationRoute)
       )
     }
