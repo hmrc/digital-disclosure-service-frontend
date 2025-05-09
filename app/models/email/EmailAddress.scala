@@ -57,7 +57,7 @@ trait EmailValidation {
 @Singleton
 class EmailAddressValidation extends EmailValidation {
   private val DNS_CONTEXT_FACTORY = "com.sun.jndi.dns.DnsContextFactory"
-  private val env = new java.util.Hashtable[String, String]()
+  private val env                 = new java.util.Hashtable[String, String]()
   env.put(ICF, DNS_CONTEXT_FACTORY)
 
   private def isHostMailServer(domain: String) = {
@@ -70,7 +70,7 @@ class EmailAddressValidation extends EmailValidation {
 
     getAttributeValue(domain, "MX") match {
       case Right(value) if value.nonEmpty => true
-      case _ =>
+      case _                              =>
         getAttributeValue(domain, "A") match {
           case Right(value) => value.nonEmpty
           case Left(_)      => false
@@ -81,7 +81,7 @@ class EmailAddressValidation extends EmailValidation {
   def isValid(email: String): Boolean =
     email match {
       case EmailAddressValidation.validEmail(_, _) if isHostMailServer(EmailAddress(email).domain.value) => true
-      case _                                                                                            => false
+      case _                                                                                             => false
     }
 
 }
