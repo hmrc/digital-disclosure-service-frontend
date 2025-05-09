@@ -21,7 +21,10 @@ import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 
 class ObfuscatedEmailAddressSpec
-  extends AnyWordSpec with Matchers with ScalaCheckPropertyChecks with EmailAddressGenerators {
+    extends AnyWordSpec
+    with Matchers
+    with ScalaCheckPropertyChecks
+    with EmailAddressGenerators {
 
   "Obfuscating an email address" should {
     "work for a valid email address with a long mailbox" in {

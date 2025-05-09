@@ -77,7 +77,7 @@ class EmailAddressSpec extends AnyWordSpec with ScalaCheckPropertyChecks with Ma
     "have a local part" in forAll(validMailbox, validDomain) { (mailbox, domain) =>
       val exampleAddr = EmailAddress(s"$mailbox@$domain")
       exampleAddr.mailbox should (be(a[Mailbox]) and have(Symbol("value")(mailbox)))
-      exampleAddr.domain should (be(a[Domain]) and have(Symbol("value")(domain)))
+      exampleAddr.domain  should (be(a[Domain]) and have(Symbol("value")(domain)))
     }
   }
 
