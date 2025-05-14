@@ -18,22 +18,17 @@ package controllers.auth
 
 import base.SpecBase
 import config.FrontendAppConfig
-import org.mockito.ArgumentMatchers.{any, eq => eqTo}
-import org.mockito.Mockito.{times, verify, when}
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 
 import java.net.URLEncoder
-import scala.concurrent.Future
 
 class AuthControllerSpec extends SpecBase with MockitoSugar {
 
   "signOut" - {
 
-    "must clear user answers and redirect to sign out, specifying the exit survey as the continue URL" in {
-
-      when(mockSessionService.clear(any(), any())).thenReturn(Future.successful(true))
+    "must redirect to sign out, specifying the exit survey as the continue URL" in {
 
       val appConfig = application.injector.instanceOf[FrontendAppConfig]
       val request   = FakeRequest(GET, routes.AuthController.signOut.url)
@@ -45,15 +40,12 @@ class AuthControllerSpec extends SpecBase with MockitoSugar {
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual expectedRedirectUrl
-      verify(mockSessionService, times(1)).clear(eqTo(userAnswersId), any())
     }
   }
 
   "signOutNoSurvey" - {
 
-    "must clear users answers and redirect to sign out, specifying SignedOut as the continue URL" in {
-
-      when(mockSessionService.clear(any(), any())).thenReturn(Future.successful(true))
+    "must redirect to sign out, specifying SignedOut as the continue URL" in {
 
       val appConfig = application.injector.instanceOf[FrontendAppConfig]
       val request   = FakeRequest(GET, routes.AuthController.signOutNoSurvey.url)
@@ -65,7 +57,6 @@ class AuthControllerSpec extends SpecBase with MockitoSugar {
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual expectedRedirectUrl
-      verify(mockSessionService, times(1)).clear(eqTo(userAnswersId), any())
     }
   }
 }
