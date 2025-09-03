@@ -35,6 +35,10 @@ timeout.message = Am resymau diogelwch, cewch eich allgofnodi o’r gwasanaeth h
 timeout.keepAlive = Parhau i fod wedi’ch mewngofnodi
 timeout.signOut = Allgofnodi
 
+sessionExpired.title = For your security, we signed you out
+sessionExpired.heading = For your security, we signed you out
+sessionExpired.guidance.one = We saved your answers for 15 minutes.
+
 constants.error = Gwall
 
 error.browser.title.prefix = Gwall:

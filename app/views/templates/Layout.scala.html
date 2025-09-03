@@ -47,6 +47,7 @@
                 keepAliveUrl        = Some(routes.KeepAliveController.keepAlive.url),
                 keepAliveButtonText = Some(messages("timeout.keepAlive")),
                 signOutUrl          = Some(controllers.auth.routes.AuthController.signOut.url),
+                timeoutUrl          = Some(routes.SessionExpiredController.onPageLoad.url),
                 signOutButtonText   = Some(messages("timeout.signOut")),
                 title               = Some(messages("timeout.title")),
                 message             = Some(messages("timeout.message"))

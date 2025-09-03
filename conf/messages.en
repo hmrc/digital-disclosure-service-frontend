@@ -35,6 +35,10 @@ timeout.message = For security reasons, you will be signed out of this service i
 timeout.keepAlive = Stay signed in
 timeout.signOut = Sign out
 
+sessionExpired.title = Er eich diogelwch, gwnaethom eich allgofnodi
+sessionExpired.heading = Er eich diogelwch, gwnaethom eich allgofnodi
+sessionExpired.guidance.one = Gwnaethom gadw’ch atebion am 15 o funudau.
+
 constants.error = Error
 
 error.browser.title.prefix = Error:
