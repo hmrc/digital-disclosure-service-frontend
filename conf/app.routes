@@ -33,6 +33,8 @@ GET         /account/sign-out-survey                     controllers.auth.AuthCo
 GET         /account/sign-out                            controllers.auth.AuthController.signOutNoSurvey
 GET         /account/signed-out                          controllers.auth.SignedOutController.onPageLoad
 
+GET         /we-signed-you-out                           controllers.SessionExpiredController.onPageLoad
+
 GET         /unauthorised                                controllers.UnauthorisedController.onPageLoad
 
 GET         /using-this-service                          controllers.MakeANotificationOrDisclosureController.onPageLoad

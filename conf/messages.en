@@ -35,6 +35,10 @@ timeout.message = For security reasons, you will be signed out of this service i
 timeout.keepAlive = Stay signed in
 timeout.signOut = Sign out
 
+sessionExpired.title = For your security, we signed you out
+sessionExpired.heading = For your security, we signed you out
+sessionExpired.guidance.one = We saved your answers for 15 minutes.
+
 constants.error = Error
 
 error.browser.title.prefix = Error:
