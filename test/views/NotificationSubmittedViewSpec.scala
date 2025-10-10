@@ -50,8 +50,7 @@ class NotificationSubmittedViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId("disclosure")
-      view.getElementsByClass("govuk-button").text() mustBe messages("notificationSubmitted.button")
+      view.getElementById("disclosure").text() mustBe messages("notificationSubmitted.button")
     }
 
   }

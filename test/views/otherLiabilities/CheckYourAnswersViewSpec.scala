@@ -83,7 +83,7 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").text() mustBe messages("site.continue")
+      view.getElementById("continue").text() mustBe messages("site.continue")
     }
 
     "have a task list link" in {

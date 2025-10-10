@@ -27,7 +27,7 @@
     <h1 class="govuk-heading-l">@messages("sessionExpired.heading")</h1>
     <p class="govuk-body">@messages("sessionExpired.guidance.one")</p>
 
-    <p class="govuk-body">
+    <p class="govuk-body" id="session-expired-button">
         @govukButton(
             ButtonViewModel(messages("site.signIn"))
                 .asLink(routes.IndexController.onPageLoad.url)

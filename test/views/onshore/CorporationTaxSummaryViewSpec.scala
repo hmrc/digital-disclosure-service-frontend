@@ -47,8 +47,7 @@ class CorporationTaxSummaryViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId("continue")
-      view.getElementsByClass("govuk-button").text() mustBe messages("site.continue")
+      view.getElementById("continue").text() mustBe messages("site.continue")
     }
 
   }

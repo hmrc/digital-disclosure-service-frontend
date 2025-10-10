@@ -143,8 +143,7 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
     }
 
     "display the send button" in {
-      view.getElementsByClass("govuk-button").first() must haveId("send-button")
-      view.getElementsByClass("govuk-button").text() mustBe messages("notificationCYA.send.button")
+      view.getElementById("send-button").text() mustBe messages("notificationCYA.send.button")
     }
 
   }

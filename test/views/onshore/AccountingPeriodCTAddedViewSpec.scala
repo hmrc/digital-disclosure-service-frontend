@@ -74,13 +74,14 @@ class AccountingPeriodCTAddedViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain change/remove link" in {
+      view.getElementById("continue").text() mustBe messages("site.saveAndContinue")
+
       view.getElementsByClass("govuk-link").get(3).text() must include(messages("site.change"))
       view.getElementsByClass("govuk-link").get(4).text() must include(messages("site.remove"))
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId("continue")
-      view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
+      view.getElementById("continue").text() mustBe messages("site.saveAndContinue")
     }
 
   }
@@ -125,8 +126,7 @@ class AccountingPeriodCTAddedViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId("continue")
-      view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
+      view.getElementById("continue").text() mustBe messages("site.saveAndContinue")
     }
 
   }

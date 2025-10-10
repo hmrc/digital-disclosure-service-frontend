@@ -96,8 +96,7 @@ class OnshoreTaxYearLiabilitiesViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId("continue")
-      view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
+      view.getElementById("continue").text() mustBe messages("site.saveAndContinue")
     }
 
   }
@@ -181,8 +180,7 @@ class OnshoreTaxYearLiabilitiesViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId("continue")
-      view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
+      view.getElementById("continue").text() mustBe messages("site.saveAndContinue")
     }
 
   }
