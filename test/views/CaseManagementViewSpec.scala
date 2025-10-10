@@ -53,7 +53,7 @@ class CaseManagementViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the create case button" in {
-      view.getElementsByClass("govuk-button").first() must haveId("create-case")
+      view.getElementById("create-case").text() mustBe messages("caseManagement.button")
     }
 
   }

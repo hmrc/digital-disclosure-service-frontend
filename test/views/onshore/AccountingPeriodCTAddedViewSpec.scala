@@ -76,8 +76,8 @@ class AccountingPeriodCTAddedViewSpec extends ViewSpecBase with ViewMatchers {
     "contain change/remove link" in {
       view.getElementById("continue").text() mustBe messages("site.saveAndContinue")
 
-      view.getElementsByClass("govuk-link").get(3).text() must include(messages("site.change"))
-      view.getElementsByClass("govuk-link").get(4).text() must include(messages("site.remove"))
+      view.getElementsByClass("govuk-link").get(4).text() must include(messages("site.change"))
+      view.getElementsByClass("govuk-link").get(5).text() must include(messages("site.remove"))
     }
 
     "display the continue button" in {
@@ -115,12 +115,12 @@ class AccountingPeriodCTAddedViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain remove link" in {
-      view.getElementsByClass("govuk-link").get(3).text() must include(messages("site.change"))
-      view.getElementsByClass("govuk-link").get(3).attr("href") mustBe routes.CorporationTaxLiabilityController
+      view.getElementsByClass("govuk-link").get(4).text() must include(messages("site.change"))
+      view.getElementsByClass("govuk-link").get(4).attr("href") mustBe routes.CorporationTaxLiabilityController
         .onPageLoad(0, NormalMode)
         .url
-      view.getElementsByClass("govuk-link").get(4).text() must include(messages("site.remove"))
-      view.getElementsByClass("govuk-link").get(4).attr("href") mustBe routes.AccountingPeriodCTAddedController
+      view.getElementsByClass("govuk-link").get(5).text() must include(messages("site.remove"))
+      view.getElementsByClass("govuk-link").get(5).attr("href") mustBe routes.AccountingPeriodCTAddedController
         .remove(0, NormalMode)
         .url
     }

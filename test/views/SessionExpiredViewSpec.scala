@@ -44,10 +44,10 @@ class SessionExpiredViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "show a Sign in button linking to the start page" in {
-
-      val button = view.getElementById("session-expired-button")
+      val button = view.getElementsByClass("govuk-button").get(2)
       button.text() mustBe messages("site.signIn")
       button.attr("href") mustBe controllers.routes.IndexController.onPageLoad.url
+
     }
   }
 }
