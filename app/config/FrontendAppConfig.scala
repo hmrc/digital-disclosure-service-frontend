@@ -36,9 +36,12 @@ class FrontendAppConfig @Inject() (configuration: Configuration) {
   def feedbackUrl(implicit request: RequestHeader): String = s"$contactHost/contact/beta-feedback?service=" +
     s"$contactFormServiceIdentifier&backUrl=${URLEncoder.encode(host + request.uri, "UTF-8")}"
 
+  lazy val userResearchUrl: String = configuration.get[String](s"urls.userResearchUrl")
+
   lazy val loginUrl: String         = configuration.get[String]("urls.login")
   lazy val loginContinueUrl: String = configuration.get[String]("urls.loginContinue")
   lazy val signOutUrl: String       = configuration.get[String]("urls.signOut")
+
 
   private lazy val exitSurveyBaseUrl: String =
     configuration.get[Service]("microservice.services.feedback-frontend").baseUrl

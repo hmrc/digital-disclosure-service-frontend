@@ -24,6 +24,12 @@ exitSurvey.p1 = Your feedback helps us make our service better.
 exitSurvey.link = Take a short survey
 exitSurvey.p2 =  to share your feedback on this service.
 
+# User Research Banner
+researchBanner.h2 = Changes are coming to this service
+researchBanner.link.text = Get involved – help us make it work for you (opens in new tab)
+researchBanner.hide.button = Hide message
+researchBanner.visually.hidden = Hide message. I do not want to take part in research
+
 date.day = Day
 date.month = Month
 date.year = Year
