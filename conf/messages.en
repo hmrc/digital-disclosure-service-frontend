@@ -31,7 +31,7 @@ researchBanner.hide.button = Hide message
 researchBanner.visually.hidden = Hide message. I do not want to take part in research
 
 # User Research Before You Go
-exitSurveyBeforeYouGo.p2 = We’re making some changes to this service –
+exitSurveyBeforeYouGo.p1 = We’re making some changes to this service –
 exitSurveyBeforeYouGo.link = join our research and help improve it
 
 date.day = Day
