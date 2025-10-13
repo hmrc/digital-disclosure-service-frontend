@@ -79,3 +79,12 @@ The following grafana and kibana dashboards are available for this service:
 * [Service Runbook](https://confluence.tools.tax.service.gov.uk/display/ELSY/Digital+Disclosure+Service+%28DDS%29+Runbook)
 
 * [Architecture Links](https://confluence.tools.tax.service.gov.uk/pages/viewpage.action?pageId=857113254)
+
+## Local Debugging
+
+When local testing you may come across the following error:
+* Service Unavailable in the browser
+* Forbidden error in the terminal: Unexpected response from DDS Store, status: 403, body: {"statusCode":403,"message":"Forbidden"}
+
+The fix for this is to drop the collection 'internal-auth' from your local Mongo Database (usually in Studio3T).
+Then restart all the services using Service Manager 2, and try again.
