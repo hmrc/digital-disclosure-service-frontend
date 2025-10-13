@@ -42,7 +42,6 @@ class FrontendAppConfig @Inject() (configuration: Configuration) {
   lazy val loginContinueUrl: String = configuration.get[String]("urls.loginContinue")
   lazy val signOutUrl: String       = configuration.get[String]("urls.signOut")
 
-
   private lazy val exitSurveyBaseUrl: String =
     configuration.get[Service]("microservice.services.feedback-frontend").baseUrl
   lazy val exitSurveyUrl: String             = s"$exitSurveyBaseUrl/feedback/digital-disclosure-service-frontend"
