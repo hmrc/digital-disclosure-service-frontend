@@ -68,11 +68,10 @@ class SubmittedViewSpec extends ViewSpecBase with ViewMatchers with Generators {
       view.getElementById("paragraph3").text() mustBe messages("submitted.paragraph3")
     }
 
-    "have an exit survey paragraph" in {
+    "have an exit survey paragraph with an additional user research link" in {
       view.getElementById("exit-survey").text mustBe
-        messages("exitSurvey.heading") + " " + messages("exitSurvey.p1") + " " + messages(
-          "exitSurvey.link"
-        ) + " " + messages("exitSurvey.p2")
+        s"${messages("exitSurvey.heading")} ${messages("exitSurvey.p1")} ${messages("exitSurvey.link")} ${messages("exitSurvey.p2")} " +
+        s"${messages("exitSurvey.BeforeYouGoUserResearch.p1")} ${messages("exitSurvey.BeforeYouGoUserResearch.link")}."
     }
 
     "have an exit survey link" in {
