@@ -25,8 +25,8 @@ exitSurvey.link = Take a short survey
 exitSurvey.p2 =  to share your feedback on this service.
 
 # User Research Banner
-researchBanner.h2 = Changes are coming to this service
-researchBanner.link.text = Get involved – help us make it work for you (opens in new tab)
+researchBanner.h2 = Help make GOV.UK better
+researchBanner.link.text = Sign up to take part in research (opens in new tab)
 researchBanner.hide.button = Hide message
 researchBanner.visually.hidden = Hide message. I do not want to take part in research
 
