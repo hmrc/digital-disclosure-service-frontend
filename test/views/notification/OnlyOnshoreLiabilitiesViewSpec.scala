@@ -72,10 +72,10 @@ class OnlyOnshoreLiabilitiesViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId("continue")
-      view.getElementsByClass("govuk-button").text() mustBe messages("site.confirmAndContinue")
+      view.getElementById("continue").text() mustBe messages("site.confirmAndContinue")
+
       view
-        .getElementsByClass("govuk-button")
+        .getElementById("continue")
         .attr("href") mustBe controllers.notification.routes.WhatIsYourFullNameController.onPageLoad(NormalMode).url
     }
 

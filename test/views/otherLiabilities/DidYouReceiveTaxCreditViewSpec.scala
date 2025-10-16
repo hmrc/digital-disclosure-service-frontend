@@ -59,8 +59,7 @@ class DidYouReceiveTaxCreditViewSpec extends ViewSpecBase with ViewMatchers with
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId("continue")
-      view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
+      view.getElementById("continue").text() mustBe messages("site.saveAndContinue")
     }
 
     "have a task list link" in {

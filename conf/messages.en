@@ -19,10 +19,21 @@ site.2DP = {0,number,#,##0.00}
 site.print = Print or save this page
 site.ending = Ending
 
+# Exit Survey Before You Go
 exitSurvey.heading = Before you go
 exitSurvey.p1 = Your feedback helps us make our service better.
 exitSurvey.link = Take a short survey
 exitSurvey.p2 =  to share your feedback on this service.
+
+# User Research Before You Go - Journey End Page Link
+exitSurvey.BeforeYouGoUserResearch.p1 = Help make GOV.UK better –
+exitSurvey.BeforeYouGoUserResearch.link = Sign up to take part in research
+
+# User Research Banner
+researchBanner.h2 = Help make GOV.UK better
+researchBanner.link.text = Sign up to take part in research (opens in new tab)
+researchBanner.hide.button = Hide message
+researchBanner.visually.hidden = Hide message. I do not want to take part in research
 
 date.day = Day
 date.month = Month

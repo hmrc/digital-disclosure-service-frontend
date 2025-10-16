@@ -17,6 +17,7 @@
 @import config.FrontendAppConfig
 @import uk.gov.hmrc.hmrcfrontend.views.config.StandardBetaBanner
 @import views.html.helper.CSPNonce
+@import uk.gov.hmrc.hmrcfrontend.views.Aliases.Header
 
 @this(
     appConfig: FrontendAppConfig,
@@ -31,6 +32,7 @@
     hmrcReportTechnicalIssueHelper: HmrcReportTechnicalIssueHelper,
     hmrcScripts: HmrcScripts,
     betaBanner: StandardBetaBanner,
+    userResearchBanner: components.userResearchBanner,
     defaultMainContentLayout: TwoThirdsMainContent,
     fullWidthMainContentLayout: templates.FullWidthMainContent
 )
@@ -90,7 +92,8 @@
     headerBlock = Some(hmrcStandardHeader(
         serviceUrl  = Some(routes.IndexController.onPageLoad.url),
         signOutUrl  = if(showSignOut) Some(controllers.auth.routes.AuthController.signOut.url) else None,
-        phaseBanner = Some(betaBanner(appConfig.feedbackUrl))
+        phaseBanner = Some(betaBanner(appConfig.feedbackUrl)),
+        additionalBannersBlock = Some(userResearchBanner())
     )),
     beforeContentBlock = Some(beforeContent),
     footerBlock        = Some(hmrcStandardFooter()),

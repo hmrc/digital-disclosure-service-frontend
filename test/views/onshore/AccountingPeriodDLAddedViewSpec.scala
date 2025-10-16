@@ -77,13 +77,12 @@ class AccountingPeriodDLAddedViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain change/remove link" in {
-      view.getElementsByClass("govuk-link").get(3).text() must include(messages("site.change"))
-      view.getElementsByClass("govuk-link").get(4).text() must include(messages("site.remove"))
+      view.getElementsByClass("govuk-link").get(4).text() must include(messages("site.change"))
+      view.getElementsByClass("govuk-link").get(5).text() must include(messages("site.remove"))
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId("continue")
-      view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
+      view.getElementById("continue").text() mustBe messages("site.saveAndContinue")
     }
 
   }
@@ -119,19 +118,18 @@ class AccountingPeriodDLAddedViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain remove link" in {
-      view.getElementsByClass("govuk-link").get(3).text() must include(messages("site.change"))
-      view.getElementsByClass("govuk-link").get(3).attr("href") mustBe routes.DirectorLoanAccountLiabilitiesController
+      view.getElementsByClass("govuk-link").get(4).text() must include(messages("site.change"))
+      view.getElementsByClass("govuk-link").get(4).attr("href") mustBe routes.DirectorLoanAccountLiabilitiesController
         .onPageLoad(0, NormalMode)
         .url
-      view.getElementsByClass("govuk-link").get(4).text() must include(messages("site.remove"))
-      view.getElementsByClass("govuk-link").get(4).attr("href") mustBe routes.AccountingPeriodDLAddedController
+      view.getElementsByClass("govuk-link").get(5).text() must include(messages("site.remove"))
+      view.getElementsByClass("govuk-link").get(5).attr("href") mustBe routes.AccountingPeriodDLAddedController
         .remove(0, NormalMode)
         .url
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId("continue")
-      view.getElementsByClass("govuk-button").text() mustBe messages("site.saveAndContinue")
+      view.getElementById("continue").text() mustBe messages("site.saveAndContinue")
     }
 
   }

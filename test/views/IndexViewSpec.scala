@@ -42,8 +42,7 @@ class IndexViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the start now button when full disclosure journey enabled is true" in {
-      view.getElementsByClass("govuk-button").first() must haveId("start")
-      view.getElementsByClass("govuk-button").text() mustBe messages("site.continue")
+      view.getElementById("start").text() mustBe messages("site.continue")
       view
         .getElementById("start")
         .attr("href") mustBe controllers.routes.MakeANotificationOrDisclosureController.onPageLoad.url
@@ -119,7 +118,7 @@ class IndexViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain what you will need to complete your disclosure heading" in {
-      view.getElementsByClass("govuk-heading-s").text() mustBe messages("index.heading.third")
+      view.getElementById("index-heading").text() mustBe messages("index.heading.third")
     }
 
     "have a ninth paragraph" in {

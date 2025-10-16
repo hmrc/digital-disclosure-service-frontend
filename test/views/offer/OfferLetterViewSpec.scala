@@ -82,8 +82,7 @@ class OfferLetterViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "display the continue button" in {
-      view.getElementsByClass("govuk-button").first() must haveId("send-disclosure")
-      view.getElementsByClass("govuk-button").text() mustBe messages("offerLetter.button")
+      view.getElementById("send-disclosure").text() mustBe messages("offerLetter.button")
     }
 
   }
