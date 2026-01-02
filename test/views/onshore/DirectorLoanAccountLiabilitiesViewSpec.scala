@@ -52,7 +52,7 @@ class DirectorLoanAccountLiabilitiesViewSpec extends ViewSpecBase with ViewMatch
     }
 
     "contain the sub header" in {
-      view.getElementsByClass("govuk-label--m").first().text() mustBe messages(
+      view.getElementsByClass("govuk-heading-m").first().text() mustBe messages(
         "directorLoanAccountLiabilities.subHeader",
         index + 1
       )

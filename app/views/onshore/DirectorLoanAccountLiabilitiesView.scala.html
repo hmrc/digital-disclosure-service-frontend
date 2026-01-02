@@ -59,7 +59,7 @@
             content = HtmlContent(messages("directorLoanAccountLiabilities.inset"))
         )
 
-        @paragraph(id = Some("sub-header"), classes = "govuk-label--m", content = Text(messages("directorLoanAccountLiabilities.subHeader", index + 1)))
+        @heading(Text(messages("directorLoanAccountLiabilities.subHeader", index + 1)), classes = "govuk-heading-m")
 
         @govukInput(
             InputViewModel(
