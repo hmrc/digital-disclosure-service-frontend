@@ -15,13 +15,15 @@
  */
 
 package generators
+
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalacheck.Arbitrary.arbitrary
-import models._
-import models.address._
+import models.*
+import models.address.*
 import java.time.{LocalDate, ZoneOffset}
 import io.github.martinhh.derived.scalacheck.deriveArbitrary
 import io.github.martinhh.derived.scalacheck.anyGivenArbitrary
+
 trait ModelGenerators {
   private val MAX_BIGINT = BigInt("999999999999999999999999")
   private val MIN_YEAR   = 2002
