@@ -206,7 +206,18 @@ object UserAnswers {
         (__ \ "metadata").write[Metadata] and
         (__ \ "declaration").write[Boolean] and
         (__ \ "customerId").writeNullable[CustomerId]
-    )(unlift(UserAnswers.unapply))
+    )(ua => (
+            ua.id,
+            ua.sessionId,
+            ua.submissionId,
+            ua.submissionType,
+            ua.data,
+            ua.lastUpdated,
+            ua.created,
+            ua.metadata,
+            ua.madeDeclaration,
+            ua.customerId
+          ))
   }
 
   implicit val format: OFormat[UserAnswers] = OFormat(reads, writes)

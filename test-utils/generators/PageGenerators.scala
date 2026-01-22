@@ -21,359 +21,359 @@ import pages._
 
 trait PageGenerators {
 
-  implicit lazy val arbitraryAreYouTheEntityPage: Arbitrary[AreYouTheEntityPage.type] =
+  given arbitraryAreYouTheEntityPage: Arbitrary[AreYouTheEntityPage.type] =
     Arbitrary(AreYouTheEntityPage)
 
-  implicit lazy val arbitraryAccountingPeriodDLAddedPage: Arbitrary[AccountingPeriodDLAddedPage.type] =
+  given arbitraryAccountingPeriodDLAddedPage: Arbitrary[AccountingPeriodDLAddedPage.type] =
     Arbitrary(AccountingPeriodDLAddedPage)
 
-  implicit lazy val arbitraryAccountingPeriodCTAddedPage: Arbitrary[AccountingPeriodCTAddedPage.type] =
+  given arbitraryAccountingPeriodCTAddedPage: Arbitrary[AccountingPeriodCTAddedPage.type] =
     Arbitrary(AccountingPeriodCTAddedPage)
 
-  implicit lazy val arbitraryPropertyAddedPage: Arbitrary[PropertyAddedPage.type] =
+  given arbitraryPropertyAddedPage: Arbitrary[PropertyAddedPage.type] =
     Arbitrary(PropertyAddedPage)
 
-  implicit lazy val arbitraryHowManyPropertiesDoYouCurrentlyLetOutPage
+  given arbitraryHowManyPropertiesDoYouCurrentlyLetOutPage
     : Arbitrary[HowManyPropertiesDoYouCurrentlyLetOutPage.type] =
     Arbitrary(HowManyPropertiesDoYouCurrentlyLetOutPage)
 
-  implicit lazy val arbitraryAreYouAMemberOfAnyLandlordAssociationsPage
+  given arbitraryAreYouAMemberOfAnyLandlordAssociationsPage
     : Arbitrary[AreYouAMemberOfAnyLandlordAssociationsPage.type] =
     Arbitrary(AreYouAMemberOfAnyLandlordAssociationsPage)
 
-  implicit lazy val arbitraryDidTheLettingAgentCollectRentOnYourBehalfPage
+  given arbitraryDidTheLettingAgentCollectRentOnYourBehalfPage
     : Arbitrary[DidTheLettingAgentCollectRentOnYourBehalfPage.type] =
     Arbitrary(DidTheLettingAgentCollectRentOnYourBehalfPage)
 
-  implicit lazy val arbitraryWasALettingAgentUsedToManagePropertyPage
+  given arbitraryWasALettingAgentUsedToManagePropertyPage
     : Arbitrary[WasALettingAgentUsedToManagePropertyPage.type] =
     Arbitrary(WasALettingAgentUsedToManagePropertyPage)
 
-  implicit lazy val arbitraryWhatWasTheTypeOfMortgagePage: Arbitrary[WhatWasTheTypeOfMortgagePage.type] =
+  given arbitraryWhatWasTheTypeOfMortgagePage: Arbitrary[WhatWasTheTypeOfMortgagePage.type] =
     Arbitrary(WhatWasTheTypeOfMortgagePage)
 
-  implicit lazy val arbitraryWhatTypeOfMortgageDidYouHavePage: Arbitrary[WhatTypeOfMortgageDidYouHavePage.type] =
+  given arbitraryWhatTypeOfMortgageDidYouHavePage: Arbitrary[WhatTypeOfMortgageDidYouHavePage.type] =
     Arbitrary(WhatTypeOfMortgageDidYouHavePage)
 
-  implicit lazy val arbitraryWasPropertyFurnishedPage: Arbitrary[WasPropertyFurnishedPage.type] =
+  given arbitraryWasPropertyFurnishedPage: Arbitrary[WasPropertyFurnishedPage.type] =
     Arbitrary(WasPropertyFurnishedPage)
 
-  implicit lazy val arbitraryWhatWasThePercentageIncomeYouReceivedFromPropertyPage
+  given arbitraryWhatWasThePercentageIncomeYouReceivedFromPropertyPage
     : Arbitrary[WhatWasThePercentageIncomeYouReceivedFromPropertyPage.type] =
     Arbitrary(WhatWasThePercentageIncomeYouReceivedFromPropertyPage)
 
-  implicit lazy val arbitraryDidYouHaveAMortgageOnPropertyPage: Arbitrary[DidYouHaveAMortgageOnPropertyPage.type] =
+  given arbitraryDidYouHaveAMortgageOnPropertyPage: Arbitrary[DidYouHaveAMortgageOnPropertyPage.type] =
     Arbitrary(DidYouHaveAMortgageOnPropertyPage)
 
-  implicit lazy val arbitraryJointlyOwnedPropertyPage: Arbitrary[JointlyOwnedPropertyPage.type] =
+  given arbitraryJointlyOwnedPropertyPage: Arbitrary[JointlyOwnedPropertyPage.type] =
     Arbitrary(JointlyOwnedPropertyPage)
 
-  implicit lazy val arbitraryFHLPage: Arbitrary[FHLPage.type] =
+  given arbitraryFHLPage: Arbitrary[FHLPage.type] =
     Arbitrary(FHLPage)
 
-  implicit lazy val arbitraryPropertyIsNoLongerBeingLetOutPage: Arbitrary[PropertyIsNoLongerBeingLetOutPage.type] =
+  given arbitraryPropertyIsNoLongerBeingLetOutPage: Arbitrary[PropertyIsNoLongerBeingLetOutPage.type] =
     Arbitrary(PropertyIsNoLongerBeingLetOutPage)
 
-  implicit lazy val arbitraryPropertyStoppedBeingLetOutPage: Arbitrary[PropertyStoppedBeingLetOutPage.type] =
+  given arbitraryPropertyStoppedBeingLetOutPage: Arbitrary[PropertyStoppedBeingLetOutPage.type] =
     Arbitrary(PropertyStoppedBeingLetOutPage)
 
-  implicit lazy val arbitraryPropertyFirstLetOutPage: Arbitrary[PropertyFirstLetOutPage.type] =
+  given arbitraryPropertyFirstLetOutPage: Arbitrary[PropertyFirstLetOutPage.type] =
     Arbitrary(PropertyFirstLetOutPage)
 
-  implicit lazy val arbitraryCorporationTaxLiabilityPage: Arbitrary[CorporationTaxLiabilityPage.type] =
+  given arbitraryCorporationTaxLiabilityPage: Arbitrary[CorporationTaxLiabilityPage.type] =
     Arbitrary(CorporationTaxLiabilityPage)
 
-  implicit lazy val arbitraryResidentialReductionPage: Arbitrary[ResidentialReductionPage.type] =
+  given arbitraryResidentialReductionPage: Arbitrary[ResidentialReductionPage.type] =
     Arbitrary(ResidentialReductionPage)
 
-  implicit lazy val arbitraryDirectorLoanAccountLiabilitiesPage: Arbitrary[DirectorLoanAccountLiabilitiesPage.type] =
+  given arbitraryDirectorLoanAccountLiabilitiesPage: Arbitrary[DirectorLoanAccountLiabilitiesPage.type] =
     Arbitrary(DirectorLoanAccountLiabilitiesPage)
 
-  implicit lazy val arbitraryWhichOnshoreYearsPage: Arbitrary[WhichOnshoreYearsPage.type] =
+  given arbitraryWhichOnshoreYearsPage: Arbitrary[WhichOnshoreYearsPage.type] =
     Arbitrary(WhichOnshoreYearsPage)
 
-  implicit lazy val arbitraryWhatOnshoreLiabilitiesDoYouNeedToDisclosePage
+  given arbitraryWhatOnshoreLiabilitiesDoYouNeedToDisclosePage
     : Arbitrary[WhatOnshoreLiabilitiesDoYouNeedToDisclosePage.type] =
     Arbitrary(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage)
 
-  implicit lazy val arbitraryOfferLetterPage: Arbitrary[OfferLetterPage.type] =
+  given arbitraryOfferLetterPage: Arbitrary[OfferLetterPage.type] =
     Arbitrary(OfferLetterPage)
 
-  implicit lazy val arbitraryWhichTelephoneNumberCanWeContactYouWithPage
+  given arbitraryWhichTelephoneNumberCanWeContactYouWithPage
     : Arbitrary[WhichTelephoneNumberCanWeContactYouWithPage.type] =
     Arbitrary(WhichTelephoneNumberCanWeContactYouWithPage)
 
-  implicit lazy val arbitraryForeignTaxCreditPage: Arbitrary[ForeignTaxCreditPage.type] =
+  given arbitraryForeignTaxCreditPage: Arbitrary[ForeignTaxCreditPage.type] =
     Arbitrary(ForeignTaxCreditPage)
 
-  implicit lazy val arbitraryYouHaveNotSelectedCertainTaxYearPage
+  given arbitraryYouHaveNotSelectedCertainTaxYearPage
     : Arbitrary[YouHaveNotSelectedCertainTaxYearPage.type] =
     Arbitrary(YouHaveNotSelectedCertainTaxYearPage)
 
-  implicit lazy val arbitraryTaxBeforeNineteenYearsPage: Arbitrary[TaxBeforeNineteenYearsPage.type] =
+  given arbitraryTaxBeforeNineteenYearsPage: Arbitrary[TaxBeforeNineteenYearsPage.type] =
     Arbitrary(TaxBeforeNineteenYearsPage)
 
-  implicit lazy val arbitraryTaxBeforeNineteenYearsOnshorePage: Arbitrary[TaxBeforeNineteenYearsOnshorePage.type] =
+  given arbitraryTaxBeforeNineteenYearsOnshorePage: Arbitrary[TaxBeforeNineteenYearsOnshorePage.type] =
     Arbitrary(TaxBeforeNineteenYearsOnshorePage)
 
-  implicit lazy val arbitraryNotificationStartedPage: Arbitrary[NotificationStartedPage.type] =
+  given arbitraryNotificationStartedPage: Arbitrary[NotificationStartedPage.type] =
     Arbitrary(NotificationStartedPage)
 
-  implicit lazy val arbitraryYouHaveNotIncludedTheTaxYearPage: Arbitrary[YouHaveNotIncludedTheTaxYearPage.type] =
+  given arbitraryYouHaveNotIncludedTheTaxYearPage: Arbitrary[YouHaveNotIncludedTheTaxYearPage.type] =
     Arbitrary(YouHaveNotIncludedTheTaxYearPage)
 
-  implicit lazy val arbitraryCountriesOrTerritoriesPage: Arbitrary[CountriesOrTerritoriesPage.type] =
+  given arbitraryCountriesOrTerritoriesPage: Arbitrary[CountriesOrTerritoriesPage.type] =
     Arbitrary(CountriesOrTerritoriesPage)
 
-  implicit lazy val arbitraryWhatEmailAddressCanWeContactYouWithPage
+  given arbitraryWhatEmailAddressCanWeContactYouWithPage
     : Arbitrary[WhatEmailAddressCanWeContactYouWithPage.type] =
     Arbitrary(WhatEmailAddressCanWeContactYouWithPage)
 
-  implicit lazy val arbitraryWhichEmailAddressCanWeContactYouWithPage
+  given arbitraryWhichEmailAddressCanWeContactYouWithPage
     : Arbitrary[WhichEmailAddressCanWeContactYouWithPage.type] =
     Arbitrary(WhichEmailAddressCanWeContactYouWithPage)
 
-  implicit lazy val arbitraryWhatIsTheCaseReferencePage: Arbitrary[WhatIsTheCaseReferencePage.type] =
+  given arbitraryWhatIsTheCaseReferencePage: Arbitrary[WhatIsTheCaseReferencePage.type] =
     Arbitrary(WhatIsTheCaseReferencePage)
 
-  implicit lazy val arbitraryDoYouHaveACaseReferencePage: Arbitrary[DoYouHaveACaseReferencePage.type] =
+  given arbitraryDoYouHaveACaseReferencePage: Arbitrary[DoYouHaveACaseReferencePage.type] =
     Arbitrary(DoYouHaveACaseReferencePage)
 
-  implicit lazy val arbitraryWhatTelephoneNumberCanWeContactYouWithPage
+  given arbitraryWhatTelephoneNumberCanWeContactYouWithPage
     : Arbitrary[WhatTelephoneNumberCanWeContactYouWithPage.type] =
     Arbitrary(WhatTelephoneNumberCanWeContactYouWithPage)
 
-  implicit lazy val arbitraryAdviceGivenPage: Arbitrary[AdviceGivenPage.type] =
+  given arbitraryAdviceGivenPage: Arbitrary[AdviceGivenPage.type] =
     Arbitrary(AdviceGivenPage)
 
-  implicit lazy val arbitraryAdviceProfessionPage: Arbitrary[AdviceProfessionPage.type] =
+  given arbitraryAdviceProfessionPage: Arbitrary[AdviceProfessionPage.type] =
     Arbitrary(AdviceProfessionPage)
 
-  implicit lazy val arbitraryAdviceBusinessNamePage: Arbitrary[AdviceBusinessNamePage.type] =
+  given arbitraryAdviceBusinessNamePage: Arbitrary[AdviceBusinessNamePage.type] =
     Arbitrary(AdviceBusinessNamePage)
 
-  implicit lazy val arbitraryAdviceBusinessesOrOrgPage: Arbitrary[AdviceBusinessesOrOrgPage.type] =
+  given arbitraryAdviceBusinessesOrOrgPage: Arbitrary[AdviceBusinessesOrOrgPage.type] =
     Arbitrary(AdviceBusinessesOrOrgPage)
 
-  implicit lazy val arbitraryPersonWhoGaveAdvicePage: Arbitrary[PersonWhoGaveAdvicePage.type] =
+  given arbitraryPersonWhoGaveAdvicePage: Arbitrary[PersonWhoGaveAdvicePage.type] =
     Arbitrary(PersonWhoGaveAdvicePage)
 
-  implicit lazy val arbitraryDidSomeoneGiveYouAdviceNotDeclareTaxPage
+  given arbitraryDidSomeoneGiveYouAdviceNotDeclareTaxPage
     : Arbitrary[DidSomeoneGiveYouAdviceNotDeclareTaxPage.type] =
     Arbitrary(DidSomeoneGiveYouAdviceNotDeclareTaxPage)
 
-  implicit lazy val arbitraryWhyNotBeforeNowPage: Arbitrary[WhyNotBeforeNowPage.type] =
+  given arbitraryWhyNotBeforeNowPage: Arbitrary[WhyNotBeforeNowPage.type] =
     Arbitrary(WhyNotBeforeNowPage)
 
-  implicit lazy val arbitraryWhatIsTheReasonForMakingADisclosureNowPage
+  given arbitraryWhatIsTheReasonForMakingADisclosureNowPage
     : Arbitrary[WhatIsTheReasonForMakingADisclosureNowPage.type] =
     Arbitrary(WhatIsTheReasonForMakingADisclosureNowPage)
 
-  implicit lazy val arbitraryWhyAreYouMakingADisclosurePage: Arbitrary[WhyAreYouMakingADisclosurePage.type] =
+  given arbitraryWhyAreYouMakingADisclosurePage: Arbitrary[WhyAreYouMakingADisclosurePage.type] =
     Arbitrary(WhyAreYouMakingADisclosurePage)
 
-  implicit lazy val arbitraryDidYouReceiveTaxCreditPage: Arbitrary[DidYouReceiveTaxCreditPage.type] =
+  given arbitraryDidYouReceiveTaxCreditPage: Arbitrary[DidYouReceiveTaxCreditPage.type] =
     Arbitrary(DidYouReceiveTaxCreditPage)
 
-  implicit lazy val arbitraryWhatOtherLiabilityIssuesPage: Arbitrary[WhatOtherLiabilityIssuesPage.type] =
+  given arbitraryWhatOtherLiabilityIssuesPage: Arbitrary[WhatOtherLiabilityIssuesPage.type] =
     Arbitrary(WhatOtherLiabilityIssuesPage)
 
-  implicit lazy val arbitraryDescribeTheGiftPage: Arbitrary[DescribeTheGiftPage.type] =
+  given arbitraryDescribeTheGiftPage: Arbitrary[DescribeTheGiftPage.type] =
     Arbitrary(DescribeTheGiftPage)
 
-  implicit lazy val arbitraryOtherLiabilityIssuesPage: Arbitrary[OtherLiabilityIssuesPage.type] =
+  given arbitraryOtherLiabilityIssuesPage: Arbitrary[OtherLiabilityIssuesPage.type] =
     Arbitrary(OtherLiabilityIssuesPage)
 
-  implicit lazy val arbitraryTheMaximumValueOfAllAssetsPage: Arbitrary[TheMaximumValueOfAllAssetsPage.type] =
+  given arbitraryTheMaximumValueOfAllAssetsPage: Arbitrary[TheMaximumValueOfAllAssetsPage.type] =
     Arbitrary(TheMaximumValueOfAllAssetsPage)
 
-  implicit lazy val arbitraryHowMuchTaxHasNotBeenIncludedPage: Arbitrary[HowMuchTaxHasNotBeenIncludedPage.type] =
+  given arbitraryHowMuchTaxHasNotBeenIncludedPage: Arbitrary[HowMuchTaxHasNotBeenIncludedPage.type] =
     Arbitrary(HowMuchTaxHasNotBeenIncludedPage)
 
-  implicit lazy val arbitraryUnderWhatConsiderationPage: Arbitrary[UnderWhatConsiderationPage.type] =
+  given arbitraryUnderWhatConsiderationPage: Arbitrary[UnderWhatConsiderationPage.type] =
     Arbitrary(UnderWhatConsiderationPage)
 
-  implicit lazy val arbitraryTaxBeforeSevenYearsPage: Arbitrary[TaxBeforeSevenYearsPage.type] =
+  given arbitraryTaxBeforeSevenYearsPage: Arbitrary[TaxBeforeSevenYearsPage.type] =
     Arbitrary(TaxBeforeSevenYearsPage)
 
-  implicit lazy val arbitraryTaxBeforeThreeYearsOnshorePage: Arbitrary[TaxBeforeThreeYearsOnshorePage.type] =
+  given arbitraryTaxBeforeThreeYearsOnshorePage: Arbitrary[TaxBeforeThreeYearsOnshorePage.type] =
     Arbitrary(TaxBeforeThreeYearsOnshorePage)
 
-  implicit lazy val arbitraryTaxBeforeFiveYearsPage: Arbitrary[TaxBeforeFiveYearsPage.type] =
+  given arbitraryTaxBeforeFiveYearsPage: Arbitrary[TaxBeforeFiveYearsPage.type] =
     Arbitrary(TaxBeforeFiveYearsPage)
 
-  implicit lazy val arbitraryTaxBeforeFiveYearsOnshorePage: Arbitrary[TaxBeforeFiveYearsOnshorePage.type] =
+  given arbitraryTaxBeforeFiveYearsOnshorePage: Arbitrary[TaxBeforeFiveYearsOnshorePage.type] =
     Arbitrary(TaxBeforeFiveYearsOnshorePage)
 
-  implicit lazy val arbitraryTaxYearLiabilitiesPage: Arbitrary[TaxYearLiabilitiesPage.type] =
+  given arbitraryTaxYearLiabilitiesPage: Arbitrary[TaxYearLiabilitiesPage.type] =
     Arbitrary(TaxYearLiabilitiesPage)
 
-  implicit lazy val arbitraryYourLegalInterpretationPage: Arbitrary[YourLegalInterpretationPage.type] =
+  given arbitraryYourLegalInterpretationPage: Arbitrary[YourLegalInterpretationPage.type] =
     Arbitrary(YourLegalInterpretationPage)
 
-  implicit lazy val arbitraryCountryOfYourOffshoreLiabilityPage: Arbitrary[CountryOfYourOffshoreLiabilityPage.type] =
+  given arbitraryCountryOfYourOffshoreLiabilityPage: Arbitrary[CountryOfYourOffshoreLiabilityPage.type] =
     Arbitrary(CountryOfYourOffshoreLiabilityPage)
 
-  implicit lazy val arbitraryWhichYearsPage: Arbitrary[WhichYearsPage.type] =
+  given arbitraryWhichYearsPage: Arbitrary[WhichYearsPage.type] =
     Arbitrary(WhichYearsPage)
 
-  implicit lazy val arbitraryWhatIsYourReasonableExcusePage: Arbitrary[WhatIsYourReasonableExcusePage.type] =
+  given arbitraryWhatIsYourReasonableExcusePage: Arbitrary[WhatIsYourReasonableExcusePage.type] =
     Arbitrary(WhatIsYourReasonableExcusePage)
 
-  implicit lazy val arbitraryWhatIsYourReasonableExcuseForNotFilingReturnPage
+  given arbitraryWhatIsYourReasonableExcuseForNotFilingReturnPage
     : Arbitrary[WhatIsYourReasonableExcuseForNotFilingReturnPage.type] =
     Arbitrary(WhatIsYourReasonableExcuseForNotFilingReturnPage)
 
-  implicit lazy val arbitraryWhatReasonableCareDidYouTakePage: Arbitrary[WhatReasonableCareDidYouTakePage.type] =
+  given arbitraryWhatReasonableCareDidYouTakePage: Arbitrary[WhatReasonableCareDidYouTakePage.type] =
     Arbitrary(WhatReasonableCareDidYouTakePage)
 
-  implicit lazy val arbitraryYouHaveLeftTheDDSPage: Arbitrary[YouHaveLeftTheDDSPage.type] =
+  given arbitraryYouHaveLeftTheDDSPage: Arbitrary[YouHaveLeftTheDDSPage.type] =
     Arbitrary(YouHaveLeftTheDDSPage)
 
-  implicit lazy val arbitraryContractualDisclosureFacilityPage: Arbitrary[ContractualDisclosureFacilityPage.type] =
+  given arbitraryContractualDisclosureFacilityPage: Arbitrary[ContractualDisclosureFacilityPage.type] =
     Arbitrary(ContractualDisclosureFacilityPage)
 
-  implicit lazy val arbitraryWhyAreYouMakingThisDisclosurePage: Arbitrary[WhyAreYouMakingThisDisclosurePage.type] =
+  given arbitraryWhyAreYouMakingThisDisclosurePage: Arbitrary[WhyAreYouMakingThisDisclosurePage.type] =
     Arbitrary(WhyAreYouMakingThisDisclosurePage)
 
-  implicit lazy val arbitraryMakeANotificationOrDisclosurePage: Arbitrary[MakeANotificationOrDisclosurePage.type] =
+  given arbitraryMakeANotificationOrDisclosurePage: Arbitrary[MakeANotificationOrDisclosurePage.type] =
     Arbitrary(MakeANotificationOrDisclosurePage)
 
-  implicit lazy val arbitraryHowWouldYouPreferToBeContactedPage: Arbitrary[HowWouldYouPreferToBeContactedPage.type] =
+  given arbitraryHowWouldYouPreferToBeContactedPage: Arbitrary[HowWouldYouPreferToBeContactedPage.type] =
     Arbitrary(HowWouldYouPreferToBeContactedPage)
 
-  implicit lazy val arbitraryWhatWasThePersonUTRPage: Arbitrary[WhatWasThePersonUTRPage.type] =
+  given arbitraryWhatWasThePersonUTRPage: Arbitrary[WhatWasThePersonUTRPage.type] =
     Arbitrary(WhatWasThePersonUTRPage)
 
-  implicit lazy val arbitraryWasThePersonRegisteredForSAPage: Arbitrary[WasThePersonRegisteredForSAPage.type] =
+  given arbitraryWasThePersonRegisteredForSAPage: Arbitrary[WasThePersonRegisteredForSAPage.type] =
     Arbitrary(WasThePersonRegisteredForSAPage)
 
-  implicit lazy val arbitraryWhatWasThePersonVATRegistrationNumberPage
+  given arbitraryWhatWasThePersonVATRegistrationNumberPage
     : Arbitrary[WhatWasThePersonVATRegistrationNumberPage.type] =
     Arbitrary(WhatWasThePersonVATRegistrationNumberPage)
 
-  implicit lazy val arbitraryWasThePersonRegisteredForVATPage: Arbitrary[WasThePersonRegisteredForVATPage.type] =
+  given arbitraryWasThePersonRegisteredForVATPage: Arbitrary[WasThePersonRegisteredForVATPage.type] =
     Arbitrary(WasThePersonRegisteredForVATPage)
 
-  implicit lazy val arbitraryWhatWasThePersonNINOPage: Arbitrary[WhatWasThePersonNINOPage.type] =
+   given arbitraryWhatWasThePersonNINOPage: Arbitrary[WhatWasThePersonNINOPage.type] =
     Arbitrary(WhatWasThePersonNINOPage)
 
-  implicit lazy val arbitraryDidThePersonHaveNINOPage: Arbitrary[DidThePersonHaveNINOPage.type] =
+  given arbitraryDidThePersonHaveNINOPage: Arbitrary[DidThePersonHaveNINOPage.type] =
     Arbitrary(DidThePersonHaveNINOPage)
 
-  implicit lazy val arbitraryWhatWasThePersonDateOfBirthPage: Arbitrary[WhatWasThePersonDateOfBirthPage.type] =
+  given arbitraryWhatWasThePersonDateOfBirthPage: Arbitrary[WhatWasThePersonDateOfBirthPage.type] =
     Arbitrary(WhatWasThePersonDateOfBirthPage)
 
-  implicit lazy val arbitraryWhatWasThePersonOccupationPage: Arbitrary[WhatWasThePersonOccupationPage.type] =
+  given arbitraryWhatWasThePersonOccupationPage: Arbitrary[WhatWasThePersonOccupationPage.type] =
     Arbitrary(WhatWasThePersonOccupationPage)
 
-  implicit lazy val arbitraryWhatWasTheNameOfThePersonWhoDiedPage
+  given arbitraryWhatWasTheNameOfThePersonWhoDiedPage
     : Arbitrary[WhatWasTheNameOfThePersonWhoDiedPage.type] =
     Arbitrary(WhatWasTheNameOfThePersonWhoDiedPage)
 
-  implicit lazy val arbitraryWhatIsTheTrustNamePage: Arbitrary[WhatIsTheTrustNamePage.type] =
+  given arbitraryWhatIsTheTrustNamePage: Arbitrary[WhatIsTheTrustNamePage.type] =
     Arbitrary(WhatIsTheTrustNamePage)
 
-  implicit lazy val arbitraryWhatIsTheLLPNamePage: Arbitrary[WhatIsTheLLPNamePage.type] =
+  given arbitraryWhatIsTheLLPNamePage: Arbitrary[WhatIsTheLLPNamePage.type] =
     Arbitrary(WhatIsTheLLPNamePage)
 
-  implicit lazy val arbitraryWhatIsTheCompanyRegistrationNumberPage
+  given arbitraryWhatIsTheCompanyRegistrationNumberPage
     : Arbitrary[WhatIsTheCompanyRegistrationNumberPage.type] =
     Arbitrary(WhatIsTheCompanyRegistrationNumberPage)
 
-  implicit lazy val arbitraryWhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage
+  given arbitraryWhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage
     : Arbitrary[WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage.type] =
     Arbitrary(WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage)
 
-  implicit lazy val arbitraryWhatIsTheNameOfTheOrganisationYouRepresentPage
+  given arbitraryWhatIsTheNameOfTheOrganisationYouRepresentPage
     : Arbitrary[WhatIsTheNameOfTheOrganisationYouRepresentPage.type] =
     Arbitrary(WhatIsTheNameOfTheOrganisationYouRepresentPage)
 
-  implicit lazy val arbitraryAreYouRepresentingAnOrganisationPage
+  given arbitraryAreYouRepresentingAnOrganisationPage
     : Arbitrary[AreYouRepresentingAnOrganisationPage.type] =
     Arbitrary(AreYouRepresentingAnOrganisationPage)
 
-  implicit lazy val arbitraryWhatIsTheIndividualsUniqueTaxReferencePage
+  given arbitraryWhatIsTheIndividualsUniqueTaxReferencePage
     : Arbitrary[WhatIsTheIndividualsUniqueTaxReferencePage.type] =
     Arbitrary(WhatIsTheIndividualsUniqueTaxReferencePage)
 
-  implicit lazy val arbitraryWhatIsTheIndividualsVATRegistrationNumberPage
+  given arbitraryWhatIsTheIndividualsVATRegistrationNumberPage
     : Arbitrary[WhatIsTheIndividualsVATRegistrationNumberPage.type] =
     Arbitrary(WhatIsTheIndividualsVATRegistrationNumberPage)
 
-  implicit lazy val arbitraryIsTheIndividualRegisteredForSelfAssessmentPage
+  given arbitraryIsTheIndividualRegisteredForSelfAssessmentPage
     : Arbitrary[IsTheIndividualRegisteredForSelfAssessmentPage.type] =
     Arbitrary(IsTheIndividualRegisteredForSelfAssessmentPage)
 
-  implicit lazy val arbitraryIsTheIndividualRegisteredForVATPage: Arbitrary[IsTheIndividualRegisteredForVATPage.type] =
+  given arbitraryIsTheIndividualRegisteredForVATPage: Arbitrary[IsTheIndividualRegisteredForVATPage.type] =
     Arbitrary(IsTheIndividualRegisteredForVATPage)
 
-  implicit lazy val arbitraryWhatIsIndividualsNationalInsuranceNumberPage
+  given arbitraryWhatIsIndividualsNationalInsuranceNumberPage
     : Arbitrary[WhatIsIndividualsNationalInsuranceNumberPage.type] =
     Arbitrary(WhatIsIndividualsNationalInsuranceNumberPage)
 
-  implicit lazy val arbitraryDoesTheIndividualHaveNationalInsuranceNumberPage
+  given arbitraryDoesTheIndividualHaveNationalInsuranceNumberPage
     : Arbitrary[DoesTheIndividualHaveNationalInsuranceNumberPage.type] =
     Arbitrary(DoesTheIndividualHaveNationalInsuranceNumberPage)
 
-  implicit lazy val arbitraryWhatIsTheIndividualOccupationPage: Arbitrary[WhatIsTheIndividualOccupationPage.type] =
+  given arbitraryWhatIsTheIndividualOccupationPage: Arbitrary[WhatIsTheIndividualOccupationPage.type] =
     Arbitrary(WhatIsTheIndividualOccupationPage)
 
-  implicit lazy val arbitraryWhatIsTheIndividualDateOfBirthPage: Arbitrary[WhatIsTheIndividualDateOfBirthPage.type] =
+  given arbitraryWhatIsTheIndividualDateOfBirthPage: Arbitrary[WhatIsTheIndividualDateOfBirthPage.type] =
     Arbitrary(WhatIsTheIndividualDateOfBirthPage)
 
-  implicit lazy val arbitraryWhatIsTheIndividualsFullNamePage: Arbitrary[WhatIsTheIndividualsFullNamePage.type] =
+  given arbitraryWhatIsTheIndividualsFullNamePage: Arbitrary[WhatIsTheIndividualsFullNamePage.type] =
     Arbitrary(WhatIsTheIndividualsFullNamePage)
 
-  implicit lazy val arbitraryWhatIsYourUniqueTaxReferencePage: Arbitrary[WhatIsYourUniqueTaxReferencePage.type] =
+  given arbitraryWhatIsYourUniqueTaxReferencePage: Arbitrary[WhatIsYourUniqueTaxReferencePage.type] =
     Arbitrary(WhatIsYourUniqueTaxReferencePage)
 
-  implicit lazy val arbitraryAreYouRegisteredForSelfAssessmentPage
+  given arbitraryAreYouRegisteredForSelfAssessmentPage
     : Arbitrary[AreYouRegisteredForSelfAssessmentPage.type] =
     Arbitrary(AreYouRegisteredForSelfAssessmentPage)
 
-  implicit lazy val arbitraryAreYouRegisteredForVATPage: Arbitrary[AreYouRegisteredForVATPage.type] =
+  given arbitraryAreYouRegisteredForVATPage: Arbitrary[AreYouRegisteredForVATPage.type] =
     Arbitrary(AreYouRegisteredForVATPage)
 
-  implicit lazy val arbitraryWhatIsYourVATRegistrationNumberPage: Arbitrary[WhatIsYourVATRegistrationNumberPage.type] =
+  given arbitraryWhatIsYourVATRegistrationNumberPage: Arbitrary[WhatIsYourVATRegistrationNumberPage.type] =
     Arbitrary(WhatIsYourVATRegistrationNumberPage)
 
-  implicit lazy val arbitraryWhatIsYourNationalInsuranceNumberPage
+  given arbitraryWhatIsYourNationalInsuranceNumberPage
     : Arbitrary[WhatIsYourNationalInsuranceNumberPage.type] =
     Arbitrary(WhatIsYourNationalInsuranceNumberPage)
 
-  implicit lazy val arbitraryDoYouHaveNationalInsuranceNumberPage
+  given arbitraryDoYouHaveNationalInsuranceNumberPage
     : Arbitrary[DoYouHaveNationalInsuranceNumberPage.type] =
     Arbitrary(DoYouHaveNationalInsuranceNumberPage)
 
-  implicit lazy val arbitraryWhatIsYourMainOccupationPage: Arbitrary[WhatIsYourMainOccupationPage.type] =
+  given arbitraryWhatIsYourMainOccupationPage: Arbitrary[WhatIsYourMainOccupationPage.type] =
     Arbitrary(WhatIsYourMainOccupationPage)
 
-  implicit lazy val arbitraryWhatIsYourDateOfBirthPage: Arbitrary[WhatIsYourDateOfBirthPage.type] =
+  given arbitraryWhatIsYourDateOfBirthPage: Arbitrary[WhatIsYourDateOfBirthPage.type] =
     Arbitrary(WhatIsYourDateOfBirthPage)
 
-  implicit lazy val arbitraryWhatIsYourFullNamePage: Arbitrary[WhatIsYourFullNamePage.type] =
+  given arbitraryWhatIsYourFullNamePage: Arbitrary[WhatIsYourFullNamePage.type] =
     Arbitrary(WhatIsYourFullNamePage)
 
-  implicit lazy val arbitraryYourEmailAddressPage: Arbitrary[YourEmailAddressPage.type] =
+  given arbitraryYourEmailAddressPage: Arbitrary[YourEmailAddressPage.type] =
     Arbitrary(YourEmailAddressPage)
 
-  implicit lazy val arbitraryYourPhoneNumberPage: Arbitrary[YourPhoneNumberPage.type] =
+  given arbitraryYourPhoneNumberPage: Arbitrary[YourPhoneNumberPage.type] =
     Arbitrary(YourPhoneNumberPage)
 
-  implicit lazy val arbitraryLetterReferencePage: Arbitrary[LetterReferencePage.type] =
+  given arbitraryLetterReferencePage: Arbitrary[LetterReferencePage.type] =
     Arbitrary(LetterReferencePage)
 
-  implicit lazy val arbitraryOffshoreLiabilitiesPage: Arbitrary[OffshoreLiabilitiesPage.type] =
+  given arbitraryOffshoreLiabilitiesPage: Arbitrary[OffshoreLiabilitiesPage.type] =
     Arbitrary(OffshoreLiabilitiesPage)
 
-  implicit lazy val arbitraryOnshoreLiabilitiesPage: Arbitrary[OnshoreLiabilitiesPage.type] =
+  given arbitraryOnshoreLiabilitiesPage: Arbitrary[OnshoreLiabilitiesPage.type] =
     Arbitrary(OnshoreLiabilitiesPage)
 
-  implicit lazy val arbitraryrelatesToPage: Arbitrary[RelatesToPage.type] =
+  given arbitraryrelatesToPage: Arbitrary[RelatesToPage.type] =
     Arbitrary(RelatesToPage)
 
-  implicit lazy val arbitraryReceivedALetterPage: Arbitrary[ReceivedALetterPage.type] =
+  given arbitraryReceivedALetterPage: Arbitrary[ReceivedALetterPage.type] =
     Arbitrary(ReceivedALetterPage)
 
 }
