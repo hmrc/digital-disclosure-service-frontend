@@ -39,6 +39,6 @@ class AdviceGivenFormProvider @Inject() extends Mappings {
         minimumDateKey = "adviceGiven.date.error.invalidPastDate"
       ),
       "contact"     -> enumerable[AdviceContactPreference]("adviceGiven.error.contact.required")
-    )(AdviceGiven.apply)(AdviceGiven.unapply)
+    )(AdviceGiven.apply)(o=> Some(o.adviceGiven, o.monthYear, o.contactPreference))
   )
 }
