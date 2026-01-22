@@ -74,6 +74,7 @@ class DirectorLoanAccountLiabilitiesFormProvider @Inject() extends Mappings {
       "penaltyRateReason" -> text("directorLoanAccountLiabilities.penaltyRateReason.error.required")
         .verifying(maxLength(5000, "directorLoanAccountLiabilities.penaltyRateReason.error.length"))
         .verifying(validUnicodeCharacters)
-    )(DirectorLoanAccountLiabilities.apply)(DirectorLoanAccountLiabilities.unapply)
+    )(DirectorLoanAccountLiabilities.apply)(o=>Some(o.name, o.periodEnd, o.overdrawn, o.unpaidTax, o.interest,
+            o.penaltyRate, o.penaltyRateReason))
   )
 }

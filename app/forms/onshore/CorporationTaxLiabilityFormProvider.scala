@@ -70,6 +70,7 @@ class CorporationTaxLiabilityFormProvider @Inject() extends Mappings {
         "penaltyRateReason" -> text("corporationTaxLiability.penaltyRateReason.error.required")
           .verifying(maxLength(5000, "corporationTaxLiability.penaltyRateReason.error.length"))
           .verifying(validUnicodeCharacters)
-      )(CorporationTaxLiability.apply)(CorporationTaxLiability.unapply)
+      )(CorporationTaxLiability.apply)(o=>Some(o.periodEnd, o.howMuchIncome, o.howMuchUnpaid, o.howMuchInterest,
+                o.penaltyRate, o.penaltyRateReason))
     )
 }

@@ -45,7 +45,7 @@ class SessionRepositoryImpl @Inject() (
           Indexes.ascending("lastUpdated"),
           IndexOptions()
             .name("lastUpdatedIdx")
-            .expireAfter(appConfig.cacheTtl, TimeUnit.SECONDS)
+            .expireAfter(appConfig.cacheTtl.toLong, TimeUnit.SECONDS)
         ),
         IndexModel(
           Indexes.compoundIndex(
@@ -86,7 +86,7 @@ class SessionRepositoryImpl @Inject() (
 
   def set(answers: UserAnswers): Future[Boolean] = {
 
-    val updatedAnswers = answers copy (lastUpdated = Instant.now(clock))
+    val updatedAnswers = answers.copy(lastUpdated = Instant.now(clock))
 
     collection
       .replaceOne(
