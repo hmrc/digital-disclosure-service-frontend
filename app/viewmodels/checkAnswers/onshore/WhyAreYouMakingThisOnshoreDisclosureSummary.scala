@@ -52,7 +52,6 @@ object WhyAreYouMakingThisOnshoreDisclosureSummary {
         )
       )
 
-
       SummaryListRowViewModel(
         key = "whyAreYouMakingThisDisclosure.checkYourAnswersLabel",
         value = value,
