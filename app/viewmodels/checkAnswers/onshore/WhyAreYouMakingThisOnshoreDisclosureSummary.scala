@@ -37,22 +37,21 @@ object WhyAreYouMakingThisOnshoreDisclosureSummary {
 
       val value = ValueViewModel(
         HtmlContent(
-          Text(
-            answers
-              .map { answer =>
-                HtmlFormat
-                  .escape(
-                    messages(
-                      if (areTheyTheIndividual) s"whyAreYouMakingThisDisclosure.you.$answer"
-                      else s"whyAreYouMakingThisDisclosure.$entity.$answer"
-                    )
+          answers
+            .map { answer =>
+              HtmlFormat
+                .escape(
+                  messages(
+                    if (areTheyTheIndividual) s"whyAreYouMakingThisDisclosure.you.$answer"
+                    else s"whyAreYouMakingThisDisclosure.$entity.$answer"
                   )
-                  .toString
-              }
-              .mkString("<br>")
-          ).withEllipsisOverflow(150).value
+                )
+                .toString
+            }
+            .mkString("<br>")
         )
       )
+
 
       SummaryListRowViewModel(
         key = "whyAreYouMakingThisDisclosure.checkYourAnswersLabel",
