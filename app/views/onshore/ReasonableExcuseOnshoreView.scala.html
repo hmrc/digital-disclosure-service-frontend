@@ -27,7 +27,9 @@
     govukCharacterCount:GovukCharacterCount,
     hmrcCharacterCount: HmrcCharacterCount,
     paragraph: components.paragraph,
+    bulletParagraph: components.bulletParagraph,
     link: components.link,
+bulletList: components.bulletList,
     heading: components.heading,
     tasklistLink: components.tasklistLink
 )
@@ -68,6 +70,30 @@
             )
         )
 
+        @paragraph(
+            id = Some("second-paragraph"),
+            content = Text(
+                if(areTheyTheIndividual){
+                    messages("whatIsYourReasonableExcuse.you.excuse.p2")
+                } else {
+                    messages(s"whatIsYourReasonableExcuse.${entity}.excuse.p2")
+                }
+            )
+        )
+
+@bulletParagraph(
+id = Some("second-paragraph"),
+content = Text(messages("whatIsYourReasonableExcuse.you.excuse.bulletH1"))
+)
+
+        @bulletList(
+            elements = Seq(
+            Text(messages("whatIsYourReasonableExcuse.you.excuse.bullet1")),
+            Text(messages("whatIsYourReasonableExcuse.you.excuse.bullet2")),
+            Text(messages("whatIsYourReasonableExcuse.you.excuse.bullet3")),
+            Text(messages("whatIsYourReasonableExcuse.you.excuse.bullet4"))
+))
+
         @hmrcCharacterCount(
             CharacterCount(
                 id = "excuse",
@@ -76,11 +102,11 @@
                 label = 
                     Label(content = 
                         if(areTheyTheIndividual){
-                            messages("whatIsYourReasonableExcuse.entity.heading")
+                            messages("whatIsYourReasonableExcuse.entity.question")
                         } else {
-                            messages(s"whatIsYourReasonableExcuse.agent.heading")
+                            messages(s"whatIsYourReasonableExcuse.agent.question")
                         }
-                    ).withCssClass("govuk-visually-hidden"),
+                    ).withCssClass("govuk-label--m"),
                 value = form("excuse").value,
                 errorMessage = ErrorFluency.errorMessage(form("excuse"))
             )
