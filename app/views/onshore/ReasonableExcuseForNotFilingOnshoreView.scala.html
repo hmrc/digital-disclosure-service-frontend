@@ -72,9 +72,9 @@
             id = Some("second-paragraph"),
             content = Text(
                 if(areTheyTheIndividual){
-                    messages("whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.p2")
+                    messages("whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.p2.you")
                 } else {
-                    messages(s"whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.p2")
+                    messages(s"whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.p2.notYou")
                 }
             )
         )
@@ -87,9 +87,9 @@
         @bulletList(
             elements = Seq(
                 Text(messages("whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.first")),
-                Text(messages("whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.second")),
-                Text(messages("whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.third")),
-                Text(messages("whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.fourth"))
+                Text(messages(if(areTheyTheIndividual) "whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.second.you" else "whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.second.notYou")),
+                Text(messages(if(areTheyTheIndividual) "whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.third.you" else "whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.third.notYou")),
+                Text(messages(if(areTheyTheIndividual) "whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.fourth.you" else "whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.fourth.notYou"))
         ))
 
         @hmrcCharacterCount(
@@ -100,9 +100,9 @@
                 label = Label(
                     content = 
                         if(areTheyTheIndividual){
-                            messages("whatIsYourReasonableExcuseForNotFilingReturn.question")
+                            messages("whatIsYourReasonableExcuseForNotFilingReturn.entity.question")
                         } else {
-                        messages(s"whatIsYourReasonableExcuseForNotFilingReturn.question")
+                        messages(s"whatIsYourReasonableExcuseForNotFilingReturn.agent.question")
                         }
                     ).withCssClass("govuk-label--m"),
                 value = form("reasonableExcuse").value,
