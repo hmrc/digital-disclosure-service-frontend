@@ -37,11 +37,11 @@ class ReasonableExcuseOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     val view = createView
 
     "have title" in {
-      view.select("title").text() must include(messages("whatIsYourReasonableExcuse.entity.title"))
+      view.select("title").text() must include(messages("whatIsYourReasonableExcuse.you.title"))
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsYourReasonableExcuse.entity.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsYourReasonableExcuse.you.heading")
     }
 
     "contain label" in {
@@ -72,11 +72,11 @@ class ReasonableExcuseOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     val view = createView
 
     "have title when you have selected onbehalf of individual agent" in {
-      view.select("title").text() must include(messages("whatIsYourReasonableExcuse.agent.title"))
+      view.select("title").text() must include(messages("whatIsYourReasonableExcuse.notYou.title"))
     }
 
     "contain header when you have selected onbehalf of individual agent" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsYourReasonableExcuse.agent.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsYourReasonableExcuse.notYou.heading")
     }
 
     "contain reasonableCare labels when you have selected onbehalf of individual agent" in {
@@ -94,11 +94,11 @@ class ReasonableExcuseOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     val view = createView
 
     "have title when you have selected AnEstate agent" in {
-      view.select("title").text() must include(messages("whatIsYourReasonableExcuse.agent.title"))
+      view.select("title").text() must include(messages("whatIsYourReasonableExcuse.notYou.title"))
     }
 
     "contain header when you have selected AnEstate agent" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsYourReasonableExcuse.agent.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsYourReasonableExcuse.notYou.heading")
     }
 
     "contain reasonableCare labels when you have selected AnEstate agent" in {
@@ -116,11 +116,11 @@ class ReasonableExcuseOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     val view = createView
 
     "have title when you have selected ACompany agent" in {
-      view.select("title").text() must include(messages("whatIsYourReasonableExcuse.agent.title"))
+      view.select("title").text() must include(messages("whatIsYourReasonableExcuse.notYou.title"))
     }
 
     "contain header when you have selected ACompany agent" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsYourReasonableExcuse.agent.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsYourReasonableExcuse.notYou.heading")
     }
 
     "contain reasonableCare labels when you have selected ACompany agent" in {
@@ -138,11 +138,11 @@ class ReasonableExcuseOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     val view = createView
 
     "have title when you have selected ALimitedLiabilityPartnership agent" in {
-      view.select("title").text() must include(messages("whatIsYourReasonableExcuse.agent.title"))
+      view.select("title").text() must include(messages("whatIsYourReasonableExcuse.notYou.title"))
     }
 
     "contain header when you have selected ALimitedLiabilityPartnership agent" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsYourReasonableExcuse.agent.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsYourReasonableExcuse.notYou.heading")
     }
 
     "contain reasonableCare labels when you have selected ALimitedLiabilityPartnership agent" in {
@@ -160,11 +160,11 @@ class ReasonableExcuseOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     val view = createView
 
     "have title when you have selected ATrust agent" in {
-      view.select("title").text() must include(messages("whatIsYourReasonableExcuse.agent.title"))
+      view.select("title").text() must include(messages("whatIsYourReasonableExcuse.notYou.title"))
     }
 
     "contain header when you have selected ATrust agent" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsYourReasonableExcuse.agent.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsYourReasonableExcuse.notYou.heading")
     }
 
     "contain reasonableCare labels when you have selected ATrust agent" in {
