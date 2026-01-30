@@ -1190,25 +1190,39 @@ whatIsYourReasonableExcuse.error.years.required = Enter the tax years this appli
 whatIsYourReasonableExcuse.error.years.length = The tax years this applies to must be between 1 and 500 characters
 whatIsYourReasonableExcuse.excuse.change.hidden = Reasonable excuse for not notifying HMRC about a tax liability
 whatIsYourReasonableExcuse.years.change.hidden = Years this applies to
-whatIsYourReasonableExcuse.entity.title = Your reasonable excuse for not notifying HMRC about a tax liability
-whatIsYourReasonableExcuse.entity.heading = Your reasonable excuse for not notifying HMRC about a tax liability
-whatIsYourReasonableExcuse.entity.question = What is your reasonable excuse for not notifying HMRC about a tax liability?
-whatIsYourReasonableExcuse.agent.title = What is the reasonable excuse for not notifying HMRC about a tax liability?
-whatIsYourReasonableExcuse.agent.heading = What is the reasonable excuse for not notifying HMRC about a tax liability?
-whatIsYourReasonableExcuse.entity.error.excuse.length = Your reasonable excuse must be between 1 and 5,000 characters
-whatIsYourReasonableExcuse.agent.error.excuse.length = Reasonable excuse must be between 1 and 5,000 characters
-whatIsYourReasonableExcuse.you.excuse = A reasonable excuse is something that stopped you meeting a tax obligation that you took reasonable care to meet.
+
+whatIsYourReasonableExcuse.you.title = Your reasonable excuse for not notifying HMRC about a tax liability
+whatIsYourReasonableExcuse.you.heading = Your reasonable excuse for not notifying HMRC about a tax liability
+whatIsYourReasonableExcuse.you.question = What is your reasonable excuse for not notifying HMRC about a tax liability?
+
+whatIsYourReasonableExcuse.notYou.title = Reasonable excuse for not notifying HMRC about a tax liability
+whatIsYourReasonableExcuse.notYou.heading = Reasonable excuse for not notifying HMRC about a tax liability
+whatIsYourReasonableExcuse.notYou.question = What is the reasonable excuse for not notifying HMRC about a tax liability?
+
+whatIsYourReasonableExcuse.you.error.excuse.length = Your reasonable excuse must be between 1 and 5,000 characters
+whatIsYourReasonableExcuse.notYou.error.excuse.length = Reasonable excuse must be between 1 and 5,000 characters
+
 whatIsYourReasonableExcuse.you.excuse.p2 = You must be able to show that you met the tax obligation without too much delay once the reasonable excuse ended.
-whatIsYourReasonableExcuse.you.excuse.bulletH1 = Your explanation needs to include details of:
-whatIsYourReasonableExcuse.you.excuse.bullet1 = how the failure occurred
+whatIsYourReasonableExcuse.notYou.excuse.p2 = You must be able to show that they met the tax obligation without too much delay once the reasonable excuse ended.
+
+whatIsYourReasonableExcuse.excuse.bulletH1 = Your explanation needs to include details of:
+whatIsYourReasonableExcuse.excuse.bullet1 = how the failure occurred
+
 whatIsYourReasonableExcuse.you.excuse.bullet2 = what prevented you from notifying HMRC about a tax liability
+whatIsYourReasonableExcuse.notYou.excuse.bullet2 = what prevented them from notifying HMRC about a tax liability
+
 whatIsYourReasonableExcuse.you.excuse.bullet3 = the dates your reasonable excuse started and ended
+whatIsYourReasonableExcuse.notYou.excuse.bullet3 = the dates the reasonable excuse started and ended
+
 whatIsYourReasonableExcuse.you.excuse.bullet4 = what steps you took to make sure you were meeting your tax obligations – for example, if you sought any professional advice
-whatIsYourReasonableExcuse.individual.excuse = A reasonable excuse is something that stopped the individual meeting a tax obligation that they took reasonable care to meet.
-whatIsYourReasonableExcuse.company.excuse = A reasonable excuse is something that stopped the company meeting a tax obligation that they took reasonable care to meet.
-whatIsYourReasonableExcuse.llp.excuse = A reasonable excuse is something that stopped the limited liability partnership meeting a tax obligation that they took reasonable care to meet.
-whatIsYourReasonableExcuse.trust.excuse = A reasonable excuse is something that stopped the trust meeting a tax obligation that they took reasonable care to meet.
-whatIsYourReasonableExcuse.estate.excuse = A reasonable excuse is something that stopped the estate meeting a tax obligation that they took reasonable care to meet.
+whatIsYourReasonableExcuse.notYou.excuse.bullet4 = what steps they took to make sure they were meeting their tax obligations – for example, if they sought any professional advice
+
+whatIsYourReasonableExcuse.you.excuse = A reasonable excuse is something that stopped you meeting a tax obligation that you took care to meet.
+whatIsYourReasonableExcuse.individual.excuse = A reasonable excuse is something that stopped the individual meeting a tax obligation that they took care to meet.
+whatIsYourReasonableExcuse.company.excuse = A reasonable excuse is something that stopped the company meeting a tax obligation that they took care to meet.
+whatIsYourReasonableExcuse.llp.excuse = A reasonable excuse is something that stopped the limited liability partnership meeting a tax obligation that they took care to meet.
+whatIsYourReasonableExcuse.trust.excuse = A reasonable excuse is something that stopped the trust meeting a tax obligation that they took care to meet.
+whatIsYourReasonableExcuse.estate.excuse = A reasonable excuse is something that stopped the estate meeting a tax obligation that they took care to meet.
 
 whatReasonableCareDidYouTake.yearsThisAppliesTo = Which tax years does this apply to?
 whatReasonableCareDidYouTake.yearsThisAppliesTo.hint = For example, tax year ending 2019.
