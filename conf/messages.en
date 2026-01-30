@@ -554,8 +554,8 @@ areYouRegisteredForSelfAssessment.checkYourAnswersLabel = Are you registered for
 areYouRegisteredForSelfAssessment.error.required = Select yes if you are registered for Self Assessment
 areYouRegisteredForSelfAssessment.change.hidden = Are you registered for Self Assessment?
 
-whatIsYourUniqueTaxReference.title = What is your Unique Tax Reference?
-whatIsYourUniqueTaxReference.heading = What is your Unique Tax Reference?
+whatIsYourUniqueTaxReference.title = What is your Self Assessment Unique Taxpayer Reference (UTR)?
+whatIsYourUniqueTaxReference.heading = What is your Self Assessment Unique Taxpayer Reference (UTR)?
 whatIsYourUniqueTaxReference.body = This 10 digit number is on your tax return, statement of accounts or any other Self Assessment calculations.
 whatIsYourUniqueTaxReference.hint = For example, ‘1234567890’.
 whatIsYourUniqueTaxReference.checkYourAnswersLabel = Your Unique Taxpayer Reference
@@ -688,8 +688,8 @@ whatIsTheIndividualsVATRegistrationNumber.error.required = Enter the individual�
 whatIsTheIndividualsVATRegistrationNumber.error.invalid = Enter the individual’s VAT registration number in the right format
 whatIsTheIndividualsVATRegistrationNumber.change.hidden = Individual’s VAT registration number
 
-whatIsTheIndividualsUniqueTaxReference.title = What is the individual’s Unique Tax Reference?
-whatIsTheIndividualsUniqueTaxReference.heading = What is the individual’s Unique Tax Reference?
+whatIsTheIndividualsUniqueTaxReference.title = What is the individual’s Self Assessment Unique Taxpayer Reference (UTR)?
+whatIsTheIndividualsUniqueTaxReference.heading = What is the individual’s Self Assessment Unique Taxpayer Reference (UTR)?
 whatIsTheIndividualsUniqueTaxReference.label = This 10 digit number is on their tax return, statement of accounts or any other Self Assessment calculations. 
 whatIsTheIndividualsUniqueTaxReference.hint = For example, ‘1234567890’.
 whatIsTheIndividualsUniqueTaxReference.checkYourAnswersLabel = Individual’s Unique Taxpayer Reference
@@ -961,8 +961,8 @@ wasThePersonRegisteredForSA.checkYourAnswersLabel = Was the person registered fo
 wasThePersonRegisteredForSA.error.required = Select yes if the person was registered for Self Assessment
 wasThePersonRegisteredForSA.change.hidden = Was the person registered for Self Assessment, as far as you’re aware?
 
-whatWasThePersonUTR.title = What was the person’s Unique Taxpayer Reference?
-whatWasThePersonUTR.heading = What was the person’s Unique Taxpayer Reference?
+whatWasThePersonUTR.title = What was the person’s Self Assessment Unique Taxpayer Reference (UTR)?
+whatWasThePersonUTR.heading = What was the person’s Self Assessment Unique Taxpayer Reference (UTR)?
 whatWasThePersonUTR.body = This 10 digit number is on their tax return, statement of accounts or any other Self Assessment calculations.
 whatWasThePersonUTR.hint = For example, ‘1234567890’.
 whatWasThePersonUTR.checkYourAnswersLabel = Person’s Unique Taxpayer Reference
