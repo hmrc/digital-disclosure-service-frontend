@@ -1253,7 +1253,7 @@ whatIsYourReasonableExcuseForNotFilingReturn.agent.error.reasonableExcuse.length
 whatIsYourReasonableExcuseForNotFilingReturn.you.reasonableExcuse = A reasonable excuse is something that stopped you meeting a tax obligation that you took care to meet.
 whatIsYourReasonableExcuseForNotFilingReturn.individual.reasonableExcuse = A reasonable excuse is something that stopped the individual meeting a tax obligation that they took care to meet.
 whatIsYourReasonableExcuseForNotFilingReturn.company.reasonableExcuse = A reasonable excuse is something that stopped the company meeting a tax obligation that they took care to meet.
-whatIsYourReasonableExcuseForNotFilingReturn.llp.reasonableExcuse = A reasonable excuse is something that stopped the limited liability partnership meeting a tax obligation that they took reasonable care to meet.
+whatIsYourReasonableExcuseForNotFilingReturn.llp.reasonableExcuse = A reasonable excuse is something that stopped the limited liability partnership meeting a tax obligation that they took care to meet.
 whatIsYourReasonableExcuseForNotFilingReturn.trust.reasonableExcuse = A reasonable excuse is something that stopped the trust meeting a tax obligation that they took care to meet.
 whatIsYourReasonableExcuseForNotFilingReturn.estate.reasonableExcuse = A reasonable excuse is something that stopped the person who died meeting a tax obligation that they took care to meet.
 whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.p2 = You must be able to show that you met the tax obligation without too much delay once the reasonable excuse ended.
