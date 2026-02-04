@@ -16,17 +16,18 @@
 
 package forms
 
-import javax.inject.Inject
 import forms.mappings.Mappings
-import models.WhyDidYouNotNotify
+import models.WhyDidYouNotNotifyOnshore
 import play.api.data.Form
 import play.api.data.Forms.set
 
-class WhyDidYouNotNotifyFormProvider @Inject() extends Mappings {
+import javax.inject.Inject
 
-  def apply(): Form[Set[WhyDidYouNotNotify]] =
+class WhyDidYouNotNotifyOnshoreFormProvider @Inject() extends Mappings {
+
+  def apply(): Form[Set[WhyDidYouNotNotifyOnshore]] =
     Form(
-      "value" -> set(enumerable[WhyDidYouNotNotify]("WhyDidYouNotNotify.error.required"))
-        .verifying(nonEmptySet("WhyDidYouNotNotify.error.required"))
+      "value" -> set(enumerable[WhyDidYouNotNotifyOnshore]("WhyDidYouNotNotifyOnshore.error.required"))
+        .verifying(nonEmptySet("WhyDidYouNotNotifyOnshore.error.required"))
     )
 }
