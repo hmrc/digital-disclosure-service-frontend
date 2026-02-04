@@ -4,6 +4,11 @@ POST       /reason-for-disclosure                        controllers.offshore.Wh
 GET        /reason-for-disclosure/change                 controllers.offshore.WhyAreYouMakingThisDisclosureController.onPageLoad(mode: Mode = CheckMode)
 POST       /reason-for-disclosure/change                 controllers.offshore.WhyAreYouMakingThisDisclosureController.onSubmit(mode: Mode = CheckMode)
 
+GET        /reason-for-inaccurate-return                controllers.offshore.WhyYouSubmittedAnInaccurateReturnController.onPageLoad(mode: Mode = NormalMode)
+POST       /reason-for-inaccurate-return                controllers.offshore.WhyYouSubmittedAnInaccurateReturnController.onSubmit(mode: Mode = NormalMode)
+GET        /reason-for-inaccurate-return/change         controllers.offshore.WhyYouSubmittedAnInaccurateReturnController.onPageLoad(mode: Mode = CheckMode)
+POST       /reason-for-inaccurate-return/change         controllers.offshore.WhyYouSubmittedAnInaccurateReturnController.onSubmit(mode: Mode = CheckMode)
+
 GET        /contractual-disclosure-facility              controllers.offshore.ContractualDisclosureFacilityController.onPageLoad(mode: Mode = NormalMode)
 POST       /contractual-disclosure-facility              controllers.offshore.ContractualDisclosureFacilityController.onSubmit(mode: Mode = NormalMode)
 GET        /contractual-disclosure-facility/change       controllers.offshore.ContractualDisclosureFacilityController.onPageLoad(mode: Mode = CheckMode)
