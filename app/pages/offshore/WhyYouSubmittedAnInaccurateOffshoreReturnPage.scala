@@ -23,5 +23,5 @@ case object WhyYouSubmittedAnInaccurateOffshoreReturnPage extends QuestionPage[S
 
   override def path: JsPath = JsPath \ toString
 
-  override def toString: String = "whyAreYouMakingThisOnshoreDisclosure"
+  override def toString: String = "WhyYouSubmittedAnInaccurateOffshoreReturn"
 }
