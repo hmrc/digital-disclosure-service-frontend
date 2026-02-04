@@ -1062,7 +1062,7 @@ whyAreYouMakingThisDisclosure.estate.deliberatelyDidNotNotify = The person who d
 whyAreYouMakingThisDisclosure.estate.deliberateInaccurateReturn = The person who died deliberately submitted an inaccurate tax return.
 whyAreYouMakingThisDisclosure.estate.deliberatelyDidNotFile = The person who died deliberately withheld information by failing to submit a return.
 
-whyAreYouMakingThisDisclosure.title = Why you submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.title = Why you submitted an inaccurate return
 WhyYouSubmittedAnInaccurateReturn.heading = Why you submitted an inaccurate return
 WhyYouSubmittedAnInaccurateReturn.paragraph.first = You have told us you submitted an inaccurate return.
 WhyYouSubmittedAnInaccurateReturn.paragraph.second = You need to provide more information about why this happened.

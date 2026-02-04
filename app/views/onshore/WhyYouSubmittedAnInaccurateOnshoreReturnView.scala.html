@@ -32,7 +32,7 @@
 
 @(form: Form[_], mode: Mode, areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit request: RequestHeader, messages: Messages)
 
-@layout(pageTitle = title(form, messages("whyAreYouMakingThisDisclosure.title"))) {
+@layout(pageTitle = title(form, messages("WhyYouSubmittedAnInaccurateReturn.title"))) {
 
     @formHelper(action = controllers.onshore.routes.WhyYouSubmittedAnInaccurateOnshoreReturnController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
