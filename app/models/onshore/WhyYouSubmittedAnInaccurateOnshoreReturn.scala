@@ -26,7 +26,7 @@ sealed trait WhyYouSubmittedAnInaccurateOnshoreReturn
 object WhyYouSubmittedAnInaccurateOnshoreReturn extends Enumerable.Implicits {
 
   case object NoReasonableCare extends WithName("noReasonableCare") with WhyYouSubmittedAnInaccurateOnshoreReturn
-  case object ReasonableMistake   extends WithName("ReasonableMistake")   with WhyYouSubmittedAnInaccurateOnshoreReturn
+  case object ReasonableMistake   extends WithName("reasonableMistake")   with WhyYouSubmittedAnInaccurateOnshoreReturn
   case object DeliberatelyInaccurate    extends WithName("deliberatelyInaccurate")    with WhyYouSubmittedAnInaccurateOnshoreReturn
 
   val values: Seq[WhyYouSubmittedAnInaccurateOnshoreReturn] = Seq(
