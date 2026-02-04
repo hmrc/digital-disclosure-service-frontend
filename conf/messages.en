@@ -1062,6 +1062,18 @@ whyAreYouMakingThisDisclosure.estate.deliberatelyDidNotNotify = The person who d
 whyAreYouMakingThisDisclosure.estate.deliberateInaccurateReturn = The person who died deliberately submitted an inaccurate tax return.
 whyAreYouMakingThisDisclosure.estate.deliberatelyDidNotFile = The person who died deliberately withheld information by failing to submit a return.
 
+WhyYouSubmittedAnInaccurateReturn.title = Why you submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.heading = Why you submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.paragraph.first = You have told us you submitted an inaccurate return.
+WhyYouSubmittedAnInaccurateReturn.paragraph.second = You need to provide more information about why this happened.
+WhyYouSubmittedAnInaccurateReturn.paragraph.third = If you are unsure which option applies, you may want to seek professional advice.
+WhyYouSubmittedAnInaccurateReturn.checkboxes.heading = Which options describe why you submitted an inaccurate return?
+WhyYouSubmittedAnInaccurateReturn.checkboxes.hint = Select all options that are relevant to all tax years you need to disclose for.
+WhyYouSubmittedAnInaccurateReturn.noReasonableCare = I did not take reasonable care
+WhyYouSubmittedAnInaccurateReturn.ReasonableMistake = I took reasonable care but made a mistake
+WhyYouSubmittedAnInaccurateReturn.deliberatelyInaccurate = I deliberately submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.error.required = Select the reasons you submitted an inaccurate return
+
 taskList.title = List of tasks
 taskList.title.no.reference = List of tasks for case created on {0}
 taskList.title.reference = List of tasks for {0}
