@@ -1196,6 +1196,36 @@ whyAreYouMakingThisDisclosure.estate.didNotNotifyHMRC = The person who died did 
 whyAreYouMakingThisDisclosure.estate.didNotFile = The person who died did not file a tax return on time
 whyAreYouMakingThisDisclosure.estate.inaccurateReturn = The person who died submitted an inaccurate return
 
+# You/I
+whyAreYouMakingThisDisclosure.you.didNotNotifyHMRC = I did not notify HMRC about a tax liability
+whyAreYouMakingThisDisclosure.you.didNotFile = I did not file a tax return on time
+whyAreYouMakingThisDisclosure.you.inaccurateReturn = I submitted an inaccurate return
+
+# Individual
+whyAreYouMakingThisDisclosure.individual.didNotNotifyHMRC = The individual did not notify HMRC about a tax liability
+whyAreYouMakingThisDisclosure.individual.didNotFile = The individual did not file a tax return on time
+whyAreYouMakingThisDisclosure.individual.inaccurateReturn = The individual submitted an inaccurate return
+
+# Company
+whyAreYouMakingThisDisclosure.company.didNotNotifyHMRC = The company did not notify HMRC about a tax liability
+whyAreYouMakingThisDisclosure.company.didNotFile = The company did not file a tax return on time
+whyAreYouMakingThisDisclosure.company.inaccurateReturn = The company submitted an inaccurate return
+
+# LLP
+whyAreYouMakingThisDisclosure.llp.didNotNotifyHMRC = The limited liability partnership did not notify HMRC about a tax liability
+whyAreYouMakingThisDisclosure.llp.didNotFile = The limited liability partnership did not file a tax return on time
+whyAreYouMakingThisDisclosure.llp.inaccurateReturn = The limited liability partnership submitted an inaccurate return
+
+# Trust
+whyAreYouMakingThisDisclosure.trust.didNotNotifyHMRC = The trust did not notify HMRC about a tax liability
+whyAreYouMakingThisDisclosure.trust.didNotFile = The trust did not file a tax return on time
+whyAreYouMakingThisDisclosure.trust.inaccurateReturn = The trust submitted an inaccurate return
+
+# Estate
+whyAreYouMakingThisDisclosure.estate.didNotNotifyHMRC = The person who died did not notify HMRC about a tax liability
+whyAreYouMakingThisDisclosure.estate.didNotFile = The person who died did not file a tax return on time
+whyAreYouMakingThisDisclosure.estate.inaccurateReturn = The person who died submitted an inaccurate return
+
 taskList.title = List of tasks
 taskList.title.no.reference = List of tasks for case created on {0}
 taskList.title.reference = List of tasks for {0}
