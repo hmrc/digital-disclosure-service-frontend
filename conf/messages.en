@@ -1062,6 +1062,52 @@ whyAreYouMakingThisDisclosure.estate.deliberatelyDidNotNotify = The person who d
 whyAreYouMakingThisDisclosure.estate.deliberateInaccurateReturn = The person who died deliberately submitted an inaccurate tax return.
 whyAreYouMakingThisDisclosure.estate.deliberatelyDidNotFile = The person who died deliberately withheld information by failing to submit a return.
 
+whyDidYouNotNotify.title.you = Why did you not notify HMRC about a tax liability?
+whyDidYouNotNotify.heading.you = Why did you not notify HMRC about a tax liability?
+whyDidYouNotNotify.title.individual = Why the individual did not notify HMRC about a tax liability
+whyDidYouNotNotify.heading.individual = Why the individual did not notify HMRC about a tax liability
+whyDidYouNotNotify.title.company = Why the company did not notify HMRC about a tax liability
+whyDidYouNotNotify.heading.company = Why the company did not notify HMRC about a tax liability
+whyDidYouNotNotify.title.llp = Why the limited liability partnership did not notify HMRC about a tax liability
+whyDidYouNotNotify.heading.llp = Why the limited liability partnership did not notify HMRC about a tax liability
+whyDidYouNotNotify.title.trust = Why the trust did not notify HMRC about a tax liability
+whyDidYouNotNotify.heading.trust = Why the trust did not notify HMRC about a tax liability
+whyDidYouNotNotify.title.trust = Why the person who died did not notify HMRC about a tax liability
+whyDidYouNotNotify.heading.estate = Why the person who died did not notify HMRC about a tax liability
+
+whyDidYouNotNotify.paragraph.first.you = You have told us you did not notify HMRC about a tax liability.
+whyDidYouNotNotify.paragraph.first.individual = You have told us the individual did not notify HMRC about a tax liability.
+whyDidYouNotNotify.paragraph.first.company = You have told us the company did not notify HMRC about a tax liability.
+whyDidYouNotNotify.paragraph.first.llp = You have told us the limited liability partnership did not notify HMRC about a tax liability.
+whyDidYouNotNotify.paragraph.first.trust = You have told us the trust did not notify HMRC about a tax liability.
+whyDidYouNotNotify.paragraph.first.estate = You have told us the person who died did not notify HMRC about a tax liability.
+
+whyDidYouNotNotify.paragraph.second = You need to provide more information about why this happened.
+whyDidYouNotNotify.paragraph.third = If you are unsure which option applies, you may want to seek professional advice.
+
+whyDidYouNotNotify.h1.you = Which options describe why you did not notify HMRC about a tax liability?
+whyDidYouNotNotify.h1.individual = Which options describe why the individual did not notify HMRC about a tax liability?
+whyDidYouNotNotify.h1.company = Which options describe why the company did not notify HMRC about a tax liability?
+whyDidYouNotNotify.h1.llp = Which options describe why the limited liability partnership did not notify HMRC about a tax liability?
+whyDidYouNotNotify.h1.trust  = Which options describe why the trust did not notify HMRC about a tax liability?
+whyDidYouNotNotify.h1.estate   = Which options describe why the person who died did not notify HMRC about a tax liability?
+
+whyDidYouNotNotify.you.notDeliberatelyNoReasonableExcuse = This was not deliberate, but I do not have a reasonable excuse
+whyDidYouNotNotify.notYou.notDeliberatelyNoReasonableExcuse = This was not deliberate, but they do not have a reasonable excuse
+
+whyDidYouNotNotify.you.reasonableExcuse = I do not have a reasonable excuse
+whyDidYouNotNotify.notYou.reasonableExcuse = They have a reasonable excuse
+
+whyDidYouNotNotify.you.deliberatelyDidNotNotify = I deliberately failed to notify HMRC of a tax liability
+whyDidYouNotNotify.notYou.deliberatelyDidNotNotify = They deliberately failed to notify HMRC of a tax liability
+
+whyDidYouNotNotify.error.required.you = Select the reasons you did not notify HMRC
+whyDidYouNotNotify.error.required.individual = Select the reasons the individual did not notify HMRC
+whyDidYouNotNotify.error.required.company  = Select the reasons the company did not notify HMRC
+whyDidYouNotNotify.error.required.llp  = Select the reasons the limited liability partnership did not notify HMRC
+whyDidYouNotNotify.error.required.trust   = Select the reasons the trust  did not notify HMRC
+whyDidYouNotNotify.error.required.estate   = Select the reasons the person who died did not notify HMRC
+
 WhyYouSubmittedAnInaccurateReturn.title = Why you submitted an inaccurate return
 WhyYouSubmittedAnInaccurateReturn.heading = Why you submitted an inaccurate return
 WhyYouSubmittedAnInaccurateReturn.paragraph.first = You have told us you submitted an inaccurate return.

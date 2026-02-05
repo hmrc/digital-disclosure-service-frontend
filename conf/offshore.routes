@@ -9,6 +9,11 @@ POST       /reason-for-return-not-filed-on-time          controllers.offshore.Wh
 GET        /reason-for-return-not-filed-on-time/change   controllers.offshore.WhyDidYouNotFileAReturnOnTimeOffshoreController.onPageLoad(mode: Mode = CheckMode)
 POST       /reason-for-return-not-filed-on-time/change   controllers.offshore.WhyDidYouNotFileAReturnOnTimeOffshoreController.onSubmit(mode: Mode = CheckMode)
 
+GET        /reason-for-not-notify-tax-liability           controllers.offshore.WhyDidYouNotNotifyController.onPageLoad(mode: Mode = NormalMode)
+POST       /reason-for-not-notify-tax-liability           controllers.offshore.WhyDidYouNotNotifyController.onSubmit(mode: Mode = NormalMode)
+GET        /reason-for-not-notify-tax-liability/change    controllers.offshore.WhyDidYouNotNotifyController.onPageLoad(mode: Mode = CheckMode)
+POST       /reason-for-not-notify-tax-liability/change    controllers.offshore.WhyDidYouNotNotifyController.onSubmit(mode: Mode = CheckMode)
+
 GET        /reason-for-inaccurate-return                controllers.offshore.WhyYouSubmittedAnInaccurateReturnController.onPageLoad(mode: Mode = NormalMode)
 POST       /reason-for-inaccurate-return                controllers.offshore.WhyYouSubmittedAnInaccurateReturnController.onSubmit(mode: Mode = NormalMode)
 GET        /reason-for-inaccurate-return/change         controllers.offshore.WhyYouSubmittedAnInaccurateReturnController.onPageLoad(mode: Mode = CheckMode)
