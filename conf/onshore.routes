@@ -4,10 +4,20 @@ POST       /reason-for-disclosure                        controllers.onshore.Why
 GET        /reason-for-disclosure/change                 controllers.onshore.WhyAreYouMakingThisOnshoreDisclosureController.onPageLoad(mode: Mode = CheckMode)
 POST       /reason-for-disclosure/change                 controllers.onshore.WhyAreYouMakingThisOnshoreDisclosureController.onSubmit(mode: Mode = CheckMode)
 
+GET        /reason-for-return-not-filed-on-time          controllers.onshore.WhyDidYouNotFileAReturnOnTimeOnshoreController.onPageLoad(mode: Mode = NormalMode)
+POST       /reason-for-return-not-filed-on-time          controllers.onshore.WhyDidYouNotFileAReturnOnTimeOnshoreController.onSubmit(mode: Mode = NormalMode)
+GET        /reason-for-return-not-filed-on-time/change   controllers.onshore.WhyDidYouNotFileAReturnOnTimeOnshoreController.onPageLoad(mode: Mode = CheckMode)
+POST       /reason-for-return-not-filed-on-time/change   controllers.onshore.WhyDidYouNotFileAReturnOnTimeOnshoreController.onSubmit(mode: Mode = CheckMode)
+
 GET        /reason-for-not-notify-tax-liability           controllers.onshore.WhyDidYouNotNotifyOnshoreController.onPageLoad(mode: Mode = NormalMode)
 POST       /reason-for-not-notify-tax-liability           controllers.onshore.WhyDidYouNotNotifyOnshoreController.onSubmit(mode: Mode = NormalMode)
 GET        /reason-for-not-notify-tax-liability/change    controllers.onshore.WhyDidYouNotNotifyOnshoreController.onPageLoad(mode: Mode = CheckMode)
 POST       /reason-for-not-notify-tax-liability/change    controllers.onshore.WhyDidYouNotNotifyOnshoreController.onSubmit(mode: Mode = CheckMode)
+
+GET        /reason-for-inaccurate-return                controllers.onshore.WhyYouSubmittedAnInaccurateOnshoreReturnController.onPageLoad(mode: Mode = NormalMode)
+POST       /reason-for-inaccurate-return                controllers.onshore.WhyYouSubmittedAnInaccurateOnshoreReturnController.onSubmit(mode: Mode = NormalMode)
+GET        /reason-for-inaccurate-return/change         controllers.onshore.WhyYouSubmittedAnInaccurateOnshoreReturnController.onPageLoad(mode: Mode = CheckMode)
+POST       /reason-for-inaccurate-return/change         controllers.onshore.WhyYouSubmittedAnInaccurateOnshoreReturnController.onSubmit(mode: Mode = CheckMode)
 
 GET        /contractual-disclosure-facility              controllers.onshore.CDFOnshoreController.onPageLoad(mode: Mode = NormalMode)
 POST       /contractual-disclosure-facility              controllers.onshore.CDFOnshoreController.onSubmit(mode: Mode = NormalMode)

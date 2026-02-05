@@ -1086,6 +1086,7 @@ whyDidYouNotNotify.paragraph.second = You need to provide more information about
 whyDidYouNotNotify.paragraph.third = If you are unsure which option applies, you may want to seek professional advice.
 
 whyDidYouNotNotify.hint = Select all options that are relevant to all tax years you need to disclose for.
+
 whyDidYouNotNotify.h1.you = Which options describe why you did not notify HMRC about a tax liability?
 whyDidYouNotNotify.h1.individual = Which options describe why the individual did not notify HMRC about a tax liability?
 whyDidYouNotNotify.h1.company = Which options describe why the company did not notify HMRC about a tax liability?
@@ -1108,6 +1109,18 @@ whyDidYouNotNotify.error.required.company  = Select the reasons the company did 
 whyDidYouNotNotify.error.required.llp  = Select the reasons the limited liability partnership did not notify HMRC
 whyDidYouNotNotify.error.required.trust   = Select the reasons the trust  did not notify HMRC
 whyDidYouNotNotify.error.required.estate   = Select the reasons the person who died did not notify HMRC
+
+WhyYouSubmittedAnInaccurateReturn.title = Why you submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.heading = Why you submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.paragraph.first = You have told us you submitted an inaccurate return.
+WhyYouSubmittedAnInaccurateReturn.paragraph.second = You need to provide more information about why this happened.
+WhyYouSubmittedAnInaccurateReturn.paragraph.third = If you are unsure which option applies, you may want to seek professional advice.
+WhyYouSubmittedAnInaccurateReturn.checkboxes.heading = Which options describe why you submitted an inaccurate return?
+WhyYouSubmittedAnInaccurateReturn.checkboxes.hint = Select all options that are relevant to all tax years you need to disclose for.
+WhyYouSubmittedAnInaccurateReturn.noReasonableCare = I did not take reasonable care
+WhyYouSubmittedAnInaccurateReturn.ReasonableMistake = I took reasonable care but made a mistake
+WhyYouSubmittedAnInaccurateReturn.deliberatelyInaccurate = I deliberately submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.error.required = Select the reasons you submitted an inaccurate return
 
 taskList.title = List of tasks
 taskList.title.no.reference = List of tasks for case created on {0}
@@ -1302,10 +1315,14 @@ youHaveLeftTheDDS.body.second = ' or you can close this page.'
 youHaveLeftTheDDS.checkYourAnswersLabel = youHaveLeftTheDDS
 youHaveLeftTheDDS.change.hidden = YouHaveLeftTheDDS
 
-whatIsYourReasonableExcuseForNotFilingReturn.entity.title = What is your reasonable excuse for not filing a return?
-whatIsYourReasonableExcuseForNotFilingReturn.agent.title = What is the reasonable excuse for not filing a return?
-whatIsYourReasonableExcuseForNotFilingReturn.entity.heading = What is your reasonable excuse for not filing a return?
-whatIsYourReasonableExcuseForNotFilingReturn.agent.heading = What is the reasonable excuse for not filing a return?
+whatIsYourReasonableExcuseForNotFilingReturn.entity.title = Your reasonable excuse for not filing a return
+whatIsYourReasonableExcuseForNotFilingReturn.agent.title = Reasonable excuse for not filing a return
+whatIsYourReasonableExcuseForNotFilingReturn.entity.heading = Your reasonable excuse for not filing a return
+whatIsYourReasonableExcuseForNotFilingReturn.agent.heading = Reasonable excuse for not filing a return
+
+whatIsYourReasonableExcuseForNotFilingReturn.entity.question = What is your reasonable excuse for not filing a return?
+whatIsYourReasonableExcuseForNotFilingReturn.agent.question = What is the reasonable excuse for not filing a return?
+
 whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo = Which tax years does this apply to?
 whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo.hint = For example, tax year ending 2019.
 whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.checkYourAnswersLabel = Reasonable excuse for not filing a return
@@ -1318,12 +1335,30 @@ whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.change.hidden = Re
 whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo.change.hidden = Years this applies to
 whatIsYourReasonableExcuseForNotFilingReturn.entity.error.reasonableExcuse.length = Your reasonable excuse must be between 1 and 5,000 characters
 whatIsYourReasonableExcuseForNotFilingReturn.agent.error.reasonableExcuse.length = Reasonable excuse must be between 1 and 5,000 characters
-whatIsYourReasonableExcuseForNotFilingReturn.you.reasonableExcuse = A reasonable excuse is something that stopped you meeting a tax obligation that you took reasonable care to meet.
-whatIsYourReasonableExcuseForNotFilingReturn.individual.reasonableExcuse = A reasonable excuse is something that stopped the individual meeting a tax obligation that they took reasonable care to meet.
-whatIsYourReasonableExcuseForNotFilingReturn.company.reasonableExcuse = A reasonable excuse is something that stopped the company meeting a tax obligation that they took reasonable care to meet.
-whatIsYourReasonableExcuseForNotFilingReturn.llp.reasonableExcuse = A reasonable excuse is something that stopped the limited liability partnership meeting a tax obligation that they took reasonable care to meet.
-whatIsYourReasonableExcuseForNotFilingReturn.trust.reasonableExcuse = A reasonable excuse is something that stopped the trust meeting a tax obligation that they took reasonable care to meet.
-whatIsYourReasonableExcuseForNotFilingReturn.estate.reasonableExcuse = A reasonable excuse is something that stopped the person who died meeting a tax obligation that they took reasonable care to meet.
+
+whatIsYourReasonableExcuseForNotFilingReturn.you.reasonableExcuse = A reasonable excuse is something that stopped you meeting a tax obligation that you took care to meet.
+whatIsYourReasonableExcuseForNotFilingReturn.individual.reasonableExcuse = A reasonable excuse is something that stopped the individual meeting a tax obligation that they took care to meet.
+whatIsYourReasonableExcuseForNotFilingReturn.company.reasonableExcuse = A reasonable excuse is something that stopped the company meeting a tax obligation that they took care to meet.
+whatIsYourReasonableExcuseForNotFilingReturn.llp.reasonableExcuse = A reasonable excuse is something that stopped the limited liability partnership meeting a tax obligation that they took care to meet.
+whatIsYourReasonableExcuseForNotFilingReturn.trust.reasonableExcuse = A reasonable excuse is something that stopped the trust meeting a tax obligation that they took care to meet.
+whatIsYourReasonableExcuseForNotFilingReturn.estate.reasonableExcuse = A reasonable excuse is something that stopped the estate meeting a tax obligation that they took care to meet.
+
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.p2.you = You must be able to show that you met the tax obligation without too much delay once the reasonable excuse ended.
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.p2.notYou = You must be able to show that they met the tax obligation without too much delay once the reasonable excuse ended.
+
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletH1 = Your explanation needs to include details of:
+
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.first = how the failure occurred
+
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.second.you = what prevented you from filing a return
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.second.notYou = what prevented them from filing a return
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.second.llp = what prevented them from notifying HMRC about a tax liability
+
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.third.you = the dates your reasonable excuse started and ended
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.third.notYou = the dates the reasonable excuse started and ended
+
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.fourth.you = what steps you took to make sure you were meeting your tax obligations – for example, if you sought any professional advice
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.fourth.notYou = what steps they took to make sure they were meeting their tax obligations – for example, if they sought any professional advice
 
 whichYears.title = Which year does this offshore disclosure relate to?
 whichYears.heading = Which year does this offshore disclosure relate to?
@@ -2598,3 +2633,68 @@ areYouTheEntity.trust.initialParagraph = A trustee is the legal owner of the ass
 areYouTheEntity.trust.body = If you are not a trustee, they will need to
 areYouTheEntity.trust.link = appoint you to deal with HMRC on their behalf (opens in new tab)
 areYouTheEntity.trust.checkYourAnswersLabel = Are you a trustee of the trust that the disclosure will be about?
+
+whyDidYouNotFileAReturnOnTime.you.title = Why you did not file a return on time
+whyDidYouNotFileAReturnOnTime.individual.title = Why the individual did not file a return on time
+whyDidYouNotFileAReturnOnTime.company.title = Why the company did not file a return on time
+whyDidYouNotFileAReturnOnTime.llp.title = Why the limited liability partnership did not file a return on time
+whyDidYouNotFileAReturnOnTime.trust.title = Why the trust did not file a return on time
+whyDidYouNotFileAReturnOnTime.estate.title = Why the person who died did not file a return on time
+
+whyDidYouNotFileAReturnOnTime.you.heading = Why you did not file a return on time
+whyDidYouNotFileAReturnOnTime.individual.heading = Why the individual did not file a return on time
+whyDidYouNotFileAReturnOnTime.company.heading = Why the company did not file a return on time
+whyDidYouNotFileAReturnOnTime.llp.heading = Why the limited liability partnership did not file a return on time
+whyDidYouNotFileAReturnOnTime.trust.heading = Why the trust did not file a return on time
+whyDidYouNotFileAReturnOnTime.estate.heading = Why the person who died did not file a return on time
+
+whyDidYouNotFileAReturnOnTime.paragraph.first.you = You have told us you did not file a return on time.
+whyDidYouNotFileAReturnOnTime.paragraph.first.individual = You have told us the individual did not file a return on time.
+whyDidYouNotFileAReturnOnTime.paragraph.first.company = You have told us the company did not file a return on time.
+whyDidYouNotFileAReturnOnTime.paragraph.first.llp = You have told us the limited liability partnership did not file a return on time.
+whyDidYouNotFileAReturnOnTime.paragraph.first.trust = You have told us the trust did not file a return on time.
+whyDidYouNotFileAReturnOnTime.paragraph.first.estate = You have told us the person who died did not file a return on time.
+
+whyDidYouNotFileAReturnOnTime.paragraph.second = You need to provide more information about why this happened.
+whyDidYouNotFileAReturnOnTime.paragraph.third = If you are unsure which option applies, you may want to seek professional advice.
+whyDidYouNotFileAReturnOnTime.checkYourAnswersLabel = Reason for not filing a return on time
+whyDidYouNotFileAReturnOnTime.error.required = Select the reasons you did not file a return on time
+whyDidYouNotFileAReturnOnTime.change.hidden = Reason
+
+whyDidYouNotFileAReturnOnTime.you.describeOption = Which options describe why you did not file a return on time?
+whyDidYouNotFileAReturnOnTime.you.didNotWithholdInformationOnPurpose = I did not file a return but I did not withhold any information on purpose
+whyDidYouNotFileAReturnOnTime.you.reasonableExcuse = I have a reasonable excuse
+whyDidYouNotFileAReturnOnTime.you.deliberatelyWithheldInformation = I deliberately withheld information by failing to submit a return
+whyDidYouNotFileAReturnOnTime.you.selectAllTheReasons = Select the reasons you did not file a return on time
+
+whyDidYouNotFileAReturnOnTime.individual.describeOption = Which options describe why the individual did not file a return on time?
+whyDidYouNotFileAReturnOnTime.individual.didNotWithholdInformationOnPurpose = They did not file a return but did not withhold any information on purpose
+whyDidYouNotFileAReturnOnTime.individual.reasonableExcuse = They have a reasonable excuse
+whyDidYouNotFileAReturnOnTime.individual.deliberatelyWithheldInformation = They deliberately withheld information by failing to submit a return
+whyDidYouNotFileAReturnOnTime.individual.selectAllTheReasons = Select the reasons the individual did not file a return on time
+
+whyDidYouNotFileAReturnOnTime.company.describeOption = Which options describe why the company did not file a return on time?
+whyDidYouNotFileAReturnOnTime.company.didNotWithholdInformationOnPurpose = They did not file a return but did not withhold any information on purpose
+whyDidYouNotFileAReturnOnTime.company.reasonableExcuse = They have a reasonable excuse
+whyDidYouNotFileAReturnOnTime.company.deliberatelyWithheldInformation = They deliberately withheld information by failing to submit a return
+whyDidYouNotFileAReturnOnTime.company.selectAllTheReasons = Select the reasons the company did not file a return on time
+
+whyDidYouNotFileAReturnOnTime.llp.describeOption = Which options describe why the limited liability partnership did not file a return on time?
+whyDidYouNotFileAReturnOnTime.llp.didNotWithholdInformationOnPurpose = They did not file a return but did not withhold any information on purpose
+whyDidYouNotFileAReturnOnTime.llp.reasonableExcuse = They have a reasonable excuse
+whyDidYouNotFileAReturnOnTime.llp.deliberatelyWithheldInformation = They deliberately withheld information by failing to submit a return
+whyDidYouNotFileAReturnOnTime.llp.selectAllTheReasons = Select the reasons the limited liability partnership did not file a return on time
+
+whyDidYouNotFileAReturnOnTime.trust.describeOption = Which options describe why the trust did not file a return on time?
+whyDidYouNotFileAReturnOnTime.trust.didNotWithholdInformationOnPurpose = They did not file a return but did not withhold any information on purpose
+whyDidYouNotFileAReturnOnTime.trust.reasonableExcuse = They have a reasonable excuse
+whyDidYouNotFileAReturnOnTime.trust.deliberatelyWithheldInformation = They deliberately withheld information by failing to submit a return
+whyDidYouNotFileAReturnOnTime.trust.selectAllTheReasons = Select the reasons the trust did not file a return on time
+
+whyDidYouNotFileAReturnOnTime.estate.describeOption = Which options describe why the person who died did not file a return on time?
+whyDidYouNotFileAReturnOnTime.estate.didNotWithholdInformationOnPurpose = They did not file a return but did not withhold any information on purpose
+whyDidYouNotFileAReturnOnTime.estate.reasonableExcuse = They had a reasonable excuse
+whyDidYouNotFileAReturnOnTime.estate.deliberatelyWithheldInformation = They deliberately withheld information by failing to submit a return
+whyDidYouNotFileAReturnOnTime.estate.selectAllTheReasons = Select the reasons the person who died did not file a return on time
+
+

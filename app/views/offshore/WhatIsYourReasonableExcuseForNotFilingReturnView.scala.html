@@ -29,7 +29,9 @@
     paragraph: components.paragraph,
     link: components.link,
     heading: components.heading,
-    tasklistLink: components.tasklistLink
+    tasklistLink: components.tasklistLink,
+    bulletList: components.bulletList,
+    bulletParagraph: components.bulletParagraph
 )
 
 @(form: Form[_], mode: Mode, areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit request: RequestHeader, messages: Messages)
@@ -65,6 +67,30 @@
               })
             )
 
+        @paragraph(
+            id = Some("second-paragraph"),
+            content = Text(
+                if(areTheyTheIndividual){
+                    messages("whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.p2.you")
+                } else {
+                    messages(s"whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.p2.notYou")
+                }
+            )
+        )
+
+        @bulletParagraph(
+            id = Some("second-paragraph"),
+            content = Text(messages("whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletH1"))
+        )
+
+        @bulletList(
+            elements = Seq(
+                Text(messages("whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.first")),
+                Text(messages(if(areTheyTheIndividual) "whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.second.you" else "whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.second.notYou")),
+                Text(messages(if(areTheyTheIndividual) "whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.third.you" else "whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.third.notYou")),
+                Text(messages(if(areTheyTheIndividual) "whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.fourth.you" else "whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.fourth.notYou"))
+        ))
+
         @hmrcCharacterCount(
             CharacterCount(
                 id = "reasonableExcuse",
@@ -73,11 +99,11 @@
                 label = Label(
                     content =
                         if(areTheyTheIndividual){
-                            messages("whatIsYourReasonableExcuseForNotFilingReturn.entity.heading")
+                            messages("whatIsYourReasonableExcuseForNotFilingReturn.entity.question")
                         } else {
-                            messages("whatIsYourReasonableExcuseForNotFilingReturn.agent.heading")
+                            messages("whatIsYourReasonableExcuseForNotFilingReturn.agent.question")
                         }
-                    ).withCssClass("govuk-visually-hidden"),
+                    ).withCssClass("govuk-label--m"),
                 value = form("reasonableExcuse").value,
                 errorMessage = ErrorFluency.errorMessage(form("reasonableExcuse"))
             )
