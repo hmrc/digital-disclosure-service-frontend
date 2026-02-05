@@ -9,6 +9,11 @@ POST       /reason-for-not-notify-tax-liability           controllers.onshore.Wh
 GET        /reason-for-not-notify-tax-liability/change    controllers.onshore.WhyDidYouNotNotifyOnshoreController.onPageLoad(mode: Mode = CheckMode)
 POST       /reason-for-not-notify-tax-liability/change    controllers.onshore.WhyDidYouNotNotifyOnshoreController.onSubmit(mode: Mode = CheckMode)
 
+GET        /reason-for-inaccurate-return                controllers.onshore.WhyYouSubmittedAnInaccurateOnshoreReturnController.onPageLoad(mode: Mode = NormalMode)
+POST       /reason-for-inaccurate-return                controllers.onshore.WhyYouSubmittedAnInaccurateOnshoreReturnController.onSubmit(mode: Mode = NormalMode)
+GET        /reason-for-inaccurate-return/change         controllers.onshore.WhyYouSubmittedAnInaccurateOnshoreReturnController.onPageLoad(mode: Mode = CheckMode)
+POST       /reason-for-inaccurate-return/change         controllers.onshore.WhyYouSubmittedAnInaccurateOnshoreReturnController.onSubmit(mode: Mode = CheckMode)
+
 GET        /contractual-disclosure-facility              controllers.onshore.CDFOnshoreController.onPageLoad(mode: Mode = NormalMode)
 POST       /contractual-disclosure-facility              controllers.onshore.CDFOnshoreController.onSubmit(mode: Mode = NormalMode)
 GET        /contractual-disclosure-facility/change       controllers.onshore.CDFOnshoreController.onPageLoad(mode: Mode = CheckMode)

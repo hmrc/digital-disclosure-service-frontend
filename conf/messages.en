@@ -1108,6 +1108,18 @@ whyDidYouNotNotify.error.required.llp  = Select the reasons the limited liabilit
 whyDidYouNotNotify.error.required.trust   = Select the reasons the trust  did not notify HMRC
 whyDidYouNotNotify.error.required.estate   = Select the reasons the person who died did not notify HMRC
 
+WhyYouSubmittedAnInaccurateReturn.title = Why you submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.heading = Why you submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.paragraph.first = You have told us you submitted an inaccurate return.
+WhyYouSubmittedAnInaccurateReturn.paragraph.second = You need to provide more information about why this happened.
+WhyYouSubmittedAnInaccurateReturn.paragraph.third = If you are unsure which option applies, you may want to seek professional advice.
+WhyYouSubmittedAnInaccurateReturn.checkboxes.heading = Which options describe why you submitted an inaccurate return?
+WhyYouSubmittedAnInaccurateReturn.checkboxes.hint = Select all options that are relevant to all tax years you need to disclose for.
+WhyYouSubmittedAnInaccurateReturn.noReasonableCare = I did not take reasonable care
+WhyYouSubmittedAnInaccurateReturn.ReasonableMistake = I took reasonable care but made a mistake
+WhyYouSubmittedAnInaccurateReturn.deliberatelyInaccurate = I deliberately submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.error.required = Select the reasons you submitted an inaccurate return
+
 taskList.title = List of tasks
 taskList.title.no.reference = List of tasks for case created on {0}
 taskList.title.reference = List of tasks for {0}
@@ -1301,10 +1313,14 @@ youHaveLeftTheDDS.body.second = ' or you can close this page.'
 youHaveLeftTheDDS.checkYourAnswersLabel = youHaveLeftTheDDS
 youHaveLeftTheDDS.change.hidden = YouHaveLeftTheDDS
 
-whatIsYourReasonableExcuseForNotFilingReturn.entity.title = What is your reasonable excuse for not filing a return?
-whatIsYourReasonableExcuseForNotFilingReturn.agent.title = What is the reasonable excuse for not filing a return?
-whatIsYourReasonableExcuseForNotFilingReturn.entity.heading = What is your reasonable excuse for not filing a return?
-whatIsYourReasonableExcuseForNotFilingReturn.agent.heading = What is the reasonable excuse for not filing a return?
+whatIsYourReasonableExcuseForNotFilingReturn.entity.title = Your reasonable excuse for not filing a return
+whatIsYourReasonableExcuseForNotFilingReturn.agent.title = Reasonable excuse for not filing a return
+whatIsYourReasonableExcuseForNotFilingReturn.entity.heading = Your reasonable excuse for not filing a return
+whatIsYourReasonableExcuseForNotFilingReturn.agent.heading = Reasonable excuse for not filing a return
+
+whatIsYourReasonableExcuseForNotFilingReturn.entity.question = What is your reasonable excuse for not filing a return?
+whatIsYourReasonableExcuseForNotFilingReturn.agent.question = What is the reasonable excuse for not filing a return?
+
 whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo = Which tax years does this apply to?
 whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo.hint = For example, tax year ending 2019.
 whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.checkYourAnswersLabel = Reasonable excuse for not filing a return
@@ -1317,12 +1333,30 @@ whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.change.hidden = Re
 whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo.change.hidden = Years this applies to
 whatIsYourReasonableExcuseForNotFilingReturn.entity.error.reasonableExcuse.length = Your reasonable excuse must be between 1 and 5,000 characters
 whatIsYourReasonableExcuseForNotFilingReturn.agent.error.reasonableExcuse.length = Reasonable excuse must be between 1 and 5,000 characters
-whatIsYourReasonableExcuseForNotFilingReturn.you.reasonableExcuse = A reasonable excuse is something that stopped you meeting a tax obligation that you took reasonable care to meet.
-whatIsYourReasonableExcuseForNotFilingReturn.individual.reasonableExcuse = A reasonable excuse is something that stopped the individual meeting a tax obligation that they took reasonable care to meet.
-whatIsYourReasonableExcuseForNotFilingReturn.company.reasonableExcuse = A reasonable excuse is something that stopped the company meeting a tax obligation that they took reasonable care to meet.
-whatIsYourReasonableExcuseForNotFilingReturn.llp.reasonableExcuse = A reasonable excuse is something that stopped the limited liability partnership meeting a tax obligation that they took reasonable care to meet.
-whatIsYourReasonableExcuseForNotFilingReturn.trust.reasonableExcuse = A reasonable excuse is something that stopped the trust meeting a tax obligation that they took reasonable care to meet.
-whatIsYourReasonableExcuseForNotFilingReturn.estate.reasonableExcuse = A reasonable excuse is something that stopped the person who died meeting a tax obligation that they took reasonable care to meet.
+
+whatIsYourReasonableExcuseForNotFilingReturn.you.reasonableExcuse = A reasonable excuse is something that stopped you meeting a tax obligation that you took care to meet.
+whatIsYourReasonableExcuseForNotFilingReturn.individual.reasonableExcuse = A reasonable excuse is something that stopped the individual meeting a tax obligation that they took care to meet.
+whatIsYourReasonableExcuseForNotFilingReturn.company.reasonableExcuse = A reasonable excuse is something that stopped the company meeting a tax obligation that they took care to meet.
+whatIsYourReasonableExcuseForNotFilingReturn.llp.reasonableExcuse = A reasonable excuse is something that stopped the limited liability partnership meeting a tax obligation that they took care to meet.
+whatIsYourReasonableExcuseForNotFilingReturn.trust.reasonableExcuse = A reasonable excuse is something that stopped the trust meeting a tax obligation that they took care to meet.
+whatIsYourReasonableExcuseForNotFilingReturn.estate.reasonableExcuse = A reasonable excuse is something that stopped the estate meeting a tax obligation that they took care to meet.
+
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.p2.you = You must be able to show that you met the tax obligation without too much delay once the reasonable excuse ended.
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.p2.notYou = You must be able to show that they met the tax obligation without too much delay once the reasonable excuse ended.
+
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletH1 = Your explanation needs to include details of:
+
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.first = how the failure occurred
+
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.second.you = what prevented you from filing a return
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.second.notYou = what prevented them from filing a return
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.second.llp = what prevented them from notifying HMRC about a tax liability
+
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.third.you = the dates your reasonable excuse started and ended
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.third.notYou = the dates the reasonable excuse started and ended
+
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.fourth.you = what steps you took to make sure you were meeting your tax obligations – for example, if you sought any professional advice
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.fourth.notYou = what steps they took to make sure they were meeting their tax obligations – for example, if they sought any professional advice
 
 whichYears.title = Which year does this offshore disclosure relate to?
 whichYears.heading = Which year does this offshore disclosure relate to?
