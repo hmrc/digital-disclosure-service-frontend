@@ -1085,6 +1085,8 @@ whyDidYouNotNotify.paragraph.first.estate = You have told us the person who died
 whyDidYouNotNotify.paragraph.second = You need to provide more information about why this happened.
 whyDidYouNotNotify.paragraph.third = If you are unsure which option applies, you may want to seek professional advice.
 
+whyDidYouNotNotify.hint = Select all options that are relevant to all tax years you need to disclose for.
+
 whyDidYouNotNotify.h1.you = Which options describe why you did not notify HMRC about a tax liability?
 whyDidYouNotNotify.h1.individual = Which options describe why the individual did not notify HMRC about a tax liability?
 whyDidYouNotNotify.h1.company = Which options describe why the company did not notify HMRC about a tax liability?

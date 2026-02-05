@@ -64,7 +64,8 @@ messages("whyDidYouNotNotify.h1.you")
 messages(s"whyDidYouNotNotify.h1.${entity}")
 }).withCssClass("govuk-fieldset__legend--m"),
 items  = WhyDidYouNotNotify.checkboxItems(areTheyTheIndividual, entity)
-)
+).withHint(
+Hint(content = Text(messages("whyDidYouNotNotify.hint"))))
 )
 
 @govukButton(

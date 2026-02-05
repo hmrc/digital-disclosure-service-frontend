@@ -26,11 +26,11 @@ sealed trait WhyDidYouNotNotifyOnshore
 object WhyDidYouNotNotifyOnshore extends Enumerable.Implicits {
 
   case object DeliberatelyDidNotNotifyOnshore
-      extends WithName("deliberatelyDidNotNotifyOnshore")
+      extends WithName("deliberatelyDidNotNotify")
       with WhyDidYouNotNotifyOnshore
-  case object ReasonableExcuseOnshore extends WithName("reasonableExcuseOnshore") with WhyDidYouNotNotifyOnshore
+  case object ReasonableExcuseOnshore extends WithName("reasonableExcuse") with WhyDidYouNotNotifyOnshore
   case object NotDeliberatelyNoReasonableExcuseOnshore
-      extends WithName("NotDeliberatelyNoReasonableExcuseOnshore")
+      extends WithName("notDeliberatelyNoReasonableExcuse")
       with WhyDidYouNotNotifyOnshore
 
   val values: Seq[WhyDidYouNotNotifyOnshore] = Seq(
@@ -54,9 +54,9 @@ object WhyDidYouNotNotifyOnshore extends Enumerable.Implicits {
     areTheyTheIndividual: Boolean
   ) =
     if (areTheyTheIndividual) {
-      s"WhyDidYouNotNotify.you.${value.toString}"
+      s"whyDidYouNotNotify.you.${value.toString}"
     } else {
-      s"WhyDidYouNotNotify.notYou.${value.toString}"
+      s"whyDidYouNotNotify.notYou.${value.toString}"
     }
 
   implicit val enumerable: Enumerable[WhyDidYouNotNotifyOnshore] =
