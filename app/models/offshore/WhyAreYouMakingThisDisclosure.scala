@@ -25,26 +25,24 @@ sealed trait WhyAreYouMakingThisDisclosure
 
 object WhyAreYouMakingThisDisclosure extends Enumerable.Implicits {
 
+  case object DidNotNotifyHMRC extends WithName("didNotNotifyHMRC") with WhyAreYouMakingThisDisclosure
+  case object DidNotFile extends WithName("didNotFile") with WhyAreYouMakingThisDisclosure
+  case object InaccurateReturn extends WithName("inaccurateReturn") with WhyAreYouMakingThisDisclosure
+
+  // TODO: Remove after navigation ticket - kept for compilation
   case object DidNotNotifyHasExcuse extends WithName("didNotNotifyHasExcuse") with WhyAreYouMakingThisDisclosure
   case object InaccurateReturnWithCare extends WithName("inaccurateReturnWithCare") with WhyAreYouMakingThisDisclosure
   case object NotFileHasExcuse extends WithName("notFileHasExcuse") with WhyAreYouMakingThisDisclosure
   case object InaccurateReturnNoCare extends WithName("inaccurateReturnNoCare") with WhyAreYouMakingThisDisclosure
   case object DidNotNotifyNoExcuse extends WithName("didNotNotifyNoExcuse") with WhyAreYouMakingThisDisclosure
   case object DeliberatelyDidNotNotify extends WithName("deliberatelyDidNotNotify") with WhyAreYouMakingThisDisclosure
-  case object DeliberateInaccurateReturn
-      extends WithName("deliberateInaccurateReturn")
-      with WhyAreYouMakingThisDisclosure
+  case object DeliberateInaccurateReturn extends WithName("deliberateInaccurateReturn") with WhyAreYouMakingThisDisclosure
   case object DeliberatelyDidNotFile extends WithName("deliberatelyDidNotFile") with WhyAreYouMakingThisDisclosure
 
   val values: Seq[WhyAreYouMakingThisDisclosure] = Seq(
-    DidNotNotifyHasExcuse,
-    InaccurateReturnWithCare,
-    NotFileHasExcuse,
-    InaccurateReturnNoCare,
-    DidNotNotifyNoExcuse,
-    DeliberatelyDidNotNotify,
-    DeliberateInaccurateReturn,
-    DeliberatelyDidNotFile
+    DidNotNotifyHMRC,
+    DidNotFile,
+    InaccurateReturn
   )
 
   def checkboxItems(areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit messages: Messages): Seq[CheckboxItem] =

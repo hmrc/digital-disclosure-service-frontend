@@ -34,20 +34,12 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
 
     case WhyAreYouMakingThisOnshoreDisclosurePage =>
       ua =>
-        (ua.get(WhyAreYouMakingThisOnshoreDisclosurePage), ua.get(RelatesToPage)) match {
-          case (Some(value), Some(entity))
-              if (entity != RelatesTo.AnEstate) && (value.contains(DeliberatelyDidNotNotify) ||
-                value.contains(DeliberateInaccurateReturn) ||
-                value.contains(DeliberatelyDidNotFile)) =>
-            routes.CDFOnshoreController.onPageLoad(NormalMode)
-          case (Some(value), _) if value.contains(DidNotNotifyHasExcuse)    =>
-            routes.ReasonableExcuseOnshoreController.onPageLoad(NormalMode)
-          case (Some(value), _) if value.contains(InaccurateReturnWithCare) =>
-            routes.ReasonableCareOnshoreController.onPageLoad(NormalMode)
-          case (Some(value), _) if value.contains(NotFileHasExcuse)         =>
-            routes.ReasonableExcuseForNotFilingOnshoreController.onPageLoad(NormalMode)
-          case _                                                            => routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
-        }
+        // TODO: Route to new follow-up pages when created:
+        // - /onshore/reason-for-not-notify-tax-liability (if DidNotNotifyHMRC selected)
+        // - /onshore/reason-for-return-not-filed-on-time (if DidNotFile selected)
+        // - /onshore/reason-for-inaccurate-return (if InaccurateReturn selected)
+        // For now, skip to next section
+        routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
 
     case CDFOnshorePage =>
       ua =>
