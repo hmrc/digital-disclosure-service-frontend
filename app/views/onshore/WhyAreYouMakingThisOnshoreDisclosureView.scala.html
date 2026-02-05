@@ -15,46 +15,63 @@
  *@
 
 @this(
-    layout: templates.Layout,
-    formHelper: FormWithCSRF,
-    govukErrorSummary: GovukErrorSummary,
-    govukCheckboxes: GovukCheckboxes,
-    govukButton: GovukButton,
-    heading: components.heading,
-    paragraph: components.paragraph,
-    link: components.link,
-    tasklistLink: components.tasklistLink
+layout: templates.Layout,
+formHelper: FormWithCSRF,
+govukErrorSummary: GovukErrorSummary,
+govukCheckboxes: GovukCheckboxes,
+govukButton: GovukButton,
+heading: components.heading,
+paragraph: components.paragraph,
+link: components.link,
+tasklistLink: components.tasklistLink
 )
 
 @(form: Form[_], mode: Mode, areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit request: RequestHeader, messages: Messages)
 
-@layout(pageTitle = title(form, messages("whyAreYouMakingThisDisclosure.title"))) {
+@layout(pageTitle = title(form, if(areTheyTheIndividual){
+messages("whyDidYouNotNotify.title.you")
+} else {
+messages(s"whyDidYouNotNotify.title.${entity}")
+}
+)) {
 
-    @formHelper(action = controllers.onshore.routes.WhyAreYouMakingThisOnshoreDisclosureController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
-        @if(form.errors.nonEmpty) {
-            @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value_0")))
-        }
+@formHelper(action = controllers.onshore.routes.WhyDidYouNotNotifyOnshoreController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
-        @heading(Text(messages("whyAreYouMakingThisDisclosure.heading")))
+@if(form.errors.nonEmpty) {
+@govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value_0")))
+}
 
-        @paragraph(id = Some("first-paragraph"), classes = "govuk-inset-text", content = Text(messages(if (areTheyTheIndividual) "whyAreYouMakingThisDisclosure.paragraph.first.you" else "whyAreYouMakingThisDisclosure.paragraph.first")))
+@heading(Text(
+if(areTheyTheIndividual){
+messages("whyDidYouNotNotify.title.you")
+} else {
+messages(s"whyDidYouNotNotify.title.${entity}")
+}
+))
 
-        @paragraph(id = Some("second-paragraph"), content = Text(messages("whyAreYouMakingThisDisclosure.paragraph.second")))
+@paragraph(id = Some("first-paragraph"), content = Text(messages(s"whyDidYouNotNotify.paragraph.first.${entity}")))
+@paragraph(id = Some("second-paragraph"), content = Text(messages("whyDidYouNotNotify.paragraph.second")))
+@paragraph(id = Some("third-paragraph"), content = Text(messages("whyDidYouNotNotify.paragraph.third")))
 
-        @govukCheckboxes(
-            CheckboxesViewModel(
-                form   = form,
-                name   = "value",
-                legend = LegendViewModel(messages("whyAreYouMakingThisDisclosure.heading")).withCssClass("govuk-visually-hidden"),
-                items  = WhyAreYouMakingThisOnshoreDisclosure.checkboxItems(areTheyTheIndividual, entity)
-            )
-        )
+@govukCheckboxes(
+CheckboxesViewModel(
+form   = form,
+name   = "value",
+legend = LegendViewModel(if(areTheyTheIndividual){
+messages("whyDidYouNotNotify.h1.you")
+} else {
+messages(s"whyDidYouNotNotify.h1.${entity}")
+}).withCssClass("govuk-fieldset__legend--m"),
+items  = WhyDidYouNotNotifyOnshore.checkboxItems(areTheyTheIndividual, entity)
+).withHint(
+Hint(content = Text(messages("whyDidYouNotNotify.hint"))))
+)
 
-        @govukButton(
-            ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
-        )
-    }
+@govukButton(
+ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
+)
+}
 
-    @tasklistLink()
+@tasklistLink()
 }
