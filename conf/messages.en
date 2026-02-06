@@ -556,7 +556,8 @@ areYouRegisteredForSelfAssessment.change.hidden = Are you registered for Self As
 
 whatIsYourUniqueTaxReference.title = What is your Self Assessment Unique Taxpayer Reference (UTR)?
 whatIsYourUniqueTaxReference.heading = What is your Self Assessment Unique Taxpayer Reference (UTR)?
-whatIsYourUniqueTaxReference.body = This 10 digit number is on your tax return, statement of accounts or any other Self Assessment calculations.
+whatIsYourUniqueTaxReference.body = Your UTR can be 10 or 13 digits long. You can find it in your Personal Tax Account, the HMRC app or on tax returns and other documents from HMRC. it might be called &lsquo;reference&rsquo;, &lsquo;UTR&rsquo; or &lsquo;official use&rsquo;.
+whatIsYourUniqueTaxReference.link = <a href="https://www.gov.uk/find-utr-number/" class="govuk-link">How to find your UTR (opens in new tab)</a>
 whatIsYourUniqueTaxReference.hint = For example, ‘1234567890’.
 whatIsYourUniqueTaxReference.checkYourAnswersLabel = Your Unique Taxpayer Reference
 whatIsYourUniqueTaxReference.error.required = Enter your Unique Taxpayer Reference
