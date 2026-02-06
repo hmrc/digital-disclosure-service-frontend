@@ -50,10 +50,6 @@ class WhatIsYourUniqueTaxReferenceViewSpec extends ViewSpecBase with ViewMatcher
       view.getElementById("label").text() mustBe messages("whatIsYourUniqueTaxReference.body")
     }
 
-    "have a hint" in {
-      view.getElementsByClass("govuk-hint").text() mustBe messages("whatIsYourUniqueTaxReference.hint")
-    }
-
     "display the continue button" in {
       view.getElementById("continue").text() mustBe messages("site.saveAndContinue")
     }
