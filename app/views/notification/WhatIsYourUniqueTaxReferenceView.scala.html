@@ -44,13 +44,17 @@
             content = HtmlContent(messages("whatIsYourUniqueTaxReference.body"))
         )
 
+        @paragraph(
+            id = Some("label"),
+            content = HtmlContent(messages("whatIsYourUniqueTaxReference.link"))
+        )
+
 
         @govukInput(
             InputViewModel(
                 field = form("value"),
                 label = LabelViewModel(messages("whatIsYourUniqueTaxReference.heading")).withCssClass("govuk-visually-hidden")
             )
-            .withHint(Hint(content = Text(messages("whatIsYourUniqueTaxReference.hint"))))
             .withWidth(Fixed10)
         )
 
