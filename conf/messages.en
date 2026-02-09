@@ -1062,17 +1062,54 @@ whyAreYouMakingThisDisclosure.estate.deliberatelyDidNotNotify = The person who d
 whyAreYouMakingThisDisclosure.estate.deliberateInaccurateReturn = The person who died deliberately submitted an inaccurate tax return.
 whyAreYouMakingThisDisclosure.estate.deliberatelyDidNotFile = The person who died deliberately withheld information by failing to submit a return.
 
-WhyYouSubmittedAnInaccurateReturn.title = Why you submitted an inaccurate return
-WhyYouSubmittedAnInaccurateReturn.heading = Why you submitted an inaccurate return
-WhyYouSubmittedAnInaccurateReturn.paragraph.first = You have told us you submitted an inaccurate return.
+WhyYouSubmittedAnInaccurateReturn.title.you = Why you submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.title.individual = Why the individual submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.title.company = Why the company submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.title.llp = Why the limited liability partnership submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.title.trust = Why the trust did submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.title.estate = Why the person who died submitted an inaccurate return
+
+WhyYouSubmittedAnInaccurateReturn.heading.you = Why you submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.heading.individual = Why the individual submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.heading.company = Why the company submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.heading.llp = Why the limited liability partnership submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.heading.trust = Why the trust did submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.heading.estate = Why the person who died submitted an inaccurate return
+
+WhyYouSubmittedAnInaccurateReturn.paragraph.first.you = You have told us you submitted an inaccurate return.
+WhyYouSubmittedAnInaccurateReturn.paragraph.first.individual = You have told us the individual submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.paragraph.first.company = You have told us the company submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.paragraph.first.llp = You have told us the limited liability partnership submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.paragraph.first.trust = You have told us the trust submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.paragraph.first.estate = You have told us the person who died submitted an inaccurate return
+
 WhyYouSubmittedAnInaccurateReturn.paragraph.second = You need to provide more information about why this happened.
 WhyYouSubmittedAnInaccurateReturn.paragraph.third = If you are unsure which option applies, you may want to seek professional advice.
-WhyYouSubmittedAnInaccurateReturn.checkboxes.heading = Which options describe why you submitted an inaccurate return?
+
+WhyYouSubmittedAnInaccurateReturn.you.checkboxes.heading = Which options describe why you submitted an inaccurate return?
+WhyYouSubmittedAnInaccurateReturn.individual.checkboxes.heading = Which options describe why the individual submitted an inaccurate return?
+WhyYouSubmittedAnInaccurateReturn.company.checkboxes.heading = Which options describe why the company submitted an inaccurate return?
+WhyYouSubmittedAnInaccurateReturn.llp.checkboxes.heading = Which options describe why the limited liability partnership submitted an inaccurate return?
+WhyYouSubmittedAnInaccurateReturn.trust.checkboxes.heading = Which options describe why the trust submitted an inaccurate return?
+WhyYouSubmittedAnInaccurateReturn.estate.checkboxes.heading = Which options describe why the person who died submitted an inaccurate return?
+
 WhyYouSubmittedAnInaccurateReturn.checkboxes.hint = Select all options that are relevant to all tax years you need to disclose for.
-WhyYouSubmittedAnInaccurateReturn.noReasonableCare = I did not take reasonable care
-WhyYouSubmittedAnInaccurateReturn.ReasonableMistake = I took reasonable care but made a mistake
-WhyYouSubmittedAnInaccurateReturn.deliberatelyInaccurate = I deliberately submitted an inaccurate return
-WhyYouSubmittedAnInaccurateReturn.error.required = Select the reasons you submitted an inaccurate return
+
+WhyYouSubmittedAnInaccurateReturn.you.noReasonableCare = I did not take reasonable care
+WhyYouSubmittedAnInaccurateReturn.notYou.noReasonableCare = They did not take reasonable care
+WhyYouSubmittedAnInaccurateReturn.you.reasonableMistake = I took reasonable care but made a mistake
+WhyYouSubmittedAnInaccurateReturn.notYou.reasonableMistake = They took reasonable care but made a mistake
+WhyYouSubmittedAnInaccurateReturn.you.deliberatelyInaccurate = I deliberately submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.notYou.deliberatelyInaccurate = They deliberately submitted an inaccurate return
+
+WhyYouSubmittedAnInaccurateReturn.error.required.you = Select the reasons you submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.error.required.individual = Select the reasons the individual submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.error.required.company = Select the reasons the company submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.error.required.llp = Select the reasons the limited liability partnership submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.error.required.trust = Select the reasons the trust submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.error.required.estate = Select the reasons the person who died submitted an inaccurate return
+
+
 
 taskList.title = List of tasks
 taskList.title.no.reference = List of tasks for case created on {0}

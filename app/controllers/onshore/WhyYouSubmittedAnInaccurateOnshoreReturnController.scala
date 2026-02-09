@@ -46,24 +46,38 @@ class WhyYouSubmittedAnInaccurateOnshoreReturnController @Inject()(
     extends FrontendBaseController
     with I18nSupport {
 
-  val form = formProvider()
+  private def requiredErrorKey(areTheyTheIndividual: Boolean, entity: RelatesTo): String = {
+    val audience =
+      if (areTheyTheIndividual) "you"
+      else entity.toString
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
-    val preparedForm = request.userAnswers.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage) match {
-      case None        => form
-      case Some(value) => form.fill(value)
-    }
-
-    val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
-    val entity               = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
-
-    Ok(view(preparedForm, mode, areTheyTheIndividual, entity))
+    s"WhyYouSubmittedAnInaccurateReturn.error.required.$audience"
   }
 
-  def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] =
+    (identify andThen getData andThen requireData) { implicit request =>
+
       val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
       val entity               = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+
+      val form = formProvider(requiredErrorKey(areTheyTheIndividual, entity))
+
+      val preparedForm = request.userAnswers.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage) match {
+        case None        => form
+        case Some(value) => form.fill(value)
+      }
+
+      Ok(view(preparedForm, mode, areTheyTheIndividual, entity))
+    }
+
+
+  def onSubmit(mode: Mode): Action[AnyContent] =
+    (identify andThen getData andThen requireData).async { implicit request =>
+
+      val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
+      val entity               = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+
+      val form = formProvider(requiredErrorKey(areTheyTheIndividual, entity))
 
       form
         .bindFromRequest()
@@ -80,13 +94,13 @@ class WhyYouSubmittedAnInaccurateOnshoreReturnController @Inject()(
             )
           }
         )
-  }
+    }
 
   def changedPages(
     answers: UserAnswers,
     value: Set[WhyYouSubmittedAnInaccurateOnshoreReturn]
   ): (List[QuestionPage[_]], Boolean) =
-    answers.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage) match {
+    answers.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage) match {
       case Some(reasons) if reasons != value => (WhyYouSubmittedAnInaccurateOnshoreReturnController.getPages(value), true)
       case _                                 => (Nil, false)
     }

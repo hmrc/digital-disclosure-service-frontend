@@ -1,5 +1,5 @@
 @*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2026 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,39 +32,59 @@
 
 @(form: Form[_], mode: Mode, areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit request: RequestHeader, messages: Messages)
 
-@layout(pageTitle = title(form, messages("WhyYouSubmittedAnInaccurateReturn.title"))) {
+@layout(
+  pageTitle = title(
+    form,
+    if (areTheyTheIndividual) {
+      messages("WhyYouSubmittedAnInaccurateReturn.title.you")
+    } else {
+      messages(s"WhyYouSubmittedAnInaccurateReturn.title.$entity")
+    }
+  )
+) {
 
-    @formHelper(action = controllers.onshore.routes.WhyYouSubmittedAnInaccurateOnshoreReturnController.onSubmit(mode), Symbol("autoComplete") -> "off") {
+  @formHelper(action = controllers.onshore.routes.WhyYouSubmittedAnInaccurateOnshoreReturnController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
-        @if(form.errors.nonEmpty) {
-            @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value_0")))
-        }
-
-        @heading(Text(messages("WhyYouSubmittedAnInaccurateReturn.heading")))
-
-        @paragraph(id = Some("first-paragraph"), content = Text(messages("WhyYouSubmittedAnInaccurateReturn.paragraph.first")))
-
-        @paragraph(id = Some("second-paragraph"), content = Text(messages("WhyYouSubmittedAnInaccurateReturn.paragraph.second")))
-
-        @paragraph(id = Some("third-paragraph"), content = Text(messages("WhyYouSubmittedAnInaccurateReturn.paragraph.third")))
-
-
-        @govukCheckboxes(
-          CheckboxesViewModel(
-            form   = form,
-            name   = "value",
-            legend = LegendViewModel(messages("WhyYouSubmittedAnInaccurateReturn.checkboxes.heading"))
-              .withCssClass("govuk-fieldset__legend--m"),
-            items  = WhyYouSubmittedAnInaccurateOnshoreReturn.checkboxItems()
-          ).withHint(
-            Hint(content = Text(messages("WhyYouSubmittedAnInaccurateReturn.checkboxes.hint")))
-          )
-        )
-
-        @govukButton(
-            ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
-        )
+    @if(form.errors.nonEmpty) {
+      @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value_0")))
     }
 
-    @tasklistLink()
+    @heading(
+      Text(
+        if (areTheyTheIndividual) {
+          messages("WhyYouSubmittedAnInaccurateReturn.title.you")
+        } else {
+          messages(s"WhyYouSubmittedAnInaccurateReturn.title.$entity")
+        }
+      )
+    )
+
+    @paragraph(
+      id = Some("first-paragraph"),
+      content = Text(messages(s"WhyYouSubmittedAnInaccurateReturn.paragraph.first.$entity"))
+    )
+
+    @paragraph(id = Some("second-paragraph"), content = Text(messages("WhyYouSubmittedAnInaccurateReturn.paragraph.second")))
+
+    @paragraph(id = Some("third-paragraph"), content = Text(messages("WhyYouSubmittedAnInaccurateReturn.paragraph.third")))
+
+   @govukCheckboxes(
+      CheckboxesViewModel(
+        form   = form,
+        name   = "value",
+        legend = LegendViewModel(messages(s"WhyYouSubmittedAnInaccurateReturn.$entity.checkboxes.heading"))
+          .withCssClass("govuk-fieldset__legend--m"),
+        items  = WhyYouSubmittedAnInaccurateOnshoreReturn.checkboxItems(areTheyTheIndividual, entity)
+      ).withHint(
+        Hint(content = Text(messages("WhyYouSubmittedAnInaccurateReturn.checkboxes.hint")))
+      )
+    )
+
+
+    @govukButton(
+      ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
+    )
+  }
+
+  @tasklistLink()
 }

@@ -45,41 +45,50 @@ class WhyYouSubmittedAnInaccurateReturnController @Inject()(
     extends FrontendBaseController
     with I18nSupport {
 
-  val form = formProvider()
+  private def requiredErrorKey(areTheyTheIndividual: Boolean, entity: RelatesTo): String = {
+    val audience =
+      if (areTheyTheIndividual) "you"
+      else entity.toString
+
+    s"WhyYouSubmittedAnInaccurateReturn.error.required.$audience"
+  }
+
 
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
+    val entity               = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+
+    val form = formProvider(requiredErrorKey(areTheyTheIndividual, entity))
+
     val preparedForm = request.userAnswers.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage) match {
       case None        => form
       case Some(value) => form.fill(value)
     }
 
-    val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
-    val entity               = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
-
     Ok(view(preparedForm, mode, areTheyTheIndividual, entity))
   }
 
-  def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
-    implicit request =>
-      val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
-      val entity               = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+  def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async { implicit request =>
+    val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
+    val entity               = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
-      form
-        .bindFromRequest()
-        .fold(
-          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, areTheyTheIndividual, entity))),
-          value => {
-            val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
-            for {
-              updatedAnswers <- Future.fromTry(request.userAnswers.set(WhyYouSubmittedAnInaccurateOffshoreReturnPage, value))
-              clearedPages   <- Future.fromTry(updatedAnswers.remove(pagesToClear))
-              _              <- sessionService.set(clearedPages)
-            } yield Redirect(
-              navigator.nextPage(WhyYouSubmittedAnInaccurateOffshoreReturnPage, mode, clearedPages, hasValueChanged)
-            )
-          }
+    val form = formProvider(requiredErrorKey(areTheyTheIndividual, entity))
+
+    form.bindFromRequest().fold(
+      formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, areTheyTheIndividual, entity))),
+      value => {
+        val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
+        for {
+          updatedAnswers <- Future.fromTry(request.userAnswers.set(WhyYouSubmittedAnInaccurateOffshoreReturnPage, value))
+          clearedPages   <- Future.fromTry(updatedAnswers.remove(pagesToClear))
+          _              <- sessionService.set(clearedPages)
+        } yield Redirect(
+          navigator.nextPage(WhyYouSubmittedAnInaccurateOffshoreReturnPage, mode, clearedPages, hasValueChanged)
         )
+      }
+    )
   }
+
 
   def changedPages(
     answers: UserAnswers,
