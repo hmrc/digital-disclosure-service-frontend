@@ -27,7 +27,9 @@ class WhyYouSubmittedAnInaccurateOnshoreReturnFormProvider @Inject() extends Map
 
   def apply(): Form[Set[WhyYouSubmittedAnInaccurateOnshoreReturn]] =
     Form(
-      "value" -> set(enumerable[WhyYouSubmittedAnInaccurateOnshoreReturn]("WhyYouSubmittedAnInaccurateReturn.error.required"))
+      "value" -> set(
+        enumerable[WhyYouSubmittedAnInaccurateOnshoreReturn]("WhyYouSubmittedAnInaccurateReturn.error.required")
+      )
         .verifying(nonEmptySet("WhyYouSubmittedAnInaccurateReturn.error.required"))
     )
 }

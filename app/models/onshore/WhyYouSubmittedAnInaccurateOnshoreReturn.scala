@@ -26,8 +26,10 @@ sealed trait WhyYouSubmittedAnInaccurateOnshoreReturn
 object WhyYouSubmittedAnInaccurateOnshoreReturn extends Enumerable.Implicits {
 
   case object NoReasonableCare extends WithName("noReasonableCare") with WhyYouSubmittedAnInaccurateOnshoreReturn
-  case object ReasonableMistake   extends WithName("reasonableMistake")   with WhyYouSubmittedAnInaccurateOnshoreReturn
-  case object DeliberatelyInaccurate    extends WithName("deliberatelyInaccurate")    with WhyYouSubmittedAnInaccurateOnshoreReturn
+  case object ReasonableMistake extends WithName("reasonableMistake") with WhyYouSubmittedAnInaccurateOnshoreReturn
+  case object DeliberatelyInaccurate
+      extends WithName("deliberatelyInaccurate")
+      with WhyYouSubmittedAnInaccurateOnshoreReturn
 
   val values: Seq[WhyYouSubmittedAnInaccurateOnshoreReturn] = Seq(
     NoReasonableCare,
@@ -40,8 +42,8 @@ object WhyYouSubmittedAnInaccurateOnshoreReturn extends Enumerable.Implicits {
       CheckboxItemViewModel(
         content = Text(messages(s"WhyYouSubmittedAnInaccurateReturn.${value.toString}")),
         fieldId = "value",
-        index   = index,
-        value   = value.toString
+        index = index,
+        value = value.toString
       )
     }
 

@@ -31,7 +31,7 @@ import views.html.offshore.WhyAreYouMakingThisDisclosureView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class WhyDidYouNotNotifyOnshoreController @Inject()(
+class WhyDidYouNotNotifyOnshoreController @Inject() (
   override val messagesApi: MessagesApi,
   sessionService: SessionService,
   navigator: OffshoreNavigator,

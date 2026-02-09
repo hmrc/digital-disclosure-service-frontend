@@ -32,7 +32,7 @@ import views.html.onshore.WhyYouSubmittedAnInaccurateOnshoreReturnView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class WhyYouSubmittedAnInaccurateOnshoreReturnController @Inject()(
+class WhyYouSubmittedAnInaccurateOnshoreReturnController @Inject() (
   override val messagesApi: MessagesApi,
   sessionService: SessionService,
   navigator: OnshoreNavigator,
@@ -72,7 +72,8 @@ class WhyYouSubmittedAnInaccurateOnshoreReturnController @Inject()(
           value => {
             val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
             for {
-              updatedAnswers <- Future.fromTry(request.userAnswers.set(WhyYouSubmittedAnInaccurateOnshoreReturnPage, value))
+              updatedAnswers <-
+                Future.fromTry(request.userAnswers.set(WhyYouSubmittedAnInaccurateOnshoreReturnPage, value))
               clearedPages   <- Future.fromTry(updatedAnswers.remove(pagesToClear))
               _              <- sessionService.set(clearedPages)
             } yield Redirect(
@@ -87,7 +88,8 @@ class WhyYouSubmittedAnInaccurateOnshoreReturnController @Inject()(
     value: Set[WhyYouSubmittedAnInaccurateOnshoreReturn]
   ): (List[QuestionPage[_]], Boolean) =
     answers.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage) match {
-      case Some(reasons) if reasons != value => (WhyYouSubmittedAnInaccurateOnshoreReturnController.getPages(value), true)
+      case Some(reasons) if reasons != value =>
+        (WhyYouSubmittedAnInaccurateOnshoreReturnController.getPages(value), true)
       case _                                 => (Nil, false)
     }
 
@@ -95,9 +97,10 @@ class WhyYouSubmittedAnInaccurateOnshoreReturnController @Inject()(
 
     def getPages(reasons: Set[WhyYouSubmittedAnInaccurateOnshoreReturn]): List[QuestionPage[_]] = {
 
-      val noReasonableCare = ClearingCondition(Set(NoReasonableCare), List(ReasonableExcuseOnshorePage))
-      val reasonableMistake   = ClearingCondition(Set(ReasonableMistake), List(ReasonableCareOnshorePage))
-      val deliberatelyInaccurate     = ClearingCondition(Set(DeliberatelyInaccurate), List(ReasonableExcuseForNotFilingOnshorePage))
+      val noReasonableCare       = ClearingCondition(Set(NoReasonableCare), List(ReasonableExcuseOnshorePage))
+      val reasonableMistake      = ClearingCondition(Set(ReasonableMistake), List(ReasonableCareOnshorePage))
+      val deliberatelyInaccurate =
+        ClearingCondition(Set(DeliberatelyInaccurate), List(ReasonableExcuseForNotFilingOnshorePage))
 
       val conditions = List(noReasonableCare, reasonableMistake, deliberatelyInaccurate)
 
@@ -108,9 +111,9 @@ class WhyYouSubmittedAnInaccurateOnshoreReturnController @Inject()(
   }
 
   case class ClearingCondition(
-                                selections: Set[WhyYouSubmittedAnInaccurateOnshoreReturn],
-                                pagesToClear: List[QuestionPage[_]]
-                              ) {
+    selections: Set[WhyYouSubmittedAnInaccurateOnshoreReturn],
+    pagesToClear: List[QuestionPage[_]]
+  ) {
     def isConditionMet(reasons: Set[WhyYouSubmittedAnInaccurateOnshoreReturn]): Boolean =
       reasons.intersect(selections).isEmpty
   }
