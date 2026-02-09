@@ -1211,11 +1211,7 @@ whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletH1 = Mae’n
 whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.first = sut digwyddodd y methiant
 
 whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.second.you = beth oedd yn eich atal rhag cyflwyno Ffurflen Dreth
-whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.second.agent = beth oedd yn eu hatal rhag cyflwyno Ffurflen Dreth
-whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.second.company = beth oedd yn eu hatal rhag cyflwyno Ffurflen Dreth
-whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.second.llp = yr hyn y gwnaeth eu hatal rhag rhoi gwybod i CThEF am rwymedigaeth treth
-whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.second.trust = beth oedd yn eu hatal rhag cyflwyno Ffurflen Dreth
-whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.second.estate = beth oedd yn eu hatal rhag cyflwyno Ffurflen Dreth
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.second.notYou = beth oedd yn eu hatal rhag cyflwyno Ffurflen Dreth
 
 whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.third.you = y dyddiadau y dechreuodd eich esgus rhesymol, a’r dyddiad y daeth i ben
 whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.third.notYou = y dyddiadau y dechreuodd yr esgus rhesymol, a’r dyddiad y daeth i ben
