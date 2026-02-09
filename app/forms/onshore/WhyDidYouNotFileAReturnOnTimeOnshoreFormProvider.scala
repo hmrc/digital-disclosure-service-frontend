@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package forms.offshore
+package forms.onshore
 
 import forms.mappings.Mappings
-import models.WhyYouSubmittedAnInaccurateReturn
+import models.WhyDidYouNotFileAReturnOnTimeOnshore
 import play.api.data.Form
 import play.api.data.Forms.set
 
 import javax.inject.Inject
 
-class WhyYouSubmittedAnInaccurateOffshoreReturnFormProvider @Inject() extends Mappings {
+class WhyDidYouNotFileAReturnOnTimeOnshoreFormProvider @Inject() extends Mappings {
 
-  def apply(errorKey: String): Form[Set[WhyYouSubmittedAnInaccurateReturn]] =
+  def apply(): Form[Set[WhyDidYouNotFileAReturnOnTimeOnshore]] =
     Form(
-      "value" -> set(enumerable[WhyYouSubmittedAnInaccurateReturn](errorKey))
-        .verifying(nonEmptySet(errorKey))
+      "value" -> set(enumerable[WhyDidYouNotFileAReturnOnTimeOnshore]("whyDidYouNotFileAReturnOnTime.error.required"))
+        .verifying(nonEmptySet("whyDidYouNotFileAReturnOnTime.error.required"))
     )
 }

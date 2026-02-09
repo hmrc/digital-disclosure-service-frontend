@@ -1062,6 +1062,54 @@ whyAreYouMakingThisDisclosure.estate.deliberatelyDidNotNotify = The person who d
 whyAreYouMakingThisDisclosure.estate.deliberateInaccurateReturn = The person who died deliberately submitted an inaccurate tax return.
 whyAreYouMakingThisDisclosure.estate.deliberatelyDidNotFile = The person who died deliberately withheld information by failing to submit a return.
 
+whyDidYouNotNotify.title.you = Why did you not notify HMRC about a tax liability?
+whyDidYouNotNotify.heading.you = Why did you not notify HMRC about a tax liability?
+whyDidYouNotNotify.title.individual = Why the individual did not notify HMRC about a tax liability
+whyDidYouNotNotify.heading.individual = Why the individual did not notify HMRC about a tax liability
+whyDidYouNotNotify.title.company = Why the company did not notify HMRC about a tax liability
+whyDidYouNotNotify.heading.company = Why the company did not notify HMRC about a tax liability
+whyDidYouNotNotify.title.llp = Why the limited liability partnership did not notify HMRC about a tax liability
+whyDidYouNotNotify.heading.llp = Why the limited liability partnership did not notify HMRC about a tax liability
+whyDidYouNotNotify.title.trust = Why the trust did not notify HMRC about a tax liability
+whyDidYouNotNotify.heading.trust = Why the trust did not notify HMRC about a tax liability
+whyDidYouNotNotify.title.trust = Why the person who died did not notify HMRC about a tax liability
+whyDidYouNotNotify.heading.estate = Why the person who died did not notify HMRC about a tax liability
+
+whyDidYouNotNotify.paragraph.first.you = You have told us you did not notify HMRC about a tax liability.
+whyDidYouNotNotify.paragraph.first.individual = You have told us the individual did not notify HMRC about a tax liability.
+whyDidYouNotNotify.paragraph.first.company = You have told us the company did not notify HMRC about a tax liability.
+whyDidYouNotNotify.paragraph.first.llp = You have told us the limited liability partnership did not notify HMRC about a tax liability.
+whyDidYouNotNotify.paragraph.first.trust = You have told us the trust did not notify HMRC about a tax liability.
+whyDidYouNotNotify.paragraph.first.estate = You have told us the person who died did not notify HMRC about a tax liability.
+
+whyDidYouNotNotify.paragraph.second = You need to provide more information about why this happened.
+whyDidYouNotNotify.paragraph.third = If you are unsure which option applies, you may want to seek professional advice.
+
+whyDidYouNotNotify.hint = Select all options that are relevant to all tax years you need to disclose for.
+
+whyDidYouNotNotify.h1.you = Which options describe why you did not notify HMRC about a tax liability?
+whyDidYouNotNotify.h1.individual = Which options describe why the individual did not notify HMRC about a tax liability?
+whyDidYouNotNotify.h1.company = Which options describe why the company did not notify HMRC about a tax liability?
+whyDidYouNotNotify.h1.llp = Which options describe why the limited liability partnership did not notify HMRC about a tax liability?
+whyDidYouNotNotify.h1.trust  = Which options describe why the trust did not notify HMRC about a tax liability?
+whyDidYouNotNotify.h1.estate   = Which options describe why the person who died did not notify HMRC about a tax liability?
+
+whyDidYouNotNotify.you.notDeliberatelyNoReasonableExcuse = This was not deliberate, but I do not have a reasonable excuse
+whyDidYouNotNotify.notYou.notDeliberatelyNoReasonableExcuse = This was not deliberate, but they do not have a reasonable excuse
+
+whyDidYouNotNotify.you.reasonableExcuse = I do not have a reasonable excuse
+whyDidYouNotNotify.notYou.reasonableExcuse = They have a reasonable excuse
+
+whyDidYouNotNotify.you.deliberatelyDidNotNotify = I deliberately failed to notify HMRC of a tax liability
+whyDidYouNotNotify.notYou.deliberatelyDidNotNotify = They deliberately failed to notify HMRC of a tax liability
+
+whyDidYouNotNotify.error.required.you = Select the reasons you did not notify HMRC
+whyDidYouNotNotify.error.required.individual = Select the reasons the individual did not notify HMRC
+whyDidYouNotNotify.error.required.company  = Select the reasons the company did not notify HMRC
+whyDidYouNotNotify.error.required.llp  = Select the reasons the limited liability partnership did not notify HMRC
+whyDidYouNotNotify.error.required.trust   = Select the reasons the trust  did not notify HMRC
+whyDidYouNotNotify.error.required.estate   = Select the reasons the person who died did not notify HMRC
+
 WhyYouSubmittedAnInaccurateReturn.title.you = Why you submitted an inaccurate return
 WhyYouSubmittedAnInaccurateReturn.title.individual = Why the individual submitted an inaccurate return
 WhyYouSubmittedAnInaccurateReturn.title.company = Why the company submitted an inaccurate return
@@ -1108,8 +1156,6 @@ WhyYouSubmittedAnInaccurateReturn.error.required.company = Select the reasons th
 WhyYouSubmittedAnInaccurateReturn.error.required.llp = Select the reasons the limited liability partnership submitted an inaccurate return
 WhyYouSubmittedAnInaccurateReturn.error.required.trust = Select the reasons the trust submitted an inaccurate return
 WhyYouSubmittedAnInaccurateReturn.error.required.estate = Select the reasons the person who died submitted an inaccurate return
-
-
 
 taskList.title = List of tasks
 taskList.title.no.reference = List of tasks for case created on {0}
@@ -2622,3 +2668,68 @@ areYouTheEntity.trust.initialParagraph = A trustee is the legal owner of the ass
 areYouTheEntity.trust.body = If you are not a trustee, they will need to
 areYouTheEntity.trust.link = appoint you to deal with HMRC on their behalf (opens in new tab)
 areYouTheEntity.trust.checkYourAnswersLabel = Are you a trustee of the trust that the disclosure will be about?
+
+whyDidYouNotFileAReturnOnTime.you.title = Why you did not file a return on time
+whyDidYouNotFileAReturnOnTime.individual.title = Why the individual did not file a return on time
+whyDidYouNotFileAReturnOnTime.company.title = Why the company did not file a return on time
+whyDidYouNotFileAReturnOnTime.llp.title = Why the limited liability partnership did not file a return on time
+whyDidYouNotFileAReturnOnTime.trust.title = Why the trust did not file a return on time
+whyDidYouNotFileAReturnOnTime.estate.title = Why the person who died did not file a return on time
+
+whyDidYouNotFileAReturnOnTime.you.heading = Why you did not file a return on time
+whyDidYouNotFileAReturnOnTime.individual.heading = Why the individual did not file a return on time
+whyDidYouNotFileAReturnOnTime.company.heading = Why the company did not file a return on time
+whyDidYouNotFileAReturnOnTime.llp.heading = Why the limited liability partnership did not file a return on time
+whyDidYouNotFileAReturnOnTime.trust.heading = Why the trust did not file a return on time
+whyDidYouNotFileAReturnOnTime.estate.heading = Why the person who died did not file a return on time
+
+whyDidYouNotFileAReturnOnTime.paragraph.first.you = You have told us you did not file a return on time.
+whyDidYouNotFileAReturnOnTime.paragraph.first.individual = You have told us the individual did not file a return on time.
+whyDidYouNotFileAReturnOnTime.paragraph.first.company = You have told us the company did not file a return on time.
+whyDidYouNotFileAReturnOnTime.paragraph.first.llp = You have told us the limited liability partnership did not file a return on time.
+whyDidYouNotFileAReturnOnTime.paragraph.first.trust = You have told us the trust did not file a return on time.
+whyDidYouNotFileAReturnOnTime.paragraph.first.estate = You have told us the person who died did not file a return on time.
+
+whyDidYouNotFileAReturnOnTime.paragraph.second = You need to provide more information about why this happened.
+whyDidYouNotFileAReturnOnTime.paragraph.third = If you are unsure which option applies, you may want to seek professional advice.
+whyDidYouNotFileAReturnOnTime.checkYourAnswersLabel = Reason for not filing a return on time
+whyDidYouNotFileAReturnOnTime.error.required = Select the reasons you did not file a return on time
+whyDidYouNotFileAReturnOnTime.change.hidden = Reason
+
+whyDidYouNotFileAReturnOnTime.you.describeOption = Which options describe why you did not file a return on time?
+whyDidYouNotFileAReturnOnTime.you.didNotWithholdInformationOnPurpose = I did not file a return but I did not withhold any information on purpose
+whyDidYouNotFileAReturnOnTime.you.reasonableExcuse = I have a reasonable excuse
+whyDidYouNotFileAReturnOnTime.you.deliberatelyWithheldInformation = I deliberately withheld information by failing to submit a return
+whyDidYouNotFileAReturnOnTime.you.selectAllTheReasons = Select the reasons you did not file a return on time
+
+whyDidYouNotFileAReturnOnTime.individual.describeOption = Which options describe why the individual did not file a return on time?
+whyDidYouNotFileAReturnOnTime.individual.didNotWithholdInformationOnPurpose = They did not file a return but did not withhold any information on purpose
+whyDidYouNotFileAReturnOnTime.individual.reasonableExcuse = They have a reasonable excuse
+whyDidYouNotFileAReturnOnTime.individual.deliberatelyWithheldInformation = They deliberately withheld information by failing to submit a return
+whyDidYouNotFileAReturnOnTime.individual.selectAllTheReasons = Select the reasons the individual did not file a return on time
+
+whyDidYouNotFileAReturnOnTime.company.describeOption = Which options describe why the company did not file a return on time?
+whyDidYouNotFileAReturnOnTime.company.didNotWithholdInformationOnPurpose = They did not file a return but did not withhold any information on purpose
+whyDidYouNotFileAReturnOnTime.company.reasonableExcuse = They have a reasonable excuse
+whyDidYouNotFileAReturnOnTime.company.deliberatelyWithheldInformation = They deliberately withheld information by failing to submit a return
+whyDidYouNotFileAReturnOnTime.company.selectAllTheReasons = Select the reasons the company did not file a return on time
+
+whyDidYouNotFileAReturnOnTime.llp.describeOption = Which options describe why the limited liability partnership did not file a return on time?
+whyDidYouNotFileAReturnOnTime.llp.didNotWithholdInformationOnPurpose = They did not file a return but did not withhold any information on purpose
+whyDidYouNotFileAReturnOnTime.llp.reasonableExcuse = They have a reasonable excuse
+whyDidYouNotFileAReturnOnTime.llp.deliberatelyWithheldInformation = They deliberately withheld information by failing to submit a return
+whyDidYouNotFileAReturnOnTime.llp.selectAllTheReasons = Select the reasons the limited liability partnership did not file a return on time
+
+whyDidYouNotFileAReturnOnTime.trust.describeOption = Which options describe why the trust did not file a return on time?
+whyDidYouNotFileAReturnOnTime.trust.didNotWithholdInformationOnPurpose = They did not file a return but did not withhold any information on purpose
+whyDidYouNotFileAReturnOnTime.trust.reasonableExcuse = They have a reasonable excuse
+whyDidYouNotFileAReturnOnTime.trust.deliberatelyWithheldInformation = They deliberately withheld information by failing to submit a return
+whyDidYouNotFileAReturnOnTime.trust.selectAllTheReasons = Select the reasons the trust did not file a return on time
+
+whyDidYouNotFileAReturnOnTime.estate.describeOption = Which options describe why the person who died did not file a return on time?
+whyDidYouNotFileAReturnOnTime.estate.didNotWithholdInformationOnPurpose = They did not file a return but did not withhold any information on purpose
+whyDidYouNotFileAReturnOnTime.estate.reasonableExcuse = They had a reasonable excuse
+whyDidYouNotFileAReturnOnTime.estate.deliberatelyWithheldInformation = They deliberately withheld information by failing to submit a return
+whyDidYouNotFileAReturnOnTime.estate.selectAllTheReasons = Select the reasons the person who died did not file a return on time
+
+

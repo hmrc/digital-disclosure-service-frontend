@@ -17,17 +17,17 @@
 package forms.offshore
 
 import forms.mappings.Mappings
-import models.WhyYouSubmittedAnInaccurateReturn
+import models.WhyDidYouNotFileAReturnOnTimeOffshore
 import play.api.data.Form
 import play.api.data.Forms.set
 
 import javax.inject.Inject
 
-class WhyYouSubmittedAnInaccurateOffshoreReturnFormProvider @Inject() extends Mappings {
+class WhyDidYouNotFileAReturnOnTimeOffshoreFormProvider @Inject() extends Mappings {
 
-  def apply(errorKey: String): Form[Set[WhyYouSubmittedAnInaccurateReturn]] =
+  def apply(): Form[Set[WhyDidYouNotFileAReturnOnTimeOffshore]] =
     Form(
-      "value" -> set(enumerable[WhyYouSubmittedAnInaccurateReturn](errorKey))
-        .verifying(nonEmptySet(errorKey))
+      "value" -> set(enumerable[WhyDidYouNotFileAReturnOnTimeOffshore]("whyDidYouNotFileAReturnOnTime.error.required"))
+        .verifying(nonEmptySet("whyDidYouNotFileAReturnOnTime.error.required"))
     )
 }

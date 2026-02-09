@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2026 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,20 +14,14 @@
  * limitations under the License.
  */
 
-package forms.offshore
+package pages
 
-import forms.mappings.Mappings
-import models.WhyYouSubmittedAnInaccurateReturn
-import play.api.data.Form
-import play.api.data.Forms.set
+import models.WhyDidYouNotNotifyOnshore
+import play.api.libs.json.JsPath
 
-import javax.inject.Inject
+case object WhyDidYouNotNotifyOnshorePage extends QuestionPage[Set[WhyDidYouNotNotifyOnshore]] {
 
-class WhyYouSubmittedAnInaccurateOffshoreReturnFormProvider @Inject() extends Mappings {
+  override def path: JsPath = JsPath \ toString
 
-  def apply(errorKey: String): Form[Set[WhyYouSubmittedAnInaccurateReturn]] =
-    Form(
-      "value" -> set(enumerable[WhyYouSubmittedAnInaccurateReturn](errorKey))
-        .verifying(nonEmptySet(errorKey))
-    )
+  override def toString: String = "whyDidYouNotNotifyOnshore"
 }

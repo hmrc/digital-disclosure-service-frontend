@@ -14,20 +14,15 @@
  * limitations under the License.
  */
 
-package forms.offshore
+package pages.onshore
 
-import forms.mappings.Mappings
-import models.WhyYouSubmittedAnInaccurateReturn
-import play.api.data.Form
-import play.api.data.Forms.set
+import models.WhyDidYouNotFileAReturnOnTimeOnshore
+import pages.QuestionPage
+import play.api.libs.json.JsPath
 
-import javax.inject.Inject
+case object WhyDidYouNotFileAReturnOnTimeOnshorePage extends QuestionPage[Set[WhyDidYouNotFileAReturnOnTimeOnshore]] {
 
-class WhyYouSubmittedAnInaccurateOffshoreReturnFormProvider @Inject() extends Mappings {
+  override def path: JsPath = JsPath \ toString
 
-  def apply(errorKey: String): Form[Set[WhyYouSubmittedAnInaccurateReturn]] =
-    Form(
-      "value" -> set(enumerable[WhyYouSubmittedAnInaccurateReturn](errorKey))
-        .verifying(nonEmptySet(errorKey))
-    )
+  override def toString: String = "whyDidYouNotFileAReturnOnTime"
 }

@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-package forms.offshore
+package forms
 
+import javax.inject.Inject
 import forms.mappings.Mappings
-import models.WhyYouSubmittedAnInaccurateReturn
+import models.WhyDidYouNotNotify
 import play.api.data.Form
 import play.api.data.Forms.set
 
-import javax.inject.Inject
+class WhyDidYouNotNotifyFormProvider @Inject() extends Mappings {
 
-class WhyYouSubmittedAnInaccurateOffshoreReturnFormProvider @Inject() extends Mappings {
-
-  def apply(errorKey: String): Form[Set[WhyYouSubmittedAnInaccurateReturn]] =
+  def apply(): Form[Set[WhyDidYouNotNotify]] =
     Form(
-      "value" -> set(enumerable[WhyYouSubmittedAnInaccurateReturn](errorKey))
-        .verifying(nonEmptySet(errorKey))
+      "value" -> set(enumerable[WhyDidYouNotNotify]("WhyDidYouNotNotify.error.required"))
+        .verifying(nonEmptySet("WhyDidYouNotNotify.error.required"))
     )
 }
