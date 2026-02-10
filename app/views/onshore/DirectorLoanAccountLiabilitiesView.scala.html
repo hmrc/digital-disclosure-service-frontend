@@ -32,7 +32,7 @@
     tasklistLink: components.tasklistLink
 )
 
-@(form: Form[_], mode: Mode, index: Int)(implicit request: RequestHeader, messages: Messages)
+@(form: Form[_], mode: Mode, index: Int, hidePenaltySection: Boolean)(implicit request: RequestHeader, messages: Messages)
 
 @layout(pageTitle = title(form, messages("directorLoanAccountLiabilities.title", index + 1))) {
 
@@ -107,27 +107,29 @@
             .withWidth(Fixed10)
         )
 
-        @govukInput(
-            InputViewModel(
-                field = form("penaltyRate"),
-                label = LabelViewModel(messages("directorLoanAccountLiabilities.penaltyRate.question")).withCssClass("govuk-label--s")
+        @if(!hidePenaltySection) {
+            @govukInput(
+                InputViewModel(
+                    field = form("penaltyRate"),
+                    label = LabelViewModel(messages("directorLoanAccountLiabilities.penaltyRate.question")).withCssClass("govuk-label--s")
+                )
+                .withSuffix(PrefixOrSuffix(content = Text("%")))
+                .asNumeric()
+                .withHint(HintViewModel(messages("directorLoanAccountLiabilities.penaltyRate.hint")))
+                .withWidth(Fixed10)
             )
-            .withSuffix(PrefixOrSuffix(content = Text("%")))
-            .asNumeric()
-            .withHint(HintViewModel(messages("directorLoanAccountLiabilities.penaltyRate.hint")))
-            .withWidth(Fixed10)
-        )
 
-        @hmrcCharacterCount(
-            CharacterCount(
-                id = "penaltyRateReason",
-                name = "penaltyRateReason",
-                maxLength = Some(5000),
-                label = Label(content = messages("directorLoanAccountLiabilities.penaltyRateReason.question")).withCssClass("govuk-label--s"),
-                value = form("penaltyRateReason").value,
-                errorMessage = ErrorFluency.errorMessage(form("penaltyRateReason"))
+            @hmrcCharacterCount(
+                CharacterCount(
+                    id = "penaltyRateReason",
+                    name = "penaltyRateReason",
+                    maxLength = Some(5000),
+                    label = Label(content = messages("directorLoanAccountLiabilities.penaltyRateReason.question")).withCssClass("govuk-label--s"),
+                    value = form("penaltyRateReason").value,
+                    errorMessage = ErrorFluency.errorMessage(form("penaltyRateReason"))
+                )
             )
-        )
+        }
 
         @govukButton(
             ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")

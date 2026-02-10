@@ -28,7 +28,7 @@
 
 @(form: Form[_], mode: Mode, areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit request: RequestHeader, messages: Messages)
 
-@layout(pageTitle = title(form, messages(s"whyDidYouNotFileAReturnOnTime.$entity.title"))) {
+@layout(pageTitle = title(form, if(areTheyTheIndividual){messages("whyDidYouNotFileAReturnOnTime.you.title")} else {messages(s"whyDidYouNotFileAReturnOnTime.${entity}.title")})){
 
     @formHelper(action = controllers.onshore.routes.WhyDidYouNotFileAReturnOnTimeOnshoreController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
@@ -36,9 +36,9 @@
             @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value_0")))
         }
 
-        @heading(Text(messages(s"whyDidYouNotFileAReturnOnTime.$entity.heading")))
+        @heading(Text(if(areTheyTheIndividual){messages("whyDidYouNotFileAReturnOnTime.you.heading")} else {messages(s"whyDidYouNotFileAReturnOnTime.$entity.heading")}))
 
-        @paragraph(id = Some("first-paragraph"), content = Text(messages(s"whyDidYouNotFileAReturnOnTime.paragraph.first.$entity")))
+        @paragraph(id = Some("first-paragraph"), content = Text(if(areTheyTheIndividual){messages("whyDidYouNotFileAReturnOnTime.paragraph.first.you")} else {messages(s"whyDidYouNotFileAReturnOnTime.paragraph.first.$entity")}))
 
         @paragraph(id = Some("second-paragraph"), content = Text(messages("whyDidYouNotFileAReturnOnTime.paragraph.second")))
 
@@ -51,7 +51,7 @@
                 legend = LegendViewModel(messages(s"whyDidYouNotFileAReturnOnTime.$entity.describeOption")).withCssClass("govuk-fieldset__legend--m"),
                 items  = WhyDidYouNotFileAReturnOnTimeOnshore.checkboxItems(areTheyTheIndividual, entity)
             ).withHint(
-             Hint(content = Text(messages(s"whyDidYouNotFileAReturnOnTime.$entity.selectAllTheReasons")))
+             Hint(content = Text(messages(s"whyDidYouNotFileAReturnOnTime.hint")))
             )
         )
 

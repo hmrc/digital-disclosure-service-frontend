@@ -48,16 +48,16 @@ class WhyDidYouNotFileAReturnOnTimeOnshoreController @Inject() (
   extends FrontendBaseController
     with I18nSupport {
 
-  val form = formProvider()
-
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
-    val preparedForm = request.userAnswers.get(WhyDidYouNotFileAReturnOnTimeOnshorePage) match {
-      case None        => form
-      case Some(value) => form.fill(value)
-    }
-
     val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
     val entity               = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+
+    val preparedForm = request.userAnswers.get(WhyDidYouNotFileAReturnOnTimeOnshorePage) match {
+      case None        => form(areTheyTheIndividual, entity)
+      case Some(value) => form(areTheyTheIndividual, entity).fill(value)
+    }
+
+
 
     Ok(view(preparedForm, mode, areTheyTheIndividual, entity))
   }
@@ -67,7 +67,7 @@ class WhyDidYouNotFileAReturnOnTimeOnshoreController @Inject() (
       val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
       val entity               = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
-      form
+      form(areTheyTheIndividual, entity)
         .bindFromRequest()
         .fold(
           formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, areTheyTheIndividual, entity))),
@@ -81,6 +81,8 @@ class WhyDidYouNotFileAReturnOnTimeOnshoreController @Inject() (
           }
         )
   }
+
+  def form(areTheyTheIndividual: Boolean, entity: RelatesTo) = formProvider(areTheyTheIndividual, entity)
 
   def changedPages(
                     answers: UserAnswers,

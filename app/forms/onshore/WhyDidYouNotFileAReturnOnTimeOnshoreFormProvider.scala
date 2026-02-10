@@ -17,7 +17,7 @@
 package forms.onshore
 
 import forms.mappings.Mappings
-import models.WhyDidYouNotFileAReturnOnTimeOnshore
+import models.{RelatesTo, WhyDidYouNotFileAReturnOnTimeOnshore}
 import play.api.data.Form
 import play.api.data.Forms.set
 
@@ -25,9 +25,15 @@ import javax.inject.Inject
 
 class WhyDidYouNotFileAReturnOnTimeOnshoreFormProvider @Inject() extends Mappings {
 
-  def apply(): Form[Set[WhyDidYouNotFileAReturnOnTimeOnshore]] =
+  def apply(areTheyTheIndividual: Boolean, entity: RelatesTo): Form[Set[WhyDidYouNotFileAReturnOnTimeOnshore]] = {
+    val requiredErrorKey =
+      if (areTheyTheIndividual)
+        "whyDidYouNotFileAReturnOnTime.you.error.required"
+      else
+        s"whyDidYouNotFileAReturnOnTime.$entity.error.required"
     Form(
-      "value" -> set(enumerable[WhyDidYouNotFileAReturnOnTimeOnshore]("whyDidYouNotFileAReturnOnTime.error.required"))
-        .verifying(nonEmptySet("whyDidYouNotFileAReturnOnTime.error.required"))
+      "value" -> set(enumerable[WhyDidYouNotFileAReturnOnTimeOnshore](requiredErrorKey))
+        .verifying(nonEmptySet(requiredErrorKey))
     )
+  }
 }
