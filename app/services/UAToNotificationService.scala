@@ -17,12 +17,12 @@
 package services
 
 
-import models.*
+import models.{DoYouHaveNationalInsuranceNumber, HowWouldYouPreferToBeContacted, RelatesTo, UserAnswers}
 import models.store.{Notification, YesNoOrUnsure}
 import models.store.notification.*
 import pages.*
 import com.google.inject.{ImplementedBy, Singleton}
-import queries.Gettable
+
 
 @Singleton
 class UAToNotificationServiceImpl extends UAToNotificationService {
