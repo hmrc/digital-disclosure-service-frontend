@@ -83,7 +83,7 @@ class TaxYearLiabilitiesFormProvider @Inject() extends Mappings {
       .verifying(optionalUnless(true, s"taxYearLiabilities.$field.error.required"))
 
   def optionalUnless[A](isRequired: Boolean, errorKey: String): Constraint[Option[A]] =
-    Constraint[Option[A]] { data: (Option[A]) =>
+    Constraint[Option[A]] { (data: Option[A]) =>
       if (data.isDefined || !isRequired) {
         Valid
       } else {
