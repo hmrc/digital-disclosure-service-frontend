@@ -41,11 +41,6 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
       ua =>
         val page1Selections = ua.get(WhyAreYouMakingThisOnshoreDisclosurePage).getOrElse(Set.empty)
 
-        println(s"DEBUG: Page 1 selections = $page1Selections")
-        println(s"DEBUG: Page 2a isEmpty = ${ua.get(WhyDidYouNotNotifyOnshorePage).isEmpty}")
-        println(s"DEBUG: Page 2b isEmpty = ${ua.get(WhyDidYouNotFileAReturnOnTimeOnshorePage).isEmpty}")
-        println(s"DEBUG: Page 2c isEmpty = ${ua.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).isEmpty}")
-
         if (page1Selections.contains(DidNotNotifyHMRC)) {
           routes.WhyDidYouNotNotifyOnshoreController.onPageLoad(NormalMode)
         } else if (page1Selections.contains(DidNotFile)) {
