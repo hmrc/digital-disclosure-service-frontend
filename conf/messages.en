@@ -1391,7 +1391,6 @@ whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.first =
 
 whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.second.you = what prevented you from filing a return
 whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.second.notYou = what prevented them from filing a return
-whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.second.llp = what prevented them from notifying HMRC about a tax liability
 
 whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.third.you = the dates your reasonable excuse started and ended
 whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.third.notYou = the dates the reasonable excuse started and ended

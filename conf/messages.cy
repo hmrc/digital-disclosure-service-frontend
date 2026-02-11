@@ -1175,10 +1175,14 @@ youHaveLeftTheDDS.body.second = ' neu gallwch gau’r dudalen hon.'
 youHaveLeftTheDDS.checkYourAnswersLabel = Rydych wedi gadael y gwasanaeth datgelu digidol
 youHaveLeftTheDDS.change.hidden = Rydych wedi gadael y gwasanaeth datgelu digidol
 
-whatIsYourReasonableExcuseForNotFilingReturn.entity.title = Beth yw’ch esgus rhesymol dros beidio â chyflwyno Ffurflen Dreth?
-whatIsYourReasonableExcuseForNotFilingReturn.agent.title = Beth yw’r esgus rhesymol dros beidio â chyflwyno Ffurflen Dreth?
-whatIsYourReasonableExcuseForNotFilingReturn.entity.heading = Beth yw’ch esgus rhesymol dros beidio â chyflwyno Ffurflen Dreth?
-whatIsYourReasonableExcuseForNotFilingReturn.agent.heading = Beth yw’r esgus rhesymol dros beidio â chyflwyno Ffurflen Dreth?
+whatIsYourReasonableExcuseForNotFilingReturn.entity.title = Eich esgus rhesymol dros beidio â chyflwyno Ffurflen Dreth
+whatIsYourReasonableExcuseForNotFilingReturn.agent.title = Esgus rhesymol dros beidio â chyflwyno Ffurflen Dreth
+whatIsYourReasonableExcuseForNotFilingReturn.entity.heading = Eich esgus rhesymol dros beidio â chyflwyno Ffurflen Dreth
+whatIsYourReasonableExcuseForNotFilingReturn.agent.heading = Esgus rhesymol dros beidio â chyflwyno Ffurflen Dreth
+
+whatIsYourReasonableExcuseForNotFilingReturn.entity.question = Beth yw’ch esgus rhesymol dros beidio â chyflwyno Ffurflen Dreth?
+whatIsYourReasonableExcuseForNotFilingReturn.agent.question = Beth yw’r esgus rhesymol dros beidio â chyflwyno Ffurflen Dreth?
+
 whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo = Pa flynyddoedd treth mae hyn yn berthnasol iddynt?
 whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo.hint = Er enghraifft, blwyddyn dreth sy’n dod i ben yn 2019.
 whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.checkYourAnswersLabel = Esgus rhesymol dros beidio â chyflwyno Ffurflen Dreth
@@ -1191,12 +1195,29 @@ whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.change.hidden = Es
 whatIsYourReasonableExcuseForNotFilingReturn.yearsThisAppliesTo.change.hidden = Blynyddoedd y mae hyn yn berthnasol iddynt
 whatIsYourReasonableExcuseForNotFilingReturn.entity.error.reasonableExcuse.length = Mae’n rhaid i’ch esgus rhesymol fod rhwng 1 a 5,000 o gymeriadau
 whatIsYourReasonableExcuseForNotFilingReturn.agent.error.reasonableExcuse.length = Mae’n rhaid i’ch esgus rhesymol fod rhwng 1 a 5,000 o gymeriadau
-whatIsYourReasonableExcuseForNotFilingReturn.you.reasonableExcuse = Esgus rhesymol yw rhywbeth a oedd yn eich rhwystro rhag bodloni ymrwymiad treth pan oeddech wedi cymryd gofal rhesymol i’w fodloni.
-whatIsYourReasonableExcuseForNotFilingReturn.individual.reasonableExcuse = Mae esgus rhesymol yn rhywbeth a wnaeth atal yr unigolyn rhag bodloni ymrwymiad treth y cymerodd ofal rhesymol i’w fodloni.
-whatIsYourReasonableExcuseForNotFilingReturn.company.reasonableExcuse = Mae esgus rhesymol yn rhywbeth a wnaeth atal y cwmni rhag bodloni ymrwymiad treth y cymerodd ofal rhesymol i’w fodloni.
-whatIsYourReasonableExcuseForNotFilingReturn.llp.reasonableExcuse = Mae esgus rhesymol yn rhywbeth a wnaeth atal y bartneriaeth atebolrwydd cyfyngedig rhag bodloni ymrwymiad treth y cymerodd ofal rhesymol i’w fodloni.
-whatIsYourReasonableExcuseForNotFilingReturn.trust.reasonableExcuse = Mae esgus rhesymol yn rhywbeth a wnaeth atal yr ymddiriedolaeth rhag bodloni ymrwymiad treth y cymerodd ofal rhesymol i’w fodloni.
-whatIsYourReasonableExcuseForNotFilingReturn.estate.reasonableExcuse = Mae esgus rhesymol yn rhywbeth a wnaeth atal y person rhag bodloni ymrwymiad treth y cymerodd ofal rhesymol i’w fodloni.
+
+whatIsYourReasonableExcuseForNotFilingReturn.you.reasonableExcuse = Mae esgus rhesymol yn rhywbeth a wnaeth eich rhwystro rhag bodloni ymrwymiad treth er i chi gymryd gofal i’w fodloni.
+whatIsYourReasonableExcuseForNotFilingReturn.individual.reasonableExcuse = Mae esgus rhesymol yn rhywbeth a wnaeth rhwystro’r unigolyn rhag bodloni ymrwymiad treth er iddo gymryd gofal i’w fodloni.
+whatIsYourReasonableExcuseForNotFilingReturn.company.reasonableExcuse = Mae esgus rhesymol yn rhywbeth a wnaeth rhwystro’r cwmni rhag bodloni ymrwymiad treth er iddo gymryd gofal i’w fodloni.
+whatIsYourReasonableExcuseForNotFilingReturn.llp.reasonableExcuse = Mae esgus rhesymol yn rhywbeth a wnaeth rhwystro’r bartneriaeth atebolrwydd cyfyngedig rhag bodloni ymrwymiad treth er iddi gymryd gofal i’w fodloni.
+whatIsYourReasonableExcuseForNotFilingReturn.trust.reasonableExcuse = Mae esgus rhesymol yn rhywbeth a wnaeth rhwystro’r ymddiriedolaeth rhag bodloni ymrwymiad treth er iddi gymryd gofal i’w fodloni.
+whatIsYourReasonableExcuseForNotFilingReturn.estate.reasonableExcuse = Mae esgus rhesymol yn rhywbeth a wnaeth rhwystro’r ystâd rhag bodloni ymrwymiad treth er iddi gymryd gofal i’w fodloni.
+
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.p2.you = Mae’n rhaid i chi allu dangos eich bod wedi bodloni’r ymrwymiad treth heb ormod o oedi ar ôl i’r esgus rhesymol ddod i ben.
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.p2.notYou = Mae’n rhaid i chi allu dangos eu bod wedi bodloni’r ymrwymiad treth heb ormod o oedi ar ôl i’r esgus rhesymol ddod i ben.
+
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletH1 = Mae’n rhaid i’ch esboniad gynnwys manylion am y canlynol:
+
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.first = sut digwyddodd y methiant
+
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.second.you = beth oedd yn eich atal rhag cyflwyno Ffurflen Dreth
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.second.notYou = beth oedd yn eu hatal rhag cyflwyno Ffurflen Dreth
+
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.third.you = y dyddiadau y dechreuodd eich esgus rhesymol, a’r dyddiad y daeth i ben
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.third.notYou = y dyddiadau y dechreuodd yr esgus rhesymol, a’r dyddiad y daeth i ben
+
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.fourth.you = y camau a gymeroch i sicrhau’ch bod yn bodloni’ch ymrwymiadau treth - er enghraifft, os gwnaethoch geisio unrhyw gyngor proffesiynol
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.fourth.notYou = y camau a gymerwyd ganddyn nhw i sicrhau eu bod yn bodloni eu hymrwymiadau treth - er enghraifft, os gwnaethon nhw geisio unrhyw gyngor proffesiynol
 
 whichYears.title = Pa flwyddyn mae’r datgeliad alltraeth hwn yn ymwneud â hi?
 whichYears.heading = Pa flwyddyn mae’r datgeliad alltraeth hwn yn ymwneud â hi?
