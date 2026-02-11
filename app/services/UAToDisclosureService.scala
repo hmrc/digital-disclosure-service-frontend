@@ -76,6 +76,7 @@ class UAToDisclosureServiceImpl @Inject() (
     )
 
   def uaToOnshoreLiabilities(userAnswers: UserAnswers): Option[OnshoreLiabilities] = {
+    // Build behaviour from Page 2 selections, mapped to old enums
     val behaviour = buildBehaviourFromPage2(userAnswers)
 
     Some(
@@ -113,27 +114,30 @@ class UAToDisclosureServiceImpl @Inject() (
 
     val behaviours = scala.collection.mutable.Set[WhyAreYouMakingThisOnshoreDisclosure]()
 
+    // Map Page 2a selections to old enums
     userAnswers.get(WhyDidYouNotNotifyOnshorePage).foreach { selections =>
       selections.foreach {
-        case DeliberatelyDidNotNotifyOnshore          => behaviours += DeliberatelyDidNotNotify
-        case ReasonableExcuseOnshore                  => behaviours += DidNotNotifyHasExcuse
+        case DeliberatelyDidNotNotifyOnshore => behaviours += DeliberatelyDidNotNotify
+        case ReasonableExcuseOnshore => behaviours += DidNotNotifyHasExcuse
         case NotDeliberatelyNoReasonableExcuseOnshore => behaviours += DidNotNotifyNoExcuse
       }
     }
 
+    // Map Page 2b selections to old enums
     userAnswers.get(WhyDidYouNotFileAReturnOnTimeOnshorePage).foreach { selections =>
       selections.foreach {
-        case DeliberatelyWithheldInformation    => behaviours += DeliberatelyDidNotFile
-        case ReasonableExcuse                   => behaviours += NotFileHasExcuse
+        case DeliberatelyWithheldInformation => behaviours += DeliberatelyDidNotFile
+        case ReasonableExcuse => behaviours += NotFileHasExcuse
         case DidNotWithholdInformationOnPurpose => behaviours += DidNotFileNoExcuse
       }
     }
 
+    // Map Page 2c selections to old enums
     userAnswers.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).foreach { selections =>
       selections.foreach {
         case DeliberatelyInaccurate => behaviours += DeliberateInaccurateReturn
-        case ReasonableMistake      => behaviours += InaccurateReturnWithCare
-        case NoReasonableCare       => behaviours += InaccurateReturnNoCare
+        case ReasonableMistake => behaviours += InaccurateReturnWithCare
+        case NoReasonableCare => behaviours += InaccurateReturnNoCare
       }
     }
 
