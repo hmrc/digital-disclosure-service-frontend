@@ -25,6 +25,10 @@ sealed trait WhyAreYouMakingThisOnshoreDisclosure
 
 object WhyAreYouMakingThisOnshoreDisclosure extends Enumerable.Implicits {
 
+  case object DidNotNotifyHMRC extends WithName("didNotNotifyHMRC") with WhyAreYouMakingThisOnshoreDisclosure
+  case object DidNotFile extends WithName("didNotFile") with WhyAreYouMakingThisOnshoreDisclosure
+  case object InaccurateReturn extends WithName("inaccurateReturn") with WhyAreYouMakingThisOnshoreDisclosure
+
   case object DidNotNotifyHasExcuse extends WithName("didNotNotifyHasExcuse") with WhyAreYouMakingThisOnshoreDisclosure
   case object InaccurateReturnWithCare
       extends WithName("inaccurateReturnWithCare")
@@ -43,16 +47,12 @@ object WhyAreYouMakingThisOnshoreDisclosure extends Enumerable.Implicits {
   case object DeliberatelyDidNotFile
       extends WithName("deliberatelyDidNotFile")
       with WhyAreYouMakingThisOnshoreDisclosure
+  case object DidNotFileNoExcuse extends WithName("didNotFileNoExcuse") with WhyAreYouMakingThisOnshoreDisclosure
 
   val values: Seq[WhyAreYouMakingThisOnshoreDisclosure] = Seq(
-    DidNotNotifyHasExcuse,
-    InaccurateReturnWithCare,
-    NotFileHasExcuse,
-    InaccurateReturnNoCare,
-    DidNotNotifyNoExcuse,
-    DeliberatelyDidNotNotify,
-    DeliberateInaccurateReturn,
-    DeliberatelyDidNotFile
+    DidNotNotifyHMRC,
+    DidNotFile,
+    InaccurateReturn
   )
 
   def checkboxItems(areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit messages: Messages): Seq[CheckboxItem] =

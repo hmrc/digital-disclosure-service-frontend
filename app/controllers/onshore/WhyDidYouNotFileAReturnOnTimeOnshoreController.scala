@@ -20,9 +20,10 @@ import controllers.actions._
 import forms.onshore.WhyDidYouNotFileAReturnOnTimeOnshoreFormProvider
 import models.WhyDidYouNotFileAReturnOnTimeOnshore.{DeliberatelyWithheldInformation, DidNotWithholdInformationOnPurpose, ReasonableExcuse}
 import models.WhyDidYouNotFileAReturnOnTimeOnshore
+
 import javax.inject.Inject
 import models.{Mode, RelatesTo, UserAnswers}
-import navigation.OffshoreNavigator
+import navigation.OnshoreNavigator
 import pages._
 import pages.onshore.WhyDidYouNotFileAReturnOnTimeOnshorePage
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -37,7 +38,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class WhyDidYouNotFileAReturnOnTimeOnshoreController @Inject() (
   override val messagesApi: MessagesApi,
   sessionService: SessionService,
-  navigator: OffshoreNavigator,
+  navigator: OnshoreNavigator,
   identify: IdentifierAction,
   getData: DataRetrievalAction,
   requireData: DataRequiredAction,
@@ -93,21 +94,26 @@ class WhyDidYouNotFileAReturnOnTimeOnshoreController @Inject() (
       case _                                 => (Nil, false)
     }
 
-  object WhyDidYouNotFileAReturnOnTimeOnshoreController {
+}
 
-    def getPages(reasons: Set[WhyDidYouNotFileAReturnOnTimeOnshore]): List[QuestionPage[_]] = {
+object WhyDidYouNotFileAReturnOnTimeOnshoreController {
 
-      val didNotWithholdInformationOnPurpose =
-        ClearingCondition(Set(DidNotWithholdInformationOnPurpose), List(ReasonableExcuseOnshorePage))
-      val reasonableExcuse                   = ClearingCondition(Set(ReasonableExcuse), List(ReasonableCareOnshorePage))
-      val deliberatelyWithheldInformation    =
-        ClearingCondition(Set(DeliberatelyWithheldInformation), List(ReasonableExcuseForNotFilingOnshorePage))
+  def getPages(reasons: Set[WhyDidYouNotFileAReturnOnTimeOnshore]): List[QuestionPage[_]] = {
 
-      val conditions = List(didNotWithholdInformationOnPurpose, reasonableExcuse, deliberatelyWithheldInformation)
+    val deliberate = ClearingCondition(
+      Set(DeliberatelyWithheldInformation),
+      List(CDFOnshorePage)
+    )
 
-      conditions.foldLeft[List[QuestionPage[_]]](List()) { (cleared, condition) =>
-        if (condition.isConditionMet(reasons)) cleared ++ condition.pagesToClear else cleared
-      }
+    val hasExcuse = ClearingCondition(
+      Set(ReasonableExcuse),
+      List(ReasonableExcuseForNotFilingOnshorePage)
+    )
+
+    val conditions = List(deliberate, hasExcuse)
+
+    conditions.foldLeft[List[QuestionPage[_]]](List()) { (cleared, condition) =>
+      if (condition.isConditionMet(reasons)) cleared ++ condition.pagesToClear else cleared
     }
   }
 
@@ -118,5 +124,4 @@ class WhyDidYouNotFileAReturnOnTimeOnshoreController @Inject() (
     def isConditionMet(reasons: Set[WhyDidYouNotFileAReturnOnTimeOnshore]): Boolean =
       reasons.intersect(selections).isEmpty
   }
-
 }
