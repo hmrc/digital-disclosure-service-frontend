@@ -2731,43 +2731,43 @@ whyDidYouNotFileAReturnOnTime.paragraph.first.estate = You have told us the pers
 whyDidYouNotFileAReturnOnTime.paragraph.second = You need to provide more information about why this happened.
 whyDidYouNotFileAReturnOnTime.paragraph.third = If you are unsure which option applies, you may want to seek professional advice.
 whyDidYouNotFileAReturnOnTime.checkYourAnswersLabel = Reason for not filing a return on time
-whyDidYouNotFileAReturnOnTime.error.required = Select the reasons you did not file a return on time
+whyDidYouNotFileAReturnOnTime.hint = Select the reasons you did not file a return on time
 whyDidYouNotFileAReturnOnTime.change.hidden = Reason
 
 whyDidYouNotFileAReturnOnTime.you.describeOption = Which options describe why you did not file a return on time?
 whyDidYouNotFileAReturnOnTime.you.didNotWithholdInformationOnPurpose = I did not file a return but I did not withhold any information on purpose
 whyDidYouNotFileAReturnOnTime.you.reasonableExcuse = I have a reasonable excuse
 whyDidYouNotFileAReturnOnTime.you.deliberatelyWithheldInformation = I deliberately withheld information by failing to submit a return
-whyDidYouNotFileAReturnOnTime.you.selectAllTheReasons = Select the reasons you did not file a return on time
+whyDidYouNotFileAReturnOnTime.you.error.required = Select the reasons you did not file a return on time
 
 whyDidYouNotFileAReturnOnTime.individual.describeOption = Which options describe why the individual did not file a return on time?
 whyDidYouNotFileAReturnOnTime.individual.didNotWithholdInformationOnPurpose = They did not file a return but did not withhold any information on purpose
 whyDidYouNotFileAReturnOnTime.individual.reasonableExcuse = They have a reasonable excuse
 whyDidYouNotFileAReturnOnTime.individual.deliberatelyWithheldInformation = They deliberately withheld information by failing to submit a return
-whyDidYouNotFileAReturnOnTime.individual.selectAllTheReasons = Select the reasons the individual did not file a return on time
+whyDidYouNotFileAReturnOnTime.individual.error.required = Select the reasons the individual did not file a return on time
 
 whyDidYouNotFileAReturnOnTime.company.describeOption = Which options describe why the company did not file a return on time?
 whyDidYouNotFileAReturnOnTime.company.didNotWithholdInformationOnPurpose = They did not file a return but did not withhold any information on purpose
 whyDidYouNotFileAReturnOnTime.company.reasonableExcuse = They have a reasonable excuse
 whyDidYouNotFileAReturnOnTime.company.deliberatelyWithheldInformation = They deliberately withheld information by failing to submit a return
-whyDidYouNotFileAReturnOnTime.company.selectAllTheReasons = Select the reasons the company did not file a return on time
+whyDidYouNotFileAReturnOnTime.company.error.required = Select the reasons the company did not file a return on time
 
 whyDidYouNotFileAReturnOnTime.llp.describeOption = Which options describe why the limited liability partnership did not file a return on time?
 whyDidYouNotFileAReturnOnTime.llp.didNotWithholdInformationOnPurpose = They did not file a return but did not withhold any information on purpose
 whyDidYouNotFileAReturnOnTime.llp.reasonableExcuse = They have a reasonable excuse
 whyDidYouNotFileAReturnOnTime.llp.deliberatelyWithheldInformation = They deliberately withheld information by failing to submit a return
-whyDidYouNotFileAReturnOnTime.llp.selectAllTheReasons = Select the reasons the limited liability partnership did not file a return on time
+whyDidYouNotFileAReturnOnTime.llp.error.required = Select the reasons the limited liability partnership did not file a return on time
 
 whyDidYouNotFileAReturnOnTime.trust.describeOption = Which options describe why the trust did not file a return on time?
 whyDidYouNotFileAReturnOnTime.trust.didNotWithholdInformationOnPurpose = They did not file a return but did not withhold any information on purpose
 whyDidYouNotFileAReturnOnTime.trust.reasonableExcuse = They have a reasonable excuse
 whyDidYouNotFileAReturnOnTime.trust.deliberatelyWithheldInformation = They deliberately withheld information by failing to submit a return
-whyDidYouNotFileAReturnOnTime.trust.selectAllTheReasons = Select the reasons the trust did not file a return on time
+whyDidYouNotFileAReturnOnTime.trust.error.required = Select the reasons the trust did not file a return on time
 
 whyDidYouNotFileAReturnOnTime.estate.describeOption = Which options describe why the person who died did not file a return on time?
 whyDidYouNotFileAReturnOnTime.estate.didNotWithholdInformationOnPurpose = They did not file a return but did not withhold any information on purpose
 whyDidYouNotFileAReturnOnTime.estate.reasonableExcuse = They had a reasonable excuse
 whyDidYouNotFileAReturnOnTime.estate.deliberatelyWithheldInformation = They deliberately withheld information by failing to submit a return
-whyDidYouNotFileAReturnOnTime.estate.selectAllTheReasons = Select the reasons the person who died did not file a return on time
+whyDidYouNotFileAReturnOnTime.estate.error.required = Select the reasons the person who died did not file a return on time
 
 

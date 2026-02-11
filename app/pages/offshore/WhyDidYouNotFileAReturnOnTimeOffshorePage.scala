@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package pages.offshore
+package pages
 
 import models.WhyDidYouNotFileAReturnOnTimeOffshore
-import pages.QuestionPage
 import play.api.libs.json.JsPath
 
 case object WhyDidYouNotFileAReturnOnTimeOffshorePage extends QuestionPage[Set[WhyDidYouNotFileAReturnOnTimeOffshore]] {

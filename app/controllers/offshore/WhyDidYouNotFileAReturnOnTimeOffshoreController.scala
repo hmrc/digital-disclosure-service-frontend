@@ -22,7 +22,7 @@ import models.WhyDidYouNotFileAReturnOnTimeOffshore.{DeliberatelyWithheldInforma
 import models.{Mode, RelatesTo, UserAnswers, WhyDidYouNotFileAReturnOnTimeOffshore}
 import navigation.OffshoreNavigator
 import pages._
-import pages.offshore.WhyDidYouNotFileAReturnOnTimeOffshorePage
+import pages.WhyDidYouNotFileAReturnOnTimeOffshorePage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService

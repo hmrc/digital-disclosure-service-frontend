@@ -27,6 +27,7 @@ import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
+import utils.onshore.ReasonableExcuseHelper
 import views.html.onshore.DirectorLoanAccountLiabilitiesView
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -49,20 +50,24 @@ class DirectorLoanAccountLiabilitiesController @Inject() (
 
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
+      val hidePenaltySection = ReasonableExcuseHelper.hidePenaltyWhenReasonableExcuse(request.userAnswers)
+
       val preparedForm = request.userAnswers.getBySeqIndex(DirectorLoanAccountLiabilitiesPage, i) match {
         case None        => form
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode, i))
+      Ok(view(preparedForm, mode, i, hidePenaltySection))
   }
 
   def onSubmit(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
+      val hidePenaltySection = ReasonableExcuseHelper.hidePenaltyWhenReasonableExcuse(request.userAnswers)
+
       form
         .bindFromRequest()
         .fold(
-          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i))),
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i, hidePenaltySection))),
           value =>
             for {
               updatedAnswers <-
