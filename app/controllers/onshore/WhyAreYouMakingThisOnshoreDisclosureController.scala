@@ -19,10 +19,10 @@ package controllers.onshore
 import controllers.actions._
 import forms.WhyAreYouMakingThisOnshoreDisclosureFormProvider
 import javax.inject.Inject
-import models.WhyAreYouMakingThisOnshoreDisclosure.{DeliberateInaccurateReturn, DeliberatelyDidNotFile, DeliberatelyDidNotNotify, DidNotNotifyHasExcuse, DidNotNotifyNoExcuse, InaccurateReturnNoCare, InaccurateReturnWithCare, NotFileHasExcuse}
 import models.{Mode, RelatesTo, UserAnswers, WhyAreYouMakingThisOnshoreDisclosure}
 import navigation.OnshoreNavigator
-import pages._
+import pages.{WhyDidYouNotNotifyOnshorePage, WhyYouSubmittedAnInaccurateOnshoreReturnPage, _}
+import pages.onshore.{WhyDidYouNotFileAReturnOnTimeOnshorePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -32,17 +32,17 @@ import views.html.onshore.WhyAreYouMakingThisOnshoreDisclosureView
 import scala.concurrent.{ExecutionContext, Future}
 
 class WhyAreYouMakingThisOnshoreDisclosureController @Inject() (
-  override val messagesApi: MessagesApi,
-  sessionService: SessionService,
-  navigator: OnshoreNavigator,
-  identify: IdentifierAction,
-  getData: DataRetrievalAction,
-  requireData: DataRequiredAction,
-  formProvider: WhyAreYouMakingThisOnshoreDisclosureFormProvider,
-  val controllerComponents: MessagesControllerComponents,
-  view: WhyAreYouMakingThisOnshoreDisclosureView
-)(implicit ec: ExecutionContext)
-    extends FrontendBaseController
+                                                                 override val messagesApi: MessagesApi,
+                                                                 sessionService: SessionService,
+                                                                 navigator: OnshoreNavigator,
+                                                                 identify: IdentifierAction,
+                                                                 getData: DataRetrievalAction,
+                                                                 requireData: DataRequiredAction,
+                                                                 formProvider: WhyAreYouMakingThisOnshoreDisclosureFormProvider,
+                                                                 val controllerComponents: MessagesControllerComponents,
+                                                                 view: WhyAreYouMakingThisOnshoreDisclosureView
+                                                               )(implicit ec: ExecutionContext)
+  extends FrontendBaseController
     with I18nSupport {
 
   val form = formProvider()
@@ -82,9 +82,9 @@ class WhyAreYouMakingThisOnshoreDisclosureController @Inject() (
   }
 
   def changedPages(
-    answers: UserAnswers,
-    value: Set[WhyAreYouMakingThisOnshoreDisclosure]
-  ): (List[QuestionPage[_]], Boolean) =
+                    answers: UserAnswers,
+                    value: Set[WhyAreYouMakingThisOnshoreDisclosure]
+                  ): (List[QuestionPage[_]], Boolean) =
     answers.get(WhyAreYouMakingThisOnshoreDisclosurePage) match {
       case Some(reasons) if reasons != value => (WhyAreYouMakingThisOnshoreDisclosureController.getPages(value), true)
       case _                                 => (Nil, false)
@@ -96,33 +96,24 @@ object WhyAreYouMakingThisOnshoreDisclosureController {
 
   def getPages(reasons: Set[WhyAreYouMakingThisOnshoreDisclosure]): List[QuestionPage[_]] = {
 
-    val deliberate   = ClearingCondition(
-      Set(DidNotNotifyNoExcuse, DeliberatelyDidNotNotify, DeliberateInaccurateReturn, DeliberatelyDidNotFile),
-      List(CDFOnshorePage, TaxBeforeNineteenYearsOnshorePage)
-    )
-    val didNotNotify = ClearingCondition(Set(DidNotNotifyHasExcuse), List(ReasonableExcuseOnshorePage))
-    val inaccurate   = ClearingCondition(Set(InaccurateReturnWithCare), List(ReasonableCareOnshorePage))
-    val notFiled     = ClearingCondition(Set(NotFileHasExcuse), List(ReasonableExcuseForNotFilingOnshorePage))
+    import WhyAreYouMakingThisOnshoreDisclosure._
 
-    val taxBeforeThreeYears = ClearingCondition(
-      Set(DidNotNotifyHasExcuse, InaccurateReturnWithCare, NotFileHasExcuse),
-      List(TaxBeforeThreeYearsOnshorePage)
-    )
-    val taxBeforeFiveYears  = ClearingCondition(Set(InaccurateReturnNoCare), List(TaxBeforeFiveYearsOnshorePage))
+    val pagesToClear = scala.collection.mutable.ListBuffer[QuestionPage[_]]()
 
-    val conditions = List(deliberate, didNotNotify, inaccurate, notFiled, taxBeforeThreeYears, taxBeforeFiveYears)
-
-    conditions.foldLeft[List[QuestionPage[_]]](List()) { (cleared, condition) =>
-      if (condition.isConditionMet(reasons)) cleared ++ condition.pagesToClear else cleared
+    // Clear Page 2 answers if user unchecked the corresponding Page 1 option
+    if (!reasons.contains(DidNotNotifyHMRC)) {
+      pagesToClear += WhyDidYouNotNotifyOnshorePage
     }
+
+    if (!reasons.contains(DidNotFile)) {
+      pagesToClear += WhyDidYouNotFileAReturnOnTimeOnshorePage
+    }
+
+    if (!reasons.contains(InaccurateReturn)) {
+      pagesToClear += WhyYouSubmittedAnInaccurateOnshoreReturnPage
+    }
+
+    pagesToClear.toList
   }
 
-}
-
-case class ClearingCondition(
-  selections: Set[WhyAreYouMakingThisOnshoreDisclosure],
-  pagesToClear: List[QuestionPage[_]]
-) {
-  def isConditionMet(reasons: Set[WhyAreYouMakingThisOnshoreDisclosure]): Boolean =
-    reasons.intersect(selections).isEmpty
 }

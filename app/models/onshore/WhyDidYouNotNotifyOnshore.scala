@@ -26,11 +26,13 @@ sealed trait WhyDidYouNotNotifyOnshore
 object WhyDidYouNotNotifyOnshore extends Enumerable.Implicits {
 
   case object DeliberatelyDidNotNotifyOnshore
-      extends WithName("deliberatelyDidNotNotify")
+    extends WithName("deliberatelyDidNotNotify")
       with WhyDidYouNotNotifyOnshore
-  case object ReasonableExcuseOnshore extends WithName("reasonableExcuse") with WhyDidYouNotNotifyOnshore
+  case object ReasonableExcuseOnshore
+    extends WithName("reasonableExcuse")
+      with WhyDidYouNotNotifyOnshore
   case object NotDeliberatelyNoReasonableExcuseOnshore
-      extends WithName("notDeliberatelyNoReasonableExcuse")
+    extends WithName("notDeliberatelyNoReasonableExcuse")
       with WhyDidYouNotNotifyOnshore
 
   val values: Seq[WhyDidYouNotNotifyOnshore] = Seq(
@@ -50,9 +52,9 @@ object WhyDidYouNotNotifyOnshore extends Enumerable.Implicits {
     }
 
   def constructMessageKey(
-    value: WhyDidYouNotNotifyOnshore,
-    areTheyTheIndividual: Boolean
-  ) =
+                           value: WhyDidYouNotNotifyOnshore,
+                           areTheyTheIndividual: Boolean
+                         ) =
     if (areTheyTheIndividual) {
       s"whyDidYouNotNotify.you.${value.toString}"
     } else {

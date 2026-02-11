@@ -25,12 +25,12 @@ sealed trait WhyAreYouMakingThisOnshoreDisclosure
 
 object WhyAreYouMakingThisOnshoreDisclosure extends Enumerable.Implicits {
 
-  case object DidNotNotifyHMRC extends WithName("didNotNotifyNoExcuse") with WhyAreYouMakingThisOnshoreDisclosure
-  case object DidNotFile extends WithName("notFileHasExcuse") with WhyAreYouMakingThisOnshoreDisclosure
-  case object InaccurateReturn extends WithName("inaccurateReturnNoCare") with WhyAreYouMakingThisOnshoreDisclosure
+  // NEW enums for Page 1 - with corrected WithName values
+  case object DidNotNotifyHMRC extends WithName("didNotNotifyHMRC") with WhyAreYouMakingThisOnshoreDisclosure
+  case object DidNotFile extends WithName("didNotFile") with WhyAreYouMakingThisOnshoreDisclosure
+  case object InaccurateReturn extends WithName("inaccurateReturn") with WhyAreYouMakingThisOnshoreDisclosure
 
-  // TODO: Remove after navigation ticket - kept for compilation
-
+  // OLD enums - kept for compilation (used by existing code and Page 2 mapping)
   case object DidNotNotifyHasExcuse extends WithName("didNotNotifyHasExcuse") with WhyAreYouMakingThisOnshoreDisclosure
   case object InaccurateReturnWithCare extends WithName("inaccurateReturnWithCare") with WhyAreYouMakingThisOnshoreDisclosure
   case object NotFileHasExcuse extends WithName("notFileHasExcuse") with WhyAreYouMakingThisOnshoreDisclosure
@@ -39,6 +39,8 @@ object WhyAreYouMakingThisOnshoreDisclosure extends Enumerable.Implicits {
   case object DeliberatelyDidNotNotify extends WithName("deliberatelyDidNotNotify") with WhyAreYouMakingThisOnshoreDisclosure
   case object DeliberateInaccurateReturn extends WithName("deliberateInaccurateReturn") with WhyAreYouMakingThisOnshoreDisclosure
   case object DeliberatelyDidNotFile extends WithName("deliberatelyDidNotFile") with WhyAreYouMakingThisOnshoreDisclosure
+  case object DidNotFileNoExcuse extends WithName("didNotFileNoExcuse") with WhyAreYouMakingThisOnshoreDisclosure
+
 
   val values: Seq[WhyAreYouMakingThisOnshoreDisclosure] = Seq(
     DidNotNotifyHMRC,

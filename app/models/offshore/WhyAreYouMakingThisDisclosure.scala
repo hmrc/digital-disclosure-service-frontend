@@ -39,6 +39,7 @@ object WhyAreYouMakingThisDisclosure extends Enumerable.Implicits {
   case object DeliberateInaccurateReturn extends WithName("deliberateInaccurateReturn") with WhyAreYouMakingThisDisclosure
   case object DeliberatelyDidNotFile extends WithName("deliberatelyDidNotFile") with WhyAreYouMakingThisDisclosure
 
+
   val values: Seq[WhyAreYouMakingThisDisclosure] = Seq(
     DidNotNotifyHMRC,
     DidNotFile,
