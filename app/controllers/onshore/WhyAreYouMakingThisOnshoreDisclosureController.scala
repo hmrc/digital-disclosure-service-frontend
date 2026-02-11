@@ -22,7 +22,7 @@ import javax.inject.Inject
 import models.{Mode, RelatesTo, UserAnswers, WhyAreYouMakingThisOnshoreDisclosure}
 import navigation.OnshoreNavigator
 import pages.{WhyDidYouNotNotifyOnshorePage, WhyYouSubmittedAnInaccurateOnshoreReturnPage, _}
-import pages.onshore.{WhyDidYouNotFileAReturnOnTimeOnshorePage}
+import pages.onshore.WhyDidYouNotFileAReturnOnTimeOnshorePage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -32,17 +32,17 @@ import views.html.onshore.WhyAreYouMakingThisOnshoreDisclosureView
 import scala.concurrent.{ExecutionContext, Future}
 
 class WhyAreYouMakingThisOnshoreDisclosureController @Inject() (
-                                                                 override val messagesApi: MessagesApi,
-                                                                 sessionService: SessionService,
-                                                                 navigator: OnshoreNavigator,
-                                                                 identify: IdentifierAction,
-                                                                 getData: DataRetrievalAction,
-                                                                 requireData: DataRequiredAction,
-                                                                 formProvider: WhyAreYouMakingThisOnshoreDisclosureFormProvider,
-                                                                 val controllerComponents: MessagesControllerComponents,
-                                                                 view: WhyAreYouMakingThisOnshoreDisclosureView
-                                                               )(implicit ec: ExecutionContext)
-  extends FrontendBaseController
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: OnshoreNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: WhyAreYouMakingThisOnshoreDisclosureFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: WhyAreYouMakingThisOnshoreDisclosureView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
     with I18nSupport {
 
   val form = formProvider()
@@ -82,9 +82,9 @@ class WhyAreYouMakingThisOnshoreDisclosureController @Inject() (
   }
 
   def changedPages(
-                    answers: UserAnswers,
-                    value: Set[WhyAreYouMakingThisOnshoreDisclosure]
-                  ): (List[QuestionPage[_]], Boolean) =
+    answers: UserAnswers,
+    value: Set[WhyAreYouMakingThisOnshoreDisclosure]
+  ): (List[QuestionPage[_]], Boolean) =
     answers.get(WhyAreYouMakingThisOnshoreDisclosurePage) match {
       case Some(reasons) if reasons != value => (WhyAreYouMakingThisOnshoreDisclosureController.getPages(value), true)
       case _                                 => (Nil, false)

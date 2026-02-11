@@ -32,18 +32,18 @@ import views.html.onshore.WhyDidYouNotNotifyOnshoreView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class WhyDidYouNotNotifyOnshoreController @Inject()(
-                                                     override val messagesApi: MessagesApi,
-                                                     sessionService: SessionService,
-                                                     navigator: OnshoreNavigator,
-                                                     identify: IdentifierAction,
-                                                     getData: DataRetrievalAction,
-                                                     requireData: DataRequiredAction,
-                                                     formProvider: WhyDidYouNotNotifyOnshoreFormProvider,
-                                                     val controllerComponents: MessagesControllerComponents,
-                                                     view: WhyDidYouNotNotifyOnshoreView
-                                                   )(implicit ec: ExecutionContext)
-  extends FrontendBaseController
+class WhyDidYouNotNotifyOnshoreController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: OnshoreNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: WhyDidYouNotNotifyOnshoreFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: WhyDidYouNotNotifyOnshoreView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
     with I18nSupport {
 
   val form = formProvider()
