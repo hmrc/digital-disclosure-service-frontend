@@ -1005,11 +1005,18 @@ makeANotificationOrDisclosure.checkYourAnswersLabel = What do you want to do?
 makeANotificationOrDisclosure.error.required = Select whether you want to make a notification or disclosure
 makeANotificationOrDisclosure.change.hidden = MakeANotificationOrDisclosure
 
-whyAreYouMakingThisDisclosure.title = Why are you making this disclosure?
-whyAreYouMakingThisDisclosure.heading = Why are you making this disclosure?
-whyAreYouMakingThisDisclosure.paragraph.first.you = Answering accurately will speed up the process as it allows us to accept your disclosure as quickly as possible. If the person reviewing your disclosure finds it’s largely wrong or answered incorrectly for a more favourable outcome, they will contact you about this and may seek much higher penalties.
-whyAreYouMakingThisDisclosure.paragraph.first = Answering accurately will speed up the process as it allows us to accept the disclosure as quickly as possible. If the person reviewing the disclosure finds it’s largely wrong or answered incorrectly for a more favourable outcome, they will contact you about this and may seek much higher penalties.
-whyAreYouMakingThisDisclosure.paragraph.second = Select all options that are relevant to all tax years you need to disclose for.
+whyAreYouMakingThisDisclosure.title = Why you are making this disclosure
+whyAreYouMakingThisDisclosure.heading = Why you are making this disclosure
+whyAreYouMakingThisDisclosure.heading.question = Why are you making this disclosure?
+
+whyAreYouMakingThisDisclosure.paragraph.first.you = Answering accurately will speed up the process as it allows us to accept your disclosure as quickly as possible.
+whyAreYouMakingThisDisclosure.paragraph.first = Answering accurately will speed up the process as it allows us to accept the disclosure as quickly as possible.
+
+whyAreYouMakingThisDisclosure.paragraph.second.you = If the person reviewing your disclosure finds it's largely wrong or answered incorrectly for a more favourable outcome, they will contact you about this and may seek much higher penalties.
+whyAreYouMakingThisDisclosure.paragraph.second = If the person reviewing the disclosure finds it's largely wrong or answered incorrectly for a more favourable outcome, they will contact you about this and may seek much higher penalties.
+
+whyAreYouMakingThisDisclosure.paragraph.third = If you are not sure which option applies to you, you may want to seek professional advice.
+whyAreYouMakingThisDisclosure.hint = Select all options that are relevant to all tax years you need to disclose for.
 whyAreYouMakingThisDisclosure.checkYourAnswersLabel = Reason
 whyAreYouMakingThisDisclosure.error.required = Select the reason for making this disclosure
 whyAreYouMakingThisDisclosure.change.hidden = Reason
@@ -1073,6 +1080,8 @@ whyDidYouNotNotify.heading.llp = Why the limited liability partnership did not n
 whyDidYouNotNotify.title.trust = Why the trust did not notify HMRC about a tax liability
 whyDidYouNotNotify.heading.trust = Why the trust did not notify HMRC about a tax liability
 whyDidYouNotNotify.title.trust = Why the person who died did not notify HMRC about a tax liability
+whyDidYouNotNotify.heading.estate = Why the person who died did not notify HMRC about a tax liability
+whyDidYouNotNotify.title.estate = Why the person who died did not notify HMRC about a tax liability
 whyDidYouNotNotify.heading.estate = Why the person who died did not notify HMRC about a tax liability
 
 whyDidYouNotNotify.paragraph.first.you = You have told us you did not notify HMRC about a tax liability.
@@ -1156,6 +1165,36 @@ WhyYouSubmittedAnInaccurateReturn.error.required.company = Select the reasons th
 WhyYouSubmittedAnInaccurateReturn.error.required.llp = Select the reasons the limited liability partnership submitted an inaccurate return
 WhyYouSubmittedAnInaccurateReturn.error.required.trust = Select the reasons the trust submitted an inaccurate return
 WhyYouSubmittedAnInaccurateReturn.error.required.estate = Select the reasons the person who died submitted an inaccurate return
+
+# You/I
+whyAreYouMakingThisDisclosure.you.didNotNotifyHMRC = I did not notify HMRC about a tax liability
+whyAreYouMakingThisDisclosure.you.didNotFile = I did not file a tax return on time
+whyAreYouMakingThisDisclosure.you.inaccurateReturn = I submitted an inaccurate return
+
+# Individual
+whyAreYouMakingThisDisclosure.individual.didNotNotifyHMRC = The individual did not notify HMRC about a tax liability
+whyAreYouMakingThisDisclosure.individual.didNotFile = The individual did not file a tax return on time
+whyAreYouMakingThisDisclosure.individual.inaccurateReturn = The individual submitted an inaccurate return
+
+# Company
+whyAreYouMakingThisDisclosure.company.didNotNotifyHMRC = The company did not notify HMRC about a tax liability
+whyAreYouMakingThisDisclosure.company.didNotFile = The company did not file a tax return on time
+whyAreYouMakingThisDisclosure.company.inaccurateReturn = The company submitted an inaccurate return
+
+# LLP
+whyAreYouMakingThisDisclosure.llp.didNotNotifyHMRC = The limited liability partnership did not notify HMRC about a tax liability
+whyAreYouMakingThisDisclosure.llp.didNotFile = The limited liability partnership did not file a tax return on time
+whyAreYouMakingThisDisclosure.llp.inaccurateReturn = The limited liability partnership submitted an inaccurate return
+
+# Trust
+whyAreYouMakingThisDisclosure.trust.didNotNotifyHMRC = The trust did not notify HMRC about a tax liability
+whyAreYouMakingThisDisclosure.trust.didNotFile = The trust did not file a tax return on time
+whyAreYouMakingThisDisclosure.trust.inaccurateReturn = The trust submitted an inaccurate return
+
+# Estate
+whyAreYouMakingThisDisclosure.estate.didNotNotifyHMRC = The person who died did not notify HMRC about a tax liability
+whyAreYouMakingThisDisclosure.estate.didNotFile = The person who died did not file a tax return on time
+whyAreYouMakingThisDisclosure.estate.inaccurateReturn = The person who died submitted an inaccurate return
 
 taskList.title = List of tasks
 taskList.title.no.reference = List of tasks for case created on {0}
@@ -1387,7 +1426,6 @@ whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.first =
 
 whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.second.you = what prevented you from filing a return
 whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.second.notYou = what prevented them from filing a return
-whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.second.llp = what prevented them from notifying HMRC about a tax liability
 
 whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.third.you = the dates your reasonable excuse started and ended
 whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.third.notYou = the dates the reasonable excuse started and ended

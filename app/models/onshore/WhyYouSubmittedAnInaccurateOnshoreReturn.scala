@@ -40,8 +40,8 @@ object WhyYouSubmittedAnInaccurateOnshoreReturn extends Enumerable.Implicits {
       CheckboxItemViewModel(
         content = Text(messages(constructMessageKey(value, areTheyTheIndividual))),
         fieldId = "value",
-        index   = index,
-        value   = value.toString
+        index = index,
+        value = value.toString
       )
     }
 

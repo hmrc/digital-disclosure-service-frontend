@@ -19,7 +19,7 @@ package controllers.offshore
 import controllers.actions._
 import forms.offshore.WhyYouSubmittedAnInaccurateOffshoreReturnFormProvider
 import models.{Mode, RelatesTo, UserAnswers, WhyYouSubmittedAnInaccurateReturn}
-import models.WhyYouSubmittedAnInaccurateReturn.{DeliberatelyInaccurate, ReasonableMistake, NoReasonableCare}
+import models.WhyYouSubmittedAnInaccurateReturn.{DeliberatelyInaccurate, NoReasonableCare, ReasonableMistake}
 import navigation.OnshoreNavigator
 import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -31,7 +31,7 @@ import views.html.offshore.WhyYouSubmittedAnInaccurateReturnView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class WhyYouSubmittedAnInaccurateReturnController @Inject()(
+class WhyYouSubmittedAnInaccurateReturnController @Inject() (
   override val messagesApi: MessagesApi,
   sessionService: SessionService,
   navigator: OnshoreNavigator,
@@ -103,9 +103,10 @@ class WhyYouSubmittedAnInaccurateReturnController @Inject()(
 
     def getPages(reasons: Set[WhyYouSubmittedAnInaccurateReturn]): List[QuestionPage[_]] = {
 
-      val noReasonableCare = ClearingCondition(Set(NoReasonableCare), List(ReasonableExcuseOnshorePage))
-      val reasonableMistake   = ClearingCondition(Set(ReasonableMistake), List(ReasonableCareOnshorePage))
-      val deliberatelyInaccurate     = ClearingCondition(Set(DeliberatelyInaccurate), List(ReasonableExcuseForNotFilingOnshorePage))
+      val noReasonableCare       = ClearingCondition(Set(NoReasonableCare), List(ReasonableExcuseOnshorePage))
+      val reasonableMistake      = ClearingCondition(Set(ReasonableMistake), List(ReasonableCareOnshorePage))
+      val deliberatelyInaccurate =
+        ClearingCondition(Set(DeliberatelyInaccurate), List(ReasonableExcuseForNotFilingOnshorePage))
 
       val conditions = List(noReasonableCare, reasonableMistake, deliberatelyInaccurate)
 
@@ -116,9 +117,9 @@ class WhyYouSubmittedAnInaccurateReturnController @Inject()(
   }
 
   case class ClearingCondition(
-                                selections: Set[WhyYouSubmittedAnInaccurateReturn],
-                                pagesToClear: List[QuestionPage[_]]
-                              ) {
+    selections: Set[WhyYouSubmittedAnInaccurateReturn],
+    pagesToClear: List[QuestionPage[_]]
+  ) {
     def isConditionMet(reasons: Set[WhyYouSubmittedAnInaccurateReturn]): Boolean =
       reasons.intersect(selections).isEmpty
   }
