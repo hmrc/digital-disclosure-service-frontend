@@ -30,11 +30,10 @@ object ReasonableExcuseHelper {
     val notifySelections = userAnswers.get(WhyDidYouNotNotifyPage).getOrElse(Set())
 
     val reasonableSelected =
-      Seq(
-        inaccurateSelections.contains(WhyYouSubmittedAnInaccurateReturn.ReasonableMistake),
-        lateReturnSelections.contains(WhyDidYouNotFileAReturnOnTimeOffshore.ReasonableExcuse),
-        notifySelections.contains(WhyDidYouNotNotify.ReasonableExcuse)
-      ).count(identity) == 1
+      inaccurateSelections.contains(WhyYouSubmittedAnInaccurateReturn.ReasonableMistake) ||
+      lateReturnSelections.contains(WhyDidYouNotFileAReturnOnTimeOffshore.ReasonableExcuse) ||
+      notifySelections.contains(WhyDidYouNotNotify.ReasonableExcuse)
+
 
     val noOtherSelections =
       inaccurateSelections.size <= 1 &&

@@ -179,7 +179,11 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelCreation @Inject() (revealFu
   }
 
   def penaltyAmount(directorLoanAccountLiabilities: DirectorLoanAccountLiabilities): BigDecimal =
-    ((directorLoanAccountLiabilities.penaltyRate * BigDecimal(directorLoanAccountLiabilities.unpaidTax)) / 100)
-      .setScale(2, RoundingMode.DOWN)
+//    ((directorLoanAccountLiabilities.penaltyRate * BigDecimal(directorLoanAccountLiabilities.unpaidTax)) / 100)
+//      .setScale(2, RoundingMode.DOWN)
+    directorLoanAccountLiabilities.penaltyRate.fold(BigDecimal(0)) { rate =>
+      ((rate * BigDecimal(directorLoanAccountLiabilities.unpaidTax)) / 100)
+        .setScale(2, RoundingMode.DOWN)
+    }
 
 }

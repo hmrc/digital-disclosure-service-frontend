@@ -215,7 +215,11 @@ class CheckYourAnswersViewModelCreation @Inject() (
   }
 
   def penaltyAmount(taxYearLiabilities: TaxYearLiabilities): BigDecimal =
-    ((taxYearLiabilities.penaltyRate * BigDecimal(taxYearLiabilities.unpaidTax)) / 100).setScale(2, RoundingMode.DOWN)
+    //((taxYearLiabilities.penaltyRate * BigDecimal(taxYearLiabilities.unpaidTax)) / 100).setScale(2, RoundingMode.DOWN)
+    taxYearLiabilities.penaltyRate.fold(BigDecimal(0)) { rate =>
+      ((rate * BigDecimal(taxYearLiabilities.unpaidTax)) / 100)
+        .setScale(2, RoundingMode.DOWN)  }
+
 
   def yearTotal(taxYearLiabilities: TaxYearLiabilities): BigDecimal =
     BigDecimal(taxYearLiabilities.unpaidTax) + penaltyAmount(taxYearLiabilities) + BigDecimal(

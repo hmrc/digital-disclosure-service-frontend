@@ -31,11 +31,9 @@ object ReasonableExcuseHelper {
     val notifySelections = userAnswers.get(WhyDidYouNotNotifyOnshorePage).getOrElse(Set())
 
     val reasonableSelected =
-      Seq(
-        inaccurateSelections.contains(WhyYouSubmittedAnInaccurateOnshoreReturn.ReasonableMistake),
-        lateReturnSelections.contains(WhyDidYouNotFileAReturnOnTimeOnshore.ReasonableExcuse),
-        notifySelections.contains(WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore)
-      ).count(identity) == 1
+      inaccurateSelections.contains(WhyYouSubmittedAnInaccurateOnshoreReturn.ReasonableMistake) ||
+      lateReturnSelections.contains(WhyDidYouNotFileAReturnOnTimeOnshore.ReasonableExcuse) ||
+      notifySelections.contains(WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore)
 
     val noOtherSelections =
       inaccurateSelections.size <= 1 &&

@@ -60,14 +60,14 @@ class TaxYearLiabilitiesFormProvider @Inject() extends Mappings {
         "taxYearLiabilities.interest.error.nonNumeric"
       )
         .verifying(inRange(BigInt(0), MAX_BIGINT, "taxYearLiabilities.interest.error.outOfRange")),
-      "penaltyRate"            -> decimalWithPercentage(
+      "penaltyRate"            -> optional(decimalWithPercentage(
         "taxYearLiabilities.penaltyRate.error.required",
         "taxYearLiabilities.penaltyRate.error.nonNumeric"
       )
-        .verifying(inRange(BigDecimal(0.00), BigDecimal(200.00), "taxYearLiabilities.penaltyRate.error.outOfRange")),
-      "penaltyRateReason"      -> text("taxYearLiabilities.penaltyRateReason.error.required")
+        .verifying(inRange(BigDecimal(0.00), BigDecimal(200.00), "taxYearLiabilities.penaltyRate.error.outOfRange"))),
+      "penaltyRateReason"      -> optional(text("taxYearLiabilities.penaltyRateReason.error.required")
         .verifying(maxLength(MAX_TEXT_BOX_SIZE, "taxYearLiabilities.penaltyRateReason.error.length"))
-        .verifying(validUnicodeCharacters),
+        .verifying(validUnicodeCharacters)),
       "undeclaredIncomeOrGain" -> stringOptionalUnless("undeclaredIncomeOrGain"),
       "foreignTaxCredit"       -> boolean("taxYearLiabilities.foreignTaxCredit.error.required")
     )(TaxYearLiabilities.apply)(TaxYearLiabilities.unapply)

@@ -280,7 +280,10 @@ class CheckYourAnswersViewModelCreation @Inject() (
 
   def penaltyAmount(taxYearLiabilities: OnshoreTaxYearLiabilities): BigDecimal = {
     val unpaidAmount = BigDecimal(taxYearLiabilities.unpaidTax) + BigDecimal(taxYearLiabilities.niContributions)
-    ((taxYearLiabilities.penaltyRate * unpaidAmount) / 100).setScale(2, RoundingMode.DOWN)
+    //((taxYearLiabilities.penaltyRate * unpaidAmount) / 100).setScale(2, RoundingMode.DOWN)
+    taxYearLiabilities.penaltyRate.fold(BigDecimal(0)) { rate =>
+      ((rate * unpaidAmount) / 100)
+        .setScale(2, RoundingMode.DOWN)  }
   }
 
   def yearTotal(taxYearLiabilities: OnshoreTaxYearLiabilities): BigDecimal = {

@@ -30,6 +30,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.offshore.TaxYearLiabilitiesView
 import play.api.mvc.Result
 import models.requests.DataRequest
+import utils.offshore.ReasonableExcuseHelper
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Try
@@ -52,24 +53,26 @@ class TaxYearLiabilitiesController @Inject() (
 
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
+      val hidePenaltySection = ReasonableExcuseHelper.hidePenaltyWhenReasonableExcuse(request.userAnswers)
       withYear(i) { year =>
         val preparedForm = request.userAnswers.getByKey(TaxYearLiabilitiesPage, year.toString) match {
           case None        => form
           case Some(value) => form.fill(value.taxYearLiabilities)
         }
 
-        Ok(view(preparedForm, mode, i, year))
+        Ok(view(preparedForm, mode, i, year,hidePenaltySection))
       }
 
   }
 
   def onSubmit(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
+      val hidePenaltySection = ReasonableExcuseHelper.hidePenaltyWhenReasonableExcuse(request.userAnswers)
       withYearAsync(i) { year =>
         form
           .bindFromRequest()
           .fold(
-            formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i, year))),
+            formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i, year, hidePenaltySection))),
             value => {
               val taxYearWithLiabilities            = TaxYearWithLiabilities(TaxYearStarting(year), value)
               val (clearedAnswers, hasValueChanged) = changedPages(request.userAnswers, year.toString, value)
