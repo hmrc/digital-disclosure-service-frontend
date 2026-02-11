@@ -25,11 +25,9 @@ import javax.inject.Inject
 
 class WhyYouSubmittedAnInaccurateOnshoreReturnFormProvider @Inject() extends Mappings {
 
-  def apply(): Form[Set[WhyYouSubmittedAnInaccurateOnshoreReturn]] =
+  def apply(errorKey: String): Form[Set[WhyYouSubmittedAnInaccurateOnshoreReturn]] =
     Form(
-      "value" -> set(
-        enumerable[WhyYouSubmittedAnInaccurateOnshoreReturn]("WhyYouSubmittedAnInaccurateReturn.error.required")
-      )
-        .verifying(nonEmptySet("WhyYouSubmittedAnInaccurateReturn.error.required"))
+      "value" -> set(enumerable[WhyYouSubmittedAnInaccurateOnshoreReturn](errorKey))
+        .verifying(nonEmptySet(errorKey))
     )
 }

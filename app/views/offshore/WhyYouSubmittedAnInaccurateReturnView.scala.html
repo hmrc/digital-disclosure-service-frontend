@@ -32,7 +32,16 @@
 
 @(form: Form[_], mode: Mode, areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit request: RequestHeader, messages: Messages)
 
-@layout(pageTitle = title(form, messages("WhyYouSubmittedAnInaccurateReturn.title"))) {
+@layout(
+      pageTitle = title(
+        form,
+        if (areTheyTheIndividual) {
+          messages("WhyYouSubmittedAnInaccurateReturn.title.you")
+        } else {
+          messages(s"WhyYouSubmittedAnInaccurateReturn.title.${entity}")
+        }
+      )
+    ) {
 
     @formHelper(action = controllers.offshore.routes.WhyYouSubmittedAnInaccurateReturnController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
@@ -40,9 +49,15 @@
             @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value_0")))
         }
 
-        @heading(Text(messages("WhyYouSubmittedAnInaccurateReturn.heading")))
+        @heading(Text(
+          if(areTheyTheIndividual){
+            messages("WhyYouSubmittedAnInaccurateReturn.title.you")
+          } else {
+            messages(s"WhyYouSubmittedAnInaccurateReturn.title.${entity}")
+          }
+        ))
 
-        @paragraph(id = Some("first-paragraph"), content = Text(messages("WhyYouSubmittedAnInaccurateReturn.paragraph.first")))
+        @paragraph(id = Some("first-paragraph"), content = Text(messages(s"WhyYouSubmittedAnInaccurateReturn.paragraph.first.$entity")))
 
         @paragraph(id = Some("second-paragraph"), content = Text(messages("WhyYouSubmittedAnInaccurateReturn.paragraph.second")))
 
@@ -53,11 +68,10 @@
           CheckboxesViewModel(
             form   = form,
             name   = "value",
-            legend = LegendViewModel(messages("WhyYouSubmittedAnInaccurateReturn.checkboxes.heading"))
+            legend = LegendViewModel(messages(s"WhyYouSubmittedAnInaccurateReturn.${entity}.checkboxes.heading"))
               .withCssClass("govuk-fieldset__legend--m"),
-            items  = WhyYouSubmittedAnInaccurateReturn.checkboxItems()
-          ).withHint(
-            Hint(content = Text(messages("WhyYouSubmittedAnInaccurateReturn.checkboxes.hint")))
+            items  = WhyYouSubmittedAnInaccurateReturn.checkboxItems(areTheyTheIndividual, entity))
+              .withHint(Hint(content = Text(messages("WhyYouSubmittedAnInaccurateReturn.checkboxes.hint")))
           )
         )
 
