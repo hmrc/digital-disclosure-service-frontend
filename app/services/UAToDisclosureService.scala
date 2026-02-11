@@ -115,16 +115,16 @@ class UAToDisclosureServiceImpl @Inject() (
 
     userAnswers.get(WhyDidYouNotNotifyOnshorePage).foreach { selections =>
       selections.foreach {
-        case DeliberatelyDidNotNotifyOnshore => behaviours += DeliberatelyDidNotNotify
-        case ReasonableExcuseOnshore => behaviours += DidNotNotifyHasExcuse
+        case DeliberatelyDidNotNotifyOnshore          => behaviours += DeliberatelyDidNotNotify
+        case ReasonableExcuseOnshore                  => behaviours += DidNotNotifyHasExcuse
         case NotDeliberatelyNoReasonableExcuseOnshore => behaviours += DidNotNotifyNoExcuse
       }
     }
 
     userAnswers.get(WhyDidYouNotFileAReturnOnTimeOnshorePage).foreach { selections =>
       selections.foreach {
-        case DeliberatelyWithheldInformation => behaviours += DeliberatelyDidNotFile
-        case ReasonableExcuse => behaviours += NotFileHasExcuse
+        case DeliberatelyWithheldInformation    => behaviours += DeliberatelyDidNotFile
+        case ReasonableExcuse                   => behaviours += NotFileHasExcuse
         case DidNotWithholdInformationOnPurpose => behaviours += DidNotFileNoExcuse
       }
     }
@@ -132,8 +132,8 @@ class UAToDisclosureServiceImpl @Inject() (
     userAnswers.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).foreach { selections =>
       selections.foreach {
         case DeliberatelyInaccurate => behaviours += DeliberateInaccurateReturn
-        case ReasonableMistake => behaviours += InaccurateReturnWithCare
-        case NoReasonableCare => behaviours += InaccurateReturnNoCare
+        case ReasonableMistake      => behaviours += InaccurateReturnWithCare
+        case NoReasonableCare       => behaviours += InaccurateReturnNoCare
       }
     }
 

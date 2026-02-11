@@ -28,7 +28,7 @@ import models.WhyAreYouMakingThisOnshoreDisclosure._
 import models.WhyDidYouNotFileAReturnOnTimeOnshore.{DeliberatelyWithheldInformation, ReasonableExcuse}
 import models.WhyDidYouNotNotifyOnshore.DeliberatelyDidNotNotifyOnshore
 import models.WhyYouSubmittedAnInaccurateOnshoreReturn.{DeliberatelyInaccurate, ReasonableMistake}
-import pages.onshore.{WhyDidYouNotFileAReturnOnTimeOnshorePage}
+import pages.onshore.WhyDidYouNotFileAReturnOnTimeOnshorePage
 import pages.RelatesToPage
 import services.UAToDisclosureService
 
@@ -48,70 +48,60 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
 
         if (page1Selections.contains(DidNotNotifyHMRC)) {
           routes.WhyDidYouNotNotifyOnshoreController.onPageLoad(NormalMode)
-        }
-        else if (page1Selections.contains(DidNotFile)) {
+        } else if (page1Selections.contains(DidNotFile)) {
           routes.WhyDidYouNotFileAReturnOnTimeOnshoreController.onPageLoad(NormalMode)
-        }
-        else if (page1Selections.contains(InaccurateReturn)) {
+        } else if (page1Selections.contains(InaccurateReturn)) {
           routes.WhyYouSubmittedAnInaccurateOnshoreReturnController.onPageLoad(NormalMode)
-        }
-        else {
+        } else {
           routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
         }
 
     case WhyDidYouNotNotifyOnshorePage =>
       ua =>
-        val page1Selections = ua.get(WhyAreYouMakingThisOnshoreDisclosurePage).getOrElse(Set.empty)
+        val page1Selections  = ua.get(WhyAreYouMakingThisOnshoreDisclosurePage).getOrElse(Set.empty)
         val page2aSelections = ua.get(WhyDidYouNotNotifyOnshorePage).getOrElse(Set.empty)
-        val entity = ua.get(RelatesToPage)
+        val entity           = ua.get(RelatesToPage)
 
         if (page2aSelections.contains(DeliberatelyDidNotNotifyOnshore) && !entity.contains(RelatesTo.AnEstate)) {
           routes.CDFOnshoreController.onPageLoad(NormalMode)
-        }
-        else if (page2aSelections.contains(WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore)) {
+        } else if (page2aSelections.contains(WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore)) {
           routes.ReasonableExcuseOnshoreController.onPageLoad(NormalMode)
-        }
-        else if (page1Selections.contains(DidNotFile) && ua.get(WhyDidYouNotFileAReturnOnTimeOnshorePage).isEmpty) {
+        } else if (page1Selections.contains(DidNotFile) && ua.get(WhyDidYouNotFileAReturnOnTimeOnshorePage).isEmpty) {
           routes.WhyDidYouNotFileAReturnOnTimeOnshoreController.onPageLoad(NormalMode)
-        }
-        else if (page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).isEmpty) {
+        } else if (
+          page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).isEmpty
+        ) {
           routes.WhyYouSubmittedAnInaccurateOnshoreReturnController.onPageLoad(NormalMode)
-        }
-        else {
+        } else {
           routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
         }
 
     case WhyDidYouNotFileAReturnOnTimeOnshorePage =>
       ua =>
-        val page1Selections = ua.get(WhyAreYouMakingThisOnshoreDisclosurePage).getOrElse(Set.empty)
+        val page1Selections  = ua.get(WhyAreYouMakingThisOnshoreDisclosurePage).getOrElse(Set.empty)
         val page2bSelections = ua.get(WhyDidYouNotFileAReturnOnTimeOnshorePage).getOrElse(Set.empty)
-        val entity = ua.get(RelatesToPage)
+        val entity           = ua.get(RelatesToPage)
 
         if (page2bSelections.contains(DeliberatelyWithheldInformation) && !entity.contains(RelatesTo.AnEstate)) {
           routes.CDFOnshoreController.onPageLoad(NormalMode)
-        }
-        else if (page2bSelections.contains(ReasonableExcuse)) {
+        } else if (page2bSelections.contains(ReasonableExcuse)) {
           routes.ReasonableExcuseForNotFilingOnshoreController.onPageLoad(NormalMode)
-        }
-        else if (page1Selections.contains(InaccurateReturn)) {
+        } else if (page1Selections.contains(InaccurateReturn)) {
           routes.WhyYouSubmittedAnInaccurateOnshoreReturnController.onPageLoad(NormalMode)
-        }
-        else {
+        } else {
           routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
         }
 
     case WhyYouSubmittedAnInaccurateOnshoreReturnPage =>
       ua =>
         val page2cSelections = ua.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).getOrElse(Set.empty)
-        val entity = ua.get(RelatesToPage)
+        val entity           = ua.get(RelatesToPage)
 
         if (page2cSelections.contains(DeliberatelyInaccurate) && !entity.contains(RelatesTo.AnEstate)) {
           routes.CDFOnshoreController.onPageLoad(NormalMode)
-        }
-        else if (page2cSelections.contains(ReasonableMistake)) {
+        } else if (page2cSelections.contains(ReasonableMistake)) {
           routes.ReasonableCareOnshoreController.onPageLoad(NormalMode)
-        }
-        else {
+        } else {
           routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
         }
 
@@ -134,11 +124,11 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
 
         if (page1Selections.contains(DidNotFile) && ua.get(WhyDidYouNotFileAReturnOnTimeOnshorePage).isEmpty) {
           routes.WhyDidYouNotFileAReturnOnTimeOnshoreController.onPageLoad(NormalMode)
-        }
-        else if (page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).isEmpty) {
+        } else if (
+          page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).isEmpty
+        ) {
           routes.WhyYouSubmittedAnInaccurateOnshoreReturnController.onPageLoad(NormalMode)
-        }
-        else {
+        } else {
           routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
         }
 
@@ -148,8 +138,7 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
 
         if (page1Selections.contains(DidNotFile) && ua.get(WhyDidYouNotFileAReturnOnTimeOnshorePage).isEmpty) {
           routes.WhyDidYouNotFileAReturnOnTimeOnshoreController.onPageLoad(NormalMode)
-        }
-        else {
+        } else {
           routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
         }
 
@@ -157,10 +146,11 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
       ua =>
         val page1Selections = ua.get(WhyAreYouMakingThisOnshoreDisclosurePage).getOrElse(Set.empty)
 
-        if (page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).isEmpty) {
+        if (
+          page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).isEmpty
+        ) {
           routes.WhyYouSubmittedAnInaccurateOnshoreReturnController.onPageLoad(NormalMode)
-        }
-        else {
+        } else {
           routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
         }
 

@@ -30,15 +30,24 @@ object WhyAreYouMakingThisOnshoreDisclosure extends Enumerable.Implicits {
   case object InaccurateReturn extends WithName("inaccurateReturn") with WhyAreYouMakingThisOnshoreDisclosure
 
   case object DidNotNotifyHasExcuse extends WithName("didNotNotifyHasExcuse") with WhyAreYouMakingThisOnshoreDisclosure
-  case object InaccurateReturnWithCare extends WithName("inaccurateReturnWithCare") with WhyAreYouMakingThisOnshoreDisclosure
+  case object InaccurateReturnWithCare
+      extends WithName("inaccurateReturnWithCare")
+      with WhyAreYouMakingThisOnshoreDisclosure
   case object NotFileHasExcuse extends WithName("notFileHasExcuse") with WhyAreYouMakingThisOnshoreDisclosure
-  case object InaccurateReturnNoCare extends WithName("inaccurateReturnNoCare") with WhyAreYouMakingThisOnshoreDisclosure
+  case object InaccurateReturnNoCare
+      extends WithName("inaccurateReturnNoCare")
+      with WhyAreYouMakingThisOnshoreDisclosure
   case object DidNotNotifyNoExcuse extends WithName("didNotNotifyNoExcuse") with WhyAreYouMakingThisOnshoreDisclosure
-  case object DeliberatelyDidNotNotify extends WithName("deliberatelyDidNotNotify") with WhyAreYouMakingThisOnshoreDisclosure
-  case object DeliberateInaccurateReturn extends WithName("deliberateInaccurateReturn") with WhyAreYouMakingThisOnshoreDisclosure
-  case object DeliberatelyDidNotFile extends WithName("deliberatelyDidNotFile") with WhyAreYouMakingThisOnshoreDisclosure
+  case object DeliberatelyDidNotNotify
+      extends WithName("deliberatelyDidNotNotify")
+      with WhyAreYouMakingThisOnshoreDisclosure
+  case object DeliberateInaccurateReturn
+      extends WithName("deliberateInaccurateReturn")
+      with WhyAreYouMakingThisOnshoreDisclosure
+  case object DeliberatelyDidNotFile
+      extends WithName("deliberatelyDidNotFile")
+      with WhyAreYouMakingThisOnshoreDisclosure
   case object DidNotFileNoExcuse extends WithName("didNotFileNoExcuse") with WhyAreYouMakingThisOnshoreDisclosure
-
 
   val values: Seq[WhyAreYouMakingThisOnshoreDisclosure] = Seq(
     DidNotNotifyHMRC,
@@ -57,10 +66,10 @@ object WhyAreYouMakingThisOnshoreDisclosure extends Enumerable.Implicits {
     }
 
   def constructMessageKey(
-                           value: WhyAreYouMakingThisOnshoreDisclosure,
-                           areTheyTheIndividual: Boolean,
-                           entity: RelatesTo
-                         ) =
+    value: WhyAreYouMakingThisOnshoreDisclosure,
+    areTheyTheIndividual: Boolean,
+    entity: RelatesTo
+  ) =
     if (areTheyTheIndividual) {
       s"whyAreYouMakingThisDisclosure.you.${value.toString}"
     } else {
