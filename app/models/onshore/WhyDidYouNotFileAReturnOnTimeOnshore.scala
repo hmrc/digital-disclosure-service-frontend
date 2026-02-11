@@ -25,9 +25,13 @@ sealed trait WhyDidYouNotFileAReturnOnTimeOnshore
 
 object WhyDidYouNotFileAReturnOnTimeOnshore extends Enumerable.Implicits {
 
-  case object DidNotWithholdInformationOnPurpose extends WithName("didNotWithholdInformationOnPurpose") with WhyDidYouNotFileAReturnOnTimeOnshore
+  case object DidNotWithholdInformationOnPurpose
+      extends WithName("didNotWithholdInformationOnPurpose")
+      with WhyDidYouNotFileAReturnOnTimeOnshore
   case object ReasonableExcuse extends WithName("reasonableExcuse") with WhyDidYouNotFileAReturnOnTimeOnshore
-  case object DeliberatelyWithheldInformation extends WithName("deliberatelyWithheldInformation") with WhyDidYouNotFileAReturnOnTimeOnshore
+  case object DeliberatelyWithheldInformation
+      extends WithName("deliberatelyWithheldInformation")
+      with WhyDidYouNotFileAReturnOnTimeOnshore
 
   val values: Seq[WhyDidYouNotFileAReturnOnTimeOnshore] = Seq(
     DidNotWithholdInformationOnPurpose,

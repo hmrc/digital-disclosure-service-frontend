@@ -32,18 +32,18 @@ import views.html.offshore.WhyDidYouNotFileAReturnOnTimeOffshoreView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class WhyDidYouNotFileAReturnOnTimeOffshoreController @Inject()(
-                                               override val messagesApi: MessagesApi,
-                                               sessionService: SessionService,
-                                               navigator: OffshoreNavigator,
-                                               identify: IdentifierAction,
-                                               getData: DataRetrievalAction,
-                                               requireData: DataRequiredAction,
-                                               formProvider: WhyDidYouNotFileAReturnOnTimeOffshoreFormProvider,
-                                               val controllerComponents: MessagesControllerComponents,
-                                               view: WhyDidYouNotFileAReturnOnTimeOffshoreView
-                                             )(implicit ec: ExecutionContext)
-  extends FrontendBaseController
+class WhyDidYouNotFileAReturnOnTimeOffshoreController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: OffshoreNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: WhyDidYouNotFileAReturnOnTimeOffshoreFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: WhyDidYouNotFileAReturnOnTimeOffshoreView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
     with I18nSupport {
 
   val form = formProvider()
@@ -72,18 +72,21 @@ class WhyDidYouNotFileAReturnOnTimeOffshoreController @Inject()(
           value => {
             val (pagesToClear, hasValueChanged) = changedPages(request.userAnswers, value)
             for {
-              updatedAnswers <- Future.fromTry(request.userAnswers.set(WhyDidYouNotFileAReturnOnTimeOffshorePage, value))
+              updatedAnswers <-
+                Future.fromTry(request.userAnswers.set(WhyDidYouNotFileAReturnOnTimeOffshorePage, value))
               clearedPages   <- Future.fromTry(updatedAnswers.remove(pagesToClear))
               _              <- sessionService.set(clearedPages)
-            } yield Redirect(navigator.nextPage(WhyDidYouNotFileAReturnOnTimeOffshorePage, mode, clearedPages, hasValueChanged))
+            } yield Redirect(
+              navigator.nextPage(WhyDidYouNotFileAReturnOnTimeOffshorePage, mode, clearedPages, hasValueChanged)
+            )
           }
         )
   }
 
   def changedPages(
-                    answers: UserAnswers,
-                    value: Set[WhyDidYouNotFileAReturnOnTimeOffshore]
-                  ): (List[QuestionPage[_]], Boolean) =
+    answers: UserAnswers,
+    value: Set[WhyDidYouNotFileAReturnOnTimeOffshore]
+  ): (List[QuestionPage[_]], Boolean) =
     answers.get(WhyDidYouNotFileAReturnOnTimeOffshorePage) match {
       case Some(reasons) if reasons != value => (WhyDidYouNotFileAReturnOnTimeOffshoreController.getPages(value), true)
       case _                                 => (Nil, false)
@@ -93,9 +96,11 @@ class WhyDidYouNotFileAReturnOnTimeOffshoreController @Inject()(
 
     def getPages(reasons: Set[WhyDidYouNotFileAReturnOnTimeOffshore]): List[QuestionPage[_]] = {
 
-      val didNotWithholdInformationOnPurpose = ClearingCondition(Set(DidNotWithholdInformationOnPurpose), List(ReasonableExcuseOnshorePage))
-      val reasonableExcuse   = ClearingCondition(Set(ReasonableExcuse), List(ReasonableCareOnshorePage))
-      val deliberatelyWithheldInformation     = ClearingCondition(Set(DeliberatelyWithheldInformation), List(ReasonableExcuseForNotFilingOnshorePage))
+      val didNotWithholdInformationOnPurpose =
+        ClearingCondition(Set(DidNotWithholdInformationOnPurpose), List(ReasonableExcuseOnshorePage))
+      val reasonableExcuse                   = ClearingCondition(Set(ReasonableExcuse), List(ReasonableCareOnshorePage))
+      val deliberatelyWithheldInformation    =
+        ClearingCondition(Set(DeliberatelyWithheldInformation), List(ReasonableExcuseForNotFilingOnshorePage))
 
       val conditions = List(didNotWithholdInformationOnPurpose, reasonableExcuse, deliberatelyWithheldInformation)
 
@@ -106,9 +111,9 @@ class WhyDidYouNotFileAReturnOnTimeOffshoreController @Inject()(
   }
 
   case class ClearingCondition(
-                                selections: Set[WhyDidYouNotFileAReturnOnTimeOffshore],
-                                pagesToClear: List[QuestionPage[_]]
-                              ) {
+    selections: Set[WhyDidYouNotFileAReturnOnTimeOffshore],
+    pagesToClear: List[QuestionPage[_]]
+  ) {
     def isConditionMet(reasons: Set[WhyDidYouNotFileAReturnOnTimeOffshore]): Boolean =
       reasons.intersect(selections).isEmpty
   }

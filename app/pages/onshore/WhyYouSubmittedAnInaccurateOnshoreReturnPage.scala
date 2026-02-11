@@ -19,7 +19,8 @@ package pages
 import models.WhyYouSubmittedAnInaccurateOnshoreReturn
 import play.api.libs.json.JsPath
 
-case object WhyYouSubmittedAnInaccurateOnshoreReturnPage extends QuestionPage[Set[WhyYouSubmittedAnInaccurateOnshoreReturn]] {
+case object WhyYouSubmittedAnInaccurateOnshoreReturnPage
+    extends QuestionPage[Set[WhyYouSubmittedAnInaccurateOnshoreReturn]] {
 
   override def path: JsPath = JsPath \ toString
 
