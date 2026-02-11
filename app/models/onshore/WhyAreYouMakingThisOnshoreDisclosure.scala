@@ -25,12 +25,10 @@ sealed trait WhyAreYouMakingThisOnshoreDisclosure
 
 object WhyAreYouMakingThisOnshoreDisclosure extends Enumerable.Implicits {
 
-  // NEW enums for Page 1 - with corrected WithName values
   case object DidNotNotifyHMRC extends WithName("didNotNotifyHMRC") with WhyAreYouMakingThisOnshoreDisclosure
   case object DidNotFile extends WithName("didNotFile") with WhyAreYouMakingThisOnshoreDisclosure
   case object InaccurateReturn extends WithName("inaccurateReturn") with WhyAreYouMakingThisOnshoreDisclosure
 
-  // OLD enums - kept for compilation (used by existing code and Page 2 mapping)
   case object DidNotNotifyHasExcuse extends WithName("didNotNotifyHasExcuse") with WhyAreYouMakingThisOnshoreDisclosure
   case object InaccurateReturnWithCare extends WithName("inaccurateReturnWithCare") with WhyAreYouMakingThisOnshoreDisclosure
   case object NotFileHasExcuse extends WithName("notFileHasExcuse") with WhyAreYouMakingThisOnshoreDisclosure
