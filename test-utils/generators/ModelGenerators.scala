@@ -18,8 +18,10 @@ package generators
 
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalacheck.Arbitrary.arbitrary
-import models._
-import models.address._
+import models.*
+import models.GeneratorUtils.*
+import models.address.*
+
 import java.time.{LocalDate, ZoneOffset}
 
 trait ModelGenerators {
@@ -92,6 +94,10 @@ trait ModelGenerators {
     Arbitrary {
       Gen.oneOf(WhichEmailAddressCanWeContactYouWith.values.toSeq)
     }
+
+
+  implicit lazy val arbitraryAdviceContactPreferenceNew: Arbitrary[AdviceContactPreference] =
+    gen[AdviceContactPreference]
 
   given arbitraryAdviceGiven: Arbitrary[AdviceGiven] =
     Arbitrary {
@@ -337,11 +343,16 @@ trait ModelGenerators {
       } yield Map(alpha3.mkString -> config.Country(alpha3.mkString, name.mkString))
     }
 
-  given arbitraryAddressLookupRequest: Typeclass[AddressLookupRequest] =
-    gen[AddressLookupRequest]
+//  given arbitraryAddressLookupRequest: Typeclass[AddressLookupRequest] =
+//    gen[AddressLookupRequest]
 
-  def sampleAddressLookupRequest: AddressLookupRequest =
-    arbitrary[AddressLookupRequest].sample.getOrElse(sys.error(s"Could not generate instance"))
+//  implicit lazy val arbitraryAddressRequestNew: Arbitrary[AddressLookupRequest] =
+//    gen[AddressLookupRequest]
+
+//  implicit val arbitraryAddressLookupRequestNew: Arbitrary[AddressLookupRequest] =  Arbitrary(Gen.oneOf(AddressLookupRequest))
+
+//  def sampleAddressLookupRequest: AddressLookupRequest =
+//    arbitrary[AddressLookupRequest].sample.getOrElse(sys.error(s"Could not generate instance"))
   def sampleAddress: Address                           = genAddress.sample.getOrElse(sys.error(s"Could not generate instance"))
 
   val strGen = (n: Int) => Gen.listOfN(n, Gen.alphaChar).map(_.mkString)

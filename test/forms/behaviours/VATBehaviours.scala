@@ -25,7 +25,7 @@ trait VATBehaviours extends FieldBehaviours {
 
       val validDataGenerator = generateValidVAT()
 
-      forAll(validDataGenerator -> "validDataItem") { dataItem: String =>
+      forAll(validDataGenerator -> "validDataItem") { (dataItem: String) =>
         val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
         result.value.value mustBe dataItem
         result.errors mustBe empty
@@ -38,7 +38,7 @@ trait VATBehaviours extends FieldBehaviours {
       val error                = FormError(fieldName, keyError)
       val invalidDataGenerator = generateInvalidLengthVAT()
 
-      forAll(invalidDataGenerator -> "validDataItem") { dataItem: String =>
+      forAll(invalidDataGenerator -> "validDataItem") { (dataItem: String) =>
         val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
         result.value.value mustBe dataItem
         result.errors must contain only error
@@ -51,7 +51,7 @@ trait VATBehaviours extends FieldBehaviours {
       val error                = FormError(fieldName, keyError)
       val invalidDataGenerator = generateIllegalCharVAT()
 
-      forAll(invalidDataGenerator -> "validDataItem") { dataItem: String =>
+      forAll(invalidDataGenerator -> "validDataItem") { (dataItem: String) =>
         val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
         result.value.value mustBe dataItem
         result.errors must contain only error
