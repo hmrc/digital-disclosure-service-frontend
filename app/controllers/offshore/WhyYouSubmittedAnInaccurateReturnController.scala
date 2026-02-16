@@ -19,8 +19,8 @@ package controllers.offshore
 import controllers.actions._
 import forms.offshore.WhyYouSubmittedAnInaccurateOffshoreReturnFormProvider
 import models.{Mode, RelatesTo, UserAnswers, WhyYouSubmittedAnInaccurateReturn}
-import models.WhyYouSubmittedAnInaccurateReturn.{DeliberatelyInaccurate, NoReasonableCare, ReasonableMistake}
-import navigation.OnshoreNavigator
+import models.WhyYouSubmittedAnInaccurateReturn.{DeliberatelyInaccurate, ReasonableMistake}
+import navigation.OffshoreNavigator
 import pages._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -32,17 +32,17 @@ import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class WhyYouSubmittedAnInaccurateReturnController @Inject() (
-  override val messagesApi: MessagesApi,
-  sessionService: SessionService,
-  navigator: OnshoreNavigator,
-  identify: IdentifierAction,
-  getData: DataRetrievalAction,
-  requireData: DataRequiredAction,
-  formProvider: WhyYouSubmittedAnInaccurateOffshoreReturnFormProvider,
-  val controllerComponents: MessagesControllerComponents,
-  view: WhyYouSubmittedAnInaccurateReturnView
-)(implicit ec: ExecutionContext)
-    extends FrontendBaseController
+                                                              override val messagesApi: MessagesApi,
+                                                              sessionService: SessionService,
+                                                              navigator: OffshoreNavigator,
+                                                              identify: IdentifierAction,
+                                                              getData: DataRetrievalAction,
+                                                              requireData: DataRequiredAction,
+                                                              formProvider: WhyYouSubmittedAnInaccurateOffshoreReturnFormProvider,
+                                                              val controllerComponents: MessagesControllerComponents,
+                                                              view: WhyYouSubmittedAnInaccurateReturnView
+                                                            )(implicit ec: ExecutionContext)
+  extends FrontendBaseController
     with I18nSupport {
 
   val form = formProvider()
@@ -83,35 +83,41 @@ class WhyYouSubmittedAnInaccurateReturnController @Inject() (
   }
 
   def changedPages(
-    answers: UserAnswers,
-    value: Set[WhyYouSubmittedAnInaccurateReturn]
-  ): (List[QuestionPage[_]], Boolean) =
+                    answers: UserAnswers,
+                    value: Set[WhyYouSubmittedAnInaccurateReturn]
+                  ): (List[QuestionPage[_]], Boolean) =
     answers.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage) match {
       case Some(reasons) if reasons != value => (WhyYouSubmittedAnInaccurateReturnController.getPages(value), true)
       case _                                 => (Nil, false)
     }
 
-  object WhyYouSubmittedAnInaccurateReturnController {
+}
 
-    def getPages(reasons: Set[WhyYouSubmittedAnInaccurateReturn]): List[QuestionPage[_]] = {
+object WhyYouSubmittedAnInaccurateReturnController {
 
-      val noReasonableCare       = ClearingCondition(Set(NoReasonableCare), List(ReasonableExcuseOnshorePage))
-      val reasonableMistake      = ClearingCondition(Set(ReasonableMistake), List(ReasonableCareOnshorePage))
-      val deliberatelyInaccurate =
-        ClearingCondition(Set(DeliberatelyInaccurate), List(ReasonableExcuseForNotFilingOnshorePage))
+  def getPages(reasons: Set[WhyYouSubmittedAnInaccurateReturn]): List[QuestionPage[_]] = {
 
-      val conditions = List(noReasonableCare, reasonableMistake, deliberatelyInaccurate)
+    val deliberate = ClearingCondition(
+      Set(DeliberatelyInaccurate),
+      List(ContractualDisclosureFacilityPage)
+    )
 
-      conditions.foldLeft[List[QuestionPage[_]]](List()) { (cleared, condition) =>
-        if (condition.isConditionMet(reasons)) cleared ++ condition.pagesToClear else cleared
-      }
+    val reasonableCare = ClearingCondition(
+      Set(ReasonableMistake),
+      List(WhatReasonableCareDidYouTakePage)
+    )
+
+    val conditions = List(deliberate, reasonableCare)
+
+    conditions.foldLeft[List[QuestionPage[_]]](List()) { (cleared, condition) =>
+      if (condition.isConditionMet(reasons)) cleared ++ condition.pagesToClear else cleared
     }
   }
 
   case class ClearingCondition(
-    selections: Set[WhyYouSubmittedAnInaccurateReturn],
-    pagesToClear: List[QuestionPage[_]]
-  ) {
+                                selections: Set[WhyYouSubmittedAnInaccurateReturn],
+                                pagesToClear: List[QuestionPage[_]]
+                              ) {
     def isConditionMet(reasons: Set[WhyYouSubmittedAnInaccurateReturn]): Boolean =
       reasons.intersect(selections).isEmpty
   }

@@ -20,12 +20,13 @@ import models._
 import models.store._
 import models.store.disclosure._
 import pages._
+import pages.offshore.WhyDidYouNotFileAReturnOnTimeOffshorePage
 import com.google.inject.{ImplementedBy, Inject, Singleton}
 
 @Singleton
 class UAToDisclosureServiceImpl @Inject() (
-  notificationService: UAToNotificationService
-) extends UAToDisclosureService {
+                                            notificationService: UAToNotificationService
+                                          ) extends UAToDisclosureService {
 
   def uaToFullDisclosure(userAnswers: UserAnswers): FullDisclosure =
     FullDisclosure(
@@ -55,7 +56,7 @@ class UAToDisclosureServiceImpl @Inject() (
 
   def uaToOffshoreLiabilities(userAnswers: UserAnswers): OffshoreLiabilities =
     OffshoreLiabilities(
-      behaviour = userAnswers.get(WhyAreYouMakingThisDisclosurePage),
+      behaviour = buildOffshoreBehaviourFromPage2(userAnswers),
       excuseForNotNotifying = userAnswers.get(WhatIsYourReasonableExcusePage),
       reasonableCare = userAnswers.get(WhatReasonableCareDidYouTakePage),
       excuseForNotFiling = userAnswers.get(WhatIsYourReasonableExcuseForNotFilingReturnPage),
@@ -134,6 +135,38 @@ class UAToDisclosureServiceImpl @Inject() (
         case DeliberatelyInaccurate => behaviours += DeliberateInaccurateReturn
         case ReasonableMistake      => behaviours += InaccurateReturnWithCare
         case NoReasonableCare       => behaviours += InaccurateReturnNoCare
+      }
+    }
+
+    if (behaviours.isEmpty) None else Some(behaviours.toSet)
+  }
+
+  private def buildOffshoreBehaviourFromPage2(userAnswers: UserAnswers): Option[Set[WhyAreYouMakingThisDisclosure]] = {
+    import WhyAreYouMakingThisDisclosure._
+
+    val behaviours = scala.collection.mutable.Set[WhyAreYouMakingThisDisclosure]()
+
+    userAnswers.get(WhyDidYouNotNotifyPage).foreach { selections =>
+      selections.foreach {
+        case WhyDidYouNotNotify.DeliberatelyDidNotNotify          => behaviours += DeliberatelyDidNotNotify
+        case WhyDidYouNotNotify.ReasonableExcuse                  => behaviours += DidNotNotifyHasExcuse
+        case WhyDidYouNotNotify.NotDeliberatelyNoReasonableExcuse => behaviours += DidNotNotifyNoExcuse
+      }
+    }
+
+    userAnswers.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).foreach { selections =>
+      selections.foreach {
+        case WhyDidYouNotFileAReturnOnTimeOffshore.DeliberatelyWithheldInformation    => behaviours += DeliberatelyDidNotFile
+        case WhyDidYouNotFileAReturnOnTimeOffshore.ReasonableExcuse => behaviours += NotFileHasExcuse
+        case WhyDidYouNotFileAReturnOnTimeOffshore.DidNotWithholdInformationOnPurpose => behaviours += DidNotFileNoExcuse
+      }
+    }
+
+    userAnswers.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).foreach { selections =>
+      selections.foreach {
+        case WhyYouSubmittedAnInaccurateReturn.DeliberatelyInaccurate => behaviours += DeliberateInaccurateReturn
+        case WhyYouSubmittedAnInaccurateReturn.ReasonableMistake      => behaviours += InaccurateReturnWithCare
+        case WhyYouSubmittedAnInaccurateReturn.NoReasonableCare       => behaviours += InaccurateReturnNoCare
       }
     }
 

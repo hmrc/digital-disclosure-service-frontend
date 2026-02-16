@@ -19,9 +19,13 @@ package navigation
 import javax.inject.{Inject, Singleton}
 import play.api.mvc.Call
 import controllers.offshore.routes
-import pages._
+import pages.{WhyDidYouNotNotifyPage, WhyYouSubmittedAnInaccurateOffshoreReturnPage, _}
+import pages.offshore.{WhyDidYouNotFileAReturnOnTimeOffshorePage}
 import models.{CarelessPriorTo, CheckMode, DeliberatePriorTo, Mode, NormalMode, ReasonableExcusePriorTo, RelatesTo, TaxYearStarting, UserAnswers}
 import models.WhyAreYouMakingThisDisclosure._
+import models.WhyDidYouNotNotify
+import models.WhyDidYouNotFileAReturnOnTimeOffshore
+import models.WhyYouSubmittedAnInaccurateReturn
 import models.YourLegalInterpretation._
 
 @Singleton
@@ -31,53 +35,116 @@ class OffshoreNavigator @Inject() () {
 
     case WhyAreYouMakingThisDisclosurePage =>
       ua =>
-        (ua.get(WhyAreYouMakingThisDisclosurePage), ua.get(RelatesToPage)) match {
-          case (Some(value), Some(entity))
-              if (entity != RelatesTo.AnEstate) && (value.contains(DeliberatelyDidNotNotify) ||
-                value.contains(DeliberateInaccurateReturn) ||
-                value.contains(DeliberatelyDidNotFile)) =>
-            routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)
-          case (Some(value), _) if value.contains(DidNotNotifyHasExcuse)    =>
-            routes.WhatIsYourReasonableExcuseController.onPageLoad(NormalMode)
-          case (Some(value), _) if value.contains(InaccurateReturnWithCare) =>
-            routes.WhatReasonableCareDidYouTakeController.onPageLoad(NormalMode)
-          case (Some(value), _) if value.contains(NotFileHasExcuse)         =>
-            routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode)
-          case _                                                            => routes.WhichYearsController.onPageLoad(NormalMode)
+        val page1Selections = ua.get(WhyAreYouMakingThisDisclosurePage).getOrElse(Set.empty)
+
+        if (page1Selections.contains(DidNotNotifyHMRC)) {
+          routes.WhyDidYouNotNotifyController.onPageLoad(NormalMode)
+        } else if (page1Selections.contains(DidNotFile)) {
+          routes.WhyDidYouNotFileAReturnOnTimeOffshoreController.onPageLoad(NormalMode)
+        } else if (page1Selections.contains(InaccurateReturn)) {
+          routes.WhyYouSubmittedAnInaccurateReturnController.onPageLoad(NormalMode)
+        } else {
+          routes.WhichYearsController.onPageLoad(NormalMode)
+        }
+
+    case WhyDidYouNotNotifyPage =>
+      ua =>
+        val page1Selections  = ua.get(WhyAreYouMakingThisDisclosurePage).getOrElse(Set.empty)
+        val page2aSelections = ua.get(WhyDidYouNotNotifyPage).getOrElse(Set.empty)
+        val entity           = ua.get(RelatesToPage)
+
+        if (page2aSelections.contains(WhyDidYouNotNotify.DeliberatelyDidNotNotify) && !entity.contains(RelatesTo.AnEstate)) {
+          routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)
+        } else if (page2aSelections.contains(WhyDidYouNotNotify.ReasonableExcuse)) {
+          routes.WhatIsYourReasonableExcuseController.onPageLoad(NormalMode)
+        } else if (page1Selections.contains(DidNotFile) && ua.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).isEmpty) {
+          routes.WhyDidYouNotFileAReturnOnTimeOffshoreController.onPageLoad(NormalMode)
+        } else if (page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).isEmpty) {
+          routes.WhyYouSubmittedAnInaccurateReturnController.onPageLoad(NormalMode)
+        } else {
+          routes.WhichYearsController.onPageLoad(NormalMode)
+        }
+
+    case WhyDidYouNotFileAReturnOnTimeOffshorePage =>
+      ua =>
+        val page1Selections  = ua.get(WhyAreYouMakingThisDisclosurePage).getOrElse(Set.empty)
+        val page2bSelections = ua.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).getOrElse(Set.empty)
+        val entity           = ua.get(RelatesToPage)
+
+        if (page2bSelections.contains(WhyDidYouNotFileAReturnOnTimeOffshore.DeliberatelyWithheldInformation) && !entity.contains(RelatesTo.AnEstate)) {
+          routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)
+        } else if (page2bSelections.contains(WhyDidYouNotFileAReturnOnTimeOffshore.ReasonableExcuse)) {
+          routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode)
+        } else if (page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).isEmpty) {
+          routes.WhyYouSubmittedAnInaccurateReturnController.onPageLoad(NormalMode)
+        } else {
+          routes.WhichYearsController.onPageLoad(NormalMode)
+        }
+
+    case WhyYouSubmittedAnInaccurateOffshoreReturnPage =>
+      ua =>
+        val page2cSelections = ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).getOrElse(Set.empty)
+        val entity           = ua.get(RelatesToPage)
+
+        if (page2cSelections.contains(WhyYouSubmittedAnInaccurateReturn.DeliberatelyInaccurate) && !entity.contains(RelatesTo.AnEstate)) {
+          routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)
+        } else if (page2cSelections.contains(WhyYouSubmittedAnInaccurateReturn.ReasonableMistake)) {
+          routes.WhatReasonableCareDidYouTakeController.onPageLoad(NormalMode)
+        } else {
+          routes.WhichYearsController.onPageLoad(NormalMode)
         }
 
     case ContractualDisclosureFacilityPage =>
       ua =>
-        (ua.get(WhyAreYouMakingThisDisclosurePage), ua.get(ContractualDisclosureFacilityPage)) match {
-          case (_, Some(false))                                                      => routes.YouHaveLeftTheDDSController.onPageLoad(NormalMode)
-          case (Some(value), Some(true)) if value.contains(DidNotNotifyHasExcuse)    =>
-            routes.WhatIsYourReasonableExcuseController.onPageLoad(NormalMode)
-          case (Some(value), Some(true)) if value.contains(InaccurateReturnWithCare) =>
-            routes.WhatReasonableCareDidYouTakeController.onPageLoad(NormalMode)
-          case (Some(value), Some(true)) if value.contains(NotFileHasExcuse)         =>
-            routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode)
-          case _                                                                     => routes.WhichYearsController.onPageLoad(NormalMode)
+        val page1Selections = ua.get(WhyAreYouMakingThisDisclosurePage).getOrElse(Set.empty)
+
+        (ua.get(ContractualDisclosureFacilityPage)) match {
+          case Some(false) => routes.YouHaveLeftTheDDSController.onPageLoad(NormalMode)
+          case Some(true) =>
+            // Check if we need to continue to remaining Page 2s
+            if (page1Selections.contains(DidNotNotifyHMRC) && ua.get(WhyDidYouNotNotifyPage).isEmpty) {
+              routes.WhyDidYouNotNotifyController.onPageLoad(NormalMode)
+            } else if (page1Selections.contains(DidNotFile) && ua.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).isEmpty) {
+              routes.WhyDidYouNotFileAReturnOnTimeOffshoreController.onPageLoad(NormalMode)
+            } else if (page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).isEmpty) {
+              routes.WhyYouSubmittedAnInaccurateReturnController.onPageLoad(NormalMode)
+            } else {
+              routes.WhichYearsController.onPageLoad(NormalMode)
+            }
+          case _ => routes.WhichYearsController.onPageLoad(NormalMode)
         }
 
     case WhatIsYourReasonableExcusePage =>
       ua =>
-        ua.get(WhyAreYouMakingThisDisclosurePage) match {
-          case Some(value) if value.contains(InaccurateReturnWithCare) =>
-            routes.WhatReasonableCareDidYouTakeController.onPageLoad(NormalMode)
-          case Some(value) if value.contains(NotFileHasExcuse)         =>
-            routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode)
-          case _                                                       => routes.WhichYearsController.onPageLoad(NormalMode)
+        val page1Selections = ua.get(WhyAreYouMakingThisDisclosurePage).getOrElse(Set.empty)
+
+        if (page1Selections.contains(DidNotFile) && ua.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).isEmpty) {
+          routes.WhyDidYouNotFileAReturnOnTimeOffshoreController.onPageLoad(NormalMode)
+        } else if (page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).isEmpty) {
+          routes.WhyYouSubmittedAnInaccurateReturnController.onPageLoad(NormalMode)
+        } else {
+          routes.WhichYearsController.onPageLoad(NormalMode)
         }
 
     case WhatReasonableCareDidYouTakePage =>
       ua =>
-        ua.get(WhyAreYouMakingThisDisclosurePage) match {
-          case Some(value) if value.contains(NotFileHasExcuse) =>
-            routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode)
-          case _                                               => routes.WhichYearsController.onPageLoad(NormalMode)
+        val page1Selections = ua.get(WhyAreYouMakingThisDisclosurePage).getOrElse(Set.empty)
+
+        if (page1Selections.contains(DidNotFile) && ua.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).isEmpty) {
+          routes.WhyDidYouNotFileAReturnOnTimeOffshoreController.onPageLoad(NormalMode)
+        } else {
+          routes.WhichYearsController.onPageLoad(NormalMode)
         }
 
-    case WhatIsYourReasonableExcuseForNotFilingReturnPage => _ => routes.WhichYearsController.onPageLoad(NormalMode)
+    case WhatIsYourReasonableExcuseForNotFilingReturnPage =>
+      ua =>
+        val page1Selections = ua.get(WhyAreYouMakingThisDisclosurePage).getOrElse(Set.empty)
+
+        if (page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).isEmpty) {
+          routes.WhyYouSubmittedAnInaccurateReturnController.onPageLoad(NormalMode)
+        } else {
+          routes.WhichYearsController.onPageLoad(NormalMode)
+        }
 
     case WhichYearsPage =>
       ua => {
@@ -248,12 +315,12 @@ class OffshoreNavigator @Inject() () {
   }
 
   def nextTaxYearLiabilitiesPage(
-    currentIndex: Int,
-    foreignTaxCreditReduction: Boolean,
-    mode: Mode,
-    userAnswers: UserAnswers,
-    hasAnswerChanged: Boolean = false
-  ): Call =
+                                  currentIndex: Int,
+                                  foreignTaxCreditReduction: Boolean,
+                                  mode: Mode,
+                                  userAnswers: UserAnswers,
+                                  hasAnswerChanged: Boolean = false
+                                ): Call =
     (mode, foreignTaxCreditReduction, userAnswers.inverselySortedOffshoreTaxYears, hasAnswerChanged) match {
       case (NormalMode, true, _, _)                                           => routes.ForeignTaxCreditController.onPageLoad(currentIndex, NormalMode)
       case (NormalMode, _, Some(years), _) if (years.size - 1) > currentIndex =>

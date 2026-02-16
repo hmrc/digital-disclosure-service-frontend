@@ -18,7 +18,7 @@ package controllers.offshore
 
 import controllers.actions._
 import forms.offshore.WhyDidYouNotFileAReturnOnTimeOffshoreFormProvider
-import models.WhyDidYouNotFileAReturnOnTimeOffshore.{DeliberatelyWithheldInformation, DidNotWithholdInformationOnPurpose, ReasonableExcuse}
+import models.WhyDidYouNotFileAReturnOnTimeOffshore.{DeliberatelyWithheldInformation, ReasonableExcuse}
 import models.{Mode, RelatesTo, UserAnswers, WhyDidYouNotFileAReturnOnTimeOffshore}
 import navigation.OffshoreNavigator
 import pages._
@@ -33,17 +33,17 @@ import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class WhyDidYouNotFileAReturnOnTimeOffshoreController @Inject() (
-  override val messagesApi: MessagesApi,
-  sessionService: SessionService,
-  navigator: OffshoreNavigator,
-  identify: IdentifierAction,
-  getData: DataRetrievalAction,
-  requireData: DataRequiredAction,
-  formProvider: WhyDidYouNotFileAReturnOnTimeOffshoreFormProvider,
-  val controllerComponents: MessagesControllerComponents,
-  view: WhyDidYouNotFileAReturnOnTimeOffshoreView
-)(implicit ec: ExecutionContext)
-    extends FrontendBaseController
+                                                                  override val messagesApi: MessagesApi,
+                                                                  sessionService: SessionService,
+                                                                  navigator: OffshoreNavigator,
+                                                                  identify: IdentifierAction,
+                                                                  getData: DataRetrievalAction,
+                                                                  requireData: DataRequiredAction,
+                                                                  formProvider: WhyDidYouNotFileAReturnOnTimeOffshoreFormProvider,
+                                                                  val controllerComponents: MessagesControllerComponents,
+                                                                  view: WhyDidYouNotFileAReturnOnTimeOffshoreView
+                                                                )(implicit ec: ExecutionContext)
+  extends FrontendBaseController
     with I18nSupport {
 
   val form = formProvider()
@@ -84,38 +84,42 @@ class WhyDidYouNotFileAReturnOnTimeOffshoreController @Inject() (
   }
 
   def changedPages(
-    answers: UserAnswers,
-    value: Set[WhyDidYouNotFileAReturnOnTimeOffshore]
-  ): (List[QuestionPage[_]], Boolean) =
+                    answers: UserAnswers,
+                    value: Set[WhyDidYouNotFileAReturnOnTimeOffshore]
+                  ): (List[QuestionPage[_]], Boolean) =
     answers.get(WhyDidYouNotFileAReturnOnTimeOffshorePage) match {
       case Some(reasons) if reasons != value => (WhyDidYouNotFileAReturnOnTimeOffshoreController.getPages(value), true)
       case _                                 => (Nil, false)
     }
 
-  object WhyDidYouNotFileAReturnOnTimeOffshoreController {
+}
 
-    def getPages(reasons: Set[WhyDidYouNotFileAReturnOnTimeOffshore]): List[QuestionPage[_]] = {
+object WhyDidYouNotFileAReturnOnTimeOffshoreController {
 
-      val didNotWithholdInformationOnPurpose =
-        ClearingCondition(Set(DidNotWithholdInformationOnPurpose), List(ReasonableExcuseOnshorePage))
-      val reasonableExcuse                   = ClearingCondition(Set(ReasonableExcuse), List(ReasonableCareOnshorePage))
-      val deliberatelyWithheldInformation    =
-        ClearingCondition(Set(DeliberatelyWithheldInformation), List(ReasonableExcuseForNotFilingOnshorePage))
+  def getPages(reasons: Set[WhyDidYouNotFileAReturnOnTimeOffshore]): List[QuestionPage[_]] = {
 
-      val conditions = List(didNotWithholdInformationOnPurpose, reasonableExcuse, deliberatelyWithheldInformation)
+    val deliberate = ClearingCondition(
+      Set(DeliberatelyWithheldInformation),
+      List(ContractualDisclosureFacilityPage)
+    )
 
-      conditions.foldLeft[List[QuestionPage[_]]](List()) { (cleared, condition) =>
-        if (condition.isConditionMet(reasons)) cleared ++ condition.pagesToClear else cleared
-      }
+    val hasExcuse = ClearingCondition(
+      Set(ReasonableExcuse),
+      List(WhatIsYourReasonableExcuseForNotFilingReturnPage)
+    )
+
+    val conditions = List(deliberate, hasExcuse)
+
+    conditions.foldLeft[List[QuestionPage[_]]](List()) { (cleared, condition) =>
+      if (condition.isConditionMet(reasons)) cleared ++ condition.pagesToClear else cleared
     }
   }
 
   case class ClearingCondition(
-    selections: Set[WhyDidYouNotFileAReturnOnTimeOffshore],
-    pagesToClear: List[QuestionPage[_]]
-  ) {
+                                selections: Set[WhyDidYouNotFileAReturnOnTimeOffshore],
+                                pagesToClear: List[QuestionPage[_]]
+                              ) {
     def isConditionMet(reasons: Set[WhyDidYouNotFileAReturnOnTimeOffshore]): Boolean =
       reasons.intersect(selections).isEmpty
   }
-
 }
