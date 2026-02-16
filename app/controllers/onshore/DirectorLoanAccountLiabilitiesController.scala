@@ -68,18 +68,12 @@ class DirectorLoanAccountLiabilitiesController @Inject() (
         .bindFromRequest()
         .fold(
           formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i, hidePenaltySection))),
-          value => {
-            val adjustedValue =
-              if (hidePenaltySection) {
-                value.copy(penaltyRate = BigDecimal(0), penaltyRateReason = "")
-              }
-              else value
+          value =>
             for {
               updatedAnswers <-
-                Future.fromTry(request.userAnswers.setBySeqIndex(DirectorLoanAccountLiabilitiesPage, i, adjustedValue))
+                Future.fromTry(request.userAnswers.setBySeqIndex(DirectorLoanAccountLiabilitiesPage, i, value))
               _              <- sessionService.set(updatedAnswers)
             } yield Redirect(navigator.nextPage(DirectorLoanAccountLiabilitiesPage, mode, updatedAnswers))
-          }
         )
   }
 }

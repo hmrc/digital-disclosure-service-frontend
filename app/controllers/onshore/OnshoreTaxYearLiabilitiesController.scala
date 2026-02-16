@@ -81,13 +81,8 @@ class OnshoreTaxYearLiabilitiesController @Inject() (
           .fold(
             formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i, year, taxTypes, hidePenaltySection))),
             value => {
-              val adjustedValue =
-                if (hidePenaltySection) {
-                  value.copy(penaltyRate = BigDecimal(0), penaltyRateReason = "")
-                }
-                else value
-              val taxYearWithLiabilities            = OnshoreTaxYearWithLiabilities(OnshoreYearStarting(year), adjustedValue)
-              val (clearedAnswers, hasValueChanged) = changedPages(request.userAnswers, year.toString, adjustedValue)
+              val taxYearWithLiabilities            = OnshoreTaxYearWithLiabilities(OnshoreYearStarting(year), value)
+              val (clearedAnswers, hasValueChanged) = changedPages(request.userAnswers, year.toString, value)
               for {
                 userAnswers    <- Future.fromTry(clearedAnswers)
                 updatedAnswers <-
