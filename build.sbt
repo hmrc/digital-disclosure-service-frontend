@@ -45,6 +45,7 @@ lazy val microservice = (project in file("."))
       "-Wconf:cat=deprecation:ws,cat=feature:ws,cat=optimizer:ws,src=target/.*:s"
     ) ++ Seq("-unchecked", "-deprecation") ++ Seq("-Ypatmat-exhaust-depth", "40"),
     libraryDependencies ++= AppDependencies(),
+    excludeDependencies += ExclusionRule("org.lz4", "lz4-java"),
     retrieveManaged := true,
     // concatenate js
     Concat.groups := Seq(
