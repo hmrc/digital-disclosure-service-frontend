@@ -24,8 +24,10 @@ import viewmodels.OFFSHORE
 import pages.{ForeignTaxCreditPage, TaxYearLiabilitiesPage}
 import play.api.i18n.Messages
 import com.google.inject.{Inject, Singleton}
+import utils.offshore.ReasonableExcuseHelper
 import viewmodels.RowHelper
 import viewmodels.RevealFullText
+
 import scala.math.BigDecimal.RoundingMode
 
 case class CheckYourAnswersViewModel(
@@ -99,6 +101,8 @@ class CheckYourAnswersViewModelCreation @Inject() (
 
     val liabilities = yearWithLiabilites.taxYearLiabilities
 
+    val hidePenaltySection = ReasonableExcuseHelper.hidePenaltyWhenReasonableExcuse(userAnswers)
+
     val undeclaredIncome = liabilities.undeclaredIncomeOrGain match {
       case Some(value) =>
         Seq(
@@ -121,6 +125,34 @@ class CheckYourAnswersViewModelCreation @Inject() (
           Seq(poundRowCase(i, "foreignTaxCredit.checkYourAnswersLabel", s"$value", "foreignTaxCredit.hidden", OFFSHORE))
         case _           => Nil
       }
+
+    val penaltyRate =
+      if (!hidePenaltySection)
+        Seq(
+          rowCase(
+            i,
+            "taxYearLiabilities.penaltyRate.checkYourAnswersLabel",
+            messages("site.2DP", liabilities.penaltyRate) + "%",
+            "taxYearLiabilities.penaltyRate.hidden",
+            OFFSHORE,
+            revealFullText,
+            false
+          )
+        ) else Nil
+
+    val penaltyRateReason =
+      if (!hidePenaltySection)
+        Seq(
+          rowCase(
+            i,
+            "onshoreTaxYearLiabilities.penaltyRateReason",
+            s"${liabilities.penaltyRateReason}",
+            "onshoreTaxYearLiabilities.penaltyRateReason.hidden",
+            OFFSHORE,
+            revealFullText,
+            true
+          )
+        ) else Nil
 
     val rows = Seq(
       poundRowCase(
@@ -157,21 +189,12 @@ class CheckYourAnswersViewModelCreation @Inject() (
         s"${liabilities.interest}",
         "taxYearLiabilities.interest.hidden",
         OFFSHORE
-      ),
-      rowCase(
-        i,
-        "taxYearLiabilities.penaltyRate.checkYourAnswersLabel",
-        messages("site.2DP", liabilities.penaltyRate) + "%",
-        "taxYearLiabilities.penaltyRate.hidden",
-        OFFSHORE,
-        revealFullText,
-        false
-      ),
-      totalRow(
-        "taxYearLiabilities.penaltyAmount.checkYourAnswersLabel",
-        messages("site.2DP", penaltyAmount(liabilities))
-      )
-    ) ++ undeclaredIncome ++ Seq(
+      )) ++ penaltyRate ++ Seq(
+        totalRow(
+          "taxYearLiabilities.penaltyAmount.checkYourAnswersLabel",
+          messages("site.2DP", penaltyAmount(liabilities))
+        )
+      ) ++ undeclaredIncome ++ Seq(
       rowCase(
         i,
         "taxYearLiabilities.foreignTaxCredit.checkYourAnswersLabel",
@@ -182,17 +205,10 @@ class CheckYourAnswersViewModelCreation @Inject() (
         false
       )
     ) ++ foreignTaxCredit ++ Seq(
-      totalRow("taxYearLiabilities.amountDue.checkYourAnswersLabel", messages("site.2DP", yearTotal(liabilities))),
-      rowCase(
-        i,
-        "onshoreTaxYearLiabilities.penaltyRateReason",
-        s"${liabilities.penaltyRateReason}",
-        "onshoreTaxYearLiabilities.penaltyRateReason.hidden",
-        OFFSHORE,
-        revealFullText,
-        true
-      )
-    )
+      totalRow(
+        "taxYearLiabilities.amountDue.checkYourAnswersLabel",
+        messages("site.2DP", yearTotal(liabilities))
+      )) ++ penaltyRateReason
 
     SummaryListViewModel(rows)
   }
@@ -215,11 +231,7 @@ class CheckYourAnswersViewModelCreation @Inject() (
   }
 
   def penaltyAmount(taxYearLiabilities: TaxYearLiabilities): BigDecimal =
-    //((taxYearLiabilities.penaltyRate * BigDecimal(taxYearLiabilities.unpaidTax)) / 100).setScale(2, RoundingMode.DOWN)
-    taxYearLiabilities.penaltyRate.fold(BigDecimal(0)) { rate =>
-      ((rate * BigDecimal(taxYearLiabilities.unpaidTax)) / 100)
-        .setScale(2, RoundingMode.DOWN)  }
-
+    ((taxYearLiabilities.penaltyRate * BigDecimal(taxYearLiabilities.unpaidTax)) / 100).setScale(2, RoundingMode.DOWN)
 
   def yearTotal(taxYearLiabilities: TaxYearLiabilities): BigDecimal =
     BigDecimal(taxYearLiabilities.unpaidTax) + penaltyAmount(taxYearLiabilities) + BigDecimal(

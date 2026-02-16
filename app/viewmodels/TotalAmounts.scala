@@ -94,9 +94,9 @@ object TotalAmounts {
     val niContributionsTotal = taxYearLiabilities.map(_.niContributions).sum
     val interestTotal        = taxYearLiabilities.map(_.interest).sum
     val penaltyAmountTotal   =
-      taxYearLiabilities.map(l => getPenaltyAmount(l.penaltyRate.getOrElse(0), l.niContributions + l.unpaidTax)).sum
+      taxYearLiabilities.map(l => getPenaltyAmount(l.penaltyRate, l.niContributions + l.unpaidTax)).sum
     val amountDueTotal       =
-      taxYearLiabilities.map(l => getPeriodTotal(l.penaltyRate.getOrElse(0), l.niContributions + l.unpaidTax, l.interest)).sum
+      taxYearLiabilities.map(l => getPeriodTotal(l.penaltyRate, l.niContributions + l.unpaidTax, l.interest)).sum
 
     TotalAmounts(
       unpaidTaxTotal = unpaidTaxTotal,
@@ -114,8 +114,8 @@ object TotalAmounts {
 
     val unpaidTaxTotal     = taxYearLiabilities.map(_.unpaidTax).sum
     val interestTotal      = taxYearLiabilities.map(_.interest).sum
-    val penaltyAmountTotal = taxYearLiabilities.map(l => getPenaltyAmount(l.penaltyRate.getOrElse(0), l.unpaidTax)).sum
-    val amountDueTotal     = taxYearLiabilities.map(l => getPeriodTotal(l.penaltyRate.getOrElse(0), l.unpaidTax, l.interest)).sum
+    val penaltyAmountTotal = taxYearLiabilities.map(l => getPenaltyAmount(l.penaltyRate, l.unpaidTax)).sum
+    val amountDueTotal     = taxYearLiabilities.map(l => getPeriodTotal(l.penaltyRate, l.unpaidTax, l.interest)).sum
 
     TotalAmounts(
       unpaidTaxTotal = unpaidTaxTotal,
@@ -129,8 +129,8 @@ object TotalAmounts {
   def getCorporationTaxTotals(liabilities: Seq[CorporationTaxLiability]): TotalAmounts = {
     val unpaidTaxTotal     = liabilities.map(_.howMuchUnpaid).sum
     val interestTotal      = liabilities.map(_.howMuchInterest).sum
-    val penaltyAmountTotal = liabilities.map(l => getPenaltyAmount(l.penaltyRate.getOrElse(0), l.howMuchUnpaid)).sum
-    val amountDueTotal     = liabilities.map(l => getPeriodTotal(l.penaltyRate.getOrElse(0), l.howMuchUnpaid, l.howMuchInterest)).sum
+    val penaltyAmountTotal = liabilities.map(l => getPenaltyAmount(l.penaltyRate, l.howMuchUnpaid)).sum
+    val amountDueTotal     = liabilities.map(l => getPeriodTotal(l.penaltyRate, l.howMuchUnpaid, l.howMuchInterest)).sum
 
     TotalAmounts(
       unpaidTaxTotal = unpaidTaxTotal,
@@ -144,8 +144,8 @@ object TotalAmounts {
   def getDirectorLoanTotals(liabilities: Seq[DirectorLoanAccountLiabilities]): TotalAmounts = {
     val unpaidTaxTotal     = liabilities.map(_.unpaidTax).sum
     val interestTotal      = liabilities.map(_.interest).sum
-    val penaltyAmountTotal = liabilities.map(l => getPenaltyAmount(l.penaltyRate.getOrElse(0), l.unpaidTax)).sum
-    val amountDueTotal     = liabilities.map(l => getPeriodTotal(l.penaltyRate.getOrElse(0), l.unpaidTax, l.interest)).sum
+    val penaltyAmountTotal = liabilities.map(l => getPenaltyAmount(l.penaltyRate, l.unpaidTax)).sum
+    val amountDueTotal     = liabilities.map(l => getPeriodTotal(l.penaltyRate, l.unpaidTax, l.interest)).sum
 
     TotalAmounts(
       unpaidTaxTotal = unpaidTaxTotal,

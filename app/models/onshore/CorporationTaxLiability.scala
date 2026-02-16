@@ -25,8 +25,8 @@ case class CorporationTaxLiability(
   howMuchIncome: BigInt,
   howMuchUnpaid: BigInt,
   howMuchInterest: BigInt,
-  penaltyRate: Option[BigDecimal],
-  penaltyRateReason: Option[String]
+  penaltyRate: BigDecimal,
+  penaltyRateReason: String
 )
 
 object CorporationTaxLiability {

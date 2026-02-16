@@ -49,15 +49,15 @@ class TaxYearLiabilitiesController @Inject() (
     extends FrontendBaseController
     with I18nSupport {
 
-  val form = formProvider()
+  def form(hidePenaltySection: Boolean) = formProvider(hidePenaltySection)
 
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
       val hidePenaltySection = ReasonableExcuseHelper.hidePenaltyWhenReasonableExcuse(request.userAnswers)
       withYear(i) { year =>
         val preparedForm = request.userAnswers.getByKey(TaxYearLiabilitiesPage, year.toString) match {
-          case None        => form
-          case Some(value) => form.fill(value.taxYearLiabilities)
+          case None        => form(hidePenaltySection)
+          case Some(value) => form(hidePenaltySection).fill(value.taxYearLiabilities)
         }
 
         Ok(view(preparedForm, mode, i, year,hidePenaltySection))
@@ -69,7 +69,7 @@ class TaxYearLiabilitiesController @Inject() (
     implicit request =>
       val hidePenaltySection = ReasonableExcuseHelper.hidePenaltyWhenReasonableExcuse(request.userAnswers)
       withYearAsync(i) { year =>
-        form
+        form(hidePenaltySection)
           .bindFromRequest()
           .fold(
             formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i, year, hidePenaltySection))),

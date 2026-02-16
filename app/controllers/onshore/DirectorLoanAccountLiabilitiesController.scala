@@ -46,15 +46,15 @@ class DirectorLoanAccountLiabilitiesController @Inject() (
     extends FrontendBaseController
     with I18nSupport {
 
-  val form = formProvider()
+  def form(hidePenaltySection: Boolean) = formProvider(hidePenaltySection)
 
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
       val hidePenaltySection = ReasonableExcuseHelper.hidePenaltyWhenReasonableExcuse(request.userAnswers)
 
       val preparedForm = request.userAnswers.getBySeqIndex(DirectorLoanAccountLiabilitiesPage, i) match {
-        case None        => form
-        case Some(value) => form.fill(value)
+        case None        => form(hidePenaltySection)
+        case Some(value) => form(hidePenaltySection).fill(value)
       }
 
       Ok(view(preparedForm, mode, i, hidePenaltySection))
@@ -64,16 +64,22 @@ class DirectorLoanAccountLiabilitiesController @Inject() (
     implicit request =>
       val hidePenaltySection = ReasonableExcuseHelper.hidePenaltyWhenReasonableExcuse(request.userAnswers)
 
-      form
+      form(hidePenaltySection)
         .bindFromRequest()
         .fold(
           formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i, hidePenaltySection))),
-          value =>
+          value => {
+            val adjustedValue =
+              if (hidePenaltySection) {
+                value.copy(penaltyRate = BigDecimal(0), penaltyRateReason = "")
+              }
+              else value
             for {
               updatedAnswers <-
-                Future.fromTry(request.userAnswers.setBySeqIndex(DirectorLoanAccountLiabilitiesPage, i, value))
+                Future.fromTry(request.userAnswers.setBySeqIndex(DirectorLoanAccountLiabilitiesPage, i, adjustedValue))
               _              <- sessionService.set(updatedAnswers)
             } yield Redirect(navigator.nextPage(DirectorLoanAccountLiabilitiesPage, mode, updatedAnswers))
+          }
         )
   }
 }

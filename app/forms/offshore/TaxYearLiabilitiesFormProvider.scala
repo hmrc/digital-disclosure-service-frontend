@@ -28,50 +28,68 @@ class TaxYearLiabilitiesFormProvider @Inject() extends Mappings {
   val MAX_BIGINT        = BigInt("999999999999999999999999")
   val MAX_TEXT_BOX_SIZE = 5000
 
-  def apply(): Form[TaxYearLiabilities] = Form(
-    mapping(
-      "income"                 -> bigintWithPound(
-        "taxYearLiabilities.income.error.required",
-        "taxYearLiabilities.income.error.wholeNumber",
-        "taxYearLiabilities.income.error.nonNumeric"
-      )
-        .verifying(inRange(BigInt(0), MAX_BIGINT, "taxYearLiabilities.income.error.outOfRange")),
-      "chargeableTransfers"    -> bigintWithPound(
-        "taxYearLiabilities.chargeableTransfers.error.required",
-        "taxYearLiabilities.chargeableTransfers.error.wholeNumber",
-        "taxYearLiabilities.chargeableTransfers.error.nonNumeric"
-      )
-        .verifying(inRange(BigInt(0), MAX_BIGINT, "taxYearLiabilities.chargeableTransfers.error.outOfRange")),
-      "capitalGains"           -> bigintWithPound(
-        "taxYearLiabilities.capitalGains.error.required",
-        "taxYearLiabilities.capitalGains.error.wholeNumber",
-        "taxYearLiabilities.capitalGains.error.nonNumeric"
-      )
-        .verifying(inRange(BigInt(0), MAX_BIGINT, "taxYearLiabilities.capitalGains.error.outOfRange")),
-      "unpaidTax"              -> bigintWithPound(
-        "taxYearLiabilities.unpaidTax.error.required",
-        "taxYearLiabilities.unpaidTax.error.wholeNumber",
-        "taxYearLiabilities.unpaidTax.error.nonNumeric"
-      )
-        .verifying(inRange(BigInt(0), MAX_BIGINT, "taxYearLiabilities.unpaidTax.error.outOfRange")),
-      "interest"               -> bigintWithPound(
-        "taxYearLiabilities.interest.error.required",
-        "taxYearLiabilities.interest.error.wholeNumber",
-        "taxYearLiabilities.interest.error.nonNumeric"
-      )
-        .verifying(inRange(BigInt(0), MAX_BIGINT, "taxYearLiabilities.interest.error.outOfRange")),
-      "penaltyRate"            -> optional(decimalWithPercentage(
+  def apply(hidePenaltySection: Boolean): Form[TaxYearLiabilities] = {
+    val penaltyRateMapping: Mapping[BigDecimal] =
+      decimalWithPercentage(
         "taxYearLiabilities.penaltyRate.error.required",
         "taxYearLiabilities.penaltyRate.error.nonNumeric"
+      ).verifying(
+        inRange(
+          BigDecimal(0.00),
+          BigDecimal(200.00),
+          "taxYearLiabilities.penaltyRate.error.outOfRange"
+        )
       )
-        .verifying(inRange(BigDecimal(0.00), BigDecimal(200.00), "taxYearLiabilities.penaltyRate.error.outOfRange"))),
-      "penaltyRateReason"      -> optional(text("taxYearLiabilities.penaltyRateReason.error.required")
+    val penaltyReasonMapping: Mapping[String] =
+      text("taxYearLiabilities.penaltyRateReason.error.required", Seq.empty)
         .verifying(maxLength(MAX_TEXT_BOX_SIZE, "taxYearLiabilities.penaltyRateReason.error.length"))
-        .verifying(validUnicodeCharacters)),
-      "undeclaredIncomeOrGain" -> stringOptionalUnless("undeclaredIncomeOrGain"),
-      "foreignTaxCredit"       -> boolean("taxYearLiabilities.foreignTaxCredit.error.required")
-    )(TaxYearLiabilities.apply)(TaxYearLiabilities.unapply)
-  )
+        .verifying(validUnicodeCharacters)
+
+    Form(
+      mapping(
+        "income"                 -> bigintWithPound(
+          "taxYearLiabilities.income.error.required",
+          "taxYearLiabilities.income.error.wholeNumber",
+          "taxYearLiabilities.income.error.nonNumeric"
+        )
+          .verifying(inRange(BigInt(0), MAX_BIGINT, "taxYearLiabilities.income.error.outOfRange")),
+        "chargeableTransfers"    -> bigintWithPound(
+          "taxYearLiabilities.chargeableTransfers.error.required",
+          "taxYearLiabilities.chargeableTransfers.error.wholeNumber",
+          "taxYearLiabilities.chargeableTransfers.error.nonNumeric"
+        )
+          .verifying(inRange(BigInt(0), MAX_BIGINT, "taxYearLiabilities.chargeableTransfers.error.outOfRange")),
+        "capitalGains"           -> bigintWithPound(
+          "taxYearLiabilities.capitalGains.error.required",
+          "taxYearLiabilities.capitalGains.error.wholeNumber",
+          "taxYearLiabilities.capitalGains.error.nonNumeric"
+        )
+          .verifying(inRange(BigInt(0), MAX_BIGINT, "taxYearLiabilities.capitalGains.error.outOfRange")),
+        "unpaidTax"              -> bigintWithPound(
+          "taxYearLiabilities.unpaidTax.error.required",
+          "taxYearLiabilities.unpaidTax.error.wholeNumber",
+          "taxYearLiabilities.unpaidTax.error.nonNumeric"
+        )
+          .verifying(inRange(BigInt(0), MAX_BIGINT, "taxYearLiabilities.unpaidTax.error.outOfRange")),
+        "interest"               -> bigintWithPound(
+          "taxYearLiabilities.interest.error.required",
+          "taxYearLiabilities.interest.error.wholeNumber",
+          "taxYearLiabilities.interest.error.nonNumeric"
+        )
+          .verifying(inRange(BigInt(0), MAX_BIGINT, "taxYearLiabilities.interest.error.outOfRange")),
+        "penaltyRate" ->
+          ( if (hidePenaltySection) default[BigDecimal](penaltyRateMapping, BigDecimal(0))
+            else penaltyRateMapping
+          ),
+        "penaltyRateReason" ->
+          ( if (hidePenaltySection) default[String](penaltyReasonMapping, "")
+            else penaltyReasonMapping
+          ),
+        "undeclaredIncomeOrGain" -> stringOptionalUnless("undeclaredIncomeOrGain"),
+        "foreignTaxCredit"       -> boolean("taxYearLiabilities.foreignTaxCredit.error.required")
+      )(TaxYearLiabilities.apply)(TaxYearLiabilities.unapply)
+    )
+  }
 
   def stringOptionalUnless(field: String): Mapping[Option[String]] =
     optional(

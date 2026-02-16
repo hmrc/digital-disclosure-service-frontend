@@ -19,7 +19,7 @@ package forms
 import javax.inject.Inject
 import forms.mappings.Mappings
 import models.DirectorLoanAccountLiabilities
-import play.api.data.Form
+import play.api.data.{Form, Mapping}
 import play.api.data.Forms._
 
 import java.time.LocalDate
@@ -28,52 +28,67 @@ class DirectorLoanAccountLiabilitiesFormProvider @Inject() extends Mappings {
 
   val MAX_BIGINT = BigInt("999999999999999999999999")
 
-  def apply(): Form[DirectorLoanAccountLiabilities] = Form(
-    mapping(
-      "name"              -> text("directorLoanAccountLiabilities.name.required")
-        .verifying(maxLength(30, "directorLoanAccountLiabilities.name.invalid"))
-        .verifying(validUnicodeCharacters),
-      "periodEnd"         -> localDate(
-        "directorLoanAccountLiabilities.periodEnd.error.invalid",
-        "directorLoanAccountLiabilities.periodEnd.error.required.all",
-        "directorLoanAccountLiabilities.periodEnd.error.required",
-        "directorLoanAccountLiabilities.periodEnd.error.invalidDay",
-        "directorLoanAccountLiabilities.periodEnd.error.invalidMonth"
-      )
-        .verifying(
-          maxDate(LocalDate.now().minusDays(1), "directorLoanAccountLiabilities.periodEnd.error.invalidFuture")
-        )
-        .verifying(
-          minDate(LocalDate.now().minusYears(20), "directorLoanAccountLiabilities.periodEnd.error.invalidPastDate")
-        ),
-      "overdrawn"         -> bigintWithPound(
-        "directorLoanAccountLiabilities.overdrawn.error.required",
-        "directorLoanAccountLiabilities.overdrawn.error.wholeNumber",
-        "directorLoanAccountLiabilities.overdrawn.error.nonNumeric"
-      )
-        .verifying(inRange(BigInt(0), MAX_BIGINT, "directorLoanAccountLiabilities.overdrawn.error.outOfRange")),
-      "unpaidTax"         -> bigintWithPound(
-        "directorLoanAccountLiabilities.unpaidTax.error.required",
-        "directorLoanAccountLiabilities.unpaidTax.error.wholeNumber",
-        "directorLoanAccountLiabilities.unpaidTax.error.nonNumeric"
-      )
-        .verifying(inRange(BigInt(0), MAX_BIGINT, "directorLoanAccountLiabilities.unpaidTax.error.outOfRange")),
-      "interest"          -> bigintWithPound(
-        "directorLoanAccountLiabilities.interest.error.required",
-        "directorLoanAccountLiabilities.interest.error.wholeNumber",
-        "directorLoanAccountLiabilities.interest.error.nonNumeric"
-      )
-        .verifying(inRange(BigInt(0), MAX_BIGINT, "directorLoanAccountLiabilities.interest.error.outOfRange")),
-      "penaltyRate"       -> optional(decimalWithPercentage(
+  def apply(hidePenaltySection: Boolean): Form[DirectorLoanAccountLiabilities] = {
+    val penaltyRateMapping: Mapping[BigDecimal] =
+      decimalWithPercentage(
         "directorLoanAccountLiabilities.penaltyRate.error.required",
         "directorLoanAccountLiabilities.penaltyRate.error.nonNumeric"
+      ).verifying(
+        inRange(
+          BigDecimal(0.00),
+          BigDecimal(200.00),
+          "directorLoanAccountLiabilities.penaltyRate.error.outOfRange"
+        )
       )
-        .verifying(
-          inRange(BigDecimal(0.00), BigDecimal(200.00), "directorLoanAccountLiabilities.penaltyRate.error.outOfRange")
-        )),
-      "penaltyRateReason" -> optional(text("directorLoanAccountLiabilities.penaltyRateReason.error.required")
+    val penaltyReasonMapping: Mapping[String] =
+      text("directorLoanAccountLiabilities.penaltyRateReason.error.required", Seq.empty)
         .verifying(maxLength(5000, "directorLoanAccountLiabilities.penaltyRateReason.error.length"))
-        .verifying(validUnicodeCharacters))
-    )(DirectorLoanAccountLiabilities.apply)(DirectorLoanAccountLiabilities.unapply)
-  )
+        .verifying(validUnicodeCharacters)
+    Form(
+      mapping(
+        "name"              -> text("directorLoanAccountLiabilities.name.required")
+          .verifying(maxLength(30, "directorLoanAccountLiabilities.name.invalid"))
+          .verifying(validUnicodeCharacters),
+        "periodEnd"         -> localDate(
+          "directorLoanAccountLiabilities.periodEnd.error.invalid",
+          "directorLoanAccountLiabilities.periodEnd.error.required.all",
+          "directorLoanAccountLiabilities.periodEnd.error.required",
+          "directorLoanAccountLiabilities.periodEnd.error.invalidDay",
+          "directorLoanAccountLiabilities.periodEnd.error.invalidMonth"
+        )
+          .verifying(
+            maxDate(LocalDate.now().minusDays(1), "directorLoanAccountLiabilities.periodEnd.error.invalidFuture")
+          )
+          .verifying(
+            minDate(LocalDate.now().minusYears(20), "directorLoanAccountLiabilities.periodEnd.error.invalidPastDate")
+          ),
+        "overdrawn"         -> bigintWithPound(
+          "directorLoanAccountLiabilities.overdrawn.error.required",
+          "directorLoanAccountLiabilities.overdrawn.error.wholeNumber",
+          "directorLoanAccountLiabilities.overdrawn.error.nonNumeric"
+        )
+          .verifying(inRange(BigInt(0), MAX_BIGINT, "directorLoanAccountLiabilities.overdrawn.error.outOfRange")),
+        "unpaidTax"         -> bigintWithPound(
+          "directorLoanAccountLiabilities.unpaidTax.error.required",
+          "directorLoanAccountLiabilities.unpaidTax.error.wholeNumber",
+          "directorLoanAccountLiabilities.unpaidTax.error.nonNumeric"
+        )
+          .verifying(inRange(BigInt(0), MAX_BIGINT, "directorLoanAccountLiabilities.unpaidTax.error.outOfRange")),
+        "interest"          -> bigintWithPound(
+          "directorLoanAccountLiabilities.interest.error.required",
+          "directorLoanAccountLiabilities.interest.error.wholeNumber",
+          "directorLoanAccountLiabilities.interest.error.nonNumeric"
+        )
+          .verifying(inRange(BigInt(0), MAX_BIGINT, "directorLoanAccountLiabilities.interest.error.outOfRange")),
+        "penaltyRate" ->
+          ( if (hidePenaltySection) default[BigDecimal](penaltyRateMapping, BigDecimal(0))
+          else penaltyRateMapping
+            ),
+        "penaltyRateReason" ->
+          ( if (hidePenaltySection) default[String](penaltyReasonMapping, "")
+          else penaltyReasonMapping
+            ),
+      )(DirectorLoanAccountLiabilities.apply)(DirectorLoanAccountLiabilities.unapply)
+    )
+  }
 }

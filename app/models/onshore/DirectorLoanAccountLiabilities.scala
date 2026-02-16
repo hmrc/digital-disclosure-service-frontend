@@ -26,8 +26,8 @@ case class DirectorLoanAccountLiabilities(
   overdrawn: BigInt,
   unpaidTax: BigInt,
   interest: BigInt,
-  penaltyRate: Option[BigDecimal],
-  penaltyRateReason: Option[String]
+  penaltyRate: BigDecimal,
+  penaltyRateReason: String
 )
 
 object DirectorLoanAccountLiabilities {

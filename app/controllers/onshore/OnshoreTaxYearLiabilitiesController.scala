@@ -50,7 +50,7 @@ class OnshoreTaxYearLiabilitiesController @Inject() (
     extends FrontendBaseController
     with I18nSupport {
 
-  def form(taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]) = formProvider(taxTypes)
+  def form(taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose], hidePenaltySection: Boolean) = formProvider(taxTypes, hidePenaltySection)
 
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
@@ -61,8 +61,8 @@ class OnshoreTaxYearLiabilitiesController @Inject() (
         val hidePenaltySection = ReasonableExcuseHelper.hidePenaltyWhenReasonableExcuse(request.userAnswers)
 
         val preparedForm = request.userAnswers.getByKey(OnshoreTaxYearLiabilitiesPage, year.toString) match {
-          case None        => form(taxTypes)
-          case Some(value) => form(taxTypes).fill(value.taxYearLiabilities)
+          case None        => form(taxTypes, hidePenaltySection)
+          case Some(value) => form(taxTypes, hidePenaltySection).fill(value.taxYearLiabilities)
         }
         Ok(view(preparedForm, mode, i, year, taxTypes, hidePenaltySection))
       }
@@ -76,13 +76,18 @@ class OnshoreTaxYearLiabilitiesController @Inject() (
       val hidePenaltySection = ReasonableExcuseHelper.hidePenaltyWhenReasonableExcuse(request.userAnswers)
 
       withYearAsync(i) { year =>
-        form(taxTypes)
+        form(taxTypes, hidePenaltySection)
           .bindFromRequest()
           .fold(
             formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i, year, taxTypes, hidePenaltySection))),
             value => {
-              val taxYearWithLiabilities            = OnshoreTaxYearWithLiabilities(OnshoreYearStarting(year), value)
-              val (clearedAnswers, hasValueChanged) = changedPages(request.userAnswers, year.toString, value)
+              val adjustedValue =
+                if (hidePenaltySection) {
+                  value.copy(penaltyRate = BigDecimal(0), penaltyRateReason = "")
+                }
+                else value
+              val taxYearWithLiabilities            = OnshoreTaxYearWithLiabilities(OnshoreYearStarting(year), adjustedValue)
+              val (clearedAnswers, hasValueChanged) = changedPages(request.userAnswers, year.toString, adjustedValue)
               for {
                 userAnswers    <- Future.fromTry(clearedAnswers)
                 updatedAnswers <-
