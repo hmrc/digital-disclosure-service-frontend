@@ -37,15 +37,17 @@ object WhyYouSubmittedAnInaccurateOnshoreReturn extends Enumerable.Implicits {
     DeliberatelyInaccurate
   )
 
-  def checkboxItems()(implicit messages: Messages): Seq[CheckboxItem] =
+  def checkboxItems(areTheyTheIndividual: Boolean)(implicit messages: Messages): Seq[CheckboxItem] = {
+    val prefix = if (areTheyTheIndividual) "you" else "notYou"
     values.zipWithIndex.map { case (value, index) =>
       CheckboxItemViewModel(
-        content = Text(messages(s"WhyYouSubmittedAnInaccurateReturn.${value.toString}")),
+        content = Text(messages(s"WhyYouSubmittedAnInaccurateReturn.$prefix.${value.toString}")),
         fieldId = "value",
         index = index,
         value = value.toString
       )
     }
+  }
 
   implicit val enumerable: Enumerable[WhyYouSubmittedAnInaccurateOnshoreReturn] =
     Enumerable(values.map(v => v.toString -> v): _*)

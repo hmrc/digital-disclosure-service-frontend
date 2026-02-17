@@ -45,7 +45,7 @@ class WhyYouSubmittedAnInaccurateReturnController @Inject() (
   extends FrontendBaseController
     with I18nSupport {
 
-  val form = formProvider()
+  val form = formProvider("whyYouSubmittedAnInaccurateReturn.error.required")
 
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
     val preparedForm = request.userAnswers.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage) match {

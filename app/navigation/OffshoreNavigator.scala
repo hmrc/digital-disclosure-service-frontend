@@ -19,8 +19,7 @@ package navigation
 import javax.inject.{Inject, Singleton}
 import play.api.mvc.Call
 import controllers.offshore.routes
-import pages.{WhyDidYouNotNotifyPage, WhyYouSubmittedAnInaccurateOffshoreReturnPage, _}
-import pages.offshore.{WhyDidYouNotFileAReturnOnTimeOffshorePage}
+import pages.{WhyDidYouNotFileAReturnOnTimeOffshorePage, WhyDidYouNotNotifyPage, WhyYouSubmittedAnInaccurateOffshoreReturnPage, _}
 import models.{CarelessPriorTo, CheckMode, DeliberatePriorTo, Mode, NormalMode, ReasonableExcusePriorTo, RelatesTo, TaxYearStarting, UserAnswers}
 import models.WhyAreYouMakingThisDisclosure._
 import models.WhyDidYouNotNotify

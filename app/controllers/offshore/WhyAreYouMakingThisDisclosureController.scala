@@ -21,8 +21,7 @@ import forms.WhyAreYouMakingThisDisclosureFormProvider
 import javax.inject.Inject
 import models.{Mode, RelatesTo, UserAnswers, WhyAreYouMakingThisDisclosure}
 import navigation.OffshoreNavigator
-import pages.{WhyDidYouNotNotifyPage, WhyYouSubmittedAnInaccurateOffshoreReturnPage, _}
-import pages.offshore.{WhyDidYouNotFileAReturnOnTimeOffshorePage}
+import pages.{WhyDidYouNotFileAReturnOnTimeOffshorePage, WhyDidYouNotNotifyPage, WhyYouSubmittedAnInaccurateOffshoreReturnPage, _}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
