@@ -28,7 +28,7 @@ class CorporationTaxLiabilityFormProvider @Inject() extends Mappings {
 
   val MAX_BIGINT = BigInt("999999999999999999999999")
 
-  def apply(): Form[CorporationTaxLiability] =
+  def apply(showPenaltyQuestions: Boolean = true): Form[CorporationTaxLiability] =
     Form(
       mapping(
         "periodEnd"         -> localDate(
@@ -60,16 +60,30 @@ class CorporationTaxLiabilityFormProvider @Inject() extends Mappings {
           "corporationTaxLiability.howMuchInterest.error.nonNumeric"
         )
           .verifying(inRange(BigInt(0), MAX_BIGINT, "corporationTaxLiability.howMuchInterest.error.outOfRange")),
-        "penaltyRate"       -> decimalWithPercentage(
-          "corporationTaxLiability.penaltyRate.error.required",
-          "corporationTaxLiability.penaltyRate.error.nonNumeric"
-        )
-          .verifying(
-            inRange(BigDecimal(0.00), BigDecimal(200.00), "corporationTaxLiability.penaltyRate.error.outOfRange")
-          ),
-        "penaltyRateReason" -> text("corporationTaxLiability.penaltyRateReason.error.required")
-          .verifying(maxLength(5000, "corporationTaxLiability.penaltyRateReason.error.length"))
-          .verifying(validUnicodeCharacters)
+        "penaltyRate"       -> {
+          if (showPenaltyQuestions) {
+            decimalWithPercentage(
+              "corporationTaxLiability.penaltyRate.error.required",
+              "corporationTaxLiability.penaltyRate.error.nonNumeric"
+            )
+              .verifying(
+                inRange(BigDecimal(0.00), BigDecimal(200.00), "corporationTaxLiability.penaltyRate.error.outOfRange")
+              )
+              .transform[BigDecimal](identity, identity)
+          } else {
+            ignored(BigDecimal(0))
+          }
+        },
+        "penaltyRateReason" -> {
+          if (showPenaltyQuestions) {
+            text("corporationTaxLiability.penaltyRateReason.error.required")
+              .verifying(maxLength(5000, "corporationTaxLiability.penaltyRateReason.error.length"))
+              .verifying(validUnicodeCharacters)
+              .transform[String](identity, identity)
+          } else {
+            ignored("")
+          }
+        }
       )(CorporationTaxLiability.apply)(CorporationTaxLiability.unapply)
     )
 }

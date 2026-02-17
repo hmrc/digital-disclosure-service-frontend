@@ -25,9 +25,11 @@ sealed trait WhyYouSubmittedAnInaccurateOnshoreReturn
 
 object WhyYouSubmittedAnInaccurateOnshoreReturn extends Enumerable.Implicits {
 
-  case object NoReasonableCare       extends WithName("noReasonableCare")       with WhyYouSubmittedAnInaccurateOnshoreReturn
-  case object ReasonableMistake      extends WithName("reasonableMistake")      with WhyYouSubmittedAnInaccurateOnshoreReturn
-  case object DeliberatelyInaccurate extends WithName("deliberatelyInaccurate") with WhyYouSubmittedAnInaccurateOnshoreReturn
+  case object NoReasonableCare extends WithName("noReasonableCare") with WhyYouSubmittedAnInaccurateOnshoreReturn
+  case object ReasonableMistake extends WithName("reasonableMistake") with WhyYouSubmittedAnInaccurateOnshoreReturn
+  case object DeliberatelyInaccurate
+      extends WithName("deliberatelyInaccurate")
+      with WhyYouSubmittedAnInaccurateOnshoreReturn
 
   val values: Seq[WhyYouSubmittedAnInaccurateOnshoreReturn] = Seq(
     NoReasonableCare,
@@ -35,25 +37,17 @@ object WhyYouSubmittedAnInaccurateOnshoreReturn extends Enumerable.Implicits {
     DeliberatelyInaccurate
   )
 
-  def checkboxItems(areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit messages: Messages): Seq[CheckboxItem] =
+  def checkboxItems(areTheyTheIndividual: Boolean)(implicit messages: Messages): Seq[CheckboxItem] = {
+    val prefix = if (areTheyTheIndividual) "you" else "notYou"
     values.zipWithIndex.map { case (value, index) =>
       CheckboxItemViewModel(
-        content = Text(messages(constructMessageKey(value, areTheyTheIndividual))),
+        content = Text(messages(s"WhyYouSubmittedAnInaccurateReturn.$prefix.${value.toString}")),
         fieldId = "value",
         index = index,
         value = value.toString
       )
     }
-
-  def constructMessageKey(
-                           value: WhyYouSubmittedAnInaccurateOnshoreReturn,
-                           areTheyTheIndividual: Boolean
-                         ): String =
-    if (areTheyTheIndividual) {
-      s"WhyYouSubmittedAnInaccurateReturn.you.${value.toString}"
-    } else {
-      s"WhyYouSubmittedAnInaccurateReturn.notYou.${value.toString}"
-    }
+  }
 
   implicit val enumerable: Enumerable[WhyYouSubmittedAnInaccurateOnshoreReturn] =
     Enumerable(values.map(v => v.toString -> v): _*)
