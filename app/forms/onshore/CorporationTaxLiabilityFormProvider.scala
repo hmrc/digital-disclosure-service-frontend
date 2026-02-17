@@ -28,7 +28,7 @@ class CorporationTaxLiabilityFormProvider @Inject() extends Mappings {
 
   val MAX_BIGINT = BigInt("999999999999999999999999")
 
-  def apply(showPenaltyQuestions: Boolean = true): Form[CorporationTaxLiability] =
+  def apply(showPenaltySection: Boolean = true): Form[CorporationTaxLiability] =
     Form(
       mapping(
         "periodEnd"         -> localDate(
@@ -61,7 +61,7 @@ class CorporationTaxLiabilityFormProvider @Inject() extends Mappings {
         )
           .verifying(inRange(BigInt(0), MAX_BIGINT, "corporationTaxLiability.howMuchInterest.error.outOfRange")),
         "penaltyRate"       -> {
-          if (showPenaltyQuestions) {
+          if (showPenaltySection) {
             decimalWithPercentage(
               "corporationTaxLiability.penaltyRate.error.required",
               "corporationTaxLiability.penaltyRate.error.nonNumeric"
@@ -75,7 +75,7 @@ class CorporationTaxLiabilityFormProvider @Inject() extends Mappings {
           }
         },
         "penaltyRateReason" -> {
-          if (showPenaltyQuestions) {
+          if (showPenaltySection) {
             text("corporationTaxLiability.penaltyRateReason.error.required")
               .verifying(maxLength(5000, "corporationTaxLiability.penaltyRateReason.error.length"))
               .verifying(validUnicodeCharacters)

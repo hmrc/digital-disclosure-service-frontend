@@ -28,22 +28,7 @@ class OnshoreTaxYearLiabilitiesFormProvider @Inject() extends Mappings {
 
   val MAX_BIGINT = BigInt("999999999999999999999999")
 
-  def apply(taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose], hidePenaltySection: Boolean): Form[OnshoreTaxYearLiabilities] = {
-    val penaltyRateMapping: Mapping[BigDecimal] =
-      decimalWithPercentage(
-        "onshoreTaxYearLiabilities.penaltyRate.error.required",
-        "onshoreTaxYearLiabilities.penaltyRate.error.nonNumeric"
-      ).verifying(
-        inRange(
-          BigDecimal(0.00),
-          BigDecimal(200.00),
-          "onshoreTaxYearLiabilities.penaltyRate.error.outOfRange"
-        )
-      )
-    val penaltyReasonMapping: Mapping[String] =
-      text("onshoreTaxYearLiabilities.penaltyRateReason.error.required", Seq.empty)
-        .verifying(maxLength(5000, "onshoreTaxYearLiabilities.penaltyRateReason.error.length"))
-        .verifying(validUnicodeCharacters)
+  def apply(taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose], showPenaltySection: Boolean): Form[OnshoreTaxYearLiabilities] = {
     Form(
       mapping(
         "nonBusinessIncome"       -> bigintOptionalUnless(
@@ -77,14 +62,32 @@ class OnshoreTaxYearLiabilitiesFormProvider @Inject() extends Mappings {
           "onshoreTaxYearLiabilities.interest.error.nonNumeric"
         )
           .verifying(inRange(BigInt(0), MAX_BIGINT, "onshoreTaxYearLiabilities.interest.error.outOfRange")),
-        "penaltyRate" ->
-          ( if (hidePenaltySection) default[BigDecimal](penaltyRateMapping, BigDecimal(0))
-          else penaltyRateMapping
-            ),
-        "penaltyRateReason" ->
-          ( if (hidePenaltySection) default[String](penaltyReasonMapping, "")
-          else penaltyReasonMapping
-            ),
+        "penaltyRate" -> {
+          if (showPenaltySection) {
+            decimalWithPercentage(
+              "onshoreTaxYearLiabilities.penaltyRate.error.required",
+              "onshoreTaxYearLiabilities.penaltyRate.error.nonNumeric"
+            ).verifying(
+              inRange(
+                BigDecimal(0.00),
+                BigDecimal(200.00),
+                "onshoreTaxYearLiabilities.penaltyRate.error.outOfRange"
+              )
+            ).transform[BigDecimal](identity, identity)
+          } else {
+            ignored(BigDecimal(0))
+          }
+        },
+        "penaltyRateReason" -> {
+          if (showPenaltySection) {
+            text("onshoreTaxYearLiabilities.penaltyRateReason.error.required", Seq.empty)
+              .verifying(maxLength(5000, "onshoreTaxYearLiabilities.penaltyRateReason.error.length"))
+              .verifying(validUnicodeCharacters)
+              .transform[String](identity, identity)
+          } else {
+            ignored("")
+          }
+        },
         "undeclaredIncomeOrGain"  -> stringOptionalUnless("undeclaredIncomeOrGain"),
         "residentialTaxReduction" -> optional(boolean("onshoreTaxYearLiabilities.residentialTaxReduction.error.required"))
           .verifying(

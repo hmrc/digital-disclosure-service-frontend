@@ -49,30 +49,30 @@ class TaxYearLiabilitiesController @Inject() (
     extends FrontendBaseController
     with I18nSupport {
 
-  def form(hidePenaltySection: Boolean) = formProvider(hidePenaltySection)
+  def form(showPenaltySection: Boolean) = formProvider(showPenaltySection)
 
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-      val hidePenaltySection = ReasonableExcuseHelper.hidePenaltyWhenReasonableExcuse(request.userAnswers)
+      val showPenaltySection = ReasonableExcuseHelper.showPenaltyWhenNotReasonableExcuse(request.userAnswers)
       withYear(i) { year =>
         val preparedForm = request.userAnswers.getByKey(TaxYearLiabilitiesPage, year.toString) match {
-          case None        => form(hidePenaltySection)
-          case Some(value) => form(hidePenaltySection).fill(value.taxYearLiabilities)
+          case None        => form(showPenaltySection)
+          case Some(value) => form(showPenaltySection).fill(value.taxYearLiabilities)
         }
 
-        Ok(view(preparedForm, mode, i, year,hidePenaltySection))
+        Ok(view(preparedForm, mode, i, year,showPenaltySection))
       }
 
   }
 
   def onSubmit(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-      val hidePenaltySection = ReasonableExcuseHelper.hidePenaltyWhenReasonableExcuse(request.userAnswers)
+      val showPenaltySection = ReasonableExcuseHelper.showPenaltyWhenNotReasonableExcuse(request.userAnswers)
       withYearAsync(i) { year =>
-        form(hidePenaltySection)
+        form(showPenaltySection)
           .bindFromRequest()
           .fold(
-            formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i, year, hidePenaltySection))),
+            formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i, year, showPenaltySection))),
             value => {
               val taxYearWithLiabilities            = TaxYearWithLiabilities(TaxYearStarting(year), value)
               val (clearedAnswers, hasValueChanged) = changedPages(request.userAnswers, year.toString, value)

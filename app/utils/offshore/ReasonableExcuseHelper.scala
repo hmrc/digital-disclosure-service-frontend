@@ -17,32 +17,26 @@
 package utils.offshore
 
 import models.{UserAnswers, WhyDidYouNotFileAReturnOnTimeOffshore, WhyDidYouNotNotify, WhyYouSubmittedAnInaccurateReturn}
-import pages.{WhyDidYouNotNotifyPage, WhyYouSubmittedAnInaccurateOffshoreReturnPage, WhyDidYouNotFileAReturnOnTimeOffshorePage}
+import pages.{WhyDidYouNotFileAReturnOnTimeOffshorePage, WhyDidYouNotNotifyPage, WhyYouSubmittedAnInaccurateOffshoreReturnPage}
 
 object ReasonableExcuseHelper {
 
-  def hidePenaltyWhenReasonableExcuse(userAnswers: UserAnswers): Boolean = {
+  def showPenaltyWhenNotReasonableExcuse(userAnswers: UserAnswers): Boolean = {
 
-    val inaccurateSelections = userAnswers.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).getOrElse(Set())
+    val inaccurateSelections = userAnswers.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).getOrElse(Set.empty)
 
-    val lateReturnSelections = userAnswers.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).getOrElse(Set())
+    val lateReturnSelections = userAnswers.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).getOrElse(Set.empty)
 
-    val notifySelections = userAnswers.get(WhyDidYouNotNotifyPage).getOrElse(Set())
+    val notifySelections = userAnswers.get(WhyDidYouNotNotifyPage).getOrElse(Set.empty)
 
-    val reasonableSelected =
-      inaccurateSelections.contains(WhyYouSubmittedAnInaccurateReturn.ReasonableMistake) ||
-      lateReturnSelections.contains(WhyDidYouNotFileAReturnOnTimeOffshore.ReasonableExcuse) ||
-      notifySelections.contains(WhyDidYouNotNotify.ReasonableExcuse)
+    val allSelections: Set[Any] = inaccurateSelections ++ lateReturnSelections ++ notifySelections
 
+    val reasonableOnly: Set[Any] = Set(
+      WhyDidYouNotFileAReturnOnTimeOffshore.ReasonableExcuse,
+      WhyDidYouNotNotify.ReasonableExcuse,
+      WhyYouSubmittedAnInaccurateReturn.ReasonableMistake
+    )
 
-    val noOtherSelections =
-      inaccurateSelections.size <= 1 &&
-        lateReturnSelections.size <= 1 &&
-        notifySelections.size <= 1 &&
-        inaccurateSelections.forall(_ == WhyYouSubmittedAnInaccurateReturn.ReasonableMistake) &&
-        lateReturnSelections.forall(_ == WhyDidYouNotFileAReturnOnTimeOffshore.ReasonableExcuse) &&
-        notifySelections.forall(_ == WhyDidYouNotNotify.ReasonableExcuse)
-
-    reasonableSelected && noOtherSelections
+    !(allSelections.nonEmpty && allSelections.subsetOf(reasonableOnly))
   }
 }

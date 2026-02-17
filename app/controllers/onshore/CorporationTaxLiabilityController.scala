@@ -30,6 +30,7 @@ import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
+import utils.onshore.ReasonableExcuseHelper
 import views.html.onshore.CorporationTaxLiabilityView
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -50,51 +51,32 @@ class CorporationTaxLiabilityController @Inject() (
 
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-      val showPenaltyQuestions = shouldShowPenaltyQuestions(request.userAnswers)
-      val form = formProvider(showPenaltyQuestions)
+      val showPenaltySection = ReasonableExcuseHelper.showPenaltyWhenNotReasonableExcuse(request.userAnswers)
+      val form = formProvider(showPenaltySection)
 
       val preparedForm = request.userAnswers.getBySeqIndex(CorporationTaxLiabilityPage, i) match {
         case None        => form
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode, i, showPenaltyQuestions))
+      Ok(view(preparedForm, mode, i, showPenaltySection))
 
   }
 
   def onSubmit(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-      val showPenaltyQuestions = shouldShowPenaltyQuestions(request.userAnswers)
-      val form = formProvider(showPenaltyQuestions)
+      val showPenaltySection = ReasonableExcuseHelper.showPenaltyWhenNotReasonableExcuse(request.userAnswers)
+      val form = formProvider(showPenaltySection)
 
       form
         .bindFromRequest()
         .fold(
-          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i, showPenaltyQuestions))),
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i, showPenaltySection))),
           value =>
             for {
               updatedAnswers <- Future.fromTry(request.userAnswers.setBySeqIndex(CorporationTaxLiabilityPage, i, value))
               _              <- sessionService.set(updatedAnswers)
             } yield Redirect(navigator.nextPage(CorporationTaxLiabilityPage, mode, updatedAnswers))
         )
-  }
-
-  private def shouldShowPenaltyQuestions(userAnswers: UserAnswers): Boolean = {
-    import models.WhyDidYouNotNotifyOnshore._
-    import models.WhyDidYouNotFileAReturnOnTimeOnshore._
-    import pages._
-
-    val page2aSelections = userAnswers.get(WhyDidYouNotNotifyOnshorePage).getOrElse(Set.empty)
-    val page2bSelections = userAnswers.get(WhyDidYouNotFileAReturnOnTimeOnshorePage).getOrElse(Set.empty)
-    val page2cSelections = userAnswers.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).getOrElse(Set.empty)
-
-    val allSelections: Set[Any] = page2aSelections ++ page2bSelections ++ page2cSelections
-
-    val reasonableOnly: Set[Any] = Set(
-      ReasonableExcuseOnshore,
-      ReasonableExcuse,
-      ReasonableMistake
-    )
-    !(allSelections.nonEmpty && allSelections.subsetOf(reasonableOnly))
   }
 }

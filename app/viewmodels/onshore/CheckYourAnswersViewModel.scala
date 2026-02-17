@@ -114,7 +114,7 @@ class CheckYourAnswersViewModelCreation @Inject() (
 
     val liabilities = yearWithLiabilites.taxYearLiabilities
 
-    val hidePenaltySection = ReasonableExcuseHelper.hidePenaltyWhenReasonableExcuse(userAnswers)
+    val showPenaltySection = ReasonableExcuseHelper.showPenaltyWhenNotReasonableExcuse(userAnswers)
 
     val nonBusinessIncome = userAnswers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage) match {
       case Some(value) if value.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.NonBusinessIncome) =>
@@ -205,7 +205,7 @@ class CheckYourAnswersViewModelCreation @Inject() (
     }
 
     val penaltyRate =
-      if (!hidePenaltySection)
+      if (showPenaltySection)
         Seq(
           rowCase(
             i,
@@ -219,7 +219,7 @@ class CheckYourAnswersViewModelCreation @Inject() (
         ) else Nil
 
     val penaltyRateReason =
-      if (!hidePenaltySection)
+      if (showPenaltySection)
         Seq(
           rowCase(
             i,

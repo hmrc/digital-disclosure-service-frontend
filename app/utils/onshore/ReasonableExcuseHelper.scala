@@ -16,33 +16,31 @@
 
 package utils.onshore
 
-import models.{UserAnswers, WhyDidYouNotFileAReturnOnTimeOnshore, WhyDidYouNotNotifyOnshore, WhyYouSubmittedAnInaccurateOnshoreReturn}
+import models.WhyDidYouNotFileAReturnOnTimeOnshore.ReasonableExcuse
+import models.WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore
+import models.WhyYouSubmittedAnInaccurateOnshoreReturn.ReasonableMistake
+import models.UserAnswers
 import pages.onshore.WhyDidYouNotFileAReturnOnTimeOnshorePage
 import pages.{WhyDidYouNotNotifyOnshorePage, WhyYouSubmittedAnInaccurateOnshoreReturnPage}
 
 object ReasonableExcuseHelper {
 
-  def hidePenaltyWhenReasonableExcuse(userAnswers: UserAnswers): Boolean = {
+  def showPenaltyWhenNotReasonableExcuse(userAnswers: UserAnswers): Boolean = {
 
-    val inaccurateSelections = userAnswers.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).getOrElse(Set())
+    val inaccurateSelections = userAnswers.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).getOrElse(Set.empty)
 
-    val lateReturnSelections = userAnswers.get(WhyDidYouNotFileAReturnOnTimeOnshorePage).getOrElse(Set())
+    val lateReturnSelections = userAnswers.get(WhyDidYouNotFileAReturnOnTimeOnshorePage).getOrElse(Set.empty)
 
-    val notifySelections = userAnswers.get(WhyDidYouNotNotifyOnshorePage).getOrElse(Set())
+    val notifySelections = userAnswers.get(WhyDidYouNotNotifyOnshorePage).getOrElse(Set.empty)
 
-    val reasonableSelected =
-      inaccurateSelections.contains(WhyYouSubmittedAnInaccurateOnshoreReturn.ReasonableMistake) ||
-      lateReturnSelections.contains(WhyDidYouNotFileAReturnOnTimeOnshore.ReasonableExcuse) ||
-      notifySelections.contains(WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore)
+    val allSelections: Set[Any] = inaccurateSelections ++ lateReturnSelections ++ notifySelections
 
-    val noOtherSelections =
-      inaccurateSelections.size <= 1 &&
-        lateReturnSelections.size <= 1 &&
-        notifySelections.size <= 1 &&
-        inaccurateSelections.forall(_ == WhyYouSubmittedAnInaccurateOnshoreReturn.ReasonableMistake) &&
-        lateReturnSelections.forall(_ == WhyDidYouNotFileAReturnOnTimeOnshore.ReasonableExcuse) &&
-        notifySelections.forall(_ == WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore)
+    val reasonableOnly: Set[Any] = Set(
+      ReasonableExcuseOnshore,
+      ReasonableExcuse,
+      ReasonableMistake
+    )
 
-    reasonableSelected && noOtherSelections
+    !(allSelections.nonEmpty && allSelections.subsetOf(reasonableOnly))
   }
 }
