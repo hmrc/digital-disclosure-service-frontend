@@ -100,7 +100,6 @@ class OffshoreNavigator @Inject() () {
         (ua.get(ContractualDisclosureFacilityPage)) match {
           case Some(false) => routes.YouHaveLeftTheDDSController.onPageLoad(NormalMode)
           case Some(true) =>
-            // Check if we need to continue to remaining Page 2s
             if (page1Selections.contains(DidNotNotifyHMRC) && ua.get(WhyDidYouNotNotifyPage).isEmpty) {
               routes.WhyDidYouNotNotifyController.onPageLoad(NormalMode)
             } else if (page1Selections.contains(DidNotFile) && ua.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).isEmpty) {
