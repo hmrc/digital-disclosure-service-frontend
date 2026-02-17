@@ -95,8 +95,6 @@ class CorporationTaxLiabilityController @Inject() (
       ReasonableExcuse,
       ReasonableMistake
     )
-
-    // Show penalties UNLESS user selected ONLY reasonable excuse/care
     !(allSelections.nonEmpty && allSelections.subsetOf(reasonableOnly))
   }
 }
