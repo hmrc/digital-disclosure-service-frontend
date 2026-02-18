@@ -35,7 +35,7 @@ class OnshoreTaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider                  = new OnshoreTaxYearLiabilitiesFormProvider()
-  val form                          = formProvider(Set())
+  val form                          = formProvider(Set(), true)
   val whichYears: Set[OnshoreYears] = Set(OnshoreYearStarting(2021))
   val userAnswersWithTaxYears       =
     UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, whichYears).success.value
@@ -55,7 +55,7 @@ class OnshoreTaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar
       val view = application.injector.instanceOf[OnshoreTaxYearLiabilitiesView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, NormalMode, 0, 2021, Set())(request, messages).toString
+      contentAsString(result) mustEqual view(form, NormalMode, 0, 2021, Set(), true)(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -91,7 +91,7 @@ class OnshoreTaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(answer), NormalMode, 0, 2021, Set())(request, messages).toString
+      contentAsString(result) mustEqual view(form.fill(answer), NormalMode, 0, 2021, Set(), true)(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -131,7 +131,7 @@ class OnshoreTaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, 0, 2021, Set())(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode, 0, 2021, Set(), true)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

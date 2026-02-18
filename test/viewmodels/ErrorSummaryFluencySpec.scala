@@ -26,7 +26,7 @@ import viewmodels.govuk.ErrorSummaryFluency
 class ErrorSummaryFluencySpec extends SpecBase with ErrorSummaryFluency {
 
   "check all required field errors are in order for onshore tax year liabilities view" in {
-    val form                       = new OnshoreTaxYearLiabilitiesFormProvider()(Set(NonBusinessIncome, BusinessIncome, LettingIncome, Gains))
+    val form                       = new OnshoreTaxYearLiabilitiesFormProvider()(Set(NonBusinessIncome, BusinessIncome, LettingIncome, Gains), true)
     implicit val message: Messages = messages
 
     val errorSummary = ErrorSummaryViewModel(

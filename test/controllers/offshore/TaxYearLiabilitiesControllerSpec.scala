@@ -35,7 +35,7 @@ class TaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider                   = new TaxYearLiabilitiesFormProvider()
-  val form                           = formProvider()
+  val form                           = formProvider(true)
   val whichYears: Set[OffshoreYears] = Set(TaxYearStarting(2021))
   val userAnswersWithTaxYears        = UserAnswers(userAnswersId, "session-123").set(WhichYearsPage, whichYears).success.value
 
@@ -54,7 +54,7 @@ class TaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
       val view = application.injector.instanceOf[TaxYearLiabilitiesView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, NormalMode, 0, 2021)(request, messages).toString
+      contentAsString(result) mustEqual view(form, NormalMode, 0, 2021, true)(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -85,7 +85,7 @@ class TaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(answer), NormalMode, 0, 2021)(request, messages).toString
+      contentAsString(result) mustEqual view(form.fill(answer), NormalMode, 0, 2021, true)(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -128,7 +128,7 @@ class TaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, 0, 2021)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode, 0, 2021, true)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

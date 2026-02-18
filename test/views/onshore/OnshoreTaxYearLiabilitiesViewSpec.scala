@@ -26,12 +26,12 @@ import models.{NormalMode, WhatOnshoreLiabilitiesDoYouNeedToDisclose}
 class OnshoreTaxYearLiabilitiesViewSpec extends ViewSpecBase with ViewMatchers {
 
   def form(taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]) = new OnshoreTaxYearLiabilitiesFormProvider()(
-    taxTypes
+    taxTypes, true
   )
   val page: OnshoreTaxYearLiabilitiesView                            = inject[OnshoreTaxYearLiabilitiesView]
 
   private def createView(taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]): Html =
-    page(form(taxTypes), NormalMode, 0, 2021, taxTypes)(request, messages)
+    page(form(taxTypes), NormalMode, 0, 2021, taxTypes, showPenaltySection = true)(request, messages)
 
   "view with no types selected" should {
 

@@ -25,12 +25,12 @@ import models.NormalMode
 
 class DirectorLoanAccountLiabilitiesViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form                                     = new DirectorLoanAccountLiabilitiesFormProvider()()
+  val form                                     = new DirectorLoanAccountLiabilitiesFormProvider()(true)
   val page: DirectorLoanAccountLiabilitiesView = inject[DirectorLoanAccountLiabilitiesView]
 
   val index = 0
 
-  private def createView: Html = page(form, NormalMode, 0)(request, messages)
+  private def createView: Html = page(form, NormalMode, 0,showPenaltySection = true)(request, messages)
 
   "view" should {
 

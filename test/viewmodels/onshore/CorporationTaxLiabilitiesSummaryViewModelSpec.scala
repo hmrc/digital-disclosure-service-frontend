@@ -68,7 +68,7 @@ class CorporationTaxLiabilitiesSummaryViewModelSpec extends SpecBase with ScalaC
       )
 
       val summaryList = new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText)
-        .corporationTaxLiabilityToSummaryList(0, corporationTaxLiability, revealFullText)
+        .corporationTaxLiabilityToSummaryList(0, corporationTaxLiability, revealFullText,true)
 
       summaryList.rows(1).key mustEqual Key(Text(mess("corporationTaxLiability.howMuchIncome.checkYourAnswersLabel")))
       summaryList.rows(1).value mustEqual ValueViewModel(HtmlContent(s"&pound;0"))

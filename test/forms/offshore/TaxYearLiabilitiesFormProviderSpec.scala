@@ -20,12 +20,12 @@ import forms.behaviours.{BigDecimalFieldBehaviours, BigIntFieldBehaviours, IntFi
 import play.api.data.FormError
 
 class TaxYearLiabilitiesFormProviderSpec
-    extends IntFieldBehaviours
+  extends IntFieldBehaviours
     with BigIntFieldBehaviours
     with BigDecimalFieldBehaviours
     with StringFieldBehaviours {
 
-  val form = new TaxYearLiabilitiesFormProvider()()
+  val form = new TaxYearLiabilitiesFormProvider()(true)
 
   Seq(
     "chargeableTransfers",
