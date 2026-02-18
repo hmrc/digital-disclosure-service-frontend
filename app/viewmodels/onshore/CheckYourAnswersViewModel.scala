@@ -20,14 +20,15 @@ import models._
 import models.store.FullDisclosure
 import models.store.disclosure.OnshoreLiabilities
 import viewmodels.{ONSHORE, RevealFullText, RowHelper, TotalAmounts}
-import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryList
+import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{SummaryList, SummaryListRow}
 import viewmodels.govuk.summarylist._
 import viewmodels.checkAnswers._
-import pages.{OnshoreTaxYearLiabilitiesPage, WhatOnshoreLiabilitiesDoYouNeedToDisclosePage}
+import pages.{OnshoreTaxYearLiabilitiesPage, WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, WhyAreYouMakingThisOnshoreDisclosurePage}
 import play.api.i18n.Messages
 import com.google.inject.{Inject, Singleton}
 import services.UAToDisclosureService
 import utils.onshore.ReasonableExcuseHelper
+import viewmodels.checkAnswers.onshore.{WhyDidYouNotFileAReturnOnTimeOnshoreSummary, WhyDidYouNotNotifySummary, WhyYouSubmittedAnInaccurateReturnSummary}
 
 import scala.math.BigDecimal.RoundingMode
 
@@ -52,10 +53,31 @@ class CheckYourAnswersViewModelCreation @Inject() (
 
   def create(userAnswers: UserAnswers)(implicit messages: Messages): CheckYourAnswersViewModel = {
 
-    val summaryList = SummaryListViewModel(
-      rows = Seq(
-        WhatOnshoreLiabilitiesDoYouNeedToDiscloseSummary.row(userAnswers),
+    val selectedReasons = userAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage).getOrElse(Set.empty)
+
+    val optionalRows: Seq[SummaryListRow] =
+      Seq(
         WhyAreYouMakingThisOnshoreDisclosureSummary.row(userAnswers),
+        Option.when(
+          selectedReasons.contains(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC)
+        )(
+          WhyDidYouNotNotifySummary.row(userAnswers)
+        ).flatten,
+        Option.when(
+          selectedReasons.contains(WhyAreYouMakingThisOnshoreDisclosure.DidNotFile)
+        )(
+          WhyDidYouNotFileAReturnOnTimeOnshoreSummary.row(userAnswers)
+        ).flatten,
+        Option.when(
+          selectedReasons.contains(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn)
+        )(
+          WhyYouSubmittedAnInaccurateReturnSummary.row(userAnswers)
+        ).flatten
+      ).flatten
+
+    val mandatoryRows: Seq[SummaryListRow] =
+      Seq(
+        WhatOnshoreLiabilitiesDoYouNeedToDiscloseSummary.row(userAnswers),
         CDFOnshoreSummary.row(userAnswers),
         ReasonableExcuseOnshoreSummary.row("excuse", userAnswers, revealFullText),
         ReasonableExcuseOnshoreSummary.row("years", userAnswers, revealFullText),
@@ -74,6 +96,9 @@ class CheckYourAnswersViewModelCreation @Inject() (
         WhichLandlordAssociationsAreYouAMemberOfSummary.row(userAnswers, revealFullText),
         HowManyPropertiesDoYouCurrentlyLetOutSummary.row(userAnswers)
       ).flatten
+
+    val summaryList = SummaryListViewModel(
+      rows = optionalRows ++ mandatoryRows
     )
 
     val taxYears: Seq[OnshoreTaxYearWithLiabilities] = for {

@@ -17,16 +17,17 @@
 package viewmodels.offshore
 
 import models._
-import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryList
+import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{SummaryList, SummaryListRow}
 import viewmodels.govuk.summarylist._
 import viewmodels.checkAnswers._
 import viewmodels.OFFSHORE
-import pages.{ForeignTaxCreditPage, TaxYearLiabilitiesPage}
+import pages.{ForeignTaxCreditPage, TaxYearLiabilitiesPage, WhyAreYouMakingThisDisclosurePage}
 import play.api.i18n.Messages
 import com.google.inject.{Inject, Singleton}
 import utils.offshore.ReasonableExcuseHelper
 import viewmodels.RowHelper
 import viewmodels.RevealFullText
+import viewmodels.checkAnswers.offshore.{WhyDidYouNotFileAReturnOnTimeOffshoreSummary, WhyDidYouNotNotifySummary, WhyYouSubmittedAnInaccurateReturnSummary}
 
 import scala.math.BigDecimal.RoundingMode
 
@@ -48,10 +49,30 @@ class CheckYourAnswersViewModelCreation @Inject() (
 ) extends RowHelper {
 
   def create(userAnswers: UserAnswers)(implicit messages: Messages): CheckYourAnswersViewModel = {
+    val selectedReasons = userAnswers.get(WhyAreYouMakingThisDisclosurePage).getOrElse(Set.empty)
 
-    val summaryList = SummaryListViewModel(
-      rows = Seq(
+    val optionalRows: Seq[SummaryListRow] =
+      Seq(
         WhyAreYouMakingThisDisclosureSummary.row(userAnswers),
+        Option.when(
+          selectedReasons.contains(WhyAreYouMakingThisDisclosure.DidNotNotifyHMRC)
+        )(
+          WhyDidYouNotNotifySummary.row(userAnswers)
+        ).flatten,
+        Option.when(
+          selectedReasons.contains(WhyAreYouMakingThisDisclosure.DidNotFile)
+        )(
+          WhyDidYouNotFileAReturnOnTimeOffshoreSummary.row(userAnswers)
+        ).flatten,
+        Option.when(
+          selectedReasons.contains(WhyAreYouMakingThisDisclosure.InaccurateReturn)
+        )(
+          WhyYouSubmittedAnInaccurateReturnSummary.row(userAnswers)
+        ).flatten
+      ).flatten
+
+    val mandatoryRows: Seq[SummaryListRow] =
+      Seq(
         ContractualDisclosureFacilitySummary.row(userAnswers),
         WhatIsYourReasonableExcuseSummary.row("excuse", userAnswers, revealFullText),
         WhatIsYourReasonableExcuseSummary.row("years", userAnswers, revealFullText),
@@ -67,6 +88,9 @@ class CheckYourAnswersViewModelCreation @Inject() (
         taxBeforeSevenYearsSummary.row(userAnswers, revealFullText),
         taxBeforeNineteenYearSummary.row(userAnswers, revealFullText)
       ).flatten
+
+    val summaryList = SummaryListViewModel(
+      rows = optionalRows ++ mandatoryRows
     )
 
     val taxYears: Seq[TaxYearWithLiabilities] = for {

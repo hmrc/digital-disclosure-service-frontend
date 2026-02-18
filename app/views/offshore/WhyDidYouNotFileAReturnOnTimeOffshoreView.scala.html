@@ -51,7 +51,7 @@
                 legend = LegendViewModel(messages(s"whyDidYouNotFileAReturnOnTime.$entity.describeOption")).withCssClass("govuk-fieldset__legend--m"),
                 items  = WhyDidYouNotFileAReturnOnTimeOffshore.checkboxItems(areTheyTheIndividual, entity)
             ).withHint(
-            Hint(content = Text(messages(s"whyDidYouNotFileAReturnOnTime.$entity.selectAllTheReasons")))
+            Hint(content = Text(messages(s"whyDidYouNotFileAReturnOnTime.hint")))
             )
         )
 
