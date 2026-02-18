@@ -24,6 +24,7 @@ import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages._
+import pages.onshore.WhyDidYouNotFileAReturnOnTimeOnshorePage
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
@@ -175,44 +176,39 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
 
   "getPages" - {
 
-    "return deliberate pages when a deliberate option was not selected" in {
+    "return Page 2a when DidNotNotifyHMRC is not selected" in {
       val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(
-        WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHasExcuse,
-        WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnWithCare,
-        WhyAreYouMakingThisOnshoreDisclosure.NotFileHasExcuse,
-        WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnNoCare
+        WhyAreYouMakingThisOnshoreDisclosure.DidNotFile,
+        WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn
       )
-      val expectedPages                                  = List(CDFOnshorePage, TaxBeforeNineteenYearsOnshorePage)
+      val expectedPages = List(WhyDidYouNotNotifyOnshorePage)
       WhyAreYouMakingThisOnshoreDisclosureController.getPages(set) mustEqual expectedPages
     }
 
-    "return tax before five years page when all options other than InaccurateReturnNoCare was selected" in {
+    "return Page 2b when DidNotFile is not selected" in {
       val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(
-        WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnNoCare
+        WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC,
+        WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn
       )
-      val expectedPages                                  = List(
-        CDFOnshorePage,
-        TaxBeforeNineteenYearsOnshorePage,
-        ReasonableExcuseOnshorePage,
-        ReasonableCareOnshorePage,
-        ReasonableExcuseForNotFilingOnshorePage,
-        TaxBeforeThreeYearsOnshorePage
-      )
+      val expectedPages = List(WhyDidYouNotFileAReturnOnTimeOnshorePage)
       WhyAreYouMakingThisOnshoreDisclosureController.getPages(set) mustEqual expectedPages
     }
 
-    "return all pages other than the deliberate ones where only a deliberate excuse is now selected" in {
+    "return Page 2c when InaccurateReturn is not selected" in {
       val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(
-        WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyNoExcuse
+        WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC,
+        WhyAreYouMakingThisOnshoreDisclosure.DidNotFile
       )
-      val expectedPages                                  = List(
-        ReasonableExcuseOnshorePage,
-        ReasonableCareOnshorePage,
-        ReasonableExcuseForNotFilingOnshorePage,
-        TaxBeforeThreeYearsOnshorePage,
-        TaxBeforeFiveYearsOnshorePage
-      )
+      val expectedPages = List(WhyYouSubmittedAnInaccurateOnshoreReturnPage)
       WhyAreYouMakingThisOnshoreDisclosureController.getPages(set) mustEqual expectedPages
+    }
+
+    "return all Page 2s when all Page 1 options are deselected" in {
+      val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set.empty
+      val result = WhyAreYouMakingThisOnshoreDisclosureController.getPages(set)
+      result must contain (WhyDidYouNotNotifyOnshorePage)
+      result must contain (WhyDidYouNotFileAReturnOnTimeOnshorePage)
+      result must contain (WhyYouSubmittedAnInaccurateOnshoreReturnPage)
     }
 
   }
