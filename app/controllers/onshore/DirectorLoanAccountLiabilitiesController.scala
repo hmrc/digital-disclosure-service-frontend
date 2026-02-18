@@ -46,28 +46,28 @@ class DirectorLoanAccountLiabilitiesController @Inject() (
     extends FrontendBaseController
     with I18nSupport {
 
-  val form = formProvider()
+  def form(showPenaltySection: Boolean) = formProvider(showPenaltySection)
 
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-      val hidePenaltySection = ReasonableExcuseHelper.hidePenaltyWhenReasonableExcuse(request.userAnswers)
+      val showPenaltySection = ReasonableExcuseHelper.showPenaltyWhenNotReasonableExcuse(request.userAnswers)
 
       val preparedForm = request.userAnswers.getBySeqIndex(DirectorLoanAccountLiabilitiesPage, i) match {
-        case None        => form
-        case Some(value) => form.fill(value)
+        case None        => form(showPenaltySection)
+        case Some(value) => form(showPenaltySection).fill(value)
       }
 
-      Ok(view(preparedForm, mode, i, hidePenaltySection))
+      Ok(view(preparedForm, mode, i, showPenaltySection))
   }
 
   def onSubmit(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-      val hidePenaltySection = ReasonableExcuseHelper.hidePenaltyWhenReasonableExcuse(request.userAnswers)
+      val showPenaltySection = ReasonableExcuseHelper.showPenaltyWhenNotReasonableExcuse(request.userAnswers)
 
-      form
+      form(showPenaltySection)
         .bindFromRequest()
         .fold(
-          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i, hidePenaltySection))),
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i, showPenaltySection))),
           value =>
             for {
               updatedAnswers <-

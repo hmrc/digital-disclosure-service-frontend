@@ -28,59 +28,77 @@ class OnshoreTaxYearLiabilitiesFormProvider @Inject() extends Mappings {
 
   val MAX_BIGINT = BigInt("999999999999999999999999")
 
-  def apply(taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]): Form[OnshoreTaxYearLiabilities] = Form(
-    mapping(
-      "nonBusinessIncome"       -> bigintOptionalUnless(
-        "nonBusinessIncome",
-        taxTypes.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.NonBusinessIncome)
-      ),
-      "businessIncome"          -> bigintOptionalUnless(
-        "businessIncome",
-        taxTypes.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.BusinessIncome)
-      ),
-      "lettingIncome"           -> bigintOptionalUnless(
-        "lettingIncome",
-        taxTypes.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)
-      ),
-      "gains"                   -> bigintOptionalUnless("gains", taxTypes.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.Gains)),
-      "unpaidTax"               -> bigintWithPound(
-        "onshoreTaxYearLiabilities.unpaidTax.error.required",
-        "onshoreTaxYearLiabilities.unpaidTax.error.wholeNumber",
-        "onshoreTaxYearLiabilities.unpaidTax.error.nonNumeric"
-      )
-        .verifying(inRange(BigInt(0), MAX_BIGINT, "onshoreTaxYearLiabilities.unpaidTax.error.outOfRange")),
-      "niContributions"         -> bigintWithPound(
-        "onshoreTaxYearLiabilities.niContributions.error.required",
-        "onshoreTaxYearLiabilities.niContributions.error.wholeNumber",
-        "onshoreTaxYearLiabilities.niContributions.error.nonNumeric"
-      )
-        .verifying(inRange(BigInt(0), MAX_BIGINT, "onshoreTaxYearLiabilities.niContributions.error.outOfRange")),
-      "interest"                -> bigintWithPound(
-        "onshoreTaxYearLiabilities.interest.error.required",
-        "onshoreTaxYearLiabilities.interest.error.wholeNumber",
-        "onshoreTaxYearLiabilities.interest.error.nonNumeric"
-      )
-        .verifying(inRange(BigInt(0), MAX_BIGINT, "onshoreTaxYearLiabilities.interest.error.outOfRange")),
-      "penaltyRate"             -> decimalWithPercentage(
-        "onshoreTaxYearLiabilities.penaltyRate.error.required",
-        "onshoreTaxYearLiabilities.penaltyRate.error.nonNumeric"
-      )
-        .verifying(
-          inRange(BigDecimal(0.00), BigDecimal(200.00), "onshoreTaxYearLiabilities.penaltyRate.error.outOfRange")
+  def apply(taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose], showPenaltySection: Boolean): Form[OnshoreTaxYearLiabilities] = {
+    Form(
+      mapping(
+        "nonBusinessIncome"       -> bigintOptionalUnless(
+          "nonBusinessIncome",
+          taxTypes.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.NonBusinessIncome)
         ),
-      "penaltyRateReason"       -> text("onshoreTaxYearLiabilities.penaltyRateReason.error.required")
-        .verifying(maxLength(5000, "onshoreTaxYearLiabilities.penaltyRateReason.error.length"))
-        .verifying(validUnicodeCharacters),
-      "undeclaredIncomeOrGain"  -> stringOptionalUnless("undeclaredIncomeOrGain"),
-      "residentialTaxReduction" -> optional(boolean("onshoreTaxYearLiabilities.residentialTaxReduction.error.required"))
-        .verifying(
-          optionalUnless(
-            taxTypes.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome),
-            "onshoreTaxYearLiabilities.residentialTaxReduction.error.required"
-          )
+        "businessIncome"          -> bigintOptionalUnless(
+          "businessIncome",
+          taxTypes.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.BusinessIncome)
+        ),
+        "lettingIncome"           -> bigintOptionalUnless(
+          "lettingIncome",
+          taxTypes.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)
+        ),
+        "gains"                   -> bigintOptionalUnless("gains", taxTypes.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.Gains)),
+        "unpaidTax"               -> bigintWithPound(
+          "onshoreTaxYearLiabilities.unpaidTax.error.required",
+          "onshoreTaxYearLiabilities.unpaidTax.error.wholeNumber",
+          "onshoreTaxYearLiabilities.unpaidTax.error.nonNumeric"
         )
-    )(OnshoreTaxYearLiabilities.apply)(OnshoreTaxYearLiabilities.unapply)
-  )
+          .verifying(inRange(BigInt(0), MAX_BIGINT, "onshoreTaxYearLiabilities.unpaidTax.error.outOfRange")),
+        "niContributions"         -> bigintWithPound(
+          "onshoreTaxYearLiabilities.niContributions.error.required",
+          "onshoreTaxYearLiabilities.niContributions.error.wholeNumber",
+          "onshoreTaxYearLiabilities.niContributions.error.nonNumeric"
+        )
+          .verifying(inRange(BigInt(0), MAX_BIGINT, "onshoreTaxYearLiabilities.niContributions.error.outOfRange")),
+        "interest"                -> bigintWithPound(
+          "onshoreTaxYearLiabilities.interest.error.required",
+          "onshoreTaxYearLiabilities.interest.error.wholeNumber",
+          "onshoreTaxYearLiabilities.interest.error.nonNumeric"
+        )
+          .verifying(inRange(BigInt(0), MAX_BIGINT, "onshoreTaxYearLiabilities.interest.error.outOfRange")),
+        "penaltyRate" -> {
+          if (showPenaltySection) {
+            decimalWithPercentage(
+              "onshoreTaxYearLiabilities.penaltyRate.error.required",
+              "onshoreTaxYearLiabilities.penaltyRate.error.nonNumeric"
+            ).verifying(
+              inRange(
+                BigDecimal(0.00),
+                BigDecimal(200.00),
+                "onshoreTaxYearLiabilities.penaltyRate.error.outOfRange"
+              )
+            ).transform[BigDecimal](identity, identity)
+          } else {
+            ignored(BigDecimal(0))
+          }
+        },
+        "penaltyRateReason" -> {
+          if (showPenaltySection) {
+            text("onshoreTaxYearLiabilities.penaltyRateReason.error.required", Seq.empty)
+              .verifying(maxLength(5000, "onshoreTaxYearLiabilities.penaltyRateReason.error.length"))
+              .verifying(validUnicodeCharacters)
+              .transform[String](identity, identity)
+          } else {
+            ignored("")
+          }
+        },
+        "undeclaredIncomeOrGain"  -> stringOptionalUnless("undeclaredIncomeOrGain"),
+        "residentialTaxReduction" -> optional(boolean("onshoreTaxYearLiabilities.residentialTaxReduction.error.required"))
+          .verifying(
+            optionalUnless(
+              taxTypes.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome),
+              "onshoreTaxYearLiabilities.residentialTaxReduction.error.required"
+            )
+          )
+      )(OnshoreTaxYearLiabilities.apply)(OnshoreTaxYearLiabilities.unapply)
+    )
+  }
 
   def bigintOptionalUnless(field: String, isRequired: Boolean): Mapping[Option[BigInt]] =
     optional(

@@ -32,7 +32,7 @@
     tasklistLink: components.tasklistLink
 )
 
-@(form: Form[_], mode: Mode, index: Int, hidePenaltySection: Boolean)(implicit request: RequestHeader, messages: Messages)
+@(form: Form[_], mode: Mode, index: Int, showPenaltySection: Boolean)(implicit request: RequestHeader, messages: Messages)
 
 @layout(pageTitle = title(form, messages("directorLoanAccountLiabilities.title", index + 1))) {
 
@@ -107,7 +107,7 @@
             .withWidth(Fixed10)
         )
 
-        @if(!hidePenaltySection) {
+        @if(showPenaltySection) {
             @govukInput(
                 InputViewModel(
                     field = form("penaltyRate"),

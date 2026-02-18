@@ -27,6 +27,7 @@ import pages.{OnshoreTaxYearLiabilitiesPage, WhatOnshoreLiabilitiesDoYouNeedToDi
 import play.api.i18n.Messages
 import com.google.inject.{Inject, Singleton}
 import services.UAToDisclosureService
+import utils.onshore.ReasonableExcuseHelper
 
 import scala.math.BigDecimal.RoundingMode
 
@@ -112,6 +113,8 @@ class CheckYourAnswersViewModelCreation @Inject() (
   )(implicit messages: Messages): SummaryList = {
 
     val liabilities = yearWithLiabilites.taxYearLiabilities
+
+    val showPenaltySection = ReasonableExcuseHelper.showPenaltyWhenNotReasonableExcuse(userAnswers)
 
     val nonBusinessIncome = userAnswers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage) match {
       case Some(value) if value.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.NonBusinessIncome) =>
@@ -201,6 +204,34 @@ class CheckYourAnswersViewModelCreation @Inject() (
       case _           => Nil
     }
 
+    val penaltyRate =
+      if (showPenaltySection)
+        Seq(
+          rowCase(
+            i,
+            "onshoreTaxYearLiabilities.penaltyRate.checkYourAnswersLabel",
+            messages("site.2DP", liabilities.penaltyRate) + "%",
+            "onshoreTaxYearLiabilities.penaltyRate.hidden",
+            ONSHORE,
+            revealFullText,
+            false
+          )
+        ) else Nil
+
+    val penaltyRateReason =
+      if (showPenaltySection)
+        Seq(
+          rowCase(
+            i,
+            "onshoreTaxYearLiabilities.penaltyRateReason",
+            s"${liabilities.penaltyRateReason}",
+            "onshoreTaxYearLiabilities.penaltyRateReason.hidden",
+            ONSHORE,
+            revealFullText,
+            true
+          )
+        ) else Nil
+
     val rows =
       lettingIncome ++
         gains ++
@@ -227,38 +258,22 @@ class CheckYourAnswersViewModelCreation @Inject() (
             s"${liabilities.interest}",
             "onshoreTaxYearLiabilities.interest.hidden",
             ONSHORE
-          ),
-          rowCase(
+          )) ++ penaltyRate ++
+          Seq(
+            totalRow(
+              "onshoreTaxYearLiabilities.penaltyAmount.checkYourAnswersLabel",
+              messages("site.2DP", penaltyAmount(liabilities))
+            ),
+            totalRow(
+              "onshoreTaxYearLiabilities.amountDue.checkYourAnswersLabel",
+              messages("site.2DP", yearTotal(liabilities))
+            )
+          ) ++ penaltyRateReason ++ undeclaredIncome ++ residentialTaxReduction ++
+          ResidentialReductionSummary.row(
             i,
-            "onshoreTaxYearLiabilities.penaltyRate.checkYourAnswersLabel",
-            messages("site.2DP", liabilities.penaltyRate) + "%",
-            "onshoreTaxYearLiabilities.penaltyRate.hidden",
-            ONSHORE,
-            revealFullText,
-            false
-          ),
-          totalRow(
-            "onshoreTaxYearLiabilities.penaltyAmount.checkYourAnswersLabel",
-            messages("site.2DP", penaltyAmount(liabilities))
-          ),
-          totalRow(
-            "onshoreTaxYearLiabilities.amountDue.checkYourAnswersLabel",
-            messages("site.2DP", yearTotal(liabilities))
-          ),
-          rowCase(
-            i,
-            "onshoreTaxYearLiabilities.penaltyRateReason",
-            s"${liabilities.penaltyRateReason}",
-            "onshoreTaxYearLiabilities.penaltyRateReason.hidden",
-            ONSHORE,
-            revealFullText,
-            true
+            yearWithLiabilites.taxYear.toString,
+            userAnswers
           )
-        ) ++ undeclaredIncome ++ residentialTaxReduction ++ ResidentialReductionSummary.row(
-          i,
-          yearWithLiabilites.taxYear.toString,
-          userAnswers
-        )
 
     SummaryListViewModel(rows)
   }

@@ -30,6 +30,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 import com.google.inject.Inject
 import pages.onshore.WhyDidYouNotFileAReturnOnTimeOnshorePage
+import utils.onshore.ReasonableExcuseHelper
 
 case class CorporationTaxLiabilitiesSummaryViewModel(
                                                       corporationTaxLiabilitiesList: Seq[(Int, SummaryList)],
@@ -43,16 +44,16 @@ class CorporationTaxLiabilitiesSummaryViewModelCreation @Inject() (revealFullTex
   def create(userAnswers: UserAnswers)(implicit messages: Messages): CorporationTaxLiabilitiesSummaryViewModel = {
     val corporationTaxLiabilities = userAnswers.get(CorporationTaxLiabilityPage).getOrElse(Seq())
 
-    val showPenaltyQuestions = shouldShowPenaltyQuestions(userAnswers)
+    val showPenaltySection = ReasonableExcuseHelper.showPenaltyWhenNotReasonableExcuse(userAnswers)
 
     val corporationTaxLiabilitiesList: Seq[(Int, SummaryList)] = corporationTaxLiabilities.zipWithIndex.map {
       case (corporationTaxLiability, i) =>
-        (i + 1, corporationTaxLiabilityToSummaryList(i, corporationTaxLiability, revealFullText, showPenaltyQuestions))
+        (i + 1, corporationTaxLiabilityToSummaryList(i, corporationTaxLiability, revealFullText, showPenaltySection))
     }
 
     val accountEndings = accountEndingsSummaryList(corporationTaxLiabilities)
 
-    val totalAmountsList = totalAmountsSummaryList(corporationTaxLiabilities, showPenaltyQuestions)
+    val totalAmountsList = totalAmountsSummaryList(corporationTaxLiabilities, showPenaltySection)
 
     CorporationTaxLiabilitiesSummaryViewModel(corporationTaxLiabilitiesList, accountEndings, totalAmountsList)
   }
@@ -61,14 +62,14 @@ class CorporationTaxLiabilitiesSummaryViewModelCreation @Inject() (revealFullTex
                                             i: Int,
                                             liability: CorporationTaxLiability,
                                             revealFullText: RevealFullText,
-                                            showPenaltyQuestions: Boolean
+                                            showPenaltySection: Boolean
                                           )(implicit messages: Messages): SummaryList = {
 
     val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale(messages.lang.code))
 
     val amountDueTotal =
       BigDecimal(liability.howMuchUnpaid) + BigDecimal(liability.howMuchInterest) +
-        (if (showPenaltyQuestions) penaltyAmount(liability) else BigDecimal(0))
+        (if (showPenaltySection) penaltyAmount(liability) else BigDecimal(0))
 
     val baseRows = Seq(
       rowCase(
@@ -103,7 +104,7 @@ class CorporationTaxLiabilitiesSummaryViewModelCreation @Inject() (revealFullTex
       )
     )
 
-    val penaltyRows = if (showPenaltyQuestions) {
+    val penaltyRows = if (showPenaltySection) {
       Seq(
         rowCase(
           i,
@@ -164,12 +165,12 @@ class CorporationTaxLiabilitiesSummaryViewModelCreation @Inject() (revealFullTex
 
   private def totalAmountsSummaryList(
                                        corporationTaxLiabilities: Seq[CorporationTaxLiability],
-                                       showPenaltyQuestions: Boolean
+                                       showPenaltySection: Boolean
                                      )(implicit messages: Messages): SummaryList = {
 
     val unpaidTaxTotal     = corporationTaxLiabilities.map(_.howMuchUnpaid).sum
     val interestTotal      = corporationTaxLiabilities.map(_.howMuchInterest).sum
-    val penaltyAmountTotal = if (showPenaltyQuestions) corporationTaxLiabilities.map(penaltyAmount).sum else BigDecimal(0)
+    val penaltyAmountTotal = if (showPenaltySection) corporationTaxLiabilities.map(penaltyAmount).sum else BigDecimal(0)
     val amountDueTotal     = BigDecimal(unpaidTaxTotal) + BigDecimal(interestTotal) + penaltyAmountTotal
 
     val baseRows = Seq(
@@ -177,7 +178,7 @@ class CorporationTaxLiabilitiesSummaryViewModelCreation @Inject() (revealFullTex
       totalRow("checkYourAnswers.ct.total.interestDue", s"$interestTotal")
     )
 
-    val penaltyRow = if (showPenaltyQuestions) {
+    val penaltyRow = if (showPenaltySection) {
       Seq(totalRow("checkYourAnswers.ct.total.penaltyAmount", messages("site.2DP", penaltyAmountTotal)))
     } else {
       Seq.empty
@@ -188,27 +189,6 @@ class CorporationTaxLiabilitiesSummaryViewModelCreation @Inject() (revealFullTex
     )
 
     SummaryListViewModel(rows = baseRows ++ penaltyRow ++ totalRowSeq)
-  }
-
-  private def shouldShowPenaltyQuestions(userAnswers: UserAnswers): Boolean = {
-    import models.WhyDidYouNotNotifyOnshore._
-    import models.WhyDidYouNotFileAReturnOnTimeOnshore._
-    import models.WhyYouSubmittedAnInaccurateOnshoreReturn._
-    import pages._
-
-    val page2aSelections = userAnswers.get(WhyDidYouNotNotifyOnshorePage).getOrElse(Set.empty)
-    val page2bSelections = userAnswers.get(WhyDidYouNotFileAReturnOnTimeOnshorePage).getOrElse(Set.empty)
-    val page2cSelections = userAnswers.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).getOrElse(Set.empty)
-
-    val allSelections: Set[Any] = page2aSelections ++ page2bSelections ++ page2cSelections
-
-    val reasonableOnly: Set[Any] = Set(
-      ReasonableExcuseOnshore,
-      ReasonableExcuse,
-      ReasonableMistake
-    )
-
-    !(allSelections.nonEmpty && allSelections.subsetOf(reasonableOnly))
   }
 
   def penaltyAmount(corporationTaxLiability: CorporationTaxLiability): BigDecimal =
