@@ -126,8 +126,7 @@ class CheckYourAnswersViewModelCreation @Inject() (
         case _           => Nil
       }
 
-    val penaltyRate =
-      if (showPenaltySection)
+    val penaltyRows = { if (showPenaltySection)
         Seq(
           rowCase(
             i,
@@ -137,12 +136,11 @@ class CheckYourAnswersViewModelCreation @Inject() (
             OFFSHORE,
             revealFullText,
             false
-          )
-        ) else Nil
-
-    val penaltyRateReason =
-      if (showPenaltySection)
-        Seq(
+          ),
+          totalRow(
+            "taxYearLiabilities.penaltyAmount.checkYourAnswersLabel",
+            messages("site.2DP", penaltyAmount(liabilities))
+          ),
           rowCase(
             i,
             "onshoreTaxYearLiabilities.penaltyRateReason",
@@ -152,7 +150,8 @@ class CheckYourAnswersViewModelCreation @Inject() (
             revealFullText,
             true
           )
-        ) else Nil
+        ) else Seq.empty
+    }
 
     val rows = Seq(
       poundRowCase(
@@ -189,12 +188,7 @@ class CheckYourAnswersViewModelCreation @Inject() (
         s"${liabilities.interest}",
         "taxYearLiabilities.interest.hidden",
         OFFSHORE
-      )) ++ penaltyRate ++ Seq(
-        totalRow(
-          "taxYearLiabilities.penaltyAmount.checkYourAnswersLabel",
-          messages("site.2DP", penaltyAmount(liabilities))
-        )
-      ) ++ undeclaredIncome ++ Seq(
+      )) ++ penaltyRows ++ undeclaredIncome ++ Seq(
       rowCase(
         i,
         "taxYearLiabilities.foreignTaxCredit.checkYourAnswersLabel",
@@ -208,7 +202,7 @@ class CheckYourAnswersViewModelCreation @Inject() (
       totalRow(
         "taxYearLiabilities.amountDue.checkYourAnswersLabel",
         messages("site.2DP", yearTotal(liabilities))
-      )) ++ penaltyRateReason
+      ))
 
     SummaryListViewModel(rows)
   }
