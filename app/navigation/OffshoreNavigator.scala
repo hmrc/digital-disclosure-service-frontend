@@ -50,16 +50,15 @@ class OffshoreNavigator @Inject() () {
       ua =>
         val page1Selections  = ua.get(WhyAreYouMakingThisDisclosurePage).getOrElse(Set.empty)
         val page2aSelections = ua.get(WhyDidYouNotNotifyPage).getOrElse(Set.empty)
-        val entity           = ua.get(RelatesToPage)
 
-        if (page2aSelections.contains(WhyDidYouNotNotify.DeliberatelyDidNotNotify) && !entity.contains(RelatesTo.AnEstate)) {
-          routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)
-        } else if (page2aSelections.contains(WhyDidYouNotNotify.ReasonableExcuse)) {
+        if (page2aSelections.contains(WhyDidYouNotNotify.ReasonableExcuse)) {
           routes.WhatIsYourReasonableExcuseController.onPageLoad(NormalMode)
         } else if (page1Selections.contains(DidNotFile) && ua.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).isEmpty) {
           routes.WhyDidYouNotFileAReturnOnTimeOffshoreController.onPageLoad(NormalMode)
         } else if (page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).isEmpty) {
           routes.WhyYouSubmittedAnInaccurateReturnController.onPageLoad(NormalMode)
+        } else if (hasAnyDeliberate(ua)) {
+          routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)
         } else {
           routes.WhichYearsController.onPageLoad(NormalMode)
         }
@@ -68,14 +67,13 @@ class OffshoreNavigator @Inject() () {
       ua =>
         val page1Selections  = ua.get(WhyAreYouMakingThisDisclosurePage).getOrElse(Set.empty)
         val page2bSelections = ua.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).getOrElse(Set.empty)
-        val entity           = ua.get(RelatesToPage)
 
-        if (page2bSelections.contains(WhyDidYouNotFileAReturnOnTimeOffshore.DeliberatelyWithheldInformation) && !entity.contains(RelatesTo.AnEstate)) {
-          routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)
-        } else if (page2bSelections.contains(WhyDidYouNotFileAReturnOnTimeOffshore.ReasonableExcuse)) {
+        if (page2bSelections.contains(WhyDidYouNotFileAReturnOnTimeOffshore.ReasonableExcuse)) {
           routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode)
         } else if (page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).isEmpty) {
           routes.WhyYouSubmittedAnInaccurateReturnController.onPageLoad(NormalMode)
+        } else if (hasAnyDeliberate(ua)) {
+          routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)
         } else {
           routes.WhichYearsController.onPageLoad(NormalMode)
         }
@@ -83,12 +81,11 @@ class OffshoreNavigator @Inject() () {
     case WhyYouSubmittedAnInaccurateOffshoreReturnPage =>
       ua =>
         val page2cSelections = ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).getOrElse(Set.empty)
-        val entity           = ua.get(RelatesToPage)
 
-        if (page2cSelections.contains(WhyYouSubmittedAnInaccurateReturn.DeliberatelyInaccurate) && !entity.contains(RelatesTo.AnEstate)) {
-          routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)
-        } else if (page2cSelections.contains(WhyYouSubmittedAnInaccurateReturn.ReasonableMistake)) {
+        if (page2cSelections.contains(WhyYouSubmittedAnInaccurateReturn.ReasonableMistake)) {
           routes.WhatReasonableCareDidYouTakeController.onPageLoad(NormalMode)
+        } else if (hasAnyDeliberate(ua)) {
+          routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)
         } else {
           routes.WhichYearsController.onPageLoad(NormalMode)
         }
@@ -327,5 +324,21 @@ class OffshoreNavigator @Inject() () {
       case (CheckMode, _, _, true)                                            => routes.ForeignTaxCreditController.onPageLoad(currentIndex, CheckMode)
       case (CheckMode, _, _, _)                                               => checkRouteMap(TaxYearLiabilitiesPage)(userAnswers)(hasAnswerChanged)
     }
+
+  private def hasAnyDeliberate(ua: UserAnswers): Boolean = {
+    val entity = ua.get(RelatesToPage)
+
+    if (entity.contains(RelatesTo.AnEstate)) {
+      false
+    } else {
+      val page2aSelections = ua.get(WhyDidYouNotNotifyPage).getOrElse(Set.empty)
+      val page2bSelections = ua.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).getOrElse(Set.empty)
+      val page2cSelections = ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).getOrElse(Set.empty)
+
+      page2aSelections.contains(WhyDidYouNotNotify.DeliberatelyDidNotNotify) ||
+        page2bSelections.contains(WhyDidYouNotFileAReturnOnTimeOffshore.DeliberatelyWithheldInformation) ||
+        page2cSelections.contains(WhyYouSubmittedAnInaccurateReturn.DeliberatelyInaccurate)
+    }
+  }
 
 }

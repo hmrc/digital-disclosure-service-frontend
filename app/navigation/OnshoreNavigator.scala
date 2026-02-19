@@ -55,11 +55,8 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
       ua =>
         val page1Selections  = ua.get(WhyAreYouMakingThisOnshoreDisclosurePage).getOrElse(Set.empty)
         val page2aSelections = ua.get(WhyDidYouNotNotifyOnshorePage).getOrElse(Set.empty)
-        val entity           = ua.get(RelatesToPage)
 
-        if (page2aSelections.contains(DeliberatelyDidNotNotifyOnshore) && !entity.contains(RelatesTo.AnEstate)) {
-          routes.CDFOnshoreController.onPageLoad(NormalMode)
-        } else if (page2aSelections.contains(WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore)) {
+        if (page2aSelections.contains(WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore)) {
           routes.ReasonableExcuseOnshoreController.onPageLoad(NormalMode)
         } else if (page1Selections.contains(DidNotFile) && ua.get(WhyDidYouNotFileAReturnOnTimeOnshorePage).isEmpty) {
           routes.WhyDidYouNotFileAReturnOnTimeOnshoreController.onPageLoad(NormalMode)
@@ -67,6 +64,8 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
           page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).isEmpty
         ) {
           routes.WhyYouSubmittedAnInaccurateOnshoreReturnController.onPageLoad(NormalMode)
+        } else if (hasAnyDeliberate(ua)) {
+          routes.CDFOnshoreController.onPageLoad(NormalMode)
         } else {
           routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
         }
@@ -75,14 +74,13 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
       ua =>
         val page1Selections  = ua.get(WhyAreYouMakingThisOnshoreDisclosurePage).getOrElse(Set.empty)
         val page2bSelections = ua.get(WhyDidYouNotFileAReturnOnTimeOnshorePage).getOrElse(Set.empty)
-        val entity           = ua.get(RelatesToPage)
 
-        if (page2bSelections.contains(DeliberatelyWithheldInformation) && !entity.contains(RelatesTo.AnEstate)) {
-          routes.CDFOnshoreController.onPageLoad(NormalMode)
-        } else if (page2bSelections.contains(ReasonableExcuse)) {
+        if (page2bSelections.contains(ReasonableExcuse)) {
           routes.ReasonableExcuseForNotFilingOnshoreController.onPageLoad(NormalMode)
-        } else if (page1Selections.contains(InaccurateReturn)) {
+        } else if (page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).isEmpty) {
           routes.WhyYouSubmittedAnInaccurateOnshoreReturnController.onPageLoad(NormalMode)
+        } else if (hasAnyDeliberate(ua)) {
+          routes.CDFOnshoreController.onPageLoad(NormalMode)
         } else {
           routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
         }
@@ -90,27 +88,32 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
     case WhyYouSubmittedAnInaccurateOnshoreReturnPage =>
       ua =>
         val page2cSelections = ua.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).getOrElse(Set.empty)
-        val entity           = ua.get(RelatesToPage)
 
-        if (page2cSelections.contains(DeliberatelyInaccurate) && !entity.contains(RelatesTo.AnEstate)) {
-          routes.CDFOnshoreController.onPageLoad(NormalMode)
-        } else if (page2cSelections.contains(ReasonableMistake)) {
+        if (page2cSelections.contains(ReasonableMistake)) {
           routes.ReasonableCareOnshoreController.onPageLoad(NormalMode)
+        } else if (hasAnyDeliberate(ua)) {
+          routes.CDFOnshoreController.onPageLoad(NormalMode)
         } else {
           routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
         }
 
     case CDFOnshorePage =>
       ua =>
-        (ua.get(WhyAreYouMakingThisOnshoreDisclosurePage), ua.get(CDFOnshorePage)) match {
-          case (_, Some(false))                                                      => routes.YouHaveLeftTheDDSOnshoreController.onPageLoad(NormalMode)
-          case (Some(value), Some(true)) if value.contains(DidNotNotifyHasExcuse)    =>
-            routes.ReasonableExcuseOnshoreController.onPageLoad(NormalMode)
-          case (Some(value), Some(true)) if value.contains(InaccurateReturnWithCare) =>
-            routes.ReasonableCareOnshoreController.onPageLoad(NormalMode)
-          case (Some(value), Some(true)) if value.contains(NotFileHasExcuse)         =>
-            routes.ReasonableExcuseForNotFilingOnshoreController.onPageLoad(NormalMode)
-          case _                                                                     => routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
+        val page1Selections = ua.get(WhyAreYouMakingThisOnshoreDisclosurePage).getOrElse(Set.empty)
+
+        (ua.get(CDFOnshorePage)) match {
+          case Some(false) => routes.YouHaveLeftTheDDSOnshoreController.onPageLoad(NormalMode)
+          case Some(true) =>
+            if (page1Selections.contains(DidNotNotifyHMRC) && ua.get(WhyDidYouNotNotifyOnshorePage).isEmpty) {
+              routes.WhyDidYouNotNotifyOnshoreController.onPageLoad(NormalMode)
+            } else if (page1Selections.contains(DidNotFile) && ua.get(WhyDidYouNotFileAReturnOnTimeOnshorePage).isEmpty) {
+              routes.WhyDidYouNotFileAReturnOnTimeOnshoreController.onPageLoad(NormalMode)
+            } else if (page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).isEmpty) {
+              routes.WhyYouSubmittedAnInaccurateOnshoreReturnController.onPageLoad(NormalMode)
+            } else {
+              routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
+            }
+          case _ => routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
         }
 
     case ReasonableExcuseOnshorePage =>
@@ -455,12 +458,12 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
   }
 
   def nextTaxYearLiabilitiesPage(
-    currentIndex: Int,
-    deduction: Boolean,
-    mode: Mode,
-    userAnswers: UserAnswers,
-    hasAnswerChanged: Boolean = false
-  ): Call =
+                                  currentIndex: Int,
+                                  deduction: Boolean,
+                                  mode: Mode,
+                                  userAnswers: UserAnswers,
+                                  hasAnswerChanged: Boolean = false
+                                ): Call =
     (mode, userAnswers.inverselySortedOnshoreTaxYears) match {
       case (NormalMode, _) if deduction                                 => routes.ResidentialReductionController.onPageLoad(currentIndex, mode)
       case (NormalMode, Some(years)) if (years.size - 1) > currentIndex =>
@@ -473,16 +476,32 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
   private def requiresTaxYears(taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]) =
     taxTypes.filterNot(_ == CorporationTax).filterNot(_ == DirectorLoan).size > 0
 
+  private def hasAnyDeliberate(ua: UserAnswers): Boolean = {
+    val entity = ua.get(RelatesToPage)
+
+    if (entity.contains(RelatesTo.AnEstate)) {
+      false
+    } else {
+      val page2aSelections = ua.get(WhyDidYouNotNotifyOnshorePage).getOrElse(Set.empty)
+      val page2bSelections = ua.get(WhyDidYouNotFileAReturnOnTimeOnshorePage).getOrElse(Set.empty)
+      val page2cSelections = ua.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).getOrElse(Set.empty)
+
+      page2aSelections.contains(DeliberatelyDidNotNotifyOnshore) ||
+        page2bSelections.contains(DeliberatelyWithheldInformation) ||
+        page2cSelections.contains(DeliberatelyInaccurate)
+    }
+  }
+
 }
 
 @ImplementedBy(classOf[OnshoreNavigatorImpl])
 trait OnshoreNavigator {
   def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasAnswerChanged: Boolean = true): Call
   def nextTaxYearLiabilitiesPage(
-    currentIndex: Int,
-    deduction: Boolean,
-    mode: Mode,
-    userAnswers: UserAnswers,
-    hasAnswerChanged: Boolean = false
-  ): Call
+                                  currentIndex: Int,
+                                  deduction: Boolean,
+                                  mode: Mode,
+                                  userAnswers: UserAnswers,
+                                  hasAnswerChanged: Boolean = false
+                                ): Call
 }
