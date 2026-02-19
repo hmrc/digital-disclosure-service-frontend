@@ -81,8 +81,12 @@ class WhyAreYouMakingThisDisclosureController @Inject() (
 
   def changedPages(answers: UserAnswers, value: Set[WhyAreYouMakingThisDisclosure]): (List[QuestionPage[_]], Boolean) =
     answers.get(WhyAreYouMakingThisDisclosurePage) match {
-      case Some(reasons) if reasons != value => (WhyAreYouMakingThisDisclosureController.getPages(value), true)
-      case _                                 => (Nil, false)
+      case Some(reasons) if reasons != value =>
+        (WhyAreYouMakingThisDisclosureController.getPages(value), true)
+      case Some(reasons) if reasons == value =>
+        (WhyAreYouMakingThisDisclosureController.getPages(value), false)
+      case _ =>
+        (Nil, false)
     }
 
 }
@@ -90,43 +94,15 @@ class WhyAreYouMakingThisDisclosureController @Inject() (
 object WhyAreYouMakingThisDisclosureController {
 
   def getPages(reasons: Set[WhyAreYouMakingThisDisclosure]): List[QuestionPage[_]] = {
-
-    case class ClearingCondition(selections: Set[WhyAreYouMakingThisDisclosure], pagesToClear: List[QuestionPage[_]]) {
-      def isConditionMet(reasons: Set[WhyAreYouMakingThisDisclosure]): Boolean = reasons.intersect(selections).isEmpty
-    }
-
-    val didNotNotify = ClearingCondition(
-      Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHMRC),
-      List(
-        WhyDidYouNotNotifyPage,
-        WhatIsYourReasonableExcusePage,
-        ContractualDisclosureFacilityPage
-      )
+    List(
+      WhyDidYouNotNotifyPage,
+      WhatIsYourReasonableExcusePage,
+      ContractualDisclosureFacilityPage,
+      WhyDidYouNotFileAReturnOnTimeOffshorePage,
+      WhatIsYourReasonableExcuseForNotFilingReturnPage,
+      WhyYouSubmittedAnInaccurateOffshoreReturnPage,
+      WhatReasonableCareDidYouTakePage
     )
-
-    val didNotFile = ClearingCondition(
-      Set(WhyAreYouMakingThisDisclosure.DidNotFile),
-      List(
-        WhyDidYouNotFileAReturnOnTimeOffshorePage,
-        WhatIsYourReasonableExcuseForNotFilingReturnPage,
-        ContractualDisclosureFacilityPage
-      )
-    )
-
-    val inaccurateReturn = ClearingCondition(
-      Set(WhyAreYouMakingThisDisclosure.InaccurateReturn),
-      List(
-        WhyYouSubmittedAnInaccurateOffshoreReturnPage,
-        WhatReasonableCareDidYouTakePage,
-        ContractualDisclosureFacilityPage
-      )
-    )
-
-    val conditions = List(didNotNotify, didNotFile, inaccurateReturn)
-
-    conditions.foldLeft[List[QuestionPage[_]]](List()) { (cleared, condition) =>
-      if (condition.isConditionMet(reasons)) cleared ++ condition.pagesToClear else cleared
-    }
   }
 
 }
