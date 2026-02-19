@@ -80,40 +80,35 @@ class WhyAreYouMakingThisOnshoreDisclosureController @Inject() (
           }
         )
   }
-
   def changedPages(
-    answers: UserAnswers,
-    value: Set[WhyAreYouMakingThisOnshoreDisclosure]
-  ): (List[QuestionPage[_]], Boolean) =
+                    answers: UserAnswers,
+                    value: Set[WhyAreYouMakingThisOnshoreDisclosure]
+                  ): (List[QuestionPage[_]], Boolean) =
     answers.get(WhyAreYouMakingThisOnshoreDisclosurePage) match {
-      case Some(reasons) if reasons != value => (WhyAreYouMakingThisOnshoreDisclosureController.getPages(value), true)
-      case _                                 => (Nil, false)
+      case Some(reasons) if reasons != value =>
+        (WhyAreYouMakingThisOnshoreDisclosureController.getPages(value), true)
+      case Some(reasons) if reasons == value =>
+        (WhyAreYouMakingThisOnshoreDisclosureController.getPages(value), false)
+      case _ =>
+        (Nil, false)
     }
+
 
 }
 
 object WhyAreYouMakingThisOnshoreDisclosureController {
 
   def getPages(reasons: Set[WhyAreYouMakingThisOnshoreDisclosure]): List[QuestionPage[_]] = {
-
-    import WhyAreYouMakingThisOnshoreDisclosure._
-
-    val pagesToClear = scala.collection.mutable.ListBuffer[QuestionPage[_]]()
-
-    // Clear Page 2 answers if user unchecked the corresponding Page 1 option
-    if (!reasons.contains(DidNotNotifyHMRC)) {
-      pagesToClear += WhyDidYouNotNotifyOnshorePage
-    }
-
-    if (!reasons.contains(DidNotFile)) {
-      pagesToClear += WhyDidYouNotFileAReturnOnTimeOnshorePage
-    }
-
-    if (!reasons.contains(InaccurateReturn)) {
-      pagesToClear += WhyYouSubmittedAnInaccurateOnshoreReturnPage
-    }
-
-    pagesToClear.toList
+    List(
+      WhyDidYouNotNotifyOnshorePage,
+      ReasonableExcuseOnshorePage,
+      CDFOnshorePage,
+      WhyDidYouNotFileAReturnOnTimeOnshorePage,
+      ReasonableExcuseForNotFilingOnshorePage,
+      WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+      ReasonableCareOnshorePage
+    )
   }
+
 
 }
