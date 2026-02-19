@@ -49,7 +49,7 @@ object WhyAreYouMakingThisDisclosureSummary {
                   )
                   .toString
               }
-              .mkString("<br>")
+              .mkString(",<br>")
           ).withEllipsisOverflow(150).value
         )
       )

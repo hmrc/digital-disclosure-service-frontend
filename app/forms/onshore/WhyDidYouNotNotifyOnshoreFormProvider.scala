@@ -17,7 +17,7 @@
 package forms
 
 import forms.mappings.Mappings
-import models.WhyDidYouNotNotifyOnshore
+import models.{RelatesTo, WhyDidYouNotNotifyOnshore}
 import play.api.data.Form
 import play.api.data.Forms.set
 
@@ -25,9 +25,15 @@ import javax.inject.Inject
 
 class WhyDidYouNotNotifyOnshoreFormProvider @Inject() extends Mappings {
 
-  def apply(): Form[Set[WhyDidYouNotNotifyOnshore]] =
+  def apply(areTheyTheIndividual: Boolean, entity: RelatesTo): Form[Set[WhyDidYouNotNotifyOnshore]] = {
+    val requiredErrorKey =
+      if (areTheyTheIndividual)
+        "whyDidYouNotNotify.error.required.you"
+      else
+        s"whyDidYouNotNotify.error.required.$entity"
     Form(
-      "value" -> set(enumerable[WhyDidYouNotNotifyOnshore]("WhyDidYouNotNotifyOnshore.error.required"))
-        .verifying(nonEmptySet("WhyDidYouNotNotifyOnshore.error.required"))
+      "value" -> set(enumerable[WhyDidYouNotNotifyOnshore](requiredErrorKey))
+        .verifying(nonEmptySet(requiredErrorKey))
     )
+  }
 }
