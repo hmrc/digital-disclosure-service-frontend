@@ -19,10 +19,21 @@ site.2DP = {0,number,#,##0.00}
 site.print = Argraffu neu gadw’r dudalen hon
 site.ending = Dod â
 
+# Exit Survey Before You Go
 exitSurvey.heading = Cyn i chi fynd
 exitSurvey.p1 = Mae’ch adborth yn ein helpu i wella ein gwasanaeth.
 exitSurvey.link = Llenwch ein harolwg
 exitSurvey.p2 =  i rannu’ch adborth ar y gwasanaeth.
+
+# User Research Before You Go - Journey End Page Link
+exitSurvey.BeforeYouGoUserResearch.p1 = cy: Help make GOV.UK better –
+exitSurvey.BeforeYouGoUserResearch.link = cy : Sign up to take part in research
+
+# User Research Banner
+researchBanner.h2 = cy: Help make GOV.UK better
+researchBanner.link.text = cy: Sign up to take part in research (opens in new tab)
+researchBanner.hide.button = cy: Hide message
+researchBanner.visually.hidden = cy: Hide message. I do not want to take part in research
 
 date.day = Diwrnod
 date.month = Mis
