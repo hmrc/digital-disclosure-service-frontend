@@ -67,11 +67,11 @@ class DirectorLoanAccountLiabilitiesFormProvider @Inject() extends Mappings {
       "penaltyRate"       -> {
         if (showPenaltySection) {
           decimalWithPercentage(
-            "corporationTaxLiability.penaltyRate.error.required",
-            "corporationTaxLiability.penaltyRate.error.nonNumeric"
+            "directorLoanAccountLiabilities.penaltyRate.error.required",
+            "directorLoanAccountLiabilities.penaltyRate.error.nonNumeric"
           )
             .verifying(
-              inRange(BigDecimal(0.00), BigDecimal(200.00), "corporationTaxLiability.penaltyRate.error.outOfRange")
+              inRange(BigDecimal(0.00), BigDecimal(200.00), "directorLoanAccountLiabilities.penaltyRate.error.outOfRange")
             )
             .transform[BigDecimal](identity, identity)
         } else {
@@ -80,8 +80,8 @@ class DirectorLoanAccountLiabilitiesFormProvider @Inject() extends Mappings {
       },
       "penaltyRateReason" -> {
         if (showPenaltySection) {
-          text("corporationTaxLiability.penaltyRateReason.error.required")
-            .verifying(maxLength(5000, "corporationTaxLiability.penaltyRateReason.error.length"))
+          text("directorLoanAccountLiabilities.penaltyRateReason.error.required")
+            .verifying(maxLength(5000, "directorLoanAccountLiabilities.penaltyRateReason.error.length"))
             .verifying(validUnicodeCharacters)
             .transform[String](identity, identity)
         } else {

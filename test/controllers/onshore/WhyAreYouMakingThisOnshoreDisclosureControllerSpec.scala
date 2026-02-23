@@ -174,43 +174,18 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
     }
   }
 
-  "getPages" - {
+  "return all Page 2 pages regardless of selections" in {
+    val result = WhyAreYouMakingThisOnshoreDisclosureController.getPages(Set.empty)
 
-    "return Page 2a when DidNotNotifyHMRC is not selected" in {
-      val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(
-        WhyAreYouMakingThisOnshoreDisclosure.DidNotFile,
-        WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn
-      )
-      val expectedPages = List(WhyDidYouNotNotifyOnshorePage)
-      WhyAreYouMakingThisOnshoreDisclosureController.getPages(set) mustEqual expectedPages
-    }
-
-    "return Page 2b when DidNotFile is not selected" in {
-      val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(
-        WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC,
-        WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn
-      )
-      val expectedPages = List(WhyDidYouNotFileAReturnOnTimeOnshorePage)
-      WhyAreYouMakingThisOnshoreDisclosureController.getPages(set) mustEqual expectedPages
-    }
-
-    "return Page 2c when InaccurateReturn is not selected" in {
-      val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(
-        WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC,
-        WhyAreYouMakingThisOnshoreDisclosure.DidNotFile
-      )
-      val expectedPages = List(WhyYouSubmittedAnInaccurateOnshoreReturnPage)
-      WhyAreYouMakingThisOnshoreDisclosureController.getPages(set) mustEqual expectedPages
-    }
-
-    "return all Page 2s when all Page 1 options are deselected" in {
-      val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set.empty
-      val result = WhyAreYouMakingThisOnshoreDisclosureController.getPages(set)
-      result must contain (WhyDidYouNotNotifyOnshorePage)
-      result must contain (WhyDidYouNotFileAReturnOnTimeOnshorePage)
-      result must contain (WhyYouSubmittedAnInaccurateOnshoreReturnPage)
-    }
-
+    result must contain allOf (
+      WhyDidYouNotNotifyOnshorePage,
+      ReasonableExcuseOnshorePage,
+      CDFOnshorePage,
+      WhyDidYouNotFileAReturnOnTimeOnshorePage,
+      ReasonableExcuseForNotFilingOnshorePage,
+      WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+      ReasonableCareOnshorePage
+    )
   }
 
 }
