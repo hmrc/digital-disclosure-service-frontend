@@ -26,14 +26,14 @@ exitSurvey.link = Llenwch ein harolwg
 exitSurvey.p2 =  i rannu’ch adborth ar y gwasanaeth.
 
 # User Research Before You Go - Journey End Page Link
-exitSurvey.BeforeYouGoUserResearch.p1 = cy: Help make GOV.UK better –
-exitSurvey.BeforeYouGoUserResearch.link = cy : Sign up to take part in research
+exitSurvey.BeforeYouGoUserResearch.p1 = Helpwch i wella GOV.UK –
+exitSurvey.BeforeYouGoUserResearch.link = Cofrestrwch i gymryd rhan mewn ymchwil
 
 # User Research Banner
-researchBanner.h2 = cy: Help make GOV.UK better
-researchBanner.link.text = cy: Sign up to take part in research (opens in new tab)
-researchBanner.hide.button = cy: Hide message
-researchBanner.visually.hidden = cy: Hide message. I do not want to take part in research
+researchBanner.h2 = Helpwch i wella GOV.UK
+researchBanner.link.text = Cofrestrwch i gymryd rhan mewn ymchwil (yn agor tab newydd)
+researchBanner.hide.button = Cuddio negeseuon
+researchBanner.visually.hidden = cuddio negeseuon.
 
 date.day = Diwrnod
 date.month = Mis
