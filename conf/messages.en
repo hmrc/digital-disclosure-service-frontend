@@ -1136,11 +1136,11 @@ WhyYouSubmittedAnInaccurateReturn.heading.trust = Why the trust did submitted an
 WhyYouSubmittedAnInaccurateReturn.heading.estate = Why the person who died submitted an inaccurate return
 
 WhyYouSubmittedAnInaccurateReturn.paragraph.first.you = You have told us you submitted an inaccurate return.
-WhyYouSubmittedAnInaccurateReturn.paragraph.first.individual = You have told us the individual submitted an inaccurate return
-WhyYouSubmittedAnInaccurateReturn.paragraph.first.company = You have told us the company submitted an inaccurate return
-WhyYouSubmittedAnInaccurateReturn.paragraph.first.llp = You have told us the limited liability partnership submitted an inaccurate return
-WhyYouSubmittedAnInaccurateReturn.paragraph.first.trust = You have told us the trust submitted an inaccurate return
-WhyYouSubmittedAnInaccurateReturn.paragraph.first.estate = You have told us the person who died submitted an inaccurate return
+WhyYouSubmittedAnInaccurateReturn.paragraph.first.individual = You have told us the individual submitted an inaccurate return.
+WhyYouSubmittedAnInaccurateReturn.paragraph.first.company = You have told us the company submitted an inaccurate return.
+WhyYouSubmittedAnInaccurateReturn.paragraph.first.llp = You have told us the limited liability partnership submitted an inaccurate return.
+WhyYouSubmittedAnInaccurateReturn.paragraph.first.trust = You have told us the trust submitted an inaccurate return.
+WhyYouSubmittedAnInaccurateReturn.paragraph.first.estate = You have told us the person who died submitted an inaccurate return.
 
 WhyYouSubmittedAnInaccurateReturn.paragraph.second = You need to provide more information about why this happened.
 WhyYouSubmittedAnInaccurateReturn.paragraph.third = If you are unsure which option applies, you may want to seek professional advice.
@@ -2735,7 +2735,7 @@ whyDidYouNotFileAReturnOnTime.paragraph.first.estate = You have told us the pers
 whyDidYouNotFileAReturnOnTime.paragraph.second = You need to provide more information about why this happened.
 whyDidYouNotFileAReturnOnTime.paragraph.third = If you are unsure which option applies, you may want to seek professional advice.
 whyDidYouNotFileAReturnOnTime.checkYourAnswersLabel = Reason for not filing a return on time
-whyDidYouNotFileAReturnOnTime.hint = Select the reasons you did not file a return on time
+whyDidYouNotFileAReturnOnTime.hint = Select all options that are relevant to all tax years you need to disclose for
 whyDidYouNotFileAReturnOnTime.change.hidden = reason for not filing a return on time
 
 whyDidYouNotFileAReturnOnTime.you.describeOption = Which options describe why you did not file a return on time?

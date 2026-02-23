@@ -46,16 +46,15 @@ class WhyDidYouNotNotifyOnshoreController @Inject() (
     extends FrontendBaseController
     with I18nSupport {
 
-  val form = formProvider()
-
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
+    val entity               = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+    val form                 = formProvider(areTheyTheIndividual, entity)
+
     val preparedForm = request.userAnswers.get(WhyDidYouNotNotifyOnshorePage) match {
       case None        => form
       case Some(value) => form.fill(value)
     }
-
-    val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
-    val entity               = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
     Ok(view(preparedForm, mode, areTheyTheIndividual, entity))
   }
@@ -64,6 +63,7 @@ class WhyDidYouNotNotifyOnshoreController @Inject() (
     implicit request =>
       val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
       val entity               = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+      val form                 = formProvider(areTheyTheIndividual, entity)
 
       form
         .bindFromRequest()

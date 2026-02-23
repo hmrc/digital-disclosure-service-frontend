@@ -48,7 +48,7 @@ object WhyAreYouMakingThisOnshoreDisclosureSummary {
                 )
                 .toString
             }
-            .mkString("<br>")
+            .mkString(",<br>")
         )
       )
 
