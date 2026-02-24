@@ -22,7 +22,7 @@ import models._
 import models.address._
 import navigation.{FakeNavigator, Navigator}
 import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.when
+import org.mockito.Mockito.{verify, when}
 import org.scalacheck.Arbitrary.arbitrary
 import pages._
 import play.api.inject.bind
@@ -68,11 +68,12 @@ class IndexControllerSpec extends SpecBase with Generators {
 
       val request = FakeRequest(GET, routes.IndexController.onPageLoad.url)
       setupMockSessionResponse()
+      when(mockSessionService.getIndividualUserAnswers(any(), any(), any())(any())).thenReturn(Future.successful(None))
 
-      route(application, request).value
+      val result = route(application, request).value
 
-      val sessionRepo = application.injector.instanceOf[SessionRepository]
-      sessionRepo.get("id", "session-123").map(uaOpt => uaOpt mustBe Symbol("defined"))
+      status(result) mustEqual OK
+      verify(mockSessionService).getIndividualUserAnswers(any(), any(), any())(any())
     }
 
     "must retain existing user answers where one exists" in {
@@ -82,11 +83,14 @@ class IndexControllerSpec extends SpecBase with Generators {
       } yield {
         val request = FakeRequest(GET, routes.IndexController.onPageLoad.url)
         setupMockSessionResponse(Some(userAnswers))
+        when(mockSessionService.getIndividualUserAnswers(any(), any(), any())(any())).thenReturn(Future.successful(Some(userAnswers)))
+        when(mockSessionService.set(any())(any())).thenReturn(Future.successful(true))
 
-        route(application, request).value
+        val result = route(application, request).value
 
-        val sessionRepo = application.injector.instanceOf[SessionRepository]
-        sessionRepo.get("id", "session-123").map(uaOpt => uaOpt mustBe Some(userAnswers))
+        status(result) mustEqual OK
+        verify(mockSessionService).getIndividualUserAnswers(any(), any(), any())(any())
+        verify(mockSessionService).set(userAnswers)(any())
       }
     }
 
