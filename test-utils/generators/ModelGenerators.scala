@@ -94,11 +94,6 @@ trait ModelGenerators {
     Arbitrary {
       Gen.oneOf(WhichEmailAddressCanWeContactYouWith.values)
     }
-
-
-  implicit lazy val arbitraryAdviceContactPreferenceNew: Arbitrary[AdviceContactPreference] =
-    gen[AdviceContactPreference]
-
   given arbitraryAdviceGiven: Arbitrary[AdviceGiven] =
     Arbitrary {
       for {
@@ -405,4 +400,5 @@ trait ModelGenerators {
         whatHasHappenedToProperty <- arbitrary[String]
       } yield NoLongerBeingLetOut(stopDate, whatHasHappenedToProperty)
     }
+
 }
