@@ -17,6 +17,9 @@
 package base
 
 import org.scalatestplus.play.PlaySpec
+import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach}
+import org.scalatestplus.mockito.MockitoSugar.mock
+import play.api.Application
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.mvc.{AnyContent, Request}
 import play.api.test.CSRFTokenHelper.CSRFRequest
@@ -24,17 +27,47 @@ import play.api.test.{FakeRequest, Injecting}
 import config.{InternalAuthTokenInitialiser, NoOpInternalAuthTokenInitialiser}
 import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
+import repositories.SessionRepository
+import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.{reset, when}
 
-trait ViewSpecBase extends PlaySpec with Injecting {
+import scala.concurrent.Future
 
-  val app = new GuiceApplicationBuilder()
-    .overrides(bind[InternalAuthTokenInitialiser].to[NoOpInternalAuthTokenInitialiser])
-    .build()
+trait ViewSpecBase extends PlaySpec with Injecting with BeforeAndAfterEach with BeforeAndAfterAll {
 
-  val request: Request[AnyContent]           = FakeRequest().withCSRFToken
-  protected val realMessagesApi: MessagesApi = inject[MessagesApi]
+  private var appInstances: List[Application] = List.empty
 
-  implicit def messages: Messages =
-    realMessagesApi.preferred(request)
+  val mockSessionRepository: SessionRepository = mock[SessionRepository]
 
+  override protected def beforeEach(): Unit = {
+    reset(mockSessionRepository)
+    super.beforeEach()
+  }
+
+  override protected def afterAll(): Unit = {
+    appInstances.foreach(_.stop())
+    appInstances = List.empty
+    super.afterAll()
+  }
+
+  when(mockSessionRepository.set(any())).thenReturn(Future.successful(true))
+  when(mockSessionRepository.get(any(), any())).thenReturn(Future.successful(None))
+
+  val applicationBuilder: GuiceApplicationBuilder = new GuiceApplicationBuilder()
+    .overrides(
+      bind[InternalAuthTokenInitialiser].to[NoOpInternalAuthTokenInitialiser],
+      bind[SessionRepository].toInstance(mockSessionRepository)
+    )
+
+  def app: Application = {
+    val application = applicationBuilder.build()
+    appInstances = application :: appInstances
+    application
+  }
+
+  val request: Request[AnyContent] = FakeRequest().withCSRFToken
+
+  protected def realMessagesApi: MessagesApi = inject[MessagesApi]
+
+  implicit def messages: Messages = realMessagesApi.preferred(request)
 }

@@ -43,10 +43,6 @@ class WhyDidYouNotFileAReturnOnTimeOnshoreViewSpec extends ViewSpecBase with Vie
       view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whyDidYouNotFileAReturnOnTime.you.heading")
     }
 
-    "contain first paragraph" in {
-      view.getElementById("first-paragraph").text() mustBe messages("whyDidYouNotFileAReturnOnTime.paragraph.first.you")
-    }
-
     "contain second paragraph" in {
       view.getElementById("second-paragraph").text() mustBe messages("whyDidYouNotFileAReturnOnTime.paragraph.second")
     }

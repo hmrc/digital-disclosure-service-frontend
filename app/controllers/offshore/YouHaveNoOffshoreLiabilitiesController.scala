@@ -53,16 +53,7 @@ class YouHaveNoOffshoreLiabilitiesController @Inject() (
     Ok(view(entityString, entity, year))
   }
 
-  def getBehaviour(ua: UserAnswers): Behaviour =
-    ua.get(WhyAreYouMakingThisDisclosurePage) match {
-      case Some(value)
-          if value.contains(DidNotNotifyNoExcuse) ||
-            value.contains(DeliberatelyDidNotNotify) ||
-            value.contains(DeliberateInaccurateReturn) ||
-            value.contains(DeliberatelyDidNotFile) =>
-        Behaviour.Deliberate
-      case Some(value) if value.contains(InaccurateReturnNoCare) => Behaviour.Careless
-      case _                                                     => Behaviour.ReasonableExcuse
-    }
+  def getBehaviour(ua: UserAnswers): Behaviour = Behaviour.Deliberate
+
 
 }

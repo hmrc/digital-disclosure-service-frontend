@@ -14,35 +14,34 @@
  * limitations under the License.
  */
 
-package controllers.onshore
+package controllers.offshore
 
 import base.SpecBase
-import controllers.onshore.WhyAreYouMakingThisOnshoreDisclosureController
-import forms.WhyAreYouMakingThisOnshoreDisclosureFormProvider
-import models.{AreYouTheEntity, NormalMode, RelatesTo, UserAnswers, WhyAreYouMakingThisOnshoreDisclosure}
+import forms.offshore.WhyDidYouNotFileAReturnOnTimeOffshoreFormProvider
+import models.WhyDidYouNotFileAReturnOnTimeOffshore._
+import models.{AreYouTheEntity, NormalMode, RelatesTo, UserAnswers, WhyDidYouNotFileAReturnOnTimeOffshore}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages._
-import pages.onshore.WhyDidYouNotFileAReturnOnTimeOnshorePage
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import views.html.onshore.WhyAreYouMakingThisOnshoreDisclosureView
+import views.html.offshore.WhyDidYouNotFileAReturnOnTimeOffshoreView
 
 import scala.concurrent.Future
 
-class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with MockitoSugar {
+class WhyDidYouNotFileAReturnOnTimeOffshoreControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val WhyAreYouMakingThisOnshoreDisclosureRoute =
-    routes.WhyAreYouMakingThisOnshoreDisclosureController.onPageLoad(NormalMode).url
+  lazy val whyDidYouNotFileAReturnOnTimeOffshoreRoute =
+    routes.WhyDidYouNotFileAReturnOnTimeOffshoreController.onPageLoad(NormalMode).url
 
-  val formProvider = new WhyAreYouMakingThisOnshoreDisclosureFormProvider()
+  val formProvider = new WhyDidYouNotFileAReturnOnTimeOffshoreFormProvider()
   val form         = formProvider()
 
-  "WhyAreYouMakingThisOnshoreDisclosure Controller" - {
+  "WhyDidYouNotFileAReturnOnTimeOffshore Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
@@ -56,11 +55,11 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
 
       setupMockSessionResponse(Some(userAnswers))
 
-      val request = FakeRequest(GET, WhyAreYouMakingThisOnshoreDisclosureRoute)
+      val request = FakeRequest(GET, whyDidYouNotFileAReturnOnTimeOffshoreRoute)
 
       val result = route(application, request).value
 
-      val view = application.injector.instanceOf[WhyAreYouMakingThisOnshoreDisclosureView]
+      val view = application.injector.instanceOf[WhyDidYouNotFileAReturnOnTimeOffshoreView]
 
       status(result) mustEqual OK
 
@@ -70,28 +69,28 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = (for {
-        userAnswer                                     <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
-        uaWithRelatesToPage                            <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
-        uaWithWhyAreYouMakingThisOnshoreDisclosurePage <- uaWithRelatesToPage.set(
-                                                            WhyAreYouMakingThisOnshoreDisclosurePage,
-                                                            WhyAreYouMakingThisOnshoreDisclosure.values.toSet
-                                                          )
-      } yield uaWithWhyAreYouMakingThisOnshoreDisclosurePage).success.value
+        userAnswer          <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
+        uaWithWhyPage       <- uaWithRelatesToPage.set(
+          WhyDidYouNotFileAReturnOnTimeOffshorePage,
+          WhyDidYouNotFileAReturnOnTimeOffshore.values.toSet
+        )
+      } yield uaWithWhyPage).success.value
 
       val areTheyTheIndividual = userAnswers.isTheUserTheIndividual
       val entity               = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       setupMockSessionResponse(Some(userAnswers))
 
-      val request = FakeRequest(GET, WhyAreYouMakingThisOnshoreDisclosureRoute)
+      val request = FakeRequest(GET, whyDidYouNotFileAReturnOnTimeOffshoreRoute)
 
       val result = route(application, request).value
 
-      val view = application.injector.instanceOf[WhyAreYouMakingThisOnshoreDisclosureView]
+      val view = application.injector.instanceOf[WhyDidYouNotFileAReturnOnTimeOffshoreView]
 
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(
-        form.fill(WhyAreYouMakingThisOnshoreDisclosure.values.toSet),
+        form.fill(WhyDidYouNotFileAReturnOnTimeOffshore.values.toSet),
         NormalMode,
         areTheyTheIndividual,
         entity
@@ -109,10 +108,10 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
       setupMockSessionResponse(Some(userAnswers))
 
       val request =
-        FakeRequest(POST, WhyAreYouMakingThisOnshoreDisclosureRoute)
-          .withFormUrlEncodedBody(("value[0]", WhyAreYouMakingThisOnshoreDisclosure.values.head.toString))
+        FakeRequest(POST, whyDidYouNotFileAReturnOnTimeOffshoreRoute)
+          .withFormUrlEncodedBody(("value[0]", WhyDidYouNotFileAReturnOnTimeOffshore.values.head.toString))
 
-      val result = route(applicationWithFakeOnshoreNavigator(onwardRoute), request).value
+      val result = route(applicationWithFakeOffshoreNavigator(onwardRoute), request).value
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual onwardRoute.url
@@ -131,12 +130,12 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
       setupMockSessionResponse(Some(userAnswers))
 
       val request =
-        FakeRequest(POST, WhyAreYouMakingThisOnshoreDisclosureRoute)
+        FakeRequest(POST, whyDidYouNotFileAReturnOnTimeOffshoreRoute)
           .withFormUrlEncodedBody(("value", "invalid value"))
 
       val boundForm = form.bind(Map("value" -> "invalid value"))
 
-      val view = application.injector.instanceOf[WhyAreYouMakingThisOnshoreDisclosureView]
+      val view = application.injector.instanceOf[WhyDidYouNotFileAReturnOnTimeOffshoreView]
 
       val result = route(application, request).value
 
@@ -151,7 +150,7 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
 
       setupMockSessionResponse()
 
-      val request = FakeRequest(GET, WhyAreYouMakingThisOnshoreDisclosureRoute)
+      val request = FakeRequest(GET, whyDidYouNotFileAReturnOnTimeOffshoreRoute)
 
       val result = route(application, request).value
 
@@ -164,8 +163,8 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
       setupMockSessionResponse()
 
       val request =
-        FakeRequest(POST, WhyAreYouMakingThisOnshoreDisclosureRoute)
-          .withFormUrlEncodedBody(("value[0]", WhyAreYouMakingThisOnshoreDisclosure.values.head.toString))
+        FakeRequest(POST, whyDidYouNotFileAReturnOnTimeOffshoreRoute)
+          .withFormUrlEncodedBody(("value[0]", WhyDidYouNotFileAReturnOnTimeOffshore.values.head.toString))
 
       val result = route(application, request).value
 
@@ -174,18 +173,55 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
     }
   }
 
-  "return all Page 2 pages regardless of selections" in {
-    val result = WhyAreYouMakingThisOnshoreDisclosureController.getPages(Set.empty)
+  "getPages" - {
 
-    result must contain allOf (
-      WhyDidYouNotNotifyOnshorePage,
-      ReasonableExcuseOnshorePage,
-      CDFOnshorePage,
-      WhyDidYouNotFileAReturnOnTimeOnshorePage,
-      ReasonableExcuseForNotFilingOnshorePage,
-      WhyYouSubmittedAnInaccurateOnshoreReturnPage,
-      ReasonableCareOnshorePage
-    )
+    "must return ContractualDisclosureFacilityPage when DeliberatelyWithheldInformation is not selected" in {
+      val reasons: Set[WhyDidYouNotFileAReturnOnTimeOffshore] = Set(ReasonableExcuse)
+      val result = WhyDidYouNotFileAReturnOnTimeOffshoreController.getPages(reasons)
+
+      result must contain(ContractualDisclosureFacilityPage)
+    }
+
+    "must return WhatIsYourReasonableExcuseForNotFilingReturnPage when ReasonableExcuse is not selected" in {
+      val reasons: Set[WhyDidYouNotFileAReturnOnTimeOffshore] = Set(DeliberatelyWithheldInformation)
+      val result = WhyDidYouNotFileAReturnOnTimeOffshoreController.getPages(reasons)
+
+      result must contain(WhatIsYourReasonableExcuseForNotFilingReturnPage)
+    }
+
+    "must return both pages when neither DeliberatelyWithheldInformation nor ReasonableExcuse is selected" in {
+      val reasons: Set[WhyDidYouNotFileAReturnOnTimeOffshore] = Set(DidNotWithholdInformationOnPurpose)
+      val result = WhyDidYouNotFileAReturnOnTimeOffshoreController.getPages(reasons)
+
+      result must contain allOf (ContractualDisclosureFacilityPage, WhatIsYourReasonableExcuseForNotFilingReturnPage)
+    }
+
+    "must return empty list when both DeliberatelyWithheldInformation and ReasonableExcuse are selected" in {
+      val reasons: Set[WhyDidYouNotFileAReturnOnTimeOffshore] = Set(DeliberatelyWithheldInformation, ReasonableExcuse)
+      val result = WhyDidYouNotFileAReturnOnTimeOffshoreController.getPages(reasons)
+
+      result mustBe empty
+    }
   }
 
+  "ClearingCondition" - {
+
+    "must return true when condition is met (selections not in reasons)" in {
+      val condition = WhyDidYouNotFileAReturnOnTimeOffshoreController.ClearingCondition(
+        Set(DeliberatelyWithheldInformation),
+        List(ContractualDisclosureFacilityPage)
+      )
+
+      condition.isConditionMet(Set(ReasonableExcuse)) mustBe true
+    }
+
+    "must return false when condition is not met (selections in reasons)" in {
+      val condition = WhyDidYouNotFileAReturnOnTimeOffshoreController.ClearingCondition(
+        Set(DeliberatelyWithheldInformation),
+        List(ContractualDisclosureFacilityPage)
+      )
+
+      condition.isConditionMet(Set(DeliberatelyWithheldInformation)) mustBe false
+    }
+  }
 }

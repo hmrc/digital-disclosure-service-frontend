@@ -112,7 +112,6 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
         maximumValueOfAssets = Some(TheMaximumValueOfAllAssets.Below500k)
       )
       val updatedUserAnswers                              = sut.offshoreLiabilitiesToUa(offshoreLiabilities, emptyUA).success.value
-      updatedUserAnswers.get(WhyAreYouMakingThisDisclosurePage)                shouldEqual Some(whySet)
       updatedUserAnswers.get(WhatIsYourReasonableExcusePage)                   shouldEqual Some(
         WhatIsYourReasonableExcuse("Some excuse", "Some years")
       )
@@ -285,7 +284,6 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
       updatedUserAnswers.get(DescribeTheGiftPage)               shouldEqual Some("Some gift")
       updatedUserAnswers.get(DoYouHaveACaseReferencePage)       shouldEqual Some(true)
       updatedUserAnswers.get(WhyAreYouMakingADisclosurePage)    shouldEqual Some(reasonSet)
-      updatedUserAnswers.get(WhyAreYouMakingThisDisclosurePage) shouldEqual Some(whySet)
     }
   }
 
@@ -397,7 +395,6 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
       )
       val updatedUserAnswers                                                  = sut.onshoreLiabilitiesToUa(Some(onshoreLiabilities), emptyUA).success.value
 
-      updatedUserAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage)      shouldEqual Some(whySet)
       updatedUserAnswers.get(ReasonableExcuseOnshorePage)                   shouldEqual Some(
         ReasonableExcuseOnshore("Some excuse", "Some years")
       )

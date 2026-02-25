@@ -17,6 +17,8 @@
 package controllers.offshore
 
 import controllers.actions._
+import models.Behaviour.{Deliberate, ReasonableExcuse}
+
 import javax.inject.Inject
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -45,16 +47,6 @@ class MakingNilDisclosureController @Inject() (
     Ok(view(request.userAnswers.isTheUserTheIndividual, entity, year))
   }
 
-  def getBehaviour(ua: UserAnswers): Behaviour =
-    ua.get(WhyAreYouMakingThisDisclosurePage) match {
-      case Some(value)
-          if value.contains(DidNotNotifyNoExcuse) ||
-            value.contains(DeliberatelyDidNotNotify) ||
-            value.contains(DeliberateInaccurateReturn) ||
-            value.contains(DeliberatelyDidNotFile) =>
-        Behaviour.Deliberate
-      case Some(value) if value.contains(InaccurateReturnNoCare) => Behaviour.Careless
-      case _                                                     => Behaviour.ReasonableExcuse
-    }
+  def getBehaviour(ua: UserAnswers): Behaviour = Deliberate
 
 }

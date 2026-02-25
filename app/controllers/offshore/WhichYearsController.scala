@@ -34,6 +34,7 @@ package controllers.offshore
 
 import controllers.actions._
 import forms.WhichYearsFormProvider
+
 import javax.inject.Inject
 import models._
 import pages._
@@ -45,8 +46,8 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.offshore.WhichYearsView
 import uk.gov.hmrc.govukfrontend.views.viewmodels.checkboxes.CheckboxItem
 import play.api.i18n.Messages
-import scala.util.{Success, Try}
 
+import scala.util.{Success, Try}
 import scala.concurrent.{ExecutionContext, Future}
 
 class WhichYearsController @Inject() (
@@ -98,18 +99,24 @@ class WhichYearsController @Inject() (
 
   def populateChecklist(ua: UserAnswers)(implicit messages: Messages): Seq[CheckboxItem] = {
 
-    import models.WhyAreYouMakingThisDisclosure._
+    val notifySelections     = ua.get(WhyDidYouNotNotifyPage).getOrElse(Set.empty)
+    val lateReturnSelections = ua.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).getOrElse(Set.empty)
+    val inaccurateSelections = ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).getOrElse(Set.empty)
 
-    val behaviour = ua.get(WhyAreYouMakingThisDisclosurePage) match {
-      case Some(value)
-          if value.contains(DidNotNotifyNoExcuse) ||
-            value.contains(DeliberatelyDidNotNotify) ||
-            value.contains(DeliberateInaccurateReturn) ||
-            value.contains(DeliberatelyDidNotFile) =>
-        Behaviour.Deliberate
-      case Some(value) if value.contains(InaccurateReturnNoCare) => Behaviour.Careless
-      case _                                                     => Behaviour.ReasonableExcuse
-    }
+    val isDeliberate =
+      notifySelections.contains(WhyDidYouNotNotify.DeliberatelyDidNotNotify) ||
+        lateReturnSelections.contains(WhyDidYouNotFileAReturnOnTimeOffshore.DeliberatelyWithheldInformation) ||
+        inaccurateSelections.contains(WhyYouSubmittedAnInaccurateReturn.DeliberatelyInaccurate)
+
+    val isCareless =
+      notifySelections.contains(WhyDidYouNotNotify.NotDeliberatelyNoReasonableExcuse) ||
+        lateReturnSelections.contains(WhyDidYouNotFileAReturnOnTimeOffshore.DidNotWithholdInformationOnPurpose) ||
+        inaccurateSelections.contains(WhyYouSubmittedAnInaccurateReturn.NoReasonableCare)
+
+    val behaviour =
+      if (isDeliberate) Behaviour.Deliberate
+      else if (isCareless) Behaviour.Careless
+      else Behaviour.ReasonableExcuse
 
     offshoreWhichYearsService.checkboxItems(behaviour)
   }

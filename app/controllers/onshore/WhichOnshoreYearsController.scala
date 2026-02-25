@@ -23,6 +23,7 @@ import javax.inject.Inject
 import models._
 import navigation.OnshoreNavigator
 import pages._
+import pages.onshore.WhyDidYouNotFileAReturnOnTimeOnshorePage
 import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -94,18 +95,24 @@ class WhichOnshoreYearsController @Inject() (
 
   def populateChecklist(ua: UserAnswers)(implicit messages: Messages): Seq[CheckboxItem] = {
 
-    import models.WhyAreYouMakingThisOnshoreDisclosure._
+    val notifySelections    = ua.get(WhyDidYouNotNotifyOnshorePage).getOrElse(Set.empty)
+    val lateReturnSelections = ua.get(WhyDidYouNotFileAReturnOnTimeOnshorePage).getOrElse(Set.empty)
+    val inaccurateSelections = ua.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).getOrElse(Set.empty)
 
-    val behaviour = ua.get(WhyAreYouMakingThisOnshoreDisclosurePage) match {
-      case Some(value)
-          if value.contains(DidNotNotifyNoExcuse) ||
-            value.contains(DeliberatelyDidNotNotify) ||
-            value.contains(DeliberateInaccurateReturn) ||
-            value.contains(DeliberatelyDidNotFile) =>
-        Behaviour.Deliberate
-      case Some(value) if value.contains(InaccurateReturnNoCare) => Behaviour.Careless
-      case _                                                     => Behaviour.ReasonableExcuse
-    }
+    val isDeliberate =
+      notifySelections.contains(WhyDidYouNotNotifyOnshore.DeliberatelyDidNotNotifyOnshore) ||
+        lateReturnSelections.contains(WhyDidYouNotFileAReturnOnTimeOnshore.DeliberatelyWithheldInformation) ||
+        inaccurateSelections.contains(WhyYouSubmittedAnInaccurateOnshoreReturn.DeliberatelyInaccurate)
+
+    val isCareless =
+      notifySelections.contains(WhyDidYouNotNotifyOnshore.NotDeliberatelyNoReasonableExcuseOnshore) ||
+        lateReturnSelections.contains(WhyDidYouNotFileAReturnOnTimeOnshore.DidNotWithholdInformationOnPurpose) ||
+        inaccurateSelections.contains(WhyYouSubmittedAnInaccurateOnshoreReturn.NoReasonableCare)
+
+    val behaviour =
+      if (isDeliberate) Behaviour.Deliberate
+      else if (isCareless) Behaviour.Careless
+      else Behaviour.ReasonableExcuse
 
     onshoreWhichYearsService.checkboxItems(behaviour)
   }

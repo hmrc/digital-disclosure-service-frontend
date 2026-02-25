@@ -14,35 +14,34 @@
  * limitations under the License.
  */
 
-package controllers.onshore
+package controllers.offshore
 
 import base.SpecBase
-import controllers.onshore.WhyAreYouMakingThisOnshoreDisclosureController
-import forms.WhyAreYouMakingThisOnshoreDisclosureFormProvider
-import models.{AreYouTheEntity, NormalMode, RelatesTo, UserAnswers, WhyAreYouMakingThisOnshoreDisclosure}
+import forms.WhyDidYouNotNotifyFormProvider
+import models.WhyDidYouNotNotify._
+import models.{AreYouTheEntity, NormalMode, RelatesTo, UserAnswers, WhyDidYouNotNotify}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages._
-import pages.onshore.WhyDidYouNotFileAReturnOnTimeOnshorePage
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import views.html.onshore.WhyAreYouMakingThisOnshoreDisclosureView
+import views.html.offshore.WhyDidYouNotNotifyView
 
 import scala.concurrent.Future
 
-class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with MockitoSugar {
+class WhyDidYouNotNotifyControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val WhyAreYouMakingThisOnshoreDisclosureRoute =
-    routes.WhyAreYouMakingThisOnshoreDisclosureController.onPageLoad(NormalMode).url
+  lazy val whyDidYouNotNotifyRoute =
+    routes.WhyDidYouNotNotifyController.onPageLoad(NormalMode).url
 
-  val formProvider = new WhyAreYouMakingThisOnshoreDisclosureFormProvider()
+  val formProvider = new WhyDidYouNotNotifyFormProvider()
   val form         = formProvider()
 
-  "WhyAreYouMakingThisOnshoreDisclosure Controller" - {
+  "WhyDidYouNotNotify Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
@@ -56,11 +55,11 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
 
       setupMockSessionResponse(Some(userAnswers))
 
-      val request = FakeRequest(GET, WhyAreYouMakingThisOnshoreDisclosureRoute)
+      val request = FakeRequest(GET, whyDidYouNotNotifyRoute)
 
       val result = route(application, request).value
 
-      val view = application.injector.instanceOf[WhyAreYouMakingThisOnshoreDisclosureView]
+      val view = application.injector.instanceOf[WhyDidYouNotNotifyView]
 
       status(result) mustEqual OK
 
@@ -70,28 +69,28 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = (for {
-        userAnswer                                     <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
-        uaWithRelatesToPage                            <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
-        uaWithWhyAreYouMakingThisOnshoreDisclosurePage <- uaWithRelatesToPage.set(
-                                                            WhyAreYouMakingThisOnshoreDisclosurePage,
-                                                            WhyAreYouMakingThisOnshoreDisclosure.values.toSet
-                                                          )
-      } yield uaWithWhyAreYouMakingThisOnshoreDisclosurePage).success.value
+        userAnswer          <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
+        uaWithWhyPage       <- uaWithRelatesToPage.set(
+          WhyDidYouNotNotifyPage,
+          WhyDidYouNotNotify.values.toSet
+        )
+      } yield uaWithWhyPage).success.value
 
       val areTheyTheIndividual = userAnswers.isTheUserTheIndividual
       val entity               = userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
       setupMockSessionResponse(Some(userAnswers))
 
-      val request = FakeRequest(GET, WhyAreYouMakingThisOnshoreDisclosureRoute)
+      val request = FakeRequest(GET, whyDidYouNotNotifyRoute)
 
       val result = route(application, request).value
 
-      val view = application.injector.instanceOf[WhyAreYouMakingThisOnshoreDisclosureView]
+      val view = application.injector.instanceOf[WhyDidYouNotNotifyView]
 
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(
-        form.fill(WhyAreYouMakingThisOnshoreDisclosure.values.toSet),
+        form.fill(WhyDidYouNotNotify.values.toSet),
         NormalMode,
         areTheyTheIndividual,
         entity
@@ -109,10 +108,10 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
       setupMockSessionResponse(Some(userAnswers))
 
       val request =
-        FakeRequest(POST, WhyAreYouMakingThisOnshoreDisclosureRoute)
-          .withFormUrlEncodedBody(("value[0]", WhyAreYouMakingThisOnshoreDisclosure.values.head.toString))
+        FakeRequest(POST, whyDidYouNotNotifyRoute)
+          .withFormUrlEncodedBody(("value[0]", WhyDidYouNotNotify.values.head.toString))
 
-      val result = route(applicationWithFakeOnshoreNavigator(onwardRoute), request).value
+      val result = route(applicationWithFakeOffshoreNavigator(onwardRoute), request).value
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual onwardRoute.url
@@ -131,12 +130,12 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
       setupMockSessionResponse(Some(userAnswers))
 
       val request =
-        FakeRequest(POST, WhyAreYouMakingThisOnshoreDisclosureRoute)
+        FakeRequest(POST, whyDidYouNotNotifyRoute)
           .withFormUrlEncodedBody(("value", "invalid value"))
 
       val boundForm = form.bind(Map("value" -> "invalid value"))
 
-      val view = application.injector.instanceOf[WhyAreYouMakingThisOnshoreDisclosureView]
+      val view = application.injector.instanceOf[WhyDidYouNotNotifyView]
 
       val result = route(application, request).value
 
@@ -151,7 +150,7 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
 
       setupMockSessionResponse()
 
-      val request = FakeRequest(GET, WhyAreYouMakingThisOnshoreDisclosureRoute)
+      val request = FakeRequest(GET, whyDidYouNotNotifyRoute)
 
       val result = route(application, request).value
 
@@ -164,8 +163,8 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
       setupMockSessionResponse()
 
       val request =
-        FakeRequest(POST, WhyAreYouMakingThisOnshoreDisclosureRoute)
-          .withFormUrlEncodedBody(("value[0]", WhyAreYouMakingThisOnshoreDisclosure.values.head.toString))
+        FakeRequest(POST, whyDidYouNotNotifyRoute)
+          .withFormUrlEncodedBody(("value[0]", WhyDidYouNotNotify.values.head.toString))
 
       val result = route(application, request).value
 
@@ -174,18 +173,58 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
     }
   }
 
-  "return all Page 2 pages regardless of selections" in {
-    val result = WhyAreYouMakingThisOnshoreDisclosureController.getPages(Set.empty)
+  "changedPages and getPages logic" - {
 
-    result must contain allOf (
-      WhyDidYouNotNotifyOnshorePage,
-      ReasonableExcuseOnshorePage,
-      CDFOnshorePage,
-      WhyDidYouNotFileAReturnOnTimeOnshorePage,
-      ReasonableExcuseForNotFilingOnshorePage,
-      WhyYouSubmittedAnInaccurateOnshoreReturnPage,
-      ReasonableCareOnshorePage
-    )
+    "must return ContractualDisclosureFacilityPage when DeliberatelyDidNotNotify is not selected" in {
+      val controller = application.injector.instanceOf[WhyDidYouNotNotifyController]
+      val userAnswers = UserAnswers("id", "session-123")
+        .set(WhyDidYouNotNotifyPage, Set[WhyDidYouNotNotify](DeliberatelyDidNotNotify))
+        .success.value
+
+      val reasons: Set[WhyDidYouNotNotify] = Set(ReasonableExcuse)
+      val (pages, changed) = controller.changedPages(userAnswers, reasons)
+
+      pages must contain(ContractualDisclosureFacilityPage)
+      changed mustBe true
+    }
+
+    "must return WhatIsYourReasonableExcusePage when ReasonableExcuse is not selected" in {
+      val controller = application.injector.instanceOf[WhyDidYouNotNotifyController]
+      val userAnswers = UserAnswers("id", "session-123")
+        .set(WhyDidYouNotNotifyPage, Set[WhyDidYouNotNotify](ReasonableExcuse))
+        .success.value
+
+      val reasons: Set[WhyDidYouNotNotify] = Set(DeliberatelyDidNotNotify)
+      val (pages, changed) = controller.changedPages(userAnswers, reasons)
+
+      pages must contain(WhatIsYourReasonableExcusePage)
+      changed mustBe true
+    }
+
+    "must return both pages when neither DeliberatelyDidNotNotify nor ReasonableExcuse is selected" in {
+      val controller = application.injector.instanceOf[WhyDidYouNotNotifyController]
+      val userAnswers = UserAnswers("id", "session-123")
+        .set(WhyDidYouNotNotifyPage, Set[WhyDidYouNotNotify](ReasonableExcuse))
+        .success.value
+
+      val reasons: Set[WhyDidYouNotNotify] = Set(NotDeliberatelyNoReasonableExcuse)
+      val (pages, changed) = controller.changedPages(userAnswers, reasons)
+
+      pages must contain allOf (ContractualDisclosureFacilityPage, WhatIsYourReasonableExcusePage)
+      changed mustBe true
+    }
+
+    "must return empty list and false when values haven't changed" in {
+      val controller = application.injector.instanceOf[WhyDidYouNotNotifyController]
+      val reasons: Set[WhyDidYouNotNotify] = Set(DeliberatelyDidNotNotify, ReasonableExcuse)
+      val userAnswers = UserAnswers("id", "session-123")
+        .set(WhyDidYouNotNotifyPage, reasons)
+        .success.value
+
+      val (pages, changed) = controller.changedPages(userAnswers, reasons)
+
+      pages mustBe empty
+      changed mustBe false
+    }
   }
-
 }
