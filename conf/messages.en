@@ -1008,66 +1008,44 @@ makeANotificationOrDisclosure.change.hidden = MakeANotificationOrDisclosure
 whyAreYouMakingThisDisclosure.title = Why you are making this disclosure
 whyAreYouMakingThisDisclosure.heading = Why you are making this disclosure
 whyAreYouMakingThisDisclosure.heading.question = Why are you making this disclosure?
-
 whyAreYouMakingThisDisclosure.paragraph.first.you = Answering accurately will speed up the process as it allows us to accept your disclosure as quickly as possible.
 whyAreYouMakingThisDisclosure.paragraph.first = Answering accurately will speed up the process as it allows us to accept the disclosure as quickly as possible.
-
 whyAreYouMakingThisDisclosure.paragraph.second.you = If the person reviewing your disclosure finds it's largely wrong or answered incorrectly for a more favourable outcome, they will contact you about this and may seek much higher penalties.
 whyAreYouMakingThisDisclosure.paragraph.second = If the person reviewing the disclosure finds it's largely wrong or answered incorrectly for a more favourable outcome, they will contact you about this and may seek much higher penalties.
-
 whyAreYouMakingThisDisclosure.paragraph.third = If you are not sure which option applies to you, you may want to seek professional advice.
 whyAreYouMakingThisDisclosure.hint = Select all options that are relevant to all tax years you need to disclose for.
 whyAreYouMakingThisDisclosure.checkYourAnswersLabel = Reason
 whyAreYouMakingThisDisclosure.error.required = Select the reason for making this disclosure
 whyAreYouMakingThisDisclosure.change.hidden = Reason
-whyAreYouMakingThisDisclosure.you.didNotNotifyHasExcuse = I did not notify HMRC about a tax liability but this was not deliberate and I have a reasonable excuse.
-whyAreYouMakingThisDisclosure.you.inaccurateReturnWithCare = I have submitted an inaccurate return despite taking reasonable care.
-whyAreYouMakingThisDisclosure.you.notFileHasExcuse = I have not filed a return but have a reasonable excuse.
-whyAreYouMakingThisDisclosure.you.inaccurateReturnNoCare = I have submitted an inaccurate return because I did not take reasonable care.
-whyAreYouMakingThisDisclosure.you.didNotNotifyNoExcuse = I did not notify HMRC of a tax liability but this was not deliberate and I do not have a reasonable excuse.
-whyAreYouMakingThisDisclosure.you.deliberatelyDidNotNotify = I have deliberately failed to notify HMRC of a tax liability.
-whyAreYouMakingThisDisclosure.you.deliberateInaccurateReturn = I have deliberately submitted an inaccurate tax return.
-whyAreYouMakingThisDisclosure.you.deliberatelyDidNotFile = I have deliberately withheld information by failing to submit a return.
-whyAreYouMakingThisDisclosure.individual.didNotNotifyHasExcuse = The individual did not notify HMRC about a tax liability but this was not deliberate and they have a reasonable excuse.
-whyAreYouMakingThisDisclosure.individual.inaccurateReturnWithCare = The individual submitted an inaccurate return despite taking reasonable care.
-whyAreYouMakingThisDisclosure.individual.notFileHasExcuse = The individual did not file a return but has a reasonable excuse.
-whyAreYouMakingThisDisclosure.individual.inaccurateReturnNoCare = The individual submitted an inaccurate return because they did not take reasonable care.
-whyAreYouMakingThisDisclosure.individual.didNotNotifyNoExcuse = The individual did not notify HMRC of a tax liability but this was not deliberate and they do not have a reasonable excuse.
-whyAreYouMakingThisDisclosure.individual.deliberatelyDidNotNotify = The individual deliberately failed to notify HMRC of a tax liability.
-whyAreYouMakingThisDisclosure.individual.deliberateInaccurateReturn = The individual deliberately submitted an inaccurate tax return.
-whyAreYouMakingThisDisclosure.individual.deliberatelyDidNotFile = The individual deliberately withheld information by failing to submit a return.
-whyAreYouMakingThisDisclosure.company.didNotNotifyHasExcuse = The company did not notify HMRC about a tax liability but this was not deliberate and it has a reasonable excuse.
-whyAreYouMakingThisDisclosure.company.inaccurateReturnWithCare = The company submitted an inaccurate return despite taking reasonable care.
-whyAreYouMakingThisDisclosure.company.notFileHasExcuse = The company did not file a return but has a reasonable excuse.
-whyAreYouMakingThisDisclosure.company.inaccurateReturnNoCare = The company submitted an inaccurate return because it did not take reasonable care.
-whyAreYouMakingThisDisclosure.company.didNotNotifyNoExcuse = The company did not notify HMRC of a tax liability but this was not deliberate and it does not have a reasonable excuse.
-whyAreYouMakingThisDisclosure.company.deliberatelyDidNotNotify = The company deliberately failed to notify HMRC of a tax liability.
-whyAreYouMakingThisDisclosure.company.deliberateInaccurateReturn = The company deliberately submitted an inaccurate tax return.
-whyAreYouMakingThisDisclosure.company.deliberatelyDidNotFile = The company deliberately withheld information by failing to submit a return.
-whyAreYouMakingThisDisclosure.llp.didNotNotifyHasExcuse = The limited liability partnership did not notify HMRC about a tax liability but this was not deliberate and it has a reasonable excuse.
-whyAreYouMakingThisDisclosure.llp.inaccurateReturnWithCare = The limited liability partnership submitted an inaccurate return despite taking reasonable care.
-whyAreYouMakingThisDisclosure.llp.notFileHasExcuse = The limited liability partnership did not file a return but has a reasonable excuse.
-whyAreYouMakingThisDisclosure.llp.inaccurateReturnNoCare = The limited liability partnership submitted an inaccurate return because it did not take reasonable care.
-whyAreYouMakingThisDisclosure.llp.didNotNotifyNoExcuse = The limited liability partnership did not notify HMRC of a tax liability but this was not deliberate and it does not have a reasonable excuse.
-whyAreYouMakingThisDisclosure.llp.deliberatelyDidNotNotify = The limited liability partnership deliberately failed to notify HMRC of a tax liability.
-whyAreYouMakingThisDisclosure.llp.deliberateInaccurateReturn = The limited liability partnership deliberately submitted an inaccurate tax return.
-whyAreYouMakingThisDisclosure.llp.deliberatelyDidNotFile = The limited liability partnership deliberately withheld information by failing to submit a return.
-whyAreYouMakingThisDisclosure.trust.didNotNotifyHasExcuse = The trust did not notify HMRC about a tax liability but this was not deliberate and it has a reasonable excuse.
-whyAreYouMakingThisDisclosure.trust.inaccurateReturnWithCare = The trust submitted an inaccurate return despite taking reasonable care.
-whyAreYouMakingThisDisclosure.trust.notFileHasExcuse = The trust did not file a return but has a reasonable excuse.
-whyAreYouMakingThisDisclosure.trust.inaccurateReturnNoCare = The trust submitted an inaccurate return because it did not take reasonable care.
-whyAreYouMakingThisDisclosure.trust.didNotNotifyNoExcuse = The trust did not notify HMRC of a tax liability but this was not deliberate and it does not have a reasonable excuse.
-whyAreYouMakingThisDisclosure.trust.deliberatelyDidNotNotify = The trust deliberately failed to notify HMRC of a tax liability.
-whyAreYouMakingThisDisclosure.trust.deliberateInaccurateReturn = The trust deliberately submitted an inaccurate tax return.
-whyAreYouMakingThisDisclosure.trust.deliberatelyDidNotFile = The trust deliberately withheld information by failing to submit a return.
-whyAreYouMakingThisDisclosure.estate.didNotNotifyHasExcuse = The person who died did not notify HMRC about a tax liability but this was not deliberate and they had a reasonable excuse.
-whyAreYouMakingThisDisclosure.estate.inaccurateReturnWithCare = The person who died submitted an inaccurate return despite taking reasonable care.
-whyAreYouMakingThisDisclosure.estate.notFileHasExcuse = The person who died did not file a return but they had a reasonable excuse.
-whyAreYouMakingThisDisclosure.estate.inaccurateReturnNoCare = The person who died submitted an inaccurate return because they did not take reasonable care.
-whyAreYouMakingThisDisclosure.estate.didNotNotifyNoExcuse = The person who died did not notify HMRC of a tax liability but this was not deliberate and they did not have a reasonable excuse.
-whyAreYouMakingThisDisclosure.estate.deliberatelyDidNotNotify = The person who died deliberately failed to notify HMRC of a tax liability.
-whyAreYouMakingThisDisclosure.estate.deliberateInaccurateReturn = The person who died deliberately submitted an inaccurate tax return.
-whyAreYouMakingThisDisclosure.estate.deliberatelyDidNotFile = The person who died deliberately withheld information by failing to submit a return.
+
+whyAreYouMakingThisDisclosure.you.didNotNotifyHMRC = I did not notify HMRC about a tax liability
+whyAreYouMakingThisDisclosure.you.didNotFile = I did not file a tax return on time
+whyAreYouMakingThisDisclosure.you.inaccurateReturn = I submitted an inaccurate return
+
+# Individual
+whyAreYouMakingThisDisclosure.individual.didNotNotifyHMRC = The individual did not notify HMRC about a tax liability
+whyAreYouMakingThisDisclosure.individual.didNotFile = The individual did not file a tax return on time
+whyAreYouMakingThisDisclosure.individual.inaccurateReturn = The individual submitted an inaccurate return
+
+# Company
+whyAreYouMakingThisDisclosure.company.didNotNotifyHMRC = The company did not notify HMRC about a tax liability
+whyAreYouMakingThisDisclosure.company.didNotFile = The company did not file a tax return on time
+whyAreYouMakingThisDisclosure.company.inaccurateReturn = The company submitted an inaccurate return
+
+# LLP
+whyAreYouMakingThisDisclosure.llp.didNotNotifyHMRC = The limited liability partnership did not notify HMRC about a tax liability
+whyAreYouMakingThisDisclosure.llp.didNotFile = The limited liability partnership did not file a tax return on time
+whyAreYouMakingThisDisclosure.llp.inaccurateReturn = The limited liability partnership submitted an inaccurate return
+
+# Trust
+whyAreYouMakingThisDisclosure.trust.didNotNotifyHMRC = The trust did not notify HMRC about a tax liability
+whyAreYouMakingThisDisclosure.trust.didNotFile = The trust did not file a tax return on time
+whyAreYouMakingThisDisclosure.trust.inaccurateReturn = The trust submitted an inaccurate return
+
+# Estate
+whyAreYouMakingThisDisclosure.estate.didNotNotifyHMRC = The person who died did not notify HMRC about a tax liability
+whyAreYouMakingThisDisclosure.estate.didNotFile = The person who died did not file a tax return on time
+whyAreYouMakingThisDisclosure.estate.inaccurateReturn = The person who died submitted an inaccurate return
 
 whyDidYouNotNotify.title.you = Why did you not notify HMRC about a tax liability?
 whyDidYouNotNotify.heading.you = Why did you not notify HMRC about a tax liability?
@@ -1108,7 +1086,7 @@ whyDidYouNotNotify.h1.estate   = Which options describe why the person who died 
 whyDidYouNotNotify.you.notDeliberatelyNoReasonableExcuse = This was not deliberate, but I do not have a reasonable excuse
 whyDidYouNotNotify.notYou.notDeliberatelyNoReasonableExcuse = This was not deliberate, but they do not have a reasonable excuse
 
-whyDidYouNotNotify.you.reasonableExcuse = I do not have a reasonable excuse
+whyDidYouNotNotify.you.reasonableExcuse = I have a reasonable excuse
 whyDidYouNotNotify.notYou.reasonableExcuse = They have a reasonable excuse
 
 whyDidYouNotNotify.you.deliberatelyDidNotNotify = I deliberately failed to notify HMRC of a tax liability
@@ -1169,36 +1147,6 @@ WhyYouSubmittedAnInaccurateReturn.error.required.company = Select the reasons th
 WhyYouSubmittedAnInaccurateReturn.error.required.llp = Select the reasons the limited liability partnership submitted an inaccurate return
 WhyYouSubmittedAnInaccurateReturn.error.required.trust = Select the reasons the trust submitted an inaccurate return
 WhyYouSubmittedAnInaccurateReturn.error.required.estate = Select the reasons the person who died submitted an inaccurate return
-
-# You/I
-whyAreYouMakingThisDisclosure.you.didNotNotifyHMRC = I did not notify HMRC about a tax liability
-whyAreYouMakingThisDisclosure.you.didNotFile = I did not file a tax return on time
-whyAreYouMakingThisDisclosure.you.inaccurateReturn = I submitted an inaccurate return
-
-# Individual
-whyAreYouMakingThisDisclosure.individual.didNotNotifyHMRC = The individual did not notify HMRC about a tax liability
-whyAreYouMakingThisDisclosure.individual.didNotFile = The individual did not file a tax return on time
-whyAreYouMakingThisDisclosure.individual.inaccurateReturn = The individual submitted an inaccurate return
-
-# Company
-whyAreYouMakingThisDisclosure.company.didNotNotifyHMRC = The company did not notify HMRC about a tax liability
-whyAreYouMakingThisDisclosure.company.didNotFile = The company did not file a tax return on time
-whyAreYouMakingThisDisclosure.company.inaccurateReturn = The company submitted an inaccurate return
-
-# LLP
-whyAreYouMakingThisDisclosure.llp.didNotNotifyHMRC = The limited liability partnership did not notify HMRC about a tax liability
-whyAreYouMakingThisDisclosure.llp.didNotFile = The limited liability partnership did not file a tax return on time
-whyAreYouMakingThisDisclosure.llp.inaccurateReturn = The limited liability partnership submitted an inaccurate return
-
-# Trust
-whyAreYouMakingThisDisclosure.trust.didNotNotifyHMRC = The trust did not notify HMRC about a tax liability
-whyAreYouMakingThisDisclosure.trust.didNotFile = The trust did not file a tax return on time
-whyAreYouMakingThisDisclosure.trust.inaccurateReturn = The trust submitted an inaccurate return
-
-# Estate
-whyAreYouMakingThisDisclosure.estate.didNotNotifyHMRC = The person who died did not notify HMRC about a tax liability
-whyAreYouMakingThisDisclosure.estate.didNotFile = The person who died did not file a tax return on time
-whyAreYouMakingThisDisclosure.estate.inaccurateReturn = The person who died submitted an inaccurate return
 
 taskList.title = List of tasks
 taskList.title.no.reference = List of tasks for case created on {0}
