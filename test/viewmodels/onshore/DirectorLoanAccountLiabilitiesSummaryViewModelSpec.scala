@@ -74,7 +74,7 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelSpec extends SpecBase with S
       )
 
       val summaryList =
-        sut.directorLoanAccountLiabilitiesToSummaryList(0, directorLoanAccountLiabilities, revealFullText)
+        sut.directorLoanAccountLiabilitiesToSummaryList(0, directorLoanAccountLiabilities, revealFullText,true)
 
       summaryList.rows(0).key mustEqual Key(Text(mess("directorLoanAccountLiabilities.name.checkYourAnswersLabel")))
       summaryList.rows(0).value mustEqual ValueViewModel(Text("name"))
