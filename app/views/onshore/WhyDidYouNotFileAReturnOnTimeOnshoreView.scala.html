@@ -38,7 +38,7 @@
 
         @heading(Text(if(areTheyTheIndividual){messages("whyDidYouNotFileAReturnOnTime.you.heading")} else {messages(s"whyDidYouNotFileAReturnOnTime.$entity.heading")}))
 
-        @paragraph(id = Some("first-paragraph"), content = Text(if(areTheyTheIndividual){messages("whyDidYouNotFileAReturnOnTime.paragraph.first.you")} else {messages(s"whyDidYouNotFileAReturnOnTime.paragraph.first.$entity")}))
+        @paragraph(id = Some("first-paragraph"), content = Text(messages(s"whyDidYouNotFileAReturnOnTime.paragraph.first.$entity")))
 
         @paragraph(id = Some("second-paragraph"), content = Text(messages("whyDidYouNotFileAReturnOnTime.paragraph.second")))
 

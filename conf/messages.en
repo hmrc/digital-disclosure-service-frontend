@@ -1069,8 +1069,8 @@ whyAreYouMakingThisDisclosure.estate.deliberatelyDidNotNotify = The person who d
 whyAreYouMakingThisDisclosure.estate.deliberateInaccurateReturn = The person who died deliberately submitted an inaccurate tax return.
 whyAreYouMakingThisDisclosure.estate.deliberatelyDidNotFile = The person who died deliberately withheld information by failing to submit a return.
 
-whyDidYouNotNotify.title.you = Why did you not notify HMRC about a tax liability?
-whyDidYouNotNotify.heading.you = Why did you not notify HMRC about a tax liability?
+whyDidYouNotNotify.title.you = Why did you not notify HMRC about a tax liability
+whyDidYouNotNotify.heading.you = Why did you not notify HMRC about a tax liability
 whyDidYouNotNotify.title.individual = Why the individual did not notify HMRC about a tax liability
 whyDidYouNotNotify.heading.individual = Why the individual did not notify HMRC about a tax liability
 whyDidYouNotNotify.title.company = Why the company did not notify HMRC about a tax liability
@@ -1108,7 +1108,7 @@ whyDidYouNotNotify.h1.estate   = Which options describe why the person who died 
 whyDidYouNotNotify.you.notDeliberatelyNoReasonableExcuse = This was not deliberate, but I do not have a reasonable excuse
 whyDidYouNotNotify.notYou.notDeliberatelyNoReasonableExcuse = This was not deliberate, but they do not have a reasonable excuse
 
-whyDidYouNotNotify.you.reasonableExcuse = I do not have a reasonable excuse
+whyDidYouNotNotify.you.reasonableExcuse = I have a reasonable excuse
 whyDidYouNotNotify.notYou.reasonableExcuse = They have a reasonable excuse
 
 whyDidYouNotNotify.you.deliberatelyDidNotNotify = I deliberately failed to notify HMRC of a tax liability
