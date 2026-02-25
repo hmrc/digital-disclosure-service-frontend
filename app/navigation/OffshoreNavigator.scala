@@ -48,44 +48,88 @@ class OffshoreNavigator @Inject() () {
 
     case WhyDidYouNotNotifyPage =>
       ua =>
-        val page1Selections  = ua.get(WhyAreYouMakingThisDisclosurePage).getOrElse(Set.empty)
-        val page2aSelections = ua.get(WhyDidYouNotNotifyPage).getOrElse(Set.empty)
+        val page1Selections = ua.get(WhyAreYouMakingThisDisclosurePage).getOrElse(Set.empty)
 
-        if (page2aSelections.contains(WhyDidYouNotNotify.ReasonableExcuse)) {
-          routes.WhatIsYourReasonableExcuseController.onPageLoad(NormalMode)
-        } else if (page1Selections.contains(DidNotFile) && ua.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).isEmpty) {
+        if (page1Selections.contains(DidNotFile) && ua.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).isEmpty) {
           routes.WhyDidYouNotFileAReturnOnTimeOffshoreController.onPageLoad(NormalMode)
         } else if (page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).isEmpty) {
           routes.WhyYouSubmittedAnInaccurateReturnController.onPageLoad(NormalMode)
         } else if (hasAnyDeliberate(ua)) {
           routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)
         } else {
-          routes.WhichYearsController.onPageLoad(NormalMode)
+          val page2aSelections = ua.get(WhyDidYouNotNotifyPage).getOrElse(Set.empty)
+          if (page2aSelections.contains(WhyDidYouNotNotify.ReasonableExcuse)) {
+            routes.WhatIsYourReasonableExcuseController.onPageLoad(NormalMode)
+          } else {
+            routes.WhichYearsController.onPageLoad(NormalMode)
+          }
         }
 
     case WhyDidYouNotFileAReturnOnTimeOffshorePage =>
       ua =>
-        val page1Selections  = ua.get(WhyAreYouMakingThisDisclosurePage).getOrElse(Set.empty)
-        val page2bSelections = ua.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).getOrElse(Set.empty)
+        val page1Selections = ua.get(WhyAreYouMakingThisDisclosurePage).getOrElse(Set.empty)
 
-        if (page2bSelections.contains(WhyDidYouNotFileAReturnOnTimeOffshore.ReasonableExcuse)) {
-          routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode)
-        } else if (page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).isEmpty) {
+        if (page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).isEmpty) {
           routes.WhyYouSubmittedAnInaccurateReturnController.onPageLoad(NormalMode)
         } else if (hasAnyDeliberate(ua)) {
           routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)
+        } else if (page1Selections.contains(DidNotNotifyHMRC)) {
+          val page2aSelections = ua.get(WhyDidYouNotNotifyPage).getOrElse(Set.empty)
+          if (page2aSelections.contains(WhyDidYouNotNotify.ReasonableExcuse)) {
+            routes.WhatIsYourReasonableExcuseController.onPageLoad(NormalMode)
+          } else {
+            val page2bSelections = ua.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).getOrElse(Set.empty)
+            if (page2bSelections.contains(WhyDidYouNotFileAReturnOnTimeOffshore.ReasonableExcuse)) {
+              routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode)
+            } else {
+              routes.WhichYearsController.onPageLoad(NormalMode)
+            }
+          }
         } else {
-          routes.WhichYearsController.onPageLoad(NormalMode)
+          val page2bSelections = ua.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).getOrElse(Set.empty)
+          if (page2bSelections.contains(WhyDidYouNotFileAReturnOnTimeOffshore.ReasonableExcuse)) {
+            routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode)
+          } else {
+            routes.WhichYearsController.onPageLoad(NormalMode)
+          }
         }
 
     case WhyYouSubmittedAnInaccurateOffshoreReturnPage =>
       ua =>
+        val page1Selections  = ua.get(WhyAreYouMakingThisDisclosurePage).getOrElse(Set.empty)
         val page2cSelections = ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).getOrElse(Set.empty)
 
-        if (page2cSelections.contains(WhyYouSubmittedAnInaccurateReturn.ReasonableMistake)) {
-          routes.WhatReasonableCareDidYouTakeController.onPageLoad(NormalMode)
-        } else if (hasAnyDeliberate(ua)) {
+        if (hasAnyDeliberate(ua)) {
           routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)
+        } else if (page1Selections.contains(DidNotNotifyHMRC)) {
+          val page2aSelections = ua.get(WhyDidYouNotNotifyPage).getOrElse(Set.empty)
+          if (page2aSelections.contains(WhyDidYouNotNotify.ReasonableExcuse)) {
+            routes.WhatIsYourReasonableExcuseController.onPageLoad(NormalMode)
+          } else if (page1Selections.contains(DidNotFile)) {
+            val page2bSelections = ua.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).getOrElse(Set.empty)
+            if (page2bSelections.contains(WhyDidYouNotFileAReturnOnTimeOffshore.ReasonableExcuse)) {
+              routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode)
+            } else if (page2cSelections.contains(WhyYouSubmittedAnInaccurateReturn.ReasonableMistake)) {
+              routes.WhatReasonableCareDidYouTakeController.onPageLoad(NormalMode)
+            } else {
+              routes.WhichYearsController.onPageLoad(NormalMode)
+            }
+          } else if (page2cSelections.contains(WhyYouSubmittedAnInaccurateReturn.ReasonableMistake)) {
+            routes.WhatReasonableCareDidYouTakeController.onPageLoad(NormalMode)
+          } else {
+            routes.WhichYearsController.onPageLoad(NormalMode)
+          }
+        } else if (page1Selections.contains(DidNotFile)) {
+          val page2bSelections = ua.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).getOrElse(Set.empty)
+          if (page2bSelections.contains(WhyDidYouNotFileAReturnOnTimeOffshore.ReasonableExcuse)) {
+            routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode)
+          } else if (page2cSelections.contains(WhyYouSubmittedAnInaccurateReturn.ReasonableMistake)) {
+            routes.WhatReasonableCareDidYouTakeController.onPageLoad(NormalMode)
+          } else {
+            routes.WhichYearsController.onPageLoad(NormalMode)
+          }
+        } else if (page2cSelections.contains(WhyYouSubmittedAnInaccurateReturn.ReasonableMistake)) {
+          routes.WhatReasonableCareDidYouTakeController.onPageLoad(NormalMode)
         } else {
           routes.WhichYearsController.onPageLoad(NormalMode)
         }
@@ -97,12 +141,55 @@ class OffshoreNavigator @Inject() () {
         (ua.get(ContractualDisclosureFacilityPage)) match {
           case Some(false) => routes.YouHaveLeftTheDDSController.onPageLoad(NormalMode)
           case Some(true) =>
-            if (page1Selections.contains(DidNotNotifyHMRC) && ua.get(WhyDidYouNotNotifyPage).isEmpty) {
-              routes.WhyDidYouNotNotifyController.onPageLoad(NormalMode)
-            } else if (page1Selections.contains(DidNotFile) && ua.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).isEmpty) {
-              routes.WhyDidYouNotFileAReturnOnTimeOffshoreController.onPageLoad(NormalMode)
-            } else if (page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).isEmpty) {
-              routes.WhyYouSubmittedAnInaccurateReturnController.onPageLoad(NormalMode)
+            if (page1Selections.contains(DidNotNotifyHMRC)) {
+              val page2aSelections = ua.get(WhyDidYouNotNotifyPage).getOrElse(Set.empty)
+              if (page2aSelections.contains(WhyDidYouNotNotify.ReasonableExcuse)) {
+                routes.WhatIsYourReasonableExcuseController.onPageLoad(NormalMode)
+              } else if (page1Selections.contains(DidNotFile)) {
+                val page2bSelections = ua.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).getOrElse(Set.empty)
+                if (page2bSelections.contains(WhyDidYouNotFileAReturnOnTimeOffshore.ReasonableExcuse)) {
+                  routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode)
+                } else if (page1Selections.contains(InaccurateReturn)) {
+                  val page2cSelections = ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).getOrElse(Set.empty)
+                  if (page2cSelections.contains(WhyYouSubmittedAnInaccurateReturn.ReasonableMistake)) {
+                    routes.WhatReasonableCareDidYouTakeController.onPageLoad(NormalMode)
+                  } else {
+                    routes.WhichYearsController.onPageLoad(NormalMode)
+                  }
+                } else {
+                  routes.WhichYearsController.onPageLoad(NormalMode)
+                }
+              } else if (page1Selections.contains(InaccurateReturn)) {
+                val page2cSelections = ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).getOrElse(Set.empty)
+                if (page2cSelections.contains(WhyYouSubmittedAnInaccurateReturn.ReasonableMistake)) {
+                  routes.WhatReasonableCareDidYouTakeController.onPageLoad(NormalMode)
+                } else {
+                  routes.WhichYearsController.onPageLoad(NormalMode)
+                }
+              } else {
+                routes.WhichYearsController.onPageLoad(NormalMode)
+              }
+            } else if (page1Selections.contains(DidNotFile)) {
+              val page2bSelections = ua.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).getOrElse(Set.empty)
+              if (page2bSelections.contains(WhyDidYouNotFileAReturnOnTimeOffshore.ReasonableExcuse)) {
+                routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode)
+              } else if (page1Selections.contains(InaccurateReturn)) {
+                val page2cSelections = ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).getOrElse(Set.empty)
+                if (page2cSelections.contains(WhyYouSubmittedAnInaccurateReturn.ReasonableMistake)) {
+                  routes.WhatReasonableCareDidYouTakeController.onPageLoad(NormalMode)
+                } else {
+                  routes.WhichYearsController.onPageLoad(NormalMode)
+                }
+              } else {
+                routes.WhichYearsController.onPageLoad(NormalMode)
+              }
+            } else if (page1Selections.contains(InaccurateReturn)) {
+              val page2cSelections = ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).getOrElse(Set.empty)
+              if (page2cSelections.contains(WhyYouSubmittedAnInaccurateReturn.ReasonableMistake)) {
+                routes.WhatReasonableCareDidYouTakeController.onPageLoad(NormalMode)
+              } else {
+                routes.WhichYearsController.onPageLoad(NormalMode)
+              }
             } else {
               routes.WhichYearsController.onPageLoad(NormalMode)
             }
@@ -113,30 +200,45 @@ class OffshoreNavigator @Inject() () {
       ua =>
         val page1Selections = ua.get(WhyAreYouMakingThisDisclosurePage).getOrElse(Set.empty)
 
-        if (page1Selections.contains(DidNotFile) && ua.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).isEmpty) {
-          routes.WhyDidYouNotFileAReturnOnTimeOffshoreController.onPageLoad(NormalMode)
-        } else if (page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).isEmpty) {
-          routes.WhyYouSubmittedAnInaccurateReturnController.onPageLoad(NormalMode)
+        if (page1Selections.contains(DidNotFile)) {
+          val page2bSelections = ua.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).getOrElse(Set.empty)
+          if (page2bSelections.contains(WhyDidYouNotFileAReturnOnTimeOffshore.ReasonableExcuse)) {
+            routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(NormalMode)
+          } else if (page1Selections.contains(InaccurateReturn)) {
+            val page2cSelections = ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).getOrElse(Set.empty)
+            if (page2cSelections.contains(WhyYouSubmittedAnInaccurateReturn.ReasonableMistake)) {
+              routes.WhatReasonableCareDidYouTakeController.onPageLoad(NormalMode)
+            } else {
+              routes.WhichYearsController.onPageLoad(NormalMode)
+            }
+          } else {
+            routes.WhichYearsController.onPageLoad(NormalMode)
+          }
+        } else if (page1Selections.contains(InaccurateReturn)) {
+          val page2cSelections = ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).getOrElse(Set.empty)
+          if (page2cSelections.contains(WhyYouSubmittedAnInaccurateReturn.ReasonableMistake)) {
+            routes.WhatReasonableCareDidYouTakeController.onPageLoad(NormalMode)
+          } else {
+            routes.WhichYearsController.onPageLoad(NormalMode)
+          }
         } else {
           routes.WhichYearsController.onPageLoad(NormalMode)
         }
 
     case WhatReasonableCareDidYouTakePage =>
-      ua =>
-        val page1Selections = ua.get(WhyAreYouMakingThisDisclosurePage).getOrElse(Set.empty)
-
-        if (page1Selections.contains(DidNotFile) && ua.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).isEmpty) {
-          routes.WhyDidYouNotFileAReturnOnTimeOffshoreController.onPageLoad(NormalMode)
-        } else {
-          routes.WhichYearsController.onPageLoad(NormalMode)
-        }
+      _ => routes.WhichYearsController.onPageLoad(NormalMode)
 
     case WhatIsYourReasonableExcuseForNotFilingReturnPage =>
       ua =>
         val page1Selections = ua.get(WhyAreYouMakingThisDisclosurePage).getOrElse(Set.empty)
 
-        if (page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).isEmpty) {
-          routes.WhyYouSubmittedAnInaccurateReturnController.onPageLoad(NormalMode)
+        if (page1Selections.contains(InaccurateReturn)) {
+          val page2cSelections = ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).getOrElse(Set.empty)
+          if (page2cSelections.contains(WhyYouSubmittedAnInaccurateReturn.ReasonableMistake)) {
+            routes.WhatReasonableCareDidYouTakeController.onPageLoad(NormalMode)
+          } else {
+            routes.WhichYearsController.onPageLoad(NormalMode)
+          }
         } else {
           routes.WhichYearsController.onPageLoad(NormalMode)
         }
