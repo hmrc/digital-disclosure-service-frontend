@@ -1042,6 +1042,118 @@ whyDidYouNotNotify.error.required.llp = Dewiswch resymau’r bartneriaeth atebol
 whyDidYouNotNotify.error.required.trust = Dewiswch resymau’r ymddiriedolaeth dros beidio â rhoi gwybod i CThEF
 whyDidYouNotNotify.error.required.estate = Dewiswch resymau’r person a fu farw dros beidio â rhoi gwybod i CThEF
 
+WhyYouSubmittedAnInaccurateReturn.title.you = Pam y cyflwynoch Ffurflen Dreth wallus
+WhyYouSubmittedAnInaccurateReturn.title.individual = Pam y cyflwynodd yr unigolyn Ffurflen Dreth wallus
+WhyYouSubmittedAnInaccurateReturn.title.company = Pam y cyflwynodd y cwmni Ffurflen Dreth wallus
+WhyYouSubmittedAnInaccurateReturn.title.llp = Pam y cyflwynodd y bartneriaeth atebolrwydd cyfyngedig Ffurflen Dreth wallus
+WhyYouSubmittedAnInaccurateReturn.title.trust = Pam y cyflwynodd yr ymddiriedolaeth Ffurflen Dreth wallus
+WhyYouSubmittedAnInaccurateReturn.title.estate = Pam y cyflwynodd y person a fu farw Ffurflen Dreth wallus
+
+WhyYouSubmittedAnInaccurateReturn.heading.you = Pam y cyflwynoch Ffurflen Dreth wallus
+WhyYouSubmittedAnInaccurateReturn.heading.individual = Pam y cyflwynodd yr unigolyn Ffurflen Dreth wallus
+WhyYouSubmittedAnInaccurateReturn.heading.company = Pam y cyflwynodd y cwmni Ffurflen Dreth wallus
+WhyYouSubmittedAnInaccurateReturn.heading.llp = Pam y cyflwynodd y bartneriaeth atebolrwydd cyfyngedig Ffurflen Dreth wallus
+WhyYouSubmittedAnInaccurateReturn.heading.trust = Pam y cyflwynodd yr ymddiriedolaeth Ffurflen Dreth wallus
+WhyYouSubmittedAnInaccurateReturn.heading.estate = Pam y cyflwynodd y person a fu farw Ffurflen Dreth wallus
+
+WhyYouSubmittedAnInaccurateReturn.paragraph.first.you = Rydych wedi rhoi gwybod i ni eich bod wedi cyflwyno Ffurflen Dreth wallus.
+WhyYouSubmittedAnInaccurateReturn.paragraph.first.individual = Rydych wedi rhoi gwybod i ni fod yr unigolyn wedi cyflwyno Ffurflen Dreth wallus.
+WhyYouSubmittedAnInaccurateReturn.paragraph.first.company = Rydych wedi rhoi gwybod i ni fod y cwmni wedi cyflwyno Ffurflen Dreth wallus.
+WhyYouSubmittedAnInaccurateReturn.paragraph.first.llp = Rydych wedi rhoi gwybod i ni fod y bartneriaeth atebolrwydd cyfyngedig wedi cyflwyno Ffurflen Dreth wallus.
+WhyYouSubmittedAnInaccurateReturn.paragraph.first.trust = Rydych wedi rhoi gwybod i ni fod yr ymddiriedolaeth wedi cyflwyno Ffurflen Dreth wallus.
+WhyYouSubmittedAnInaccurateReturn.paragraph.first.estate = Rydych wedi rhoi gwybod i ni fod y person a fu farw wedi cyflwyno Ffurflen Dreth wallus.
+
+WhyYouSubmittedAnInaccurateReturn.paragraph.second = Mae angen i chi ddarparu mwy o wybodaeth am pam y digwyddodd hyn.
+WhyYouSubmittedAnInaccurateReturn.paragraph.third = Os nad ydych yn sicr pa opsiwn sy'n berthnasol, efallai yr hoffech geisio cyngor proffesiynol.
+
+WhyYouSubmittedAnInaccurateReturn.you.checkboxes.heading = Pa opsiynau sy'n disgrifio pam y gwnaethoch gyflwyno Ffurflen Dreth wallus?
+WhyYouSubmittedAnInaccurateReturn.individual.checkboxes.heading = Pa opsiynau sy'n disgrifio pam y gwnaeth yr unigolyn gyflwyno Ffurflen Dreth wallus?
+WhyYouSubmittedAnInaccurateReturn.company.checkboxes.heading = Pa opsiynau sy'n disgrifio pam y gwnaeth y cwmni gyflwyno Ffurflen Dreth wallus?
+WhyYouSubmittedAnInaccurateReturn.llp.checkboxes.heading = Pa opsiynau sy'n disgrifio pam y gwnaeth y bartneriaeth atebolrwydd cyfyngedig gyflwyno Ffurflen Dreth wallus?
+WhyYouSubmittedAnInaccurateReturn.trust.checkboxes.heading = Pa opsiynau sy'n disgrifio pam y gwnaeth yr ymddiriedolaeth gyflwyno Ffurflen Dreth wallus?
+WhyYouSubmittedAnInaccurateReturn.estate.checkboxes.heading = Pa opsiynau sy'n disgrifio pam y gwnaeth y person a fu farw gyflwyno Ffurflen Dreth wallus?
+
+WhyYouSubmittedAnInaccurateReturn.checkboxes.hint = Dewiswch yr holl opsiynau sy'n berthnasol i'r holl flynyddoedd treth y mae angen i chi eu datgelu.
+WhyYouSubmittedAnInaccurateReturn.checkYourAnswersLabel = Rheswm dros gyflwyno Ffurflen Dreth wallus
+WhyYouSubmittedAnInaccurateReturn.change.hidden = rheswm dros gyflwyno Ffurflen Dreth wallus
+
+WhyYouSubmittedAnInaccurateReturn.you.noReasonableCare = Ni wnes i gymryd gofal rhesymol
+WhyYouSubmittedAnInaccurateReturn.notYou.noReasonableCare = Ni wnaethant gymryd gofal rhesymol
+WhyYouSubmittedAnInaccurateReturn.you.reasonableMistake = Gwnes i gymryd gofal rhesymol, ond rwyf wedi gwneud camgymeriad
+WhyYouSubmittedAnInaccurateReturn.notYou.reasonableMistake = Gwnaethon nhw gymryd gofal rhesymol, ond wedi gwneud camgymeriad
+WhyYouSubmittedAnInaccurateReturn.you.deliberatelyInaccurate = Gwnes i gyflwyno Ffurflen Dreth wallus yn fwriadol
+WhyYouSubmittedAnInaccurateReturn.notYou.deliberatelyInaccurate = Gwnaethon nhw gyflwyno Ffurflen Dreth wallus yn fwriadol
+
+WhyYouSubmittedAnInaccurateReturn.error.required.you = Dewiswch eich rhesymau dros gyflwyno Ffurflen Dreth wallus
+WhyYouSubmittedAnInaccurateReturn.error.required.individual = Dewiswch resymau'r unigolyn dros gyflwyno Ffurflen Dreth wallus
+WhyYouSubmittedAnInaccurateReturn.error.required.company = Dewiswch resymau'r cwmni dros gyflwyno Ffurflen Dreth wallus
+WhyYouSubmittedAnInaccurateReturn.error.required.llp = Dewiswch resymau'r bartneriaeth atebolrwydd cyfyngedig dros gyflwyno Ffurflen Dreth wallus
+WhyYouSubmittedAnInaccurateReturn.error.required.trust = Dewiswch resymau'r ymddiriedolaeth dros gyflwyno Ffurflen Dreth wallus
+WhyYouSubmittedAnInaccurateReturn.error.required.estate = Dewiswch resymau'r person a fu farw dros gyflwyno Ffurflen Dreth wallus
+
+whyDidYouNotFileAReturnOnTime.you.title = Eich rheswm dros beidio â chyflwyno'ch Ffurflen Dreth mewn pryd
+whyDidYouNotFileAReturnOnTime.individual.title = Rheswm yr unigolyn dros beidio â chyflwyno'i Ffurflen Dreth mewn pryd
+whyDidYouNotFileAReturnOnTime.company.title = Rheswm y cwmni dros beidio â chyflwyno'i Ffurflen Dreth mewn pryd
+whyDidYouNotFileAReturnOnTime.llp.title = Rheswm y bartneriaeth atebolrwydd cyfyngedig dros beidio â chyflwyno'i Ffurflen Dreth mewn pryd
+whyDidYouNotFileAReturnOnTime.trust.title = Rheswm yr ymddiriedolaeth dros beidio â chyflwyno'i Ffurflen Dreth mewn pryd
+whyDidYouNotFileAReturnOnTime.estate.title = Rheswm y person a fu farw dros beidio â chyflwyno'i Ffurflen Dreth mewn pryd
+
+whyDidYouNotFileAReturnOnTime.you.heading = Eich rheswm dros beidio â chyflwyno'ch Ffurflen Dreth mewn pryd
+whyDidYouNotFileAReturnOnTime.individual.heading = Rheswm yr unigolyn dros beidio â chyflwyno'i Ffurflen Dreth mewn pryd
+whyDidYouNotFileAReturnOnTime.company.heading = Rheswm y cwmni dros beidio â chyflwyno'i Ffurflen Dreth mewn pryd
+whyDidYouNotFileAReturnOnTime.llp.heading = Rheswm y bartneriaeth atebolrwydd cyfyngedig dros beidio â chyflwyno'i Ffurflen Dreth mewn pryd
+whyDidYouNotFileAReturnOnTime.trust.heading = Rheswm yr ymddiriedolaeth dros beidio â chyflwyno'i Ffurflen Dreth mewn pryd
+whyDidYouNotFileAReturnOnTime.estate.heading = Rheswm y person a fu farw dros beidio â chyflwyno'i Ffurflen Dreth mewn pryd
+
+whyDidYouNotFileAReturnOnTime.paragraph.first.you = Rydych wedi rhoi gwybod i ni eich bod heb gyflwyno Ffurflen Dreth mewn pryd.
+whyDidYouNotFileAReturnOnTime.paragraph.first.individual = Rydych wedi rhoi gwybod i ni fod yr unigolyn heb gyflwyno Ffurflen Dreth mewn pryd.
+whyDidYouNotFileAReturnOnTime.paragraph.first.company = Rydych wedi rhoi gwybod i ni fod y cwmni heb gyflwyno Ffurflen Dreth mewn pryd.
+whyDidYouNotFileAReturnOnTime.paragraph.first.llp = Rydych wedi rhoi gwybod i ni fod y bartneriaeth atebolrwydd cyfyngedig heb gyflwyno Ffurflen Dreth mewn pryd.
+whyDidYouNotFileAReturnOnTime.paragraph.first.trust = Rydych wedi rhoi gwybod i ni fod yr ymddiriedolaeth heb gyflwyno Ffurflen Dreth mewn pryd.
+whyDidYouNotFileAReturnOnTime.paragraph.first.estate = Rydych wedi rhoi gwybod i ni fod y person a fu farw heb gyflwyno Ffurflen Dreth mewn pryd.
+
+whyDidYouNotFileAReturnOnTime.paragraph.second = Mae angen i chi roi rhagor o wybodaeth am pam y digwyddodd hyn.
+whyDidYouNotFileAReturnOnTime.paragraph.third = Os nad ydych yn siŵr pa opsiwn sy'n berthnasol, efallai yr hoffech geisio cyngor proffesiynol.
+whyDidYouNotFileAReturnOnTime.hint = Dewiswch yr holl opsiynau sy'n berthnasol i'r holl flynyddoedd treth y mae angen i chi gyflwyno datgeliad ar eu cyfer.
+whyDidYouNotFileAReturnOnTime.checkYourAnswersLabel = Rheswm dros beidio â chyflwyno Ffurflen Dreth mewn pryd
+whyDidYouNotFileAReturnOnTime.change.hidden = Rheswm dros beidio â chyflwyno Ffurflen Dreth mewn pryd
+
+whyDidYouNotFileAReturnOnTime.you.describeOption = Pa opsiynau sy'n disgrifio pam na wnaethoch gyflwyno Ffurflen Dreth mewn pryd?
+whyDidYouNotFileAReturnOnTime.you.didNotWithholdInformationOnPurpose = Ni wnes i gyflwyno Ffurflen Dreth, ond ni wnes i ddal unrhyw wybodaeth yn ôl yn fwriadol
+whyDidYouNotFileAReturnOnTime.you.reasonableExcuse = Mae gennyf esgus rhesymol
+whyDidYouNotFileAReturnOnTime.you.deliberatelyWithheldInformation = Gwnes i ddal gwybodaeth yn ôl yn fwriadol drwy beidio â chyflwyno Ffurflen Dreth
+whyDidYouNotFileAReturnOnTime.you.error.required = Dewiswch eich rhesymau dros beidio â chyflwyno Ffurflen Dreth mewn pryd
+
+whyDidYouNotFileAReturnOnTime.individual.describeOption = Pa opsiynau sy'n disgrifio pam na wnaeth yr unigolyn gyflwyno Ffurflen Dreth mewn pryd?
+whyDidYouNotFileAReturnOnTime.individual.didNotWithholdInformationOnPurpose = Ni wnaethant gyflwyno Ffurflen Dreth, ond ni wnaethant ddal unrhyw wybodaeth yn ôl yn fwriadol
+whyDidYouNotFileAReturnOnTime.individual.reasonableExcuse = Mae ganddynt esgus rhesymol
+whyDidYouNotFileAReturnOnTime.individual.deliberatelyWithheldInformation = Gwnaethon nhw ddal gwybodaeth yn ôl yn fwriadol drwy beidio â chyflwyno Ffurflen Dreth
+whyDidYouNotFileAReturnOnTime.individual.error.required = Dewiswch resymau'r unigolyn dros beidio â chyflwyno Ffurflen Dreth mewn pryd
+
+whyDidYouNotFileAReturnOnTime.company.describeOption = Pa opsiynau sy'n disgrifio pam na wnaeth y cwmni gyflwyno Ffurflen Dreth mewn pryd?
+whyDidYouNotFileAReturnOnTime.company.didNotWithholdInformationOnPurpose = Ni wnaethant gyflwyno Ffurflen Dreth, ond ni wnaethant ddal unrhyw wybodaeth yn ôl yn fwriadol
+whyDidYouNotFileAReturnOnTime.company.reasonableExcuse = Mae ganddynt esgus rhesymol
+whyDidYouNotFileAReturnOnTime.company.deliberatelyWithheldInformation = Gwnaethon nhw ddal gwybodaeth yn ôl yn fwriadol drwy beidio â chyflwyno Ffurflen Dreth
+whyDidYouNotFileAReturnOnTime.company.error.required = Dewiswch resymau'r cwmni dros beidio â chyflwyno Ffurflen Dreth mewn pryd
+
+whyDidYouNotFileAReturnOnTime.llp.describeOption = Pa opsiynau sy'n disgrifio pam na wnaeth y bartneriaeth atebolrwydd cyfyngedig gyflwyno Ffurflen Dreth mewn pryd?
+whyDidYouNotFileAReturnOnTime.llp.didNotWithholdInformationOnPurpose = Ni wnaethant gyflwyno Ffurflen Dreth, ond ni wnaethant ddal unrhyw wybodaeth yn ôl yn fwriadol
+whyDidYouNotFileAReturnOnTime.llp.reasonableExcuse = Mae ganddynt esgus rhesymol
+whyDidYouNotFileAReturnOnTime.llp.deliberatelyWithheldInformation = Gwnaethon nhw ddal gwybodaeth yn ôl yn fwriadol drwy beidio â chyflwyno Ffurflen Dreth
+whyDidYouNotFileAReturnOnTime.llp.error.required = Dewiswch resymau'r bartneriaeth atebolrwydd cyfyngedig dros beidio â chyflwyno Ffurflen Dreth mewn pryd
+
+whyDidYouNotFileAReturnOnTime.trust.describeOption = Pa opsiynau sy'n disgrifio pam na wnaeth yr ymddiriedolaeth gyflwyno Ffurflen Dreth mewn pryd?
+whyDidYouNotFileAReturnOnTime.trust.didNotWithholdInformationOnPurpose = Ni wnaethant gyflwyno Ffurflen Dreth, ond ni wnaethant ddal unrhyw wybodaeth yn ôl yn fwriadol
+whyDidYouNotFileAReturnOnTime.trust.reasonableExcuse = Mae ganddynt esgus rhesymol
+whyDidYouNotFileAReturnOnTime.trust.deliberatelyWithheldInformation = Gwnaethon nhw ddal gwybodaeth yn ôl yn fwriadol drwy beidio â chyflwyno Ffurflen Dreth
+whyDidYouNotFileAReturnOnTime.trust.error.required = Dewiswch resymau'r ymddiriedolaeth dros beidio â chyflwyno Ffurflen Dreth mewn pryd
+
+whyDidYouNotFileAReturnOnTime.estate.describeOption = Pa opsiynau sy'n disgrifio pam na wnaeth y person a fu farw gyflwyno Ffurflen Dreth mewn pryd?
+whyDidYouNotFileAReturnOnTime.estate.didNotWithholdInformationOnPurpose = Ni wnaethant gyflwyno Ffurflen Dreth, ond ni wnaethant ddal unrhyw wybodaeth yn ôl yn fwriadol
+whyDidYouNotFileAReturnOnTime.estate.reasonableExcuse = Mae ganddynt esgus rhesymol
+whyDidYouNotFileAReturnOnTime.estate.deliberatelyWithheldInformation = Gwnaethon nhw ddal gwybodaeth yn ôl yn fwriadol drwy beidio â chyflwyno Ffurflen Dreth
+whyDidYouNotFileAReturnOnTime.estate.error.required = Dewiswch resymau'r person a fu farw dros beidio â chyflwyno Ffurflen Dreth mewn pryd
+
 taskList.title = Rhestr o dasgau
 taskList.title.no.reference = Rhestr o dasgau ar gyfer achos a grëwyd {0}
 taskList.title.reference = Rhestr o dasgau ar gyfer {0}
