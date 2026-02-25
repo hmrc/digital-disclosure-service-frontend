@@ -28,7 +28,7 @@
 
 @(form: Form[_], mode: Mode, areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit request: RequestHeader, messages: Messages)
 
-@layout(pageTitle = title(form, messages(s"whyDidYouNotFileAReturnOnTime.$entity.title"))) {
+@layout(pageTitle = title(form, if(areTheyTheIndividual){messages("whyDidYouNotFileAReturnOnTime.you.title")} else {messages(s"whyDidYouNotFileAReturnOnTime.${entity}.title")})) {
 
     @formHelper(action = controllers.offshore.routes.WhyDidYouNotFileAReturnOnTimeOffshoreController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
@@ -36,7 +36,7 @@
             @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value_0")))
         }
 
-        @heading(Text(messages(s"whyDidYouNotFileAReturnOnTime.$entity.heading")))
+        @heading(Text(if(areTheyTheIndividual){messages("whyDidYouNotFileAReturnOnTime.you.heading")} else {messages(s"whyDidYouNotFileAReturnOnTime.$entity.heading")}))
 
         @paragraph(id = Some("first-paragraph"), content = Text(messages(s"whyDidYouNotFileAReturnOnTime.paragraph.first.$entity")))
 
