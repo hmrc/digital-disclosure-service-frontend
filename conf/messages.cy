@@ -33,7 +33,7 @@ exitSurvey.BeforeYouGoUserResearch.link = Cofrestrwch i gymryd rhan mewn ymchwil
 researchBanner.h2 = Helpwch i wella GOV.UK
 researchBanner.link.text = Cofrestrwch i gymryd rhan mewn ymchwil (yn agor tab newydd)
 researchBanner.hide.button = Cuddio negeseuon
-researchBanner.visually.hidden = cuddio negeseuon.
+researchBanner.visually.hidden = cuddio negeseuon. Nid ydw i eisiau cymryd rhan mewn ymchwil
 
 date.day = Diwrnod
 date.month = Mis
