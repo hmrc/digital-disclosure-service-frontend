@@ -956,7 +956,7 @@ whyAreYouMakingThisDisclosure.paragraph.first = Bydd ateb yn gywir yn cyflymu’
 whyAreYouMakingThisDisclosure.paragraph.second.you = Os bydd y person sy’n adolygu’ch datgeliad yn canfod ei fod yn anghywir i raddau helaeth, neu wedi’i ateb yn anghywir er mwyn cael canlyniad mwy ffafriol, bydd yn cysylltu â chi ynglŷn â hyn ac efallai y codir cosbau uwch arnoch.
 whyAreYouMakingThisDisclosure.paragraph.second = Os bydd y person sy’n adolygu’r datgeliad yn canfod ei fod yn anghywir i raddau helaeth neu wedi’i ateb yn anghywir er mwyn cael canlyniad mwy ffafriol, bydd yn cysylltu â chi ynglŷn â hyn ac efallai y bydd yn gofyn eich bod yn talu cosbau uwch o lawer.
 whyAreYouMakingThisDisclosure.paragraph.third = Os nad ydych yn siŵr pa opsiwn sy’n berthnasol, efallai yr hoffech geisio cyngor proffesiynol.
-whyAreYouMakingThisDisclosure.hint = Select all options that are relevant to all tax years you need to disclose for.
+whyAreYouMakingThisDisclosure.hint = Dewiswch yr holl opsiynau sy'n berthnasol i'r holl flynyddoedd treth y mae angen i chi gyflwyno datgeliad ar eu cyfer.
 
 whyAreYouMakingThisDisclosure.checkYourAnswersLabel = Rheswm
 whyAreYouMakingThisDisclosure.error.required = Dewiswch y rheswm dros wneud y datgeliad hwn
@@ -1015,7 +1015,7 @@ whyDidYouNotNotify.paragraph.first.estate = Rydych wedi rhoi gwybod i ni na wnae
 whyDidYouNotNotify.paragraph.second = Mae angen i chi roi rhagor o wybodaeth am pam y digwyddodd hyn.
 whyDidYouNotNotify.paragraph.third = Os nad ydych yn siŵr pa opsiwn sy’n berthnasol, efallai yr hoffech geisio cyngor proffesiynol.
 
-whyDidYouNotNotify.hint = Select all options that are relevant to all tax years you need to disclose for.
+whyDidYouNotNotify.hint = Dewiswch yr holl opsiynau sy'n berthnasol i'r holl flynyddoedd treth y mae angen i chi gyflwyno datgeliad ar eu cyfer.
 whyDidYouNotNotify.checkYourAnswersLabel = Rheswm
 whyDidYouNotNotify.change.hidden = Rheswm
 
