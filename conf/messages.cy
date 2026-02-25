@@ -1282,18 +1282,39 @@ whatIsYourReasonableExcuse.error.years.required = Nodwch y blynyddoedd treth y m
 whatIsYourReasonableExcuse.error.years.length = Mae’n rhaid i’r blynyddoedd treth y mae hyn yn berthnasol iddynt fod rhwng 1 a 500 o gymeriadau
 whatIsYourReasonableExcuse.excuse.change.hidden = Esgus rhesymol dros beidio â rhoi gwybod i CThEF am rwymedigaeth treth
 whatIsYourReasonableExcuse.years.change.hidden = Blynyddoedd y mae hyn yn berthnasol iddynt
-whatIsYourReasonableExcuse.entity.title = Beth yw’ch esgus rhesymol dros beidio â rhoi gwybod i CThEF am rwymedigaeth treth?
-whatIsYourReasonableExcuse.entity.heading = Beth yw’ch esgus rhesymol dros beidio â rhoi gwybod i CThEF am rwymedigaeth treth?
-whatIsYourReasonableExcuse.agent.title = Beth yw’r esgus rhesymol dros beidio â rhoi gwybod i CThEF am rwymedigaeth treth?
-whatIsYourReasonableExcuse.agent.heading = Beth yw’r esgus rhesymol dros beidio â rhoi gwybod i CThEF am rwymedigaeth treth?
-whatIsYourReasonableExcuse.entity.error.excuse.length = Mae’n rhaid i’ch esgus rhesymol fod rhwng 1 a 5,000 o gymeriadau
-whatIsYourReasonableExcuse.agent.error.excuse.length = Mae’n rhaid i’ch esgus rhesymol fod rhwng 1 a 5,000 o gymeriadau
+
+whatIsYourReasonableExcuse.you.title = Eich esgus rhesymol am beidio â hysbysu CThEF am ddyled treth
+whatIsYourReasonableExcuse.you.heading = Eich esgus rhesymol am beidio â hysbysu CThEF am ddyled treth
+whatIsYourReasonableExcuse.you.question = Beth yw’ch esgus rhesymol dros beidio â rhoi gwybod i CThEF am rwymedigaeth treth?
+
+whatIsYourReasonableExcuse.notYou.title = Rheswm rhesymol dros beidio â hysbysu CThEF am ddyletswydd dreth
+whatIsYourReasonableExcuse.notYou.heading = Rheswm rhesymol dros beidio â hysbysu CThEF am ddyletswydd dreth
+whatIsYourReasonableExcuse.notYou.question = Beth yw’r esgus rhesymol dros beidio â rhoi gwybod i CThEF am rwymedigaeth treth?
+
 whatIsYourReasonableExcuse.you.excuse = Esgus rhesymol yw rhywbeth a oedd yn eich rhwystro rhag bodloni ymrwymiad treth pan oeddech wedi cymryd gofal rhesymol i’w fodloni.
 whatIsYourReasonableExcuse.individual.excuse = Mae esgus rhesymol yn rhywbeth a wnaeth atal yr unigolyn rhag bodloni ymrwymiad treth y cymerodd ofal rhesymol i’w fodloni.
 whatIsYourReasonableExcuse.company.excuse = Mae esgus rhesymol yn rhywbeth a wnaeth atal y cwmni rhag bodloni ymrwymiad treth y cymerodd ofal rhesymol i’w fodloni.
 whatIsYourReasonableExcuse.llp.excuse = Mae esgus rhesymol yn rhywbeth a wnaeth atal y bartneriaeth atebolrwydd cyfyngedig rhag bodloni ymrwymiad treth y cymerodd ofal rhesymol i’w fodloni.
 whatIsYourReasonableExcuse.trust.excuse = Mae esgus rhesymol yn rhywbeth a wnaeth atal yr ymddiriedolaeth rhag bodloni ymrwymiad treth y cymerodd ofal rhesymol i’w fodloni.
 whatIsYourReasonableExcuse.estate.excuse = Mae esgus rhesymol yn rhywbeth a wnaeth atal y person rhag bodloni ymrwymiad treth y cymerodd ofal rhesymol i’w fodloni.
+
+whatIsYourReasonableExcuse.you.error.excuse.length = Mae’n rhaid i’ch esgus rhesymol fod rhwng 1 a 5,000 o gymeriadau
+whatIsYourReasonableExcuse.notYou.error.excuse.length = Mae’n rhaid i’ch esgus rhesymol fod rhwng 1 a 5,000 o gymeriadau
+
+whatIsYourReasonableExcuse.you.excuse.p2 = Mae’n rhaid i chi allu dangos eich bod wedi bodloni’r ymrwymiad treth heb ormod o oedi ar ôl i’r esgus rhesymol ddod i ben.
+whatIsYourReasonableExcuse.notYou.excuse.p2 = Mae’n rhaid i chi allu dangos eu bod wedi bodloni’r ymrwymiad treth heb ormod o oedi ar ôl i’r esgus rhesymol ddod i ben.
+
+whatIsYourReasonableExcuse.excuse.bulletH1 = Mae angen i’ch esboniad gynnwys manylion am y canlynol
+whatIsYourReasonableExcuse.excuse.bullet1 = sut y digwyddodd y methiant
+
+whatIsYourReasonableExcuse.you.excuse.bullet2 = beth sydd wedi atal ti rhag rhoi gwybod i CThEF am ddyled treth
+whatIsYourReasonableExcuse.notYou.excuse.bullet2 = beth sydd wedi atal nhw rhag rhoi gwybod i CThEF am ddyled treth
+
+whatIsYourReasonableExcuse.you.excuse.bullet3 = y dyddiadau y dechreuodd eich esgus rhesymol, a’r dyddiad y daeth i ben
+whatIsYourReasonableExcuse.notYou.excuse.bullet3 = y dyddiadau y dechreuodd yr esgus rhesymol, a’r dyddiad y daeth i ben
+
+whatIsYourReasonableExcuse.you.excuse.bullet4 = pa gamau a gymeroch i sicrhau’ch bod yn bodloni’ch ymrwymiadau treth - er enghraifft, os gwnaethoch geisio unrhyw gyngor proffesiynol
+whatIsYourReasonableExcuse.notYou.excuse.bullet4 = y camau a gymerwyd ganddyn nhw i sicrhau eu bod yn bodloni eu hymrwymiadau treth - er enghraifft, os gwnaethon nhw geisio unrhyw gyngor proffesiynol
 
 whatReasonableCareDidYouTake.yearsThisAppliesTo = Pa flynyddoedd treth mae hyn yn berthnasol iddynt?
 whatReasonableCareDidYouTake.yearsThisAppliesTo.hint = Er enghraifft, blwyddyn dreth sy’n dod i ben yn 2019.
