@@ -24,5 +24,5 @@ case object WhyDidYouNotFileAReturnOnTimeOnshorePage extends QuestionPage[Set[Wh
 
   override def path: JsPath = JsPath \ toString
 
-  override def toString: String = "whyDidYouNotFileAReturnOnTime"
+  override def toString: String = "whyDidYouNotFileAReturnOnTimeOnshore"
 }
