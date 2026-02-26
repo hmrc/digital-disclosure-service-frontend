@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package forms
+package forms.onshore
 
 import forms.mappings.Mappings
 import models.{RelatesTo, WhyDidYouNotNotifyOnshore}

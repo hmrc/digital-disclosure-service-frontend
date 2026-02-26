@@ -17,7 +17,7 @@
 package controllers.onshore
 
 import controllers.actions._
-import forms.WhyDidYouNotNotifyOnshoreFormProvider
+import forms.onshore.WhyDidYouNotNotifyOnshoreFormProvider
 import models.WhyDidYouNotNotifyOnshore
 import models.WhyDidYouNotNotifyOnshore._
 import models.{Mode, RelatesTo, UserAnswers}
