@@ -17,8 +17,7 @@
 package controllers.onshore
 
 import base.SpecBase
-import controllers.onshore.WhyAreYouMakingThisOnshoreDisclosureController
-import forms.WhyAreYouMakingThisOnshoreDisclosureFormProvider
+import forms.onshore.WhyAreYouMakingThisOnshoreDisclosureFormProvider
 import models.{AreYouTheEntity, NormalMode, RelatesTo, UserAnswers, WhyAreYouMakingThisOnshoreDisclosure}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
@@ -40,7 +39,7 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
     routes.WhyAreYouMakingThisOnshoreDisclosureController.onPageLoad(NormalMode).url
 
   val formProvider = new WhyAreYouMakingThisOnshoreDisclosureFormProvider()
-  val form         = formProvider()
+  val form         = formProvider(true, RelatesTo.AnIndividual)
 
   "WhyAreYouMakingThisOnshoreDisclosure Controller" - {
 

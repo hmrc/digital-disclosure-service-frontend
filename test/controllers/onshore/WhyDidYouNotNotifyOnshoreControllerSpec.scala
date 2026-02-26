@@ -17,7 +17,7 @@
 package controllers.onshore
 
 import base.SpecBase
-import forms.WhyDidYouNotNotifyOnshoreFormProvider
+import forms.onshore.WhyDidYouNotNotifyOnshoreFormProvider
 import models.WhyDidYouNotNotifyOnshore._
 import models.{AreYouTheEntity, NormalMode, RelatesTo, UserAnswers, WhyDidYouNotNotifyOnshore}
 import org.mockito.ArgumentMatchers.any

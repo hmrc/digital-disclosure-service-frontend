@@ -17,7 +17,7 @@
 package views.onshore
 
 import base.ViewSpecBase
-import forms.WhyDidYouNotNotifyOnshoreFormProvider
+import forms.onshore.WhyDidYouNotNotifyOnshoreFormProvider
 import models.{NormalMode, RelatesTo}
 import play.twirl.api.Html
 import support.ViewMatchers

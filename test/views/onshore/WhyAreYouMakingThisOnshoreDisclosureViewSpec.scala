@@ -17,7 +17,7 @@
 package views.onshore
 
 import base.ViewSpecBase
-import forms.WhyAreYouMakingThisOnshoreDisclosureFormProvider
+import forms.onshore.WhyAreYouMakingThisOnshoreDisclosureFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.onshore.WhyAreYouMakingThisOnshoreDisclosureView

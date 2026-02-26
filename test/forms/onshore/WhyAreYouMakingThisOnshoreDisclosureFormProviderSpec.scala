@@ -17,6 +17,7 @@
 package forms
 
 import forms.behaviours.CheckboxFieldBehaviours
+import forms.onshore.WhyAreYouMakingThisOnshoreDisclosureFormProvider
 import models.WhyAreYouMakingThisOnshoreDisclosure
 import play.api.data.FormError
 
