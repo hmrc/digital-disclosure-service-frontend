@@ -29,7 +29,6 @@ object WhyAreYouMakingThisDisclosure extends Enumerable.Implicits {
   case object DidNotFile extends WithName("didNotFile") with WhyAreYouMakingThisDisclosure
   case object InaccurateReturn extends WithName("inaccurateReturn") with WhyAreYouMakingThisDisclosure
 
-  // TODO: Remove after navigation ticket - kept for compilation
   case object DidNotNotifyHasExcuse extends WithName("didNotNotifyHasExcuse") with WhyAreYouMakingThisDisclosure
   case object InaccurateReturnWithCare extends WithName("inaccurateReturnWithCare") with WhyAreYouMakingThisDisclosure
   case object NotFileHasExcuse extends WithName("notFileHasExcuse") with WhyAreYouMakingThisDisclosure

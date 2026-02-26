@@ -160,4 +160,71 @@ class OnshoreTaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar
       redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
   }
+  "changedPages logic" - {
+
+    "must remove ResidentialReductionPage when residentialTaxReduction changes from true to false" in {
+      val controller = application.injector.instanceOf[OnshoreTaxYearLiabilitiesController]
+      val existingAnswer = OnshoreTaxYearLiabilities(
+        nonBusinessIncome = None, businessIncome = None, lettingIncome = None, gains = None,
+        unpaidTax = BigInt(200), niContributions = BigInt(200), interest = BigInt(20),
+        penaltyRate = 30, penaltyRateReason = "Reason", undeclaredIncomeOrGain = None,
+        residentialTaxReduction = Some(true)
+      )
+      val userAnswers = userAnswersWithTaxYears
+        .set(OnshoreTaxYearLiabilitiesPage, Map("2021" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2021), existingAnswer)))
+        .success.value
+
+      val newAnswer = existingAnswer.copy(residentialTaxReduction = Some(false))
+      val (result, changed) = controller.changedPages(userAnswers, "2021", newAnswer)
+      result.isSuccess mustBe true
+      changed mustBe false
+    }
+
+    "must return true when residentialTaxReduction changes from false to true" in {
+      val controller = application.injector.instanceOf[OnshoreTaxYearLiabilitiesController]
+      val existingAnswer = OnshoreTaxYearLiabilities(
+        nonBusinessIncome = None, businessIncome = None, lettingIncome = None, gains = None,
+        unpaidTax = BigInt(200), niContributions = BigInt(200), interest = BigInt(20),
+        penaltyRate = 30, penaltyRateReason = "Reason", undeclaredIncomeOrGain = None,
+        residentialTaxReduction = Some(false)
+      )
+      val userAnswers = userAnswersWithTaxYears
+        .set(OnshoreTaxYearLiabilitiesPage, Map("2021" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2021), existingAnswer)))
+        .success.value
+
+      val newAnswer = existingAnswer.copy(residentialTaxReduction = Some(true))
+      val (result, changed) = controller.changedPages(userAnswers, "2021", newAnswer)
+      result.isSuccess mustBe true
+      changed mustBe true
+    }
+
+    "must return false when no existing answer" in {
+      val controller = application.injector.instanceOf[OnshoreTaxYearLiabilitiesController]
+      val newAnswer = OnshoreTaxYearLiabilities(
+        nonBusinessIncome = None, businessIncome = None, lettingIncome = None, gains = None,
+        unpaidTax = BigInt(200), niContributions = BigInt(200), interest = BigInt(20),
+        penaltyRate = 30, penaltyRateReason = "Reason", undeclaredIncomeOrGain = None,
+        residentialTaxReduction = None
+      )
+      val (result, changed) = controller.changedPages(userAnswersWithTaxYears, "2021", newAnswer)
+      result.isSuccess mustBe true
+      changed mustBe false
+    }
+
+    "must redirect to WhichOnshoreYearsController when index is out of bounds on GET" in {
+      setupMockSessionResponse(Some(userAnswersWithTaxYears))
+      val request = FakeRequest(GET, routes.OnshoreTaxYearLiabilitiesController.onPageLoad(99, NormalMode).url)
+      val result  = route(application, request).value
+      status(result) mustEqual SEE_OTHER
+    }
+
+    "must redirect to WhichOnshoreYearsController when index is out of bounds on POST" in {
+      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(userAnswersWithTaxYears))
+      val request = FakeRequest(POST, routes.OnshoreTaxYearLiabilitiesController.onPageLoad(99, NormalMode).url)
+        .withFormUrlEncodedBody(("unpaidTax", "2000"))
+      val result  = route(application, request).value
+      status(result) mustEqual SEE_OTHER
+    }
+  }
 }

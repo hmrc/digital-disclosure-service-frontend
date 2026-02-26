@@ -29,12 +29,16 @@ import models.store.disclosure._
 
 import java.time.LocalDate
 import models.store.YesNoOrUnsure._
+import pages.AreYouTheEntityPage
 import play.api.i18n.Messages
+import services.UAToDisclosureService
 
 class TaskListControllerSpec extends SpecBase with MockitoSugar {
 
   val address: Address =
     Address("line 1", Some("line 2"), Some("line 3"), Some("line 4"), Some("postcode"), Country("GBR"))
+
+  val uaToDisclosureService: UAToDisclosureService = application.injector.instanceOf[UAToDisclosureService]
 
   "TaskList Controller" - {
 
@@ -497,6 +501,99 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
       val actualTask   = sut.buildOnshoreLiabilitiesDetailRow(model, true)
 
       actualTask mustEqual expectedTask
+    }
+  }
+
+  "buildLiabilitiesInformationRow" - {
+
+    "should return both onshore and offshore rows when both are true" in {
+      val background = Background(offshoreLiabilities = Some(true), onshoreLiabilities = Some(true))
+      val rows = sut.buildLiabilitiesInformationRow(background, None, OffshoreLiabilities(), false)
+      rows.size mustEqual 2
+    }
+
+    "should return only offshore row when only offshore is true" in {
+      val background = Background(offshoreLiabilities = Some(true), onshoreLiabilities = Some(false))
+      val rows = sut.buildLiabilitiesInformationRow(background, None, OffshoreLiabilities(), false)
+      rows.size mustEqual 1
+      rows.head.id mustEqual "offshore-liabilities-task-list"
+    }
+
+    "should return only onshore row when only onshore is true" in {
+      val background = Background(offshoreLiabilities = Some(false), onshoreLiabilities = Some(true))
+      val rows = sut.buildLiabilitiesInformationRow(background, None, OffshoreLiabilities(), false)
+      rows.size mustEqual 1
+      rows.head.id mustEqual "onshore-liabilities-task-list"
+    }
+
+    "should return only onshore row when offshore is false" in {
+      val background = Background(offshoreLiabilities = Some(false), onshoreLiabilities = None)
+      val rows = sut.buildLiabilitiesInformationRow(background, None, OffshoreLiabilities(), false)
+      rows.size mustEqual 1
+      rows.head.id mustEqual "onshore-liabilities-task-list"
+    }
+
+    "should return Nil when neither is set" in {
+      val background = Background()
+      val rows = sut.buildLiabilitiesInformationRow(background, None, OffshoreLiabilities(), false)
+      rows mustEqual Nil
+    }
+  }
+
+  "isTheUserAgent" - {
+
+    "should return false when AreYouTheEntity is YesIAm" in {
+      val userAnswers = UserAnswers("id", "session-123")
+        .set(AreYouTheEntityPage, AreYouTheEntity.YesIAm).success.value
+      sut.isTheUserAgent(userAnswers) mustBe false
+    }
+
+    "should return true when AreYouTheEntity is not YesIAm" in {
+      val userAnswers = UserAnswers("id", "session-123")
+        .set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent).success.value
+      sut.isTheUserAgent(userAnswers) mustBe true
+    }
+
+    "should return true when AreYouTheEntity is not set" in {
+      sut.isTheUserAgent(emptyUserAnswers) mustBe true
+    }
+  }
+
+  "getOperationKey" - {
+
+    "should return edit when section is complete" in {
+      sut.getOperationKey(true, false) mustEqual "edit"
+    }
+
+    "should return edit when first page is defined" in {
+      sut.getOperationKey(false, true) mustEqual "edit"
+    }
+
+    "should return add when neither complete nor started" in {
+      sut.getOperationKey(false, false) mustEqual "add"
+    }
+  }
+
+  "sectionsComplete" - {
+
+    "should return 0 when nothing is complete" in {
+      val fullDisclosure = uaToDisclosureService.uaToFullDisclosure(emptyUserAnswers)
+      sut.sectionsComplete(fullDisclosure) mustEqual 0
+    }
+  }
+
+  "getTitle" - {
+
+    "should return standard title when not an agent" in {
+      setupMockSessionResponse(Some(emptyUserAnswers))
+      val result = sut.getTitle(false, "title", emptyUserAnswers)
+      result mustEqual messages("taskList.title")
+    }
+
+    "should return title with no reference when agent and no name set" in {
+      setupMockSessionResponse(Some(emptyUserAnswers))
+      val result = sut.getTitle(true, "title", emptyUserAnswers)
+      result must include(messages("taskList.title.no.reference").split("\\{0\\}")(0).trim)
     }
   }
 
