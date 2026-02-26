@@ -138,4 +138,20 @@ class ResidentialReductionControllerSpec extends SpecBase with MockitoSugar {
       redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
     }
   }
+  "must redirect to WhichOnshoreYearsController when index is out of bounds on GET" in {
+    setupMockSessionResponse(Some(userAnswersWithTaxYears))
+    val request = FakeRequest(GET, routes.ResidentialReductionController.onPageLoad(99, NormalMode).url)
+    val result  = route(application, request).value
+    status(result) mustEqual SEE_OTHER
+    redirectLocation(result).value must include("onshore-years")
+  }
+
+  "must redirect to WhichOnshoreYearsController when index is out of bounds on POST" in {
+    when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+    setupMockSessionResponse(Some(userAnswersWithTaxYears))
+    val request = FakeRequest(POST, routes.ResidentialReductionController.onPageLoad(99, NormalMode).url)
+      .withFormUrlEncodedBody(("value", "0"))
+    val result  = route(application, request).value
+    status(result) mustEqual SEE_OTHER
+  }
 }
