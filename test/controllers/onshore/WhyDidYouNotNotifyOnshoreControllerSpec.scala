@@ -126,7 +126,10 @@ class WhyDidYouNotNotifyOnshoreControllerSpec extends SpecBase with MockitoSugar
       val result    = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
@@ -156,50 +159,54 @@ class WhyDidYouNotNotifyOnshoreControllerSpec extends SpecBase with MockitoSugar
   "changedPages and getPages logic" - {
 
     "must return CDFOnshorePage when DeliberatelyDidNotNotifyOnshore is not selected" in {
-      val controller = application.injector.instanceOf[WhyDidYouNotNotifyOnshoreController]
+      val controller  = application.injector.instanceOf[WhyDidYouNotNotifyOnshoreController]
       val userAnswers = UserAnswers("id", "session-123")
         .set(WhyDidYouNotNotifyOnshorePage, Set[WhyDidYouNotNotifyOnshore](DeliberatelyDidNotNotifyOnshore))
-        .success.value
+        .success
+        .value
 
       val reasons: Set[WhyDidYouNotNotifyOnshore] = Set(ReasonableExcuseOnshore)
-      val (pages, changed) = controller.changedPages(userAnswers, reasons)
+      val (pages, changed)                        = controller.changedPages(userAnswers, reasons)
 
       pages must contain(CDFOnshorePage)
       changed mustBe true
     }
 
     "must return ReasonableExcuseOnshorePage when ReasonableExcuseOnshore is not selected" in {
-      val controller = application.injector.instanceOf[WhyDidYouNotNotifyOnshoreController]
+      val controller  = application.injector.instanceOf[WhyDidYouNotNotifyOnshoreController]
       val userAnswers = UserAnswers("id", "session-123")
         .set(WhyDidYouNotNotifyOnshorePage, Set[WhyDidYouNotNotifyOnshore](ReasonableExcuseOnshore))
-        .success.value
+        .success
+        .value
 
       val reasons: Set[WhyDidYouNotNotifyOnshore] = Set(DeliberatelyDidNotNotifyOnshore)
-      val (pages, changed) = controller.changedPages(userAnswers, reasons)
+      val (pages, changed)                        = controller.changedPages(userAnswers, reasons)
 
       pages must contain(ReasonableExcuseOnshorePage)
       changed mustBe true
     }
 
     "must return both pages when neither DeliberatelyDidNotNotifyOnshore nor ReasonableExcuseOnshore is selected" in {
-      val controller = application.injector.instanceOf[WhyDidYouNotNotifyOnshoreController]
+      val controller  = application.injector.instanceOf[WhyDidYouNotNotifyOnshoreController]
       val userAnswers = UserAnswers("id", "session-123")
         .set(WhyDidYouNotNotifyOnshorePage, Set[WhyDidYouNotNotifyOnshore](ReasonableExcuseOnshore))
-        .success.value
+        .success
+        .value
 
       val reasons: Set[WhyDidYouNotNotifyOnshore] = Set(NotDeliberatelyNoReasonableExcuseOnshore)
-      val (pages, changed) = controller.changedPages(userAnswers, reasons)
+      val (pages, changed)                        = controller.changedPages(userAnswers, reasons)
 
-      pages must contain allOf(CDFOnshorePage, ReasonableExcuseOnshorePage)
+      pages must contain allOf (CDFOnshorePage, ReasonableExcuseOnshorePage)
       changed mustBe true
     }
 
     "must return empty list and false when values have not changed" in {
-      val controller  = application.injector.instanceOf[WhyDidYouNotNotifyOnshoreController]
+      val controller                              = application.injector.instanceOf[WhyDidYouNotNotifyOnshoreController]
       val reasons: Set[WhyDidYouNotNotifyOnshore] = Set(DeliberatelyDidNotNotifyOnshore, ReasonableExcuseOnshore)
-      val userAnswers = UserAnswers("id", "session-123")
+      val userAnswers                             = UserAnswers("id", "session-123")
         .set(WhyDidYouNotNotifyOnshorePage, reasons)
-        .success.value
+        .success
+        .value
 
       val (pages, changed) = controller.changedPages(userAnswers, reasons)
 

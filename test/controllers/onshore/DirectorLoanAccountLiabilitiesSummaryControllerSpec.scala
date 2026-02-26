@@ -41,7 +41,7 @@ class DirectorLoanAccountLiabilitiesSummaryControllerSpec extends SpecBase {
     }
 
     "must return OK and the correct view for a GET with existing liabilities" in {
-      val liability = DirectorLoanAccountLiabilities(
+      val liability   = DirectorLoanAccountLiabilities(
         name = "Test Director",
         periodEnd = LocalDate.of(2021, 4, 5),
         overdrawn = BigInt(1000),
@@ -51,7 +51,9 @@ class DirectorLoanAccountLiabilitiesSummaryControllerSpec extends SpecBase {
         penaltyRateReason = "Some reason"
       )
       val userAnswers = UserAnswers("id", "session-123")
-        .set(DirectorLoanAccountLiabilitiesPage, Seq(liability)).success.value
+        .set(DirectorLoanAccountLiabilitiesPage, Seq(liability))
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswers))
 

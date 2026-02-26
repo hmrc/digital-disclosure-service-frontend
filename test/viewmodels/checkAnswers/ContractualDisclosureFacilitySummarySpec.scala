@@ -37,7 +37,9 @@ class ContractualDisclosureFacilitySummarySpec extends SpecBase {
 
     "must return a row with 'Yes' when answer is true" in {
       val userAnswers = UserAnswers("id", "session-123")
-        .set(ContractualDisclosureFacilityPage, true).success.value
+        .set(ContractualDisclosureFacilityPage, true)
+        .success
+        .value
 
       ContractualDisclosureFacilitySummary.row(userAnswers).map { row =>
         row.key mustBe Key(Text(mess("contractualDisclosureFacility.checkYourAnswersLabel")))
@@ -47,7 +49,9 @@ class ContractualDisclosureFacilitySummarySpec extends SpecBase {
 
     "must return a row with 'No' when answer is false" in {
       val userAnswers = UserAnswers("id", "session-123")
-        .set(ContractualDisclosureFacilityPage, false).success.value
+        .set(ContractualDisclosureFacilityPage, false)
+        .success
+        .value
 
       ContractualDisclosureFacilitySummary.row(userAnswers).map { row =>
         row.key mustBe Key(Text(mess("contractualDisclosureFacility.checkYourAnswersLabel")))

@@ -50,7 +50,9 @@ class WhyAreYouMakingThisDisclosureViewSpec extends ViewSpecBase with ViewMatche
     }
 
     "contain second paragraph when areTheyTheIndividual is true" in {
-      view.getElementById("second-paragraph").text() mustBe messages("whyAreYouMakingThisDisclosure.paragraph.second.you")
+      view.getElementById("second-paragraph").text() mustBe messages(
+        "whyAreYouMakingThisDisclosure.paragraph.second.you"
+      )
     }
 
     "contain multiple checkboxes when select Yes, I am the individual" in {

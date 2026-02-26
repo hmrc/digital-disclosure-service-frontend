@@ -71,7 +71,11 @@ class DirectorLoanAccountLiabilitiesFormProvider @Inject() extends Mappings {
             "directorLoanAccountLiabilities.penaltyRate.error.nonNumeric"
           )
             .verifying(
-              inRange(BigDecimal(0.00), BigDecimal(200.00), "directorLoanAccountLiabilities.penaltyRate.error.outOfRange")
+              inRange(
+                BigDecimal(0.00),
+                BigDecimal(200.00),
+                "directorLoanAccountLiabilities.penaltyRate.error.outOfRange"
+              )
             )
             .transform[BigDecimal](identity, identity)
         } else {

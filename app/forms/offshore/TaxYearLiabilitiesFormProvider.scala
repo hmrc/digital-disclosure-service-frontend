@@ -28,7 +28,7 @@ class TaxYearLiabilitiesFormProvider @Inject() extends Mappings {
   val MAX_BIGINT        = BigInt("999999999999999999999999")
   val MAX_TEXT_BOX_SIZE = 5000
 
-  def apply(showPenaltySection: Boolean): Form[TaxYearLiabilities] = {
+  def apply(showPenaltySection: Boolean): Form[TaxYearLiabilities] =
     Form(
       mapping(
         "income"                 -> bigintWithPound(
@@ -61,7 +61,7 @@ class TaxYearLiabilitiesFormProvider @Inject() extends Mappings {
           "taxYearLiabilities.interest.error.nonNumeric"
         )
           .verifying(inRange(BigInt(0), MAX_BIGINT, "taxYearLiabilities.interest.error.outOfRange")),
-        "penaltyRate" -> {
+        "penaltyRate"            -> {
           if (showPenaltySection) {
             decimalWithPercentage(
               "taxYearLiabilities.penaltyRate.error.required",
@@ -77,7 +77,7 @@ class TaxYearLiabilitiesFormProvider @Inject() extends Mappings {
             ignored(BigDecimal(0))
           }
         },
-        "penaltyRateReason" -> {
+        "penaltyRateReason"      -> {
           if (showPenaltySection) {
             text("taxYearLiabilities.penaltyRateReason.error.required", Seq.empty)
               .verifying(maxLength(MAX_TEXT_BOX_SIZE, "taxYearLiabilities.penaltyRateReason.error.length"))
@@ -91,7 +91,6 @@ class TaxYearLiabilitiesFormProvider @Inject() extends Mappings {
         "foreignTaxCredit"       -> boolean("taxYearLiabilities.foreignTaxCredit.error.required")
       )(TaxYearLiabilities.apply)(TaxYearLiabilities.unapply)
     )
-  }
 
   def stringOptionalUnless(field: String): Mapping[Option[String]] =
     optional(

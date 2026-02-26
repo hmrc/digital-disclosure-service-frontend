@@ -52,7 +52,9 @@ class OffshoreNavigator @Inject() () {
 
         if (page1Selections.contains(DidNotFile) && ua.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).isEmpty) {
           routes.WhyDidYouNotFileAReturnOnTimeOffshoreController.onPageLoad(NormalMode)
-        } else if (page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).isEmpty) {
+        } else if (
+          page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).isEmpty
+        ) {
           routes.WhyYouSubmittedAnInaccurateReturnController.onPageLoad(NormalMode)
         } else if (hasAnyDeliberate(ua)) {
           routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)
@@ -69,7 +71,9 @@ class OffshoreNavigator @Inject() () {
       ua =>
         val page1Selections = ua.get(WhyAreYouMakingThisDisclosurePage).getOrElse(Set.empty)
 
-        if (page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).isEmpty) {
+        if (
+          page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).isEmpty
+        ) {
           routes.WhyYouSubmittedAnInaccurateReturnController.onPageLoad(NormalMode)
         } else if (hasAnyDeliberate(ua)) {
           routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)
@@ -138,9 +142,9 @@ class OffshoreNavigator @Inject() () {
       ua =>
         val page1Selections = ua.get(WhyAreYouMakingThisDisclosurePage).getOrElse(Set.empty)
 
-        (ua.get(ContractualDisclosureFacilityPage)) match {
+        ua.get(ContractualDisclosureFacilityPage) match {
           case Some(false) => routes.YouHaveLeftTheDDSController.onPageLoad(NormalMode)
-          case Some(true) =>
+          case Some(true)  =>
             if (page1Selections.contains(DidNotNotifyHMRC)) {
               val page2aSelections = ua.get(WhyDidYouNotNotifyPage).getOrElse(Set.empty)
               if (page2aSelections.contains(WhyDidYouNotNotify.ReasonableExcuse)) {
@@ -193,7 +197,7 @@ class OffshoreNavigator @Inject() () {
             } else {
               routes.WhichYearsController.onPageLoad(NormalMode)
             }
-          case _ => routes.WhichYearsController.onPageLoad(NormalMode)
+          case _           => routes.WhichYearsController.onPageLoad(NormalMode)
         }
 
     case WhatIsYourReasonableExcusePage =>
@@ -412,12 +416,12 @@ class OffshoreNavigator @Inject() () {
   }
 
   def nextTaxYearLiabilitiesPage(
-                                  currentIndex: Int,
-                                  foreignTaxCreditReduction: Boolean,
-                                  mode: Mode,
-                                  userAnswers: UserAnswers,
-                                  hasAnswerChanged: Boolean = false
-                                ): Call =
+    currentIndex: Int,
+    foreignTaxCreditReduction: Boolean,
+    mode: Mode,
+    userAnswers: UserAnswers,
+    hasAnswerChanged: Boolean = false
+  ): Call =
     (mode, foreignTaxCreditReduction, userAnswers.inverselySortedOffshoreTaxYears, hasAnswerChanged) match {
       case (NormalMode, true, _, _)                                           => routes.ForeignTaxCreditController.onPageLoad(currentIndex, NormalMode)
       case (NormalMode, _, Some(years), _) if (years.size - 1) > currentIndex =>
@@ -438,8 +442,8 @@ class OffshoreNavigator @Inject() () {
       val page2cSelections = ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).getOrElse(Set.empty)
 
       page2aSelections.contains(WhyDidYouNotNotify.DeliberatelyDidNotNotify) ||
-        page2bSelections.contains(WhyDidYouNotFileAReturnOnTimeOffshore.DeliberatelyWithheldInformation) ||
-        page2cSelections.contains(WhyYouSubmittedAnInaccurateReturn.DeliberatelyInaccurate)
+      page2bSelections.contains(WhyDidYouNotFileAReturnOnTimeOffshore.DeliberatelyWithheldInformation) ||
+      page2cSelections.contains(WhyYouSubmittedAnInaccurateReturn.DeliberatelyInaccurate)
     }
   }
 

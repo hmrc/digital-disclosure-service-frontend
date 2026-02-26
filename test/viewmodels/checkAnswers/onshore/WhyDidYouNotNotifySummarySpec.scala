@@ -36,11 +36,17 @@ class WhyDidYouNotNotifySummarySpec extends SpecBase {
     }
 
     "must return a row with 'you' message keys when user is the individual" in {
-      val answers = Set[WhyDidYouNotNotifyOnshore](WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore)
+      val answers     = Set[WhyDidYouNotNotifyOnshore](WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore)
       val userAnswers = UserAnswers("id", "session-123")
-        .set(RelatesToPage, RelatesTo.AnIndividual).success.value
-        .set(AreYouTheEntityPage, AreYouTheEntity.YesIAm).success.value
-        .set(WhyDidYouNotNotifyOnshorePage, answers).success.value
+        .set(RelatesToPage, RelatesTo.AnIndividual)
+        .success
+        .value
+        .set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        .success
+        .value
+        .set(WhyDidYouNotNotifyOnshorePage, answers)
+        .success
+        .value
 
       WhyDidYouNotNotifySummary.row(userAnswers).map { row =>
         row.key mustBe Key(Text(mess("whyDidYouNotNotify.checkYourAnswersLabel")))
@@ -49,10 +55,14 @@ class WhyDidYouNotNotifySummarySpec extends SpecBase {
     }
 
     "must return a row with 'notYou' message keys when user is not the individual" in {
-      val answers = Set[WhyDidYouNotNotifyOnshore](WhyDidYouNotNotifyOnshore.DeliberatelyDidNotNotifyOnshore)
+      val answers     = Set[WhyDidYouNotNotifyOnshore](WhyDidYouNotNotifyOnshore.DeliberatelyDidNotNotifyOnshore)
       val userAnswers = UserAnswers("id", "session-123")
-        .set(RelatesToPage, RelatesTo.ACompany).success.value
-        .set(WhyDidYouNotNotifyOnshorePage, answers).success.value
+        .set(RelatesToPage, RelatesTo.ACompany)
+        .success
+        .value
+        .set(WhyDidYouNotNotifyOnshorePage, answers)
+        .success
+        .value
 
       WhyDidYouNotNotifySummary.row(userAnswers).map { row =>
         row.key mustBe Key(Text(mess("whyDidYouNotNotify.checkYourAnswersLabel")))
@@ -61,14 +71,20 @@ class WhyDidYouNotNotifySummarySpec extends SpecBase {
     }
 
     "must return a row with multiple answers joined by <br>" in {
-      val answers = Set[WhyDidYouNotNotifyOnshore](
+      val answers     = Set[WhyDidYouNotNotifyOnshore](
         WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore,
         WhyDidYouNotNotifyOnshore.NotDeliberatelyNoReasonableExcuseOnshore
       )
       val userAnswers = UserAnswers("id", "session-123")
-        .set(RelatesToPage, RelatesTo.AnIndividual).success.value
-        .set(AreYouTheEntityPage, AreYouTheEntity.YesIAm).success.value
-        .set(WhyDidYouNotNotifyOnshorePage, answers).success.value
+        .set(RelatesToPage, RelatesTo.AnIndividual)
+        .success
+        .value
+        .set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        .success
+        .value
+        .set(WhyDidYouNotNotifyOnshorePage, answers)
+        .success
+        .value
 
       WhyDidYouNotNotifySummary.row(userAnswers).map { row =>
         row.value.content.toString must include("<br>")

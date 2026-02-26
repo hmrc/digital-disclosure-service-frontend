@@ -37,7 +37,9 @@ class WhatReasonableCareDidYouTakeSummarySpec extends SpecBase {
     "must return a row for the reasonableCare field" in {
       val answer      = WhatReasonableCareDidYouTake(reasonableCare = "My care", yearsThisAppliesTo = "2020-2021")
       val userAnswers = UserAnswers("id", "session-123")
-        .set(WhatReasonableCareDidYouTakePage, answer).success.value
+        .set(WhatReasonableCareDidYouTakePage, answer)
+        .success
+        .value
 
       val result = WhatReasonableCareDidYouTakeSummary.row("reasonableCare", userAnswers, revealFullText)
       result mustBe defined
@@ -48,7 +50,9 @@ class WhatReasonableCareDidYouTakeSummarySpec extends SpecBase {
     "must return a row for the yearsThisAppliesTo field" in {
       val answer      = WhatReasonableCareDidYouTake(reasonableCare = "My care", yearsThisAppliesTo = "2020-2021")
       val userAnswers = UserAnswers("id", "session-123")
-        .set(WhatReasonableCareDidYouTakePage, answer).success.value
+        .set(WhatReasonableCareDidYouTakePage, answer)
+        .success
+        .value
 
       val result = WhatReasonableCareDidYouTakeSummary.row("yearsThisAppliesTo", userAnswers, revealFullText)
       result mustBe defined
@@ -59,7 +63,9 @@ class WhatReasonableCareDidYouTakeSummarySpec extends SpecBase {
       val longText    = "A" * 200
       val answer      = WhatReasonableCareDidYouTake(reasonableCare = longText, yearsThisAppliesTo = "2020-2021")
       val userAnswers = UserAnswers("id", "session-123")
-        .set(WhatReasonableCareDidYouTakePage, answer).success.value
+        .set(WhatReasonableCareDidYouTakePage, answer)
+        .success
+        .value
 
       val result = WhatReasonableCareDidYouTakeSummary.row("reasonableCare", userAnswers, revealFullText)
       result mustBe defined

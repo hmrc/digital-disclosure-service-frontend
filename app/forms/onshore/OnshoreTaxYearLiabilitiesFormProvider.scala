@@ -28,7 +28,10 @@ class OnshoreTaxYearLiabilitiesFormProvider @Inject() extends Mappings {
 
   val MAX_BIGINT = BigInt("999999999999999999999999")
 
-  def apply(taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose], showPenaltySection: Boolean): Form[OnshoreTaxYearLiabilities] = {
+  def apply(
+    taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose],
+    showPenaltySection: Boolean
+  ): Form[OnshoreTaxYearLiabilities] =
     Form(
       mapping(
         "nonBusinessIncome"       -> bigintOptionalUnless(
@@ -62,7 +65,7 @@ class OnshoreTaxYearLiabilitiesFormProvider @Inject() extends Mappings {
           "onshoreTaxYearLiabilities.interest.error.nonNumeric"
         )
           .verifying(inRange(BigInt(0), MAX_BIGINT, "onshoreTaxYearLiabilities.interest.error.outOfRange")),
-        "penaltyRate" -> {
+        "penaltyRate"             -> {
           if (showPenaltySection) {
             decimalWithPercentage(
               "onshoreTaxYearLiabilities.penaltyRate.error.required",
@@ -78,7 +81,7 @@ class OnshoreTaxYearLiabilitiesFormProvider @Inject() extends Mappings {
             ignored(BigDecimal(0))
           }
         },
-        "penaltyRateReason" -> {
+        "penaltyRateReason"       -> {
           if (showPenaltySection) {
             text("onshoreTaxYearLiabilities.penaltyRateReason.error.required", Seq.empty)
               .verifying(maxLength(5000, "onshoreTaxYearLiabilities.penaltyRateReason.error.length"))
@@ -89,7 +92,9 @@ class OnshoreTaxYearLiabilitiesFormProvider @Inject() extends Mappings {
           }
         },
         "undeclaredIncomeOrGain"  -> stringOptionalUnless("undeclaredIncomeOrGain"),
-        "residentialTaxReduction" -> optional(boolean("onshoreTaxYearLiabilities.residentialTaxReduction.error.required"))
+        "residentialTaxReduction" -> optional(
+          boolean("onshoreTaxYearLiabilities.residentialTaxReduction.error.required")
+        )
           .verifying(
             optionalUnless(
               taxTypes.contains(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome),
@@ -98,7 +103,6 @@ class OnshoreTaxYearLiabilitiesFormProvider @Inject() extends Mappings {
           )
       )(OnshoreTaxYearLiabilities.apply)(OnshoreTaxYearLiabilities.unapply)
     )
-  }
 
   def bigintOptionalUnless(field: String, isRequired: Boolean): Mapping[Option[BigInt]] =
     optional(

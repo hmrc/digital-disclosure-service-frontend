@@ -508,34 +508,34 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
 
     "should return both onshore and offshore rows when both are true" in {
       val background = Background(offshoreLiabilities = Some(true), onshoreLiabilities = Some(true))
-      val rows = sut.buildLiabilitiesInformationRow(background, None, OffshoreLiabilities(), false)
+      val rows       = sut.buildLiabilitiesInformationRow(background, None, OffshoreLiabilities(), false)
       rows.size mustEqual 2
     }
 
     "should return only offshore row when only offshore is true" in {
       val background = Background(offshoreLiabilities = Some(true), onshoreLiabilities = Some(false))
-      val rows = sut.buildLiabilitiesInformationRow(background, None, OffshoreLiabilities(), false)
+      val rows       = sut.buildLiabilitiesInformationRow(background, None, OffshoreLiabilities(), false)
       rows.size mustEqual 1
       rows.head.id mustEqual "offshore-liabilities-task-list"
     }
 
     "should return only onshore row when only onshore is true" in {
       val background = Background(offshoreLiabilities = Some(false), onshoreLiabilities = Some(true))
-      val rows = sut.buildLiabilitiesInformationRow(background, None, OffshoreLiabilities(), false)
+      val rows       = sut.buildLiabilitiesInformationRow(background, None, OffshoreLiabilities(), false)
       rows.size mustEqual 1
       rows.head.id mustEqual "onshore-liabilities-task-list"
     }
 
     "should return only onshore row when offshore is false" in {
       val background = Background(offshoreLiabilities = Some(false), onshoreLiabilities = None)
-      val rows = sut.buildLiabilitiesInformationRow(background, None, OffshoreLiabilities(), false)
+      val rows       = sut.buildLiabilitiesInformationRow(background, None, OffshoreLiabilities(), false)
       rows.size mustEqual 1
       rows.head.id mustEqual "onshore-liabilities-task-list"
     }
 
     "should return Nil when neither is set" in {
       val background = Background()
-      val rows = sut.buildLiabilitiesInformationRow(background, None, OffshoreLiabilities(), false)
+      val rows       = sut.buildLiabilitiesInformationRow(background, None, OffshoreLiabilities(), false)
       rows mustEqual Nil
     }
   }
@@ -544,13 +544,17 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
 
     "should return false when AreYouTheEntity is YesIAm" in {
       val userAnswers = UserAnswers("id", "session-123")
-        .set(AreYouTheEntityPage, AreYouTheEntity.YesIAm).success.value
+        .set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        .success
+        .value
       sut.isTheUserAgent(userAnswers) mustBe false
     }
 
     "should return true when AreYouTheEntity is not YesIAm" in {
       val userAnswers = UserAnswers("id", "session-123")
-        .set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent).success.value
+        .set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
+        .success
+        .value
       sut.isTheUserAgent(userAnswers) mustBe true
     }
 

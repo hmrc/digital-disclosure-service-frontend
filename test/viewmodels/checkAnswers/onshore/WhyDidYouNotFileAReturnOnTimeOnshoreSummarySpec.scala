@@ -37,11 +37,17 @@ class WhyDidYouNotFileAReturnOnTimeOnshoreSummarySpec extends SpecBase {
     }
 
     "must return a row with 'you' message keys when user is the individual" in {
-      val answers = Set[WhyDidYouNotFileAReturnOnTimeOnshore](WhyDidYouNotFileAReturnOnTimeOnshore.ReasonableExcuse)
+      val answers     = Set[WhyDidYouNotFileAReturnOnTimeOnshore](WhyDidYouNotFileAReturnOnTimeOnshore.ReasonableExcuse)
       val userAnswers = UserAnswers("id", "session-123")
-        .set(RelatesToPage, RelatesTo.AnIndividual).success.value
-        .set(AreYouTheEntityPage, AreYouTheEntity.YesIAm).success.value
-        .set(WhyDidYouNotFileAReturnOnTimeOnshorePage, answers).success.value
+        .set(RelatesToPage, RelatesTo.AnIndividual)
+        .success
+        .value
+        .set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        .success
+        .value
+        .set(WhyDidYouNotFileAReturnOnTimeOnshorePage, answers)
+        .success
+        .value
 
       WhyDidYouNotFileAReturnOnTimeOnshoreSummary.row(userAnswers).map { row =>
         row.key mustBe Key(Text(mess("whyDidYouNotFileAReturnOnTime.checkYourAnswersLabel")))
@@ -50,26 +56,39 @@ class WhyDidYouNotFileAReturnOnTimeOnshoreSummarySpec extends SpecBase {
     }
 
     "must return a row with entity message keys when user is not the individual" in {
-      val answers = Set[WhyDidYouNotFileAReturnOnTimeOnshore](WhyDidYouNotFileAReturnOnTimeOnshore.DeliberatelyWithheldInformation)
+      val answers     =
+        Set[WhyDidYouNotFileAReturnOnTimeOnshore](WhyDidYouNotFileAReturnOnTimeOnshore.DeliberatelyWithheldInformation)
       val userAnswers = UserAnswers("id", "session-123")
-        .set(RelatesToPage, RelatesTo.ACompany).success.value
-        .set(WhyDidYouNotFileAReturnOnTimeOnshorePage, answers).success.value
+        .set(RelatesToPage, RelatesTo.ACompany)
+        .success
+        .value
+        .set(WhyDidYouNotFileAReturnOnTimeOnshorePage, answers)
+        .success
+        .value
 
       WhyDidYouNotFileAReturnOnTimeOnshoreSummary.row(userAnswers).map { row =>
         row.key mustBe Key(Text(mess("whyDidYouNotFileAReturnOnTime.checkYourAnswersLabel")))
-        row.value.content.toString must include(mess(s"whyDidYouNotFileAReturnOnTime.${RelatesTo.ACompany}.deliberatelyWithheldInformation"))
+        row.value.content.toString must include(
+          mess(s"whyDidYouNotFileAReturnOnTime.${RelatesTo.ACompany}.deliberatelyWithheldInformation")
+        )
       }
     }
 
     "must return a row with multiple answers joined by <br>" in {
-      val answers = Set[WhyDidYouNotFileAReturnOnTimeOnshore](
+      val answers     = Set[WhyDidYouNotFileAReturnOnTimeOnshore](
         WhyDidYouNotFileAReturnOnTimeOnshore.ReasonableExcuse,
         WhyDidYouNotFileAReturnOnTimeOnshore.DidNotWithholdInformationOnPurpose
       )
       val userAnswers = UserAnswers("id", "session-123")
-        .set(RelatesToPage, RelatesTo.AnIndividual).success.value
-        .set(AreYouTheEntityPage, AreYouTheEntity.YesIAm).success.value
-        .set(WhyDidYouNotFileAReturnOnTimeOnshorePage, answers).success.value
+        .set(RelatesToPage, RelatesTo.AnIndividual)
+        .success
+        .value
+        .set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        .success
+        .value
+        .set(WhyDidYouNotFileAReturnOnTimeOnshorePage, answers)
+        .success
+        .value
 
       WhyDidYouNotFileAReturnOnTimeOnshoreSummary.row(userAnswers).map { row =>
         row.value.content.toString must include("<br>")

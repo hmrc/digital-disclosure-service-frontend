@@ -21,20 +21,23 @@ import play.api.data.FormError
 import models.WhatOnshoreLiabilitiesDoYouNeedToDisclose
 
 class OnshoreTaxYearLiabilitiesFormProviderSpec
-  extends IntFieldBehaviours
+    extends IntFieldBehaviours
     with BigIntFieldBehaviours
     with BigDecimalFieldBehaviours
     with StringFieldBehaviours {
 
   val formWithNoSelections        = new OnshoreTaxYearLiabilitiesFormProvider()(Set(), true)
   val formWithNonBusinessSelected = new OnshoreTaxYearLiabilitiesFormProvider()(
-    Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.NonBusinessIncome), true
+    Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.NonBusinessIncome),
+    true
   )
   val formWithBusinessSelected    = new OnshoreTaxYearLiabilitiesFormProvider()(
-    Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.BusinessIncome), true
+    Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.BusinessIncome),
+    true
   )
   val formWithLettingSelected     = new OnshoreTaxYearLiabilitiesFormProvider()(
-    Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome), true
+    Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome),
+    true
   )
 
   Seq(

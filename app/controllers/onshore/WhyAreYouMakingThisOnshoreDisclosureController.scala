@@ -45,7 +45,6 @@ class WhyAreYouMakingThisOnshoreDisclosureController @Inject() (
     extends FrontendBaseController
     with I18nSupport {
 
-
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
     val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
     val entity               = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
@@ -55,7 +54,6 @@ class WhyAreYouMakingThisOnshoreDisclosureController @Inject() (
       case None        => form
       case Some(value) => form.fill(value)
     }
-
 
     Ok(view(preparedForm, mode, areTheyTheIndividual, entity))
   }
@@ -83,24 +81,23 @@ class WhyAreYouMakingThisOnshoreDisclosureController @Inject() (
         )
   }
   def changedPages(
-                    answers: UserAnswers,
-                    value: Set[WhyAreYouMakingThisOnshoreDisclosure]
-                  ): (List[QuestionPage[_]], Boolean) =
+    answers: UserAnswers,
+    value: Set[WhyAreYouMakingThisOnshoreDisclosure]
+  ): (List[QuestionPage[_]], Boolean) =
     answers.get(WhyAreYouMakingThisOnshoreDisclosurePage) match {
       case Some(reasons) if reasons != value =>
         (WhyAreYouMakingThisOnshoreDisclosureController.getPages(value), true)
       case Some(reasons) if reasons == value =>
         (WhyAreYouMakingThisOnshoreDisclosureController.getPages(value), false)
-      case _ =>
+      case _                                 =>
         (Nil, false)
     }
-
 
 }
 
 object WhyAreYouMakingThisOnshoreDisclosureController {
 
-  def getPages(reasons: Set[WhyAreYouMakingThisOnshoreDisclosure]): List[QuestionPage[_]] = {
+  def getPages(reasons: Set[WhyAreYouMakingThisOnshoreDisclosure]): List[QuestionPage[_]] =
     List(
       WhyDidYouNotNotifyOnshorePage,
       ReasonableExcuseOnshorePage,
@@ -110,7 +107,5 @@ object WhyAreYouMakingThisOnshoreDisclosureController {
       WhyYouSubmittedAnInaccurateOnshoreReturnPage,
       ReasonableCareOnshorePage
     )
-  }
-
 
 }

@@ -34,8 +34,12 @@ class HowWouldYouPreferToBeContactedSummarySpec extends SpecBase {
 
     "must return a row with a single selection" in {
       val userAnswers = UserAnswers("id", "session-123")
-        .set(HowWouldYouPreferToBeContactedPage, Set[HowWouldYouPreferToBeContacted](HowWouldYouPreferToBeContacted.Email))
-        .success.value
+        .set(
+          HowWouldYouPreferToBeContactedPage,
+          Set[HowWouldYouPreferToBeContacted](HowWouldYouPreferToBeContacted.Email)
+        )
+        .success
+        .value
 
       val result = HowWouldYouPreferToBeContactedSummary.row(userAnswers)
       result mustBe defined
@@ -43,10 +47,15 @@ class HowWouldYouPreferToBeContactedSummarySpec extends SpecBase {
 
     "must return a row with multiple selections" in {
       val userAnswers = UserAnswers("id", "session-123")
-        .set(HowWouldYouPreferToBeContactedPage, Set[HowWouldYouPreferToBeContacted](
-          HowWouldYouPreferToBeContacted.Email,
-          HowWouldYouPreferToBeContacted.Telephone
-        )).success.value
+        .set(
+          HowWouldYouPreferToBeContactedPage,
+          Set[HowWouldYouPreferToBeContacted](
+            HowWouldYouPreferToBeContacted.Email,
+            HowWouldYouPreferToBeContacted.Telephone
+          )
+        )
+        .success
+        .value
 
       val result = HowWouldYouPreferToBeContactedSummary.row(userAnswers)
       result mustBe defined

@@ -41,7 +41,7 @@ import services.{AddressLookupService, SessionService}
 import scala.concurrent.Future
 
 trait SpecBase
-  extends AnyFreeSpec
+    extends AnyFreeSpec
     with Matchers
     with TryValues
     with OptionValues
@@ -84,7 +84,7 @@ trait SpecBase
     bind[IdentifierAction].to[FakeIdentifierAction],
     bind[DataRetrievalAction].to[DataRetrievalActionImpl],
     bind[SessionService].toInstance(mockSessionService),
-    bind[SessionRepository].toInstance(mockSessionRepository),  // ✅ Mock repository to avoid MongoDB
+    bind[SessionRepository].toInstance(mockSessionRepository), // ✅ Mock repository to avoid MongoDB
     bind[InternalAuthTokenInitialiser].to[NoOpInternalAuthTokenInitialiser],
     bind[AddressLookupService].toInstance(mockAddressLookupService)
   )

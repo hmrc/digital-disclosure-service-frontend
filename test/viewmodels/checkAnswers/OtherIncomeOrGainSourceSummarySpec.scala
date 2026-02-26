@@ -36,7 +36,9 @@ class OtherIncomeOrGainSourceSummarySpec extends SpecBase {
 
     "must return a row when the page has an answer" in {
       val userAnswers = UserAnswers("id", "session-123")
-        .set(OtherIncomeOrGainSourcePage, "Some income source").success.value
+        .set(OtherIncomeOrGainSourcePage, "Some income source")
+        .success
+        .value
 
       val result = OtherIncomeOrGainSourceSummary.row(userAnswers, revealFullText)
       result mustBe defined
@@ -45,7 +47,9 @@ class OtherIncomeOrGainSourceSummarySpec extends SpecBase {
     "must handle long text that exceeds the reveal threshold" in {
       val longText    = "A" * 200
       val userAnswers = UserAnswers("id", "session-123")
-        .set(OtherIncomeOrGainSourcePage, longText).success.value
+        .set(OtherIncomeOrGainSourcePage, longText)
+        .success
+        .value
 
       val result = OtherIncomeOrGainSourceSummary.row(userAnswers, revealFullText)
       result mustBe defined

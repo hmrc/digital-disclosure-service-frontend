@@ -24,8 +24,8 @@ import com.google.inject.{ImplementedBy, Inject, Singleton}
 
 @Singleton
 class UAToDisclosureServiceImpl @Inject() (
-                                            notificationService: UAToNotificationService
-                                          ) extends UAToDisclosureService {
+  notificationService: UAToNotificationService
+) extends UAToDisclosureService {
 
   def uaToFullDisclosure(userAnswers: UserAnswers): FullDisclosure =
     FullDisclosure(
@@ -155,9 +155,11 @@ class UAToDisclosureServiceImpl @Inject() (
 
     userAnswers.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).foreach { selections =>
       selections.foreach {
-        case WhyDidYouNotFileAReturnOnTimeOffshore.DeliberatelyWithheldInformation    => behaviours += DeliberatelyDidNotFile
-        case WhyDidYouNotFileAReturnOnTimeOffshore.ReasonableExcuse => behaviours += NotFileHasExcuse
-        case WhyDidYouNotFileAReturnOnTimeOffshore.DidNotWithholdInformationOnPurpose => behaviours += DidNotFileNoExcuse
+        case WhyDidYouNotFileAReturnOnTimeOffshore.DeliberatelyWithheldInformation    =>
+          behaviours += DeliberatelyDidNotFile
+        case WhyDidYouNotFileAReturnOnTimeOffshore.ReasonableExcuse                   => behaviours += NotFileHasExcuse
+        case WhyDidYouNotFileAReturnOnTimeOffshore.DidNotWithholdInformationOnPurpose =>
+          behaviours += DidNotFileNoExcuse
       }
     }
 

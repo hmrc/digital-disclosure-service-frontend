@@ -127,7 +127,10 @@ class WhyDidYouNotFileAReturnOnTimeOnshoreControllerSpec extends SpecBase with M
       val result    = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
@@ -157,50 +160,57 @@ class WhyDidYouNotFileAReturnOnTimeOnshoreControllerSpec extends SpecBase with M
   "changedPages and getPages logic" - {
 
     "must return CDFOnshorePage when DeliberatelyWithheldInformation is not selected" in {
-      val controller = application.injector.instanceOf[WhyDidYouNotFileAReturnOnTimeOnshoreController]
+      val controller  = application.injector.instanceOf[WhyDidYouNotFileAReturnOnTimeOnshoreController]
       val userAnswers = UserAnswers("id", "session-123")
-        .set(WhyDidYouNotFileAReturnOnTimeOnshorePage, Set[WhyDidYouNotFileAReturnOnTimeOnshore](DeliberatelyWithheldInformation))
-        .success.value
+        .set(
+          WhyDidYouNotFileAReturnOnTimeOnshorePage,
+          Set[WhyDidYouNotFileAReturnOnTimeOnshore](DeliberatelyWithheldInformation)
+        )
+        .success
+        .value
 
       val reasons: Set[WhyDidYouNotFileAReturnOnTimeOnshore] = Set(ReasonableExcuse)
-      val (pages, changed) = controller.changedPages(userAnswers, reasons)
+      val (pages, changed)                                   = controller.changedPages(userAnswers, reasons)
 
       pages must contain(CDFOnshorePage)
       changed mustBe true
     }
 
     "must return ReasonableExcuseForNotFilingOnshorePage when ReasonableExcuse is not selected" in {
-      val controller = application.injector.instanceOf[WhyDidYouNotFileAReturnOnTimeOnshoreController]
+      val controller  = application.injector.instanceOf[WhyDidYouNotFileAReturnOnTimeOnshoreController]
       val userAnswers = UserAnswers("id", "session-123")
         .set(WhyDidYouNotFileAReturnOnTimeOnshorePage, Set[WhyDidYouNotFileAReturnOnTimeOnshore](ReasonableExcuse))
-        .success.value
+        .success
+        .value
 
       val reasons: Set[WhyDidYouNotFileAReturnOnTimeOnshore] = Set(DeliberatelyWithheldInformation)
-      val (pages, changed) = controller.changedPages(userAnswers, reasons)
+      val (pages, changed)                                   = controller.changedPages(userAnswers, reasons)
 
       pages must contain(ReasonableExcuseForNotFilingOnshorePage)
       changed mustBe true
     }
 
     "must return both pages when neither DeliberatelyWithheldInformation nor ReasonableExcuse is selected" in {
-      val controller = application.injector.instanceOf[WhyDidYouNotFileAReturnOnTimeOnshoreController]
+      val controller  = application.injector.instanceOf[WhyDidYouNotFileAReturnOnTimeOnshoreController]
       val userAnswers = UserAnswers("id", "session-123")
         .set(WhyDidYouNotFileAReturnOnTimeOnshorePage, Set[WhyDidYouNotFileAReturnOnTimeOnshore](ReasonableExcuse))
-        .success.value
+        .success
+        .value
 
       val reasons: Set[WhyDidYouNotFileAReturnOnTimeOnshore] = Set(DidNotWithholdInformationOnPurpose)
-      val (pages, changed) = controller.changedPages(userAnswers, reasons)
+      val (pages, changed)                                   = controller.changedPages(userAnswers, reasons)
 
-      pages must contain allOf(CDFOnshorePage, ReasonableExcuseForNotFilingOnshorePage)
+      pages must contain allOf (CDFOnshorePage, ReasonableExcuseForNotFilingOnshorePage)
       changed mustBe true
     }
 
     "must return empty list and false when values have not changed" in {
-      val controller  = application.injector.instanceOf[WhyDidYouNotFileAReturnOnTimeOnshoreController]
+      val controller                                         = application.injector.instanceOf[WhyDidYouNotFileAReturnOnTimeOnshoreController]
       val reasons: Set[WhyDidYouNotFileAReturnOnTimeOnshore] = Set(DeliberatelyWithheldInformation, ReasonableExcuse)
-      val userAnswers = UserAnswers("id", "session-123")
+      val userAnswers                                        = UserAnswers("id", "session-123")
         .set(WhyDidYouNotFileAReturnOnTimeOnshorePage, reasons)
-        .success.value
+        .success
+        .value
 
       val (pages, changed) = controller.changedPages(userAnswers, reasons)
 

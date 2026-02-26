@@ -33,17 +33,17 @@ import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class WhyDidYouNotNotifyController @Inject() (
-                                               override val messagesApi: MessagesApi,
-                                               sessionService: SessionService,
-                                               navigator: OffshoreNavigator,
-                                               identify: IdentifierAction,
-                                               getData: DataRetrievalAction,
-                                               requireData: DataRequiredAction,
-                                               formProvider: WhyDidYouNotNotifyFormProvider,
-                                               val controllerComponents: MessagesControllerComponents,
-                                               view: WhyDidYouNotNotifyView
-                                             )(implicit ec: ExecutionContext)
-  extends FrontendBaseController
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: OffshoreNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: WhyDidYouNotNotifyFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: WhyDidYouNotNotifyView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
     with I18nSupport {
 
   val form = formProvider()

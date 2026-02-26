@@ -25,7 +25,7 @@ import views.html.onshore.WhyDidYouNotFileAReturnOnTimeOnshoreView
 
 class WhyDidYouNotFileAReturnOnTimeOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhyDidYouNotFileAReturnOnTimeOnshoreFormProvider()(true, RelatesTo.AnIndividual)
+  val form                                           = new WhyDidYouNotFileAReturnOnTimeOnshoreFormProvider()(true, RelatesTo.AnIndividual)
   val page: WhyDidYouNotFileAReturnOnTimeOnshoreView = inject[WhyDidYouNotFileAReturnOnTimeOnshoreView]
 
   private def createViewAsIndividual: Html = page(form, NormalMode, true, RelatesTo.AnIndividual)(request, messages)
@@ -69,7 +69,9 @@ class WhyDidYouNotFileAReturnOnTimeOnshoreViewSpec extends ViewSpecBase with Vie
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages(s"whyDidYouNotFileAReturnOnTime.${RelatesTo.ACompany}.heading")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages(
+        s"whyDidYouNotFileAReturnOnTime.${RelatesTo.ACompany}.heading"
+      )
     }
 
     "display the continue button" in {

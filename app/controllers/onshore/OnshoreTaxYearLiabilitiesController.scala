@@ -49,12 +49,12 @@ class OnshoreTaxYearLiabilitiesController @Inject() (
     extends FrontendBaseController
     with I18nSupport {
 
-  def form(taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose], showPenaltySection: Boolean) = formProvider(taxTypes, showPenaltySection)
+  def form(taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose], showPenaltySection: Boolean) =
+    formProvider(taxTypes, showPenaltySection)
 
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
       withYear(i) { year =>
-
         val taxTypes = request.userAnswers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage).getOrElse(Set())
 
         val showPenaltySection = ReasonableExcuseHelper.showPenaltyWhenNotReasonableExcuse(request.userAnswers)
@@ -78,7 +78,8 @@ class OnshoreTaxYearLiabilitiesController @Inject() (
         form(taxTypes, showPenaltySection)
           .bindFromRequest()
           .fold(
-            formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i, year, taxTypes, showPenaltySection))),
+            formWithErrors =>
+              Future.successful(BadRequest(view(formWithErrors, mode, i, year, taxTypes, showPenaltySection))),
             value => {
               val taxYearWithLiabilities            = OnshoreTaxYearWithLiabilities(OnshoreYearStarting(year), value)
               val (clearedAnswers, hasValueChanged) = changedPages(request.userAnswers, year.toString, value)

@@ -25,7 +25,7 @@ import views.html.onshore.WhyYouSubmittedAnInaccurateOnshoreReturnView
 
 class WhyYouSubmittedAnInaccurateOnshoreReturnViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhyYouSubmittedAnInaccurateOnshoreReturnFormProvider()()
+  val form                                               = new WhyYouSubmittedAnInaccurateOnshoreReturnFormProvider()()
   val page: WhyYouSubmittedAnInaccurateOnshoreReturnView = inject[WhyYouSubmittedAnInaccurateOnshoreReturnView]
 
   private def createViewAsIndividual: Html = page(form, NormalMode, true, RelatesTo.AnIndividual)(request, messages)
@@ -44,7 +44,9 @@ class WhyYouSubmittedAnInaccurateOnshoreReturnViewSpec extends ViewSpecBase with
     }
 
     "contain second paragraph" in {
-      view.getElementById("second-paragraph").text() mustBe messages("WhyYouSubmittedAnInaccurateReturn.paragraph.second")
+      view.getElementById("second-paragraph").text() mustBe messages(
+        "WhyYouSubmittedAnInaccurateReturn.paragraph.second"
+      )
     }
 
     "contain third paragraph" in {
@@ -65,11 +67,15 @@ class WhyYouSubmittedAnInaccurateOnshoreReturnViewSpec extends ViewSpecBase with
     val view = createViewAsCompany
 
     "have title" in {
-      view.select("title").text() must include(messages(s"WhyYouSubmittedAnInaccurateReturn.title.${RelatesTo.ACompany}"))
+      view.select("title").text() must include(
+        messages(s"WhyYouSubmittedAnInaccurateReturn.title.${RelatesTo.ACompany}")
+      )
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages(s"WhyYouSubmittedAnInaccurateReturn.title.${RelatesTo.ACompany}")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages(
+        s"WhyYouSubmittedAnInaccurateReturn.title.${RelatesTo.ACompany}"
+      )
     }
 
     "display the continue button" in {

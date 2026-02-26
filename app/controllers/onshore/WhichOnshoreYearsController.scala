@@ -95,7 +95,7 @@ class WhichOnshoreYearsController @Inject() (
 
   def populateChecklist(ua: UserAnswers)(implicit messages: Messages): Seq[CheckboxItem] = {
 
-    val notifySelections    = ua.get(WhyDidYouNotNotifyOnshorePage).getOrElse(Set.empty)
+    val notifySelections     = ua.get(WhyDidYouNotNotifyOnshorePage).getOrElse(Set.empty)
     val lateReturnSelections = ua.get(WhyDidYouNotFileAReturnOnTimeOnshorePage).getOrElse(Set.empty)
     val inaccurateSelections = ua.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).getOrElse(Set.empty)
 

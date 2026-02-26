@@ -83,7 +83,8 @@ class IndexControllerSpec extends SpecBase with Generators {
       } yield {
         val request = FakeRequest(GET, routes.IndexController.onPageLoad.url)
         setupMockSessionResponse(Some(userAnswers))
-        when(mockSessionService.getIndividualUserAnswers(any(), any(), any())(any())).thenReturn(Future.successful(Some(userAnswers)))
+        when(mockSessionService.getIndividualUserAnswers(any(), any(), any())(any()))
+          .thenReturn(Future.successful(Some(userAnswers)))
         when(mockSessionService.set(any())(any())).thenReturn(Future.successful(true))
 
         val result = route(application, request).value

@@ -25,7 +25,7 @@ import views.html.onshore.WhyDidYouNotNotifyOnshoreView
 
 class WhyDidYouNotNotifyOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form = new WhyDidYouNotNotifyOnshoreFormProvider()(true, RelatesTo.AnIndividual)
+  val form                                = new WhyDidYouNotNotifyOnshoreFormProvider()(true, RelatesTo.AnIndividual)
   val page: WhyDidYouNotNotifyOnshoreView = inject[WhyDidYouNotNotifyOnshoreView]
 
   private def createViewAsIndividual: Html = page(form, NormalMode, true, RelatesTo.AnIndividual)(request, messages)
@@ -69,7 +69,9 @@ class WhyDidYouNotNotifyOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     }
 
     "contain header" in {
-      view.getElementsByClass("govuk-heading-xl").text() mustBe messages(s"whyDidYouNotNotify.title.${RelatesTo.ACompany}")
+      view.getElementsByClass("govuk-heading-xl").text() mustBe messages(
+        s"whyDidYouNotNotify.title.${RelatesTo.ACompany}"
+      )
     }
 
     "display the continue button" in {

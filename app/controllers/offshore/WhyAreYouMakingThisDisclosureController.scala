@@ -32,17 +32,17 @@ import scala.collection.immutable.Set
 import scala.concurrent.{ExecutionContext, Future}
 
 class WhyAreYouMakingThisDisclosureController @Inject() (
-                                                          override val messagesApi: MessagesApi,
-                                                          sessionService: SessionService,
-                                                          navigator: OffshoreNavigator,
-                                                          identify: IdentifierAction,
-                                                          getData: DataRetrievalAction,
-                                                          requireData: DataRequiredAction,
-                                                          formProvider: WhyAreYouMakingThisDisclosureFormProvider,
-                                                          val controllerComponents: MessagesControllerComponents,
-                                                          view: WhyAreYouMakingThisDisclosureView
-                                                        )(implicit ec: ExecutionContext)
-  extends FrontendBaseController
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: OffshoreNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: WhyAreYouMakingThisDisclosureFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: WhyAreYouMakingThisDisclosureView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
     with I18nSupport {
 
   val form = formProvider()
@@ -85,7 +85,7 @@ class WhyAreYouMakingThisDisclosureController @Inject() (
         (WhyAreYouMakingThisDisclosureController.getPages(value), true)
       case Some(reasons) if reasons == value =>
         (WhyAreYouMakingThisDisclosureController.getPages(value), false)
-      case _ =>
+      case _                                 =>
         (Nil, false)
     }
 
@@ -93,7 +93,7 @@ class WhyAreYouMakingThisDisclosureController @Inject() (
 
 object WhyAreYouMakingThisDisclosureController {
 
-  def getPages(reasons: Set[WhyAreYouMakingThisDisclosure]): List[QuestionPage[_]] = {
+  def getPages(reasons: Set[WhyAreYouMakingThisDisclosure]): List[QuestionPage[_]] =
     List(
       WhyDidYouNotNotifyPage,
       WhatIsYourReasonableExcusePage,
@@ -103,6 +103,5 @@ object WhyAreYouMakingThisDisclosureController {
       WhyYouSubmittedAnInaccurateOffshoreReturnPage,
       WhatReasonableCareDidYouTakePage
     )
-  }
 
 }

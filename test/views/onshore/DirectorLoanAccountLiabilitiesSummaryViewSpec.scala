@@ -28,8 +28,9 @@ import java.time.LocalDate
 
 class DirectorLoanAccountLiabilitiesSummaryViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val page: DirectorLoanAccountLiabilitiesSummaryView = inject[DirectorLoanAccountLiabilitiesSummaryView]
-  val viewModelCreation: DirectorLoanAccountLiabilitiesSummaryViewModelCreation = inject[DirectorLoanAccountLiabilitiesSummaryViewModelCreation]
+  val page: DirectorLoanAccountLiabilitiesSummaryView                           = inject[DirectorLoanAccountLiabilitiesSummaryView]
+  val viewModelCreation: DirectorLoanAccountLiabilitiesSummaryViewModelCreation =
+    inject[DirectorLoanAccountLiabilitiesSummaryViewModelCreation]
 
   val directorLoan = DirectorLoanAccountLiabilities(
     name = "Test Director",
@@ -42,7 +43,8 @@ class DirectorLoanAccountLiabilitiesSummaryViewSpec extends ViewSpecBase with Vi
   )
 
   val userAnswers = UserAnswers("id", "session-123")
-    .set(DirectorLoanAccountLiabilitiesPage, Seq(directorLoan)).get
+    .set(DirectorLoanAccountLiabilitiesPage, Seq(directorLoan))
+    .get
 
   private def createView: Html = {
     val viewModel = viewModelCreation.create(userAnswers)(messages)

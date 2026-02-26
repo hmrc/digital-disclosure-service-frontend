@@ -57,7 +57,10 @@ object WhyYouSubmittedAnInaccurateReturnSummary {
         key = "WhyYouSubmittedAnInaccurateReturn.checkYourAnswersLabel",
         value = value,
         actions = Seq(
-          ActionItemViewModel("site.change", routes.WhyYouSubmittedAnInaccurateOnshoreReturnController.onPageLoad(CheckMode).url)
+          ActionItemViewModel(
+            "site.change",
+            routes.WhyYouSubmittedAnInaccurateOnshoreReturnController.onPageLoad(CheckMode).url
+          )
             .withVisuallyHiddenText(messages("WhyYouSubmittedAnInaccurateReturn.change.hidden"))
         )
       )

@@ -37,11 +37,17 @@ class WhyYouSubmittedAnInaccurateReturnSummarySpec extends SpecBase {
     }
 
     "must return a row with 'you' message keys when user is the individual" in {
-      val answers = Set[WhyYouSubmittedAnInaccurateReturn](WhyYouSubmittedAnInaccurateReturn.ReasonableMistake)
+      val answers     = Set[WhyYouSubmittedAnInaccurateReturn](WhyYouSubmittedAnInaccurateReturn.ReasonableMistake)
       val userAnswers = UserAnswers("id", "session-123")
-        .set(RelatesToPage, RelatesTo.AnIndividual).success.value
-        .set(AreYouTheEntityPage, AreYouTheEntity.YesIAm).success.value
-        .set(WhyYouSubmittedAnInaccurateOffshoreReturnPage, answers).success.value
+        .set(RelatesToPage, RelatesTo.AnIndividual)
+        .success
+        .value
+        .set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        .success
+        .value
+        .set(WhyYouSubmittedAnInaccurateOffshoreReturnPage, answers)
+        .success
+        .value
 
       WhyYouSubmittedAnInaccurateReturnSummary.row(userAnswers).map { row =>
         row.key mustBe Key(Text(mess("WhyYouSubmittedAnInaccurateReturn.checkYourAnswersLabel")))
@@ -50,10 +56,14 @@ class WhyYouSubmittedAnInaccurateReturnSummarySpec extends SpecBase {
     }
 
     "must return a row with 'notYou' message keys when user is not the individual" in {
-      val answers = Set[WhyYouSubmittedAnInaccurateReturn](WhyYouSubmittedAnInaccurateReturn.DeliberatelyInaccurate)
+      val answers     = Set[WhyYouSubmittedAnInaccurateReturn](WhyYouSubmittedAnInaccurateReturn.DeliberatelyInaccurate)
       val userAnswers = UserAnswers("id", "session-123")
-        .set(RelatesToPage, RelatesTo.ACompany).success.value
-        .set(WhyYouSubmittedAnInaccurateOffshoreReturnPage, answers).success.value
+        .set(RelatesToPage, RelatesTo.ACompany)
+        .success
+        .value
+        .set(WhyYouSubmittedAnInaccurateOffshoreReturnPage, answers)
+        .success
+        .value
 
       WhyYouSubmittedAnInaccurateReturnSummary.row(userAnswers).map { row =>
         row.key mustBe Key(Text(mess("WhyYouSubmittedAnInaccurateReturn.checkYourAnswersLabel")))
@@ -62,14 +72,20 @@ class WhyYouSubmittedAnInaccurateReturnSummarySpec extends SpecBase {
     }
 
     "must return a row with multiple answers joined by <br>" in {
-      val answers = Set[WhyYouSubmittedAnInaccurateReturn](
+      val answers     = Set[WhyYouSubmittedAnInaccurateReturn](
         WhyYouSubmittedAnInaccurateReturn.ReasonableMistake,
         WhyYouSubmittedAnInaccurateReturn.NoReasonableCare
       )
       val userAnswers = UserAnswers("id", "session-123")
-        .set(RelatesToPage, RelatesTo.AnIndividual).success.value
-        .set(AreYouTheEntityPage, AreYouTheEntity.YesIAm).success.value
-        .set(WhyYouSubmittedAnInaccurateOffshoreReturnPage, answers).success.value
+        .set(RelatesToPage, RelatesTo.AnIndividual)
+        .success
+        .value
+        .set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
+        .success
+        .value
+        .set(WhyYouSubmittedAnInaccurateOffshoreReturnPage, answers)
+        .success
+        .value
 
       WhyYouSubmittedAnInaccurateReturnSummary.row(userAnswers).map { row =>
         row.value.content.toString must include("<br>")

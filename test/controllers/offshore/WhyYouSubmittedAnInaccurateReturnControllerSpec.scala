@@ -72,9 +72,9 @@ class WhyYouSubmittedAnInaccurateReturnControllerSpec extends SpecBase with Mock
         userAnswer          <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
         uaWithWhyPage       <- uaWithRelatesToPage.set(
-          WhyYouSubmittedAnInaccurateOffshoreReturnPage,
-          WhyYouSubmittedAnInaccurateReturn.values.toSet
-        )
+                                 WhyYouSubmittedAnInaccurateOffshoreReturnPage,
+                                 WhyYouSubmittedAnInaccurateReturn.values.toSet
+                               )
       } yield uaWithWhyPage).success.value
 
       val areTheyTheIndividual = userAnswers.isTheUserTheIndividual
@@ -177,28 +177,28 @@ class WhyYouSubmittedAnInaccurateReturnControllerSpec extends SpecBase with Mock
 
     "must return ContractualDisclosureFacilityPage when DeliberatelyInaccurate is not selected" in {
       val reasons: Set[WhyYouSubmittedAnInaccurateReturn] = Set(ReasonableMistake)
-      val result = WhyYouSubmittedAnInaccurateReturnController.getPages(reasons)
+      val result                                          = WhyYouSubmittedAnInaccurateReturnController.getPages(reasons)
 
       result must contain(ContractualDisclosureFacilityPage)
     }
 
     "must return WhatReasonableCareDidYouTakePage when ReasonableMistake is not selected" in {
       val reasons: Set[WhyYouSubmittedAnInaccurateReturn] = Set(DeliberatelyInaccurate)
-      val result = WhyYouSubmittedAnInaccurateReturnController.getPages(reasons)
+      val result                                          = WhyYouSubmittedAnInaccurateReturnController.getPages(reasons)
 
       result must contain(WhatReasonableCareDidYouTakePage)
     }
 
     "must return both pages when neither DeliberatelyInaccurate nor ReasonableMistake is selected" in {
       val reasons: Set[WhyYouSubmittedAnInaccurateReturn] = Set(NoReasonableCare)
-      val result = WhyYouSubmittedAnInaccurateReturnController.getPages(reasons)
+      val result                                          = WhyYouSubmittedAnInaccurateReturnController.getPages(reasons)
 
       result must contain allOf (ContractualDisclosureFacilityPage, WhatReasonableCareDidYouTakePage)
     }
 
     "must return empty list when both DeliberatelyInaccurate and ReasonableMistake are selected" in {
       val reasons: Set[WhyYouSubmittedAnInaccurateReturn] = Set(DeliberatelyInaccurate, ReasonableMistake)
-      val result = WhyYouSubmittedAnInaccurateReturnController.getPages(reasons)
+      val result                                          = WhyYouSubmittedAnInaccurateReturnController.getPages(reasons)
 
       result mustBe empty
     }

@@ -32,10 +32,10 @@ import com.google.inject.Inject
 import utils.onshore.ReasonableExcuseHelper
 
 case class CorporationTaxLiabilitiesSummaryViewModel(
-                                                      corporationTaxLiabilitiesList: Seq[(Int, SummaryList)],
-                                                      accountEndingsSummaryList: SummaryList,
-                                                      totalAmountsList: SummaryList
-                                                    )
+  corporationTaxLiabilitiesList: Seq[(Int, SummaryList)],
+  accountEndingsSummaryList: SummaryList,
+  totalAmountsList: SummaryList
+)
 
 class CorporationTaxLiabilitiesSummaryViewModelCreation @Inject() (revealFullText: RevealFullText) extends RowHelper {
   val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
@@ -58,11 +58,11 @@ class CorporationTaxLiabilitiesSummaryViewModelCreation @Inject() (revealFullTex
   }
 
   def corporationTaxLiabilityToSummaryList(
-                                            i: Int,
-                                            liability: CorporationTaxLiability,
-                                            revealFullText: RevealFullText,
-                                            showPenaltySection: Boolean
-                                          )(implicit messages: Messages): SummaryList = {
+    i: Int,
+    liability: CorporationTaxLiability,
+    revealFullText: RevealFullText,
+    showPenaltySection: Boolean
+  )(implicit messages: Messages): SummaryList = {
 
     val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale(messages.lang.code))
 
@@ -140,8 +140,8 @@ class CorporationTaxLiabilitiesSummaryViewModelCreation @Inject() (revealFullTex
   }
 
   private def accountEndingsSummaryList(
-                                         corporationTaxLiabilities: Seq[CorporationTaxLiability]
-                                       )(implicit messages: Messages): SummaryList = {
+    corporationTaxLiabilities: Seq[CorporationTaxLiability]
+  )(implicit messages: Messages): SummaryList = {
 
     val periodEnding = corporationTaxLiabilities.map(ct => ct.periodEnd.format(dateFormatter)).mkString(", ")
 
@@ -163,9 +163,9 @@ class CorporationTaxLiabilitiesSummaryViewModelCreation @Inject() (revealFullTex
   }
 
   private def totalAmountsSummaryList(
-                                       corporationTaxLiabilities: Seq[CorporationTaxLiability],
-                                       showPenaltySection: Boolean
-                                     )(implicit messages: Messages): SummaryList = {
+    corporationTaxLiabilities: Seq[CorporationTaxLiability],
+    showPenaltySection: Boolean
+  )(implicit messages: Messages): SummaryList = {
 
     val unpaidTaxTotal     = corporationTaxLiabilities.map(_.howMuchUnpaid).sum
     val interestTotal      = corporationTaxLiabilities.map(_.howMuchInterest).sum

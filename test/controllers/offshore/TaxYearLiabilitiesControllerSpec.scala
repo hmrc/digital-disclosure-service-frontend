@@ -160,45 +160,65 @@ class TaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
   "changedPages logic" - {
 
     "must remove ForeignTaxCreditPage when foreignTaxCredit changes from true to false" in {
-      val controller = application.injector.instanceOf[TaxYearLiabilitiesController]
+      val controller     = application.injector.instanceOf[TaxYearLiabilitiesController]
       val existingAnswer = TaxYearLiabilities(
-        income = BigInt(1000), chargeableTransfers = BigInt(100), capitalGains = BigInt(1000),
-        unpaidTax = BigInt(200), interest = BigInt(20), penaltyRate = 30,
-        penaltyRateReason = "Reason", undeclaredIncomeOrGain = Some("gain"), foreignTaxCredit = true
+        income = BigInt(1000),
+        chargeableTransfers = BigInt(100),
+        capitalGains = BigInt(1000),
+        unpaidTax = BigInt(200),
+        interest = BigInt(20),
+        penaltyRate = 30,
+        penaltyRateReason = "Reason",
+        undeclaredIncomeOrGain = Some("gain"),
+        foreignTaxCredit = true
       )
-      val userAnswers = userAnswersWithTaxYears
+      val userAnswers    = userAnswersWithTaxYears
         .set(TaxYearLiabilitiesPage, Map("2021" -> TaxYearWithLiabilities(TaxYearStarting(2021), existingAnswer)))
-        .success.value
+        .success
+        .value
 
-      val newAnswer = existingAnswer.copy(foreignTaxCredit = false)
+      val newAnswer         = existingAnswer.copy(foreignTaxCredit = false)
       val (result, changed) = controller.changedPages(userAnswers, "2021", newAnswer)
       result.isSuccess mustBe true
       changed mustBe false
     }
 
     "must return true when foreignTaxCredit changes from false to true" in {
-      val controller = application.injector.instanceOf[TaxYearLiabilitiesController]
+      val controller     = application.injector.instanceOf[TaxYearLiabilitiesController]
       val existingAnswer = TaxYearLiabilities(
-        income = BigInt(1000), chargeableTransfers = BigInt(100), capitalGains = BigInt(1000),
-        unpaidTax = BigInt(200), interest = BigInt(20), penaltyRate = 30,
-        penaltyRateReason = "Reason", undeclaredIncomeOrGain = Some("gain"), foreignTaxCredit = false
+        income = BigInt(1000),
+        chargeableTransfers = BigInt(100),
+        capitalGains = BigInt(1000),
+        unpaidTax = BigInt(200),
+        interest = BigInt(20),
+        penaltyRate = 30,
+        penaltyRateReason = "Reason",
+        undeclaredIncomeOrGain = Some("gain"),
+        foreignTaxCredit = false
       )
-      val userAnswers = userAnswersWithTaxYears
+      val userAnswers    = userAnswersWithTaxYears
         .set(TaxYearLiabilitiesPage, Map("2021" -> TaxYearWithLiabilities(TaxYearStarting(2021), existingAnswer)))
-        .success.value
+        .success
+        .value
 
-      val newAnswer = existingAnswer.copy(foreignTaxCredit = true)
+      val newAnswer         = existingAnswer.copy(foreignTaxCredit = true)
       val (result, changed) = controller.changedPages(userAnswers, "2021", newAnswer)
       result.isSuccess mustBe true
       changed mustBe true
     }
 
     "must return false when no existing answer" in {
-      val controller = application.injector.instanceOf[TaxYearLiabilitiesController]
-      val newAnswer = TaxYearLiabilities(
-        income = BigInt(1000), chargeableTransfers = BigInt(100), capitalGains = BigInt(1000),
-        unpaidTax = BigInt(200), interest = BigInt(20), penaltyRate = 30,
-        penaltyRateReason = "Reason", undeclaredIncomeOrGain = Some("gain"), foreignTaxCredit = false
+      val controller        = application.injector.instanceOf[TaxYearLiabilitiesController]
+      val newAnswer         = TaxYearLiabilities(
+        income = BigInt(1000),
+        chargeableTransfers = BigInt(100),
+        capitalGains = BigInt(1000),
+        unpaidTax = BigInt(200),
+        interest = BigInt(20),
+        penaltyRate = 30,
+        penaltyRateReason = "Reason",
+        undeclaredIncomeOrGain = Some("gain"),
+        foreignTaxCredit = false
       )
       val (result, changed) = controller.changedPages(userAnswersWithTaxYears, "2021", newAnswer)
       result.isSuccess mustBe true

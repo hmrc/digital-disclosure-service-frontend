@@ -51,7 +51,8 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelCreation @Inject() (revealFu
     val showPenaltySection = ReasonableExcuseHelper.showPenaltyWhenNotReasonableExcuse(userAnswers)
 
     val directorLoanAccountLiabilitiesList: Seq[(Int, SummaryList)] = directorLoanAccountLiabilities.zipWithIndex.map {
-      case (dLLiability, i) => (i + 1, directorLoanAccountLiabilitiesToSummaryList(i, dLLiability, revealFullText, showPenaltySection))
+      case (dLLiability, i) =>
+        (i + 1, directorLoanAccountLiabilitiesToSummaryList(i, dLLiability, revealFullText, showPenaltySection))
     }
 
     val totalAmountsList = totalAmountsSummaryList(directorLoanAccountLiabilities, showPenaltySection)

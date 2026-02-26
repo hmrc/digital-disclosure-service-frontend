@@ -59,7 +59,10 @@ object WhyDidYouNotFileAReturnOnTimeOnshoreSummary {
         key = "whyDidYouNotFileAReturnOnTime.checkYourAnswersLabel",
         value = value,
         actions = Seq(
-          ActionItemViewModel("site.change", routes.WhyDidYouNotFileAReturnOnTimeOnshoreController.onPageLoad(CheckMode).url)
+          ActionItemViewModel(
+            "site.change",
+            routes.WhyDidYouNotFileAReturnOnTimeOnshoreController.onPageLoad(CheckMode).url
+          )
             .withVisuallyHiddenText(messages("whyDidYouNotFileAReturnOnTime.change.hidden"))
         )
       )

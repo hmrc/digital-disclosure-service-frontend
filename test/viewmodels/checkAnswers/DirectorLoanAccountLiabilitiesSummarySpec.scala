@@ -35,7 +35,7 @@ class DirectorLoanAccountLiabilitiesSummarySpec extends SpecBase {
     }
 
     "must return a row when the page has an answer" in {
-      val liability = DirectorLoanAccountLiabilities(
+      val liability   = DirectorLoanAccountLiabilities(
         name = "Test Director",
         periodEnd = LocalDate.of(2021, 4, 5),
         overdrawn = BigInt(1000),
@@ -45,7 +45,9 @@ class DirectorLoanAccountLiabilitiesSummarySpec extends SpecBase {
         penaltyRateReason = "Some reason"
       )
       val userAnswers = UserAnswers("id", "session-123")
-        .set(DirectorLoanAccountLiabilitiesPage, Seq(liability)).success.value
+        .set(DirectorLoanAccountLiabilitiesPage, Seq(liability))
+        .success
+        .value
 
       val result = DirectorLoanAccountLiabilitiesSummary.row(userAnswers)
       result mustBe defined

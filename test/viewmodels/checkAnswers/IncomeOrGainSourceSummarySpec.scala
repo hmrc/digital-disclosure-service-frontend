@@ -35,7 +35,8 @@ class IncomeOrGainSourceSummarySpec extends SpecBase {
     "must return a row with a single selection" in {
       val userAnswers = UserAnswers("id", "session-123")
         .set(IncomeOrGainSourcePage, Set[IncomeOrGainSource](IncomeOrGainSource.Dividends))
-        .success.value
+        .success
+        .value
 
       val result = IncomeOrGainSourceSummary.row(userAnswers)
       result mustBe defined
@@ -43,10 +44,15 @@ class IncomeOrGainSourceSummarySpec extends SpecBase {
 
     "must return a row with multiple selections" in {
       val userAnswers = UserAnswers("id", "session-123")
-        .set(IncomeOrGainSourcePage, Set[IncomeOrGainSource](
-          IncomeOrGainSource.Dividends,
-          IncomeOrGainSource.Interest
-        )).success.value
+        .set(
+          IncomeOrGainSourcePage,
+          Set[IncomeOrGainSource](
+            IncomeOrGainSource.Dividends,
+            IncomeOrGainSource.Interest
+          )
+        )
+        .success
+        .value
 
       val result = IncomeOrGainSourceSummary.row(userAnswers)
       result mustBe defined

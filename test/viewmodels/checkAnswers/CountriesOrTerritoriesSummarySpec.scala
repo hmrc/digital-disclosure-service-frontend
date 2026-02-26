@@ -28,9 +28,9 @@ import viewmodels.govuk.summarylist._
 
 class CountriesOrTerritoriesSummarySpec extends SpecBase {
 
-  lazy val app                    = application
-  implicit val mess: Messages     = messages
-  lazy val revealFullText         = application.injector.instanceOf[RevealFullText]
+  lazy val app                = application
+  implicit val mess: Messages = messages
+  lazy val revealFullText     = application.injector.instanceOf[RevealFullText]
 
   "CountriesOrTerritoriesSummary.row" - {
 
@@ -42,7 +42,9 @@ class CountriesOrTerritoriesSummarySpec extends SpecBase {
     "must return a row with the country name" in {
       val countriesMap = Map("AFG" -> Country("AFG", "Afghanistan"))
       val userAnswers  = UserAnswers("id", "session-123")
-        .set(CountryOfYourOffshoreLiabilityPage, countriesMap).success.value
+        .set(CountryOfYourOffshoreLiabilityPage, countriesMap)
+        .success
+        .value
 
       CountriesOrTerritoriesSummary.row(userAnswers, revealFullText).map { row =>
         row.key mustBe Key(Text(mess("countriesOrTerritories.checkYourAnswersLabel")))
@@ -55,8 +57,10 @@ class CountriesOrTerritoriesSummarySpec extends SpecBase {
         "AFG" -> Country("AFG", "Afghanistan"),
         "ALB" -> Country("ALB", "Albania")
       )
-      val userAnswers = UserAnswers("id", "session-123")
-        .set(CountryOfYourOffshoreLiabilityPage, countriesMap).success.value
+      val userAnswers  = UserAnswers("id", "session-123")
+        .set(CountryOfYourOffshoreLiabilityPage, countriesMap)
+        .success
+        .value
 
       CountriesOrTerritoriesSummary.row(userAnswers, revealFullText).map { row =>
         row.value.content.toString must include("Afghanistan")
@@ -68,7 +72,9 @@ class CountriesOrTerritoriesSummarySpec extends SpecBase {
       val longCountryName = "A" * 200
       val countriesMap    = Map("XXX" -> Country("XXX", longCountryName))
       val userAnswers     = UserAnswers("id", "session-123")
-        .set(CountryOfYourOffshoreLiabilityPage, countriesMap).success.value
+        .set(CountryOfYourOffshoreLiabilityPage, countriesMap)
+        .success
+        .value
 
       CountriesOrTerritoriesSummary.row(userAnswers, revealFullText).map { row =>
         row.value.content.toString must include("...")

@@ -260,7 +260,10 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
       val whichLiabilitiesSet: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] =
         Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.BusinessIncome)
       val pages                                                               = List(
-        PageWithValue(WhyDidYouNotNotifyOnshorePage, Set[WhyDidYouNotNotifyOnshore](WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore)),
+        PageWithValue(
+          WhyDidYouNotNotifyOnshorePage,
+          Set[WhyDidYouNotNotifyOnshore](WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore)
+        ),
         PageWithValue(ReasonableExcuseOnshorePage, ReasonableExcuseOnshore("Some excuse", "Some years")),
         PageWithValue(ReasonableCareOnshorePage, ReasonableCareOnshore("Some excuse", "Some years")),
         PageWithValue(

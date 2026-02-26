@@ -55,5 +55,4 @@ class YouHaveNoOffshoreLiabilitiesController @Inject() (
 
   def getBehaviour(ua: UserAnswers): Behaviour = Behaviour.Deliberate
 
-
 }

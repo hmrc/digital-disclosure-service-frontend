@@ -281,9 +281,9 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
       updatedUserAnswers.lastUpdated    shouldEqual instant
       updatedUserAnswers.metadata       shouldEqual metadata
 
-      updatedUserAnswers.get(DescribeTheGiftPage)               shouldEqual Some("Some gift")
-      updatedUserAnswers.get(DoYouHaveACaseReferencePage)       shouldEqual Some(true)
-      updatedUserAnswers.get(WhyAreYouMakingADisclosurePage)    shouldEqual Some(reasonSet)
+      updatedUserAnswers.get(DescribeTheGiftPage)            shouldEqual Some("Some gift")
+      updatedUserAnswers.get(DoYouHaveACaseReferencePage)    shouldEqual Some(true)
+      updatedUserAnswers.get(WhyAreYouMakingADisclosurePage) shouldEqual Some(reasonSet)
     }
   }
 

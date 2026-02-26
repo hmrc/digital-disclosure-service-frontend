@@ -36,10 +36,13 @@ class WhyAreYouMakingThisOnshoreDisclosureSummarySpec extends SpecBase {
       val userAnswers = (for {
         ua  <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         ua2 <- ua.set(RelatesToPage, RelatesTo.AnIndividual)
-        ua3 <- ua2.set(WhyAreYouMakingThisOnshoreDisclosurePage, Set[WhyAreYouMakingThisOnshoreDisclosure](
-          WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC,
-          WhyAreYouMakingThisOnshoreDisclosure.DidNotFile
-        ))
+        ua3 <- ua2.set(
+                 WhyAreYouMakingThisOnshoreDisclosurePage,
+                 Set[WhyAreYouMakingThisOnshoreDisclosure](
+                   WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC,
+                   WhyAreYouMakingThisOnshoreDisclosure.DidNotFile
+                 )
+               )
       } yield ua3).success.value
 
       val result = WhyAreYouMakingThisOnshoreDisclosureSummary.row(userAnswers)
@@ -50,10 +53,13 @@ class WhyAreYouMakingThisOnshoreDisclosureSummarySpec extends SpecBase {
       val userAnswers = (for {
         ua  <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
         ua2 <- ua.set(RelatesToPage, RelatesTo.AnIndividual)
-        ua3 <- ua2.set(WhyAreYouMakingThisOnshoreDisclosurePage, Set[WhyAreYouMakingThisOnshoreDisclosure](
-          WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC,
-          WhyAreYouMakingThisOnshoreDisclosure.DidNotFile
-        ))
+        ua3 <- ua2.set(
+                 WhyAreYouMakingThisOnshoreDisclosurePage,
+                 Set[WhyAreYouMakingThisOnshoreDisclosure](
+                   WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC,
+                   WhyAreYouMakingThisOnshoreDisclosure.DidNotFile
+                 )
+               )
       } yield ua3).success.value
 
       val result = WhyAreYouMakingThisOnshoreDisclosureSummary.row(userAnswers)
@@ -64,10 +70,13 @@ class WhyAreYouMakingThisOnshoreDisclosureSummarySpec extends SpecBase {
       val userAnswers = (for {
         ua  <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         ua2 <- ua.set(RelatesToPage, RelatesTo.AnIndividual)
-        ua3 <- ua2.set(WhyAreYouMakingThisOnshoreDisclosurePage, Set[WhyAreYouMakingThisOnshoreDisclosure](
-          WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC,
-          WhyAreYouMakingThisOnshoreDisclosure.DidNotFile
-        ))
+        ua3 <- ua2.set(
+                 WhyAreYouMakingThisOnshoreDisclosurePage,
+                 Set[WhyAreYouMakingThisOnshoreDisclosure](
+                   WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC,
+                   WhyAreYouMakingThisOnshoreDisclosure.DidNotFile
+                 )
+               )
       } yield ua3).success.value
 
       val result = WhyAreYouMakingThisOnshoreDisclosureSummary.row(userAnswers)

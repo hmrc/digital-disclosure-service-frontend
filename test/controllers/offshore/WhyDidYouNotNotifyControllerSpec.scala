@@ -72,9 +72,9 @@ class WhyDidYouNotNotifyControllerSpec extends SpecBase with MockitoSugar {
         userAnswer          <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
         uaWithWhyPage       <- uaWithRelatesToPage.set(
-          WhyDidYouNotNotifyPage,
-          WhyDidYouNotNotify.values.toSet
-        )
+                                 WhyDidYouNotNotifyPage,
+                                 WhyDidYouNotNotify.values.toSet
+                               )
       } yield uaWithWhyPage).success.value
 
       val areTheyTheIndividual = userAnswers.isTheUserTheIndividual
@@ -176,50 +176,54 @@ class WhyDidYouNotNotifyControllerSpec extends SpecBase with MockitoSugar {
   "changedPages and getPages logic" - {
 
     "must return ContractualDisclosureFacilityPage when DeliberatelyDidNotNotify is not selected" in {
-      val controller = application.injector.instanceOf[WhyDidYouNotNotifyController]
+      val controller  = application.injector.instanceOf[WhyDidYouNotNotifyController]
       val userAnswers = UserAnswers("id", "session-123")
         .set(WhyDidYouNotNotifyPage, Set[WhyDidYouNotNotify](DeliberatelyDidNotNotify))
-        .success.value
+        .success
+        .value
 
       val reasons: Set[WhyDidYouNotNotify] = Set(ReasonableExcuse)
-      val (pages, changed) = controller.changedPages(userAnswers, reasons)
+      val (pages, changed)                 = controller.changedPages(userAnswers, reasons)
 
       pages must contain(ContractualDisclosureFacilityPage)
       changed mustBe true
     }
 
     "must return WhatIsYourReasonableExcusePage when ReasonableExcuse is not selected" in {
-      val controller = application.injector.instanceOf[WhyDidYouNotNotifyController]
+      val controller  = application.injector.instanceOf[WhyDidYouNotNotifyController]
       val userAnswers = UserAnswers("id", "session-123")
         .set(WhyDidYouNotNotifyPage, Set[WhyDidYouNotNotify](ReasonableExcuse))
-        .success.value
+        .success
+        .value
 
       val reasons: Set[WhyDidYouNotNotify] = Set(DeliberatelyDidNotNotify)
-      val (pages, changed) = controller.changedPages(userAnswers, reasons)
+      val (pages, changed)                 = controller.changedPages(userAnswers, reasons)
 
       pages must contain(WhatIsYourReasonableExcusePage)
       changed mustBe true
     }
 
     "must return both pages when neither DeliberatelyDidNotNotify nor ReasonableExcuse is selected" in {
-      val controller = application.injector.instanceOf[WhyDidYouNotNotifyController]
+      val controller  = application.injector.instanceOf[WhyDidYouNotNotifyController]
       val userAnswers = UserAnswers("id", "session-123")
         .set(WhyDidYouNotNotifyPage, Set[WhyDidYouNotNotify](ReasonableExcuse))
-        .success.value
+        .success
+        .value
 
       val reasons: Set[WhyDidYouNotNotify] = Set(NotDeliberatelyNoReasonableExcuse)
-      val (pages, changed) = controller.changedPages(userAnswers, reasons)
+      val (pages, changed)                 = controller.changedPages(userAnswers, reasons)
 
       pages must contain allOf (ContractualDisclosureFacilityPage, WhatIsYourReasonableExcusePage)
       changed mustBe true
     }
 
     "must return empty list and false when values haven't changed" in {
-      val controller = application.injector.instanceOf[WhyDidYouNotNotifyController]
+      val controller                       = application.injector.instanceOf[WhyDidYouNotNotifyController]
       val reasons: Set[WhyDidYouNotNotify] = Set(DeliberatelyDidNotNotify, ReasonableExcuse)
-      val userAnswers = UserAnswers("id", "session-123")
+      val userAnswers                      = UserAnswers("id", "session-123")
         .set(WhyDidYouNotNotifyPage, reasons)
-        .success.value
+        .success
+        .value
 
       val (pages, changed) = controller.changedPages(userAnswers, reasons)
 

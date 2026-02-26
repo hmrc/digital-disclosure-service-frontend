@@ -61,7 +61,7 @@ class WhichYearsControllerSpec extends SpecBase with MockitoSugar {
           WhyAreYouMakingThisDisclosure.DidNotFile,
           WhyAreYouMakingThisDisclosure.InaccurateReturn
         )
-        val userAnswers =
+        val userAnswers                             =
           UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.ReasonableExcuse)
       }

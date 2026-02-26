@@ -46,9 +46,9 @@ object WhyYouSubmittedAnInaccurateReturn extends Enumerable.Implicits {
     }
 
   def constructMessageKey(
-                           value: WhyYouSubmittedAnInaccurateReturn,
-                           areTheyTheIndividual: Boolean
-                         ): String =
+    value: WhyYouSubmittedAnInaccurateReturn,
+    areTheyTheIndividual: Boolean
+  ): String =
     if (areTheyTheIndividual) {
       s"WhyYouSubmittedAnInaccurateReturn.you.${value.toString}"
     } else {

@@ -36,23 +36,23 @@ import views.html.onshore.CorporationTaxLiabilityView
 import scala.concurrent.{ExecutionContext, Future}
 
 class CorporationTaxLiabilityController @Inject() (
-                                                    override val messagesApi: MessagesApi,
-                                                    sessionService: SessionService,
-                                                    navigator: OnshoreNavigator,
-                                                    identify: IdentifierAction,
-                                                    getData: DataRetrievalAction,
-                                                    requireData: DataRequiredAction,
-                                                    formProvider: CorporationTaxLiabilityFormProvider,
-                                                    val controllerComponents: MessagesControllerComponents,
-                                                    view: CorporationTaxLiabilityView
-                                                  )(implicit ec: ExecutionContext)
-  extends FrontendBaseController
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: OnshoreNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: CorporationTaxLiabilityFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: CorporationTaxLiabilityView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
     with I18nSupport {
 
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
       val showPenaltySection = ReasonableExcuseHelper.showPenaltyWhenNotReasonableExcuse(request.userAnswers)
-      val form = formProvider(showPenaltySection)
+      val form               = formProvider(showPenaltySection)
 
       val preparedForm = request.userAnswers.getBySeqIndex(CorporationTaxLiabilityPage, i) match {
         case None        => form
@@ -66,7 +66,7 @@ class CorporationTaxLiabilityController @Inject() (
   def onSubmit(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
       val showPenaltySection = ReasonableExcuseHelper.showPenaltyWhenNotReasonableExcuse(request.userAnswers)
-      val form = formProvider(showPenaltySection)
+      val form               = formProvider(showPenaltySection)
 
       form
         .bindFromRequest()

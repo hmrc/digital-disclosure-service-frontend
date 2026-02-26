@@ -66,7 +66,8 @@ class WhyYouSubmittedAnInaccurateOnshoreReturnControllerSpec extends SpecBase wi
       val userAnswers = (for {
         ua  <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         ua2 <- ua.set(RelatesToPage, RelatesTo.AnIndividual)
-        ua3 <- ua2.set(WhyYouSubmittedAnInaccurateOnshoreReturnPage, WhyYouSubmittedAnInaccurateOnshoreReturn.values.toSet)
+        ua3 <-
+          ua2.set(WhyYouSubmittedAnInaccurateOnshoreReturnPage, WhyYouSubmittedAnInaccurateOnshoreReturn.values.toSet)
       } yield ua3).success.value
 
       val areTheyTheIndividual = userAnswers.isTheUserTheIndividual
@@ -126,7 +127,10 @@ class WhyYouSubmittedAnInaccurateOnshoreReturnControllerSpec extends SpecBase wi
       val result    = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
@@ -156,50 +160,63 @@ class WhyYouSubmittedAnInaccurateOnshoreReturnControllerSpec extends SpecBase wi
   "changedPages and getPages logic" - {
 
     "must return CDFOnshorePage when DeliberatelyInaccurate is not selected" in {
-      val controller = application.injector.instanceOf[WhyYouSubmittedAnInaccurateOnshoreReturnController]
+      val controller  = application.injector.instanceOf[WhyYouSubmittedAnInaccurateOnshoreReturnController]
       val userAnswers = UserAnswers("id", "session-123")
-        .set(WhyYouSubmittedAnInaccurateOnshoreReturnPage, Set[WhyYouSubmittedAnInaccurateOnshoreReturn](DeliberatelyInaccurate))
-        .success.value
+        .set(
+          WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+          Set[WhyYouSubmittedAnInaccurateOnshoreReturn](DeliberatelyInaccurate)
+        )
+        .success
+        .value
 
       val reasons: Set[WhyYouSubmittedAnInaccurateOnshoreReturn] = Set(ReasonableMistake)
-      val (pages, changed) = controller.changedPages(userAnswers, reasons)
+      val (pages, changed)                                       = controller.changedPages(userAnswers, reasons)
 
       pages must contain(CDFOnshorePage)
       changed mustBe true
     }
 
     "must return ReasonableCareOnshorePage when ReasonableMistake is not selected" in {
-      val controller = application.injector.instanceOf[WhyYouSubmittedAnInaccurateOnshoreReturnController]
+      val controller  = application.injector.instanceOf[WhyYouSubmittedAnInaccurateOnshoreReturnController]
       val userAnswers = UserAnswers("id", "session-123")
-        .set(WhyYouSubmittedAnInaccurateOnshoreReturnPage, Set[WhyYouSubmittedAnInaccurateOnshoreReturn](ReasonableMistake))
-        .success.value
+        .set(
+          WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+          Set[WhyYouSubmittedAnInaccurateOnshoreReturn](ReasonableMistake)
+        )
+        .success
+        .value
 
       val reasons: Set[WhyYouSubmittedAnInaccurateOnshoreReturn] = Set(DeliberatelyInaccurate)
-      val (pages, changed) = controller.changedPages(userAnswers, reasons)
+      val (pages, changed)                                       = controller.changedPages(userAnswers, reasons)
 
       pages must contain(ReasonableCareOnshorePage)
       changed mustBe true
     }
 
     "must return both pages when neither DeliberatelyInaccurate nor ReasonableMistake is selected" in {
-      val controller = application.injector.instanceOf[WhyYouSubmittedAnInaccurateOnshoreReturnController]
+      val controller  = application.injector.instanceOf[WhyYouSubmittedAnInaccurateOnshoreReturnController]
       val userAnswers = UserAnswers("id", "session-123")
-        .set(WhyYouSubmittedAnInaccurateOnshoreReturnPage, Set[WhyYouSubmittedAnInaccurateOnshoreReturn](ReasonableMistake))
-        .success.value
+        .set(
+          WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+          Set[WhyYouSubmittedAnInaccurateOnshoreReturn](ReasonableMistake)
+        )
+        .success
+        .value
 
       val reasons: Set[WhyYouSubmittedAnInaccurateOnshoreReturn] = Set(NoReasonableCare)
-      val (pages, changed) = controller.changedPages(userAnswers, reasons)
+      val (pages, changed)                                       = controller.changedPages(userAnswers, reasons)
 
-      pages must contain allOf(CDFOnshorePage, ReasonableCareOnshorePage)
+      pages must contain allOf (CDFOnshorePage, ReasonableCareOnshorePage)
       changed mustBe true
     }
 
     "must return empty list and false when values have not changed" in {
-      val controller  = application.injector.instanceOf[WhyYouSubmittedAnInaccurateOnshoreReturnController]
+      val controller                                             = application.injector.instanceOf[WhyYouSubmittedAnInaccurateOnshoreReturnController]
       val reasons: Set[WhyYouSubmittedAnInaccurateOnshoreReturn] = Set(DeliberatelyInaccurate, ReasonableMistake)
-      val userAnswers = UserAnswers("id", "session-123")
+      val userAnswers                                            = UserAnswers("id", "session-123")
         .set(WhyYouSubmittedAnInaccurateOnshoreReturnPage, reasons)
-        .success.value
+        .success
+        .value
 
       val (pages, changed) = controller.changedPages(userAnswers, reasons)
 

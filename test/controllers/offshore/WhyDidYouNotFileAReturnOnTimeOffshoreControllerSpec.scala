@@ -72,9 +72,9 @@ class WhyDidYouNotFileAReturnOnTimeOffshoreControllerSpec extends SpecBase with 
         userAnswer          <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
         uaWithWhyPage       <- uaWithRelatesToPage.set(
-          WhyDidYouNotFileAReturnOnTimeOffshorePage,
-          WhyDidYouNotFileAReturnOnTimeOffshore.values.toSet
-        )
+                                 WhyDidYouNotFileAReturnOnTimeOffshorePage,
+                                 WhyDidYouNotFileAReturnOnTimeOffshore.values.toSet
+                               )
       } yield uaWithWhyPage).success.value
 
       val areTheyTheIndividual = userAnswers.isTheUserTheIndividual
@@ -177,28 +177,28 @@ class WhyDidYouNotFileAReturnOnTimeOffshoreControllerSpec extends SpecBase with 
 
     "must return ContractualDisclosureFacilityPage when DeliberatelyWithheldInformation is not selected" in {
       val reasons: Set[WhyDidYouNotFileAReturnOnTimeOffshore] = Set(ReasonableExcuse)
-      val result = WhyDidYouNotFileAReturnOnTimeOffshoreController.getPages(reasons)
+      val result                                              = WhyDidYouNotFileAReturnOnTimeOffshoreController.getPages(reasons)
 
       result must contain(ContractualDisclosureFacilityPage)
     }
 
     "must return WhatIsYourReasonableExcuseForNotFilingReturnPage when ReasonableExcuse is not selected" in {
       val reasons: Set[WhyDidYouNotFileAReturnOnTimeOffshore] = Set(DeliberatelyWithheldInformation)
-      val result = WhyDidYouNotFileAReturnOnTimeOffshoreController.getPages(reasons)
+      val result                                              = WhyDidYouNotFileAReturnOnTimeOffshoreController.getPages(reasons)
 
       result must contain(WhatIsYourReasonableExcuseForNotFilingReturnPage)
     }
 
     "must return both pages when neither DeliberatelyWithheldInformation nor ReasonableExcuse is selected" in {
       val reasons: Set[WhyDidYouNotFileAReturnOnTimeOffshore] = Set(DidNotWithholdInformationOnPurpose)
-      val result = WhyDidYouNotFileAReturnOnTimeOffshoreController.getPages(reasons)
+      val result                                              = WhyDidYouNotFileAReturnOnTimeOffshoreController.getPages(reasons)
 
       result must contain allOf (ContractualDisclosureFacilityPage, WhatIsYourReasonableExcuseForNotFilingReturnPage)
     }
 
     "must return empty list when both DeliberatelyWithheldInformation and ReasonableExcuse are selected" in {
       val reasons: Set[WhyDidYouNotFileAReturnOnTimeOffshore] = Set(DeliberatelyWithheldInformation, ReasonableExcuse)
-      val result = WhyDidYouNotFileAReturnOnTimeOffshoreController.getPages(reasons)
+      val result                                              = WhyDidYouNotFileAReturnOnTimeOffshoreController.getPages(reasons)
 
       result mustBe empty
     }

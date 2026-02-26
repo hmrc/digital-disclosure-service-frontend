@@ -36,9 +36,12 @@ class WhyAreYouMakingThisDisclosureSummarySpec extends SpecBase {
       val userAnswers = (for {
         ua  <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         ua2 <- ua.set(RelatesToPage, RelatesTo.AnIndividual)
-        ua3 <- ua2.set(WhyAreYouMakingThisDisclosurePage, Set[WhyAreYouMakingThisDisclosure](
-          WhyAreYouMakingThisDisclosure.DidNotNotifyHMRC
-        ))
+        ua3 <- ua2.set(
+                 WhyAreYouMakingThisDisclosurePage,
+                 Set[WhyAreYouMakingThisDisclosure](
+                   WhyAreYouMakingThisDisclosure.DidNotNotifyHMRC
+                 )
+               )
       } yield ua3).success.value
 
       val result = WhyAreYouMakingThisDisclosureSummary.row(userAnswers)
@@ -49,9 +52,12 @@ class WhyAreYouMakingThisDisclosureSummarySpec extends SpecBase {
       val userAnswers = (for {
         ua  <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.IAmAnAccountantOrTaxAgent)
         ua2 <- ua.set(RelatesToPage, RelatesTo.AnIndividual)
-        ua3 <- ua2.set(WhyAreYouMakingThisDisclosurePage, Set[WhyAreYouMakingThisDisclosure](
-          WhyAreYouMakingThisDisclosure.DidNotNotifyHMRC
-        ))
+        ua3 <- ua2.set(
+                 WhyAreYouMakingThisDisclosurePage,
+                 Set[WhyAreYouMakingThisDisclosure](
+                   WhyAreYouMakingThisDisclosure.DidNotNotifyHMRC
+                 )
+               )
       } yield ua3).success.value
 
       val result = WhyAreYouMakingThisDisclosureSummary.row(userAnswers)
@@ -62,10 +68,13 @@ class WhyAreYouMakingThisDisclosureSummarySpec extends SpecBase {
       val userAnswers = (for {
         ua  <- UserAnswers("id", "session-123").set(AreYouTheEntityPage, AreYouTheEntity.YesIAm)
         ua2 <- ua.set(RelatesToPage, RelatesTo.AnIndividual)
-        ua3 <- ua2.set(WhyAreYouMakingThisDisclosurePage, Set[WhyAreYouMakingThisDisclosure](
-          WhyAreYouMakingThisDisclosure.DidNotNotifyHMRC,
-          WhyAreYouMakingThisDisclosure.DidNotFile
-        ))
+        ua3 <- ua2.set(
+                 WhyAreYouMakingThisDisclosurePage,
+                 Set[WhyAreYouMakingThisDisclosure](
+                   WhyAreYouMakingThisDisclosure.DidNotNotifyHMRC,
+                   WhyAreYouMakingThisDisclosure.DidNotFile
+                 )
+               )
       } yield ua3).success.value
 
       val result = WhyAreYouMakingThisDisclosureSummary.row(userAnswers)

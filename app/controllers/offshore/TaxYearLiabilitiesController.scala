@@ -60,7 +60,7 @@ class TaxYearLiabilitiesController @Inject() (
           case Some(value) => form(showPenaltySection).fill(value.taxYearLiabilities)
         }
 
-        Ok(view(preparedForm, mode, i, year,showPenaltySection))
+        Ok(view(preparedForm, mode, i, year, showPenaltySection))
       }
 
   }

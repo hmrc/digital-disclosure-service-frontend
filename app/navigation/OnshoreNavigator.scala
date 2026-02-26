@@ -57,13 +57,13 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
 
         if (page1Selections.contains(DidNotFile) && ua.get(WhyDidYouNotFileAReturnOnTimeOnshorePage).isEmpty) {
           routes.WhyDidYouNotFileAReturnOnTimeOnshoreController.onPageLoad(NormalMode)
-        } else if (page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).isEmpty) {
+        } else if (
+          page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).isEmpty
+        ) {
           routes.WhyYouSubmittedAnInaccurateOnshoreReturnController.onPageLoad(NormalMode)
-        }
-        else if (hasAnyDeliberate(ua)) {
+        } else if (hasAnyDeliberate(ua)) {
           routes.CDFOnshoreController.onPageLoad(NormalMode)
-        }
-        else {
+        } else {
           val page2aSelections = ua.get(WhyDidYouNotNotifyOnshorePage).getOrElse(Set.empty)
           if (page2aSelections.contains(WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore)) {
             routes.ReasonableExcuseOnshoreController.onPageLoad(NormalMode)
@@ -76,13 +76,13 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
       ua =>
         val page1Selections = ua.get(WhyAreYouMakingThisOnshoreDisclosurePage).getOrElse(Set.empty)
 
-        if (page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).isEmpty) {
+        if (
+          page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).isEmpty
+        ) {
           routes.WhyYouSubmittedAnInaccurateOnshoreReturnController.onPageLoad(NormalMode)
-        }
-        else if (hasAnyDeliberate(ua)) {
+        } else if (hasAnyDeliberate(ua)) {
           routes.CDFOnshoreController.onPageLoad(NormalMode)
-        }
-        else if (page1Selections.contains(DidNotNotifyHMRC)) {
+        } else if (page1Selections.contains(DidNotNotifyHMRC)) {
           val page2aSelections = ua.get(WhyDidYouNotNotifyOnshorePage).getOrElse(Set.empty)
           if (page2aSelections.contains(WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore)) {
             routes.ReasonableExcuseOnshoreController.onPageLoad(NormalMode)
@@ -94,8 +94,7 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
               routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
             }
           }
-        }
-        else {
+        } else {
           val page2bSelections = ua.get(WhyDidYouNotFileAReturnOnTimeOnshorePage).getOrElse(Set.empty)
           if (page2bSelections.contains(ReasonableExcuse)) {
             routes.ReasonableExcuseForNotFilingOnshoreController.onPageLoad(NormalMode)
@@ -111,8 +110,7 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
 
         if (hasAnyDeliberate(ua)) {
           routes.CDFOnshoreController.onPageLoad(NormalMode)
-        }
-        else if (page1Selections.contains(DidNotNotifyHMRC)) {
+        } else if (page1Selections.contains(DidNotNotifyHMRC)) {
           val page2aSelections = ua.get(WhyDidYouNotNotifyOnshorePage).getOrElse(Set.empty)
           if (page2aSelections.contains(WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore)) {
             routes.ReasonableExcuseOnshoreController.onPageLoad(NormalMode)
@@ -149,9 +147,9 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
       ua =>
         val page1Selections = ua.get(WhyAreYouMakingThisOnshoreDisclosurePage).getOrElse(Set.empty)
 
-        (ua.get(CDFOnshorePage)) match {
+        ua.get(CDFOnshorePage) match {
           case Some(false) => routes.YouHaveLeftTheDDSOnshoreController.onPageLoad(NormalMode)
-          case Some(true) =>
+          case Some(true)  =>
             if (page1Selections.contains(DidNotNotifyHMRC)) {
               val page2aSelections = ua.get(WhyDidYouNotNotifyOnshorePage).getOrElse(Set.empty)
               if (page2aSelections.contains(WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore)) {
@@ -204,7 +202,7 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
             } else {
               routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
             }
-          case _ => routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
+          case _           => routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
         }
 
     case ReasonableExcuseOnshorePage =>
@@ -560,12 +558,12 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
   }
 
   def nextTaxYearLiabilitiesPage(
-                                  currentIndex: Int,
-                                  deduction: Boolean,
-                                  mode: Mode,
-                                  userAnswers: UserAnswers,
-                                  hasAnswerChanged: Boolean = false
-                                ): Call =
+    currentIndex: Int,
+    deduction: Boolean,
+    mode: Mode,
+    userAnswers: UserAnswers,
+    hasAnswerChanged: Boolean = false
+  ): Call =
     (mode, userAnswers.inverselySortedOnshoreTaxYears) match {
       case (NormalMode, _) if deduction                                 => routes.ResidentialReductionController.onPageLoad(currentIndex, mode)
       case (NormalMode, Some(years)) if (years.size - 1) > currentIndex =>
@@ -589,8 +587,8 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
       val page2cSelections = ua.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).getOrElse(Set.empty)
 
       page2aSelections.contains(DeliberatelyDidNotNotifyOnshore) ||
-        page2bSelections.contains(DeliberatelyWithheldInformation) ||
-        page2cSelections.contains(DeliberatelyInaccurate)
+      page2bSelections.contains(DeliberatelyWithheldInformation) ||
+      page2cSelections.contains(DeliberatelyInaccurate)
     }
   }
 
@@ -600,10 +598,10 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
 trait OnshoreNavigator {
   def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasAnswerChanged: Boolean = true): Call
   def nextTaxYearLiabilitiesPage(
-                                  currentIndex: Int,
-                                  deduction: Boolean,
-                                  mode: Mode,
-                                  userAnswers: UserAnswers,
-                                  hasAnswerChanged: Boolean = false
-                                ): Call
+    currentIndex: Int,
+    deduction: Boolean,
+    mode: Mode,
+    userAnswers: UserAnswers,
+    hasAnswerChanged: Boolean = false
+  ): Call
 }

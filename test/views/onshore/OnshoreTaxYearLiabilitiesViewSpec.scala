@@ -26,7 +26,8 @@ import models.{NormalMode, WhatOnshoreLiabilitiesDoYouNeedToDisclose}
 class OnshoreTaxYearLiabilitiesViewSpec extends ViewSpecBase with ViewMatchers {
 
   def form(taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]) = new OnshoreTaxYearLiabilitiesFormProvider()(
-    taxTypes, true
+    taxTypes,
+    true
   )
   val page: OnshoreTaxYearLiabilitiesView                            = inject[OnshoreTaxYearLiabilitiesView]
 

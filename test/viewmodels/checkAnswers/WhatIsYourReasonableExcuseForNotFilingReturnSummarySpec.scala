@@ -31,36 +31,52 @@ class WhatIsYourReasonableExcuseForNotFilingReturnSummarySpec extends SpecBase {
 
     "must return None when the page has no answer" in {
       val userAnswers = UserAnswers("id", "session-123")
-      WhatIsYourReasonableExcuseForNotFilingReturnSummary.row("reasonableExcuse", userAnswers, revealFullText) mustBe None
+      WhatIsYourReasonableExcuseForNotFilingReturnSummary.row(
+        "reasonableExcuse",
+        userAnswers,
+        revealFullText
+      ) mustBe None
     }
 
     "must return a row for the reasonableExcuse field" in {
-      val answer      = WhatIsYourReasonableExcuseForNotFilingReturn(reasonableExcuse = "My excuse", yearsThisAppliesTo = "2020-2021")
+      val answer      =
+        WhatIsYourReasonableExcuseForNotFilingReturn(reasonableExcuse = "My excuse", yearsThisAppliesTo = "2020-2021")
       val userAnswers = UserAnswers("id", "session-123")
-        .set(WhatIsYourReasonableExcuseForNotFilingReturnPage, answer).success.value
+        .set(WhatIsYourReasonableExcuseForNotFilingReturnPage, answer)
+        .success
+        .value
 
-      val result = WhatIsYourReasonableExcuseForNotFilingReturnSummary.row("reasonableExcuse", userAnswers, revealFullText)
+      val result =
+        WhatIsYourReasonableExcuseForNotFilingReturnSummary.row("reasonableExcuse", userAnswers, revealFullText)
       result mustBe defined
       result.map(_.key.content.toString must include("Reasonable excuse"))
     }
 
     "must return a row for the yearsThisAppliesTo field" in {
-      val answer      = WhatIsYourReasonableExcuseForNotFilingReturn(reasonableExcuse = "My excuse", yearsThisAppliesTo = "2020-2021")
+      val answer      =
+        WhatIsYourReasonableExcuseForNotFilingReturn(reasonableExcuse = "My excuse", yearsThisAppliesTo = "2020-2021")
       val userAnswers = UserAnswers("id", "session-123")
-        .set(WhatIsYourReasonableExcuseForNotFilingReturnPage, answer).success.value
+        .set(WhatIsYourReasonableExcuseForNotFilingReturnPage, answer)
+        .success
+        .value
 
-      val result = WhatIsYourReasonableExcuseForNotFilingReturnSummary.row("yearsThisAppliesTo", userAnswers, revealFullText)
+      val result =
+        WhatIsYourReasonableExcuseForNotFilingReturnSummary.row("yearsThisAppliesTo", userAnswers, revealFullText)
       result mustBe defined
       result.map(_.value.content.toString must include("2020-2021"))
     }
 
     "must handle long text that exceeds the reveal threshold" in {
       val longText    = "A" * 200
-      val answer      = WhatIsYourReasonableExcuseForNotFilingReturn(reasonableExcuse = longText, yearsThisAppliesTo = "2020-2021")
+      val answer      =
+        WhatIsYourReasonableExcuseForNotFilingReturn(reasonableExcuse = longText, yearsThisAppliesTo = "2020-2021")
       val userAnswers = UserAnswers("id", "session-123")
-        .set(WhatIsYourReasonableExcuseForNotFilingReturnPage, answer).success.value
+        .set(WhatIsYourReasonableExcuseForNotFilingReturnPage, answer)
+        .success
+        .value
 
-      val result = WhatIsYourReasonableExcuseForNotFilingReturnSummary.row("reasonableExcuse", userAnswers, revealFullText)
+      val result =
+        WhatIsYourReasonableExcuseForNotFilingReturnSummary.row("reasonableExcuse", userAnswers, revealFullText)
       result mustBe defined
       result.map(_.value.content.toString must include("..."))
     }

@@ -36,7 +36,9 @@ class YouHaveNotIncludedTheTaxYearSummarySpec extends SpecBase {
 
     "must return None when the page has no answer" in {
       val userAnswers = UserAnswers("id", "session-123")
-        .set(WhichYearsPage, Set[models.OffshoreYears](TaxYearStarting(2020))).success.value
+        .set(WhichYearsPage, Set[models.OffshoreYears](TaxYearStarting(2020)))
+        .success
+        .value
       YouHaveNotIncludedTheTaxYearSummary.row(userAnswers, revealFullText) mustBe None
     }
 
@@ -51,7 +53,7 @@ class YouHaveNotIncludedTheTaxYearSummarySpec extends SpecBase {
     }
 
     "must handle long text that exceeds the reveal threshold" in {
-      val longText = "A" * 200
+      val longText    = "A" * 200
       val userAnswers = (for {
         ua  <- UserAnswers("id", "session-123").set(WhichYearsPage, Set[models.OffshoreYears](TaxYearStarting(2020)))
         ua2 <- ua.set(YouHaveNotIncludedTheTaxYearPage, longText)

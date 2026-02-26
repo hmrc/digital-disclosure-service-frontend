@@ -58,21 +58,27 @@ class CheckYourAnswersViewModelCreation @Inject() (
     val optionalRows: Seq[SummaryListRow] =
       Seq(
         WhyAreYouMakingThisOnshoreDisclosureSummary.row(userAnswers),
-        Option.when(
-          selectedReasons.contains(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC)
-        )(
-          WhyDidYouNotNotifySummary.row(userAnswers)
-        ).flatten,
-        Option.when(
-          selectedReasons.contains(WhyAreYouMakingThisOnshoreDisclosure.DidNotFile)
-        )(
-          WhyDidYouNotFileAReturnOnTimeOnshoreSummary.row(userAnswers)
-        ).flatten,
-        Option.when(
-          selectedReasons.contains(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn)
-        )(
-          WhyYouSubmittedAnInaccurateReturnSummary.row(userAnswers)
-        ).flatten
+        Option
+          .when(
+            selectedReasons.contains(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC)
+          )(
+            WhyDidYouNotNotifySummary.row(userAnswers)
+          )
+          .flatten,
+        Option
+          .when(
+            selectedReasons.contains(WhyAreYouMakingThisOnshoreDisclosure.DidNotFile)
+          )(
+            WhyDidYouNotFileAReturnOnTimeOnshoreSummary.row(userAnswers)
+          )
+          .flatten,
+        Option
+          .when(
+            selectedReasons.contains(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn)
+          )(
+            WhyYouSubmittedAnInaccurateReturnSummary.row(userAnswers)
+          )
+          .flatten
       ).flatten
 
     val mandatoryRows: Seq[SummaryListRow] =
@@ -230,30 +236,30 @@ class CheckYourAnswersViewModelCreation @Inject() (
     }
 
     val penaltyRows = if (showPenaltySection) {
-        Seq(
-          rowCase(
-            i,
-            "onshoreTaxYearLiabilities.penaltyRate.checkYourAnswersLabel",
-            messages("site.2DP", liabilities.penaltyRate) + "%",
-            "onshoreTaxYearLiabilities.penaltyRate.hidden",
-            ONSHORE,
-            revealFullText,
-            false
-          ),
-          totalRow(
-            "onshoreTaxYearLiabilities.penaltyAmount.checkYourAnswersLabel",
-            messages("site.2DP", penaltyAmount(liabilities))
-          ),
-          rowCase(
-            i,
-            "onshoreTaxYearLiabilities.penaltyRateReason",
-            s"${liabilities.penaltyRateReason}",
-            "onshoreTaxYearLiabilities.penaltyRateReason.hidden",
-            ONSHORE,
-            revealFullText,
-            true
-          )
+      Seq(
+        rowCase(
+          i,
+          "onshoreTaxYearLiabilities.penaltyRate.checkYourAnswersLabel",
+          messages("site.2DP", liabilities.penaltyRate) + "%",
+          "onshoreTaxYearLiabilities.penaltyRate.hidden",
+          ONSHORE,
+          revealFullText,
+          false
+        ),
+        totalRow(
+          "onshoreTaxYearLiabilities.penaltyAmount.checkYourAnswersLabel",
+          messages("site.2DP", penaltyAmount(liabilities))
+        ),
+        rowCase(
+          i,
+          "onshoreTaxYearLiabilities.penaltyRateReason",
+          s"${liabilities.penaltyRateReason}",
+          "onshoreTaxYearLiabilities.penaltyRateReason.hidden",
+          ONSHORE,
+          revealFullText,
+          true
         )
+      )
     } else Seq.empty
 
     val rows =
@@ -282,18 +288,19 @@ class CheckYourAnswersViewModelCreation @Inject() (
             s"${liabilities.interest}",
             "onshoreTaxYearLiabilities.interest.hidden",
             ONSHORE
-          )) ++ penaltyRows ++
-          Seq(
-            totalRow(
-              "onshoreTaxYearLiabilities.amountDue.checkYourAnswersLabel",
-              messages("site.2DP", yearTotal(liabilities))
-            )
-          ) ++ undeclaredIncome ++ residentialTaxReduction ++
-          ResidentialReductionSummary.row(
-            i,
-            yearWithLiabilites.taxYear.toString,
-            userAnswers
           )
+        ) ++ penaltyRows ++
+        Seq(
+          totalRow(
+            "onshoreTaxYearLiabilities.amountDue.checkYourAnswersLabel",
+            messages("site.2DP", yearTotal(liabilities))
+          )
+        ) ++ undeclaredIncome ++ residentialTaxReduction ++
+        ResidentialReductionSummary.row(
+          i,
+          yearWithLiabilites.taxYear.toString,
+          userAnswers
+        )
 
     SummaryListViewModel(rows)
   }

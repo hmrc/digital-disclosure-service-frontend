@@ -37,7 +37,9 @@ class WhatIsYourReasonableExcuseSummarySpec extends SpecBase {
     "must return a row for the excuse field" in {
       val answer      = WhatIsYourReasonableExcuse(excuse = "My excuse", years = "2020-2021")
       val userAnswers = UserAnswers("id", "session-123")
-        .set(WhatIsYourReasonableExcusePage, answer).success.value
+        .set(WhatIsYourReasonableExcusePage, answer)
+        .success
+        .value
 
       val result = WhatIsYourReasonableExcuseSummary.row("excuse", userAnswers, revealFullText)
       result mustBe defined
@@ -47,7 +49,9 @@ class WhatIsYourReasonableExcuseSummarySpec extends SpecBase {
     "must return a row for the years field" in {
       val answer      = WhatIsYourReasonableExcuse(excuse = "My excuse", years = "2020-2021")
       val userAnswers = UserAnswers("id", "session-123")
-        .set(WhatIsYourReasonableExcusePage, answer).success.value
+        .set(WhatIsYourReasonableExcusePage, answer)
+        .success
+        .value
 
       val result = WhatIsYourReasonableExcuseSummary.row("years", userAnswers, revealFullText)
       result mustBe defined
@@ -58,7 +62,9 @@ class WhatIsYourReasonableExcuseSummarySpec extends SpecBase {
       val longText    = "A" * 200
       val answer      = WhatIsYourReasonableExcuse(excuse = longText, years = "2020-2021")
       val userAnswers = UserAnswers("id", "session-123")
-        .set(WhatIsYourReasonableExcusePage, answer).success.value
+        .set(WhatIsYourReasonableExcusePage, answer)
+        .success
+        .value
 
       val result = WhatIsYourReasonableExcuseSummary.row("excuse", userAnswers, revealFullText)
       result mustBe defined

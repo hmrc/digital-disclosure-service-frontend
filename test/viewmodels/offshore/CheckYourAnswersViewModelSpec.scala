@@ -237,7 +237,9 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
 
     summaryList.rows(6).key mustEqual Key(Text(mess("taxYearLiabilities.penaltyAmount.checkYourAnswersLabel")))
 
-    summaryList.rows(7).key mustEqual Key(Text(mess("onshoreTaxYearLiabilities.penaltyRateReason.checkYourAnswersLabel")))
+    summaryList.rows(7).key mustEqual Key(
+      Text(mess("onshoreTaxYearLiabilities.penaltyRateReason.checkYourAnswersLabel"))
+    )
 
     summaryList.rows(8).key mustEqual Key(Text(mess("taxYearLiabilities.undeclaredIncomeOrGain.checkYourAnswersLabel")))
 
