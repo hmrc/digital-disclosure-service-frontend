@@ -27,10 +27,11 @@ class WhyDidYouNotNotifyOnshoreFormProvider @Inject() extends Mappings {
 
   def apply(areTheyTheIndividual: Boolean, entity: RelatesTo): Form[Set[WhyDidYouNotNotifyOnshore]] = {
     val requiredErrorKey =
-      if (areTheyTheIndividual)
+      if (areTheyTheIndividual) {
         "whyDidYouNotNotify.error.required.you"
-      else
+      } else {
         s"whyDidYouNotNotify.error.required.$entity"
+      }
     Form(
       "value" -> set(enumerable[WhyDidYouNotNotifyOnshore](requiredErrorKey))
         .verifying(nonEmptySet(requiredErrorKey))

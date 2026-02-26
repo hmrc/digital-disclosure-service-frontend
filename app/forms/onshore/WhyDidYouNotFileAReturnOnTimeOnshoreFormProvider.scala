@@ -27,10 +27,11 @@ class WhyDidYouNotFileAReturnOnTimeOnshoreFormProvider @Inject() extends Mapping
 
   def apply(areTheyTheIndividual: Boolean, entity: RelatesTo): Form[Set[WhyDidYouNotFileAReturnOnTimeOnshore]] = {
     val requiredErrorKey =
-      if (areTheyTheIndividual)
+      if (areTheyTheIndividual) {
         "whyDidYouNotFileAReturnOnTime.you.error.required"
-      else
+      } else {
         s"whyDidYouNotFileAReturnOnTime.$entity.error.required"
+      }
     Form(
       "value" -> set(enumerable[WhyDidYouNotFileAReturnOnTimeOnshore](requiredErrorKey))
         .verifying(nonEmptySet(requiredErrorKey))

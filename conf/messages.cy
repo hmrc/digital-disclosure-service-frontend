@@ -947,8 +947,8 @@ makeANotificationOrDisclosure.error.required = Dewiswch a ydych am wneud hysbysi
 makeANotificationOrDisclosure.change.hidden = MakeANotificationOrDisclosure
 
 # ------------ why are you making this disclosure page----------------
-whyAreYouMakingThisDisclosure.title = Eich rheswm dros wneud y datgeliad hwn?
-whyAreYouMakingThisDisclosure.heading = Eich rheswm dros wneud y datgeliad hwn?
+whyAreYouMakingThisDisclosure.title = Eich rheswm dros wneud y datgeliad hwn
+whyAreYouMakingThisDisclosure.heading = Eich rheswm dros wneud y datgeliad hwn
 whyAreYouMakingThisDisclosure.heading.question = Eich rheswm dros wneud y datgeliad hwn?
 
 whyAreYouMakingThisDisclosure.paragraph.first.you = Bydd ateb yn gywir yn cyflymu’r broses gan ei fod yn ein galluogi ni i dderbyn eich datgeliad cyn gynted â phosibl.
@@ -992,12 +992,12 @@ whyAreYouMakingThisDisclosure.estate.didNotFile = Ni chyflwynodd y person a fu f
 whyAreYouMakingThisDisclosure.estate.inaccurateReturn = Cyflwynodd y person a fu farw Ffurflen Dreth wallus
 
 # ------------ why did you not notify page----------------
-whyDidYouNotNotify.title.you = Pam na wnaethoch roi gwybod i CThEF am rwymedigaeth treth?
-whyDidYouNotNotify.heading.you = Pam na wnaethoch roi gwybod i CThEF am rwymedigaeth treth?
-whyDidYouNotNotify.title.individual = Pam na wnaeth yr unigolyn roi gwybod i CThEF am rwymedigaeth treth?
-whyDidYouNotNotify.heading.individual = Pam na wnaeth yr unigolyn roi gwybod i CThEF am rwymedigaeth treth?
-whyDidYouNotNotify.title.company = Pam na wnaeth y cwmni roi gwybod i CThEF am rwymedigaeth treth?
-whyDidYouNotNotify.heading.company = Pam na wnaeth y cwmni roi gwybod i CThEF am rwymedigaeth treth?
+whyDidYouNotNotify.title.you = Pam na wnaethoch roi gwybod i CThEF am rwymedigaeth treth
+whyDidYouNotNotify.heading.you = Pam na wnaethoch roi gwybod i CThEF am rwymedigaeth treth
+whyDidYouNotNotify.title.individual = Pam na wnaeth yr unigolyn roi gwybod i CThEF am rwymedigaeth treth
+whyDidYouNotNotify.heading.individual = Pam na wnaeth yr unigolyn roi gwybod i CThEF am rwymedigaeth treth
+whyDidYouNotNotify.title.company = Pam na wnaeth y cwmni roi gwybod i CThEF am rwymedigaeth treth
+whyDidYouNotNotify.heading.company = Pam na wnaeth y cwmni roi gwybod i CThEF am rwymedigaeth treth
 whyDidYouNotNotify.title.llp = Pam na wnaeth y bartneriaeth atebolrwydd cyfyngedig roi gwybod i CThEF am rwymedigaeth treth
 whyDidYouNotNotify.heading.llp = Pam na wnaeth y bartneriaeth atebolrwydd cyfyngedig roi gwybod i CThEF am rwymedigaeth treth
 whyDidYouNotNotify.title.trust = Pam na wnaeth yr ymddiriedolaeth roi gwybod i CThEF am rwymedigaeth treth
