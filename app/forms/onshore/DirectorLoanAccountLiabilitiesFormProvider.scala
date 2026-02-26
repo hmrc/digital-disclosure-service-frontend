@@ -19,7 +19,7 @@ package forms
 import javax.inject.Inject
 import forms.mappings.Mappings
 import models.DirectorLoanAccountLiabilities
-import play.api.data.Form
+import play.api.data.{Form, Mapping}
 import play.api.data.Forms._
 
 import java.time.LocalDate
@@ -28,7 +28,7 @@ class DirectorLoanAccountLiabilitiesFormProvider @Inject() extends Mappings {
 
   val MAX_BIGINT = BigInt("999999999999999999999999")
 
-  def apply(): Form[DirectorLoanAccountLiabilities] = Form(
+  def apply(showPenaltySection: Boolean): Form[DirectorLoanAccountLiabilities] = Form(
     mapping(
       "name"              -> text("directorLoanAccountLiabilities.name.required")
         .verifying(maxLength(30, "directorLoanAccountLiabilities.name.invalid"))
@@ -64,16 +64,34 @@ class DirectorLoanAccountLiabilitiesFormProvider @Inject() extends Mappings {
         "directorLoanAccountLiabilities.interest.error.nonNumeric"
       )
         .verifying(inRange(BigInt(0), MAX_BIGINT, "directorLoanAccountLiabilities.interest.error.outOfRange")),
-      "penaltyRate"       -> decimalWithPercentage(
-        "directorLoanAccountLiabilities.penaltyRate.error.required",
-        "directorLoanAccountLiabilities.penaltyRate.error.nonNumeric"
-      )
-        .verifying(
-          inRange(BigDecimal(0.00), BigDecimal(200.00), "directorLoanAccountLiabilities.penaltyRate.error.outOfRange")
-        ),
-      "penaltyRateReason" -> text("directorLoanAccountLiabilities.penaltyRateReason.error.required")
-        .verifying(maxLength(5000, "directorLoanAccountLiabilities.penaltyRateReason.error.length"))
-        .verifying(validUnicodeCharacters)
+      "penaltyRate"       -> {
+        if (showPenaltySection) {
+          decimalWithPercentage(
+            "directorLoanAccountLiabilities.penaltyRate.error.required",
+            "directorLoanAccountLiabilities.penaltyRate.error.nonNumeric"
+          )
+            .verifying(
+              inRange(
+                BigDecimal(0.00),
+                BigDecimal(200.00),
+                "directorLoanAccountLiabilities.penaltyRate.error.outOfRange"
+              )
+            )
+            .transform[BigDecimal](identity, identity)
+        } else {
+          ignored(BigDecimal(0))
+        }
+      },
+      "penaltyRateReason" -> {
+        if (showPenaltySection) {
+          text("directorLoanAccountLiabilities.penaltyRateReason.error.required")
+            .verifying(maxLength(5000, "directorLoanAccountLiabilities.penaltyRateReason.error.length"))
+            .verifying(validUnicodeCharacters)
+            .transform[String](identity, identity)
+        } else {
+          ignored("")
+        }
+      }
     )(DirectorLoanAccountLiabilities.apply)(DirectorLoanAccountLiabilities.unapply)
   )
 }

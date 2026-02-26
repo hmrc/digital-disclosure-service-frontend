@@ -36,7 +36,7 @@ class DirectorLoanAccountLiabilitiesControllerSpec extends SpecBase with Mockito
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new DirectorLoanAccountLiabilitiesFormProvider()
-  val form         = formProvider()
+  val form         = formProvider(true)
 
   val index = 0
 
@@ -69,7 +69,7 @@ class DirectorLoanAccountLiabilitiesControllerSpec extends SpecBase with Mockito
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, NormalMode, index)(request, messages).toString
+      contentAsString(result) mustEqual view(form, NormalMode, index, true)(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -83,7 +83,7 @@ class DirectorLoanAccountLiabilitiesControllerSpec extends SpecBase with Mockito
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(answer), NormalMode, index)(request, messages).toString
+      contentAsString(result) mustEqual view(form.fill(answer), NormalMode, index, true)(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -126,7 +126,7 @@ class DirectorLoanAccountLiabilitiesControllerSpec extends SpecBase with Mockito
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, index)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode, index, true)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

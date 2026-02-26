@@ -17,7 +17,7 @@
 package views.onshore
 
 import base.ViewSpecBase
-import forms.WhyAreYouMakingThisOnshoreDisclosureFormProvider
+import forms.onshore.WhyAreYouMakingThisOnshoreDisclosureFormProvider
 import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.onshore.WhyAreYouMakingThisOnshoreDisclosureView
@@ -25,7 +25,7 @@ import models.{NormalMode, RelatesTo}
 
 class WhyAreYouMakingThisOnshoreDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form                                           = new WhyAreYouMakingThisOnshoreDisclosureFormProvider()()
+  val form                                           = new WhyAreYouMakingThisOnshoreDisclosureFormProvider()(true, RelatesTo.AnIndividual)
   val page: WhyAreYouMakingThisOnshoreDisclosureView = inject[WhyAreYouMakingThisOnshoreDisclosureView]
 
   "view" should {
@@ -49,8 +49,10 @@ class WhyAreYouMakingThisOnshoreDisclosureViewSpec extends ViewSpecBase with Vie
       view.getElementById("first-paragraph").text() mustBe messages("whyAreYouMakingThisDisclosure.paragraph.first.you")
     }
 
-    "contain second paragraph" in {
-      view.getElementById("second-paragraph").text() mustBe messages("whyAreYouMakingThisDisclosure.paragraph.second")
+    "contain second paragraph when areTheyTheIndividual is true" in {
+      view.getElementById("second-paragraph").text() mustBe messages(
+        "whyAreYouMakingThisDisclosure.paragraph.second.you"
+      )
     }
 
     "contain multiple checkboxes when select Yes, I am the individual" in {
@@ -75,6 +77,10 @@ class WhyAreYouMakingThisOnshoreDisclosureViewSpec extends ViewSpecBase with Vie
     def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
 
     val view = createView
+
+    "contain second paragraph when areTheyTheIndividual is false" in {
+      view.getElementById("second-paragraph").text() mustBe messages("whyAreYouMakingThisDisclosure.paragraph.second")
+    }
 
     "contain multiple checkboxes when select No, I am disclosing on behalf of the individual" in {
       constructMessageKey(view, areTheyTheIndividual, entity)
@@ -140,53 +146,23 @@ class WhyAreYouMakingThisOnshoreDisclosureViewSpec extends ViewSpecBase with Vie
   def constructMessageKey(view: Html, areTheyTheIndividual: Boolean, entity: RelatesTo) =
     if (areTheyTheIndividual) {
       view.getElementsByClass("govuk-checkboxes__item").get(0).text() mustBe messages(
-        s"whyAreYouMakingThisDisclosure.you.didNotNotifyHasExcuse"
+        s"whyAreYouMakingThisDisclosure.you.didNotNotifyHMRC"
       )
       view.getElementsByClass("govuk-checkboxes__item").get(1).text() mustBe messages(
-        s"whyAreYouMakingThisDisclosure.you.inaccurateReturnWithCare"
+        s"whyAreYouMakingThisDisclosure.you.didNotFile"
       )
       view.getElementsByClass("govuk-checkboxes__item").get(2).text() mustBe messages(
-        s"whyAreYouMakingThisDisclosure.you.notFileHasExcuse"
-      )
-      view.getElementsByClass("govuk-checkboxes__item").get(3).text() mustBe messages(
-        s"whyAreYouMakingThisDisclosure.you.inaccurateReturnNoCare"
-      )
-      view.getElementsByClass("govuk-checkboxes__item").get(4).text() mustBe messages(
-        s"whyAreYouMakingThisDisclosure.you.didNotNotifyNoExcuse"
-      )
-      view.getElementsByClass("govuk-checkboxes__item").get(5).text() mustBe messages(
-        s"whyAreYouMakingThisDisclosure.you.deliberatelyDidNotNotify"
-      )
-      view.getElementsByClass("govuk-checkboxes__item").get(6).text() mustBe messages(
-        s"whyAreYouMakingThisDisclosure.you.deliberateInaccurateReturn"
-      )
-      view.getElementsByClass("govuk-checkboxes__item").get(7).text() mustBe messages(
-        s"whyAreYouMakingThisDisclosure.you.deliberatelyDidNotFile"
+        s"whyAreYouMakingThisDisclosure.you.inaccurateReturn"
       )
     } else {
       view.getElementsByClass("govuk-checkboxes__item").get(0).text() mustBe messages(
-        s"whyAreYouMakingThisDisclosure.${entity.toString}.didNotNotifyHasExcuse"
+        s"whyAreYouMakingThisDisclosure.${entity.toString}.didNotNotifyHMRC"
       )
       view.getElementsByClass("govuk-checkboxes__item").get(1).text() mustBe messages(
-        s"whyAreYouMakingThisDisclosure.${entity.toString}.inaccurateReturnWithCare"
+        s"whyAreYouMakingThisDisclosure.${entity.toString}.didNotFile"
       )
       view.getElementsByClass("govuk-checkboxes__item").get(2).text() mustBe messages(
-        s"whyAreYouMakingThisDisclosure.${entity.toString}.notFileHasExcuse"
-      )
-      view.getElementsByClass("govuk-checkboxes__item").get(3).text() mustBe messages(
-        s"whyAreYouMakingThisDisclosure.${entity.toString}.inaccurateReturnNoCare"
-      )
-      view.getElementsByClass("govuk-checkboxes__item").get(4).text() mustBe messages(
-        s"whyAreYouMakingThisDisclosure.${entity.toString}.didNotNotifyNoExcuse"
-      )
-      view.getElementsByClass("govuk-checkboxes__item").get(5).text() mustBe messages(
-        s"whyAreYouMakingThisDisclosure.${entity.toString}.deliberatelyDidNotNotify"
-      )
-      view.getElementsByClass("govuk-checkboxes__item").get(6).text() mustBe messages(
-        s"whyAreYouMakingThisDisclosure.${entity.toString}.deliberateInaccurateReturn"
-      )
-      view.getElementsByClass("govuk-checkboxes__item").get(7).text() mustBe messages(
-        s"whyAreYouMakingThisDisclosure.${entity.toString}.deliberatelyDidNotFile"
+        s"whyAreYouMakingThisDisclosure.${entity.toString}.inaccurateReturn"
       )
     }
 

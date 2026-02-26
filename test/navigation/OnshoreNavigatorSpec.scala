@@ -30,6 +30,7 @@ import models.store.notification.{AboutYou, Background, PersonalDetails}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
+import pages.onshore.WhyDidYouNotFileAReturnOnTimeOnshorePage
 import services.UAToDisclosureService
 import uk.gov.hmrc.time.CurrentTaxYear
 
@@ -55,75 +56,6 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear with MockitoSuga
         ) mustBe controllers.routes.TaskListController.onPageLoad
       }
 
-      "must go from WhyAreYouMakingThisOnshoreDisclosurePage to CDFOnshoreController when selected any deliberate behaviour, and they're not an estate" in {
-        val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(
-          WhyAreYouMakingThisOnshoreDisclosure.DeliberatelyDidNotNotify,
-          WhyAreYouMakingThisOnshoreDisclosure.DeliberateInaccurateReturn,
-          WhyAreYouMakingThisOnshoreDisclosure.DeliberatelyDidNotFile
-        )
-        val userAnswers                                    = (for {
-          ua      <- UserAnswers("id", "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set)
-          finalUa <- ua.set(RelatesToPage, RelatesTo.AnIndividual)
-        } yield finalUa).success.value
-        navigator.nextPage(
-          WhyAreYouMakingThisOnshoreDisclosurePage,
-          NormalMode,
-          userAnswers
-        ) mustBe routes.CDFOnshoreController.onPageLoad(NormalMode)
-      }
-
-      "must go from WhyAreYouMakingThisOnshoreDisclosurePage to WhatOnshoreLiabilitiesDoYouNeedToDiscloseController when selected a deliberate behaviour, and also selected that they're an estate" in {
-        val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(
-          WhyAreYouMakingThisOnshoreDisclosure.DeliberatelyDidNotNotify,
-          WhyAreYouMakingThisOnshoreDisclosure.DeliberateInaccurateReturn,
-          WhyAreYouMakingThisOnshoreDisclosure.DeliberatelyDidNotFile
-        )
-        val userAnswers                                    = (for {
-          ua      <- UserAnswers("id", "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set)
-          finalUa <- ua.set(RelatesToPage, RelatesTo.AnEstate)
-        } yield finalUa).success.value
-        navigator.nextPage(
-          WhyAreYouMakingThisOnshoreDisclosurePage,
-          NormalMode,
-          userAnswers
-        ) mustBe routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
-      }
-
-      "must go from WhyAreYouMakingThisOnshoreDisclosurePage to ReasonableExcuseOnshoreController when selected DidNotNotifyHasExcuse" in {
-        val set: Set[WhyAreYouMakingThisOnshoreDisclosure] =
-          Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHasExcuse)
-        val userAnswers                                    =
-          UserAnswers("id", "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
-        navigator.nextPage(
-          WhyAreYouMakingThisOnshoreDisclosurePage,
-          NormalMode,
-          userAnswers
-        ) mustBe routes.ReasonableExcuseOnshoreController.onPageLoad(NormalMode)
-      }
-
-      "must go from WhyAreYouMakingThisOnshoreDisclosurePage to ReasonableCareOnshoreController when selected InaccurateReturnWithCare" in {
-        val set: Set[WhyAreYouMakingThisOnshoreDisclosure] =
-          Set(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnWithCare)
-        val userAnswers                                    =
-          UserAnswers("id", "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
-        navigator.nextPage(
-          WhyAreYouMakingThisOnshoreDisclosurePage,
-          NormalMode,
-          userAnswers
-        ) mustBe routes.ReasonableCareOnshoreController.onPageLoad(NormalMode)
-      }
-
-      "must go from WhyAreYouMakingThisOnshoreDisclosurePage to ReasonableExcuseForNotFilingOnshoreController when selected NotFileHasExcuse" in {
-        val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.NotFileHasExcuse)
-        val userAnswers                                    =
-          UserAnswers("id", "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
-        navigator.nextPage(
-          WhyAreYouMakingThisOnshoreDisclosurePage,
-          NormalMode,
-          userAnswers
-        ) mustBe routes.ReasonableExcuseForNotFilingOnshoreController.onPageLoad(NormalMode)
-      }
-
       "must go from WhyAreYouMakingThisOnshoreDisclosurePage to WhatOnshoreLiabilitiesDoYouNeedToDiscloseController when selected any other option(s)" in {
         val set: Set[WhyAreYouMakingThisOnshoreDisclosure] =
           Set(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnNoCare)
@@ -142,47 +74,6 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear with MockitoSuga
           .onPageLoad(NormalMode)
       }
 
-      "must go from CDFOnshorePage to ReasonableExcuseOnshoreController when selected DidNotNotifyHasExcuse & true" in {
-        val set: Set[WhyAreYouMakingThisOnshoreDisclosure] =
-          Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHasExcuse)
-        val userAnswers                                    = for {
-          answer        <- UserAnswers("id", "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set)
-          updatedAnswer <- answer.set(CDFOnshorePage, true)
-        } yield updatedAnswer
-        navigator.nextPage(
-          CDFOnshorePage,
-          NormalMode,
-          userAnswers.success.value
-        ) mustBe routes.ReasonableExcuseOnshoreController.onPageLoad(NormalMode)
-      }
-
-      "must go from CDFOnshorePage to ReasonableCareOnshoreController when selected InaccurateReturnWithCare & true" in {
-        val set: Set[WhyAreYouMakingThisOnshoreDisclosure] =
-          Set(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnWithCare)
-        val userAnswers                                    = for {
-          answer        <- UserAnswers("id", "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set)
-          updatedAnswer <- answer.set(CDFOnshorePage, true)
-        } yield updatedAnswer
-        navigator.nextPage(
-          CDFOnshorePage,
-          NormalMode,
-          userAnswers.success.value
-        ) mustBe routes.ReasonableCareOnshoreController.onPageLoad(NormalMode)
-      }
-
-      "must go from CDFOnshorePage to ReasonableExcuseForNotFilingOnshoreController when selected NotFileHasExcuse & true" in {
-        val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.NotFileHasExcuse)
-        val userAnswers                                    = for {
-          answer        <- UserAnswers("id", "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set)
-          updatedAnswer <- answer.set(CDFOnshorePage, true)
-        } yield updatedAnswer
-        navigator.nextPage(
-          CDFOnshorePage,
-          NormalMode,
-          userAnswers.success.value
-        ) mustBe routes.ReasonableExcuseForNotFilingOnshoreController.onPageLoad(NormalMode)
-      }
-
       "must go from CDFOnshorePage to WhatOnshoreLiabilitiesDoYouNeedToDiscloseController when selected any other option(s)" in {
         navigator.nextPage(
           CDFOnshorePage,
@@ -191,46 +82,12 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear with MockitoSuga
         ) mustBe routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
       }
 
-      "must go from ReasonableExcuseOnshorePage to ReasonableCareOnshoreController when selected InaccurateReturnWithCare" in {
-        val set: Set[WhyAreYouMakingThisOnshoreDisclosure] =
-          Set(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnWithCare)
-        val userAnswers                                    =
-          UserAnswers("id", "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
-        navigator.nextPage(
-          ReasonableExcuseOnshorePage,
-          NormalMode,
-          userAnswers
-        ) mustBe routes.ReasonableCareOnshoreController.onPageLoad(NormalMode)
-      }
-
-      "must go from ReasonableExcuseOnshorePage to ReasonableExcuseForNotFilingOnshoreController when selected NotFileHasExcuse" in {
-        val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.NotFileHasExcuse)
-        val userAnswers                                    =
-          UserAnswers("id", "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
-        navigator.nextPage(
-          ReasonableExcuseOnshorePage,
-          NormalMode,
-          userAnswers
-        ) mustBe routes.ReasonableExcuseForNotFilingOnshoreController.onPageLoad(NormalMode)
-      }
-
       "must go from ReasonableExcuseOnshorePage to WhatOnshoreLiabilitiesDoYouNeedToDiscloseController when selected any other option(s)" in {
         navigator.nextPage(
           ReasonableExcuseOnshorePage,
           NormalMode,
           UserAnswers("id", "session-123")
         ) mustBe routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
-      }
-
-      "must go from ReasonableCareOnshorePage to ReasonableExcuseForNotFilingOnshoreController when selected NotFileHasExcuse" in {
-        val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.NotFileHasExcuse)
-        val userAnswers                                    =
-          UserAnswers("id", "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
-        navigator.nextPage(
-          ReasonableCareOnshorePage,
-          NormalMode,
-          userAnswers
-        ) mustBe routes.ReasonableExcuseForNotFilingOnshoreController.onPageLoad(NormalMode)
       }
 
       "must go from ReasonableCareOnshorePage to WhatOnshoreLiabilitiesDoYouNeedToDiscloseController when selected any other option(s)" in {
@@ -1007,40 +864,6 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear with MockitoSuga
         ) mustBe routes.CheckYourAnswersController.onPageLoad
       }
 
-      "must go from WhyAreYouMakingThisOnshoreDisclosurePage to CDFOnshoreController if the user selected DeliberatelyDidNotNotify in WhyAreYouMakingThisOnshoreDisclosure page" in {
-        val relatesTo: RelatesTo                              = AnIndividual
-        val reason: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(DeliberatelyDidNotNotify)
-        val userAnswers                                       = UserAnswers("id", "session-123")
-          .set(RelatesToPage, relatesTo)
-          .success
-          .value
-          .set(WhyAreYouMakingThisOnshoreDisclosurePage, reason)
-          .success
-          .value
-        navigator.nextPage(
-          WhyAreYouMakingThisOnshoreDisclosurePage,
-          CheckMode,
-          userAnswers
-        ) mustBe routes.CDFOnshoreController.onPageLoad(NormalMode)
-      }
-
-      "must go from WhyAreYouMakingThisOnshoreDisclosurePage to CDFOnshoreController if the user selected DeliberateInaccurateReturn in WhyAreYouMakingThisOnshoreDisclosure page" in {
-        val relatesTo: RelatesTo                              = AnIndividual
-        val reason: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(DeliberateInaccurateReturn)
-        val userAnswers                                       = UserAnswers("id", "session-123")
-          .set(RelatesToPage, relatesTo)
-          .success
-          .value
-          .set(WhyAreYouMakingThisOnshoreDisclosurePage, reason)
-          .success
-          .value
-        navigator.nextPage(
-          WhyAreYouMakingThisOnshoreDisclosurePage,
-          CheckMode,
-          userAnswers
-        ) mustBe routes.CDFOnshoreController.onPageLoad(NormalMode)
-      }
-
       "must go from WhichOnshoreYearsPage to TaxBeforeThreeYearsOnshoreController when selected option PriorToThreeYears and something has changed" in {
         val set: Set[OnshoreYears] = Set(PriorToThreeYears)
         val userAnswers            = UserAnswers("id", "session-123").set(WhichOnshoreYearsPage, set).success.value
@@ -1132,23 +955,6 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear with MockitoSuga
           hasAnswerChanged = false
         ) mustBe routes.CheckYourAnswersController.onPageLoad
       }
-
-      "must go from WhyAreYouMakingThisOnshoreDisclosurePage to CDFOnshoreController if the user selected DeliberatelyDidNotFile in WhyAreYouMakingThisOnshoreDisclosure page" in {
-        val relatesTo: RelatesTo                              = AnIndividual
-        val reason: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(DeliberatelyDidNotFile)
-        val userAnswers                                       = UserAnswers("id", "session-123")
-          .set(RelatesToPage, relatesTo)
-          .success
-          .value
-          .set(WhyAreYouMakingThisOnshoreDisclosurePage, reason)
-          .success
-          .value
-        navigator.nextPage(
-          WhyAreYouMakingThisOnshoreDisclosurePage,
-          CheckMode,
-          userAnswers
-        ) mustBe routes.CDFOnshoreController.onPageLoad(NormalMode)
-      }
     }
 
     "must go from DirectorLoanAccountLiabilitiesPage to DirectorLoanAccountLiabilitiesSummaryController" in {
@@ -1219,6 +1025,699 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear with MockitoSuga
       ) mustBe routes.CheckYourAnswersController.onPageLoad
     }
 
+    "must go from WhyAreYouMakingThisOnshoreDisclosurePage to WhyDidYouNotNotifyOnshoreController when DidNotNotifyHMRC selected" in {
+      val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC)
+      val userAnswers                                    =
+        UserAnswers("id", "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
+      navigator.nextPage(WhyAreYouMakingThisOnshoreDisclosurePage, NormalMode, userAnswers) mustBe
+        routes.WhyDidYouNotNotifyOnshoreController.onPageLoad(NormalMode)
+    }
+
+    "must go from WhyAreYouMakingThisOnshoreDisclosurePage to WhyDidYouNotFileAReturnOnTimeOnshoreController when DidNotFile selected" in {
+      val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotFile)
+      val userAnswers                                    =
+        UserAnswers("id", "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
+      navigator.nextPage(WhyAreYouMakingThisOnshoreDisclosurePage, NormalMode, userAnswers) mustBe
+        routes.WhyDidYouNotFileAReturnOnTimeOnshoreController.onPageLoad(NormalMode)
+    }
+
+    "must go from WhyAreYouMakingThisOnshoreDisclosurePage to WhyYouSubmittedAnInaccurateOnshoreReturnController when InaccurateReturn selected" in {
+      val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn)
+      val userAnswers                                    =
+        UserAnswers("id", "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
+      navigator.nextPage(WhyAreYouMakingThisOnshoreDisclosurePage, NormalMode, userAnswers) mustBe
+        routes.WhyYouSubmittedAnInaccurateOnshoreReturnController.onPageLoad(NormalMode)
+    }
+
+    "must go from WhyDidYouNotNotifyOnshorePage to WhyDidYouNotFileAReturnOnTimeOnshoreController when DidNotFile also selected" in {
+      val userAnswers = (for {
+        ua  <- UserAnswers("id", "session-123").set(
+                 WhyAreYouMakingThisOnshoreDisclosurePage,
+                 Set[WhyAreYouMakingThisOnshoreDisclosure](WhyAreYouMakingThisOnshoreDisclosure.DidNotFile)
+               )
+        ua2 <- ua.set(
+                 WhyDidYouNotNotifyOnshorePage,
+                 Set[WhyDidYouNotNotifyOnshore](WhyDidYouNotNotifyOnshore.NotDeliberatelyNoReasonableExcuseOnshore)
+               )
+      } yield ua2).success.value
+      navigator.nextPage(WhyDidYouNotNotifyOnshorePage, NormalMode, userAnswers) mustBe
+        routes.WhyDidYouNotFileAReturnOnTimeOnshoreController.onPageLoad(NormalMode)
+    }
+
+    "must go from WhyDidYouNotNotifyOnshorePage to WhyYouSubmittedAnInaccurateOnshoreReturnController when InaccurateReturn also selected" in {
+      val userAnswers = (for {
+        ua  <- UserAnswers("id", "session-123").set(
+                 WhyAreYouMakingThisOnshoreDisclosurePage,
+                 Set[WhyAreYouMakingThisOnshoreDisclosure](WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn)
+               )
+        ua2 <- ua.set(
+                 WhyDidYouNotNotifyOnshorePage,
+                 Set[WhyDidYouNotNotifyOnshore](WhyDidYouNotNotifyOnshore.NotDeliberatelyNoReasonableExcuseOnshore)
+               )
+      } yield ua2).success.value
+      navigator.nextPage(WhyDidYouNotNotifyOnshorePage, NormalMode, userAnswers) mustBe
+        routes.WhyYouSubmittedAnInaccurateOnshoreReturnController.onPageLoad(NormalMode)
+    }
+
+    "must go from WhyDidYouNotNotifyOnshorePage to CDFOnshoreController when deliberate selected" in {
+      val userAnswers = (for {
+        ua  <- UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.AnIndividual)
+        ua2 <- ua.set(
+                 WhyDidYouNotNotifyOnshorePage,
+                 Set[WhyDidYouNotNotifyOnshore](WhyDidYouNotNotifyOnshore.DeliberatelyDidNotNotifyOnshore)
+               )
+      } yield ua2).success.value
+      navigator.nextPage(WhyDidYouNotNotifyOnshorePage, NormalMode, userAnswers) mustBe
+        routes.CDFOnshoreController.onPageLoad(NormalMode)
+    }
+
+    "must go from WhyDidYouNotNotifyOnshorePage to ReasonableExcuseOnshoreController when ReasonableExcuse selected and no deliberate" in {
+      val userAnswers = UserAnswers("id", "session-123")
+        .set(
+          WhyDidYouNotNotifyOnshorePage,
+          Set[WhyDidYouNotNotifyOnshore](WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore)
+        )
+        .success
+        .value
+      navigator.nextPage(WhyDidYouNotNotifyOnshorePage, NormalMode, userAnswers) mustBe
+        routes.ReasonableExcuseOnshoreController.onPageLoad(NormalMode)
+    }
+
+    "must go from WhyDidYouNotNotifyOnshorePage to WhatOnshoreLiabilitiesDoYouNeedToDiscloseController when no special conditions" in {
+      val userAnswers = UserAnswers("id", "session-123")
+        .set(
+          WhyDidYouNotNotifyOnshorePage,
+          Set[WhyDidYouNotNotifyOnshore](WhyDidYouNotNotifyOnshore.NotDeliberatelyNoReasonableExcuseOnshore)
+        )
+        .success
+        .value
+      navigator.nextPage(WhyDidYouNotNotifyOnshorePage, NormalMode, userAnswers) mustBe
+        routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
+    }
+
+    "must go from WhyDidYouNotNotifyOnshorePage to WhatOnshoreLiabilitiesDoYouNeedToDiscloseController when entity is AnEstate with deliberate" in {
+      val userAnswers = (for {
+        ua  <- UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.AnEstate)
+        ua2 <- ua.set(
+                 WhyDidYouNotNotifyOnshorePage,
+                 Set[WhyDidYouNotNotifyOnshore](WhyDidYouNotNotifyOnshore.DeliberatelyDidNotNotifyOnshore)
+               )
+      } yield ua2).success.value
+      navigator.nextPage(WhyDidYouNotNotifyOnshorePage, NormalMode, userAnswers) mustBe
+        routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
+    }
+
+    "must go from WhyDidYouNotFileAReturnOnTimeOnshorePage to WhyYouSubmittedAnInaccurateOnshoreReturnController when InaccurateReturn also selected" in {
+      val userAnswers = (for {
+        ua  <- UserAnswers("id", "session-123").set(
+                 WhyAreYouMakingThisOnshoreDisclosurePage,
+                 Set[WhyAreYouMakingThisOnshoreDisclosure](WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn)
+               )
+        ua2 <- ua.set(
+                 WhyDidYouNotFileAReturnOnTimeOnshorePage,
+                 Set[WhyDidYouNotFileAReturnOnTimeOnshore](
+                   WhyDidYouNotFileAReturnOnTimeOnshore.DidNotWithholdInformationOnPurpose
+                 )
+               )
+      } yield ua2).success.value
+      navigator.nextPage(WhyDidYouNotFileAReturnOnTimeOnshorePage, NormalMode, userAnswers) mustBe
+        routes.WhyYouSubmittedAnInaccurateOnshoreReturnController.onPageLoad(NormalMode)
+    }
+
+    "must go from WhyDidYouNotFileAReturnOnTimeOnshorePage to CDFOnshoreController when deliberate selected" in {
+      val userAnswers = (for {
+        ua  <- UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.AnIndividual)
+        ua2 <- ua.set(
+                 WhyDidYouNotFileAReturnOnTimeOnshorePage,
+                 Set[WhyDidYouNotFileAReturnOnTimeOnshore](
+                   WhyDidYouNotFileAReturnOnTimeOnshore.DeliberatelyWithheldInformation
+                 )
+               )
+      } yield ua2).success.value
+      navigator.nextPage(WhyDidYouNotFileAReturnOnTimeOnshorePage, NormalMode, userAnswers) mustBe
+        routes.CDFOnshoreController.onPageLoad(NormalMode)
+    }
+
+    "must go from WhyDidYouNotFileAReturnOnTimeOnshorePage to ReasonableExcuseOnshoreController when DidNotNotifyHMRC also selected and page2a has ReasonableExcuse" in {
+      val userAnswers = (for {
+        ua  <- UserAnswers("id", "session-123").set(
+                 WhyAreYouMakingThisOnshoreDisclosurePage,
+                 Set[WhyAreYouMakingThisOnshoreDisclosure](WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC)
+               )
+        ua2 <- ua.set(
+                 WhyDidYouNotNotifyOnshorePage,
+                 Set[WhyDidYouNotNotifyOnshore](WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore)
+               )
+        ua3 <- ua2.set(
+                 WhyDidYouNotFileAReturnOnTimeOnshorePage,
+                 Set[WhyDidYouNotFileAReturnOnTimeOnshore](
+                   WhyDidYouNotFileAReturnOnTimeOnshore.DidNotWithholdInformationOnPurpose
+                 )
+               )
+      } yield ua3).success.value
+      navigator.nextPage(WhyDidYouNotFileAReturnOnTimeOnshorePage, NormalMode, userAnswers) mustBe
+        routes.ReasonableExcuseOnshoreController.onPageLoad(NormalMode)
+    }
+
+    "must go from WhyDidYouNotFileAReturnOnTimeOnshorePage to ReasonableExcuseForNotFilingOnshoreController when ReasonableExcuse selected" in {
+      val userAnswers = (for {
+        ua  <- UserAnswers("id", "session-123").set(
+                 WhyAreYouMakingThisOnshoreDisclosurePage,
+                 Set[WhyAreYouMakingThisOnshoreDisclosure](WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC)
+               )
+        ua2 <- ua.set(
+                 WhyDidYouNotNotifyOnshorePage,
+                 Set[WhyDidYouNotNotifyOnshore](WhyDidYouNotNotifyOnshore.NotDeliberatelyNoReasonableExcuseOnshore)
+               )
+        ua3 <- ua2.set(
+                 WhyDidYouNotFileAReturnOnTimeOnshorePage,
+                 Set[WhyDidYouNotFileAReturnOnTimeOnshore](WhyDidYouNotFileAReturnOnTimeOnshore.ReasonableExcuse)
+               )
+      } yield ua3).success.value
+      navigator.nextPage(WhyDidYouNotFileAReturnOnTimeOnshorePage, NormalMode, userAnswers) mustBe
+        routes.ReasonableExcuseForNotFilingOnshoreController.onPageLoad(NormalMode)
+    }
+
+    "must go from WhyDidYouNotFileAReturnOnTimeOnshorePage to ReasonableExcuseForNotFilingOnshoreController when ReasonableExcuse selected and no DidNotNotifyHMRC" in {
+      val userAnswers = UserAnswers("id", "session-123")
+        .set(
+          WhyDidYouNotFileAReturnOnTimeOnshorePage,
+          Set[WhyDidYouNotFileAReturnOnTimeOnshore](WhyDidYouNotFileAReturnOnTimeOnshore.ReasonableExcuse)
+        )
+        .success
+        .value
+      navigator.nextPage(WhyDidYouNotFileAReturnOnTimeOnshorePage, NormalMode, userAnswers) mustBe
+        routes.ReasonableExcuseForNotFilingOnshoreController.onPageLoad(NormalMode)
+    }
+
+    "must go from WhyDidYouNotFileAReturnOnTimeOnshorePage to WhatOnshoreLiabilitiesDoYouNeedToDiscloseController when no special conditions" in {
+      val userAnswers = UserAnswers("id", "session-123")
+        .set(
+          WhyDidYouNotFileAReturnOnTimeOnshorePage,
+          Set[WhyDidYouNotFileAReturnOnTimeOnshore](
+            WhyDidYouNotFileAReturnOnTimeOnshore.DidNotWithholdInformationOnPurpose
+          )
+        )
+        .success
+        .value
+      navigator.nextPage(WhyDidYouNotFileAReturnOnTimeOnshorePage, NormalMode, userAnswers) mustBe
+        routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
+    }
+
+    // WhyYouSubmittedAnInaccurateOnshoreReturnPage routing
+    "must go from WhyYouSubmittedAnInaccurateOnshoreReturnPage to CDFOnshoreController when deliberate selected" in {
+      val userAnswers = (for {
+        ua  <- UserAnswers("id", "session-123").set(RelatesToPage, RelatesTo.AnIndividual)
+        ua2 <- ua.set(
+                 WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+                 Set[WhyYouSubmittedAnInaccurateOnshoreReturn](
+                   WhyYouSubmittedAnInaccurateOnshoreReturn.DeliberatelyInaccurate
+                 )
+               )
+      } yield ua2).success.value
+      navigator.nextPage(WhyYouSubmittedAnInaccurateOnshoreReturnPage, NormalMode, userAnswers) mustBe
+        routes.CDFOnshoreController.onPageLoad(NormalMode)
+    }
+
+    "must go from WhyYouSubmittedAnInaccurateOnshoreReturnPage to ReasonableCareOnshoreController when ReasonableMistake selected" in {
+      val userAnswers = UserAnswers("id", "session-123")
+        .set(
+          WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+          Set[WhyYouSubmittedAnInaccurateOnshoreReturn](WhyYouSubmittedAnInaccurateOnshoreReturn.ReasonableMistake)
+        )
+        .success
+        .value
+      navigator.nextPage(WhyYouSubmittedAnInaccurateOnshoreReturnPage, NormalMode, userAnswers) mustBe
+        routes.ReasonableCareOnshoreController.onPageLoad(NormalMode)
+    }
+
+    "must go from WhyYouSubmittedAnInaccurateOnshoreReturnPage to WhatOnshoreLiabilitiesDoYouNeedToDiscloseController when no special conditions" in {
+      val userAnswers = UserAnswers("id", "session-123")
+        .set(
+          WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+          Set[WhyYouSubmittedAnInaccurateOnshoreReturn](WhyYouSubmittedAnInaccurateOnshoreReturn.NoReasonableCare)
+        )
+        .success
+        .value
+      navigator.nextPage(WhyYouSubmittedAnInaccurateOnshoreReturnPage, NormalMode, userAnswers) mustBe
+        routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
+    }
+
+    "must go from WhyYouSubmittedAnInaccurateOnshoreReturnPage to ReasonableExcuseOnshoreController when DidNotNotifyHMRC selected and page2a has ReasonableExcuse" in {
+      val userAnswers = (for {
+        ua  <- UserAnswers("id", "session-123").set(
+                 WhyAreYouMakingThisOnshoreDisclosurePage,
+                 Set[WhyAreYouMakingThisOnshoreDisclosure](WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC)
+               )
+        ua2 <- ua.set(
+                 WhyDidYouNotNotifyOnshorePage,
+                 Set[WhyDidYouNotNotifyOnshore](WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore)
+               )
+        ua3 <-
+          ua2.set(
+            WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+            Set[WhyYouSubmittedAnInaccurateOnshoreReturn](WhyYouSubmittedAnInaccurateOnshoreReturn.NoReasonableCare)
+          )
+      } yield ua3).success.value
+      navigator.nextPage(WhyYouSubmittedAnInaccurateOnshoreReturnPage, NormalMode, userAnswers) mustBe
+        routes.ReasonableExcuseOnshoreController.onPageLoad(NormalMode)
+    }
+
+    "must go from WhyYouSubmittedAnInaccurateOnshoreReturnPage to ReasonableExcuseForNotFilingOnshoreController when DidNotFile selected and page2b has ReasonableExcuse" in {
+      val userAnswers = (for {
+        ua  <- UserAnswers("id", "session-123").set(
+                 WhyAreYouMakingThisOnshoreDisclosurePage,
+                 Set[WhyAreYouMakingThisOnshoreDisclosure](WhyAreYouMakingThisOnshoreDisclosure.DidNotFile)
+               )
+        ua2 <- ua.set(
+                 WhyDidYouNotFileAReturnOnTimeOnshorePage,
+                 Set[WhyDidYouNotFileAReturnOnTimeOnshore](WhyDidYouNotFileAReturnOnTimeOnshore.ReasonableExcuse)
+               )
+        ua3 <-
+          ua2.set(
+            WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+            Set[WhyYouSubmittedAnInaccurateOnshoreReturn](WhyYouSubmittedAnInaccurateOnshoreReturn.NoReasonableCare)
+          )
+      } yield ua3).success.value
+      navigator.nextPage(WhyYouSubmittedAnInaccurateOnshoreReturnPage, NormalMode, userAnswers) mustBe
+        routes.ReasonableExcuseForNotFilingOnshoreController.onPageLoad(NormalMode)
+    }
+
+    "must go from WhyYouSubmittedAnInaccurateOnshoreReturnPage to ReasonableCareOnshoreController when DidNotFile selected and page2b no ReasonableExcuse but page2c has ReasonableMistake" in {
+      val userAnswers = (for {
+        ua  <- UserAnswers("id", "session-123").set(
+                 WhyAreYouMakingThisOnshoreDisclosurePage,
+                 Set[WhyAreYouMakingThisOnshoreDisclosure](WhyAreYouMakingThisOnshoreDisclosure.DidNotFile)
+               )
+        ua2 <- ua.set(
+                 WhyDidYouNotFileAReturnOnTimeOnshorePage,
+                 Set[WhyDidYouNotFileAReturnOnTimeOnshore](
+                   WhyDidYouNotFileAReturnOnTimeOnshore.DidNotWithholdInformationOnPurpose
+                 )
+               )
+        ua3 <- ua2.set(
+                 WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+                 Set[WhyYouSubmittedAnInaccurateOnshoreReturn](
+                   WhyYouSubmittedAnInaccurateOnshoreReturn.ReasonableMistake
+                 )
+               )
+      } yield ua3).success.value
+      navigator.nextPage(WhyYouSubmittedAnInaccurateOnshoreReturnPage, NormalMode, userAnswers) mustBe
+        routes.ReasonableCareOnshoreController.onPageLoad(NormalMode)
+    }
+
+    "must go from CDFOnshorePage to ReasonableExcuseOnshoreController when true and DidNotNotifyHMRC selected with ReasonableExcuse" in {
+      val userAnswers = (for {
+        ua  <- UserAnswers("id", "session-123").set(CDFOnshorePage, true)
+        ua2 <- ua.set(
+                 WhyAreYouMakingThisOnshoreDisclosurePage,
+                 Set[WhyAreYouMakingThisOnshoreDisclosure](WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC)
+               )
+        ua3 <- ua2.set(
+                 WhyDidYouNotNotifyOnshorePage,
+                 Set[WhyDidYouNotNotifyOnshore](WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore)
+               )
+      } yield ua3).success.value
+      navigator.nextPage(CDFOnshorePage, NormalMode, userAnswers) mustBe
+        routes.ReasonableExcuseOnshoreController.onPageLoad(NormalMode)
+    }
+
+    "must go from CDFOnshorePage to ReasonableExcuseForNotFilingOnshoreController when true and DidNotFile selected with ReasonableExcuse" in {
+      val userAnswers = (for {
+        ua  <- UserAnswers("id", "session-123").set(CDFOnshorePage, true)
+        ua2 <- ua.set(
+                 WhyAreYouMakingThisOnshoreDisclosurePage,
+                 Set[WhyAreYouMakingThisOnshoreDisclosure](
+                   WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC,
+                   WhyAreYouMakingThisOnshoreDisclosure.DidNotFile
+                 )
+               )
+        ua3 <- ua2.set(
+                 WhyDidYouNotNotifyOnshorePage,
+                 Set[WhyDidYouNotNotifyOnshore](WhyDidYouNotNotifyOnshore.NotDeliberatelyNoReasonableExcuseOnshore)
+               )
+        ua4 <- ua3.set(
+                 WhyDidYouNotFileAReturnOnTimeOnshorePage,
+                 Set[WhyDidYouNotFileAReturnOnTimeOnshore](WhyDidYouNotFileAReturnOnTimeOnshore.ReasonableExcuse)
+               )
+      } yield ua4).success.value
+      navigator.nextPage(CDFOnshorePage, NormalMode, userAnswers) mustBe
+        routes.ReasonableExcuseForNotFilingOnshoreController.onPageLoad(NormalMode)
+    }
+
+    "must go from CDFOnshorePage to ReasonableCareOnshoreController when true, DidNotNotifyHMRC+DidNotFile+InaccurateReturn selected and page2c has ReasonableMistake" in {
+      val userAnswers = (for {
+        ua1 <- UserAnswers("id", "session-123").set(CDFOnshorePage, true)
+        ua2 <- ua1.set(
+                 WhyAreYouMakingThisOnshoreDisclosurePage,
+                 Set[WhyAreYouMakingThisOnshoreDisclosure](
+                   WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC,
+                   WhyAreYouMakingThisOnshoreDisclosure.DidNotFile,
+                   WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn
+                 )
+               )
+        ua3 <- ua2.set(
+                 WhyDidYouNotNotifyOnshorePage,
+                 Set[WhyDidYouNotNotifyOnshore](WhyDidYouNotNotifyOnshore.NotDeliberatelyNoReasonableExcuseOnshore)
+               )
+        ua4 <- ua3.set(
+                 WhyDidYouNotFileAReturnOnTimeOnshorePage,
+                 Set[WhyDidYouNotFileAReturnOnTimeOnshore](
+                   WhyDidYouNotFileAReturnOnTimeOnshore.DidNotWithholdInformationOnPurpose
+                 )
+               )
+        ua5 <- ua4.set(
+                 WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+                 Set[WhyYouSubmittedAnInaccurateOnshoreReturn](
+                   WhyYouSubmittedAnInaccurateOnshoreReturn.ReasonableMistake
+                 )
+               )
+      } yield ua5).success.value
+      navigator.nextPage(CDFOnshorePage, NormalMode, userAnswers) mustBe
+        routes.ReasonableCareOnshoreController.onPageLoad(NormalMode)
+    }
+
+    "must go from CDFOnshorePage to WhatOnshoreLiabilitiesDoYouNeedToDiscloseController when true and all pages answered with no further excuses" in {
+      val userAnswers = UserAnswers("id", "session-123").set(CDFOnshorePage, true).success.value
+      navigator.nextPage(CDFOnshorePage, NormalMode, userAnswers) mustBe
+        routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
+    }
+
+    "must go from CDFOnshorePage to ReasonableCareOnshoreController when true, only InaccurateReturn selected and page2c has ReasonableMistake" in {
+      val userAnswers = (for {
+        ua  <- UserAnswers("id", "session-123").set(CDFOnshorePage, true)
+        ua2 <- ua.set(
+                 WhyAreYouMakingThisOnshoreDisclosurePage,
+                 Set[WhyAreYouMakingThisOnshoreDisclosure](WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn)
+               )
+        ua3 <- ua2.set(
+                 WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+                 Set[WhyYouSubmittedAnInaccurateOnshoreReturn](
+                   WhyYouSubmittedAnInaccurateOnshoreReturn.ReasonableMistake
+                 )
+               )
+      } yield ua3).success.value
+      navigator.nextPage(CDFOnshorePage, NormalMode, userAnswers) mustBe
+        routes.ReasonableCareOnshoreController.onPageLoad(NormalMode)
+    }
+
+    "must go from CDFOnshorePage to WhatOnshoreLiabilitiesDoYouNeedToDiscloseController when true, only InaccurateReturn and no ReasonableMistake" in {
+      val userAnswers = (for {
+        ua  <- UserAnswers("id", "session-123").set(CDFOnshorePage, true)
+        ua2 <- ua.set(
+                 WhyAreYouMakingThisOnshoreDisclosurePage,
+                 Set[WhyAreYouMakingThisOnshoreDisclosure](WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn)
+               )
+        ua3 <-
+          ua2.set(
+            WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+            Set[WhyYouSubmittedAnInaccurateOnshoreReturn](WhyYouSubmittedAnInaccurateOnshoreReturn.NoReasonableCare)
+          )
+      } yield ua3).success.value
+      navigator.nextPage(CDFOnshorePage, NormalMode, userAnswers) mustBe
+        routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
+    }
+
+    "must go from CDFOnshorePage to ReasonableExcuseForNotFilingOnshoreController when true, only DidNotFile and page2b has ReasonableExcuse" in {
+      val userAnswers = (for {
+        ua  <- UserAnswers("id", "session-123").set(CDFOnshorePage, true)
+        ua2 <- ua.set(
+                 WhyAreYouMakingThisOnshoreDisclosurePage,
+                 Set[WhyAreYouMakingThisOnshoreDisclosure](WhyAreYouMakingThisOnshoreDisclosure.DidNotFile)
+               )
+        ua3 <- ua2.set(
+                 WhyDidYouNotFileAReturnOnTimeOnshorePage,
+                 Set[WhyDidYouNotFileAReturnOnTimeOnshore](WhyDidYouNotFileAReturnOnTimeOnshore.ReasonableExcuse)
+               )
+      } yield ua3).success.value
+      navigator.nextPage(CDFOnshorePage, NormalMode, userAnswers) mustBe
+        routes.ReasonableExcuseForNotFilingOnshoreController.onPageLoad(NormalMode)
+    }
+
+    "must go from CDFOnshorePage to ReasonableCareOnshoreController when true, DidNotFile+InaccurateReturn and page2c has ReasonableMistake" in {
+      val userAnswers = (for {
+        ua  <- UserAnswers("id", "session-123").set(CDFOnshorePage, true)
+        ua2 <- ua.set(
+                 WhyAreYouMakingThisOnshoreDisclosurePage,
+                 Set[WhyAreYouMakingThisOnshoreDisclosure](
+                   WhyAreYouMakingThisOnshoreDisclosure.DidNotFile,
+                   WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn
+                 )
+               )
+        ua3 <- ua2.set(
+                 WhyDidYouNotFileAReturnOnTimeOnshorePage,
+                 Set[WhyDidYouNotFileAReturnOnTimeOnshore](
+                   WhyDidYouNotFileAReturnOnTimeOnshore.DidNotWithholdInformationOnPurpose
+                 )
+               )
+        ua4 <- ua3.set(
+                 WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+                 Set[WhyYouSubmittedAnInaccurateOnshoreReturn](
+                   WhyYouSubmittedAnInaccurateOnshoreReturn.ReasonableMistake
+                 )
+               )
+      } yield ua4).success.value
+      navigator.nextPage(CDFOnshorePage, NormalMode, userAnswers) mustBe
+        routes.ReasonableCareOnshoreController.onPageLoad(NormalMode)
+    }
+
+    "must go from ReasonableExcuseOnshorePage to ReasonableExcuseForNotFilingOnshoreController when DidNotFile and page2b has ReasonableExcuse" in {
+      val userAnswers = (for {
+        ua  <- UserAnswers("id", "session-123").set(
+                 WhyAreYouMakingThisOnshoreDisclosurePage,
+                 Set[WhyAreYouMakingThisOnshoreDisclosure](WhyAreYouMakingThisOnshoreDisclosure.DidNotFile)
+               )
+        ua2 <- ua.set(
+                 WhyDidYouNotFileAReturnOnTimeOnshorePage,
+                 Set[WhyDidYouNotFileAReturnOnTimeOnshore](WhyDidYouNotFileAReturnOnTimeOnshore.ReasonableExcuse)
+               )
+      } yield ua2).success.value
+      navigator.nextPage(ReasonableExcuseOnshorePage, NormalMode, userAnswers) mustBe
+        routes.ReasonableExcuseForNotFilingOnshoreController.onPageLoad(NormalMode)
+    }
+
+    "must go from ReasonableExcuseOnshorePage to ReasonableCareOnshoreController when DidNotFile, no page2b ReasonableExcuse, InaccurateReturn with ReasonableMistake" in {
+      val userAnswers = (for {
+        ua  <- UserAnswers("id", "session-123").set(
+                 WhyAreYouMakingThisOnshoreDisclosurePage,
+                 Set[WhyAreYouMakingThisOnshoreDisclosure](
+                   WhyAreYouMakingThisOnshoreDisclosure.DidNotFile,
+                   WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn
+                 )
+               )
+        ua2 <- ua.set(
+                 WhyDidYouNotFileAReturnOnTimeOnshorePage,
+                 Set[WhyDidYouNotFileAReturnOnTimeOnshore](
+                   WhyDidYouNotFileAReturnOnTimeOnshore.DidNotWithholdInformationOnPurpose
+                 )
+               )
+        ua3 <- ua2.set(
+                 WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+                 Set[WhyYouSubmittedAnInaccurateOnshoreReturn](
+                   WhyYouSubmittedAnInaccurateOnshoreReturn.ReasonableMistake
+                 )
+               )
+      } yield ua3).success.value
+      navigator.nextPage(ReasonableExcuseOnshorePage, NormalMode, userAnswers) mustBe
+        routes.ReasonableCareOnshoreController.onPageLoad(NormalMode)
+    }
+
+    "must go from ReasonableExcuseOnshorePage to WhatOnshoreLiabilitiesDoYouNeedToDiscloseController when DidNotFile, no ReasonableExcuse, InaccurateReturn but no ReasonableMistake" in {
+      val userAnswers = (for {
+        ua  <- UserAnswers("id", "session-123").set(
+                 WhyAreYouMakingThisOnshoreDisclosurePage,
+                 Set[WhyAreYouMakingThisOnshoreDisclosure](
+                   WhyAreYouMakingThisOnshoreDisclosure.DidNotFile,
+                   WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn
+                 )
+               )
+        ua2 <- ua.set(
+                 WhyDidYouNotFileAReturnOnTimeOnshorePage,
+                 Set[WhyDidYouNotFileAReturnOnTimeOnshore](
+                   WhyDidYouNotFileAReturnOnTimeOnshore.DidNotWithholdInformationOnPurpose
+                 )
+               )
+        ua3 <-
+          ua2.set(
+            WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+            Set[WhyYouSubmittedAnInaccurateOnshoreReturn](WhyYouSubmittedAnInaccurateOnshoreReturn.NoReasonableCare)
+          )
+      } yield ua3).success.value
+      navigator.nextPage(ReasonableExcuseOnshorePage, NormalMode, userAnswers) mustBe
+        routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
+    }
+
+    "must go from ReasonableExcuseOnshorePage to ReasonableCareOnshoreController when no DidNotFile but InaccurateReturn with ReasonableMistake" in {
+      val userAnswers = (for {
+        ua  <- UserAnswers("id", "session-123").set(
+                 WhyAreYouMakingThisOnshoreDisclosurePage,
+                 Set[WhyAreYouMakingThisOnshoreDisclosure](WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn)
+               )
+        ua2 <- ua.set(
+                 WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+                 Set[WhyYouSubmittedAnInaccurateOnshoreReturn](
+                   WhyYouSubmittedAnInaccurateOnshoreReturn.ReasonableMistake
+                 )
+               )
+      } yield ua2).success.value
+      navigator.nextPage(ReasonableExcuseOnshorePage, NormalMode, userAnswers) mustBe
+        routes.ReasonableCareOnshoreController.onPageLoad(NormalMode)
+    }
+
+    "must go from ReasonableExcuseOnshorePage to WhatOnshoreLiabilitiesDoYouNeedToDiscloseController when InaccurateReturn but no ReasonableMistake" in {
+      val userAnswers = (for {
+        ua  <- UserAnswers("id", "session-123").set(
+                 WhyAreYouMakingThisOnshoreDisclosurePage,
+                 Set[WhyAreYouMakingThisOnshoreDisclosure](WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn)
+               )
+        ua2 <-
+          ua.set(
+            WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+            Set[WhyYouSubmittedAnInaccurateOnshoreReturn](WhyYouSubmittedAnInaccurateOnshoreReturn.NoReasonableCare)
+          )
+      } yield ua2).success.value
+      navigator.nextPage(ReasonableExcuseOnshorePage, NormalMode, userAnswers) mustBe
+        routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
+    }
+
+    // ReasonableExcuseForNotFilingOnshorePage routing
+    "must go from ReasonableExcuseForNotFilingOnshorePage to ReasonableCareOnshoreController when InaccurateReturn and ReasonableMistake" in {
+      val userAnswers = (for {
+        ua  <- UserAnswers("id", "session-123").set(
+                 WhyAreYouMakingThisOnshoreDisclosurePage,
+                 Set[WhyAreYouMakingThisOnshoreDisclosure](WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn)
+               )
+        ua2 <- ua.set(
+                 WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+                 Set[WhyYouSubmittedAnInaccurateOnshoreReturn](
+                   WhyYouSubmittedAnInaccurateOnshoreReturn.ReasonableMistake
+                 )
+               )
+      } yield ua2).success.value
+      navigator.nextPage(ReasonableExcuseForNotFilingOnshorePage, NormalMode, userAnswers) mustBe
+        routes.ReasonableCareOnshoreController.onPageLoad(NormalMode)
+    }
+
+    "must go from ReasonableExcuseForNotFilingOnshorePage to WhatOnshoreLiabilitiesDoYouNeedToDiscloseController when InaccurateReturn but no ReasonableMistake" in {
+      val userAnswers = (for {
+        ua  <- UserAnswers("id", "session-123").set(
+                 WhyAreYouMakingThisOnshoreDisclosurePage,
+                 Set[WhyAreYouMakingThisOnshoreDisclosure](WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn)
+               )
+        ua2 <-
+          ua.set(
+            WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+            Set[WhyYouSubmittedAnInaccurateOnshoreReturn](WhyYouSubmittedAnInaccurateOnshoreReturn.NoReasonableCare)
+          )
+      } yield ua2).success.value
+      navigator.nextPage(ReasonableExcuseForNotFilingOnshorePage, NormalMode, userAnswers) mustBe
+        routes.WhatOnshoreLiabilitiesDoYouNeedToDiscloseController.onPageLoad(NormalMode)
+    }
+
+    "must go from WhyAreYouMakingThisOnshoreDisclosurePage in CheckMode to normal route when answer changed" in {
+      val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC)
+      val userAnswers                                    =
+        UserAnswers("id", "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
+      navigator.nextPage(
+        WhyAreYouMakingThisOnshoreDisclosurePage,
+        CheckMode,
+        userAnswers,
+        hasAnswerChanged = true
+      ) mustBe
+        routes.WhyDidYouNotNotifyOnshoreController.onPageLoad(NormalMode)
+    }
+
+    "must go from WhyAreYouMakingThisOnshoreDisclosurePage in CheckMode to CYA when answer not changed" in {
+      val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC)
+      val userAnswers                                    =
+        UserAnswers("id", "session-123").set(WhyAreYouMakingThisOnshoreDisclosurePage, set).success.value
+      navigator.nextPage(
+        WhyAreYouMakingThisOnshoreDisclosurePage,
+        CheckMode,
+        userAnswers,
+        hasAnswerChanged = false
+      ) mustBe
+        routes.CheckYourAnswersController.onPageLoad
+    }
+
+    "must go from WhatOnshoreLiabilitiesDoYouNeedToDisclosePage in CheckMode to normal route when answer changed" in {
+      val set: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set(CorporationTax)
+      val userAnswers                                         =
+        UserAnswers("id", "session-123").set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, set).success.value
+      navigator.nextPage(
+        WhatOnshoreLiabilitiesDoYouNeedToDisclosePage,
+        CheckMode,
+        userAnswers,
+        hasAnswerChanged = true
+      ) mustBe
+        routes.CorporationTaxLiabilityController.onPageLoad(0, NormalMode)
+    }
+
+    "must go from WhatOnshoreLiabilitiesDoYouNeedToDisclosePage in CheckMode to CYA when answer not changed" in {
+      val set: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] = Set(CorporationTax)
+      val userAnswers                                         =
+        UserAnswers("id", "session-123").set(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, set).success.value
+      navigator.nextPage(
+        WhatOnshoreLiabilitiesDoYouNeedToDisclosePage,
+        CheckMode,
+        userAnswers,
+        hasAnswerChanged = false
+      ) mustBe
+        routes.CheckYourAnswersController.onPageLoad
+    }
+
+    "must go from AccountingPeriodCTAddedPage in CheckMode to next page when true" in {
+      val userAnswers = (for {
+        ua  <- UserAnswers("id", "session-123").set(
+                 WhatOnshoreLiabilitiesDoYouNeedToDisclosePage,
+                 Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose](CorporationTax)
+               )
+        ua2 <- ua.set(CorporationTaxLiabilityPage, Seq())
+        ua3 <- ua2.set(AccountingPeriodCTAddedPage, true)
+      } yield ua3).success.value
+      navigator.nextPage(AccountingPeriodCTAddedPage, CheckMode, userAnswers) mustBe
+        routes.CorporationTaxLiabilityController.onPageLoad(0, NormalMode)
+    }
+
+    "must go from AccountingPeriodCTAddedPage in CheckMode to CYA when false" in {
+      val userAnswers = UserAnswers("id", "session-123").set(AccountingPeriodCTAddedPage, false).success.value
+      navigator.nextPage(AccountingPeriodCTAddedPage, CheckMode, userAnswers) mustBe
+        routes.CheckYourAnswersController.onPageLoad
+    }
+
+    "must go from AccountingPeriodDLAddedPage in CheckMode to next page when true" in {
+      val directorLoan = DirectorLoanAccountLiabilities(
+        name = "Test",
+        periodEnd = java.time.LocalDate.now(),
+        overdrawn = BigInt(0),
+        unpaidTax = BigInt(0),
+        interest = BigInt(0),
+        penaltyRate = 0,
+        penaltyRateReason = "reason"
+      )
+      val userAnswers  = (for {
+        ua  <- UserAnswers("id", "session-123").set(DirectorLoanAccountLiabilitiesPage, Seq(directorLoan))
+        ua2 <- ua.set(AccountingPeriodDLAddedPage, true)
+      } yield ua2).success.value
+      navigator.nextPage(AccountingPeriodDLAddedPage, CheckMode, userAnswers) mustBe
+        routes.DirectorLoanAccountLiabilitiesController.onPageLoad(1, NormalMode)
+    }
+
+    "must go from AccountingPeriodDLAddedPage in CheckMode to CYA when false" in {
+      val userAnswers = UserAnswers("id", "session-123").set(AccountingPeriodDLAddedPage, false).success.value
+      navigator.nextPage(AccountingPeriodDLAddedPage, CheckMode, userAnswers) mustBe
+        routes.CheckYourAnswersController.onPageLoad
+    }
+
+    "must go from NotIncludedSingleTaxYearPage to NotIncludedSingleTaxYearController when no years set" in {
+      navigator.nextPage(NotIncludedSingleTaxYearPage, NormalMode, UserAnswers("id", "session-123")) mustBe
+        routes.NotIncludedSingleTaxYearController.onPageLoad(NormalMode)
+    }
+
+    "must go from NotIncludedMultipleTaxYearsPage to NotIncludedMultipleTaxYearsController when no years set" in {
+      navigator.nextPage(NotIncludedMultipleTaxYearsPage, NormalMode, UserAnswers("id", "session-123")) mustBe
+        routes.NotIncludedMultipleTaxYearsController.onPageLoad(NormalMode)
+    }
   }
 
   private def getFullDisclosure(onshoreCompleted: Boolean = false): FullDisclosure = {
@@ -1257,5 +1756,4 @@ class OnshoreNavigatorSpec extends SpecBase with CurrentTaxYear with MockitoSuga
       userId = ""
     )
   }
-
 }

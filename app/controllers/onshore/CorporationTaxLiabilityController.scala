@@ -18,14 +18,19 @@ package controllers.onshore
 
 import controllers.actions._
 import forms.CorporationTaxLiabilityFormProvider
+
 import javax.inject.Inject
 import models.Mode
+import models.UserAnswers
+import models.WhyYouSubmittedAnInaccurateOnshoreReturn.ReasonableMistake
 import navigation.OnshoreNavigator
 import pages.CorporationTaxLiabilityPage
+import pages.onshore.WhyDidYouNotFileAReturnOnTimeOnshorePage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
+import utils.onshore.ReasonableExcuseHelper
 import views.html.onshore.CorporationTaxLiabilityView
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -44,24 +49,29 @@ class CorporationTaxLiabilityController @Inject() (
     extends FrontendBaseController
     with I18nSupport {
 
-  def form = formProvider()
-
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
+      val showPenaltySection = ReasonableExcuseHelper.showPenaltyWhenNotReasonableExcuse(request.userAnswers)
+      val form               = formProvider(showPenaltySection)
+
       val preparedForm = request.userAnswers.getBySeqIndex(CorporationTaxLiabilityPage, i) match {
         case None        => form
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode, i))
+      Ok(view(preparedForm, mode, i, showPenaltySection))
+
   }
 
   def onSubmit(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
+      val showPenaltySection = ReasonableExcuseHelper.showPenaltyWhenNotReasonableExcuse(request.userAnswers)
+      val form               = formProvider(showPenaltySection)
+
       form
         .bindFromRequest()
         .fold(
-          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i))),
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i, showPenaltySection))),
           value =>
             for {
               updatedAnswers <- Future.fromTry(request.userAnswers.setBySeqIndex(CorporationTaxLiabilityPage, i, value))

@@ -25,7 +25,7 @@ class TaxYearLiabilitiesFormProviderSpec
     with BigDecimalFieldBehaviours
     with StringFieldBehaviours {
 
-  val form = new TaxYearLiabilitiesFormProvider()()
+  val form = new TaxYearLiabilitiesFormProvider()(true)
 
   Seq(
     "chargeableTransfers",

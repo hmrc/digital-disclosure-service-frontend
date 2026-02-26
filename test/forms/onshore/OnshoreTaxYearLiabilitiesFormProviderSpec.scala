@@ -26,15 +26,18 @@ class OnshoreTaxYearLiabilitiesFormProviderSpec
     with BigDecimalFieldBehaviours
     with StringFieldBehaviours {
 
-  val formWithNoSelections        = new OnshoreTaxYearLiabilitiesFormProvider()(Set())
+  val formWithNoSelections        = new OnshoreTaxYearLiabilitiesFormProvider()(Set(), true)
   val formWithNonBusinessSelected = new OnshoreTaxYearLiabilitiesFormProvider()(
-    Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.NonBusinessIncome)
+    Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.NonBusinessIncome),
+    true
   )
   val formWithBusinessSelected    = new OnshoreTaxYearLiabilitiesFormProvider()(
-    Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.BusinessIncome)
+    Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.BusinessIncome),
+    true
   )
   val formWithLettingSelected     = new OnshoreTaxYearLiabilitiesFormProvider()(
-    Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome)
+    Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome),
+    true
   )
 
   Seq(

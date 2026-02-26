@@ -17,7 +17,6 @@
 package controllers.offshore
 
 import base.SpecBase
-import controllers.offshore.WhichYearsController
 import forms.WhichYearsFormProvider
 import models.{Behaviour, NormalMode, OffshoreYears, TaxYearStarting, UserAnswers, WhyAreYouMakingThisDisclosure}
 import org.mockito.ArgumentMatchers.any
@@ -49,98 +48,19 @@ class WhichYearsControllerSpec extends SpecBase with MockitoSugar {
     implicit val mess: Messages = messages
     val service                 = application.injector.instanceOf[OffshoreWhichYearsService]
 
-    "return 19" - {
+    "return ReasonableExcuse (5 years) by default" - {
 
-      "when a deliberate behaviour is selected alongside other values" in {
+      "when no Page 2 is answered" in {
         val userAnswers = UserAnswers(userAnswersId, "session-123")
-          .set(WhyAreYouMakingThisDisclosurePage, WhyAreYouMakingThisDisclosure.values.toSet)
-          .success
-          .value
-        controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Deliberate)
+        controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.ReasonableExcuse)
       }
 
-      "when only DidNotNotifyNoExcuse is selected" in {
-        val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DidNotNotifyNoExcuse)
-        val userAnswers                             =
-          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
-        controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Deliberate)
-      }
-
-      "when only DeliberatelyDidNotNotify is selected" in {
-        val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DeliberatelyDidNotNotify)
-        val userAnswers                             =
-          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
-        controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Deliberate)
-      }
-
-      "when only DeliberateInaccurateReturn is selected" in {
-        val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DeliberateInaccurateReturn)
-        val userAnswers                             =
-          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
-        controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Deliberate)
-      }
-
-      "when only DeliberatelyDidNotFile is selected" in {
-        val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DeliberatelyDidNotFile)
-        val userAnswers                             =
-          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
-        controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Deliberate)
-      }
-
-    }
-
-    "return 7" - {
-
-      "when InaccurateReturnNoCare is selected alongside other values" in {
+      "when only new Page 1 values are selected but no Page 2 answered" in {
         val set: Set[WhyAreYouMakingThisDisclosure] = Set(
-          WhyAreYouMakingThisDisclosure.InaccurateReturnNoCare,
-          WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse,
-          WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare,
-          WhyAreYouMakingThisDisclosure.NotFileHasExcuse
+          WhyAreYouMakingThisDisclosure.DidNotNotifyHMRC,
+          WhyAreYouMakingThisDisclosure.DidNotFile,
+          WhyAreYouMakingThisDisclosure.InaccurateReturn
         )
-        val userAnswers                             =
-          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
-        controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Careless)
-      }
-
-      "when only InaccurateReturnNoCare is selected" in {
-        val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.InaccurateReturnNoCare)
-        val userAnswers                             =
-          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
-        controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.Careless)
-      }
-
-    }
-
-    "return 5" - {
-
-      "when all other values are selected" in {
-        val set: Set[WhyAreYouMakingThisDisclosure] = Set(
-          WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse,
-          WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare,
-          WhyAreYouMakingThisDisclosure.NotFileHasExcuse
-        )
-        val userAnswers                             =
-          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
-        controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.ReasonableExcuse)
-      }
-
-      "when only DidNotNotifyHasExcuse is selected" in {
-        val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse)
-        val userAnswers                             =
-          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
-        controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.ReasonableExcuse)
-      }
-
-      "when only InaccurateReturnWithCare is selected" in {
-        val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare)
-        val userAnswers                             =
-          UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
-        controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.ReasonableExcuse)
-      }
-
-      "when only NotFileHasExcuse is selected" in {
-        val set: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.NotFileHasExcuse)
         val userAnswers                             =
           UserAnswers(userAnswersId, "session-123").set(WhyAreYouMakingThisDisclosurePage, set).success.value
         controller.populateChecklist(userAnswers) mustEqual service.checkboxItems(Behaviour.ReasonableExcuse)

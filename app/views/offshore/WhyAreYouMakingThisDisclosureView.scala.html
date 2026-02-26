@@ -38,9 +38,13 @@
 
         @heading(Text(messages("whyAreYouMakingThisDisclosure.heading")))
 
-        @paragraph(id = Some("first-paragraph"), classes = "govuk-inset-text", content = Text(messages(if (areTheyTheIndividual) "whyAreYouMakingThisDisclosure.paragraph.first.you" else "whyAreYouMakingThisDisclosure.paragraph.first")))
+        @paragraph(id = Some("first-paragraph"), content = Text(messages(if (areTheyTheIndividual) "whyAreYouMakingThisDisclosure.paragraph.first.you" else "whyAreYouMakingThisDisclosure.paragraph.first")))
 
-        @paragraph(id = Some("second-paragraph"), content = Text(messages("whyAreYouMakingThisDisclosure.paragraph.second")))
+        @paragraph(id = Some("second-paragraph"), content = Text(messages(if (areTheyTheIndividual) "whyAreYouMakingThisDisclosure.paragraph.second.you" else "whyAreYouMakingThisDisclosure.paragraph.second")))
+
+        @paragraph(id = Some("third-paragraph"), content = Text(messages("whyAreYouMakingThisDisclosure.paragraph.third")))
+
+        <h2 class="govuk-heading-m">@messages("whyAreYouMakingThisDisclosure.heading.question")</h2>
 
         @govukCheckboxes(
             CheckboxesViewModel(
@@ -48,7 +52,7 @@
                 name   = "value",
                 legend = LegendViewModel(messages("whyAreYouMakingThisDisclosure.heading")).withCssClass("govuk-visually-hidden"),
                 items  = WhyAreYouMakingThisDisclosure.checkboxItems(areTheyTheIndividual, entity)
-            )
+            ).withHint(HintViewModel(messages("whyAreYouMakingThisDisclosure.hint")))
         )
 
         @govukButton(

@@ -44,17 +44,6 @@ class MakingNilDisclosureController @Inject() (
     Ok(view(areTheyTheIndividual, entity, years))
   }
 
-  def numberOfYears(ua: UserAnswers): Int =
-    ua.get(WhyAreYouMakingThisOnshoreDisclosurePage) match {
-      case Some(value) =>
-        if (
-          value.contains(DidNotNotifyNoExcuse) || value.contains(DeliberatelyDidNotNotify) || value.contains(
-            DeliberateInaccurateReturn
-          ) || value.contains(DeliberatelyDidNotFile)
-        ) 20
-        else if (value.contains(InaccurateReturnNoCare)) 6
-        else 4
-      case None        => 4
-    }
+  def numberOfYears(ua: UserAnswers): Int = 20
 
 }

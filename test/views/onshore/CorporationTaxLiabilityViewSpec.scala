@@ -25,10 +25,10 @@ import models.NormalMode
 
 class CorporationTaxLiabilityViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form                              = new CorporationTaxLiabilityFormProvider()()
+  val form                              = new CorporationTaxLiabilityFormProvider()(true)
   val page: CorporationTaxLiabilityView = inject[CorporationTaxLiabilityView]
 
-  private def createView: Html = page(form, NormalMode, 0)(request, messages)
+  private def createView: Html = page(form, NormalMode, 0, true)(request, messages)
 
   "view" should {
 

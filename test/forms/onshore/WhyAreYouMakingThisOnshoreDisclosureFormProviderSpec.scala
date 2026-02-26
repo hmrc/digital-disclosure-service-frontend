@@ -17,17 +17,18 @@
 package forms
 
 import forms.behaviours.CheckboxFieldBehaviours
-import models.WhyAreYouMakingThisOnshoreDisclosure
+import forms.onshore.WhyAreYouMakingThisOnshoreDisclosureFormProvider
+import models.{RelatesTo, WhyAreYouMakingThisOnshoreDisclosure}
 import play.api.data.FormError
 
 class WhyAreYouMakingThisOnshoreDisclosureFormProviderSpec extends CheckboxFieldBehaviours {
 
-  val form = new WhyAreYouMakingThisOnshoreDisclosureFormProvider()()
+  val form = new WhyAreYouMakingThisOnshoreDisclosureFormProvider()(false, RelatesTo.AnIndividual)
 
   ".value" - {
 
     val fieldName   = "value"
-    val requiredKey = "whyAreYouMakingThisDisclosure.error.required"
+    val requiredKey = "whyAreYouMakingThisDisclosure.individual.error.required"
 
     behave like checkboxField[WhyAreYouMakingThisOnshoreDisclosure](
       form,

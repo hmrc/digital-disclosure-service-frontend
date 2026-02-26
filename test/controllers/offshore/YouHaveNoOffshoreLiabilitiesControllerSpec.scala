@@ -34,9 +34,7 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
       val areTheyTheIndividual                        = AreYouTheEntity.YesIAm
       val entity                                      = RelatesTo.AnIndividual
       val reasons: Set[WhyAreYouMakingThisDisclosure] = Set(
-        WhyAreYouMakingThisDisclosure.DeliberateInaccurateReturn,
-        WhyAreYouMakingThisDisclosure.InaccurateReturnNoCare,
-        WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare
+        WhyAreYouMakingThisDisclosure.InaccurateReturn
       )
 
       val userAnswers = (for {
@@ -66,9 +64,7 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
       val areTheyTheIndividual                        = AreYouTheEntity.IAmAnAccountantOrTaxAgent
       val entity                                      = RelatesTo.AnIndividual
       val reasons: Set[WhyAreYouMakingThisDisclosure] = Set(
-        WhyAreYouMakingThisDisclosure.DeliberateInaccurateReturn,
-        WhyAreYouMakingThisDisclosure.InaccurateReturnNoCare,
-        WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare
+        WhyAreYouMakingThisDisclosure.InaccurateReturn
       )
 
       val userAnswers = (for {
@@ -98,9 +94,7 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
       val areTheyTheIndividual                        = AreYouTheEntity.IAmAnAccountantOrTaxAgent
       val entity                                      = RelatesTo.ACompany
       val reasons: Set[WhyAreYouMakingThisDisclosure] = Set(
-        WhyAreYouMakingThisDisclosure.DeliberateInaccurateReturn,
-        WhyAreYouMakingThisDisclosure.InaccurateReturnNoCare,
-        WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare
+        WhyAreYouMakingThisDisclosure.InaccurateReturn
       )
 
       val userAnswers = (for {
@@ -124,63 +118,5 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
       contentAsString(result) mustEqual view(entityString, entity, year)(request, messages).toString
     }
 
-    "must return OK and the correct view with 2022 year for a GET for an Entity different from individual" in {
-
-      val entityString                                = "other"
-      val areTheyTheIndividual                        = AreYouTheEntity.IAmAnAccountantOrTaxAgent
-      val entity                                      = RelatesTo.ACompany
-      val reasons: Set[WhyAreYouMakingThisDisclosure] = Set(
-        WhyAreYouMakingThisDisclosure.InaccurateReturnNoCare,
-        WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare
-      )
-
-      val userAnswers = (for {
-        uaEntity     <- UserAnswers(userAnswersId, "session-123").set(RelatesToPage, entity)
-        uaIndividual <- uaEntity.set(AreYouTheEntityPage, areTheyTheIndividual)
-        updatedUa    <- uaIndividual.set(WhyAreYouMakingThisDisclosurePage, reasons)
-      } yield updatedUa).success.value
-
-      setupMockSessionResponse(Some(userAnswers))
-
-      val request = FakeRequest(GET, routes.YouHaveNoOffshoreLiabilitiesController.onPageLoad.url)
-
-      val result = route(application, request).value
-
-      val service = application.injector.instanceOf[OffshoreWhichYearsService]
-      val year    = service.getEarliestYearByBehaviour(Behaviour.Careless).toString
-
-      val view = application.injector.instanceOf[YouHaveNoOffshoreLiabilitiesView]
-
-      status(result) mustEqual OK
-      contentAsString(result) mustEqual view(entityString, entity, year)(request, messages).toString
-    }
-
-    "must return OK and the correct view with 2021 year for a GET for an Entity different from individual" in {
-
-      val entityString                                = "other"
-      val areTheyTheIndividual                        = AreYouTheEntity.IAmAnAccountantOrTaxAgent
-      val entity                                      = RelatesTo.ACompany
-      val reasons: Set[WhyAreYouMakingThisDisclosure] = Set(WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare)
-
-      val userAnswers = (for {
-        uaEntity     <- UserAnswers(userAnswersId, "session-123").set(RelatesToPage, entity)
-        uaIndividual <- uaEntity.set(AreYouTheEntityPage, areTheyTheIndividual)
-        updatedUa    <- uaIndividual.set(WhyAreYouMakingThisDisclosurePage, reasons)
-      } yield updatedUa).success.value
-
-      setupMockSessionResponse(Some(userAnswers))
-
-      val request = FakeRequest(GET, routes.YouHaveNoOffshoreLiabilitiesController.onPageLoad.url)
-
-      val result = route(application, request).value
-
-      val service = application.injector.instanceOf[OffshoreWhichYearsService]
-      val year    = service.getEarliestYearByBehaviour(Behaviour.ReasonableExcuse).toString
-
-      val view = application.injector.instanceOf[YouHaveNoOffshoreLiabilitiesView]
-
-      status(result) mustEqual OK
-      contentAsString(result) mustEqual view(entityString, entity, year)(request, messages).toString
-    }
   }
 }

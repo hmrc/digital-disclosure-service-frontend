@@ -28,7 +28,7 @@ class DirectorLoanAccountLiabilitiesFormProviderSpec
     with BigDecimalFieldBehaviours
     with StringFieldBehaviours {
 
-  val form = new DirectorLoanAccountLiabilitiesFormProvider()()
+  val form = new DirectorLoanAccountLiabilitiesFormProvider()(true)
 
   ".name" - {
 

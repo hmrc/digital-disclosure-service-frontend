@@ -27,6 +27,8 @@
     govukCharacterCount:GovukCharacterCount,
     hmrcCharacterCount: HmrcCharacterCount,
     paragraph: components.paragraph,
+    bulletParagraph: components.bulletParagraph,
+    bulletList: components.bulletList,
     link: components.link,
     heading: components.heading,
     tasklistLink: components.tasklistLink
@@ -36,9 +38,9 @@
 
 @layout(pageTitle = title(form, 
                             if(areTheyTheIndividual){
-                                messages("whatIsYourReasonableExcuse.entity.title")
+                                messages("whatIsYourReasonableExcuse.you.title")
                             } else {
-                                messages("whatIsYourReasonableExcuse.agent.title")
+                                messages("whatIsYourReasonableExcuse.notYou.title")
                             }    
                         )
         ) {
@@ -51,9 +53,9 @@
 
         @heading(Text(
             if(areTheyTheIndividual){
-                messages("whatIsYourReasonableExcuse.entity.heading")
+                messages("whatIsYourReasonableExcuse.you.heading")
             } else {
-                messages("whatIsYourReasonableExcuse.agent.heading")
+                messages("whatIsYourReasonableExcuse.notYou.heading")
             }
         ))
 
@@ -68,6 +70,30 @@
             )
         )
 
+        @paragraph(
+            id = Some("second-paragraph"),
+            content = Text(
+                if(areTheyTheIndividual){
+                    messages("whatIsYourReasonableExcuse.you.excuse.p2")
+                } else {
+                    messages(s"whatIsYourReasonableExcuse.notYou.excuse.p2")
+                }
+            )
+        )
+
+        @bulletParagraph(
+            id = Some("bullet-heading"),
+            content = Text(messages("whatIsYourReasonableExcuse.excuse.bulletH1"))
+        )
+
+        @bulletList(
+            elements = Seq(
+            Text(messages("whatIsYourReasonableExcuse.excuse.bullet1")),
+            Text(messages(if(areTheyTheIndividual) "whatIsYourReasonableExcuse.you.excuse.bullet2" else "whatIsYourReasonableExcuse.notYou.excuse.bullet2")),
+            Text(messages(if(areTheyTheIndividual) "whatIsYourReasonableExcuse.you.excuse.bullet3" else "whatIsYourReasonableExcuse.notYou.excuse.bullet3")),
+            Text(messages(if(areTheyTheIndividual) "whatIsYourReasonableExcuse.you.excuse.bullet4" else "whatIsYourReasonableExcuse.notYou.excuse.bullet4"))
+            ))
+
         @hmrcCharacterCount(
             CharacterCount(
                 id = "excuse",
@@ -76,11 +102,11 @@
                 label = 
                     Label(content = 
                         if(areTheyTheIndividual){
-                            messages("whatIsYourReasonableExcuse.entity.heading")
+                            messages("whatIsYourReasonableExcuse.you.question")
                         } else {
-                            messages(s"whatIsYourReasonableExcuse.agent.heading")
+                            messages("whatIsYourReasonableExcuse.notYou.question")
                         }
-                    ).withCssClass("govuk-visually-hidden"),
+                    ).withCssClass("govuk-label--m"),
                 value = form("excuse").value,
                 errorMessage = ErrorFluency.errorMessage(form("excuse"))
             )

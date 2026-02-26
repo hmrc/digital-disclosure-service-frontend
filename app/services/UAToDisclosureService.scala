@@ -55,7 +55,7 @@ class UAToDisclosureServiceImpl @Inject() (
 
   def uaToOffshoreLiabilities(userAnswers: UserAnswers): OffshoreLiabilities =
     OffshoreLiabilities(
-      behaviour = userAnswers.get(WhyAreYouMakingThisDisclosurePage),
+      behaviour = buildOffshoreBehaviourFromPage2(userAnswers),
       excuseForNotNotifying = userAnswers.get(WhatIsYourReasonableExcusePage),
       reasonableCare = userAnswers.get(WhatReasonableCareDidYouTakePage),
       excuseForNotFiling = userAnswers.get(WhatIsYourReasonableExcuseForNotFilingReturnPage),
@@ -75,10 +75,12 @@ class UAToDisclosureServiceImpl @Inject() (
       maximumValueOfAssets = userAnswers.get(TheMaximumValueOfAllAssetsPage)
     )
 
-  def uaToOnshoreLiabilities(userAnswers: UserAnswers): Option[OnshoreLiabilities] =
+  def uaToOnshoreLiabilities(userAnswers: UserAnswers): Option[OnshoreLiabilities] = {
+    val behaviour = buildBehaviourFromPage2(userAnswers)
+
     Some(
       OnshoreLiabilities(
-        behaviour = userAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage),
+        behaviour = behaviour,
         excuseForNotNotifying = userAnswers.get(ReasonableExcuseOnshorePage),
         reasonableCare = userAnswers.get(ReasonableCareOnshorePage),
         excuseForNotFiling = userAnswers.get(ReasonableExcuseForNotFilingOnshorePage),
@@ -100,6 +102,77 @@ class UAToDisclosureServiceImpl @Inject() (
         directorLoanAccountLiabilities = userAnswers.get(DirectorLoanAccountLiabilitiesPage)
       )
     )
+  }
+
+  private def buildBehaviourFromPage2(userAnswers: UserAnswers): Option[Set[WhyAreYouMakingThisOnshoreDisclosure]] = {
+    import WhyAreYouMakingThisOnshoreDisclosure._
+    import WhyDidYouNotNotifyOnshore._
+    import WhyDidYouNotFileAReturnOnTimeOnshore._
+    import WhyYouSubmittedAnInaccurateOnshoreReturn._
+    import pages.onshore._
+
+    val behaviours = scala.collection.mutable.Set[WhyAreYouMakingThisOnshoreDisclosure]()
+
+    userAnswers.get(WhyDidYouNotNotifyOnshorePage).foreach { selections =>
+      selections.foreach {
+        case DeliberatelyDidNotNotifyOnshore          => behaviours += DeliberatelyDidNotNotify
+        case ReasonableExcuseOnshore                  => behaviours += DidNotNotifyHasExcuse
+        case NotDeliberatelyNoReasonableExcuseOnshore => behaviours += DidNotNotifyNoExcuse
+      }
+    }
+
+    userAnswers.get(WhyDidYouNotFileAReturnOnTimeOnshorePage).foreach { selections =>
+      selections.foreach {
+        case DeliberatelyWithheldInformation    => behaviours += DeliberatelyDidNotFile
+        case ReasonableExcuse                   => behaviours += NotFileHasExcuse
+        case DidNotWithholdInformationOnPurpose => behaviours += DidNotFileNoExcuse
+      }
+    }
+
+    userAnswers.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).foreach { selections =>
+      selections.foreach {
+        case DeliberatelyInaccurate => behaviours += DeliberateInaccurateReturn
+        case ReasonableMistake      => behaviours += InaccurateReturnWithCare
+        case NoReasonableCare       => behaviours += InaccurateReturnNoCare
+      }
+    }
+
+    if (behaviours.isEmpty) None else Some(behaviours.toSet)
+  }
+
+  private def buildOffshoreBehaviourFromPage2(userAnswers: UserAnswers): Option[Set[WhyAreYouMakingThisDisclosure]] = {
+    import WhyAreYouMakingThisDisclosure._
+
+    val behaviours = scala.collection.mutable.Set[WhyAreYouMakingThisDisclosure]()
+
+    userAnswers.get(WhyDidYouNotNotifyPage).foreach { selections =>
+      selections.foreach {
+        case WhyDidYouNotNotify.DeliberatelyDidNotNotify          => behaviours += DeliberatelyDidNotNotify
+        case WhyDidYouNotNotify.ReasonableExcuse                  => behaviours += DidNotNotifyHasExcuse
+        case WhyDidYouNotNotify.NotDeliberatelyNoReasonableExcuse => behaviours += DidNotNotifyNoExcuse
+      }
+    }
+
+    userAnswers.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).foreach { selections =>
+      selections.foreach {
+        case WhyDidYouNotFileAReturnOnTimeOffshore.DeliberatelyWithheldInformation    =>
+          behaviours += DeliberatelyDidNotFile
+        case WhyDidYouNotFileAReturnOnTimeOffshore.ReasonableExcuse                   => behaviours += NotFileHasExcuse
+        case WhyDidYouNotFileAReturnOnTimeOffshore.DidNotWithholdInformationOnPurpose =>
+          behaviours += DidNotFileNoExcuse
+      }
+    }
+
+    userAnswers.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).foreach { selections =>
+      selections.foreach {
+        case WhyYouSubmittedAnInaccurateReturn.DeliberatelyInaccurate => behaviours += DeliberateInaccurateReturn
+        case WhyYouSubmittedAnInaccurateReturn.ReasonableMistake      => behaviours += InaccurateReturnWithCare
+        case WhyYouSubmittedAnInaccurateReturn.NoReasonableCare       => behaviours += InaccurateReturnNoCare
+      }
+    }
+
+    if (behaviours.isEmpty) None else Some(behaviours.toSet)
+  }
 
   def uaToReasonForDisclosingNow(userAnswers: UserAnswers): ReasonForDisclosingNow =
     ReasonForDisclosingNow(

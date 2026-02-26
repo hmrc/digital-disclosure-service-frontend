@@ -78,11 +78,10 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
         penaltyRateReason = "Reason",
         foreignTaxCredit = false
       )
-      val whySet: Set[WhyAreYouMakingThisDisclosure]      = Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse)
       val yearsSet: Set[OffshoreYears]                    = Set(TaxYearStarting(2012))
       val interpretationSet: Set[YourLegalInterpretation] = Set(YourLegalInterpretation.AnotherIssue)
       val pages                                           = List(
-        PageWithValue(WhyAreYouMakingThisDisclosurePage, whySet),
+        PageWithValue(WhyDidYouNotNotifyPage, Set[WhyDidYouNotNotify](WhyDidYouNotNotify.ReasonableExcuse)),
         PageWithValue(WhatIsYourReasonableExcusePage, WhatIsYourReasonableExcuse("Some excuse", "Some years")),
         PageWithValue(WhatReasonableCareDidYouTakePage, WhatReasonableCareDidYouTake("Some excuse", "Some years")),
         PageWithValue(
@@ -261,7 +260,10 @@ class UAToDisclosureServiceSpec extends AnyWordSpec with Matchers with TryValues
       val whichLiabilitiesSet: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose] =
         Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.BusinessIncome)
       val pages                                                               = List(
-        PageWithValue(WhyAreYouMakingThisOnshoreDisclosurePage, whySet),
+        PageWithValue(
+          WhyDidYouNotNotifyOnshorePage,
+          Set[WhyDidYouNotNotifyOnshore](WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore)
+        ),
         PageWithValue(ReasonableExcuseOnshorePage, ReasonableExcuseOnshore("Some excuse", "Some years")),
         PageWithValue(ReasonableCareOnshorePage, ReasonableCareOnshore("Some excuse", "Some years")),
         PageWithValue(

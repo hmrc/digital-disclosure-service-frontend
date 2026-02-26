@@ -22,7 +22,7 @@ import models.{IncomeOrGainSource, NormalMode, UserAnswers}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.IncomeOrGainSourcePage
+import pages.{IncomeOrGainSourcePage, OtherIncomeOrGainSourcePage}
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
@@ -136,6 +136,67 @@ class IncomeOrGainSourceControllerSpec extends SpecBase with MockitoSugar {
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual controllers.routes.IndexController.onPageLoad.url
+    }
+  }
+  "changedPages logic" - {
+
+    "must return (Nil, true) when SomewhereElse is added" in {
+      val controller  = application.injector.instanceOf[IncomeOrGainSourceController]
+      val userAnswers = UserAnswers(userAnswersId, "session-123")
+        .set(IncomeOrGainSourcePage, Set[IncomeOrGainSource](IncomeOrGainSource.Dividends))
+        .success
+        .value
+
+      val (pages, changed) =
+        controller.changedPages(userAnswers, Set(IncomeOrGainSource.Dividends, IncomeOrGainSource.SomewhereElse))
+      pages mustBe Nil
+      changed mustBe true
+    }
+
+    "must return (List(OtherIncomeOrGainSourcePage), true) when SomewhereElse is removed" in {
+      val controller  = application.injector.instanceOf[IncomeOrGainSourceController]
+      val userAnswers = UserAnswers(userAnswersId, "session-123")
+        .set(
+          IncomeOrGainSourcePage,
+          Set[IncomeOrGainSource](IncomeOrGainSource.Dividends, IncomeOrGainSource.SomewhereElse)
+        )
+        .success
+        .value
+
+      val (pages, changed) = controller.changedPages(userAnswers, Set(IncomeOrGainSource.Dividends))
+      pages must contain(OtherIncomeOrGainSourcePage)
+      changed mustBe true
+    }
+
+    "must return (Nil, true) when value changes but SomewhereElse not involved" in {
+      val controller  = application.injector.instanceOf[IncomeOrGainSourceController]
+      val userAnswers = UserAnswers(userAnswersId, "session-123")
+        .set(IncomeOrGainSourcePage, Set[IncomeOrGainSource](IncomeOrGainSource.Dividends))
+        .success
+        .value
+
+      val (pages, changed) = controller.changedPages(userAnswers, Set(IncomeOrGainSource.Interest))
+      pages mustBe Nil
+      changed mustBe true
+    }
+
+    "must return (Nil, false) when no previous answer exists" in {
+      val controller       = application.injector.instanceOf[IncomeOrGainSourceController]
+      val (pages, changed) = controller.changedPages(emptyUserAnswers, Set(IncomeOrGainSource.Dividends))
+      pages mustBe Nil
+      changed mustBe false
+    }
+
+    "must return (Nil, false) when value is unchanged" in {
+      val controller  = application.injector.instanceOf[IncomeOrGainSourceController]
+      val userAnswers = UserAnswers(userAnswersId, "session-123")
+        .set(IncomeOrGainSourcePage, Set[IncomeOrGainSource](IncomeOrGainSource.Dividends))
+        .success
+        .value
+
+      val (pages, changed) = controller.changedPages(userAnswers, Set(IncomeOrGainSource.Dividends))
+      pages mustBe Nil
+      changed mustBe false
     }
   }
 }

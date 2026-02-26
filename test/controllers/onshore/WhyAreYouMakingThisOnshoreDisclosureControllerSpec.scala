@@ -17,13 +17,13 @@
 package controllers.onshore
 
 import base.SpecBase
-import controllers.onshore.WhyAreYouMakingThisOnshoreDisclosureController
-import forms.WhyAreYouMakingThisOnshoreDisclosureFormProvider
+import forms.onshore.WhyAreYouMakingThisOnshoreDisclosureFormProvider
 import models.{AreYouTheEntity, NormalMode, RelatesTo, UserAnswers, WhyAreYouMakingThisOnshoreDisclosure}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages._
+import pages.onshore.WhyDidYouNotFileAReturnOnTimeOnshorePage
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
@@ -39,7 +39,7 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
     routes.WhyAreYouMakingThisOnshoreDisclosureController.onPageLoad(NormalMode).url
 
   val formProvider = new WhyAreYouMakingThisOnshoreDisclosureFormProvider()
-  val form         = formProvider()
+  val form         = formProvider(true, RelatesTo.AnIndividual)
 
   "WhyAreYouMakingThisOnshoreDisclosure Controller" - {
 
@@ -173,48 +173,18 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
     }
   }
 
-  "getPages" - {
+  "return all Page 2 pages regardless of selections" in {
+    val result = WhyAreYouMakingThisOnshoreDisclosureController.getPages(Set.empty)
 
-    "return deliberate pages when a deliberate option was not selected" in {
-      val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(
-        WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHasExcuse,
-        WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnWithCare,
-        WhyAreYouMakingThisOnshoreDisclosure.NotFileHasExcuse,
-        WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnNoCare
-      )
-      val expectedPages                                  = List(CDFOnshorePage, TaxBeforeNineteenYearsOnshorePage)
-      WhyAreYouMakingThisOnshoreDisclosureController.getPages(set) mustEqual expectedPages
-    }
-
-    "return tax before five years page when all options other than InaccurateReturnNoCare was selected" in {
-      val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(
-        WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnNoCare
-      )
-      val expectedPages                                  = List(
-        CDFOnshorePage,
-        TaxBeforeNineteenYearsOnshorePage,
-        ReasonableExcuseOnshorePage,
-        ReasonableCareOnshorePage,
-        ReasonableExcuseForNotFilingOnshorePage,
-        TaxBeforeThreeYearsOnshorePage
-      )
-      WhyAreYouMakingThisOnshoreDisclosureController.getPages(set) mustEqual expectedPages
-    }
-
-    "return all pages other than the deliberate ones where only a deliberate excuse is now selected" in {
-      val set: Set[WhyAreYouMakingThisOnshoreDisclosure] = Set(
-        WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyNoExcuse
-      )
-      val expectedPages                                  = List(
-        ReasonableExcuseOnshorePage,
-        ReasonableCareOnshorePage,
-        ReasonableExcuseForNotFilingOnshorePage,
-        TaxBeforeThreeYearsOnshorePage,
-        TaxBeforeFiveYearsOnshorePage
-      )
-      WhyAreYouMakingThisOnshoreDisclosureController.getPages(set) mustEqual expectedPages
-    }
-
+    result must contain allOf (
+      WhyDidYouNotNotifyOnshorePage,
+      ReasonableExcuseOnshorePage,
+      CDFOnshorePage,
+      WhyDidYouNotFileAReturnOnTimeOnshorePage,
+      ReasonableExcuseForNotFilingOnshorePage,
+      WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+      ReasonableCareOnshorePage
+    )
   }
 
 }

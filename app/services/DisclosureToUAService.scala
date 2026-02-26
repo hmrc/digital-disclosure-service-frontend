@@ -86,7 +86,6 @@ class DisclosureToUAServiceImpl @Inject() (
     import offshoreLiabilities._
 
     val pages = List(
-      behaviour.map(PageWithValue(WhyAreYouMakingThisDisclosurePage, _)),
       excuseForNotNotifying.map(PageWithValue(WhatIsYourReasonableExcusePage, _)),
       reasonableCare.map(PageWithValue(WhatReasonableCareDidYouTakePage, _)),
       excuseForNotFiling.map(PageWithValue(WhatIsYourReasonableExcuseForNotFilingReturnPage, _)),
@@ -119,7 +118,6 @@ class DisclosureToUAServiceImpl @Inject() (
     import liabilities._
 
     val pages = List(
-      behaviour.map(PageWithValue(WhyAreYouMakingThisOnshoreDisclosurePage, _)),
       excuseForNotNotifying.map(PageWithValue(ReasonableExcuseOnshorePage, _)),
       reasonableCare.map(PageWithValue(ReasonableCareOnshorePage, _)),
       excuseForNotFiling.map(PageWithValue(ReasonableExcuseForNotFilingOnshorePage, _)),

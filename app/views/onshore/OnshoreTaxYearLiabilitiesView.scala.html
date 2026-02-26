@@ -32,7 +32,7 @@
     link: components.link
 )
 
-@(form: Form[_], mode: Mode, index: Int, startYear: Int, taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose])(implicit request: RequestHeader, messages: Messages)
+@(form: Form[_], mode: Mode, index: Int, startYear: Int, taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose], showPenaltySection: Boolean)(implicit request: RequestHeader, messages: Messages)
 
 @layout(pageTitle = title(form, messages("onshoreTaxYearLiabilities.title", startYear.toString, (startYear+1).toString))) {
 
@@ -140,27 +140,29 @@
             .withWidth(Fixed10)
         )
 
-        @govukInput(
-            InputViewModel(
-                field = form("penaltyRate"),
-                label = LabelViewModel(messages("onshoreTaxYearLiabilities.penaltyRate.question", (startYear+1).toString)).withCssClass("govuk-label--m")
+        @if(showPenaltySection) {
+            @govukInput(
+                InputViewModel(
+                    field = form("penaltyRate"),
+                    label = LabelViewModel(messages("onshoreTaxYearLiabilities.penaltyRate.question", (startYear+1).toString)).withCssClass("govuk-label--m")
+                )
+                .withSuffix(PrefixOrSuffix(content = Text("%")))
+                .withHint(Hint(content = Text(messages("onshoreTaxYearLiabilities.penaltyRate.hint"))))
+                .asNumeric()
+                .withWidth(Fixed10)
             )
-            .withSuffix(PrefixOrSuffix(content = Text("%")))
-            .withHint(Hint(content = Text(messages("onshoreTaxYearLiabilities.penaltyRate.hint"))))
-            .asNumeric()
-            .withWidth(Fixed10)
-        )
 
-        @hmrcCharacterCount(
-            CharacterCount(
-                id = "penaltyRateReason",
-                name = "penaltyRateReason",
-                maxLength = Some(5000), 
-                label = Label(content = messages("onshoreTaxYearLiabilities.penaltyRateReason.question")).withCssClass("govuk-label--m"),
-                value = form("penaltyRateReason").value,
-                errorMessage = ErrorFluency.errorMessage(form("penaltyRateReason"))
+            @hmrcCharacterCount(
+                CharacterCount(
+                    id = "penaltyRateReason",
+                    name = "penaltyRateReason",
+                    maxLength = Some(5000),
+                    label = Label(content = messages("onshoreTaxYearLiabilities.penaltyRateReason.question")).withCssClass("govuk-label--m"),
+                    value = form("penaltyRateReason").value,
+                    errorMessage = ErrorFluency.errorMessage(form("penaltyRateReason"))
+                )
             )
-        )
+        }
 
         @hmrcCharacterCount(
             CharacterCount(

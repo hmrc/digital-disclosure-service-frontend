@@ -14,20 +14,26 @@
  * limitations under the License.
  */
 
-package forms
+package forms.onshore
 
 import javax.inject.Inject
-
 import forms.mappings.Mappings
 import play.api.data.Form
 import play.api.data.Forms.set
-import models.WhyAreYouMakingThisOnshoreDisclosure
+import models.{RelatesTo, WhyAreYouMakingThisOnshoreDisclosure}
 
 class WhyAreYouMakingThisOnshoreDisclosureFormProvider @Inject() extends Mappings {
 
-  def apply(): Form[Set[WhyAreYouMakingThisOnshoreDisclosure]] =
+  def apply(areTheyTheIndividual: Boolean, entity: RelatesTo): Form[Set[WhyAreYouMakingThisOnshoreDisclosure]] = {
+    val requiredErrorKey =
+      if (areTheyTheIndividual) {
+        "whyAreYouMakingThisDisclosure.you.error.required"
+      } else {
+        s"whyAreYouMakingThisDisclosure.$entity.error.required"
+      }
     Form(
-      "value" -> set(enumerable[WhyAreYouMakingThisOnshoreDisclosure]("whyAreYouMakingThisDisclosure.error.required"))
-        .verifying(nonEmptySet("whyAreYouMakingThisDisclosure.error.required"))
+      "value" -> set(enumerable[WhyAreYouMakingThisOnshoreDisclosure](requiredErrorKey))
+        .verifying(nonEmptySet(requiredErrorKey))
     )
+  }
 }

@@ -27,6 +27,7 @@ import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
+import utils.onshore.ReasonableExcuseHelper
 import views.html.onshore.DirectorLoanAccountLiabilitiesView
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -45,24 +46,28 @@ class DirectorLoanAccountLiabilitiesController @Inject() (
     extends FrontendBaseController
     with I18nSupport {
 
-  val form = formProvider()
+  def form(showPenaltySection: Boolean) = formProvider(showPenaltySection)
 
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
+      val showPenaltySection = ReasonableExcuseHelper.showPenaltyWhenNotReasonableExcuse(request.userAnswers)
+
       val preparedForm = request.userAnswers.getBySeqIndex(DirectorLoanAccountLiabilitiesPage, i) match {
-        case None        => form
-        case Some(value) => form.fill(value)
+        case None        => form(showPenaltySection)
+        case Some(value) => form(showPenaltySection).fill(value)
       }
 
-      Ok(view(preparedForm, mode, i))
+      Ok(view(preparedForm, mode, i, showPenaltySection))
   }
 
   def onSubmit(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-      form
+      val showPenaltySection = ReasonableExcuseHelper.showPenaltyWhenNotReasonableExcuse(request.userAnswers)
+
+      form(showPenaltySection)
         .bindFromRequest()
         .fold(
-          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i))),
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i, showPenaltySection))),
           value =>
             for {
               updatedAnswers <-

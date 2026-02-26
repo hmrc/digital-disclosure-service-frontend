@@ -35,6 +35,7 @@ import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.mvc.Call
 import play.api.test.FakeRequest
+import repositories.SessionRepository
 import services.{AddressLookupService, SessionService}
 
 import scala.concurrent.Future
@@ -50,13 +51,18 @@ trait SpecBase
     with BeforeAndAfterEach
     with BeforeAndAfterAll {
 
+  private var appInstances: List[Application] = List.empty
+
   override protected def beforeEach(): Unit = {
     reset(mockSessionService)
     reset(mockAddressLookupService)
+    reset(mockSessionRepository)
   }
 
-  override protected def afterAll(): Unit =
-    application.stop()
+  override protected def afterAll(): Unit = {
+    appInstances.foreach(_.stop())
+    appInstances = List.empty
+  }
 
   val userAnswersId: String = "id"
   val sessionId             = "session-123"
@@ -65,6 +71,10 @@ trait SpecBase
 
   val mockSessionService: SessionService             = mock[SessionService]
   val mockAddressLookupService: AddressLookupService = mock[AddressLookupService]
+  val mockSessionRepository: SessionRepository       = mock[SessionRepository]
+
+  when(mockSessionRepository.set(any())).thenReturn(Future.successful(true))
+  when(mockSessionRepository.get(any(), any())).thenReturn(Future.successful(None))
 
   def setupMockSessionResponse(userAnswers: Option[UserAnswers] = None): OngoingStubbing[Future[Option[UserAnswers]]] =
     when(mockSessionService.getSession(any(), any())(any())).thenReturn(Future.successful(userAnswers))
@@ -74,52 +84,87 @@ trait SpecBase
     bind[IdentifierAction].to[FakeIdentifierAction],
     bind[DataRetrievalAction].to[DataRetrievalActionImpl],
     bind[SessionService].toInstance(mockSessionService),
+    bind[SessionRepository].toInstance(mockSessionRepository), // ✅ Mock repository to avoid MongoDB
     bind[InternalAuthTokenInitialiser].to[NoOpInternalAuthTokenInitialiser],
     bind[AddressLookupService].toInstance(mockAddressLookupService)
   )
-  val application: Application                    = applicationBuilder.build()
 
-  def applicationWithFakeLettingNavigator(onwardRoute: Call): Application = applicationBuilder
-    .overrides(
-      bind[LettingNavigator].toInstance(new FakeLettingNavigator(onwardRoute))
-    )
-    .build()
+  // ✅ Changed from val to def - creates fresh instance each time
+  def application: Application = {
+    val app = applicationBuilder.build()
+    appInstances = app :: appInstances
+    app
+  }
 
-  def applicationWithFakeLiabilitiesNavigator(onwardRoute: Call): Application = applicationBuilder
-    .overrides(
-      bind[OtherLiabilitiesNavigator].toInstance(new FakeOtherLiabilitiesNavigator(onwardRoute))
-    )
-    .build()
+  def applicationWithFakeLettingNavigator(onwardRoute: Call): Application = {
+    val app = applicationBuilder
+      .overrides(
+        bind[LettingNavigator].toInstance(new FakeLettingNavigator(onwardRoute))
+      )
+      .build()
+    appInstances = app :: appInstances
+    app
+  }
 
-  def applicationWithFakeNavigator(onwardRoute: Call): Application = applicationBuilder
-    .overrides(
-      bind[Navigator].toInstance(new FakeNavigator(onwardRoute))
-    )
-    .build()
+  def applicationWithFakeLiabilitiesNavigator(onwardRoute: Call): Application = {
+    val app = applicationBuilder
+      .overrides(
+        bind[OtherLiabilitiesNavigator].toInstance(new FakeOtherLiabilitiesNavigator(onwardRoute))
+      )
+      .build()
+    appInstances = app :: appInstances
+    app
+  }
 
-  def applicationWithFakeOnshoreNavigator(onwardRoute: Call): Application = applicationBuilder
-    .overrides(
-      bind[OnshoreNavigator].toInstance(new FakeOnshoreNavigator(onwardRoute))
-    )
-    .build()
+  def applicationWithFakeNavigator(onwardRoute: Call): Application = {
+    val app = applicationBuilder
+      .overrides(
+        bind[Navigator].toInstance(new FakeNavigator(onwardRoute))
+      )
+      .build()
+    appInstances = app :: appInstances
+    app
+  }
 
-  def applicationWithFakeOffshoreNavigator(onwardRoute: Call): Application = applicationBuilder
-    .overrides(
-      bind[OffshoreNavigator].toInstance(new FakeOffshoreNavigator(onwardRoute))
-    )
-    .build()
+  def applicationWithFakeOnshoreNavigator(onwardRoute: Call): Application = {
+    val app = applicationBuilder
+      .overrides(
+        bind[OnshoreNavigator].toInstance(new FakeOnshoreNavigator(onwardRoute))
+      )
+      .build()
+    appInstances = app :: appInstances
+    app
+  }
 
-  def applicationWithFakeNotificationNavigator(onwardRoute: Call): Application = applicationBuilder
-    .overrides(
-      bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
-    )
-    .build()
+  def applicationWithFakeOffshoreNavigator(onwardRoute: Call): Application = {
+    val app = applicationBuilder
+      .overrides(
+        bind[OffshoreNavigator].toInstance(new FakeOffshoreNavigator(onwardRoute))
+      )
+      .build()
+    appInstances = app :: appInstances
+    app
+  }
 
-  def applicationWithFakeReasonNavigator(onwardRoute: Call): Application = applicationBuilder
-    .overrides(
-      bind[ReasonNavigator].toInstance(new FakeReasonNavigator(onwardRoute))
-    )
-    .build()
+  def applicationWithFakeNotificationNavigator(onwardRoute: Call): Application = {
+    val app = applicationBuilder
+      .overrides(
+        bind[NotificationNavigator].toInstance(new FakeNotificationNavigator(onwardRoute))
+      )
+      .build()
+    appInstances = app :: appInstances
+    app
+  }
+
+  def applicationWithFakeReasonNavigator(onwardRoute: Call): Application = {
+    val app = applicationBuilder
+      .overrides(
+        bind[ReasonNavigator].toInstance(new FakeReasonNavigator(onwardRoute))
+      )
+      .build()
+    appInstances = app :: appInstances
+    app
+  }
 
   val messages: Messages = application.injector.instanceOf[MessagesApi].preferred(FakeRequest())
 }
