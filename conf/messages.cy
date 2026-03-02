@@ -960,6 +960,12 @@ whyAreYouMakingThisDisclosure.hint = Dewiswch yr holl opsiynau sy'''n berthnasol
 
 whyAreYouMakingThisDisclosure.checkYourAnswersLabel = Rheswm
 whyAreYouMakingThisDisclosure.error.required = Dewiswch y rheswm dros wneud y datgeliad hwn
+whyAreYouMakingThisDisclosure.you.error.required = Dewiswch y rheswm dros wneud y datgeliad hwn
+whyAreYouMakingThisDisclosure.individual.error.required = Dewiswch y rheswm dros wneud y datgeliad hwn
+whyAreYouMakingThisDisclosure.company.error.required = Dewiswch y rheswm dros wneud y datgeliad hwn
+whyAreYouMakingThisDisclosure.llp.error.required = Dewiswch y rheswm dros wneud y datgeliad hwn
+whyAreYouMakingThisDisclosure.trust.error.required = Dewiswch y rheswm dros wneud y datgeliad hwn
+whyAreYouMakingThisDisclosure.estate.error.required = Dewiswch y rheswm dros wneud y datgeliad hwn
 whyAreYouMakingThisDisclosure.change.hidden = Rheswm
 
 whyAreYouMakingThisDisclosure.you.didNotNotifyHMRC = Ni wnes i roi gwybod i CThEF am rwymedigaeth treth

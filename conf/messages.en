@@ -1048,6 +1048,13 @@ whyAreYouMakingThisDisclosure.estate.didNotNotifyHMRC = The person who died did 
 whyAreYouMakingThisDisclosure.estate.didNotFile = The person who died did not file a tax return on time
 whyAreYouMakingThisDisclosure.estate.inaccurateReturn = The person who died submitted an inaccurate return
 
+whyAreYouMakingThisDisclosure.you.error.required = Select the reason for making this disclosure
+whyAreYouMakingThisDisclosure.individual.error.required = Select the reason for making this disclosure
+whyAreYouMakingThisDisclosure.company.error.required = Select the reason for making this disclosure
+whyAreYouMakingThisDisclosure.llp.error.required = Select the reason for making this disclosure
+whyAreYouMakingThisDisclosure.trust.error.required = Select the reason for making this disclosure
+whyAreYouMakingThisDisclosure.estate.error.required = Select the reason for making this disclosure
+
 whyDidYouNotNotify.title.you = Why you did not notify HMRC about a tax liability
 whyDidYouNotNotify.heading.you = Why you did not notify HMRC about a tax liability
 whyDidYouNotNotify.title.individual = Why the individual did not notify HMRC about a tax liability
