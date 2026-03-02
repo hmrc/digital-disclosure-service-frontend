@@ -50,7 +50,7 @@ messages(s"whyDidYouNotNotify.title.${entity}")
 }
 ))
 
-@paragraph(id = Some("first-paragraph"), content = Text(messages(s"whyDidYouNotNotify.paragraph.first.${entity}")))
+@paragraph(id = Some("first-paragraph"), content = Text(messages(if(areTheyTheIndividual){ "whyDidYouNotNotify.paragraph.first.you" } else { s"whyDidYouNotNotify.paragraph.first.${entity}" })))
 @paragraph(id = Some("second-paragraph"), content = Text(messages("whyDidYouNotNotify.paragraph.second")))
 @paragraph(id = Some("third-paragraph"), content = Text(messages("whyDidYouNotNotify.paragraph.third")))
 

@@ -38,7 +38,7 @@
 
         @heading(Text(if(areTheyTheIndividual){messages("whyDidYouNotFileAReturnOnTime.you.heading")} else {messages(s"whyDidYouNotFileAReturnOnTime.$entity.heading")}))
 
-        @paragraph(id = Some("first-paragraph"), content = Text(messages(s"whyDidYouNotFileAReturnOnTime.paragraph.first.$entity")))
+        @paragraph(id = Some("first-paragraph"), content = Text(messages(if(areTheyTheIndividual){"whyDidYouNotFileAReturnOnTime.paragraph.first.you"} else {s"whyDidYouNotFileAReturnOnTime.paragraph.first.$entity"})))
 
         @paragraph(id = Some("second-paragraph"), content = Text(messages("whyDidYouNotFileAReturnOnTime.paragraph.second")))
 
@@ -48,8 +48,7 @@
             CheckboxesViewModel(
                 form   = form,
                 name   = "value",
-                legend = LegendViewModel(messages(s"whyDidYouNotFileAReturnOnTime.$entity.describeOption")).withCssClass("govuk-fieldset__legend--m"),
-                items  = WhyDidYouNotFileAReturnOnTimeOnshore.checkboxItems(areTheyTheIndividual, entity)
+                legend = LegendViewModel(messages(if(areTheyTheIndividual){"whyDidYouNotFileAReturnOnTime.you.describeOption"} else {s"whyDidYouNotFileAReturnOnTime.$entity.describeOption"})).withCssClass("govuk-fieldset__legend--m"),                  items  = WhyDidYouNotFileAReturnOnTimeOnshore.checkboxItems(areTheyTheIndividual, entity)
             ).withHint(
              Hint(content = Text(messages(s"whyDidYouNotFileAReturnOnTime.hint")))
             )
