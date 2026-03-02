@@ -50,11 +50,9 @@ class OffshoreNavigator @Inject() () {
       ua =>
         val page1Selections = ua.get(WhyAreYouMakingThisDisclosurePage).getOrElse(Set.empty)
 
-        if (page1Selections.contains(DidNotFile) && ua.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).isEmpty) {
+        if (page1Selections.contains(DidNotFile)) {
           routes.WhyDidYouNotFileAReturnOnTimeOffshoreController.onPageLoad(NormalMode)
-        } else if (
-          page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).isEmpty
-        ) {
+        } else if (page1Selections.contains(InaccurateReturn)) {
           routes.WhyYouSubmittedAnInaccurateReturnController.onPageLoad(NormalMode)
         } else if (hasAnyDeliberate(ua)) {
           routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)
@@ -71,9 +69,7 @@ class OffshoreNavigator @Inject() () {
       ua =>
         val page1Selections = ua.get(WhyAreYouMakingThisDisclosurePage).getOrElse(Set.empty)
 
-        if (
-          page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).isEmpty
-        ) {
+        if (page1Selections.contains(InaccurateReturn)) {
           routes.WhyYouSubmittedAnInaccurateReturnController.onPageLoad(NormalMode)
         } else if (hasAnyDeliberate(ua)) {
           routes.ContractualDisclosureFacilityController.onPageLoad(NormalMode)

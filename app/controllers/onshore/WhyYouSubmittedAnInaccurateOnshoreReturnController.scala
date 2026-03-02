@@ -33,17 +33,17 @@ import views.html.onshore.WhyYouSubmittedAnInaccurateOnshoreReturnView
 import scala.concurrent.{ExecutionContext, Future}
 
 class WhyYouSubmittedAnInaccurateOnshoreReturnController @Inject() (
-                                                                     override val messagesApi: MessagesApi,
-                                                                     sessionService: SessionService,
-                                                                     navigator: OnshoreNavigator,
-                                                                     identify: IdentifierAction,
-                                                                     getData: DataRetrievalAction,
-                                                                     requireData: DataRequiredAction,
-                                                                     formProvider: WhyYouSubmittedAnInaccurateOnshoreReturnFormProvider,
-                                                                     val controllerComponents: MessagesControllerComponents,
-                                                                     view: WhyYouSubmittedAnInaccurateOnshoreReturnView
-                                                                   )(implicit ec: ExecutionContext)
-  extends FrontendBaseController
+  override val messagesApi: MessagesApi,
+  sessionService: SessionService,
+  navigator: OnshoreNavigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: WhyYouSubmittedAnInaccurateOnshoreReturnFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: WhyYouSubmittedAnInaccurateOnshoreReturnView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
     with I18nSupport {
 
   private def getErrorKey(areTheyTheIndividual: Boolean, entity: RelatesTo): String =
@@ -88,9 +88,9 @@ class WhyYouSubmittedAnInaccurateOnshoreReturnController @Inject() (
   }
 
   def changedPages(
-                    answers: UserAnswers,
-                    value: Set[WhyYouSubmittedAnInaccurateOnshoreReturn]
-                  ): (List[QuestionPage[_]], Boolean) =
+    answers: UserAnswers,
+    value: Set[WhyYouSubmittedAnInaccurateOnshoreReturn]
+  ): (List[QuestionPage[_]], Boolean) =
     answers.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage) match {
       case Some(reasons) if reasons != value =>
         (WhyYouSubmittedAnInaccurateOnshoreReturnController.getPages(value), true)
@@ -120,9 +120,9 @@ class WhyYouSubmittedAnInaccurateOnshoreReturnController @Inject() (
   }
 
   case class ClearingCondition(
-                                selections: Set[WhyYouSubmittedAnInaccurateOnshoreReturn],
-                                pagesToClear: List[QuestionPage[_]]
-                              ) {
+    selections: Set[WhyYouSubmittedAnInaccurateOnshoreReturn],
+    pagesToClear: List[QuestionPage[_]]
+  ) {
     def isConditionMet(reasons: Set[WhyYouSubmittedAnInaccurateOnshoreReturn]): Boolean =
       reasons.intersect(selections).isEmpty
   }

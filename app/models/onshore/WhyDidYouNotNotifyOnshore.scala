@@ -37,7 +37,7 @@ object WhyDidYouNotNotifyOnshore extends Enumerable.Implicits {
   val values: Seq[WhyDidYouNotNotifyOnshore] = Seq(
     NotDeliberatelyNoReasonableExcuseOnshore,
     ReasonableExcuseOnshore,
-    DeliberatelyDidNotNotifyOnshore,
+    DeliberatelyDidNotNotifyOnshore
   )
 
   def checkboxItems(areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit messages: Messages): Seq[CheckboxItem] =
@@ -51,10 +51,10 @@ object WhyDidYouNotNotifyOnshore extends Enumerable.Implicits {
     }
 
   def constructMessageKey(
-                           value: WhyDidYouNotNotifyOnshore,
-                           areTheyTheIndividual: Boolean,
-                           entity: RelatesTo
-                         ) =
+    value: WhyDidYouNotNotifyOnshore,
+    areTheyTheIndividual: Boolean,
+    entity: RelatesTo
+  ) =
     if (areTheyTheIndividual) {
       s"whyDidYouNotNotify.you.${value.toString}"
     } else if (entity == RelatesTo.AnEstate) {

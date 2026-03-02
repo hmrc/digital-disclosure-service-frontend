@@ -55,11 +55,9 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
       ua =>
         val page1Selections = ua.get(WhyAreYouMakingThisOnshoreDisclosurePage).getOrElse(Set.empty)
 
-        if (page1Selections.contains(DidNotFile) && ua.get(WhyDidYouNotFileAReturnOnTimeOnshorePage).isEmpty) {
+        if (page1Selections.contains(DidNotFile)) {
           routes.WhyDidYouNotFileAReturnOnTimeOnshoreController.onPageLoad(NormalMode)
-        } else if (
-          page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).isEmpty
-        ) {
+        } else if (page1Selections.contains(InaccurateReturn)) {
           routes.WhyYouSubmittedAnInaccurateOnshoreReturnController.onPageLoad(NormalMode)
         } else if (hasAnyDeliberate(ua)) {
           routes.CDFOnshoreController.onPageLoad(NormalMode)
@@ -76,9 +74,7 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
       ua =>
         val page1Selections = ua.get(WhyAreYouMakingThisOnshoreDisclosurePage).getOrElse(Set.empty)
 
-        if (
-          page1Selections.contains(InaccurateReturn) && ua.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).isEmpty
-        ) {
+        if (page1Selections.contains(InaccurateReturn)) {
           routes.WhyYouSubmittedAnInaccurateOnshoreReturnController.onPageLoad(NormalMode)
         } else if (hasAnyDeliberate(ua)) {
           routes.CDFOnshoreController.onPageLoad(NormalMode)

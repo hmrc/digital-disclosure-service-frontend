@@ -25,8 +25,9 @@ import models.{RelatesTo, WhyAreYouMakingThisOnshoreDisclosure}
 class WhyAreYouMakingThisOnshoreDisclosureFormProvider @Inject() extends Mappings {
 
   def apply(areTheyTheIndividual: Boolean, entity: RelatesTo): Form[Set[WhyAreYouMakingThisOnshoreDisclosure]] = {
-    val errorKey = if (areTheyTheIndividual) "whyAreYouMakingThisDisclosure.you.error.required"
-    else s"whyAreYouMakingThisDisclosure.${entity.toString}.error.required"
+    val errorKey =
+      if (areTheyTheIndividual) "whyAreYouMakingThisDisclosure.you.error.required"
+      else s"whyAreYouMakingThisDisclosure.${entity.toString}.error.required"
     Form(
       "value" -> set(enumerable[WhyAreYouMakingThisOnshoreDisclosure](errorKey))
         .verifying(nonEmptySet(errorKey))

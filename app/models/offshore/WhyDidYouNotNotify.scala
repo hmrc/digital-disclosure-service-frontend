@@ -48,10 +48,10 @@ object WhyDidYouNotNotify extends Enumerable.Implicits {
     }
 
   def constructMessageKey(
-                           value: WhyDidYouNotNotify,
-                           areTheyTheIndividual: Boolean,
-                           entity: RelatesTo
-                         ) =
+    value: WhyDidYouNotNotify,
+    areTheyTheIndividual: Boolean,
+    entity: RelatesTo
+  ) =
     if (areTheyTheIndividual) {
       s"whyDidYouNotNotify.you.${value.toString}"
     } else if (entity == RelatesTo.AnEstate) {
