@@ -39,7 +39,7 @@ class WhyYouSubmittedAnInaccurateOnshoreReturnControllerSpec extends SpecBase wi
     routes.WhyYouSubmittedAnInaccurateOnshoreReturnController.onPageLoad(NormalMode).url
 
   val formProvider = new WhyYouSubmittedAnInaccurateOnshoreReturnFormProvider()
-  val form         = formProvider("WhyYouSubmittedAnInaccurateReturn.error.required.individual")
+  val form = formProvider("WhyYouSubmittedAnInaccurateReturn.error.required.you")
 
   "WhyYouSubmittedAnInaccurateOnshoreReturn Controller" - {
 

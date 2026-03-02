@@ -39,7 +39,7 @@ class WhyYouSubmittedAnInaccurateReturnControllerSpec extends SpecBase with Mock
     routes.WhyYouSubmittedAnInaccurateReturnController.onPageLoad(NormalMode).url
 
   val formProvider = new WhyYouSubmittedAnInaccurateOffshoreReturnFormProvider()
-  val form         = formProvider("whyYouSubmittedAnInaccurateReturn.error.required")
+  val form = formProvider("WhyYouSubmittedAnInaccurateReturn.error.required.you")
 
   "WhyYouSubmittedAnInaccurateReturn Controller" - {
 
