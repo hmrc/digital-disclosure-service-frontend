@@ -40,7 +40,7 @@ object WhyDidYouNotNotify extends Enumerable.Implicits {
   def checkboxItems(areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit messages: Messages): Seq[CheckboxItem] =
     values.zipWithIndex.map { case (value, index) =>
       CheckboxItemViewModel(
-        content = Text(messages(constructMessageKey(value, areTheyTheIndividual))),
+        content = Text(messages(constructMessageKey(value, areTheyTheIndividual, entity))),
         fieldId = "value",
         index = index,
         value = value.toString
@@ -49,10 +49,13 @@ object WhyDidYouNotNotify extends Enumerable.Implicits {
 
   def constructMessageKey(
     value: WhyDidYouNotNotify,
-    areTheyTheIndividual: Boolean
+    areTheyTheIndividual: Boolean,
+    entity: RelatesTo
   ) =
     if (areTheyTheIndividual) {
       s"whyDidYouNotNotify.you.${value.toString}"
+    } else if (entity == RelatesTo.AnEstate) {
+      s"whyDidYouNotNotify.estate.${value.toString}"
     } else {
       s"whyDidYouNotNotify.notYou.${value.toString}"
     }

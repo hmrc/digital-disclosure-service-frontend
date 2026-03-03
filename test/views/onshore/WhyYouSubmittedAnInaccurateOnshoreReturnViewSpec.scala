@@ -25,7 +25,9 @@ import views.html.onshore.WhyYouSubmittedAnInaccurateOnshoreReturnView
 
 class WhyYouSubmittedAnInaccurateOnshoreReturnViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form                                               = new WhyYouSubmittedAnInaccurateOnshoreReturnFormProvider()()
+  val form                                               = new WhyYouSubmittedAnInaccurateOnshoreReturnFormProvider()(
+    "WhyYouSubmittedAnInaccurateReturn.error.required.individual"
+  )
   val page: WhyYouSubmittedAnInaccurateOnshoreReturnView = inject[WhyYouSubmittedAnInaccurateOnshoreReturnView]
 
   private def createViewAsIndividual: Html = page(form, NormalMode, true, RelatesTo.AnIndividual)(request, messages)

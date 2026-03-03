@@ -156,32 +156,33 @@ class CheckYourAnswersViewModelCreation @Inject() (
         case _           => Nil
       }
 
-    val penaltyRows = if (showPenaltySection)
-      Seq(
-        rowCase(
-          i,
-          "taxYearLiabilities.penaltyRate.checkYourAnswersLabel",
-          messages("site.2DP", liabilities.penaltyRate) + "%",
-          "taxYearLiabilities.penaltyRate.hidden",
-          OFFSHORE,
-          revealFullText,
-          false
-        ),
-        totalRow(
-          "taxYearLiabilities.penaltyAmount.checkYourAnswersLabel",
-          messages("site.2DP", penaltyAmount(liabilities))
-        ),
-        rowCase(
-          i,
-          "onshoreTaxYearLiabilities.penaltyRateReason",
-          s"${liabilities.penaltyRateReason}",
-          "onshoreTaxYearLiabilities.penaltyRateReason.hidden",
-          OFFSHORE,
-          revealFullText,
-          true
+    val penaltyRows =
+      if (showPenaltySection)
+        Seq(
+          rowCase(
+            i,
+            "taxYearLiabilities.penaltyRate.checkYourAnswersLabel",
+            messages("site.2DP", liabilities.penaltyRate) + "%",
+            "taxYearLiabilities.penaltyRate.hidden",
+            OFFSHORE,
+            revealFullText,
+            false
+          ),
+          totalRow(
+            "taxYearLiabilities.penaltyAmount.checkYourAnswersLabel",
+            messages("site.2DP", penaltyAmount(liabilities))
+          ),
+          rowCase(
+            i,
+            "onshoreTaxYearLiabilities.penaltyRateReason",
+            s"${liabilities.penaltyRateReason}",
+            "onshoreTaxYearLiabilities.penaltyRateReason.hidden",
+            OFFSHORE,
+            revealFullText,
+            true
+          )
         )
-      )
-    else Seq.empty
+      else Seq.empty
 
     val rows = Seq(
       poundRowCase(

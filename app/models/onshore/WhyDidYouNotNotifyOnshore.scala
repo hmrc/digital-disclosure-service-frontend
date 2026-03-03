@@ -16,6 +16,7 @@
 
 package models
 
+import models.WhyDidYouNotNotifyOnshore.DeliberatelyDidNotNotifyOnshore
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.checkboxes.CheckboxItem
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
@@ -34,15 +35,15 @@ object WhyDidYouNotNotifyOnshore extends Enumerable.Implicits {
       with WhyDidYouNotNotifyOnshore
 
   val values: Seq[WhyDidYouNotNotifyOnshore] = Seq(
-    DeliberatelyDidNotNotifyOnshore,
+    NotDeliberatelyNoReasonableExcuseOnshore,
     ReasonableExcuseOnshore,
-    NotDeliberatelyNoReasonableExcuseOnshore
+    DeliberatelyDidNotNotifyOnshore
   )
 
   def checkboxItems(areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit messages: Messages): Seq[CheckboxItem] =
     values.zipWithIndex.map { case (value, index) =>
       CheckboxItemViewModel(
-        content = Text(messages(constructMessageKey(value, areTheyTheIndividual))),
+        content = Text(messages(constructMessageKey(value, areTheyTheIndividual, entity))),
         fieldId = "value",
         index = index,
         value = value.toString
@@ -51,10 +52,13 @@ object WhyDidYouNotNotifyOnshore extends Enumerable.Implicits {
 
   def constructMessageKey(
     value: WhyDidYouNotNotifyOnshore,
-    areTheyTheIndividual: Boolean
+    areTheyTheIndividual: Boolean,
+    entity: RelatesTo
   ) =
     if (areTheyTheIndividual) {
       s"whyDidYouNotNotify.you.${value.toString}"
+    } else if (entity == RelatesTo.AnEstate) {
+      s"whyDidYouNotNotify.estate.${value.toString}"
     } else {
       s"whyDidYouNotNotify.notYou.${value.toString}"
     }

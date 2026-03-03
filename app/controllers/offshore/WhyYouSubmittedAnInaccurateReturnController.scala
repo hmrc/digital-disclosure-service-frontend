@@ -45,16 +45,19 @@ class WhyYouSubmittedAnInaccurateReturnController @Inject() (
     extends FrontendBaseController
     with I18nSupport {
 
-  val form = formProvider("whyYouSubmittedAnInaccurateReturn.error.required")
+  private def getErrorKey(areTheyTheIndividual: Boolean, entity: RelatesTo): String =
+    if (areTheyTheIndividual) "WhyYouSubmittedAnInaccurateReturn.error.required.you"
+    else s"WhyYouSubmittedAnInaccurateReturn.error.required.${entity.toString.toLowerCase}"
 
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
+    val entity               = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+    val form                 = formProvider(getErrorKey(areTheyTheIndividual, entity))
+
     val preparedForm = request.userAnswers.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage) match {
       case None        => form
       case Some(value) => form.fill(value)
     }
-
-    val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
-    val entity               = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
 
     Ok(view(preparedForm, mode, areTheyTheIndividual, entity))
   }
@@ -63,6 +66,7 @@ class WhyYouSubmittedAnInaccurateReturnController @Inject() (
     implicit request =>
       val areTheyTheIndividual = request.userAnswers.isTheUserTheIndividual
       val entity               = request.userAnswers.get(RelatesToPage).getOrElse(RelatesTo.AnIndividual)
+      val form                 = formProvider(getErrorKey(areTheyTheIndividual, entity))
 
       form
         .bindFromRequest()
