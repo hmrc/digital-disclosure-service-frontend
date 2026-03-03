@@ -101,9 +101,11 @@ class OnshoreTaxYearLiabilitiesFormProvider @Inject() extends Mappings {
               "onshoreTaxYearLiabilities.residentialTaxReduction.error.required"
             )
           )
-      )(OnshoreTaxYearLiabilities.apply)(OnshoreTaxYearLiabilities.unapply)
-    )
-
+      )(OnshoreTaxYearLiabilities.apply)(o => Some(
+        o.nonBusinessIncome, o.businessIncome, o.lettingIncome, o.gains,
+        o.unpaidTax, o.niContributions, o.interest, o.penaltyRate,
+        o.penaltyRateReason, o.undeclaredIncomeOrGain, o.residentialTaxReduction
+      ))
   def bigintOptionalUnless(field: String, isRequired: Boolean): Mapping[Option[BigInt]] =
     optional(
       bigintWithPound(
@@ -124,7 +126,7 @@ class OnshoreTaxYearLiabilitiesFormProvider @Inject() extends Mappings {
       .verifying(optionalUnless(true, s"onshoreTaxYearLiabilities.$field.error.required"))
 
   def optionalUnless[A](isRequired: Boolean, errorKey: String): Constraint[Option[A]] =
-    Constraint[Option[A]] { data: Option[A] =>
+    Constraint[Option[A]] { (data: Option[A]) =>
       if (data.isDefined || !isRequired) {
         Valid
       } else {

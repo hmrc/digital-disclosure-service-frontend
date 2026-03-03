@@ -89,7 +89,8 @@ class TaxYearLiabilitiesFormProvider @Inject() extends Mappings {
         },
         "undeclaredIncomeOrGain" -> stringOptionalUnless("undeclaredIncomeOrGain"),
         "foreignTaxCredit"       -> boolean("taxYearLiabilities.foreignTaxCredit.error.required")
-      )(TaxYearLiabilities.apply)(TaxYearLiabilities.unapply)
+      )(TaxYearLiabilities.apply)(o=>Some(o.income, o.chargeableTransfers, o.capitalGains, o.unpaidTax,
+        o.interest, o.penaltyRate, o.penaltyRateReason, o.undeclaredIncomeOrGain, o.foreignTaxCredit))
     )
 
   def stringOptionalUnless(field: String): Mapping[Option[String]] =
@@ -101,7 +102,7 @@ class TaxYearLiabilitiesFormProvider @Inject() extends Mappings {
       .verifying(optionalUnless(true, s"taxYearLiabilities.$field.error.required"))
 
   def optionalUnless[A](isRequired: Boolean, errorKey: String): Constraint[Option[A]] =
-    Constraint[Option[A]] { data: Option[A] =>
+    Constraint[Option[A]] { (data: Option[A]) =>
       if (data.isDefined || !isRequired) {
         Valid
       } else {
