@@ -401,6 +401,48 @@ class OffshoreNavigator @Inject() () {
           if (hasAnswerChanged) nextPage(YourLegalInterpretationPage, NormalMode, ua)
           else routes.CheckYourAnswersController.onPageLoad
 
+    case WhyDidYouNotNotifyPage =>
+      ua =>
+        hasChanged =>
+          if (hasChanged) {
+            val page2aSelections = ua.get(WhyDidYouNotNotifyPage).getOrElse(Set.empty)
+            if (page2aSelections.contains(WhyDidYouNotNotify.ReasonableExcuse)) {
+              routes.WhatIsYourReasonableExcuseController.onPageLoad(CheckMode)
+            } else if (hasAnyDeliberate(ua)) {
+              routes.ContractualDisclosureFacilityController.onPageLoad(CheckMode)
+            } else {
+              routes.CheckYourAnswersController.onPageLoad
+            }
+          } else routes.CheckYourAnswersController.onPageLoad
+
+    case WhyDidYouNotFileAReturnOnTimeOffshorePage =>
+      ua =>
+        hasChanged =>
+          if (hasChanged) {
+            val page2bSelections = ua.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).getOrElse(Set.empty)
+            if (page2bSelections.contains(WhyDidYouNotFileAReturnOnTimeOffshore.ReasonableExcuse)) {
+              routes.WhatIsYourReasonableExcuseForNotFilingReturnController.onPageLoad(CheckMode)
+            } else if (hasAnyDeliberate(ua)) {
+              routes.ContractualDisclosureFacilityController.onPageLoad(CheckMode)
+            } else {
+              routes.CheckYourAnswersController.onPageLoad
+            }
+          } else routes.CheckYourAnswersController.onPageLoad
+
+    case WhyYouSubmittedAnInaccurateOffshoreReturnPage =>
+      ua =>
+        hasChanged =>
+          if (hasChanged) {
+            val page2cSelections = ua.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).getOrElse(Set.empty)
+            if (page2cSelections.contains(WhyYouSubmittedAnInaccurateReturn.ReasonableMistake)) {
+              routes.WhatReasonableCareDidYouTakeController.onPageLoad(CheckMode)
+            } else if (hasAnyDeliberate(ua)) {
+              routes.ContractualDisclosureFacilityController.onPageLoad(CheckMode)
+            } else {
+              routes.CheckYourAnswersController.onPageLoad
+            }
+          } else routes.CheckYourAnswersController.onPageLoad
+
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 

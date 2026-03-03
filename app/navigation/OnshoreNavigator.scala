@@ -543,6 +543,48 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
             case _                              => routes.CheckYourAnswersController.onPageLoad
           }
 
+    case WhyDidYouNotNotifyOnshorePage =>
+      ua =>
+        hasChanged =>
+          if (hasChanged) {
+            val page2aSelections = ua.get(WhyDidYouNotNotifyOnshorePage).getOrElse(Set.empty)
+            if (page2aSelections.contains(WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore)) {
+              routes.ReasonableExcuseOnshoreController.onPageLoad(CheckMode)
+            } else if (hasAnyDeliberate(ua)) {
+              routes.CDFOnshoreController.onPageLoad(CheckMode)
+            } else {
+              routes.CheckYourAnswersController.onPageLoad
+            }
+          } else routes.CheckYourAnswersController.onPageLoad
+
+    case WhyDidYouNotFileAReturnOnTimeOnshorePage =>
+      ua =>
+        hasChanged =>
+          if (hasChanged) {
+            val page2bSelections = ua.get(WhyDidYouNotFileAReturnOnTimeOnshorePage).getOrElse(Set.empty)
+            if (page2bSelections.contains(ReasonableExcuse)) {
+              routes.ReasonableExcuseForNotFilingOnshoreController.onPageLoad(CheckMode)
+            } else if (hasAnyDeliberate(ua)) {
+              routes.CDFOnshoreController.onPageLoad(CheckMode)
+            } else {
+              routes.CheckYourAnswersController.onPageLoad
+            }
+          } else routes.CheckYourAnswersController.onPageLoad
+
+    case WhyYouSubmittedAnInaccurateOnshoreReturnPage =>
+      ua =>
+        hasChanged =>
+          if (hasChanged) {
+            val page2cSelections = ua.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).getOrElse(Set.empty)
+            if (page2cSelections.contains(ReasonableMistake)) {
+              routes.ReasonableCareOnshoreController.onPageLoad(CheckMode)
+            } else if (hasAnyDeliberate(ua)) {
+              routes.CDFOnshoreController.onPageLoad(CheckMode)
+            } else {
+              routes.CheckYourAnswersController.onPageLoad
+            }
+          } else routes.CheckYourAnswersController.onPageLoad
+
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
