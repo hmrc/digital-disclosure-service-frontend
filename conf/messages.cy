@@ -993,6 +993,7 @@ whyAreYouMakingThisDisclosure.company.didNotNotifyHMRC = Ni wnaeth y cwmni roi g
 whyAreYouMakingThisDisclosure.company.didNotFile = Ni chyflwynodd y cwmni Ffurflen Dreth mewn pryd
 whyAreYouMakingThisDisclosure.company.inaccurateReturn = Cyflwynodd y cwmni Ffurflen Dreth wallus
 
+
 # LLP
 whyAreYouMakingThisDisclosure.llp.didNotNotifyHMRC = Ni wnaeth y bartneriaeth atebolrwydd cyfyngedig roi gwybod i CThEF am rwymedigaeth treth
 whyAreYouMakingThisDisclosure.llp.didNotFile = Ni chyflwynodd y bartneriaeth atebolrwydd cyfyngedig Ffurflen Dreth mewn pryd
@@ -1009,8 +1010,8 @@ whyAreYouMakingThisDisclosure.estate.didNotFile = Ni chyflwynodd y person a fu f
 whyAreYouMakingThisDisclosure.estate.inaccurateReturn = Cyflwynodd y person a fu farw Ffurflen Dreth wallus
 
 # ------------ why did you not notify page----------------
-whyDidYouNotNotify.title.you = Pam na wnaethoch roi gwybod i CThEF am rwymedigaeth treth
-whyDidYouNotNotify.heading.you = Pam na wnaethoch roi gwybod i CThEF am rwymedigaeth treth
+whyDidYouNotNotify.title.you = Pam na wnaethoch chi roi gwybod i CThEF am rwymedigaeth treth
+whyDidYouNotNotify.heading.you = Pam na wnaethoch chi roi gwybod i CThEF am rwymedigaeth treth
 whyDidYouNotNotify.title.individual = Pam na wnaeth yr unigolyn roi gwybod i CThEF am rwymedigaeth treth
 whyDidYouNotNotify.heading.individual = Pam na wnaeth yr unigolyn roi gwybod i CThEF am rwymedigaeth treth
 whyDidYouNotNotify.title.company = Pam na wnaeth y cwmni roi gwybod i CThEF am rwymedigaeth treth
@@ -1040,7 +1041,7 @@ whyDidYouNotNotify.estate.notDeliberatelyNoReasonableExcuse = Nid oedd hyn yn fw
 whyDidYouNotNotify.estate.reasonableExcuse = Roedd ganddynt esgus rhesymol
 whyDidYouNotNotify.estate.deliberatelyDidNotNotify = Gwnaethon nhw fethu'n fwriadol i roi gwybod i CThEF am rwymedigaeth treth
 
-whyDidYouNotNotify.h1.you = Pa opsiynau sy'''n disgrifio pam na wnaethoch chi roi gwybod i CThEF am rwymedigaeth treth?
+whyDidYouNotNotify.h1.you = Pa opsiynau sy'''n disgrifio pam na wnaethoch roi gwybod i CThEF am rwymedigaeth treth?
 whyDidYouNotNotify.h1.individual = Pa opsiynau sy’n disgrifio pam na wnaeth yr unigolyn roi gwybod i CThEF am rwymedigaeth treth?
 whyDidYouNotNotify.h1.company = Pa opsiynau sy’n disgrifio pam na wnaeth y cwmni roi gwybod i CThEF am rwymedigaeth treth?
 whyDidYouNotNotify.h1.llp = Pa opsiynau sy’n disgrifio pam na wnaeth y bartneriaeth atebolrwydd cyfyngedig roi gwybod i CThEF am rwymedigaeth treth?
