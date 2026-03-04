@@ -57,7 +57,7 @@
           }
         ))
 
-        @paragraph(id = Some("first-paragraph"), content = Text(messages(s"WhyYouSubmittedAnInaccurateReturn.paragraph.first.$entity")))
+        @paragraph(id = Some("first-paragraph"), content = Text(messages(s"WhyYouSubmittedAnInaccurateReturn.paragraph.first.${if(areTheyTheIndividual) "you" else entity.toString}")))
 
         @paragraph(id = Some("second-paragraph"), content = Text(messages("WhyYouSubmittedAnInaccurateReturn.paragraph.second")))
 
@@ -71,7 +71,7 @@
             legend = LegendViewModel(messages(s"WhyYouSubmittedAnInaccurateReturn.${entity}.checkboxes.heading"))
               .withCssClass("govuk-fieldset__legend--m"),
             items  = WhyYouSubmittedAnInaccurateReturn.checkboxItems(areTheyTheIndividual, entity))
-              .withHint(Hint(content = Text(messages("WhyYouSubmittedAnInaccurateReturn.checkboxes.hint")))
+              .withHint(Hint(content = Text(messages(s"WhyYouSubmittedAnInaccurateReturn.checkboxes.hint.${if(areTheyTheIndividual) "you" else entity.toString}")))
           )
         )
 
