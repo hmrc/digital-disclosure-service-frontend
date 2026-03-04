@@ -61,7 +61,7 @@
 
     @paragraph(
       id = Some("first-paragraph"),
-      content = Text(messages(s"WhyYouSubmittedAnInaccurateReturn.paragraph.first.$entity"))
+      content = Text(messages(s"WhyYouSubmittedAnInaccurateReturn.paragraph.first.${if(areTheyTheIndividual) "you" else entity.toString}"))
     )
 
     @paragraph(id = Some("second-paragraph"), content = Text(messages("WhyYouSubmittedAnInaccurateReturn.paragraph.second")))
