@@ -1309,12 +1309,12 @@ whatIsYourReasonableExcuse.you.title = Eich esgus rhesymol dros beidio â rhoi g
 whatIsYourReasonableExcuse.you.heading = Eich esgus rhesymol dros beidio â rhoi gwybod i CThEF am rwymedigaeth treth
 whatIsYourReasonableExcuse.you.question = Beth yw’ch esgus rhesymol dros beidio â rhoi gwybod i CThEF am rwymedigaeth treth?
 
-whatIsYourReasonableExcuse.notYou.title = Rheswm rhesymol dros beidio â hysbysu CThEF am ddyletswydd dreth
-whatIsYourReasonableExcuse.notYou.heading = Rheswm rhesymol dros beidio â hysbysu CThEF am ddyletswydd dreth
+whatIsYourReasonableExcuse.notYou.title = Esgus rhesymol dros beidio â rhoi gwybod i CThEF am rwymedigaeth treth
+whatIsYourReasonableExcuse.notYou.heading = Esgus rhesymol dros beidio â rhoi gwybod i CThEF am rwymedigaeth treth
 whatIsYourReasonableExcuse.notYou.question = Beth yw’r esgus rhesymol dros beidio â rhoi gwybod i CThEF am rwymedigaeth treth?
 
 whatIsYourReasonableExcuse.you.excuse = Mae esgus rhesymol yn rhywbeth a wnaeth eich rhwystro rhag bodloni ymrwymiad treth er i chi gymryd gofal i’w fodloni.
-whatIsYourReasonableExcuse.individual.excuse = Mae esgus rhesymol yn rhywbeth a wnaeth atal yr unigolyn rhag bodloni ymrwymiad treth y cymerodd ofal rhesymol i’w fodloni.
+whatIsYourReasonableExcuse.individual.excuse = Mae esgus rhesymol yn rhywbeth a wnaeth rhwystro’r unigolyn rhag bodloni ymrwymiad treth er iddo gymryd gofal i’w fodloni.
 whatIsYourReasonableExcuse.company.excuse = Mae esgus rhesymol yn rhywbeth a wnaeth atal y cwmni rhag bodloni ymrwymiad treth y cymerodd ofal rhesymol i’w fodloni.
 whatIsYourReasonableExcuse.llp.excuse = Mae esgus rhesymol yn rhywbeth a wnaeth atal y bartneriaeth atebolrwydd cyfyngedig rhag bodloni ymrwymiad treth y cymerodd ofal rhesymol i’w fodloni.
 whatIsYourReasonableExcuse.trust.excuse = Mae esgus rhesymol yn rhywbeth a wnaeth atal yr ymddiriedolaeth rhag bodloni ymrwymiad treth y cymerodd ofal rhesymol i’w fodloni.
@@ -1330,7 +1330,7 @@ whatIsYourReasonableExcuse.excuse.bulletH1 = Mae’n rhaid i’ch esboniad gynnw
 whatIsYourReasonableExcuse.excuse.bullet1 = sut digwyddodd y methiant
 
 whatIsYourReasonableExcuse.you.excuse.bullet2 = yr hyn y gwnaeth eich atal rhag rhoi gwybod i CThEF am rwymedigaeth treth
-whatIsYourReasonableExcuse.notYou.excuse.bullet2 = beth sydd wedi atal nhw rhag rhoi gwybod i CThEF am ddyled treth
+whatIsYourReasonableExcuse.notYou.excuse.bullet2 = yr hyn y gwnaeth eu hatal rhag rhoi gwybod i CThEF am rwymedigaeth treth
 
 whatIsYourReasonableExcuse.you.excuse.bullet3 = y dyddiadau y dechreuodd eich esgus rhesymol, a’r dyddiad y daeth i ben
 whatIsYourReasonableExcuse.notYou.excuse.bullet3 = y dyddiadau y dechreuodd yr esgus rhesymol, a’r dyddiad y daeth i ben
@@ -1400,7 +1400,7 @@ whatIsYourReasonableExcuseForNotFilingReturn.estate.reasonableExcuse = Mae esgus
 whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.p2.you = Mae’n rhaid i chi allu dangos eich bod wedi bodloni’r ymrwymiad treth heb ormod o oedi ar ôl i’r esgus rhesymol ddod i ben.
 whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.p2.notYou = Mae’n rhaid i chi allu dangos eu bod wedi bodloni’r ymrwymiad treth heb ormod o oedi ar ôl i’r esgus rhesymol ddod i ben.
 
-whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletH1 = Mae’n rhaid i’ch esboniad gynnwys manylion am y canlynol:
+whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletH1 = Mae’n rhaid i’ch esboniad gynnwys manylion am y canlynol
 
 whatIsYourReasonableExcuseForNotFilingReturn.reasonableExcuse.bulletList.first = sut digwyddodd y methiant
 
