@@ -1315,9 +1315,9 @@ whatIsYourReasonableExcuse.notYou.question = Beth yw’r esgus rhesymol dros bei
 
 whatIsYourReasonableExcuse.you.excuse = Mae esgus rhesymol yn rhywbeth a wnaeth eich rhwystro rhag bodloni ymrwymiad treth er i chi gymryd gofal i’w fodloni.
 whatIsYourReasonableExcuse.individual.excuse = Mae esgus rhesymol yn rhywbeth a wnaeth rhwystro’r unigolyn rhag bodloni ymrwymiad treth er iddo gymryd gofal i’w fodloni.
-whatIsYourReasonableExcuse.company.excuse = Mae esgus rhesymol yn rhywbeth a wnaeth atal y cwmni rhag bodloni ymrwymiad treth y cymerodd ofal rhesymol i’w fodloni.
-whatIsYourReasonableExcuse.llp.excuse = Mae esgus rhesymol yn rhywbeth a wnaeth atal y bartneriaeth atebolrwydd cyfyngedig rhag bodloni ymrwymiad treth y cymerodd ofal rhesymol i’w fodloni.
-whatIsYourReasonableExcuse.trust.excuse = Mae esgus rhesymol yn rhywbeth a wnaeth atal yr ymddiriedolaeth rhag bodloni ymrwymiad treth y cymerodd ofal rhesymol i’w fodloni.
+whatIsYourReasonableExcuse.company.excuse = Mae esgus rhesymol yn rhywbeth a wnaeth rhwystro’r cwmni rhag bodloni ymrwymiad treth er iddo gymryd gofal i’w fodloni.
+whatIsYourReasonableExcuse.llp.excuse = Mae esgus rhesymol yn rhywbeth a wnaeth rhwystro’r bartneriaeth atebolrwydd cyfyngedig rhag bodloni ymrwymiad treth er iddi gymryd gofal i’w fodloni.
+whatIsYourReasonableExcuse.trust.excuse = Mae esgus rhesymol yn rhywbeth a wnaeth rhwystro’r ymddiriedolaeth rhag bodloni ymrwymiad treth er iddi gymryd gofal i’w fodloni.
 whatIsYourReasonableExcuse.estate.excuse = Mae esgus rhesymol yn rhywbeth a wnaeth atal y person rhag bodloni ymrwymiad treth y cymerodd ofal rhesymol i’w fodloni.
 
 whatIsYourReasonableExcuse.you.error.excuse.length = Mae’n rhaid i’ch esgus rhesymol fod rhwng 1 a 5,000 o gymeriadau
