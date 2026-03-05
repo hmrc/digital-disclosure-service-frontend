@@ -16,12 +16,14 @@
 
 package services
 
-import models._
+import models.*
 import models.store.Notification
-import models.store.notification._
-import pages._
+import models.store.notification.*
+import pages.*
+
 import scala.util.{Success, Try}
 import com.google.inject.{ImplementedBy, Singleton}
+import models.AreYouRegisteredForVAT.YesButDontKnow
 
 @Singleton
 class NotificationToUAServiceImpl extends NotificationToUAService {

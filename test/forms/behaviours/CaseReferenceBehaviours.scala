@@ -24,7 +24,7 @@ trait CaseReferenceBehaviours extends FieldBehaviours {
     "bind valid CaseReference" in {
 
       val validDataGenerator = generateValidCaseReference()
-      forAll(validDataGenerator -> "validDataItem") { dataItem: String =>
+      forAll(validDataGenerator -> "validDataItem") { (dataItem: String) =>
         val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
         result.value.value mustBe dataItem
         result.errors mustBe empty
@@ -37,7 +37,7 @@ trait CaseReferenceBehaviours extends FieldBehaviours {
 
       val invalidDataGenerator = generateInvalidCaseReference()
 
-      forAll(invalidDataGenerator -> "validDataItem") { dataItem: String =>
+      forAll(invalidDataGenerator -> "validDataItem") { (dataItem: String) =>
         val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
         result.value.value mustBe dataItem
         result.errors must contain only error

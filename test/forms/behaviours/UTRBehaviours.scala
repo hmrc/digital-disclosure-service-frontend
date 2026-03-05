@@ -27,7 +27,7 @@ trait UTRBehaviours extends FieldBehaviours {
 
       val validDataGenerator = generateValidUTR(maxUTRNumberLength)
 
-      forAll(validDataGenerator -> "validDataItem") { dataItem: String =>
+      forAll(validDataGenerator -> "validDataItem") { (dataItem: String) =>
         val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
         result.value.value mustBe dataItem
         result.errors mustBe empty
@@ -40,7 +40,7 @@ trait UTRBehaviours extends FieldBehaviours {
       val error                = FormError(fieldName, keyError)
       val invalidDataGenerator = generateInvalidLengthUTR(maxUTRNumberLength)
 
-      forAll(invalidDataGenerator -> "validDataItem") { dataItem: String =>
+      forAll(invalidDataGenerator -> "validDataItem") { (dataItem: String) =>
         val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
         result.value.value mustBe dataItem
         result.errors must contain only error
@@ -53,7 +53,7 @@ trait UTRBehaviours extends FieldBehaviours {
       val error                = FormError(fieldName, keyError)
       val invalidDataGenerator = generateIllegalCharUTR(maxUTRNumberLength)
 
-      forAll(invalidDataGenerator -> "validDataItem") { dataItem: String =>
+      forAll(invalidDataGenerator -> "validDataItem") { (dataItem: String) =>
         val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
         result.value.value mustBe dataItem
         result.errors must contain only error
