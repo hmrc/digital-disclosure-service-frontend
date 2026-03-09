@@ -31,45 +31,60 @@ object WhyAreYouMakingThisOnshoreDisclosure extends Enumerable.Implicits {
 
   case object DidNotNotifyHasExcuse extends WithName("didNotNotifyHasExcuse") with WhyAreYouMakingThisOnshoreDisclosure
   case object InaccurateReturnWithCare
-      extends WithName("inaccurateReturnWithCare")
+    extends WithName("inaccurateReturnWithCare")
       with WhyAreYouMakingThisOnshoreDisclosure
   case object NotFileHasExcuse extends WithName("notFileHasExcuse") with WhyAreYouMakingThisOnshoreDisclosure
   case object InaccurateReturnNoCare
-      extends WithName("inaccurateReturnNoCare")
+    extends WithName("inaccurateReturnNoCare")
       with WhyAreYouMakingThisOnshoreDisclosure
   case object DidNotNotifyNoExcuse extends WithName("didNotNotifyNoExcuse") with WhyAreYouMakingThisOnshoreDisclosure
   case object DeliberatelyDidNotNotify
-      extends WithName("deliberatelyDidNotNotify")
+    extends WithName("deliberatelyDidNotNotify")
       with WhyAreYouMakingThisOnshoreDisclosure
   case object DeliberateInaccurateReturn
-      extends WithName("deliberateInaccurateReturn")
+    extends WithName("deliberateInaccurateReturn")
       with WhyAreYouMakingThisOnshoreDisclosure
   case object DeliberatelyDidNotFile
-      extends WithName("deliberatelyDidNotFile")
+    extends WithName("deliberatelyDidNotFile")
       with WhyAreYouMakingThisOnshoreDisclosure
   case object DidNotFileNoExcuse extends WithName("didNotFileNoExcuse") with WhyAreYouMakingThisOnshoreDisclosure
 
-  val values: Seq[WhyAreYouMakingThisOnshoreDisclosure] = Seq(
+  val page1Values: Seq[WhyAreYouMakingThisOnshoreDisclosure] = Seq(
     DidNotNotifyHMRC,
     DidNotFile,
     InaccurateReturn
   )
 
+  val values: Seq[WhyAreYouMakingThisOnshoreDisclosure] = Seq(
+    DidNotNotifyHMRC,
+    DidNotFile,
+    InaccurateReturn,
+    DidNotNotifyHasExcuse,
+    InaccurateReturnWithCare,
+    NotFileHasExcuse,
+    InaccurateReturnNoCare,
+    DidNotNotifyNoExcuse,
+    DeliberatelyDidNotNotify,
+    DeliberateInaccurateReturn,
+    DeliberatelyDidNotFile,
+    DidNotFileNoExcuse
+  )
+
   def checkboxItems(areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit messages: Messages): Seq[CheckboxItem] =
-    values.zipWithIndex.map { case (value, index) =>
+    page1Values.zipWithIndex.map { case (value, index) =>
       CheckboxItemViewModel(
         content = Text(messages(constructMessageKey(value, areTheyTheIndividual, entity))),
         fieldId = "value",
-        index = index,
-        value = value.toString
+        index   = index,
+        value   = value.toString
       )
     }
 
   def constructMessageKey(
-    value: WhyAreYouMakingThisOnshoreDisclosure,
-    areTheyTheIndividual: Boolean,
-    entity: RelatesTo
-  ) =
+                           value: WhyAreYouMakingThisOnshoreDisclosure,
+                           areTheyTheIndividual: Boolean,
+                           entity: RelatesTo
+                         ) =
     if (areTheyTheIndividual) {
       s"whyAreYouMakingThisDisclosure.you.${value.toString}"
     } else {
