@@ -36,24 +36,39 @@ object WhyAreYouMakingThisDisclosure extends Enumerable.Implicits {
   case object DidNotNotifyNoExcuse extends WithName("didNotNotifyNoExcuse") with WhyAreYouMakingThisDisclosure
   case object DeliberatelyDidNotNotify extends WithName("deliberatelyDidNotNotify") with WhyAreYouMakingThisDisclosure
   case object DeliberateInaccurateReturn
-      extends WithName("deliberateInaccurateReturn")
+    extends WithName("deliberateInaccurateReturn")
       with WhyAreYouMakingThisDisclosure
   case object DeliberatelyDidNotFile extends WithName("deliberatelyDidNotFile") with WhyAreYouMakingThisDisclosure
   case object DidNotFileNoExcuse extends WithName("didNotFileNoExcuse") with WhyAreYouMakingThisDisclosure
 
-  val values: Seq[WhyAreYouMakingThisDisclosure] = Seq(
+  val page1Values: Seq[WhyAreYouMakingThisDisclosure] = Seq(
     DidNotNotifyHMRC,
     DidNotFile,
     InaccurateReturn
   )
 
+  val values: Seq[WhyAreYouMakingThisDisclosure] = Seq(
+    DidNotNotifyHMRC,
+    DidNotFile,
+    InaccurateReturn,
+    DidNotNotifyHasExcuse,
+    InaccurateReturnWithCare,
+    NotFileHasExcuse,
+    InaccurateReturnNoCare,
+    DidNotNotifyNoExcuse,
+    DeliberatelyDidNotNotify,
+    DeliberateInaccurateReturn,
+    DeliberatelyDidNotFile,
+    DidNotFileNoExcuse
+  )
+
   def checkboxItems(areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit messages: Messages): Seq[CheckboxItem] =
-    values.zipWithIndex.map { case (value, index) =>
+    page1Values.zipWithIndex.map { case (value, index) =>
       CheckboxItemViewModel(
         content = Text(messages(constructMessageKey(value, areTheyTheIndividual, entity))),
         fieldId = "value",
-        index = index,
-        value = value.toString
+        index   = index,
+        value   = value.toString
       )
     }
 
