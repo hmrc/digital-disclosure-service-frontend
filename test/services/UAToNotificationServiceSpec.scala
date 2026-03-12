@@ -201,6 +201,7 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
         PageWithValue(YourEmailAddressPage, "Email address"),
         PageWithValue(WhatIsYourDateOfBirthPage, localDate),
         PageWithValue(WhatIsYourMainOccupationPage, "Occupation"),
+        PageWithValue(HowWouldYouPreferToBeContactedPage, Set()),
         PageWithValue(DoYouHaveNationalInsuranceNumberPage, DoYouHaveNationalInsuranceNumber.YesIKnow),
         PageWithValue(WhatIsYourNationalInsuranceNumberPage, "NINO"),
         PageWithValue(AreYouRegisteredForVATPage, AreYouRegisteredForVAT.YesIKnow),
@@ -216,11 +217,12 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
         emailAddress = Some("Email address"),
         dateOfBirth = Some(localDate),
         mainOccupation = Some("Occupation"),
-        doYouHaveANino = Some(YesNoOrUnsure.Yes),
+        contactPreference=None,
+        doYouHaveANino = None,
         nino = Some("NINO"),
-        registeredForVAT = Some(YesNoOrUnsure.Yes),
+        registeredForVAT = None,
         vatRegNumber = Some("Reg number"),
-        registeredForSA = Some(YesNoOrUnsure.Yes),
+        registeredForSA = None,
         sautr = Some("UTR"),
         address = Some(address)
       )
@@ -260,11 +262,8 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
         fullName = Some("Full name"),
         dateOfBirth = Some(localDate),
         mainOccupation = Some("Occupation"),
-        doTheyHaveANino = Some(YesNoOrUnsure.Yes),
         nino = Some("NINO"),
-        registeredForVAT = Some(YesNoOrUnsure.Yes),
         vatRegNumber = Some("Reg number"),
-        registeredForSA = Some(YesNoOrUnsure.Yes),
         sautr = Some("UTR"),
         address = Some(address)
       )
@@ -298,11 +297,8 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
         fullName = Some("Full name"),
         dateOfBirth = Some(localDate),
         mainOccupation = Some("Occupation"),
-        doTheyHaveANino = Some(YesNoOrUnsure.Yes),
         nino = Some("NINO"),
-        registeredForVAT = Some(YesNoOrUnsure.Yes),
         vatRegNumber = Some("Reg number"),
-        registeredForSA = Some(YesNoOrUnsure.Yes),
         sautr = Some("UTR"),
         address = Some(address)
       )
