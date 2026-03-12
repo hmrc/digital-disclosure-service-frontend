@@ -106,6 +106,7 @@ class OnshoreTaxYearLiabilitiesFormProvider @Inject() extends Mappings {
         o.unpaidTax, o.niContributions, o.interest, o.penaltyRate,
         o.penaltyRateReason, o.undeclaredIncomeOrGain, o.residentialTaxReduction
       ))
+    )
   def bigintOptionalUnless(field: String, isRequired: Boolean): Mapping[Option[BigInt]] =
     optional(
       bigintWithPound(

@@ -91,7 +91,9 @@ class DirectorLoanAccountLiabilitiesFormProvider @Inject() extends Mappings {
         } else {
           ignored("")
         }
-      }(DirectorLoanAccountLiabilities.apply)(o=>Some(o.name, o.periodEnd, o.overdrawn, o.unpaidTax, o.interest,
+      }
+    )(DirectorLoanAccountLiabilities.apply)(o=>Some(o.name, o.periodEnd, o.overdrawn, o.unpaidTax, o.interest,
     o.penaltyRate, o.penaltyRateReason))
   )
+  
 }
