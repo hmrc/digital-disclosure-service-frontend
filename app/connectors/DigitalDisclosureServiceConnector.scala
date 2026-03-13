@@ -25,6 +25,7 @@ import uk.gov.hmrc.http.HttpReads.Implicits.readRaw
 import uk.gov.hmrc.http.client.HttpClientV2
 import uk.gov.hmrc.http.{HeaderCarrier, StringContextOps}
 import com.google.inject.{ImplementedBy, Inject, Singleton}
+import play.api.libs.ws.writeableOf_JsValue
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.control.NoStackTrace

@@ -53,8 +53,8 @@ trait HttpSupport { this: MockFactory with Matchers =>
   }
 
   def mockExecute(httpResponse: Option[HttpResponse]) =
-    (mockRequestBuilder
-      .execute[HttpResponse](_: HttpReads[HttpResponse], _: ExecutionContext))
+    (mockRequestBuilder.execute[HttpResponse]
+      (using  _: HttpReads[HttpResponse], _: ExecutionContext))
       .expects(*, *)
       .returning(
         httpResponse.fold[Future[HttpResponse]](
@@ -65,7 +65,7 @@ trait HttpSupport { this: MockFactory with Matchers =>
   def mockWithBody[B: Writes](requestBody: B) = {
     val jsonBody: JsValue = Json.toJson(requestBody)
     (mockRequestBuilder
-      .withBody(_: JsValue)(_: BodyWritable[JsValue], _: izumi.reflect.Tag[JsValue], _: ExecutionContext))
+      .withBody(_: JsValue)(using  _: BodyWritable[JsValue], _: izumi.reflect.Tag[JsValue], _: ExecutionContext))
       .expects(jsonBody, *, *, *)
       .returning(mockRequestBuilder)
   }

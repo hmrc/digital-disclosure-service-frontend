@@ -26,7 +26,7 @@ trait NationalInsuranceBehaviours extends FieldBehaviours {
 
       val validDataGenerator = nino()
 
-      forAll(validDataGenerator -> "validDataItem") { dataItem: String =>
+      forAll(validDataGenerator -> "validDataItem") { (dataItem: String) =>
         val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
         result.value.value mustBe dataItem
         result.errors mustBe empty
@@ -37,7 +37,7 @@ trait NationalInsuranceBehaviours extends FieldBehaviours {
 
       val validDataGenerator = nino()
 
-      forAll(validDataGenerator -> "validDataItem") { dataItem: String =>
+      forAll(validDataGenerator -> "validDataItem") { (dataItem: String) =>
         val withBlanks = s" $dataItem "
         val result     = form.bind(Map(fieldName -> withBlanks)).apply(fieldName)
         result.value.value mustBe withBlanks
@@ -51,7 +51,7 @@ trait NationalInsuranceBehaviours extends FieldBehaviours {
 
       val invalidDataGenerator = invalidNino()
 
-      forAll(invalidDataGenerator -> "validDataItem") { dataItem: String =>
+      forAll(invalidDataGenerator -> "validDataItem") { (dataItem: String) =>
         val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
         result.errors must contain only validError
       }

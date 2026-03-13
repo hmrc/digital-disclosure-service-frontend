@@ -23,6 +23,7 @@ import play.api.libs.json.{JsError, JsSuccess, Json}
 import uk.gov.hmrc.http.HttpReads.Implicits.readRaw
 import uk.gov.hmrc.http.client.HttpClientV2
 import uk.gov.hmrc.http.{HeaderCarrier, StringContextOps}
+import play.api.libs.ws.JsonBodyWritables.writeableOf_JsValue
 
 import com.google.inject.{ImplementedBy, Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}

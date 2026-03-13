@@ -42,6 +42,6 @@ class WhatReasonableCareDidYouTakeFormProvider @Inject() extends Mappings {
       "yearsThisAppliesTo" -> text("whatReasonableCareDidYouTake.error.yearsThisAppliesTo.required")
         .verifying(maxLength(500, "whatReasonableCareDidYouTake.error.yearsThisAppliesTo.length"))
         .verifying(validUnicodeCharacters)
-    )(WhatReasonableCareDidYouTake.apply)(WhatReasonableCareDidYouTake.unapply)
+    )(WhatReasonableCareDidYouTake.apply)(o=>Some(o.reasonableCare, o.yearsThisAppliesTo))
   )
 }
