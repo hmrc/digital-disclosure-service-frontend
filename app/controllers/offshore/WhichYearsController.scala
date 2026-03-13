@@ -106,10 +106,9 @@ class WhichYearsController @Inject() (
     val isDeliberate =
       notifySelections.contains(WhyDidYouNotNotify.DeliberatelyDidNotNotify) ||
         lateReturnSelections.contains(WhyDidYouNotFileAReturnOnTimeOffshore.DeliberatelyWithheldInformation) ||
-        inaccurateSelections.contains(WhyYouSubmittedAnInaccurateReturn.DeliberatelyInaccurate)
+        inaccurateSelections.contains(WhyYouSubmittedAnInaccurateReturn.DeliberatelyInaccurate) || notifySelections.contains(WhyDidYouNotNotify.NotDeliberatelyNoReasonableExcuse)
 
     val isCareless =
-      notifySelections.contains(WhyDidYouNotNotify.NotDeliberatelyNoReasonableExcuse) ||
         lateReturnSelections.contains(WhyDidYouNotFileAReturnOnTimeOffshore.DidNotWithholdInformationOnPurpose) ||
         inaccurateSelections.contains(WhyYouSubmittedAnInaccurateReturn.NoReasonableCare)
 
