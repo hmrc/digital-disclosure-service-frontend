@@ -211,14 +211,14 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
         PageWithValue(YourAddressLookupPage, address)
       )
       val userAnswers = PageWithValue.pagesToUserAnswers(pages, emptyUA).success.value
-      val expected    = AboutYou(
+      val expected = AboutYou(
         fullName = Some("Full name"),
         telephoneNumber = Some("Phone number"),
         emailAddress = Some("Email address"),
         dateOfBirth = Some(localDate),
         mainOccupation = Some("Occupation"),
-        contactPreference=None,
-        doYouHaveANino = None,
+        contactPreference = Some(ContactPreferences(Set())),
+        doYouHaveANino = Some(YesNoOrUnsure.Yes),
         nino = Some("NINO"),
         registeredForVAT = None,
         vatRegNumber = Some("Reg number"),
