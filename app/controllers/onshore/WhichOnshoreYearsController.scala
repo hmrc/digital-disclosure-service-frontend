@@ -117,7 +117,7 @@ class WhichOnshoreYearsController @Inject() (
     onshoreWhichYearsService.checkboxItems(behaviour)
   }
 
-  def changedPages(userAnswers: UserAnswers, newValue: Set[OnshoreYears]): (List[QuestionPage[_]], Boolean) = {
+  def changedPages(userAnswers: UserAnswers, newValue: Set[OnshoreYears]): (List[QuestionPage[?]], Boolean) = {
     val hasChanged          =
       !userAnswers.get(WhichOnshoreYearsPage).contains(newValue) || !areYearsMissing(userAnswers, newValue)
     val missingYearPageList =

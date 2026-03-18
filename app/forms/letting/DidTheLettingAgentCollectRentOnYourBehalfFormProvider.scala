@@ -17,7 +17,7 @@
 package forms
 
 import javax.inject.Inject
-
+import play.api.i18n.Messages.implicitMessagesProviderToMessages
 import forms.mappings.Mappings
 import play.api.data.Form
 

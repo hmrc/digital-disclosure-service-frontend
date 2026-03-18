@@ -21,6 +21,7 @@ import play.api.data.FieldMapping
 import play.api.data.Forms.of
 import models.Enumerable
 import models.{MonthYear, OffshoreYears, OnshoreYears}
+import play.api.i18n.Messages
 
 trait Mappings extends Formatters with Constraints {
 
@@ -32,7 +33,7 @@ trait Mappings extends Formatters with Constraints {
     wholeNumberKey: String = "error.wholeNumber",
     nonNumericKey: String = "error.nonNumeric",
     args: Seq[String] = Seq.empty
-  ): FieldMapping[Int] =
+  )(using Messages): FieldMapping[Int] =
     of(intFormatter(requiredKey, wholeNumberKey, nonNumericKey, args))
 
   protected def intWithPound(
@@ -40,7 +41,7 @@ trait Mappings extends Formatters with Constraints {
     wholeNumberKey: String = "error.wholeNumber",
     nonNumericKey: String = "error.nonNumeric",
     args: Seq[String] = Seq.empty
-  ): FieldMapping[Int] =
+  )(using Messages): FieldMapping[Int] =
     of(intFormatterWithPound(requiredKey, wholeNumberKey, nonNumericKey, args))
 
   protected def intWithPercentage(
@@ -48,7 +49,7 @@ trait Mappings extends Formatters with Constraints {
     wholeNumberKey: String = "error.wholeNumber",
     nonNumericKey: String = "error.nonNumeric",
     args: Seq[String] = Seq.empty
-  ): FieldMapping[Int] =
+  )(using Messages): FieldMapping[Int] =
     of(intFormatterWithPercentage(requiredKey, wholeNumberKey, nonNumericKey, args))
 
   protected def bigint(
@@ -56,7 +57,7 @@ trait Mappings extends Formatters with Constraints {
     wholeNumberKey: String = "error.wholeNumber",
     nonNumericKey: String = "error.nonNumeric",
     args: Seq[String] = Seq.empty
-  ): FieldMapping[BigInt] =
+  )(using Messages): FieldMapping[BigInt] =
     of(bigintFormatter(requiredKey, wholeNumberKey, nonNumericKey, args))
 
   protected def bigintWithPound(
@@ -64,7 +65,7 @@ trait Mappings extends Formatters with Constraints {
     wholeNumberKey: String = "error.wholeNumber",
     nonNumericKey: String = "error.nonNumeric",
     args: Seq[String] = Seq.empty
-  ): FieldMapping[BigInt] =
+  )(using Messages): FieldMapping[BigInt] =
     of(bigintFormatterWithPound(requiredKey, wholeNumberKey, nonNumericKey, args))
 
   protected def bigintWithPercentage(
@@ -72,32 +73,32 @@ trait Mappings extends Formatters with Constraints {
     wholeNumberKey: String = "error.wholeNumber",
     nonNumericKey: String = "error.nonNumeric",
     args: Seq[String] = Seq.empty
-  ): FieldMapping[BigInt] =
+  )(using Messages): FieldMapping[BigInt] =
     of(bigintFormatterWithPercentage(requiredKey, wholeNumberKey, nonNumericKey, args))
 
   protected def decimal(
     requiredKey: String = "error.required",
     nonNumericKey: String = "error.nonNumeric"
-  ): FieldMapping[BigDecimal] =
+  )(using Messages): FieldMapping[BigDecimal] =
     of(decimalFormatter(requiredKey, nonNumericKey))
 
   protected def decimalWithPound(
     requiredKey: String = "error.required",
     nonNumericKey: String = "error.nonNumeric"
-  ): FieldMapping[BigDecimal] =
+  )(using Messages): FieldMapping[BigDecimal] =
     of(decimalFormatterWithPound(requiredKey, nonNumericKey))
 
   protected def decimalWithPercentage(
     requiredKey: String = "error.required",
     nonNumericKey: String = "error.nonNumeric"
-  ): FieldMapping[BigDecimal] =
+  )(using Messages): FieldMapping[BigDecimal] =
     of(decimalFormatterWithPercentage(requiredKey, nonNumericKey))
 
   protected def boolean(
     requiredKey: String = "error.required",
     invalidKey: String = "error.boolean",
     args: Seq[String] = Seq.empty
-  ): FieldMapping[Boolean] =
+  )(using Messages): FieldMapping[Boolean] =
     of(booleanFormatter(requiredKey, invalidKey, args))
 
   protected def enumerable[A](
@@ -111,14 +112,14 @@ trait Mappings extends Formatters with Constraints {
     requiredKey: String = "error.required",
     invalidKey: String = "error.invalid",
     args: Seq[String] = Seq.empty
-  ): FieldMapping[OffshoreYears] =
+  )(using Messages): FieldMapping[OffshoreYears] =
     of(offshoreYearsFormatter(requiredKey, invalidKey, args))
 
   protected def onshoreYears(
     requiredKey: String = "error.required",
     invalidKey: String = "error.invalid",
     args: Seq[String] = Seq.empty
-  ): FieldMapping[OnshoreYears] =
+  )(using Messages): FieldMapping[OnshoreYears] =
     of(onshoreYearsFormatter(requiredKey, invalidKey, args))
 
   protected def localDate(
@@ -128,7 +129,7 @@ trait Mappings extends Formatters with Constraints {
     invalidDayKey: String,
     invalidMonthKey: String,
     args: Seq[String] = Seq.empty
-  ): FieldMapping[LocalDate] =
+  )(using Messages): FieldMapping[LocalDate] =
     of(new LocalDateFormatter(invalidKey, allRequiredKey, requiredKey, invalidDayKey, invalidMonthKey, args))
 
   protected def monthYear(
@@ -139,7 +140,7 @@ trait Mappings extends Formatters with Constraints {
     futureDateKey: String,
     minimumDateKey: String,
     args: Seq[String] = Seq.empty
-  ): FieldMapping[MonthYear] =
+  )(using Messages): FieldMapping[MonthYear] =
     of(
       new MonthYearFormatter(
         invalidKey,

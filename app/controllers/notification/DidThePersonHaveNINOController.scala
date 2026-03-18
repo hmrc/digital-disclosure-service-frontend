@@ -74,7 +74,7 @@ class DidThePersonHaveNINOController @Inject() (
         )
   }
 
-  def changedPages(existingUserAnswers: UserAnswers, value: DidThePersonHaveNINO): (List[QuestionPage[_]], Boolean) =
+  def changedPages(existingUserAnswers: UserAnswers, value: DidThePersonHaveNINO): (List[QuestionPage[?]], Boolean) =
     existingUserAnswers.get(DidThePersonHaveNINOPage) match {
       case Some(DidThePersonHaveNINO.YesIKnow) if value != DidThePersonHaveNINO.YesIKnow =>
         (List(WhatWasThePersonNINOPage), true)

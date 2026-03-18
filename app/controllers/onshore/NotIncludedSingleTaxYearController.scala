@@ -89,7 +89,7 @@ class NotIncludedSingleTaxYearController @Inject() (
     missingYear: OnshoreYearStarting,
     firstYear: OnshoreYearStarting,
     lastYear: OnshoreYearStarting
-  )(implicit request: DataRequest[_]): Future[Result] = {
+  )(implicit request: DataRequest[?]): Future[Result] = {
     val missingYr: String = (missingYear.toString.toInt + 1).toString
     val firstYr: String   = (firstYear.toString.toInt + 1).toString
     val lastYr: String    = (lastYear.toString.toInt + 1).toString
@@ -107,7 +107,7 @@ class NotIncludedSingleTaxYearController @Inject() (
     missingYear: OnshoreYearStarting,
     firstYear: OnshoreYearStarting,
     lastYear: OnshoreYearStarting
-  )(implicit request: DataRequest[_]): Future[Result] = {
+  )(implicit request: DataRequest[?]): Future[Result] = {
     val missingYr: String = (missingYear.toString.toInt + 1).toString
     val firstYr: String   = (firstYear.toString.toInt + 1).toString
     val lastYr: String    = (lastYear.toString.toInt + 1).toString

@@ -21,11 +21,12 @@ import play.api.Logging
 import play.api.data.{FieldMapping, FormError}
 import play.api.data.format.Formatter
 import play.api.data.Forms._
+import play.api.i18n.Messages
 abstract class CountryConstraints(countries: Countries) extends Formatters with Logging {
 
   private val allowedCountries = countries.countries.map(_.alpha3)
 
-  protected def country(requiredKey: String): FieldMapping[Country] =
+  protected def country(requiredKey: String) (using Messages): FieldMapping[Country] =
     of(countryFormatter(requiredKey))
 
   private def countryFormatter(requiredKey: String): Formatter[Country] = new Formatter[Country] {

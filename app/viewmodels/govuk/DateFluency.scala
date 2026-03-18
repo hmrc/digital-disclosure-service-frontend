@@ -30,7 +30,7 @@ trait DateFluency {
   object DateViewModel extends ErrorMessageAwareness {
 
     def apply(
-      form: Form[_],
+      form: Form[?],
       id: String,
       legend: Legend
     )(implicit messages: Messages): DateInput =
@@ -41,7 +41,7 @@ trait DateFluency {
       )
 
     def apply(
-      form: Form[_],
+      form: Form[?],
       id: String,
       fieldset: Fieldset
     )(implicit messages: Messages): DateInput = {

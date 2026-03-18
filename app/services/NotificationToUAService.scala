@@ -102,7 +102,7 @@ class NotificationToUAServiceImpl extends NotificationToUAService {
         ).flatten
     }
 
-  def entityPagesWithValues(disclosureEntity: DisclosureEntity): List[PageWithValue[_]] =
+  def entityPagesWithValues(disclosureEntity: DisclosureEntity): List[PageWithValue[?]] =
     disclosureEntity.entity match {
       case Individual => entityToPageWithValue(RelatesTo.AnIndividual, disclosureEntity.areYouTheEntity)
       case Company    => entityToPageWithValue(RelatesTo.ACompany, disclosureEntity.areYouTheEntity)
@@ -111,13 +111,13 @@ class NotificationToUAServiceImpl extends NotificationToUAService {
       case Estate     => entityToPageWithValue(RelatesTo.AnEstate, disclosureEntity.areYouTheEntity)
     }
 
-  def entityToPageWithValue(relatesTo: RelatesTo, areYouTheEntity: Option[AreYouTheEntity]): List[PageWithValue[_]] =
+  def entityToPageWithValue(relatesTo: RelatesTo, areYouTheEntity: Option[AreYouTheEntity]): List[PageWithValue[?]] =
     List(
       Some(PageWithValue(RelatesToPage, relatesTo)),
       areYouTheEntity.map(PageWithValue(AreYouTheEntityPage, _))
     ).flatten
 
-  def contactPreferencePageWithValues(contactPreferences: ContactPreferences): PageWithValue[_] = {
+  def contactPreferencePageWithValues(contactPreferences: ContactPreferences): PageWithValue[?] = {
     val values: Set[HowWouldYouPreferToBeContacted] = contactPreferences.preferences.map {
       case Email     => HowWouldYouPreferToBeContacted.Email
       case Telephone => HowWouldYouPreferToBeContacted.Telephone
@@ -130,7 +130,7 @@ class NotificationToUAServiceImpl extends NotificationToUAService {
 
     import aboutYou._
 
-    val pages: List[PageWithValue[_]] = List(
+    val pages: List[PageWithValue[?]] = List(
       fullName.map(PageWithValue(WhatIsYourFullNamePage, _)),
       telephoneNumber.map(PageWithValue(YourPhoneNumberPage, _)),
       emailAddress.map(PageWithValue(YourEmailAddressPage, _)),

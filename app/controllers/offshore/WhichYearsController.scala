@@ -120,7 +120,7 @@ class WhichYearsController @Inject() (
     offshoreWhichYearsService.checkboxItems(behaviour)
   }
 
-  def changedPages(userAnswers: UserAnswers, newValue: Set[OffshoreYears]): (List[QuestionPage[_]], Boolean) = {
+  def changedPages(userAnswers: UserAnswers, newValue: Set[OffshoreYears]): (List[QuestionPage[?]], Boolean) = {
     val missingYearsCount = userAnswers.inverselySortedOffshoreTaxYears
       .map(ty => TaxYearStarting.findMissingYears(ty.toList).size)
       .getOrElse(0)

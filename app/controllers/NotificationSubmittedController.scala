@@ -82,7 +82,7 @@ class NotificationSubmittedController @Inject() (
     updatedUa.map(_.copy(submissionType = SubmissionType.Disclosure, metadata = Metadata()))
   }
 
-  def auditStartOfDisclosure(implicit request: DataRequest[_]) = {
+  def auditStartOfDisclosure(implicit request: DataRequest[?]) = {
     val disclosureStart = DisclosureStart(
       userId = request.userId,
       submissionId = request.userAnswers.submissionId,

@@ -75,7 +75,7 @@ class ReceivedALetterController @Inject() (
         )
   }
 
-  def changedPages(userAnswers: UserAnswers, value: Boolean): (List[QuestionPage[_]], Boolean) =
+  def changedPages(userAnswers: UserAnswers, value: Boolean): (List[QuestionPage[?]], Boolean) =
     userAnswers.get(ReceivedALetterPage) match {
       case Some(false) if value == true =>
         (Nil, true)

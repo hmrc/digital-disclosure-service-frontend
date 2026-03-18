@@ -78,7 +78,7 @@ class WasThePersonRegisteredForVATController @Inject() (
   def changedPages(
     existingUserAnswers: UserAnswers,
     value: WasThePersonRegisteredForVAT
-  ): (List[QuestionPage[_]], Boolean) =
+  ): (List[QuestionPage[?]], Boolean) =
     existingUserAnswers.get(WasThePersonRegisteredForVATPage) match {
       case Some(WasThePersonRegisteredForVAT.YesIKnow) if value != WasThePersonRegisteredForVAT.YesIKnow =>
         (List(WhatWasThePersonVATRegistrationNumberPage), true)

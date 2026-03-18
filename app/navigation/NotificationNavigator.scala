@@ -202,7 +202,7 @@ class NotificationNavigator @Inject() () {
     case WhatIsTheNameOfTheOrganisationYouRepresentPage =>
       _ => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
 
-    case OnlyOnshoreLiabilitiesPage => ua => routes.IncomeOrGainSourceController.onPageLoad(NormalMode)
+    case OnlyOnshoreLiabilitiesPage => _ => routes.IncomeOrGainSourceController.onPageLoad(NormalMode)
 
     case WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage =>
       _ => routes.WhatIsTheCompanyRegistrationNumberController.onPageLoad(NormalMode)
@@ -281,7 +281,7 @@ class NotificationNavigator @Inject() () {
   private val checkRouteMap: Page => UserAnswers => Boolean => Call = {
 
     case ReceivedALetterPage =>
-      ua =>
+      _ =>
         hasAnswerChanged =>
           if (hasAnswerChanged) routes.LetterReferenceController.onPageLoad(CheckMode)
           else routes.CheckYourAnswersController.onPageLoad

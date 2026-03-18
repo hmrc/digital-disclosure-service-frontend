@@ -48,5 +48,5 @@ object HowWouldYouPreferToBeContacted extends Enumerable.Implicits {
     }
 
   implicit val enumerable: Enumerable[HowWouldYouPreferToBeContacted] =
-    Enumerable(values.map(v => v.toString -> v): _*)
+    Enumerable(values.map(v => v.toString -> v)*)
 }

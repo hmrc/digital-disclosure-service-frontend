@@ -80,7 +80,7 @@ class HowWouldYouPreferToBeContactedController @Inject() (
   def changedPages(
     existingUserAnswers: UserAnswers,
     value: Set[HowWouldYouPreferToBeContacted]
-  ): (List[QuestionPage[_]], Boolean) =
+  ): (List[QuestionPage[?]], Boolean) =
     existingUserAnswers.get(HowWouldYouPreferToBeContactedPage) match {
       case Some(preferences) if preferences != value =>
         val pages = preferences.flatMap {

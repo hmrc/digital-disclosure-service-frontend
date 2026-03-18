@@ -142,10 +142,10 @@ final case class UserAnswers(
         Success(data)
     }
 
-  def remove(pages: List[Settable[_]]): Try[UserAnswers] =
+  def remove(pages: List[Settable[?]]): Try[UserAnswers] =
     pages.foldLeft(Try(this))((oldAnswerList, page) => oldAnswerList.flatMap(_.remove(page)))
 
-  def cleanupPage(page: Settable[_], updatedData: Try[JsObject]): Try[UserAnswers] =
+  def cleanupPage(page: Settable[?], updatedData: Try[JsObject]): Try[UserAnswers] =
     updatedData.flatMap { d =>
       val updatedAnswers = copy(data = d)
       page.cleanup(None, updatedAnswers)

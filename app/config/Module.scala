@@ -25,14 +25,14 @@ import java.time.Clock
 
 class Module extends play.api.inject.Module {
 
-  override def bindings(environment: Environment, configuration: Configuration): Seq[Binding[_]] = {
+  override def bindings(environment: Environment, configuration: Configuration): Seq[Binding[?]] = {
 
-    val authTokenInitialiserBindings: Seq[Binding[_]] =
+    val authTokenInitialiserBindings: Seq[Binding[?]] =
       if (configuration.get[Boolean]("create-internal-auth-token-on-start")) {
         Seq(bind[InternalAuthTokenInitialiser].to[InternalAuthTokenInitialiserImpl].eagerly())
       } else Seq(bind[InternalAuthTokenInitialiser].to[NoOpInternalAuthTokenInitialiser].eagerly())
 
-    val timeServiceBindings: Seq[Binding[_]] =
+    val timeServiceBindings: Seq[Binding[?]] =
       if (configuration.get[Boolean]("test-with-tax-year-starting.enabled")) {
         Seq(bind[TimeService].to[TestTimeService].eagerly())
       } else Seq(bind[TimeService].to[TimeServiceImpl].eagerly())
