@@ -20,7 +20,7 @@ import controllers.actions._
 import forms.onshore.WhyYouSubmittedAnInaccurateOnshoreReturnFormProvider
 
 import javax.inject.Inject
-import models.WhyYouSubmittedAnInaccurateOnshoreReturn.{DeliberatelyInaccurate, NoReasonableCare, ReasonableMistake}
+import models.WhyYouSubmittedAnInaccurateOnshoreReturn.{DeliberatelyInaccurate, ReasonableMistake}
 import models.{Mode, RelatesTo, UserAnswers, WhyYouSubmittedAnInaccurateOnshoreReturn}
 import navigation.OnshoreNavigator
 import pages._

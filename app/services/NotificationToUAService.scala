@@ -23,7 +23,6 @@ import pages.*
 
 import scala.util.{Success, Try}
 import com.google.inject.{ImplementedBy, Singleton}
-import models.AreYouRegisteredForVAT.YesButDontKnow
 
 @Singleton
 class NotificationToUAServiceImpl extends NotificationToUAService {

@@ -32,7 +32,7 @@
     tasklistLink: components.tasklistLink
 )
 
-@(form: Form[_], mode: Mode, index: Int, showPenaltySection: Boolean)(implicit request: RequestHeader, messages: Messages)
+@(form: Form[?], mode: Mode, index: Int, showPenaltySection: Boolean)(implicit request: RequestHeader, messages: Messages)
 
 @layout(pageTitle = title(form, messages("directorLoanAccountLiabilities.title", index + 1))) {
 

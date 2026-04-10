@@ -16,7 +16,6 @@
 
 package models
 
-import models.WhyDidYouNotNotifyOnshore.DeliberatelyDidNotNotifyOnshore
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.checkboxes.CheckboxItem
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text

@@ -21,12 +21,13 @@ import config.{Countries, Country}
 import javax.inject.Inject
 import forms.mappings.{CountryConstraints, Mappings}
 import play.api.data.Form
+import play.api.i18n.Messages
 import play.api.i18n.Messages.implicitMessagesProviderToMessages
 
 class CountryOfYourOffshoreLiabilityFormProvider @Inject() (countries: Countries)
     extends CountryConstraints(countries)
     with Mappings {
-  def apply(): Form[Country] = Form(
+  def apply()(using Messages): Form[Country] = Form(
     "country" -> country(s"countryOfYourOffshoreLiability.error.required")
   )
 }

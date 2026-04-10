@@ -42,8 +42,8 @@ lazy val microservice = (project in file("."))
     ScoverageKeys.coverageHighlighting := true,
     scalacOptions ++= Seq(
       "-feature",
-      "-Wconf:cat=deprecation:ws,cat=feature:ws,cat=optimizer:ws,src=target/.*:s"
-    ) ++ Seq("-unchecked", "-deprecation") ++ Seq("-Ypatmat-exhaust-depth", "40"),
+      "-Wconf:cat=deprecation:silent,cat=feature:silent,src=target/.*:silent"
+    ),
     libraryDependencies ++= AppDependencies(),
     excludeDependencies += ExclusionRule("org.lz4", "lz4-java"),
     retrieveManaged := true,
@@ -59,7 +59,8 @@ lazy val microservice = (project in file("."))
     ),
     pipelineStages := Seq(digest),
     // below line required to force asset pipeline to operate in dev rather than only prod
-    Assets / pipelineStages := Seq(concat)
+    Assets / pipelineStages := Seq(concat),
+    scalacOptions ~= (_.distinct)
   )
 
 def oneForkedJvmPerPackage(tests: Seq[TestDefinition]) =
@@ -74,10 +75,7 @@ def oneForkedJvmPerPackage(tests: Seq[TestDefinition]) =
 lazy val testSettings: Seq[Def.Setting[?]] = Seq(
   fork := true,
   testGrouping := oneForkedJvmPerPackage((Test / definedTests).value),
-  unmanagedSourceDirectories += baseDirectory.value / "test-utils",
-  scalacOptions ++= Seq(
-    "-feature"
-  )
+  unmanagedSourceDirectories += baseDirectory.value / "test-utils"
 )
 
 lazy val it = project

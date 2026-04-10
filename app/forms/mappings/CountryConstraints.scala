@@ -26,8 +26,8 @@ abstract class CountryConstraints(countries: Countries) extends Formatters with 
 
   private val allowedCountries = countries.countries.map(_.alpha3)
 
-  protected def country(requiredKey: String) (using Messages): FieldMapping[Country] =
-    of(countryFormatter(requiredKey))
+  protected def country(requiredKey: String): FieldMapping[Country] =
+    of(using countryFormatter(requiredKey))
 
   private def countryFormatter(requiredKey: String): Formatter[Country] = new Formatter[Country] {
     private val baseFormatter = stringFormatter(requiredKey, Seq.empty)

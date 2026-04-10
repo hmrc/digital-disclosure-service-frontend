@@ -46,7 +46,7 @@ package object models {
 
         case (first :: second :: rest, oldValue) =>
           Reads
-            .optionNoError(Reads.at[JsValue](JsPath(first :: Nil)))
+            .optionNoError(using Reads.at[JsValue](JsPath(first :: Nil)))
             .reads(oldValue)
             .flatMap { opt =>
               opt
@@ -98,7 +98,7 @@ package object models {
             .slice(index + 1, valueToRemoveFrom.value.size)
           JsSuccess(JsArray(updatedJsArray))
         case valueToRemoveFrom: JsArray                                                         => JsError(s"array index out of bounds: $index, $valueToRemoveFrom")
-        case _                                                                                  => JsError(s"cannot set an index on $valueToRemoveFrom")
+        case null                                                                                  => JsError(s"cannot set an index on $valueToRemoveFrom")
       }
     }
 
@@ -124,7 +124,7 @@ package object models {
         case ((_: KeyPathNode) :: Nil, _)                                              => JsError(s"cannot remove a key on $jsValue")
         case (first :: second :: rest, oldValue)                                       =>
           Reads
-            .optionNoError(Reads.at[JsValue](JsPath(first :: Nil)))
+            .optionNoError(using Reads.at[JsValue](JsPath(first :: Nil)))
             .reads(oldValue)
             .flatMap { (opt: Option[JsValue]) =>
               opt

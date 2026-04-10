@@ -36,13 +36,13 @@ final case class OnshoreYearStarting(startYear: Int) extends OnshoreYears {
 
 object OnshoreYearStarting {
   def findMissingYears(yearList: List[OnshoreYearStarting]): List[OnshoreYearStarting] =
-    yearList.sorted(Ordering[OnshoreYearStarting].reverse).map(_.startYear) match {
+    yearList.sorted(using Ordering[OnshoreYearStarting].reverse).map(_.startYear) match {
       case (head :: tail) :+ last =>
         val yearsBetweenFirstAndLast = Range(head, last)
         val missingYearsAsInts       = yearsBetweenFirstAndLast.filterNot { int =>
           yearList.contains(OnshoreYearStarting(int))
         }
-        missingYearsAsInts.map(OnshoreYearStarting(_)).sorted(Ordering[OnshoreYearStarting]).toList
+        missingYearsAsInts.map(OnshoreYearStarting(_)).sorted(using Ordering[OnshoreYearStarting]).toList
       case _                      => Nil
     }
 

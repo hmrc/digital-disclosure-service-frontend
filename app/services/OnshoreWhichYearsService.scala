@@ -40,12 +40,12 @@ class OnshoreWhichYearsServiceImpl @Inject() (timeService: TimeService)
     val numberOfYears = getNumberOfYearsForBehaviour(behaviour)
 
     val checkboxItem = behaviour match {
-      case Behaviour.ReasonableExcuse => Seq(createReasonableExcusePriorToCheckbox(numberOfYears, current)(messages))
-      case Behaviour.Careless         => Seq(createCarelessPriorToCheckbox(numberOfYears, current)(messages))
-      case Behaviour.Deliberate       => Seq(createDeliberatePriorToCheckbox(numberOfYears, current)(messages))
+      case Behaviour.ReasonableExcuse => Seq(createReasonableExcusePriorToCheckbox(numberOfYears, current)(using messages))
+      case Behaviour.Careless         => Seq(createCarelessPriorToCheckbox(numberOfYears, current)(using messages))
+      case Behaviour.Deliberate       => Seq(createDeliberatePriorToCheckbox(numberOfYears, current)(using messages))
     }
 
-    createYearCheckboxes(numberOfYears, current)(messages) ++ checkboxItem
+    createYearCheckboxes(numberOfYears, current)(using messages) ++ checkboxItem
   }
 
   def getNumberOfYearsForBehaviour(behaviour: Behaviour): Int = behaviour match {
