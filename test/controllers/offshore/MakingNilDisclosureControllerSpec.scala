@@ -52,7 +52,7 @@ class MakingNilDisclosureControllerSpec extends SpecBase {
 
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(userAnswers.isTheUserTheIndividual, entity, year)(
-        request,
+        using request,
         messages
       ).toString
     }

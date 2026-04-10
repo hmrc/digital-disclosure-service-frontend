@@ -366,7 +366,7 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
             routes.YouHaveNoOnshoreLiabilitiesToDiscloseController.onPageLoad
           case Some(years) if years.contains(PriorToNineteenYears) && years.size == 1                                =>
             routes.MakingNilDisclosureController.onPageLoad
-          case Some(years) if lettingsChosen && properties.isEmpty                                                   =>
+          case Some(_) if lettingsChosen && properties.isEmpty                                                   =>
             routes.PropertyAddedController.onPageLoad(NormalMode)
           case _                                                                                                     => routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode)
         }
@@ -433,9 +433,9 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
         }
 
     case DirectorLoanAccountLiabilitiesPage =>
-      ua => routes.DirectorLoanAccountLiabilitiesSummaryController.onPageLoad(NormalMode)
+      _ => routes.DirectorLoanAccountLiabilitiesSummaryController.onPageLoad(NormalMode)
 
-    case CorporationTaxLiabilityPage => ua => routes.CorporationTaxSummaryController.onPageLoad(NormalMode)
+    case CorporationTaxLiabilityPage => _ => routes.CorporationTaxSummaryController.onPageLoad(NormalMode)
 
     case AccountingPeriodDLAddedPage =>
       ua =>

@@ -67,7 +67,7 @@ class NotificationSubmittedControllerSpec extends SpecBase with MockitoSugar {
       val view = application.injector.instanceOf[NotificationSubmittedView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(formattedDate, reference)(request, messages).toString
+      contentAsString(result) mustEqual view(formattedDate, reference)(using request, messages).toString
     }
 
     "must redirect to the index page where the stored submission is not a submitted notification" in {
@@ -119,7 +119,7 @@ class NotificationSubmittedControllerSpec extends SpecBase with MockitoSugar {
       )
 
       setupMockSessionResponse(Some(userAnswers))
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
 
       val applicationWithFakeNavigator = applicationBuilder
         .overrides(
@@ -134,7 +134,7 @@ class NotificationSubmittedControllerSpec extends SpecBase with MockitoSugar {
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual onwardRoute.url
-      verify(mockAuditService).auditDisclosureStart(refEq(expectedAuditEvent))(any())
+      verify(mockAuditService).auditDisclosureStart(refEq(expectedAuditEvent))(using any())
     }
   }
 

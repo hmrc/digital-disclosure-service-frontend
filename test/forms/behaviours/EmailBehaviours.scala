@@ -20,7 +20,7 @@ import play.api.data.{Form, FormError}
 
 trait EmailBehaviours extends FieldBehaviours {
 
-  def validEmailBindsValidData(form: Form[_], fieldName: String): Unit =
+  def validEmailBindsValidData(form: Form[?], fieldName: String): Unit =
     "bind valid data" in {
 
       val validDataGenerator = email()
@@ -32,7 +32,7 @@ trait EmailBehaviours extends FieldBehaviours {
       }
     }
 
-  def emailBindsInvalidData(form: Form[_], fieldName: String, validError: FormError): Unit = {
+  def emailBindsInvalidData(form: Form[?], fieldName: String, validError: FormError): Unit = {
 
     "not bind invalid email" in {
       forAll(invalidEmail() -> "longString") { string =>
@@ -49,7 +49,7 @@ trait EmailBehaviours extends FieldBehaviours {
     }
   }
 
-  def maxLengthEmailBindsValidData(form: Form[_], fieldName: String, lengthError: FormError): Unit =
+  def maxLengthEmailBindsValidData(form: Form[?], fieldName: String, lengthError: FormError): Unit =
     "not bind strings longer than 320 characters" in {
       forAll(invalidLengthEmail() -> "longString") { string =>
         val result = form.bind(Map(fieldName -> string)).apply(fieldName)

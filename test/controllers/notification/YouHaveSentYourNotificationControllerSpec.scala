@@ -51,7 +51,7 @@ class YouHaveSentYourNotificationControllerSpec extends SpecBase {
         reference,
         isTheEntity = true,
         isDisclosure = false
-      )(request, messages, appConfig).toString
+      )(using request, messages, appConfig).toString
     }
 
     "must return OK and the correct view for a GET when passed a generated reference" in {
@@ -76,7 +76,7 @@ class YouHaveSentYourNotificationControllerSpec extends SpecBase {
         reference,
         isTheEntity = true,
         isDisclosure = false
-      )(request, messages, appConfig).toString
+      )(using request, messages, appConfig).toString
     }
   }
 }

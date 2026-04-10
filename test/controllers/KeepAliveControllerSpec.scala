@@ -33,7 +33,7 @@ class KeepAliveControllerSpec extends SpecBase with MockitoSugar {
 
       "must keep the answers alive and return OK" in {
 
-        when(mockSessionService.keepAlive(any(), any())) thenReturn Future.successful(true)
+        when(mockSessionService.keepAlive(any(), any())) `thenReturn` Future.successful(true)
         setupMockSessionResponse(Some(emptyUserAnswers))
 
         val request = FakeRequest(GET, routes.KeepAliveController.keepAlive.url)
@@ -49,7 +49,7 @@ class KeepAliveControllerSpec extends SpecBase with MockitoSugar {
 
       "must return OK" in {
 
-        when(mockSessionService.keepAlive(any(), any())) thenReturn Future.successful(true)
+        when(mockSessionService.keepAlive(any(), any())) `thenReturn` Future.successful(true)
         setupMockSessionResponse()
 
         val request = FakeRequest(GET, routes.KeepAliveController.keepAlive.url)

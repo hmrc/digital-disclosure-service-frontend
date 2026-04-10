@@ -28,7 +28,7 @@ class WhatIsTheReasonForMakingADisclosureNowViewSpec extends ViewSpecBase with V
   val form                                             = new WhatIsTheReasonForMakingADisclosureNowFormProvider()()
   val page: WhatIsTheReasonForMakingADisclosureNowView = inject[WhatIsTheReasonForMakingADisclosureNowView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode)(using request, messages)
 
   "view" should {
 

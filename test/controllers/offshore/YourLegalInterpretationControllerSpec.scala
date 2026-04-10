@@ -55,8 +55,8 @@ class YourLegalInterpretationControllerSpec extends SpecBase with MockitoSugar {
 
       status(result) mustEqual OK
 
-      contentAsString(result) mustEqual view(form, NormalMode, items.checkboxItems(messages))(
-        request,
+      contentAsString(result) mustEqual view(form, NormalMode, items.checkboxItems(using messages))(
+        using request,
         messages
       ).toString
     }
@@ -82,13 +82,12 @@ class YourLegalInterpretationControllerSpec extends SpecBase with MockitoSugar {
       contentAsString(result) mustEqual view(
         form.fill(YourLegalInterpretation.values.toSet),
         NormalMode,
-        items.checkboxItems(messages)
-      )(request, messages).toString
+        items.checkboxItems(using messages)      )(using request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val request =
@@ -118,8 +117,8 @@ class YourLegalInterpretationControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, items.checkboxItems(messages))(
-        request,
+      contentAsString(result) mustEqual view(boundForm, NormalMode, items.checkboxItems(using messages))(
+        using request,
         messages
       ).toString
     }

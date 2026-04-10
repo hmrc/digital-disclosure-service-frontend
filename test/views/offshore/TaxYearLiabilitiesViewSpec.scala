@@ -28,7 +28,7 @@ class TaxYearLiabilitiesViewSpec extends ViewSpecBase with ViewMatchers {
   val form                         = new TaxYearLiabilitiesFormProvider()(true)
   val page: TaxYearLiabilitiesView = inject[TaxYearLiabilitiesView]
 
-  private def createView: Html = page(form, NormalMode, 0, 2021, showPenaltySection = true)(request, messages)
+  private def createView: Html = page(form, NormalMode, 0, 2021, showPenaltySection = true)(using request, messages)
 
   "view" should {
 

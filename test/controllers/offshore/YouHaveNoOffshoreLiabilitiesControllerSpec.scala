@@ -55,7 +55,7 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
       val view = application.injector.instanceOf[YouHaveNoOffshoreLiabilitiesView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(entityString, entity, year)(request, messages).toString
+      contentAsString(result) mustEqual view(entityString, entity, year)(using request, messages).toString
     }
 
     "must return OK and the correct view for a GET for Individual and the user is not the individual" in {
@@ -85,7 +85,7 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
       val view = application.injector.instanceOf[YouHaveNoOffshoreLiabilitiesView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(entityString, entity, year)(request, messages).toString
+      contentAsString(result) mustEqual view(entityString, entity, year)(using request, messages).toString
     }
 
     "must return OK and the correct view for a GET for an Entity different from individual" in {
@@ -115,7 +115,7 @@ class YouHaveNoOffshoreLiabilitiesControllerSpec extends SpecBase {
       val view = application.injector.instanceOf[YouHaveNoOffshoreLiabilitiesView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(entityString, entity, year)(request, messages).toString
+      contentAsString(result) mustEqual view(entityString, entity, year)(using request, messages).toString
     }
 
   }

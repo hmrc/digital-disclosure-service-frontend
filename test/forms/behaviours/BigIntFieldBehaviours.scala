@@ -20,7 +20,7 @@ import play.api.data.{Form, FormError}
 
 trait BigIntFieldBehaviours extends FieldBehaviours {
 
-  def bigintField(form: Form[_], fieldName: String, nonNumericError: FormError, wholeNumberError: FormError): Unit = {
+  def bigintField(form: Form[?], fieldName: String, nonNumericError: FormError, wholeNumberError: FormError): Unit = {
 
     "not bind non-numeric numbers" in {
 
@@ -40,7 +40,7 @@ trait BigIntFieldBehaviours extends FieldBehaviours {
 
   }
 
-  def bigintFieldWithMinimumZero(form: Form[_], fieldName: String, expectedError: FormError): Unit =
+  def bigintFieldWithMinimumZero(form: Form[?], fieldName: String, expectedError: FormError): Unit =
     s"not bind integers below zero" in {
 
       forAll(bigintsBelowZero -> "intBelowMin") { (number: BigInt) =>
@@ -49,7 +49,7 @@ trait BigIntFieldBehaviours extends FieldBehaviours {
       }
     }
 
-  def bigintFieldWithMinimum(form: Form[_], fieldName: String, minimum: BigInt, expectedError: FormError): Unit =
+  def bigintFieldWithMinimum(form: Form[?], fieldName: String, minimum: BigInt, expectedError: FormError): Unit =
     s"not bind integers below $minimum" in {
 
       forAll(bigintsBelowValue(minimum) -> "intBelowMin") { (number: BigInt) =>
@@ -58,7 +58,7 @@ trait BigIntFieldBehaviours extends FieldBehaviours {
       }
     }
 
-  def bigintFieldWithMaximum(form: Form[_], fieldName: String, maximum: BigInt, expectedError: FormError): Unit =
+  def bigintFieldWithMaximum(form: Form[?], fieldName: String, maximum: BigInt, expectedError: FormError): Unit =
     s"not bind integers above $maximum" in {
 
       forAll(bigintsAboveValue(maximum) -> "intAboveMax") { (number: BigInt) =>
@@ -68,7 +68,7 @@ trait BigIntFieldBehaviours extends FieldBehaviours {
     }
 
   def bigintFieldWithRange(
-    form: Form[_],
+    form: Form[?],
     fieldName: String,
     minimum: BigInt,
     maximum: BigInt,

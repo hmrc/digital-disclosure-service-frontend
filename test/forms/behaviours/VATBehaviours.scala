@@ -20,7 +20,7 @@ import play.api.data.{Form, FormError}
 
 trait VATBehaviours extends FieldBehaviours {
 
-  def fieldThatBindsValidData(form: Form[_], fieldName: String): Unit =
+  def fieldThatBindsValidData(form: Form[?], fieldName: String): Unit =
     "bind valid VAT" in {
 
       val validDataGenerator = generateValidVAT()
@@ -32,7 +32,7 @@ trait VATBehaviours extends FieldBehaviours {
       }
     }
 
-  def fieldThatInvalidLengthData(form: Form[_], fieldName: String, keyError: String): Unit =
+  def fieldThatInvalidLengthData(form: Form[?], fieldName: String, keyError: String): Unit =
     "not bind VAT with invalid length" in {
 
       val error                = FormError(fieldName, keyError)
@@ -45,7 +45,7 @@ trait VATBehaviours extends FieldBehaviours {
       }
     }
 
-  def fieldThatInvalidCharData(form: Form[_], fieldName: String, keyError: String): Unit =
+  def fieldThatInvalidCharData(form: Form[?], fieldName: String, keyError: String): Unit =
     "not bind VAT with invalid character" in {
 
       val error                = FormError(fieldName, keyError)

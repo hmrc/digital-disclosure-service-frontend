@@ -50,7 +50,7 @@ class YouHaveNoOnshoreLiabilitiesToDiscloseControllerSpec extends SpecBase {
 
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(userAnswers.isTheUserTheIndividual, entity, years)(
-        request,
+        using request,
         messages
       ).toString
     }

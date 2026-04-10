@@ -28,7 +28,7 @@ class ForeignTaxCreditViewSpec extends ViewSpecBase with ViewMatchers {
   val form                       = new ForeignTaxCreditFormProvider()()
   val page: ForeignTaxCreditView = inject[ForeignTaxCreditView]
 
-  private def createView: Html = page(form, 0, "2021", NormalMode)(request, messages)
+  private def createView: Html = page(form, 0, "2021", NormalMode)(using request, messages)
 
   "view" should {
 

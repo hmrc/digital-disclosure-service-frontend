@@ -42,7 +42,8 @@ lazy val microservice = (project in file("."))
     ScoverageKeys.coverageHighlighting := true,
     scalacOptions ++= Seq(
       "-feature",
-      "-Wconf:cat=deprecation:silent,cat=feature:silent,src=target/.*:silent"
+      "-Wconf:cat=deprecation:silent,cat=feature:silent,src=target/.*:silent",
+      "-Wconf:msg=Unreachable case except for null:silent"
     ),
     libraryDependencies ++= AppDependencies(),
     excludeDependencies += ExclusionRule("org.lz4", "lz4-java"),

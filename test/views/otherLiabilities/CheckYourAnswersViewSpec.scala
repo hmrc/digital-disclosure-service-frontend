@@ -65,7 +65,7 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers with Summa
 
   "view" should {
 
-    def createView: Html = page(list)(request, messages)
+    def createView: Html = page(list)(using request, messages)
 
     val view = createView
 

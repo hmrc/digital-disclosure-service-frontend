@@ -29,7 +29,7 @@ class CDFOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
   val page: CDFOnshoreView = inject[CDFOnshoreView]
   val entity               = RelatesTo.ACompany
 
-  private def createView: Html = page(form, NormalMode, entity)(request, messages)
+  private def createView: Html = page(form, NormalMode, entity)(using request, messages)
 
   "view" should {
 

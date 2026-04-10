@@ -62,7 +62,7 @@ class PropertyIsNoLongerBeingLetOutControllerSpec extends SpecBase with MockitoS
       val view = application.injector.instanceOf[PropertyIsNoLongerBeingLetOutView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, 0, NormalMode)(getRequest, messages).toString
+      contentAsString(result) mustEqual view(form, 0, NormalMode)(using getRequest, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -79,12 +79,12 @@ class PropertyIsNoLongerBeingLetOutControllerSpec extends SpecBase with MockitoS
       val result = route(application, getRequest).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(validAnswer), 0, NormalMode)(getRequest, messages).toString
+      contentAsString(result) mustEqual view(form.fill(validAnswer), 0, NormalMode)(using getRequest, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val request =
@@ -117,7 +117,7 @@ class PropertyIsNoLongerBeingLetOutControllerSpec extends SpecBase with MockitoS
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, 0, NormalMode)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, 0, NormalMode)(using request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

@@ -32,7 +32,7 @@ class WhatReasonableCareDidYouTakeViewSpec extends ViewSpecBase with ViewMatcher
     val areTheyTheIndividual = true
     val entity               = RelatesTo.AnIndividual
     val form                 = new WhatReasonableCareDidYouTakeFormProvider()(areTheyTheIndividual)
-    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
 
     val view = createView
 
@@ -78,7 +78,7 @@ class WhatReasonableCareDidYouTakeViewSpec extends ViewSpecBase with ViewMatcher
     val areTheyTheIndividual = false
     val entity               = RelatesTo.AnIndividual
     val form                 = new WhatReasonableCareDidYouTakeFormProvider()(areTheyTheIndividual)
-    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
 
     val view = createView
 
@@ -100,7 +100,7 @@ class WhatReasonableCareDidYouTakeViewSpec extends ViewSpecBase with ViewMatcher
     val areTheyTheIndividual = false
     val entity               = RelatesTo.AnEstate
     val form                 = new WhatReasonableCareDidYouTakeFormProvider()(areTheyTheIndividual)
-    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
 
     val view = createView
 
@@ -122,7 +122,7 @@ class WhatReasonableCareDidYouTakeViewSpec extends ViewSpecBase with ViewMatcher
     val areTheyTheIndividual = false
     val entity               = RelatesTo.ACompany
     val form                 = new WhatReasonableCareDidYouTakeFormProvider()(areTheyTheIndividual)
-    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
 
     val view = createView
 
@@ -144,7 +144,7 @@ class WhatReasonableCareDidYouTakeViewSpec extends ViewSpecBase with ViewMatcher
     val areTheyTheIndividual = false
     val entity               = RelatesTo.ALimitedLiabilityPartnership
     val form                 = new WhatReasonableCareDidYouTakeFormProvider()(areTheyTheIndividual)
-    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
 
     val view = createView
 
@@ -166,7 +166,7 @@ class WhatReasonableCareDidYouTakeViewSpec extends ViewSpecBase with ViewMatcher
     val areTheyTheIndividual = false
     val entity               = RelatesTo.ATrust
     val form                 = new WhatReasonableCareDidYouTakeFormProvider()(areTheyTheIndividual)
-    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
 
     val view = createView
 

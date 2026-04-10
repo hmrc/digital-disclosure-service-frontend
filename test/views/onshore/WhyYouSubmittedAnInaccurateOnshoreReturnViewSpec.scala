@@ -30,8 +30,8 @@ class WhyYouSubmittedAnInaccurateOnshoreReturnViewSpec extends ViewSpecBase with
   )
   val page: WhyYouSubmittedAnInaccurateOnshoreReturnView = inject[WhyYouSubmittedAnInaccurateOnshoreReturnView]
 
-  private def createViewAsIndividual: Html = page(form, NormalMode, true, RelatesTo.AnIndividual)(request, messages)
-  private def createViewAsCompany: Html    = page(form, NormalMode, false, RelatesTo.ACompany)(request, messages)
+  private def createViewAsIndividual: Html = page(form, NormalMode, true, RelatesTo.AnIndividual)(using request, messages)
+  private def createViewAsCompany: Html    = page(form, NormalMode, false, RelatesTo.ACompany)(using request, messages)
 
   "view as individual" should {
 

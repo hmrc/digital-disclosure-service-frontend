@@ -20,9 +20,9 @@ import controllers.actions._
 import forms.OnshoreTaxYearLiabilitiesFormProvider
 
 import javax.inject.Inject
-import models.{Mode, NormalMode, OnshoreTaxYearLiabilities, OnshoreTaxYearWithLiabilities, OnshoreYearStarting, UserAnswers, WhatOnshoreLiabilitiesDoYouNeedToDisclose, WhyDidYouNotFileAReturnOnTimeOnshore, WhyDidYouNotNotifyOnshore, WhyYouSubmittedAnInaccurateOnshoreReturn}
+import models.{Mode, NormalMode, OnshoreTaxYearLiabilities, OnshoreTaxYearWithLiabilities, OnshoreYearStarting, UserAnswers, WhatOnshoreLiabilitiesDoYouNeedToDisclose}
 import navigation.OnshoreNavigator
-import pages.{OnshoreTaxYearLiabilitiesPage, ResidentialReductionPage, WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, WhyDidYouNotNotifyOnshorePage, WhyYouSubmittedAnInaccurateOnshoreReturnPage}
+import pages.{OnshoreTaxYearLiabilitiesPage, ResidentialReductionPage, WhatOnshoreLiabilitiesDoYouNeedToDisclosePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService

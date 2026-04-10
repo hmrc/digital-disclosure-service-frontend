@@ -20,7 +20,7 @@ import play.api.data.{Form, FormError}
 
 trait BigDecimalFieldBehaviours extends FieldBehaviours {
 
-  def decimalField(form: Form[_], fieldName: String, nonNumericError: FormError): Unit =
+  def decimalField(form: Form[?], fieldName: String, nonNumericError: FormError): Unit =
     "not bind non-numeric numbers" in {
 
       forAll(nonNumerics -> "nonNumeric") { nonNumeric =>
@@ -29,7 +29,7 @@ trait BigDecimalFieldBehaviours extends FieldBehaviours {
       }
     }
 
-  def bigdecimalFieldWithMinimumZero(form: Form[_], fieldName: String, expectedError: FormError): Unit =
+  def bigdecimalFieldWithMinimumZero(form: Form[?], fieldName: String, expectedError: FormError): Unit =
     s"not bind decimal below zero" in {
 
       forAll(bigdecimalsBelowZero -> "decimalBelowMin") { (number: BigDecimal) =>
@@ -39,7 +39,7 @@ trait BigDecimalFieldBehaviours extends FieldBehaviours {
     }
 
   def bigdecimalFieldWithMinimum(
-    form: Form[_],
+    form: Form[?],
     fieldName: String,
     minimum: BigDecimal,
     expectedError: FormError
@@ -53,7 +53,7 @@ trait BigDecimalFieldBehaviours extends FieldBehaviours {
     }
 
   def bigdecimalFieldWithMaximum(
-    form: Form[_],
+    form: Form[?],
     fieldName: String,
     maximum: BigDecimal,
     expectedError: FormError
@@ -67,7 +67,7 @@ trait BigDecimalFieldBehaviours extends FieldBehaviours {
     }
 
   def bigdecimalFieldWithRange(
-    form: Form[_],
+    form: Form[?],
     fieldName: String,
     minimum: BigDecimal,
     maximum: BigDecimal,

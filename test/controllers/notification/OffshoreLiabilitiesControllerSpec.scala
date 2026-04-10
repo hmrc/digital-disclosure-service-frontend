@@ -53,7 +53,7 @@ class OffshoreLiabilitiesControllerSpec extends SpecBase with MockitoSugar with 
       val view = application.injector.instanceOf[OffshoreLiabilitiesView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, NormalMode, false)(request, messages).toString
+      contentAsString(result) mustEqual view(form, NormalMode, false)(using request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -69,7 +69,7 @@ class OffshoreLiabilitiesControllerSpec extends SpecBase with MockitoSugar with 
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(true), NormalMode, false)(request, messages).toString
+      contentAsString(result) mustEqual view(form.fill(true), NormalMode, false)(using request, messages).toString
     }
 
     "must populate the view correctly on a GET when the answer changed from Yes to No for a Disclosure" in {
@@ -81,7 +81,7 @@ class OffshoreLiabilitiesControllerSpec extends SpecBase with MockitoSugar with 
 
       val userAnswers = UserAnswers("id", "session-123", submissionType = SubmissionType.Disclosure)
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
 
       val set: Set[WhyAreYouMakingThisDisclosure] = Set(
         WhyAreYouMakingThisDisclosure.DeliberatelyDidNotNotify,
@@ -102,12 +102,12 @@ class OffshoreLiabilitiesControllerSpec extends SpecBase with MockitoSugar with 
 
       status(result) mustEqual SEE_OTHER
 
-      verify(mockSessionService, times(1)).set(any())(any())
+      verify(mockSessionService, times(1)).set(any())(using any())
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val request =
@@ -135,7 +135,7 @@ class OffshoreLiabilitiesControllerSpec extends SpecBase with MockitoSugar with 
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, false)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode, false)(using request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

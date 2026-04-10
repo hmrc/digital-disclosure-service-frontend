@@ -59,7 +59,7 @@ class SessionRepositorySpec
 
     "must set the last updated time on the supplied user answers to `now`, and save them" in {
 
-      val expectedResult = userAnswers copy (lastUpdated = instant)
+      val expectedResult = userAnswers.copy(lastUpdated = instant)
 
       val setResult     = repository.set(userAnswers).futureValue
       val updatedRecord = find(Filters.equal("userId", userAnswers.id)).futureValue.headOption.value
@@ -126,7 +126,7 @@ class SessionRepositorySpec
 
         result mustEqual true
         val updatedAnswers = find(Filters.equal("userId", userAnswers.id)).futureValue.headOption.value
-        updatedAnswers mustEqual expectedUpdatedAnswers
+        updatedAnswers shouldBe expectedUpdatedAnswers
       }
     }
 

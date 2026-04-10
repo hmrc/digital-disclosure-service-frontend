@@ -20,7 +20,7 @@ import play.api.data.{Form, FormError}
 
 trait PhoneNumberBehaviours extends FieldBehaviours {
 
-  def ukPhoneNumberBindsValidData(form: Form[_], fieldName: String): Unit =
+  def ukPhoneNumberBindsValidData(form: Form[?], fieldName: String): Unit =
     "bind valid phone number" in {
 
       val validDataGenerator = ukPhoneNumber()
@@ -32,7 +32,7 @@ trait PhoneNumberBehaviours extends FieldBehaviours {
       }
     }
 
-  def invalidPhoneNumberBindsInvalidData(form: Form[_], fieldName: String, invalidFormError: FormError): Unit =
+  def invalidPhoneNumberBindsInvalidData(form: Form[?], fieldName: String, invalidFormError: FormError): Unit =
     "not bind invalid phone number" in {
       forAll(invalidPhoneNumber -> "invalidDataItem") { (dataItem: String) =>
         val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
@@ -40,7 +40,7 @@ trait PhoneNumberBehaviours extends FieldBehaviours {
       }
     }
 
-  def internationalPhoneNumberBindsValidData(form: Form[_], fieldName: String): Unit = {
+  def internationalPhoneNumberBindsValidData(form: Form[?], fieldName: String): Unit = {
 
     "bind international phone number" in {
       val validDataGenerator = internationalPhoneNumber(doubleZero = true)

@@ -91,7 +91,7 @@ class AddressLookupServiceSpec
     response: Either[Error, HttpResponse]
   ): CallHandler2[AddressLookupRequest, HeaderCarrier, EitherT[Future, Error, HttpResponse]] =
     (addressLookupConnector
-      .initialise(_: AddressLookupRequest)(_: HeaderCarrier))
+      .initialise(_: AddressLookupRequest)(using _: HeaderCarrier))
       .expects(request, *)
       .returning(EitherT.fromEither[Future](response))
 
@@ -99,7 +99,7 @@ class AddressLookupServiceSpec
     response: Either[Error, HttpResponse]
   ): CallHandler2[UUID, HeaderCarrier, EitherT[Future, Error, HttpResponse]] =
     (addressLookupConnector
-      .retrieveAddress(_: UUID)(_: HeaderCarrier))
+      .retrieveAddress(_: UUID)(using _: HeaderCarrier))
       .expects(id, *)
       .returning(EitherT.fromEither[Future](response))
 

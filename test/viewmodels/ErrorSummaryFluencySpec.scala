@@ -46,7 +46,7 @@ class ErrorSummaryFluencySpec extends SpecBase with ErrorSummaryFluency {
           ("residentialTaxReduction", "")
         )
       )
-    )(message)
+    )(using message)
     val errors       = errorSummary.errorList.map(_.content)
 
     errors(0) mustBe Text(message("onshoreTaxYearLiabilities.nonBusinessIncome.error.required"))

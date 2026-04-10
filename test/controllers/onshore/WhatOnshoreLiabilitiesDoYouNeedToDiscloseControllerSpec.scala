@@ -57,7 +57,7 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseControllerSpec extends SpecBase w
 
       status(result) mustEqual OK
 
-      contentAsString(result) mustEqual view(form, NormalMode, isUserCompany)(request, messages).toString
+      contentAsString(result) mustEqual view(form, NormalMode, isUserCompany)(using request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -80,12 +80,12 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseControllerSpec extends SpecBase w
         form.fill(WhatOnshoreLiabilitiesDoYouNeedToDisclose.values.toSet),
         NormalMode,
         isUserCompany
-      )(request, messages).toString
+      )(using request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val request =
@@ -113,7 +113,7 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseControllerSpec extends SpecBase w
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, isUserCompany)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode, isUserCompany)(using request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
@@ -152,7 +152,7 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseControllerSpec extends SpecBase w
         .success
         .value
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(previousAnswers))
 
       val request =
@@ -178,7 +178,7 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseControllerSpec extends SpecBase w
         .success
         .value
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(previousAnswers))
 
       val request =
@@ -204,7 +204,7 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseControllerSpec extends SpecBase w
         .success
         .value
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(previousAnswers))
 
       val request =
@@ -232,7 +232,7 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseControllerSpec extends SpecBase w
         .success
         .value
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(previousAnswers))
 
       val request =

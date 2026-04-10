@@ -56,7 +56,7 @@ class SessionServiceImpl @Inject() (
                     customerId = customerId
                   )
                 )
-      result <- set(ua)
+      _ <- set(ua)
     } yield ua
 
   def getIndividualUserAnswers(userId: String, sessionId: String, submissionId: String)(implicit

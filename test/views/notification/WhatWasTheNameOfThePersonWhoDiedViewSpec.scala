@@ -28,7 +28,7 @@ class WhatWasTheNameOfThePersonWhoDiedViewSpec extends ViewSpecBase with ViewMat
   val form                                       = new WhatWasTheNameOfThePersonWhoDiedFormProvider()()
   val page: WhatWasTheNameOfThePersonWhoDiedView = inject[WhatWasTheNameOfThePersonWhoDiedView]
 
-  private def createView: Html = page(form, NormalMode, false)(request, messages)
+  private def createView: Html = page(form, NormalMode, false)(using request, messages)
 
   "view" should {
 

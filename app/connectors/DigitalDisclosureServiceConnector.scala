@@ -31,11 +31,9 @@ import scala.concurrent.{ExecutionContext, Future}
 import scala.util.control.NoStackTrace
 import models.store.{FullDisclosure, Notification}
 
-import java.time.Clock
 import models.submission.SubmissionResponse
 import uk.gov.hmrc.http.HttpResponse
 import org.apache.pekko.util.ByteString
-import play.api.i18n.MessagesApi
 import play.api.libs.ws.WSClient
 import play.api.mvc.{Cookie, Cookies}
 import play.mvc.Http.HeaderNames.{ACCEPT_LANGUAGE, AUTHORIZATION}
@@ -45,9 +43,7 @@ class DigitalDisclosureServiceConnectorImpl @Inject() (
   val actorSystem: ActorSystem,
   httpClient: HttpClientV2,
   ws: WSClient,
-  configuration: Configuration,
-  clock: Clock,
-  messagesApi: MessagesApi
+  configuration: Configuration
 )(implicit val ec: ExecutionContext, frontendAppConfig: FrontendAppConfig)
     extends DigitalDisclosureServiceConnector
     with ConnectorErrorHandler

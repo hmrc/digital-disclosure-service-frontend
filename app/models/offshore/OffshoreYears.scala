@@ -35,7 +35,7 @@ final case class TaxYearStarting(startYear: Int) extends OffshoreYears {
 object TaxYearStarting {
   def findMissingYears(yearList: List[TaxYearStarting]): List[TaxYearStarting] =
     yearList.sorted(using Ordering[TaxYearStarting].reverse).map(_.startYear) match {
-      case (head :: tail) :+ last =>
+      case (head :: _) :+ last =>
         val yearsBetweenFirstAndLast = Range(head, last)
         val missingYearsAsInts       = yearsBetweenFirstAndLast.filterNot(int => yearList.contains(TaxYearStarting(int)))
         missingYearsAsInts.map(TaxYearStarting(_)).sorted(using Ordering[TaxYearStarting]).toList

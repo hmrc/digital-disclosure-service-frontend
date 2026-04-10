@@ -26,7 +26,7 @@ import uk.gov.hmrc.http.client.{HttpClientV2, RequestBuilder}
 import java.net.URL
 import scala.concurrent.{ExecutionContext, Future}
 
-trait HttpSupport { this: MockFactory with Matchers =>
+trait HttpSupport { this: MockFactory & Matchers =>
 
   @SuppressWarnings(Array("org.wartremover.warts.Any"))
   val mockHttp: HttpClientV2 = mock[HttpClientV2]("mockHttp")
@@ -35,7 +35,7 @@ trait HttpSupport { this: MockFactory with Matchers =>
 
   def mockGet(url: URL)(httpResponse: Option[HttpResponse]) = {
     (mockHttp
-      .get(_: URL)(_: HeaderCarrier))
+      .get(_: URL)(using _: HeaderCarrier))
       .expects(url, *)
       .returning(mockRequestBuilder)
 
@@ -44,7 +44,7 @@ trait HttpSupport { this: MockFactory with Matchers =>
 
   def mockPost[B: Writes](url: URL, requestBody: B)(httpResponse: Option[HttpResponse]) = {
     (mockHttp
-      .post(_: URL)(_: HeaderCarrier))
+      .post(_: URL)(using _: HeaderCarrier))
       .expects(url, *)
       .returning(mockRequestBuilder)
 

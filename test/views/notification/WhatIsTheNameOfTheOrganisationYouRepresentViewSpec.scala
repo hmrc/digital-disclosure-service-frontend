@@ -28,7 +28,7 @@ class WhatIsTheNameOfTheOrganisationYouRepresentViewSpec extends ViewSpecBase wi
   val form                                                 = new WhatIsTheNameOfTheOrganisationYouRepresentFormProvider()()
   val page: WhatIsTheNameOfTheOrganisationYouRepresentView = inject[WhatIsTheNameOfTheOrganisationYouRepresentView]
 
-  private def createView: Html = page(form, NormalMode, false)(request, messages)
+  private def createView: Html = page(form, NormalMode, false)(using request, messages)
 
   "view" should {
 

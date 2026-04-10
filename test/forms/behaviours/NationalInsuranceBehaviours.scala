@@ -20,7 +20,7 @@ import play.api.data.{Form, FormError}
 
 trait NationalInsuranceBehaviours extends FieldBehaviours {
 
-  def nationalInsuraceNumberBindsValidData(form: Form[_], fieldName: String): Unit = {
+  def nationalInsuraceNumberBindsValidData(form: Form[?], fieldName: String): Unit = {
 
     "bind valid national insurance number" in {
 
@@ -46,7 +46,7 @@ trait NationalInsuranceBehaviours extends FieldBehaviours {
     }
   }
 
-  def nationalInsuraceNumberBindsInvalidData(form: Form[_], fieldName: String, validError: FormError): Unit =
+  def nationalInsuraceNumberBindsInvalidData(form: Form[?], fieldName: String, validError: FormError): Unit =
     "bind invalid national insurance number" in {
 
       val invalidDataGenerator = invalidNino()

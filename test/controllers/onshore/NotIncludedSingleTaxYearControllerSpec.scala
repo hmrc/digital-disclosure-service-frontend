@@ -61,7 +61,7 @@ class NotIncludedSingleTaxYearControllerSpec extends SpecBase with MockitoSugar 
 
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(form, NormalMode, missingYear, firstYear, lastYear)(
-        request,
+        using request,
         messages
       ).toString
     }
@@ -83,14 +83,14 @@ class NotIncludedSingleTaxYearControllerSpec extends SpecBase with MockitoSugar 
 
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(form.fill("answer"), NormalMode, missingYear, firstYear, lastYear)(
-        request,
+        using request,
         messages
       ).toString
     }
 
     "must redirect to the which onshore years page when it isnt set" in {
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val request =
@@ -108,7 +108,7 @@ class NotIncludedSingleTaxYearControllerSpec extends SpecBase with MockitoSugar 
       val whichYears: Set[OnshoreYears] = Set(OnshoreYearStarting(2020), OnshoreYearStarting(2018))
       val userAnswers                   = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, whichYears).success.value
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(userAnswers))
 
       val request =
@@ -127,7 +127,7 @@ class NotIncludedSingleTaxYearControllerSpec extends SpecBase with MockitoSugar 
         Set(OnshoreYearStarting(2020), OnshoreYearStarting(2018), OnshoreYearStarting(2016))
       val userAnswers                   = UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, whichYears).success.value
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(userAnswers))
 
       val request =
@@ -158,7 +158,7 @@ class NotIncludedSingleTaxYearControllerSpec extends SpecBase with MockitoSugar 
 
       status(result) mustEqual BAD_REQUEST
       contentAsString(result) mustEqual view(boundForm, NormalMode, missingYear, firstYear, lastYear)(
-        request,
+        using request,
         messages
       ).toString
     }

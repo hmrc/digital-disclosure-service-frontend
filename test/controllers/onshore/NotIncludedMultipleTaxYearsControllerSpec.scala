@@ -56,7 +56,7 @@ class NotIncludedMultipleTaxYearsControllerSpec extends SpecBase with MockitoSug
 
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(form, NormalMode, selectedYears, notSelectedYears)(
-        request,
+        using request,
         messages
       ).toString
     }
@@ -75,14 +75,14 @@ class NotIncludedMultipleTaxYearsControllerSpec extends SpecBase with MockitoSug
 
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(form.fill("answer"), NormalMode, selectedYears, notSelectedYears)(
-        request,
+        using request,
         messages
       ).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val request =
@@ -111,7 +111,7 @@ class NotIncludedMultipleTaxYearsControllerSpec extends SpecBase with MockitoSug
 
       status(result) mustEqual BAD_REQUEST
       contentAsString(result) mustEqual view(boundForm, NormalMode, selectedYears, notSelectedYears)(
-        request,
+        using request,
         messages
       ).toString
     }

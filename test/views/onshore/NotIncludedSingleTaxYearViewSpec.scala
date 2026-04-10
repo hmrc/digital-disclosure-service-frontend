@@ -31,7 +31,7 @@ class NotIncludedSingleTaxYearViewSpec extends ViewSpecBase with ViewMatchers {
   val form                               = new NotIncludedSingleTaxYearFormProvider()(missingYear)
   val page: NotIncludedSingleTaxYearView = inject[NotIncludedSingleTaxYearView]
 
-  private def createView: Html = page(form, NormalMode, missingYear, firstYear, lastYear)(request, messages)
+  private def createView: Html = page(form, NormalMode, missingYear, firstYear, lastYear)(using request, messages)
 
   "view" should {
 

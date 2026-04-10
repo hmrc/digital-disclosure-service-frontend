@@ -28,7 +28,7 @@ class AdviceBusinessesOrOrgViewSpec extends ViewSpecBase with ViewMatchers {
   val form                            = new AdviceBusinessesOrOrgFormProvider()()
   val page: AdviceBusinessesOrOrgView = inject[AdviceBusinessesOrOrgView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode)(using request, messages)
 
   "view" should {
 

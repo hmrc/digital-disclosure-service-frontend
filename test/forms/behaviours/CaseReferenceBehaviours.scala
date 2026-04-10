@@ -20,7 +20,7 @@ import play.api.data.{Form, FormError}
 
 trait CaseReferenceBehaviours extends FieldBehaviours {
 
-  def fieldThatBindsValidCaseReference(form: Form[_], fieldName: String): Unit =
+  def fieldThatBindsValidCaseReference(form: Form[?], fieldName: String): Unit =
     "bind valid CaseReference" in {
 
       val validDataGenerator = generateValidCaseReference()
@@ -31,7 +31,7 @@ trait CaseReferenceBehaviours extends FieldBehaviours {
       }
     }
 
-  def fieldWithInvalidCaseReference(form: Form[_], fieldName: String, keyError: String): Unit =
+  def fieldWithInvalidCaseReference(form: Form[?], fieldName: String, keyError: String): Unit =
     "not bind invalid Case Reference" in {
       val error = FormError(fieldName, keyError, List(caseReferenceFormatRegex))
 

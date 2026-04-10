@@ -53,7 +53,7 @@ class WhyAreYouMakingADisclosureControllerSpec extends SpecBase with MockitoSuga
 
       status(result) mustEqual OK
 
-      contentAsString(result) mustEqual view(form, NormalMode)(request, messages).toString
+      contentAsString(result) mustEqual view(form, NormalMode)(using request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -73,14 +73,14 @@ class WhyAreYouMakingADisclosureControllerSpec extends SpecBase with MockitoSuga
 
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(form.fill(WhyAreYouMakingADisclosure.values.toSet), NormalMode)(
-        request,
+        using request,
         messages
       ).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val request =
@@ -108,7 +108,7 @@ class WhyAreYouMakingADisclosureControllerSpec extends SpecBase with MockitoSuga
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode)(using request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

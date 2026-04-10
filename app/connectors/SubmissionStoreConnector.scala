@@ -31,14 +31,12 @@ import scala.util.control.NoStackTrace
 import models.store.Submission
 import play.api.mvc.Result
 import play.api.mvc.Results.NoContent
-import java.time.Clock
 import play.mvc.Http.HeaderNames.AUTHORIZATION
 
 @Singleton
 class SubmissionStoreConnectorImpl @Inject() (
   httpClient: HttpClientV2,
-  configuration: Configuration,
-  clock: Clock
+  configuration: Configuration
 )(implicit ec: ExecutionContext)
     extends SubmissionStoreConnector
     with ConnectorErrorHandler {

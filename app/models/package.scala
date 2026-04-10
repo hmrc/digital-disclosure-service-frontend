@@ -67,8 +67,6 @@ package object models {
                   }
                 }
             }
-
-        case (_, _) => JsError("unexpected data provided")
       }
 
     private def setIndexNode(node: IdxPathNode, oldValue: JsValue, newValue: JsValue): JsResult[JsValue] = {

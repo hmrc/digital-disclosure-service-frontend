@@ -29,7 +29,7 @@ class YourLegalInterpretationViewSpec extends ViewSpecBase with ViewMatchers {
   val page: YourLegalInterpretationView = inject[YourLegalInterpretationView]
   val items                             = inject[YourLegalInterpretationCheckboxes]
 
-  private def createView: Html = page(form, NormalMode, items.checkboxItems)(request, messages)
+  private def createView: Html = page(form, NormalMode, items.checkboxItems)(using request, messages)
 
   "view" should {
 

@@ -62,7 +62,7 @@ class DidYouReceiveTaxCreditControllerSpec extends SpecBase with MockitoSugar {
 
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(form, NormalMode, userAnswers.isTheUserTheIndividual, entity)(
-        request,
+        using request,
         messages
       ).toString
     }
@@ -86,14 +86,14 @@ class DidYouReceiveTaxCreditControllerSpec extends SpecBase with MockitoSugar {
 
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(form.fill(true), NormalMode, userAnswers.isTheUserTheIndividual, entity)(
-        request,
+        using request,
         messages
       ).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val request =
@@ -128,7 +128,7 @@ class DidYouReceiveTaxCreditControllerSpec extends SpecBase with MockitoSugar {
 
       status(result) mustEqual BAD_REQUEST
       contentAsString(result) mustEqual view(boundForm, NormalMode, userAnswers.isTheUserTheIndividual, entity)(
-        request,
+        using request,
         messages
       ).toString
     }

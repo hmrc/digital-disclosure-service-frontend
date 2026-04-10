@@ -67,7 +67,7 @@ class WhatIsTheIndividualDateOfBirthControllerSpec extends SpecBase with Mockito
       val view = application.injector.instanceOf[WhatIsTheIndividualDateOfBirthView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, NormalMode, false)(getRequest(), messages).toString
+      contentAsString(result) mustEqual view(form, NormalMode, false)(using getRequest(), messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -82,12 +82,12 @@ class WhatIsTheIndividualDateOfBirthControllerSpec extends SpecBase with Mockito
       val result = route(application, getRequest()).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(validAnswer), NormalMode, false)(getRequest(), messages).toString
+      contentAsString(result) mustEqual view(form.fill(validAnswer), NormalMode, false)(using getRequest(), messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val result = route(applicationWithFakeNotificationNavigator(onwardRoute), postRequest()).value
@@ -111,7 +111,7 @@ class WhatIsTheIndividualDateOfBirthControllerSpec extends SpecBase with Mockito
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, false)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode, false)(using request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

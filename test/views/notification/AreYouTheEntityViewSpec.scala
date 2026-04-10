@@ -29,7 +29,7 @@ class AreYouTheEntityViewSpec extends ViewSpecBase with ViewMatchers {
 
   def form(entity: RelatesTo) = new AreYouTheEntityFormProvider()(entity)
 
-  private def createView(entity: RelatesTo): Html = page(form(entity), NormalMode, entity, false)(request, messages)
+  private def createView(entity: RelatesTo): Html = page(form(entity), NormalMode, entity, false)(using request, messages)
 
   RelatesTo.values.map { entity =>
     s"view for a $entity" should {

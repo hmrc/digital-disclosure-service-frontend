@@ -28,7 +28,7 @@ class AreYouRegisteredForSelfAssessmentViewSpec extends ViewSpecBase with ViewMa
   val form                                        = new AreYouRegisteredForSelfAssessmentFormProvider()()
   val page: AreYouRegisteredForSelfAssessmentView = inject[AreYouRegisteredForSelfAssessmentView]
 
-  private def createView: Html = page(form, NormalMode, false)(request, messages)
+  private def createView: Html = page(form, NormalMode, false)(using request, messages)
 
   "view" should {
 

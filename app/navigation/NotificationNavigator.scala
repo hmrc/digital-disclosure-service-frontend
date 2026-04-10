@@ -47,7 +47,7 @@ class NotificationNavigator @Inject() () {
           case _                                               => routes.OffshoreLiabilitiesController.onPageLoad(NormalMode)
         }
 
-    case OnshoreLiabilitiesPage => ua => routes.IncomeOrGainSourceController.onPageLoad(NormalMode)
+    case OnshoreLiabilitiesPage => _ => routes.IncomeOrGainSourceController.onPageLoad(NormalMode)
 
     case OffshoreLiabilitiesPage =>
       ua =>

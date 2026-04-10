@@ -49,7 +49,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       val list        = LettingSummaryLists(lettingList)
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(list, 0, NormalMode)(request, messages).toString
+      contentAsString(result) mustEqual view(list, 0, NormalMode)(using request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
@@ -68,7 +68,6 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
       setupMockSessionResponse(Some(ua))
       val list = summaryList(messages)
-
       val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad(0, NormalMode).url)
 
       val result = route(application, request).value
@@ -76,7 +75,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       val view = application.injector.instanceOf[CheckYourAnswersView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(list, 0, NormalMode)(request, messages).toString
+      contentAsString(result) mustEqual view(list, 0, NormalMode)(using request, messages).toString
     }
 
     "must return OK and the correct view for a GET when RentalAddressLookupSummary is populated" in {
@@ -85,7 +84,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
       rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages =>
         LettingSummaryLists(
-          SummaryListViewModel(Seq(RentalAddressLookupSummary.row(0, lettingProperty)(messages)).flatten)
+          SummaryListViewModel(Seq(RentalAddressLookupSummary.row(0, lettingProperty)(using messages)).flatten)
         )
       )
     }
@@ -96,7 +95,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
       rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages =>
         LettingSummaryLists(
-          SummaryListViewModel(Seq(PropertyFirstLetOutSummary.row(0, lettingProperty)(messages)).flatten)
+          SummaryListViewModel(Seq(PropertyFirstLetOutSummary.row(0, lettingProperty)(using messages)).flatten)
         )
       )
     }
@@ -107,7 +106,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
       rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages =>
         LettingSummaryLists(
-          SummaryListViewModel(Seq(PropertyStoppedBeingLetOutSummary.row(0, lettingProperty)(messages)).flatten)
+          SummaryListViewModel(Seq(PropertyStoppedBeingLetOutSummary.row(0, lettingProperty)(using messages)).flatten)
         )
       )
     }
@@ -124,9 +123,9 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         LettingSummaryLists(
           SummaryListViewModel(
             Seq(
-              PropertyIsNoLongerBeingLetOutSummary.row(0, lettingProperty, "stopDate", revealFullText)(messages),
+              PropertyIsNoLongerBeingLetOutSummary.row(0, lettingProperty, "stopDate", revealFullText)(using messages),
               PropertyIsNoLongerBeingLetOutSummary.row(0, lettingProperty, "whatHasHappenedToProperty", revealFullText)(
-                messages
+               using messages
               )
             ).flatten
           )
@@ -140,7 +139,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
       rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages =>
         LettingSummaryLists(
-          SummaryListViewModel(Seq(WasPropertyFurnishedSummary.row(0, lettingProperty)(messages)).flatten)
+          SummaryListViewModel(Seq(WasPropertyFurnishedSummary.row(0, lettingProperty)(using messages)).flatten)
         )
       )
     }
@@ -151,7 +150,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
       rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages =>
         LettingSummaryLists(
-          SummaryListViewModel(Seq(FHLSummary.row(0, lettingProperty)(messages)).flatten)
+          SummaryListViewModel(Seq(FHLSummary.row(0, lettingProperty)(using messages)).flatten)
         )
       )
     }
@@ -162,7 +161,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
       rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages =>
         LettingSummaryLists(
-          SummaryListViewModel(Seq(JointlyOwnedPropertySummary.row(0, lettingProperty)(messages)).flatten)
+          SummaryListViewModel(Seq(JointlyOwnedPropertySummary.row(0, lettingProperty)(using messages)).flatten)
         )
       )
     }
@@ -173,7 +172,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
       rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages =>
         LettingSummaryLists(
-          SummaryListViewModel(Seq(DidYouHaveAMortgageOnPropertySummary.row(0, lettingProperty)(messages)).flatten)
+          SummaryListViewModel(Seq(DidYouHaveAMortgageOnPropertySummary.row(0, lettingProperty)(using messages)).flatten)
         )
       )
     }
@@ -185,7 +184,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages =>
         LettingSummaryLists(
           SummaryListViewModel(
-            Seq(WasALettingAgentUsedToManagePropertySummary.row(0, lettingProperty)(messages)).flatten
+            Seq(WasALettingAgentUsedToManagePropertySummary.row(0, lettingProperty)(using messages)).flatten
           )
         )
       )
@@ -199,7 +198,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages =>
         LettingSummaryLists(
           SummaryListViewModel(
-            Seq(DidTheLettingAgentCollectRentOnYourBehalfSummary.row(0, lettingProperty)(messages)).flatten
+            Seq(DidTheLettingAgentCollectRentOnYourBehalfSummary.row(0, lettingProperty)(using messages)).flatten
           )
         )
       )
@@ -212,7 +211,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages =>
         LettingSummaryLists(
           SummaryListViewModel(
-            Seq(WhatWasThePercentageIncomeYouReceivedFromPropertySummary.row(0, lettingProperty)(messages)).flatten
+            Seq(WhatWasThePercentageIncomeYouReceivedFromPropertySummary.row(0, lettingProperty)(using messages)).flatten
           )
         )
       )
@@ -224,7 +223,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
       rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages =>
         LettingSummaryLists(
-          SummaryListViewModel(Seq(WhatTypeOfMortgageDidYouHaveSummary.row(0, lettingProperty)(messages)).flatten)
+          SummaryListViewModel(Seq(WhatTypeOfMortgageDidYouHaveSummary.row(0, lettingProperty)(using messages)).flatten)
         )
       )
     }
@@ -236,7 +235,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages =>
         LettingSummaryLists(
           SummaryListViewModel(
-            Seq(WhatWasTheTypeOfMortgageSummary.row(0, lettingProperty, revealFullText)(messages)).flatten
+            Seq(WhatWasTheTypeOfMortgageSummary.row(0, lettingProperty, revealFullText)(using messages)).flatten
           )
         )
       )
