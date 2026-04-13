@@ -33,8 +33,7 @@ trait PageGenerators {
   given arbitraryPropertyAddedPage: Arbitrary[PropertyAddedPage.type] =
     Arbitrary(PropertyAddedPage)
 
-  given arbitraryHowManyPropertiesDoYouCurrentlyLetOutPage
-    : Arbitrary[HowManyPropertiesDoYouCurrentlyLetOutPage.type] =
+  given arbitraryHowManyPropertiesDoYouCurrentlyLetOutPage: Arbitrary[HowManyPropertiesDoYouCurrentlyLetOutPage.type] =
     Arbitrary(HowManyPropertiesDoYouCurrentlyLetOutPage)
 
   given arbitraryAreYouAMemberOfAnyLandlordAssociationsPage
@@ -45,8 +44,7 @@ trait PageGenerators {
     : Arbitrary[DidTheLettingAgentCollectRentOnYourBehalfPage.type] =
     Arbitrary(DidTheLettingAgentCollectRentOnYourBehalfPage)
 
-  given arbitraryWasALettingAgentUsedToManagePropertyPage
-    : Arbitrary[WasALettingAgentUsedToManagePropertyPage.type] =
+  given arbitraryWasALettingAgentUsedToManagePropertyPage: Arbitrary[WasALettingAgentUsedToManagePropertyPage.type] =
     Arbitrary(WasALettingAgentUsedToManagePropertyPage)
 
   given arbitraryWhatWasTheTypeOfMortgagePage: Arbitrary[WhatWasTheTypeOfMortgagePage.type] =
@@ -106,8 +104,7 @@ trait PageGenerators {
   given arbitraryForeignTaxCreditPage: Arbitrary[ForeignTaxCreditPage.type] =
     Arbitrary(ForeignTaxCreditPage)
 
-  given arbitraryYouHaveNotSelectedCertainTaxYearPage
-    : Arbitrary[YouHaveNotSelectedCertainTaxYearPage.type] =
+  given arbitraryYouHaveNotSelectedCertainTaxYearPage: Arbitrary[YouHaveNotSelectedCertainTaxYearPage.type] =
     Arbitrary(YouHaveNotSelectedCertainTaxYearPage)
 
   given arbitraryTaxBeforeNineteenYearsPage: Arbitrary[TaxBeforeNineteenYearsPage.type] =
@@ -125,12 +122,10 @@ trait PageGenerators {
   given arbitraryCountriesOrTerritoriesPage: Arbitrary[CountriesOrTerritoriesPage.type] =
     Arbitrary(CountriesOrTerritoriesPage)
 
-  given arbitraryWhatEmailAddressCanWeContactYouWithPage
-    : Arbitrary[WhatEmailAddressCanWeContactYouWithPage.type] =
+  given arbitraryWhatEmailAddressCanWeContactYouWithPage: Arbitrary[WhatEmailAddressCanWeContactYouWithPage.type] =
     Arbitrary(WhatEmailAddressCanWeContactYouWithPage)
 
-  given arbitraryWhichEmailAddressCanWeContactYouWithPage
-    : Arbitrary[WhichEmailAddressCanWeContactYouWithPage.type] =
+  given arbitraryWhichEmailAddressCanWeContactYouWithPage: Arbitrary[WhichEmailAddressCanWeContactYouWithPage.type] =
     Arbitrary(WhichEmailAddressCanWeContactYouWithPage)
 
   given arbitraryWhatIsTheCaseReferencePage: Arbitrary[WhatIsTheCaseReferencePage.type] =
@@ -158,8 +153,7 @@ trait PageGenerators {
   given arbitraryPersonWhoGaveAdvicePage: Arbitrary[PersonWhoGaveAdvicePage.type] =
     Arbitrary(PersonWhoGaveAdvicePage)
 
-  given arbitraryDidSomeoneGiveYouAdviceNotDeclareTaxPage
-    : Arbitrary[DidSomeoneGiveYouAdviceNotDeclareTaxPage.type] =
+  given arbitraryDidSomeoneGiveYouAdviceNotDeclareTaxPage: Arbitrary[DidSomeoneGiveYouAdviceNotDeclareTaxPage.type] =
     Arbitrary(DidSomeoneGiveYouAdviceNotDeclareTaxPage)
 
   given arbitraryWhyNotBeforeNowPage: Arbitrary[WhyNotBeforeNowPage.type] =
@@ -248,14 +242,13 @@ trait PageGenerators {
   given arbitraryWasThePersonRegisteredForSAPage: Arbitrary[WasThePersonRegisteredForSAPage.type] =
     Arbitrary(WasThePersonRegisteredForSAPage)
 
-  given arbitraryWhatWasThePersonVATRegistrationNumberPage
-    : Arbitrary[WhatWasThePersonVATRegistrationNumberPage.type] =
+  given arbitraryWhatWasThePersonVATRegistrationNumberPage: Arbitrary[WhatWasThePersonVATRegistrationNumberPage.type] =
     Arbitrary(WhatWasThePersonVATRegistrationNumberPage)
 
   given arbitraryWasThePersonRegisteredForVATPage: Arbitrary[WasThePersonRegisteredForVATPage.type] =
     Arbitrary(WasThePersonRegisteredForVATPage)
 
-   given arbitraryWhatWasThePersonNINOPage: Arbitrary[WhatWasThePersonNINOPage.type] =
+  given arbitraryWhatWasThePersonNINOPage: Arbitrary[WhatWasThePersonNINOPage.type] =
     Arbitrary(WhatWasThePersonNINOPage)
 
   given arbitraryDidThePersonHaveNINOPage: Arbitrary[DidThePersonHaveNINOPage.type] =
@@ -267,8 +260,7 @@ trait PageGenerators {
   given arbitraryWhatWasThePersonOccupationPage: Arbitrary[WhatWasThePersonOccupationPage.type] =
     Arbitrary(WhatWasThePersonOccupationPage)
 
-  given arbitraryWhatWasTheNameOfThePersonWhoDiedPage
-    : Arbitrary[WhatWasTheNameOfThePersonWhoDiedPage.type] =
+  given arbitraryWhatWasTheNameOfThePersonWhoDiedPage: Arbitrary[WhatWasTheNameOfThePersonWhoDiedPage.type] =
     Arbitrary(WhatWasTheNameOfThePersonWhoDiedPage)
 
   given arbitraryWhatIsTheTrustNamePage: Arbitrary[WhatIsTheTrustNamePage.type] =
@@ -277,8 +269,7 @@ trait PageGenerators {
   given arbitraryWhatIsTheLLPNamePage: Arbitrary[WhatIsTheLLPNamePage.type] =
     Arbitrary(WhatIsTheLLPNamePage)
 
-  given arbitraryWhatIsTheCompanyRegistrationNumberPage
-    : Arbitrary[WhatIsTheCompanyRegistrationNumberPage.type] =
+  given arbitraryWhatIsTheCompanyRegistrationNumberPage: Arbitrary[WhatIsTheCompanyRegistrationNumberPage.type] =
     Arbitrary(WhatIsTheCompanyRegistrationNumberPage)
 
   given arbitraryWhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage
@@ -289,8 +280,7 @@ trait PageGenerators {
     : Arbitrary[WhatIsTheNameOfTheOrganisationYouRepresentPage.type] =
     Arbitrary(WhatIsTheNameOfTheOrganisationYouRepresentPage)
 
-  given arbitraryAreYouRepresentingAnOrganisationPage
-    : Arbitrary[AreYouRepresentingAnOrganisationPage.type] =
+  given arbitraryAreYouRepresentingAnOrganisationPage: Arbitrary[AreYouRepresentingAnOrganisationPage.type] =
     Arbitrary(AreYouRepresentingAnOrganisationPage)
 
   given arbitraryWhatIsTheIndividualsUniqueTaxReferencePage
@@ -328,8 +318,7 @@ trait PageGenerators {
   given arbitraryWhatIsYourUniqueTaxReferencePage: Arbitrary[WhatIsYourUniqueTaxReferencePage.type] =
     Arbitrary(WhatIsYourUniqueTaxReferencePage)
 
-  given arbitraryAreYouRegisteredForSelfAssessmentPage
-    : Arbitrary[AreYouRegisteredForSelfAssessmentPage.type] =
+  given arbitraryAreYouRegisteredForSelfAssessmentPage: Arbitrary[AreYouRegisteredForSelfAssessmentPage.type] =
     Arbitrary(AreYouRegisteredForSelfAssessmentPage)
 
   given arbitraryAreYouRegisteredForVATPage: Arbitrary[AreYouRegisteredForVATPage.type] =
@@ -338,12 +327,10 @@ trait PageGenerators {
   given arbitraryWhatIsYourVATRegistrationNumberPage: Arbitrary[WhatIsYourVATRegistrationNumberPage.type] =
     Arbitrary(WhatIsYourVATRegistrationNumberPage)
 
-  given arbitraryWhatIsYourNationalInsuranceNumberPage
-    : Arbitrary[WhatIsYourNationalInsuranceNumberPage.type] =
+  given arbitraryWhatIsYourNationalInsuranceNumberPage: Arbitrary[WhatIsYourNationalInsuranceNumberPage.type] =
     Arbitrary(WhatIsYourNationalInsuranceNumberPage)
 
-  given arbitraryDoYouHaveNationalInsuranceNumberPage
-    : Arbitrary[DoYouHaveNationalInsuranceNumberPage.type] =
+  given arbitraryDoYouHaveNationalInsuranceNumberPage: Arbitrary[DoYouHaveNationalInsuranceNumberPage.type] =
     Arbitrary(DoYouHaveNationalInsuranceNumberPage)
 
   given arbitraryWhatIsYourMainOccupationPage: Arbitrary[WhatIsYourMainOccupationPage.type] =

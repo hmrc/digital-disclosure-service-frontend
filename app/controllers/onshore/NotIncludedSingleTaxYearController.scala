@@ -70,12 +70,12 @@ class NotIncludedSingleTaxYearController @Inject() (
     } yield {
       val missingYears = OnshoreYearStarting.findMissingYears(years.toList)
       missingYears match {
-        case head :: Nil  => f(userAnswers, mode, head, firstYear, lastYear)
-        case head :: _ =>
+        case head :: Nil => f(userAnswers, mode, head, firstYear, lastYear)
+        case head :: _   =>
           Future.successful(
             Redirect(controllers.onshore.routes.NotIncludedMultipleTaxYearsController.onPageLoad(mode).url)
           )
-        case Nil          => Future.successful(Redirect(navigator.nextPage(NotIncludedSingleTaxYearPage, mode, userAnswers)))
+        case Nil         => Future.successful(Redirect(navigator.nextPage(NotIncludedSingleTaxYearPage, mode, userAnswers)))
       }
     }
     result.getOrElse(

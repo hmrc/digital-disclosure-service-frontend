@@ -59,8 +59,8 @@ class YouHaveNotSelectedCertainTaxYearControllerSpec extends SpecBase with Mocki
       val view = application.injector.instanceOf[YouHaveNotSelectedCertainTaxYearView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, NormalMode, selectedYears, notSelectedYears)(
-        using request,
+      contentAsString(result) mustEqual view(form, NormalMode, selectedYears, notSelectedYears)(using
+        request,
         messages
       ).toString
     }
@@ -81,8 +81,8 @@ class YouHaveNotSelectedCertainTaxYearControllerSpec extends SpecBase with Mocki
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill("answer"), NormalMode, selectedYears, notSelectedYears)(
-        using request,
+      contentAsString(result) mustEqual view(form.fill("answer"), NormalMode, selectedYears, notSelectedYears)(using
+        request,
         messages
       ).toString
     }
@@ -120,8 +120,8 @@ class YouHaveNotSelectedCertainTaxYearControllerSpec extends SpecBase with Mocki
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, selectedYears, notSelectedYears)(
-        using request,
+      contentAsString(result) mustEqual view(boundForm, NormalMode, selectedYears, notSelectedYears)(using
+        request,
         messages
       ).toString
     }

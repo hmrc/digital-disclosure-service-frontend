@@ -39,7 +39,7 @@ class WhyYouSubmittedAnInaccurateOnshoreReturnControllerSpec extends SpecBase wi
     routes.WhyYouSubmittedAnInaccurateOnshoreReturnController.onPageLoad(NormalMode).url
 
   val formProvider = new WhyYouSubmittedAnInaccurateOnshoreReturnFormProvider()
-  val form = formProvider("WhyYouSubmittedAnInaccurateReturn.error.required.you")
+  val form         = formProvider("WhyYouSubmittedAnInaccurateReturn.error.required.you")
 
   "WhyYouSubmittedAnInaccurateOnshoreReturn Controller" - {
 
@@ -59,7 +59,10 @@ class WhyYouSubmittedAnInaccurateOnshoreReturnControllerSpec extends SpecBase wi
       val view    = application.injector.instanceOf[WhyYouSubmittedAnInaccurateOnshoreReturnView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, NormalMode, areTheyTheIndividual, entity)(using request, messages).toString
+      contentAsString(result) mustEqual view(form, NormalMode, areTheyTheIndividual, entity)(using
+        request,
+        messages
+      ).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -127,8 +130,8 @@ class WhyYouSubmittedAnInaccurateOnshoreReturnControllerSpec extends SpecBase wi
       val result    = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(
-        using request,
+      contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(using
+        request,
         messages
       ).toString
     }

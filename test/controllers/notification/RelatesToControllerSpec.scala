@@ -69,8 +69,8 @@ class RelatesToControllerSpec extends ControllerSpecBase with SectionPages {
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(RelatesTo.values.head), NormalMode, false)(
-        using request,
+      contentAsString(result) mustEqual view(form.fill(RelatesTo.values.head), NormalMode, false)(using
+        request,
         messages
       ).toString
     }

@@ -43,7 +43,7 @@ object OnshoreYearStarting {
           yearList.contains(OnshoreYearStarting(int))
         }
         missingYearsAsInts.map(OnshoreYearStarting(_)).sorted(using Ordering[OnshoreYearStarting]).toList
-      case _                      => Nil
+      case _                   => Nil
     }
 
   implicit val format: Format[OnshoreYearStarting] = Json.format[OnshoreYearStarting]

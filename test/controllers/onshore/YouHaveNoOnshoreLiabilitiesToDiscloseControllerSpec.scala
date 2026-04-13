@@ -49,8 +49,8 @@ class YouHaveNoOnshoreLiabilitiesToDiscloseControllerSpec extends SpecBase {
       val view = application.injector.instanceOf[YouHaveNoOnshoreLiabilitiesToDiscloseView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(userAnswers.isTheUserTheIndividual, entity, years)(
-        using request,
+      contentAsString(result) mustEqual view(userAnswers.isTheUserTheIndividual, entity, years)(using
+        request,
         messages
       ).toString
     }

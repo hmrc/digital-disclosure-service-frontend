@@ -81,7 +81,10 @@ class WhatWasThePersonDateOfBirthControllerSpec extends SpecBase with MockitoSug
       val result = route(application, getRequest()).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(validAnswer), NormalMode, false)(using getRequest(), messages).toString
+      contentAsString(result) mustEqual view(form.fill(validAnswer), NormalMode, false)(using
+        getRequest(),
+        messages
+      ).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {

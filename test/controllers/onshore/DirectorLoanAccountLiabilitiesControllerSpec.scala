@@ -83,7 +83,10 @@ class DirectorLoanAccountLiabilitiesControllerSpec extends SpecBase with Mockito
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(answer), NormalMode, index, true)(using request, messages).toString
+      contentAsString(result) mustEqual view(form.fill(answer), NormalMode, index, true)(using
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {

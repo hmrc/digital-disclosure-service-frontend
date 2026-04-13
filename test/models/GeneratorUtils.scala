@@ -32,7 +32,6 @@ package models
  * limitations under the License.
  */
 
-
 import org.scalacheck.Arbitrary
 import org.scalacheck.Gen
 

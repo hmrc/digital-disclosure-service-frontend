@@ -26,8 +26,8 @@ import com.google.inject.{ImplementedBy, Inject, Singleton}
 
 @Singleton
 class DisclosureToUAServiceImpl @Inject() (
-                                            notificationService: NotificationToUAService
-                                          ) extends DisclosureToUAService {
+  notificationService: NotificationToUAService
+) extends DisclosureToUAService {
 
   def fullDisclosureToUa(sessionId: String, fullDisclosure: FullDisclosure): Try[UserAnswers] = {
     val userAnswers = initialiseUserAnswers(sessionId, fullDisclosure)
@@ -47,15 +47,15 @@ class DisclosureToUAServiceImpl @Inject() (
     import fullDisclosure._
 
     UserAnswers(
-      id             = userId,
-      sessionId      = sessionId,
-      submissionId   = submissionId,
+      id = userId,
+      sessionId = sessionId,
+      submissionId = submissionId,
       submissionType = SubmissionType.Disclosure,
-      lastUpdated    = lastUpdated,
-      created        = created,
-      metadata       = metadata,
+      lastUpdated = lastUpdated,
+      created = created,
+      metadata = metadata,
       madeDeclaration = madeDeclaration,
-      customerId     = customerId
+      customerId = customerId
     )
   }
 
@@ -94,47 +94,65 @@ class DisclosureToUAServiceImpl @Inject() (
       case WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnNoCare     => true
       case WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnWithCare   => true
       case WhyAreYouMakingThisOnshoreDisclosure.DeliberateInaccurateReturn => true
-      case _                                                                => false
+      case _                                                               => false
     }
 
   private def migrateLegacyOnshoreBehaviour(oldValues: Set[WhyAreYouMakingThisOnshoreDisclosure]): (
     Set[WhyAreYouMakingThisOnshoreDisclosure],
-      Option[Set[WhyDidYouNotNotifyOnshore]],
-      Option[Set[WhyDidYouNotFileAReturnOnTimeOnshore]],
-      Option[Set[WhyYouSubmittedAnInaccurateOnshoreReturn]]
-    ) = {
+    Option[Set[WhyDidYouNotNotifyOnshore]],
+    Option[Set[WhyDidYouNotFileAReturnOnTimeOnshore]],
+    Option[Set[WhyYouSubmittedAnInaccurateOnshoreReturn]]
+  ) = {
     val page1 = oldValues.flatMap {
-      case WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyNoExcuse       => Some(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC)
-      case WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHasExcuse      => Some(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC)
-      case WhyAreYouMakingThisOnshoreDisclosure.DeliberatelyDidNotNotify   => Some(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC)
-      case WhyAreYouMakingThisOnshoreDisclosure.DidNotFileNoExcuse         => Some(WhyAreYouMakingThisOnshoreDisclosure.DidNotFile)
-      case WhyAreYouMakingThisOnshoreDisclosure.NotFileHasExcuse           => Some(WhyAreYouMakingThisOnshoreDisclosure.DidNotFile)
-      case WhyAreYouMakingThisOnshoreDisclosure.DeliberatelyDidNotFile     => Some(WhyAreYouMakingThisOnshoreDisclosure.DidNotFile)
-      case WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnNoCare     => Some(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn)
-      case WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnWithCare   => Some(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn)
-      case WhyAreYouMakingThisOnshoreDisclosure.DeliberateInaccurateReturn => Some(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn)
-      case other                                                            => Some(other)
+      case WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyNoExcuse       =>
+        Some(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC)
+      case WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHasExcuse      =>
+        Some(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC)
+      case WhyAreYouMakingThisOnshoreDisclosure.DeliberatelyDidNotNotify   =>
+        Some(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC)
+      case WhyAreYouMakingThisOnshoreDisclosure.DidNotFileNoExcuse         =>
+        Some(WhyAreYouMakingThisOnshoreDisclosure.DidNotFile)
+      case WhyAreYouMakingThisOnshoreDisclosure.NotFileHasExcuse           =>
+        Some(WhyAreYouMakingThisOnshoreDisclosure.DidNotFile)
+      case WhyAreYouMakingThisOnshoreDisclosure.DeliberatelyDidNotFile     =>
+        Some(WhyAreYouMakingThisOnshoreDisclosure.DidNotFile)
+      case WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnNoCare     =>
+        Some(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn)
+      case WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnWithCare   =>
+        Some(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn)
+      case WhyAreYouMakingThisOnshoreDisclosure.DeliberateInaccurateReturn =>
+        Some(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn)
+      case other                                                           => Some(other)
     }
 
     val whyNotNotify: Set[WhyDidYouNotNotifyOnshore] = oldValues.flatMap {
-      case WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyNoExcuse     => Some(WhyDidYouNotNotifyOnshore.NotDeliberatelyNoReasonableExcuseOnshore)
-      case WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHasExcuse    => Some(WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore)
-      case WhyAreYouMakingThisOnshoreDisclosure.DeliberatelyDidNotNotify => Some(WhyDidYouNotNotifyOnshore.DeliberatelyDidNotNotifyOnshore)
-      case _                                                              => None
+      case WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyNoExcuse     =>
+        Some(WhyDidYouNotNotifyOnshore.NotDeliberatelyNoReasonableExcuseOnshore)
+      case WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHasExcuse    =>
+        Some(WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore)
+      case WhyAreYouMakingThisOnshoreDisclosure.DeliberatelyDidNotNotify =>
+        Some(WhyDidYouNotNotifyOnshore.DeliberatelyDidNotNotifyOnshore)
+      case _                                                             => None
     }
 
     val whyNotFile: Set[WhyDidYouNotFileAReturnOnTimeOnshore] = oldValues.flatMap {
-      case WhyAreYouMakingThisOnshoreDisclosure.DidNotFileNoExcuse    => Some(WhyDidYouNotFileAReturnOnTimeOnshore.DidNotWithholdInformationOnPurpose)
-      case WhyAreYouMakingThisOnshoreDisclosure.NotFileHasExcuse      => Some(WhyDidYouNotFileAReturnOnTimeOnshore.ReasonableExcuse)
-      case WhyAreYouMakingThisOnshoreDisclosure.DeliberatelyDidNotFile => Some(WhyDidYouNotFileAReturnOnTimeOnshore.DeliberatelyWithheldInformation)
+      case WhyAreYouMakingThisOnshoreDisclosure.DidNotFileNoExcuse     =>
+        Some(WhyDidYouNotFileAReturnOnTimeOnshore.DidNotWithholdInformationOnPurpose)
+      case WhyAreYouMakingThisOnshoreDisclosure.NotFileHasExcuse       =>
+        Some(WhyDidYouNotFileAReturnOnTimeOnshore.ReasonableExcuse)
+      case WhyAreYouMakingThisOnshoreDisclosure.DeliberatelyDidNotFile =>
+        Some(WhyDidYouNotFileAReturnOnTimeOnshore.DeliberatelyWithheldInformation)
       case _                                                           => None
     }
 
     val whyInaccurate: Set[WhyYouSubmittedAnInaccurateOnshoreReturn] = oldValues.flatMap {
-      case WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnNoCare     => Some(WhyYouSubmittedAnInaccurateOnshoreReturn.NoReasonableCare)
-      case WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnWithCare   => Some(WhyYouSubmittedAnInaccurateOnshoreReturn.ReasonableMistake)
-      case WhyAreYouMakingThisOnshoreDisclosure.DeliberateInaccurateReturn => Some(WhyYouSubmittedAnInaccurateOnshoreReturn.DeliberatelyInaccurate)
-      case _                                                                => None
+      case WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnNoCare     =>
+        Some(WhyYouSubmittedAnInaccurateOnshoreReturn.NoReasonableCare)
+      case WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnWithCare   =>
+        Some(WhyYouSubmittedAnInaccurateOnshoreReturn.ReasonableMistake)
+      case WhyAreYouMakingThisOnshoreDisclosure.DeliberateInaccurateReturn =>
+        Some(WhyYouSubmittedAnInaccurateOnshoreReturn.DeliberatelyInaccurate)
+      case _                                                               => None
     }
 
     (
@@ -146,9 +164,9 @@ class DisclosureToUAServiceImpl @Inject() (
   }
 
   def onshoreLiabilitiesToUa(
-                              onshoreLiabilities: Option[OnshoreLiabilities],
-                              userAnswers: UserAnswers
-                            ): Try[UserAnswers] = {
+    onshoreLiabilities: Option[OnshoreLiabilities],
+    userAnswers: UserAnswers
+  ): Try[UserAnswers] = {
 
     val liabilities = onshoreLiabilities.getOrElse(OnshoreLiabilities())
 
@@ -158,7 +176,7 @@ class DisclosureToUAServiceImpl @Inject() (
       behaviour match {
         case Some(oldValues) if oldValues.exists(isLegacyOnshoreBehaviour) =>
           migrateLegacyOnshoreBehaviour(oldValues)
-        case other =>
+        case other                                                         =>
           (other.getOrElse(Set.empty), None, None, None)
       }
 
@@ -192,9 +210,9 @@ class DisclosureToUAServiceImpl @Inject() (
   }
 
   def reasonForDisclosingNowToUa(
-                                  reasonForDisclosingNow: ReasonForDisclosingNow,
-                                  userAnswers: UserAnswers
-                                ): Try[UserAnswers] = {
+    reasonForDisclosingNow: ReasonForDisclosingNow,
+    userAnswers: UserAnswers
+  ): Try[UserAnswers] = {
     import reasonForDisclosingNow._
 
     val pages = List(
@@ -232,41 +250,51 @@ class DisclosureToUAServiceImpl @Inject() (
 
   private def migrateLegacyOffshoreBehaviour(oldValues: Set[WhyAreYouMakingThisDisclosure]): (
     Set[WhyAreYouMakingThisDisclosure],
-      Option[Set[WhyDidYouNotNotify]],
-      Option[Set[WhyDidYouNotFileAReturnOnTimeOffshore]],
-      Option[Set[WhyYouSubmittedAnInaccurateReturn]]
-    ) = {
+    Option[Set[WhyDidYouNotNotify]],
+    Option[Set[WhyDidYouNotFileAReturnOnTimeOffshore]],
+    Option[Set[WhyYouSubmittedAnInaccurateReturn]]
+  ) = {
     val page1 = oldValues.flatMap {
       case WhyAreYouMakingThisDisclosure.DidNotNotifyNoExcuse       => Some(WhyAreYouMakingThisDisclosure.DidNotNotifyHMRC)
       case WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse      => Some(WhyAreYouMakingThisDisclosure.DidNotNotifyHMRC)
-      case WhyAreYouMakingThisDisclosure.DeliberatelyDidNotNotify   => Some(WhyAreYouMakingThisDisclosure.DidNotNotifyHMRC)
+      case WhyAreYouMakingThisDisclosure.DeliberatelyDidNotNotify   =>
+        Some(WhyAreYouMakingThisDisclosure.DidNotNotifyHMRC)
       case WhyAreYouMakingThisDisclosure.DidNotFileNoExcuse         => Some(WhyAreYouMakingThisDisclosure.DidNotFile)
       case WhyAreYouMakingThisDisclosure.NotFileHasExcuse           => Some(WhyAreYouMakingThisDisclosure.DidNotFile)
       case WhyAreYouMakingThisDisclosure.DeliberatelyDidNotFile     => Some(WhyAreYouMakingThisDisclosure.DidNotFile)
       case WhyAreYouMakingThisDisclosure.InaccurateReturnNoCare     => Some(WhyAreYouMakingThisDisclosure.InaccurateReturn)
-      case WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare   => Some(WhyAreYouMakingThisDisclosure.InaccurateReturn)
-      case WhyAreYouMakingThisDisclosure.DeliberateInaccurateReturn => Some(WhyAreYouMakingThisDisclosure.InaccurateReturn)
+      case WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare   =>
+        Some(WhyAreYouMakingThisDisclosure.InaccurateReturn)
+      case WhyAreYouMakingThisDisclosure.DeliberateInaccurateReturn =>
+        Some(WhyAreYouMakingThisDisclosure.InaccurateReturn)
       case other                                                    => Some(other)
     }
 
     val whyNotNotify: Set[WhyDidYouNotNotify] = oldValues.flatMap {
-      case WhyAreYouMakingThisDisclosure.DidNotNotifyNoExcuse     => Some(WhyDidYouNotNotify.NotDeliberatelyNoReasonableExcuse)
+      case WhyAreYouMakingThisDisclosure.DidNotNotifyNoExcuse     =>
+        Some(WhyDidYouNotNotify.NotDeliberatelyNoReasonableExcuse)
       case WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse    => Some(WhyDidYouNotNotify.ReasonableExcuse)
       case WhyAreYouMakingThisDisclosure.DeliberatelyDidNotNotify => Some(WhyDidYouNotNotify.DeliberatelyDidNotNotify)
       case _                                                      => None
     }
 
     val whyNotFile: Set[WhyDidYouNotFileAReturnOnTimeOffshore] = oldValues.flatMap {
-      case WhyAreYouMakingThisDisclosure.DidNotFileNoExcuse     => Some(WhyDidYouNotFileAReturnOnTimeOffshore.DidNotWithholdInformationOnPurpose)
-      case WhyAreYouMakingThisDisclosure.NotFileHasExcuse       => Some(WhyDidYouNotFileAReturnOnTimeOffshore.ReasonableExcuse)
-      case WhyAreYouMakingThisDisclosure.DeliberatelyDidNotFile => Some(WhyDidYouNotFileAReturnOnTimeOffshore.DeliberatelyWithheldInformation)
+      case WhyAreYouMakingThisDisclosure.DidNotFileNoExcuse     =>
+        Some(WhyDidYouNotFileAReturnOnTimeOffshore.DidNotWithholdInformationOnPurpose)
+      case WhyAreYouMakingThisDisclosure.NotFileHasExcuse       =>
+        Some(WhyDidYouNotFileAReturnOnTimeOffshore.ReasonableExcuse)
+      case WhyAreYouMakingThisDisclosure.DeliberatelyDidNotFile =>
+        Some(WhyDidYouNotFileAReturnOnTimeOffshore.DeliberatelyWithheldInformation)
       case _                                                    => None
     }
 
     val whyInaccurate: Set[WhyYouSubmittedAnInaccurateReturn] = oldValues.flatMap {
-      case WhyAreYouMakingThisDisclosure.InaccurateReturnNoCare     => Some(WhyYouSubmittedAnInaccurateReturn.NoReasonableCare)
-      case WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare   => Some(WhyYouSubmittedAnInaccurateReturn.ReasonableMistake)
-      case WhyAreYouMakingThisDisclosure.DeliberateInaccurateReturn => Some(WhyYouSubmittedAnInaccurateReturn.DeliberatelyInaccurate)
+      case WhyAreYouMakingThisDisclosure.InaccurateReturnNoCare     =>
+        Some(WhyYouSubmittedAnInaccurateReturn.NoReasonableCare)
+      case WhyAreYouMakingThisDisclosure.InaccurateReturnWithCare   =>
+        Some(WhyYouSubmittedAnInaccurateReturn.ReasonableMistake)
+      case WhyAreYouMakingThisDisclosure.DeliberateInaccurateReturn =>
+        Some(WhyYouSubmittedAnInaccurateReturn.DeliberatelyInaccurate)
       case _                                                        => None
     }
 
@@ -285,7 +313,7 @@ class DisclosureToUAServiceImpl @Inject() (
       behaviour match {
         case Some(oldValues) if oldValues.exists(isLegacyOffshoreBehaviour) =>
           migrateLegacyOffshoreBehaviour(oldValues)
-        case other =>
+        case other                                                          =>
           (other.getOrElse(Set.empty), None, None, None)
       }
 

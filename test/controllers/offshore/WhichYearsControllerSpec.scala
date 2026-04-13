@@ -86,8 +86,8 @@ class WhichYearsControllerSpec extends SpecBase with MockitoSugar {
 
       status(result) mustEqual OK
 
-      contentAsString(result) mustEqual view(form, NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse))(
-        using request,
+      contentAsString(result) mustEqual view(form, NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse))(using
+        request,
         messages
       ).toString
     }
@@ -148,7 +148,8 @@ class WhichYearsControllerSpec extends SpecBase with MockitoSugar {
 
       status(result) mustEqual BAD_REQUEST
       contentAsString(result) mustEqual view(boundForm, NormalMode, service.checkboxItems(Behaviour.ReasonableExcuse))(
-        using request,
+        using
+        request,
         messages
       ).toString
     }

@@ -54,7 +54,7 @@ class CaseManagementServiceImpl @Inject() (linkWithVisuallyHiddenContent: linkWi
     messages: Messages
   ): Option[Table] = {
     val paginatedSubmissions: Seq[Seq[Submission]] =
-      submissions.sortWith((a,b) => a.created.isAfter(b.created)).grouped(ROWS_ON_PAGE).toSeq
+      submissions.sortWith((a, b) => a.created.isAfter(b.created)).grouped(ROWS_ON_PAGE).toSeq
     val currentPage: Option[Seq[Submission]]       = paginatedSubmissions.lift(paginationIndex - 1)
 
     currentPage.map { pageSubmissions =>

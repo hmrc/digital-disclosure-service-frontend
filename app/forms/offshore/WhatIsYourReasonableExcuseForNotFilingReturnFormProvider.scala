@@ -42,6 +42,6 @@ class WhatIsYourReasonableExcuseForNotFilingReturnFormProvider @Inject() extends
       "yearsThisAppliesTo" -> text("whatIsYourReasonableExcuseForNotFilingReturn.error.yearsThisAppliesTo.required")
         .verifying(maxLength(500, "whatIsYourReasonableExcuseForNotFilingReturn.error.yearsThisAppliesTo.length"))
         .verifying(validUnicodeCharacters)
-    )(WhatIsYourReasonableExcuseForNotFilingReturn.apply)(o=>Some(o.reasonableExcuse, o.yearsThisAppliesTo))
+    )(WhatIsYourReasonableExcuseForNotFilingReturn.apply)(o => Some(o.reasonableExcuse, o.yearsThisAppliesTo))
   )
 }

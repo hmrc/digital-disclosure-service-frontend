@@ -33,7 +33,11 @@ class SubmittedViewSpec extends ViewSpecBase with ViewMatchers with Generators {
   val config: FrontendAppConfig = inject[FrontendAppConfig]
 
   private def createView: Html =
-    page(isCaseReferenceAvailable = false, isNilDisclosure = taxYearExists, "reference")(using request, messages, config)
+    page(isCaseReferenceAvailable = false, isNilDisclosure = taxYearExists, "reference")(using
+      request,
+      messages,
+      config
+    )
 
   "view" should {
 

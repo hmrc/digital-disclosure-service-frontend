@@ -72,8 +72,8 @@ class WhyAreYouMakingADisclosureControllerSpec extends SpecBase with MockitoSuga
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(WhyAreYouMakingADisclosure.values.toSet), NormalMode)(
-        using request,
+      contentAsString(result) mustEqual view(form.fill(WhyAreYouMakingADisclosure.values.toSet), NormalMode)(using
+        request,
         messages
       ).toString
     }

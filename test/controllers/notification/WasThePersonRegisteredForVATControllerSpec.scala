@@ -71,7 +71,8 @@ class WasThePersonRegisteredForVATControllerSpec extends ControllerSpecBase {
 
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(form.fill(WasThePersonRegisteredForVAT.values.head), NormalMode, false)(
-        using request,
+        using
+        request,
         messages
       ).toString
     }

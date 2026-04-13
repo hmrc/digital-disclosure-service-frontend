@@ -61,8 +61,8 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxControllerSpec extends ControllerSpecB
       val view = application.injector.instanceOf[DidSomeoneGiveYouAdviceNotDeclareTaxView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, NormalMode, userAnswers.isTheUserTheIndividual, entity)(
-        using request,
+      contentAsString(result) mustEqual view(form, NormalMode, userAnswers.isTheUserTheIndividual, entity)(using
+        request,
         messages
       ).toString
     }
@@ -88,7 +88,8 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxControllerSpec extends ControllerSpecB
 
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(form.fill(true), NormalMode, userAnswers.isTheUserTheIndividual, entity)(
-        using request,
+        using
+        request,
         messages
       ).toString
     }
@@ -131,8 +132,8 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxControllerSpec extends ControllerSpecB
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, userAnswers.isTheUserTheIndividual, entity)(
-        using request,
+      contentAsString(result) mustEqual view(boundForm, NormalMode, userAnswers.isTheUserTheIndividual, entity)(using
+        request,
         messages
       ).toString
     }

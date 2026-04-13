@@ -98,7 +98,10 @@ class SessionServiceSpec extends AnyWordSpec with Matchers with MockFactory with
     "check the store and where it finds nothing, default and set that default in the session and store" in new Test {
       mockGetSubmission("123", UserAnswers.defaultSubmissionId)(Future.successful(None))
       (repo.set(_: UserAnswers)).expects(*).returning(Future.successful(true))
-      (storeService.setSubmission(_: UserAnswers)(using _: HeaderCarrier)).expects(*, *).returning(Future.successful(Ok))
+      (storeService
+        .setSubmission(_: UserAnswers)(using _: HeaderCarrier))
+        .expects(*, *)
+        .returning(Future.successful(Ok))
       val result = sut.newSession(
         "123",
         "session-123",
@@ -134,7 +137,10 @@ class SessionServiceSpec extends AnyWordSpec with Matchers with MockFactory with
       mockGetSubmission("123", UserAnswers.defaultSubmissionId)(Future.successful(Some(testSubmittedNotification)))
       mockNotificationToUserAnswers(testSubmittedNotification)(Success(submittedUserAnswers))
       (repo.set(_: UserAnswers)).expects(*).returning(Future.successful(true))
-      (storeService.setSubmission(_: UserAnswers)(using _: HeaderCarrier)).expects(*, *).returning(Future.successful(Ok))
+      (storeService
+        .setSubmission(_: UserAnswers)(using _: HeaderCarrier))
+        .expects(*, *)
+        .returning(Future.successful(Ok))
 
       sut
         .newSession(

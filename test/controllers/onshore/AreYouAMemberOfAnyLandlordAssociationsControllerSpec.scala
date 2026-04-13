@@ -55,7 +55,10 @@ class AreYouAMemberOfAnyLandlordAssociationsControllerSpec extends SpecBase with
       val view = application.injector.instanceOf[AreYouAMemberOfAnyLandlordAssociationsView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, NormalMode, areTheyTheIndividual, entity)(using request, messages).toString
+      contentAsString(result) mustEqual view(form, NormalMode, areTheyTheIndividual, entity)(using
+        request,
+        messages
+      ).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -72,8 +75,8 @@ class AreYouAMemberOfAnyLandlordAssociationsControllerSpec extends SpecBase with
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(true), NormalMode, areTheyTheIndividual, entity)(
-        using request,
+      contentAsString(result) mustEqual view(form.fill(true), NormalMode, areTheyTheIndividual, entity)(using
+        request,
         messages
       ).toString
     }
@@ -108,8 +111,8 @@ class AreYouAMemberOfAnyLandlordAssociationsControllerSpec extends SpecBase with
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(
-        using request,
+      contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(using
+        request,
         messages
       ).toString
     }

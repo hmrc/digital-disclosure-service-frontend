@@ -71,8 +71,8 @@ class TheMaximumValueOfAllAssetsControllerSpec extends SpecBase with MockitoSuga
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(TheMaximumValueOfAllAssets.values.head), NormalMode)(
-        using request,
+      contentAsString(result) mustEqual view(form.fill(TheMaximumValueOfAllAssets.values.head), NormalMode)(using
+        request,
         messages
       ).toString
     }

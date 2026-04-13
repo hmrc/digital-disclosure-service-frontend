@@ -72,7 +72,8 @@ class IsTheIndividualRegisteredForVATControllerSpec extends ControllerSpecBase {
 
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(form.fill(IsTheIndividualRegisteredForVAT.values.head), NormalMode, false)(
-        using request,
+        using
+        request,
         messages
       ).toString
     }

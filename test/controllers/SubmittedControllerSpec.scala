@@ -63,7 +63,8 @@ class SubmittedControllerSpec extends SpecBase {
 
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(isCaseReferenceAvailable = true, isNilDisclosure = false, "reference")(
-        using request,
+        using
+        request,
         messages,
         config
       ).toString
@@ -81,7 +82,8 @@ class SubmittedControllerSpec extends SpecBase {
 
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(isCaseReferenceAvailable = false, isNilDisclosure = true, "reference")(
-        using request,
+        using
+        request,
         messages,
         config
       ).toString
@@ -159,7 +161,8 @@ class SubmittedControllerSpec extends SpecBase {
 
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(isCaseReferenceAvailable = false, isNilDisclosure = false, "reference")(
-        using request,
+        using
+        request,
         messages,
         config
       ).toString

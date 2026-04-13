@@ -89,8 +89,19 @@ class TaxYearLiabilitiesFormProvider @Inject() extends Mappings {
         },
         "undeclaredIncomeOrGain" -> stringOptionalUnless("undeclaredIncomeOrGain"),
         "foreignTaxCredit"       -> boolean("taxYearLiabilities.foreignTaxCredit.error.required")
-      )(TaxYearLiabilities.apply)(o=>Some(o.income, o.chargeableTransfers, o.capitalGains, o.unpaidTax,
-        o.interest, o.penaltyRate, o.penaltyRateReason, o.undeclaredIncomeOrGain, o.foreignTaxCredit))
+      )(TaxYearLiabilities.apply)(o =>
+        Some(
+          o.income,
+          o.chargeableTransfers,
+          o.capitalGains,
+          o.unpaidTax,
+          o.interest,
+          o.penaltyRate,
+          o.penaltyRateReason,
+          o.undeclaredIncomeOrGain,
+          o.foreignTaxCredit
+        )
+      )
     )
 
   def stringOptionalUnless(field: String): Mapping[Option[String]] =

@@ -63,7 +63,10 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
 
       status(result) mustEqual OK
 
-      contentAsString(result) mustEqual view(form, NormalMode, areTheyTheIndividual, entity)(using request, messages).toString
+      contentAsString(result) mustEqual view(form, NormalMode, areTheyTheIndividual, entity)(using
+        request,
+        messages
+      ).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -140,8 +143,8 @@ class WhyAreYouMakingThisOnshoreDisclosureControllerSpec extends SpecBase with M
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(
-        using request,
+      contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(using
+        request,
         messages
       ).toString
     }

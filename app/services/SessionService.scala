@@ -45,18 +45,18 @@ class SessionServiceImpl @Inject() (
     customerId: Option[CustomerId]
   )(implicit hc: HeaderCarrier): Future[UserAnswers] =
     for {
-      uaOpt  <- getIndividualUserAnswers(userId, sessionId, submissionId)
-      ua      = uaOpt.getOrElse(
-                  UserAnswers(
-                    id = userId,
-                    sessionId = sessionId,
-                    submissionId = submissionId,
-                    submissionType = submissionType,
-                    created = Instant.now,
-                    customerId = customerId
-                  )
-                )
-      _ <- set(ua)
+      uaOpt <- getIndividualUserAnswers(userId, sessionId, submissionId)
+      ua     = uaOpt.getOrElse(
+                 UserAnswers(
+                   id = userId,
+                   sessionId = sessionId,
+                   submissionId = submissionId,
+                   submissionType = submissionType,
+                   created = Instant.now,
+                   customerId = customerId
+                 )
+               )
+      _     <- set(ua)
     } yield ua
 
   def getIndividualUserAnswers(userId: String, sessionId: String, submissionId: String)(implicit

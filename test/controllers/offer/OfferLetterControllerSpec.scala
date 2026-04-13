@@ -60,8 +60,8 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
       val view = application.injector.instanceOf[OfferLetterView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, "", "", 0, "individual", areTheyTheIndividual = false)(
-        using request,
+      contentAsString(result) mustEqual view(form, "", "", 0, "individual", areTheyTheIndividual = false)(using
+        request,
         messages
       ).toString
     }
@@ -327,8 +327,8 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, "", "", 0, "individual", areTheyTheIndividual = false)(
-        using request,
+      contentAsString(result) mustEqual view(boundForm, "", "", 0, "individual", areTheyTheIndividual = false)(using
+        request,
         messages
       ).toString
     }

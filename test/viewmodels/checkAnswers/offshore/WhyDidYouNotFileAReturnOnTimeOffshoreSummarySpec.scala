@@ -22,7 +22,6 @@ import pages.{AreYouTheEntityPage, RelatesToPage, WhyDidYouNotFileAReturnOnTimeO
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Key
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
-import viewmodels.govuk.summarylist._
 
 class WhyDidYouNotFileAReturnOnTimeOffshoreSummarySpec extends SpecBase {
 

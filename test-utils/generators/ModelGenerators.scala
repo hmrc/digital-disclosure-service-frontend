@@ -68,8 +68,7 @@ trait ModelGenerators {
       } yield OnshoreYearStarting(year)
     }
 
-  given arbitraryWhatOnshoreLiabilitiesDoYouNeedToDisclose
-  : Arbitrary[WhatOnshoreLiabilitiesDoYouNeedToDisclose] =
+  given arbitraryWhatOnshoreLiabilitiesDoYouNeedToDisclose: Arbitrary[WhatOnshoreLiabilitiesDoYouNeedToDisclose] =
     Arbitrary {
       Gen.oneOf(WhatOnshoreLiabilitiesDoYouNeedToDisclose.values)
     }
@@ -79,8 +78,7 @@ trait ModelGenerators {
       Gen.oneOf(IncomeOrGainSource.values)
     }
 
-  given arbitraryWhichTelephoneNumberCanWeContactYouWith
-  : Arbitrary[WhichTelephoneNumberCanWeContactYouWith] =
+  given arbitraryWhichTelephoneNumberCanWeContactYouWith: Arbitrary[WhichTelephoneNumberCanWeContactYouWith] =
     Arbitrary {
       Gen.oneOf(WhichTelephoneNumberCanWeContactYouWith.values.toSeq)
     }
@@ -94,7 +92,7 @@ trait ModelGenerators {
     Arbitrary {
       Gen.oneOf(WhichEmailAddressCanWeContactYouWith.values)
     }
-  given arbitraryAdviceGiven: Arbitrary[AdviceGiven] =
+  given arbitraryAdviceGiven: Arbitrary[AdviceGiven]                                                   =
     Arbitrary {
       for {
         adviceGiven <- arbitrary[String]
@@ -112,19 +110,21 @@ trait ModelGenerators {
       } yield MonthYear(month, year)
     }
 
-  given arbitraryAdviceContactPreference: Arbitrary[AdviceContactPreference] =
-    Arbitrary(Gen.oneOf((
-      AdviceContactPreference.values
-      )))
+  given arbitraryAdviceContactPreference: Arbitrary[AdviceContactPreference]       =
+    Arbitrary(
+      Gen.oneOf(
+        AdviceContactPreference.values
+      )
+    )
   //  given arbitraryAdviceContactPreference: Arbitrary[AdviceContactPreference] =
   //    Arbitrary {
   //      Gen.oneOf(AdviceContactPreference.values)
   //    }
   given arbitraryWhyAreYouMakingADisclosure: Arbitrary[WhyAreYouMakingADisclosure] =
-  Arbitrary {
-    Gen.oneOf(WhyAreYouMakingADisclosure.values)
-  }
-  given arbitraryOtherLiabilityIssues: Arbitrary[OtherLiabilityIssues] =
+    Arbitrary {
+      Gen.oneOf(WhyAreYouMakingADisclosure.values)
+    }
+  given arbitraryOtherLiabilityIssues: Arbitrary[OtherLiabilityIssues]             =
     Arbitrary {
       Gen.oneOf(OtherLiabilityIssues.values)
     }
@@ -219,8 +219,7 @@ trait ModelGenerators {
       } yield WhatIsYourReasonableExcuse(excuse, years)
     }
 
-  given arbitraryWhatIsYourReasonableExcuseForNotFilingReturn
-  : Arbitrary[WhatIsYourReasonableExcuseForNotFilingReturn] =
+  given arbitraryWhatIsYourReasonableExcuseForNotFilingReturn: Arbitrary[WhatIsYourReasonableExcuseForNotFilingReturn] =
     Arbitrary {
       for {
         reasonableExcuse   <- arbitrary[String]
@@ -295,8 +294,7 @@ trait ModelGenerators {
       Gen.oneOf(DidThePersonHaveNINO.values.toSeq)
     }
 
-  given arbitraryIsTheIndividualRegisteredForSelfAssessment
-  : Arbitrary[IsTheIndividualRegisteredForSelfAssessment] =
+  given arbitraryIsTheIndividualRegisteredForSelfAssessment: Arbitrary[IsTheIndividualRegisteredForSelfAssessment] =
     Arbitrary {
       Gen.oneOf(IsTheIndividualRegisteredForSelfAssessment.values.toSeq)
     }
@@ -306,8 +304,7 @@ trait ModelGenerators {
       Gen.oneOf(IsTheIndividualRegisteredForVAT.values.toSeq)
     }
 
-  given arbitraryDoesTheIndividualHaveNationalInsuranceNumber
-  : Arbitrary[DoesTheIndividualHaveNationalInsuranceNumber] =
+  given arbitraryDoesTheIndividualHaveNationalInsuranceNumber: Arbitrary[DoesTheIndividualHaveNationalInsuranceNumber] =
     Arbitrary {
       Gen.oneOf(DoesTheIndividualHaveNationalInsuranceNumber.values.toSeq)
     }
@@ -332,7 +329,7 @@ trait ModelGenerators {
       Gen.oneOf(RelatesTo.values.toSeq)
     }
 
-  given arbitraryCountry: Arbitrary[Map[String, config.Country]] =
+  given arbitraryCountry: Arbitrary[Map[String, config.Country]]       =
     Arbitrary {
       for {
         alpha3 <- strGen(3)
@@ -341,9 +338,9 @@ trait ModelGenerators {
     }
   given arbitraryAddressLookupRequest: Arbitrary[AddressLookupRequest] =
     deriveArbitrary
-  def sampleAddressLookupRequest: AddressLookupRequest =
+  def sampleAddressLookupRequest: AddressLookupRequest                 =
     arbitrary[AddressLookupRequest].sample.getOrElse(sys.error(s"Could not generate instance"))
-  def sampleAddress: Address                           = genAddress.sample.getOrElse(sys.error(s"Could not generate instance"))
+  def sampleAddress: Address                                           = genAddress.sample.getOrElse(sys.error(s"Could not generate instance"))
 
   val strGen = (n: Int) => Gen.listOfN(n, Gen.alphaChar).map(_.mkString)
 
@@ -393,7 +390,7 @@ trait ModelGenerators {
         penaltyRateReason
       )
     }
-  given arbitraryNoLongerBeingLetOut: Arbitrary[NoLongerBeingLetOut] =
+  given arbitraryNoLongerBeingLetOut: Arbitrary[NoLongerBeingLetOut]         =
     Arbitrary {
       for {
         stopDate                  <- arbitrary[LocalDate]

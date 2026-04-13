@@ -16,13 +16,11 @@
 
 package services
 
-
 import models.{DoYouHaveNationalInsuranceNumber, HowWouldYouPreferToBeContacted, RelatesTo, UserAnswers}
 import models.store.{Notification, YesNoOrUnsure}
 import models.store.notification.*
 import pages.*
 import com.google.inject.{ImplementedBy, Singleton}
-
 
 @Singleton
 class UAToNotificationServiceImpl extends UAToNotificationService {

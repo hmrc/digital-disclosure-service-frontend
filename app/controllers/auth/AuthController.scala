@@ -26,8 +26,7 @@ import javax.inject.Inject
 class AuthController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   config: FrontendAppConfig
-)
-    extends FrontendBaseController
+) extends FrontendBaseController
     with I18nSupport {
 
   def signOut: Action[AnyContent] = Action { _ =>

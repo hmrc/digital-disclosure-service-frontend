@@ -91,8 +91,8 @@ class OnshoreTaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(answer), NormalMode, 0, 2021, Set(), true)(
-        using request,
+      contentAsString(result) mustEqual view(form.fill(answer), NormalMode, 0, 2021, Set(), true)(using
+        request,
         messages
       ).toString
     }
@@ -134,7 +134,10 @@ class OnshoreTaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, 0, 2021, Set(), true)(using request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode, 0, 2021, Set(), true)(using
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

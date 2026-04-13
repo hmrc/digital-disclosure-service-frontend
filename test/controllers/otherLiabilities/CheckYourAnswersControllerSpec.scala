@@ -57,7 +57,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
     )(otherLiabilitiesSummaryLists: Messages => OtherLiabilitiesSummaryLists) = {
 
       setupMockSessionResponse(Some(ua))
-      val list = otherLiabilitiesSummaryLists(messages)
+      val list    = otherLiabilitiesSummaryLists(messages)
       val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad.url)
 
       val result = route(application, request).value

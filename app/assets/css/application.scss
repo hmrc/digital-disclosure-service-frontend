@@ -1,6 +1,8 @@
-@import "location-autocomplete.min";
-
+$govuk-suppressed-warnings: ("libsass", "import-using-all");
 $govuk-new-organisation-colours: true;
+
+@import "lib/govuk-frontend/dist/govuk/all";
+@import "location-autocomplete.min";
 
 .govuk-back-link{
     display: none;

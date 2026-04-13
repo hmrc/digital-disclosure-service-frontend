@@ -77,8 +77,8 @@ class WhatTypeOfMortgageDidYouHaveControllerSpec extends SpecBase with MockitoSu
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(TypeOfMortgageDidYouHave.values.head), index, NormalMode)(
-        using request,
+      contentAsString(result) mustEqual view(form.fill(TypeOfMortgageDidYouHave.values.head), index, NormalMode)(using
+        request,
         messages
       ).toString
     }

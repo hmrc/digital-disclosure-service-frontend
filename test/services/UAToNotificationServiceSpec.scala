@@ -211,7 +211,7 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
         PageWithValue(YourAddressLookupPage, address)
       )
       val userAnswers = PageWithValue.pagesToUserAnswers(pages, emptyUA).success.value
-      val expected = AboutYou(
+      val expected    = AboutYou(
         fullName = Some("Full name"),
         telephoneNumber = Some("Phone number"),
         emailAddress = Some("Email address"),

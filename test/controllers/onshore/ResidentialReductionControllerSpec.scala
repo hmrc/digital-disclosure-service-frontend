@@ -75,7 +75,10 @@ class ResidentialReductionControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(validAnswer), 0, "2022", NormalMode)(using request, messages).toString
+      contentAsString(result) mustEqual view(form.fill(validAnswer), 0, "2022", NormalMode)(using
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {

@@ -70,8 +70,8 @@ class OtherLiabilityIssuesControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(OtherLiabilityIssues.values.toSet), NormalMode)(
-        using request,
+      contentAsString(result) mustEqual view(form.fill(OtherLiabilityIssues.values.toSet), NormalMode)(using
+        request,
         messages
       ).toString
     }

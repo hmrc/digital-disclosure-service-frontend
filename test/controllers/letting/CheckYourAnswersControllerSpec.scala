@@ -67,7 +67,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
     def rowIsDisplayedWhenPageIsPopulated(ua: UserAnswers)(summaryList: Messages => LettingSummaryLists) = {
 
       setupMockSessionResponse(Some(ua))
-      val list = summaryList(messages)
+      val list    = summaryList(messages)
       val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad(0, NormalMode).url)
 
       val result = route(application, request).value
@@ -125,7 +125,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
             Seq(
               PropertyIsNoLongerBeingLetOutSummary.row(0, lettingProperty, "stopDate", revealFullText)(using messages),
               PropertyIsNoLongerBeingLetOutSummary.row(0, lettingProperty, "whatHasHappenedToProperty", revealFullText)(
-               using messages
+                using messages
               )
             ).flatten
           )
@@ -172,7 +172,9 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         UserAnswers("id", "session-123").setBySeqIndex(LettingPropertyPage, 0, lettingProperty).success.value
       rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages =>
         LettingSummaryLists(
-          SummaryListViewModel(Seq(DidYouHaveAMortgageOnPropertySummary.row(0, lettingProperty)(using messages)).flatten)
+          SummaryListViewModel(
+            Seq(DidYouHaveAMortgageOnPropertySummary.row(0, lettingProperty)(using messages)).flatten
+          )
         )
       )
     }
@@ -211,7 +213,9 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       rowIsDisplayedWhenPageIsPopulated(userAnswers)(messages =>
         LettingSummaryLists(
           SummaryListViewModel(
-            Seq(WhatWasThePercentageIncomeYouReceivedFromPropertySummary.row(0, lettingProperty)(using messages)).flatten
+            Seq(
+              WhatWasThePercentageIncomeYouReceivedFromPropertySummary.row(0, lettingProperty)(using messages)
+            ).flatten
           )
         )
       )

@@ -140,8 +140,8 @@ trait Mappings extends Formatters with Constraints {
     minimumDateKey: String,
     args: Seq[String] = Seq.empty
   ): FieldMapping[MonthYear] =
-    of(
-     using new MonthYearFormatter(
+    of(using
+      new MonthYearFormatter(
         invalidKey,
         allRequiredKey,
         requiredKey,

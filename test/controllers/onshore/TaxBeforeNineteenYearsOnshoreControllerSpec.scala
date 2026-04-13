@@ -82,7 +82,10 @@ class TaxBeforeNineteenYearsOnshoreControllerSpec extends SpecBase with MockitoS
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form(year).fill("answer"), NormalMode, year)(using request, messages).toString
+      contentAsString(result) mustEqual view(form(year).fill("answer"), NormalMode, year)(using
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {

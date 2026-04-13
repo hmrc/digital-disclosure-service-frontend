@@ -67,7 +67,7 @@ class DigitalDisclosureServiceConnectorSpec extends AnyFreeSpec with Matchers wi
           )
       )
 
-      connector.submitNotification(testNotification)(hc).futureValue mustEqual "ID123"
+      connector.submitNotification(testNotification)(using hc).futureValue mustEqual "ID123"
     }
 
     "must return a failed future when the store responds with anything else" in {
@@ -78,7 +78,7 @@ class DigitalDisclosureServiceConnectorSpec extends AnyFreeSpec with Matchers wi
           .willReturn(aResponse().withBody("""{"body" : "body"}""").withStatus(INTERNAL_SERVER_ERROR))
       )
 
-      val exception = connector.submitNotification(testNotification)(hc).failed.futureValue
+      val exception = connector.submitNotification(testNotification)(using hc).failed.futureValue
       exception mustEqual DigitalDisclosureServiceConnector.UnexpectedResponseException(500, """{"body" : "body"}""")
     }
 
@@ -90,7 +90,7 @@ class DigitalDisclosureServiceConnectorSpec extends AnyFreeSpec with Matchers wi
           .willReturn(aResponse().withFault(Fault.RANDOM_DATA_THEN_CLOSE))
       )
 
-      connector.submitNotification(testNotification)(hc).failed.futureValue
+      connector.submitNotification(testNotification)(using hc).failed.futureValue
     }
 
   }
@@ -116,7 +116,7 @@ class DigitalDisclosureServiceConnectorSpec extends AnyFreeSpec with Matchers wi
               .withBody(testBodyString))
       )
 
-      connector.generateNotificationPDF(testNotification)(hc).futureValue mustEqual testBody
+      connector.generateNotificationPDF(testNotification)(using hc).futureValue mustEqual testBody
     }
 
     "must return a failed future when there is a connection error" in {
@@ -127,7 +127,7 @@ class DigitalDisclosureServiceConnectorSpec extends AnyFreeSpec with Matchers wi
           .willReturn(aResponse().withFault(Fault.RANDOM_DATA_THEN_CLOSE))
       )
 
-      connector.generateNotificationPDF(testNotification)(hc).failed.futureValue
+      connector.generateNotificationPDF(testNotification)(using hc).failed.futureValue
     }
 
   }
@@ -151,7 +151,7 @@ class DigitalDisclosureServiceConnectorSpec extends AnyFreeSpec with Matchers wi
           )
       )
 
-      connector.submitDisclosure(testDisclosure)(hc).futureValue mustEqual "ID123"
+      connector.submitDisclosure(testDisclosure)(using hc).futureValue mustEqual "ID123"
     }
 
     "must return a failed future when the store responds with anything else" in {
@@ -162,7 +162,7 @@ class DigitalDisclosureServiceConnectorSpec extends AnyFreeSpec with Matchers wi
           .willReturn(aResponse().withBody("""{"body" : "body"}""").withStatus(INTERNAL_SERVER_ERROR))
       )
 
-      val exception = connector.submitDisclosure(testDisclosure)(hc).failed.futureValue
+      val exception = connector.submitDisclosure(testDisclosure)(using hc).failed.futureValue
       exception mustEqual DigitalDisclosureServiceConnector.UnexpectedResponseException(500, """{"body" : "body"}""")
     }
 
@@ -174,7 +174,7 @@ class DigitalDisclosureServiceConnectorSpec extends AnyFreeSpec with Matchers wi
           .willReturn(aResponse().withFault(Fault.RANDOM_DATA_THEN_CLOSE))
       )
 
-      connector.submitDisclosure(testDisclosure)(hc).failed.futureValue
+      connector.submitDisclosure(testDisclosure)(using hc).failed.futureValue
     }
 
   }
@@ -200,7 +200,7 @@ class DigitalDisclosureServiceConnectorSpec extends AnyFreeSpec with Matchers wi
               .withBody(testBodyString))
       )
 
-      connector.generateDisclosurePDF(testDisclosure)(hc).futureValue mustEqual testBody
+      connector.generateDisclosurePDF(testDisclosure)(using hc).futureValue mustEqual testBody
     }
 
   }

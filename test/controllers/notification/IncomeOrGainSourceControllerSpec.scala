@@ -73,8 +73,8 @@ class IncomeOrGainSourceControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(IncomeOrGainSource.values.toSet), NormalMode, false)(
-        using request,
+      contentAsString(result) mustEqual view(form.fill(IncomeOrGainSource.values.toSet), NormalMode, false)(using
+        request,
         messages
       ).toString
     }

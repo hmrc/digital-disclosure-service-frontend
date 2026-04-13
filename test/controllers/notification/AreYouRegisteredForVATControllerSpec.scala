@@ -70,8 +70,8 @@ class AreYouRegisteredForVATControllerSpec extends ControllerSpecBase {
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(AreYouRegisteredForVAT.values.head), NormalMode, false)(
-        using request,
+      contentAsString(result) mustEqual view(form.fill(AreYouRegisteredForVAT.values.head), NormalMode, false)(using
+        request,
         messages
       ).toString
     }

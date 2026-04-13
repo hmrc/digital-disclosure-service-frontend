@@ -48,8 +48,8 @@ class EmailAllowedListFilterSpec extends SpecBase with BeforeAndAfterAll with Mo
     result: Future[R]
   ): Unit =
     (mockAuthConnector
-      .authorise(_: Predicate, _: Retrieval[R])(
-       using _: HeaderCarrier,
+      .authorise(_: Predicate, _: Retrieval[R])(using
+        _: HeaderCarrier,
         _: ExecutionContext
       ))
       .expects(predicate, retrieval, *, *)

@@ -76,8 +76,8 @@ class AreYouTheEntityControllerSpec extends SpecBase with MockitoSugar with Sect
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(AreYouTheEntity.values.head), NormalMode, entity, false)(
-         using request,
+        contentAsString(result) mustEqual view(form.fill(AreYouTheEntity.values.head), NormalMode, entity, false)(using
+          request,
           messages
         ).toString
       }
@@ -114,8 +114,8 @@ class AreYouTheEntityControllerSpec extends SpecBase with MockitoSugar with Sect
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, RelatesTo.AnIndividual, false)(
-        using request,
+      contentAsString(result) mustEqual view(boundForm, NormalMode, RelatesTo.AnIndividual, false)(using
+        request,
         messages
       ).toString
     }

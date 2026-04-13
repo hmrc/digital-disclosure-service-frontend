@@ -17,13 +17,12 @@
 package controllers.onshore
 
 import base.SpecBase
-import controllers.onshore.WhichOnshoreYearsController
 import forms.WhichOnshoreYearsFormProvider
-import models.{Behaviour, CheckMode, NormalMode, OnshoreTaxYearLiabilities, OnshoreTaxYearWithLiabilities, OnshoreYearStarting, OnshoreYears, UserAnswers, WhyAreYouMakingThisOnshoreDisclosure}
+import models.{Behaviour, CheckMode, NormalMode, OnshoreTaxYearLiabilities, OnshoreTaxYearWithLiabilities, OnshoreYearStarting, OnshoreYears, UserAnswers}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.{OnshoreTaxYearLiabilitiesPage, WhichOnshoreYearsPage, WhyAreYouMakingThisOnshoreDisclosurePage}
+import pages.{OnshoreTaxYearLiabilitiesPage, WhichOnshoreYearsPage}
 import play.api.i18n.Messages
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -42,14 +41,6 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
 
   val formProvider = new WhichOnshoreYearsFormProvider()
   val form         = formProvider()
-
-  "determineBehaviour" - {
-
-    val controller              = application.injector.instanceOf[WhichOnshoreYearsController]
-    implicit val mess: Messages = messages
-    val service                 = application.injector.instanceOf[OnshoreWhichYearsService]
-
-  }
 
   "WhichOnshoreYears Controller" - {
 

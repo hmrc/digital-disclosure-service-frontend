@@ -70,12 +70,12 @@ class YouHaveNotIncludedTheTaxYearController @Inject() (
     } yield {
       val missingYears = TaxYearStarting.findMissingYears(years.toList)
       missingYears match {
-        case head :: Nil  => f(userAnswers, mode, head, firstYear, lastYear)
-        case head :: tail =>
+        case head :: Nil => f(userAnswers, mode, head, firstYear, lastYear)
+        case head :: _   =>
           Future.successful(
             Redirect(controllers.offshore.routes.YouHaveNotSelectedCertainTaxYearController.onPageLoad(NormalMode).url)
           )
-        case Nil          =>
+        case Nil         =>
           Future.successful(
             Redirect(
               controllers.offshore.routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode).url

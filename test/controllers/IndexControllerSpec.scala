@@ -29,10 +29,8 @@ import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import repositories.SessionRepository
 import views.html.IndexView
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class IndexControllerSpec extends SpecBase with Generators {
@@ -45,7 +43,8 @@ class IndexControllerSpec extends SpecBase with Generators {
     "must return a view with a link to the next page from the navigator where the disclosure journey is configured" in {
 
       setupMockSessionResponse()
-      when(mockSessionService.getIndividualUserAnswers(any(), any(), any())(using any())).thenReturn(Future.successful(None))
+      when(mockSessionService.getIndividualUserAnswers(any(), any(), any())(using any()))
+        .thenReturn(Future.successful(None))
       val applicationWithFakeNavigator = applicationBuilder
         .configure(
           "features.full-disclosure-journey" -> true
@@ -68,7 +67,8 @@ class IndexControllerSpec extends SpecBase with Generators {
 
       val request = FakeRequest(GET, routes.IndexController.onPageLoad.url)
       setupMockSessionResponse()
-      when(mockSessionService.getIndividualUserAnswers(any(), any(), any())(using any())).thenReturn(Future.successful(None))
+      when(mockSessionService.getIndividualUserAnswers(any(), any(), any())(using any()))
+        .thenReturn(Future.successful(None))
 
       val result = route(application, request).value
 

@@ -33,7 +33,7 @@ final case class Background(
   def isComplete = this match {
     case Background(_, _, Some(_), _, _, Some(offshore), _, Some(_), _) =>
       !offshore || onshoreLiabilities.isDefined
-    case _                                                                   => false
+    case _                                                              => false
   }
 }
 

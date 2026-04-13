@@ -71,8 +71,8 @@ class HowMuchTaxHasNotBeenIncludedControllerSpec extends SpecBase with MockitoSu
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(HowMuchTaxHasNotBeenIncluded.values.head), NormalMode)(
-        using request,
+      contentAsString(result) mustEqual view(form.fill(HowMuchTaxHasNotBeenIncluded.values.head), NormalMode)(using
+        request,
         messages
       ).toString
     }

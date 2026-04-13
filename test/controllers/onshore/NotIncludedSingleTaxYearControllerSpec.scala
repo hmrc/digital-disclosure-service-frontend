@@ -60,8 +60,8 @@ class NotIncludedSingleTaxYearControllerSpec extends SpecBase with MockitoSugar 
       val view = application.injector.instanceOf[NotIncludedSingleTaxYearView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, NormalMode, missingYear, firstYear, lastYear)(
-        using request,
+      contentAsString(result) mustEqual view(form, NormalMode, missingYear, firstYear, lastYear)(using
+        request,
         messages
       ).toString
     }
@@ -82,8 +82,8 @@ class NotIncludedSingleTaxYearControllerSpec extends SpecBase with MockitoSugar 
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill("answer"), NormalMode, missingYear, firstYear, lastYear)(
-        using request,
+      contentAsString(result) mustEqual view(form.fill("answer"), NormalMode, missingYear, firstYear, lastYear)(using
+        request,
         messages
       ).toString
     }
@@ -157,8 +157,8 @@ class NotIncludedSingleTaxYearControllerSpec extends SpecBase with MockitoSugar 
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, missingYear, firstYear, lastYear)(
-        using request,
+      contentAsString(result) mustEqual view(boundForm, NormalMode, missingYear, firstYear, lastYear)(using
+        request,
         messages
       ).toString
     }

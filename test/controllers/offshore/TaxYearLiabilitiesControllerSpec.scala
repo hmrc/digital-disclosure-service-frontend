@@ -85,7 +85,10 @@ class TaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(answer), NormalMode, 0, 2021, true)(using request, messages).toString
+      contentAsString(result) mustEqual view(form.fill(answer), NormalMode, 0, 2021, true)(using
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {

@@ -74,7 +74,8 @@ class HowWouldYouPreferToBeContactedControllerSpec extends SpecBase with Mockito
 
       status(result) mustEqual OK
       contentAsString(result) mustEqual view(form.fill(HowWouldYouPreferToBeContacted.values.toSet), NormalMode, false)(
-        using request,
+        using
+        request,
         messages
       ).toString
     }

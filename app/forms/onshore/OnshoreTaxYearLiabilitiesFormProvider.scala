@@ -101,11 +101,21 @@ class OnshoreTaxYearLiabilitiesFormProvider @Inject() extends Mappings {
               "onshoreTaxYearLiabilities.residentialTaxReduction.error.required"
             )
           )
-      )(OnshoreTaxYearLiabilities.apply)(o => Some(
-        o.nonBusinessIncome, o.businessIncome, o.lettingIncome, o.gains,
-        o.unpaidTax, o.niContributions, o.interest, o.penaltyRate,
-        o.penaltyRateReason, o.undeclaredIncomeOrGain, o.residentialTaxReduction
-      ))
+      )(OnshoreTaxYearLiabilities.apply)(o =>
+        Some(
+          o.nonBusinessIncome,
+          o.businessIncome,
+          o.lettingIncome,
+          o.gains,
+          o.unpaidTax,
+          o.niContributions,
+          o.interest,
+          o.penaltyRate,
+          o.penaltyRateReason,
+          o.undeclaredIncomeOrGain,
+          o.residentialTaxReduction
+        )
+      )
     )
 
   def bigintOptionalUnless(field: String, isRequired: Boolean): Mapping[Option[BigInt]] =
