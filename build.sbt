@@ -8,7 +8,7 @@ import uk.gov.hmrc.DefaultBuildSettings
 lazy val appName: String = "digital-disclosure-service-frontend"
 
 ThisBuild / majorVersion := 0
-ThisBuild / scalaVersion := "2.13.16"
+ThisBuild / scalaVersion := "2.13.18"
 
 lazy val microservice = (project in file("."))
   .enablePlugins(PlayScala, SbtDistributablesPlugin)
