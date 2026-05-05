@@ -67,5 +67,5 @@ object WhatOnshoreLiabilitiesDoYouNeedToDisclose extends Enumerable.Implicits {
   }
 
   implicit val enumerable: Enumerable[WhatOnshoreLiabilitiesDoYouNeedToDisclose] =
-    Enumerable(values.map(v => v.toString -> v): _*)
+    Enumerable(values.map(v => v.toString -> v)*)
 }

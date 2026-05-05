@@ -36,7 +36,7 @@ class DeclarationControllerSpec extends SpecBase {
       val view = application.injector.instanceOf[DeclarationView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(isAgent = true)(request, messages).toString
+      contentAsString(result) mustEqual view(isAgent = true)(using request, messages).toString
     }
   }
 }

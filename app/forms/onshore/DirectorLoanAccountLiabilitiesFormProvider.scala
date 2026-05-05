@@ -19,7 +19,7 @@ package forms
 import javax.inject.Inject
 import forms.mappings.Mappings
 import models.DirectorLoanAccountLiabilities
-import play.api.data.{Form, Mapping}
+import play.api.data.Form
 import play.api.data.Forms._
 
 import java.time.LocalDate
@@ -92,6 +92,9 @@ class DirectorLoanAccountLiabilitiesFormProvider @Inject() extends Mappings {
           ignored("")
         }
       }
-    )(DirectorLoanAccountLiabilities.apply)(DirectorLoanAccountLiabilities.unapply)
+    )(DirectorLoanAccountLiabilities.apply)(o =>
+      Some(o.name, o.periodEnd, o.overdrawn, o.unpaidTax, o.interest, o.penaltyRate, o.penaltyRateReason)
+    )
   )
+
 }

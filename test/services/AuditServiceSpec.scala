@@ -46,7 +46,11 @@ class AuditServiceSpec extends AnyWordSpec with Matchers with MockitoSugar {
         PersonalDetails(Background(), AboutYou())
       )
       sut.auditNotificationSubmission(notification)
-      verify(mockConnector).sendExplicitAudit(refEq("NotificationSubmission"), refEq(notification))(any(), any(), any())
+      verify(mockConnector).sendExplicitAudit(refEq("NotificationSubmission"), refEq(notification))(using
+        any(),
+        any(),
+        any()
+      )
     }
 
     "call connector passing the disclosure with audit type DisclosureSubmission" in {
@@ -64,7 +68,11 @@ class AuditServiceSpec extends AnyWordSpec with Matchers with MockitoSugar {
         ReasonForDisclosingNow()
       )
       sut.auditDisclosureSubmission(testDisclosure)
-      verify(mockConnector).sendExplicitAudit(refEq("DisclosureSubmission"), refEq(testDisclosure))(any(), any(), any())
+      verify(mockConnector).sendExplicitAudit(refEq("DisclosureSubmission"), refEq(testDisclosure))(using
+        any(),
+        any(),
+        any()
+      )
     }
 
   }

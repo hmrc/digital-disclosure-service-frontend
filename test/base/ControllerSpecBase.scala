@@ -36,12 +36,12 @@ trait ControllerSpecBase extends SpecBase with MockitoSugar with ScalaCheckPrope
     page: QuestionPage[A],
     urlToTest: String,
     destinationRoute: String,
-    pagesToRemove: List[QuestionPage[_]] = Nil
+    pagesToRemove: List[QuestionPage[?]] = Nil
   )(implicit writes: Writes[A]): Future[Boolean] = {
 
     val userAnswers = UserAnswers("id", "session-123")
 
-    when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+    when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
 
     val previousUa = userAnswers.set(page, previousAnswer).success.value
 
@@ -61,6 +61,6 @@ trait ControllerSpecBase extends SpecBase with MockitoSugar with ScalaCheckPrope
     status(result) mustEqual SEE_OTHER
     redirectLocation(result).value mustEqual destinationRoute
 
-    verify(mockSessionService, times(1)).set(refEq(expectedUa))(any())
+    verify(mockSessionService, times(1)).set(refEq(expectedUa))(using any())
   }
 }

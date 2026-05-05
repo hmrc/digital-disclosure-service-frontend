@@ -28,7 +28,7 @@ class WhatOtherLiabilityIssuesViewSpec extends ViewSpecBase with ViewMatchers {
   val form                               = new WhatOtherLiabilityIssuesFormProvider()()
   val page: WhatOtherLiabilityIssuesView = inject[WhatOtherLiabilityIssuesView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode)(using request, messages)
 
   "view" should {
 

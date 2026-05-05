@@ -28,7 +28,7 @@ class WhyNotBeforeNowViewSpec extends ViewSpecBase with ViewMatchers {
   val form                      = new WhyNotBeforeNowFormProvider()()
   val page: WhyNotBeforeNowView = inject[WhyNotBeforeNowView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode)(using request, messages)
 
   "view" should {
 

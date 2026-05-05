@@ -377,7 +377,6 @@ class NotificationToUAServiceSpec extends AnyWordSpec with Matchers with TryValu
 
     "return no PageWithValues for an empty AboutYou" in {
       val aboutTheCompany    = AboutTheCompany()
-      ()
       val updatedUserAnswers = sut.aboutTheCompanyToUserAnswers(aboutTheCompany, emptyUA).success.value
       updatedUserAnswers.get(WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage) shouldEqual None
       updatedUserAnswers.get(WhatIsTheCompanyRegistrationNumberPage)                shouldEqual None
@@ -403,7 +402,6 @@ class NotificationToUAServiceSpec extends AnyWordSpec with Matchers with TryValu
 
     "return no PageWithValues for an empty AboutYou" in {
       val aboutTheTrust      = AboutTheTrust()
-      ()
       val updatedUserAnswers = sut.aboutTheTrustToUserAnswers(aboutTheTrust, emptyUA).success.value
       updatedUserAnswers.get(WhatIsTheTrustNamePage) shouldEqual None
       updatedUserAnswers.get(TrustAddressLookupPage) shouldEqual None
@@ -426,7 +424,6 @@ class NotificationToUAServiceSpec extends AnyWordSpec with Matchers with TryValu
 
     "return no PageWithValues for an empty AboutYou" in {
       val aboutTheLLP        = AboutTheLLP()
-      ()
       val updatedUserAnswers = sut.aboutTheLLPToUserAnswers(aboutTheLLP, emptyUA).success.value
       updatedUserAnswers.get(WhatIsTheLLPNamePage) shouldEqual None
       updatedUserAnswers.get(LLPAddressLookupPage) shouldEqual None

@@ -20,9 +20,9 @@ import controllers.actions._
 import forms.OnshoreTaxYearLiabilitiesFormProvider
 
 import javax.inject.Inject
-import models.{Mode, NormalMode, OnshoreTaxYearLiabilities, OnshoreTaxYearWithLiabilities, OnshoreYearStarting, UserAnswers, WhatOnshoreLiabilitiesDoYouNeedToDisclose, WhyDidYouNotFileAReturnOnTimeOnshore, WhyDidYouNotNotifyOnshore, WhyYouSubmittedAnInaccurateOnshoreReturn}
+import models.{Mode, NormalMode, OnshoreTaxYearLiabilities, OnshoreTaxYearWithLiabilities, OnshoreYearStarting, UserAnswers, WhatOnshoreLiabilitiesDoYouNeedToDisclose}
 import navigation.OnshoreNavigator
-import pages.{OnshoreTaxYearLiabilitiesPage, ResidentialReductionPage, WhatOnshoreLiabilitiesDoYouNeedToDisclosePage, WhyDidYouNotNotifyOnshorePage, WhyYouSubmittedAnInaccurateOnshoreReturnPage}
+import pages.{OnshoreTaxYearLiabilitiesPage, ResidentialReductionPage, WhatOnshoreLiabilitiesDoYouNeedToDisclosePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -103,13 +103,13 @@ class OnshoreTaxYearLiabilitiesController @Inject() (
       }
   }
 
-  def withYearAsync(i: Int)(f: Int => Future[Result])(implicit request: DataRequest[_]): Future[Result] =
+  def withYearAsync(i: Int)(f: Int => Future[Result])(implicit request: DataRequest[?]): Future[Result] =
     request.userAnswers.inverselySortedOnshoreTaxYears.flatMap(_.lift(i)) match {
       case Some(year: OnshoreYearStarting) => f(year.startYear)
       case _                               => Future.successful(Redirect(routes.WhichOnshoreYearsController.onPageLoad(NormalMode).url))
     }
 
-  def withYear(i: Int)(f: Int => Result)(implicit request: DataRequest[_]): Result =
+  def withYear(i: Int)(f: Int => Result)(implicit request: DataRequest[?]): Result =
     request.userAnswers.inverselySortedOnshoreTaxYears.flatMap(_.lift(i)) match {
       case Some(year: OnshoreYearStarting) => f(year.startYear)
       case _                               => Redirect(routes.WhichOnshoreYearsController.onPageLoad(NormalMode).url)

@@ -28,7 +28,7 @@ class ResidentialReductionViewSpec extends ViewSpecBase with ViewMatchers {
   val form                           = new ResidentialReductionFormProvider()()
   val page: ResidentialReductionView = inject[ResidentialReductionView]
 
-  private def createView: Html = page(form, 0, "2022", NormalMode)(request, messages)
+  private def createView: Html = page(form, 0, "2022", NormalMode)(using request, messages)
 
   "view" should {
 

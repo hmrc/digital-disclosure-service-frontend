@@ -29,7 +29,7 @@ class WhatTypeOfMortgageDidYouHaveViewSpec extends ViewSpecBase with ViewMatcher
   val page: WhatTypeOfMortgageDidYouHaveView = inject[WhatTypeOfMortgageDidYouHaveView]
   val index                                  = 0
 
-  private def createView: Html = page(form, index, NormalMode)(request, messages)
+  private def createView: Html = page(form, index, NormalMode)(using request, messages)
 
   "view" should {
 

@@ -84,6 +84,8 @@ class CorporationTaxLiabilityFormProvider @Inject() extends Mappings {
             ignored("")
           }
         }
-      )(CorporationTaxLiability.apply)(CorporationTaxLiability.unapply)
+      )(CorporationTaxLiability.apply)(o =>
+        Some(o.periodEnd, o.howMuchIncome, o.howMuchUnpaid, o.howMuchInterest, o.penaltyRate, o.penaltyRateReason)
+      )
     )
 }

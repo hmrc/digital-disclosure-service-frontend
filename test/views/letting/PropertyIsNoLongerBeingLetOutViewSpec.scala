@@ -28,7 +28,7 @@ class PropertyIsNoLongerBeingLetOutViewSpec extends ViewSpecBase with ViewMatche
   val form                                    = new PropertyIsNoLongerBeingLetOutFormProvider()()
   val page: PropertyIsNoLongerBeingLetOutView = inject[PropertyIsNoLongerBeingLetOutView]
 
-  private def createView: Html = page(form, 0, NormalMode)(request, messages)
+  private def createView: Html = page(form, 0, NormalMode)(using request, messages)
 
   "view" should {
 

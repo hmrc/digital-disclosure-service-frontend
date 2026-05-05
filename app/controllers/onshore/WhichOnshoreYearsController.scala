@@ -102,11 +102,12 @@ class WhichOnshoreYearsController @Inject() (
     val isDeliberate =
       notifySelections.contains(WhyDidYouNotNotifyOnshore.DeliberatelyDidNotNotifyOnshore) ||
         lateReturnSelections.contains(WhyDidYouNotFileAReturnOnTimeOnshore.DeliberatelyWithheldInformation) ||
-        inaccurateSelections.contains(WhyYouSubmittedAnInaccurateOnshoreReturn.DeliberatelyInaccurate) || notifySelections.contains(WhyDidYouNotNotifyOnshore.NotDeliberatelyNoReasonableExcuseOnshore)
+        inaccurateSelections.contains(
+          WhyYouSubmittedAnInaccurateOnshoreReturn.DeliberatelyInaccurate
+        ) || notifySelections.contains(WhyDidYouNotNotifyOnshore.NotDeliberatelyNoReasonableExcuseOnshore)
 
     val isCareless =
-
-        lateReturnSelections.contains(WhyDidYouNotFileAReturnOnTimeOnshore.DidNotWithholdInformationOnPurpose) ||
+      lateReturnSelections.contains(WhyDidYouNotFileAReturnOnTimeOnshore.DidNotWithholdInformationOnPurpose) ||
         inaccurateSelections.contains(WhyYouSubmittedAnInaccurateOnshoreReturn.NoReasonableCare)
 
     val behaviour =
@@ -117,7 +118,7 @@ class WhichOnshoreYearsController @Inject() (
     onshoreWhichYearsService.checkboxItems(behaviour)
   }
 
-  def changedPages(userAnswers: UserAnswers, newValue: Set[OnshoreYears]): (List[QuestionPage[_]], Boolean) = {
+  def changedPages(userAnswers: UserAnswers, newValue: Set[OnshoreYears]): (List[QuestionPage[?]], Boolean) = {
     val hasChanged          =
       !userAnswers.get(WhichOnshoreYearsPage).contains(newValue) || !areYearsMissing(userAnswers, newValue)
     val missingYearPageList =

@@ -28,7 +28,7 @@ trait ErrorSummaryFluency {
   object ErrorSummaryViewModel {
 
     def apply(
-      form: Form[_],
+      form: Form[?],
       errorLinkOverrides: Map[String, String] = Map.empty
     )(implicit messages: Messages): ErrorSummary = {
 
@@ -43,7 +43,7 @@ trait ErrorSummaryFluency {
       val errors = dedupedErrors.map { case (error, _) =>
         ErrorLink(
           href = Some(s"#${errorLinkOverrides.getOrElse(error.key, error.key)}"),
-          content = Text(messages(error.message, error.args: _*))
+          content = Text(messages(error.message, error.args*))
         )
       }
 
@@ -57,12 +57,12 @@ trait ErrorSummaryFluency {
   implicit class FluentErrorSummary(errorSummary: ErrorSummary) {
 
     def withDescription(description: Content): ErrorSummary =
-      errorSummary copy (description = description)
+      errorSummary.copy(description = description)
 
     def withCssClass(newClass: String): ErrorSummary =
-      errorSummary copy (classes = s"${errorSummary.classes} $newClass")
+      errorSummary.copy(classes = s"${errorSummary.classes} $newClass")
 
     def withAttribute(attribute: (String, String)): ErrorSummary =
-      errorSummary copy (attributes = errorSummary.attributes + attribute)
+      errorSummary.copy(attributes = errorSummary.attributes + attribute)
   }
 }

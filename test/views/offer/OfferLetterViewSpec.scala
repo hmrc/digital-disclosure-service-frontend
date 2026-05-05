@@ -28,7 +28,10 @@ class OfferLetterViewSpec extends ViewSpecBase with ViewMatchers {
   val page: OfferLetterView = inject[OfferLetterView]
 
   private def createView(entity: String, agentName: String): Html =
-    page(form, "some name", "some address line", 123, entity, agentName, areTheyTheIndividual = true)(request, messages)
+    page(form, "some name", "some address line", 123, entity, agentName, areTheyTheIndividual = true)(using
+      request,
+      messages
+    )
 
   "view" should {
 

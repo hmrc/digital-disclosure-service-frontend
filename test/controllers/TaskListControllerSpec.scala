@@ -115,7 +115,7 @@ class TaskListControllerSpec extends SpecBase with MockitoSugar {
         false,
         title,
         heading
-      )(request, messages).toString
+      )(using request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

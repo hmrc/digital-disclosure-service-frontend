@@ -47,8 +47,8 @@ class DirectorLoanAccountLiabilitiesSummaryViewSpec extends ViewSpecBase with Vi
     .get
 
   private def createView: Html = {
-    val viewModel = viewModelCreation.create(userAnswers)(messages)
-    page(viewModel, NormalMode)(request, messages)
+    val viewModel = viewModelCreation.create(userAnswers)(using messages)
+    page(viewModel, NormalMode)(using request, messages)
   }
 
   "view" should {

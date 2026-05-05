@@ -55,7 +55,7 @@ class AreYouTheEntityControllerSpec extends SpecBase with MockitoSugar with Sect
         val view = application.injector.instanceOf[AreYouTheEntityView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode, entity, false)(request, messages).toString
+        contentAsString(result) mustEqual view(form, NormalMode, entity, false)(using request, messages).toString
       }
     }
 
@@ -76,7 +76,7 @@ class AreYouTheEntityControllerSpec extends SpecBase with MockitoSugar with Sect
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(AreYouTheEntity.values.head), NormalMode, entity, false)(
+        contentAsString(result) mustEqual view(form.fill(AreYouTheEntity.values.head), NormalMode, entity, false)(using
           request,
           messages
         ).toString
@@ -85,7 +85,7 @@ class AreYouTheEntityControllerSpec extends SpecBase with MockitoSugar with Sect
 
     "must redirect to the next page when valid data is submitted" in {
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val request =
@@ -114,7 +114,7 @@ class AreYouTheEntityControllerSpec extends SpecBase with MockitoSugar with Sect
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, RelatesTo.AnIndividual, false)(
+      contentAsString(result) mustEqual view(boundForm, NormalMode, RelatesTo.AnIndividual, false)(using
         request,
         messages
       ).toString

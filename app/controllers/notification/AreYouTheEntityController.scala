@@ -79,7 +79,7 @@ class AreYouTheEntityController @Inject() (
         )
   }
 
-  def changedPages(userAnswers: UserAnswers, newAnswer: AreYouTheEntity): (List[QuestionPage[_]], Boolean) = {
+  def changedPages(userAnswers: UserAnswers, newAnswer: AreYouTheEntity): (List[QuestionPage[?]], Boolean) = {
 
     import RelatesTo._
     import AreYouTheEntity._

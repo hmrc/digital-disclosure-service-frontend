@@ -60,15 +60,17 @@ class SubmissionPDFServiceSpec extends AnyWordSpec with ScalaFutures with TryVal
   "generatePdf" should {
 
     "call userAnswersToSubmission followed by generateNotificationPDF for a notification" in {
-      when(uaToSubmissionService.uaToSubmission(emptyUA)) thenReturn testNotification
-      when(connector.generateNotificationPDF(testNotification)(hc)) thenReturn Future.successful(ByteString("1234"))
+      when(uaToSubmissionService.uaToSubmission(emptyUA)) `thenReturn` testNotification
+      when(connector.generateNotificationPDF(testNotification)(using hc)) `thenReturn` Future.successful(
+        ByteString("1234")
+      )
 
       sut.generatePdf(emptyUA).futureValue shouldEqual ByteString("1234")
     }
 
     "call userAnswersToSubmission followed by generateSubmissionPDF for a disclosure" in {
-      when(uaToSubmissionService.uaToSubmission(emptyUA)) thenReturn testDisclosure
-      when(connector.generateDisclosurePDF(testDisclosure)(hc)) thenReturn Future.successful(ByteString("1234"))
+      when(uaToSubmissionService.uaToSubmission(emptyUA)) `thenReturn` testDisclosure
+      when(connector.generateDisclosurePDF(testDisclosure)(using hc)) `thenReturn` Future.successful(ByteString("1234"))
 
       sut.generatePdf(emptyUA).futureValue shouldEqual ByteString("1234")
     }

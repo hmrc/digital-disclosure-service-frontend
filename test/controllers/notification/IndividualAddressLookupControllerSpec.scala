@@ -44,17 +44,17 @@ class IndividualAddressLookupControllerSpec extends SpecBase with ModelGenerator
   def mockGetIndividualAddressLookupRedirect(
     redirectUrl: Call
   )(response: Either[Error, URL]): OngoingStubbing[EitherT[Future, Error, URL]] =
-    when(mockAddressLookupService.getIndividualAddressLookupRedirect(eqTo(redirectUrl))(any(), any()))
+    when(mockAddressLookupService.getIndividualAddressLookupRedirect(eqTo(redirectUrl))(using any(), any()))
       .thenReturn(EitherT.fromEither[Future](response))
 
   def mockRetrieveUserAddress(
     addressId: UUID
   )(response: Either[Error, Address]): OngoingStubbing[EitherT[Future, Error, Address]] =
-    when(mockAddressLookupService.retrieveUserAddress(eqTo(addressId))(any()))
+    when(mockAddressLookupService.retrieveUserAddress(eqTo(addressId))(using any()))
       .thenReturn(EitherT.fromEither[Future](response))
 
   def mockServiceSet(response: Future[Boolean]): OngoingStubbing[Future[Boolean]] =
-    when(mockSessionService.set(any())(any())).thenReturn(response)
+    when(mockSessionService.set(any())(using any())).thenReturn(response)
 
   val app: Application = applicationWithFakeNotificationNavigator(onwardRoute)
 

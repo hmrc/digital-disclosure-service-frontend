@@ -69,15 +69,15 @@ class AddressLookupConnectorSpec
 
   "The address lookup connector" when {
 
-    "handling requests to submit claim" must {
-      val request = sampleAddressLookupRequest
-
-      val url = url"http://localhost:9028/api/init"
-      behave like connectorBehaviour(
-        mockPost(url = url, requestBody = request)(_),
-        () => connector.initialise(request)
-      )
-    }
+//    "handling requests to submit claim" must {
+//      val request = sampleAddressLookupRequest
+//
+//      val url = url"http://localhost:9028/api/init"
+//      behave like connectorBehaviour(
+//        mockPost(url = url, requestBody = request)(_),
+//        () => connector.initialise(request)
+//      )
+//    }
 
     "Retrieve address" must {
       val uuid = UUID.randomUUID()

@@ -56,7 +56,7 @@ class AccountingPeriodCTAddedViewSpec extends ViewSpecBase with ViewMatchers {
 
     val corporationTaxLiabilitiesSummaries = CorporationTaxLiabilityModel.row(Seq(corporationTaxLiability), NormalMode)
 
-    def createView: Html = page(form, corporationTaxLiabilitiesSummaries, NormalMode)(request, messages)
+    def createView: Html = page(form, corporationTaxLiabilitiesSummaries, NormalMode)(using request, messages)
     val view             = createView
 
     "have title" in {
@@ -91,7 +91,7 @@ class AccountingPeriodCTAddedViewSpec extends ViewSpecBase with ViewMatchers {
     val corporationTaxLiabilitiesSummaries =
       CorporationTaxLiabilityModel.row(Seq(corporationTaxLiability, corporationTaxLiability2), NormalMode)
 
-    def createView: Html = page(form, corporationTaxLiabilitiesSummaries, NormalMode)(request, messages)
+    def createView: Html = page(form, corporationTaxLiabilitiesSummaries, NormalMode)(using request, messages)
 
     val view = createView
 

@@ -28,7 +28,7 @@ class FHLViewSpec extends ViewSpecBase with ViewMatchers {
   val form          = new FHLFormProvider()()
   val page: FHLView = inject[FHLView]
 
-  private def createView: Html = page(form, 0, NormalMode)(request, messages)
+  private def createView: Html = page(form, 0, NormalMode)(using request, messages)
 
   "view" should {
 

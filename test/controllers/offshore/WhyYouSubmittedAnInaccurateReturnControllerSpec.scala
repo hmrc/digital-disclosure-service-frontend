@@ -39,7 +39,7 @@ class WhyYouSubmittedAnInaccurateReturnControllerSpec extends SpecBase with Mock
     routes.WhyYouSubmittedAnInaccurateReturnController.onPageLoad(NormalMode).url
 
   val formProvider = new WhyYouSubmittedAnInaccurateOffshoreReturnFormProvider()
-  val form = formProvider("WhyYouSubmittedAnInaccurateReturn.error.required.you")
+  val form         = formProvider("WhyYouSubmittedAnInaccurateReturn.error.required.you")
 
   "WhyYouSubmittedAnInaccurateReturn Controller" - {
 
@@ -63,7 +63,10 @@ class WhyYouSubmittedAnInaccurateReturnControllerSpec extends SpecBase with Mock
 
       status(result) mustEqual OK
 
-      contentAsString(result) mustEqual view(form, NormalMode, areTheyTheIndividual, entity)(request, messages).toString
+      contentAsString(result) mustEqual view(form, NormalMode, areTheyTheIndividual, entity)(using
+        request,
+        messages
+      ).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -94,7 +97,7 @@ class WhyYouSubmittedAnInaccurateReturnControllerSpec extends SpecBase with Mock
         NormalMode,
         areTheyTheIndividual,
         entity
-      )(request, messages).toString
+      )(using request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -104,7 +107,7 @@ class WhyYouSubmittedAnInaccurateReturnControllerSpec extends SpecBase with Mock
         uaWithRelatesToPage <- userAnswer.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield uaWithRelatesToPage).success.value
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(userAnswers))
 
       val request =
@@ -140,7 +143,7 @@ class WhyYouSubmittedAnInaccurateReturnControllerSpec extends SpecBase with Mock
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(
+      contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(using
         request,
         messages
       ).toString

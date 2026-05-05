@@ -70,12 +70,12 @@ class YouHaveNotIncludedTheTaxYearController @Inject() (
     } yield {
       val missingYears = TaxYearStarting.findMissingYears(years.toList)
       missingYears match {
-        case head :: Nil  => f(userAnswers, mode, head, firstYear, lastYear)
-        case head :: tail =>
+        case head :: Nil => f(userAnswers, mode, head, firstYear, lastYear)
+        case head :: _   =>
           Future.successful(
             Redirect(controllers.offshore.routes.YouHaveNotSelectedCertainTaxYearController.onPageLoad(NormalMode).url)
           )
-        case Nil          =>
+        case Nil         =>
           Future.successful(
             Redirect(
               controllers.offshore.routes.CountryOfYourOffshoreLiabilityController.onPageLoad(None, NormalMode).url
@@ -94,7 +94,7 @@ class YouHaveNotIncludedTheTaxYearController @Inject() (
     missingYear: TaxYearStarting,
     firstYear: TaxYearStarting,
     lastYear: TaxYearStarting
-  )(implicit request: DataRequest[_]): Future[Result] = {
+  )(implicit request: DataRequest[?]): Future[Result] = {
     val missingYr: String = (missingYear.toString.toInt + 1).toString
     val firstYr: String   = (firstYear.toString.toInt + 1).toString
     val lastYr: String    = (lastYear.toString.toInt + 1).toString
@@ -112,7 +112,7 @@ class YouHaveNotIncludedTheTaxYearController @Inject() (
     missingYear: TaxYearStarting,
     firstYear: TaxYearStarting,
     lastYear: TaxYearStarting
-  )(implicit request: DataRequest[_]): Future[Result] = {
+  )(implicit request: DataRequest[?]): Future[Result] = {
     val missingYr: String = (missingYear.toString.toInt + 1).toString
     val firstYr: String   = (firstYear.toString.toInt + 1).toString
     val lastYr: String    = (lastYear.toString.toInt + 1).toString

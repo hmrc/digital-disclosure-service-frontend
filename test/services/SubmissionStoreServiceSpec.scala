@@ -42,7 +42,7 @@ class SubmissionStoreServiceSpec extends AnyWordSpec with Matchers with MockFact
     response: Future[Option[Submission]]
   ): CallHandler3[String, String, HeaderCarrier, Future[Option[Submission]]] =
     (connector
-      .getSubmission(_: String, _: String)(_: HeaderCarrier))
+      .getSubmission(_: String, _: String)(using _: HeaderCarrier))
       .expects(userId, submissionId, *)
       .returning(response)
 
@@ -50,7 +50,7 @@ class SubmissionStoreServiceSpec extends AnyWordSpec with Matchers with MockFact
     response: Future[Seq[Submission]]
   ): CallHandler2[String, HeaderCarrier, Future[Seq[Submission]]] =
     (connector
-      .getAllSubmissions(_: String)(_: HeaderCarrier))
+      .getAllSubmissions(_: String)(using _: HeaderCarrier))
       .expects(userId, *)
       .returning(response)
 
@@ -58,7 +58,7 @@ class SubmissionStoreServiceSpec extends AnyWordSpec with Matchers with MockFact
     response: Future[Result]
   ): CallHandler2[Submission, HeaderCarrier, Future[Result]] =
     (connector
-      .setSubmission(_: Submission)(_: HeaderCarrier))
+      .setSubmission(_: Submission)(using _: HeaderCarrier))
       .expects(notification, *)
       .returning(response)
 
@@ -66,7 +66,7 @@ class SubmissionStoreServiceSpec extends AnyWordSpec with Matchers with MockFact
     response: Future[Result]
   ): CallHandler3[String, String, HeaderCarrier, Future[Result]] =
     (connector
-      .deleteSubmission(_: String, _: String)(_: HeaderCarrier))
+      .deleteSubmission(_: String, _: String)(using _: HeaderCarrier))
       .expects(userId, submissionId, *)
       .returning(response)
 

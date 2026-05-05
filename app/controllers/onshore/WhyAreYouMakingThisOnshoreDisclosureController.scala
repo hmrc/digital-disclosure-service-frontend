@@ -83,7 +83,7 @@ class WhyAreYouMakingThisOnshoreDisclosureController @Inject() (
   def changedPages(
     answers: UserAnswers,
     value: Set[WhyAreYouMakingThisOnshoreDisclosure]
-  ): (List[QuestionPage[_]], Boolean) =
+  ): (List[QuestionPage[?]], Boolean) =
     answers.get(WhyAreYouMakingThisOnshoreDisclosurePage) match {
       case Some(reasons) if reasons != value =>
         (WhyAreYouMakingThisOnshoreDisclosureController.getPages(value), true)
@@ -97,7 +97,7 @@ class WhyAreYouMakingThisOnshoreDisclosureController @Inject() (
 
 object WhyAreYouMakingThisOnshoreDisclosureController {
 
-  def getPages(reasons: Set[WhyAreYouMakingThisOnshoreDisclosure]): List[QuestionPage[_]] =
+  def getPages(reasons: Set[WhyAreYouMakingThisOnshoreDisclosure]): List[QuestionPage[?]] =
     List(
       WhyDidYouNotNotifyOnshorePage,
       ReasonableExcuseOnshorePage,

@@ -106,10 +106,11 @@ class WhichYearsController @Inject() (
     val isDeliberate =
       notifySelections.contains(WhyDidYouNotNotify.DeliberatelyDidNotNotify) ||
         lateReturnSelections.contains(WhyDidYouNotFileAReturnOnTimeOffshore.DeliberatelyWithheldInformation) ||
-        inaccurateSelections.contains(WhyYouSubmittedAnInaccurateReturn.DeliberatelyInaccurate) || notifySelections.contains(WhyDidYouNotNotify.NotDeliberatelyNoReasonableExcuse)
+        inaccurateSelections.contains(WhyYouSubmittedAnInaccurateReturn.DeliberatelyInaccurate) || notifySelections
+          .contains(WhyDidYouNotNotify.NotDeliberatelyNoReasonableExcuse)
 
     val isCareless =
-        lateReturnSelections.contains(WhyDidYouNotFileAReturnOnTimeOffshore.DidNotWithholdInformationOnPurpose) ||
+      lateReturnSelections.contains(WhyDidYouNotFileAReturnOnTimeOffshore.DidNotWithholdInformationOnPurpose) ||
         inaccurateSelections.contains(WhyYouSubmittedAnInaccurateReturn.NoReasonableCare)
 
     val behaviour =
@@ -120,7 +121,7 @@ class WhichYearsController @Inject() (
     offshoreWhichYearsService.checkboxItems(behaviour)
   }
 
-  def changedPages(userAnswers: UserAnswers, newValue: Set[OffshoreYears]): (List[QuestionPage[_]], Boolean) = {
+  def changedPages(userAnswers: UserAnswers, newValue: Set[OffshoreYears]): (List[QuestionPage[?]], Boolean) = {
     val missingYearsCount = userAnswers.inverselySortedOffshoreTaxYears
       .map(ty => TaxYearStarting.findMissingYears(ty.toList).size)
       .getOrElse(0)

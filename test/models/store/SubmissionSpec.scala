@@ -29,14 +29,14 @@ class SubmissionSpec extends AnyWordSpec with Matchers {
       val actual = Json
         .toJson(Notification("123", "456", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou())))
         .as[JsObject] - "created"
-      actual.validate[Notification] shouldBe a[JsSuccess[_]]
+      actual.validate[Notification] shouldBe a[JsSuccess[?]]
     }
 
     "convert json to Notification where declaration is missing" in {
       val actual = Json
         .toJson(Notification("123", "456", Instant.now(), Metadata(), PersonalDetails(Background(), AboutYou())))
         .as[JsObject] - "madeDeclaration"
-      actual.validate[Notification] shouldBe a[JsSuccess[_]]
+      actual.validate[Notification] shouldBe a[JsSuccess[?]]
     }
   }
 

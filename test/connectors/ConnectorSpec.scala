@@ -26,7 +26,7 @@ import models.Error
 
 import scala.concurrent.Future
 
-trait ConnectorSpec { this: Matchers with AnyWordSpec =>
+trait ConnectorSpec { this: Matchers & AnyWordSpec =>
 
   def connectorBehaviour(
     mockHttpCall: Option[HttpResponse] => Unit,

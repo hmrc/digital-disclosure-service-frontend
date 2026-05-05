@@ -33,7 +33,7 @@ class DidYouReceiveTaxCreditViewSpec extends ViewSpecBase with ViewMatchers with
   val entity               = arbitrary[RelatesTo].sample.value
   val form                 = new DidYouReceiveTaxCreditFormProvider()(areTheyTheIndividual, entity)
 
-  private def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+  private def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
 
   "view" should {
 

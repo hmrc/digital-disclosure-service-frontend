@@ -46,12 +46,12 @@ class DisclosureSubmissionServiceSpec
       val metadata           = Metadata(reference = Some("123456"), submissionTime = Some(time))
       val updatedUserAnswers = emptyUA.copy(metadata = metadata)
 
-      when(uaToDisclosureService.uaToFullDisclosure(updatedUserAnswers)) thenReturn testDisclosure
-      when(connector.submitDisclosure(testDisclosure)(hc)) thenReturn Future.successful("id")
-      when(sessionService.set(updatedUserAnswers)(hc)) thenReturn Future.successful(true)
+      when(uaToDisclosureService.uaToFullDisclosure(updatedUserAnswers)) `thenReturn` testDisclosure
+      when(connector.submitDisclosure(testDisclosure)(using hc)) `thenReturn` Future.successful("id")
+      when(sessionService.set(updatedUserAnswers)(using hc)) `thenReturn` Future.successful(true)
 
       sut.submitDisclosure(emptyUA).futureValue shouldEqual "123456"
-      verify(auditService).auditDisclosureSubmission(testDisclosure)(hc)
+      verify(auditService).auditDisclosureSubmission(testDisclosure)(using hc)
     }
 
     trait Test {

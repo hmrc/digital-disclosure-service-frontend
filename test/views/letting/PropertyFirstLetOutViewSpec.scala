@@ -28,7 +28,7 @@ class PropertyFirstLetOutViewSpec extends ViewSpecBase with ViewMatchers {
   val form                          = new PropertyFirstLetOutFormProvider()()
   val page: PropertyFirstLetOutView = inject[PropertyFirstLetOutView]
 
-  private def createView: Html = page(form, 0, NormalMode)(request, messages)
+  private def createView: Html = page(form, 0, NormalMode)(using request, messages)
 
   "view" should {
 

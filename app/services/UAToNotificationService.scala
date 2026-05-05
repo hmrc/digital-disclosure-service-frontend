@@ -16,10 +16,10 @@
 
 package services
 
-import models._
-import models.store.Notification
-import models.store.notification._
-import pages._
+import models.{DoYouHaveNationalInsuranceNumber, HowWouldYouPreferToBeContacted, RelatesTo, UserAnswers}
+import models.store.{Notification, YesNoOrUnsure}
+import models.store.notification.*
+import pages.*
 import com.google.inject.{ImplementedBy, Singleton}
 
 @Singleton
@@ -108,11 +108,15 @@ class UAToNotificationServiceImpl extends UAToNotificationService {
           Some(ContactPreferences(contactPreference))
         case _                => None
       },
-      doYouHaveANino = userAnswers.get(DoYouHaveNationalInsuranceNumberPage),
+      doYouHaveANino = userAnswers.get(DoYouHaveNationalInsuranceNumberPage).map {
+        case DoYouHaveNationalInsuranceNumber.YesIKnow       => YesNoOrUnsure.Yes
+        case DoYouHaveNationalInsuranceNumber.YesButDontKnow => YesNoOrUnsure.Unsure
+        case DoYouHaveNationalInsuranceNumber.No             => YesNoOrUnsure.No
+      },
       nino = userAnswers.get(WhatIsYourNationalInsuranceNumberPage),
-      registeredForVAT = userAnswers.get(AreYouRegisteredForVATPage),
+      registeredForVAT = userAnswers.get(AreYouRegisteredForVATPage.path),
       vatRegNumber = userAnswers.get(WhatIsYourVATRegistrationNumberPage),
-      registeredForSA = userAnswers.get(AreYouRegisteredForSelfAssessmentPage),
+      registeredForSA = userAnswers.get(AreYouRegisteredForSelfAssessmentPage.path),
       sautr = userAnswers.get(WhatIsYourUniqueTaxReferencePage),
       address = userAnswers.get(YourAddressLookupPage)
     )
@@ -122,11 +126,11 @@ class UAToNotificationServiceImpl extends UAToNotificationService {
       fullName = userAnswers.get(WhatIsTheIndividualsFullNamePage),
       dateOfBirth = userAnswers.get(WhatIsTheIndividualDateOfBirthPage),
       mainOccupation = userAnswers.get(WhatIsTheIndividualOccupationPage),
-      doTheyHaveANino = userAnswers.get(DoesTheIndividualHaveNationalInsuranceNumberPage),
+      doTheyHaveANino = userAnswers.get(DoesTheIndividualHaveNationalInsuranceNumberPage.path),
       nino = userAnswers.get(WhatIsIndividualsNationalInsuranceNumberPage),
-      registeredForVAT = userAnswers.get(IsTheIndividualRegisteredForVATPage),
+      registeredForVAT = userAnswers.get(IsTheIndividualRegisteredForVATPage.path),
       vatRegNumber = userAnswers.get(WhatIsTheIndividualsVATRegistrationNumberPage),
-      registeredForSA = userAnswers.get(IsTheIndividualRegisteredForSelfAssessmentPage),
+      registeredForSA = userAnswers.get(IsTheIndividualRegisteredForSelfAssessmentPage.path),
       sautr = userAnswers.get(WhatIsTheIndividualsUniqueTaxReferencePage),
       address = userAnswers.get(IndividualAddressLookupPage)
     )
@@ -136,11 +140,11 @@ class UAToNotificationServiceImpl extends UAToNotificationService {
       fullName = userAnswers.get(WhatWasTheNameOfThePersonWhoDiedPage),
       dateOfBirth = userAnswers.get(WhatWasThePersonDateOfBirthPage),
       mainOccupation = userAnswers.get(WhatWasThePersonOccupationPage),
-      doTheyHaveANino = userAnswers.get(DidThePersonHaveNINOPage),
+      doTheyHaveANino = userAnswers.get(DidThePersonHaveNINOPage.path),
       nino = userAnswers.get(WhatWasThePersonNINOPage),
-      registeredForVAT = userAnswers.get(WasThePersonRegisteredForVATPage),
+      registeredForVAT = userAnswers.get(WasThePersonRegisteredForVATPage.path),
       vatRegNumber = userAnswers.get(WhatWasThePersonVATRegistrationNumberPage),
-      registeredForSA = userAnswers.get(WasThePersonRegisteredForSAPage),
+      registeredForSA = userAnswers.get(WasThePersonRegisteredForSAPage.path),
       sautr = userAnswers.get(WhatWasThePersonUTRPage),
       address = userAnswers.get(EstateAddressLookupPage)
     )

@@ -45,12 +45,12 @@ class NotificationSubmissionServiceSpec
       val metadata           = Metadata(reference = Some("123456"), submissionTime = Some(time))
       val updatedUserAnswers = emptyUA.copy(metadata = metadata)
 
-      when(UAToNotificationService.userAnswersToNotification(updatedUserAnswers)) thenReturn testNotification
-      when(connector.submitNotification(testNotification)(hc)) thenReturn Future.successful("id")
-      when(sessionService.set(updatedUserAnswers)(hc)) thenReturn Future.successful(true)
+      when(UAToNotificationService.userAnswersToNotification(updatedUserAnswers)) `thenReturn` testNotification
+      when(connector.submitNotification(testNotification)(using hc)) `thenReturn` Future.successful("id")
+      when(sessionService.set(updatedUserAnswers)(using hc)) `thenReturn` Future.successful(true)
 
       sut.submitNotification(emptyUA).futureValue shouldEqual "123456"
-      verify(auditService).auditNotificationSubmission(testNotification)(hc)
+      verify(auditService).auditNotificationSubmission(testNotification)(using hc)
     }
 
     trait Test {

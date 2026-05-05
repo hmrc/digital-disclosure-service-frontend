@@ -28,7 +28,7 @@ class PropertyStoppedBeingLetOutViewSpec extends ViewSpecBase with ViewMatchers 
   val form                                 = new PropertyStoppedBeingLetOutFormProvider()()
   val page: PropertyStoppedBeingLetOutView = inject[PropertyStoppedBeingLetOutView]
 
-  private def createView: Html = page(form, 0, NormalMode)(request, messages)
+  private def createView: Html = page(form, 0, NormalMode)(using request, messages)
 
   "view" should {
 

@@ -17,13 +17,12 @@
 package controllers.onshore
 
 import base.SpecBase
-import controllers.onshore.WhichOnshoreYearsController
 import forms.WhichOnshoreYearsFormProvider
-import models.{Behaviour, CheckMode, NormalMode, OnshoreTaxYearLiabilities, OnshoreTaxYearWithLiabilities, OnshoreYearStarting, OnshoreYears, UserAnswers, WhyAreYouMakingThisOnshoreDisclosure}
+import models.{Behaviour, CheckMode, NormalMode, OnshoreTaxYearLiabilities, OnshoreTaxYearWithLiabilities, OnshoreYearStarting, OnshoreYears, UserAnswers}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.{OnshoreTaxYearLiabilitiesPage, WhichOnshoreYearsPage, WhyAreYouMakingThisOnshoreDisclosurePage}
+import pages.{OnshoreTaxYearLiabilitiesPage, WhichOnshoreYearsPage}
 import play.api.i18n.Messages
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -42,14 +41,6 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
 
   val formProvider = new WhichOnshoreYearsFormProvider()
   val form         = formProvider()
-
-  "determineBehaviour" - {
-
-    val controller              = application.injector.instanceOf[WhichOnshoreYearsController]
-    implicit val mess: Messages = messages
-    val service                 = application.injector.instanceOf[OnshoreWhichYearsService]
-
-  }
 
   "WhichOnshoreYears Controller" - {
 
@@ -73,7 +64,7 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
         service.checkboxItems(Behaviour.ReasonableExcuse),
         false,
         false
-      )(request, messages).toString
+      )(using request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -99,12 +90,12 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
         service.checkboxItems(Behaviour.ReasonableExcuse),
         false,
         false
-      )(request, messages).toString
+      )(using request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val request =
@@ -140,7 +131,7 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
         service.checkboxItems(Behaviour.ReasonableExcuse),
         false,
         false
-      )(request, messages).toString
+      )(using request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
@@ -195,7 +186,7 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
         .success
         .value
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(userAnswers))
 
       val request =
@@ -234,7 +225,7 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
         .success
         .value
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(userAnswers))
 
       val request =
@@ -284,7 +275,7 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
         .success
         .value
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(userAnswers))
 
       val request =
@@ -334,7 +325,7 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
         .success
         .value
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(userAnswers))
 
       val request =
@@ -387,7 +378,7 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
         .success
         .value
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(userAnswers))
 
       val request =
@@ -440,7 +431,7 @@ class WhichOnshoreYearsControllerSpec extends SpecBase with MockitoSugar {
         .success
         .value
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(userAnswers))
 
       val request =

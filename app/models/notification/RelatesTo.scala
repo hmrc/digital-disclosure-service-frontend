@@ -49,5 +49,5 @@ object RelatesTo extends Enumerable.Implicits with HintFluency {
   }
 
   implicit val enumerable: Enumerable[RelatesTo] =
-    Enumerable(values.map(v => v.toString -> v): _*)
+    Enumerable(values.map(v => v.toString -> v)*)
 }

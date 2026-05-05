@@ -32,7 +32,6 @@ class CaseManagementController @Inject() (
   override val messagesApi: MessagesApi,
   identify: IdentifierAction,
   getData: DataRetrievalAction,
-  requireData: DataRequiredAction,
   submissionStoreService: SubmissionStoreService,
   sessionService: SessionService,
   submissionToUAService: SubmissionToUAService,

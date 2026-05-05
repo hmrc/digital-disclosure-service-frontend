@@ -67,7 +67,7 @@ class CorporationTaxLiabilityControllerSpec extends SpecBase with MockitoSugar {
       val view = application.injector.instanceOf[CorporationTaxLiabilityView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, NormalMode, 0, true)(getRequest(), messages).toString
+      contentAsString(result) mustEqual view(form, NormalMode, 0, true)(using getRequest(), messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -82,12 +82,15 @@ class CorporationTaxLiabilityControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, getRequest()).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(answer), NormalMode, 0, true)(getRequest(), messages).toString
+      contentAsString(result) mustEqual view(form.fill(answer), NormalMode, 0, true)(using
+        getRequest(),
+        messages
+      ).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val request =
@@ -124,7 +127,7 @@ class CorporationTaxLiabilityControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, 0, true)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode, 0, true)(using request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

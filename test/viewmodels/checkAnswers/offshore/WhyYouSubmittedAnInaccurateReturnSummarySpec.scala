@@ -22,7 +22,6 @@ import pages.{AreYouTheEntityPage, RelatesToPage, WhyYouSubmittedAnInaccurateOff
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Key
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
-import viewmodels.govuk.summarylist._
 
 class WhyYouSubmittedAnInaccurateReturnSummarySpec extends SpecBase {
 

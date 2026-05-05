@@ -8,7 +8,7 @@ import uk.gov.hmrc.DefaultBuildSettings
 lazy val appName: String = "digital-disclosure-service-frontend"
 
 ThisBuild / majorVersion := 0
-ThisBuild / scalaVersion := "2.13.16"
+ThisBuild / scalaVersion := "3.7.1"
 
 lazy val microservice = (project in file("."))
   .enablePlugins(PlayScala, SbtDistributablesPlugin)
@@ -35,6 +35,7 @@ lazy val microservice = (project in file("."))
       "viewmodels.govuk.all._"
     ),
     PlayKeys.playDefaultPort := 15003,
+    ScoverageKeys.coverageExcludedPackages := """<empty>;.*models.*;""",
     ScoverageKeys.coverageExcludedFiles := "<empty>;Reverse.*;.*handlers.*;.*components.*;" +
       ".*Routes.*;.*viewmodels.govuk.*;",
     ScoverageKeys.coverageMinimumStmtTotal := 90,
@@ -42,8 +43,9 @@ lazy val microservice = (project in file("."))
     ScoverageKeys.coverageHighlighting := true,
     scalacOptions ++= Seq(
       "-feature",
-      "-Wconf:cat=deprecation:ws,cat=feature:ws,cat=optimizer:ws,src=target/.*:s"
-    ) ++ Seq("-unchecked", "-deprecation") ++ Seq("-Ypatmat-exhaust-depth", "40"),
+      "-Wconf:cat=deprecation:silent,cat=feature:silent,src=target/.*:silent",
+      "-Wconf:msg=Unreachable case except for null:silent"
+    ),
     libraryDependencies ++= AppDependencies(),
     excludeDependencies += ExclusionRule("org.lz4", "lz4-java"),
     retrieveManaged := true,
@@ -59,7 +61,8 @@ lazy val microservice = (project in file("."))
     ),
     pipelineStages := Seq(digest),
     // below line required to force asset pipeline to operate in dev rather than only prod
-    Assets / pipelineStages := Seq(concat)
+    Assets / pipelineStages := Seq(concat),
+    scalacOptions ~= (_.distinct)
   )
 
 def oneForkedJvmPerPackage(tests: Seq[TestDefinition]) =
@@ -74,10 +77,7 @@ def oneForkedJvmPerPackage(tests: Seq[TestDefinition]) =
 lazy val testSettings: Seq[Def.Setting[?]] = Seq(
   fork := true,
   testGrouping := oneForkedJvmPerPackage((Test / definedTests).value),
-  unmanagedSourceDirectories += baseDirectory.value / "test-utils",
-  scalacOptions ++= Seq(
-    "-feature"
-  )
+  unmanagedSourceDirectories += baseDirectory.value / "test-utils"
 )
 
 lazy val it = project

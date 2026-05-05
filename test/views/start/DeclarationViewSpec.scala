@@ -25,7 +25,7 @@ class DeclarationViewSpec extends ViewSpecBase with ViewMatchers {
 
   val page: DeclarationView = inject[DeclarationView]
 
-  private def createView(isAgent: Boolean): Html = page(isAgent)(request, messages)
+  private def createView(isAgent: Boolean): Html = page(isAgent)(using request, messages)
 
   "view for an agent" should {
 

@@ -20,7 +20,7 @@ import play.api.data.{Form, FormError}
 
 trait BigIntFieldBehaviours extends FieldBehaviours {
 
-  def bigintField(form: Form[_], fieldName: String, nonNumericError: FormError, wholeNumberError: FormError): Unit = {
+  def bigintField(form: Form[?], fieldName: String, nonNumericError: FormError, wholeNumberError: FormError): Unit = {
 
     "not bind non-numeric numbers" in {
 
@@ -40,35 +40,35 @@ trait BigIntFieldBehaviours extends FieldBehaviours {
 
   }
 
-  def bigintFieldWithMinimumZero(form: Form[_], fieldName: String, expectedError: FormError): Unit =
+  def bigintFieldWithMinimumZero(form: Form[?], fieldName: String, expectedError: FormError): Unit =
     s"not bind integers below zero" in {
 
-      forAll(bigintsBelowZero -> "intBelowMin") { number: BigInt =>
+      forAll(bigintsBelowZero -> "intBelowMin") { (number: BigInt) =>
         val result = form.bind(Map(fieldName -> number.toString)).apply(fieldName)
         result.errors must contain only expectedError
       }
     }
 
-  def bigintFieldWithMinimum(form: Form[_], fieldName: String, minimum: BigInt, expectedError: FormError): Unit =
+  def bigintFieldWithMinimum(form: Form[?], fieldName: String, minimum: BigInt, expectedError: FormError): Unit =
     s"not bind integers below $minimum" in {
 
-      forAll(bigintsBelowValue(minimum) -> "intBelowMin") { number: BigInt =>
+      forAll(bigintsBelowValue(minimum) -> "intBelowMin") { (number: BigInt) =>
         val result = form.bind(Map(fieldName -> number.toString)).apply(fieldName)
         result.errors must contain only expectedError
       }
     }
 
-  def bigintFieldWithMaximum(form: Form[_], fieldName: String, maximum: BigInt, expectedError: FormError): Unit =
+  def bigintFieldWithMaximum(form: Form[?], fieldName: String, maximum: BigInt, expectedError: FormError): Unit =
     s"not bind integers above $maximum" in {
 
-      forAll(bigintsAboveValue(maximum) -> "intAboveMax") { number: BigInt =>
+      forAll(bigintsAboveValue(maximum) -> "intAboveMax") { (number: BigInt) =>
         val result = form.bind(Map(fieldName -> number.toString)).apply(fieldName)
         result.errors must contain only expectedError
       }
     }
 
   def bigintFieldWithRange(
-    form: Form[_],
+    form: Form[?],
     fieldName: String,
     minimum: BigInt,
     maximum: BigInt,

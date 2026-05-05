@@ -23,10 +23,11 @@ import org.mongodb.scala.model.Filters
 import org.scalatest.OptionValues
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.matchers.must.Matchers
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.libs.json.Json
 import uk.gov.hmrc.mongo.test.DefaultPlayMongoRepositorySupport
+import uk.gov.hmrc.mongo.play.json.PlayMongoRepository
+import org.scalatest.matchers.should.Matchers
 
 import java.time.{Clock, Instant, ZoneId}
 import java.time.temporal.ChronoUnit
@@ -47,25 +48,36 @@ class SessionRepositorySpec
   private val userAnswers = UserAnswers("id", "session-123", "submissionId", SubmissionType.Notification, Json.obj("foo" -> "bar"), Instant.ofEpochSecond(1), created = instant)
 
   private val mockAppConfig = mock[FrontendAppConfig]
-  when(mockAppConfig.cacheTtl) thenReturn 1
+  when(mockAppConfig.cacheTtl) `thenReturn` 1
 
-  protected override val repository = new SessionRepositoryImpl(
+  private val repoImpl = new SessionRepositoryImpl(
     mongoComponent = mongoComponent,
     appConfig      = mockAppConfig,
     clock          = stubClock
   )
+  override protected val repository: PlayMongoRepository[UserAnswers] =
+    repoImpl
+
+  private val sessionRepository: SessionRepository =
+    repoImpl
+
+//  protected override val repository = new SessionRepositoryImpl(
+//    mongoComponent = mongoComponent,
+//    appConfig      = mockAppConfig,
+//    clock          = stubClock
+//  )
 
   ".set" - {
 
     "must set the last updated time on the supplied user answers to `now`, and save them" in {
 
-      val expectedResult = userAnswers copy (lastUpdated = instant)
+      val expectedResult = userAnswers.copy(lastUpdated = instant)
 
-      val setResult     = repository.set(userAnswers).futureValue
+      val setResult     = sessionRepository.set(userAnswers).futureValue
       val updatedRecord = find(Filters.equal("userId", userAnswers.id)).futureValue.headOption.value
 
-      setResult mustEqual true
-      updatedRecord mustEqual expectedResult
+      setResult shouldBe true
+      updatedRecord shouldBe expectedResult
     }
   }
 
@@ -77,10 +89,10 @@ class SessionRepositorySpec
 
         insert(userAnswers).futureValue
 
-        val result         = repository.get(userAnswers.id, userAnswers.sessionId).futureValue
-        val expectedResult = userAnswers copy (lastUpdated = instant)
+        val result         = sessionRepository.get(userAnswers.id, userAnswers.sessionId).futureValue
+        val expectedResult = userAnswers.copy(lastUpdated = instant)
 
-        result.value mustEqual expectedResult
+        result.value shouldBe expectedResult
       }
     }
 
@@ -88,7 +100,7 @@ class SessionRepositorySpec
 
       "must return None" in {
 
-        repository.get("id that does not exist", "session id that does not exist").futureValue must not be defined
+        sessionRepository.get("id that does not exist", "session id that does not exist").futureValue shouldBe empty
       }
     }
   }
@@ -99,16 +111,16 @@ class SessionRepositorySpec
 
       insert(userAnswers).futureValue
 
-      val result = repository.clear(userAnswers.id, userAnswers.sessionId).futureValue
+      val result = sessionRepository.clear(userAnswers.id, userAnswers.sessionId).futureValue
 
-      result mustEqual true
-      repository.get(userAnswers.id, userAnswers.sessionId).futureValue must not be defined
+      result shouldBe true
+      sessionRepository.get(userAnswers.id, userAnswers.sessionId).futureValue shouldBe empty
     }
 
     "must return true when there is no record to remove" in {
-      val result = repository.clear("id that does not exist", "session id that does not exist").futureValue
+      val result = sessionRepository.clear("id that does not exist", "session id that does not exist").futureValue
 
-      result mustEqual true
+      result shouldBe true
     }
   }
 
@@ -120,13 +132,13 @@ class SessionRepositorySpec
 
         insert(userAnswers).futureValue
 
-        val result = repository.keepAlive(userAnswers.id, userAnswers.sessionId).futureValue
+        val result = sessionRepository.keepAlive(userAnswers.id, userAnswers.sessionId).futureValue
 
-        val expectedUpdatedAnswers = userAnswers copy (lastUpdated = instant)
+        val expectedUpdatedAnswers = userAnswers.copy(lastUpdated = instant)
 
-        result mustEqual true
+        result shouldBe true
         val updatedAnswers = find(Filters.equal("userId", userAnswers.id)).futureValue.headOption.value
-        updatedAnswers mustEqual expectedUpdatedAnswers
+        updatedAnswers shouldBe expectedUpdatedAnswers
       }
     }
 
@@ -134,7 +146,7 @@ class SessionRepositorySpec
 
       "must return true" in {
 
-        repository.keepAlive("id that does not exist", "session id that does not exist").futureValue mustEqual true
+        sessionRepository.keepAlive("id that does not exist", "session id that does not exist").futureValue shouldBe true
       }
     }
   }
