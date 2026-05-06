@@ -436,9 +436,13 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
         behaviour = Some(Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyNoExcuse))
       )
       val updatedUserAnswers = sut.onshoreLiabilitiesToUa(Some(onshoreLiabilities), emptyUA).success.value
-      updatedUserAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage) shouldEqual Some(Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC))
-      updatedUserAnswers.get(WhyDidYouNotNotifyOnshorePage)            shouldEqual Some(Set(WhyDidYouNotNotifyOnshore.NotDeliberatelyNoReasonableExcuseOnshore))
-      updatedUserAnswers.get(WhyDidYouNotFileAReturnOnTimeOnshorePage) shouldEqual None
+      updatedUserAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage)     shouldEqual Some(
+        Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC)
+      )
+      updatedUserAnswers.get(WhyDidYouNotNotifyOnshorePage)                shouldEqual Some(
+        Set(WhyDidYouNotNotifyOnshore.NotDeliberatelyNoReasonableExcuseOnshore)
+      )
+      updatedUserAnswers.get(WhyDidYouNotFileAReturnOnTimeOnshorePage)     shouldEqual None
       updatedUserAnswers.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage) shouldEqual None
     }
 
@@ -447,9 +451,13 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
         behaviour = Some(Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHasExcuse))
       )
       val updatedUserAnswers = sut.onshoreLiabilitiesToUa(Some(onshoreLiabilities), emptyUA).success.value
-      updatedUserAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage) shouldEqual Some(Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC))
-      updatedUserAnswers.get(WhyDidYouNotNotifyOnshorePage)            shouldEqual Some(Set(WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore))
-      updatedUserAnswers.get(WhyDidYouNotFileAReturnOnTimeOnshorePage) shouldEqual None
+      updatedUserAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage)     shouldEqual Some(
+        Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC)
+      )
+      updatedUserAnswers.get(WhyDidYouNotNotifyOnshorePage)                shouldEqual Some(
+        Set(WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore)
+      )
+      updatedUserAnswers.get(WhyDidYouNotFileAReturnOnTimeOnshorePage)     shouldEqual None
       updatedUserAnswers.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage) shouldEqual None
     }
 
@@ -458,8 +466,12 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
         behaviour = Some(Set(WhyAreYouMakingThisOnshoreDisclosure.DeliberatelyDidNotNotify))
       )
       val updatedUserAnswers = sut.onshoreLiabilitiesToUa(Some(onshoreLiabilities), emptyUA).success.value
-      updatedUserAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage) shouldEqual Some(Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC))
-      updatedUserAnswers.get(WhyDidYouNotNotifyOnshorePage)            shouldEqual Some(Set(WhyDidYouNotNotifyOnshore.DeliberatelyDidNotNotifyOnshore))
+      updatedUserAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage) shouldEqual Some(
+        Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC)
+      )
+      updatedUserAnswers.get(WhyDidYouNotNotifyOnshorePage)            shouldEqual Some(
+        Set(WhyDidYouNotNotifyOnshore.DeliberatelyDidNotNotifyOnshore)
+      )
     }
 
     "migrate didNotFileNoExcuse to DidNotFile and DidNotWithholdInformationOnPurpose" in {
@@ -467,9 +479,13 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
         behaviour = Some(Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotFileNoExcuse))
       )
       val updatedUserAnswers = sut.onshoreLiabilitiesToUa(Some(onshoreLiabilities), emptyUA).success.value
-      updatedUserAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage) shouldEqual Some(Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotFile))
-      updatedUserAnswers.get(WhyDidYouNotFileAReturnOnTimeOnshorePage) shouldEqual Some(Set(WhyDidYouNotFileAReturnOnTimeOnshore.DidNotWithholdInformationOnPurpose))
-      updatedUserAnswers.get(WhyDidYouNotNotifyOnshorePage)            shouldEqual None
+      updatedUserAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage)     shouldEqual Some(
+        Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotFile)
+      )
+      updatedUserAnswers.get(WhyDidYouNotFileAReturnOnTimeOnshorePage)     shouldEqual Some(
+        Set(WhyDidYouNotFileAReturnOnTimeOnshore.DidNotWithholdInformationOnPurpose)
+      )
+      updatedUserAnswers.get(WhyDidYouNotNotifyOnshorePage)                shouldEqual None
       updatedUserAnswers.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage) shouldEqual None
     }
 
@@ -478,8 +494,12 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
         behaviour = Some(Set(WhyAreYouMakingThisOnshoreDisclosure.NotFileHasExcuse))
       )
       val updatedUserAnswers = sut.onshoreLiabilitiesToUa(Some(onshoreLiabilities), emptyUA).success.value
-      updatedUserAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage) shouldEqual Some(Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotFile))
-      updatedUserAnswers.get(WhyDidYouNotFileAReturnOnTimeOnshorePage) shouldEqual Some(Set(WhyDidYouNotFileAReturnOnTimeOnshore.ReasonableExcuse))
+      updatedUserAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage) shouldEqual Some(
+        Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotFile)
+      )
+      updatedUserAnswers.get(WhyDidYouNotFileAReturnOnTimeOnshorePage) shouldEqual Some(
+        Set(WhyDidYouNotFileAReturnOnTimeOnshore.ReasonableExcuse)
+      )
     }
 
     "migrate deliberatelyDidNotFile to DidNotFile and DeliberatelyWithheldInformation" in {
@@ -487,8 +507,12 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
         behaviour = Some(Set(WhyAreYouMakingThisOnshoreDisclosure.DeliberatelyDidNotFile))
       )
       val updatedUserAnswers = sut.onshoreLiabilitiesToUa(Some(onshoreLiabilities), emptyUA).success.value
-      updatedUserAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage) shouldEqual Some(Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotFile))
-      updatedUserAnswers.get(WhyDidYouNotFileAReturnOnTimeOnshorePage) shouldEqual Some(Set(WhyDidYouNotFileAReturnOnTimeOnshore.DeliberatelyWithheldInformation))
+      updatedUserAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage) shouldEqual Some(
+        Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotFile)
+      )
+      updatedUserAnswers.get(WhyDidYouNotFileAReturnOnTimeOnshorePage) shouldEqual Some(
+        Set(WhyDidYouNotFileAReturnOnTimeOnshore.DeliberatelyWithheldInformation)
+      )
     }
 
     "migrate inaccurateReturnNoCare to InaccurateReturn and NoReasonableCare" in {
@@ -496,8 +520,12 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
         behaviour = Some(Set(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnNoCare))
       )
       val updatedUserAnswers = sut.onshoreLiabilitiesToUa(Some(onshoreLiabilities), emptyUA).success.value
-      updatedUserAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage)     shouldEqual Some(Set(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn))
-      updatedUserAnswers.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage) shouldEqual Some(Set(WhyYouSubmittedAnInaccurateOnshoreReturn.NoReasonableCare))
+      updatedUserAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage)     shouldEqual Some(
+        Set(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn)
+      )
+      updatedUserAnswers.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage) shouldEqual Some(
+        Set(WhyYouSubmittedAnInaccurateOnshoreReturn.NoReasonableCare)
+      )
       updatedUserAnswers.get(WhyDidYouNotNotifyOnshorePage)                shouldEqual None
       updatedUserAnswers.get(WhyDidYouNotFileAReturnOnTimeOnshorePage)     shouldEqual None
     }
@@ -507,8 +535,12 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
         behaviour = Some(Set(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnWithCare))
       )
       val updatedUserAnswers = sut.onshoreLiabilitiesToUa(Some(onshoreLiabilities), emptyUA).success.value
-      updatedUserAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage)     shouldEqual Some(Set(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn))
-      updatedUserAnswers.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage) shouldEqual Some(Set(WhyYouSubmittedAnInaccurateOnshoreReturn.ReasonableMistake))
+      updatedUserAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage)     shouldEqual Some(
+        Set(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn)
+      )
+      updatedUserAnswers.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage) shouldEqual Some(
+        Set(WhyYouSubmittedAnInaccurateOnshoreReturn.ReasonableMistake)
+      )
     }
 
     "migrate deliberateInaccurateReturn to InaccurateReturn and DeliberatelyInaccurate" in {
@@ -516,24 +548,36 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
         behaviour = Some(Set(WhyAreYouMakingThisOnshoreDisclosure.DeliberateInaccurateReturn))
       )
       val updatedUserAnswers = sut.onshoreLiabilitiesToUa(Some(onshoreLiabilities), emptyUA).success.value
-      updatedUserAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage)     shouldEqual Some(Set(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn))
-      updatedUserAnswers.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage) shouldEqual Some(Set(WhyYouSubmittedAnInaccurateOnshoreReturn.DeliberatelyInaccurate))
+      updatedUserAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage)     shouldEqual Some(
+        Set(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn)
+      )
+      updatedUserAnswers.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage) shouldEqual Some(
+        Set(WhyYouSubmittedAnInaccurateOnshoreReturn.DeliberatelyInaccurate)
+      )
     }
 
     "migrate multiple legacy values correctly" in {
       val onshoreLiabilities = OnshoreLiabilities(
-        behaviour = Some(Set(
-          WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyNoExcuse,
-          WhyAreYouMakingThisOnshoreDisclosure.DidNotFileNoExcuse
-        ))
+        behaviour = Some(
+          Set(
+            WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyNoExcuse,
+            WhyAreYouMakingThisOnshoreDisclosure.DidNotFileNoExcuse
+          )
+        )
       )
       val updatedUserAnswers = sut.onshoreLiabilitiesToUa(Some(onshoreLiabilities), emptyUA).success.value
-      updatedUserAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage) shouldEqual Some(Set(
-        WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC,
-        WhyAreYouMakingThisOnshoreDisclosure.DidNotFile
-      ))
-      updatedUserAnswers.get(WhyDidYouNotNotifyOnshorePage)            shouldEqual Some(Set(WhyDidYouNotNotifyOnshore.NotDeliberatelyNoReasonableExcuseOnshore))
-      updatedUserAnswers.get(WhyDidYouNotFileAReturnOnTimeOnshorePage) shouldEqual Some(Set(WhyDidYouNotFileAReturnOnTimeOnshore.DidNotWithholdInformationOnPurpose))
+      updatedUserAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage) shouldEqual Some(
+        Set(
+          WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC,
+          WhyAreYouMakingThisOnshoreDisclosure.DidNotFile
+        )
+      )
+      updatedUserAnswers.get(WhyDidYouNotNotifyOnshorePage)            shouldEqual Some(
+        Set(WhyDidYouNotNotifyOnshore.NotDeliberatelyNoReasonableExcuseOnshore)
+      )
+      updatedUserAnswers.get(WhyDidYouNotFileAReturnOnTimeOnshorePage) shouldEqual Some(
+        Set(WhyDidYouNotFileAReturnOnTimeOnshore.DidNotWithholdInformationOnPurpose)
+      )
     }
 
     "not migrate new behaviour values" in {
@@ -541,9 +585,11 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
         behaviour = Some(Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC))
       )
       val updatedUserAnswers = sut.onshoreLiabilitiesToUa(Some(onshoreLiabilities), emptyUA).success.value
-      updatedUserAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage) shouldEqual Some(Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC))
-      updatedUserAnswers.get(WhyDidYouNotNotifyOnshorePage)            shouldEqual None
-      updatedUserAnswers.get(WhyDidYouNotFileAReturnOnTimeOnshorePage) shouldEqual None
+      updatedUserAnswers.get(WhyAreYouMakingThisOnshoreDisclosurePage)     shouldEqual Some(
+        Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC)
+      )
+      updatedUserAnswers.get(WhyDidYouNotNotifyOnshorePage)                shouldEqual None
+      updatedUserAnswers.get(WhyDidYouNotFileAReturnOnTimeOnshorePage)     shouldEqual None
       updatedUserAnswers.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage) shouldEqual None
     }
   }
@@ -554,10 +600,14 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
       val offshoreLiabilities = OffshoreLiabilities(
         behaviour = Some(Set(WhyAreYouMakingThisDisclosure.DidNotNotifyNoExcuse))
       )
-      val updatedUserAnswers = sut.offshoreLiabilitiesToUa(offshoreLiabilities, emptyUA).success.value
-      updatedUserAnswers.get(WhyAreYouMakingThisDisclosurePage)          shouldEqual Some(Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHMRC))
-      updatedUserAnswers.get(WhyDidYouNotNotifyPage)                     shouldEqual Some(Set(WhyDidYouNotNotify.NotDeliberatelyNoReasonableExcuse))
-      updatedUserAnswers.get(WhyDidYouNotFileAReturnOnTimeOffshorePage)  shouldEqual None
+      val updatedUserAnswers  = sut.offshoreLiabilitiesToUa(offshoreLiabilities, emptyUA).success.value
+      updatedUserAnswers.get(WhyAreYouMakingThisDisclosurePage)             shouldEqual Some(
+        Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHMRC)
+      )
+      updatedUserAnswers.get(WhyDidYouNotNotifyPage)                        shouldEqual Some(
+        Set(WhyDidYouNotNotify.NotDeliberatelyNoReasonableExcuse)
+      )
+      updatedUserAnswers.get(WhyDidYouNotFileAReturnOnTimeOffshorePage)     shouldEqual None
       updatedUserAnswers.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage) shouldEqual None
     }
 
@@ -565,8 +615,10 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
       val offshoreLiabilities = OffshoreLiabilities(
         behaviour = Some(Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse))
       )
-      val updatedUserAnswers = sut.offshoreLiabilitiesToUa(offshoreLiabilities, emptyUA).success.value
-      updatedUserAnswers.get(WhyAreYouMakingThisDisclosurePage) shouldEqual Some(Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHMRC))
+      val updatedUserAnswers  = sut.offshoreLiabilitiesToUa(offshoreLiabilities, emptyUA).success.value
+      updatedUserAnswers.get(WhyAreYouMakingThisDisclosurePage) shouldEqual Some(
+        Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHMRC)
+      )
       updatedUserAnswers.get(WhyDidYouNotNotifyPage)            shouldEqual Some(Set(WhyDidYouNotNotify.ReasonableExcuse))
     }
 
@@ -574,9 +626,13 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
       val offshoreLiabilities = OffshoreLiabilities(
         behaviour = Some(Set(WhyAreYouMakingThisDisclosure.DidNotFileNoExcuse))
       )
-      val updatedUserAnswers = sut.offshoreLiabilitiesToUa(offshoreLiabilities, emptyUA).success.value
-      updatedUserAnswers.get(WhyAreYouMakingThisDisclosurePage)         shouldEqual Some(Set(WhyAreYouMakingThisDisclosure.DidNotFile))
-      updatedUserAnswers.get(WhyDidYouNotFileAReturnOnTimeOffshorePage) shouldEqual Some(Set(WhyDidYouNotFileAReturnOnTimeOffshore.DidNotWithholdInformationOnPurpose))
+      val updatedUserAnswers  = sut.offshoreLiabilitiesToUa(offshoreLiabilities, emptyUA).success.value
+      updatedUserAnswers.get(WhyAreYouMakingThisDisclosurePage)         shouldEqual Some(
+        Set(WhyAreYouMakingThisDisclosure.DidNotFile)
+      )
+      updatedUserAnswers.get(WhyDidYouNotFileAReturnOnTimeOffshorePage) shouldEqual Some(
+        Set(WhyDidYouNotFileAReturnOnTimeOffshore.DidNotWithholdInformationOnPurpose)
+      )
       updatedUserAnswers.get(WhyDidYouNotNotifyPage)                    shouldEqual None
     }
 
@@ -584,19 +640,25 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
       val offshoreLiabilities = OffshoreLiabilities(
         behaviour = Some(Set(WhyAreYouMakingThisDisclosure.DeliberateInaccurateReturn))
       )
-      val updatedUserAnswers = sut.offshoreLiabilitiesToUa(offshoreLiabilities, emptyUA).success.value
-      updatedUserAnswers.get(WhyAreYouMakingThisDisclosurePage)            shouldEqual Some(Set(WhyAreYouMakingThisDisclosure.InaccurateReturn))
-      updatedUserAnswers.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage) shouldEqual Some(Set(WhyYouSubmittedAnInaccurateReturn.DeliberatelyInaccurate))
+      val updatedUserAnswers  = sut.offshoreLiabilitiesToUa(offshoreLiabilities, emptyUA).success.value
+      updatedUserAnswers.get(WhyAreYouMakingThisDisclosurePage)             shouldEqual Some(
+        Set(WhyAreYouMakingThisDisclosure.InaccurateReturn)
+      )
+      updatedUserAnswers.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage) shouldEqual Some(
+        Set(WhyYouSubmittedAnInaccurateReturn.DeliberatelyInaccurate)
+      )
     }
 
     "not migrate new behaviour values" in {
       val offshoreLiabilities = OffshoreLiabilities(
         behaviour = Some(Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHMRC))
       )
-      val updatedUserAnswers = sut.offshoreLiabilitiesToUa(offshoreLiabilities, emptyUA).success.value
-      updatedUserAnswers.get(WhyAreYouMakingThisDisclosurePage)            shouldEqual Some(Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHMRC))
-      updatedUserAnswers.get(WhyDidYouNotNotifyPage)                       shouldEqual None
-      updatedUserAnswers.get(WhyDidYouNotFileAReturnOnTimeOffshorePage)    shouldEqual None
+      val updatedUserAnswers  = sut.offshoreLiabilitiesToUa(offshoreLiabilities, emptyUA).success.value
+      updatedUserAnswers.get(WhyAreYouMakingThisDisclosurePage)             shouldEqual Some(
+        Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHMRC)
+      )
+      updatedUserAnswers.get(WhyDidYouNotNotifyPage)                        shouldEqual None
+      updatedUserAnswers.get(WhyDidYouNotFileAReturnOnTimeOffshorePage)     shouldEqual None
       updatedUserAnswers.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage) shouldEqual None
     }
   }
@@ -604,129 +666,135 @@ class DisclosureToUAServiceSpec extends AnyWordSpec with Matchers with TryValues
   "OnshoreLiabilities JSON deserialisation" should {
 
     "deserialise legacy didNotNotifyNoExcuse from JSON" in {
-      val json = Json.parse("""{"behaviour": ["didNotNotifyNoExcuse"]}""")
+      val json   = Json.parse("""{"behaviour": ["didNotNotifyNoExcuse"]}""")
       val result = json.validate[OnshoreLiabilities]
-      result.isSuccess shouldEqual true
+      result.isSuccess     shouldEqual true
       result.get.behaviour shouldEqual Some(Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyNoExcuse))
     }
 
     "deserialise legacy didNotNotifyHasExcuse from JSON" in {
-      val json = Json.parse("""{"behaviour": ["didNotNotifyHasExcuse"]}""")
+      val json   = Json.parse("""{"behaviour": ["didNotNotifyHasExcuse"]}""")
       val result = json.validate[OnshoreLiabilities]
-      result.isSuccess shouldEqual true
+      result.isSuccess     shouldEqual true
       result.get.behaviour shouldEqual Some(Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHasExcuse))
     }
 
     "deserialise legacy didNotFileNoExcuse from JSON" in {
-      val json = Json.parse("""{"behaviour": ["didNotFileNoExcuse"]}""")
+      val json   = Json.parse("""{"behaviour": ["didNotFileNoExcuse"]}""")
       val result = json.validate[OnshoreLiabilities]
-      result.isSuccess shouldEqual true
+      result.isSuccess     shouldEqual true
       result.get.behaviour shouldEqual Some(Set(WhyAreYouMakingThisOnshoreDisclosure.DidNotFileNoExcuse))
     }
 
     "deserialise legacy deliberatelyDidNotNotify from JSON" in {
-      val json = Json.parse("""{"behaviour": ["deliberatelyDidNotNotify"]}""")
+      val json   = Json.parse("""{"behaviour": ["deliberatelyDidNotNotify"]}""")
       val result = json.validate[OnshoreLiabilities]
-      result.isSuccess shouldEqual true
+      result.isSuccess     shouldEqual true
       result.get.behaviour shouldEqual Some(Set(WhyAreYouMakingThisOnshoreDisclosure.DeliberatelyDidNotNotify))
     }
 
     "deserialise legacy notFileHasExcuse from JSON" in {
-      val json = Json.parse("""{"behaviour": ["notFileHasExcuse"]}""")
+      val json   = Json.parse("""{"behaviour": ["notFileHasExcuse"]}""")
       val result = json.validate[OnshoreLiabilities]
-      result.isSuccess shouldEqual true
+      result.isSuccess     shouldEqual true
       result.get.behaviour shouldEqual Some(Set(WhyAreYouMakingThisOnshoreDisclosure.NotFileHasExcuse))
     }
 
     "deserialise legacy deliberatelyDidNotFile from JSON" in {
-      val json = Json.parse("""{"behaviour": ["deliberatelyDidNotFile"]}""")
+      val json   = Json.parse("""{"behaviour": ["deliberatelyDidNotFile"]}""")
       val result = json.validate[OnshoreLiabilities]
-      result.isSuccess shouldEqual true
+      result.isSuccess     shouldEqual true
       result.get.behaviour shouldEqual Some(Set(WhyAreYouMakingThisOnshoreDisclosure.DeliberatelyDidNotFile))
     }
 
     "deserialise legacy inaccurateReturnNoCare from JSON" in {
-      val json = Json.parse("""{"behaviour": ["inaccurateReturnNoCare"]}""")
+      val json   = Json.parse("""{"behaviour": ["inaccurateReturnNoCare"]}""")
       val result = json.validate[OnshoreLiabilities]
-      result.isSuccess shouldEqual true
+      result.isSuccess     shouldEqual true
       result.get.behaviour shouldEqual Some(Set(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnNoCare))
     }
 
     "deserialise legacy inaccurateReturnWithCare from JSON" in {
-      val json = Json.parse("""{"behaviour": ["inaccurateReturnWithCare"]}""")
+      val json   = Json.parse("""{"behaviour": ["inaccurateReturnWithCare"]}""")
       val result = json.validate[OnshoreLiabilities]
-      result.isSuccess shouldEqual true
+      result.isSuccess     shouldEqual true
       result.get.behaviour shouldEqual Some(Set(WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturnWithCare))
     }
 
     "deserialise legacy deliberateInaccurateReturn from JSON" in {
-      val json = Json.parse("""{"behaviour": ["deliberateInaccurateReturn"]}""")
+      val json   = Json.parse("""{"behaviour": ["deliberateInaccurateReturn"]}""")
       val result = json.validate[OnshoreLiabilities]
-      result.isSuccess shouldEqual true
+      result.isSuccess     shouldEqual true
       result.get.behaviour shouldEqual Some(Set(WhyAreYouMakingThisOnshoreDisclosure.DeliberateInaccurateReturn))
     }
 
     "deserialise multiple legacy values from JSON" in {
-      val json = Json.parse("""{"behaviour": ["didNotNotifyNoExcuse", "didNotFileNoExcuse"]}""")
+      val json   = Json.parse("""{"behaviour": ["didNotNotifyNoExcuse", "didNotFileNoExcuse"]}""")
       val result = json.validate[OnshoreLiabilities]
-      result.isSuccess shouldEqual true
-      result.get.behaviour shouldEqual Some(Set(
-        WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyNoExcuse,
-        WhyAreYouMakingThisOnshoreDisclosure.DidNotFileNoExcuse
-      ))
+      result.isSuccess     shouldEqual true
+      result.get.behaviour shouldEqual Some(
+        Set(
+          WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyNoExcuse,
+          WhyAreYouMakingThisOnshoreDisclosure.DidNotFileNoExcuse
+        )
+      )
     }
 
     "deserialise new behaviour values from JSON" in {
-      val json = Json.parse("""{"behaviour": ["didNotNotifyHMRC", "didNotFile", "inaccurateReturn"]}""")
+      val json   = Json.parse("""{"behaviour": ["didNotNotifyHMRC", "didNotFile", "inaccurateReturn"]}""")
       val result = json.validate[OnshoreLiabilities]
-      result.isSuccess shouldEqual true
-      result.get.behaviour shouldEqual Some(Set(
-        WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC,
-        WhyAreYouMakingThisOnshoreDisclosure.DidNotFile,
-        WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn
-      ))
+      result.isSuccess     shouldEqual true
+      result.get.behaviour shouldEqual Some(
+        Set(
+          WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC,
+          WhyAreYouMakingThisOnshoreDisclosure.DidNotFile,
+          WhyAreYouMakingThisOnshoreDisclosure.InaccurateReturn
+        )
+      )
     }
   }
 
   "OffshoreLiabilities JSON deserialisation" should {
 
     "deserialise legacy didNotNotifyNoExcuse from JSON" in {
-      val json = Json.parse("""{"behaviour": ["didNotNotifyNoExcuse"]}""")
+      val json   = Json.parse("""{"behaviour": ["didNotNotifyNoExcuse"]}""")
       val result = json.validate[OffshoreLiabilities]
-      result.isSuccess shouldEqual true
+      result.isSuccess     shouldEqual true
       result.get.behaviour shouldEqual Some(Set(WhyAreYouMakingThisDisclosure.DidNotNotifyNoExcuse))
     }
 
     "deserialise legacy didNotNotifyHasExcuse from JSON" in {
-      val json = Json.parse("""{"behaviour": ["didNotNotifyHasExcuse"]}""")
+      val json   = Json.parse("""{"behaviour": ["didNotNotifyHasExcuse"]}""")
       val result = json.validate[OffshoreLiabilities]
-      result.isSuccess shouldEqual true
+      result.isSuccess     shouldEqual true
       result.get.behaviour shouldEqual Some(Set(WhyAreYouMakingThisDisclosure.DidNotNotifyHasExcuse))
     }
 
     "deserialise legacy didNotFileNoExcuse from JSON" in {
-      val json = Json.parse("""{"behaviour": ["didNotFileNoExcuse"]}""")
+      val json   = Json.parse("""{"behaviour": ["didNotFileNoExcuse"]}""")
       val result = json.validate[OffshoreLiabilities]
-      result.isSuccess shouldEqual true
+      result.isSuccess     shouldEqual true
       result.get.behaviour shouldEqual Some(Set(WhyAreYouMakingThisDisclosure.DidNotFileNoExcuse))
     }
 
     "deserialise legacy deliberateInaccurateReturn from JSON" in {
-      val json = Json.parse("""{"behaviour": ["deliberateInaccurateReturn"]}""")
+      val json   = Json.parse("""{"behaviour": ["deliberateInaccurateReturn"]}""")
       val result = json.validate[OffshoreLiabilities]
-      result.isSuccess shouldEqual true
+      result.isSuccess     shouldEqual true
       result.get.behaviour shouldEqual Some(Set(WhyAreYouMakingThisDisclosure.DeliberateInaccurateReturn))
     }
 
     "deserialise new behaviour values from JSON" in {
-      val json = Json.parse("""{"behaviour": ["didNotNotifyHMRC", "didNotFile", "inaccurateReturn"]}""")
+      val json   = Json.parse("""{"behaviour": ["didNotNotifyHMRC", "didNotFile", "inaccurateReturn"]}""")
       val result = json.validate[OffshoreLiabilities]
-      result.isSuccess shouldEqual true
-      result.get.behaviour shouldEqual Some(Set(
-        WhyAreYouMakingThisDisclosure.DidNotNotifyHMRC,
-        WhyAreYouMakingThisDisclosure.DidNotFile,
-        WhyAreYouMakingThisDisclosure.InaccurateReturn
-      ))
+      result.isSuccess     shouldEqual true
+      result.get.behaviour shouldEqual Some(
+        Set(
+          WhyAreYouMakingThisDisclosure.DidNotNotifyHMRC,
+          WhyAreYouMakingThisDisclosure.DidNotFile,
+          WhyAreYouMakingThisDisclosure.InaccurateReturn
+        )
+      )
     }
   }
 
