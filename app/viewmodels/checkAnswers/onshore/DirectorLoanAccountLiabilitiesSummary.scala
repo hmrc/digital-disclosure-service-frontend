@@ -27,7 +27,7 @@ import viewmodels.implicits._
 object DirectorLoanAccountLiabilitiesSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(DirectorLoanAccountLiabilitiesPage).map { _ =>
+    answers.get(DirectorLoanAccountLiabilitiesPage).map { answer =>
       SummaryListRowViewModel(
         key = "directorLoanAccountLiabilities.checkYourAnswersLabel",
         value = ValueViewModel(""),

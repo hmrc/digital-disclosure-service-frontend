@@ -31,7 +31,7 @@ final case class Background(
   otherIncomeSource: Option[String] = None
 ) {
   def isComplete = this match {
-    case Background(_, _, Some(_), _, _, Some(offshore), _, Some(_), _) =>
+    case Background(_, _, Some(_), _, _, Some(offshore), _, Some(source), _) =>
       !offshore || onshoreLiabilities.isDefined
     case _                                                              => false
   }

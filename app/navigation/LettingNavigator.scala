@@ -113,7 +113,7 @@ class LettingNavigator @Inject() () {
 
     case PropertyStoppedBeingLetOutPage =>
       i =>
-        _ =>
+        ua =>
           hasChanged =>
             if (hasChanged) routes.PropertyIsNoLongerBeingLetOutController.onPageLoad(i, CheckMode)
             else routes.CheckYourAnswersController.onPageLoad(i, CheckMode)

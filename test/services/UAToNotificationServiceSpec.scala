@@ -297,6 +297,7 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
         fullName = Some("Full name"),
         dateOfBirth = Some(localDate),
         mainOccupation = Some("Occupation"),
+        doTheyHaveANino = Some(YesNoOrUnsure.Yes),
         nino = Some("NINO"),
         vatRegNumber = Some("Reg number"),
         sautr = Some("UTR"),
