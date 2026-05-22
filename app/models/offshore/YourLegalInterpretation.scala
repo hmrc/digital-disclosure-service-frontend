@@ -23,6 +23,7 @@ import viewmodels.govuk.checkbox._
 import views.html.components.link
 import play.api.mvc.Call
 import com.google.inject.{Inject, Singleton}
+import uk.gov.hmrc.govukfrontend.views.Aliases.ExclusiveCheckbox
 
 sealed trait YourLegalInterpretation
 
@@ -97,8 +98,14 @@ class YourLegalInterpretationCheckboxes @Inject() (link: link) {
       )
     }
 
+//    val divider = CheckboxItem(divider = Some(messages("site.or")))
+//
+//    checkboxes.dropRight(1) :+ divider :+ checkboxes.last
+
     val divider = CheckboxItem(divider = Some(messages("site.or")))
 
-    checkboxes.dropRight(1) :+ divider :+ checkboxes.last
+    val lastExclusive = checkboxes.last.copy(behaviour = Some(ExclusiveCheckbox))
+
+    checkboxes.dropRight(1) :+ divider :+ lastExclusive
   }
 }
