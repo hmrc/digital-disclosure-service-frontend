@@ -98,6 +98,10 @@ class YourLegalInterpretationCheckboxes @Inject() (link: link) {
       )
     }
 
+//    val divider = CheckboxItem(divider = Some(messages("site.or")))
+//
+//    checkboxes.dropRight(1) :+ divider :+ checkboxes.last
+
     val divider = CheckboxItem(divider = Some(messages("site.or")))
 
     val lastExclusive = checkboxes.last.copy(behaviour = Some(ExclusiveCheckbox))
