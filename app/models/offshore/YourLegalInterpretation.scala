@@ -92,7 +92,7 @@ class YourLegalInterpretationCheckboxes @Inject() (link: link) {
 
       CheckboxItemViewModel(
         content = HtmlContent(content),
-        fieldId = "value",
+        fieldId = s"value_$index",
         index = index,
         value = value.toString
       )
