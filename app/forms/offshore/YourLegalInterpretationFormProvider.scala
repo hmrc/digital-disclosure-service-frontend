@@ -37,19 +37,4 @@ class YourLegalInterpretationFormProvider @Inject() extends Mappings {
         )
         .verifying(nonEmptySet("yourLegalInterpretation.error.required"))
     )
-
-//  def apply(): Form[Set[XYZ]] =
-//    Form(
-//      "value" -> set(enumerable[XYZ]("xyz.error.required"))
-//        // ✅ if exclusive selected → keep only that
-//        .transform[Set[XYZ]](
-//          s =>
-//            if (s.contains(XYZ.NoExclusion)) Set(XYZ.NoExclusion)
-//            else s,
-//          identity
-//        )
-//        // ✅ still enforce "at least one selected"
-//        .verifying(nonEmptySet("xyz.error.required"))
-//    )
-
 }
