@@ -28,13 +28,28 @@ class YourLegalInterpretationFormProvider @Inject() extends Mappings {
   def apply(): Form[Set[YourLegalInterpretation]] =
     Form(
       "value" -> set(enumerable[YourLegalInterpretation]("yourLegalInterpretation.error.required"))
-        .verifying(nonEmptySet("yourLegalInterpretation.error.required"))
-        .verifying(
-          allOrNoneCheckboxConstraint[YourLegalInterpretation](
-            "yourLegalInterpretation.error.validSelection",
-            YourLegalInterpretation.NoExclusion
-          )
+        .transform[Set[YourLegalInterpretation]](
+          s =>
+            if (s.contains(YourLegalInterpretation.NoExclusion) && s.size > 1)
+              s - YourLegalInterpretation.NoExclusion
+            else s,
+          identity
         )
+        .verifying(nonEmptySet("yourLegalInterpretation.error.required"))
     )
+
+//  def apply(): Form[Set[XYZ]] =
+//    Form(
+//      "value" -> set(enumerable[XYZ]("xyz.error.required"))
+//        // ✅ if exclusive selected → keep only that
+//        .transform[Set[XYZ]](
+//          s =>
+//            if (s.contains(XYZ.NoExclusion)) Set(XYZ.NoExclusion)
+//            else s,
+//          identity
+//        )
+//        // ✅ still enforce "at least one selected"
+//        .verifying(nonEmptySet("xyz.error.required"))
+//    )
 
 }

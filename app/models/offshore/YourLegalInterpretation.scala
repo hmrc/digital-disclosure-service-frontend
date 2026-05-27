@@ -90,10 +90,10 @@ class YourLegalInterpretationCheckboxes @Inject() (link: link) {
         case _                                                  => messages(s"yourLegalInterpretation.${value.toString}")
       }
 
-      CheckboxItemViewModel(
+      CheckboxItem(
         content = HtmlContent(content),
-        fieldId = s"value_$index",
-        index = index,
+        id = Some(s"value_$index"),
+        name = Some("value"),
         value = value.toString
       )
     }
