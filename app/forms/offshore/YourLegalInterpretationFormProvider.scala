@@ -36,5 +36,11 @@ class YourLegalInterpretationFormProvider @Inject() extends Mappings {
           identity
         )
         .verifying(nonEmptySet("yourLegalInterpretation.error.required"))
+        .verifying(
+          allOrNoneCheckboxConstraint[YourLegalInterpretation](
+            "yourLegalInterpretation.error.validSelection",
+            YourLegalInterpretation.NoExclusion
+          )
+        )
     )
 }
