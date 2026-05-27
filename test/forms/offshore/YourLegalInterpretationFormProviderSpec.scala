@@ -25,6 +25,20 @@ class YourLegalInterpretationFormProviderSpec extends CheckboxFieldBehaviours wi
 
   val form = new YourLegalInterpretationFormProvider()()
 
+
+  private val optionToExpectedValue: Map[String, YourLegalInterpretation] = Map(
+    "yourResidenceStatus" -> YourLegalInterpretation.YourResidenceStatus,
+    "yourDomicileStatus"  -> YourLegalInterpretation.YourDomicileStatus,
+    "theRemittanceBasis"  -> YourLegalInterpretation.TheRemittanceBasis,
+    "howIncomeArisingInATrust"  -> YourLegalInterpretation.HowIncomeArisingInATrust,
+    "theTransferOfAssets"  -> YourLegalInterpretation.TheTransferOfAssets,
+    "howIncomeArisingInAnOffshore"  -> YourLegalInterpretation.HowIncomeArisingInAnOffshore,
+    "inheritanceTaxIssues"  -> YourLegalInterpretation.InheritanceTaxIssues,
+    "whetherIncomeShouldBeTaxed"  -> YourLegalInterpretation.WhetherIncomeShouldBeTaxed,
+    "anotherIssue"  -> YourLegalInterpretation.AnotherIssue
+  )
+
+
   ".value" - {
 
     val fieldName         = "value"
@@ -60,8 +74,12 @@ class YourLegalInterpretationFormProviderSpec extends CheckboxFieldBehaviours wi
           "value[0]" -> "noExclusion",
           "value[1]" -> option
         )
-        val expectedError = FormError("value", validSelectionKey)
-        form.bind(data).errors must contain(expectedError)
+//        val expectedError = FormError("value", validSelectionKey)
+//        form.bind(data).errors must contain(expectedError)
+
+        val boundForm = form.bind(data)
+        boundForm.errors mustBe empty
+        boundForm.value mustBe Some(Set(optionToExpectedValue(option)))
       }
     }
   }
