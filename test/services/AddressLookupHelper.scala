@@ -219,6 +219,7 @@ trait AddressLookupHelper {
     val countryPickerLabels = CountryPickerLabels(
       messages(s"$countryKey.title"),
       messages(s"$countryKey.heading"),
+      messages(s"$countryKey.label"),
       messages(s"$countryKey.hint"),
       messages("site.continue")
     )
