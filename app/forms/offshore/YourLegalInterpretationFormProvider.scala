@@ -29,18 +29,17 @@ class YourLegalInterpretationFormProvider @Inject() extends Mappings {
     Form(
       "value" -> set(enumerable[YourLegalInterpretation]("yourLegalInterpretation.error.required"))
         .transform[Set[YourLegalInterpretation]](
-          s =>
+          { (s: Set[YourLegalInterpretation]) =>
             if (s.contains(YourLegalInterpretation.NoExclusion) && s.size > 1)
               s - YourLegalInterpretation.NoExclusion
-            else s,
-          identity
+            else
+              s
+          },
+          { (s: Set[YourLegalInterpretation]) =>
+            s
+          }
         )
         .verifying(nonEmptySet("yourLegalInterpretation.error.required"))
-        .verifying(
-          allOrNoneCheckboxConstraint[YourLegalInterpretation](
-            "yourLegalInterpretation.error.validSelection",
-            YourLegalInterpretation.NoExclusion
-          )
-        )
     )
+
 }
