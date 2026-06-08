@@ -20,26 +20,28 @@ import javax.inject.Inject
 
 import forms.mappings.Mappings
 import play.api.data.Form
-import play.api.data.Forms.set
+import play.api.data.Forms._
 import models.YourLegalInterpretation
 
 class YourLegalInterpretationFormProvider @Inject() extends Mappings {
 
   def apply(): Form[Set[YourLegalInterpretation]] =
     Form(
-      "value" -> set(enumerable[YourLegalInterpretation]("yourLegalInterpretation.error.required"))
-        .transform[Set[YourLegalInterpretation]](
-          { (s: Set[YourLegalInterpretation]) =>
-            if (s.contains(YourLegalInterpretation.NoExclusion) && s.size > 1)
-              s - YourLegalInterpretation.NoExclusion
+      "value" -> list(enumerable[YourLegalInterpretation]("yourLegalInterpretation.error.required"))
+        .transform(
+          (list: List[YourLegalInterpretation]) => {
+            val set: Set[YourLegalInterpretation] = list.toSet
+
+            if (set.contains(YourLegalInterpretation.NoExclusion) && set.size > 1)
+              set - YourLegalInterpretation.NoExclusion
             else
-              s
+              set
           },
-          { (s: Set[YourLegalInterpretation]) =>
-            s
+          (set: Set[YourLegalInterpretation]) => {
+            set.toList
           }
         )
-        .verifying(nonEmptySet("yourLegalInterpretation.error.required"))
+        .verifying("yourLegalInterpretation.error.required", _.nonEmpty)
     )
 
 }
