@@ -91,9 +91,9 @@ class YourLegalInterpretationCheckboxes @Inject() (link: link) {
       }
 
       CheckboxItem(
+        name = Some("value[]"),
         content = HtmlContent(content),
         id = Some(s"value_$index"),
-        name = Some("value"),
         value = value.toString
       )
     }
