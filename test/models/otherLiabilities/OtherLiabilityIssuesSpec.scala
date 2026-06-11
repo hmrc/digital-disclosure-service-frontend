@@ -31,6 +31,39 @@ class OtherLiabilityIssuesSpec
     with OptionValues
     with ModelGenerators {
 
+//  "OtherLiabilityIssues" - {
+//
+//    "must deserialise valid values" in {
+//
+//      val gen = arbitrary[OtherLiabilityIssues]
+//
+//      forAll(gen) { otherLiabilityIssues =>
+//        JsString(otherLiabilityIssues.toString)
+//          .validate[OtherLiabilityIssues]
+//          .asOpt
+//          .value mustEqual otherLiabilityIssues
+//      }
+//    }
+//
+//    "must fail to deserialise invalid values" in {
+//
+//      val gen = arbitrary[String] suchThat (!OtherLiabilityIssues.values.map(_.toString).contains(_))
+//
+//      forAll(gen) { invalidValue =>
+//        JsString(invalidValue).validate[OtherLiabilityIssues] mustEqual JsError("error.invalid")
+//      }
+//    }
+//
+//    "must serialise" in {
+//
+//      val gen = arbitrary[OtherLiabilityIssues]
+//
+//      forAll(gen) { otherLiabilityIssues =>
+//        Json.toJson(otherLiabilityIssues) mustEqual JsString(otherLiabilityIssues.toString)
+//      }
+//    }
+//  }
+
   "OtherLiabilityIssues" - {
 
     "must deserialise valid values" in {

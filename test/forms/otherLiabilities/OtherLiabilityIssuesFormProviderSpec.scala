@@ -24,11 +24,19 @@ class OtherLiabilityIssuesFormProviderSpec extends CheckboxFieldBehaviours {
 
   val form = new OtherLiabilityIssuesFormProvider()()
 
+  private val optionToExpectedValue: Map[String, OtherLiabilityIssues] = Map(
+    "employerLiabilities" -> OtherLiabilityIssues.EmployerLiabilities,
+    "vatIssues"  -> OtherLiabilityIssues.VatIssues,
+    "inheritanceTaxIssues"  -> OtherLiabilityIssues.InheritanceTaxIssues,
+    "class2National"  -> OtherLiabilityIssues.Class2National,
+    "other"  -> OtherLiabilityIssues.Other,
+  )
+
   ".value" - {
 
     val fieldName         = "value"
     val requiredKey       = "otherLiabilityIssues.error.required"
-    val validSelectionKey = "otherLiabilityIssues.error.validSelection"
+    //val validSelectionKey = "otherLiabilityIssues.error.validSelection"
 
     behave like checkboxField[OtherLiabilityIssues](
       form,
@@ -44,18 +52,21 @@ class OtherLiabilityIssuesFormProviderSpec extends CheckboxFieldBehaviours {
     )
 
     behave like Seq(
+      "employerLiabilities",
       "vatIssues",
       "inheritanceTaxIssues",
       "class2National",
-      "other"
+      "other",
     ).foreach { option =>
       s"fail to bind when the user selects both No excluded amount AND $option" in {
         val data          = Map(
           "value[0]" -> "noExclusion",
           "value[1]" -> option
         )
-        val expectedError = FormError("value", validSelectionKey)
-        form.bind(data).errors must contain(expectedError)
+
+        val boundForm = form.bind(data)
+        boundForm.errors mustBe empty
+        boundForm.value mustBe Some(Set(optionToExpectedValue(option)))
       }
     }
   }

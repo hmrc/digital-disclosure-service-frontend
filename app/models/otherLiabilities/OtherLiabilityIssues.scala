@@ -17,6 +17,7 @@
 package models
 
 import play.api.i18n.Messages
+import uk.gov.hmrc.govukfrontend.views.Aliases.ExclusiveCheckbox
 import uk.gov.hmrc.govukfrontend.views.viewmodels.checkboxes.CheckboxItem
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 import viewmodels.govuk.checkbox._
@@ -43,15 +44,16 @@ object OtherLiabilityIssues extends Enumerable.Implicits {
 
   def checkboxItems(implicit messages: Messages): Seq[CheckboxItem] = {
     val checkboxes = values.zipWithIndex.map { case (value, index) =>
-      CheckboxItemViewModel(
+      CheckboxItem(
+        name = Some("value[]"),
         content = Text(messages(s"otherLiabilityIssues.${value.toString}")),
-        fieldId = "value",
-        index = index,
+        id = Some(s"value_$index"),
         value = value.toString
       )
     }
     val divider    = CheckboxItem(divider = Some(messages("site.or")))
-    checkboxes.dropRight(1) :+ divider :+ checkboxes.last
+    val lastExclusive = checkboxes.last.copy(behaviour = Some(ExclusiveCheckbox))
+    checkboxes.dropRight(1) :+ divider :+ lastExclusive
   }
 
   implicit val enumerable: Enumerable[OtherLiabilityIssues] =
