@@ -36,7 +36,6 @@ class OtherLiabilityIssuesFormProviderSpec extends CheckboxFieldBehaviours {
 
     val fieldName         = "value"
     val requiredKey       = "otherLiabilityIssues.error.required"
-    //val validSelectionKey = "otherLiabilityIssues.error.validSelection"
 
     behave like checkboxField[OtherLiabilityIssues](
       form,
