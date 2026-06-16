@@ -566,6 +566,7 @@ whatIsYourUniqueTaxReference.change.hidden = Your Unique Taxpayer Reference
 
 yourCountryLookup.title = What is the country of your address?
 yourCountryLookup.heading = What is the country of your address?
+yourCountryLookup.label = Select country or territory
 yourCountryLookup.hint = For example, United Kingdom.
 
 youHaveSentYourNotification.title.entity = You have sent your notification
@@ -700,6 +701,7 @@ whatIsTheIndividualsUniqueTaxReference.change.hidden = Individual’s Unique Tax
 
 individualCountryLookup.title = What is the country of the individual’s address?
 individualCountryLookup.heading = What is the country of the individual’s address?
+individualCountryLookup.label = Select country or territory
 individualCountryLookup.hint = For example, United Kingdom.
 
 individualAddressLookup.title = What is the postcode and property name or number of the individual’s address?
@@ -778,6 +780,7 @@ whatIsTheCompanyRegistrationNumber.change.hidden = Company registration number
 
 companyCountryLookup.title = What is the country of the company’s address?
 companyCountryLookup.heading = What is the country of the company’s address?
+companyCountryLookup.label = Select country or territory
 companyCountryLookup.hint = For example, United Kingdom.
 
 companyAddressLookup.title = What is the postcode and property name or number of the company’s address?
@@ -815,6 +818,7 @@ whatIsTheLLPName.change.hidden = Limited liability partnership name
 
 llpCountryLookup.title = What is the country of the limited liability partnership’s address?
 llpCountryLookup.heading = What is the country of the limited liability partnership’s address?
+llpCountryLookup.label = Select country or territory
 llpCountryLookup.hint = For example, United Kingdom.
 
 llpAddressLookup.title = What is the postcode and property name or number of the limited liability partnership’s address?
@@ -846,6 +850,7 @@ areYouTrusteeOfTheTrustThatTheDisclosureWillBeAbout.change.hidden = Are you a tr
 
 trustCountryLookup.title = What is the country of the trust’s address?
 trustCountryLookup.heading = What is the country of the trust’s address?
+trustCountryLookup.label = Select country or territory
 trustCountryLookup.hint = For example, United Kingdom.
 
 trustAddressLookup.title = What is the postcode and property name or number of the trust’s address?
@@ -973,6 +978,7 @@ whatWasThePersonUTR.change.hidden = Person’s Unique Taxpayer Reference
 
 estateCountryLookup.title = What was the country of the person’s address?
 estateCountryLookup.heading = What was the country of the person’s address?
+estateCountryLookup.label = Select country or territory
 estateCountryLookup.hint = For example, United Kingdom.
 
 estateAddressLookup.title = What was the postcode and property name or number of the person’s address?
@@ -2732,5 +2738,3 @@ whyDidYouNotFileAReturnOnTime.estate.didNotWithholdInformationOnPurpose = They d
 whyDidYouNotFileAReturnOnTime.estate.reasonableExcuse = They had a reasonable excuse
 whyDidYouNotFileAReturnOnTime.estate.deliberatelyWithheldInformation = They deliberately withheld information by failing to submit a return
 whyDidYouNotFileAReturnOnTime.estate.error.required = Select the reasons the person who died did not file a return on time
-
-
