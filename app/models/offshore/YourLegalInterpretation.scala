@@ -19,7 +19,6 @@ package models
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.checkboxes.CheckboxItem
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
-import viewmodels.govuk.checkbox._
 import views.html.components.link
 import play.api.mvc.Call
 import com.google.inject.{Inject, Singleton}
