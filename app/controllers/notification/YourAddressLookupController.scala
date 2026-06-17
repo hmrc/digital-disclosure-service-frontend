@@ -21,7 +21,7 @@ import controllers.actions._
 import javax.inject.Inject
 import models.Mode
 import navigation.NotificationNavigator
-import pages.YourAddressLookupPage
+import pages.{YourAddressLookupPage, YourAddressLookupRedirectPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
@@ -49,19 +49,28 @@ class YourAddressLookupController @Inject() (
 
   def lookupAddress(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-      val continueUrl   = routes.YourAddressLookupController.retrieveConfirmedAddress(mode)
-      implicit val mApi = messagesApi
+      request.userAnswers.get(YourAddressLookupRedirectPage) match {
+        case Some(existingRedirectUrl) =>
+          Future.successful(Redirect(Call("GET", existingRedirectUrl)))
+        case None                      =>
+          val continueUrl   = routes.YourAddressLookupController.retrieveConfirmedAddress(mode)
+          implicit val mApi = messagesApi
 
-      addressLookupService
-        .getYourAddressLookupRedirect(continueUrl, request.userAnswers)
-        .fold(
-          { e: Error =>
-            logger.error(s"Error initialising Address Lookup: $e")
-            Future.failed(e.throwable.getOrElse(new Exception(e.message)))
-          },
-          url => Future.successful(Redirect(Call("GET", url.toString)))
-        )
-        .flatten
+          addressLookupService
+            .getYourAddressLookupRedirect(continueUrl, request.userAnswers)
+            .fold(
+              { e: Error =>
+                logger.error(s"Error initialising Address Lookup: $e")
+                Future.failed(e.throwable.getOrElse(new Exception(e.message)))
+              },
+              url =>
+                for {
+                  updatedAnswers <- Future.fromTry(request.userAnswers.set(YourAddressLookupRedirectPage, url.toString))
+                  _              <- sessionService.set(updatedAnswers)
+                } yield Redirect(Call("GET", url.toString))
+            )
+            .flatten
+      }
 
   }
 
@@ -86,8 +95,9 @@ class YourAddressLookupController @Inject() (
         address =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(YourAddressLookupPage, address))
-            _              <- sessionService.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(YourAddressLookupPage, mode, updatedAnswers))
+            clearedAnswers <- Future.fromTry(updatedAnswers.remove(YourAddressLookupRedirectPage))
+            _              <- sessionService.set(clearedAnswers)
+          } yield Redirect(navigator.nextPage(YourAddressLookupPage, mode, clearedAnswers))
       )
       .flatten
 }

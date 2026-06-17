@@ -12,7 +12,7 @@ object AppDependencies {
     "uk.gov.hmrc.mongo" %% "hmrc-mongo-play-30"             % mongoVersion,
     "org.typelevel"     %% "cats-core"                      % "2.8.0",
     "uk.gov.hmrc"       %% "tax-year"                       % "6.0.0",
-    "uk.gov.hmrc"  %% s"play-frontend-hmrc-play-30"            % "13.3.0",
+    "uk.gov.hmrc"  %% s"play-frontend-hmrc-play-30"            % "13.7.0",
     "org.apache.commons"   % "commons-lang3"               % "3.18.0",
     "ch.qos.logback"       % "logback-core"                % "1.5.27",
     "ch.qos.logback"       % "logback-classic"             % "1.5.27",

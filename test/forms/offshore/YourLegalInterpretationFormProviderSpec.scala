@@ -43,7 +43,6 @@ class YourLegalInterpretationFormProviderSpec extends CheckboxFieldBehaviours wi
 
     val fieldName         = "value"
     val requiredKey       = "yourLegalInterpretation.error.required"
-    val validSelectionKey = "yourLegalInterpretation.error.validSelection"
 
     behave like checkboxField[YourLegalInterpretation](
       form,

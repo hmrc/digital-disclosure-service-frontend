@@ -555,6 +555,7 @@ whatIsYourUniqueTaxReference.change.hidden = Eich Cyfeirnod Unigryw y Trethdalwr
 
 yourCountryLookup.title = Ym mha wlad y mae eich cyfeiriad?
 yourCountryLookup.heading = Ym mha wlad y mae eich cyfeiriad?
+yourCountryLookup.label = Dewiswch gwlad neu diriogaeth
 yourCountryLookup.hint = Er enghraifft, y Deyrnas Unedig.
 
 youHaveSentYourNotification.title.entity = Rydych wedi anfon eich hysbysiad
@@ -689,6 +690,7 @@ whatIsTheIndividualsUniqueTaxReference.change.hidden = Cyfeirnod Unigryw y Treth
 
 individualCountryLookup.title = Beth yw gwlad cyfeiriad yr unigolyn?
 individualCountryLookup.heading = Beth yw gwlad cyfeiriad yr unigolyn?
+individualCountryLookup.label = Dewiswch gwlad neu diriogaeth
 individualCountryLookup.hint = Er enghraifft, y Deyrnas Unedig.
 
 individualAddressLookup.title = Beth yw cod post ac enw neu rif eiddo yr unigolyn?
@@ -758,6 +760,7 @@ whatIsTheCompanyRegistrationNumber.change.hidden = Rhif cofrestru’r cwmni
 
 companyCountryLookup.title = Beth yw gwlad cyfeiriad y cwmni?
 companyCountryLookup.heading = Beth yw gwlad cyfeiriad y cwmni?
+companyCountryLookup.label = Dewiswch gwlad neu diriogaeth
 companyCountryLookup.hint = Er enghraifft, y Deyrnas Unedig.
 
 companyAddressLookup.title = Beth yw cod post ac enw neu rif eiddo y cwmni?
@@ -786,6 +789,7 @@ whatIsTheLLPName.change.hidden = Enw’r bartneriaeth atebolrwydd cyfyngedig
 
 llpCountryLookup.title = Beth yw gwlad cyfeiriad y bartneriaeth atebolrwydd cyfyngedig?
 llpCountryLookup.heading = Beth yw gwlad cyfeiriad y bartneriaeth atebolrwydd cyfyngedig?
+llpCountryLookup.label = Dewiswch gwlad neu diriogaeth
 llpCountryLookup.hint = Er enghraifft, y Deyrnas Unedig.
 
 llpAddressLookup.title = Beth yw cod post ac enw neu rif eiddo y bartneriaeth atebolrwydd cyfyngedig?
@@ -807,6 +811,7 @@ notificationCYA.aboutTheLLP = Ynglŷn â’r bartneriaeth atebolrwydd cyfyngedig
 
 trustCountryLookup.title = Beth yw gwlad cyfeiriad yr ymddiriedolaeth?
 trustCountryLookup.heading = Beth yw gwlad cyfeiriad yr ymddiriedolaeth?
+trustCountryLookup.label = Dewiswch gwlad neu diriogaeth
 trustCountryLookup.hint = Er enghraifft, y Deyrnas Unedig.
 
 trustAddressLookup.title = Beth yw cod post ac enw neu rif eiddo yr ymddiriedolaeth)?
@@ -924,6 +929,7 @@ whatWasThePersonUTR.change.hidden = Cyfeirnod Unigryw y Trethdalwr y person
 
 estateCountryLookup.title = What was the country of the person’s address?
 estateCountryLookup.heading = What was the country of the person’s address?
+estateCountryLookup.label = Dewiswch gwlad neu diriogaeth
 estateCountryLookup.hint = Er enghraifft, y Deyrnas Unedig.
 
 estateAddressLookup.title = What was the postcode and property name or number of the person’s address?

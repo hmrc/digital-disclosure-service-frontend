@@ -14,19 +14,13 @@
  * limitations under the License.
  */
 
-package models.address
+package pages
 
-import play.api.libs.json.Json
-import play.api.libs.json.OFormat
+import play.api.libs.json.JsPath
 
-final case class CountryPickerLabels(
-  title: String,
-  heading: String,
-  countryLabel: String,
-  afterHeadingText: String,
-  submitLabel: String
-)
+case object YourAddressLookupRedirectPage extends QuestionPage[String] {
 
-object CountryPickerLabels {
-  implicit val format: OFormat[CountryPickerLabels] = Json.format[CountryPickerLabels]
+  override def path: JsPath = JsPath \ toString
+
+  override def toString: String = "yourAddressLookupRedirect"
 }
