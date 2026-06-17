@@ -47,5 +47,11 @@ class LetterReferenceFormProviderSpec extends CaseReferenceBehaviours {
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+
+    "bind valid case references with incidental spaces" in {
+      form.bind(Map(fieldName -> "CFSS 1234567")).value mustBe Some("CFSS1234567")
+      form.bind(Map(fieldName -> "CFSS - 1234567")).value mustBe Some("CFSS-1234567")
+      form.bind(Map(fieldName -> " CFS 1234567 ")).value mustBe Some("CFS1234567")
+    }
   }
 }
