@@ -220,9 +220,9 @@ class UAToNotificationServiceSpec extends AnyWordSpec with Matchers with TryValu
         contactPreference = Some(ContactPreferences(Set())),
         doYouHaveANino = Some(YesNoOrUnsure.Yes),
         nino = Some("NINO"),
-        registeredForVAT = None,
+        registeredForVAT = Some(YesNoOrUnsure.Yes),
         vatRegNumber = Some("Reg number"),
-        registeredForSA = None,
+        registeredForSA = Some(YesNoOrUnsure.Yes),
         sautr = Some("UTR"),
         address = Some(address)
       )

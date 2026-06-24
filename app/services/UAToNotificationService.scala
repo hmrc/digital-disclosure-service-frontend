@@ -16,7 +16,7 @@
 
 package services
 
-import models.{DoYouHaveNationalInsuranceNumber, HowWouldYouPreferToBeContacted, RelatesTo, UserAnswers}
+import models.{AreYouRegisteredForSelfAssessment, AreYouRegisteredForVAT, DoYouHaveNationalInsuranceNumber, HowWouldYouPreferToBeContacted, RelatesTo, UserAnswers}
 import models.store.{Notification, YesNoOrUnsure}
 import models.store.notification.*
 import pages.*
@@ -114,9 +114,17 @@ class UAToNotificationServiceImpl extends UAToNotificationService {
         case DoYouHaveNationalInsuranceNumber.No             => YesNoOrUnsure.No
       },
       nino = userAnswers.get(WhatIsYourNationalInsuranceNumberPage),
-      registeredForVAT = userAnswers.get(AreYouRegisteredForVATPage.path),
+      registeredForVAT = userAnswers.get(AreYouRegisteredForVATPage).map {
+        case AreYouRegisteredForVAT.YesIKnow       => YesNoOrUnsure.Yes
+        case AreYouRegisteredForVAT.YesButDontKnow => YesNoOrUnsure.Unsure
+        case AreYouRegisteredForVAT.No             => YesNoOrUnsure.No
+      },
       vatRegNumber = userAnswers.get(WhatIsYourVATRegistrationNumberPage),
-      registeredForSA = userAnswers.get(AreYouRegisteredForSelfAssessmentPage.path),
+      registeredForSA = userAnswers.get(AreYouRegisteredForSelfAssessmentPage).map {
+        case AreYouRegisteredForSelfAssessment.YesIKnowMyUTR     => YesNoOrUnsure.Yes
+        case AreYouRegisteredForSelfAssessment.YesIDontKnowMyUTR => YesNoOrUnsure.Unsure
+        case AreYouRegisteredForSelfAssessment.No                => YesNoOrUnsure.No
+      },
       sautr = userAnswers.get(WhatIsYourUniqueTaxReferencePage),
       address = userAnswers.get(YourAddressLookupPage)
     )
