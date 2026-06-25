@@ -1450,7 +1450,7 @@ taxBeforeSevenYears.taxBeforeSevenYears.change.hidden = Treth a oedd yn ddyledus
 
 taxYearLiabilities.title = Rhwymedigaethau alltraeth – Blwyddyn dreth 6 Ebrill {0} i 5 Ebrill {1}
 taxYearLiabilities.heading = Rhwymedigaethau alltraeth – Blwyddyn dreth 6 Ebrill {0} i 5 Ebrill {1}
-taxYearLiabilities.body = Nawr, mae angen i chi nodi’r incwm, y dreth, y cosbau a’r llog sydd arnoch ar gyfer pob blwyddyn dreth berthnasol, wedi’i dalgrynnu i lawr i’r bunt agosaf. Gallwch
+taxYearLiabilities.body = Nawr, mae angen i chi nodi’r symiau sydd arnoch ar gyfer pob blwyddyn gyfrifyddu, wedi’i dalgrynnu i lawr i’r bunt agosaf. Gallwch
 taxYearLiabilities.link = ddod o hyd i wybodaeth am sut i gyfrifo’r ffigurau hyn yn yr arweiniad ynghylch Cyfleusterau Datgelu Byd-eang (yn agor tab newydd).
 taxYearLiabilities.income.question = Faint o incwm alltraeth na roesoch wybod i CThEF amdano ar gyfer blwyddyn dreth {0}?
 taxYearLiabilities.income.error.required = Nodwch swm yr incwm alltraeth na roesoch wybod i CThEF amdano, mewn punnoedd

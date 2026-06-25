@@ -28,9 +28,6 @@ import utils.DynamicNonPenaltyFlags
 
 object ReasonableExcuseHelper {
 
-//  def showPenaltyWhenNotReasonableExcuse(userAnswers: UserAnswers): Boolean =
-//    dynamicContentFlags(userAnswers).showPenaltyTextbox
-
   def dynamicContentFlags(userAnswers: UserAnswers): DynamicNonPenaltyFlags = {
 
     val whyAreYouMakingThisDisclosure: Set[WhyAreYouMakingThisOnshoreDisclosure] =
