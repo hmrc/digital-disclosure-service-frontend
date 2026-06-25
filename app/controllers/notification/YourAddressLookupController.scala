@@ -59,7 +59,7 @@ class YourAddressLookupController @Inject() (
           addressLookupService
             .getYourAddressLookupRedirect(continueUrl, request.userAnswers)
             .fold(
-              { e: Error =>
+              { (e: Error) =>
                 logger.error(s"Error initialising Address Lookup: $e")
                 Future.failed(e.throwable.getOrElse(new Exception(e.message)))
               },
