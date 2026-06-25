@@ -22,17 +22,25 @@ import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.onshore.OnshoreTaxYearLiabilitiesView
 import models.{NormalMode, WhatOnshoreLiabilitiesDoYouNeedToDisclose}
+import utils.DynamicNonPenaltyFlags
 
 class OnshoreTaxYearLiabilitiesViewSpec extends ViewSpecBase with ViewMatchers {
 
+  val penaltyFlags = DynamicNonPenaltyFlags(
+    showInaccurateReasonableParagraph = false,
+    showLateReturnReasonableParagraph = false,
+    showNotifyReasonableParagraph = false,
+    showPenaltyTextbox = true
+  )
+
   def form(taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]) = new OnshoreTaxYearLiabilitiesFormProvider()(
     taxTypes,
-    true
+    penaltyFlags
   )
   val page: OnshoreTaxYearLiabilitiesView                            = inject[OnshoreTaxYearLiabilitiesView]
 
   private def createView(taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]): Html =
-    page(form(taxTypes), NormalMode, 0, 2021, taxTypes, showPenaltySection = true)(request, messages)
+    page(form(taxTypes), NormalMode, 0, 2021, taxTypes, penaltyFlags)(request, messages)
 
   "view with no types selected" should {
 

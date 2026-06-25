@@ -17,6 +17,8 @@
 @import viewmodels.InputWidth._
 @import uk.gov.hmrc.hmrcfrontend.views.html.components.CharacterCount
 @import viewmodels.ErrorFluency
+@import utils.DynamicNonPenaltyFlags
+
 
 @this(
     layout: templates.Layout,
@@ -32,7 +34,7 @@
     link: components.link
 )
 
-@(form: Form[_], mode: Mode, index: Int, startYear: Int, taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose], showPenaltySection: Boolean)(implicit request: RequestHeader, messages: Messages)
+@(form: Form[_], mode: Mode, index: Int, startYear: Int, taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose], flags: DynamicNonPenaltyFlags)(implicit request: RequestHeader, messages: Messages)
 
 @layout(pageTitle = title(form, messages("onshoreTaxYearLiabilities.title", startYear.toString, (startYear+1).toString))) {
 
@@ -140,7 +142,7 @@
             .withWidth(Fixed10)
         )
 
-        @if(showPenaltySection) {
+        @if(flags.showPenaltyTextbox) {
             @govukInput(
                 InputViewModel(
                     field = form("penaltyRate"),
@@ -184,6 +186,60 @@
                     messagePrefix = "site"
                 )
             )
+        }
+        @if(!flags.showPenaltyTextbox) {
+
+            @defining(
+                Seq(
+                    (flags.showNotifyReasonableParagraph -> (
+                        "corporationTaxLiability.nonPenaltyReason.forNotNotifying",
+                        "corporationTaxLiability.nonPenaltyReason.bullet.forNotNotifying"
+                    )),
+                    (flags.showLateReturnReasonableParagraph -> (
+                        "corporationTaxLiability.nonPenaltyReason.forNotFilingAReturn",
+                        "corporationTaxLiability.nonPenaltyReason.bullet.forNotFilingAReturn"
+                    )),
+                    (flags.showInaccurateReasonableParagraph -> (
+                        "corporationTaxLiability.nonPenaltyReason.forInaccurateReturn",
+                        "corporationTaxLiability.nonPenaltyReason.bullet.forInaccurateReturn"
+                    ))
+                ).collect {
+                    case (true, (singleKey, bulletKey)) => (singleKey, bulletKey)
+                }
+            ) { paragraphs =>
+
+                <h2 class="govuk-heading-m">
+                    @messages("corporationTaxLiability.nonPenaltySection")
+                </h2>
+
+                <p class="govuk-body" id="first-nonPenalty-paragraph">
+                    @messages("corporationTaxLiability.noAskToEnterAPenalty")
+                </p>
+
+                @if(paragraphs.size == 1) {
+                    <p class="govuk-body">@messages(paragraphs.head._1)</p>
+                }
+
+                @if(paragraphs.size > 1) {
+                    <p class="govuk-body">@messages("corporationTaxLiability.nonPenaltyReason.bullet.main")</p>
+                    <ul class="govuk-list govuk-list--bullet">
+                        @paragraphs.map { case (_, bulletKey) =>
+                        <li>@messages(bulletKey)</li>
+                        }
+                    </ul>
+                }
+
+                <p class="govuk-body" id="fifth-nonPenalty-paragraph">
+                    @messages("corporationTaxLiability.penaltyIsZero")
+                </p>
+
+                <p class="govuk-body" id="sixth-nonPenalty-paragraph">
+                    @messages("corporationTaxLiability.stillNeedToPayPenalty")
+                    <a class="govuk-link" href="">
+                        @messages("corporationTaxLiability.stillNeedToPayPenalty.link")
+                    </a>
+                </p>
+            }
         }
 
         @govukButton(

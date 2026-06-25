@@ -21,6 +21,7 @@ import forms.mappings.Mappings
 import models.CorporationTaxLiability
 import play.api.data.Form
 import play.api.data.Forms._
+import utils.DynamicNonPenaltyFlags
 
 import java.time.LocalDate
 
@@ -28,7 +29,7 @@ class CorporationTaxLiabilityFormProvider @Inject() extends Mappings {
 
   val MAX_BIGINT = BigInt("999999999999999999999999")
 
-  def apply(showPenaltySection: Boolean = true): Form[CorporationTaxLiability] =
+  def apply(penaltyFlags: DynamicNonPenaltyFlags): Form[CorporationTaxLiability] =
     Form(
       mapping(
         "periodEnd"         -> localDate(
@@ -61,7 +62,7 @@ class CorporationTaxLiabilityFormProvider @Inject() extends Mappings {
         )
           .verifying(inRange(BigInt(0), MAX_BIGINT, "corporationTaxLiability.howMuchInterest.error.outOfRange")),
         "penaltyRate"       -> {
-          if (showPenaltySection) {
+          if (penaltyFlags.showPenaltyTextbox) {
             decimalWithPercentage(
               "corporationTaxLiability.penaltyRate.error.required",
               "corporationTaxLiability.penaltyRate.error.nonNumeric"
@@ -75,7 +76,7 @@ class CorporationTaxLiabilityFormProvider @Inject() extends Mappings {
           }
         },
         "penaltyRateReason" -> {
-          if (showPenaltySection) {
+          if (penaltyFlags.showPenaltyTextbox) {
             text("corporationTaxLiability.penaltyRateReason.error.required")
               .verifying(maxLength(5000, "corporationTaxLiability.penaltyRateReason.error.length"))
               .verifying(validUnicodeCharacters)

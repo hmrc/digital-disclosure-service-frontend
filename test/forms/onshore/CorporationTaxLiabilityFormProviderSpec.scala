@@ -19,6 +19,7 @@ package forms
 import java.time.{LocalDate, ZoneOffset}
 import forms.behaviours.{BigDecimalFieldBehaviours, BigIntFieldBehaviours, IntFieldBehaviours, PeriodEndBehaviours, StringFieldBehaviours}
 import play.api.data.FormError
+import utils.DynamicNonPenaltyFlags
 
 class CorporationTaxLiabilityFormProviderSpec
     extends PeriodEndBehaviours
@@ -27,7 +28,14 @@ class CorporationTaxLiabilityFormProviderSpec
     with BigDecimalFieldBehaviours
     with StringFieldBehaviours {
 
-  val form = new CorporationTaxLiabilityFormProvider()()
+  val penaltyFlags: DynamicNonPenaltyFlags = DynamicNonPenaltyFlags(
+    showInaccurateReasonableParagraph = false,
+    showLateReturnReasonableParagraph = false,
+    showNotifyReasonableParagraph = false,
+    showPenaltyTextbox = true
+  )
+
+  val form = new CorporationTaxLiabilityFormProvider()(penaltyFlags)
 
   ".periodEnd" - {
 

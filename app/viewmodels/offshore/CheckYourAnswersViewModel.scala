@@ -131,7 +131,7 @@ class CheckYourAnswersViewModelCreation @Inject() (
 
     val liabilities = yearWithLiabilites.taxYearLiabilities
 
-    val showPenaltySection = ReasonableExcuseHelper.showPenaltyWhenNotReasonableExcuse(userAnswers)
+    val showPenaltySection = ReasonableExcuseHelper.dynamicContentFlags(userAnswers).showPenaltyTextbox
 
     val undeclaredIncome = liabilities.undeclaredIncomeOrGain match {
       case Some(value) =>
