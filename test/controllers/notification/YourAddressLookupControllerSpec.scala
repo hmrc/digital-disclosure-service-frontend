@@ -21,6 +21,7 @@ import cats.data.EitherT
 import generators.ModelGenerators
 import models._
 import models.address.Address
+import pages.YourAddressLookupRedirectPage
 import org.mockito.ArgumentMatchers.{any, eq => eqTo}
 import org.mockito.Mockito.when
 import org.mockito.stubbing.OngoingStubbing
@@ -65,6 +66,7 @@ class YourAddressLookupControllerSpec extends SpecBase with MockFactory with Mod
 
       val request = FakeRequest(GET, addressLookupRoute)
       setupMockSessionResponse(Some(emptyUserAnswers))
+      mockServiceSet(Future.successful(true))
 
       mockGetIndividualAddressLookupRedirect(
         routes.YourAddressLookupController.retrieveConfirmedAddress(NormalMode, None)
@@ -73,6 +75,20 @@ class YourAddressLookupControllerSpec extends SpecBase with MockFactory with Mod
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual addressLookupOnwardRoute.url
+    }
+
+    "must reuse an existing address lookup redirect when one is stored in user answers" in {
+
+      val existingRedirectUrl = "http://localhost:15003/existing-journey"
+      val request             = FakeRequest(GET, addressLookupRoute)
+      val userAnswers         = emptyUserAnswers.set(YourAddressLookupRedirectPage, existingRedirectUrl).success.value
+
+      setupMockSessionResponse(Some(userAnswers))
+
+      val result = route(app, request).value
+
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual existingRedirectUrl
     }
 
     "must handle error scenarios appropriately" in {

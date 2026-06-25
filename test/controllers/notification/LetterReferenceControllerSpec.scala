@@ -87,6 +87,21 @@ class LetterReferenceControllerSpec extends SpecBase with MockitoSugar {
       redirectLocation(result).value mustEqual onwardRoute.url
     }
 
+    "must accept valid data submitted with incidental spaces" in {
+
+      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
+
+      val request =
+        FakeRequest(POST, letterReferenceRoute)
+          .withFormUrlEncodedBody(("value", "CFSS - 1234567"))
+
+      val result = route(applicationWithFakeNotificationNavigator(onwardRoute), request).value
+
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
+    }
+
     "must return a Bad Request and errors when invalid data is submitted" in {
 
       setupMockSessionResponse(Some(emptyUserAnswers))

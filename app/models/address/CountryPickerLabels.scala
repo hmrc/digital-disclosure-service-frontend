@@ -23,6 +23,7 @@ final case class CountryPickerLabels(
   title: String,
   heading: String,
   countryLabel: String,
+  afterHeadingText: String,
   submitLabel: String
 )
 

@@ -94,6 +94,27 @@ class WhatIsTheCaseReferenceControllerSpec extends SpecBase with MockitoSugar {
       redirectLocation(result).value mustEqual onwardRoute.url
     }
 
+    "must accept valid data submitted with incidental spaces" in {
+
+      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      setupMockSessionResponse(Some(emptyUserAnswers))
+
+      val applicationWithFakeReferenceNavigator = applicationBuilder
+        .overrides(
+          bind[ReferenceNavigator].toInstance(new FakeReferenceNavigator(onwardRoute))
+        )
+        .build()
+
+      val request =
+        FakeRequest(POST, whatIsTheCaseReferenceRoute)
+          .withFormUrlEncodedBody(("value", "CFSS - 1234567"))
+
+      val result = route(applicationWithFakeReferenceNavigator, request).value
+
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
+    }
+
     "must return a Bad Request and errors when invalid data is submitted" in {
 
       setupMockSessionResponse(Some(emptyUserAnswers))
