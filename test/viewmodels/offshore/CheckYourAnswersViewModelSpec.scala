@@ -17,6 +17,8 @@
 package viewmodels.offshore
 
 import base.SpecBase
+import models.WhyAreYouMakingThisDisclosure.DidNotNotifyHMRC
+import models.WhyYouSubmittedAnInaccurateReturn.NoReasonableCare
 import pages._
 import models._
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
@@ -163,7 +165,14 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
         val offshoreYears: Set[OffshoreYears] = Set(taxYearWithLiabilities.taxYear)
         val ua                                = (for {
           uaWithYears <- UserAnswers("id", "session-123").set(WhichYearsPage, offshoreYears)
-          finalUa     <- uaWithYears.setByKey(TaxYearLiabilitiesPage, yearKey, taxYearWithLiabilities)
+          uaWithDisclosure <- uaWithYears.set(
+            WhyAreYouMakingThisDisclosurePage,
+            Set[WhyAreYouMakingThisDisclosure](DidNotNotifyHMRC)
+          )
+          uaWithReasons <- uaWithDisclosure.set(
+            WhyYouSubmittedAnInaccurateOffshoreReturnPage,
+            Set[WhyYouSubmittedAnInaccurateReturn](NoReasonableCare))
+          finalUa     <- uaWithReasons.setByKey(TaxYearLiabilitiesPage, yearKey, taxYearWithLiabilities)
         } yield finalUa).success.value
         val viewModel                         = sut.create(ua)
 
@@ -201,7 +210,14 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
       val offshoreYears: Set[OffshoreYears] = Set(TaxYearStarting(2018), TaxYearStarting(2019))
       val ua                                = (for {
         ua1     <- UserAnswers("id", "session-123").set(WhichYearsPage, offshoreYears)
-        ua2     <- ua1.setByKey(TaxYearLiabilitiesPage, "2018", secondTaxYear)
+        ua1WithDisclosure <- ua1.set(
+          WhyAreYouMakingThisDisclosurePage,
+          Set[WhyAreYouMakingThisDisclosure](DidNotNotifyHMRC)
+        )
+        ua1WithReasons <- ua1WithDisclosure.set(
+          WhyYouSubmittedAnInaccurateOffshoreReturnPage,
+          Set[WhyYouSubmittedAnInaccurateReturn](NoReasonableCare))
+        ua2     <- ua1WithReasons.setByKey(TaxYearLiabilitiesPage, "2018", secondTaxYear)
         finalUa <- ua2.setByKey(TaxYearLiabilitiesPage, "2019", firstTaxYear)
       } yield finalUa).success.value
       val viewModel                         = sut.create(ua)

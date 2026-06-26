@@ -18,14 +18,17 @@ package controllers.onshore
 
 import base.SpecBase
 import forms.OnshoreTaxYearLiabilitiesFormProvider
-import models.{NormalMode, OnshoreTaxYearLiabilities, OnshoreTaxYearWithLiabilities, OnshoreYearStarting, OnshoreYears, UserAnswers}
+import models.WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC
+import models.WhyYouSubmittedAnInaccurateOnshoreReturn.NoReasonableCare
+import models.{NormalMode, OnshoreTaxYearLiabilities, OnshoreTaxYearWithLiabilities, OnshoreYearStarting, OnshoreYears, UserAnswers, WhyAreYouMakingThisOnshoreDisclosure, WhyYouSubmittedAnInaccurateOnshoreReturn}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.{OnshoreTaxYearLiabilitiesPage, WhichOnshoreYearsPage}
+import pages.{OnshoreTaxYearLiabilitiesPage, WhichOnshoreYearsPage, WhyAreYouMakingThisOnshoreDisclosurePage, WhyYouSubmittedAnInaccurateOnshoreReturnPage}
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import utils.DynamicNonPenaltyFlags
 import views.html.onshore.OnshoreTaxYearLiabilitiesView
 
 import scala.concurrent.Future
@@ -35,7 +38,13 @@ class OnshoreTaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider                  = new OnshoreTaxYearLiabilitiesFormProvider()
-  val form                          = formProvider(Set(), true)
+  val penaltyFlags: DynamicNonPenaltyFlags = DynamicNonPenaltyFlags(
+    showInaccurateReasonableParagraph = false,
+    showLateReturnReasonableParagraph = false,
+    showNotifyReasonableParagraph = false,
+    showPenaltyTextbox = true
+  )
+  val form                          = formProvider(Set(), penaltyFlags)
   val whichYears: Set[OnshoreYears] = Set(OnshoreYearStarting(2021))
   val userAnswersWithTaxYears       =
     UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, whichYears).success.value
@@ -46,7 +55,18 @@ class OnshoreTaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar
 
     "must return OK and the correct view for a GET" in {
 
-      setupMockSessionResponse(Some(userAnswersWithTaxYears))
+      val userAnswersWithTaxYears1 =
+        userAnswersWithTaxYears
+        .set(
+            WhyAreYouMakingThisOnshoreDisclosurePage,
+            Set[WhyAreYouMakingThisOnshoreDisclosure](DidNotNotifyHMRC)
+          ).success.value
+          .set(
+            WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+            Set[WhyYouSubmittedAnInaccurateOnshoreReturn](NoReasonableCare)
+          ).success.value
+
+      setupMockSessionResponse(Some(userAnswersWithTaxYears1))
 
       val request = FakeRequest(GET, taxYearLiabilitiesRoute)
 
@@ -55,7 +75,7 @@ class OnshoreTaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar
       val view = application.injector.instanceOf[OnshoreTaxYearLiabilitiesView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, NormalMode, 0, 2021, Set(), true)(request, messages).toString
+      contentAsString(result) mustEqual view(form, NormalMode, 0, 2021, Set(), penaltyFlags)(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -76,6 +96,14 @@ class OnshoreTaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar
 
       val userAnswers = userAnswersWithTaxYears
         .set(
+          WhyAreYouMakingThisOnshoreDisclosurePage,
+          Set[WhyAreYouMakingThisOnshoreDisclosure](DidNotNotifyHMRC)
+        ).success.value
+        .set(
+          WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+          Set[WhyYouSubmittedAnInaccurateOnshoreReturn](NoReasonableCare)
+        ).success.value
+        .set(
           OnshoreTaxYearLiabilitiesPage,
           Map("2021" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2021), answer))
         )
@@ -91,7 +119,7 @@ class OnshoreTaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(answer), NormalMode, 0, 2021, Set(), true)(
+      contentAsString(result) mustEqual view(form.fill(answer), NormalMode, 0, 2021, Set(), penaltyFlags)(
         request,
         messages
       ).toString
@@ -99,8 +127,19 @@ class OnshoreTaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar
 
     "must redirect to the next page when valid data is submitted" in {
 
+      val userAnswersWithTaxYears1 =
+        userAnswersWithTaxYears
+          .set(
+            WhyAreYouMakingThisOnshoreDisclosurePage,
+            Set[WhyAreYouMakingThisOnshoreDisclosure](DidNotNotifyHMRC)
+          ).success.value
+          .set(
+            WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+            Set[WhyYouSubmittedAnInaccurateOnshoreReturn](NoReasonableCare)
+          ).success.value
+
       when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
-      setupMockSessionResponse(Some(userAnswersWithTaxYears))
+      setupMockSessionResponse(Some(userAnswersWithTaxYears1))
 
       val request =
         FakeRequest(POST, taxYearLiabilitiesRoute)
@@ -121,7 +160,19 @@ class OnshoreTaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      setupMockSessionResponse(Some(userAnswersWithTaxYears))
+      val userAnswersWithTaxYears1 =
+        userAnswersWithTaxYears
+          .set(
+            WhyAreYouMakingThisOnshoreDisclosurePage,
+            Set[WhyAreYouMakingThisOnshoreDisclosure](DidNotNotifyHMRC)
+          ).success.value
+          .set(
+            WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+            Set[WhyYouSubmittedAnInaccurateOnshoreReturn](NoReasonableCare)
+          ).success.value
+
+
+      setupMockSessionResponse(Some(userAnswersWithTaxYears1))
 
       val request =
         FakeRequest(POST, taxYearLiabilitiesRoute)
@@ -134,7 +185,7 @@ class OnshoreTaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, 0, 2021, Set(), true)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode, 0, 2021, Set(), penaltyFlags)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

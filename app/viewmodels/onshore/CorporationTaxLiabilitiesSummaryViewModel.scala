@@ -43,7 +43,7 @@ class CorporationTaxLiabilitiesSummaryViewModelCreation @Inject() (revealFullTex
   def create(userAnswers: UserAnswers)(implicit messages: Messages): CorporationTaxLiabilitiesSummaryViewModel = {
     val corporationTaxLiabilities = userAnswers.get(CorporationTaxLiabilityPage).getOrElse(Seq())
 
-    val showPenaltySection = ReasonableExcuseHelper.showPenaltyWhenNotReasonableExcuse(userAnswers)
+    val showPenaltySection = ReasonableExcuseHelper.dynamicContentFlags(userAnswers).showPenaltyTextbox
 
     val corporationTaxLiabilitiesList: Seq[(Int, SummaryList)] = corporationTaxLiabilities.zipWithIndex.map {
       case (corporationTaxLiability, i) =>

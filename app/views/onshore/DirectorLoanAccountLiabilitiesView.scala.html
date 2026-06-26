@@ -17,6 +17,7 @@
 @import viewmodels.InputWidth._
 @import uk.gov.hmrc.hmrcfrontend.views.html.components.CharacterCount
 @import viewmodels.ErrorFluency
+@import utils.DynamicNonPenaltyFlags
 
 @this(
     layout: templates.Layout,
@@ -32,7 +33,7 @@
     tasklistLink: components.tasklistLink
 )
 
-@(form: Form[_], mode: Mode, index: Int, showPenaltySection: Boolean)(implicit request: RequestHeader, messages: Messages)
+@(form: Form[_], mode: Mode, index: Int,  flags: DynamicNonPenaltyFlags)(implicit request: RequestHeader, messages: Messages)
 
 @layout(pageTitle = title(form, messages("directorLoanAccountLiabilities.title", index + 1))) {
 
@@ -107,7 +108,7 @@
             .withWidth(Fixed10)
         )
 
-        @if(showPenaltySection) {
+        @if(flags.showPenaltyTextbox) {
             @govukInput(
                 InputViewModel(
                     field = form("penaltyRate"),
@@ -129,6 +130,61 @@
                     errorMessage = ErrorFluency.errorMessage(form("penaltyRateReason"))
                 )
             )
+        }
+
+        @if(!flags.showPenaltyTextbox) {
+
+            @defining(
+                Seq(
+                    (flags.showNotifyReasonableParagraph -> (
+                        "directorLoanAccountLiabilities.nonPenaltyReason.forNotNotifying",
+                        "directorLoanAccountLiabilities.nonPenaltyReason.bullet.forNotNotifying"
+                    )),
+                    (flags.showLateReturnReasonableParagraph -> (
+                        "directorLoanAccountLiabilities.nonPenaltyReason.forNotFilingAReturn",
+                        "directorLoanAccountLiabilities.nonPenaltyReason.bullet.forNotFilingAReturn"
+                    )),
+                    (flags.showInaccurateReasonableParagraph -> (
+                        "directorLoanAccountLiabilities.nonPenaltyReason.forInaccurateReturn",
+                        "directorLoanAccountLiabilities.nonPenaltyReason.bullet.forInaccurateReturn"
+                    ))
+                ).collect {
+                    case (true, (singleKey, bulletKey)) => (singleKey, bulletKey)
+                }
+            ) { paragraphs =>
+
+                <h2 class="govuk-heading-m">
+                    @messages("directorLoanAccountLiabilities.nonPenaltySection")
+                </h2>
+
+                <p class="govuk-body" id="first-nonPenalty-paragraph">
+                    @messages("directorLoanAccountLiabilities.noAskToEnterAPenalty")
+                </p>
+
+                @if(paragraphs.size == 1) {
+                    <p class="govuk-body">@messages(paragraphs.head._1)</p>
+                }
+
+                @if(paragraphs.size > 1) {
+                    <p class="govuk-body">@messages("directorLoanAccountLiabilities.nonPenaltyReason.bullet.main")</p>
+                    <ul class="govuk-list govuk-list--bullet">
+                        @paragraphs.map { case (_, bulletKey) =>
+                            <li>@messages(bulletKey)</li>
+                        }
+                    </ul>
+                }
+
+                <p class="govuk-body" id="fifth-nonPenalty-paragraph">
+                    @messages("directorLoanAccountLiabilities.penaltyIsZero")
+                </p>
+
+                <p class="govuk-body" id="sixth-nonPenalty-paragraph">
+                    @messages("directorLoanAccountLiabilities.stillNeedToPayPenalty")
+                    <a class="govuk-link" href="@controllers.onshore.routes.WhyAreYouMakingThisOnshoreDisclosureController.onPageLoad(mode).url">
+                        @messages("directorLoanAccountLiabilities.stillNeedToPayPenalty.link")
+                    </a>
+                </p>
+            }
         }
 
         @govukButton(

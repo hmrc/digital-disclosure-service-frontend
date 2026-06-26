@@ -30,6 +30,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.onshore.OnshoreTaxYearLiabilitiesView
 import play.api.mvc.Result
 import models.requests.DataRequest
+import utils.DynamicNonPenaltyFlags
 import utils.onshore.ReasonableExcuseHelper
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -49,21 +50,21 @@ class OnshoreTaxYearLiabilitiesController @Inject() (
     extends FrontendBaseController
     with I18nSupport {
 
-  def form(taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose], showPenaltySection: Boolean) =
-    formProvider(taxTypes, showPenaltySection)
+  def form(taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose], penaltyFlags: DynamicNonPenaltyFlags) =
+    formProvider(taxTypes, penaltyFlags)
 
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
       withYear(i) { year =>
         val taxTypes = request.userAnswers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage).getOrElse(Set())
 
-        val showPenaltySection = ReasonableExcuseHelper.showPenaltyWhenNotReasonableExcuse(request.userAnswers)
+        val penaltyFlags = ReasonableExcuseHelper.dynamicContentFlags(request.userAnswers)
 
         val preparedForm = request.userAnswers.getByKey(OnshoreTaxYearLiabilitiesPage, year.toString) match {
-          case None        => form(taxTypes, showPenaltySection)
-          case Some(value) => form(taxTypes, showPenaltySection).fill(value.taxYearLiabilities)
+          case None        => form(taxTypes, penaltyFlags)
+          case Some(value) => form(taxTypes, penaltyFlags).fill(value.taxYearLiabilities)
         }
-        Ok(view(preparedForm, mode, i, year, taxTypes, showPenaltySection))
+        Ok(view(preparedForm, mode, i, year, taxTypes, penaltyFlags))
       }
 
   }
@@ -72,14 +73,14 @@ class OnshoreTaxYearLiabilitiesController @Inject() (
     implicit request =>
       val taxTypes = request.userAnswers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage).getOrElse(Set())
 
-      val showPenaltySection = ReasonableExcuseHelper.showPenaltyWhenNotReasonableExcuse(request.userAnswers)
+      val penaltyFlags = ReasonableExcuseHelper.dynamicContentFlags(request.userAnswers)
 
       withYearAsync(i) { year =>
-        form(taxTypes, showPenaltySection)
+        form(taxTypes, penaltyFlags)
           .bindFromRequest()
           .fold(
             formWithErrors =>
-              Future.successful(BadRequest(view(formWithErrors, mode, i, year, taxTypes, showPenaltySection))),
+              Future.successful(BadRequest(view(formWithErrors, mode, i, year, taxTypes, penaltyFlags))),
             value => {
               val taxYearWithLiabilities            = OnshoreTaxYearWithLiabilities(OnshoreYearStarting(year), value)
               val (clearedAnswers, hasValueChanged) = changedPages(request.userAnswers, year.toString, value)

@@ -18,14 +18,17 @@ package controllers.onshore
 
 import base.SpecBase
 import forms.DirectorLoanAccountLiabilitiesFormProvider
-import models.{DirectorLoanAccountLiabilities, NormalMode, UserAnswers}
+import models.WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC
+import models.WhyYouSubmittedAnInaccurateOnshoreReturn.NoReasonableCare
+import models.{DirectorLoanAccountLiabilities, NormalMode, UserAnswers, WhyAreYouMakingThisOnshoreDisclosure, WhyYouSubmittedAnInaccurateOnshoreReturn}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.DirectorLoanAccountLiabilitiesPage
+import pages.{DirectorLoanAccountLiabilitiesPage, WhyAreYouMakingThisOnshoreDisclosurePage, WhyYouSubmittedAnInaccurateOnshoreReturnPage}
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import utils.DynamicNonPenaltyFlags
 import views.html.onshore.DirectorLoanAccountLiabilitiesView
 
 import java.time.{LocalDate, ZoneOffset}
@@ -35,8 +38,15 @@ class DirectorLoanAccountLiabilitiesControllerSpec extends SpecBase with Mockito
 
   def onwardRoute = Call("GET", "/foo")
 
+  val penaltyFlags: DynamicNonPenaltyFlags = DynamicNonPenaltyFlags(
+    showInaccurateReasonableParagraph = false,
+    showLateReturnReasonableParagraph = false,
+    showNotifyReasonableParagraph = false,
+    showPenaltyTextbox = true
+  )
+
   val formProvider = new DirectorLoanAccountLiabilitiesFormProvider()
-  val form         = formProvider(true)
+  val form         = formProvider(penaltyFlags)
 
   val index = 0
 
@@ -54,13 +64,32 @@ class DirectorLoanAccountLiabilitiesControllerSpec extends SpecBase with Mockito
   )
 
   val userAnswers =
-    UserAnswers(userAnswersId, "session-123").set(DirectorLoanAccountLiabilitiesPage, Seq(answer)).success.value
+    UserAnswers(userAnswersId, "session-123")
+      .set(
+        WhyAreYouMakingThisOnshoreDisclosurePage,
+        Set[WhyAreYouMakingThisOnshoreDisclosure](DidNotNotifyHMRC)
+      ).success.value
+      .set(
+        WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+        Set[WhyYouSubmittedAnInaccurateOnshoreReturn](NoReasonableCare)
+      ).success.value
+      .set(DirectorLoanAccountLiabilitiesPage, Seq(answer)).success.value
 
   "DirectorLoanAccountLiabilities Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
-      setupMockSessionResponse(Some(emptyUserAnswers))
+      val ua = emptyUserAnswers
+        .set(
+          WhyAreYouMakingThisOnshoreDisclosurePage,
+          Set[WhyAreYouMakingThisOnshoreDisclosure](DidNotNotifyHMRC)
+        ).success.value
+        .set(
+          WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+          Set[WhyYouSubmittedAnInaccurateOnshoreReturn](NoReasonableCare)
+        ).success.value
+
+      setupMockSessionResponse(Some(ua))
 
       val request = FakeRequest(GET, directorLoanAccountLiabilitiesRoute)
 
@@ -69,7 +98,7 @@ class DirectorLoanAccountLiabilitiesControllerSpec extends SpecBase with Mockito
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, NormalMode, index, true)(request, messages).toString
+      contentAsString(result) mustEqual view(form, NormalMode, index, penaltyFlags)(request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -83,7 +112,7 @@ class DirectorLoanAccountLiabilitiesControllerSpec extends SpecBase with Mockito
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(answer), NormalMode, index, true)(request, messages).toString
+      contentAsString(result) mustEqual view(form.fill(answer), NormalMode, index, penaltyFlags)(request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -112,8 +141,17 @@ class DirectorLoanAccountLiabilitiesControllerSpec extends SpecBase with Mockito
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
+      val ua = emptyUserAnswers
+              .set(
+                  WhyAreYouMakingThisOnshoreDisclosurePage,
+                  Set[WhyAreYouMakingThisOnshoreDisclosure](DidNotNotifyHMRC)
+                ).success.value
+                .set(
+                  WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+                  Set[WhyYouSubmittedAnInaccurateOnshoreReturn](NoReasonableCare)
+                ).success.value
 
-      setupMockSessionResponse(Some(emptyUserAnswers))
+      setupMockSessionResponse(Some(ua))
 
       val request =
         FakeRequest(POST, directorLoanAccountLiabilitiesRoute)
@@ -126,7 +164,7 @@ class DirectorLoanAccountLiabilitiesControllerSpec extends SpecBase with Mockito
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, index, true)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode, index, penaltyFlags)(request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

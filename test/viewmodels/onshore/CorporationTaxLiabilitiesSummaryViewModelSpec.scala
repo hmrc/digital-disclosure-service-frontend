@@ -17,9 +17,12 @@
 package viewmodels.onshore
 
 import base.SpecBase
+import models.WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC
+import models.WhyYouSubmittedAnInaccurateOnshoreReturn.NoReasonableCare
 import models._
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import org.scalacheck.Arbitrary.arbitrary
+import pages.{WhyAreYouMakingThisOnshoreDisclosurePage, WhyYouSubmittedAnInaccurateOnshoreReturnPage}
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
@@ -58,6 +61,7 @@ class CorporationTaxLiabilitiesSummaryViewModelSpec extends SpecBase with ScalaC
     }
 
     "return the corporation tax liability section if user have added one or more accounting details" in {
+
       val corporationTaxLiability = CorporationTaxLiability(
         periodEnd = LocalDate.now(),
         howMuchIncome = BigInt(0),
@@ -93,7 +97,14 @@ class CorporationTaxLiabilitiesSummaryViewModelSpec extends SpecBase with ScalaC
     }
 
     "return an empty total section where the director loan account pages isn't populated" in {
-      val ua        = UserAnswers("id", "session-123")
+      val ua = UserAnswers("id", "session-123")
+              .set(
+                WhyAreYouMakingThisOnshoreDisclosurePage,
+                Set[WhyAreYouMakingThisOnshoreDisclosure](DidNotNotifyHMRC)
+              ).success.value
+                .set(WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+                Set[WhyYouSubmittedAnInaccurateOnshoreReturn](NoReasonableCare)
+              ).success.value
       val viewModel = new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText).create(ua)
 
       viewModel.totalAmountsList.rows(0).key mustEqual Key(Text(mess("checkYourAnswers.ct.total.taxDue")))

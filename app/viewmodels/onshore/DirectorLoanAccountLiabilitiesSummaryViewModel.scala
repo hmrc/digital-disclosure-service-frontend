@@ -48,7 +48,7 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelCreation @Inject() (revealFu
     val directorLoanAccountLiabilities: Seq[DirectorLoanAccountLiabilities] =
       userAnswers.get(DirectorLoanAccountLiabilitiesPage).getOrElse(Seq())
 
-    val showPenaltySection = ReasonableExcuseHelper.showPenaltyWhenNotReasonableExcuse(userAnswers)
+    val showPenaltySection = ReasonableExcuseHelper.dynamicContentFlags(userAnswers).showPenaltyTextbox
 
     val directorLoanAccountLiabilitiesList: Seq[(Int, SummaryList)] = directorLoanAccountLiabilities.zipWithIndex.map {
       case (dLLiability, i) =>

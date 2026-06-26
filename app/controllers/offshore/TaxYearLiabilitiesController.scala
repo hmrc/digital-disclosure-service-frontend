@@ -30,6 +30,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.offshore.TaxYearLiabilitiesView
 import play.api.mvc.Result
 import models.requests.DataRequest
+import utils.DynamicNonPenaltyFlags
 import utils.offshore.ReasonableExcuseHelper
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -49,30 +50,30 @@ class TaxYearLiabilitiesController @Inject() (
     extends FrontendBaseController
     with I18nSupport {
 
-  def form(showPenaltySection: Boolean) = formProvider(showPenaltySection)
+  def form(penaltyFlags: DynamicNonPenaltyFlags) = formProvider(penaltyFlags)
 
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-      val showPenaltySection = ReasonableExcuseHelper.showPenaltyWhenNotReasonableExcuse(request.userAnswers)
+      val penaltyFlags = ReasonableExcuseHelper.dynamicContentFlags(request.userAnswers)
       withYear(i) { year =>
         val preparedForm = request.userAnswers.getByKey(TaxYearLiabilitiesPage, year.toString) match {
-          case None        => form(showPenaltySection)
-          case Some(value) => form(showPenaltySection).fill(value.taxYearLiabilities)
+          case None        => form(penaltyFlags)
+          case Some(value) => form(penaltyFlags).fill(value.taxYearLiabilities)
         }
 
-        Ok(view(preparedForm, mode, i, year, showPenaltySection))
+        Ok(view(preparedForm, mode, i, year, penaltyFlags))
       }
 
   }
 
   def onSubmit(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-      val showPenaltySection = ReasonableExcuseHelper.showPenaltyWhenNotReasonableExcuse(request.userAnswers)
+      val penaltyFlags = ReasonableExcuseHelper.dynamicContentFlags(request.userAnswers)
       withYearAsync(i) { year =>
-        form(showPenaltySection)
+        form(penaltyFlags)
           .bindFromRequest()
           .fold(
-            formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i, year, showPenaltySection))),
+            formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i, year, penaltyFlags))),
             value => {
               val taxYearWithLiabilities            = TaxYearWithLiabilities(TaxYearStarting(year), value)
               val (clearedAnswers, hasValueChanged) = changedPages(request.userAnswers, year.toString, value)

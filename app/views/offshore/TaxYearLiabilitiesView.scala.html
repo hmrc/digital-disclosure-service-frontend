@@ -17,6 +17,7 @@
 @import viewmodels.InputWidth._
 @import uk.gov.hmrc.hmrcfrontend.views.html.components.CharacterCount
 @import viewmodels.ErrorFluency
+@import utils.DynamicNonPenaltyFlags
 
 @this(
     layout: templates.Layout,
@@ -32,7 +33,7 @@
     link: components.link
 )
 
-@(form: Form[_], mode: Mode, index: Int, startYear: Int, showPenaltySection: Boolean)(implicit request: RequestHeader, messages: Messages)
+@(form: Form[_], mode: Mode, index: Int, startYear: Int, flags: DynamicNonPenaltyFlags)(implicit request: RequestHeader, messages: Messages)
 
 @layout(pageTitle = title(form, messages("taxYearLiabilities.title", startYear.toString, (startYear+1).toString))) {
 
@@ -103,7 +104,7 @@
             .withWidth(Fixed10)
         )
 
-        @if(showPenaltySection) {
+        @if(flags.showPenaltyTextbox) {
             @govukInput(
                 InputViewModel(
                     field = form("penaltyRate"),
@@ -146,6 +147,60 @@
                 messagePrefix = "site"
             )
         )
+
+        @if(!flags.showPenaltyTextbox) {
+            @defining(
+                Seq(
+                    (flags.showNotifyReasonableParagraph -> (
+                        "taxYearLiabilities.nonPenaltyReason.forNotNotifying",
+                        "taxYearLiabilities.nonPenaltyReason.bullet.forNotNotifying"
+                    )),
+                    (flags.showLateReturnReasonableParagraph -> (
+                        "taxYearLiabilities.nonPenaltyReason.forNotFilingAReturn",
+                        "taxYearLiabilities.nonPenaltyReason.bullet.forNotFilingAReturn"
+                    )),
+                    (flags.showInaccurateReasonableParagraph -> (
+                        "taxYearLiabilities.nonPenaltyReason.forInaccurateReturn",
+                        "taxYearLiabilities.nonPenaltyReason.bullet.forInaccurateReturn"
+                    ))
+                ).collect {
+                    case (true, (singleKey, bulletKey)) => (singleKey, bulletKey)
+                }
+            ) { paragraphs =>
+
+                <h2 class="govuk-heading-m">
+                    @messages("taxYearLiabilities.nonPenaltySection")
+                </h2>
+
+                <p class="govuk-body" id="first-nonPenalty-paragraph">
+                    @messages("taxYearLiabilities.noAskToEnterAPenalty")
+                </p>
+
+                @if(paragraphs.size == 1) {
+                    <p class="govuk-body">@messages(paragraphs.head._1)</p>
+                }
+
+                @if(paragraphs.size > 1) {
+                    <p class="govuk-body">@messages("taxYearLiabilities.nonPenaltyReason.bullet.main")</p>
+                    <ul class="govuk-list govuk-list--bullet">
+                        @paragraphs.map { case (_, bulletKey) =>
+                            <li>@messages(bulletKey)</li>
+                        }
+                    </ul>
+                }
+
+                <p class="govuk-body" id="fifth-nonPenalty-paragraph">
+                    @messages("taxYearLiabilities.penaltyIsZero")
+                </p>
+
+                <p class="govuk-body" id="sixth-nonPenalty-paragraph">
+                    @messages("taxYearLiabilities.stillNeedToPayPenalty")
+                    <a class="govuk-link" href="@controllers.offshore.routes.WhyAreYouMakingThisDisclosureController.onPageLoad(mode).url">
+                        @messages("taxYearLiabilities.stillNeedToPayPenalty.link")
+                    </a>
+                </p>
+            }
+        }
 
         @govukButton(
             ButtonViewModel(messages("site.saveAndContinue")).withAttribute("id","continue")
