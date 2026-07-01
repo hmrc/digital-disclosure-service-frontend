@@ -22,13 +22,21 @@ import play.twirl.api.Html
 import support.ViewMatchers
 import views.html.onshore.CorporationTaxLiabilityView
 import models.NormalMode
+import utils.DynamicNonPenaltyFlags
 
 class CorporationTaxLiabilityViewSpec extends ViewSpecBase with ViewMatchers {
 
-  val form                              = new CorporationTaxLiabilityFormProvider()(true)
+  val penaltyFlags: DynamicNonPenaltyFlags = DynamicNonPenaltyFlags(
+    showInaccurateReasonableParagraph = false,
+    showLateReturnReasonableParagraph = false,
+    showNotifyReasonableParagraph = false,
+    showPenaltyTextbox = true
+  )
+
+  val form                              = new CorporationTaxLiabilityFormProvider()(penaltyFlags)
   val page: CorporationTaxLiabilityView = inject[CorporationTaxLiabilityView]
 
-  private def createView: Html = page(form, NormalMode, 0, true)(using request, messages)
+  private def createView: Html = page(form, NormalMode, 0, penaltyFlags)(using request, messages)
 
   "view" should {
 

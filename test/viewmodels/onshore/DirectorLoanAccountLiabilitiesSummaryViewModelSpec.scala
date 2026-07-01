@@ -17,6 +17,8 @@
 package viewmodels.onshore
 
 import base.SpecBase
+import models.WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC
+import models.WhyYouSubmittedAnInaccurateOnshoreReturn.NoReasonableCare
 import models._
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
@@ -24,6 +26,7 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Key
 import viewmodels.govuk.summarylist._
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import org.scalacheck.Arbitrary.arbitrary
+import pages.{WhyAreYouMakingThisOnshoreDisclosurePage, WhyYouSubmittedAnInaccurateOnshoreReturnPage}
 import play.api.i18n.Messages
 
 import java.time.LocalDate
@@ -115,6 +118,13 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelSpec extends SpecBase with S
 
     "return an empty total section where the director loan account pages isn't populated" in {
       val ua        = UserAnswers("id", "session-123")
+        .set(
+          WhyAreYouMakingThisOnshoreDisclosurePage,
+          Set[WhyAreYouMakingThisOnshoreDisclosure](DidNotNotifyHMRC)
+        ).success.value
+        .set(WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+          Set[WhyYouSubmittedAnInaccurateOnshoreReturn](NoReasonableCare)
+        ).success.value
       val viewModel = sut.create(ua)
 
       viewModel.totalAmountsList.rows(0).key mustEqual Key(Text(mess("checkYourAnswers.dl.total.taxDue")))

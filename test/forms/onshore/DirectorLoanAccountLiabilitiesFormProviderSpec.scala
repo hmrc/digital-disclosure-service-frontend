@@ -18,6 +18,7 @@ package forms
 
 import forms.behaviours.{BigDecimalFieldBehaviours, BigIntFieldBehaviours, IntFieldBehaviours, PeriodEndBehaviours, StringFieldBehaviours}
 import play.api.data.FormError
+import utils.DynamicNonPenaltyFlags
 
 import java.time.{LocalDate, ZoneOffset}
 
@@ -28,7 +29,14 @@ class DirectorLoanAccountLiabilitiesFormProviderSpec
     with BigDecimalFieldBehaviours
     with StringFieldBehaviours {
 
-  val form = new DirectorLoanAccountLiabilitiesFormProvider()(true)
+  val penaltyFlags: DynamicNonPenaltyFlags = DynamicNonPenaltyFlags(
+    showInaccurateReasonableParagraph = false,
+    showLateReturnReasonableParagraph = false,
+    showNotifyReasonableParagraph = false,
+    showPenaltyTextbox = true
+  )
+
+  val form = new DirectorLoanAccountLiabilitiesFormProvider()(penaltyFlags)
 
   ".name" - {
 

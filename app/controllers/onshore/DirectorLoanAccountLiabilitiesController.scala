@@ -27,6 +27,7 @@ import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
+import utils.DynamicNonPenaltyFlags
 import utils.onshore.ReasonableExcuseHelper
 import views.html.onshore.DirectorLoanAccountLiabilitiesView
 
@@ -46,28 +47,28 @@ class DirectorLoanAccountLiabilitiesController @Inject() (
     extends FrontendBaseController
     with I18nSupport {
 
-  def form(showPenaltySection: Boolean) = formProvider(showPenaltySection)
+  def form(penaltyFlags: DynamicNonPenaltyFlags) = formProvider(penaltyFlags)
 
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-      val showPenaltySection = ReasonableExcuseHelper.showPenaltyWhenNotReasonableExcuse(request.userAnswers)
+      val penaltyFlags = ReasonableExcuseHelper.dynamicContentFlags(request.userAnswers)
 
       val preparedForm = request.userAnswers.getBySeqIndex(DirectorLoanAccountLiabilitiesPage, i) match {
-        case None        => form(showPenaltySection)
-        case Some(value) => form(showPenaltySection).fill(value)
+        case None        => form(penaltyFlags)
+        case Some(value) => form(penaltyFlags).fill(value)
       }
 
-      Ok(view(preparedForm, mode, i, showPenaltySection))
+      Ok(view(preparedForm, mode, i, penaltyFlags))
   }
 
   def onSubmit(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-      val showPenaltySection = ReasonableExcuseHelper.showPenaltyWhenNotReasonableExcuse(request.userAnswers)
+      val penaltyFlags = ReasonableExcuseHelper.dynamicContentFlags(request.userAnswers)
 
-      form(showPenaltySection)
+      form(penaltyFlags)
         .bindFromRequest()
         .fold(
-          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i, showPenaltySection))),
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i, penaltyFlags))),
           value =>
             for {
               updatedAnswers <-

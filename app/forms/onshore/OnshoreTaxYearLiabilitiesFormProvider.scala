@@ -17,12 +17,12 @@
 package forms
 
 import javax.inject.Inject
-
 import forms.mappings.Mappings
 import play.api.data.{Form, Mapping}
 import play.api.data.Forms._
 import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 import models.{OnshoreTaxYearLiabilities, WhatOnshoreLiabilitiesDoYouNeedToDisclose}
+import utils.DynamicNonPenaltyFlags
 
 class OnshoreTaxYearLiabilitiesFormProvider @Inject() extends Mappings {
 
@@ -30,7 +30,7 @@ class OnshoreTaxYearLiabilitiesFormProvider @Inject() extends Mappings {
 
   def apply(
     taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose],
-    showPenaltySection: Boolean
+    penaltyFlags: DynamicNonPenaltyFlags
   ): Form[OnshoreTaxYearLiabilities] =
     Form(
       mapping(
@@ -66,7 +66,7 @@ class OnshoreTaxYearLiabilitiesFormProvider @Inject() extends Mappings {
         )
           .verifying(inRange(BigInt(0), MAX_BIGINT, "onshoreTaxYearLiabilities.interest.error.outOfRange")),
         "penaltyRate"             -> {
-          if (showPenaltySection) {
+          if (penaltyFlags.showPenaltyTextbox) {
             decimalWithPercentage(
               "onshoreTaxYearLiabilities.penaltyRate.error.required",
               "onshoreTaxYearLiabilities.penaltyRate.error.nonNumeric"
@@ -82,7 +82,7 @@ class OnshoreTaxYearLiabilitiesFormProvider @Inject() extends Mappings {
           }
         },
         "penaltyRateReason"       -> {
-          if (showPenaltySection) {
+          if (penaltyFlags.showPenaltyTextbox) {
             text("onshoreTaxYearLiabilities.penaltyRateReason.error.required", Seq.empty)
               .verifying(maxLength(5000, "onshoreTaxYearLiabilities.penaltyRateReason.error.length"))
               .verifying(validUnicodeCharacters)

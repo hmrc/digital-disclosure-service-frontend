@@ -21,6 +21,7 @@ import forms.mappings.Mappings
 import models.DirectorLoanAccountLiabilities
 import play.api.data.Form
 import play.api.data.Forms._
+import utils.DynamicNonPenaltyFlags
 
 import java.time.LocalDate
 
@@ -28,7 +29,7 @@ class DirectorLoanAccountLiabilitiesFormProvider @Inject() extends Mappings {
 
   val MAX_BIGINT = BigInt("999999999999999999999999")
 
-  def apply(showPenaltySection: Boolean): Form[DirectorLoanAccountLiabilities] = Form(
+  def apply(penaltyFlags: DynamicNonPenaltyFlags): Form[DirectorLoanAccountLiabilities] = Form(
     mapping(
       "name"              -> text("directorLoanAccountLiabilities.name.required")
         .verifying(maxLength(30, "directorLoanAccountLiabilities.name.invalid"))
@@ -65,7 +66,7 @@ class DirectorLoanAccountLiabilitiesFormProvider @Inject() extends Mappings {
       )
         .verifying(inRange(BigInt(0), MAX_BIGINT, "directorLoanAccountLiabilities.interest.error.outOfRange")),
       "penaltyRate"       -> {
-        if (showPenaltySection) {
+        if (penaltyFlags.showPenaltyTextbox) {
           decimalWithPercentage(
             "directorLoanAccountLiabilities.penaltyRate.error.required",
             "directorLoanAccountLiabilities.penaltyRate.error.nonNumeric"
@@ -83,7 +84,7 @@ class DirectorLoanAccountLiabilitiesFormProvider @Inject() extends Mappings {
         }
       },
       "penaltyRateReason" -> {
-        if (showPenaltySection) {
+        if (penaltyFlags.showPenaltyTextbox) {
           text("directorLoanAccountLiabilities.penaltyRateReason.error.required")
             .verifying(maxLength(5000, "directorLoanAccountLiabilities.penaltyRateReason.error.length"))
             .verifying(validUnicodeCharacters)

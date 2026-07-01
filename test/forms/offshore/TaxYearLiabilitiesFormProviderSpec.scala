@@ -18,6 +18,7 @@ package forms
 
 import forms.behaviours.{BigDecimalFieldBehaviours, BigIntFieldBehaviours, IntFieldBehaviours, StringFieldBehaviours}
 import play.api.data.FormError
+import utils.DynamicNonPenaltyFlags
 
 class TaxYearLiabilitiesFormProviderSpec
     extends IntFieldBehaviours
@@ -25,7 +26,14 @@ class TaxYearLiabilitiesFormProviderSpec
     with BigDecimalFieldBehaviours
     with StringFieldBehaviours {
 
-  val form = new TaxYearLiabilitiesFormProvider()(true)
+  val penaltyFlags = DynamicNonPenaltyFlags(
+    showInaccurateReasonableParagraph = false,
+    showLateReturnReasonableParagraph = false,
+    showNotifyReasonableParagraph = false,
+    showPenaltyTextbox = true
+  )
+
+  val form = new TaxYearLiabilitiesFormProvider()(penaltyFlags)
 
   Seq(
     "chargeableTransfers",

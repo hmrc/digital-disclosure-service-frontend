@@ -16,27 +16,62 @@
 
 package utils.offshore
 
-import models.{UserAnswers, WhyDidYouNotFileAReturnOnTimeOffshore, WhyDidYouNotNotify, WhyYouSubmittedAnInaccurateReturn}
-import pages.{WhyDidYouNotFileAReturnOnTimeOffshorePage, WhyDidYouNotNotifyPage, WhyYouSubmittedAnInaccurateOffshoreReturnPage}
+import models.WhyAreYouMakingThisDisclosure.{DidNotFile, DidNotNotifyHMRC, InaccurateReturn}
+import models.WhyDidYouNotFileAReturnOnTimeOffshore.ReasonableExcuse
+import models.WhyDidYouNotNotify.ReasonableExcuse
+import models.WhyYouSubmittedAnInaccurateReturn.ReasonableMistake
+import models.{UserAnswers, WhyAreYouMakingThisDisclosure, WhyDidYouNotFileAReturnOnTimeOffshore, WhyDidYouNotNotify, WhyYouSubmittedAnInaccurateReturn}
+import pages.{WhyAreYouMakingThisDisclosurePage, WhyDidYouNotFileAReturnOnTimeOffshorePage,
+  WhyDidYouNotNotifyPage, WhyYouSubmittedAnInaccurateOffshoreReturnPage}
+import utils.DynamicNonPenaltyFlags
 
 object ReasonableExcuseHelper {
 
-  def showPenaltyWhenNotReasonableExcuse(userAnswers: UserAnswers): Boolean = {
+  def dynamicContentFlags(userAnswers: UserAnswers): DynamicNonPenaltyFlags = {
 
-    val inaccurateSelections = userAnswers.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).getOrElse(Set.empty)
+    val whyAreYouMakingThisDisclosure: Set[WhyAreYouMakingThisDisclosure] =
+      userAnswers.get(WhyAreYouMakingThisDisclosurePage).getOrElse(Set.empty)
 
-    val lateReturnSelections = userAnswers.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).getOrElse(Set.empty)
+    val inaccurateSelections: Set[WhyYouSubmittedAnInaccurateReturn] =
+      userAnswers.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage).getOrElse(Set.empty)
 
-    val notifySelections = userAnswers.get(WhyDidYouNotNotifyPage).getOrElse(Set.empty)
+    val lateReturnSelections: Set[WhyDidYouNotFileAReturnOnTimeOffshore] =
+      userAnswers.get(WhyDidYouNotFileAReturnOnTimeOffshorePage).getOrElse(Set.empty)
 
-    val allSelections: Set[Any] = inaccurateSelections ++ lateReturnSelections ++ notifySelections
+    val notifySelections: Set[WhyDidYouNotNotify] =
+      userAnswers.get(WhyDidYouNotNotifyPage).getOrElse(Set.empty)
 
-    val reasonableOnly: Set[Any] = Set(
-      WhyDidYouNotFileAReturnOnTimeOffshore.ReasonableExcuse,
-      WhyDidYouNotNotify.ReasonableExcuse,
-      WhyYouSubmittedAnInaccurateReturn.ReasonableMistake
+    val inaccurateReturnSelected: Boolean =
+      whyAreYouMakingThisDisclosure.contains(InaccurateReturn)
+
+    val lateReturnSelected: Boolean =
+      whyAreYouMakingThisDisclosure.contains(DidNotFile)
+
+    val notifySelected: Boolean =
+      whyAreYouMakingThisDisclosure.contains(DidNotNotifyHMRC)
+
+    val hasOnlyInaccurateReasonableMistake: Boolean =
+      inaccurateReturnSelected &&
+        inaccurateSelections == Set(ReasonableMistake)
+
+    val hasOnlyLateReturnReasonableExcuse: Boolean =
+      lateReturnSelected &&
+        lateReturnSelections == Set(WhyDidYouNotFileAReturnOnTimeOffshore.ReasonableExcuse)
+
+    val hasOnlyNotifyReasonableExcuse: Boolean =
+      notifySelected &&
+        notifySelections == Set(WhyDidYouNotNotify.ReasonableExcuse)
+
+    val selectedFlowsAreOnlyReasonable: Boolean =
+      (!inaccurateReturnSelected || hasOnlyInaccurateReasonableMistake) &&
+        (!lateReturnSelected || hasOnlyLateReturnReasonableExcuse) &&
+        (!notifySelected || hasOnlyNotifyReasonableExcuse)
+
+    DynamicNonPenaltyFlags(
+      showInaccurateReasonableParagraph = hasOnlyInaccurateReasonableMistake,
+      showLateReturnReasonableParagraph = hasOnlyLateReturnReasonableExcuse,
+      showNotifyReasonableParagraph = hasOnlyNotifyReasonableExcuse,
+      showPenaltyTextbox = !selectedFlowsAreOnlyReasonable
     )
-
-    !(allSelections.nonEmpty && allSelections.subsetOf(reasonableOnly))
   }
 }

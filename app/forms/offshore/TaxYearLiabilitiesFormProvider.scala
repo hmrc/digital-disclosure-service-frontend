@@ -22,13 +22,14 @@ import play.api.data.{Form, Mapping}
 import play.api.data.Forms._
 import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 import models.TaxYearLiabilities
+import utils.DynamicNonPenaltyFlags
 
 class TaxYearLiabilitiesFormProvider @Inject() extends Mappings {
 
   val MAX_BIGINT        = BigInt("999999999999999999999999")
   val MAX_TEXT_BOX_SIZE = 5000
 
-  def apply(showPenaltySection: Boolean): Form[TaxYearLiabilities] =
+  def apply(penaltyFlags: DynamicNonPenaltyFlags): Form[TaxYearLiabilities] =
     Form(
       mapping(
         "income"                 -> bigintWithPound(
@@ -62,7 +63,7 @@ class TaxYearLiabilitiesFormProvider @Inject() extends Mappings {
         )
           .verifying(inRange(BigInt(0), MAX_BIGINT, "taxYearLiabilities.interest.error.outOfRange")),
         "penaltyRate"            -> {
-          if (showPenaltySection) {
+          if (penaltyFlags.showPenaltyTextbox) {
             decimalWithPercentage(
               "taxYearLiabilities.penaltyRate.error.required",
               "taxYearLiabilities.penaltyRate.error.nonNumeric"
@@ -78,7 +79,7 @@ class TaxYearLiabilitiesFormProvider @Inject() extends Mappings {
           }
         },
         "penaltyRateReason"      -> {
-          if (showPenaltySection) {
+          if (penaltyFlags.showPenaltyTextbox) {
             text("taxYearLiabilities.penaltyRateReason.error.required", Seq.empty)
               .verifying(maxLength(MAX_TEXT_BOX_SIZE, "taxYearLiabilities.penaltyRateReason.error.length"))
               .verifying(validUnicodeCharacters)

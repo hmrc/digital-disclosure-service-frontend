@@ -19,6 +19,7 @@ package forms
 import forms.behaviours.{BigDecimalFieldBehaviours, BigIntFieldBehaviours, IntFieldBehaviours, StringFieldBehaviours}
 import play.api.data.FormError
 import models.WhatOnshoreLiabilitiesDoYouNeedToDisclose
+import utils.DynamicNonPenaltyFlags
 
 class OnshoreTaxYearLiabilitiesFormProviderSpec
     extends IntFieldBehaviours
@@ -26,18 +27,25 @@ class OnshoreTaxYearLiabilitiesFormProviderSpec
     with BigDecimalFieldBehaviours
     with StringFieldBehaviours {
 
-  val formWithNoSelections        = new OnshoreTaxYearLiabilitiesFormProvider()(Set(), true)
+  val penaltyFlags: DynamicNonPenaltyFlags = DynamicNonPenaltyFlags(
+    showInaccurateReasonableParagraph = false,
+    showLateReturnReasonableParagraph = false,
+    showNotifyReasonableParagraph = false,
+    showPenaltyTextbox = true
+  )
+
+  val formWithNoSelections        = new OnshoreTaxYearLiabilitiesFormProvider()(Set(), penaltyFlags)
   val formWithNonBusinessSelected = new OnshoreTaxYearLiabilitiesFormProvider()(
     Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.NonBusinessIncome),
-    true
+    penaltyFlags
   )
   val formWithBusinessSelected    = new OnshoreTaxYearLiabilitiesFormProvider()(
     Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.BusinessIncome),
-    true
+    penaltyFlags
   )
   val formWithLettingSelected     = new OnshoreTaxYearLiabilitiesFormProvider()(
     Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.LettingIncome),
-    true
+    penaltyFlags
   )
 
   Seq(

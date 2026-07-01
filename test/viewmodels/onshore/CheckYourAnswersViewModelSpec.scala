@@ -17,6 +17,8 @@
 package viewmodels.onshore
 
 import base.SpecBase
+import models.WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC
+import models.WhyYouSubmittedAnInaccurateOnshoreReturn.NoReasonableCare
 import pages._
 import models._
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
@@ -118,7 +120,14 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
         val onshoreYears: Set[OnshoreYears] = Set(taxYearWithLiabilities.taxYear)
         val ua                              = (for {
           uaWithYears <- UserAnswers("id", "session-123").set(WhichOnshoreYearsPage, onshoreYears)
-          finalUa     <- uaWithYears.setByKey(OnshoreTaxYearLiabilitiesPage, yearKey, taxYearWithLiabilities)
+          uaWithDisclosure <- uaWithYears.set(
+            WhyAreYouMakingThisOnshoreDisclosurePage,
+            Set[WhyAreYouMakingThisOnshoreDisclosure](DidNotNotifyHMRC)
+          )
+          uaWithReasons <- uaWithDisclosure.set(
+            WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+            Set[WhyYouSubmittedAnInaccurateOnshoreReturn](NoReasonableCare))
+          finalUa     <- uaWithReasons.setByKey(OnshoreTaxYearLiabilitiesPage, yearKey, taxYearWithLiabilities)
         } yield finalUa).success.value
         val viewModel                       = sut.create(ua)
 

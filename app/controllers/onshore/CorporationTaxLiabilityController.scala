@@ -48,27 +48,27 @@ class CorporationTaxLiabilityController @Inject() (
 
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-      val showPenaltySection = ReasonableExcuseHelper.showPenaltyWhenNotReasonableExcuse(request.userAnswers)
-      val form               = formProvider(showPenaltySection)
+      val penaltyFlags = ReasonableExcuseHelper.dynamicContentFlags(request.userAnswers)
+      val form               = formProvider(penaltyFlags)
 
       val preparedForm = request.userAnswers.getBySeqIndex(CorporationTaxLiabilityPage, i) match {
         case None        => form
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode, i, showPenaltySection))
+      Ok(view(preparedForm, mode, i, penaltyFlags))
 
   }
 
   def onSubmit(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-      val showPenaltySection = ReasonableExcuseHelper.showPenaltyWhenNotReasonableExcuse(request.userAnswers)
-      val form               = formProvider(showPenaltySection)
+      val penaltyFlags = ReasonableExcuseHelper.dynamicContentFlags(request.userAnswers)
+      val form               = formProvider(penaltyFlags)
 
       form
         .bindFromRequest()
         .fold(
-          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i, showPenaltySection))),
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, i, penaltyFlags))),
           value =>
             for {
               updatedAnswers <- Future.fromTry(request.userAnswers.setBySeqIndex(CorporationTaxLiabilityPage, i, value))

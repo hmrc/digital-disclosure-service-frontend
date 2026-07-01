@@ -18,14 +18,17 @@ package controllers.onshore
 
 import base.SpecBase
 import forms.CorporationTaxLiabilityFormProvider
-import models.{CorporationTaxLiability, NormalMode, UserAnswers}
+import models.WhyAreYouMakingThisOnshoreDisclosure.DidNotNotifyHMRC
+import models.WhyYouSubmittedAnInaccurateOnshoreReturn.NoReasonableCare
+import models.{CorporationTaxLiability, NormalMode, UserAnswers, WhyAreYouMakingThisOnshoreDisclosure, WhyYouSubmittedAnInaccurateOnshoreReturn}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.CorporationTaxLiabilityPage
+import pages.{CorporationTaxLiabilityPage, WhyAreYouMakingThisOnshoreDisclosurePage, WhyYouSubmittedAnInaccurateOnshoreReturnPage}
 import play.api.mvc.{AnyContentAsEmpty, Call}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import utils.DynamicNonPenaltyFlags
 import views.html.onshore.CorporationTaxLiabilityView
 
 import java.time.{LocalDate, ZoneOffset}
@@ -33,8 +36,15 @@ import scala.concurrent.Future
 
 class CorporationTaxLiabilityControllerSpec extends SpecBase with MockitoSugar {
 
+  val penaltyFlags: DynamicNonPenaltyFlags = DynamicNonPenaltyFlags(
+    showInaccurateReasonableParagraph = false,
+    showLateReturnReasonableParagraph = false,
+    showNotifyReasonableParagraph = false,
+    showPenaltyTextbox = true
+  )
+
   val formProvider = new CorporationTaxLiabilityFormProvider()
-  private def form = formProvider(true)
+  private def form = formProvider(penaltyFlags)
 
   def onwardRoute = Call("GET", "/foo")
 
@@ -43,6 +53,15 @@ class CorporationTaxLiabilityControllerSpec extends SpecBase with MockitoSugar {
   lazy val corporationTaxLiabilityRoute = routes.CorporationTaxLiabilityController.onPageLoad(0, NormalMode).url
 
   override val emptyUserAnswers = UserAnswers(userAnswersId, "session-123")
+    .set(
+      WhyAreYouMakingThisOnshoreDisclosurePage,
+      Set[WhyAreYouMakingThisOnshoreDisclosure](DidNotNotifyHMRC)
+    ).success.value
+    .set(
+      WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+      Set[WhyYouSubmittedAnInaccurateOnshoreReturn](NoReasonableCare)
+    ).success.value
+
 
   val answer = CorporationTaxLiability(
     periodEnd = LocalDate.now(ZoneOffset.UTC),
@@ -67,13 +86,24 @@ class CorporationTaxLiabilityControllerSpec extends SpecBase with MockitoSugar {
       val view = application.injector.instanceOf[CorporationTaxLiabilityView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, NormalMode, 0, true)(using getRequest(), messages).toString
+
+      contentAsString(result) mustEqual view(form, NormalMode, 0, penaltyFlags)(using getRequest(), messages).toString
+
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers =
-        UserAnswers(userAnswersId, "session-123").set(CorporationTaxLiabilityPage, Seq(answer)).success.value
+        UserAnswers(userAnswersId, "session-123")
+          .set(
+            WhyAreYouMakingThisOnshoreDisclosurePage,
+            Set[WhyAreYouMakingThisOnshoreDisclosure](DidNotNotifyHMRC)
+          ).success.value
+          .set(
+            WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+            Set[WhyYouSubmittedAnInaccurateOnshoreReturn](NoReasonableCare)
+          ).success.value
+          .set(CorporationTaxLiabilityPage, Seq(answer)).success.value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -82,10 +112,8 @@ class CorporationTaxLiabilityControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, getRequest()).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(answer), NormalMode, 0, true)(using
-        getRequest(),
-        messages
-      ).toString
+
+      contentAsString(result) mustEqual view(form.fill(answer), NormalMode, 0, penaltyFlags)(using getRequest(), messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -127,7 +155,8 @@ class CorporationTaxLiabilityControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, 0, true)(using request, messages).toString
+
+      contentAsString(result) mustEqual view(boundForm, NormalMode, 0, penaltyFlags)(using request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

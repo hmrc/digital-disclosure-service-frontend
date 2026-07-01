@@ -21,13 +21,21 @@ import forms.OnshoreTaxYearLiabilitiesFormProvider
 import models.WhatOnshoreLiabilitiesDoYouNeedToDisclose._
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
+import utils.DynamicNonPenaltyFlags
 import viewmodels.govuk.ErrorSummaryFluency
 
 class ErrorSummaryFluencySpec extends SpecBase with ErrorSummaryFluency {
 
+  val penaltyFlags: DynamicNonPenaltyFlags = DynamicNonPenaltyFlags(
+    showInaccurateReasonableParagraph = false,
+    showLateReturnReasonableParagraph = false,
+    showNotifyReasonableParagraph = false,
+    showPenaltyTextbox = true
+  )
+
   "check all required field errors are in order for onshore tax year liabilities view" in {
     val form                       =
-      new OnshoreTaxYearLiabilitiesFormProvider()(Set(NonBusinessIncome, BusinessIncome, LettingIncome, Gains), true)
+      new OnshoreTaxYearLiabilitiesFormProvider()(Set(NonBusinessIncome, BusinessIncome, LettingIncome, Gains), penaltyFlags)
     implicit val message: Messages = messages
 
     val errorSummary = ErrorSummaryViewModel(
