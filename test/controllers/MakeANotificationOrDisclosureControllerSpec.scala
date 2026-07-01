@@ -55,12 +55,12 @@ class MakeANotificationOrDisclosureControllerSpec extends SpecBase with MockitoS
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form)(request, messages).toString
+      contentAsString(result) mustEqual view(form)(using request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val request =
@@ -77,7 +77,7 @@ class MakeANotificationOrDisclosureControllerSpec extends SpecBase with MockitoS
 
       val mockAuditService = mock[AuditService]
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val expectedAuditEvent = NotificationStart(
@@ -102,14 +102,14 @@ class MakeANotificationOrDisclosureControllerSpec extends SpecBase with MockitoS
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual onwardRoute.url
-      verify(mockAuditService).auditNotificationStart(refEq(expectedAuditEvent))(any())
+      verify(mockAuditService).auditNotificationStart(refEq(expectedAuditEvent))(using any())
     }
 
     "must send a DisclosureStart audit event when a disclosure is started" in {
 
       val mockAuditService = mock[AuditService]
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val expectedAuditEvent = DisclosureStart(
@@ -135,7 +135,7 @@ class MakeANotificationOrDisclosureControllerSpec extends SpecBase with MockitoS
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual onwardRoute.url
-      verify(mockAuditService).auditDisclosureStart(refEq(expectedAuditEvent))(any())
+      verify(mockAuditService).auditDisclosureStart(refEq(expectedAuditEvent))(using any())
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
@@ -151,7 +151,7 @@ class MakeANotificationOrDisclosureControllerSpec extends SpecBase with MockitoS
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm)(using request, messages).toString
     }
   }
 }

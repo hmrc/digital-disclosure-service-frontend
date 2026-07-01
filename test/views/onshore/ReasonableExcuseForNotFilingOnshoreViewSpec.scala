@@ -31,7 +31,7 @@ class ReasonableExcuseForNotFilingOnshoreViewSpec extends ViewSpecBase with View
     val areTheyTheIndividual = true
     val entity               = RelatesTo.AnIndividual
     val form                 = new ReasonableExcuseForNotFilingOnshoreFormProvider()(areTheyTheIndividual)
-    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
     val view                 = createView
 
     "have title" in {
@@ -89,7 +89,7 @@ class ReasonableExcuseForNotFilingOnshoreViewSpec extends ViewSpecBase with View
 
   def constructHeading(entity: RelatesTo, areTheyTheIndividual: Boolean) = {
     val form             = new ReasonableExcuseForNotFilingOnshoreFormProvider()(areTheyTheIndividual)
-    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
     val view             = createView
 
     if (areTheyTheIndividual) {
@@ -105,7 +105,7 @@ class ReasonableExcuseForNotFilingOnshoreViewSpec extends ViewSpecBase with View
 
   def constructTitle(entity: RelatesTo, areTheyTheIndividual: Boolean) = {
     val form             = new ReasonableExcuseForNotFilingOnshoreFormProvider()(areTheyTheIndividual)
-    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
     val view             = createView
 
     if (areTheyTheIndividual) {
@@ -118,7 +118,7 @@ class ReasonableExcuseForNotFilingOnshoreViewSpec extends ViewSpecBase with View
   def constructLabel(entity: RelatesTo) = {
     val areTheyTheIndividual = false
     val form                 = new ReasonableExcuseForNotFilingOnshoreFormProvider()(areTheyTheIndividual)
-    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
     val view                 = createView
 
     view.getElementById("body-reasonableExcuse").text() mustBe messages(

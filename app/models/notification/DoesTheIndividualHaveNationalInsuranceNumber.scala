@@ -46,7 +46,7 @@ object DoesTheIndividualHaveNationalInsuranceNumber extends Enumerable.Implicits
   }
 
   implicit val enumerable: Enumerable[DoesTheIndividualHaveNationalInsuranceNumber] =
-    Enumerable(values.map(v => v.toString -> v): _*)
+    Enumerable(values.map(v => v.toString -> v)*)
 
   implicit def fromYesNoOrUnsure(yesNoOrUnsure: YesNoOrUnsure): DoesTheIndividualHaveNationalInsuranceNumber =
     yesNoOrUnsure match {

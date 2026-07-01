@@ -99,14 +99,14 @@ class LettingNavigator @Inject() () {
 
     case JointlyOwnedPropertyPage =>
       i =>
-        ua =>
+        _ =>
           hasChanged =>
             if (hasChanged) routes.WhatWasThePercentageIncomeYouReceivedFromPropertyController.onPageLoad(i, CheckMode)
             else routes.CheckYourAnswersController.onPageLoad(i, CheckMode)
 
     case WasPropertyFurnishedPage =>
       i =>
-        ua =>
+        _ =>
           hasChanged =>
             if (hasChanged) routes.FHLController.onPageLoad(i, CheckMode)
             else routes.CheckYourAnswersController.onPageLoad(i, CheckMode)

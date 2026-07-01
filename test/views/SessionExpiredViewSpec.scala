@@ -27,7 +27,7 @@ class SessionExpiredViewSpec extends ViewSpecBase with ViewMatchers {
 
   "SessionExpiredView" should {
 
-    def createView: Html = page()(messages, request)
+    def createView: Html = page()(using messages, request)
 
     val view = createView
 

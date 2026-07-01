@@ -27,7 +27,7 @@ class MakeANotificationOrDisclosureViewSpec extends ViewSpecBase with ViewMatche
   val form                                    = new MakeANotificationOrDisclosureFormProvider()()
   val page: MakeANotificationOrDisclosureView = inject[MakeANotificationOrDisclosureView]
 
-  private def createView: Html = page(form)(request, messages)
+  private def createView: Html = page(form)(using request, messages)
 
   "view" should {
 

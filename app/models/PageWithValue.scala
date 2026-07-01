@@ -26,6 +26,6 @@ final case class PageWithValue[A](page: QuestionPage[A], value: A)(implicit writ
 }
 
 object PageWithValue {
-  def pagesToUserAnswers(pages: List[PageWithValue[_]], userAnswers: UserAnswers): Try[UserAnswers] =
+  def pagesToUserAnswers(pages: List[PageWithValue[?]], userAnswers: UserAnswers): Try[UserAnswers] =
     pages.foldLeft(Try(userAnswers))((tryUa, page) => tryUa.flatMap(page.addToUserAnswers(_)))
 }

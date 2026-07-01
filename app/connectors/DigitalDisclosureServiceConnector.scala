@@ -25,16 +25,15 @@ import uk.gov.hmrc.http.HttpReads.Implicits.readRaw
 import uk.gov.hmrc.http.client.HttpClientV2
 import uk.gov.hmrc.http.{HeaderCarrier, StringContextOps}
 import com.google.inject.{ImplementedBy, Inject, Singleton}
+import play.api.libs.ws.writeableOf_JsValue
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.control.NoStackTrace
 import models.store.{FullDisclosure, Notification}
 
-import java.time.Clock
 import models.submission.SubmissionResponse
 import uk.gov.hmrc.http.HttpResponse
 import org.apache.pekko.util.ByteString
-import play.api.i18n.MessagesApi
 import play.api.libs.ws.WSClient
 import play.api.mvc.{Cookie, Cookies}
 import play.mvc.Http.HeaderNames.{ACCEPT_LANGUAGE, AUTHORIZATION}
@@ -44,9 +43,7 @@ class DigitalDisclosureServiceConnectorImpl @Inject() (
   val actorSystem: ActorSystem,
   httpClient: HttpClientV2,
   ws: WSClient,
-  configuration: Configuration,
-  clock: Clock,
-  messagesApi: MessagesApi
+  configuration: Configuration
 )(implicit val ec: ExecutionContext, frontendAppConfig: FrontendAppConfig)
     extends DigitalDisclosureServiceConnector
     with ConnectorErrorHandler

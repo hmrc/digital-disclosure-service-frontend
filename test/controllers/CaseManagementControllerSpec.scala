@@ -107,7 +107,7 @@ class CaseManagementControllerSpec extends SpecBase {
     "must redirect where there are no cases to display" in {
 
       setupMockSessionResponse(Some(emptyUserAnswers))
-      when(mockSessionService.newSession(any(), any(), any(), any(), any())(any()))
+      when(mockSessionService.newSession(any(), any(), any(), any(), any())(using any()))
         .thenReturn(Future.successful(emptyUserAnswers))
 
       val request = FakeRequest(GET, routes.CaseManagementController.newCase.url)

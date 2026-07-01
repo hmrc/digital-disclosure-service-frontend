@@ -56,12 +56,12 @@ class CountriesOrTerritoriesControllerSpec extends SpecBase with MockitoSugar {
       val view = application.injector.instanceOf[CountriesOrTerritoriesView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, countries, NormalMode)(request, messages).toString
+      contentAsString(result) mustEqual view(form, countries, NormalMode)(using request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val request =
@@ -89,7 +89,7 @@ class CountriesOrTerritoriesControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, countries, NormalMode)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, countries, NormalMode)(using request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
@@ -123,7 +123,7 @@ class CountriesOrTerritoriesControllerSpec extends SpecBase with MockitoSugar {
 
     val removeCountryRoute = routes.CountriesOrTerritoriesController.remove(countryCode, NormalMode).url
 
-    when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+    when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
     setupMockSessionResponse(Some(emptyUserAnswers))
 
     val request = FakeRequest(GET, removeCountryRoute)
@@ -138,7 +138,7 @@ class CountriesOrTerritoriesControllerSpec extends SpecBase with MockitoSugar {
 
   "must redirect to the country of your offshore liabilities page if remove method is called and there are Countries in the UserAnswers" in {
 
-    when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+    when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
 
     val country1    = Country(countryCode, "Country 1")
     val country2    = Country("BBB", "Country 2")

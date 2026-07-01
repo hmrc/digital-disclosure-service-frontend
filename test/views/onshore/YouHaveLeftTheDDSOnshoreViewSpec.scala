@@ -30,7 +30,7 @@ class YouHaveLeftTheDDSOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
   val page: YouHaveLeftTheDDSOnshoreView = inject[YouHaveLeftTheDDSOnshoreView]
   val config: FrontendAppConfig          = inject[FrontendAppConfig]
 
-  private def createView: Html = page(form, NormalMode)(request, messages, config)
+  private def createView: Html = page(form, NormalMode)(using request, messages, config)
 
   "view" should {
 

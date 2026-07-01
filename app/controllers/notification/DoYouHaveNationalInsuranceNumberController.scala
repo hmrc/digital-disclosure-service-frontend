@@ -78,7 +78,7 @@ class DoYouHaveNationalInsuranceNumberController @Inject() (
   def changedPages(
     existingUserAnswers: UserAnswers,
     value: DoYouHaveNationalInsuranceNumber
-  ): (List[QuestionPage[_]], Boolean) =
+  ): (List[QuestionPage[?]], Boolean) =
     existingUserAnswers.get(DoYouHaveNationalInsuranceNumberPage) match {
       case Some(DoYouHaveNationalInsuranceNumber.YesIKnow) if value != DoYouHaveNationalInsuranceNumber.YesIKnow =>
         (List(WhatIsYourNationalInsuranceNumberPage), true)

@@ -28,7 +28,7 @@ class WhatIsTheCaseReferenceViewSpec extends ViewSpecBase with ViewMatchers {
   val form                             = new WhatIsTheCaseReferenceFormProvider()()
   val page: WhatIsTheCaseReferenceView = inject[WhatIsTheCaseReferenceView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode)(using request, messages)
 
   "view" should {
 

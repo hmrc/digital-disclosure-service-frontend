@@ -45,11 +45,11 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       val result = route(application, request).value
 
       val view                 = application.injector.instanceOf[CheckYourAnswersView]
-      val otherLiabilitiesList = SummaryListViewModel(Seq(OtherLiabilityIssuesSummary.row(ua)(messages)).flatten)
+      val otherLiabilitiesList = SummaryListViewModel(Seq(OtherLiabilityIssuesSummary.row(ua)(using messages)).flatten)
       val list                 = OtherLiabilitiesSummaryLists(otherLiabilitiesList)
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(list)(request, messages).toString
+      contentAsString(result) mustEqual view(list)(using request, messages).toString
     }
 
     def rowIsDisplayedWhenPageIsPopulated(
@@ -57,8 +57,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
     )(otherLiabilitiesSummaryLists: Messages => OtherLiabilitiesSummaryLists) = {
 
       setupMockSessionResponse(Some(ua))
-      val list = otherLiabilitiesSummaryLists(messages)
-
+      val list    = otherLiabilitiesSummaryLists(messages)
       val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad.url)
 
       val result = route(application, request).value
@@ -66,7 +65,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       val view = application.injector.instanceOf[CheckYourAnswersView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(list)(request, messages).toString
+      contentAsString(result) mustEqual view(list)(using request, messages).toString
     }
 
     "must return OK and the correct view for a GET when OtherLiabilityIssuesPage is populated" in {
@@ -74,7 +73,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       val ua                                = UserAnswers("id", "session-123").set(OtherLiabilityIssuesPage, answer).success.value
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         OtherLiabilitiesSummaryLists(
-          SummaryListViewModel(Seq(OtherLiabilityIssuesSummary.row(ua)(messages)).flatten)
+          SummaryListViewModel(Seq(OtherLiabilityIssuesSummary.row(ua)(using messages)).flatten)
         )
       )
     }
@@ -83,7 +82,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       val ua = UserAnswers("id", "session-123").set(DescribeTheGiftPage, arbitrary[String].sample.value).success.value
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         OtherLiabilitiesSummaryLists(
-          SummaryListViewModel(Seq(DescribeTheGiftSummary.row(ua, revealFullText)(messages)).flatten)
+          SummaryListViewModel(Seq(DescribeTheGiftSummary.row(ua, revealFullText)(using messages)).flatten)
         )
       )
     }
@@ -93,7 +92,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         UserAnswers("id", "session-123").set(WhatOtherLiabilityIssuesPage, arbitrary[String].sample.value).success.value
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         OtherLiabilitiesSummaryLists(
-          SummaryListViewModel(Seq(WhatOtherLiabilityIssuesSummary.row(ua, revealFullText)(messages)).flatten)
+          SummaryListViewModel(Seq(WhatOtherLiabilityIssuesSummary.row(ua, revealFullText)(using messages)).flatten)
         )
       )
     }
@@ -103,7 +102,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         UserAnswers("id", "session-123").set(DidYouReceiveTaxCreditPage, arbitrary[Boolean].sample.value).success.value
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         OtherLiabilitiesSummaryLists(
-          SummaryListViewModel(Seq(DidYouReceiveTaxCreditSummary.row(ua)(messages)).flatten)
+          SummaryListViewModel(Seq(DidYouReceiveTaxCreditSummary.row(ua)(using messages)).flatten)
         )
       )
     }

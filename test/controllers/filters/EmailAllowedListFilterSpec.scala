@@ -48,7 +48,7 @@ class EmailAllowedListFilterSpec extends SpecBase with BeforeAndAfterAll with Mo
     result: Future[R]
   ): Unit =
     (mockAuthConnector
-      .authorise(_: Predicate, _: Retrieval[R])(
+      .authorise(_: Predicate, _: Retrieval[R])(using
         _: HeaderCarrier,
         _: ExecutionContext
       ))
@@ -98,7 +98,7 @@ class EmailAllowedListFilterSpec extends SpecBase with BeforeAndAfterAll with Mo
 
       "move to the next page" - {
 
-        def test(request: Request[_], emailAddress: String, authExpected: Boolean) = {
+        def test(request: Request[?], emailAddress: String, authExpected: Boolean) = {
           if (authExpected) mockAuthWithRetrievals(Some(emailAddress))
 
           val result = emailAllowedListFilter(true)(requestHandler)(request)

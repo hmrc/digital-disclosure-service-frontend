@@ -124,7 +124,7 @@ final case class UserAnswers(
   }
 
   def get[A](path: JsPath)(implicit rds: Reads[A]): Option[A] =
-    Reads.optionNoError(Reads.at(path)).reads(data).getOrElse(None)
+    Reads.optionNoError(using Reads.at(path)).reads(data).getOrElse(None)
 
   def set[A](path: JsPath, value: A)(implicit writes: Writes[A]): Try[JsObject] =
     data.setObject(path, Json.toJson(value)) match {
@@ -142,10 +142,10 @@ final case class UserAnswers(
         Success(data)
     }
 
-  def remove(pages: List[Settable[_]]): Try[UserAnswers] =
+  def remove(pages: List[Settable[?]]): Try[UserAnswers] =
     pages.foldLeft(Try(this))((oldAnswerList, page) => oldAnswerList.flatMap(_.remove(page)))
 
-  def cleanupPage(page: Settable[_], updatedData: Try[JsObject]): Try[UserAnswers] =
+  def cleanupPage(page: Settable[?], updatedData: Try[JsObject]): Try[UserAnswers] =
     updatedData.flatMap { d =>
       val updatedAnswers = copy(data = d)
       page.cleanup(None, updatedAnswers)
@@ -183,12 +183,12 @@ object UserAnswers {
         (__ \ "submissionId").read[String] and
         (__ \ "submissionType").read[SubmissionType] and
         (__ \ "data").read[JsObject] and
-        (__ \ "lastUpdated").read(MongoJavatimeFormats.instantFormat) and
-        (__ \ "created").read(MongoJavatimeFormats.instantFormat) and
+        (__ \ "lastUpdated").read(using MongoJavatimeFormats.instantFormat) and
+        (__ \ "created").read(using MongoJavatimeFormats.instantFormat) and
         (__ \ "metadata").read[Metadata] and
         (__ \ "declaration").read[Boolean] and
         (__ \ "customerId").readNullable[CustomerId]
-    )(UserAnswers.apply _)
+    )(UserAnswers.apply)
   }
 
   val writes: OWrites[UserAnswers] = {
@@ -201,12 +201,25 @@ object UserAnswers {
         (__ \ "submissionId").write[String] and
         (__ \ "submissionType").write[SubmissionType] and
         (__ \ "data").write[JsObject] and
-        (__ \ "lastUpdated").write(MongoJavatimeFormats.instantFormat) and
-        (__ \ "created").write(MongoJavatimeFormats.instantFormat) and
+        (__ \ "lastUpdated").write(using MongoJavatimeFormats.instantFormat) and
+        (__ \ "created").write(using MongoJavatimeFormats.instantFormat) and
         (__ \ "metadata").write[Metadata] and
         (__ \ "declaration").write[Boolean] and
         (__ \ "customerId").writeNullable[CustomerId]
-    )(unlift(UserAnswers.unapply))
+    )(ua =>
+      (
+        ua.id,
+        ua.sessionId,
+        ua.submissionId,
+        ua.submissionType,
+        ua.data,
+        ua.lastUpdated,
+        ua.created,
+        ua.metadata,
+        ua.madeDeclaration,
+        ua.customerId
+      )
+    )
   }
 
   implicit val format: OFormat[UserAnswers] = OFormat(reads, writes)

@@ -25,7 +25,7 @@ class NotificationSubmittedViewSpec extends ViewSpecBase with ViewMatchers {
 
   val page: NotificationSubmittedView = inject[NotificationSubmittedView]
 
-  private def createView(dateString: String, ref: String): Html = page(dateString, ref)(request, messages)
+  private def createView(dateString: String, ref: String): Html = page(dateString, ref)(using request, messages)
 
   "view" should {
 

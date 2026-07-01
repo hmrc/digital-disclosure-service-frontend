@@ -28,7 +28,7 @@ class DidThePersonHaveNINOViewSpec extends ViewSpecBase with ViewMatchers {
   val form                           = new DidThePersonHaveNINOFormProvider()()
   val page: DidThePersonHaveNINOView = inject[DidThePersonHaveNINOView]
 
-  private def createView: Html = page(form, NormalMode, false)(request, messages)
+  private def createView: Html = page(form, NormalMode, false)(using request, messages)
 
   "view" should {
 

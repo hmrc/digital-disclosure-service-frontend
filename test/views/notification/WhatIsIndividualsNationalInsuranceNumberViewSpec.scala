@@ -28,7 +28,7 @@ class WhatIsIndividualsNationalInsuranceNumberViewSpec extends ViewSpecBase with
   val form                                               = new WhatIsIndividualsNationalInsuranceNumberFormProvider()()
   val page: WhatIsIndividualsNationalInsuranceNumberView = inject[WhatIsIndividualsNationalInsuranceNumberView]
 
-  private def createView: Html = page(form, NormalMode, false)(request, messages)
+  private def createView: Html = page(form, NormalMode, false)(using request, messages)
 
   "view" should {
 

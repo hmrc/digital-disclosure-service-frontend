@@ -29,7 +29,7 @@ trait TextFluency {
   implicit class FluentText(text: Text) {
     def withEllipsisOverflow(maxSize: Int): Text = {
       val value = if (text.value.length > maxSize) text.value.substring(0, maxSize) + "..." else text.value
-      text copy (value = value)
+      text.copy(value = value)
     }
   }
 }

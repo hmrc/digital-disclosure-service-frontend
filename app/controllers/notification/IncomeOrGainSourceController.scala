@@ -76,7 +76,7 @@ class IncomeOrGainSourceController @Inject() (
         )
   }
 
-  def changedPages(userAnswers: UserAnswers, newValue: Set[IncomeOrGainSource]): (List[QuestionPage[_]], Boolean) =
+  def changedPages(userAnswers: UserAnswers, newValue: Set[IncomeOrGainSource]): (List[QuestionPage[?]], Boolean) =
     userAnswers.get(IncomeOrGainSourcePage) match {
       case Some(oldValue) if !oldValue.contains(SomewhereElse) && newValue.contains(SomewhereElse) => (Nil, true)
       case Some(oldValue) if oldValue.contains(SomewhereElse) && !newValue.contains(SomewhereElse) =>

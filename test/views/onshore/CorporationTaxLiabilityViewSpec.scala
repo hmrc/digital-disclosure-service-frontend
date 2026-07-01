@@ -36,7 +36,7 @@ class CorporationTaxLiabilityViewSpec extends ViewSpecBase with ViewMatchers {
   val form                              = new CorporationTaxLiabilityFormProvider()(penaltyFlags)
   val page: CorporationTaxLiabilityView = inject[CorporationTaxLiabilityView]
 
-  private def createView: Html = page(form, NormalMode, 0, penaltyFlags)(request, messages)
+  private def createView: Html = page(form, NormalMode, 0, penaltyFlags)(using request, messages)
 
   "view" should {
 

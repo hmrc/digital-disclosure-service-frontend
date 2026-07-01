@@ -47,6 +47,6 @@ class PropertyIsNoLongerBeingLetOutFormProvider @Inject() extends Mappings {
         "whatHasHappenedToProperty" -> text("propertyIsNoLongerBeingLetOut.whatHasHappenedToProperty.error.required")
           .verifying(maxLength(5000, "propertyIsNoLongerBeingLetOut.whatHasHappenedToProperty.error.length"))
           .verifying(validUnicodeCharacters)
-      )(NoLongerBeingLetOut.apply)(NoLongerBeingLetOut.unapply)
+      )(NoLongerBeingLetOut.apply)(o => Some(o.stopDate, o.whatHasHappenedToProperty))
     )
 }

@@ -24,7 +24,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.onshore.MakingNilDisclosureView
 import models.{RelatesTo, UserAnswers}
 import models.WhyAreYouMakingThisOnshoreDisclosure._
-import pages.{RelatesToPage, WhyAreYouMakingThisOnshoreDisclosurePage}
+import pages.RelatesToPage
 
 class MakingNilDisclosureController @Inject() (
   override val messagesApi: MessagesApi,

@@ -76,7 +76,7 @@ class AreYouRepresentingAnOrganisationController @Inject() (
         )
   }
 
-  def changedPages(answers: UserAnswers, value: Boolean, mode: Mode): (List[QuestionPage[_]], Boolean) =
+  def changedPages(answers: UserAnswers, value: Boolean, mode: Mode): (List[QuestionPage[?]], Boolean) =
     answers.get(AreYouRepresentingAnOrganisationPage) match {
       case Some(true) if !value               => (List(WhatIsTheNameOfTheOrganisationYouRepresentPage), true)
       case Some(false) if value               => (Nil, true)

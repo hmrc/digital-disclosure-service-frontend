@@ -28,7 +28,7 @@ class WhatTelephoneNumberCanWeContactYouWithViewSpec extends ViewSpecBase with V
   val form                                             = new WhatTelephoneNumberCanWeContactYouWithFormProvider()()
   val page: WhatTelephoneNumberCanWeContactYouWithView = inject[WhatTelephoneNumberCanWeContactYouWithView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode)(using request, messages)
 
   "view" should {
 

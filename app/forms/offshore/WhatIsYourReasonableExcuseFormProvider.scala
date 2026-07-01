@@ -42,6 +42,6 @@ class WhatIsYourReasonableExcuseFormProvider @Inject() extends Mappings {
       "years"  -> text("whatIsYourReasonableExcuse.error.years.required")
         .verifying(maxLength(500, "whatIsYourReasonableExcuse.error.years.length"))
         .verifying(validUnicodeCharacters)
-    )(WhatIsYourReasonableExcuse.apply)(WhatIsYourReasonableExcuse.unapply)
+    )(WhatIsYourReasonableExcuse.apply)(o => Some(o.excuse, o.years))
   )
 }

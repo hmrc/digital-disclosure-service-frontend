@@ -31,7 +31,7 @@ class YouHaveNotSelectedCertainTaxYearViewSpec extends ViewSpecBase with ViewMat
   val selectedYears: List[TaxYearStarting]    = List(TaxYearStarting(2021), TaxYearStarting(2019), TaxYearStarting(2017))
   val notSelectedYears: List[TaxYearStarting] = List(TaxYearStarting(2020), TaxYearStarting(2018))
 
-  private def createView: Html = page(form, NormalMode, selectedYears, notSelectedYears)(request, messages)
+  private def createView: Html = page(form, NormalMode, selectedYears, notSelectedYears)(using request, messages)
 
   "view" should {
 

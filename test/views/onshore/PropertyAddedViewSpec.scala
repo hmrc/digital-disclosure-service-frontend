@@ -57,7 +57,7 @@ class PropertyAddedViewSpec extends ViewSpecBase with ViewMatchers {
 
     val propertiesSummaries = LettingPropertyModel.row(Seq(property1), NormalMode)
 
-    def createView: Html = page(form, propertiesSummaries, NormalMode)(request, messages)
+    def createView: Html = page(form, propertiesSummaries, NormalMode)(using request, messages)
     val view             = createView
 
     "have title" in {
@@ -87,7 +87,7 @@ class PropertyAddedViewSpec extends ViewSpecBase with ViewMatchers {
 
     val propertiesSummaries = LettingPropertyModel.row(Seq(property1, property2), NormalMode)
 
-    def createView: Html = page(form, propertiesSummaries, NormalMode)(request, messages)
+    def createView: Html = page(form, propertiesSummaries, NormalMode)(using request, messages)
 
     val view = createView
 

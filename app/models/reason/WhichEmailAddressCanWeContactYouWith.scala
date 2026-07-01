@@ -42,5 +42,5 @@ object WhichEmailAddressCanWeContactYouWith extends Enumerable.Implicits {
   }
 
   implicit val enumerable: Enumerable[WhichEmailAddressCanWeContactYouWith] =
-    Enumerable(values.map(v => v.toString -> v): _*)
+    Enumerable(values.map(v => v.toString -> v)*)
 }

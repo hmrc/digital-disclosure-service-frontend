@@ -28,7 +28,7 @@ class JointlyOwnedPropertyViewSpec extends ViewSpecBase with ViewMatchers {
   val form                           = new JointlyOwnedPropertyFormProvider()()
   val page: JointlyOwnedPropertyView = inject[JointlyOwnedPropertyView]
 
-  private def createView: Html = page(form, 0, NormalMode)(request, messages)
+  private def createView: Html = page(form, 0, NormalMode)(using request, messages)
 
   "view" should {
 

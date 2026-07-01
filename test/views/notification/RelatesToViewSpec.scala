@@ -28,7 +28,7 @@ class RelatesToViewSpec extends ViewSpecBase with ViewMatchers {
   val form                = new RelatesToFormProvider()()
   val page: RelatesToView = inject[RelatesToView]
 
-  private def createView: Html = page(form, NormalMode, false)(request, messages)
+  private def createView: Html = page(form, NormalMode, false)(using request, messages)
 
   "view" should {
 

@@ -69,7 +69,10 @@ class TaskListViewSpec extends ViewSpecBase with ViewMatchers with Generators {
     val heading = messages("taskList.heading")
 
     def createView: Html =
-      page(list, notificationSectionKey, isTheUserAgent, entity, false, 0, false, title, heading)(request, messages)
+      page(list, notificationSectionKey, isTheUserAgent, entity, false, 0, false, title, heading)(using
+        request,
+        messages
+      )
 
     val view = createView
 
@@ -119,7 +122,10 @@ class TaskListViewSpec extends ViewSpecBase with ViewMatchers with Generators {
     val heading = messages("taskList.heading")
 
     def createView: Html =
-      page(list, notificationSectionKey, isTheUserAgent, entity, true, 3, false, title, heading)(request, messages)
+      page(list, notificationSectionKey, isTheUserAgent, entity, true, 3, false, title, heading)(using
+        request,
+        messages
+      )
 
     val view = createView
 

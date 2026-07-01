@@ -23,6 +23,7 @@ import play.api.libs.json.Json
 import uk.gov.hmrc.http.{HeaderCarrier, StringContextOps}
 import uk.gov.hmrc.http.client.HttpClientV2
 import uk.gov.hmrc.http.HttpReads.Implicits.readRaw
+import play.api.libs.ws.writeableOf_JsValue
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.duration.DurationInt
@@ -72,7 +73,7 @@ class InternalAuthTokenInitialiserImpl @Inject() (
   private def createClientAuthToken(): Future[Done] = {
     logger.info("Initialising auth token")
     httpClient
-      .post(url"${internalAuthService.baseUrl}/test-only/token")(HeaderCarrier())
+      .post(url"${internalAuthService.baseUrl}/test-only/token")(using HeaderCarrier())
       .withBody(
         Json.obj(
           "token"       -> authToken,
@@ -106,7 +107,7 @@ class InternalAuthTokenInitialiserImpl @Inject() (
   private def authTokenIsValid: Future[Boolean] = {
     logger.info("Checking auth token")
     httpClient
-      .get(url"${internalAuthService.baseUrl}/test-only/token")(HeaderCarrier())
+      .get(url"${internalAuthService.baseUrl}/test-only/token")(using HeaderCarrier())
       .setHeader("Authorization" -> authToken)
       .execute
       .map(_.status == 200)

@@ -33,7 +33,8 @@
     link: components.link
 )
 
-@(form: Form[_], mode: Mode, index: Int, startYear: Int, flags: DynamicNonPenaltyFlags)(implicit request: RequestHeader, messages: Messages)
+
+@(form: Form[?], mode: Mode, index: Int, startYear: Int, flags: DynamicNonPenaltyFlags)(implicit request: RequestHeader, messages: Messages)
 
 @layout(pageTitle = title(form, messages("taxYearLiabilities.title", startYear.toString, (startYear+1).toString))) {
 

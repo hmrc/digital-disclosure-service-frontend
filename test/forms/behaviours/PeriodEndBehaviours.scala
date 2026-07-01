@@ -29,7 +29,7 @@ trait PeriodEndBehaviours extends FieldBehaviours {
     Gen.choose(rangeStart, rangeEnd).map(i => LocalDate.ofEpochDay(i))
   }
 
-  def periodEndField(form: Form[_], key: String, validData: Map[String, String]): Unit = {
+  def periodEndField(form: Form[?], key: String, validData: Map[String, String]): Unit = {
 
     "bind valid data" in {
 
@@ -65,7 +65,7 @@ trait PeriodEndBehaviours extends FieldBehaviours {
   }
 
   def periodEndFieldCheckingMaxDay(
-    form: Form[_],
+    form: Form[?],
     key: String,
     validData: Map[String, String],
     formError: FormError
@@ -88,7 +88,7 @@ trait PeriodEndBehaviours extends FieldBehaviours {
     }
 
   def periodEndFieldCheckingMaxMonth(
-    form: Form[_],
+    form: Form[?],
     key: String,
     validData: Map[String, String],
     formError: FormError
@@ -111,7 +111,7 @@ trait PeriodEndBehaviours extends FieldBehaviours {
       }
     }
 
-  def periodEndFieldInFuture(form: Form[_], key: String, validData: Map[String, String], formError: FormError): Unit =
+  def periodEndFieldInFuture(form: Form[?], key: String, validData: Map[String, String], formError: FormError): Unit =
     "check maximum year value" in {
 
       val yearGenerator = Gen.choose(LocalDate.now().getYear, LocalDate.MAX.getYear)
@@ -127,7 +127,7 @@ trait PeriodEndBehaviours extends FieldBehaviours {
       }
     }
 
-  def periodEndFieldWithMin(form: Form[_], key: String, validData: Map[String, String], formError: FormError): Unit =
+  def periodEndFieldWithMin(form: Form[?], key: String, validData: Map[String, String], formError: FormError): Unit =
     "check minimum year value" in {
 
       val yearGenerator = Gen.choose(LocalDate.MIN.getYear, 1849)

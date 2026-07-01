@@ -36,7 +36,7 @@ class WhichOnshoreYearsViewSpec extends ViewSpecBase with ViewMatchers with Curr
   "view" should {
 
     val checkboxes       = service.checkboxItems(Behaviour.Deliberate)
-    def createView: Html = page(form, NormalMode, checkboxes, true, true)(request, messages)
+    def createView: Html = page(form, NormalMode, checkboxes, true, true)(using request, messages)
     val view             = createView
 
     "have title" in {

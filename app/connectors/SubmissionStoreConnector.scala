@@ -23,6 +23,7 @@ import play.api.libs.json.{JsError, JsSuccess, Json}
 import uk.gov.hmrc.http.HttpReads.Implicits.readRaw
 import uk.gov.hmrc.http.client.HttpClientV2
 import uk.gov.hmrc.http.{HeaderCarrier, StringContextOps}
+import play.api.libs.ws.JsonBodyWritables.writeableOf_JsValue
 
 import com.google.inject.{ImplementedBy, Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
@@ -30,14 +31,12 @@ import scala.util.control.NoStackTrace
 import models.store.Submission
 import play.api.mvc.Result
 import play.api.mvc.Results.NoContent
-import java.time.Clock
 import play.mvc.Http.HeaderNames.AUTHORIZATION
 
 @Singleton
 class SubmissionStoreConnectorImpl @Inject() (
   httpClient: HttpClientV2,
-  configuration: Configuration,
-  clock: Clock
+  configuration: Configuration
 )(implicit ec: ExecutionContext)
     extends SubmissionStoreConnector
     with ConnectorErrorHandler {

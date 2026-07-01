@@ -28,7 +28,7 @@ class OtherIncomeOrGainSourceViewSpec extends ViewSpecBase with ViewMatchers {
   val form                              = new OtherIncomeOrGainSourceFormProvider()()
   val page: OtherIncomeOrGainSourceView = inject[OtherIncomeOrGainSourceView]
 
-  private def createView: Html = page(form, NormalMode, true)(request, messages)
+  private def createView: Html = page(form, NormalMode, true)(using request, messages)
 
   "view" should {
 

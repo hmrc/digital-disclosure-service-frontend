@@ -81,7 +81,7 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxController @Inject() (
 
   def form(areTheyTheIndividual: Boolean, entity: RelatesTo) = formProvider(areTheyTheIndividual, entity)
 
-  def changedPages(existingUserAnswers: UserAnswers, value: Boolean): (List[QuestionPage[_]], Boolean) =
+  def changedPages(existingUserAnswers: UserAnswers, value: Boolean): (List[QuestionPage[?]], Boolean) =
     existingUserAnswers.get(DidSomeoneGiveYouAdviceNotDeclareTaxPage) match {
       case Some(true) if !value =>
         (

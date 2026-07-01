@@ -28,7 +28,7 @@ class WhatIsTheLLPNameViewSpec extends ViewSpecBase with ViewMatchers {
   val form                       = new WhatIsTheLLPNameFormProvider()()
   val page: WhatIsTheLLPNameView = inject[WhatIsTheLLPNameView]
 
-  private def createView: Html = page(form, NormalMode, false)(request, messages)
+  private def createView: Html = page(form, NormalMode, false)(using request, messages)
 
   "view" should {
 

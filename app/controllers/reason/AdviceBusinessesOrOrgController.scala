@@ -74,7 +74,7 @@ class AdviceBusinessesOrOrgController @Inject() (
         )
   }
 
-  def changedPages(userAnswers: UserAnswers, value: Boolean): (List[QuestionPage[_]], Boolean) =
+  def changedPages(userAnswers: UserAnswers, value: Boolean): (List[QuestionPage[?]], Boolean) =
     userAnswers.get(AdviceBusinessesOrOrgPage) match {
       case Some(true) if false == value => (List(AdviceBusinessNamePage), false)
       case Some(false) if true == value => (Nil, true)

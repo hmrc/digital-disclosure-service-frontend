@@ -30,7 +30,7 @@ class YouHaveNoOffshoreLiabilitiesViewSpec extends ViewSpecBase with ViewMatcher
   val entity           = RelatesTo.ACompany
   val Year             = "2022"
 
-  private def createView: Html = page(entityIndividual, entity, Year)(request, messages)
+  private def createView: Html = page(entityIndividual, entity, Year)(using request, messages)
 
   "view" should {
 

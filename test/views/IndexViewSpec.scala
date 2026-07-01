@@ -29,7 +29,7 @@ class IndexViewSpec extends ViewSpecBase with ViewMatchers {
   "view" should {
 
     def createView: Html =
-      page(controllers.routes.MakeANotificationOrDisclosureController.onPageLoad.url, false)(request, messages)
+      page(controllers.routes.MakeANotificationOrDisclosureController.onPageLoad.url, false)(using request, messages)
 
     val view = createView
 
@@ -148,7 +148,7 @@ class IndexViewSpec extends ViewSpecBase with ViewMatchers {
     def createView: Html = page(
       controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url,
       false
-    )(request, messages)
+    )(using request, messages)
 
     val view = createView
 
@@ -164,7 +164,7 @@ class IndexViewSpec extends ViewSpecBase with ViewMatchers {
     def createView: Html = page(
       controllers.notification.routes.ReceivedALetterController.onPageLoad(NormalMode).url,
       true
-    )(request, messages)
+    )(using request, messages)
 
     val view = createView
 

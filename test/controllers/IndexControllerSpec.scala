@@ -29,10 +29,8 @@ import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import repositories.SessionRepository
 import views.html.IndexView
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class IndexControllerSpec extends SpecBase with Generators {
@@ -45,7 +43,8 @@ class IndexControllerSpec extends SpecBase with Generators {
     "must return a view with a link to the next page from the navigator where the disclosure journey is configured" in {
 
       setupMockSessionResponse()
-      when(mockSessionService.getIndividualUserAnswers(any(), any(), any())(any())).thenReturn(Future.successful(None))
+      when(mockSessionService.getIndividualUserAnswers(any(), any(), any())(using any()))
+        .thenReturn(Future.successful(None))
       val applicationWithFakeNavigator = applicationBuilder
         .configure(
           "features.full-disclosure-journey" -> true
@@ -61,19 +60,20 @@ class IndexControllerSpec extends SpecBase with Generators {
 
       status(result) mustEqual OK
 
-      contentAsString(result) mustEqual view(onwardRoute.url, isAgent = false)(request, messages).toString
+      contentAsString(result) mustEqual view(onwardRoute.url, isAgent = false)(using request, messages).toString
     }
 
     "must set user answers where one doesn't exist" in {
 
       val request = FakeRequest(GET, routes.IndexController.onPageLoad.url)
       setupMockSessionResponse()
-      when(mockSessionService.getIndividualUserAnswers(any(), any(), any())(any())).thenReturn(Future.successful(None))
+      when(mockSessionService.getIndividualUserAnswers(any(), any(), any())(using any()))
+        .thenReturn(Future.successful(None))
 
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      verify(mockSessionService).getIndividualUserAnswers(any(), any(), any())(any())
+      verify(mockSessionService).getIndividualUserAnswers(any(), any(), any())(using any())
     }
 
     "must retain existing user answers where one exists" in {
@@ -83,15 +83,15 @@ class IndexControllerSpec extends SpecBase with Generators {
       } yield {
         val request = FakeRequest(GET, routes.IndexController.onPageLoad.url)
         setupMockSessionResponse(Some(userAnswers))
-        when(mockSessionService.getIndividualUserAnswers(any(), any(), any())(any()))
+        when(mockSessionService.getIndividualUserAnswers(any(), any(), any())(using any()))
           .thenReturn(Future.successful(Some(userAnswers)))
-        when(mockSessionService.set(any())(any())).thenReturn(Future.successful(true))
+        when(mockSessionService.set(any())(using any())).thenReturn(Future.successful(true))
 
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        verify(mockSessionService).getIndividualUserAnswers(any(), any(), any())(any())
-        verify(mockSessionService).set(userAnswers)(any())
+        verify(mockSessionService).getIndividualUserAnswers(any(), any(), any())(using any())
+        verify(mockSessionService).set(userAnswers)(using any())
       }
     }
 

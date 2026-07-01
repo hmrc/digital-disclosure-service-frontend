@@ -31,7 +31,7 @@ class AreYouAMemberOfAnyLandlordAssociationsViewSpec extends ViewSpecBase with V
   val form                                             = new AreYouAMemberOfAnyLandlordAssociationsFormProvider()(areTheyTheIndividual, entity)
   val page: AreYouAMemberOfAnyLandlordAssociationsView = inject[AreYouAMemberOfAnyLandlordAssociationsView]
 
-  private def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+  private def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
 
   "view" should {
 

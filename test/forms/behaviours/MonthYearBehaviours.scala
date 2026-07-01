@@ -23,7 +23,7 @@ import models.MonthYear
 
 trait MonthYearBehaviours extends FieldBehaviours {
 
-  def monthYearField(form: Form[_], key: String, validData: Gen[MonthYear]): Unit = {
+  def monthYearField(form: Form[?], key: String, validData: Gen[MonthYear]): Unit = {
 
     "bind valid data" in {
 
@@ -55,7 +55,7 @@ trait MonthYearBehaviours extends FieldBehaviours {
   }
 
   def monthYearFieldCheckingMaxMonth(
-    form: Form[_],
+    form: Form[?],
     key: String,
     validData: Gen[MonthYear],
     monthError: FormError
@@ -75,7 +75,7 @@ trait MonthYearBehaviours extends FieldBehaviours {
 
     }
 
-  def monthYearFieldInFuture(form: Form[_], key: String, formError: FormError): Unit =
+  def monthYearFieldInFuture(form: Form[?], key: String, formError: FormError): Unit =
     s"fail to bind a year in the future" in {
 
       val yearGenerator = intsAboveValue(LocalDate.now().getYear())
@@ -92,7 +92,7 @@ trait MonthYearBehaviours extends FieldBehaviours {
       }
     }
 
-  def monthYearFieldWithMin(form: Form[_], key: String, formError: FormError): Unit =
+  def monthYearFieldWithMin(form: Form[?], key: String, formError: FormError): Unit =
     s"fail to bind a monthYear earlier than 1850" in {
 
       val yearGenerator = intsBelowValue(1850)
@@ -110,7 +110,7 @@ trait MonthYearBehaviours extends FieldBehaviours {
     }
 
   def mandatoryMonthYearField(
-    form: Form[_],
+    form: Form[?],
     key: String,
     requiredAllKey: String,
     errorArgs: Seq[String] = Seq.empty

@@ -31,6 +31,7 @@ import models.Error
 import models.address._
 import config.AddressLookupConfig
 import play.api.libs.json.Json
+import play.api.libs.ws.writeableOf_JsValue
 
 class AddressLookupConnectorImpl @Inject() (httpClient: HttpClientV2, config: AddressLookupConfig)(implicit
   ec: ExecutionContext

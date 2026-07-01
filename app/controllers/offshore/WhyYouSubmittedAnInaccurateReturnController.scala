@@ -89,7 +89,7 @@ class WhyYouSubmittedAnInaccurateReturnController @Inject() (
   def changedPages(
     answers: UserAnswers,
     value: Set[WhyYouSubmittedAnInaccurateReturn]
-  ): (List[QuestionPage[_]], Boolean) =
+  ): (List[QuestionPage[?]], Boolean) =
     answers.get(WhyYouSubmittedAnInaccurateOffshoreReturnPage) match {
       case Some(reasons) if reasons != value => (WhyYouSubmittedAnInaccurateReturnController.getPages(value), true)
       case _                                 => (Nil, false)
@@ -99,7 +99,7 @@ class WhyYouSubmittedAnInaccurateReturnController @Inject() (
 
 object WhyYouSubmittedAnInaccurateReturnController {
 
-  def getPages(reasons: Set[WhyYouSubmittedAnInaccurateReturn]): List[QuestionPage[_]] = {
+  def getPages(reasons: Set[WhyYouSubmittedAnInaccurateReturn]): List[QuestionPage[?]] = {
 
     val deliberate = ClearingCondition(
       Set(DeliberatelyInaccurate),
@@ -113,14 +113,14 @@ object WhyYouSubmittedAnInaccurateReturnController {
 
     val conditions = List(deliberate, reasonableCare)
 
-    conditions.foldLeft[List[QuestionPage[_]]](List()) { (cleared, condition) =>
+    conditions.foldLeft[List[QuestionPage[?]]](List()) { (cleared, condition) =>
       if (condition.isConditionMet(reasons)) cleared ++ condition.pagesToClear else cleared
     }
   }
 
   case class ClearingCondition(
     selections: Set[WhyYouSubmittedAnInaccurateReturn],
-    pagesToClear: List[QuestionPage[_]]
+    pagesToClear: List[QuestionPage[?]]
   ) {
     def isConditionMet(reasons: Set[WhyYouSubmittedAnInaccurateReturn]): Boolean =
       reasons.intersect(selections).isEmpty

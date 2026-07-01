@@ -17,7 +17,7 @@
 package controllers.offshore
 
 import controllers.actions._
-import models.Behaviour.{Deliberate, ReasonableExcuse}
+import models.Behaviour.Deliberate
 
 import javax.inject.Inject
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -26,7 +26,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.offshore.MakingNilDisclosureView
 import models.{Behaviour, RelatesTo, UserAnswers}
 import models.WhyAreYouMakingThisDisclosure._
-import pages.{RelatesToPage, WhyAreYouMakingThisDisclosurePage}
+import pages.RelatesToPage
 import services.OffshoreWhichYearsService
 
 class MakingNilDisclosureController @Inject() (

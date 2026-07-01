@@ -38,7 +38,7 @@ class DirectorLoanAccountLiabilitiesViewSpec extends ViewSpecBase with ViewMatch
 
   val index = 0
 
-  private def createView: Html = page(form, NormalMode, 0,penaltyFlags)(request, messages)
+  private def createView: Html = page(form, NormalMode, 0,penaltyFlags)(using request, messages)
 
   "view" should {
 

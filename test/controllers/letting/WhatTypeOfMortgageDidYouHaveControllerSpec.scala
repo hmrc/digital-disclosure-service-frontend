@@ -56,7 +56,7 @@ class WhatTypeOfMortgageDidYouHaveControllerSpec extends SpecBase with MockitoSu
       val view = application.injector.instanceOf[WhatTypeOfMortgageDidYouHaveView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, index, NormalMode)(request, messages).toString
+      contentAsString(result) mustEqual view(form, index, NormalMode)(using request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -77,7 +77,7 @@ class WhatTypeOfMortgageDidYouHaveControllerSpec extends SpecBase with MockitoSu
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(TypeOfMortgageDidYouHave.values.head), index, NormalMode)(
+      contentAsString(result) mustEqual view(form.fill(TypeOfMortgageDidYouHave.values.head), index, NormalMode)(using
         request,
         messages
       ).toString
@@ -85,7 +85,7 @@ class WhatTypeOfMortgageDidYouHaveControllerSpec extends SpecBase with MockitoSu
 
     "must redirect to the next page when valid data is submitted" in {
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val request =
@@ -113,7 +113,7 @@ class WhatTypeOfMortgageDidYouHaveControllerSpec extends SpecBase with MockitoSu
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, index, NormalMode)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, index, NormalMode)(using request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

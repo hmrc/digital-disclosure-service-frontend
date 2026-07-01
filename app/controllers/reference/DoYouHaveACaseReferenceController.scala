@@ -74,7 +74,7 @@ class DoYouHaveACaseReferenceController @Inject() (
         )
   }
 
-  def userAnswerChanged(userAnswers: UserAnswers, newValue: Boolean): List[QuestionPage[_]] = {
+  def userAnswerChanged(userAnswers: UserAnswers, newValue: Boolean): List[QuestionPage[?]] = {
     val caseReference = userAnswers.get(WhatIsTheCaseReferencePage)
     (newValue, caseReference) match {
       case (false, Some(_)) => List(WhatIsTheCaseReferencePage)

@@ -67,10 +67,9 @@ class PropertyAddedControllerSpec extends SpecBase with MockitoSugar {
 
       val view = application.injector.instanceOf[PropertyAddedView]
 
-      val properties = LettingPropertyModel.row(Seq(property), NormalMode)(messages)
-
+      val properties = LettingPropertyModel.row(Seq(property), NormalMode)(using messages)
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, properties, NormalMode)(request, messages).toString
+      contentAsString(result) mustEqual view(form, properties, NormalMode)(using request, messages).toString
     }
 
     "must redirect to the Property Address page if no property has been inserted" in {
@@ -89,7 +88,7 @@ class PropertyAddedControllerSpec extends SpecBase with MockitoSugar {
 
     "must redirect to the next page when valid data is submitted" in {
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val request =
@@ -117,7 +116,7 @@ class PropertyAddedControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, properties, NormalMode)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, properties, NormalMode)(using request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
@@ -149,7 +148,7 @@ class PropertyAddedControllerSpec extends SpecBase with MockitoSugar {
     "must redirect to the address of the first property page if remove method is called and there are no more properties" in {
       val removePropertyRoute = routes.PropertyAddedController.remove(index, NormalMode).url
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val request = FakeRequest(GET, removePropertyRoute)
@@ -165,7 +164,7 @@ class PropertyAddedControllerSpec extends SpecBase with MockitoSugar {
     "must redirect to the same page if remove method is called and there are still properties" in {
       val removePropertyRoute = routes.PropertyAddedController.remove(index, NormalMode).url
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
 
       val address: Address = Address(
         line1 = "Line 1",

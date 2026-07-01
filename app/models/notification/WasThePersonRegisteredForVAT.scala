@@ -46,7 +46,7 @@ object WasThePersonRegisteredForVAT extends Enumerable.Implicits {
   }
 
   implicit val enumerable: Enumerable[WasThePersonRegisteredForVAT] =
-    Enumerable(values.map(v => v.toString -> v): _*)
+    Enumerable(values.map(v => v.toString -> v)*)
 
   implicit def fromYesNoOrUnsure(yesNoOrUnsure: YesNoOrUnsure): WasThePersonRegisteredForVAT =
     yesNoOrUnsure match {

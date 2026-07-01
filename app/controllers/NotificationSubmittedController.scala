@@ -27,7 +27,7 @@ import models.{ARN, SubmissionType, UserAnswers}
 import navigation.Navigator
 import models.store.Metadata
 import pages.{DoYouHaveACaseReferencePage, LetterReferencePage, NotificationSubmittedPage, WhatIsTheCaseReferencePage}
-import services.{AuditService, DisclosureToUAService, SessionService}
+import services.{AuditService, SessionService}
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import scala.util.{Success, Try}
@@ -41,7 +41,6 @@ class NotificationSubmittedController @Inject() (
   getData: DataRetrievalAction,
   requireData: DataRequiredActionEvenSubmitted,
   navigator: Navigator,
-  disclosureToUAService: DisclosureToUAService,
   val controllerComponents: MessagesControllerComponents,
   view: NotificationSubmittedView,
   auditService: AuditService
@@ -82,7 +81,7 @@ class NotificationSubmittedController @Inject() (
     updatedUa.map(_.copy(submissionType = SubmissionType.Disclosure, metadata = Metadata()))
   }
 
-  def auditStartOfDisclosure(implicit request: DataRequest[_]) = {
+  def auditStartOfDisclosure(implicit request: DataRequest[?]) = {
     val disclosureStart = DisclosureStart(
       userId = request.userId,
       submissionId = request.userAnswers.submissionId,

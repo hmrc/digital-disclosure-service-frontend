@@ -90,16 +90,16 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseController @Inject() (
   def changedPages(
     answers: UserAnswers,
     value: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]
-  ): (List[QuestionPage[_]], Boolean) =
+  ): (List[QuestionPage[?]], Boolean) =
     answers.get(WhatOnshoreLiabilitiesDoYouNeedToDisclosePage) match {
       case Some(liability) if liability != value => (getPages(value), true)
       case _                                     => (Nil, false)
     }
 
-  private def getPages(liabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]): List[QuestionPage[_]] = {
+  private def getPages(liabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]): List[QuestionPage[?]] = {
     case class ClearingCondition(
       selections: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose],
-      pagesToClear: List[QuestionPage[_]]
+      pagesToClear: List[QuestionPage[?]]
     ) {
       def isConditionMet(liabilities: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]): Boolean =
         liabilities.intersect(selections).isEmpty
@@ -121,7 +121,7 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseController @Inject() (
 
     val conditions = List(nonCompany, corporationTax, directorLoan, lettingIncome)
 
-    conditions.foldLeft[List[QuestionPage[_]]](List()) { (cleared, condition) =>
+    conditions.foldLeft[List[QuestionPage[?]]](List()) { (cleared, condition) =>
       if (condition.isConditionMet(liabilities)) cleared ++ condition.pagesToClear else cleared
     }
   }

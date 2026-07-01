@@ -17,7 +17,7 @@
 package viewmodels.checkAnswers
 
 import base.SpecBase
-import models.{ReasonableExcuseOnshore, UserAnswers, WhatIsYourReasonableExcuse}
+import models.{UserAnswers, WhatIsYourReasonableExcuse}
 import pages.WhatIsYourReasonableExcusePage
 import play.api.i18n.Messages
 import viewmodels.RevealFullText

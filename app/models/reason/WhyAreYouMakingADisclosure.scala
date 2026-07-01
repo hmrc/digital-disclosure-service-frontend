@@ -56,5 +56,5 @@ object WhyAreYouMakingADisclosure extends Enumerable.Implicits {
     }
 
   implicit val enumerable: Enumerable[WhyAreYouMakingADisclosure] =
-    Enumerable(values.map(v => v.toString -> v): _*)
+    Enumerable(values.map(v => v.toString -> v)*)
 }

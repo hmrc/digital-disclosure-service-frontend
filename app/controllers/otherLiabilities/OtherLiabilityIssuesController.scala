@@ -76,7 +76,7 @@ class OtherLiabilityIssuesController @Inject() (
   def changedPages(
     existingUserAnswers: UserAnswers,
     value: Set[OtherLiabilityIssues]
-  ): (List[QuestionPage[_]], Boolean) =
+  ): (List[QuestionPage[?]], Boolean) =
     existingUserAnswers.get(OtherLiabilityIssuesPage) match {
       case Some(preferences) if preferences != value =>
         val pages = preferences.flatMap {

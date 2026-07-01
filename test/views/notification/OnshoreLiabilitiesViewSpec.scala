@@ -28,7 +28,7 @@ class OnshoreLiabilitiesViewSpec extends ViewSpecBase with ViewMatchers {
   val form                         = new OnshoreLiabilitiesFormProvider()()
   val page: OnshoreLiabilitiesView = inject[OnshoreLiabilitiesView]
 
-  private def createView: Html = page(form, NormalMode, false)(request, messages)
+  private def createView: Html = page(form, NormalMode, false)(using request, messages)
 
   "view" should {
 
