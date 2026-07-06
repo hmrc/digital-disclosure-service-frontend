@@ -56,12 +56,15 @@ class CorporationTaxLiabilityControllerSpec extends SpecBase with MockitoSugar {
     .set(
       WhyAreYouMakingThisOnshoreDisclosurePage,
       Set[WhyAreYouMakingThisOnshoreDisclosure](DidNotNotifyHMRC)
-    ).success.value
+    )
+    .success
+    .value
     .set(
       WhyYouSubmittedAnInaccurateOnshoreReturnPage,
       Set[WhyYouSubmittedAnInaccurateOnshoreReturn](NoReasonableCare)
-    ).success.value
-
+    )
+    .success
+    .value
 
   val answer = CorporationTaxLiability(
     periodEnd = LocalDate.now(ZoneOffset.UTC),
@@ -98,12 +101,18 @@ class CorporationTaxLiabilityControllerSpec extends SpecBase with MockitoSugar {
           .set(
             WhyAreYouMakingThisOnshoreDisclosurePage,
             Set[WhyAreYouMakingThisOnshoreDisclosure](DidNotNotifyHMRC)
-          ).success.value
+          )
+          .success
+          .value
           .set(
             WhyYouSubmittedAnInaccurateOnshoreReturnPage,
             Set[WhyYouSubmittedAnInaccurateOnshoreReturn](NoReasonableCare)
-          ).success.value
-          .set(CorporationTaxLiabilityPage, Seq(answer)).success.value
+          )
+          .success
+          .value
+          .set(CorporationTaxLiabilityPage, Seq(answer))
+          .success
+          .value
 
       setupMockSessionResponse(Some(userAnswers))
 
@@ -113,7 +122,10 @@ class CorporationTaxLiabilityControllerSpec extends SpecBase with MockitoSugar {
 
       status(result) mustEqual OK
 
-      contentAsString(result) mustEqual view(form.fill(answer), NormalMode, 0, penaltyFlags)(using getRequest(), messages).toString
+      contentAsString(result) mustEqual view(form.fill(answer), NormalMode, 0, penaltyFlags)(using
+        getRequest(),
+        messages
+      ).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {

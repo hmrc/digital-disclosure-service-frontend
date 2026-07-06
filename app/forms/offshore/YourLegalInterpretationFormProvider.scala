@@ -37,9 +37,7 @@ class YourLegalInterpretationFormProvider @Inject() extends Mappings {
             else
               set
           },
-          (set: Set[YourLegalInterpretation]) => {
-            set.toList
-          }
+          (set: Set[YourLegalInterpretation]) => set.toList
         )
         .verifying("yourLegalInterpretation.error.required", _.nonEmpty)
     )

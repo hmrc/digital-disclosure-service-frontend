@@ -37,16 +37,16 @@ class OnshoreTaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar
 
   def onwardRoute = Call("GET", "/foo")
 
-  val formProvider                  = new OnshoreTaxYearLiabilitiesFormProvider()
+  val formProvider                         = new OnshoreTaxYearLiabilitiesFormProvider()
   val penaltyFlags: DynamicNonPenaltyFlags = DynamicNonPenaltyFlags(
     showInaccurateReasonableParagraph = false,
     showLateReturnReasonableParagraph = false,
     showNotifyReasonableParagraph = false,
     showPenaltyTextbox = true
   )
-  val form                          = formProvider(Set(), penaltyFlags)
-  val whichYears: Set[OnshoreYears] = Set(OnshoreYearStarting(2021))
-  val userAnswersWithTaxYears       =
+  val form                                 = formProvider(Set(), penaltyFlags)
+  val whichYears: Set[OnshoreYears]        = Set(OnshoreYearStarting(2021))
+  val userAnswersWithTaxYears              =
     UserAnswers(userAnswersId, "session-123").set(WhichOnshoreYearsPage, whichYears).success.value
 
   lazy val taxYearLiabilitiesRoute = routes.OnshoreTaxYearLiabilitiesController.onPageLoad(0, NormalMode).url
@@ -57,14 +57,18 @@ class OnshoreTaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar
 
       val userAnswersWithTaxYears1 =
         userAnswersWithTaxYears
-        .set(
+          .set(
             WhyAreYouMakingThisOnshoreDisclosurePage,
             Set[WhyAreYouMakingThisOnshoreDisclosure](DidNotNotifyHMRC)
-          ).success.value
+          )
+          .success
+          .value
           .set(
             WhyYouSubmittedAnInaccurateOnshoreReturnPage,
             Set[WhyYouSubmittedAnInaccurateOnshoreReturn](NoReasonableCare)
-          ).success.value
+          )
+          .success
+          .value
 
       setupMockSessionResponse(Some(userAnswersWithTaxYears1))
 
@@ -76,7 +80,10 @@ class OnshoreTaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar
 
       status(result) mustEqual OK
 
-      contentAsString(result) mustEqual view(form, NormalMode, 0, 2021, Set(), penaltyFlags)(using request, messages).toString
+      contentAsString(result) mustEqual view(form, NormalMode, 0, 2021, Set(), penaltyFlags)(using
+        request,
+        messages
+      ).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -99,11 +106,15 @@ class OnshoreTaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar
         .set(
           WhyAreYouMakingThisOnshoreDisclosurePage,
           Set[WhyAreYouMakingThisOnshoreDisclosure](DidNotNotifyHMRC)
-        ).success.value
+        )
+        .success
+        .value
         .set(
           WhyYouSubmittedAnInaccurateOnshoreReturnPage,
           Set[WhyYouSubmittedAnInaccurateOnshoreReturn](NoReasonableCare)
-        ).success.value
+        )
+        .success
+        .value
         .set(
           OnshoreTaxYearLiabilitiesPage,
           Map("2021" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2021), answer))
@@ -134,11 +145,15 @@ class OnshoreTaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar
           .set(
             WhyAreYouMakingThisOnshoreDisclosurePage,
             Set[WhyAreYouMakingThisOnshoreDisclosure](DidNotNotifyHMRC)
-          ).success.value
+          )
+          .success
+          .value
           .set(
             WhyYouSubmittedAnInaccurateOnshoreReturnPage,
             Set[WhyYouSubmittedAnInaccurateOnshoreReturn](NoReasonableCare)
-          ).success.value
+          )
+          .success
+          .value
 
       when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(userAnswersWithTaxYears1))
@@ -167,12 +182,15 @@ class OnshoreTaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar
           .set(
             WhyAreYouMakingThisOnshoreDisclosurePage,
             Set[WhyAreYouMakingThisOnshoreDisclosure](DidNotNotifyHMRC)
-          ).success.value
+          )
+          .success
+          .value
           .set(
             WhyYouSubmittedAnInaccurateOnshoreReturnPage,
             Set[WhyYouSubmittedAnInaccurateOnshoreReturn](NoReasonableCare)
-          ).success.value
-
+          )
+          .success
+          .value
 
       setupMockSessionResponse(Some(userAnswersWithTaxYears1))
 
@@ -188,7 +206,10 @@ class OnshoreTaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar
 
       status(result) mustEqual BAD_REQUEST
 
-      contentAsString(result) mustEqual view(boundForm, NormalMode, 0, 2021, Set(), penaltyFlags)(using request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode, 0, 2021, Set(), penaltyFlags)(using
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

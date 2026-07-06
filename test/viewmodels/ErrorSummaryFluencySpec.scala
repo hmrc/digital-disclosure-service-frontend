@@ -35,7 +35,10 @@ class ErrorSummaryFluencySpec extends SpecBase with ErrorSummaryFluency {
 
   "check all required field errors are in order for onshore tax year liabilities view" in {
     val form                       =
-      new OnshoreTaxYearLiabilitiesFormProvider()(Set(NonBusinessIncome, BusinessIncome, LettingIncome, Gains), penaltyFlags)
+      new OnshoreTaxYearLiabilitiesFormProvider()(
+        Set(NonBusinessIncome, BusinessIncome, LettingIncome, Gains),
+        penaltyFlags
+      )
     implicit val message: Messages = messages
 
     val errorSummary = ErrorSummaryViewModel(

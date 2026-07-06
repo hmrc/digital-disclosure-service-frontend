@@ -100,4 +100,18 @@ class SubmissionStoreServiceSpec extends AnyWordSpec with Matchers with MockFact
     }
   }
 
+  "getAllSubmission" should {
+    "pass the userID to the dataService and return the converted value to the connector" in {
+      mockGetAllSubmissions("123")(Future.successful(Seq(testSubmission)))
+      sut.getAllSubmissions("123").futureValue shouldEqual Seq(testSubmission)
+    }
+  }
+
+  "deleteSubmission" should {
+    "pass the userID to the dataService and get the deleted value to the connector" in {
+      mockDeleteSubmission("123", "456")(Future.successful(Ok("Done")))
+      sut.deleteSubmission("123", "456").futureValue shouldEqual Ok("Done")
+    }
+  }
+
 }

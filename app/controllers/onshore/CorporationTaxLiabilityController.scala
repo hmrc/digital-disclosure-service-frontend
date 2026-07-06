@@ -49,7 +49,7 @@ class CorporationTaxLiabilityController @Inject() (
   def onPageLoad(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
       val penaltyFlags = ReasonableExcuseHelper.dynamicContentFlags(request.userAnswers)
-      val form               = formProvider(penaltyFlags)
+      val form         = formProvider(penaltyFlags)
 
       val preparedForm = request.userAnswers.getBySeqIndex(CorporationTaxLiabilityPage, i) match {
         case None        => form
@@ -63,7 +63,7 @@ class CorporationTaxLiabilityController @Inject() (
   def onSubmit(i: Int, mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
       val penaltyFlags = ReasonableExcuseHelper.dynamicContentFlags(request.userAnswers)
-      val form               = formProvider(penaltyFlags)
+      val form         = formProvider(penaltyFlags)
 
       form
         .bindFromRequest()
