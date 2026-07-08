@@ -75,7 +75,8 @@ class DataRequiredActionSpec extends SpecBase {
       }
 
       "must redirect a non-agent to the Submitted page with a fallback reference" in {
-        val noRef = submittedDisclosure.copy(metadata = Metadata(reference = None, submissionTime = Some(submittedTime)))
+        val noRef  =
+          submittedDisclosure.copy(metadata = Metadata(reference = None, submissionTime = Some(submittedTime)))
         val result = new Harness().callRefine(optionalRequest(Some(noRef))).futureValue
         result mustBe Left(Redirect(routes.SubmittedController.onPageLoad("-")))
       }
@@ -120,7 +121,7 @@ class DataRequiredActionSpec extends SpecBase {
         submissionType = SubmissionType.Disclosure,
         metadata = Metadata(reference = Some("CFSS-789"), submissionTime = Some(submittedTime))
       )
-      val result = new EvenSubmittedHarness().callRefine(optionalRequest(Some(submitted))).futureValue
+      val result    = new EvenSubmittedHarness().callRefine(optionalRequest(Some(submitted))).futureValue
       result.isRight mustBe true
       result.toOption.value.userAnswers mustBe submitted
     }

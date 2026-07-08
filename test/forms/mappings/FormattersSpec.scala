@@ -23,7 +23,7 @@ import models._
 
 class FormattersSpec extends AnyFreeSpec with Matchers with Formatters {
 
-  private val fieldKey            = "value"
+  private val fieldKey       = "value"
   private val requiredKey    = "error.required"
   private val wholeNumberKey = "error.wholeNumber"
   private val nonNumericKey  = "error.nonNumeric"

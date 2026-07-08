@@ -60,7 +60,7 @@ class IdentifierActionSuccessSpec extends SpecBase {
         new ~(new ~(Option.empty[String], Some(AffinityGroup.Organisation)), Enrolments(Set.empty))
 
       val block: IdentifierRequest[?] => Future[Result] = _ => Future.successful(Results.Ok)
-      val thrown = action(new FakeAuthConnector(retrievals)).invokeBlock(FakeRequest(), block).failed.futureValue
+      val thrown                                        = action(new FakeAuthConnector(retrievals)).invokeBlock(FakeRequest(), block).failed.futureValue
       thrown mustBe a[Exception]
     }
   }

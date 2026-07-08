@@ -17,7 +17,7 @@
 package navigation
 
 import base.SpecBase
-import models.{NormalMode, UserAnswers}
+import models.{CheckMode, NormalMode, UserAnswers}
 import pages.{DoYouHaveACaseReferencePage, Page, WhatIsTheCaseReferencePage}
 import controllers.reference.routes
 
@@ -62,6 +62,18 @@ class ReferenceNavigatorSpec extends SpecBase {
           NormalMode,
           userAnswers
         ) mustBe controllers.routes.TaskListController.onPageLoad
+      }
+
+    }
+
+    "in Check mode" - {
+      "must go from a page that doesn't exist in the route map to Index" in {
+        case object UnknownPage extends Page
+        navigator.nextPage(
+          UnknownPage,
+          CheckMode,
+          UserAnswers("id", "session-123")
+        ) mustBe controllers.routes.IndexController.onPageLoad
       }
 
     }
