@@ -116,7 +116,7 @@ class ReasonNavigator @Inject() () {
           }
 
     case AdviceBusinessesOrOrgPage =>
-      _ =>
+      ua =>
         hasAnswerChanged =>
           if (hasAnswerChanged) {
             routes.AdviceBusinessNameController.onPageLoad(CheckMode)

@@ -110,16 +110,13 @@ trait ModelGenerators {
       } yield MonthYear(month, year)
     }
 
-  given arbitraryAdviceContactPreference: Arbitrary[AdviceContactPreference]       =
+  given arbitraryAdviceContactPreference: Arbitrary[AdviceContactPreference] =
     Arbitrary(
       Gen.oneOf(
         AdviceContactPreference.values
       )
     )
-  //  given arbitraryAdviceContactPreference: Arbitrary[AdviceContactPreference] =
-  //    Arbitrary {
-  //      Gen.oneOf(AdviceContactPreference.values)
-  //    }
+
   given arbitraryWhyAreYouMakingADisclosure: Arbitrary[WhyAreYouMakingADisclosure] =
     Arbitrary {
       Gen.oneOf(WhyAreYouMakingADisclosure.values)
