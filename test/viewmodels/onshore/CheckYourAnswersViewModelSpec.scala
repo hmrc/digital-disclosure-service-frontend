@@ -119,15 +119,16 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
         val yearKey                         = taxYearWithLiabilities.taxYear.startYear.toString
         val onshoreYears: Set[OnshoreYears] = Set(taxYearWithLiabilities.taxYear)
         val ua                              = (for {
-          uaWithYears <- UserAnswers("id", "session-123").set(WhichOnshoreYearsPage, onshoreYears)
+          uaWithYears      <- UserAnswers("id", "session-123").set(WhichOnshoreYearsPage, onshoreYears)
           uaWithDisclosure <- uaWithYears.set(
-            WhyAreYouMakingThisOnshoreDisclosurePage,
-            Set[WhyAreYouMakingThisOnshoreDisclosure](DidNotNotifyHMRC)
-          )
-          uaWithReasons <- uaWithDisclosure.set(
-            WhyYouSubmittedAnInaccurateOnshoreReturnPage,
-            Set[WhyYouSubmittedAnInaccurateOnshoreReturn](NoReasonableCare))
-          finalUa     <- uaWithReasons.setByKey(OnshoreTaxYearLiabilitiesPage, yearKey, taxYearWithLiabilities)
+                                WhyAreYouMakingThisOnshoreDisclosurePage,
+                                Set[WhyAreYouMakingThisOnshoreDisclosure](DidNotNotifyHMRC)
+                              )
+          uaWithReasons    <- uaWithDisclosure.set(
+                                WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+                                Set[WhyYouSubmittedAnInaccurateOnshoreReturn](NoReasonableCare)
+                              )
+          finalUa          <- uaWithReasons.setByKey(OnshoreTaxYearLiabilitiesPage, yearKey, taxYearWithLiabilities)
         } yield finalUa).success.value
         val viewModel                       = sut.create(ua)
 

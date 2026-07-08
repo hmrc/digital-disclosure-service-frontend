@@ -164,15 +164,16 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
         val yearKey                           = taxYearWithLiabilities.taxYear.startYear.toString
         val offshoreYears: Set[OffshoreYears] = Set(taxYearWithLiabilities.taxYear)
         val ua                                = (for {
-          uaWithYears <- UserAnswers("id", "session-123").set(WhichYearsPage, offshoreYears)
+          uaWithYears      <- UserAnswers("id", "session-123").set(WhichYearsPage, offshoreYears)
           uaWithDisclosure <- uaWithYears.set(
-            WhyAreYouMakingThisDisclosurePage,
-            Set[WhyAreYouMakingThisDisclosure](DidNotNotifyHMRC)
-          )
-          uaWithReasons <- uaWithDisclosure.set(
-            WhyYouSubmittedAnInaccurateOffshoreReturnPage,
-            Set[WhyYouSubmittedAnInaccurateReturn](NoReasonableCare))
-          finalUa     <- uaWithReasons.setByKey(TaxYearLiabilitiesPage, yearKey, taxYearWithLiabilities)
+                                WhyAreYouMakingThisDisclosurePage,
+                                Set[WhyAreYouMakingThisDisclosure](DidNotNotifyHMRC)
+                              )
+          uaWithReasons    <- uaWithDisclosure.set(
+                                WhyYouSubmittedAnInaccurateOffshoreReturnPage,
+                                Set[WhyYouSubmittedAnInaccurateReturn](NoReasonableCare)
+                              )
+          finalUa          <- uaWithReasons.setByKey(TaxYearLiabilitiesPage, yearKey, taxYearWithLiabilities)
         } yield finalUa).success.value
         val viewModel                         = sut.create(ua)
 
@@ -209,16 +210,17 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
 
       val offshoreYears: Set[OffshoreYears] = Set(TaxYearStarting(2018), TaxYearStarting(2019))
       val ua                                = (for {
-        ua1     <- UserAnswers("id", "session-123").set(WhichYearsPage, offshoreYears)
+        ua1               <- UserAnswers("id", "session-123").set(WhichYearsPage, offshoreYears)
         ua1WithDisclosure <- ua1.set(
-          WhyAreYouMakingThisDisclosurePage,
-          Set[WhyAreYouMakingThisDisclosure](DidNotNotifyHMRC)
-        )
-        ua1WithReasons <- ua1WithDisclosure.set(
-          WhyYouSubmittedAnInaccurateOffshoreReturnPage,
-          Set[WhyYouSubmittedAnInaccurateReturn](NoReasonableCare))
-        ua2     <- ua1WithReasons.setByKey(TaxYearLiabilitiesPage, "2018", secondTaxYear)
-        finalUa <- ua2.setByKey(TaxYearLiabilitiesPage, "2019", firstTaxYear)
+                               WhyAreYouMakingThisDisclosurePage,
+                               Set[WhyAreYouMakingThisDisclosure](DidNotNotifyHMRC)
+                             )
+        ua1WithReasons    <- ua1WithDisclosure.set(
+                               WhyYouSubmittedAnInaccurateOffshoreReturnPage,
+                               Set[WhyYouSubmittedAnInaccurateReturn](NoReasonableCare)
+                             )
+        ua2               <- ua1WithReasons.setByKey(TaxYearLiabilitiesPage, "2018", secondTaxYear)
+        finalUa           <- ua2.setByKey(TaxYearLiabilitiesPage, "2019", firstTaxYear)
       } yield finalUa).success.value
       val viewModel                         = sut.create(ua)
 

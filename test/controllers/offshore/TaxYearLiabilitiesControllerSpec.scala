@@ -57,14 +57,18 @@ class TaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
 
       val userAnswersWithTaxYears1 =
         userAnswersWithTaxYears
-        .set(
-          WhyAreYouMakingThisDisclosurePage,
-          Set[WhyAreYouMakingThisDisclosure](DidNotNotifyHMRC)
-        ).success.value
+          .set(
+            WhyAreYouMakingThisDisclosurePage,
+            Set[WhyAreYouMakingThisDisclosure](DidNotNotifyHMRC)
+          )
+          .success
+          .value
           .set(
             WhyYouSubmittedAnInaccurateOffshoreReturnPage,
             Set[WhyYouSubmittedAnInaccurateReturn](NoReasonableCare)
-        ).success.value
+          )
+          .success
+          .value
 
       setupMockSessionResponse(Some(userAnswersWithTaxYears1))
 
@@ -96,11 +100,15 @@ class TaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
         .set(
           WhyAreYouMakingThisDisclosurePage,
           Set[WhyAreYouMakingThisDisclosure](DidNotNotifyHMRC)
-        ).success.value
+        )
+        .success
+        .value
         .set(
           WhyYouSubmittedAnInaccurateOffshoreReturnPage,
           Set[WhyYouSubmittedAnInaccurateReturn](NoReasonableCare)
-        ).success.value
+        )
+        .success
+        .value
         .set(TaxYearLiabilitiesPage, Map("2021" -> TaxYearWithLiabilities(TaxYearStarting(2021), answer)))
         .success
         .value
@@ -114,7 +122,10 @@ class TaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(answer), NormalMode, 0, 2021, penaltyFlags)(request, messages).toString
+      contentAsString(result) mustEqual view(form.fill(answer), NormalMode, 0, 2021, penaltyFlags)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -148,11 +159,15 @@ class TaxYearLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
         .set(
           WhyAreYouMakingThisDisclosurePage,
           Set[WhyAreYouMakingThisDisclosure](DidNotNotifyHMRC)
-        ).success.value
+        )
+        .success
+        .value
         .set(
           WhyYouSubmittedAnInaccurateOffshoreReturnPage,
           Set[WhyYouSubmittedAnInaccurateReturn](NoReasonableCare)
-        ).success.value
+        )
+        .success
+        .value
 
       setupMockSessionResponse(Some(userAnswersWithTaxYears1))
 

@@ -97,14 +97,19 @@ class CorporationTaxLiabilitiesSummaryViewModelSpec extends SpecBase with ScalaC
     }
 
     "return an empty total section where the director loan account pages isn't populated" in {
-      val ua = UserAnswers("id", "session-123")
-              .set(
-                WhyAreYouMakingThisOnshoreDisclosurePage,
-                Set[WhyAreYouMakingThisOnshoreDisclosure](DidNotNotifyHMRC)
-              ).success.value
-                .set(WhyYouSubmittedAnInaccurateOnshoreReturnPage,
-                Set[WhyYouSubmittedAnInaccurateOnshoreReturn](NoReasonableCare)
-              ).success.value
+      val ua        = UserAnswers("id", "session-123")
+        .set(
+          WhyAreYouMakingThisOnshoreDisclosurePage,
+          Set[WhyAreYouMakingThisOnshoreDisclosure](DidNotNotifyHMRC)
+        )
+        .success
+        .value
+        .set(
+          WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+          Set[WhyYouSubmittedAnInaccurateOnshoreReturn](NoReasonableCare)
+        )
+        .success
+        .value
       val viewModel = new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText).create(ua)
 
       viewModel.totalAmountsList.rows(0).key mustEqual Key(Text(mess("checkYourAnswers.ct.total.taxDue")))

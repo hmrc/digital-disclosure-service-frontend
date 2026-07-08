@@ -68,12 +68,18 @@ class DirectorLoanAccountLiabilitiesControllerSpec extends SpecBase with Mockito
       .set(
         WhyAreYouMakingThisOnshoreDisclosurePage,
         Set[WhyAreYouMakingThisOnshoreDisclosure](DidNotNotifyHMRC)
-      ).success.value
+      )
+      .success
+      .value
       .set(
         WhyYouSubmittedAnInaccurateOnshoreReturnPage,
         Set[WhyYouSubmittedAnInaccurateOnshoreReturn](NoReasonableCare)
-      ).success.value
-      .set(DirectorLoanAccountLiabilitiesPage, Seq(answer)).success.value
+      )
+      .success
+      .value
+      .set(DirectorLoanAccountLiabilitiesPage, Seq(answer))
+      .success
+      .value
 
   "DirectorLoanAccountLiabilities Controller" - {
 
@@ -83,11 +89,15 @@ class DirectorLoanAccountLiabilitiesControllerSpec extends SpecBase with Mockito
         .set(
           WhyAreYouMakingThisOnshoreDisclosurePage,
           Set[WhyAreYouMakingThisOnshoreDisclosure](DidNotNotifyHMRC)
-        ).success.value
+        )
+        .success
+        .value
         .set(
           WhyYouSubmittedAnInaccurateOnshoreReturnPage,
           Set[WhyYouSubmittedAnInaccurateOnshoreReturn](NoReasonableCare)
-        ).success.value
+        )
+        .success
+        .value
 
       setupMockSessionResponse(Some(ua))
 
@@ -112,7 +122,10 @@ class DirectorLoanAccountLiabilitiesControllerSpec extends SpecBase with Mockito
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(answer), NormalMode, index, penaltyFlags)(request, messages).toString
+      contentAsString(result) mustEqual view(form.fill(answer), NormalMode, index, penaltyFlags)(
+        request,
+        messages
+      ).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -142,14 +155,18 @@ class DirectorLoanAccountLiabilitiesControllerSpec extends SpecBase with Mockito
 
     "must return a Bad Request and errors when invalid data is submitted" in {
       val ua = emptyUserAnswers
-              .set(
-                  WhyAreYouMakingThisOnshoreDisclosurePage,
-                  Set[WhyAreYouMakingThisOnshoreDisclosure](DidNotNotifyHMRC)
-                ).success.value
-                .set(
-                  WhyYouSubmittedAnInaccurateOnshoreReturnPage,
-                  Set[WhyYouSubmittedAnInaccurateOnshoreReturn](NoReasonableCare)
-                ).success.value
+        .set(
+          WhyAreYouMakingThisOnshoreDisclosurePage,
+          Set[WhyAreYouMakingThisOnshoreDisclosure](DidNotNotifyHMRC)
+        )
+        .success
+        .value
+        .set(
+          WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+          Set[WhyYouSubmittedAnInaccurateOnshoreReturn](NoReasonableCare)
+        )
+        .success
+        .value
 
       setupMockSessionResponse(Some(ua))
 

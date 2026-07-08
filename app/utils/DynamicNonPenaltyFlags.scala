@@ -17,8 +17,8 @@
 package utils
 
 case class DynamicNonPenaltyFlags(
-                                   showInaccurateReasonableParagraph: Boolean,
-                                   showLateReturnReasonableParagraph: Boolean,
-                                   showNotifyReasonableParagraph: Boolean,
-                                   showPenaltyTextbox: Boolean
-                                 )
+  showInaccurateReasonableParagraph: Boolean,
+  showLateReturnReasonableParagraph: Boolean,
+  showNotifyReasonableParagraph: Boolean,
+  showPenaltyTextbox: Boolean
+)

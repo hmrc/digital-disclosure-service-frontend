@@ -21,8 +21,7 @@ import models.WhyDidYouNotFileAReturnOnTimeOffshore.ReasonableExcuse
 import models.WhyDidYouNotNotify.ReasonableExcuse
 import models.WhyYouSubmittedAnInaccurateReturn.ReasonableMistake
 import models.{UserAnswers, WhyAreYouMakingThisDisclosure, WhyDidYouNotFileAReturnOnTimeOffshore, WhyDidYouNotNotify, WhyYouSubmittedAnInaccurateReturn}
-import pages.{WhyAreYouMakingThisDisclosurePage, WhyDidYouNotFileAReturnOnTimeOffshorePage,
-  WhyDidYouNotNotifyPage, WhyYouSubmittedAnInaccurateOffshoreReturnPage}
+import pages.{WhyAreYouMakingThisDisclosurePage, WhyDidYouNotFileAReturnOnTimeOffshorePage, WhyDidYouNotNotifyPage, WhyYouSubmittedAnInaccurateOffshoreReturnPage}
 import utils.DynamicNonPenaltyFlags
 
 object ReasonableExcuseHelper {
