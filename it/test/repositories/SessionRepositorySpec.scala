@@ -61,12 +61,6 @@ class SessionRepositorySpec
   private val sessionRepository: SessionRepository =
     repoImpl
 
-//  protected override val repository = new SessionRepositoryImpl(
-//    mongoComponent = mongoComponent,
-//    appConfig      = mockAppConfig,
-//    clock          = stubClock
-//  )
-
   ".set" - {
 
     "must set the last updated time on the supplied user answers to `now`, and save them" in {
