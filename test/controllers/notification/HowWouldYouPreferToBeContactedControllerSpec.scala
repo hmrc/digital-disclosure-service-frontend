@@ -82,7 +82,7 @@ class HowWouldYouPreferToBeContactedControllerSpec extends SpecBase with Mockito
 
     "must redirect to the next page when valid data is submitted" in {
 
-      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
+      when(mockSessionService.set(any())(using any())) thenReturn Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val request =
