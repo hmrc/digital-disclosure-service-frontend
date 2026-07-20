@@ -28,7 +28,7 @@ class TheMaximumValueOfAllAssetsViewSpec extends ViewSpecBase with ViewMatchers 
   val form                                 = new TheMaximumValueOfAllAssetsFormProvider()()
   val page: TheMaximumValueOfAllAssetsView = inject[TheMaximumValueOfAllAssetsView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode)(using request, messages)
 
   "view" should {
 

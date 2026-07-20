@@ -64,7 +64,7 @@ class SubmissionStoreConnectorSpec extends AnyFreeSpec with Matchers with ScalaF
           )
       )
 
-      connector.getSubmission("123", "456")(hc).futureValue mustEqual Some(testSubmission)
+      connector.getSubmission("123", "456")(using hc).futureValue mustEqual Some(testSubmission)
     }
 
     "must return a successful future when the store responds with NOT_FOUND" in {
@@ -74,7 +74,7 @@ class SubmissionStoreConnectorSpec extends AnyFreeSpec with Matchers with ScalaF
           .willReturn(aResponse().withStatus(NOT_FOUND))
       )
 
-      connector.getSubmission("123", "456")(hc).futureValue mustEqual None
+      connector.getSubmission("123", "456")(using hc).futureValue mustEqual None
     }
 
     "must return a failed future when the store responds with OK but a different object" in {
@@ -84,7 +84,7 @@ class SubmissionStoreConnectorSpec extends AnyFreeSpec with Matchers with ScalaF
           .willReturn(aResponse().withBody("""{ "element" : "value" }""").withStatus(OK))
       )
 
-      val exception = connector.getSubmission("123", "456")(hc).failed.futureValue
+      val exception = connector.getSubmission("123", "456")(using hc).failed.futureValue
       exception mustEqual SubmissionStoreConnector.UnexpectedResponseException(200, """{ "element" : "value" }""")
     }
 
@@ -95,7 +95,7 @@ class SubmissionStoreConnectorSpec extends AnyFreeSpec with Matchers with ScalaF
           .willReturn(aResponse().withBody("body").withStatus(INTERNAL_SERVER_ERROR))
       )
 
-      val exception = connector.getSubmission("123", "456")(hc).failed.futureValue
+      val exception = connector.getSubmission("123", "456")(using hc).failed.futureValue
       exception mustEqual SubmissionStoreConnector.UnexpectedResponseException(500, "body")
     }
 
@@ -106,7 +106,7 @@ class SubmissionStoreConnectorSpec extends AnyFreeSpec with Matchers with ScalaF
           .willReturn(aResponse().withFault(Fault.RANDOM_DATA_THEN_CLOSE))
       )
 
-      connector.getSubmission("123", "456")(hc).failed.futureValue
+      connector.getSubmission("123", "456")(using hc).failed.futureValue
     }
 
   }
@@ -129,7 +129,7 @@ class SubmissionStoreConnectorSpec extends AnyFreeSpec with Matchers with ScalaF
           )
       )
 
-      connector.getAllSubmissions("123")(hc).futureValue mustEqual Seq(testSubmission)
+      connector.getAllSubmissions("123")(using hc).futureValue mustEqual Seq(testSubmission)
     }
 
     "must return a successful future when the store responds with NOT_FOUND" in {
@@ -139,7 +139,7 @@ class SubmissionStoreConnectorSpec extends AnyFreeSpec with Matchers with ScalaF
           .willReturn(aResponse().withStatus(NOT_FOUND))
       )
 
-      connector.getAllSubmissions("123")(hc).futureValue mustEqual Nil
+      connector.getAllSubmissions("123")(using hc).futureValue mustEqual Nil
     }
 
     "must return a failed future when the store responds with OK but a different object" in {
@@ -149,7 +149,7 @@ class SubmissionStoreConnectorSpec extends AnyFreeSpec with Matchers with ScalaF
           .willReturn(aResponse().withBody("""{ "element" : "value" }""").withStatus(OK))
       )
 
-      val exception = connector.getAllSubmissions("123")(hc).failed.futureValue
+      val exception = connector.getAllSubmissions("123")(using hc).failed.futureValue
       exception mustEqual SubmissionStoreConnector.UnexpectedResponseException(200, """{ "element" : "value" }""")
     }
 
@@ -160,7 +160,7 @@ class SubmissionStoreConnectorSpec extends AnyFreeSpec with Matchers with ScalaF
           .willReturn(aResponse().withBody("body").withStatus(INTERNAL_SERVER_ERROR))
       )
 
-      val exception = connector.getAllSubmissions("123")(hc).failed.futureValue
+      val exception = connector.getAllSubmissions("123")(using hc).failed.futureValue
       exception mustEqual SubmissionStoreConnector.UnexpectedResponseException(500, "body")
     }
 
@@ -171,7 +171,7 @@ class SubmissionStoreConnectorSpec extends AnyFreeSpec with Matchers with ScalaF
           .willReturn(aResponse().withFault(Fault.RANDOM_DATA_THEN_CLOSE))
       )
 
-      connector.getAllSubmissions("123")(hc).failed.futureValue
+      connector.getAllSubmissions("123")(using hc).failed.futureValue
     }
 
   }
@@ -194,7 +194,7 @@ class SubmissionStoreConnectorSpec extends AnyFreeSpec with Matchers with ScalaF
           )
       )
 
-      connector.setSubmission(testSubmission)(hc).futureValue mustEqual NoContent
+      connector.setSubmission(testSubmission)(using hc).futureValue mustEqual NoContent
     }
 
 
@@ -206,7 +206,7 @@ class SubmissionStoreConnectorSpec extends AnyFreeSpec with Matchers with ScalaF
           .willReturn(aResponse().withBody("body").withStatus(INTERNAL_SERVER_ERROR))
       )
 
-      val exception = connector.setSubmission(testSubmission)(hc).failed.futureValue
+      val exception = connector.setSubmission(testSubmission)(using hc).failed.futureValue
       exception mustEqual SubmissionStoreConnector.UnexpectedResponseException(500, "body")
     }
 
@@ -218,7 +218,7 @@ class SubmissionStoreConnectorSpec extends AnyFreeSpec with Matchers with ScalaF
           .willReturn(aResponse().withFault(Fault.RANDOM_DATA_THEN_CLOSE))
       )
 
-      connector.setSubmission(testSubmission)(hc).failed.futureValue
+      connector.setSubmission(testSubmission)(using hc).failed.futureValue
     }
 
   }
@@ -238,7 +238,7 @@ class SubmissionStoreConnectorSpec extends AnyFreeSpec with Matchers with ScalaF
           )
       )
 
-      connector.deleteSubmission("123", "456")(hc).futureValue mustEqual NoContent
+      connector.deleteSubmission("123", "456")(using hc).futureValue mustEqual NoContent
     }
 
 
@@ -249,7 +249,7 @@ class SubmissionStoreConnectorSpec extends AnyFreeSpec with Matchers with ScalaF
           .willReturn(aResponse().withBody("body").withStatus(INTERNAL_SERVER_ERROR))
       )
 
-      val exception = connector.deleteSubmission("123", "456")(hc).failed.futureValue
+      val exception = connector.deleteSubmission("123", "456")(using hc).failed.futureValue
       exception mustEqual SubmissionStoreConnector.UnexpectedResponseException(500, "body")
     }
 
@@ -260,7 +260,7 @@ class SubmissionStoreConnectorSpec extends AnyFreeSpec with Matchers with ScalaF
           .willReturn(aResponse().withFault(Fault.RANDOM_DATA_THEN_CLOSE))
       )
 
-      connector.deleteSubmission("123", "456")(hc).failed.futureValue
+      connector.deleteSubmission("123", "456")(using hc).failed.futureValue
     }
 
   }

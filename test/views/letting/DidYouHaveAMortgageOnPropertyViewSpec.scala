@@ -28,7 +28,7 @@ class DidYouHaveAMortgageOnPropertyViewSpec extends ViewSpecBase with ViewMatche
   val form                                    = new DidYouHaveAMortgageOnPropertyFormProvider()()
   val page: DidYouHaveAMortgageOnPropertyView = inject[DidYouHaveAMortgageOnPropertyView]
 
-  private def createView: Html = page(form, 0, NormalMode)(request, messages)
+  private def createView: Html = page(form, 0, NormalMode)(using request, messages)
 
   "view" should {
 

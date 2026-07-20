@@ -33,7 +33,7 @@ class WhyAreYouMakingThisOnshoreDisclosureViewSpec extends ViewSpecBase with Vie
     val areTheyTheIndividual = true
     val entity               = RelatesTo.AnIndividual
 
-    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
 
     val view = createView
 
@@ -74,7 +74,7 @@ class WhyAreYouMakingThisOnshoreDisclosureViewSpec extends ViewSpecBase with Vie
     val areTheyTheIndividual = false
     val entity               = RelatesTo.AnIndividual
 
-    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
 
     val view = createView
 
@@ -92,7 +92,7 @@ class WhyAreYouMakingThisOnshoreDisclosureViewSpec extends ViewSpecBase with Vie
     val areTheyTheIndividual = false
     val entity               = RelatesTo.AnEstate
 
-    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
 
     val view = createView
 
@@ -106,7 +106,7 @@ class WhyAreYouMakingThisOnshoreDisclosureViewSpec extends ViewSpecBase with Vie
     val areTheyTheIndividual = false
     val entity               = RelatesTo.ACompany
 
-    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
 
     val view = createView
 
@@ -120,7 +120,7 @@ class WhyAreYouMakingThisOnshoreDisclosureViewSpec extends ViewSpecBase with Vie
     val areTheyTheIndividual = false
     val entity               = RelatesTo.ALimitedLiabilityPartnership
 
-    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
 
     val view = createView
 
@@ -134,7 +134,7 @@ class WhyAreYouMakingThisOnshoreDisclosureViewSpec extends ViewSpecBase with Vie
     val areTheyTheIndividual = false
     val entity               = RelatesTo.ATrust
 
-    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
 
     val view = createView
 

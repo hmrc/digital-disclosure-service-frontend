@@ -20,7 +20,7 @@ import pages._
 
 trait SectionPages {
 
-  val aboutYouPages: List[QuestionPage[_]] = List(
+  val aboutYouPages: List[QuestionPage[?]] = List(
     OnshoreLiabilitiesPage,
     OffshoreLiabilitiesPage,
     WhatIsYourFullNamePage,
@@ -38,7 +38,7 @@ trait SectionPages {
     WhatIsYourUniqueTaxReferencePage
   )
 
-  val aboutIndividualPages: List[QuestionPage[_]] = List(
+  val aboutIndividualPages: List[QuestionPage[?]] = List(
     WhatIsTheIndividualsFullNamePage,
     WhatIsTheIndividualDateOfBirthPage,
     WhatIsTheIndividualOccupationPage,
@@ -51,23 +51,23 @@ trait SectionPages {
     IndividualAddressLookupPage
   )
 
-  val aboutCompanyPages: List[QuestionPage[_]] = List(
+  val aboutCompanyPages: List[QuestionPage[?]] = List(
     WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutPage,
     WhatIsTheCompanyRegistrationNumberPage,
     CompanyAddressLookupPage
   )
 
-  val aboutLLPPages: List[QuestionPage[_]] = List(
+  val aboutLLPPages: List[QuestionPage[?]] = List(
     WhatIsTheLLPNamePage,
     LLPAddressLookupPage
   )
 
-  val aboutTrustPages: List[QuestionPage[_]] = List(
+  val aboutTrustPages: List[QuestionPage[?]] = List(
     WhatIsTheTrustNamePage,
     TrustAddressLookupPage
   )
 
-  val aboutPersonWhoDiedPages: List[QuestionPage[_]] = List(
+  val aboutPersonWhoDiedPages: List[QuestionPage[?]] = List(
     WhatWasTheNameOfThePersonWhoDiedPage,
     WhatWasThePersonDateOfBirthPage,
     WhatWasThePersonOccupationPage,
@@ -80,16 +80,16 @@ trait SectionPages {
     EstateAddressLookupPage
   )
 
-  val areYouTheOrganisationPages: List[QuestionPage[_]] = List(
+  val areYouTheOrganisationPages: List[QuestionPage[?]] = List(
     AreYouRepresentingAnOrganisationPage,
     WhatIsTheNameOfTheOrganisationYouRepresentPage
   )
 
-  val areYouTheEntityPages: List[QuestionPage[_]] = List(
+  val areYouTheEntityPages: List[QuestionPage[?]] = List(
     AreYouTheEntityPage
   )
 
-  val allEntityPages: List[QuestionPage[_]] = aboutIndividualPages :::
+  val allEntityPages: List[QuestionPage[?]] = aboutIndividualPages :::
     aboutCompanyPages :::
     aboutLLPPages :::
     aboutTrustPages :::

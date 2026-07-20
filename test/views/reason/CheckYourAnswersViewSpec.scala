@@ -27,7 +27,7 @@ class CheckYourAnswersViewSpec extends ViewSpecBase with ViewMatchers {
 
   val page: CheckYourAnswersView = inject[CheckYourAnswersView]
 
-  private def createView(viewModel: CheckYourAnswersViewModel): Html = page(viewModel)(request, messages)
+  private def createView(viewModel: CheckYourAnswersViewModel): Html = page(viewModel)(using request, messages)
 
   "view where the advice section wasn't entered" should {
 

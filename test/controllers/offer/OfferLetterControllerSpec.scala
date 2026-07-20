@@ -60,7 +60,7 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
       val view = application.injector.instanceOf[OfferLetterView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, "", "", 0, "individual", areTheyTheIndividual = false)(
+      contentAsString(result) mustEqual view(form, "", "", 0, "individual", areTheyTheIndividual = false)(using
         request,
         messages
       ).toString
@@ -94,7 +94,7 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
         0,
         "individual",
         areTheyTheIndividual = true
-      )(request, messages).toString
+      )(using request, messages).toString
     }
 
     "must return OK and the correct view for an individual by an agent" in {
@@ -126,7 +126,7 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
         0,
         "individual",
         areTheyTheIndividual = false
-      )(request, messages).toString
+      )(using request, messages).toString
     }
 
     "must return OK and the correct view for a company" in {
@@ -157,7 +157,7 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
         0,
         "company",
         areTheyTheIndividual = false
-      )(request, messages).toString
+      )(using request, messages).toString
     }
 
     "must return OK and the correct view for a trust" in {
@@ -190,7 +190,7 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
         "trust",
         "My name",
         areTheyTheIndividual = false
-      )(request, messages).toString
+      )(using request, messages).toString
     }
 
     "must return OK and the correct view for an llp" in {
@@ -222,7 +222,7 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
         "llp",
         "My name",
         areTheyTheIndividual = false
-      )(request, messages).toString
+      )(using request, messages).toString
     }
 
     "must return OK and the correct view for an estate" in {
@@ -255,7 +255,7 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
         "estate",
         "My name",
         areTheyTheIndividual = false
-      )(request, messages).toString
+      )(using request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -279,12 +279,12 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
         0,
         "individual",
         areTheyTheIndividual = false
-      )(request, messages).toString
+      )(using request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       object FakeDisclosureSubmissionService extends DisclosureSubmissionService {
@@ -327,7 +327,7 @@ class OfferLetterControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, "", "", 0, "individual", areTheyTheIndividual = false)(
+      contentAsString(result) mustEqual view(boundForm, "", "", 0, "individual", areTheyTheIndividual = false)(using
         request,
         messages
       ).toString

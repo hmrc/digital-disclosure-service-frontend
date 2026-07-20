@@ -29,7 +29,7 @@ class ContractualDisclosureFacilityViewSpec extends ViewSpecBase with ViewMatche
   val page: ContractualDisclosureFacilityView = inject[ContractualDisclosureFacilityView]
   val entity                                  = RelatesTo.ACompany
 
-  private def createView: Html = page(form, NormalMode, entity)(request, messages)
+  private def createView: Html = page(form, NormalMode, entity)(using request, messages)
 
   "view" should {
 

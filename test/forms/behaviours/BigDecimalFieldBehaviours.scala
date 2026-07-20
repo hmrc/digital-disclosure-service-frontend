@@ -20,7 +20,7 @@ import play.api.data.{Form, FormError}
 
 trait BigDecimalFieldBehaviours extends FieldBehaviours {
 
-  def decimalField(form: Form[_], fieldName: String, nonNumericError: FormError): Unit =
+  def decimalField(form: Form[?], fieldName: String, nonNumericError: FormError): Unit =
     "not bind non-numeric numbers" in {
 
       forAll(nonNumerics -> "nonNumeric") { nonNumeric =>
@@ -29,45 +29,45 @@ trait BigDecimalFieldBehaviours extends FieldBehaviours {
       }
     }
 
-  def bigdecimalFieldWithMinimumZero(form: Form[_], fieldName: String, expectedError: FormError): Unit =
+  def bigdecimalFieldWithMinimumZero(form: Form[?], fieldName: String, expectedError: FormError): Unit =
     s"not bind decimal below zero" in {
 
-      forAll(bigdecimalsBelowZero -> "decimalBelowMin") { number: BigDecimal =>
+      forAll(bigdecimalsBelowZero -> "decimalBelowMin") { (number: BigDecimal) =>
         val result = form.bind(Map(fieldName -> number.toString)).apply(fieldName)
         result.errors must contain only expectedError
       }
     }
 
   def bigdecimalFieldWithMinimum(
-    form: Form[_],
+    form: Form[?],
     fieldName: String,
     minimum: BigDecimal,
     expectedError: FormError
   ): Unit =
     s"not bind decimal below $minimum" in {
 
-      forAll(bigdecimalsBelowValue(minimum) -> "decimalBelowMin") { number: BigDecimal =>
+      forAll(bigdecimalsBelowValue(minimum) -> "decimalBelowMin") { (number: BigDecimal) =>
         val result = form.bind(Map(fieldName -> number.toString)).apply(fieldName)
         result.errors must contain only expectedError
       }
     }
 
   def bigdecimalFieldWithMaximum(
-    form: Form[_],
+    form: Form[?],
     fieldName: String,
     maximum: BigDecimal,
     expectedError: FormError
   ): Unit =
     s"not bind decimal above $maximum" in {
 
-      forAll(bigdecimalsAboveValue(maximum) -> "decimalAboveMax") { number: BigDecimal =>
+      forAll(bigdecimalsAboveValue(maximum) -> "decimalAboveMax") { (number: BigDecimal) =>
         val result = form.bind(Map(fieldName -> number.toString)).apply(fieldName)
         result.errors must contain only expectedError
       }
     }
 
   def bigdecimalFieldWithRange(
-    form: Form[_],
+    form: Form[?],
     fieldName: String,
     minimum: BigDecimal,
     maximum: BigDecimal,

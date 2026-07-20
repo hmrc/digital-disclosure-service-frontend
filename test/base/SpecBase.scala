@@ -77,7 +77,7 @@ trait SpecBase
   when(mockSessionRepository.get(any(), any())).thenReturn(Future.successful(None))
 
   def setupMockSessionResponse(userAnswers: Option[UserAnswers] = None): OngoingStubbing[Future[Option[UserAnswers]]] =
-    when(mockSessionService.getSession(any(), any())(any())).thenReturn(Future.successful(userAnswers))
+    when(mockSessionService.getSession(any(), any())(using any())).thenReturn(Future.successful(userAnswers))
 
   val applicationBuilder: GuiceApplicationBuilder = new GuiceApplicationBuilder().overrides(
     bind[DataRequiredAction].to[DataRequiredActionImpl],

@@ -29,7 +29,7 @@ class WhatWasThePercentageIncomeYouReceivedFromPropertyViewSpec extends ViewSpec
   val page: WhatWasThePercentageIncomeYouReceivedFromPropertyView =
     inject[WhatWasThePercentageIncomeYouReceivedFromPropertyView]
 
-  private def createView: Html = page(form, 0, NormalMode)(request, messages)
+  private def createView: Html = page(form, 0, NormalMode)(using request, messages)
 
   "view" should {
 

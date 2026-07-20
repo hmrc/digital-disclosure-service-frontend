@@ -28,7 +28,7 @@ class HowMuchTaxHasNotBeenIncludedViewSpec extends ViewSpecBase with ViewMatcher
   val form                                   = new HowMuchTaxHasNotBeenIncludedFormProvider()()
   val page: HowMuchTaxHasNotBeenIncludedView = inject[HowMuchTaxHasNotBeenIncludedView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode)(using request, messages)
 
   "view" should {
 

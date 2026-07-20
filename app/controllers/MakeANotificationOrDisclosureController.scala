@@ -84,7 +84,7 @@ class MakeANotificationOrDisclosureController @Inject() (
   }
 
   def auditStartOfJourney(submissionType: SubmissionType, newUserAnswers: UserAnswers)(implicit
-    request: OptionalDataRequest[_]
+    request: OptionalDataRequest[?]
   ) =
     submissionType match {
       case SubmissionType.Notification =>

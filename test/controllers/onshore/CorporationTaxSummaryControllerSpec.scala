@@ -39,14 +39,13 @@ class CorporationTaxSummaryControllerSpec extends SpecBase {
 
       val request                                              = FakeRequest(GET, routes.CorporationTaxSummaryController.onPageLoad(mode).url)
       val viewModel: CorporationTaxLiabilitiesSummaryViewModel =
-        new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText).create(userAnswers)(messages)
-
-      val result = route(application, request).value
+        new CorporationTaxLiabilitiesSummaryViewModelCreation(revealFullText).create(userAnswers)(using messages)
+      val result                                               = route(application, request).value
 
       val view = application.injector.instanceOf[CorporationTaxSummaryView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(viewModel, mode)(request, messages).toString
+      contentAsString(result) mustEqual view(viewModel, mode)(using request, messages).toString
     }
   }
 }

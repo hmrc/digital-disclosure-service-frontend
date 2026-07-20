@@ -32,12 +32,12 @@ object SummaryListNoValue {
   def defaultObject: SummaryListNoValue = SummaryListNoValue()
 
   implicit def jsonReads: Reads[SummaryListNoValue] = (
-    (__ \ "rows").readWithDefault[Seq[SummaryListRowNoValue]](defaultObject.rows)(
+    (__ \ "rows").readWithDefault[Seq[SummaryListRowNoValue]](defaultObject.rows)(using
       forgivingSeqReads[SummaryListRowNoValue]
     ) and
       (__ \ "classes").readWithDefault[String](defaultObject.classes) and
-      (__ \ "attributes").readWithDefault[Map[String, String]](defaultObject.attributes)(attributesReads)
-  )(SummaryListNoValue.apply _)
+      (__ \ "attributes").readWithDefault[Map[String, String]](defaultObject.attributes)(using attributesReads)
+  )(SummaryListNoValue.apply)
 
   implicit def jsonWrites: OWrites[SummaryListNoValue] = Json.writes[SummaryListNoValue]
 }

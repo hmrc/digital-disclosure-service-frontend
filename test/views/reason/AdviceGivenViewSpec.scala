@@ -28,7 +28,7 @@ class AdviceGivenViewSpec extends ViewSpecBase with ViewMatchers {
   val form                  = new AdviceGivenFormProvider()()
   val page: AdviceGivenView = inject[AdviceGivenView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode)(using request, messages)
 
   "view" should {
 

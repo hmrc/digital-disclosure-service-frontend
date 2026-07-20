@@ -28,7 +28,7 @@ class DoYouHaveACaseReferenceViewSpec extends ViewSpecBase with ViewMatchers {
   val form                              = new DoYouHaveACaseReferenceFormProvider()()
   val page: DoYouHaveACaseReferenceView = inject[DoYouHaveACaseReferenceView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode)(using request, messages)
 
   "view" should {
 

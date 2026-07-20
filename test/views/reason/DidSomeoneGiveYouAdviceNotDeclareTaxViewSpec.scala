@@ -33,7 +33,7 @@ class DidSomeoneGiveYouAdviceNotDeclareTaxViewSpec extends ViewSpecBase with Vie
   val entity               = arbitrary[RelatesTo].sample.value
   val form                 = new DidSomeoneGiveYouAdviceNotDeclareTaxFormProvider()(areTheyTheIndividual, entity)
 
-  private def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+  private def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
 
   "view" should {
 

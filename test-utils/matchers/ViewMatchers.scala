@@ -116,7 +116,7 @@ trait ViewMatchers {
   def haveSummaryActionsTexts(label: String, hint: String, hintArgs: String*)(implicit
     messages: Messages
   ) =
-    haveSummaryActionsText(s"${messages(label)} ${messages(hint, hintArgs: _*)}")
+    haveSummaryActionsText(s"${messages(label)} ${messages(hint, hintArgs*)}")
 
   def haveSummaryActionsHref(value: Call) = new ElementsHasSummaryActionMatcher(value)
 
@@ -265,7 +265,7 @@ trait ViewMatchers {
       extends Matcher[Element] {
 
     override def apply(left: Element): MatchResult = {
-      val message = messages(key, args: _*)
+      val message = messages(key, args*)
       MatchResult(
         left != null && left.text().contains(message),
         s"Element did not contain message {$message}\n${actualContentWas(left)}",
@@ -279,7 +279,7 @@ trait ViewMatchers {
       extends Matcher[Elements] {
 
     override def apply(left: Elements): MatchResult = {
-      val message = messages(key, args: _*)
+      val message = messages(key, args*)
       MatchResult(
         left != null && left.text().contains(message),
         s"Elements did not contain message {$message}\n${actualContentWas(left)}",

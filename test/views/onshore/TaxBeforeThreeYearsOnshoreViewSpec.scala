@@ -29,7 +29,7 @@ class TaxBeforeThreeYearsOnshoreViewSpec extends ViewSpecBase with ViewMatchers 
   val form                                 = new TaxBeforeThreeYearsOnshoreFormProvider()(year)
   val page: TaxBeforeThreeYearsOnshoreView = inject[TaxBeforeThreeYearsOnshoreView]
 
-  private def createView: Html = page(form, NormalMode, year)(request, messages)
+  private def createView: Html = page(form, NormalMode, year)(using request, messages)
 
   "view" should {
 

@@ -81,7 +81,7 @@ class AreYouAMemberOfAnyLandlordAssociationsController @Inject() (
 
   def form(areTheyTheIndividual: Boolean, entity: RelatesTo) = formProvider(areTheyTheIndividual, entity)
 
-  def changedPages(answers: UserAnswers, newValue: Boolean): (List[QuestionPage[_]], Boolean) =
+  def changedPages(answers: UserAnswers, newValue: Boolean): (List[QuestionPage[?]], Boolean) =
     answers.get(AreYouAMemberOfAnyLandlordAssociationsPage) match {
       case Some(true) if newValue == false => (List(WhichLandlordAssociationsAreYouAMemberOfPage), true)
       case Some(false) if newValue == true => (Nil, true)

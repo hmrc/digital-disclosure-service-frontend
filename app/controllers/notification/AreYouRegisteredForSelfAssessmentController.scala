@@ -80,7 +80,7 @@ class AreYouRegisteredForSelfAssessmentController @Inject() (
   def changedPages(
     userAnswers: UserAnswers,
     newAnswer: AreYouRegisteredForSelfAssessment
-  ): (List[QuestionPage[_]], Boolean) =
+  ): (List[QuestionPage[?]], Boolean) =
     userAnswers.get(AreYouRegisteredForSelfAssessmentPage) match {
       case Some(AreYouRegisteredForSelfAssessment.YesIKnowMyUTR)
           if AreYouRegisteredForSelfAssessment.YesIKnowMyUTR != newAnswer =>

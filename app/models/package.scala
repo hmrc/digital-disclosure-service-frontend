@@ -46,7 +46,7 @@ package object models {
 
         case (first :: second :: rest, oldValue) =>
           Reads
-            .optionNoError(Reads.at[JsValue](JsPath(first :: Nil)))
+            .optionNoError(using Reads.at[JsValue](JsPath(first :: Nil)))
             .reads(oldValue)
             .flatMap { opt =>
               opt
@@ -67,8 +67,6 @@ package object models {
                   }
                 }
             }
-
-        case (_, _) => JsError("unexpected data provided")
       }
 
     private def setIndexNode(node: IdxPathNode, oldValue: JsValue, newValue: JsValue): JsResult[JsValue] = {
@@ -124,9 +122,9 @@ package object models {
         case ((_: KeyPathNode) :: Nil, _)                                              => JsError(s"cannot remove a key on $jsValue")
         case (first :: second :: rest, oldValue)                                       =>
           Reads
-            .optionNoError(Reads.at[JsValue](JsPath(first :: Nil)))
+            .optionNoError(using Reads.at[JsValue](JsPath(first :: Nil)))
             .reads(oldValue)
-            .flatMap { opt: Option[JsValue] =>
+            .flatMap { (opt: Option[JsValue]) =>
               opt
                 .map(JsSuccess(_))
                 .getOrElse {

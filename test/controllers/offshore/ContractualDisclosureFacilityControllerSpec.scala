@@ -57,7 +57,7 @@ class ContractualDisclosureFacilityControllerSpec extends SpecBase with MockitoS
       val view = application.injector.instanceOf[ContractualDisclosureFacilityView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, NormalMode, entity)(request, messages).toString
+      contentAsString(result) mustEqual view(form, NormalMode, entity)(using request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -74,12 +74,12 @@ class ContractualDisclosureFacilityControllerSpec extends SpecBase with MockitoS
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(true), NormalMode, entity)(request, messages).toString
+      contentAsString(result) mustEqual view(form.fill(true), NormalMode, entity)(using request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val request =
@@ -109,7 +109,7 @@ class ContractualDisclosureFacilityControllerSpec extends SpecBase with MockitoS
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, entity)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode, entity)(using request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

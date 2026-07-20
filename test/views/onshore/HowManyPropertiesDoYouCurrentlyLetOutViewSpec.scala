@@ -28,7 +28,7 @@ class HowManyPropertiesDoYouCurrentlyLetOutViewSpec extends ViewSpecBase with Vi
   val form                                            = new HowManyPropertiesDoYouCurrentlyLetOutFormProvider()()
   val page: HowManyPropertiesDoYouCurrentlyLetOutView = inject[HowManyPropertiesDoYouCurrentlyLetOutView]
 
-  private def createView: Html = page(form, NormalMode)(request, messages)
+  private def createView: Html = page(form, NormalMode)(using request, messages)
 
   "view" should {
 

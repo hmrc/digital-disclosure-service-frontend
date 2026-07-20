@@ -169,7 +169,7 @@ class AddressLookupServiceImpl @Inject() (
       .subflatMap { response =>
         if (response.status == OK)
           response.json
-            .validate[Address](AddressLookupServiceImpl.addressLookupResponseReads)
+            .validate[Address](using AddressLookupServiceImpl.addressLookupResponseReads)
             .asEither
             .leftMap(formatErrors)
         else Left(Error("Failed to retrieve address"))
@@ -181,7 +181,7 @@ class AddressLookupServiceImpl @Inject() (
 object AddressLookupServiceImpl {
 
   implicit val addressLookupResponseReads: Reads[Address] = (
-    (JsPath \ "address" \ "lines").read[Array[String]](minLength[Array[String]](1)) and
+    (JsPath \ "address" \ "lines").read[Array[String]](using minLength[Array[String]](1)) and
       (JsPath \ "address" \ "postcode").readNullable[String] and
       (JsPath \ "address" \ "country" \ "code").read[String].map(Country(_))
   ).apply((lines, postcode, country) =>

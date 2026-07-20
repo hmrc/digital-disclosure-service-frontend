@@ -59,7 +59,10 @@ class WhyDidYouNotNotifyOnshoreControllerSpec extends SpecBase with MockitoSugar
       val view    = application.injector.instanceOf[WhyDidYouNotNotifyOnshoreView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, NormalMode, areTheyTheIndividual, entity)(request, messages).toString
+      contentAsString(result) mustEqual view(form, NormalMode, areTheyTheIndividual, entity)(using
+        request,
+        messages
+      ).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -84,7 +87,7 @@ class WhyDidYouNotNotifyOnshoreControllerSpec extends SpecBase with MockitoSugar
         NormalMode,
         areTheyTheIndividual,
         entity
-      )(request, messages).toString
+      )(using request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
@@ -93,7 +96,7 @@ class WhyDidYouNotNotifyOnshoreControllerSpec extends SpecBase with MockitoSugar
         ua2 <- ua.set(RelatesToPage, RelatesTo.AnIndividual)
       } yield ua2).success.value
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(userAnswers))
 
       val request =
@@ -126,7 +129,7 @@ class WhyDidYouNotNotifyOnshoreControllerSpec extends SpecBase with MockitoSugar
       val result    = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(
+      contentAsString(result) mustEqual view(boundForm, NormalMode, areTheyTheIndividual, entity)(using
         request,
         messages
       ).toString

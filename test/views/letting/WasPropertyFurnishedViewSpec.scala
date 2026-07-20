@@ -29,7 +29,7 @@ class WasPropertyFurnishedViewSpec extends ViewSpecBase with ViewMatchers {
   val page: WasPropertyFurnishedView = inject[WasPropertyFurnishedView]
 
   val index                    = 0
-  private def createView: Html = page(form, index, NormalMode)(request, messages)
+  private def createView: Html = page(form, index, NormalMode)(using request, messages)
 
   "view" should {
 

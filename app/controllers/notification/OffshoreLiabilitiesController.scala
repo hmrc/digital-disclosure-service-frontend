@@ -78,7 +78,7 @@ class OffshoreLiabilitiesController @Inject() (
   }
 
   def clearOffshoreLiabilities(userAnswers: UserAnswers, value: Boolean)(implicit
-    request: DataRequest[_]
+    request: DataRequest[?]
   ): Try[UserAnswers] =
     userAnswers.get(OffshoreLiabilitiesPage) match {
       case Some(true) if value == false =>

@@ -79,7 +79,7 @@ trait Constraints {
       case str if str.filterNot(_.isWhitespace).matches(regex) =>
         Valid
       case _                                                   =>
-        Invalid(errorKey, args: _*)
+        Invalid(errorKey, args*)
     }
 
   protected def maxLength(maximum: Int, errorKey: String): Constraint[String] =
@@ -95,7 +95,7 @@ trait Constraints {
       case str if str.length <= maximum =>
         Valid
       case _                            =>
-        Invalid(errorKey, args: _*)
+        Invalid(errorKey, args*)
     }
 
   protected def minLength(minimum: Int, errorKey: String): Constraint[String] =
@@ -109,7 +109,7 @@ trait Constraints {
   protected def maxDate(maximum: LocalDate, errorKey: String, args: Any*): Constraint[LocalDate] =
     Constraint {
       case date if date.isAfter(maximum) =>
-        Invalid(errorKey, args: _*)
+        Invalid(errorKey, args*)
       case _                             =>
         Valid
     }
@@ -117,12 +117,12 @@ trait Constraints {
   protected def minDate(minimum: LocalDate, errorKey: String, args: Any*): Constraint[LocalDate] =
     Constraint {
       case date if date.isBefore(minimum) =>
-        Invalid(errorKey, args: _*)
+        Invalid(errorKey, args*)
       case _                              =>
         Valid
     }
 
-  protected def nonEmptySet(errorKey: String): Constraint[Set[_]] =
+  protected def nonEmptySet(errorKey: String): Constraint[Set[?]] =
     Constraint {
       case set if set.nonEmpty =>
         Valid

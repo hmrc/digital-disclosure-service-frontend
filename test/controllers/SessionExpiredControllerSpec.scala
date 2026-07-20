@@ -34,7 +34,7 @@ class SessionExpiredControllerSpec extends SpecBase with ScalaFutures {
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view()(messages, request).toString
+      contentAsString(result) mustEqual view()(using messages, request).toString
     }
   }
 }

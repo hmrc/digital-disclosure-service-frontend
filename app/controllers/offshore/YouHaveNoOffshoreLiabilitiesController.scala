@@ -19,7 +19,7 @@ package controllers.offshore
 import controllers.actions._
 import models.WhyAreYouMakingThisDisclosure._
 import models.{Behaviour, RelatesTo, UserAnswers}
-import pages.{RelatesToPage, WhyAreYouMakingThisDisclosurePage}
+import pages.RelatesToPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController

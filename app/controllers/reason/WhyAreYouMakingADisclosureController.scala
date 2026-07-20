@@ -78,7 +78,7 @@ class WhyAreYouMakingADisclosureController @Inject() (
   def changedPages(
     userAnswers: UserAnswers,
     newValue: Set[WhyAreYouMakingADisclosure]
-  ): (List[QuestionPage[_]], Boolean) =
+  ): (List[QuestionPage[?]], Boolean) =
     userAnswers.get(WhyAreYouMakingADisclosurePage) match {
       case Some(oldValue) if !oldValue.contains(Other) && newValue.contains(Other) => (Nil, true)
       case Some(oldValue) if oldValue.contains(Other) && !newValue.contains(Other) =>

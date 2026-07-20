@@ -46,7 +46,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
       val result = route(application, request).value
 
-      val backgroundList            = SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(messages)).flatten)
+      val backgroundList            = SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(using messages)).flatten)
       val aboutYouList              = SummaryListViewModel(Seq.empty)
       val aboutTheIndividualList    = None
       val aboutTheCompanyList       = None
@@ -60,7 +60,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       )
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(list, true, true, false)(request, messages).toString
+      contentAsString(result) mustEqual view(list, true, true, false)(using request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
@@ -81,14 +81,13 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
       setupMockSessionResponse(Some(ua))
 
-      val list = summaryList(messages)
-
+      val list    = summaryList(messages)
       val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad.url)
 
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(list, isTheEntity, true, false)(request, messages).toString
+      contentAsString(result) mustEqual view(list, isTheEntity, true, false)(using request, messages).toString
     }
 
     "must return OK and the correct view for a GET when ReceivedALetterPage is populated" in {
@@ -96,7 +95,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
           SummaryListViewModel(
-            Seq(ReceivedALetterSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten
+            Seq(ReceivedALetterSummary.row(ua)(using messages), LiabilitiesSummary.row(ua)(using messages)).flatten
           ),
           SummaryListViewModel(Seq.empty)
         )
@@ -108,7 +107,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
           SummaryListViewModel(
-            Seq(LetterReferenceSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten
+            Seq(LetterReferenceSummary.row(ua)(using messages), LiabilitiesSummary.row(ua)(using messages)).flatten
           ),
           SummaryListViewModel(Seq.empty)
         )
@@ -121,8 +120,8 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         SummaryLists(
           SummaryListViewModel(
             Seq(
-              RelatesToSummary.row(uaWithRelatesTo)(messages),
-              LiabilitiesSummary.row(uaWithRelatesTo)(messages)
+              RelatesToSummary.row(uaWithRelatesTo)(using messages),
+              LiabilitiesSummary.row(uaWithRelatesTo)(using messages)
             ).flatten
           ),
           SummaryListViewModel(Seq.empty),
@@ -137,8 +136,8 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         SummaryLists(
           SummaryListViewModel(
             Seq(
-              RelatesToSummary.row(uaWithRelatesTo)(messages),
-              LiabilitiesSummary.row(uaWithRelatesTo)(messages)
+              RelatesToSummary.row(uaWithRelatesTo)(using messages),
+              LiabilitiesSummary.row(uaWithRelatesTo)(using messages)
             ).flatten
           ),
           SummaryListViewModel(Seq.empty),
@@ -154,8 +153,8 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         SummaryLists(
           SummaryListViewModel(
             Seq(
-              RelatesToSummary.row(uaWithRelatesTo)(messages),
-              LiabilitiesSummary.row(uaWithRelatesTo)(messages)
+              RelatesToSummary.row(uaWithRelatesTo)(using messages),
+              LiabilitiesSummary.row(uaWithRelatesTo)(using messages)
             ).flatten
           ),
           SummaryListViewModel(Seq.empty),
@@ -170,8 +169,8 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         SummaryLists(
           SummaryListViewModel(
             Seq(
-              RelatesToSummary.row(uaWithRelatesTo)(messages),
-              LiabilitiesSummary.row(uaWithRelatesTo)(messages)
+              RelatesToSummary.row(uaWithRelatesTo)(using messages),
+              LiabilitiesSummary.row(uaWithRelatesTo)(using messages)
             ).flatten
           ),
           SummaryListViewModel(Seq.empty),
@@ -188,7 +187,10 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
           SummaryListViewModel(
-            Seq(AreYouRepresentingAnOrganisationSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten
+            Seq(
+              AreYouRepresentingAnOrganisationSummary.row(ua)(using messages),
+              LiabilitiesSummary.row(ua)(using messages)
+            ).flatten
           ),
           SummaryListViewModel(Seq.empty),
           None
@@ -205,8 +207,8 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         SummaryLists(
           SummaryListViewModel(
             Seq(
-              WhatIsTheNameOfTheOrganisationYouRepresentSummary.row(ua)(messages),
-              LiabilitiesSummary.row(ua)(messages)
+              WhatIsTheNameOfTheOrganisationYouRepresentSummary.row(ua)(using messages),
+              LiabilitiesSummary.row(ua)(using messages)
             ).flatten
           ),
           SummaryListViewModel(Seq.empty),
@@ -219,7 +221,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       val ua = UserAnswers("id", "session-123").set(OffshoreLiabilitiesPage, true).success.value
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(messages)).flatten),
+          SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(using messages)).flatten),
           SummaryListViewModel(Seq.empty)
         )
       )
@@ -229,8 +231,8 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       val ua = UserAnswers("id", "session-123").set(YourPhoneNumberPage, arbitrary[String].sample.value).success.value
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background = SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(messages)).flatten),
-          aboutYou = SummaryListViewModel(Seq(YourPhoneNumberSummary.row(ua)(messages)).flatten)
+          background = SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(using messages)).flatten),
+          aboutYou = SummaryListViewModel(Seq(YourPhoneNumberSummary.row(ua)(using messages)).flatten)
         )
       )
     }
@@ -239,8 +241,8 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       val ua = UserAnswers("id", "session-123").set(YourEmailAddressPage, arbitrary[String].sample.value).success.value
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background = SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(messages)).flatten),
-          aboutYou = SummaryListViewModel(Seq(YourEmailAddressSummary.row(ua)(messages)).flatten)
+          background = SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(using messages)).flatten),
+          aboutYou = SummaryListViewModel(Seq(YourEmailAddressSummary.row(ua)(using messages)).flatten)
         )
       )
     }
@@ -250,8 +252,8 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         UserAnswers("id", "session-123").set(YourAddressLookupPage, arbitrary[Address].sample.value).success.value
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background = SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(messages)).flatten),
-          aboutYou = SummaryListViewModel(Seq(YourAddressLookupSummary.row(ua)(messages)).flatten)
+          background = SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(using messages)).flatten),
+          aboutYou = SummaryListViewModel(Seq(YourAddressLookupSummary.row(ua)(using messages)).flatten)
         )
       )
     }
@@ -261,8 +263,8 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         UserAnswers("id", "session-123").set(WhatIsYourDateOfBirthPage, arbitrary[LocalDate].sample.value).success.value
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background = SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(messages)).flatten),
-          aboutYou = SummaryListViewModel(Seq(WhatIsYourDateOfBirthSummary.row(ua)(messages)).flatten)
+          background = SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(using messages)).flatten),
+          aboutYou = SummaryListViewModel(Seq(WhatIsYourDateOfBirthSummary.row(ua)(using messages)).flatten)
         )
       )
     }
@@ -272,8 +274,8 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         UserAnswers("id", "session-123").set(WhatIsYourMainOccupationPage, arbitrary[String].sample.value).success.value
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background = SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(messages)).flatten),
-          aboutYou = SummaryListViewModel(Seq(WhatIsYourMainOccupationSummary.row(ua)(messages)).flatten)
+          background = SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(using messages)).flatten),
+          aboutYou = SummaryListViewModel(Seq(WhatIsYourMainOccupationSummary.row(ua)(using messages)).flatten)
         )
       )
     }
@@ -285,8 +287,8 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         .value
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background = SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(messages)).flatten),
-          aboutYou = SummaryListViewModel(Seq(DoYouHaveNationalInsuranceNumberSummary.row(ua)(messages)).flatten)
+          background = SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(using messages)).flatten),
+          aboutYou = SummaryListViewModel(Seq(DoYouHaveNationalInsuranceNumberSummary.row(ua)(using messages)).flatten)
         )
       )
     }
@@ -298,8 +300,8 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         .value
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background = SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(messages)).flatten),
-          aboutYou = SummaryListViewModel(Seq(WhatIsYourNationalInsuranceNumberSummary.row(ua)(messages)).flatten)
+          background = SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(using messages)).flatten),
+          aboutYou = SummaryListViewModel(Seq(WhatIsYourNationalInsuranceNumberSummary.row(ua)(using messages)).flatten)
         )
       )
     }
@@ -311,8 +313,8 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         .value
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background = SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(messages)).flatten),
-          aboutYou = SummaryListViewModel(Seq(AreYouRegisteredForVATSummary.row(ua)(messages)).flatten)
+          background = SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(using messages)).flatten),
+          aboutYou = SummaryListViewModel(Seq(AreYouRegisteredForVATSummary.row(ua)(using messages)).flatten)
         )
       )
     }
@@ -324,8 +326,8 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         .value
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background = SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(messages)).flatten),
-          aboutYou = SummaryListViewModel(Seq(WhatIsYourVATRegistrationNumberSummary.row(ua)(messages)).flatten)
+          background = SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(using messages)).flatten),
+          aboutYou = SummaryListViewModel(Seq(WhatIsYourVATRegistrationNumberSummary.row(ua)(using messages)).flatten)
         )
       )
     }
@@ -337,8 +339,8 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         .value
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background = SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(messages)).flatten),
-          aboutYou = SummaryListViewModel(Seq(AreYouRegisteredForSelfAssessmentSummary.row(ua)(messages)).flatten)
+          background = SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(using messages)).flatten),
+          aboutYou = SummaryListViewModel(Seq(AreYouRegisteredForSelfAssessmentSummary.row(ua)(using messages)).flatten)
         )
       )
     }
@@ -350,8 +352,8 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         .value
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background = SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(messages)).flatten),
-          aboutYou = SummaryListViewModel(Seq(WhatIsYourUniqueTaxReferenceSummary.row(ua)(messages)).flatten)
+          background = SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(using messages)).flatten),
+          aboutYou = SummaryListViewModel(Seq(WhatIsYourUniqueTaxReferenceSummary.row(ua)(using messages)).flatten)
         )
       )
     }
@@ -361,8 +363,8 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         UserAnswers("id", "session-123").set(WhatIsYourFullNamePage, arbitrary[String].sample.value).success.value
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background = SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(messages)).flatten),
-          aboutYou = SummaryListViewModel(Seq(WhatIsYourFullNameSummary.row(ua)(messages)).flatten)
+          background = SummaryListViewModel(Seq(LiabilitiesSummary.row(ua)(using messages)).flatten),
+          aboutYou = SummaryListViewModel(Seq(WhatIsYourFullNameSummary.row(ua)(using messages)).flatten)
         )
       )
     }
@@ -380,14 +382,14 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         SummaryLists(
           background = SummaryListViewModel(
             Seq(
-              RelatesToSummary.row(ua)(messages),
-              AreYouTheEntitySummary.row(ua)(messages),
-              LiabilitiesSummary.row(ua)(messages)
+              RelatesToSummary.row(ua)(using messages),
+              AreYouTheEntitySummary.row(ua)(using messages),
+              LiabilitiesSummary.row(ua)(using messages)
             ).flatten
           ),
           aboutYou = SummaryListViewModel(Seq.empty),
           aboutTheIndividualList =
-            Some(SummaryListViewModel(Seq(WhatIsTheIndividualsFullNameSummary.row(ua)(messages)).flatten))
+            Some(SummaryListViewModel(Seq(WhatIsTheIndividualsFullNameSummary.row(ua)(using messages)).flatten))
         )
       )
     }
@@ -405,14 +407,14 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         SummaryLists(
           background = SummaryListViewModel(
             Seq(
-              RelatesToSummary.row(ua)(messages),
-              AreYouTheEntitySummary.row(ua)(messages),
-              LiabilitiesSummary.row(ua)(messages)
+              RelatesToSummary.row(ua)(using messages),
+              AreYouTheEntitySummary.row(ua)(using messages),
+              LiabilitiesSummary.row(ua)(using messages)
             ).flatten
           ),
           aboutYou = SummaryListViewModel(Seq.empty),
           aboutTheIndividualList =
-            Some(SummaryListViewModel(Seq(WhatIsTheIndividualDateOfBirthSummary.row(ua)(messages)).flatten))
+            Some(SummaryListViewModel(Seq(WhatIsTheIndividualDateOfBirthSummary.row(ua)(using messages)).flatten))
         )
       )
     }
@@ -430,14 +432,14 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         SummaryLists(
           background = SummaryListViewModel(
             Seq(
-              RelatesToSummary.row(ua)(messages),
-              AreYouTheEntitySummary.row(ua)(messages),
-              LiabilitiesSummary.row(ua)(messages)
+              RelatesToSummary.row(ua)(using messages),
+              AreYouTheEntitySummary.row(ua)(using messages),
+              LiabilitiesSummary.row(ua)(using messages)
             ).flatten
           ),
           aboutYou = SummaryListViewModel(Seq.empty),
           aboutTheIndividualList =
-            Some(SummaryListViewModel(Seq(WhatIsTheIndividualOccupationSummary.row(ua)(messages)).flatten))
+            Some(SummaryListViewModel(Seq(WhatIsTheIndividualOccupationSummary.row(ua)(using messages)).flatten))
         )
       )
     }
@@ -457,14 +459,16 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         SummaryLists(
           background = SummaryListViewModel(
             Seq(
-              RelatesToSummary.row(ua)(messages),
-              AreYouTheEntitySummary.row(ua)(messages),
-              LiabilitiesSummary.row(ua)(messages)
+              RelatesToSummary.row(ua)(using messages),
+              AreYouTheEntitySummary.row(ua)(using messages),
+              LiabilitiesSummary.row(ua)(using messages)
             ).flatten
           ),
           aboutYou = SummaryListViewModel(Seq.empty),
           aboutTheIndividualList = Some(
-            SummaryListViewModel(Seq(DoesTheIndividualHaveNationalInsuranceNumberSummary.row(ua)(messages)).flatten)
+            SummaryListViewModel(
+              Seq(DoesTheIndividualHaveNationalInsuranceNumberSummary.row(ua)(using messages)).flatten
+            )
           )
         )
       )
@@ -484,14 +488,15 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         SummaryLists(
           background = SummaryListViewModel(
             Seq(
-              RelatesToSummary.row(ua)(messages),
-              AreYouTheEntitySummary.row(ua)(messages),
-              LiabilitiesSummary.row(ua)(messages)
+              RelatesToSummary.row(ua)(using messages),
+              AreYouTheEntitySummary.row(ua)(using messages),
+              LiabilitiesSummary.row(ua)(using messages)
             ).flatten
           ),
           aboutYou = SummaryListViewModel(Seq.empty),
-          aboutTheIndividualList =
-            Some(SummaryListViewModel(Seq(WhatIsIndividualsNationalInsuranceNumberSummary.row(ua)(messages)).flatten))
+          aboutTheIndividualList = Some(
+            SummaryListViewModel(Seq(WhatIsIndividualsNationalInsuranceNumberSummary.row(ua)(using messages)).flatten)
+          )
         )
       )
     }
@@ -510,14 +515,14 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         SummaryLists(
           background = SummaryListViewModel(
             Seq(
-              RelatesToSummary.row(ua)(messages),
-              AreYouTheEntitySummary.row(ua)(messages),
-              LiabilitiesSummary.row(ua)(messages)
+              RelatesToSummary.row(ua)(using messages),
+              AreYouTheEntitySummary.row(ua)(using messages),
+              LiabilitiesSummary.row(ua)(using messages)
             ).flatten
           ),
           aboutYou = SummaryListViewModel(Seq.empty),
           aboutTheIndividualList =
-            Some(SummaryListViewModel(Seq(IsTheIndividualRegisteredForVATSummary.row(ua)(messages)).flatten))
+            Some(SummaryListViewModel(Seq(IsTheIndividualRegisteredForVATSummary.row(ua)(using messages)).flatten))
         )
       )
     }
@@ -536,14 +541,15 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         SummaryLists(
           background = SummaryListViewModel(
             Seq(
-              RelatesToSummary.row(ua)(messages),
-              AreYouTheEntitySummary.row(ua)(messages),
-              LiabilitiesSummary.row(ua)(messages)
+              RelatesToSummary.row(ua)(using messages),
+              AreYouTheEntitySummary.row(ua)(using messages),
+              LiabilitiesSummary.row(ua)(using messages)
             ).flatten
           ),
           aboutYou = SummaryListViewModel(Seq.empty),
-          aboutTheIndividualList =
-            Some(SummaryListViewModel(Seq(WhatIsTheIndividualsVATRegistrationNumberSummary.row(ua)(messages)).flatten))
+          aboutTheIndividualList = Some(
+            SummaryListViewModel(Seq(WhatIsTheIndividualsVATRegistrationNumberSummary.row(ua)(using messages)).flatten)
+          )
         )
       )
     }
@@ -563,14 +569,15 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         SummaryLists(
           background = SummaryListViewModel(
             Seq(
-              RelatesToSummary.row(ua)(messages),
-              AreYouTheEntitySummary.row(ua)(messages),
-              LiabilitiesSummary.row(ua)(messages)
+              RelatesToSummary.row(ua)(using messages),
+              AreYouTheEntitySummary.row(ua)(using messages),
+              LiabilitiesSummary.row(ua)(using messages)
             ).flatten
           ),
           aboutYou = SummaryListViewModel(Seq.empty),
-          aboutTheIndividualList =
-            Some(SummaryListViewModel(Seq(IsTheIndividualRegisteredForSelfAssessmentSummary.row(ua)(messages)).flatten))
+          aboutTheIndividualList = Some(
+            SummaryListViewModel(Seq(IsTheIndividualRegisteredForSelfAssessmentSummary.row(ua)(using messages)).flatten)
+          )
         )
       )
     }
@@ -589,14 +596,15 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         SummaryLists(
           background = SummaryListViewModel(
             Seq(
-              RelatesToSummary.row(ua)(messages),
-              AreYouTheEntitySummary.row(ua)(messages),
-              LiabilitiesSummary.row(ua)(messages)
+              RelatesToSummary.row(ua)(using messages),
+              AreYouTheEntitySummary.row(ua)(using messages),
+              LiabilitiesSummary.row(ua)(using messages)
             ).flatten
           ),
           aboutYou = SummaryListViewModel(Seq.empty),
-          aboutTheIndividualList =
-            Some(SummaryListViewModel(Seq(WhatIsTheIndividualsUniqueTaxReferenceSummary.row(ua)(messages)).flatten))
+          aboutTheIndividualList = Some(
+            SummaryListViewModel(Seq(WhatIsTheIndividualsUniqueTaxReferenceSummary.row(ua)(using messages)).flatten)
+          )
         )
       )
     }
@@ -613,14 +621,14 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         SummaryLists(
           background = SummaryListViewModel(
             Seq(
-              RelatesToSummary.row(ua)(messages),
-              AreYouTheEntitySummary.row(ua)(messages),
-              LiabilitiesSummary.row(ua)(messages)
+              RelatesToSummary.row(ua)(using messages),
+              AreYouTheEntitySummary.row(ua)(using messages),
+              LiabilitiesSummary.row(ua)(using messages)
             ).flatten
           ),
           aboutYou = SummaryListViewModel(Seq.empty),
           aboutTheIndividualList =
-            Some(SummaryListViewModel(Seq(IndividualAddressLookupSummary.row(ua)(messages)).flatten))
+            Some(SummaryListViewModel(Seq(IndividualAddressLookupSummary.row(ua)(using messages)).flatten))
         )
       )
     }
@@ -635,13 +643,14 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background =
-            SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
+          background = SummaryListViewModel(
+            Seq(RelatesToSummary.row(ua)(using messages), LiabilitiesSummary.row(ua)(using messages)).flatten
+          ),
           aboutYou = SummaryListViewModel(Seq.empty),
           aboutTheIndividualList = None,
           aboutTheCompanyList = Some(
             SummaryListViewModel(
-              Seq(WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutSummary.row(ua)(messages)).flatten
+              Seq(WhatIsTheNameOfTheCompanyTheDisclosureWillBeAboutSummary.row(ua)(using messages)).flatten
             )
           )
         )
@@ -657,12 +666,13 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background =
-            SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
+          background = SummaryListViewModel(
+            Seq(RelatesToSummary.row(ua)(using messages), LiabilitiesSummary.row(ua)(using messages)).flatten
+          ),
           aboutYou = SummaryListViewModel(Seq.empty),
           aboutTheIndividualList = None,
           aboutTheCompanyList =
-            Some(SummaryListViewModel(Seq(WhatIsTheCompanyRegistrationNumberSummary.row(ua)(messages)).flatten))
+            Some(SummaryListViewModel(Seq(WhatIsTheCompanyRegistrationNumberSummary.row(ua)(using messages)).flatten))
         )
       )
     }
@@ -675,11 +685,13 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background =
-            SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
+          background = SummaryListViewModel(
+            Seq(RelatesToSummary.row(ua)(using messages), LiabilitiesSummary.row(ua)(using messages)).flatten
+          ),
           aboutYou = SummaryListViewModel(Seq.empty),
           aboutTheIndividualList = None,
-          aboutTheCompanyList = Some(SummaryListViewModel(Seq(CompanyAddressLookupSummary.row(ua)(messages)).flatten))
+          aboutTheCompanyList =
+            Some(SummaryListViewModel(Seq(CompanyAddressLookupSummary.row(ua)(using messages)).flatten))
         )
       )
     }
@@ -692,12 +704,13 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background =
-            SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
+          background = SummaryListViewModel(
+            Seq(RelatesToSummary.row(ua)(using messages), LiabilitiesSummary.row(ua)(using messages)).flatten
+          ),
           aboutYou = SummaryListViewModel(Seq.empty),
           aboutTheIndividualList = None,
           aboutTheCompanyList = None,
-          aboutTheLLPList = Some(SummaryListViewModel(Seq(WhatIsTheLLPNameSummary.row(ua)(messages)).flatten))
+          aboutTheLLPList = Some(SummaryListViewModel(Seq(WhatIsTheLLPNameSummary.row(ua)(using messages)).flatten))
         )
       )
     }
@@ -710,12 +723,13 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background =
-            SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
+          background = SummaryListViewModel(
+            Seq(RelatesToSummary.row(ua)(using messages), LiabilitiesSummary.row(ua)(using messages)).flatten
+          ),
           aboutYou = SummaryListViewModel(Seq.empty),
           aboutTheIndividualList = None,
           aboutTheCompanyList = None,
-          aboutTheLLPList = Some(SummaryListViewModel(Seq(LLPAddressLookupSummary.row(ua)(messages)).flatten))
+          aboutTheLLPList = Some(SummaryListViewModel(Seq(LLPAddressLookupSummary.row(ua)(using messages)).flatten))
         )
       )
     }
@@ -728,13 +742,14 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background =
-            SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
+          background = SummaryListViewModel(
+            Seq(RelatesToSummary.row(ua)(using messages), LiabilitiesSummary.row(ua)(using messages)).flatten
+          ),
           aboutYou = SummaryListViewModel(Seq.empty),
           aboutTheIndividualList = None,
           aboutTheCompanyList = None,
           aboutTheLLPList = None,
-          aboutTheTrustList = Some(SummaryListViewModel(Seq(WhatIsTheTrustNameSummary.row(ua)(messages)).flatten))
+          aboutTheTrustList = Some(SummaryListViewModel(Seq(WhatIsTheTrustNameSummary.row(ua)(using messages)).flatten))
         )
       )
     }
@@ -747,13 +762,14 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background =
-            SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
+          background = SummaryListViewModel(
+            Seq(RelatesToSummary.row(ua)(using messages), LiabilitiesSummary.row(ua)(using messages)).flatten
+          ),
           aboutYou = SummaryListViewModel(Seq.empty),
           aboutTheIndividualList = None,
           aboutTheCompanyList = None,
           aboutTheLLPList = None,
-          aboutTheTrustList = Some(SummaryListViewModel(Seq(TrustAddressLookupSummary.row(ua)(messages)).flatten))
+          aboutTheTrustList = Some(SummaryListViewModel(Seq(TrustAddressLookupSummary.row(ua)(using messages)).flatten))
         )
       )
     }
@@ -767,15 +783,16 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background =
-            SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
+          background = SummaryListViewModel(
+            Seq(RelatesToSummary.row(ua)(using messages), LiabilitiesSummary.row(ua)(using messages)).flatten
+          ),
           aboutYou = SummaryListViewModel(Seq.empty),
           aboutTheIndividualList = None,
           aboutTheCompanyList = None,
           aboutTheLLPList = None,
           aboutTheTrustList = None,
           aboutThePersonWhoDiedList =
-            Some(SummaryListViewModel(Seq(WhatWasTheNameOfThePersonWhoDiedSummary.row(ua)(messages)).flatten))
+            Some(SummaryListViewModel(Seq(WhatWasTheNameOfThePersonWhoDiedSummary.row(ua)(using messages)).flatten))
         )
       )
     }
@@ -789,15 +806,16 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background =
-            SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
+          background = SummaryListViewModel(
+            Seq(RelatesToSummary.row(ua)(using messages), LiabilitiesSummary.row(ua)(using messages)).flatten
+          ),
           aboutYou = SummaryListViewModel(Seq.empty),
           aboutTheIndividualList = None,
           aboutTheCompanyList = None,
           aboutTheLLPList = None,
           aboutTheTrustList = None,
           aboutThePersonWhoDiedList =
-            Some(SummaryListViewModel(Seq(WhatWasThePersonDateOfBirthSummary.row(ua)(messages)).flatten))
+            Some(SummaryListViewModel(Seq(WhatWasThePersonDateOfBirthSummary.row(ua)(using messages)).flatten))
         )
       )
     }
@@ -811,15 +829,16 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background =
-            SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
+          background = SummaryListViewModel(
+            Seq(RelatesToSummary.row(ua)(using messages), LiabilitiesSummary.row(ua)(using messages)).flatten
+          ),
           aboutYou = SummaryListViewModel(Seq.empty),
           aboutTheIndividualList = None,
           aboutTheCompanyList = None,
           aboutTheLLPList = None,
           aboutTheTrustList = None,
           aboutThePersonWhoDiedList =
-            Some(SummaryListViewModel(Seq(WhatWasThePersonOccupationSummary.row(ua)(messages)).flatten))
+            Some(SummaryListViewModel(Seq(WhatWasThePersonOccupationSummary.row(ua)(using messages)).flatten))
         )
       )
     }
@@ -833,15 +852,16 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background =
-            SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
+          background = SummaryListViewModel(
+            Seq(RelatesToSummary.row(ua)(using messages), LiabilitiesSummary.row(ua)(using messages)).flatten
+          ),
           aboutYou = SummaryListViewModel(Seq.empty),
           aboutTheIndividualList = None,
           aboutTheCompanyList = None,
           aboutTheLLPList = None,
           aboutTheTrustList = None,
           aboutThePersonWhoDiedList =
-            Some(SummaryListViewModel(Seq(DidThePersonHaveNINOSummary.row(ua)(messages)).flatten))
+            Some(SummaryListViewModel(Seq(DidThePersonHaveNINOSummary.row(ua)(using messages)).flatten))
         )
       )
     }
@@ -854,15 +874,16 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background =
-            SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
+          background = SummaryListViewModel(
+            Seq(RelatesToSummary.row(ua)(using messages), LiabilitiesSummary.row(ua)(using messages)).flatten
+          ),
           aboutYou = SummaryListViewModel(Seq.empty),
           aboutTheIndividualList = None,
           aboutTheCompanyList = None,
           aboutTheLLPList = None,
           aboutTheTrustList = None,
           aboutThePersonWhoDiedList =
-            Some(SummaryListViewModel(Seq(WhatWasThePersonNINOSummary.row(ua)(messages)).flatten))
+            Some(SummaryListViewModel(Seq(WhatWasThePersonNINOSummary.row(ua)(using messages)).flatten))
         )
       )
     }
@@ -877,15 +898,16 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background =
-            SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
+          background = SummaryListViewModel(
+            Seq(RelatesToSummary.row(ua)(using messages), LiabilitiesSummary.row(ua)(using messages)).flatten
+          ),
           aboutYou = SummaryListViewModel(Seq.empty),
           aboutTheIndividualList = None,
           aboutTheCompanyList = None,
           aboutTheLLPList = None,
           aboutTheTrustList = None,
           aboutThePersonWhoDiedList =
-            Some(SummaryListViewModel(Seq(WasThePersonRegisteredForVATSummary.row(ua)(messages)).flatten))
+            Some(SummaryListViewModel(Seq(WasThePersonRegisteredForVATSummary.row(ua)(using messages)).flatten))
         )
       )
     }
@@ -900,15 +922,17 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background =
-            SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
+          background = SummaryListViewModel(
+            Seq(RelatesToSummary.row(ua)(using messages), LiabilitiesSummary.row(ua)(using messages)).flatten
+          ),
           aboutYou = SummaryListViewModel(Seq.empty),
           aboutTheIndividualList = None,
           aboutTheCompanyList = None,
           aboutTheLLPList = None,
           aboutTheTrustList = None,
-          aboutThePersonWhoDiedList =
-            Some(SummaryListViewModel(Seq(WhatWasThePersonVATRegistrationNumberSummary.row(ua)(messages)).flatten))
+          aboutThePersonWhoDiedList = Some(
+            SummaryListViewModel(Seq(WhatWasThePersonVATRegistrationNumberSummary.row(ua)(using messages)).flatten)
+          )
         )
       )
     }
@@ -923,15 +947,16 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background =
-            SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
+          background = SummaryListViewModel(
+            Seq(RelatesToSummary.row(ua)(using messages), LiabilitiesSummary.row(ua)(using messages)).flatten
+          ),
           aboutYou = SummaryListViewModel(Seq.empty),
           aboutTheIndividualList = None,
           aboutTheCompanyList = None,
           aboutTheLLPList = None,
           aboutTheTrustList = None,
           aboutThePersonWhoDiedList =
-            Some(SummaryListViewModel(Seq(WasThePersonRegisteredForSASummary.row(ua)(messages)).flatten))
+            Some(SummaryListViewModel(Seq(WasThePersonRegisteredForSASummary.row(ua)(using messages)).flatten))
         )
       )
     }
@@ -944,15 +969,16 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background =
-            SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
+          background = SummaryListViewModel(
+            Seq(RelatesToSummary.row(ua)(using messages), LiabilitiesSummary.row(ua)(using messages)).flatten
+          ),
           aboutYou = SummaryListViewModel(Seq.empty),
           aboutTheIndividualList = None,
           aboutTheCompanyList = None,
           aboutTheLLPList = None,
           aboutTheTrustList = None,
           aboutThePersonWhoDiedList =
-            Some(SummaryListViewModel(Seq(WhatWasThePersonUTRSummary.row(ua)(messages)).flatten))
+            Some(SummaryListViewModel(Seq(WhatWasThePersonUTRSummary.row(ua)(using messages)).flatten))
         )
       )
     }
@@ -965,15 +991,16 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
       rowIsDisplayedWhenPageIsPopulated(ua)(messages =>
         SummaryLists(
-          background =
-            SummaryListViewModel(Seq(RelatesToSummary.row(ua)(messages), LiabilitiesSummary.row(ua)(messages)).flatten),
+          background = SummaryListViewModel(
+            Seq(RelatesToSummary.row(ua)(using messages), LiabilitiesSummary.row(ua)(using messages)).flatten
+          ),
           aboutYou = SummaryListViewModel(Seq.empty),
           aboutTheIndividualList = None,
           aboutTheCompanyList = None,
           aboutTheLLPList = None,
           aboutTheTrustList = None,
           aboutThePersonWhoDiedList =
-            Some(SummaryListViewModel(Seq(EstateAddressLookupSummary.row(ua)(messages)).flatten))
+            Some(SummaryListViewModel(Seq(EstateAddressLookupSummary.row(ua)(using messages)).flatten))
         )
       )
     }

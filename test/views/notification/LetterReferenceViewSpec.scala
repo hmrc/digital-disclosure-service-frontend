@@ -28,7 +28,7 @@ class LetterReferenceViewSpec extends ViewSpecBase with ViewMatchers {
   val form                      = new LetterReferenceFormProvider()()
   val page: LetterReferenceView = inject[LetterReferenceView]
 
-  private def createView: Html = page(form, NormalMode, false)(request, messages)
+  private def createView: Html = page(form, NormalMode, false)(using request, messages)
 
   "view" should {
 

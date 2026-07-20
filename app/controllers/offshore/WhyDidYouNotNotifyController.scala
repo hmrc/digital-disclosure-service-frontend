@@ -80,15 +80,15 @@ class WhyDidYouNotNotifyController @Inject() (
         )
   }
 
-  def changedPages(answers: UserAnswers, value: Set[WhyDidYouNotNotify]): (List[QuestionPage[_]], Boolean) =
+  def changedPages(answers: UserAnswers, value: Set[WhyDidYouNotNotify]): (List[QuestionPage[?]], Boolean) =
     answers.get(WhyDidYouNotNotifyPage) match {
       case Some(reasons) if reasons != value => (getPages(value), true)
       case _                                 => (Nil, false)
     }
 
-  private def getPages(reasons: Set[WhyDidYouNotNotify]): List[QuestionPage[_]] = {
+  private def getPages(reasons: Set[WhyDidYouNotNotify]): List[QuestionPage[?]] = {
 
-    case class ClearingCondition(selections: Set[WhyDidYouNotNotify], pagesToClear: List[QuestionPage[_]]) {
+    case class ClearingCondition(selections: Set[WhyDidYouNotNotify], pagesToClear: List[QuestionPage[?]]) {
       def isConditionMet(reasons: Set[WhyDidYouNotNotify]): Boolean = reasons.intersect(selections).isEmpty
     }
 
@@ -97,7 +97,7 @@ class WhyDidYouNotNotifyController @Inject() (
 
     val conditions = List(deliberate, hasExcuse)
 
-    conditions.foldLeft[List[QuestionPage[_]]](List()) { (cleared, condition) =>
+    conditions.foldLeft[List[QuestionPage[?]]](List()) { (cleared, condition) =>
       if (condition.isConditionMet(reasons)) cleared ++ condition.pagesToClear else cleared
     }
   }

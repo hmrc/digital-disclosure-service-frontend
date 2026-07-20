@@ -20,13 +20,13 @@ import play.api.data.{Form, FormError}
 
 trait NationalInsuranceBehaviours extends FieldBehaviours {
 
-  def nationalInsuraceNumberBindsValidData(form: Form[_], fieldName: String): Unit = {
+  def nationalInsuraceNumberBindsValidData(form: Form[?], fieldName: String): Unit = {
 
     "bind valid national insurance number" in {
 
       val validDataGenerator = nino()
 
-      forAll(validDataGenerator -> "validDataItem") { dataItem: String =>
+      forAll(validDataGenerator -> "validDataItem") { (dataItem: String) =>
         val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
         result.value.value mustBe dataItem
         result.errors mustBe empty
@@ -37,7 +37,7 @@ trait NationalInsuranceBehaviours extends FieldBehaviours {
 
       val validDataGenerator = nino()
 
-      forAll(validDataGenerator -> "validDataItem") { dataItem: String =>
+      forAll(validDataGenerator -> "validDataItem") { (dataItem: String) =>
         val withBlanks = s" $dataItem "
         val result     = form.bind(Map(fieldName -> withBlanks)).apply(fieldName)
         result.value.value mustBe withBlanks
@@ -46,12 +46,12 @@ trait NationalInsuranceBehaviours extends FieldBehaviours {
     }
   }
 
-  def nationalInsuraceNumberBindsInvalidData(form: Form[_], fieldName: String, validError: FormError): Unit =
+  def nationalInsuraceNumberBindsInvalidData(form: Form[?], fieldName: String, validError: FormError): Unit =
     "bind invalid national insurance number" in {
 
       val invalidDataGenerator = invalidNino()
 
-      forAll(invalidDataGenerator -> "validDataItem") { dataItem: String =>
+      forAll(invalidDataGenerator -> "validDataItem") { (dataItem: String) =>
         val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
         result.errors must contain only validError
       }

@@ -28,7 +28,7 @@ class WhatIsTheIndividualsFullNameViewSpec extends ViewSpecBase with ViewMatcher
   val form                                   = new WhatIsTheIndividualsFullNameFormProvider()()
   val page: WhatIsTheIndividualsFullNameView = inject[WhatIsTheIndividualsFullNameView]
 
-  private def createView: Html = page(form, NormalMode, false)(request, messages)
+  private def createView: Html = page(form, NormalMode, false)(using request, messages)
 
   "view" should {
 

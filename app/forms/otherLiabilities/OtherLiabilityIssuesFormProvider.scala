@@ -26,22 +26,20 @@ import models.OtherLiabilityIssues
 class OtherLiabilityIssuesFormProvider @Inject() extends Mappings {
 
   def apply(): Form[Set[OtherLiabilityIssues]] =
-      Form(
-        "value" -> list(enumerable[OtherLiabilityIssues]("otherLiabilityIssues.error.required"))
-          .transform(
-            (list: List[OtherLiabilityIssues]) => {
-              val set: Set[OtherLiabilityIssues] = list.toSet
+    Form(
+      "value" -> list(enumerable[OtherLiabilityIssues]("otherLiabilityIssues.error.required"))
+        .transform(
+          (list: List[OtherLiabilityIssues]) => {
+            val set: Set[OtherLiabilityIssues] = list.toSet
 
-              if (set.contains(OtherLiabilityIssues.NoExclusion) && set.size > 1)
-                set - OtherLiabilityIssues.NoExclusion
-              else
-                set
-            },
-            (set: Set[OtherLiabilityIssues]) => {
-              set.toList
-            }
-          )
-          .verifying("otherLiabilityIssues.error.required", _.nonEmpty)
-      )
+            if (set.contains(OtherLiabilityIssues.NoExclusion) && set.size > 1)
+              set - OtherLiabilityIssues.NoExclusion
+            else
+              set
+          },
+          (set: Set[OtherLiabilityIssues]) => set.toList
+        )
+        .verifying("otherLiabilityIssues.error.required", _.nonEmpty)
+    )
 
 }

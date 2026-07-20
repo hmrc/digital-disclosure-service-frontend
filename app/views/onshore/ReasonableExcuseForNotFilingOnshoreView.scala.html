@@ -34,7 +34,7 @@
     bulletParagraph: components.bulletParagraph
 )
 
-@(form: Form[_], mode: Mode, areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit request: RequestHeader, messages: Messages)
+@(form: Form[?], mode: Mode, areTheyTheIndividual: Boolean, entity: RelatesTo)(implicit request: RequestHeader, messages: Messages)
 
 @layout(pageTitle = title(form, if(areTheyTheIndividual){
                             messages("whatIsYourReasonableExcuseForNotFilingReturn.entity.title")

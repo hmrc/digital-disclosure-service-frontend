@@ -78,7 +78,7 @@ class RelatesToController @Inject() (
         )
   }
 
-  def whatHasChanged(userAnswers: UserAnswers, value: RelatesTo): List[QuestionPage[_]] =
+  def whatHasChanged(userAnswers: UserAnswers, value: RelatesTo): List[QuestionPage[?]] =
     userAnswers.get(RelatesToPage) match {
       case None                                       => Nil
       case Some(relatesTo) if value == relatesTo      => Nil

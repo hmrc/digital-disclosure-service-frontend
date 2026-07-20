@@ -71,7 +71,7 @@ class SessionServiceSpec extends AnyWordSpec with Matchers with MockFactory with
     "update the repo and the store" in new Test {
       (repo.set(_: UserAnswers)).expects(userAnswers).returning(Future.successful(true))
       (storeService
-        .setSubmission(_: UserAnswers)(_: HeaderCarrier))
+        .setSubmission(_: UserAnswers)(using _: HeaderCarrier))
         .expects(userAnswers, *)
         .returning(Future.successful(Ok))
 
@@ -98,7 +98,10 @@ class SessionServiceSpec extends AnyWordSpec with Matchers with MockFactory with
     "check the store and where it finds nothing, default and set that default in the session and store" in new Test {
       mockGetSubmission("123", UserAnswers.defaultSubmissionId)(Future.successful(None))
       (repo.set(_: UserAnswers)).expects(*).returning(Future.successful(true))
-      (storeService.setSubmission(_: UserAnswers)(_: HeaderCarrier)).expects(*, *).returning(Future.successful(Ok))
+      (storeService
+        .setSubmission(_: UserAnswers)(using _: HeaderCarrier))
+        .expects(*, *)
+        .returning(Future.successful(Ok))
       val result = sut.newSession(
         "123",
         "session-123",
@@ -115,7 +118,7 @@ class SessionServiceSpec extends AnyWordSpec with Matchers with MockFactory with
       mockNotificationToUserAnswers(testNotification)(Success(userAnswers))
       (repo.set(_: UserAnswers)).expects(userAnswers).returning(Future.successful(true))
       (storeService
-        .setSubmission(_: UserAnswers)(_: HeaderCarrier))
+        .setSubmission(_: UserAnswers)(using _: HeaderCarrier))
         .expects(userAnswers, *)
         .returning(Future.successful(Ok))
 
@@ -134,7 +137,10 @@ class SessionServiceSpec extends AnyWordSpec with Matchers with MockFactory with
       mockGetSubmission("123", UserAnswers.defaultSubmissionId)(Future.successful(Some(testSubmittedNotification)))
       mockNotificationToUserAnswers(testSubmittedNotification)(Success(submittedUserAnswers))
       (repo.set(_: UserAnswers)).expects(*).returning(Future.successful(true))
-      (storeService.setSubmission(_: UserAnswers)(_: HeaderCarrier)).expects(*, *).returning(Future.successful(Ok))
+      (storeService
+        .setSubmission(_: UserAnswers)(using _: HeaderCarrier))
+        .expects(*, *)
+        .returning(Future.successful(Ok))
 
       sut
         .newSession(
@@ -207,7 +213,7 @@ class SessionServiceSpec extends AnyWordSpec with Matchers with MockFactory with
       response: Future[Option[Submission]]
     ): CallHandler3[String, String, HeaderCarrier, Future[Option[Submission]]] =
       (storeService
-        .getSubmission(_: String, _: String)(_: HeaderCarrier))
+        .getSubmission(_: String, _: String)(using _: HeaderCarrier))
         .expects(userId, submissionId, *)
         .returning(response)
 
@@ -215,7 +221,7 @@ class SessionServiceSpec extends AnyWordSpec with Matchers with MockFactory with
       response: Future[Result]
     ): CallHandler2[UserAnswers, HeaderCarrier, Future[Result]] =
       (storeService
-        .setSubmission(_: UserAnswers)(_: HeaderCarrier))
+        .setSubmission(_: UserAnswers)(using _: HeaderCarrier))
         .expects(userAnswers, *)
         .returning(response)
 

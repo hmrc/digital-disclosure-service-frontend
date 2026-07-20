@@ -26,7 +26,7 @@ import org.scalacheck.Arbitrary.arbitrary
 trait UserAnswersGenerator extends TryValues {
   self: Generators =>
 
-  val generators: Seq[Gen[(QuestionPage[_], JsValue)]] =
+  val generators: Seq[Gen[(QuestionPage[?], JsValue)]] =
     arbitrary[(AreYouTheEntityPage.type, JsValue)] ::
       arbitrary[(AccountingPeriodDLAddedPage.type, JsValue)] ::
       arbitrary[(AccountingPeriodCTAddedPage.type, JsValue)] ::
@@ -145,7 +145,7 @@ trait UserAnswersGenerator extends TryValues {
         id        <- nonEmptyString
         sessionId <- nonEmptyString
         data      <- generators match {
-                       case Nil => Gen.const(Map[QuestionPage[_], JsValue]())
+                       case Nil => Gen.const(Map[QuestionPage[?], JsValue]())
                        case _   => Gen.mapOf(oneOf(generators))
                      }
       } yield UserAnswers(

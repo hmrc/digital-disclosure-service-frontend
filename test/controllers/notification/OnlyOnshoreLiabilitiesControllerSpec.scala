@@ -36,7 +36,7 @@ class OnlyOnshoreLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
 
     "must return OK and the correct view for a GET" in {
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val request = FakeRequest(GET, routes.OnlyOnshoreLiabilitiesController.onPageLoad(NormalMode).url)
@@ -46,7 +46,7 @@ class OnlyOnshoreLiabilitiesControllerSpec extends SpecBase with MockitoSugar {
       val view = application.injector.instanceOf[OnlyOnshoreLiabilitiesView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(onwardRoute.url, false)(request, messages).toString
+      contentAsString(result) mustEqual view(onwardRoute.url, false)(using request, messages).toString
     }
   }
 }

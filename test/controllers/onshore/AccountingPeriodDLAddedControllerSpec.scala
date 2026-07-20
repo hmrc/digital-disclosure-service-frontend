@@ -68,15 +68,14 @@ class AccountingPeriodDLAddedControllerSpec extends SpecBase with MockitoSugar {
 
       val view = application.injector.instanceOf[AccountingPeriodDLAddedView]
 
-      val periodEndDates = DirectorLoanAccountLiabilityModel.row(answer, NormalMode)(messages)
-
+      val periodEndDates = DirectorLoanAccountLiabilityModel.row(answer, NormalMode)(using messages)
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, periodEndDates, NormalMode)(request, messages).toString
+      contentAsString(result) mustEqual view(form, periodEndDates, NormalMode)(using request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val request =
@@ -106,7 +105,7 @@ class AccountingPeriodDLAddedControllerSpec extends SpecBase with MockitoSugar {
       val periodEndDates = Seq.empty
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, periodEndDates, NormalMode)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, periodEndDates, NormalMode)(using request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
@@ -138,7 +137,7 @@ class AccountingPeriodDLAddedControllerSpec extends SpecBase with MockitoSugar {
     "must redirect to the director’s loan account liability page if remove method is called and there are no more details" in {
       val removeDLRoute = routes.AccountingPeriodDLAddedController.remove(0, NormalMode).url
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val request = FakeRequest(GET, removeDLRoute)
@@ -154,7 +153,7 @@ class AccountingPeriodDLAddedControllerSpec extends SpecBase with MockitoSugar {
     "must redirect to the same page if remove method is called and there are still details" in {
       val removeDLRoute = routes.AccountingPeriodDLAddedController.remove(0, NormalMode).url
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
 
       val directorLoanAccountLiabilities: DirectorLoanAccountLiabilities = DirectorLoanAccountLiabilities(
         name = "Some Name 1",

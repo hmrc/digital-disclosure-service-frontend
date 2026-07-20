@@ -86,7 +86,7 @@ class WhyDidYouNotFileAReturnOnTimeOffshoreController @Inject() (
   def changedPages(
     answers: UserAnswers,
     value: Set[WhyDidYouNotFileAReturnOnTimeOffshore]
-  ): (List[QuestionPage[_]], Boolean) =
+  ): (List[QuestionPage[?]], Boolean) =
     answers.get(WhyDidYouNotFileAReturnOnTimeOffshorePage) match {
       case Some(reasons) if reasons != value => (WhyDidYouNotFileAReturnOnTimeOffshoreController.getPages(value), true)
       case _                                 => (Nil, false)
@@ -96,7 +96,7 @@ class WhyDidYouNotFileAReturnOnTimeOffshoreController @Inject() (
 
 object WhyDidYouNotFileAReturnOnTimeOffshoreController {
 
-  def getPages(reasons: Set[WhyDidYouNotFileAReturnOnTimeOffshore]): List[QuestionPage[_]] = {
+  def getPages(reasons: Set[WhyDidYouNotFileAReturnOnTimeOffshore]): List[QuestionPage[?]] = {
 
     val deliberate = ClearingCondition(
       Set(DeliberatelyWithheldInformation),
@@ -110,14 +110,14 @@ object WhyDidYouNotFileAReturnOnTimeOffshoreController {
 
     val conditions = List(deliberate, hasExcuse)
 
-    conditions.foldLeft[List[QuestionPage[_]]](List()) { (cleared, condition) =>
+    conditions.foldLeft[List[QuestionPage[?]]](List()) { (cleared, condition) =>
       if (condition.isConditionMet(reasons)) cleared ++ condition.pagesToClear else cleared
     }
   }
 
   case class ClearingCondition(
     selections: Set[WhyDidYouNotFileAReturnOnTimeOffshore],
-    pagesToClear: List[QuestionPage[_]]
+    pagesToClear: List[QuestionPage[?]]
   ) {
     def isConditionMet(reasons: Set[WhyDidYouNotFileAReturnOnTimeOffshore]): Boolean =
       reasons.intersect(selections).isEmpty

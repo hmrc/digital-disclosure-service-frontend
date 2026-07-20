@@ -51,7 +51,7 @@ class MakingNilDisclosureControllerSpec extends SpecBase {
       val view = application.injector.instanceOf[MakingNilDisclosureView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(userAnswers.isTheUserTheIndividual, entity, year)(
+      contentAsString(result) mustEqual view(userAnswers.isTheUserTheIndividual, entity, year)(using
         request,
         messages
       ).toString

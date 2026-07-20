@@ -28,7 +28,7 @@ class WhichEmailAddressCanWeContactYouWithViewSpec extends ViewSpecBase with Vie
   val form                                           = new WhichEmailAddressCanWeContactYouWithFormProvider()()
   val page: WhichEmailAddressCanWeContactYouWithView = inject[WhichEmailAddressCanWeContactYouWithView]
   val email                                          = "test@test.com"
-  private def createView: Html                       = page(form, NormalMode, email)(request, messages)
+  private def createView: Html                       = page(form, NormalMode, email)(using request, messages)
 
   "view" should {
 

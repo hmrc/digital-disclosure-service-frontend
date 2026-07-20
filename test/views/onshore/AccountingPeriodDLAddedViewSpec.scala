@@ -59,7 +59,7 @@ class AccountingPeriodDLAddedViewSpec extends ViewSpecBase with ViewMatchers {
     val directorLoanAccountLiabilitiesSummaries =
       DirectorLoanAccountLiabilityModel.row(Seq(directorLoanAccountLiabilities), NormalMode)
 
-    def createView: Html = page(form, directorLoanAccountLiabilitiesSummaries, NormalMode)(request, messages)
+    def createView: Html = page(form, directorLoanAccountLiabilitiesSummaries, NormalMode)(using request, messages)
     val view             = createView
 
     "have title" in {
@@ -94,7 +94,7 @@ class AccountingPeriodDLAddedViewSpec extends ViewSpecBase with ViewMatchers {
       NormalMode
     )
 
-    def createView: Html = page(form, directorLoanAccountLiabilitiesSummaries, NormalMode)(request, messages)
+    def createView: Html = page(form, directorLoanAccountLiabilitiesSummaries, NormalMode)(using request, messages)
 
     val view = createView
 

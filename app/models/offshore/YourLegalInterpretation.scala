@@ -53,7 +53,7 @@ object YourLegalInterpretation extends Enumerable.Implicits {
   )
 
   implicit val enumerable: Enumerable[YourLegalInterpretation] =
-    Enumerable(values.map(v => v.toString -> v): _*)
+    Enumerable(values.map(v => v.toString -> v)*)
 }
 
 @Singleton

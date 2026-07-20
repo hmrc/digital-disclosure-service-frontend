@@ -19,14 +19,14 @@ package connectors
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.matchers.should.Matchers
 import play.api.libs.json._
-import play.api.libs.ws.{BodyWritable, JsonBodyWritables}
+import play.api.libs.ws.BodyWritable
 import uk.gov.hmrc.http.{HeaderCarrier, HttpReads, HttpResponse}
 import uk.gov.hmrc.http.client.{HttpClientV2, RequestBuilder}
 
 import java.net.URL
 import scala.concurrent.{ExecutionContext, Future}
 
-trait HttpSupport { this: MockFactory with Matchers =>
+trait HttpSupport { this: MockFactory & Matchers =>
 
   @SuppressWarnings(Array("org.wartremover.warts.Any"))
   val mockHttp: HttpClientV2 = mock[HttpClientV2]("mockHttp")
@@ -35,7 +35,7 @@ trait HttpSupport { this: MockFactory with Matchers =>
 
   def mockGet(url: URL)(httpResponse: Option[HttpResponse]) = {
     (mockHttp
-      .get(_: URL)(_: HeaderCarrier))
+      .get(_: URL)(using _: HeaderCarrier))
       .expects(url, *)
       .returning(mockRequestBuilder)
 
@@ -44,7 +44,7 @@ trait HttpSupport { this: MockFactory with Matchers =>
 
   def mockPost[B: Writes](url: URL, requestBody: B)(httpResponse: Option[HttpResponse]) = {
     (mockHttp
-      .post(_: URL)(_: HeaderCarrier))
+      .post(_: URL)(using _: HeaderCarrier))
       .expects(url, *)
       .returning(mockRequestBuilder)
 
@@ -54,7 +54,7 @@ trait HttpSupport { this: MockFactory with Matchers =>
 
   def mockExecute(httpResponse: Option[HttpResponse]) =
     (mockRequestBuilder
-      .execute[HttpResponse](_: HttpReads[HttpResponse], _: ExecutionContext))
+      .execute[HttpResponse](using _: HttpReads[HttpResponse], _: ExecutionContext))
       .expects(*, *)
       .returning(
         httpResponse.fold[Future[HttpResponse]](
@@ -65,7 +65,7 @@ trait HttpSupport { this: MockFactory with Matchers =>
   def mockWithBody[B: Writes](requestBody: B) = {
     val jsonBody: JsValue = Json.toJson(requestBody)
     (mockRequestBuilder
-      .withBody(_: JsValue)(_: BodyWritable[JsValue], _: izumi.reflect.Tag[JsValue], _: ExecutionContext))
+      .withBody(_: JsValue)(using _: BodyWritable[JsValue], _: izumi.reflect.Tag[JsValue], _: ExecutionContext))
       .expects(jsonBody, *, *, *)
       .returning(mockRequestBuilder)
   }

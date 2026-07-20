@@ -29,7 +29,7 @@ trait MonthYearFluency {
   object MonthYearViewModel extends ErrorMessageAwareness {
 
     def apply(
-      form: Form[_],
+      form: Form[?],
       id: String,
       legend: Legend
     )(implicit messages: Messages): DateInput =
@@ -40,7 +40,7 @@ trait MonthYearFluency {
       )
 
     def apply(
-      form: Form[_],
+      form: Form[?],
       id: String,
       fieldset: Fieldset
     )(implicit messages: Messages): DateInput = {

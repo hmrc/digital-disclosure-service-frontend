@@ -42,7 +42,7 @@ class CheckYourAnswersControllerSpec extends SpecBase {
       val view = application.injector.instanceOf[CheckYourAnswersView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(viewModel)(request, messages).toString
+      contentAsString(result) mustEqual view(viewModel)(using request, messages).toString
     }
 
     "must return OK and the correct view for a GET where all the pages are populated" in {

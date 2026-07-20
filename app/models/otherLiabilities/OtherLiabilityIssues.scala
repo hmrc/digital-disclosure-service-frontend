@@ -43,7 +43,7 @@ object OtherLiabilityIssues extends Enumerable.Implicits {
   )
 
   def checkboxItems(implicit messages: Messages): Seq[CheckboxItem] = {
-    val checkboxes = values.zipWithIndex.map { case (value, index) =>
+    val checkboxes    = values.zipWithIndex.map { case (value, index) =>
       CheckboxItem(
         name = Some("value[]"),
         content = Text(messages(s"otherLiabilityIssues.${value.toString}")),
@@ -51,11 +51,11 @@ object OtherLiabilityIssues extends Enumerable.Implicits {
         value = value.toString
       )
     }
-    val divider    = CheckboxItem(divider = Some(messages("site.or")))
+    val divider       = CheckboxItem(divider = Some(messages("site.or")))
     val lastExclusive = checkboxes.last.copy(behaviour = Some(ExclusiveCheckbox))
     checkboxes.dropRight(1) :+ divider :+ lastExclusive
   }
 
   implicit val enumerable: Enumerable[OtherLiabilityIssues] =
-    Enumerable(values.map(v => v.toString -> v): _*)
+    Enumerable(values.map(v => v.toString -> v)*)
 }

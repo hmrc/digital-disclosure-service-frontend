@@ -31,7 +31,7 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseViewSpec extends ViewSpecBase wit
   "view" should {
 
     val isUserCompany    = false
-    def createView: Html = page(form, NormalMode, isUserCompany)(request, messages)
+    def createView: Html = page(form, NormalMode, isUserCompany)(using request, messages)
     val view             = createView
 
     "have title" in {
@@ -66,7 +66,7 @@ class WhatOnshoreLiabilitiesDoYouNeedToDiscloseViewSpec extends ViewSpecBase wit
   "view" should {
 
     val isUserCompany    = true
-    def createView: Html = page(form, NormalMode, isUserCompany)(request, messages)
+    def createView: Html = page(form, NormalMode, isUserCompany)(using request, messages)
     val view             = createView
 
     "contain checkbox when user is company" in {

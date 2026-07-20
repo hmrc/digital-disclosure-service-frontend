@@ -42,7 +42,7 @@ class PdfGenerationControllerSpec extends SpecBase with MockitoSugar {
     "call the generation service" - {
 
       val mockService = mock[SubmissionPDFService]
-      when(mockService.generatePdf(any())(any(), any())) thenReturn Future.successful(ByteString("String"))
+      when(mockService.generatePdf(any())(using any(), any())) `thenReturn` Future.successful(ByteString("String"))
 
       "for generate" in {
         setupMockSessionResponse(Some(UserAnswers("id", "submissionId")))

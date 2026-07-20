@@ -20,32 +20,32 @@ import play.api.data.{Form, FormError}
 
 trait PhoneNumberBehaviours extends FieldBehaviours {
 
-  def ukPhoneNumberBindsValidData(form: Form[_], fieldName: String): Unit =
+  def ukPhoneNumberBindsValidData(form: Form[?], fieldName: String): Unit =
     "bind valid phone number" in {
 
       val validDataGenerator = ukPhoneNumber()
 
-      forAll(validDataGenerator -> "validDataItem") { dataItem: String =>
+      forAll(validDataGenerator -> "validDataItem") { (dataItem: String) =>
         val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
         result.value.value mustBe dataItem
         result.errors mustBe empty
       }
     }
 
-  def invalidPhoneNumberBindsInvalidData(form: Form[_], fieldName: String, invalidFormError: FormError): Unit =
+  def invalidPhoneNumberBindsInvalidData(form: Form[?], fieldName: String, invalidFormError: FormError): Unit =
     "not bind invalid phone number" in {
-      forAll(invalidPhoneNumber -> "invalidDataItem") { dataItem: String =>
+      forAll(invalidPhoneNumber -> "invalidDataItem") { (dataItem: String) =>
         val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
         result.errors must contain(invalidFormError)
       }
     }
 
-  def internationalPhoneNumberBindsValidData(form: Form[_], fieldName: String): Unit = {
+  def internationalPhoneNumberBindsValidData(form: Form[?], fieldName: String): Unit = {
 
     "bind international phone number" in {
       val validDataGenerator = internationalPhoneNumber(doubleZero = true)
 
-      forAll(validDataGenerator -> "validDataItem") { dataItem: String =>
+      forAll(validDataGenerator -> "validDataItem") { (dataItem: String) =>
         val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
         result.value.value mustBe dataItem
         result.errors mustBe empty
@@ -55,7 +55,7 @@ trait PhoneNumberBehaviours extends FieldBehaviours {
     "bind phone number with double zero prefix" in {
       val validDataGenerator = internationalPhoneNumber()
 
-      forAll(validDataGenerator -> "validDataItem") { dataItem: String =>
+      forAll(validDataGenerator -> "validDataItem") { (dataItem: String) =>
         val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
         result.value.value mustBe dataItem
         result.errors mustBe empty

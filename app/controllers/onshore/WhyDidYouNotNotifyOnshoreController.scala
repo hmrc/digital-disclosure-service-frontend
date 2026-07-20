@@ -80,15 +80,15 @@ class WhyDidYouNotNotifyOnshoreController @Inject() (
         )
   }
 
-  def changedPages(answers: UserAnswers, value: Set[WhyDidYouNotNotifyOnshore]): (List[QuestionPage[_]], Boolean) =
+  def changedPages(answers: UserAnswers, value: Set[WhyDidYouNotNotifyOnshore]): (List[QuestionPage[?]], Boolean) =
     answers.get(WhyDidYouNotNotifyOnshorePage) match {
       case Some(reasons) if reasons != value => (getPages(value), true)
       case _                                 => (Nil, false)
     }
 
-  private def getPages(reasons: Set[WhyDidYouNotNotifyOnshore]): List[QuestionPage[_]] = {
+  private def getPages(reasons: Set[WhyDidYouNotNotifyOnshore]): List[QuestionPage[?]] = {
 
-    case class ClearingCondition(selections: Set[WhyDidYouNotNotifyOnshore], pagesToClear: List[QuestionPage[_]]) {
+    case class ClearingCondition(selections: Set[WhyDidYouNotNotifyOnshore], pagesToClear: List[QuestionPage[?]]) {
       def isConditionMet(reasons: Set[WhyDidYouNotNotifyOnshore]): Boolean = reasons.intersect(selections).isEmpty
     }
 
@@ -97,7 +97,7 @@ class WhyDidYouNotNotifyOnshoreController @Inject() (
 
     val conditions = List(deliberate, hasExcuse)
 
-    conditions.foldLeft[List[QuestionPage[_]]](List()) { (cleared, condition) =>
+    conditions.foldLeft[List[QuestionPage[?]]](List()) { (cleared, condition) =>
       if (condition.isConditionMet(reasons)) cleared ++ condition.pagesToClear else cleared
     }
   }

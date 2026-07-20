@@ -60,12 +60,12 @@ class NotificationStartedControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, formattedDate)(request, messages).toString
+      contentAsString(result) mustEqual view(form, formattedDate)(using request, messages).toString
     }
 
     "must redirect to the next page when Disclosure is submitted" in {
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val request =
@@ -80,7 +80,7 @@ class NotificationStartedControllerSpec extends SpecBase with MockitoSugar {
 
     "must redirect to the next page when Continue is submitted" in {
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val request =
@@ -106,7 +106,7 @@ class NotificationStartedControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, formattedDate)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, formattedDate)(using request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

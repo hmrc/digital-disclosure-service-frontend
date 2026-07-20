@@ -74,7 +74,7 @@ class AdviceGivenController @Inject() (
         )
   }
 
-  def changedPages(userAnswers: UserAnswers, newValue: AdviceGiven): (List[QuestionPage[_]], Boolean) =
+  def changedPages(userAnswers: UserAnswers, newValue: AdviceGiven): (List[QuestionPage[?]], Boolean) =
     userAnswers.get(AdviceGivenPage) match {
       case Some(oldValue) if oldValue.contactPreference != newValue.contactPreference =>
         (

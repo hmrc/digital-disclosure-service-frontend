@@ -56,7 +56,7 @@ class RentalAddressLookupController @Inject() (
       addressLookupService
         .getRentalAddressLookupRedirect(continueUrl, i)
         .fold(
-          { e: Error =>
+          { (e: Error) =>
             logger.error(s"Error initialising Address Lookup: $e")
             Future.failed(e.throwable.getOrElse(new Exception(e.message)))
           },
@@ -80,7 +80,7 @@ class RentalAddressLookupController @Inject() (
     addressLookupService
       .retrieveUserAddress(addressId)
       .fold(
-        { e: Error =>
+        { (e: Error) =>
           logger.error(s"Error updating Address Lookup address: $e")
           Future.failed(e.throwable.getOrElse(new Exception(e.message)))
         },

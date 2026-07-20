@@ -25,24 +25,22 @@ class YourLegalInterpretationFormProviderSpec extends CheckboxFieldBehaviours wi
 
   val form = new YourLegalInterpretationFormProvider()()
 
-
   private val optionToExpectedValue: Map[String, YourLegalInterpretation] = Map(
-    "yourResidenceStatus" -> YourLegalInterpretation.YourResidenceStatus,
-    "yourDomicileStatus"  -> YourLegalInterpretation.YourDomicileStatus,
-    "theRemittanceBasis"  -> YourLegalInterpretation.TheRemittanceBasis,
-    "howIncomeArisingInATrust"  -> YourLegalInterpretation.HowIncomeArisingInATrust,
-    "theTransferOfAssets"  -> YourLegalInterpretation.TheTransferOfAssets,
-    "howIncomeArisingInAnOffshore"  -> YourLegalInterpretation.HowIncomeArisingInAnOffshore,
-    "inheritanceTaxIssues"  -> YourLegalInterpretation.InheritanceTaxIssues,
-    "whetherIncomeShouldBeTaxed"  -> YourLegalInterpretation.WhetherIncomeShouldBeTaxed,
-    "anotherIssue"  -> YourLegalInterpretation.AnotherIssue
+    "yourResidenceStatus"          -> YourLegalInterpretation.YourResidenceStatus,
+    "yourDomicileStatus"           -> YourLegalInterpretation.YourDomicileStatus,
+    "theRemittanceBasis"           -> YourLegalInterpretation.TheRemittanceBasis,
+    "howIncomeArisingInATrust"     -> YourLegalInterpretation.HowIncomeArisingInATrust,
+    "theTransferOfAssets"          -> YourLegalInterpretation.TheTransferOfAssets,
+    "howIncomeArisingInAnOffshore" -> YourLegalInterpretation.HowIncomeArisingInAnOffshore,
+    "inheritanceTaxIssues"         -> YourLegalInterpretation.InheritanceTaxIssues,
+    "whetherIncomeShouldBeTaxed"   -> YourLegalInterpretation.WhetherIncomeShouldBeTaxed,
+    "anotherIssue"                 -> YourLegalInterpretation.AnotherIssue
   )
-
 
   ".value" - {
 
-    val fieldName         = "value"
-    val requiredKey       = "yourLegalInterpretation.error.required"
+    val fieldName   = "value"
+    val requiredKey = "yourLegalInterpretation.error.required"
 
     behave like checkboxField[YourLegalInterpretation](
       form,
@@ -69,7 +67,7 @@ class YourLegalInterpretationFormProviderSpec extends CheckboxFieldBehaviours wi
       "anotherIssue"
     ).foreach { option =>
       s"fail to bind when the user selects both No excluded amount AND $option" in {
-        val data          = Map(
+        val data = Map(
           "value[0]" -> "noExclusion",
           "value[1]" -> option
         )

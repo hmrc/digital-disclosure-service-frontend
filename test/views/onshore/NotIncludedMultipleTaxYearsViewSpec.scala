@@ -32,7 +32,7 @@ class NotIncludedMultipleTaxYearsViewSpec extends ViewSpecBase with ViewMatchers
     List(OnshoreYearStarting(2021), OnshoreYearStarting(2019), OnshoreYearStarting(2017))
   val notSelectedYears: List[OnshoreYearStarting] = List(OnshoreYearStarting(2020), OnshoreYearStarting(2018))
 
-  private def createView: Html = page(form, NormalMode, selectedYears, notSelectedYears)(request, messages)
+  private def createView: Html = page(form, NormalMode, selectedYears, notSelectedYears)(using request, messages)
 
   "view" should {
 

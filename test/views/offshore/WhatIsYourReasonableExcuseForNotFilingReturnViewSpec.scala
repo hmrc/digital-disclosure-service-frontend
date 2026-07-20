@@ -31,7 +31,7 @@ class WhatIsYourReasonableExcuseForNotFilingReturnViewSpec extends ViewSpecBase 
     val areTheyTheIndividual = true
     val entity               = RelatesTo.AnIndividual
     val form                 = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(areTheyTheIndividual)
-    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
     val view                 = createView
 
     "have title" in {
@@ -89,7 +89,7 @@ class WhatIsYourReasonableExcuseForNotFilingReturnViewSpec extends ViewSpecBase 
 
   def constructHeading(entity: RelatesTo, areTheyTheIndividual: Boolean) = {
     val form             = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(areTheyTheIndividual)
-    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
     val view             = createView
 
     if (areTheyTheIndividual) {
@@ -105,7 +105,7 @@ class WhatIsYourReasonableExcuseForNotFilingReturnViewSpec extends ViewSpecBase 
 
   def constructTitle(entity: RelatesTo, areTheyTheIndividual: Boolean) = {
     val form             = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(areTheyTheIndividual)
-    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    def createView: Html = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
     val view             = createView
 
     if (areTheyTheIndividual) {
@@ -118,7 +118,7 @@ class WhatIsYourReasonableExcuseForNotFilingReturnViewSpec extends ViewSpecBase 
   def constructLabel(entity: RelatesTo) = {
     val areTheyTheIndividual = false
     val form                 = new WhatIsYourReasonableExcuseForNotFilingReturnFormProvider()(areTheyTheIndividual)
-    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
     val view                 = createView
 
     view.getElementById("label").text() mustBe messages(

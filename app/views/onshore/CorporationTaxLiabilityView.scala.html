@@ -34,7 +34,8 @@
     tasklistLink: components.tasklistLink
 )
 
-@(form: Form[_], mode: Mode, i: Int, flags: DynamicNonPenaltyFlags)(implicit request: RequestHeader, messages: Messages)
+
+@(form: Form[?], mode: Mode, i: Int, flags: DynamicNonPenaltyFlags)(implicit request: RequestHeader, messages: Messages)
 
 @layout(pageTitle = title(form, messages("corporationTaxLiability.title", i + 1))) {
 

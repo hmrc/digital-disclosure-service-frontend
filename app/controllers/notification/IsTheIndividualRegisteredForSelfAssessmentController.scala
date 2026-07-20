@@ -79,7 +79,7 @@ class IsTheIndividualRegisteredForSelfAssessmentController @Inject() (
   def changedPages(
     existingUserAnswers: UserAnswers,
     value: IsTheIndividualRegisteredForSelfAssessment
-  ): (List[QuestionPage[_]], Boolean) =
+  ): (List[QuestionPage[?]], Boolean) =
     existingUserAnswers.get(IsTheIndividualRegisteredForSelfAssessmentPage) match {
       case Some(IsTheIndividualRegisteredForSelfAssessment.YesIKnow)
           if value != IsTheIndividualRegisteredForSelfAssessment.YesIKnow =>

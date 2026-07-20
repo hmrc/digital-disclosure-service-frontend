@@ -32,7 +32,7 @@ class ReasonableCareOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     val areTheyTheIndividual = true
     val entity               = RelatesTo.AnIndividual
     val form                 = new ReasonableCareOnshoreFormProvider()(areTheyTheIndividual)
-    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
 
     val view = createView
 
@@ -74,7 +74,7 @@ class ReasonableCareOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     val areTheyTheIndividual = false
     val entity               = RelatesTo.AnIndividual
     val form                 = new ReasonableCareOnshoreFormProvider()(areTheyTheIndividual)
-    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
 
     val view = createView
 
@@ -98,7 +98,7 @@ class ReasonableCareOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     val areTheyTheIndividual = false
     val entity               = RelatesTo.AnEstate
     val form                 = new ReasonableCareOnshoreFormProvider()(areTheyTheIndividual)
-    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
 
     val view = createView
 
@@ -122,7 +122,7 @@ class ReasonableCareOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     val areTheyTheIndividual = false
     val entity               = RelatesTo.ACompany
     val form                 = new ReasonableCareOnshoreFormProvider()(areTheyTheIndividual)
-    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
 
     val view = createView
 
@@ -146,7 +146,7 @@ class ReasonableCareOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     val areTheyTheIndividual = false
     val entity               = RelatesTo.ALimitedLiabilityPartnership
     val form                 = new ReasonableCareOnshoreFormProvider()(areTheyTheIndividual)
-    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
 
     val view = createView
 
@@ -170,7 +170,7 @@ class ReasonableCareOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
     val areTheyTheIndividual = false
     val entity               = RelatesTo.ATrust
     val form                 = new ReasonableCareOnshoreFormProvider()(areTheyTheIndividual)
-    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(request, messages)
+    def createView: Html     = page(form, NormalMode, areTheyTheIndividual, entity)(using request, messages)
 
     val view = createView
 

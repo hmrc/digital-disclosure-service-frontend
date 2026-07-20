@@ -30,7 +30,7 @@ class YouHaveLeftTheDDSViewSpec extends ViewSpecBase with ViewMatchers {
   val page: YouHaveLeftTheDDSView = inject[YouHaveLeftTheDDSView]
   val config: FrontendAppConfig   = inject[FrontendAppConfig]
 
-  private def createView: Html = page(form, NormalMode)(request, messages, config)
+  private def createView: Html = page(form, NormalMode)(using request, messages, config)
 
   "view" should {
 

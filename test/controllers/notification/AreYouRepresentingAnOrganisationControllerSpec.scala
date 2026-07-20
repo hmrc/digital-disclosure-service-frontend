@@ -52,7 +52,7 @@ class AreYouRepresentingAnOrganisationControllerSpec extends ControllerSpecBase 
       val view = application.injector.instanceOf[AreYouRepresentingAnOrganisationView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, NormalMode, false)(request, messages).toString
+      contentAsString(result) mustEqual view(form, NormalMode, false)(using request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -69,12 +69,12 @@ class AreYouRepresentingAnOrganisationControllerSpec extends ControllerSpecBase 
       val result = route(application, request).value
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form.fill(true), NormalMode, false)(request, messages).toString
+      contentAsString(result) mustEqual view(form.fill(true), NormalMode, false)(using request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val request =
@@ -102,7 +102,7 @@ class AreYouRepresentingAnOrganisationControllerSpec extends ControllerSpecBase 
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, false)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode, false)(using request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {
@@ -156,7 +156,7 @@ class AreYouRepresentingAnOrganisationControllerSpec extends ControllerSpecBase 
 
       val userAnswers = UserAnswers("id", "session-123")
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
 
       val previousUa = userAnswers.remove(AreYouRepresentingAnOrganisationPage).success.value
       val expectedUa = userAnswers.set(AreYouRepresentingAnOrganisationPage, newAnswer).success.value
@@ -172,7 +172,7 @@ class AreYouRepresentingAnOrganisationControllerSpec extends ControllerSpecBase 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual destinationRoute
 
-      verify(mockSessionService, times(1)).set(refEq(expectedUa))(any())
+      verify(mockSessionService, times(1)).set(refEq(expectedUa))(using any())
     }
 
     "must redirect to CheckYourAnswers page (change mode) and clean WhatIsTheNameOfTheOrganisationYouRepresentPage if page answer changes from Yes to No in check mode" in {

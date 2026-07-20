@@ -28,7 +28,7 @@ class WhatIsTheIndividualDateOfBirthViewSpec extends ViewSpecBase with ViewMatch
   val form                                     = new WhatIsTheIndividualDateOfBirthFormProvider()()
   val page: WhatIsTheIndividualDateOfBirthView = inject[WhatIsTheIndividualDateOfBirthView]
 
-  private def createView: Html = page(form, NormalMode, false)(request, messages)
+  private def createView: Html = page(form, NormalMode, false)(using request, messages)
 
   "view" should {
 

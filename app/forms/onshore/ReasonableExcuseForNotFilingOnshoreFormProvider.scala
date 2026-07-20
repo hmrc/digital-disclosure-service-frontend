@@ -42,6 +42,6 @@ class ReasonableExcuseForNotFilingOnshoreFormProvider @Inject() extends Mappings
       "yearsThisAppliesTo" -> text("whatIsYourReasonableExcuseForNotFilingReturn.error.yearsThisAppliesTo.required")
         .verifying(maxLength(500, "whatIsYourReasonableExcuseForNotFilingReturn.error.yearsThisAppliesTo.length"))
         .verifying(validUnicodeCharacters)
-    )(ReasonableExcuseForNotFilingOnshore.apply)(ReasonableExcuseForNotFilingOnshore.unapply)
+    )(ReasonableExcuseForNotFilingOnshore.apply)(o => Some(o.reasonableExcuse, o.yearsThisAppliesTo))
   )
 }

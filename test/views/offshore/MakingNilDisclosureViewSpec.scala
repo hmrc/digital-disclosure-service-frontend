@@ -32,7 +32,7 @@ class MakingNilDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
     val entity               = RelatesTo.AnIndividual
     val years                = "2022"
 
-    def createView: Html = page(areTheyTheIndividual, entity, years)(request, messages)
+    def createView: Html = page(areTheyTheIndividual, entity, years)(using request, messages)
     val view             = createView
 
     "have title" in {
@@ -67,7 +67,7 @@ class MakingNilDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
     val entity               = RelatesTo.AnIndividual
     val years                = "2022"
 
-    def createView: Html = page(areTheyTheIndividual, entity, years)(request, messages)
+    def createView: Html = page(areTheyTheIndividual, entity, years)(using request, messages)
     val view             = createView
 
     "contain body" in {
@@ -95,7 +95,7 @@ class MakingNilDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
     val entity               = RelatesTo.AnEstate
     val years                = "2022"
 
-    def createView: Html = page(areTheyTheIndividual, entity, years)(request, messages)
+    def createView: Html = page(areTheyTheIndividual, entity, years)(using request, messages)
     val view             = createView
 
     "contain body" in {
@@ -123,7 +123,7 @@ class MakingNilDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
     val entity               = RelatesTo.ACompany
     val years                = "2022"
 
-    def createView: Html = page(areTheyTheIndividual, entity, years)(request, messages)
+    def createView: Html = page(areTheyTheIndividual, entity, years)(using request, messages)
     val view             = createView
 
     "contain body" in {
@@ -151,7 +151,7 @@ class MakingNilDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
     val entity               = RelatesTo.ALimitedLiabilityPartnership
     val years                = "2022"
 
-    def createView: Html = page(areTheyTheIndividual, entity, years)(request, messages)
+    def createView: Html = page(areTheyTheIndividual, entity, years)(using request, messages)
     val view             = createView
 
     "contain body" in {
@@ -179,7 +179,7 @@ class MakingNilDisclosureViewSpec extends ViewSpecBase with ViewMatchers {
     val entity               = RelatesTo.ATrust
     val years                = "2022"
 
-    def createView: Html = page(areTheyTheIndividual, entity, years)(request, messages)
+    def createView: Html = page(areTheyTheIndividual, entity, years)(using request, messages)
     val view             = createView
 
     "contain body" in {

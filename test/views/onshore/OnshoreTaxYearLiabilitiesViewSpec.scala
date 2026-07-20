@@ -40,7 +40,7 @@ class OnshoreTaxYearLiabilitiesViewSpec extends ViewSpecBase with ViewMatchers {
   val page: OnshoreTaxYearLiabilitiesView                            = inject[OnshoreTaxYearLiabilitiesView]
 
   private def createView(taxTypes: Set[WhatOnshoreLiabilitiesDoYouNeedToDisclose]): Html =
-    page(form(taxTypes), NormalMode, 0, 2021, taxTypes, penaltyFlags)(request, messages)
+    page(form(taxTypes), NormalMode, 0, 2021, taxTypes, penaltyFlags)(using request, messages)
 
   "view with no types selected" should {
 

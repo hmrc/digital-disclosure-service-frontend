@@ -121,10 +121,15 @@ class DirectorLoanAccountLiabilitiesSummaryViewModelSpec extends SpecBase with S
         .set(
           WhyAreYouMakingThisOnshoreDisclosurePage,
           Set[WhyAreYouMakingThisOnshoreDisclosure](DidNotNotifyHMRC)
-        ).success.value
-        .set(WhyYouSubmittedAnInaccurateOnshoreReturnPage,
+        )
+        .success
+        .value
+        .set(
+          WhyYouSubmittedAnInaccurateOnshoreReturnPage,
           Set[WhyYouSubmittedAnInaccurateOnshoreReturn](NoReasonableCare)
-        ).success.value
+        )
+        .success
+        .value
       val viewModel = sut.create(ua)
 
       viewModel.totalAmountsList.rows(0).key mustEqual Key(Text(mess("checkYourAnswers.dl.total.taxDue")))

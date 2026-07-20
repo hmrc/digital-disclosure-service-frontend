@@ -52,7 +52,7 @@ class DoesTheIndividualHaveNationalInsuranceNumberControllerSpec extends Control
       val view = application.injector.instanceOf[DoesTheIndividualHaveNationalInsuranceNumberView]
 
       status(result) mustEqual OK
-      contentAsString(result) mustEqual view(form, NormalMode, false)(request, messages).toString
+      contentAsString(result) mustEqual view(form, NormalMode, false)(using request, messages).toString
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
@@ -75,12 +75,12 @@ class DoesTheIndividualHaveNationalInsuranceNumberControllerSpec extends Control
         form.fill(DoesTheIndividualHaveNationalInsuranceNumber.values.head),
         NormalMode,
         false
-      )(request, messages).toString
+      )(using request, messages).toString
     }
 
     "must redirect to the next page when valid data is submitted" in {
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(true)
+      when(mockSessionService.set(any())(using any())) `thenReturn` Future.successful(true)
       setupMockSessionResponse(Some(emptyUserAnswers))
 
       val request =
@@ -108,7 +108,7 @@ class DoesTheIndividualHaveNationalInsuranceNumberControllerSpec extends Control
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-      contentAsString(result) mustEqual view(boundForm, NormalMode, false)(request, messages).toString
+      contentAsString(result) mustEqual view(boundForm, NormalMode, false)(using request, messages).toString
     }
 
     "must redirect to Index for a GET if no existing data is found" in {

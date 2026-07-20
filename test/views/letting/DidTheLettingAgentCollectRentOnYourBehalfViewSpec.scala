@@ -28,7 +28,7 @@ class DidTheLettingAgentCollectRentOnYourBehalfViewSpec extends ViewSpecBase wit
   val form                                                = new DidTheLettingAgentCollectRentOnYourBehalfFormProvider()()
   val page: DidTheLettingAgentCollectRentOnYourBehalfView = inject[DidTheLettingAgentCollectRentOnYourBehalfView]
 
-  private def createView: Html = page(form, 0, NormalMode)(request, messages)
+  private def createView: Html = page(form, 0, NormalMode)(using request, messages)
 
   "view" should {
 

@@ -36,7 +36,7 @@ class WhichYearsViewSpec extends ViewSpecBase with ViewMatchers with CurrentTaxY
   "view" should {
 
     val checkboxes       = service.checkboxItems(Behaviour.Deliberate)
-    def createView: Html = page(form, NormalMode, checkboxes)(request, messages)
+    def createView: Html = page(form, NormalMode, checkboxes)(using request, messages)
     val view             = createView
 
     "contain hint text" in {

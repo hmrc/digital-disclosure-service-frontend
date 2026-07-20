@@ -27,7 +27,7 @@ class NotificationStartedViewSpec extends ViewSpecBase with ViewMatchers {
   val form                          = new NotificationStartedFormProvider()()
   val page: NotificationStartedView = inject[NotificationStartedView]
 
-  private def createView: Html = page(form, "date string")(request, messages)
+  private def createView: Html = page(form, "date string")(using request, messages)
 
   "view" should {
 

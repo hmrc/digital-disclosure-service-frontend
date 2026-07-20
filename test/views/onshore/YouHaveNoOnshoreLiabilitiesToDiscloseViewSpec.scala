@@ -32,7 +32,7 @@ class YouHaveNoOnshoreLiabilitiesToDiscloseViewSpec extends ViewSpecBase with Vi
     val entity               = RelatesTo.AnIndividual
     val years                = 20
 
-    def createView: Html = page(areTheyTheIndividual, entity, years)(request, messages)
+    def createView: Html = page(areTheyTheIndividual, entity, years)(using request, messages)
     val view             = createView
 
     "have title" in {
