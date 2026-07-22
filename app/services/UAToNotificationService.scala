@@ -16,7 +16,7 @@
 
 package services
 
-import models.{AreYouRegisteredForSelfAssessment, AreYouRegisteredForVAT, DoYouHaveNationalInsuranceNumber, HowWouldYouPreferToBeContacted, RelatesTo, UserAnswers}
+import models.{AreYouRegisteredForSelfAssessment, AreYouRegisteredForVAT, DidThePersonHaveNINO, DoYouHaveNationalInsuranceNumber, DoesTheIndividualHaveNationalInsuranceNumber, HowWouldYouPreferToBeContacted, IsTheIndividualRegisteredForSelfAssessment, IsTheIndividualRegisteredForVAT, RelatesTo, UserAnswers, WasThePersonRegisteredForSA, WasThePersonRegisteredForVAT}
 import models.store.{Notification, YesNoOrUnsure}
 import models.store.notification.*
 import pages.*
@@ -134,11 +134,23 @@ class UAToNotificationServiceImpl extends UAToNotificationService {
       fullName = userAnswers.get(WhatIsTheIndividualsFullNamePage),
       dateOfBirth = userAnswers.get(WhatIsTheIndividualDateOfBirthPage),
       mainOccupation = userAnswers.get(WhatIsTheIndividualOccupationPage),
-      doTheyHaveANino = userAnswers.get(DoesTheIndividualHaveNationalInsuranceNumberPage.path),
+      doTheyHaveANino = userAnswers.get(DoesTheIndividualHaveNationalInsuranceNumberPage).map {
+        case DoesTheIndividualHaveNationalInsuranceNumber.YesIKnow       => YesNoOrUnsure.Yes
+        case DoesTheIndividualHaveNationalInsuranceNumber.YesButDontKnow => YesNoOrUnsure.Unsure
+        case DoesTheIndividualHaveNationalInsuranceNumber.No             => YesNoOrUnsure.No
+      },
       nino = userAnswers.get(WhatIsIndividualsNationalInsuranceNumberPage),
-      registeredForVAT = userAnswers.get(IsTheIndividualRegisteredForVATPage.path),
+      registeredForVAT = userAnswers.get(IsTheIndividualRegisteredForVATPage).map {
+        case IsTheIndividualRegisteredForVAT.YesIKnow       => YesNoOrUnsure.Yes
+        case IsTheIndividualRegisteredForVAT.YesButDontKnow => YesNoOrUnsure.Unsure
+        case IsTheIndividualRegisteredForVAT.No             => YesNoOrUnsure.No
+      },
       vatRegNumber = userAnswers.get(WhatIsTheIndividualsVATRegistrationNumberPage),
-      registeredForSA = userAnswers.get(IsTheIndividualRegisteredForSelfAssessmentPage.path),
+      registeredForSA = userAnswers.get(IsTheIndividualRegisteredForSelfAssessmentPage).map {
+        case IsTheIndividualRegisteredForSelfAssessment.YesIKnow       => YesNoOrUnsure.Yes
+        case IsTheIndividualRegisteredForSelfAssessment.YesButDontKnow => YesNoOrUnsure.Unsure
+        case IsTheIndividualRegisteredForSelfAssessment.No             => YesNoOrUnsure.No
+      },
       sautr = userAnswers.get(WhatIsTheIndividualsUniqueTaxReferencePage),
       address = userAnswers.get(IndividualAddressLookupPage)
     )
@@ -148,11 +160,23 @@ class UAToNotificationServiceImpl extends UAToNotificationService {
       fullName = userAnswers.get(WhatWasTheNameOfThePersonWhoDiedPage),
       dateOfBirth = userAnswers.get(WhatWasThePersonDateOfBirthPage),
       mainOccupation = userAnswers.get(WhatWasThePersonOccupationPage),
-      doTheyHaveANino = userAnswers.get(DidThePersonHaveNINOPage.path),
+      doTheyHaveANino = userAnswers.get(DidThePersonHaveNINOPage).map {
+        case DidThePersonHaveNINO.YesIKnow       => YesNoOrUnsure.Yes
+        case DidThePersonHaveNINO.YesButDontKnow => YesNoOrUnsure.Unsure
+        case DidThePersonHaveNINO.No             => YesNoOrUnsure.No
+      },
       nino = userAnswers.get(WhatWasThePersonNINOPage),
-      registeredForVAT = userAnswers.get(WasThePersonRegisteredForVATPage.path),
+      registeredForVAT = userAnswers.get(WasThePersonRegisteredForVATPage).map {
+        case WasThePersonRegisteredForVAT.YesIKnow        => YesNoOrUnsure.Yes
+        case WasThePersonRegisteredForVAT.YesButIDontKnow => YesNoOrUnsure.Unsure
+        case WasThePersonRegisteredForVAT.No              => YesNoOrUnsure.No
+      },
       vatRegNumber = userAnswers.get(WhatWasThePersonVATRegistrationNumberPage),
-      registeredForSA = userAnswers.get(WasThePersonRegisteredForSAPage.path),
+      registeredForSA = userAnswers.get(WasThePersonRegisteredForSAPage).map {
+        case WasThePersonRegisteredForSA.YesIKnow        => YesNoOrUnsure.Yes
+        case WasThePersonRegisteredForSA.YesButIDontKnow => YesNoOrUnsure.Unsure
+        case WasThePersonRegisteredForSA.No              => YesNoOrUnsure.No
+      },
       sautr = userAnswers.get(WhatWasThePersonUTRPage),
       address = userAnswers.get(EstateAddressLookupPage)
     )
