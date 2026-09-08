@@ -85,6 +85,7 @@ class OnshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues
         behaviour = Some(whySet),
         whatLiabilities = Some(WhatOnshoreLiabilitiesDoYouNeedToDisclose.values.toSet),
         whichYears = Some(Set(OnshoreYearStarting(2012))),
+        taxBeforeThreeYears = Some("Reason"),
         taxYearLiabilities = Some(Map("2012" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2012), liabilities))),
         lettingProperties = Some(lettingProperty),
         memberOfLandlordAssociations = Some(true),
@@ -169,6 +170,16 @@ class OnshoreLiabilitiesSpec extends AnyFreeSpec with Matchers with OptionValues
         taxYearLiabilities = Some(Map("2012" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2012), liabilities)))
       )
       onshoreLiabilities.isComplete mustBe true
+    }
+
+    "must return false where they have selected non business income but hasn't provided the reason" in {
+      val onshoreLiabilities = OnshoreLiabilities(
+        behaviour = Some(whySet),
+        whatLiabilities = Some(Set(WhatOnshoreLiabilitiesDoYouNeedToDisclose.NonBusinessIncome)),
+        whichYears = Some(Set(OnshoreYearStarting(2012))),
+        taxYearLiabilities = Some(Map("2012" -> OnshoreTaxYearWithLiabilities(OnshoreYearStarting(2012), liabilities)))
+      )
+      onshoreLiabilities.isComplete mustBe false
     }
 
     "must return false where they have not answered all necessary questions" in {
