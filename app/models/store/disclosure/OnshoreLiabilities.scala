@@ -63,7 +63,9 @@ final case class OnshoreLiabilities(
     (!typesOfTax.contains(LettingIncome) || lettingQuestionsAnswered || isNilDisclosure) &&
     ((typesOfTax.contains(CorporationTax) || typesOfTax.contains(
       DirectorLoan
-    )) || isNilDisclosure || taxYearQuestionsAnswered)
+    )) || isNilDisclosure || taxYearQuestionsAnswered) &&
+    (!typesOfTax.contains(NonBusinessIncome) ||
+      taxBeforeThreeYears.exists(_.trim.nonEmpty))
   }
 
   def taxYearQuestionsAnswered: Boolean =
