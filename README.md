@@ -24,6 +24,9 @@ To stop the frontend microservice from running on service manager (e.g. to run y
 sm2 -stop DIGITAL_DISCLOSURE_SERVICE_FRONTEND
 ```
 
+
+AFFINITY_GROUP - if you are having issues running locally, please amend which version of AFFINITY GROUP you are using to a previous version. 
+
 ### Using localhost
 
 To run this frontend microservice locally on the configured port **'15003'**, you can run:
