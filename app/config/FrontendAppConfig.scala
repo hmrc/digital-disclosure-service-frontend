@@ -37,6 +37,7 @@ class FrontendAppConfig @Inject() (configuration: Configuration) {
     s"$contactFormServiceIdentifier&backUrl=${URLEncoder.encode(host + request.uri, "UTF-8")}"
 
   lazy val userResearchUrl: String = configuration.get[String](s"urls.userResearchUrl")
+  lazy val researchBannerEnabled: Boolean = configuration.get[Boolean]("features.researchBannerEnabled")
 
   lazy val loginUrl: String         = configuration.get[String]("urls.login")
   lazy val loginContinueUrl: String = configuration.get[String]("urls.loginContinue")

@@ -25,15 +25,9 @@ exitSurvey.p1 = Mae’ch adborth yn ein helpu i wella ein gwasanaeth.
 exitSurvey.link = Llenwch ein harolwg
 exitSurvey.p2 =  i rannu’ch adborth ar y gwasanaeth.
 
-# User Research Before You Go - Journey End Page Link
-exitSurvey.BeforeYouGoUserResearch.p1 = Helpwch i wella GOV.UK –
-exitSurvey.BeforeYouGoUserResearch.link = Cofrestrwch i gymryd rhan mewn ymchwil
-
 # User Research Banner
-researchBanner.h2 = Helpwch i wella GOV.UK
-researchBanner.link.text = Cofrestrwch i gymryd rhan mewn ymchwil (yn agor tab newydd)
-researchBanner.hide.button = Cuddio negeseuon
-researchBanner.visually.hidden = cuddio negeseuon. Nid ydw i eisiau cymryd rhan mewn ymchwil
+researchBanner.h2 = Mae’n bosibl y byddwch yn cael taleb am roi adborth
+researchBanner.link.text = Ymunwch â’n panel ymchwil (yn agor tab newydd)
 
 date.day = Diwrnod
 date.month = Mis

@@ -43,8 +43,8 @@ object WhyDidYouNotFileAReturnOnTimeOffshoreSummary {
                 HtmlFormat
                   .escape(
                     messages(
-                      if (areTheyTheIndividual) s"whyDidYouNotFileAReturnOnTime.you.$answer"
-                      else s"whyDidYouNotFileAReturnOnTime.$entity.$answer"
+                      if (areTheyTheIndividual) {s"whyDidYouNotFileAReturnOnTime.you.$answer"}
+                      else {s"whyDidYouNotFileAReturnOnTime.$entity.$answer"}
                     )
                   )
                   .toString

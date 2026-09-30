@@ -25,15 +25,9 @@ exitSurvey.p1 = Your feedback helps us make our service better.
 exitSurvey.link = Take a short survey
 exitSurvey.p2 =  to share your feedback on this service.
 
-# User Research Before You Go - Journey End Page Link
-exitSurvey.BeforeYouGoUserResearch.p1 = Help make GOV.UK better –
-exitSurvey.BeforeYouGoUserResearch.link = Sign up to take part in research
-
 # User Research Banner
-researchBanner.h2 = Help make GOV.UK better
-researchBanner.link.text = Sign up to take part in research (opens in new tab)
-researchBanner.hide.button = Hide message
-researchBanner.visually.hidden = Hide message. I do not want to take part in research
+researchBanner.h2 = You may receive a voucher for feedback
+researchBanner.link.text = Join our research panel (opens in new tab)
 
 date.day = Day
 date.month = Month

@@ -27,7 +27,7 @@
 
 @(isCaseReferenceAvailable: Boolean, isNilDisclosure: Boolean, referenceNumber: String)(implicit request: RequestHeader, messages: Messages, appConfig: FrontendAppConfig)
 
-@layout(pageTitle = titleNoForm(if(isNilDisclosure) messages("submitted.nil.title") else messages("submitted.notNil.title")), showBackLink = false) {
+@layout(pageTitle = titleNoForm(if(isNilDisclosure) messages("submitted.nil.title") else messages("submitted.notNil.title")), showBackLink = false, showResearchBanner = true) {
     
     @govukPanel(Panel( 
         title = if(isNilDisclosure) messages("submitted.nil.heading") else messages("submitted.notNil.heading"),
