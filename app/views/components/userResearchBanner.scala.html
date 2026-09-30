@@ -24,18 +24,14 @@
 @()(implicit messages: Messages)
 
 <div class="hmrc-user-research-banner" data-module="hmrc-user-research-banner">
-  <div class="hmrc-user-research-banner__container govuk-width-container">
-    <div class="hmrc-user-research-banner__text">
-      <h2 class="govuk-heading-s hmrc-user-research-banner__title">
-          @messages("researchBanner.h2")
-      </h2>
-      <a class="govuk-link hmrc-user-research-banner__link" rel="noopener noreferrer" href="@appConfig.userResearchUrl" target="_blank">
-          @messages("researchBanner.link.text")
-      </a>
+    <div class="hmrc-user-research-banner__container govuk-width-container">
+        <div class="hmrc-user-research-banner__text">
+            <h2 class="govuk-heading-s hmrc-user-research-banner__title">
+                @messages("researchBanner.h2")
+            </h2>
+            <a class="govuk-link hmrc-user-research-banner__link" rel="noopener noreferrer" href="@appConfig.userResearchUrl" target="_blank">
+                @messages("researchBanner.link.text")
+            </a>
+        </div>
     </div>
-    <button class="govuk-button govuk-button--secondary hmrc-user-research-banner__close">
-      <span aria-hidden="true">@messages("researchBanner.hide.button")</span>
-      <span class="govuk-visually-hidden">@messages("researchBanner.visually.hidden")</span>
-    </button>
-  </div>
 </div>
