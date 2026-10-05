@@ -70,16 +70,16 @@
         @paragraph(id = Some("letter-paragraph6"), content = Text(messages("offerLetter.letter.paragraph6")))
 
         @paragraph(content = HtmlContent(downloadLink(
-            id = "link-view-a-copy", 
-            text = messages("offerLetter.download.link"), 
-            fileName = "disclosure.html", 
+            id = "link-view-a-copy",
+            text = messages("offerLetter.download.link"),
+            fileName = "disclosure.html",
             call = controllers.routes.PdfGenerationController.generate
         )))
 
         @paragraph(content = HtmlContent(link(
             id = "print-page",
             text = messages("site.print"),
-            call = Call("GET", "javascript:window.print()")
+            call = Call("GET", "#")
         )))
 
         @subheading(Text(messages("offerLetter.subheading.send")), "govuk-heading-m", Some("subheading-send"))

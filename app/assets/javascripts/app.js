@@ -15,3 +15,13 @@ document.addEventListener('DOMContentLoaded', function(event) {
     });
   }
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const printLink = document.getElementById("print-page");
+  if (printLink) {
+    printLink.addEventListener("click", function (e) {
+      e.preventDefault();
+      window.print();
+    });
+  }
+});
