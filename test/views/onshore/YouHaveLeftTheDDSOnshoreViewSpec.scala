@@ -53,8 +53,7 @@ class YouHaveLeftTheDDSOnshoreViewSpec extends ViewSpecBase with ViewMatchers {
 
     "have an exit survey paragraph with an additional user research link" in {
       view.getElementById("exit-survey").text mustBe
-        s"${messages("exitSurvey.heading")} ${messages("exitSurvey.p1")} ${messages("exitSurvey.link")} ${messages("exitSurvey.p2")} " +
-        s"${messages("exitSurvey.BeforeYouGoUserResearch.p1")} ${messages("exitSurvey.BeforeYouGoUserResearch.link")}."
+        s"${messages("exitSurvey.heading")} ${messages("exitSurvey.p1")} ${messages("exitSurvey.link")} ${messages("exitSurvey.p2")}"
     }
 
     "have an exit survey link" in {
