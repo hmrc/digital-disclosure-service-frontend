@@ -149,7 +149,7 @@ class CheckYourAnswersViewModelSpec extends SpecBase with ScalaCheckPropertyChec
       val viewModel                                             = sut.create(ua)
       val summaryList                                           = viewModel.legalInterpretationlist
       summaryList.rows(0).key mustEqual Key(Text(mess("yourLegalInterpretation.checkYourAnswersLabel")))
-      summaryList.rows(0).value mustEqual ValueViewModel(Text(mess(s"yourLegalInterpretation.$value")))
+      summaryList.rows(0).value mustEqual ValueViewModel(HtmlContent(mess(s"yourLegalInterpretation.$value")))
     }
 
     "return an empty Seq where the years page isn't populated" in {
