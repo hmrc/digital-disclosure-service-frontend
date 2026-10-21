@@ -20,28 +20,31 @@ import controllers.offshore.routes
 import models.{CheckMode, UserAnswers, YourLegalInterpretation}
 import pages.YourLegalInterpretationPage
 import play.api.i18n.Messages
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
+import play.twirl.api.HtmlFormat
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.{HtmlContent, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
-import viewmodels.govuk.summarylist._
-import viewmodels.implicits._
+import viewmodels.govuk.summarylist.*
+import viewmodels.implicits.*
 
 object YourLegalInterpretationSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
     answers.get(YourLegalInterpretationPage).map { answers =>
       val value = ValueViewModel(
-        answers
+        HtmlContent(
+          answers
           .map { answer =>
             answer match {
               case YourLegalInterpretation.TheTransferOfAssets        =>
-                Text(messages(s"yourLegalInterpretation.$answer.first")).toString
+                messages(s"yourLegalInterpretation.$answer.first")
               case YourLegalInterpretation.WhetherIncomeShouldBeTaxed =>
-                Text(messages(s"yourLegalInterpretation.$answer.first")).toString
-              case _                                                  => messages(s"yourLegalInterpretation.$answer").toString
+                messages(s"yourLegalInterpretation.$answer.first")
+              case _                                                  =>
+               messages(s"yourLegalInterpretation.$answer")
             }
           }
           .mkString(",<br>")
-      )
+      ))
 
       SummaryListRowViewModel(
         key = "yourLegalInterpretation.checkYourAnswersLabel",
