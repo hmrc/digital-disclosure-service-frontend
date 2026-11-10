@@ -33,18 +33,19 @@ object YourLegalInterpretationSummary {
       val value = ValueViewModel(
         HtmlContent(
           answers
-          .map { answer =>
-            answer match {
-              case YourLegalInterpretation.TheTransferOfAssets        =>
-                messages(s"yourLegalInterpretation.$answer.first")
-              case YourLegalInterpretation.WhetherIncomeShouldBeTaxed =>
-                messages(s"yourLegalInterpretation.$answer.first")
-              case _                                                  =>
-               messages(s"yourLegalInterpretation.$answer")
+            .map { answer =>
+              answer match {
+                case YourLegalInterpretation.TheTransferOfAssets        =>
+                  messages(s"yourLegalInterpretation.$answer.first")
+                case YourLegalInterpretation.WhetherIncomeShouldBeTaxed =>
+                  messages(s"yourLegalInterpretation.$answer.first")
+                case _                                                  =>
+                  messages(s"yourLegalInterpretation.$answer")
+              }
             }
-          }
-          .mkString(",<br>")
-      ))
+            .mkString(",<br>")
+        )
+      )
 
       SummaryListRowViewModel(
         key = "yourLegalInterpretation.checkYourAnswersLabel",
