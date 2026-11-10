@@ -548,10 +548,10 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
         hasChanged =>
           if (hasChanged) {
             val page2aSelections = ua.get(WhyDidYouNotNotifyOnshorePage).getOrElse(Set.empty)
-            if (page2aSelections.contains(WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore)) {
-              routes.ReasonableExcuseOnshoreController.onPageLoad(CheckMode)
-            } else if (hasAnyDeliberate(ua)) {
+            if (hasAnyDeliberate(ua)) {
               routes.CDFOnshoreController.onPageLoad(CheckMode)
+            } else if (page2aSelections.contains(WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore)) {
+              routes.ReasonableExcuseOnshoreController.onPageLoad(CheckMode)
             } else {
               routes.CheckYourAnswersController.onPageLoad
             }
@@ -562,10 +562,10 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
         hasChanged =>
           if (hasChanged) {
             val page2bSelections = ua.get(WhyDidYouNotFileAReturnOnTimeOnshorePage).getOrElse(Set.empty)
-            if (page2bSelections.contains(ReasonableExcuse)) {
-              routes.ReasonableExcuseForNotFilingOnshoreController.onPageLoad(CheckMode)
-            } else if (hasAnyDeliberate(ua)) {
+            if (hasAnyDeliberate(ua)) {
               routes.CDFOnshoreController.onPageLoad(CheckMode)
+            } else if (page2bSelections.contains(ReasonableExcuse)) {
+              routes.ReasonableExcuseForNotFilingOnshoreController.onPageLoad(CheckMode)
             } else {
               routes.CheckYourAnswersController.onPageLoad
             }
@@ -576,14 +576,40 @@ class OnshoreNavigatorImpl @Inject() (uaToDisclosure: UAToDisclosureService) ext
         hasChanged =>
           if (hasChanged) {
             val page2cSelections = ua.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).getOrElse(Set.empty)
-            if (page2cSelections.contains(ReasonableMistake)) {
-              routes.ReasonableCareOnshoreController.onPageLoad(CheckMode)
-            } else if (hasAnyDeliberate(ua)) {
+            if (hasAnyDeliberate(ua)) {
               routes.CDFOnshoreController.onPageLoad(CheckMode)
+            } else if (page2cSelections.contains(ReasonableMistake)) {
+              routes.ReasonableCareOnshoreController.onPageLoad(CheckMode)
             } else {
               routes.CheckYourAnswersController.onPageLoad
             }
           } else routes.CheckYourAnswersController.onPageLoad
+
+    case CDFOnshorePage =>
+      ua =>
+        _ =>
+          ua.get(CDFOnshorePage) match {
+            case Some(false) => routes.YouHaveLeftTheDDSOnshoreController.onPageLoad(NormalMode)
+            case _           =>
+              val page2aSelections = ua.get(WhyDidYouNotNotifyOnshorePage).getOrElse(Set.empty)
+              val page2bSelections = ua.get(WhyDidYouNotFileAReturnOnTimeOnshorePage).getOrElse(Set.empty)
+              val page2cSelections = ua.get(WhyYouSubmittedAnInaccurateOnshoreReturnPage).getOrElse(Set.empty)
+
+              if (
+                page2aSelections.contains(WhyDidYouNotNotifyOnshore.ReasonableExcuseOnshore) &&
+                ua.get(ReasonableExcuseOnshorePage).isEmpty
+              ) {
+                routes.ReasonableExcuseOnshoreController.onPageLoad(CheckMode)
+              } else if (
+                page2bSelections.contains(ReasonableExcuse) && ua.get(ReasonableExcuseForNotFilingOnshorePage).isEmpty
+              ) {
+                routes.ReasonableExcuseForNotFilingOnshoreController.onPageLoad(CheckMode)
+              } else if (page2cSelections.contains(ReasonableMistake) && ua.get(ReasonableCareOnshorePage).isEmpty) {
+                routes.ReasonableCareOnshoreController.onPageLoad(CheckMode)
+              } else {
+                routes.CheckYourAnswersController.onPageLoad
+              }
+          }
 
     case _ => _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
