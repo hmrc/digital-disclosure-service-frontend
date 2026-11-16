@@ -17,26 +17,44 @@
 package viewmodels.checkAnswers
 
 import controllers.notification.routes
-import models.{CheckMode, UserAnswers}
+import models.{CheckMode, IncomeOrGainSource, UserAnswers}
 import pages.IncomeOrGainSourcePage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
-import viewmodels.govuk.summarylist._
-import viewmodels.implicits._
+import viewmodels.govuk.summarylist.*
+import viewmodels.implicits.*
 
 object IncomeOrGainSourceSummary {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
     answers.get(IncomeOrGainSourcePage).map { answers =>
+
+      val orderedAnswers = IncomeOrGainSource.values
+        .filter(answers.contains)
+
       val value = ValueViewModel(
         HtmlContent(
-          answers
-            .map { answer =>
-              HtmlFormat.escape(messages(s"whereDidTheUndeclaredIncomeOrGainIncluded.$answer")).toString
-            }
-            .mkString(",<br>")
+          if (orderedAnswers.size == 1) {
+            HtmlFormat
+              .escape(
+                messages(
+                  s"whereDidTheUndeclaredIncomeOrGainIncluded.${orderedAnswers.head}"
+                )
+              )
+              .toString
+          } else {
+            orderedAnswers
+              .map { answer =>
+                s"<li>${HtmlFormat.escape(messages(s"whereDidTheUndeclaredIncomeOrGainIncluded.$answer"))}</li>"
+              }
+              .mkString(
+                """<ul class="govuk-list govuk-list--bullet">""",
+                "",
+                "</ul>"
+              )
+          }
         )
       )
 
