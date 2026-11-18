@@ -762,10 +762,12 @@ whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.error.required = Enter the com
 whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.error.length = The company's name must be between 1 and 50 characters
 whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.change.hidden = Company’s name
 
-whatIsTheCompanyRegistrationNumber.title = What is the company’s registration number?
-whatIsTheCompanyRegistrationNumber.heading = What is the company’s registration number?
-whatIsTheCompanyRegistrationNumber.label = You can find this on the company’s certificate of incorporation.
-whatIsTheCompanyRegistrationNumber.hint = This can be 8 numbers like 12345678, or 2 letters followed by 6 numbers like AB123456.
+whatIsTheCompanyRegistrationNumber.title = Company registration number
+whatIsTheCompanyRegistrationNumber.heading = Company registration number
+whatIsTheCompanyRegistrationNumber.body = You can
+whatIsTheCompanyRegistrationNumber.link = search Companies House for a company registration number (opens in new tab)
+whatIsTheCompanyRegistrationNumber.label = What is the company’s registration number?
+whatIsTheCompanyRegistrationNumber.hint = It is 8 characters. For example, 01234567 or AC012345.
 whatIsTheCompanyRegistrationNumber.checkYourAnswersLabel = Company registration number
 whatIsTheCompanyRegistrationNumber.error.required = Enter the company’s registration number
 whatIsTheCompanyRegistrationNumber.error.valid = Enter the company registration number in the right format
