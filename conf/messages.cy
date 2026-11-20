@@ -742,10 +742,12 @@ whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.error.required = Nodwch enw’
 whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.error.length = Mae’n rhaid i enw’r cwmni fod rhwng 1 a 50 o gymeriadau
 whatIsTheNameOfTheCompanyTheDisclosureWillBeAbout.change.hidden = Enw’r cwmni
 
-whatIsTheCompanyRegistrationNumber.title = Beth yw rhif cofrestru’r cwmni?
-whatIsTheCompanyRegistrationNumber.heading = Beth yw rhif cofrestru’r cwmni?
-whatIsTheCompanyRegistrationNumber.label = Gallwch ddod o hyd i hwn ar dystysgrif ymgorffori’r cwmni.
-whatIsTheCompanyRegistrationNumber.hint = Gall hyn fod yn 8 rhif megis 12345678, neu 2 lythyren wedi eu dilyn gan 6 rhif, megis AB123456.
+whatIsTheCompanyRegistrationNumber.title = Rhif cofrestru’r cwmni
+whatIsTheCompanyRegistrationNumber.heading = Rhif cofrestru’r cwmni
+whatIsTheCompanyRegistrationNumber.body = Gallwch
+whatIsTheCompanyRegistrationNumber.link = chwilio Tŷ’r Cwmnïau ar gyfer eich rhif cofrestru’r cwmni (yn agor tab newydd)
+whatIsTheCompanyRegistrationNumber.label = Beth yw rhif cofrestru’r cwmni?
+whatIsTheCompanyRegistrationNumber.hint = Mae hwn yn 8 o gymeriadau. Er enghraifft, 01234567 neu AC012345.
 whatIsTheCompanyRegistrationNumber.checkYourAnswersLabel = Rhif cofrestru’r cwmni
 whatIsTheCompanyRegistrationNumber.error.required = Nodwch rif cofrestru’r cwmni
 whatIsTheCompanyRegistrationNumber.error.valid = Nodwch rif cofrestru’r cwmni yn y fformat cywir
