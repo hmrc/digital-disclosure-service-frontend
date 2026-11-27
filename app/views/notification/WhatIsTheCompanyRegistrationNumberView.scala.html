@@ -24,6 +24,7 @@
     govukButton: GovukButton,
     heading: components.heading,
     paragraph: components.paragraph,
+    link: components.link,
     tasklistLink: components.tasklistLink
 )
 
@@ -39,12 +40,19 @@
 
         @heading(Text(messages("whatIsTheCompanyRegistrationNumber.heading")))
 
-        @paragraph(id = Some("body-text"), content = Text(messages("whatIsTheCompanyRegistrationNumber.label")))
+        @paragraph(
+            id = Some("body-text"),
+            content = HtmlContent(
+                messages("whatIsTheCompanyRegistrationNumber.body") + " " +
+                link(id = "companies-house-link", text = messages("whatIsTheCompanyRegistrationNumber.link"), newTab = true, call = Call("GET", "https://find-and-update.company-information.service.gov.uk/")) +
+                messages("site.dot")
+            )
+        )
 
         @govukInput(
             InputViewModel(
                 field = form("value"),
-                label = LabelViewModel(messages("whatIsTheCompanyRegistrationNumber.heading")).withCssClass("govuk-visually-hidden")
+                label = LabelViewModel(messages("whatIsTheCompanyRegistrationNumber.label")).withCssClass("govuk-label--m")
             )
             .withHint(Hint(content = Text(messages("whatIsTheCompanyRegistrationNumber.hint"))))
             .withWidth(Fixed10)

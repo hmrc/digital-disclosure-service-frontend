@@ -42,8 +42,24 @@ class WhatIsTheCompanyRegistrationNumberViewSpec extends ViewSpecBase with ViewM
       view.getElementsByClass("govuk-heading-xl").text() mustBe messages("whatIsTheCompanyRegistrationNumber.heading")
     }
 
-    "have a body text" in {
-      view.getElementById("body-text").text() mustBe messages("whatIsTheCompanyRegistrationNumber.label")
+    "have a body text with the Companies House link" in {
+      view.getElementById("body-text").text() mustBe
+        s"${messages("whatIsTheCompanyRegistrationNumber.body")} ${messages("whatIsTheCompanyRegistrationNumber.link")}${messages("site.dot")}"
+    }
+
+    "have a Companies House link that opens in a new tab" in {
+      val link = view.getElementById("companies-house-link")
+      link.text() mustBe messages("whatIsTheCompanyRegistrationNumber.link")
+      link.attr("href") mustBe "https://find-and-update.company-information.service.gov.uk/"
+      link.attr("target") mustBe "_blank"
+      link.attr("rel") must include("noopener")
+    }
+
+    "have a visible medium label" in {
+      val label = view.getElementsByClass("govuk-label").first()
+      label.text() mustBe messages("whatIsTheCompanyRegistrationNumber.label")
+      label.hasClass("govuk-label--m") mustBe true
+      label.hasClass("govuk-visually-hidden") mustBe false
     }
 
     "have a hint" in {
